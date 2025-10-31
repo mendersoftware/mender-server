@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -28,10 +28,12 @@ import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import Loader from '@northern.tech/common-ui/Loader';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getDeltaJobById } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeltaGenerationJobDetails, getDeltaGenerationJobs } from '@northern.tech/store/thunks';
+import { DeltaJobDetailsItem, DeltaJobsListItem } from '@northern.tech/types/MenderTypes';
 import { formatTime } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
@@ -112,7 +114,7 @@ const statusColumns = [
     key: 'toArtifactSize',
     title: 'Target Artifact size',
     cellProps: { style: { width: '12.5%' } },
-    render: ({ to_artifact_size }) => (to_artifact_size ? <FileSize fileSize={to_artifact_size} /> : '-')
+    render: ({ target_size }) => (target_size ? <FileSize fileSize={target_size} /> : '-')
   },
   {
     key: 'deltaArtifactSize',
@@ -179,39 +181,9 @@ const getFinishedTimeFromLog = (log?: string): string | undefined => {
   return;
 };
 
-// TODO: take the following from the types package once synced
-enum DeltaJobDetailsItemStatus {
-  PENDING = 'pending',
-  QUEUED = 'queued',
-  SUCCESS = 'success',
-  FAILED = 'failed',
-  ARTIFACT_UPLOADED = 'artifact_uploaded'
-}
-
-type DeltaJobDetailsItem = {
-  delta_artifact_size?: number;
-  deployment_id?: string;
-  devices_types_compatible?: Array<string>;
-  exit_code?: number;
-  from_release?: string;
-  log?: string;
-  status?: DeltaJobDetailsItemStatus;
-  to_artifact_size?: number;
-  to_release?: string;
-};
-
-export type DeltaJobsListItem = {
-  delta_job_id?: string;
-  devices_types_compatible?: Array<string>;
-  from_version?: string;
-  id?: string;
-  started?: string;
-  status?: DeltaJobDetailsItemStatus;
-  to_version?: string;
-};
-
 type EnhancedJobDetailsItem = DeltaJobDetailsItem &
   DeltaJobsListItem & {
+    details?: string; // TODO: remove this once the specs get corrected
     finished?: string;
     fromRelease: string;
     started?: string;
@@ -240,11 +212,9 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
   const dispatch = useAppDispatch();
   const deltaJob: EnhancedJobDetailsItem = useSelector(state => getDeltaJobById(state, jobId));
   const { classes } = useStyles();
+  const timer = useRef<ReturnType<typeof setInterval> | undefined>();
 
-  useEffect(() => {
-    if (!jobId) {
-      return;
-    }
+  const refreshJobDetails = useCallback(() => {
     setIsLoading(true);
     setError(null);
     // We need to get the list too to infer the completion time
@@ -252,6 +222,17 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
       .catch(err => setError(err.message || 'Failed to load delta generation details'))
       .finally(() => setIsLoading(false));
   }, [dispatch, jobId]);
+
+  useEffect(() => {
+    if (!jobId) {
+      return;
+    }
+    clearInterval(timer.current);
+    if (!['failed', 'success'].includes(deltaJob?.status)) {
+      timer.current = setInterval(refreshJobDetails, TIMEOUTS.refreshDefault);
+    }
+    refreshJobDetails();
+  }, [deltaJob?.status, jobId, refreshJobDetails]);
 
   const copyLinkToClipboard = () => {
     const location = window.location.href.substring(0, window.location.href.indexOf('/releases'));
@@ -263,10 +244,10 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
     if (!deltaJob) {
       return;
     }
-    const { log, started, to_artifact_size, delta_artifact_size, to_release, to_version, from_release, from_version } = deltaJob;
-    const finished = getFinishedTimeFromLog(log);
+    const { details, started, target_size, delta_artifact_size, to_release, to_version, from_release, from_version } = deltaJob;
+    const finished = getFinishedTimeFromLog(details);
     const totalTime = getTotalTime(started, finished);
-    const dataSaved = to_artifact_size && delta_artifact_size ? Math.max(0, to_artifact_size - delta_artifact_size) : '-';
+    const dataSaved = target_size && delta_artifact_size ? Math.max(0, target_size - delta_artifact_size) : 0;
 
     return {
       ...deltaJob,

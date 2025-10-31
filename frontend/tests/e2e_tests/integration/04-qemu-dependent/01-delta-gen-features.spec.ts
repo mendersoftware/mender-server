@@ -147,4 +147,15 @@ test.describe('Devices', () => {
     await page.getByRole('tab', { name: /delta/i }).click();
     await page.getByText(/to version/i).waitFor({ timeout: timeouts.sixtySeconds });
   });
+
+  test('opens & closes delta generation details', async ({ page }) => {
+    await navbar.getByRole('link', { name: /Releases/i }).click();
+    await page.getByRole('tab', { name: /delta/i }).click();
+    await page.getByText(qemuDeviceType).click();
+    await expect(page.getByText('Delta Artifact information')).toBeVisible();
+    await page.waitForTimeout(timeouts.default);
+    await expect(page.getByText(/pending/i)).not.toBeVisible({ timeout: 2 * timeouts.sixtySeconds });
+    await page.getByRole('button', { name: /close/i }).click();
+    await expect(page.getByText('Delta Artifact information')).not.toBeVisible();
+  });
 });

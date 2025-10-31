@@ -127,7 +127,7 @@ export const DeltaProgress = ({ className = '' }) => {
 
   const onJobSelect = useCallback(selection => dispatch(setSelectedJob(selection.id)), [dispatch]);
 
-  const onCloseDetailsDrawer = () => onJobSelect(null);
+  const onCloseDetailsDrawer = () => onJobSelect({ id: null });
 
   if (!isEnterprise) {
     return (
