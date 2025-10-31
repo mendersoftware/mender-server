@@ -228,7 +228,7 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
       return;
     }
     clearInterval(timer.current);
-    if (!['failed', 'success'].includes(deltaJob?.status)) {
+    if ('failed' !== deltaJob?.status && 'success' !== deltaJob?.status) {
       timer.current = setInterval(refreshJobDetails, TIMEOUTS.refreshDefault);
     }
     refreshJobDetails();
