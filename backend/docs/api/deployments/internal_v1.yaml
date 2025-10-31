@@ -719,7 +719,8 @@ components:
                   checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                   size: 123
                   date: 2016-03-11T13:03:17.063+0000
-                meta_data: {}
+                metadata: {}
+                meta_data: []
               artifact_provides:
                 artifact_name: test
                 rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99

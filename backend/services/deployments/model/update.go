@@ -15,6 +15,7 @@
 package model
 
 import (
+	"encoding/json"
 	"errors"
 	"time"
 )
@@ -43,7 +44,44 @@ type UpdateFile struct {
 type Update struct {
 	TypeInfo ArtifactUpdateTypeInfo `json:"type_info" valid:"required"`
 	Files    []UpdateFile           `json:"files"`
-	MetaData map[string]interface{} `json:"meta_data,omitempty" valid:"optional"`
+	MetaData map[string]interface{} `json:"metadata,omitempty" valid:"optional"`
+	// Meta_Data is the deprecated API representation of MetaData.
+	// By mistake, the value of MetaData was exposed in the API formatted as
+	// the intermediate mongodb driver representation of a map[string]interface{}
+	// which looks something like this:
+	//   "meta_data": [
+	//	   { "Key": "<key>", "Value": <value> },
+	//	   { "Key": "<key>", "Value": <value> }
+	//   ]
+	// instead of the intended formatting of a JSON object which looks like this:
+	//   "meta_data": {
+	//     "<key>" : <value>,
+	//     "<key>": <value>
+	//   }
+	// Unfortunately we can't change the just type of MetaData as that breaks clients
+	// (mender-cli for example) that are programmed to consume the incorrect
+	// representation (despite MetaData being documented to be a JSON object).
+	// We therefore maintain Meta_Data for backwards compatibility. It is encoded in
+	// the format of the incorrect representation in the custom `MarshalJSON`
+	// member function below.
+	Meta_Data interface{} `json:"meta_data,omitempty" bson:"-"`
+}
+
+func (u *Update) MarshalJSON() ([]byte, error) {
+	type update Update
+	_u := update{
+		TypeInfo: u.TypeInfo,
+		Files:    u.Files,
+		MetaData: u.MetaData,
+	}
+	if len(u.MetaData) > 0 {
+		metadata := []map[string]interface{}{}
+		for k, v := range _u.MetaData {
+			metadata = append(metadata, map[string]interface{}{"Key": k, "Value": v})
+		}
+		_u.Meta_Data = metadata
+	}
+	return json.Marshal(_u)
 }
 
 func (u Update) Match(update Update) bool {

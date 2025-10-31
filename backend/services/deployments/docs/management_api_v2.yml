@@ -243,6 +243,7 @@ paths:
                             checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                             size: 123
                             date: 2016-03-11T13:03:17.063+0000
+                        metadata: {}
                         meta_data: []
                     artifact_provides:
                       artifact_name: "test"
@@ -271,6 +272,7 @@ paths:
                             checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                             size: 123
                             date: 2016-03-11T13:03:17.063+0000
+                        metadata: {}
                         meta_data: []
                     artifact_provides:
                       artifact_name: "test"
@@ -301,6 +303,7 @@ paths:
                             checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                             size: 123
                             date: 2016-03-11T13:03:17.063+0000
+                        metadata: {}
                         meta_data: []
                     artifact_provides:
                       artifact_name: "test"
@@ -675,6 +678,7 @@ definitions:
               checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
               size: 123
               date: 2016-03-11T13:03:17.063+0000
+          metadata: {}
           meta_data: []
       artifact_provides:
         artifact_name: "test"
@@ -762,6 +766,7 @@ definitions:
                   checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                   size: 123
                   date: 2016-03-11T13:03:17.063+0000
+              metadata: {}
               meta_data: []
           artifact_provides:
             artifact_name: "test"
@@ -790,6 +795,7 @@ definitions:
                   checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                   size: 123
                   date: 2016-03-11T13:03:17.063+0000
+              metadata: {}
               meta_data: []
           artifact_provides:
             artifact_name: "test"
@@ -834,11 +840,14 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/UpdateFile"
+      metadata:
+        type: object
+        description: an object of unknown structure as this is dependent of update type (also custom defined by user
       meta_data:
         type: array
         description: |
-          meta_data is an array of objects of unknown structure as this
-          is dependent of update type (also custom defined by user)
+          Deprecated: Please use `metadata` instead.
+          An object of unknown structure as this is dependent of update type (also custom defined by user)
         items:
           type: object
 

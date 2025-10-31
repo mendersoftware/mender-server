@@ -742,8 +742,8 @@ paths:
                       checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                       size: 123
                       date: 2016-03-11T13:03:17.063+0000
-                    meta_data:
-                      type: object
+                    metadata: {}
+                    meta_data: []
                   artifact_provides:
                     artifact_name: test
                     rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -771,6 +771,7 @@ paths:
                       checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                       size: 123
                       date: 2016-03-11T13:03:17.063+0000
+                    metadata: {}
                     meta_data: []
                   artifact_provides:
                     artifact_name: test
@@ -801,6 +802,7 @@ paths:
                       checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                       size: 123
                       date: 2016-03-11T13:03:17.063+0000
+                    metadata: {}
                     meta_data: []
                   artifact_provides:
                     artifact_name: test
@@ -910,6 +912,7 @@ paths:
                       checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                       size: 123
                       date: 2016-03-11T13:03:17.063+0000
+                    metadata: {}
                     meta_data: []
                   artifact_provides:
                     artifact_name: test
@@ -938,6 +941,7 @@ paths:
                       checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                       size: 123
                       date: 2016-03-11T13:03:17.063+0000
+                    metadata: {}
                     meta_data: []
                   artifact_provides:
                     artifact_name: test
@@ -968,6 +972,7 @@ paths:
                       checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                       size: 123
                       date: 2016-03-11T13:03:17.063+0000
+                    metadata: {}
                     meta_data: []
                   artifact_provides:
                     artifact_name: test
@@ -1331,6 +1336,7 @@ paths:
                     checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                     size: 123
                     date: 2016-03-11T13:03:17.063+0000
+                  metadata: {}
                   meta_data: []
                 artifact_provides:
                   artifact_name: test
@@ -1643,8 +1649,8 @@ components:
                   checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                   size: 123
                   date: 2016-03-11T13:03:17.063+0000
-                meta_data:
-                  type: object
+                metadata: {}
+                meta_data: []
               artifact_provides:
                 artifact_name: test
                 rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -1694,6 +1700,7 @@ components:
             checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
             size: 123
             date: 2016-03-11T13:03:17.063+0000
+          metadata: {}
           meta_data: []
         artifact_provides:
           artifact_name: test
@@ -1827,6 +1834,7 @@ components:
               checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
               size: 123
               date: 2016-03-11T13:03:17.063+0000
+            metadata: {}
             meta_data: []
           artifact_provides:
             artifact_name: test
@@ -1855,6 +1863,7 @@ components:
               checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
               size: 123
               date: 2016-03-11T13:03:17.063+0000
+            metadata: {}
             meta_data: []
           artifact_provides:
             artifact_name: test
@@ -1906,6 +1915,7 @@ components:
         updates:
         - type_info:
             type: type
+          metadata: {}
           meta_data: []
           files:
           - date: 2000-01-23T04:56:07.000+00:00
@@ -1918,6 +1928,7 @@ components:
             checksum: checksum
         - type_info:
             type: type
+          metadata: {}
           meta_data: []
           files:
           - date: 2000-01-23T04:56:07.000+00:00
