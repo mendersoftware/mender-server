@@ -183,10 +183,8 @@ const getFinishedTimeFromLog = (log?: string): string | undefined => {
 
 type EnhancedJobDetailsItem = DeltaJobDetailsItem &
   DeltaJobsListItem & {
-    details?: string; // TODO: remove this once the specs get corrected
     finished?: string;
     fromRelease: string;
-    started?: string;
     toRelease: string;
   };
 
