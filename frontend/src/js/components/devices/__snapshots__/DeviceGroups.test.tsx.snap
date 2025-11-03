@@ -703,7 +703,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 />
                 <p
                   class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                  id="«r8»"
+                  id="_r_8_"
                 >
                   Rows
                 </p>
@@ -713,9 +713,9 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    aria-labelledby="«r8» «r7»"
+                    aria-labelledby="_r_8_ _r_7_"
                     class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                    id="«r7»"
+                    id="_r_7_"
                     role="combobox"
                     tabindex="0"
                   >

@@ -1017,8 +1017,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-1"
         data-shrink="true"
-        for="«r1»"
-        id="«r1»-label"
+        for="_r_1_"
+        id="_r_1_-label"
       >
         Destination directory
       </label>
@@ -1026,10 +1026,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
         class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused MuiInputBase-formControl emotion-2"
       >
         <input
-          aria-describedby="«r1»-helper-text"
+          aria-describedby="_r_1_-helper-text"
           aria-invalid="true"
           class="MuiInputBase-input MuiOutlinedInput-input emotion-3"
-          id="«r1»"
+          id="_r_1_"
           placeholder="Example: /opt/installed-by-single-file"
           type="text"
           value=""
@@ -1049,7 +1049,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
       </div>
       <p
         class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained Mui-focused emotion-6"
-        id="«r1»-helper-text"
+        id="_r_1_-helper-text"
       >
         <span
           class="warning"

@@ -678,12 +678,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
     You can select columns of inventory data to display in the device list table. Drag to change the order.
   </p>
   <div
-    data-rfd-droppable-context-id="«r1»"
+    data-rfd-droppable-context-id="_r_1_"
     data-rfd-droppable-id="droppable-list"
   >
     <li
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
-      data-rfd-draggable-context-id="«r1»"
+      data-rfd-draggable-context-id="_r_1_"
       data-rfd-draggable-id="name"
     >
       <div>
@@ -694,9 +694,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         style="width: 80px;"
       >
         <div
-          aria-describedby="rfd-hidden-text-«r1»-hidden-text-«r2»"
+          aria-describedby="rfd-hidden-text-_r_1_-hidden-text-_r_2_"
           class="flexbox centered"
-          data-rfd-drag-handle-context-id="«r1»"
+          data-rfd-drag-handle-context-id="_r_1_"
           data-rfd-drag-handle-draggable-id="name"
           draggable="false"
           role="button"
@@ -735,7 +735,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
     </li>
     <li
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding flexbox space-between margin-right-large emotion-1"
-      data-rfd-draggable-context-id="«r1»"
+      data-rfd-draggable-context-id="_r_1_"
       data-rfd-draggable-id="id"
     >
       <div>
@@ -746,9 +746,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
         style="width: 80px;"
       >
         <div
-          aria-describedby="rfd-hidden-text-«r1»-hidden-text-«r2»"
+          aria-describedby="rfd-hidden-text-_r_1_-hidden-text-_r_2_"
           class="flexbox centered"
-          data-rfd-drag-handle-context-id="«r1»"
+          data-rfd-drag-handle-context-id="_r_1_"
           data-rfd-drag-handle-draggable-id="id"
           draggable="false"
           role="button"

@@ -1693,8 +1693,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-56:focus::-ms-input-
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-25"
               data-shrink="false"
-              for="«r2»"
-              id="«r2»-label"
+              for="_r_2_"
+              id="_r_2_-label"
             >
               Country or region
             </label>
@@ -1708,7 +1708,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-56:focus::-ms-input-
                 autocapitalize="none"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-56"
-                id="«r2»"
+                id="_r_2_"
                 role="combobox"
                 spellcheck="false"
                 type="text"

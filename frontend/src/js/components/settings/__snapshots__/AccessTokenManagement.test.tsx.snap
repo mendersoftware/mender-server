@@ -878,7 +878,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
 }
 
 <div
-  aria-labelledby="«ro»"
+  aria-labelledby="_r_o_"
   aria-modal="true"
   class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-0"
   role="dialog"
@@ -886,7 +886,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
 >
   <h2
     class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
-    id="«ro»"
+    id="_r_o_"
   >
     Create new token
   </h2>
@@ -904,7 +904,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             disabled=""
-            id="«rp»"
+            id="_r_p_"
             placeholder="Name"
             type="text"
             value=""
@@ -1230,7 +1230,7 @@ exports[`AccessTokenManagement Component > renders AccessTokenRevocationDialog c
 }
 
 <div
-  aria-labelledby="«ru»"
+  aria-labelledby="_r_u_"
   aria-modal="true"
   class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-0"
   role="dialog"
@@ -1238,7 +1238,7 @@ exports[`AccessTokenManagement Component > renders AccessTokenRevocationDialog c
 >
   <h2
     class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
-    id="«ru»"
+    id="_r_u_"
   >
     Revoke token
   </h2>
