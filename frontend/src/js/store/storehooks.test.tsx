@@ -274,7 +274,6 @@ const appInitActions = [
     }
   },
   { type: getDevicesWithAuth.fulfilled.type },
-  { type: userActions.receivedPermissionSets.type, payload: receivedPermissionSets },
   { type: getDevicesByStatus.fulfilled.type },
   {
     type: deviceActions.addGroup.type,
@@ -285,9 +284,10 @@ const appInitActions = [
       }
     }
   },
+  { type: getGroups.fulfilled.type },
+  { type: userActions.receivedPermissionSets.type, payload: receivedPermissionSets },
   { type: getPermissionSets.fulfilled.type },
   { type: userActions.receivedRoles.type, payload: receivedRoles },
-  { type: getGroups.fulfilled.type },
   { type: getRoles.fulfilled.type },
   { type: deviceActions.setDeviceListState.type, payload: { selectedAttributes: [] } },
   { type: userActions.setTooltipsState.type, payload: {} },
