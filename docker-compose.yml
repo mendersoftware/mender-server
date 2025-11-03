@@ -310,7 +310,7 @@ services:
       default:
         aliases: [mender-workflows]
   traefik:
-    image: traefik:v3.1
+    image: traefik:3.5
     command:
       - --api=true
       - --api.insecure=true
@@ -344,7 +344,7 @@ services:
           - s3.docker.mender.io
 
   mongo:
-    image: mongo:7.0
+    image: mongo:8.2
     ulimits:
       nofile:
         soft: 64000
@@ -356,7 +356,7 @@ services:
         aliases: [mender-mongo]
 
   nats:
-    image: nats:2.10
+    image: nats:2.12
     command: [-js]
     networks:
       default:
