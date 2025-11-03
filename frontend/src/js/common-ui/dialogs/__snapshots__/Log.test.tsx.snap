@@ -395,7 +395,7 @@ exports[`LogDialog Component > renders correctly 1`] = `
     tabindex="-1"
   >
     <div
-      aria-labelledby="«r1»"
+      aria-labelledby="_r_1_"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthLg emotion-3"
       role="dialog"
@@ -403,7 +403,7 @@ exports[`LogDialog Component > renders correctly 1`] = `
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id="«r1»"
+        id="_r_1_"
       >
         Deployment log for device
       </h2>

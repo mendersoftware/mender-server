@@ -1240,8 +1240,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-5"
                 data-shrink="false"
-                for="«r5»"
-                id="«r5»-label"
+                for="_r_5_"
+                id="_r_5_-label"
               >
                 Value
               </label>
@@ -1251,7 +1251,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input emotion-22"
-                  id="«r5»"
+                  id="_r_5_"
                   type="text"
                   value=""
                 />

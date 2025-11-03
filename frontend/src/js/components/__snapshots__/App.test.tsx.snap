@@ -1326,7 +1326,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               <input
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-9"
-                id="«r1o»"
+                id="_r_1o_"
                 name="search"
                 placeholder="Search devices"
                 type="text"
@@ -3498,7 +3498,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             <input
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-6"
-              id="«r2»"
+              id="_r_2_"
               name="search"
               placeholder="Search devices"
               type="text"

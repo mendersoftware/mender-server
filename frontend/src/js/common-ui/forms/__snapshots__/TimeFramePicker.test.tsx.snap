@@ -520,14 +520,14 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-3"
           data-shrink="false"
-          for="«r2»"
-          id="«r2»-label"
+          for="_r_2_"
+          id="_r_2_-label"
         >
           From
         </label>
         <div
           aria-invalid="false"
-          aria-labelledby="«r2»-label"
+          aria-labelledby="_r_2_-label"
           class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-inputSizeSmall MuiPickersInputBase-adornedEnd emotion-4"
           role="group"
         >
@@ -668,7 +668,7 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
             aria-hidden="true"
             aria-label="From"
             class="MuiPickersInputBase-input MuiPickersOutlinedInput-input emotion-24"
-            id="«r2»"
+            id="_r_2_"
             tabindex="-1"
             value=""
           />
@@ -680,14 +680,14 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-26"
           data-shrink="true"
-          for="«r6»"
-          id="«r6»-label"
+          for="_r_6_"
+          id="_r_6_-label"
         >
           To
         </label>
         <div
           aria-invalid="false"
-          aria-labelledby="«r6»-label"
+          aria-labelledby="_r_6_-label"
           class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-inputSizeSmall MuiPickersInputBase-adornedEnd emotion-4"
           role="group"
         >
@@ -830,7 +830,7 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
             aria-hidden="true"
             aria-label="To"
             class="MuiPickersInputBase-input MuiPickersOutlinedInput-input emotion-24"
-            id="«r6»"
+            id="_r_6_"
             tabindex="-1"
             value="2019-01-13"
           />

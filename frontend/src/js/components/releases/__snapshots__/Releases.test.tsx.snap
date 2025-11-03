@@ -161,7 +161,7 @@ exports[`Releases Component > renders correctly 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
-                  id="«r4»"
+                  id="_r_4_"
                   name="name"
                   placeholder="Starts with"
                   type="text"
@@ -261,7 +261,7 @@ exports[`Releases Component > renders correctly 1`] = `
                     autocapitalize="none"
                     autocomplete="off"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-                    id="«r7»"
+                    id="_r_7_"
                     placeholder="Any"
                     role="combobox"
                     spellcheck="false"
@@ -1590,7 +1590,7 @@ exports[`Releases Component > renders correctly 1`] = `
               />
               <p
                 class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                id="«rc»"
+                id="_r_c_"
               >
                 Rows
               </p>
@@ -1600,9 +1600,9 @@ exports[`Releases Component > renders correctly 1`] = `
                 <div
                   aria-expanded="false"
                   aria-haspopup="listbox"
-                  aria-labelledby="«rc» «rb»"
+                  aria-labelledby="_r_c_ _r_b_"
                   class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                  id="«rb»"
+                  id="_r_b_"
                   role="combobox"
                   tabindex="0"
                 >
