@@ -1173,7 +1173,7 @@ func (db *DataStoreMongo) DeleteImage(ctx context.Context, id string) error {
 	collImg := database.Collection(CollectionImages)
 
 	if res, err := collImg.DeleteOne(ctx, bson.M{"_id": id}); err != nil {
-		if res.DeletedCount == 0 {
+		if res != nil && res.DeletedCount == 0 {
 			return nil
 		}
 		return err
