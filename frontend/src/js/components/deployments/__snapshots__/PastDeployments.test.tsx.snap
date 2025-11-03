@@ -1645,7 +1645,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
             <div
               class="MuiPickersSectionList-root MuiPickersInputBase-sectionsContainer emotion-24"
               contenteditable="false"
-              tabindex="0"
+              tabindex="-1"
             >
               <span
                 class="MuiPickersSectionList-section emotion-25"
@@ -1666,7 +1666,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
                   contenteditable="false"
                   inputmode="text"
                   role="spinbutton"
-                  tabindex="0"
+                  tabindex="-1"
                 >
                   January
                 </span>
@@ -1788,7 +1788,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
                   aria-valuemin="1"
                   aria-valuenow="1"
                   aria-valuetext="January"
-                  autocapitalize="off"
+                  autocapitalize="none"
                   autocorrect="off"
                   class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent emotion-27"
                   contenteditable="true"
@@ -1820,7 +1820,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
                   aria-valuemin="1"
                   aria-valuenow="13"
                   aria-valuetext="13th"
-                  autocapitalize="off"
+                  autocapitalize="none"
                   autocorrect="off"
                   class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent emotion-27"
                   contenteditable="true"
