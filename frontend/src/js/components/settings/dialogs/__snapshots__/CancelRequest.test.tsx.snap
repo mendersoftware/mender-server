@@ -757,7 +757,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
     tabindex="-1"
   >
     <div
-      aria-labelledby="«r0»"
+      aria-labelledby="_r_0_"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
@@ -765,7 +765,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-65:focus::-ms-input-
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id="«r0»"
+        id="_r_0_"
       >
         Cancel subscription and deactivate account?
       </h2>

@@ -627,7 +627,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 />
                 <p
                   class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                  id="«r8»"
+                  id="_r_8_"
                 >
                   Rows
                 </p>
@@ -637,9 +637,9 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    aria-labelledby="«r8» «r7»"
+                    aria-labelledby="_r_8_ _r_7_"
                     class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                    id="«r7»"
+                    id="_r_7_"
                     role="combobox"
                     tabindex="0"
                   >
@@ -1563,7 +1563,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 />
                 <p
                   class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                  id="«rj»"
+                  id="_r_j_"
                 >
                   Rows
                 </p>
@@ -1573,9 +1573,9 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    aria-labelledby="«rj» «ri»"
+                    aria-labelledby="_r_j_ _r_i_"
                     class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                    id="«ri»"
+                    id="_r_i_"
                     role="combobox"
                     tabindex="0"
                   >

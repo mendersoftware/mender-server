@@ -67,7 +67,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                   autocapitalize="none"
                   autocomplete="off"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-                  id="«r2»"
+                  id="_r_2_"
                   placeholder="Select a user"
                   role="combobox"
                   spellcheck="false"
@@ -141,7 +141,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                   autocapitalize="none"
                   autocomplete="off"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-                  id="«r5»"
+                  id="_r_5_"
                   placeholder="Type"
                   role="combobox"
                   spellcheck="false"
@@ -214,7 +214,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                   autocomplete="off"
                   class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiAutocomplete-input MuiAutocomplete-inputFocused css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                   disabled=""
-                  id="«r8»"
+                  id="_r_8_"
                   placeholder="-"
                   role="combobox"
                   spellcheck="false"
@@ -260,14 +260,14 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-hvjq6j-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for="«rb»"
-                  id="«rb»-label"
+                  for="_r_b_"
+                  id="_r_b_-label"
                 >
                   From
                 </label>
                 <div
                   aria-invalid="false"
-                  aria-labelledby="«rb»-label"
+                  aria-labelledby="_r_b_-label"
                   class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-inputSizeSmall MuiPickersInputBase-adornedEnd css-vycme6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
                   role="group"
                 >
@@ -410,7 +410,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                     aria-hidden="true"
                     aria-label="From"
                     class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
-                    id="«rb»"
+                    id="_r_b_"
                     tabindex="-1"
                     value="2019-01-13"
                   />
@@ -422,14 +422,14 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-hvjq6j-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for="«rf»"
-                  id="«rf»-label"
+                  for="_r_f_"
+                  id="_r_f_-label"
                 >
                   To
                 </label>
                 <div
                   aria-invalid="false"
-                  aria-labelledby="«rf»-label"
+                  aria-labelledby="_r_f_-label"
                   class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-inputSizeSmall MuiPickersInputBase-adornedEnd css-vycme6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
                   role="group"
                 >
@@ -572,7 +572,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                     aria-hidden="true"
                     aria-label="To"
                     class="MuiPickersInputBase-input MuiPickersOutlinedInput-input css-31lcvl-MuiPickersInputBase-input"
-                    id="«rf»"
+                    id="_r_f_"
                     tabindex="-1"
                     value="2019-01-13"
                   />
@@ -830,7 +830,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             />
             <p
               class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-              id="«rk»"
+              id="_r_k_"
             >
               Rows
             </p>
@@ -840,9 +840,9 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               <div
                 aria-expanded="false"
                 aria-haspopup="listbox"
-                aria-labelledby="«rk» «rj»"
+                aria-labelledby="_r_k_ _r_j_"
                 class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                id="«rj»"
+                id="_r_j_"
                 role="combobox"
                 tabindex="0"
               >
