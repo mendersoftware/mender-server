@@ -1,6 +1,6 @@
 variables:
   NODE_IMAGE:
-    value: 'node:23-alpine'
+    value: 'node:24-alpine'
     description: 'Node version to use for building and testing'
   FRONTEND_REPOSITORY: mendersoftware/gui
   DOCS_VERSION: development
@@ -55,7 +55,7 @@ test:frontend:licenses:
   before_script:
     - cd frontend
     - apt-get update && apt-get install -yq curl
-    - curl -fsSL https://deb.nodesource.com/setup_23.x | bash
+    - curl -fsSL https://deb.nodesource.com/setup_24.x | bash
     - apt-get install -yq nodejs
     - npm ci
   script:
