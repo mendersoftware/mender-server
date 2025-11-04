@@ -236,6 +236,15 @@ paths:
         name: created_after
         schema:
           type: integer
+      - description: |
+          Supports sorting the deployments list by creation date.
+        in: query
+        name: sort
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
       responses:
         '200':
           content:

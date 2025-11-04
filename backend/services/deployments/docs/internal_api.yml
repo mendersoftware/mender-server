@@ -260,6 +260,15 @@ paths:
           required: false
           type: number
           format: integer
+        - name: sort
+          in: query
+          description: |
+            Supports sorting the deployments list by creation date.
+          required: false
+          type: string
+          enum:
+            - asc
+            - desc
       produces:
         - application/json
       responses:
