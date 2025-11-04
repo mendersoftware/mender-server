@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: ./backend/services/create-artifact-worker/Dockerfile
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/create-artifact-worker:${MENDER_IMAGE_TAG:-latest}
-    restart: on-failure:3
+    restart: on-failure:20
     depends_on:
       - workflows
     environment:
@@ -21,7 +21,7 @@ services:
       context: .
       dockerfile: ./backend/services/deployments/Dockerfile
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/deployments:${MENDER_IMAGE_TAG:-latest}
-    restart: on-failure:3
+    restart: on-failure:20
     command: [server, --automigrate]
     depends_on:
       mongo:
@@ -63,7 +63,7 @@ services:
       context: .
       dockerfile: ./backend/services/deviceauth/Dockerfile
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/deviceauth:${MENDER_IMAGE_TAG:-latest}
-    restart: on-failure:3
+    restart: on-failure:20
     command: [server, --automigrate]
     depends_on:
       mongo:
@@ -98,7 +98,7 @@ services:
       context: .
       dockerfile: ./backend/services/deviceconfig/Dockerfile
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/deviceconfig:${MENDER_IMAGE_TAG:-latest}
-    restart: on-failure:3
+    restart: on-failure:20
     command: [server, --automigrate]
     environment:
       DEVICECONFIG_INVENTORY_URI: http://inventory:8080
@@ -127,7 +127,7 @@ services:
       context: .
       dockerfile: ./backend/services/deviceconnect/Dockerfile
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/deviceconnect:${MENDER_IMAGE_TAG:-latest}
-    restart: on-failure:3
+    restart: on-failure:20
     command: [server, --automigrate]
     depends_on:
       mongo:
@@ -158,7 +158,7 @@ services:
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/gui:${MENDER_IMAGE_TAG:-latest}
     build:
       context: ./frontend
-    restart: on-failure:3
+    restart: on-failure:20
     labels:
       traefik.enable: "true"
       traefik.http.services.gui.loadBalancer.server.port: "8090"
@@ -185,7 +185,7 @@ services:
       context: .
       dockerfile: ./backend/services/inventory/Dockerfile
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/inventory:${MENDER_IMAGE_TAG:-latest}
-    restart: on-failure:3
+    restart: on-failure:20
     command: [server, --automigrate]
     depends_on:
       mongo:
@@ -226,7 +226,7 @@ services:
       context: .
       dockerfile: ./backend/services/iot-manager/Dockerfile
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/iot-manager:${MENDER_IMAGE_TAG:-latest}
-    restart: on-failure:3
+    restart: on-failure:20
     command: [server, --automigrate]
     depends_on:
       mongo:
@@ -252,7 +252,7 @@ services:
       context: .
       dockerfile: ./backend/services/useradm/Dockerfile
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/useradm:${MENDER_IMAGE_TAG:-latest}
-    restart: on-failure:3
+    restart: on-failure:20
     command: [server, --automigrate]
     depends_on:
       mongo:
@@ -284,7 +284,7 @@ services:
       context: .
       dockerfile: ./backend/services/workflows/Dockerfile
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/workflows:${MENDER_IMAGE_TAG:-latest}
-    restart: on-failure:3
+    restart: on-failure:20
     command: ["worker"]
     depends_on:
       - workflows
@@ -307,7 +307,7 @@ services:
       context: .
       dockerfile: ./backend/services/workflows/Dockerfile
     image: ${MENDER_IMAGE_REGISTRY:-docker.io}/${MENDER_IMAGE_REPOSITORY:-mendersoftware}/workflows:${MENDER_IMAGE_TAG:-latest}
-    restart: on-failure:3
+    restart: on-failure:20
     command: [server, --automigrate]
     depends_on:
       mongo:
