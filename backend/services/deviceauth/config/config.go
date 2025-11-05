@@ -15,7 +15,25 @@
 package config
 
 import (
+	"time"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/config/ratelimits"
+)
+
+var (
+	defaultRatelimitGroups = []ratelimits.RatelimitGroupParams{{
+		Name: "default",
+		RatelimitParams: ratelimits.RatelimitParams{
+			Quota:           300,
+			Interval:        config.Duration(time.Minute),
+			EventExpression: `{{with .Identity}}{{.Subject}}{{end}}`,
+		},
+	}}
+	defaultRatelimitMatch = []ratelimits.MatchGroup{{
+		APIPattern:      "/",
+		GroupExpression: `default`,
+	}}
 )
 
 const (
@@ -92,5 +110,8 @@ var (
 		{Key: SettingRedisLimitsExpSec, Value: SettingRedisLimitsExpSecDefault},
 		{Key: SettingRedisKeyPrefix, Value: SettingRedisKeyPrefixDefault},
 		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
+		{Key: ratelimits.SettingRatelimitsAuthEnable, Value: false},
+		{Key: ratelimits.SettingRatelimitsAuthGroups, Value: defaultRatelimitGroups},
+		{Key: ratelimits.SettingRatelimitsAuthMatch, Value: defaultRatelimitMatch},
 	}
 )

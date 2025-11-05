@@ -32,19 +32,6 @@ func (err *ConfigDisabledError) Error() string {
 	return `configuration "` + err.Path + `" disabled`
 }
 
-func init() {
-	config.Config.SetDefault(SettingRatelimitsAuthGroups, []any{map[string]any{
-		paramName:            paramNameDefault,
-		paramQuota:           paramQuotaDefault,
-		paramInterval:        paramIntervalDefault,
-		paramEventExpression: paramEventExpressionDefault,
-	}})
-	config.Config.SetDefault(SettingRatelimitsAuthMatch, []any{map[string]any{
-		paramPattern: "/", // Catch all
-		paramGroup:   paramNameDefault,
-	}})
-}
-
 const (
 	SettingRatelimits                    = "ratelimits"
 	SettingRatelimitsAuth                = SettingRatelimits + ".auth"
@@ -52,18 +39,6 @@ const (
 	SettingRatelimitsAuthGroups          = SettingRatelimitsAuth + ".groups"
 	SettingRatelimitsAuthMatch           = SettingRatelimitsAuth + ".match"
 	SettingRatelimitsAuthRejectUnmatched = SettingRatelimitsAuth + ".reject_unmatched"
-
-	paramName                   = "name"
-	paramNameDefault            = "default"
-	paramQuota                  = "quota"
-	paramQuotaDefault           = int64(300)
-	paramInterval               = "interval"
-	paramIntervalDefault        = time.Minute
-	paramEventExpression        = "event_expression"
-	paramEventExpressionDefault = `{{with .Identity}}{{.Subject}}{{end}}`
-
-	paramPattern = "api_pattern"
-	paramGroup   = "group_expression"
 )
 
 func LoadRatelimits(c config.Reader) (*RatelimitConfig, error) {
