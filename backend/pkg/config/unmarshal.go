@@ -18,6 +18,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"reflect"
 	"strings"
 	"time"
 
@@ -34,6 +35,25 @@ func (duration *Duration) UnmarshalText(b []byte) error {
 	}
 	*duration = Duration(d)
 	return nil
+}
+
+func mapstructureDecode[T any](value any, target *[]T) error {
+	decoder, err := mapstructure.NewDecoder(
+		&mapstructure.DecoderConfig{
+			TagName: "json",
+			Result:  target,
+			Squash:  true,
+			DecodeHook: mapstructure.ComposeDecodeHookFunc(
+				mapstructure.TextUnmarshallerHookFunc(),
+				mapstructure.StringToTimeDurationHookFunc(),
+			),
+		},
+	)
+	if err != nil {
+		return err
+	}
+	err = decoder.Decode(value)
+	return err
 }
 
 // UnmarshalSliceSetting will unmarshal an array of objects into the result T
@@ -61,26 +81,17 @@ func UnmarshalSliceSetting[T any](c Reader, path string, result *[]T) error {
 			err = nil
 		}
 	case []any:
-		var decoder *mapstructure.Decoder
-		decoder, err = mapstructure.NewDecoder(
-			&mapstructure.DecoderConfig{
-				TagName: "json",
-				Result:  &result,
-				Squash:  true,
-				DecodeHook: mapstructure.ComposeDecodeHookFunc(
-					mapstructure.TextUnmarshallerHookFunc(),
-					mapstructure.StringToTimeDurationHookFunc(),
-				),
-			},
-		)
-		if err != nil {
-			return err
-		}
-		err = decoder.Decode(value)
+		err = mapstructureDecode(cfg, result)
 	case nil:
 		// pass (empty config)
 	default:
-		err = fmt.Errorf("invalid config type %T", cfg)
+		// Try to handle slice of structs.
+		typ := reflect.TypeOf(value)
+		if typ.Kind() == reflect.Slice && typ.Elem().Kind() == reflect.Struct {
+			err = mapstructureDecode(cfg, result)
+		} else {
+			err = fmt.Errorf("invalid config type %T", cfg)
+		}
 	}
 	return err
 }
