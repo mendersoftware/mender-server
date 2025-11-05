@@ -1,6 +1,6 @@
 # mender-server
 
-Mender Server monorepo
+Mender Server monorepo blah blah blah
 
 ## Getting started
 
