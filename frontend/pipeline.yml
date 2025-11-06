@@ -232,38 +232,26 @@ test:frontend:acceptance:enterprise:qemu:
     - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
     - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise --variant qemu
 
-.template:publish:frontend:tests:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
-  stage: publish
-  before_script:
-    - export CI_BUILD_REF=${CI_COMMIT_SHA}
-    - export CI_BUILD_REF_NAME=${CI_COMMIT_REF_NAME}
-    - export CI_MERGE_REQUEST_IID=${CI_COMMIT_BRANCH#pr_}
-    - export COVERALLS_PARALLEL=true
-    - export COVERALLS_SERVICE_JOB_ID=${CI_JOB_ID}
-    - export COVERALLS_SERVICE_NUMBER=${CI_PIPELINE_ID}
-    - apk add --no-cache git
-    - npm i -g coveralls
-  allow_failure: true
-
 publish:frontend:tests:
-  extends: .template:publish:frontend:tests
+  extends: coveralls:done
+  stage: publish
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
-      when: never
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+      when: on_success
     - changes:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+  variables:
+    COVERALLS_FLAG_NAME: frontend-unit
   needs:
     - job: test:frontend:unit
       artifacts: true
   script:
-    - export COVERALLS_SERVICE_JOB_NUMBER=frontend-unit
-    - export COVERALLS_FLAG_NAME=frontend-unit
-    - coveralls < frontend/coverage/lcov.info
+    - coveralls report --format lcov --job-flag frontend-unit frontend/coverage/lcov.info
 
 publish:frontend:e2e-tests:
-  extends: .template:publish:frontend:tests
+  extends: coveralls:done
+  stage: publish
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
@@ -275,12 +263,13 @@ publish:frontend:e2e-tests:
     - job: test:frontend:acceptance
       artifacts: true
   allow_failure: true # QA-925 - Coveralls servers are unreliable.
-  variables:
-    COVERALLS_SERVICE_JOB_NUMBER: frontend-e2e
-    COVERALLS_FLAG_NAME: frontend-e2e
   script:
     - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' frontend/coverage/lcov.info
-    - coveralls < frontend/coverage/lcov.info
+    - coveralls report -n
+      --parallel
+      --format lcov
+      --job-flag frontend-e2e
+      frontend/coverage/lcov.info
 
 publish:frontend:e2e-tests:enterprise:
   extends: publish:frontend:e2e-tests
