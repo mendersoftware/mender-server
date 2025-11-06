@@ -1,4 +1,4 @@
-package ratelimits
+package rate
 
 import (
 	"testing"
@@ -7,9 +7,9 @@ import (
 )
 
 func TestRatelimitConfigValidate(t *testing.T) {
-	validGroup := RatelimitGroupParams{
+	validGroup := GroupParams{
 		Name: "group1",
-		RatelimitParams: RatelimitParams{
+		Params: Params{
 			Quota:           10,
 			Interval:        config.Duration(60),
 			EventExpression: "{{.Identity.Subject}}",
@@ -21,24 +21,24 @@ func TestRatelimitConfigValidate(t *testing.T) {
 	}
 
 	testCases := map[string]struct {
-		cfg RatelimitConfig
+		cfg Config
 		err bool
 	}{
 		"ok, valid config": {
-			cfg: RatelimitConfig{
+			cfg: Config{
 				RejectUnmatched:  false,
-				RatelimitGroups:  []RatelimitGroupParams{validGroup},
+				RatelimitGroups:  []GroupParams{validGroup},
 				MatchExpressions: []MatchGroup{validMatch},
 			},
 			err: false,
 		},
 		"ok, empty config": {
-			cfg: RatelimitConfig{},
+			cfg: Config{},
 			err: false,
 		},
 		"err, duplicate group names": {
-			cfg: RatelimitConfig{
-				RatelimitGroups: []RatelimitGroupParams{
+			cfg: Config{
+				RatelimitGroups: []GroupParams{
 					validGroup,
 					{Name: "group1"},
 				},
@@ -47,8 +47,8 @@ func TestRatelimitConfigValidate(t *testing.T) {
 			err: true,
 		},
 		"err, duplicate API patterns": {
-			cfg: RatelimitConfig{
-				RatelimitGroups: []RatelimitGroupParams{validGroup},
+			cfg: Config{
+				RatelimitGroups: []GroupParams{validGroup},
 				MatchExpressions: []MatchGroup{
 					validMatch,
 					{APIPattern: "/api/v1/resource", GroupExpression: "group1"},

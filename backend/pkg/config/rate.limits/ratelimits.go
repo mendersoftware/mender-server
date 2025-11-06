@@ -12,7 +12,7 @@
 //	See the License for the specific language governing permissions and
 //	limitations under the License.
 
-package ratelimits
+package rate
 
 import (
 	"fmt"
@@ -25,7 +25,7 @@ import (
 
 var pathRegex = regexp.MustCompile(`\{[^/]+\}`)
 
-type RatelimitConfig struct {
+type Config struct {
 	// RejectUnmatched rejects requests that does not resolve to a
 	// ratelimit group. That is, if either there's no APIPattern matching
 	// the request or if the GroupExpression does not match a
@@ -34,13 +34,13 @@ type RatelimitConfig struct {
 	RejectUnmatched bool
 	// RatelimitGroups configures the ratelimiter parameters for a named ratelimit
 	// group.
-	RatelimitGroups []RatelimitGroupParams `json:"groups"`
+	RatelimitGroups []GroupParams `json:"groups"`
 	// MatchExpressions configures mathing expressions (API pattern) and mapping
 	// them to a group.
 	MatchExpressions []MatchGroup `json:"match"`
 }
 
-func (rc RatelimitConfig) Validate() error {
+func (rc Config) Validate() error {
 	validGroupNames := make([]interface{}, len(rc.RatelimitGroups))
 	for i, group := range rc.RatelimitGroups {
 		validGroupNames[i] = group.Name
@@ -75,7 +75,7 @@ func validatePatterns(value interface{}) error {
 }
 
 func validateLimitGroups(value interface{}) error {
-	groups, ok := value.([]RatelimitGroupParams)
+	groups, ok := value.([]GroupParams)
 	if !ok {
 		return fmt.Errorf("value is not []RatelimitGroupParams")
 	}
@@ -95,13 +95,13 @@ func normalizePattern(pattern string) string {
 	return pathRegex.ReplaceAllString(pattern, "*")
 }
 
-type RatelimitGroupParams struct {
+type GroupParams struct {
 	// Name of the group
 	Name string `json:"name"`
-	RatelimitParams
+	Params
 }
 
-type RatelimitParams struct {
+type Params struct {
 	// Quota is the number of requests that can be made within Interval
 	Quota int64 `json:"quota"`
 

@@ -18,19 +18,19 @@ import (
 	"time"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
-	"github.com/mendersoftware/mender-server/pkg/config/ratelimits"
+	"github.com/mendersoftware/mender-server/pkg/config/rate.limits"
 )
 
 var (
-	defaultRatelimitGroups = []ratelimits.RatelimitGroupParams{{
+	defaultRatelimitGroups = []rate.GroupParams{{
 		Name: "default",
-		RatelimitParams: ratelimits.RatelimitParams{
+		Params: rate.Params{
 			Quota:           300,
 			Interval:        config.Duration(time.Minute),
 			EventExpression: `{{with .Identity}}{{.Subject}}{{end}}`,
 		},
 	}}
-	defaultRatelimitMatch = []ratelimits.MatchGroup{{
+	defaultRatelimitMatch = []rate.MatchGroup{{
 		APIPattern:      "/",
 		GroupExpression: `default`,
 	}}
@@ -119,8 +119,8 @@ var (
 		{Key: SettingPlanDefinitions,
 			Value: SettingPlanDefinitionsDefault},
 		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
-		{Key: ratelimits.SettingRatelimitsAuthEnable, Value: false},
-		{Key: ratelimits.SettingRatelimitsAuthGroups, Value: defaultRatelimitGroups},
-		{Key: ratelimits.SettingRatelimitsAuthMatch, Value: defaultRatelimitMatch},
+		{Key: rate.SettingRateLimitsAuthEnable, Value: false},
+		{Key: rate.SettingRateLimitsAuthGroups, Value: defaultRatelimitGroups},
+		{Key: rate.SettingRateLimitsAuthMatch, Value: defaultRatelimitMatch},
 	}
 )
