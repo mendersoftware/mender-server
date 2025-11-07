@@ -494,6 +494,7 @@ test:staging-deployment:firefox:
 
 publish:backend:coverage:
   stage: publish
+  extends: coveralls:done
   needs:
     - job: test:backend:unit
       artifacts: true
@@ -511,25 +512,11 @@ publish:backend:coverage:
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-  image: "golang:${GOLANG_VERSION}"
   allow_failure: true # QA-925 - Coveralls servers are unreliable.
-  variables:
-    COVERALLS_TOKEN: "$COVERALLS_REPO_TOKEN"
-  before_script:
-    - go install github.com/mattn/goveralls@latest
-    # Convert coverage directory (from acceptance/integration) to textfmt
-    - find ${GOCOVERDIR} -mindepth 1 -maxdepth 1 -type d
-      -exec go tool covdata textfmt -i {} -o {}.cover \;
   script:
-    - cd backend
-    # NOTE: All coverage files have the filename '<coveralls flag>.cover'
-    - |
-      for coverpath in $(find ${GOCOVERDIR} -type f -name '*.cover'); do
-        coverfile=$(basename "$coverpath")
-        goveralls -parallel \
-          -service=gitlab \
-          -flagname="${coverfile%.cover}" \
-          -coverprofile="${coverpath}"
+    - for coverpath in $(find ${GOCOVERDIR} -type f -name '*.cover'); do
+      coverfile=$(basename "$coverpath");
+      coveralls report -n --parallel --job-flag="${coverfile%.cover}" --format=golang "$coverpath";
       done
 
 publish:backend:docker:
@@ -657,6 +644,9 @@ coveralls:done:
     - mkdir -p $HOME/bin
     - tar -xzvf ./coveralls-linux-$(uname -m).tar.gz -C $HOME/bin
     - export PATH="$PATH:$HOME/bin"
+    - if test "${CI_COMMIT_BRANCH#pr_}" != "$CI_COMMIT_BRANCH"; then
+      export CI_MERGE_REQUEST_IID="${CI_COMMIT_BRANCH#pr_}";
+      fi
   script:
     - coveralls done -n
   tags:
