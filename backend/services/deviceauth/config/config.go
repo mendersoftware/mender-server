@@ -25,7 +25,7 @@ var (
 	defaultRatelimitGroups = []rate.GroupParams{{
 		Name: "default",
 		Params: rate.Params{
-			Quota:           300,
+			Quota:           30,
 			Interval:        config.Duration(time.Minute),
 			EventExpression: `{{with .Identity}}{{.Subject}}{{end}}`,
 		},

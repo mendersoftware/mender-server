@@ -159,7 +159,7 @@
 #         # interval is the time interval when the rate limiter resets.
 #         interval: 1m
 #         # quota is the number of requests allowed in an interval.
-#         quota: 300
+#         quota: 30
 #         # event_expression is a go template for grouping requests.
 #         # The following attributes are available in the context:
 #         # Identity - contains a subset of the JWT claims:
