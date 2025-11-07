@@ -12,7 +12,7 @@
 //	See the License for the specific language governing permissions and
 //	limitations under the License.
 
-package ratelimits
+package rate
 
 import (
 	"fmt"
@@ -32,49 +32,24 @@ func (err *ConfigDisabledError) Error() string {
 	return `configuration "` + err.Path + `" disabled`
 }
 
-func init() {
-	config.Config.SetDefault(SettingRatelimitsAuthGroups, []any{map[string]any{
-		paramName:            paramNameDefault,
-		paramQuota:           paramQuotaDefault,
-		paramInterval:        paramIntervalDefault,
-		paramEventExpression: paramEventExpressionDefault,
-	}})
-	config.Config.SetDefault(SettingRatelimitsAuthMatch, []any{map[string]any{
-		paramPattern: "/", // Catch all
-		paramGroup:   paramNameDefault,
-	}})
-}
-
 const (
-	SettingRatelimits                    = "ratelimits"
-	SettingRatelimitsAuth                = SettingRatelimits + ".auth"
-	SettingRatelimitsAuthEnable          = SettingRatelimitsAuth + ".enable"
-	SettingRatelimitsAuthGroups          = SettingRatelimitsAuth + ".groups"
-	SettingRatelimitsAuthMatch           = SettingRatelimitsAuth + ".match"
-	SettingRatelimitsAuthRejectUnmatched = SettingRatelimitsAuth + ".reject_unmatched"
-
-	paramName                   = "name"
-	paramNameDefault            = "default"
-	paramQuota                  = "quota"
-	paramQuotaDefault           = int64(300)
-	paramInterval               = "interval"
-	paramIntervalDefault        = time.Minute
-	paramEventExpression        = "event_expression"
-	paramEventExpressionDefault = `{{with .Identity}}{{.Subject}}{{end}}`
-
-	paramPattern = "api_pattern"
-	paramGroup   = "group_expression"
+	SettingRateLimits                    = "rate_limits"
+	SettingRateLimitsAuth                = SettingRateLimits + ".auth"
+	SettingRateLimitsAuthEnable          = SettingRateLimitsAuth + ".enable"
+	SettingRateLimitsAuthGroups          = SettingRateLimitsAuth + ".groups"
+	SettingRateLimitsAuthMatch           = SettingRateLimitsAuth + ".match"
+	SettingRateLimitsAuthRejectUnmatched = SettingRateLimitsAuth + ".reject_unmatched"
 )
 
-func LoadRatelimits(c config.Reader) (*RatelimitConfig, error) {
-	if !c.GetBool(SettingRatelimitsAuthEnable) {
+func LoadRatelimits(c config.Reader) (*Config, error) {
+	if !c.GetBool(SettingRateLimitsAuthEnable) {
 		return nil, nil
 	}
-	ratelimitConfig := &RatelimitConfig{
-		RejectUnmatched: c.GetBool(SettingRatelimitsAuthRejectUnmatched),
+	ratelimitConfig := &Config{
+		RejectUnmatched: c.GetBool(SettingRateLimitsAuthRejectUnmatched),
 	}
 	err := config.UnmarshalSliceSetting(c,
-		SettingRatelimitsAuthGroups,
+		SettingRateLimitsAuthGroups,
 		&ratelimitConfig.RatelimitGroups,
 	)
 	if err != nil {
@@ -82,7 +57,7 @@ func LoadRatelimits(c config.Reader) (*RatelimitConfig, error) {
 	}
 
 	err = config.UnmarshalSliceSetting(c,
-		SettingRatelimitsAuthMatch,
+		SettingRateLimitsAuthMatch,
 		&ratelimitConfig.MatchExpressions,
 	)
 	if err != nil {
@@ -96,18 +71,22 @@ func SetupRedisRateLimits(
 	keyPrefix string,
 	c config.Reader,
 ) (*rate.HTTPLimiter, error) {
-	if !c.GetBool(SettingRatelimitsAuthEnable) {
+	if !c.GetBool(SettingRateLimitsAuthEnable) {
 		return nil, &ConfigDisabledError{
-			Path: SettingRatelimitsAuthEnable,
+			Path: SettingRateLimitsAuthEnable,
 		}
 	}
 	lims, err := LoadRatelimits(c)
 	if err != nil {
 		return nil, err
 	}
+	err = lims.Validate()
+	if err != nil {
+		return nil, err
+	}
 	log.NewEmpty().Debugf("loaded rate limit configuration: %v", lims)
 	mux := rate.NewHTTPLimiter()
-	if c.GetBool(SettingRatelimitsAuthRejectUnmatched) {
+	if c.GetBool(SettingRateLimitsAuthRejectUnmatched) {
 		mux.WithRejectUnmatched()
 	}
 	for _, group := range lims.RatelimitGroups {

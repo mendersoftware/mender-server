@@ -26,7 +26,7 @@ import (
 	"golang.org/x/sys/unix"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
-	"github.com/mendersoftware/mender-server/pkg/config/ratelimits"
+	rate1 "github.com/mendersoftware/mender-server/pkg/config/rate.limits"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/rate"
 	"github.com/mendersoftware/mender-server/pkg/redis"
@@ -168,11 +168,11 @@ func setupRedis(c config.Reader, connStr string) (cache.Cache, *rate.HTTPLimiter
 		c.GetInt(dconfig.SettingRedisLimitsExpSec),
 	)
 
-	rateLimiter, err := ratelimits.SetupRedisRateLimits(
+	rateLimiter, err := rate1.SetupRedisRateLimits(
 		redisClient, c.GetString(dconfig.SettingRedisKeyPrefix), c,
 	)
 	if err != nil {
-		var configDisabled *ratelimits.ConfigDisabledError
+		var configDisabled *rate1.ConfigDisabledError
 		if errors.As(err, &configDisabled) {
 			return cache, nil, nil
 		}

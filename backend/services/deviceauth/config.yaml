@@ -140,15 +140,15 @@
 #    Overwrite with environment variable: DEVICEAUTH_HAVE_ADDONS
 # have_addons: false
 
-# ratelimits:
-#   # auth configures ratelimits for authenticated requests.
+# rate_limits:
+#   # auth configures rate limits for authenticated requests.
 #   auth:
 #     # enable rate limiting also requires redis_connection_string to be effective.
 #     enable: false
 #     # reject_unmatched rejects requests that does not resolve to a
-#     # ratelimit group. That is, if either there's no api_pattern matching
+#     # rate limit group. That is, if either there's no api_pattern matching
 #     # the request or if the group_expression does not match a group.
-#     # Defaults to false - disable ratelimiting for unmatched requests.
+#     # Defaults to false - disable rate limiting for unmatched requests.
 #     reject_unmatched: false
 #     # groups specify rate limiting groups that overrides the parameters in the
 #     # default group.
@@ -159,7 +159,7 @@
 #         # interval is the time interval when the rate limiter resets.
 #         interval: 1m
 #         # quota is the number of requests allowed in an interval.
-#         quota: 300
+#         quota: 30
 #         # event_expression is a go template for grouping requests.
 #         # The following attributes are available in the context:
 #         # Identity - contains a subset of the JWT claims:

@@ -12,11 +12,20 @@
 //	See the License for the specific language governing permissions and
 //	limitations under the License.
 
-package ratelimits
+package rate
 
-import "github.com/mendersoftware/mender-server/pkg/config"
+import (
+	"fmt"
+	"regexp"
 
-type RatelimitConfig struct {
+	validation "github.com/go-ozzo/ozzo-validation/v4"
+
+	"github.com/mendersoftware/mender-server/pkg/config"
+)
+
+var pathRegex = regexp.MustCompile(`\{[^/]+\}`)
+
+type Config struct {
 	// RejectUnmatched rejects requests that does not resolve to a
 	// ratelimit group. That is, if either there's no APIPattern matching
 	// the request or if the GroupExpression does not match a
@@ -25,19 +34,74 @@ type RatelimitConfig struct {
 	RejectUnmatched bool
 	// RatelimitGroups configures the ratelimiter parameters for a named ratelimit
 	// group.
-	RatelimitGroups []RatelimitGroupParams `json:"groups"`
+	RatelimitGroups []GroupParams `json:"groups"`
 	// MatchExpressions configures mathing expressions (API pattern) and mapping
 	// them to a group.
 	MatchExpressions []MatchGroup `json:"match"`
 }
 
-type RatelimitGroupParams struct {
-	// Name of the group
-	Name string `json:"name"`
-	RatelimitParams
+func (rc Config) Validate() error {
+	validGroupNames := make([]interface{}, len(rc.RatelimitGroups))
+	for i, group := range rc.RatelimitGroups {
+		validGroupNames[i] = group.Name
+	}
+
+	return validation.ValidateStruct(&rc,
+		validation.Field(&rc.MatchExpressions,
+			validation.By(validatePatterns),
+		),
+		validation.Field(&rc.RatelimitGroups,
+			validation.By(validateLimitGroups),
+		),
+	)
+
 }
 
-type RatelimitParams struct {
+func validatePatterns(value interface{}) error {
+	groups, ok := value.([]MatchGroup)
+	if !ok {
+		return fmt.Errorf("value is not []MatchGroup")
+	}
+
+	seenPatterns := make(map[string]struct{})
+	for _, group := range groups {
+		normalizedPattern := normalizePattern(group.APIPattern)
+		if _, seen := seenPatterns[normalizedPattern]; seen {
+			return fmt.Errorf("duplicate API pattern: '%s'", group.APIPattern)
+		}
+		seenPatterns[normalizedPattern] = struct{}{}
+	}
+	return nil
+}
+
+func validateLimitGroups(value interface{}) error {
+	groups, ok := value.([]GroupParams)
+	if !ok {
+		return fmt.Errorf("value is not []RatelimitGroupParams")
+	}
+
+	seenGroups := make(map[string]struct{})
+	for _, group := range groups {
+		if _, seen := seenGroups[group.Name]; seen {
+			return fmt.Errorf("duplicate limit group name: '%s'", group.Name)
+		}
+		seenGroups[group.Name] = struct{}{}
+	}
+	return nil
+}
+
+// Replace all placeholder or wildcard with "*"
+func normalizePattern(pattern string) string {
+	return pathRegex.ReplaceAllString(pattern, "*")
+}
+
+type GroupParams struct {
+	// Name of the group
+	Name string `json:"name"`
+	Params
+}
+
+type Params struct {
 	// Quota is the number of requests that can be made within Interval
 	Quota int64 `json:"quota"`
 
