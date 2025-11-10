@@ -126,9 +126,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                <Button color="secondary" startIcon={<CloudUpload fontSize="small" />}>
-                  Import from a file
-                </Button>
+                <Button startIcon={<CloudUpload fontSize="small" />}>Import from a file</Button>
               </div>
             )}
           </Dropzone>
@@ -163,7 +161,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
         ) : (
           <>
             <Button onClick={onCancelClick}>Cancel</Button>
-            <Button variant="contained" disabled={!isMetadataValid} onClick={onSubmitClick} color="secondary" style={{ marginLeft: 10 }}>
+            <Button variant="contained" disabled={!isMetadataValid} onClick={onSubmitClick} style={{ marginLeft: 10 }}>
               Save
             </Button>
           </>

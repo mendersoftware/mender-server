@@ -270,13 +270,13 @@ export const TerminalPlayer = ({ className, item, sessionInitialized, token }) =
         )}
       </div>
       <div className="flexbox margin-top-small margin-bottom-small">
-        <Button color="primary" onClick={onTogglePlayClick} startIcon={isPlaying ? <Pause /> : <PlayArrow />}>
+        <Button onClick={onTogglePlayClick} startIcon={isPlaying ? <Pause /> : <PlayArrow />}>
           {isPlaying ? 'Pause' : 'Play'}
         </Button>
-        <Button color="primary" onClick={onReplayClick} disabled={isPlaying} startIcon={<Refresh />}>
+        <Button onClick={onReplayClick} disabled={isPlaying} startIcon={<Refresh />}>
           Replay
         </Button>
-        <Button color="primary" onClick={onDownloadClick} startIcon={<CloudDownload />} disabled={isLoadingSession}>
+        <Button onClick={onDownloadClick} startIcon={<CloudDownload />} disabled={isLoadingSession}>
           Download
         </Button>
       </div>

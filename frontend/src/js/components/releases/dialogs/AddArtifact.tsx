@@ -243,7 +243,7 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
         {!!activeStep && <Button onClick={() => setActiveStep(activeStep - 1)}>Back</Button>}
         <div style={{ flexGrow: 1 }} />
         {file && (
-          <Button variant="contained" color="primary" disabled={!isValid} onClick={() => (finalStep ? onUpload() : onNextClick())}>
+          <Button variant="contained" disabled={!isValid} onClick={() => (finalStep ? onUpload() : onNextClick())}>
             {finalStep ? 'Upload artifact' : 'Next'}
           </Button>
         )}

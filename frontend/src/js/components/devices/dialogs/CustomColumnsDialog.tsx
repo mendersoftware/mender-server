@@ -44,7 +44,7 @@ export const ColumnCustomizationDialog = ({ customColumnSizes, open, onCancel, o
         <Button variant="text" onClick={onCancel}>
           Cancel
         </Button>
-        <Button variant="contained" onClick={onHandleSubmit} color="secondary">
+        <Button variant="contained" onClick={onHandleSubmit}>
           Save
         </Button>
       </DialogActions>

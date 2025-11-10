@@ -102,7 +102,7 @@ export const ConfigEditingActions = ({ canSetDefault, isSetAsDefault, onSetAsDef
         <div className="muted">You can import these key value pairs when configuring other devices</div>
       </div>
     )}
-    <Button variant="contained" color="primary" onClick={onSubmit} style={buttonStyle}>
+    <Button variant="contained" onClick={onSubmit} style={buttonStyle}>
       Save and apply to device
     </Button>
     <Button onClick={onCancel} style={buttonStyle}>
@@ -129,11 +129,11 @@ export const ConfigUpdateNote = ({ isUpdatingConfig, isAccepted }) => (
 export const ConfigUpdateFailureActions = ({ hasLog, onSubmit, onCancel, setShowLog }) => (
   <>
     {hasLog && (
-      <Button color="secondary" onClick={setShowLog} style={buttonStyle}>
+      <Button onClick={setShowLog} style={buttonStyle}>
         View log
       </Button>
     )}
-    <Button color="secondary" onClick={onSubmit} startIcon={<RefreshIcon fontSize="small" />} style={buttonStyle}>
+    <Button onClick={onSubmit} startIcon={<RefreshIcon fontSize="small" />} style={buttonStyle}>
       Retry
     </Button>
     <a className="margin-left-large" onClick={onCancel}>
@@ -342,12 +342,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
             <Button color="secondary" onClick={onAbortClick} startIcon={<BlockIcon fontSize="small" />} style={buttonStyle}>
               Abort update
             </Button>
-            <Button
-              color="secondary"
-              component={Link}
-              to={`/deployments/${deployment.status || DEPLOYMENT_ROUTES.active.key}?open=true&id=${deployment_id}`}
-              style={buttonStyle}
-            >
+            <Button component={Link} to={`/deployments/${deployment.status || DEPLOYMENT_ROUTES.active.key}?open=true&id=${deployment_id}`} style={buttonStyle}>
               View deployment
             </Button>
           </>

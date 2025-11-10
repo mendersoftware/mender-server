@@ -227,7 +227,7 @@ export const PhaseProgress = ({ className = '', deployment = {}, onAbort, onUpda
               style={confirmationStyle}
             />
           )}
-          <Button color="primary" disabled={disableContinuationButtons} onClick={setShouldContinue} variant="contained" className={classes.continueButton}>
+          <Button disabled={disableContinuationButtons} onClick={setShouldContinue} variant="contained" className={classes.continueButton}>
             Continue
           </Button>
           <Button disabled={disableContinuationButtons} onClick={setShouldAbort}>

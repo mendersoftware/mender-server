@@ -97,7 +97,7 @@ const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadCl
         </Tabs>
         {canUpload && tab !== 'delta' && (
           <div className="flexbox center-aligned">
-            <Button color="secondary" className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} variant="contained">
+            <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} variant="contained">
               Upload
             </Button>
             <MenderHelpTooltip id={HELPTOOLTIPS.artifactUpload.id} style={{ marginTop: 8 }} />

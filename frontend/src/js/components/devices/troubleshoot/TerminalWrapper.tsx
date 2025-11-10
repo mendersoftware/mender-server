@@ -290,7 +290,7 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
       </Dropzone>
       {!socketInitialized && (
         <div className={classes.connectionButton}>
-          <Button variant="contained" color="secondary" onClick={onConnectionToggle}>
+          <Button variant="contained" onClick={onConnectionToggle}>
             Connect Terminal
           </Button>
         </div>

@@ -73,7 +73,7 @@ export const AddTagsDialog = ({ selectedReleases, onClose }) => {
         <Button style={{ marginRight: 10 }} onClick={onClose}>
           Cancel
         </Button>
-        <Button variant="contained" color="primary" disabled={disableSave} onClick={addTagsToReleases}>
+        <Button variant="contained" disabled={disableSave} onClick={addTagsToReleases}>
           Add tags
         </Button>
       </DialogActions>

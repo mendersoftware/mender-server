@@ -404,8 +404,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   background-color: #e0e0e0;
   width: 40px;
   height: 40px;
-  color: #fff;
-  background-color: #9c27b0;
 }
 
 .emotion-20::-moz-focus-inner {
@@ -442,16 +440,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 
 .emotion-20.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-20:hover {
-  background-color: #7b1fa2;
-}
-
-@media (hover: none) {
-  .emotion-20:hover {
-    background-color: #9c27b0;
-  }
 }
 
 .emotion-20.Mui-disabled {
@@ -983,7 +971,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
                 class="emotion-19"
               >
                 <button
-                  class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-secondary Mui-disabled MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-secondary emotion-20"
+                  class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default Mui-disabled MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default emotion-20"
                   disabled=""
                   style="margin-bottom: 10px;"
                   tabindex="-1"

@@ -149,7 +149,7 @@ export const MonitorDetailsDialog = ({ alert, onClose }) => {
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
         {!!lines.length && (
-          <Button variant="contained" color="primary" onClick={() => exportLog(name, lines)}>
+          <Button variant="contained" onClick={() => exportLog(name, lines)}>
             Export log
           </Button>
         )}

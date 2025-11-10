@@ -77,7 +77,6 @@ const PasswordForgotRequest = ({ onSubmit }: { onSubmit: (formValues: PasswordRe
     <>
       <p className="margin-bottom">Enter the email address associated with your account, and we&apos;ll send you a reset link.</p>
       <Form
-        buttonColor="primary"
         classes={{ buttonWrapper: classes.buttonWrapper }}
         className={classes.requiredReset}
         defaultValues={{ email: '' }}

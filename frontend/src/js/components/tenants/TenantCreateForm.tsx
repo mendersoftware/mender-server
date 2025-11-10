@@ -180,7 +180,6 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
         className={classes.formWrapper}
         handleCancel={() => onCloseClick()}
         showButtons
-        buttonColor="secondary"
         onSubmit={submitNewTenant}
         submitLabel="Create tenant"
         autocomplete="off"

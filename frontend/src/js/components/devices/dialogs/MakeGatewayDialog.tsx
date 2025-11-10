@@ -45,7 +45,7 @@ export const MakeGatewayDialog = ({ isPreRelease, onCancel }) => (
     <DialogActions>
       <Button onClick={onCancel}>Cancel</Button>
       <div style={{ flexGrow: 1 }} />
-      <Button variant="contained" onClick={onCancel} color="secondary">
+      <Button variant="contained" onClick={onCancel}>
         Close
       </Button>
     </DialogActions>
