@@ -57,7 +57,7 @@ export const CreateGroup = ({ addListOfDevices, fromFilters, isCreation, onClose
         <Button style={{ marginRight: 10 }} onClick={onClose}>
           Cancel
         </Button>
-        <Button variant="contained" color="primary" onClick={() => addListOfDevices(selectedDevices, newGroup)} disabled={!newGroup.length || invalid}>
+        <Button variant="contained" onClick={() => addListOfDevices(selectedDevices, newGroup)} disabled={!newGroup.length || invalid}>
           {!isModification || isCreationDynamic || groups.length === 0 ? 'Create group' : 'Add to group'}
         </Button>
       </DialogActions>

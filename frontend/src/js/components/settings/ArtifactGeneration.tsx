@@ -206,7 +206,6 @@ export const ArtifactGenerationSettings = ({ onClose, open }) => {
       <DrawerTitle title="Delta artifacts generation configuration" onClose={onClose} />
       <Divider className="margin-bottom" />
       <Form
-        buttonColor="primary"
         classes={{ buttonWrapper: classes.buttonWrapper, cancelButton: '' }}
         defaultValues={defaultValues}
         handleCancel={onClose}

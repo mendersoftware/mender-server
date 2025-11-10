@@ -90,7 +90,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
               onInputChange={setChangedTags}
             />
             <div className="flexbox center-aligned margin-bottom-small" style={{ justifyContent: 'flex-end' }}>
-              <Button className="margin-right-small" disabled={!isFullyDefined} color="primary" onClick={onSubmit} variant="contained">
+              <Button className="margin-right-small" disabled={!isFullyDefined} onClick={onSubmit} variant="contained">
                 Save
               </Button>
               <Button onClick={onCancel}>Cancel</Button>

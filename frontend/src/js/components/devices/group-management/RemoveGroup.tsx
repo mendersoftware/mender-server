@@ -24,7 +24,7 @@ const RemoveGroup = ({ onRemove, onClose }) => (
       <Button key="remove-action-button-1" onClick={onClose} style={{ marginRight: '10px' }}>
         Cancel
       </Button>
-      <Button variant="contained" key="remove-action-button-2" color="primary" onClick={onRemove}>
+      <Button variant="contained" key="remove-action-button-2" color="secondary" onClick={onRemove}>
         Remove group
       </Button>
     </DialogActions>

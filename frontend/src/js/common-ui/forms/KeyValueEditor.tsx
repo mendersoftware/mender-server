@@ -150,7 +150,6 @@ const KeyValueFields = ({ disabled, errortext, inputHelpTipsMap, onInputChange }
           <Fab
             disabled={disabled || !inputs?.[fields.length - 1]?.key || !inputs?.[fields.length - 1]?.value}
             style={{ marginBottom: 10 }}
-            color="secondary"
             size="small"
             onClick={addKeyValue}
           >

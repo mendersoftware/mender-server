@@ -280,12 +280,12 @@ export const DeviceTwin = ({ device, integration }) => {
             {isEditing ? (
               <>
                 <Button onClick={onCancelClick}>Cancel</Button>
-                <Button className={classes.buttonSpacer} color="secondary" onClick={onApplyClick} variant="contained">
+                <Button className={classes.buttonSpacer} onClick={onApplyClick} variant="contained">
                   Save
                 </Button>
               </>
             ) : (
-              <Button color="secondary" onClick={onEditClick} variant="contained">
+              <Button onClick={onEditClick} variant="contained">
                 Edit desired configuration
               </Button>
             )}

@@ -52,7 +52,7 @@ export const LogDialog = ({ context = {}, logData = '', onClose, type = 'deviceL
         <CopyToClipboard style={wrapperStyle} text={logData} onCopy={() => setCopied(true)}>
           <Button>Copy to clipboard</Button>
         </CopyToClipboard>
-        <Button variant="contained" color="primary" onClick={exportLog}>
+        <Button variant="contained" onClick={exportLog}>
           Export log
         </Button>
       </DialogActions>

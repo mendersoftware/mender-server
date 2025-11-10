@@ -42,7 +42,7 @@ export const PasswordReset = () => {
             <br />
             Enter a new, secure password of your choice below.
           </p>
-          <Form showButtons={true} buttonColor="primary" onSubmit={handleSubmit} submitLabel="Save password">
+          <Form showButtons={true} onSubmit={handleSubmit} submitLabel="Save password">
             <PasswordInput id="password" label="Password *" validations="isLength:8" create={true} generate={false} required={true} />
             <PasswordInput id="password_confirmation" label="Confirm password *" validations="isLength:8" required={true} />
           </Form>

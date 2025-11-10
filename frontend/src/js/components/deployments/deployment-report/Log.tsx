@@ -61,7 +61,7 @@ export const LogDialog = ({ canAi, deployment, deviceId, onClose }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" color="secondary" onClick={exportLog}>
+        <Button variant="contained" onClick={exportLog}>
           Export log
         </Button>
       </DialogActions>

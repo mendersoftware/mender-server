@@ -203,7 +203,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         <Button className={classes.leftButton} onClick={onCancel}>
           Cancel
         </Button>
-        <Button color="secondary" variant="contained" disabled={isSubmitDisabled} target="_blank" onClick={onSubmitClick}>
+        <Button variant="contained" disabled={isSubmitDisabled} target="_blank" onClick={onSubmitClick}>
           Save
         </Button>
       </div>

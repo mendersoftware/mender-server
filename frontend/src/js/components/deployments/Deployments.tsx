@@ -218,7 +218,7 @@ export const Deployments = () => {
             ))}
           </Tabs>
           {canDeploy && canReadReleases && (
-            <Button color="secondary" variant="contained" onClick={onCreationShow} style={{ height: '100%' }}>
+            <Button variant="contained" onClick={onCreationShow} style={{ height: '100%' }}>
               Create a deployment
             </Button>
           )}

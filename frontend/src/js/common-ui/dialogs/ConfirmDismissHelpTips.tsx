@@ -28,7 +28,7 @@ export const ConfirmDismissHelptips = () => {
       <DialogContent>Hide the help tips? You haven&apos;t finished your first update yet.</DialogContent>
       <DialogActions className="flexbox space-between">
         <Button onClick={() => dispatch(setShowDismissOnboardingTipsDialog(false))}>Cancel</Button>
-        <Button variant="contained" color="secondary" onClick={onClose}>
+        <Button variant="contained" onClick={onClose}>
           Yes, hide the help
         </Button>
       </DialogActions>

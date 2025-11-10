@@ -81,7 +81,7 @@ export const ConfigImportDialog = ({ onCancel, onSubmit }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel}>Cancel</Button>
-        <Button variant="contained" disabled={isSubmitDisabled} onClick={onHandleSubmit} color="secondary" style={{ marginLeft: 10 }}>
+        <Button variant="contained" disabled={isSubmitDisabled} onClick={onHandleSubmit} style={{ marginLeft: 10 }}>
           Import
         </Button>
       </DialogActions>

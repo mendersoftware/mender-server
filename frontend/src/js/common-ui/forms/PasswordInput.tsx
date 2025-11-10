@@ -26,7 +26,7 @@ import { runValidations } from './Form';
 
 const PasswordGenerateButtons = ({ clearPass, edit, generatePass, disabled }) => (
   <div className="pass-buttons">
-    <Button color="primary" onClick={generatePass} disabled={disabled}>
+    <Button onClick={generatePass} disabled={disabled}>
       Generate
     </Button>
     {edit ? <Button onClick={clearPass}>Cancel</Button> : null}

@@ -175,7 +175,6 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
             {Object.entries(tabs).map(([currentIndex, tab]) => (
               <Button
                 className={`${classes.tabSelect} ${currentIndex !== tabIndex ? classes.inactive : ''}`}
-                color="primary"
                 key={currentIndex}
                 startIcon={tab.icon}
                 onClick={() => setTabIndex(currentIndex)}

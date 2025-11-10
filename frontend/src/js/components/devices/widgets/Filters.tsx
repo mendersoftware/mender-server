@@ -171,13 +171,13 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
                   title="Saved changes will not change the target devices of any ongoing deployments to this group, but will take effect for new deployments"
                   arrow
                 >
-                  <Button variant="contained" color="secondary" onClick={onGroupClick}>
+                  <Button variant="contained" onClick={onGroupClick}>
                     Save group
                   </Button>
                 </MenderTooltip>
               )
             ) : (
-              <Button variant="contained" color="secondary" onClick={onGroupClick}>
+              <Button variant="contained" onClick={onGroupClick}>
                 Create group with this filter
               </Button>
             )}

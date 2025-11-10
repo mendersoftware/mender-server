@@ -144,7 +144,7 @@ export const FileTransfer = ({
               value={uploadPath}
               InputProps={{ endAdornment: <CopyPasteButton onClick={onPasteUploadClick} /> }}
             />
-            <Button variant="contained" color="primary" disabled={!(file && uploadPath && isValidDestination)} onClick={onUploadClick}>
+            <Button variant="contained" disabled={!(file && uploadPath && isValidDestination)} onClick={onUploadClick}>
               Upload
             </Button>
           </div>
@@ -165,7 +165,6 @@ export const FileTransfer = ({
             />
             <Button
               variant="contained"
-              color="primary"
               disabled={!(downloadPath && isValidDestination)}
               onClick={() => onDownload(downloadPath)}
               style={{ alignSelf: 'flex-end' }}

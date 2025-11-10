@@ -109,7 +109,7 @@ export const AuthSetup = ({ currentUser, handle2FAState, has2FA, onClose, qrImag
         <Button onClick={() => handle2FAState(twoFAStates.disabled)} style={{ marginRight: 10 }}>
           Cancel
         </Button>
-        <Button variant="contained" color="secondary" disabled={!validated2fa} onClick={onClose}>
+        <Button variant="contained" disabled={!validated2fa} onClick={onClose}>
           Save
         </Button>
       </div>

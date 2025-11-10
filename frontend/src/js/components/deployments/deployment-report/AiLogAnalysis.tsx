@@ -62,7 +62,7 @@ interface AiLogAnalysisProps {
 
 const Header = () => (
   <div className="flexbox center-aligned margin-bottom-small">
-    <AutoAwesomeIcon color="secondary" className="margin-right-small" />
+    <AutoAwesomeIcon className="margin-right-small" />
     <Typography variant="h6">AI summary (experimental)</Typography>
   </div>
 );
@@ -71,7 +71,7 @@ const FeedbackSection = ({ deploymentId, deviceId }) => {
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
   const dispatch = useAppDispatch();
   const handleFeedback = isHelpful => {
-    dispatch(submitUserFeedback({ formId: 'feat.ai', feedback: { useful: isHelpful, deployment_id: deploymentId, device_id: deviceId }}))
+    dispatch(submitUserFeedback({ formId: 'feat.ai', feedback: { useful: isHelpful, deployment_id: deploymentId, device_id: deviceId } }));
     setFeedbackSubmitted(true);
   };
 
@@ -151,7 +151,7 @@ export const AiLogAnalysis = ({ deployment, deviceId }: AiLogAnalysisProps) => {
     <div className="padding-top-small padding-bottom-small">
       <Header />
       <div className="flexbox center-aligned">
-        <Button className="margin-right-small" color="secondary" disabled={!isAiEnabled || isAnalyzing} onClick={onGenerateAnalysisClick} variant="contained">
+        <Button className="margin-right-small" disabled={!isAiEnabled || isAnalyzing} onClick={onGenerateAnalysisClick} variant="contained">
           {isAnalyzing ? 'Generating summary...' : 'Generate summary'}
         </Button>
       </div>

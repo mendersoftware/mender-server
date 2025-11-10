@@ -157,7 +157,6 @@ export const OrgDataEntry = (props: OrgDataProps) => {
     <Form
       className={classes.orgData}
       id="signup-org-data"
-      buttonColor="primary"
       defaultValues={defaultValues}
       initialValues={initialValues}
       onSubmit={handleSignup}

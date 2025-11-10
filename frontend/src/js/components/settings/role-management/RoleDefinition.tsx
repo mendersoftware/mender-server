@@ -238,7 +238,7 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
         <Button className="margin-right" onClick={onCancel}>
           Cancel
         </Button>
-        <Button color="secondary" variant="contained" type="submit" disabled={isSubmitDisabled}>
+        <Button variant="contained" type="submit" disabled={isSubmitDisabled}>
           Submit
         </Button>
       </div>
