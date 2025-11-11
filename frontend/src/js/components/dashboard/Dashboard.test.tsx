@@ -40,7 +40,7 @@ describe('Dashboard Component', () => {
     const ui = <Dashboard />;
     const { baseElement, rerender } = render(ui, { preloadedState });
     await act(async () => {
-      vi.runAllTimers();
+      vi.runOnlyPendingTimers();
       vi.runAllTicks();
       return new Promise(resolve => resolve(), TIMEOUTS.threeSeconds);
     });

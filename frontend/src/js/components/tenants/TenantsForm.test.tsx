@@ -35,7 +35,7 @@ describe('TenantsForm', () => {
 
   it('works as expected', { timeout: TIMEOUTS.refreshDefault }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const { addTenant: submitTenantSpy } = StoreThunks;
+    const { addTenant: submitTenantSpy, checkEmailExists: checkEmailExistsSpy } = StoreThunks;
 
     const newChildTenant = { name: 'ChildTenant', email: 'child+123@example.com', password: 'MySecurePassword2025', dev: '2' };
     const preloadedState = {
@@ -60,15 +60,14 @@ describe('TenantsForm', () => {
     await user.type(screen.getByLabelText('Set device limit'), newChildTenant.dev);
     await user.click(screen.getByText(/enable delta artifact generation/i));
     await user.click(screen.getByText(/reset the password/i));
-    await act(() => vi.runAllTimersAsync());
+    await act(async () => vi.runOnlyPendingTimers());
     const submitButton = screen.getByRole('button', { name: /Create Tenant/i });
     await waitFor(() => expect(submitButton).toBeEnabled());
     await act(async () => await user.click(submitButton));
     expect(emailInput).toBeVisible();
     await user.clear(emailInput);
     await user.type(emailInput, newChildTenant.email);
-    await act(async () => await vi.advanceTimersByTimeAsync(TIMEOUTS.oneSecond));
-    await waitFor(() => expect(submitButton).toBeEnabled());
+    await waitFor(() => expect(checkEmailExistsSpy).toHaveBeenCalledWith(newChildTenant.email));
     await act(async () => await user.click(submitButton));
 
     await waitFor(() =>

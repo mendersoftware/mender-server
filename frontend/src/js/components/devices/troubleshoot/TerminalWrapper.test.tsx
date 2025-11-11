@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { act } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { TroubleshootContent as TroubleshootDialog } from './TerminalWrapper';
@@ -22,12 +23,14 @@ describe('TroubleshootDialog Component', () => {
 
   beforeEach(() => {
     socketSpyFactory = vi.spyOn(window, 'WebSocket');
-    socketSpyFactory.mockImplementation(() => ({
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      close: () => {},
-      send: () => {}
-    }));
+    socketSpyFactory.mockImplementation(function () {
+      return {
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        close: () => {},
+        send: () => {}
+      };
+    });
   });
 
   afterEach(() => {
@@ -49,5 +52,7 @@ describe('TroubleshootDialog Component', () => {
     );
     expect(baseElement).toMatchSnapshot();
     expect(baseElement).toEqual(expect.not.stringMatching(undefineds));
+    // this is needed to allow the xterm unmount & resize to settle, despite the general test teardown waits
+    await act(async () => vi.runOnlyPendingTimers());
   });
 });

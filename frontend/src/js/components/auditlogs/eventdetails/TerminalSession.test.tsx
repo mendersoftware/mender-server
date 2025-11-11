@@ -27,7 +27,7 @@ describe('TerminalSession Component', () => {
 
   beforeEach(() => {
     socketSpyFactory = vi.spyOn(window, 'WebSocket');
-    socketSpyFactory.mockImplementation(() => {
+    socketSpyFactory.mockImplementation(function () {
       socketSpy = {
         close: () => {},
         send: () => {}
