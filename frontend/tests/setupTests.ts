@@ -11,8 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { createMocks } from 'react-idle-timer';
-
 import handlers from '@northern.tech/testing/requestHandlers/requestHandlers';
 import { afterAll as ntAfterAll, afterEach as ntAfterEach, beforeAll as ntBeforeAll, beforeEach as ntBeforeEach } from '@northern.tech/testing/setupTests';
 import '@testing-library/jest-dom/vitest';
@@ -43,7 +41,6 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 beforeAll(async () => {
-  createMocks();
   await server.listen({ onUnhandledRequest: 'error' });
   await ntBeforeAll({ expect, vi });
 });
