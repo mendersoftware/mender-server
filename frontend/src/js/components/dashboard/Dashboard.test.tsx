@@ -24,13 +24,6 @@ import { vi } from 'vitest';
 import { Dashboard } from './Dashboard';
 
 describe('Dashboard Component', () => {
-  afterEach(async () => {
-    // wait for all requests to settle
-    await act(async () => {
-      vi.runOnlyPendingTimers();
-      vi.runAllTicks();
-    });
-  });
   it('renders correctly', async () => {
     const preloadedState = {
       ...defaultState,

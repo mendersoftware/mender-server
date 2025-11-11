@@ -68,13 +68,6 @@ describe('Deployments Component', () => {
     }
   };
 
-  afterEach(async () => {
-    await act(async () => {
-      vi.advanceTimersByTime(2000);
-      vi.runAllTicks();
-    });
-  });
-
   it('renders correctly', async () => {
     const get = vi.spyOn(GeneralApi, 'get');
     const ui = <Deployments {...defaultLocationProps} />;

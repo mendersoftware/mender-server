@@ -122,7 +122,6 @@ describe('Subscription Summary component', () => {
     const view = baseElement.lastElementChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    await act(() => vi.runAllTimersAsync());
   });
 
   it('allows creating billing profile', { timeout: TIMEOUTS.refreshDefault }, async () => {
@@ -204,7 +203,5 @@ describe('Subscription Summary component', () => {
     await act(() => vi.runAllTimersAsync());
     await user.click(screen.getByRole('button', { name: /confirm subscription/i }));
     expect(requestPlanUpgrade).toHaveBeenCalledWith(newOrder);
-
-    await act(() => vi.runAllTimersAsync());
   });
 });
