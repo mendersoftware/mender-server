@@ -105,6 +105,9 @@ include:
       - if: '$CI_PROJECT_NAME == "mender-server"'
         when: always
       - when: never
+  - project: "Northern.tech/Mender/mendertesting"
+    file: "qa-common/send-results-to-mantra.yml"
+    ref: "master"
 
 stages:
   - lint
@@ -376,9 +379,11 @@ test:backend:integration:
       artifacts: false
     - job: build:backend:docker-acceptance
       artifacts: false
+  variables:
+    MANTRA_PROJECT_NAME: "backend_integration_open_source"
   before_script:
     - *requires-docker
-    - apk add make bash git curl
+    - apk add make bash git curl jq
     - *dind-login
     - mkdir -p ${GOCOVERDIR}/integration
     - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
@@ -386,16 +391,18 @@ test:backend:integration:
     - make -C backend test-integration
       GOCOVERDIR=${GOCOVERDIR}/integration
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
+  after_script:
+    - !reference [.mantra-push-results]
   artifacts:
     expire_in: 1w
     when: always
     paths:
       - ${GOCOVERDIR}/integration
-      - backend/logs.*
-      - backend/results_integration_*.xml
-      - backend/report_integration_*.html
+      - backend/tests/integration/tests/logs.*
+      - backend/tests/integration/tests/results_integration_*.xml
+      - backend/tests/integration/tests/report_integration_*.html
     reports:
-      junit: backend/results_integration_*.xml
+      junit: backend/tests/integration/tests/results_integration_*.xml
 
 test:integration:
   stage: test
