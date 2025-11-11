@@ -88,7 +88,6 @@
     "jsdom": "27.0.0",
     "jsdom-worker": "0.3.0",
     "lint-staged": "16.2.6",
-    "mockdate": "^3.0.5",
     "msw": "2.12.1",
     "postcss-loader": "8.2.0",
     "prettier": "3.6.2",

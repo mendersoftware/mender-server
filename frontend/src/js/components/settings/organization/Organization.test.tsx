@@ -18,7 +18,6 @@ import { getSessionInfo } from '@northern.tech/store/auth';
 import { token, undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import MockDate from 'mockdate';
 import { vi } from 'vitest';
 
 import { CancelSubscription, CancelSubscriptionAlert, DeviceLimitExpansionNotification, PlanDescriptor } from './Billing';
@@ -27,6 +26,7 @@ import MyOrganization from './Organization';
 describe('MyOrganization Component', () => {
   let preloadedState;
   beforeEach(() => {
+    vi.setSystemTime(new Date('2020-07-01T12:00:00.000Z'));
     preloadedState = {
       ...defaultState,
       app: {
@@ -79,7 +79,6 @@ describe('MyOrganization Component', () => {
         }
       }
     };
-    MockDate.set(new Date('2020-07-01T12:00:00.000Z'));
   });
 
   it('renders correctly', async () => {

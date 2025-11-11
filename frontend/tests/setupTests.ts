@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { createMocks } from 'react-idle-timer';
 
-import { mockDate } from '@northern.tech/testing/mockData';
 import handlers from '@northern.tech/testing/requestHandlers/requestHandlers';
 import { afterAll as ntAfterAll, afterEach as ntAfterEach, beforeAll as ntBeforeAll, beforeEach as ntBeforeEach } from '@northern.tech/testing/setupTests';
 import '@testing-library/jest-dom/vitest';
