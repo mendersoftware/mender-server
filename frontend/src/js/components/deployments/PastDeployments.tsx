@@ -110,6 +110,8 @@ export const Past = props => {
           clearRetryTimer(type, dispatchedSetSnackbar);
           const { total, deploymentIds } = payload[payload.length - 1];
           if (total && !deploymentIds.length) {
+            // TODO: check if https://github.com/facebook/react/issues/34888 gets addressed and adjust
+            // eslint-disable-next-line react-hooks/immutability
             return refreshPast(currentPage, currentPerPage, currentStartDate, currentEndDate, currentDeviceGroup);
           }
         })

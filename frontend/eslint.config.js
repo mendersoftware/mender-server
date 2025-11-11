@@ -12,7 +12,11 @@ export default [
   ...reactConfig,
   { ignores: ['node_modules/', 'dist/', 'tests/licenses'] },
   {
-    languageOptions: { globals: globalsConfig }
+    languageOptions: { globals: globalsConfig },
+    rules: {
+      'react-hooks/refs': 'off',
+      'react-hooks/set-state-in-effect': 'off'
+    }
   },
   {
     files: ['tests/e2e_tests/**/*'],
