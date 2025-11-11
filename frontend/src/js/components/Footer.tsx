@@ -36,7 +36,7 @@ const useStyles = makeStyles()(theme => ({
 
 const companySite = 'https://northern.tech';
 
-const targets = [
+const getTargets = () => [
   { key: 'company', target: companySite, title: `© ${new Date().getFullYear()} Northern.tech` },
   { key: 'tos', target: `${companySite}/legal/hosted-mender-agreement-northern-tech-as.pdf`, title: 'Terms of service' },
   { key: 'privacyPolicy', target: `${companySite}/legal/privacy-policy`, title: 'Privacy policy' }
@@ -44,6 +44,7 @@ const targets = [
 
 export const Footer = () => {
   const { classes } = useStyles();
+  const targets = getTargets();
   return (
     <div className={classes.footer}>
       {targets.map(({ key, target, title }) => (

@@ -55,7 +55,7 @@ export default defineConfig(() => {
       globals: true,
       setupFiles: path.resolve(__dirname, 'tests', 'setupTests.ts'),
       fakeTimers: {
-        toFake: ['setTimeout', 'clearTimeout', 'Date']
+        toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date', 'requestAnimationFrame', 'cancelAnimationFrame']
       }
     },
     pool: 'threads',

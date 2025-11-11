@@ -11,6 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { createMocks } from 'react-idle-timer';
 import Linkify from 'react-linkify';
 
 import { defaultState, render } from '@/testUtils';
@@ -82,6 +83,8 @@ describe('App Component', () => {
   it(
     'works as intended',
     async () => {
+      createMocks(); // mock react-idle-timers timers only here, since it will interfere with standard timer mocking otherwise
+
       const currentSession = { expiresAt: new Date().toISOString(), token };
       window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify(currentSession) : undefined));
 

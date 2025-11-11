@@ -32,6 +32,7 @@ export const CancelRequestDialog = ({ onCancel, onSubmit }) => {
   const [cancelSubscriptionReason, setCancelSubscriptionReason] = useState('');
   const [cancelSubscriptionReasonOther, setCancelSubscriptionReasonOther] = useState('');
   const [cancelSubscriptionSuggestions, setCancelSubscriptionSuggestions] = useState('');
+  // eslint-disable-next-line react-hooks/purity
   const [cancelSubscriptionReasons] = useState(defaultCancelSubscriptionReasons.sort(() => Math.random() - 0.5).concat(['Other']));
 
   useEffect(() => {

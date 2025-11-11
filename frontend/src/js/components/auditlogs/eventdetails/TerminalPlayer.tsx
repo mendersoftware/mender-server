@@ -172,6 +172,11 @@ export const TerminalPlayer = ({ className, item, sessionInitialized, token }) =
 
   const { classes } = useStyles();
 
+  const resetPlayer = () => {
+    setIsPlaying(false);
+    setBufferIndex(0);
+  };
+
   useEffect(() => {
     if (!sessionInitialized) {
       return;
@@ -226,11 +231,6 @@ export const TerminalPlayer = ({ className, item, sessionInitialized, token }) =
       resetPlayer();
     }
   }, [bufferIndex, isPaused, isPlaying]);
-
-  const resetPlayer = () => {
-    setIsPlaying(false);
-    setBufferIndex(0);
-  };
 
   const onTogglePlayClick = useCallback(() => {
     if (!wasStarted) {

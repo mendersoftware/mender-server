@@ -23,12 +23,6 @@ import ArtifactGeneration from './ArtifactGeneration';
 vi.mock('@northern.tech/store/thunks', { spy: true });
 
 describe('ArtifactGeneration component', () => {
-  afterEach(async () => {
-    await act(async () => {
-      vi.runOnlyPendingTimers();
-      vi.runAllTicks();
-    });
-  });
   it(`renders correctly`, async () => {
     const { baseElement } = render(<ArtifactGeneration onClose={vi.fn()} open />);
     const view = baseElement;

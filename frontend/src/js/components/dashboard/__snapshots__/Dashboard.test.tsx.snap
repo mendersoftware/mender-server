@@ -1076,7 +1076,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
         >
           <time
             class="muted slightly-smaller"
-            datetime="2019-01-13T13:00:03+00:00"
+            datetime="2019-01-13T13:00:30+00:00"
           >
             2019-01-13 13:00
           </time>
@@ -1177,7 +1177,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
         >
           <time
             class="muted slightly-smaller"
-            datetime="2019-01-13T13:00:03+00:00"
+            datetime="2019-01-13T13:00:30+00:00"
           >
             2019-01-13 13:00
           </time>
@@ -1280,7 +1280,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
         >
           <time
             class="muted slightly-smaller"
-            datetime="2019-01-13T13:00:03+00:00"
+            datetime="2019-01-13T13:00:30+00:00"
           >
             2019-01-13 13:00
           </time>

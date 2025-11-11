@@ -122,7 +122,6 @@ describe('Subscription Summary component', () => {
     const view = baseElement.lastElementChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    await act(() => vi.runAllTimersAsync());
   });
 
   it('allows creating billing profile', { timeout: TIMEOUTS.refreshDefault }, async () => {
@@ -147,9 +146,8 @@ describe('Subscription Summary component', () => {
         organization: { ...defaultState.organization, organization: { ...defaultState.organization.organization, trial: true } }
       }
     });
-    await act(() => vi.runAllTimersAsync());
-    expect(screen.getByText(/Subscribe to Mender Basic/i)).toBeVisible();
     await act(async () => vi.runOnlyPendingTimers());
+    expect(screen.getByText(/Subscribe to Mender Basic/i)).toBeVisible();
 
     const input = screen.getByLabelText<HTMLInputElement>('Country or region');
 
@@ -195,16 +193,12 @@ describe('Subscription Summary component', () => {
         />
       </Elements>
     );
-    render(ui, { preloadedState });
-    await act(() => vi.runAllTimersAsync());
-
+    const { rerender } = render(ui, { preloadedState });
+    await waitFor(() => rerender(ui));
     expect(screen.getByText(/Upgrade your subscription/i)).toBeVisible();
     expect(screen.getByText(/ok@ok.ok/i)).toBeVisible();
-
-    await act(() => vi.runAllTimersAsync());
+    await waitFor(() => expect(screen.queryByRole('button', { name: /confirm subscription/i })).toBeVisible(), { timeout: TIMEOUTS.fiveSeconds });
     await user.click(screen.getByRole('button', { name: /confirm subscription/i }));
     expect(requestPlanUpgrade).toHaveBeenCalledWith(newOrder);
-
-    await act(() => vi.runAllTimersAsync());
   });
 });
