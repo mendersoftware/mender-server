@@ -1,9 +1,9 @@
 bravado==9.2.2
-boto3==1.40.24
+boto3==1.40.64
 certifi >= 14.05.14
 chardet >= 4.0.0
 crypto
-cryptography==45.0.7
+cryptography==46.0.3
 docker==7.1.0
 flaky==3.8.1
 flask
@@ -12,11 +12,11 @@ jsonschema<5.0
 msgpack >= 1.0
 opensearch-py >= 2.0.0, < 4.0.0
 pluggy==1.6.0
-pymongo==4.14.1
+pymongo==4.15.3
 pytest-ordering==0.6
 pytest==8.4.2
 pyyaml
-redis==6.4.0
+redis==7.0.1
 redo==3.0.0
 requests==2.32.5
 semver==3.0.4
@@ -26,5 +26,5 @@ twisted
 tz
 urllib3<3
 websocket_client >= 0.57
-pydantic==2.11.7
+pydantic==2.12.3
 pyjwt==2.10.1
