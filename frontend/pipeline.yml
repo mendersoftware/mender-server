@@ -178,7 +178,7 @@ build:frontend:docker:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
   before_script:
-    - curl -fsSL https://get.docker.com | sh
+    - curl -fsSL https://get.docker.com | sh -s -- --version 27.3.1
     - !reference [.requires-docker]
     - !reference [.dind-login]
     # If branch is not protected, use upstream main
@@ -201,7 +201,7 @@ build:frontend:docker:
         - frontend/junit/results.xml
     when: always
   tags:
-    - hetzner-amd-ax42
+    - k8s
 
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
