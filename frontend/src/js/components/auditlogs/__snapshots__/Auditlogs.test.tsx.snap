@@ -832,7 +832,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
               id="_r_k_"
             >
-              Rows
+              Rows per page:
             </p>
             <div
               class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
@@ -871,14 +871,31 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             <p
               class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
             />
-            <div
-              class="flexbox center-aligned"
+            <div>
+              1-3 of 3
+            </div>
+            <button
+              aria-label="prev"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge margin-left-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+              disabled=""
+              tabindex="-1"
+              type="button"
             >
-              <div>
-                1-3 of 3
-              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+                data-testid="KeyboardArrowLeftIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+                />
+              </svg>
+            </button>
+            <div>
               <button
-                aria-label="prev"
+                aria-label="next"
                 class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
                 disabled=""
                 tabindex="-1"
@@ -887,36 +904,15 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                 <svg
                   aria-hidden="true"
                   class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                  data-testid="KeyboardArrowLeftIcon"
+                  data-testid="KeyboardArrowRightIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
                   <path
-                    d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+                    d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
                   />
                 </svg>
               </button>
-              <div>
-                <button
-                  aria-label="next"
-                  class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
-                  disabled=""
-                  tabindex="-1"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                    data-testid="KeyboardArrowRightIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
-                    />
-                  </svg>
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -962,7 +958,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
         data-mui-internal-clone-element="true"
       >
         <div
-          class="relative"
+          class="relative css-15bulne-iconWrapper"
         >
           <svg
             aria-hidden="true"
@@ -976,7 +972,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             />
           </svg>
           <div
-            class="css-1blg9z3-iconAura "
+            class="css-1l2umt-iconAura "
           />
         </div>
       </div>

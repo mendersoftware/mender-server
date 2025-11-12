@@ -110,7 +110,7 @@ const DeviceIssuesSelection = ({ className = '', onChange, options, selection })
     <div className="flexbox center-aligned margin-left">
       <div>Show:</div>
       <Select
-        className={className}
+        className={`capitalized ${className}`}
         displayEmpty
         MenuProps={menuProps}
         multiple
@@ -122,7 +122,7 @@ const DeviceIssuesSelection = ({ className = '', onChange, options, selection })
         value={selection}
       >
         {groupedOptions.map(({ checked, count, key, title, level = 0 }) => (
-          <MenuItem key={key} value={key} size="small">
+          <MenuItem className="capitalized" key={key} value={key} size="small">
             <Checkbox checked={checked} style={{ marginLeft: 8 * (level + 1) }} />
             {title} ({count})
           </MenuItem>

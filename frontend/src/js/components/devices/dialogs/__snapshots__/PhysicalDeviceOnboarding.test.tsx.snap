@@ -1228,7 +1228,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   font-size: 1.5rem;
 }
 
-.emotion-13 {
+.emotion-13:hover svg {
+  color: #1565c0;
+}
+
+.emotion-14 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -1246,11 +1250,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   color: #1976d2;
 }
 
-.emotion-13.read {
+.emotion-14.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-14 {
+.emotion-15 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -1260,11 +1264,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   border-radius: 50%;
 }
 
-.emotion-14.read {
+.emotion-15.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-15 {
+.emotion-15:hover {
+  border-color: #1565c0;
+}
+
+.emotion-16 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -1381,11 +1389,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
       data-mui-internal-clone-element="true"
     >
       <div
-        class="relative"
+        class="relative emotion-13"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-13"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-14"
           data-testid="HelpIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -1395,13 +1403,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           />
         </svg>
         <div
-          class="emotion-14 "
+          class="emotion-15 "
         />
       </div>
     </div>
   </div>
   <p
-    class="MuiTypography-root MuiTypography-body1 emotion-15"
+    class="MuiTypography-root MuiTypography-body1 emotion-16"
   >
     We prepared an image, ready for Mender, for you to start with. You can find it in the
      

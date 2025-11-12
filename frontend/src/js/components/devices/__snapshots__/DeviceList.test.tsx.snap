@@ -7,7 +7,7 @@ exports[`DeviceList Component > renders correctly 1`] = `
     style="grid-template-columns: minmax(150px, 1.5fr) minmax(150px, 1.5fr) minmax(150px, 1.5fr) minmax(150px, 1fr);"
   >
     <div
-      class="header css-1cutqug-header"
+      class="header css-1agd6tp-header"
     >
       <div
         class="deviceListRow"
@@ -15,8 +15,8 @@ exports[`DeviceList Component > renders correctly 1`] = `
         <div
           class="columnHeader flexbox space-between relative"
         >
-          <div
-            class="flexbox center-aligned"
+          <p
+            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
           />
           <div
             class="flexbox center-aligned full-height"
@@ -33,8 +33,8 @@ exports[`DeviceList Component > renders correctly 1`] = `
         <div
           class="columnHeader flexbox space-between relative"
         >
-          <div
-            class="flexbox center-aligned"
+          <p
+            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
           />
           <div
             class="flexbox center-aligned full-height"
@@ -51,8 +51,8 @@ exports[`DeviceList Component > renders correctly 1`] = `
         <div
           class="columnHeader flexbox space-between relative"
         >
-          <div
-            class="flexbox center-aligned"
+          <p
+            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
           />
           <div
             class="flexbox center-aligned full-height"
@@ -61,8 +61,8 @@ exports[`DeviceList Component > renders correctly 1`] = `
         <div
           class="columnHeader flexbox space-between relative"
         >
-          <div
-            class="flexbox center-aligned"
+          <p
+            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
           />
           <div
             class="flexbox center-aligned full-height"
@@ -73,128 +73,124 @@ exports[`DeviceList Component > renders correctly 1`] = `
     <div
       class="body"
     />
+  </div>
+  <div
+    class="flexbox margin-top-small"
+  >
     <div
-      class="footer flexbox margin-top"
+      class="MuiTablePagination-root flexbox margin-top margin-top-none css-7mt0f-MuiTablePagination-root"
     >
       <div
-        class="MuiTablePagination-root flexbox margin-top margin-top-none css-7mt0f-MuiTablePagination-root"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
       >
         <div
-          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
+          class="MuiTablePagination-spacer flexbox no-basis css-1wtxofq-MuiTablePagination-spacer"
+        />
+        <p
+          class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
+          id="_r_2_"
+        >
+          Rows per page:
+        </p>
+        <div
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            class="MuiTablePagination-spacer flexbox no-basis css-1wtxofq-MuiTablePagination-spacer"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby="_r_2_ _r_1_"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
+            id="_r_1_"
+            role="combobox"
+            tabindex="0"
+          >
+            20
+          </div>
+          <input
+            aria-hidden="true"
+            aria-invalid="false"
+            class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+            name="pagination"
+            tabindex="-1"
+            value="20"
           />
-          <p
-            class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-            id="_r_2_"
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            Rows
-          </p>
-          <div
-            class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
-          >
-            <div
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-labelledby="_r_2_ _r_1_"
-              class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-              id="_r_1_"
-              role="combobox"
-              tabindex="0"
-            >
-              20
-            </div>
-            <input
-              aria-hidden="true"
-              aria-invalid="false"
-              class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
-              name="pagination"
-              tabindex="-1"
-              value="20"
+            <path
+              d="M7 10l5 5 5-5z"
             />
+          </svg>
+        </div>
+        <p
+          class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
+        />
+        <div>
+          1-20 of 50
+        </div>
+        <button
+          aria-label="prev"
+          class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge margin-left-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+          disabled=""
+          tabindex="-1"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+            data-testid="KeyboardArrowLeftIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
+            />
+          </svg>
+        </button>
+        <div>
+          <button
+            aria-label="next"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
-              data-testid="ArrowDropDownIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="KeyboardArrowRightIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M7 10l5 5 5-5z"
+                d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
               />
             </svg>
-          </div>
-          <p
-            class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
-          />
-          <div
-            class="flexbox center-aligned"
-          >
-            <div>
-              1-20 of 50
-            </div>
-            <button
-              aria-label="prev"
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
-              disabled=""
-              tabindex="-1"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                data-testid="KeyboardArrowLeftIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"
-                />
-              </svg>
-            </button>
-            <div>
-              <button
-                aria-label="next"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
-                tabindex="0"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                  data-testid="KeyboardArrowRightIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
+          </button>
         </div>
       </div>
+    </div>
+    <div
+      class="loaderContainer shrunk"
+    >
       <div
-        class="loaderContainer shrunk"
+        class="small  loader"
       >
-        <div
-          class="small  loader"
-        >
-          <span
-            class="dot dot_1"
-          />
-          <span
-            class="dot dot_2"
-          />
-          <span
-            class="dot dot_3"
-          />
-          <span
-            class="dot dot_4"
-          />
-        </div>
+        <span
+          class="dot dot_1"
+        />
+        <span
+          class="dot dot_2"
+        />
+        <span
+          class="dot dot_3"
+        />
+        <span
+          class="dot dot_4"
+        />
       </div>
     </div>
   </div>

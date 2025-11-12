@@ -16,8 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // material ui
-import { Autorenew as AutorenewIcon, Delete as DeleteIcon, FilterList as FilterListIcon, LockOutlined } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Delete as DeleteIcon, FilterList as FilterListIcon, Lock, SyncOutlined } from '@mui/icons-material';
+import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { defaultTextRender, getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
@@ -89,29 +89,14 @@ const useStyles = makeStyles()(theme => ({
   filterCommon: {
     borderStyle: 'solid',
     borderWidth: 1,
-    borderRadius: 5,
-    borderColor: theme.palette.grey[100],
-    background: theme.palette.background.default,
-    [`.filter-list > .MuiChip-root`]: {
-      marginBottom: theme.spacing()
-    },
+    borderRadius: theme.shape.borderRadius,
+    borderColor: theme.palette.divider,
+    marginBottom: 10,
     [`.filter-list > .MuiChip-root > .MuiChip-label`]: {
       whiteSpace: 'normal'
     },
-    ['&.filter-header']: {
-      overflow: 'hidden',
-      zIndex: 2
-    },
-    ['&.filter-toggle']: {
-      background: 'transparent',
-      borderBottomRightRadius: 0,
-      borderBottomLeftRadius: 0,
-      borderBottomColor: theme.palette.background.default,
-      marginBottom: -1
-    },
     ['&.filter-wrapper']: {
-      padding: 20,
-      borderTopLeftRadius: 0
+      padding: `${theme.spacing(3)} ${theme.spacing(2)}`
     }
   },
   selection: {
@@ -283,8 +268,11 @@ export const Authorized = ({
   }, [acceptedCount, allCount, pendingCount, onboardingState.complete, dispatch, onDeviceStateSelectionChange, dispatchedSetSnackbar]);
 
   useEffect(() => {
-    setShowFilters(false);
+    if (selectedGroup) {
+      setShowFilters(false);
+    }
   }, [selectedGroup]);
+
   const dispatchDeviceListState = useCallback(
     (options, shouldSelectDevices = true, forceRefresh = false, fetchAuth = false) =>
       dispatch(setDeviceListState({ ...options, shouldSelectDevices, forceRefresh, fetchAuth })),
@@ -428,10 +416,12 @@ export const Authorized = ({
   return (
     <>
       <div className="margin-left-small">
-        <div className="flexbox">
-          <h3 className="margin-right">{isUngroupedGroup ? UNGROUPED_GROUP.name : groupLabel}</h3>
+        <div className="flexbox center-aligned">
+          <Typography className="margin-right" variant="h6">
+            {isUngroupedGroup ? UNGROUPED_GROUP.name : groupLabel}
+          </Typography>
           <div className="flexbox space-between center-aligned" style={{ flexGrow: 1 }}>
-            <div className="flexbox">
+            <div className="flexbox center-aligned">
               <DeviceStateSelection className={classes.selection} onStateChange={onDeviceStateSelectionChange} selectedState={selectedState} states={states} />
               {!!issueOptions.length && (
                 <DeviceIssuesSelection
@@ -442,10 +432,17 @@ export const Authorized = ({
                 />
               )}
               {selectedGroup && !isUngroupedGroup && (
-                <div className="margin-left muted flexbox centered">
-                  {!groupFilters.length ? <LockOutlined fontSize="small" /> : <AutorenewIcon fontSize="small" />}
-                  <span>{!groupFilters.length ? 'Static' : 'Dynamic'}</span>
-                </div>
+                <Typography variant="subtitle1" className="margin-left flexbox center-aligned">
+                  {!groupFilters.length ? (
+                    <>
+                      Static <Lock className="margin-left-x-small" fontSize="small" />
+                    </>
+                  ) : (
+                    <>
+                      Dynamic <SyncOutlined className="margin-left-x-small" fontSize="small" />
+                    </>
+                  )}
+                </Typography>
               )}
             </div>
             {canManageDevices && selectedGroup && !isUngroupedGroup && (
@@ -455,19 +452,17 @@ export const Authorized = ({
             )}
           </div>
         </div>
-        <div className="flexbox space-between">
+        <div className="flexbox center-aligned space-between margin-top margin-bottom-x-small">
           {!isUngroupedGroup && (
-            <div className={`flexbox centered filter-header ${showFilters ? `${classes.filterCommon} filter-toggle` : ''}`}>
-              <Button
-                color="secondary"
-                disableRipple
-                onClick={() => setShowFilters(toggle)}
-                startIcon={<FilterListIcon />}
-                style={{ backgroundColor: 'transparent' }}
-              >
-                {filters.length > 0 ? `Filters (${filters.length})` : 'Filters'}
-              </Button>
-            </div>
+            <Button
+              className="flexbox"
+              color={showFilters ? 'neutral' : ''}
+              onClick={() => setShowFilters(toggle)}
+              startIcon={<FilterListIcon />}
+              variant={showFilters ? 'contained' : 'text'}
+            >
+              Filters
+            </Button>
           )}
           <ListOptions options={listOptionHandlers} title="Table options" />
         </div>
@@ -490,6 +485,7 @@ export const Authorized = ({
             onSort={onSortChange}
             pageLoading={pageLoading}
             pageTotal={deviceCount}
+            PaginationProps={{ classes: { spacer: 'flexbox no-basis', toolbar: 'padding-left-none' } }}
           />
         ) : (
           <EmptyState allCount={allCount} canManageDevices={canManageDevices} filters={filters} limitMaxed={limitMaxed} onClick={onPreauthClick} />

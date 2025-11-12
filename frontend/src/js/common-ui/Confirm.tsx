@@ -83,11 +83,16 @@ export const Confirm = ({ action, cancel, classes = '', message = '', style = {}
   );
 };
 
-export const EditButton = ({ onClick, disabled = false }) => (
-  <Button onClick={onClick} size="small" disabled={disabled} startIcon={<EditIcon />} style={{ padding: 5 }}>
-    Edit
-  </Button>
-);
+export const EditButton = ({ label = 'Edit', onClick, disabled = false }) =>
+  label ? (
+    <Button onClick={onClick} size="small" disabled={disabled} startIcon={<EditIcon />} style={{ padding: 5 }}>
+      {label}
+    </Button>
+  ) : (
+    <IconButton onClick={onClick} size="small" disabled={disabled}>
+      <EditIcon />
+    </IconButton>
+  );
 
 export const ConfirmationButtons = ({ onConfirm, onCancel }) => (
   <div className="flexbox">

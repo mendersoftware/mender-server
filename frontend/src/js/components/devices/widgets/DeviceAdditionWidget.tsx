@@ -60,11 +60,11 @@ export const DeviceAdditionWidget = ({ features, innerRef, onConnectClick, onMak
 
   return (
     <>
-      <ButtonGroup className="muted device-addition-widget" ref={innerRef} style={{ height: 'max-content' }}>
-        <Button className={classes.buttonStyle} onClick={options[selectedIndex].action} variant="text">
+      <ButtonGroup variant="outlined" ref={innerRef}>
+        <Button className={classes.buttonStyle} onClick={options[selectedIndex].action}>
           {options[selectedIndex].title}
         </Button>
-        <Button className={classes.buttonStyle} size="small" onClick={handleToggle} variant="text">
+        <Button className={`${classes.buttonStyle} padding-left-small padding-right-small`} size="small" onClick={handleToggle}>
           <ArrowDropDownIcon />
         </Button>
       </ButtonGroup>

@@ -150,7 +150,11 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   padding: 16px;
 }
 
-.emotion-4 {
+.emotion-4:hover svg {
+  color: #1565c0;
+}
+
+.emotion-5 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -168,11 +172,11 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   color: #1976d2;
 }
 
-.emotion-4.read {
+.emotion-5.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-5 {
+.emotion-6 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -182,37 +186,41 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-5.read {
+.emotion-6.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-6 .header,
-.emotion-6 .MuiAccordion-root {
+.emotion-6:hover {
+  border-color: #1565c0;
+}
+
+.emotion-7 .header,
+.emotion-7 .MuiAccordion-root {
   border-bottom: 1px solid #757575;
 }
 
-.emotion-6 .columnHeader,
-.emotion-6 .MuiAccordionSummary-root,
-.emotion-6 .MuiAccordionSummary-content {
+.emotion-7 .columnHeader,
+.emotion-7 .MuiAccordionSummary-root,
+.emotion-7 .MuiAccordionSummary-content {
   cursor: default;
 }
 
-.emotion-6 .header,
-.emotion-6 .body .MuiAccordionSummary-content {
+.emotion-7 .header,
+.emotion-7 .body .MuiAccordionSummary-content {
   display: grid;
   grid-column-gap: 16px;
   grid-template-columns: 0.5fr 1fr 2fr 2fr 2fr;
 }
 
-.emotion-7 {
+.emotion-8 {
   padding: 16px;
 }
 
-.emotion-7.columns-4 {
+.emotion-8.columns-4 {
   grid-template-columns: 0.5fr 1fr 2fr 2fr;
 }
 
-.emotion-8 {
+.emotion-9 {
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -226,7 +234,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   background-color: #03a9f4;
 }
 
-.emotion-8::before {
+.emotion-9::before {
   position: absolute;
   left: 0;
   top: -1px;
@@ -239,57 +247,57 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-8:first-of-type::before {
+.emotion-9:first-of-type::before {
   display: none;
 }
 
-.emotion-8.Mui-expanded::before {
+.emotion-9.Mui-expanded::before {
   opacity: 0;
 }
 
-.emotion-8.Mui-expanded:first-of-type {
+.emotion-9.Mui-expanded:first-of-type {
   margin-top: 0;
 }
 
-.emotion-8.Mui-expanded:last-of-type {
+.emotion-9.Mui-expanded:last-of-type {
   margin-bottom: 0;
 }
 
-.emotion-8.Mui-expanded+.emotion-8.Mui-expanded::before {
+.emotion-9.Mui-expanded+.emotion-9.Mui-expanded::before {
   display: none;
 }
 
-.emotion-8.Mui-disabled {
+.emotion-9.Mui-disabled {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-8.Mui-expanded {
+.emotion-9.Mui-expanded {
   margin: 16px 0;
 }
 
-.emotion-8:before {
+.emotion-9:before {
   display: none;
 }
 
-.emotion-8$expanded {
+.emotion-9$expanded {
   margin: auto;
 }
 
-.emotion-8 .columns-4 .MuiAccordionSummary-content {
+.emotion-9 .columns-4 .MuiAccordionSummary-content {
   grid-template-columns: 0.5fr 1fr 2fr 2fr;
 }
 
-.emotion-8 .MuiAccordionDetails-root {
+.emotion-9 .MuiAccordionDetails-root {
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
 }
 
-.emotion-9 {
+.emotion-10 {
   all: unset;
 }
 
-.emotion-10 {
+.emotion-11 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -333,39 +341,39 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-10::-moz-focus-inner {
+.emotion-11::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-10.Mui-disabled {
+.emotion-11.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-10 {
+  .emotion-11 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-10.Mui-focusVisible {
+.emotion-11.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-10.Mui-disabled {
+.emotion-11.Mui-disabled {
   opacity: 0.38;
 }
 
-.emotion-10:hover:not(.Mui-disabled) {
+.emotion-11:hover:not(.Mui-disabled) {
   cursor: pointer;
 }
 
-.emotion-10.Mui-expanded {
+.emotion-11.Mui-expanded {
   min-height: 64px;
 }
 
-.emotion-11 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -380,11 +388,11 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-11.Mui-expanded {
+.emotion-12.Mui-expanded {
   margin: 20px 0;
 }
 
-.emotion-14 {
+.emotion-15 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -392,7 +400,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   visibility: hidden;
 }
 
-.emotion-15 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -400,15 +408,15 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-16 {
+.emotion-17 {
   width: 100%;
 }
 
-.emotion-18 {
+.emotion-19 {
   padding: 8px 16px 16px;
 }
 
-.emotion-28 {
+.emotion-29 {
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   -webkit-justify-content: flex-end;
@@ -416,7 +424,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   margin-top: 16px;
 }
 
-.emotion-29 {
+.emotion-30 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -473,33 +481,33 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-29::-moz-focus-inner {
+.emotion-30::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-29.Mui-disabled {
+.emotion-30.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-29 {
+  .emotion-30 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-29:hover {
+.emotion-30:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-29.Mui-disabled {
+.emotion-30.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-29:hover {
+  .emotion-30:hover {
     --variant-containedBg: #7b1fa2;
     --variant-textBg: rgba(156, 39, 176, 0.04);
     --variant-outlinedBorder: #9c27b0;
@@ -507,7 +515,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   }
 }
 
-.emotion-29.MuiButton-loading {
+.emotion-30.MuiButton-loading {
   color: transparent;
 }
 
@@ -571,11 +579,11 @@ exports[`AuthStatus Component > renders correctly 1`] = `
         data-mui-internal-clone-element="true"
       >
         <div
-          class="relative"
+          class="relative emotion-4"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-4"
+            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-5"
             data-testid="HelpIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -585,16 +593,16 @@ exports[`AuthStatus Component > renders correctly 1`] = `
             />
           </svg>
           <div
-            class="emotion-5 "
+            class="emotion-6 "
           />
         </div>
       </div>
     </div>
     <div
-      class="authsets emotion-6"
+      class="authsets emotion-7"
     >
       <div
-        class="header columns-5 emotion-7"
+        class="header columns-5 emotion-8"
       >
         <div
           class="columnHeader"
@@ -624,20 +632,20 @@ exports[`AuthStatus Component > renders correctly 1`] = `
         class="body relative"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-8"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-9"
           style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
           <h3
-            class="MuiAccordion-heading emotion-9"
+            class="MuiAccordion-heading emotion-10"
           >
             <button
               aria-expanded="false"
-              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-10"
+              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-11"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-11"
+                class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-12"
               >
                 <div
                   class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-1"
@@ -679,21 +687,21 @@ exports[`AuthStatus Component > renders correctly 1`] = `
             </button>
           </h3>
           <div
-            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-14"
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
             style="min-height: 0px;"
           >
             <div
-              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-15"
+              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
             >
               <div
-                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-16"
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
               >
                 <div
-                  class="MuiAccordion-region emotion-17"
+                  class="MuiAccordion-region emotion-18"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-18"
+                    class="MuiAccordionDetails-root emotion-19"
                   >
                     <div
                       style="flex-grow: 1;"
@@ -710,20 +718,20 @@ exports[`AuthStatus Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-8"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-9"
           style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
           <h3
-            class="MuiAccordion-heading emotion-9"
+            class="MuiAccordion-heading emotion-10"
           >
             <button
               aria-expanded="false"
-              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-10"
+              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-11"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-11"
+                class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-12"
               >
                 <div
                   class="capitalized"
@@ -760,21 +768,21 @@ exports[`AuthStatus Component > renders correctly 1`] = `
             </button>
           </h3>
           <div
-            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-14"
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
             style="min-height: 0px;"
           >
             <div
-              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-15"
+              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
             >
               <div
-                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-16"
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
               >
                 <div
-                  class="MuiAccordion-region emotion-17"
+                  class="MuiAccordion-region emotion-18"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-18"
+                    class="MuiAccordionDetails-root emotion-19"
                   >
                     <div
                       style="flex-grow: 1;"
@@ -793,10 +801,10 @@ exports[`AuthStatus Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox emotion-28"
+      class="flexbox emotion-29"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-29"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-30"
         tabindex="0"
         type="button"
       >

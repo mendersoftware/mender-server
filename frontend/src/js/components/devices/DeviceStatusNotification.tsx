@@ -11,21 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { makeStyles } from 'tss-react/mui';
+import { Alert, Button } from '@mui/material';
 
-import InfoText from '@northern.tech/common-ui/InfoText';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
-
-const useStyles = makeStyles()(theme => ({
-  default: {
-    flexGrow: 1,
-    ['&.onboard']: {
-      background: theme.palette.grey[400],
-      padding: 10
-    }
-  }
-}));
 
 const stateActionMap = {
   [DEVICE_STATES.pending]: 'pending authorization',
@@ -35,15 +24,21 @@ const stateActionMap = {
 };
 
 export const DeviceStatusNotification = ({ deviceCount, onClick, state }) => {
-  const { classes } = useStyles();
   const pluralized = pluralize('device', deviceCount);
   return (
-    <div className={`clickable margin-right onboard ${classes.default}`} onClick={() => onClick(state)}>
-      <InfoText variant="dense">
+    <Alert
+      className="flexbox center-aligned margin-left-large margin-right"
+      onClick={() => onClick(state)}
+      severity="info"
+      slotProps={{ message: { className: 'flexbox center-aligned space-between full-width' } }}
+    >
+      <div>
         {deviceCount} {pluralized} {pluralize('is', deviceCount)} {stateActionMap[state]}
-      </InfoText>
-      <b className="margin-left-small link link-color">View {pluralized}</b>
-    </div>
+      </div>
+      <Button className="padding-bottom-none padding-top-none" size="small" variant="text">
+        View detail
+      </Button>
+    </Alert>
   );
 };
 

@@ -46,6 +46,14 @@ const useStyles = makeStyles()(theme => ({
     borderRadius: '50%',
     '&.read': {
       borderColor: theme.palette.text.disabled
+    },
+    '&:hover': {
+      borderColor: theme.palette.primary.dark
+    }
+  },
+  iconWrapper: {
+    '&:hover svg': {
+      color: theme.palette.primary.dark
     }
   }
 }));
@@ -152,7 +160,7 @@ export const HelpTooltip = ({
   const className = tooltipStateStyleMap[readState] ?? tooltipStateStyleMap.default;
   return (
     <MenderTooltipClickable className={isOpen ? 'muted' : ''} title={title} visibility={isOpen} onOpenChange={setIsOpen} {...props}>
-      <div className="relative">
+      <div className={`relative ${classes.iconWrapper}`}>
         {icon || <HelpIcon className={`${classes.icon} ${className}`} color="primary" />}
         <div className={`${classes.iconAura} ${className}`} />
       </div>

@@ -118,7 +118,11 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   color: transparent;
 }
 
-.emotion-5 {
+.emotion-5:hover svg {
+  color: #1565c0;
+}
+
+.emotion-6 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -136,11 +140,11 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   color: #1976d2;
 }
 
-.emotion-5.read {
+.emotion-6.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-6 {
+.emotion-7 {
   position: absolute;
   top: -5px;
   bottom: 0;
@@ -150,11 +154,15 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-6.read {
+.emotion-7.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-7 {
+.emotion-7:hover {
+  border-color: #1565c0;
+}
+
+.emotion-8 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -220,11 +228,11 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
       data-mui-internal-clone-element="true"
     >
       <div
-        class="relative"
+        class="relative emotion-5"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-5"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-6"
           data-testid="HelpIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -234,13 +242,13 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
           />
         </svg>
         <div
-          class="emotion-6 "
+          class="emotion-7 "
         />
       </div>
     </div>
   </div>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth margin-right-large emotion-7"
+    class="MuiDivider-root MuiDivider-fullWidth margin-right-large emotion-8"
   />
 </div>
 `;

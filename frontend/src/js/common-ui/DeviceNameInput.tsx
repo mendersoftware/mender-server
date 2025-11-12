@@ -85,7 +85,7 @@ export const DeviceNameInput = ({ device, isHovered }) => {
       endAdornment={
         (isHovered || isEditing) && (
           <InputAdornment position="end">
-            {isEditing ? <ConfirmationButtons onCancel={onCancel} onConfirm={onSubmit} /> : <EditButton onClick={onStartEdit} />}
+            {isEditing ? <ConfirmationButtons onCancel={onCancel} onConfirm={onSubmit} /> : <EditButton label="" onClick={onStartEdit} />}
           </InputAdornment>
         )
       }
