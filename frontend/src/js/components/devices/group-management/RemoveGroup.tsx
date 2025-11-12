@@ -21,10 +21,10 @@ const RemoveGroup = ({ onRemove, onClose }) => (
       <p>This will remove the group from the list. Are you sure you want to continue?</p>
     </DialogContent>
     <DialogActions>
-      <Button key="remove-action-button-1" onClick={onClose} style={{ marginRight: '10px' }}>
+      <Button className="margin-right-x-small" onClick={onClose}>
         Cancel
       </Button>
-      <Button variant="contained" key="remove-action-button-2" color="secondary" onClick={onRemove}>
+      <Button variant="contained" color="error" onClick={onRemove}>
         Remove group
       </Button>
     </DialogActions>
