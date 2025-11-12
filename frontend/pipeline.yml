@@ -201,7 +201,7 @@ build:frontend:docker:
         - frontend/junit/results.xml
     when: always
   tags:
-    - hetzner-amd-ax42
+    - k8s
 
 test:frontend:acceptance:
   extends: .template:test:frontend:acceptance
