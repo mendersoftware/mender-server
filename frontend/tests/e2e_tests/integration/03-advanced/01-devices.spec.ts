@@ -142,9 +142,10 @@ test.describe('Devices', () => {
     await page.getByText(/equals/i).click();
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('option', { name: '>', exact: true }).click();
-    await page.getByLabel(/value/i).fill('1000000000');
-    const resetButton = await page.getByRole('button', { name: /clear filter/i });
-    await expect(resetButton).toBeEnabled();
+    const nameInput = await page.getByLabel(/value/i);
+    await nameInput.fill('1000000000');
+    await page.waitForTimeout(timeouts.default);
+    await nameInput.press('Enter');
     await page.getByText('No devices found').waitFor({ timeout: timeouts.fiveSeconds });
   });
 
@@ -156,10 +157,8 @@ test.describe('Devices', () => {
     await page.getByText(/equals/i).click();
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('option', { name: `doesn't exist`, exact: true }).click();
-    const resetButton = await page.getByRole('button', { name: /clear filter/i });
-    await expect(resetButton).toBeEnabled();
-    await page.getByRole('button', { name: /Add a rule/i }).waitFor();
-    await page.getByRole('button', { name: /Add a rule/i }).click();
+    await page.getByRole('button', { name: /Add rule/i }).waitFor();
+    await page.getByRole('button', { name: /Add rule/i }).click();
     await expect(page.getByRole('button', { name: `${rootfs} doesn't exist` })).toBeVisible();
     await page.getByText('No devices found').waitFor({ timeout: timeouts.fiveSeconds });
     await expect(page.getByText('No devices found')).toBeVisible();
