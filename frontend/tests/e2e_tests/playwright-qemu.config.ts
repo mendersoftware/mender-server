@@ -25,7 +25,7 @@ const options: PlaywrightTestConfig = {
     { name: 'qemu-tests', testDir: `${testDirBase}/04-qemu-dependent`, use: projectParamsByBrowser.chrome, dependencies: ['setup-chromium'], workers: 1 }
   ],
   reporter: process.env.CI ? [['line'], ['junit', { outputFile: 'junit/results.xml' }]] : 'line',
-  retries: 2,
+  retries: 0,
   testDir: testDirBase,
   timeout: 180000,
   use: {

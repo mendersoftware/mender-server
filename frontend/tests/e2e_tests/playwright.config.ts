@@ -93,8 +93,8 @@ const options: PlaywrightTestConfig = {
         ['junit', { outputFile: 'junit/results.xml' }]
       ]
     : 'line',
-  // Two retries for each test.
-  retries: 2,
+  // fail sooner to highlight issues
+  retries: 0,
   testDir: testDirBase,
   testIgnore: '**/.*-qemu-dependent/**',
   timeout: 60000,
