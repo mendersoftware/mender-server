@@ -154,7 +154,10 @@ test.describe('Devices', () => {
     await page.getByText(qemuDeviceType).click();
     await expect(page.getByText('Delta Artifact information')).toBeVisible();
     await page.waitForTimeout(timeouts.default);
-    await expect(page.getByText(/pending/i)).not.toBeVisible({ timeout: 2 * timeouts.sixtySeconds });
+    await page
+      .getByRole('table')
+      .getByText(/pending/i)
+      .waitFor({ state: 'hidden', timeout: 2 * timeouts.sixtySeconds });
     await page.getByRole('button', { name: /close/i }).click();
     await expect(page.getByText('Delta Artifact information')).not.toBeVisible();
   });
