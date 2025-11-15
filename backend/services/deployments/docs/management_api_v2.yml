@@ -1193,6 +1193,7 @@ definitions:
         type: integer
         description: The number of times a device can retry the deployment in case of failure, defaults to 0
         default: 0
+        x-mender-plan: ["professional", "enterprise"]
       max_devices:
         type: integer
         description: |
