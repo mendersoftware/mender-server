@@ -76,7 +76,7 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
 
   const [columnHeaders, setColumnHeaders] = useState(getHeaders(columnSelection, routes.devices.defaultHeaders, idAttribute));
 
-  const { isSearching, searchTerm, searchTotal, sort = {} } = searchState;
+  const { isSearching, searchTerm, searchTotal, sort = {}, page } = searchState;
   const { direction: sortDown = SORTING_OPTIONS.desc, key: sortCol } = sort;
 
   useEffect(() => {
@@ -142,7 +142,7 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
           <Devicelist
             columnHeaders={columnHeaders}
             customColumnSizes={customColumnSizes}
-            deviceListState={{ perPage: 10, sort: {} }}
+            deviceListState={{ total: searchTotal, page, perPage: 10, sort: {} }}
             devices={devices}
             idAttribute={idAttribute}
             onSort={onSortChange}
