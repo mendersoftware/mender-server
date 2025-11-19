@@ -45,8 +45,9 @@ const DeviceNotifications = ({ className = '', total, limit, pending }) => {
   const { classes } = useStyles();
   const approaching = limit && total / limit > 0.8;
   const warning = limit && limit <= total;
+  const classNames = `flexbox center-aligned ${className} ${classes.root}`;
   const content = (
-    <>
+    <div className={classNames}>
       <Link to="/devices" className={`flexbox center-aligned ${warning ? 'warning' : approaching ? 'approaching' : ''}`}>
         <DeveloperBoardIcon className="margin-right-x-small" fontSize="small" />
         <div>{total.toLocaleString()}</div>
@@ -57,11 +58,10 @@ const DeviceNotifications = ({ className = '', total, limit, pending }) => {
           {pending.toLocaleString()} pending
         </Link>
       ) : null}
-    </>
+    </div>
   );
-  const classNames = `${className} ${classes.root}`;
   if (!limit) {
-    return <div className={classNames}>{content}</div>;
+    return content;
   }
   return (
     <MenderTooltipClickable
