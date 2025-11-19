@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { List, ListItem, ListItemText, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { List, ListItem, ListItemText, Table, TableBody, TableCell, TableHead, TableRow, lighten } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import FileSize from '@northern.tech/common-ui/FileSize';
@@ -34,7 +34,7 @@ const useStyles = makeStyles()(theme => ({
     marginRight: '2vw'
   },
   payloadHeader: {
-    background: theme.palette.grey[500],
+    background: lighten(theme.palette.background.paper, 0.25),
     margin: 0,
     padding: 10,
     position: 'absolute',
