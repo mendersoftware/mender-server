@@ -73,7 +73,14 @@ export const ChipSelect = ({ className = '', name, disabled = false, helperText,
             values.map((option, index) => {
               const { key, onDelete, ...tagProps } = getTagProps({ index });
               return (
-                <Chip label={option} key={key} onDelete={onDelete} deleteIcon={<CancelIcon onClick={onDelete} aria-label={`${name}-delete`} />} {...tagProps} />
+                <Chip
+                  label={option}
+                  key={key}
+                  onDelete={onDelete}
+                  size="small"
+                  deleteIcon={<CancelIcon onClick={onDelete} aria-label={`${name}-delete`} />}
+                  {...tagProps}
+                />
               );
             })
           }
