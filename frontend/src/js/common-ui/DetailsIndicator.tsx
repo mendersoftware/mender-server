@@ -12,19 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // material ui
-import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
-import { ClassesOverrides } from './List';
-
-const defaultClasses = { icon: '', wrapper: '' };
-export const DetailsIndicator = ({ classes = defaultClasses }: ClassesOverrides) => {
-  const { icon = '', wrapper = '' } = classes;
-  return (
-    <div className={`bold flexbox center-aligned link-color nowrap ${wrapper}`}>
-      View details
-      <ArrowForwardIcon className={`margin-left-xsmall ${icon}`} fontSize="small" />
-    </div>
-  );
-};
+export const DetailsIndicator = () => (
+  <Button color="info" variant="outlined">
+    View details
+  </Button>
+);
 
 export default DetailsIndicator;

@@ -36,17 +36,17 @@ export const GetStartedTip = props => {
   const dispatch = useDispatch();
   return (
     <BaseOnboardingTooltip {...props}>
-      <div className="margin-top" style={{ marginBottom: -12 }}>
-        <p>
-          <b>Welcome to Mender!</b>
-        </p>
-        We can help you get started with connecting your first device and deploying an update to it.
-        <div className="flexbox center-aligned margin-top-small space-between">
-          <b className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))}>
-            No thanks, I don&apos;t need help
-          </b>
-          <Button onClick={() => dispatch(setShowConnectingDialog(true))}>Get started</Button>
-        </div>
+      <p>
+        <b>Welcome to Mender!</b>
+      </p>
+      We can help you get started with connecting your first device and deploying an update to it.
+      <div className="flexbox center-aligned margin-top-small space-between">
+        <span className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))} style={{ textDecoration: 'underline' }}>
+          Skip the tour
+        </span>
+        <Button variant="contained" onClick={() => dispatch(setShowConnectingDialog(true))}>
+          Confirm
+        </Button>
       </div>
     </BaseOnboardingTooltip>
   );
@@ -73,17 +73,15 @@ export const DevicesAcceptedOnboarding = props => {
   const dispatch = useDispatch();
   return (
     <BaseOnboardingTooltip {...props}>
-      <div className="margin-top" style={{ marginBottom: -12 }}>
-        <div>
-          <p>Your device is now authenticated and has connected to the server! It&apos;s ready to receive updates, report its data and more.</p>
-          Would you like to learn how to deploy your first update?
-        </div>
-        <div className="flexbox center-aligned margin-top-small space-between">
-          <b className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))}>
-            Dismiss the tutorial
-          </b>
-          <Button onClick={() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_ACCEPTED_ONBOARDING))}>Yes, let&apos;s deploy!</Button>
-        </div>
+      <div>
+        <p>Your device is now authenticated and has connected to the server! It&apos;s ready to receive updates, report its data and more.</p>
+        Would you like to learn how to deploy your first update?
+      </div>
+      <div className="flexbox center-aligned margin-top-small space-between">
+        <b className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))}>
+          Dismiss the tutorial
+        </b>
+        <Button onClick={() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_ACCEPTED_ONBOARDING))}>Yes, let&apos;s deploy!</Button>
       </div>
     </BaseOnboardingTooltip>
   );

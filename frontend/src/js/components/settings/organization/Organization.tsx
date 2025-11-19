@@ -15,10 +15,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Alert, Button, Collapse, DialogActions, DialogContent, FormControlLabel, MenuItem, Select, Switch, Typography } from '@mui/material';
+import { Alert, Button, Collapse, DialogActions, DialogContent, MenuItem, Select, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
+import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { SSO_TYPES } from '@northern.tech/store/constants';
@@ -161,14 +162,12 @@ export const Organization = () => {
           }
         />
         {isEnterprise && isAdmin && (
-          <div>
-            <FormControlLabel
-              className="margin-bottom-small margin-left-none"
-              control={<Switch checked={!isResettingSSO && (hasSingleSignOn || isConfiguringSSO)} className="margin-left-small" onChange={onSSOClick} />}
-              label="Enable Single Sign-On"
-              labelPlacement="start"
-            />
-          </div>
+          <ToggleSetting
+            className="margin-bottom-small"
+            title="Enable Single Sign-On"
+            onClick={onSSOClick}
+            value={!isResettingSSO && (hasSingleSignOn || isConfiguringSSO)}
+          />
         )}
       </div>
 

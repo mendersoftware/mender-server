@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 // material ui
-import { List, ListItem, ListItemText, Typography, listClasses } from '@mui/material';
+import { List, ListItem, ListItemText, Typography, lighten, listClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -48,7 +48,7 @@ const listItems = [
 const useStyles = makeStyles()(theme => ({
   licenseLink: { fontWeight: 'inherit' },
   list: {
-    backgroundColor: theme.palette.background.lightgrey ? theme.palette.background.lightgrey : theme.palette.grey[100],
+    backgroundColor: lighten(theme.palette.background.paper, 0.08),
     borderRight: `1px solid ${theme.palette.divider}`,
     [`.${listClasses.root}`]: { paddingTop: 0 }
   },
