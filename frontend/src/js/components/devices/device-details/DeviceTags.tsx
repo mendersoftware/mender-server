@@ -89,7 +89,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
               inputHelpTipsMap={configHelpTipsMap}
               onInputChange={setChangedTags}
             />
-            <div className="flexbox center-aligned margin-bottom-small" style={{ justifyContent: 'flex-end' }}>
+            <div className="flexbox center-aligned margin-bottom-small margin-top">
               <Button className="margin-right-small" disabled={!isFullyDefined} onClick={onSubmit} variant="contained">
                 Save
               </Button>
