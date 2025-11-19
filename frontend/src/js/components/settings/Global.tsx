@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -25,7 +25,6 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Switch,
   TextField,
   Typography,
   textFieldClasses
@@ -35,6 +34,7 @@ import { makeStyles } from 'tss-react/mui';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
+import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
 import { BENEFITS, DEVICE_ONLINE_CUTOFF, TIMEOUTS, alertChannels, settingsKeys } from '@northern.tech/store/constants';
 import {
   getDeviceIdentityAttributes,
@@ -125,38 +125,6 @@ export const IdAttributeSelection = ({ attributes, dialog = false, onCloseClick,
     </div>
   );
 };
-
-const ToggleSetting = ({
-  description,
-  disabled = false,
-  title,
-  onClick,
-  value
-}: {
-  description?: string;
-  disabled?: boolean;
-  onClick: () => void;
-  title: string | ReactNode;
-  value: boolean;
-}) => (
-  <div className="flexbox column">
-    <FormControl variant="standard">
-      <FormControlLabel
-        disabled={disabled}
-        classes={{ label: 'capitalized-start' }}
-        className="align-self-start margin-left-none margin-top-none"
-        control={<Switch className="margin-left-small" checked={value} onClick={onClick} />}
-        label={title}
-        labelPlacement="start"
-      />
-    </FormControl>
-    {!!description && (
-      <Typography className="margin-top-x-small" variant="body2">
-        {description}
-      </Typography>
-    )}
-  </div>
-);
 
 export const GlobalSettingsDialog = ({
   attributes,
