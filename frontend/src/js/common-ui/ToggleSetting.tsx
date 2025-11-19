@@ -14,35 +14,45 @@
 import { ReactNode } from 'react';
 
 import { FormControl, FormControlLabel, Switch, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
+
+const useStyles = makeStyles()(() => ({
+  root: { maxWidth: 550 }
+}));
 
 export const ToggleSetting = ({
+  className = '',
   description,
   disabled = false,
   title,
   onClick,
   value
 }: {
+  className?: string;
   description?: string;
   disabled?: boolean;
   onClick: () => void;
   title: string | ReactNode;
   value: boolean;
-}) => (
-  <div className="flexbox column">
-    <FormControl variant="standard">
-      <FormControlLabel
-        disabled={disabled}
-        classes={{ label: 'capitalized-start' }}
-        className="align-self-start margin-left-none margin-top-none"
-        control={<Switch className="margin-left-small" checked={value} onClick={onClick} />}
-        label={title}
-        labelPlacement="start"
-      />
-    </FormControl>
-    {!!description && (
-      <Typography className="margin-top-x-small" variant="body2">
-        {description}
-      </Typography>
-    )}
-  </div>
-);
+}) => {
+  const { classes } = useStyles();
+  return (
+    <div className={`flexbox column ${classes.root} ${className}`}>
+      <FormControl variant="standard">
+        <FormControlLabel
+          disabled={disabled}
+          classes={{ label: 'capitalized-start' }}
+          className="align-self-start margin-left-none margin-top-none"
+          control={<Switch className="margin-left-small" checked={value} onClick={onClick} />}
+          label={title}
+          labelPlacement="start"
+        />
+      </FormControl>
+      {!!description && (
+        <Typography className="margin-top-x-small" variant="body2">
+          {description}
+        </Typography>
+      )}
+    </div>
+  );
+};
