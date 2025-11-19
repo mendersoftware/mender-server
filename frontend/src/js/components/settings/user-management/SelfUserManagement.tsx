@@ -14,12 +14,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Switch, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
-import InfoText from '@northern.tech/common-ui/InfoText';
+import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
@@ -37,7 +37,6 @@ const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(() => ({
   formField: { width: 400, maxWidth: '100%' },
-  infoText: { margin: 0, width: '75%' },
   jwt: { maxWidth: '70%' },
   oauthIcon: { fontSize: '36px', marginRight: 10 },
   widthLimit: { maxWidth: 750 }
@@ -137,10 +136,7 @@ export const SelfUserManagement = () => {
             </Form>
           </>
         ))}
-      <div className="clickable flexbox center-aligned margin-top" onClick={toggleMode}>
-        <p className="help-content margin-right-small">Enable dark theme</p>
-        <Switch checked={isDarkMode} />
-      </div>
+      <ToggleSetting className="margin-top" title="Enable dark theme" onClick={toggleMode} value={isDarkMode} />
       {!isOAuth2 ? (
         canHave2FA && <TwoFactorAuthSetup />
       ) : (
@@ -170,13 +166,13 @@ export const SelfUserManagement = () => {
       </div>
       <AccessTokenManagement />
       {isEnterprise && hasTracking && (
-        <div className="margin-top">
-          <div className="clickable flexbox center-aligned" onClick={() => dispatch(saveUserSettings({ trackingConsentGiven: !hasTrackingConsent }))}>
-            <p className="help-content margin-right-small">Help us improve Mender</p>
-            <Switch checked={!!hasTrackingConsent} />
-          </div>
-          <InfoText className={classes.infoText}>Enable usage data and errors to be sent to help us improve our service.</InfoText>
-        </div>
+        <ToggleSetting
+          className="margin-top"
+          description="Enable usage data and errors to be sent to help us improve our service."
+          title="Help us improve Mender"
+          onClick={() => dispatch(saveUserSettings({ trackingConsentGiven: !hasTrackingConsent }))}
+          value={!!hasTrackingConsent}
+        />
       )}
     </div>
   );
