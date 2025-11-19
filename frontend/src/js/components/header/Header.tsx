@@ -29,10 +29,7 @@ import {
   MenuItem,
   Toolbar,
   Typography,
-  accordionClasses,
-  accordionSummaryClasses,
-  listItemTextClasses,
-  menuItemClasses
+  accordionClasses
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -112,21 +109,15 @@ const useStyles = makeStyles()(theme => ({
     [`&.${accordionClasses.disabled}, &.${accordionClasses.expanded}`]: {
       backgroundColor: theme.palette.background.paper
     },
-    [`.${accordionSummaryClasses.root}:hover`]: {
-      backgroundColor: theme.palette.grey[400],
-      color: theme.palette.text.link
-    },
-    [`.${menuItemClasses.root}:hover`]: {
-      color: theme.palette.text.link
+    border: 'none',
+    '&:hover': {
+      border: 'none'
     }
   },
   banner: { gridTemplateRows: `1fr ${theme.mixins.toolbar.minHeight}px` },
-  buttonColor: { color: theme.palette.grey[600] },
   demoAnnouncementIcon: {
     height: 16,
-    color: theme.palette.primary.main,
     '&.MuiButton-textPrimary': {
-      color: theme.palette.primary.main,
       height: 'inherit'
     }
   },
@@ -135,15 +126,12 @@ const useStyles = makeStyles()(theme => ({
     height: 'auto'
   },
   dropDown: {
-    height: '100%',
-    textTransform: 'none',
-    [`.${menuItemClasses.root}:hover, .${listItemTextClasses.root}:hover`]: {
-      color: theme.palette.text.link
-    }
+    height: '100%'
   },
   exitIcon: { color: theme.palette.grey[600], fill: theme.palette.grey[600] },
   header: {
     borderBottom: `1px solid ${theme.palette.divider}`,
+    color: theme.palette.text.secondary,
     display: 'grid',
     '#logo': {
       minWidth: 142,
@@ -152,11 +140,10 @@ const useStyles = makeStyles()(theme => ({
     }
   },
   headerSection: {
-    display: 'flex',
-    alignItems: 'center',
+    color: theme.palette.text.secondary,
     height: theme.spacing(3),
     '&:hover': {
-      color: theme.palette.grey[700]
+      color: theme.palette.text.secondary
     }
   },
   organization: { marginBottom: theme.spacing() },
@@ -198,9 +185,10 @@ const AccountMenu = ({ className }) => {
   return (
     <>
       <Button
-        className={`${className} ${classes.dropDown}`}
+        className={`flexbox center-aligned ${className} ${classes.dropDown}`}
         onClick={e => setAnchorEl(e.currentTarget)}
-        startIcon={<AccountCircleIcon className={classes.buttonColor} />}
+        startIcon={<AccountCircleIcon />}
+        variant="text"
       >
         {email}
       </Button>
@@ -229,7 +217,13 @@ const AccountMenu = ({ className }) => {
         {tenants.length > 1 && (
           <div>
             <Divider style={{ marginBottom: 0 }} />
-            <Accordion className={classes.accordion} square expanded={tenantSwitcherShowing} onChange={() => setTenantSwitcherShowing(toggle)}>
+            <Accordion
+              className={`padding-left-none padding-right-none ${classes.accordion}`}
+              disableGutters
+              square
+              expanded={tenantSwitcherShowing}
+              onChange={() => setTenantSwitcherShowing(toggle)}
+            >
               <AccordionSummary expandIcon={<ExpandMore />}>Switch organization</AccordionSummary>
               <AccordionDetails className="padding-left-none padding-right-none">
                 {tenants.map(({ id, name }) => (
@@ -391,9 +385,7 @@ export const Header = ({ isDarkMode }) => {
           <>
             {tenantDeviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={tenantDeviceLimit} variant="common" />}
             <div className="flexbox center-aligned">
-              <div className={classes.headerSection}>
-                <Chip className="bold muted uppercased" label="Service Provider" />
-              </div>
+              <Chip className="bold muted uppercased" label="Service Provider" />
               <AccountMenu />
             </div>
           </>
