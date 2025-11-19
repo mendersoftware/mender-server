@@ -15,7 +15,7 @@ import { CSSProperties, ComponentType, useEffect, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';
-import { Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
+import { Button, Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Form from './Form';
@@ -42,11 +42,11 @@ const emptyInput: InputLineItem = { helptip: null, key: '', value: '' };
 const reducePairs = (pairs: InputLineItem[]) => (pairs || []).reduce((accu, item) => ({ ...accu, ...(item.value ? { [item.key]: item.value } : {}) }), {});
 
 const useStyles = makeStyles()(theme => ({
-  spacer: { minWidth: theme.spacing(30) },
-  helptip: { left: -35, top: theme.spacing(2), '&.relative': { position: 'absolute' } },
+  formReset: { justifyContent: 'end' },
+  helptip: { left: -35, top: theme.spacing(2), position: 'absolute' },
   keyValueContainer: {
     display: 'grid',
-    gridTemplateColumns: 'min-content min-content max-content',
+    gridTemplateColumns: 'minmax(200px, min-content) minmax(200px, min-content) max-content',
     columnGap: theme.spacing(2),
     alignItems: 'baseline',
     justifyItems: 'baseline',
@@ -145,19 +145,21 @@ const KeyValueFields = ({ disabled, errortext, inputHelpTipsMap, onInputChange }
           </div>
         );
       })}
-      <div className={classes.keyValueContainer}>
-        <div className={classes.spacer}>
-          <Fab
-            disabled={disabled || !inputs?.[fields.length - 1]?.key || !inputs?.[fields.length - 1]?.value}
-            style={{ marginBottom: 10 }}
-            size="small"
-            onClick={addKeyValue}
-          >
+      <div className={`margin-top-small ${classes.keyValueContainer}`}>
+        <div className="margin-left-x-small">
+          <Fab disabled={disabled || !inputs?.[fields.length - 1]?.key || !inputs?.[fields.length - 1]?.value} size="small" onClick={addKeyValue}>
             <ContentAddIcon />
           </Fab>
         </div>
-        <div className={classes.spacer} />
-        {inputs.length > 1 ? <a onClick={onClearClick}>clear all</a> : <div />}
+        <div className={`flexbox center-aligned full-width ${classes.formReset}`}>
+          {inputs.length > 1 ? (
+            <Button className="align-self-end" variant="text" onClick={onClearClick}>
+              Clear all
+            </Button>
+          ) : (
+            <div />
+          )}
+        </div>
       </div>
     </div>
   );
