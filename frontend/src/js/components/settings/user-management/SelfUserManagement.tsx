@@ -137,8 +137,8 @@ export const SelfUserManagement = () => {
             </Form>
           </>
         ))}
-      <div className="clickable flexbox space-between margin-top" onClick={toggleMode}>
-        <p className="help-content">Enable dark theme</p>
+      <div className="clickable flexbox center-aligned margin-top" onClick={toggleMode}>
+        <p className="help-content margin-right-small">Enable dark theme</p>
         <Switch checked={isDarkMode} />
       </div>
       {!isOAuth2 ? (
@@ -171,8 +171,8 @@ export const SelfUserManagement = () => {
       <AccessTokenManagement />
       {isEnterprise && hasTracking && (
         <div className="margin-top">
-          <div className="clickable flexbox space-between" onClick={() => dispatch(saveUserSettings({ trackingConsentGiven: !hasTrackingConsent }))}>
-            <p className="help-content">Help us improve Mender</p>
+          <div className="clickable flexbox center-aligned" onClick={() => dispatch(saveUserSettings({ trackingConsentGiven: !hasTrackingConsent }))}>
+            <p className="help-content margin-right-small">Help us improve Mender</p>
             <Switch checked={!!hasTrackingConsent} />
           </div>
           <InfoText className={classes.infoText}>Enable usage data and errors to be sent to help us improve our service.</InfoText>
