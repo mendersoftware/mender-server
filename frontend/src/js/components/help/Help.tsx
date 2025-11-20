@@ -121,10 +121,12 @@ export const Help = () => {
   return (
     <div className="help-container">
       <LeftNav sections={[{ itemClass: 'helpNav', items: links, title: 'Help & support' }]} />
-      <div style={{ maxWidth: contentWidth }}>
-        <p className="muted">Help & support {breadcrumbs}</p>
-        <div className="help-content relative margin-top-small">
-          <ComponentToShow />
+      <div className="full-width">
+        <div style={{ maxWidth: contentWidth }}>
+          <p className="muted">Help & support {breadcrumbs}</p>
+          <div className="help-content relative margin-top-small">
+            <ComponentToShow />
+          </div>
         </div>
       </div>
     </div>
