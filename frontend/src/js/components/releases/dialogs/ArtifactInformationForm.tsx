@@ -31,10 +31,13 @@ const useStyles = makeStyles()(theme => ({
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2) },
   releaseName: {
     display: 'flex',
+    marginTop: theme.spacing(-1),
+    height: '100%',
     alignItems: 'center',
     [`&.${inputLabelClasses.shrink}`]: {
       background: theme.palette.background.default,
       paddingLeft: theme.spacing(0.5),
+      height: 'inherit',
       paddingRight: theme.spacing(),
       marginTop: theme.spacing(-0.5)
     }
