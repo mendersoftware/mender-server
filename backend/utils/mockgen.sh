@@ -22,12 +22,12 @@ generate_mock() {
 	mkdir -p ./mocks
 
 	# Initialize mock file with copyright header
-	awk '$1 !~ /^[/][/].*/ {print ""; exit} ; {print $0}' $GOFILE >"mocks/${INTERFACE}.go"
+	awk '$1 !~ /^[\/][\/].*/ {print ""; exit} ; {print $0}' $GOFILE >"mocks/${INTERFACE}.go"
 
 	docker run --rm -v "${REPO_ROOT}:${REPO_ROOT}" \
 		-w ${PACKAGE_PATH} \
 		-u $(id -u):$(id -g) \
-		vektra/mockery:v2.45 --name "${INTERFACE}" \
+		vektra/mockery:v2.53 --name "${INTERFACE}" \
 		--output ./mocks --print >>"mocks/${INTERFACE}.go"
 }
 generate_mock
