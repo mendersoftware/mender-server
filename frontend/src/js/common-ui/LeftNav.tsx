@@ -15,30 +15,23 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 // material ui
-import { List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import { List, ListItem, ListItemIcon, ListItemText, ListSubheader, darken, lighten } from '@mui/material';
 import { listItemTextClasses } from '@mui/material/ListItemText';
 import { makeStyles } from 'tss-react/mui';
 
 import { isDarkMode } from '@northern.tech/store/utils';
 
 const useStyles = makeStyles()(theme => ({
-  list: {
-    [`&.navLink .${listItemTextClasses.root}`]: {
-      color: isDarkMode(theme.palette.mode) ? theme.palette.text.primary : theme.palette.grey[900]
-    },
-    [`&.navLink.active .${listItemTextClasses.root}`]: {
-      color: isDarkMode(theme.palette.mode) ? theme.palette.grey[900] : theme.palette.text.primary
-    },
-    '&.active': {
-      background: theme.palette.grey[400]
-    }
-  },
   listItem: {
+    '&.active': {
+      background: isDarkMode(theme.palette.mode) ? lighten(theme.palette.background.paper, 0.08) : darken(theme.palette.background.paper, 0.08)
+    },
+    '&:hover': {
+      background: isDarkMode(theme.palette.mode) ? lighten(theme.palette.background.paper, 0.04) : darken(theme.palette.background.paper, 0.04)
+    },
     [`.${listItemTextClasses.primary}`]: {
-      fontSize: '0.8rem',
-      '&:hover': {
-        color: theme.palette.primary.main
-      }
+      color: theme.palette.text.primary,
+      fontSize: 'small'
     }
   }
 }));
@@ -55,8 +48,8 @@ export const LeftNav = ({ sections }) => {
               ? { component: 'a', exact: `${exact}`, href: url, rel: 'noopener', target: '_blank', to: url }
               : { component: NavLink, end: exact, to: path };
             return (
-              <ListItem className={`navLink ${itemClass} ${classes.list}`} key={path} style={style} {...props}>
-                <ListItemText className={classes.listItem} primary={title} url={url} />
+              <ListItem className={`navLink ${itemClass} ${classes.listItem}`} key={path} style={style} {...props}>
+                <ListItemText primary={title} url={url} />
                 {!!icon && <ListItemIcon>{icon}</ListItemIcon>}
               </ListItem>
             );
