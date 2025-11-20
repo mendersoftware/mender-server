@@ -95,7 +95,7 @@ export const SelfUserManagement = () => {
           )}
         </div>
       ) : (
-        <Form defaultValues={{ email }} onSubmit={editSubmit} handleCancel={handleEmail} submitLabel="Save" showButtons={editEmail} buttonColor="secondary">
+        <Form defaultValues={{ email }} onSubmit={editSubmit} handleCancel={handleEmail} submitLabel="Save" showButtons={editEmail}>
           <TextInput hint="Email" id="email" label="Email" validations="isLength:1,isEmail,trim" />
           <PasswordInput
             className="margin-top-x-small"
@@ -117,7 +117,7 @@ export const SelfUserManagement = () => {
         ) : (
           <>
             <h3 className="margin-top">Change password</h3>
-            <Form onSubmit={editSubmit} handleCancel={handlePass} submitLabel="Save" buttonColor="secondary" showButtons={editPass}>
+            <Form onSubmit={editSubmit} handleCancel={handlePass} submitLabel="Save" showButtons={editPass}>
               <PasswordInput
                 className="margin-bottom-x-small"
                 id="current_password"
