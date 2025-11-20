@@ -27,7 +27,8 @@ import {
   FormControlLabel,
   FormGroup,
   Typography,
-  accordionClasses
+  accordionClasses,
+  lighten
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -61,7 +62,7 @@ import { Devices, ReleasesWarning, Software } from './deployment-wizard/Software
 
 const useStyles = makeStyles()(theme => ({
   accordion: {
-    backgroundColor: theme.palette.background.lightgrey ? theme.palette.grey[400] : theme.palette.info.light,
+    backgroundColor: lighten(theme.palette.background.paper, 0.25),
     marginTop: theme.spacing(4),
     '&:before': {
       display: 'none'
