@@ -43,7 +43,6 @@ export const DeviceIdentity = ({ device, setSnackbar }) => {
     <DeviceDataCollapse
       header={
         <TwoColumnData
-          chipLikeKey
           compact
           style={{ ...previewStyle, alignItems: 'center', gridTemplateColumns: 'minmax(max-content, 150px) max-content' }}
           config={{ Name: device }}
