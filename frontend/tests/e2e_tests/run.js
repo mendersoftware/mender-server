@@ -615,7 +615,7 @@ const collectClientLogs = async logDir => {
   writeFileSync(clientLogPath, clientLog);
 
   const ip = await runCommand('docker', ['inspect', `--format={{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, clientContainer], config);
-  const fullClientLog = await runCommand('ssh', ['-p', '8822', '-o', '"StrictHostKeyChecking no"', `root@${ip}`, 'journalctl', '--no-pager', '--all'], config);
+  const fullClientLog = await runCommand('ssh', ['-p', '8822', '-o', '"StrictHostKeyChecking=no"', `root@${ip}`, 'journalctl', '--no-pager', '--all'], config);
   writeFileSync(fullClientLogPath, fullClientLog);
 };
 
