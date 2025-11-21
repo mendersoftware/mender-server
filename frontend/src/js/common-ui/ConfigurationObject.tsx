@@ -64,8 +64,8 @@ const ValueColumn = ({ value = '', setSnackbar }) => {
   );
 };
 
-const KeyColumn = ({ value, chipLikeKey }) => (
-  <div className={`align-right ${chipLikeKey ? 'key' : ''} muted`}>
+const KeyColumn = ({ value }) => (
+  <div className="align-right muted">
     <b>{value}</b>
   </div>
 );
@@ -73,7 +73,6 @@ const KeyColumn = ({ value, chipLikeKey }) => (
 export const TwoColumns = ({
   className = '',
   children = undefined,
-  chipLikeKey = true,
   compact = false,
   items = {},
   KeyComponent = KeyColumn,
@@ -90,7 +89,7 @@ export const TwoColumns = ({
         ? children
         : Object.entries(items).map(([key, value]) => (
             <Fragment key={key}>
-              <KeyComponent chipLikeKey={chipLikeKey} value={key} {...KeyProps} />
+              <KeyComponent value={key} {...KeyProps} />
               <ValueComponent setSnackbar={setSnackbar} value={value} {...ValueProps} />
             </Fragment>
           ))}
