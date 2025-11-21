@@ -92,7 +92,6 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
         ))}
       </div>
       <TwoColumnData
-        chipLikeKey={false}
         config={{ 'Update attempts per device': retries, 'Maximum number of devices': max_devices || 'N/A' }}
         style={{ gridTemplateColumns: 'max-content 1fr' }}
       />
