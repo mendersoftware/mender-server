@@ -241,15 +241,10 @@ func (h DeviceController) connectWSWriter(
 	defer ticker.Stop()
 	conn.SetPongHandler(func(string) error {
 		ticker.Reset(pingPeriod)
-		return conn.SetReadDeadline(time.Now().Add(pongWait))
+		return nil
 	})
 
 	conn.SetPingHandler(func(msg string) error {
-		err := conn.SetReadDeadline(time.Now().Add(pongWait))
-		if err != nil {
-			return err
-		}
-
 		ticker.Reset(pingPeriod)
 		return conn.WriteControl(
 			websocket.PongMessage,
