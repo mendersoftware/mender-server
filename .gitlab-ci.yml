@@ -494,6 +494,8 @@ test:staging-deployment:chrome:
     - npm run script -- --environment=staging --project=chromium
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+      when: delayed
+      start_in: 30 minutes
 
 test:staging-deployment:firefox:
   extends: .template:test:staging-deployment
@@ -503,7 +505,7 @@ test:staging-deployment:firefox:
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
       when: delayed
-      start_in: 10 minutes
+      start_in: 40 minutes
 
 publish:backend:coverage:
   stage: publish
