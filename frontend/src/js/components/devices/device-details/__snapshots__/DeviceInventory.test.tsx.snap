@@ -64,7 +64,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         class="break-all two-columns emotion-0 compact column-data multiple"
       >
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
             device_type
@@ -97,7 +97,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         class="break-all two-columns emotion-0 compact column-data multiple"
       >
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
             artifact_name
@@ -135,7 +135,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
       class="break-all two-columns emotion-0 compact column-data multiple"
     >
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           ipv4_wlan0
