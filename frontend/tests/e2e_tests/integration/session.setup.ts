@@ -61,9 +61,9 @@ test.describe('Test setup', () => {
   test('allows account creation', async ({ baseUrl, context, environment, page, password, request, username }) => {
     test.skip(environment !== 'staging');
     test.setTimeout(6 * timeouts.sixtySeconds);
-    await pollDeployment({ location: baseUrl, attempt: 1, maxAttempts: 6, delay: 3 * timeouts.tenSeconds }); // give max 6 * 30s to see a version update, same as current CI job delay
-    // wait a little extra to allow rollout to complete if we happen to poll the first replica in a deployment
-    await new Promise(resolve => setTimeout(resolve, 3 * timeouts.tenSeconds));
+    // await pollDeployment({ location: baseUrl, attempt: 1, maxAttempts: 6, delay: 3 * timeouts.tenSeconds }); // give max 6 * 30s to see a version update, same as current CI job delay
+    // // wait a little extra to allow rollout to complete if we happen to poll the first replica in a deployment
+    // await new Promise(resolve => setTimeout(resolve, 3 * timeouts.tenSeconds));
     try {
       const { token } = await login(username, password, baseUrl, request);
       test.skip(!!token, 'looks like the account was created already, continue with the remaining tests');

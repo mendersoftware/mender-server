@@ -12,10 +12,10 @@ variables:
     value: '--driver-opt "image=moby/buildkit:v0.17.3"' # QA-823
     description: "Optional buildkit args for docker build"
   DOCKER_HOST:
-    value: 'tcp://docker:2376'
+    value: "tcp://docker:2376"
     description: "Required to run dind inside k8s runners with TLS"
   DOCKER_TLS_CERTDIR:
-    value: '/certs'
+    value: "/certs"
     description: "The cert dir inside the gitlab runner. Don't change this."
   DOCKER_TLS_VERIFY:
     value: 1
@@ -130,16 +130,16 @@ default:
   - DOCKER_RETRY_SLEEP_S=10 # wait longer for k8s workers
   - DOCKER_RUNNING=false
   - for try in 4 3 2 1; do
-  -  docker ps && DOCKER_RUNNING=true
-  -  if [ "${DOCKER_RUNNING}" == "true" ]; then
-  -   echo "DEBUG - docker is running - continue"
-  -   break
-  -  fi
-  -  sleep "${DOCKER_RETRY_SLEEP_S}"
+  - docker ps && DOCKER_RUNNING=true
+  - if [ "${DOCKER_RUNNING}" == "true" ]; then
+  - echo "DEBUG - docker is running - continue"
+  - break
+  - fi
+  - sleep "${DOCKER_RETRY_SLEEP_S}"
   - done
   - if [ "${DOCKER_RUNNING}" != "true" ]; then
-  -  echo "DEBUG - docker is not running - exiting"
-  -  exit 192
+  - echo "DEBUG - docker is not running - exiting"
+  - exit 192
   - fi
 
 .dind-login: &dind-login
@@ -436,9 +436,6 @@ test:prep:
   stage: test
   extends: .build:base
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: on_success
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
@@ -453,17 +450,14 @@ test:prep:
 
 .template:test:staging-deployment:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
-  stage: .post
+  stage: test
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
-  rules:
-    - when: never
   resource_group: test_staging_e2e
   needs:
     - job: test:prep
       artifacts: true
-    - job: mender-helm-version-bump:staging
   variables:
     CI: 1
     DEVICE_TYPE: qemux86-64
@@ -492,18 +486,6 @@ test:staging-deployment:chrome:
   script:
     - npx playwright install chromium
     - npm run script -- --environment=staging --project=chromium
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-
-test:staging-deployment:firefox:
-  extends: .template:test:staging-deployment
-  script:
-    - npx playwright install firefox
-    - npm run script -- --environment=staging --project=firefox
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: delayed
-      start_in: 10 minutes
 
 publish:backend:coverage:
   stage: publish
