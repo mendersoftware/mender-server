@@ -195,7 +195,9 @@ exports[`Auditlogs Component > renders correctly 1`] = `
         >
           <h5
             class="margin-top-small margin-bottom-small muted"
-          />
+          >
+            ​
+          </h5>
           <div
             class="MuiAutocomplete-root css-1tlcqt-MuiAutocomplete-root"
             name="detail"
@@ -702,22 +704,13 @@ exports[`Auditlogs Component > renders correctly 1`] = `
           >
             2019-01-01 12:10
           </time>
-          <div
-            class="bold flexbox center-aligned link-color nowrap "
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             View details
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall css-120dh41-MuiSvgIcon-root"
-              data-testid="ArrowForwardIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-              />
-            </svg>
-          </div>
+          </button>
         </div>
         <div
           class="auditlogs-list-item clickable"
@@ -749,22 +742,13 @@ exports[`Auditlogs Component > renders correctly 1`] = `
           >
             2019-01-01 12:16
           </time>
-          <div
-            class="bold flexbox center-aligned link-color nowrap "
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             View details
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall css-120dh41-MuiSvgIcon-root"
-              data-testid="ArrowForwardIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-              />
-            </svg>
-          </div>
+          </button>
         </div>
         <div
           class="auditlogs-list-item clickable"
@@ -798,22 +782,13 @@ exports[`Auditlogs Component > renders correctly 1`] = `
           >
             2019-01-01 12:10
           </time>
-          <div
-            class="bold flexbox center-aligned link-color nowrap "
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             View details
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-xsmall css-120dh41-MuiSvgIcon-root"
-              data-testid="ArrowForwardIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-              />
-            </svg>
-          </div>
+          </button>
         </div>
       </div>
       <div
@@ -830,7 +805,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             />
             <p
               class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-              id="_r_k_"
+              id="_r_n_"
             >
               Rows per page:
             </p>
@@ -840,9 +815,9 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               <div
                 aria-expanded="false"
                 aria-haspopup="listbox"
-                aria-labelledby="_r_k_ _r_j_"
+                aria-labelledby="_r_n_ _r_m_"
                 class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                id="_r_j_"
+                id="_r_m_"
                 role="combobox"
                 tabindex="0"
               >

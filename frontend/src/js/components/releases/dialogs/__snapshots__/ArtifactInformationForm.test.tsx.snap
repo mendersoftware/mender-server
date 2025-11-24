@@ -346,6 +346,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  margin-top: -8px;
+  height: 100%;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -367,6 +369,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
 .emotion-8.MuiInputLabel-shrink {
   background: #fff;
   padding-left: 4px;
+  height: inherit;
   padding-right: 8px;
   margin-top: -4px;
 }

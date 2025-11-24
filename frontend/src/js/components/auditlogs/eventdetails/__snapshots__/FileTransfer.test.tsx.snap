@@ -56,7 +56,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
       class="break-all two-columns emotion-0  emotion-1"
     >
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           Device ID
@@ -92,7 +92,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
         </a>
       </div>
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           Device type
@@ -108,7 +108,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           Operating system version
@@ -124,7 +124,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
            
@@ -155,7 +155,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
       class="break-all two-columns emotion-0  emotion-1"
     >
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           Path
@@ -171,7 +171,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           User

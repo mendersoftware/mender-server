@@ -585,7 +585,7 @@ exports[`ExpandedTenant > renders correctly 1`] = `
           class="break-all two-columns emotion-10  align-self-start"
         >
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               name
@@ -614,7 +614,7 @@ exports[`ExpandedTenant > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               ID

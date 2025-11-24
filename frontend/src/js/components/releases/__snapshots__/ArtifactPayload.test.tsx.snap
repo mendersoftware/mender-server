@@ -2,7 +2,7 @@
 
 exports[`ArtifactPayload Component > renders correctly 1`] = `
 .emotion-0 {
-  background: #9e9e9e;
+  background: rgb(255, 255, 255);
   margin: 0;
   padding: 10px;
   position: absolute;
