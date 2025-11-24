@@ -119,6 +119,21 @@ const useStyles = makeStyles()(theme => ({
     }
   },
   fab: { margin: theme.spacing(2) },
+  releaseRepoItem: {
+    paddingBottom: theme.spacing(2),
+    '&.repo-header': {
+      paddingLeft: theme.spacing(6),
+      paddingRight: theme.spacing(4),
+      fontSize: '0.8rem'
+    },
+    '&.repo-item, .repo-item': {
+      alignItems: 'center',
+      display: 'grid',
+      gridTemplateColumns: `2fr 1fr 1fr 1fr ${theme.spacing(6)}`,
+      gridColumnGap: 20,
+      margin: 0
+    }
+  },
   tagSelect: { marginRight: theme.spacing(2), maxWidth: 350 },
   label: {
     marginRight: theme.spacing(2),
@@ -233,6 +248,7 @@ const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setSh
   const [sortCol, setSortCol] = useState('modified');
   const [sortDown, setSortDown] = useState(true);
   const [items, setItems] = useState([...artifacts]);
+  const { classes } = useStyles();
 
   useEffect(() => {
     const items = [...artifacts].sort(customSort(sortDown, sortCol));
@@ -263,7 +279,7 @@ const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setSh
     <>
       <h4>Artifacts in this Release:</h4>
       <div>
-        <div className="release-repo-item repo-item repo-header">
+        <div className={`${classes.releaseRepoItem} repo-item repo-header`}>
           {columns.map(item => (
             <div className="columnHeader" key={item.name} onClick={() => sortColumn(item)}>
               <Tooltip title={item.title} placement="top-start">
@@ -273,7 +289,7 @@ const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setSh
               {item.tooltip}
             </div>
           ))}
-          <div style={{ width: 48 }} />
+          <div />
         </div>
         {items.map((artifact, index) => {
           const expanded = selectedArtifact?.id === artifact.id;
@@ -281,6 +297,7 @@ const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setSh
             <Artifact
               key={`repository-item-${index}`}
               artifact={artifact}
+              className={classes.releaseRepoItem}
               columns={columns}
               expanded={expanded}
               index={index}
