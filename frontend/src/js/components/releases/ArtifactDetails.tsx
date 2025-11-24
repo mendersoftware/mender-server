@@ -53,7 +53,6 @@ const useStyles = makeStyles()(theme => ({
   },
   paddingOverride: { paddingBottom: 4, paddingTop: 0 },
   accordPanel1: {
-    borderTop: 'none',
     padding: '0 15px',
     marginBottom: 30,
     [`&.Mui-expanded`]: {

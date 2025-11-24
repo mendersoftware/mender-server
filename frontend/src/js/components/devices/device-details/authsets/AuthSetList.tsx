@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useState } from 'react';
 
-import { accordionClasses, accordionDetailsClasses, accordionSummaryClasses } from '@mui/material';
+import { accordionDetailsClasses, accordionSummaryClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DEVICE_STATES, canAccess } from '@northern.tech/store/constants';
@@ -24,9 +24,6 @@ import AuthsetListItem from './AuthSetListItem';
 const fourColumns = '0.5fr 1fr 2fr 2fr';
 const useStyles = makeStyles()(theme => ({
   authsets: {
-    [`.header, .${accordionClasses.root}`]: {
-      borderBottom: `1px solid ${theme.palette.grey[600]}`
-    },
     [`.columnHeader, .${accordionSummaryClasses.root}, .${accordionSummaryClasses.content}`]: {
       cursor: 'default'
     },
