@@ -91,7 +91,6 @@ test.describe('Test setup', () => {
     await recaptchaFrame.waitForSelector('#recaptcha-anchor');
     const recaptcha = await recaptchaFrame.$('#recaptcha-anchor');
     await recaptcha.click();
-    await page.waitForTimeout(timeouts.default);
     await page.getByRole('button', { name: /Complete/i }).click();
     await isLoggedIn(page, timeouts.sixtySeconds); // in some cases the backend takes _a lot_ longer to respond here...
     // the following sets the UI up for easier navigation by disabling onboarding & feedback collection
