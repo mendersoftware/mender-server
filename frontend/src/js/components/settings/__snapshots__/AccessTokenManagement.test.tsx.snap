@@ -618,7 +618,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
 }
 
 .emotion-17 {
-  background-color: #f5f5f5;
+  background-color: rgba(2, 136, 209, 0.92);
   font-family: monospace;
   border-radius: 4px;
   padding: 16px;

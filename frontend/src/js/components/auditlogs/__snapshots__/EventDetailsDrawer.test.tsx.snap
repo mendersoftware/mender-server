@@ -140,7 +140,7 @@ exports[`EventDetailsDrawer Component > renders correctly 1`] = `
 }
 
 .emotion-4 {
-  background-color: #f5f5f5;
+  background-color: rgba(2, 136, 209, 0.92);
   font-family: monospace;
   border-radius: 4px;
   padding: 16px;
@@ -201,15 +201,12 @@ exports[`EventDetailsDrawer Component > renders correctly 1`] = `
     </div>
   </div>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth emotion-3"
+    class="MuiDivider-root MuiDivider-fullWidth margin-bottom emotion-3"
   />
   <div
     class="emotion-4 "
   >
     change1
   </div>
-  <hr
-    class="MuiDivider-root MuiDivider-fullWidth margin-top-small emotion-3"
-  />
 </div>
 `;

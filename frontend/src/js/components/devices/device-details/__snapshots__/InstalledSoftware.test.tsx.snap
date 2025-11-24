@@ -72,7 +72,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="break-all two-columns emotion-2 compact column-data  margin-left-small margin-top-small"
         >
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               version
@@ -101,7 +101,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               checksum
@@ -160,7 +160,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   class="break-all two-columns emotion-2 compact column-data margin-bottom-small margin-left-small margin-top-small"
                 >
                   <div
-                    class="align-right key muted"
+                    class="align-right muted"
                   >
                     <b>
                       version
@@ -189,7 +189,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     </svg>
                   </div>
                   <div
-                    class="align-right key muted"
+                    class="align-right muted"
                   >
                     <b>
                       mender_update_module
@@ -235,7 +235,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   class="break-all two-columns emotion-2 compact column-data margin-bottom-small margin-left-small margin-top-small"
                 >
                   <div
-                    class="align-right key muted"
+                    class="align-right muted"
                   >
                     <b>
                       version
@@ -264,7 +264,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     </svg>
                   </div>
                   <div
-                    class="align-right key muted"
+                    class="align-right muted"
                   >
                     <b>
                       mender_update_module
@@ -312,7 +312,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               class="break-all two-columns emotion-2 compact column-data margin-bottom-small margin-left-small margin-top-small"
             >
               <div
-                class="align-right key muted"
+                class="align-right muted"
               >
                 <b>
                   version
@@ -360,7 +360,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="break-all two-columns emotion-2 compact column-data  margin-left-small margin-top-small"
         >
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               version
@@ -406,7 +406,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="break-all two-columns emotion-2 compact column-data  margin-left-small margin-top-small"
         >
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               version
@@ -435,7 +435,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               more
@@ -481,7 +481,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="break-all two-columns emotion-2 compact column-data  margin-left-small margin-top-small"
         >
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               version
@@ -510,7 +510,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               more
@@ -567,7 +567,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               class="break-all two-columns emotion-2 compact column-data margin-bottom-small margin-left-small margin-top-small"
             >
               <div
-                class="align-right key muted"
+                class="align-right muted"
               >
                 <b>
                   name
@@ -596,7 +596,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </svg>
               </div>
               <div
-                class="align-right key muted"
+                class="align-right muted"
               >
                 <b>
                   version
@@ -642,7 +642,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               class="break-all two-columns emotion-2 compact column-data margin-bottom-small margin-left-small margin-top-small"
             >
               <div
-                class="align-right key muted"
+                class="align-right muted"
               >
                 <b>
                   checksum
@@ -671,7 +671,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </svg>
               </div>
               <div
-                class="align-right key muted"
+                class="align-right muted"
               >
                 <b>
                   name
@@ -700,7 +700,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </svg>
               </div>
               <div
-                class="align-right key muted"
+                class="align-right muted"
               >
                 <b>
                   version

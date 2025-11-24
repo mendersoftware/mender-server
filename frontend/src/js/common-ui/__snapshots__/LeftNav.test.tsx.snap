@@ -47,16 +47,17 @@ exports[`LeftNav Component > renders correctly 1`] = `
   padding-right: 16px;
 }
 
-.emotion-2.navLink .MuiListItemText-root {
-  color: #212121;
-}
-
-.emotion-2.navLink.active .MuiListItemText-root {
-  color: rgba(0, 0, 0, 0.87);
-}
-
 .emotion-2.active {
-  background: #bdbdbd;
+  background: rgb(234, 234, 234);
+}
+
+.emotion-2:hover {
+  background: rgb(244, 244, 244);
+}
+
+.emotion-2 .MuiListItemText-primary {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: small;
 }
 
 .emotion-3 {
@@ -74,14 +75,6 @@ exports[`LeftNav Component > renders correctly 1`] = `
 
 .MuiTypography-root:where(.emotion-3 .MuiListItemText-secondary) {
   display: block;
-}
-
-.emotion-3 .MuiListItemText-primary {
-  font-size: 0.8rem;
-}
-
-.emotion-3 .MuiListItemText-primary:hover {
-  color: #1976d2;
 }
 
 .emotion-4 {
