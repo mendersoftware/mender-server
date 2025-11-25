@@ -90,7 +90,9 @@ test.describe('Devices', () => {
     await page.getByText(/Upload successful/i).waitFor({ timeout: timeouts.fiveSeconds });
     await page.getByRole('tab', { name: /download/i }).click();
     await page.getByPlaceholder(/\/home\/mender/i).fill(`/tmp/${fileName}`);
-    const [download] = await Promise.all([page.waitForEvent('download'), page.click('button:text("Download"):below(:text("file on the device"))')]);
+    const downloadPromise = page.waitForEvent('download');
+    await page.click('button:text("Download"):below(:text("file on the device"))');
+    const download = await downloadPromise;
     const downloadTargetPath = await download.path();
     const newFile = await fs.readFileSync(downloadTargetPath);
     const testFile = await fs.readFileSync(`fixtures/${fileName}`);

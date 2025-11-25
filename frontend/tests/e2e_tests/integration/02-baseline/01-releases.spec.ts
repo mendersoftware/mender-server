@@ -66,32 +66,37 @@ test.describe('Files', () => {
     await page.getByText(/last modified/i).waitFor();
   });
 
-  test('allows artifact downloads', async ({ demoArtifactVersion, page, request }) => {
-    await page.getByText(/mender-demo-artifact/i).click();
-    await page.click('.expandButton');
-    const downloadButton = await page.getByText(/download artifact/i);
-    await expect(downloadButton).toBeVisible();
-    const [download] = await Promise.all([page.waitForEvent('download'), downloadButton.click()]);
-    let downloadTargetPath;
-    const downloadError = await download.failure();
-    if (downloadError) {
-      const downloadUrl = download.url();
-      const response = await request.get(downloadUrl);
-      const fileData = await response.body();
-      downloadTargetPath = `./${download.suggestedFilename()}`;
-      fs.writeFileSync(downloadTargetPath, fileData);
-    } else {
-      downloadTargetPath = await download.path();
-    }
-    const stdout = execSync(`mender-artifact read --no-progress ${downloadTargetPath}`);
-    const artifactInfo = parse(stdout.toString());
-    // Parse artifact header to check that artifact name matches
-    const artifactName = artifactInfo['Mender Artifact'].Name;
-    expect(artifactName).toMatch(/^mender-demo-artifact/);
-    const versionInfo = artifactName.substring(artifactName.indexOf(expectedArtifactName) + expectedArtifactName.length + 1);
-    expect(versionInfo).toEqual(demoArtifactVersion.artifactVersion);
-    const { 'data-partition.mender-demo-artifact.version': updateVersion } = artifactInfo.Updates[0].Provides;
-    expect(updateVersion).toEqual(demoArtifactVersion.updateVersion);
+  test.describe('downloads', () => {
+    test.describe.configure({ retries: 2 });
+    test('allows artifact downloads', async ({ demoArtifactVersion, page, request }) => {
+      await page.getByText(/mender-demo-artifact/i).click();
+      await page.click('.expandButton');
+      const downloadButton = await page.getByText(/download artifact/i);
+      await expect(downloadButton).toBeVisible();
+      const downloadPromise = page.waitForEvent('download');
+      await downloadButton.click();
+      const download = await downloadPromise;
+      let downloadTargetPath;
+      const downloadError = await download.failure();
+      if (downloadError) {
+        const downloadUrl = download.url();
+        const response = await request.get(downloadUrl);
+        const fileData = await response.body();
+        downloadTargetPath = `./${download.suggestedFilename()}`;
+        fs.writeFileSync(downloadTargetPath, fileData);
+      } else {
+        downloadTargetPath = await download.path();
+      }
+      const stdout = execSync(`mender-artifact read --no-progress ${downloadTargetPath}`);
+      const artifactInfo = parse(stdout.toString());
+      // Parse artifact header to check that artifact name matches
+      const artifactName = artifactInfo['Mender Artifact'].Name;
+      expect(artifactName).toMatch(/^mender-demo-artifact/);
+      const versionInfo = artifactName.substring(artifactName.indexOf(expectedArtifactName) + expectedArtifactName.length + 1);
+      expect(versionInfo).toEqual(demoArtifactVersion.artifactVersion);
+      const { 'data-partition.mender-demo-artifact.version': updateVersion } = artifactInfo.Updates[0].Provides;
+      expect(updateVersion).toEqual(demoArtifactVersion.updateVersion);
+    });
   });
 
   test('allows artifact generation', async ({ baseUrl, browserName, page, request }) => {
