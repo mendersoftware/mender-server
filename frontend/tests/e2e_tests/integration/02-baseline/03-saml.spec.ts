@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import dns from 'node:dns';
+import { v4 as uuid } from 'uuid';
 
 import test, { expect } from '../../fixtures/fixtures';
 import { getTokenFromStorage, isEnterpriseOrStaging, isLoggedIn, startIdpServer } from '../../utils/commands';
@@ -19,11 +20,13 @@ import { timeouts } from '../../utils/constants';
 
 dns.setDefaultResultOrder('ipv4first');
 
+const runId = uuid();
+
 const samlSettings = {
   credentials: {
-    chromium: 'saml.jackson@example.com',
-    firefox: 'sam.l.jackson@example.com',
-    webkit: 'samu.l.jackson@example.com'
+    chromium: `chromium-${runId}@example.com`,
+    firefox: `firefox-${runId}@example.com`,
+    webkit: `webkit-${runId}@example.com`
   },
   idpUrl: 'http://localhost:7000/metadata'
 };
@@ -32,24 +35,6 @@ let acsUrl = '';
 let metadataLocation = '';
 
 test.describe('SAML Login via sso/id/login', () => {
-  test.afterAll(async ({ environment, baseUrl, browserName, request }, testInfo) => {
-    if (testInfo.status === 'skipped' || !isEnterpriseOrStaging(environment)) {
-      return;
-    }
-    const token = await getTokenFromStorage(baseUrl);
-    const options = { headers: { Authorization: `Bearer ${token}` } };
-    console.log(`Finished ${testInfo.title} with status ${testInfo.status}. Cleaning up.`);
-    const response = await request.get(`${baseUrl}api/management/v1/useradm/users?email=${encodeURIComponent(samlSettings.credentials[browserName])}`, options);
-    const users = await response.json();
-    if (!response.ok() || !users.length) {
-      console.log(`${samlSettings.credentials[browserName]} does not exist.`);
-      return;
-    }
-    const { id: userId } = users[0];
-    await request.delete(`${baseUrl}api/management/v1/useradm/users/${userId}`, options);
-    console.log(`removed user ${samlSettings.credentials[browserName]}.`);
-  });
-
   // Setups the SAML/SSO login with samltest.id Identity Provider
   test('Set up SAML', async ({ browserName, environment, baseUrl, page, request }) => {
     test.skip(!isEnterpriseOrStaging(environment));
