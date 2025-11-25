@@ -16,6 +16,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
@@ -23,7 +24,7 @@ import { TIMEOUTS } from '@northern.tech/store/constants';
 const useStyles = makeStyles()(theme => ({
   button: { float: 'right', marginRight: theme.spacing(-2), marginTop: theme.spacing(-0.25) },
   code: {
-    backgroundColor: theme.palette.background.lightgrey ? theme.palette.background.lightgrey : theme.palette.grey[100],
+    backgroundColor: alpha(theme.palette.info.main, 0.92),
     fontFamily: 'monospace',
     borderRadius: theme.spacing(0.5),
     padding: theme.spacing(2),

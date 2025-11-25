@@ -776,7 +776,7 @@ exports[`Configuration Component > renders correctly 1`] = `
       class="break-all two-columns emotion-16  column-data "
     >
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           uiPasswordRequired
@@ -805,7 +805,7 @@ exports[`Configuration Component > renders correctly 1`] = `
         </svg>
       </div>
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           foo
@@ -834,7 +834,7 @@ exports[`Configuration Component > renders correctly 1`] = `
         </svg>
       </div>
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           timezone

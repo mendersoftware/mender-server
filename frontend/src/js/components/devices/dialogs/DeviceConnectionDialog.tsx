@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, DialogActions, DialogContent, List, ListItem, Typography } from '@mui/material';
+import { Button, DialogActions, DialogContent, List, ListItem, Typography, lighten } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -35,7 +35,7 @@ import VirtualDeviceOnboarding from './VirtualDeviceOnboarding';
 
 const useStyles = makeStyles()(theme => ({
   rpiQuickstart: {
-    backgroundColor: theme.palette.background.lightgrey ? theme.palette.background.lightgrey : theme.palette.grey[100],
+    backgroundColor: lighten(theme.palette.background.paper, 0.25),
     '.os-list img': {
       height: 80,
       margin: theme.spacing(2)

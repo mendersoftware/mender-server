@@ -122,7 +122,7 @@ NodeList [
     class="break-all two-columns emotion-0 compact column-data margin-top-small margin-bottom-small"
   >
     <div
-      class="align-right key muted"
+      class="align-right muted"
     >
       <b>
         mmc0
@@ -151,7 +151,7 @@ NodeList [
       </svg>
     </div>
     <div
-      class="align-right key muted"
+      class="align-right muted"
     >
       <b>
         on
@@ -180,7 +180,7 @@ NodeList [
       </svg>
     </div>
     <div
-      class="align-right key muted"
+      class="align-right muted"
     >
       <b>
         off
@@ -209,7 +209,7 @@ NodeList [
       </svg>
     </div>
     <div
-      class="align-right key muted"
+      class="align-right muted"
     >
       <b>
         heartbeat

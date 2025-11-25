@@ -20,9 +20,8 @@ export const EventDetailsDrawer = ({ eventItem = {}, onClose, open, mapChangeToC
   return (
     <Drawer className={`${open ? 'fadeIn' : 'fadeOut'}`} anchor="right" open={open} onClose={onClose}>
       <DrawerTitle title={<div className="capitalized-start">{title}</div>} onClose={onClose} />
-      <Divider />
+      <Divider className="margin-bottom" />
       <Component item={eventItem} onClose={onClose} />
-      <Divider className="margin-top-small" />
     </Drawer>
   );
 };

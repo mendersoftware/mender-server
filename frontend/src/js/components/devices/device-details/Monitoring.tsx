@@ -14,6 +14,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { CheckCircle as CheckIcon, Error as ErrorIcon, Help as HelpIcon, Warning as WarningIcon } from '@mui/icons-material';
+
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import Pagination from '@northern.tech/common-ui/Pagination';
@@ -26,7 +28,28 @@ import { getDeviceAlerts } from '@northern.tech/store/thunks';
 import MonitorDetailsDialog from '../dialogs/MonitorDetailsDialog';
 import { DeviceConnectionNote } from './Connection';
 import DeviceDataCollapse from './DeviceDataCollapse';
-import { DeviceOfflineHeaderNotification, NoAlertsHeaderNotification, monitoringSeverities, severityMap } from './Notifications';
+import { DeviceOfflineHeaderNotification, NoAlertsHeaderNotification } from './Notifications';
+
+const errorIcon = <ErrorIcon className="red" />;
+const successIcon = <CheckIcon className="green" />;
+const questionIcon = <HelpIcon />;
+const warningIcon = <WarningIcon />;
+
+const monitoringSeverities = {
+  CRITICAL: 'CRITICAL',
+  CRITICAL_FLAPPING: 'CRITICAL_FLAPPING',
+  OK: 'OK',
+  WARNING: 'WARNING',
+  UNKNOWN: 'UNKNOWN'
+};
+
+const severityMap = {
+  [monitoringSeverities.CRITICAL]: { className: 'red', icon: errorIcon },
+  [monitoringSeverities.CRITICAL_FLAPPING]: { className: '', icon: errorIcon },
+  [monitoringSeverities.OK]: { className: '', icon: successIcon },
+  [monitoringSeverities.UNKNOWN]: { className: '', icon: questionIcon },
+  [monitoringSeverities.WARNING]: { className: '', icon: warningIcon }
+};
 
 const { setAlertListState } = storeActions;
 
