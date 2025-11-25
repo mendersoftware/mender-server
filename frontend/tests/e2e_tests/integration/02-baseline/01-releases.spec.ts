@@ -71,7 +71,9 @@ test.describe('Files', () => {
     await page.click('.expandButton');
     const downloadButton = await page.getByText(/download artifact/i);
     await expect(downloadButton).toBeVisible();
-    const [download] = await Promise.all([page.waitForEvent('download'), downloadButton.click()]);
+    const downloadPromise = page.waitForEvent('download');
+    await downloadButton.click();
+    const download = await downloadPromise;
     let downloadTargetPath;
     const downloadError = await download.failure();
     if (downloadError) {

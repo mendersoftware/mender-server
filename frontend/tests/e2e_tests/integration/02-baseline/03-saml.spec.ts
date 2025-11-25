@@ -90,7 +90,9 @@ test.describe('SAML Login via sso/id/login', () => {
 
     await page.getByText('View metadata in the text editor').click();
     // Click text=Download file
-    const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: /download file/i }).click()]);
+    const downloadPromise = page.waitForEvent('download');
+    await page.getByRole('button', { name: /download file/i }).click();
+    const download = await downloadPromise;
     const downloadTargetPath = await download.path();
     expect(downloadTargetPath).toBeTruthy();
     const dialog = await page.locator('text=SAML metadata >> .. >> ..');
