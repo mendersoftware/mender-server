@@ -600,23 +600,35 @@ const killTestProcesses = () => {
   currentProcesses = [];
 };
 
+const collectClientLogs = async logDir => {
+  // the client gets often started outside of the compose setup, so track it down by name
+  console.log(chalk.yellow(`📋 Capturing client logs to ${chalk.cyan(join(logDir, 'client.*'))}`));
+  const containerNames = await runCommand('docker', ['ps', '-a', `--format={{.Names}}`], config);
+  const clientContainer = containerNames.split('\n').find(name => name.includes('client'));
+  if (!clientContainer) {
+    console.log(chalk.yellow('📋 Client container not found'));
+    return;
+  }
+  const clientLogPath = join(logDir, 'client.log');
+  const fullClientLogPath = join(logDir, 'fullClient.log');
+
+  const clientLog = await runCommand('docker', ['logs', clientContainer], config);
+  writeFileSync(clientLogPath, clientLog);
+
+  const ip = await runCommand('docker', ['inspect', `--format={{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, clientContainer], config);
+  const fullClientLog = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'journalctl', '--no-pager', '--all'], config);
+  writeFileSync(fullClientLogPath, fullClientLog);
+};
+
 const cleanup = async (exitCode = 0) => {
   killTestProcesses();
   const logDir = join(config.guiRepository, 'logs');
   const logPath = join(logDir, 'gui_e2e_tests.txt');
-  const clientLogPath = join(logDir, 'client.log');
 
   if (exitCode !== 0) {
     try {
       mkdirSync(logDir, { recursive: true });
-      // the client gets often started outside of the compose setup, so track it down by name
-      console.log(chalk.yellow(`📋 Capturing client logs to ${chalk.cyan(clientLogPath)}`));
-      const containerNames = await runCommand('docker', ['ps', '-a', `--format={{.Names}}`], config);
-      const clientContainer = containerNames.split('\n').find(name => name.includes('client'));
-      if (clientContainer) {
-        const clientLog = await runCommand('docker', ['logs', clientContainer], config);
-        writeFileSync(clientLogPath, clientLog);
-      }
+      await collectClientLogs(logDir);
       console.log(chalk.yellow(`📋 Tests failed, dumping logs to ${chalk.cyan(logPath)}`));
       const logs = await composeLogs(config);
       writeFileSync(logPath, logs);
