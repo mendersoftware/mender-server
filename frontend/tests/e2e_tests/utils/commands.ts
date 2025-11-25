@@ -123,6 +123,9 @@ export const prepareNewPage = async ({
   let page = await context.newPage();
   page = await ensureFeedbackDisabled({ baseUrl, page, token: logInResult.token });
   await page.goto(`${baseUrl}ui/`);
+  if (baseUrl.includes('staging')) {
+    await page.waitForTimeout(timeouts.default); // give page init requests time to settle & reduce chance to run into rate limits
+  }
   return page;
 };
 
