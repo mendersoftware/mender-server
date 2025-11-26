@@ -140,10 +140,8 @@ export const BaseOnboardingTip = ({ anchor, icon, component, place, id, ...other
     <BaseOnboardingTooltip anchor={anchor} icon={icon} place={place} id={id}>
       <div className="content">
         {React.cloneElement(component, others)}
-        <div>
-          <b className="clickable" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))}>
-            Dismiss the tutorial
-          </b>
+        <div className="clickable" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))}>
+          Skip the tour
         </div>
       </div>
     </BaseOnboardingTooltip>
