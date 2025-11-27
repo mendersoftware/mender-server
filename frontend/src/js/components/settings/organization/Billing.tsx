@@ -195,11 +195,11 @@ export const Billing = () => {
   const planName = PLANS[currentPlan].name;
 
   useEffect(() => {
+    dispatch(getUserBilling());
     if (isTrial) {
       return;
     }
     dispatch(getCurrentCard());
-    dispatch(getUserBilling());
   }, [dispatch, isTrial]);
 
   const enabledAddOns = addons.filter(({ enabled }) => enabled).map(({ name }) => ADDONS[name].title);
