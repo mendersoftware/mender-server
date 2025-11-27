@@ -120,7 +120,7 @@ export const PasswordInput = ({
   };
 
   const validate = async (value = '') => {
-    if (disabled) {
+    if (!validations || disabled) {
       return true;
     }
     let { isValid, errortext } = runValidations({ id, required, validations, value });
