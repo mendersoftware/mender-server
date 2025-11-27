@@ -45,7 +45,8 @@ const filter = createFilterOptions();
 
 const types = [
   { title: 'raspberrypi3', value: 'raspberrypi3' },
-  { title: 'raspberrypi4', value: 'raspberrypi4' }
+  { title: 'raspberrypi4', value: 'raspberrypi4' },
+  { title: 'raspberrypi5', value: 'raspberrypi5' }
 ];
 
 export const ConvertedImageNote = () => (
