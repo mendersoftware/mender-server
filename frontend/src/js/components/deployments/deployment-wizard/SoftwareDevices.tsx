@@ -12,11 +12,11 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
-import { Autocomplete, TextField, Tooltip } from '@mui/material';
+import { Alert, Autocomplete, TextField, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import AsyncAutocomplete from '@northern.tech/common-ui/AsyncAutocomplete';
@@ -24,23 +24,24 @@ import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
 import InfoText from '@northern.tech/common-ui/InfoText';
 import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIONS, DEVICE_STATES } from '@northern.tech/store/constants';
 import { formatDeviceSearch } from '@northern.tech/store/locationutils';
+import { getDeviceLimits } from '@northern.tech/store/selectors';
 import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
 import validator from 'validator';
 
-const { isUUID } = validator;
-
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
+
+const { isUUID } = validator;
 
 const useStyles = makeStyles()(theme => ({
   infoStyle: {
     minWidth: 400,
     borderBottom: 'none'
   },
-  selection: { minWidth: 'min-content', maxWidth: theme.spacing(50), minHeight: 96, marginBottom: theme.spacing(2) }
+  selection: { minWidth: 'min-content', maxWidth: theme.spacing(50), minHeight: 96 }
 }));
 
 const hardCodedStyle = {
@@ -236,12 +237,17 @@ export const Devices = ({
   );
 };
 
+const MCU_ARTIFACT_SIZE_LIMIT = 5 * 1024 ** 2;
+
 export const Software = ({ commonClasses, deploymentObject, releaseRef, releases, releasesById, setDeploymentSettings }) => {
   const [isLoadingReleases, setIsLoadingReleases] = useState(!releases.length);
+  const [showSizeWarning, setShowSizeWarning] = useState(false);
+  const deviceLimits = useSelector(getDeviceLimits);
   const dispatch = useDispatch();
   const { classes } = useStyles();
   const { devices = [], release: deploymentRelease = null, releaseSelectionLocked } = deploymentObject;
   const device = devices.length ? devices[0] : undefined;
+  const hasMicroDevicesOnly = deviceLimits.micro !== 0 && !(deviceLimits.standard && deviceLimits.system);
 
   useEffect(() => {
     setIsLoadingReleases(!releases.length);
@@ -262,8 +268,11 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
       if (release !== deploymentObject.release) {
         setDeploymentSettings({ release });
       }
+      if (hasMicroDevicesOnly) {
+        setShowSizeWarning(release?.artifacts.some(({ size }) => size > MCU_ARTIFACT_SIZE_LIMIT));
+      }
     },
-    [deploymentObject.release, setDeploymentSettings]
+    [deploymentObject.release, hasMicroDevicesOnly, setDeploymentSettings]
   );
 
   const onReleaseInputChange = useCallback(
@@ -285,7 +294,7 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
 
   return (
     <>
-      <h4 className="margin-top-none">Select a Release to deploy</h4>
+      <h4>Select a Release to deploy</h4>
       <div className={commonClasses.columns}>
         <div ref={releaseRef} className={classes.selection}>
           {releaseSelectionLocked ? (
@@ -314,6 +323,11 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
           <MenderHelpTooltip id={HELPTOOLTIPS.groupDeployment.id} />
         </div>
       </div>
+      {showSizeWarning && (
+        <div className={`margin-bottom-large ${commonClasses.columns}`}>
+          <Alert severity="warning">Artifacts larger than 5MB will not be deployed to Micro tier devices.</Alert>
+        </div>
+      )}
     </>
   );
 };
