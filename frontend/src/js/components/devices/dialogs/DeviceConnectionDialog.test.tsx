@@ -41,10 +41,11 @@ describe('DeviceConnectionDialog Component', () => {
         }
       }
     });
-    await user.click(screen.getByText(/get started/i));
+    const getStartedButtons = screen.getAllByRole('button', { name: /get started/i });
+    await user.click(getStartedButtons[0]);
     expect(screen.getByText(/Enter your device type/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /back/i }));
-    await user.click(screen.getByText(/Try a virtual device/i));
+    await user.click(screen.getByText(/Try the virtual device/i));
     expect(screen.getByText(/run the following command to start the virtual device/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Waiting for device/i })).toBeInTheDocument();
     await act(async () => vi.runAllTicks());
