@@ -402,10 +402,10 @@ export const SubscriptionPage = () => {
 
   //Fetch Billing profile & subscription
   useEffect(() => {
+    dispatch(getUserBilling());
     if (isTrial) {
       return;
     }
-    dispatch(getUserBilling());
     dispatch(getCurrentCard());
     //We need to handle special enterprise-like agreements
     dispatch(getUserSubscription())
