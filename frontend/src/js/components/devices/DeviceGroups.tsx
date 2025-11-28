@@ -24,9 +24,9 @@ import { DEVICE_FILTERING_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, 
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getAcceptedDevices,
+  getCombinedLimit,
   getDeviceCountsByStatus,
   getDeviceFilters,
-  getDeviceLimit,
   getFeatures,
   getGroups as getGroupsSelector,
   getIsEnterprise,
@@ -99,7 +99,7 @@ export const DeviceGroups = () => {
   const groups = groupNames;
   const { total: acceptedCount = 0 } = useSelector(getAcceptedDevices);
   const canPreview = useSelector(getIsPreview);
-  const deviceLimit = useSelector(getDeviceLimit);
+  const deviceLimit = useSelector(getCombinedLimit);
   const deviceListState = useSelector(state => state.devices.deviceList);
   const features = useSelector(getFeatures);
   const filters = useSelector(getDeviceFilters);
