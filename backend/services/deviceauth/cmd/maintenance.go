@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
 	"time"
 
 	"golang.org/x/time/rate"
@@ -13,6 +14,50 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store/mongo"
 )
+
+// fixupIDData2InventoryData makes a best-effort compatibility conversion
+// from deviceauth identity data to inventory data.
+// Since the data comes form JSON, all numbers are float64.
+// All types that are not string, float64 or pure arrays of these types are
+// stringified.
+func fixupIDData2InventoryData(idData map[string]any) {
+	for key, attr := range idData {
+		switch t := attr.(type) {
+		case []any:
+			var isString bool
+		SliceLoop:
+			for i, elem := range t {
+				switch te := elem.(type) {
+				case float64:
+					if isString {
+						t[i] = fmt.Sprint(te)
+					}
+				case string:
+					if i == 0 {
+						isString = true
+					} else if !isString {
+						f, err := strconv.ParseFloat(te, 64)
+						if err != nil {
+							// The slice is not pure, discard it
+							// and continue.
+							delete(idData, key)
+							break SliceLoop
+						}
+						t[i] = f
+					}
+				default:
+					t[i] = fmt.Sprint(elem)
+				}
+			}
+
+		case string:
+		case float64:
+
+		default:
+			idData[key] = fmt.Sprint(attr)
+		}
+	}
+}
 
 func MaintenanceSyncDeviceInventory(
 	ctx context.Context,
@@ -45,6 +90,7 @@ func MaintenanceSyncDeviceInventory(
 		} else {
 			dev.IdDataStruct["status"] = dev.Status
 		}
+		fixupIDData2InventoryData(dev.IdDataStruct)
 		err := inv.SetDeviceIdentityIfUnmodifiedSince(
 			ctx, dev.TenantID,
 			dev.Id, dev.IdDataStruct,
