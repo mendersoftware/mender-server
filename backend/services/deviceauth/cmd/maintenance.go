@@ -38,7 +38,13 @@ func MaintenanceSyncDeviceInventory(
 				return err
 			}
 		}
-		dev.IdDataStruct["status"] = dev.Status
+		if dev.IdDataStruct == nil {
+			dev.IdDataStruct = map[string]any{
+				"status": dev.Status,
+			}
+		} else {
+			dev.IdDataStruct["status"] = dev.Status
+		}
 		err := inv.SetDeviceIdentityIfUnmodifiedSince(
 			ctx, dev.TenantID,
 			dev.Id, dev.IdDataStruct,
