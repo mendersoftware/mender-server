@@ -469,6 +469,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   text-transform: none;
+  box-shadow: none;
   text-transform: none;
   display: -webkit-box;
   display: -webkit-flex;
@@ -519,6 +520,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 
 .emotion-19.MuiButton-loading {
   color: transparent;
+}
+
+.emotion-19:hover:not(.MuiButton-colorInfo) {
+  box-shadow: none;
 }
 
 .emotion-19:hover {
@@ -2827,6 +2832,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   text-transform: none;
+  box-shadow: none;
   text-transform: none;
   display: -webkit-box;
   display: -webkit-flex;
@@ -2877,6 +2883,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 
 .emotion-16.MuiButton-loading {
   color: transparent;
+}
+
+.emotion-16:hover:not(.MuiButton-colorInfo) {
+  box-shadow: none;
 }
 
 .emotion-16:hover {

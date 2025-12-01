@@ -1707,7 +1707,6 @@ exports[`CreateDeployment Component > smaller components > renders Devices corre
   min-width: min-content;
   max-width: 400px;
   min-height: 96px;
-  margin-bottom: 16px;
 }
 
 .emotion-1.Mui-focused .MuiAutocomplete-clearIndicator {
@@ -2235,7 +2234,6 @@ exports[`CreateDeployment Component > smaller components > renders Devices corre
   min-width: min-content;
   max-width: 400px;
   min-height: 96px;
-  margin-bottom: 16px;
 }
 
 .emotion-1.Mui-focused .MuiAutocomplete-clearIndicator {
@@ -14596,7 +14594,6 @@ exports[`CreateDeployment Component > smaller components > renders Software corr
   min-width: min-content;
   max-width: 400px;
   min-height: 96px;
-  margin-bottom: 16px;
 }
 
 .emotion-1.Mui-focused .MuiAutocomplete-clearIndicator {
@@ -14973,9 +14970,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 }
 
 <div>
-  <h4
-    class="margin-top-none"
-  >
+  <h4>
     Select a Release to deploy
   </h4>
   <div
@@ -15065,7 +15060,6 @@ exports[`CreateDeployment Component > smaller components > renders Software corr
   min-width: min-content;
   max-width: 400px;
   min-height: 96px;
-  margin-bottom: 16px;
 }
 
 .emotion-1.Mui-focused .MuiAutocomplete-clearIndicator {
@@ -15442,9 +15436,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 }
 
 <div>
-  <h4
-    class="margin-top-none"
-  >
+  <h4>
     Select a Release to deploy
   </h4>
   <div
