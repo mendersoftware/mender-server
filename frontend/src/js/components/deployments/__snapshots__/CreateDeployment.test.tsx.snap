@@ -2894,6 +2894,11 @@ exports[`CreateDeployment Component > smaller components > renders ForceDeploy c
   letter-spacing: 0.00938em;
 }
 
+.emotion-5 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-5:hover svg {
   color: #1565c0;
 }
@@ -2922,10 +2927,10 @@ exports[`CreateDeployment Component > smaller components > renders ForceDeploy c
 
 .emotion-7 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1976d2;
   border-radius: 50%;
 }
@@ -2976,28 +2981,24 @@ exports[`CreateDeployment Component > smaller components > renders ForceDeploy c
           </b>
            (optional)
           <div
-            class=""
+            class="relative flexbox emotion-5  "
             data-mui-internal-clone-element="true"
             style="margin-left: 15px;"
           >
-            <div
-              class="relative emotion-5"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-6"
+              data-testid="HelpIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-6"
-                data-testid="HelpIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                />
-              </svg>
-              <div
-                class="emotion-7 "
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
               />
-            </div>
+            </svg>
+            <div
+              class="emotion-7 "
+            />
           </div>
         </div>
       </span>
@@ -3144,6 +3145,11 @@ exports[`CreateDeployment Component > smaller components > renders ForceDeploy c
   letter-spacing: 0.00938em;
 }
 
+.emotion-5 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-5:hover svg {
   color: #1565c0;
 }
@@ -3172,10 +3178,10 @@ exports[`CreateDeployment Component > smaller components > renders ForceDeploy c
 
 .emotion-7 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1976d2;
   border-radius: 50%;
 }
@@ -3226,28 +3232,24 @@ exports[`CreateDeployment Component > smaller components > renders ForceDeploy c
           </b>
            (optional)
           <div
-            class=""
+            class="relative flexbox emotion-5  "
             data-mui-internal-clone-element="true"
             style="margin-left: 15px;"
           >
-            <div
-              class="relative emotion-5"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-6"
+              data-testid="HelpIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-6"
-                data-testid="HelpIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                />
-              </svg>
-              <div
-                class="emotion-7 "
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
               />
-            </div>
+            </svg>
+            <div
+              class="emotion-7 "
+            />
           </div>
         </div>
       </span>
@@ -6488,6 +6490,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   color: rgba(0, 0, 0, 0.6);
 }
 
+.emotion-38 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-38:hover svg {
   color: #1565c0;
 }
@@ -6516,10 +6523,10 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
 
 .emotion-40 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1976d2;
   border-radius: 50%;
 }
@@ -6776,27 +6783,23 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
             style="margin-top: -30px;"
           >
             <div
-              class=""
+              class="relative flexbox emotion-38  "
               data-mui-internal-clone-element="true"
             >
-              <div
-                class="relative emotion-38"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-39"
+                data-testid="HelpIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-39"
-                  data-testid="HelpIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                  />
-                </svg>
-                <div
-                  class="emotion-40 "
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
                 />
-              </div>
+              </svg>
+              <div
+                class="emotion-40 "
+              />
             </div>
           </div>
         </div>
@@ -14928,6 +14931,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   transition: width 150ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
 }
 
+.emotion-7 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-7:hover svg {
   color: #1565c0;
 }
@@ -14956,10 +14964,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 
 .emotion-9 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1976d2;
   border-radius: 50%;
 }
@@ -15031,27 +15039,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
       class="margin-left-small"
     >
       <div
-        class=""
+        class="relative flexbox emotion-7  "
         data-mui-internal-clone-element="true"
       >
-        <div
-          class="relative emotion-7"
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-8"
+          data-testid="HelpIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-8"
-            data-testid="HelpIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-            />
-          </svg>
-          <div
-            class="emotion-9 "
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
           />
-        </div>
+        </svg>
+        <div
+          class="emotion-9 "
+        />
       </div>
     </div>
   </div>
@@ -15397,6 +15401,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   transition: width 150ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
 }
 
+.emotion-7 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-7:hover svg {
   color: #1565c0;
 }
@@ -15425,10 +15434,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 
 .emotion-9 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1976d2;
   border-radius: 50%;
 }
@@ -15500,27 +15509,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
       class="margin-left-small"
     >
       <div
-        class=""
+        class="relative flexbox emotion-7  "
         data-mui-internal-clone-element="true"
       >
-        <div
-          class="relative emotion-7"
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-8"
+          data-testid="HelpIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
         >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-8"
-            data-testid="HelpIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-            />
-          </svg>
-          <div
-            class="emotion-9 "
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
           />
-        </div>
+        </svg>
+        <div
+          class="emotion-9 "
+        />
       </div>
     </div>
   </div>

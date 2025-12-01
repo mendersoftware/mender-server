@@ -31,7 +31,7 @@ const filterOptionsByPlan = {
 };
 
 const filterNotifications = {
-  name: <MenderHelpTooltip id={HELPTOOLTIPS.nameFilterTip.id} style={{ position: 'absolute', top: 32, left: -50 }} />
+  name: <MenderHelpTooltip id={HELPTOOLTIPS.nameFilterTip.id} style={{ position: 'absolute', left: -50 }} />
 };
 
 const useStyles = makeStyles()(theme => ({

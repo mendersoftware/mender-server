@@ -35,7 +35,6 @@ import {
   getTenantCapabilities
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '@northern.tech/store/thunks';
-import { versionCompare } from '@northern.tech/utils/helpers';
 
 import { getDebConfigurationCode } from '../../../utils/helpers';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
@@ -66,7 +65,7 @@ export const ExternalProviderTip = ({ hasExternalIntegration, integrationProvide
   <MenderTooltipClickable
     className="clickable flexbox muted"
     placement="bottom"
-    style={{ alignItems: 'end', marginBottom: 3 }}
+    style={{ alignItems: 'end' }}
     title={
       <div style={{ maxWidth: 350 }}>
         {hasExternalIntegration ? (
@@ -85,17 +84,8 @@ export const ExternalProviderTip = ({ hasExternalIntegration, integrationProvide
   </MenderTooltipClickable>
 );
 
-export const DeviceTypeSelectionStep = ({
-  hasConvertedImage,
-  hasExternalIntegration,
-  integrationProvider,
-  onboardingState,
-  onSelect,
-  selection = '',
-  version
-}) => {
+export const DeviceTypeSelectionStep = ({ hasConvertedImage, hasExternalIntegration, integrationProvider, onboardingState, onSelect, selection = '' }) => {
   const shouldShowOnboardingTip = !onboardingState.complete && onboardingState.showTips;
-  const hasExternalIntegrationSupport = versionCompare(version, '3.2') > -1;
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>
@@ -145,7 +135,7 @@ export const DeviceTypeSelectionStep = ({
           style={{ maxWidth: 300 }}
           value={selection}
         />
-        {hasExternalIntegrationSupport && <ExternalProviderTip hasExternalIntegration={hasExternalIntegration} integrationProvider={integrationProvider} />}
+        <ExternalProviderTip hasExternalIntegration={hasExternalIntegration} integrationProvider={integrationProvider} />
         {shouldShowOnboardingTip ? <MenderHelpTooltip id={HELPTOOLTIPS.deviceTypeTip.id} placement="bottom" /> : <div />}
       </div>
       {hasConvertedImage && <ConvertedImageNote />}

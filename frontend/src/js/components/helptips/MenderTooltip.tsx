@@ -38,10 +38,10 @@ const useStyles = makeStyles()(theme => ({
   },
   iconAura: {
     position: 'absolute',
-    top: -5,
-    bottom: 0,
-    left: -5,
-    right: -5,
+    top: theme.spacing(-0.5),
+    bottom: theme.spacing(-0.5),
+    left: theme.spacing(-0.5),
+    right: theme.spacing(-0.5),
     border: `1px dashed ${theme.palette.primary.main}`,
     borderRadius: '50%',
     '&.read': {
@@ -52,6 +52,8 @@ const useStyles = makeStyles()(theme => ({
     }
   },
   iconWrapper: {
+    margin: 'auto',
+    marginLeft: 0,
     '&:hover svg': {
       color: theme.palette.primary.dark
     }
@@ -126,11 +128,13 @@ export interface HelpTooltipProps {
 export const HelpTooltip = ({
   icon = undefined,
   id,
+  className = '',
   contentProps = {},
   tooltip,
   device,
   setAllTooltipsReadState,
   setTooltipReadState,
+  style = {},
   ...props
 }: HelpTooltipProps & Omit<MenderTooltipClickableProps, 'children' | 'title'>) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -157,13 +161,18 @@ export const HelpTooltip = ({
     return null;
   }
 
-  const className = tooltipStateStyleMap[readState] ?? tooltipStateStyleMap.default;
+  const iconClassName = tooltipStateStyleMap[readState] ?? tooltipStateStyleMap.default;
   return (
-    <MenderTooltipClickable className={isOpen ? 'muted' : ''} title={title} visibility={isOpen} onOpenChange={setIsOpen} {...props}>
-      <div className={`relative ${classes.iconWrapper}`}>
-        {icon || <HelpIcon className={`${classes.icon} ${className}`} color="primary" />}
-        <div className={`${classes.iconAura} ${className}`} />
-      </div>
+    <MenderTooltipClickable
+      className={`relative flexbox ${classes.iconWrapper} ${isOpen ? 'muted' : ''} ${className}`}
+      title={title}
+      visibility={isOpen}
+      onOpenChange={setIsOpen}
+      style={style}
+      {...props}
+    >
+      {icon || <HelpIcon className={`${classes.icon} ${iconClassName}`} color="primary" />}
+      <div className={`${classes.iconAura} ${iconClassName}`} />
     </MenderTooltipClickable>
   );
 };

@@ -59,11 +59,11 @@ const defaultReportTimeStamp = '0001-01-01T00:00:00Z';
 const configHelpTipsMap = {
   'mender-demo-raspberrypi-led': {
     position: 'right',
-    component: ({ anchor, ...props }) => <MenderHelpTooltip style={anchor} id={HELPTOOLTIPS.configureRaspberryLedTip.id} contentProps={props} />
+    component: ({ anchor, ...props }) => <MenderHelpTooltip style={anchor} id={HELPTOOLTIPS.configureRaspberryLedTip.id} {...props} />
   },
   timezone: {
     position: 'right',
-    component: ({ anchor, ...props }) => <MenderHelpTooltip style={anchor} id={HELPTOOLTIPS.configureTimezoneTip.id} contentProps={props} />
+    component: ({ anchor, ...props }) => <MenderHelpTooltip style={anchor} id={HELPTOOLTIPS.configureTimezoneTip.id} {...props} />
   }
 };
 

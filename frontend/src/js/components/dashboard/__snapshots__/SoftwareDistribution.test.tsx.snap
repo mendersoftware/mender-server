@@ -221,6 +221,11 @@ exports[`Devices Component > renders correctly 1`] = `
   gap: 16px;
 }
 
+.emotion-11 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-11:hover svg {
   color: #1565c0;
 }
@@ -249,10 +254,10 @@ exports[`Devices Component > renders correctly 1`] = `
 
 .emotion-13 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1976d2;
   border-radius: 50%;
 }
@@ -403,27 +408,23 @@ exports[`Devices Component > renders correctly 1`] = `
         style="align-items: end;"
       >
         <div
-          class=""
+          class="relative flexbox emotion-11  "
           data-mui-internal-clone-element="true"
         >
-          <div
-            class="relative emotion-11"
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-12"
+            data-testid="HelpIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-12"
-              data-testid="HelpIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-              />
-            </svg>
-            <div
-              class="emotion-13 "
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
             />
-          </div>
+          </svg>
+          <div
+            class="emotion-13 "
+          />
         </div>
       </div>
       <div
@@ -631,6 +632,11 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
   white-space: nowrap;
 }
 
+.emotion-3 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-3:hover svg {
   color: #1565c0;
 }
@@ -659,10 +665,10 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
 
 .emotion-5 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1976d2;
   border-radius: 50%;
 }
@@ -725,27 +731,23 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
           </div>
         </div>
         <div
-          class=""
+          class="relative flexbox emotion-3  "
           data-mui-internal-clone-element="true"
         >
-          <div
-            class="relative emotion-3"
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-4"
+            data-testid="HelpIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-4"
-              data-testid="HelpIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-              />
-            </svg>
-            <div
-              class="emotion-5 "
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
             />
-          </div>
+          </svg>
+          <div
+            class="emotion-5 "
+          />
         </div>
       </div>
       <div
@@ -778,6 +780,11 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
   gap: 16px;
 }
 
+.emotion-1 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-1:hover svg {
   color: #1565c0;
 }
@@ -806,10 +813,10 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
 
 .emotion-3 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1976d2;
   border-radius: 50%;
 }
@@ -881,27 +888,23 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
         style="align-items: end;"
       >
         <div
-          class=""
+          class="relative flexbox emotion-1  "
           data-mui-internal-clone-element="true"
         >
-          <div
-            class="relative emotion-1"
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-2"
+            data-testid="HelpIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-2"
-              data-testid="HelpIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-              />
-            </svg>
-            <div
-              class="emotion-3 "
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
             />
-          </div>
+          </svg>
+          <div
+            class="emotion-3 "
+          />
         </div>
       </div>
       <div
@@ -1188,6 +1191,11 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
   gap: 16px;
 }
 
+.emotion-11 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-11:hover svg {
   color: #1565c0;
 }
@@ -1216,10 +1224,10 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
 
 .emotion-13 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1976d2;
   border-radius: 50%;
 }
@@ -1370,27 +1378,23 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
         style="align-items: end;"
       >
         <div
-          class=""
+          class="relative flexbox emotion-11  "
           data-mui-internal-clone-element="true"
         >
-          <div
-            class="relative emotion-11"
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-12"
+            data-testid="HelpIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-12"
-              data-testid="HelpIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-              />
-            </svg>
-            <div
-              class="emotion-13 "
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
             />
-          </div>
+          </svg>
+          <div
+            class="emotion-13 "
+          />
         </div>
       </div>
       <div
