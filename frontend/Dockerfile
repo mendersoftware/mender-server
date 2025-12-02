@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:24.11.0-alpine3.22 AS base
+FROM --platform=$BUILDPLATFORM node:25.2.1-alpine3.22 AS base
 WORKDIR /usr/src/app
 RUN apk add --no-cache gzip
 COPY package-lock.json package.json ./
