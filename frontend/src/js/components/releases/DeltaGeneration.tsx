@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Typography, tableCellClasses } from '@mui/material';
@@ -26,6 +26,7 @@ import { MaybeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, SortOptions } from '@northern.tech/store/constants';
 import { getDeltaJobsById, getDeltaJobsListState, getIsEnterprise, getSelectedJob } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeltaGenerationJobs } from '@northern.tech/store/thunks';
 import { formatTime } from '@northern.tech/utils/helpers';
 
@@ -89,7 +90,7 @@ const deltaJobColumns = [
 const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 
 export const DeltaProgress = ({ className = '' }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isEnterprise = useSelector(getIsEnterprise);
   const { jobIds, total, sort = {} as SortOptions, page = defaultPage, perPage = defaultPerPage } = useSelector(getDeltaJobsListState);
   const byId = useSelector(getDeltaJobsById);
