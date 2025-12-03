@@ -3113,6 +3113,7 @@ func (db *DataStoreMongo) GetDeploymentIDsByArtifactNames(
 	collDpl := database.Collection(CollectionDeployments)
 
 	query := bson.M{
+		StorageKeyDeploymentActive: true,
 		StorageKeyDeploymentArtifactName: bson.M{
 			"$in": artifactNames,
 		},
