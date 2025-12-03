@@ -14,9 +14,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AutoAwesomeOutlined as AutoAwesomeIcon } from '@mui/icons-material';
 // material ui
-import { Button, LinearProgress } from '@mui/material';
+import {
+  AutoAwesomeOutlined as AutoAwesomeIcon,
+  Cancel as CancelIcon,
+  CheckCircle as CheckIcon,
+  Error as ErrorIcon,
+  PendingOutlined as PendingIcon,
+  SvgIconComponent
+} from '@mui/icons-material';
+import { Button, LinearProgress, LinearProgressProps, SvgIconOwnProps, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TwoColumns } from '@northern.tech/common-ui/ConfigurationObject';
@@ -43,26 +50,29 @@ const useStyles = makeStyles()(() => ({
 
 const { page: defaultPage } = DEVICE_LIST_DEFAULTS;
 
-const stateTitleMap = {
-  noartifact: 'No compatible artifact found',
-  'already-installed': 'Already installed',
-  'pause-before-installing': 'Paused before installing',
-  'pause-before-rebooting': 'Paused before rebooting',
-  'pause-before-committing': 'Paused before committing'
-};
-
-const determinedStateMap = {
-  'noartifact': 0,
-  'aborted': 100,
-  'already-installed': 100,
-  'failure': 100,
-  'success': 100
-};
-
-const statusColorMap = {
-  failure: 'secondary',
+const statusColorMap: Record<string, SvgIconOwnProps['color']> = {
+  error: 'error',
   aborted: 'secondary',
-  default: 'primary'
+  success: 'success',
+  default: 'info'
+};
+
+type StateInfoEntry = {
+  color?: SvgIconOwnProps['color'];
+  icon?: SvgIconComponent;
+  progress?: number;
+  title: string;
+};
+
+const stateInfoMap: Record<string, StateInfoEntry> = {
+  'already-installed': { title: 'Already installed', progress: 100 },
+  'pause-before-committing': { title: 'Paused before committing' },
+  'pause-before-installing': { title: 'Paused before installing' },
+  'pause-before-rebooting': { title: 'Paused before rebooting' },
+  aborted: { title: 'Paused before committing', progress: 100, color: statusColorMap.aborted, icon: CancelIcon },
+  failure: { title: 'Fail', progress: 100, color: statusColorMap.error, icon: ErrorIcon },
+  noartifact: { title: 'No compatible artifact found', progress: 0, icon: CancelIcon },
+  success: { title: 'Success', progress: 100, color: statusColorMap.success, icon: CheckIcon }
 };
 
 const undefinedStates = [deploymentSubstates.pending, deploymentSubstates.decommissioned, deploymentSubstates.alreadyInstalled];
@@ -165,23 +175,32 @@ const deviceListColumns = [
   {
     key: 'status',
     title: 'Deployment status',
-    render: ({ device: { substate, status = '' } }) => {
-      const statusTitle = stateTitleMap[status] || status;
-      const progressColor = statusColorMap[statusTitle.toLowerCase()] ?? statusColorMap.default;
-      const devicePercentage = determinedStateMap[status];
+    render: ({ device: { substate = '', status = '' } }) => {
+      const {
+        color: progressColor = statusColorMap.default,
+        icon: Icon = PendingIcon,
+        progress: devicePercentage,
+        title = status
+      } = stateInfoMap[status] ?? {};
+      const statusTitle = (
+        <Typography variant="body2" className="capitalized-start">
+          {title}
+        </Typography>
+      );
       return (
         <>
-          {substate ? (
-            <div className="flexbox">
-              <div className="capitalized-start" style={{ verticalAlign: 'top' }}>{`${statusTitle}: `}</div>
-              <div className="substate">{substate}</div>
-            </div>
-          ) : (
-            statusTitle
-          )}
+          <div className="flexbox center-aligned margin-bottom-x-small">
+            <Icon className="margin-right-x-small" color={progressColor} />
+            {statusTitle}
+          </div>
+          {substate && <Typography variant="caption">{substate}</Typography>}
           {!undefinedStates.includes(status.toLowerCase()) && (
-            <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
-              <LinearProgress color={progressColor} value={devicePercentage} variant={devicePercentage !== undefined ? 'determinate' : 'indeterminate'} />
+            <div style={{ position: 'absolute', bottom: 0, width: '100%', paddingRight: 32 }}>
+              <LinearProgress
+                color={progressColor as LinearProgressProps['color']}
+                value={devicePercentage}
+                variant={devicePercentage !== undefined ? 'determinate' : 'indeterminate'}
+              />
             </div>
           )}
         </>
@@ -194,7 +213,7 @@ const deviceListColumns = [
     title: '',
     render: ({ canAi, device: { id, log }, viewLog }) =>
       log ? (
-        <Button endIcon={canAi ? <AutoAwesomeIcon /> : null} onClick={() => viewLog(id)} size="small">
+        <Button className="nowrap" endIcon={canAi ? <AutoAwesomeIcon /> : null} onClick={() => viewLog(id)} size="small">
           View log
         </Button>
       ) : null,

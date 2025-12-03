@@ -22,7 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
-import { getBillingProfile, getCard, getDeviceLimit, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
+import { getBillingProfile, getCard, getDeviceLimits, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { cancelRequest, getCurrentCard, getUserBilling } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
@@ -186,7 +186,7 @@ export const Billing = () => {
   const isEnterprise = useSelector(getIsEnterprise);
   const organization = useSelector(getOrganization);
   const card = useSelector(getCard);
-  const deviceLimit = useSelector(getDeviceLimit);
+  const { standard: deviceLimit } = useSelector(getDeviceLimits);
   const billing = useSelector(getBillingProfile);
   const { addons = [], plan: currentPlan = PLANS.os.id, trial: isTrial, trial_expiration } = organization;
   const dispatch = useAppDispatch();

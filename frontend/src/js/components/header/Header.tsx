@@ -45,7 +45,7 @@ import {
   getCurrentUser,
   getDeploymentsByStatus,
   getDeviceCountsByStatus,
-  getDeviceLimit,
+  getDeviceLimits,
   getFeatures,
   getFeedbackProbability,
   getHostedAnnouncement,
@@ -285,7 +285,7 @@ export const Header = ({ isDarkMode }) => {
   const organization = useSelector(getOrganization);
   const { total: acceptedDevices = 0 } = useSelector(getAcceptedDevices);
   const announcement = useSelector(getHostedAnnouncement);
-  const deviceLimit = useSelector(getDeviceLimit);
+  const { standard: deviceLimit } = useSelector(getDeviceLimits);
   const feedbackProbability = useSelector(getFeedbackProbability);
   const firstLoginAfterSignup = useSelector(getIsFirstLogin);
   const { feedbackCollectedAt, trackingConsentGiven: hasTrackingEnabled } = useSelector(getUserSettings);
