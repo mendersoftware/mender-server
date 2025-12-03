@@ -323,7 +323,7 @@ func (db *DataStoreMongo) AddDevice(ctx context.Context, d model.Device) error {
 	c := db.client.Database(DbName).Collection(DbDevicesColl)
 
 	if _, err := c.InsertOne(ctx, d); err != nil {
-		if strings.Contains(err.Error(), "duplicate key error") {
+		if mongo.IsDuplicateKeyError(err) {
 			return store.ErrObjectExists
 		}
 		return errors.Wrap(err, "failed to store device")
