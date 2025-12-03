@@ -21,7 +21,7 @@ Does this page need fixes or improvements?
 
 Open an issue, or contribute a fix to:
 
-- https://github.com/mendersoftware/mender-server
+- https://github.com/mendersoftware/gui
 
 🤝 Contribute to Mender: https://github.com/mendersoftware/mender/blob/master/CONTRIBUTING.md
 🔎 Ask about problems, and report issues: https://hub.mender.io
