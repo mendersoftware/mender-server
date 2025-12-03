@@ -64,7 +64,7 @@ export const Authsets = ({ decommission, device, listRef }) => {
     <div className={classes.wrapper}>
       <div className="margin-bottom-small flexbox space-between">
         {status === DEVICE_STATES.pending ? `Authorization ${pluralize('request', auth_sets.length)}` : 'Authorization sets'}
-        <MenderHelpTooltip id={HELPTOOLTIPS.authExplainButton.id} />
+        <MenderHelpTooltip id={HELPTOOLTIPS.authExplainButton.id} className="margin-left-small" />
       </div>
       <Authsetlist
         limitMaxed={limitMaxed}

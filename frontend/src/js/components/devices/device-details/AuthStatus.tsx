@@ -85,7 +85,7 @@ export const AuthStatus = ({ decommission, device }) => {
             {statusIcon}
           </div>
           {requestNotification}
-          {status === DEVICE_STATES.pending && <MenderHelpTooltip id={HELPTOOLTIPS.authButton.id} style={{ marginTop: 5 }} />}
+          {status === DEVICE_STATES.pending && <MenderHelpTooltip id={HELPTOOLTIPS.authButton.id} />}
         </div>
       }
     >

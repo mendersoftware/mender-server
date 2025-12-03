@@ -464,6 +464,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   color: #d32f2f;
 }
 
+.emotion-21 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-21:hover svg {
   color: #1565c0;
 }
@@ -492,10 +497,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 
 .emotion-23 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1976d2;
   border-radius: 50%;
 }
@@ -1398,27 +1403,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
             />
           </div>
           <div
-            class="required"
+            class="relative flexbox emotion-21  required"
             data-mui-internal-clone-element="true"
           >
-            <div
-              class="relative emotion-21"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-22"
+              data-testid="HelpIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-22"
-                data-testid="HelpIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                />
-              </svg>
-              <div
-                class="emotion-23 "
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
               />
-            </div>
+            </svg>
+            <div
+              class="emotion-23 "
+            />
           </div>
         </div>
         <div
@@ -1624,27 +1625,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
             />
           </div>
           <div
-            class="required"
+            class="relative flexbox emotion-21  required"
             data-mui-internal-clone-element="true"
           >
-            <div
-              class="relative emotion-21"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-22"
+              data-testid="HelpIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-22"
-                data-testid="HelpIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                />
-              </svg>
-              <div
-                class="emotion-23 "
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
               />
-            </div>
+            </svg>
+            <div
+              class="emotion-23 "
+            />
           </div>
         </div>
         <div
@@ -1681,27 +1678,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
             </span>
           </label>
           <div
-            class=""
+            class="relative flexbox emotion-21  "
             data-mui-internal-clone-element="true"
           >
-            <div
-              class="relative emotion-21"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-22"
+              data-testid="HelpIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-22"
-                data-testid="HelpIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                />
-              </svg>
-              <div
-                class="emotion-23 "
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
               />
-            </div>
+            </svg>
+            <div
+              class="emotion-23 "
+            />
           </div>
         </div>
         <div

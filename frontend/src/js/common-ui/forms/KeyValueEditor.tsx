@@ -43,7 +43,7 @@ const reducePairs = (pairs: InputLineItem[]) => (pairs || []).reduce((accu, item
 
 const useStyles = makeStyles()(theme => ({
   spacer: { minWidth: theme.spacing(30) },
-  helptip: { left: -35, top: 15, position: 'absolute' },
+  helptip: { left: -35, top: theme.spacing(2), '&.relative': { position: 'absolute' } },
   keyValueContainer: {
     display: 'grid',
     gridTemplateColumns: 'min-content min-content max-content',
