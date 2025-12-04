@@ -2419,9 +2419,9 @@ func TestDeleteImagesByNames(t *testing.T) {
 	}
 }
 
-func TestGetDeploymentIDsByArtifactNames(t *testing.T) {
+func TestGetActiveDeploymentIDsByArtifactNames(t *testing.T) {
 	if testing.Short() {
-		t.Skip("skipping TestGetDeploymentIDsByArtifactNames in short mode.")
+		t.Skip("skipping TestGetActiveDeploymentIDsByArtifactNames in short mode.")
 	}
 
 	testCases := map[string]struct {
@@ -2504,7 +2504,7 @@ func TestGetDeploymentIDsByArtifactNames(t *testing.T) {
 				assert.NoError(t, err)
 			}
 
-			ids, err := ds.GetDeploymentIDsByArtifactNames(ctx, tc.artifactNames)
+			ids, err := ds.GetActiveDeploymentIDsByArtifactNames(ctx, tc.artifactNames)
 			assert.NoError(t, err)
 			assert.Equal(t, tc.outputIDs, ids)
 		})

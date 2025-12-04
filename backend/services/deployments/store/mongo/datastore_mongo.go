@@ -3104,7 +3104,7 @@ func (db *DataStoreMongo) UpdateDeploymentsWithArtifactName(
 	return err
 }
 
-func (db *DataStoreMongo) GetDeploymentIDsByArtifactNames(
+func (db *DataStoreMongo) GetActiveDeploymentIDsByArtifactNames(
 	ctx context.Context,
 	artifactNames []string,
 ) ([]string, error) {

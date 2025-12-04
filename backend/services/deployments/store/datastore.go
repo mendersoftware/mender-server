@@ -178,7 +178,10 @@ type DataStore interface {
 		artifactName string,
 		artifactIDs []string,
 	) error
-	GetDeploymentIDsByArtifactNames(ctx context.Context, artifactNames []string) ([]string, error)
+	GetActiveDeploymentIDsByArtifactNames(
+		ctx context.Context,
+		artifactNames []string,
+	) ([]string, error)
 
 	GetTenantDbs() ([]string, error)
 	SaveLastDeviceDeploymentStatus(
