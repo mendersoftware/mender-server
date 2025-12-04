@@ -530,7 +530,9 @@ func (i *InternalAPI) PatchDeviceAttributesInternalHandler(
 		notModifiedAfter = &parsed
 	}
 	for i := range attrs {
-		attrs[i].Scope = c.Param("scope")
+		if attrs[i].Scope != model.AttrScopeSystem {
+			attrs[i].Scope = c.Param("scope")
+		}
 		if attrs[i].Name == checkInTimeParamName && attrs[i].Scope == checkInTimeParamScope {
 			t, err := time.Parse(time.RFC3339, fmt.Sprintf("%v", attrs[i].Value))
 			if err != nil {
