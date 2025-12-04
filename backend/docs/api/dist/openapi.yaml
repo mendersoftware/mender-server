@@ -2806,6 +2806,8 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
       security:
         - DeviceJWT: []
   /api/internal/v1/devauth/alive:
@@ -2866,6 +2868,8 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/internal/v1/devauth/tokens:
     delete:
       operationId: DeviceAuth Internal Revoke Device Tokens
@@ -2891,6 +2895,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices:
     get:
       operationId: DeviceAuth Internal Get Device Limit
@@ -3001,6 +3007,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}/external:
     put:
       operationId: DeviceAuth Internal Set external identity
@@ -3380,6 +3388,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/management/v2/devauth/devices/{id}/auth/{aid}:
     delete:
       operationId: DeviceAuth Management Remove authentication
@@ -3410,6 +3420,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/management/v2/devauth/devices/{id}/auth/{aid}/status:
     put:
       operationId: DeviceAuth Management Set Authentication Status
@@ -3454,6 +3466,8 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
     get:
       operationId: DeviceAuth Management Get Authentication Status
       security:
@@ -3537,6 +3551,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/management/v2/devauth/limits/max_devices:
     get:
       operationId: DeviceAuth Management Get Device Limit
@@ -3556,6 +3572,8 @@ paths:
                 $ref: '#/components/schemas/Limit'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/devices/v1/deviceconfig/configuration:
     get:
       operationId: DeviceConfig Get Device Configuration
@@ -7147,6 +7165,15 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             error: Forbidden
+            request_id: eed14d55-d996-42cd-8248-e806663810a8
+    UnavailableError:
+      description: Service is unavailabe.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: service unavailable
             request_id: eed14d55-d996-42cd-8248-e806663810a8
   schemas:
     Error:

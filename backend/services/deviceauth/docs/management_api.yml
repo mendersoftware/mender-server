@@ -275,6 +275,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '503':
+          description: Service is unavailabe.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /devices/{id}/auth/{aid}:
     delete:
@@ -316,6 +322,12 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Service is unavailabe.
           content:
             application/json:
               schema:
@@ -379,6 +391,12 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Service is unavailabe.
           content:
             application/json:
               schema:
@@ -497,6 +515,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '503':
+          description: Service is unavailabe.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /limits/max_devices:
     get:
@@ -517,6 +541,12 @@ paths:
                 $ref: '#/components/schemas/Limit'
         '500':
           description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Service is unavailabe.
           content:
             application/json:
               schema:

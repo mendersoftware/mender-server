@@ -57,3 +57,18 @@ func RenderInternalError(c *gin.Context, err error) {
 		errors.New(msg),
 	)
 }
+
+func RenderUnavailable(c *gin.Context, err error) {
+	msg := "service unavailable"
+	if err != nil {
+		RenderErrorWithMessage(c,
+			http.StatusServiceUnavailable,
+			err, msg,
+		)
+		return
+	}
+	RenderError(c,
+		http.StatusServiceUnavailable,
+		errors.New(msg),
+	)
+}
