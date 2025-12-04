@@ -17,6 +17,7 @@ package redis
 import (
 	"context"
 	"crypto/tls"
+	"errors"
 	"fmt"
 	"net"
 	"net/url"
@@ -154,4 +155,25 @@ func ClientFromConnectionString(
 		Ping(ctx).
 		Result()
 	return rdb, err
+}
+
+func IsUnavailableErr(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	checkers := []func(error) bool{
+		redis.IsClusterDownError, // The cluster is down
+		redis.IsLoadingError,     // Redis is still loading the dataset
+		redis.IsMasterDownError,  // The master node is down
+		redis.IsTryAgainError,    // The operation should be retried
+	}
+
+	for _, checker := range checkers {
+		if checker(err) {
+			return true
+		}
+	}
+	var netErr net.Error
+	return errors.As(err, &netErr)
 }

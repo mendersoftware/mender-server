@@ -69,6 +69,8 @@ paths:
           $ref: ../common/responses.yaml#/components/responses/ForbiddenError
         '500':
           $ref: ../common/responses.yaml#/components/responses/InternalServerError
+        '503':
+          $ref: ../common/responses.yaml#/components/responses/UnavailableError
   /api/internal/v1/devauth/tokens:
     delete:
       operationId: DeviceAuth Internal Revoke Device Tokens
@@ -101,6 +103,8 @@ paths:
           $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
         '500':
           $ref: ../common/responses.yaml#/components/responses/InternalServerError
+        '503':
+          $ref: ../common/responses.yaml#/components/responses/UnavailableError
   /api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices:
     get:
       operationId: DeviceAuth Internal Get Device Limit
@@ -212,6 +216,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         '500':
           $ref: ../common/responses.yaml#/components/responses/InternalServerError
+        '503':
+          $ref: ../common/responses.yaml#/components/responses/UnavailableError
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}/external:
     put:
       operationId: DeviceAuth Internal Set external identity
