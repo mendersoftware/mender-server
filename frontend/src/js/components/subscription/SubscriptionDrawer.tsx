@@ -151,7 +151,8 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
       />
     </div>
   );
-  const cardDetailsDisabled = isTrial && !billing;
+  const hasBilling = (billing && Object.keys(billing).length > 0);
+  const cardDetailsDisabled = isTrial && !hasBilling;
   return (
     <Drawer anchor="right" open={true} PaperProps={{ style: { minWidth: '50vw' } }}>
       <DrawerTitle title={currentSubscription ? `Upgrade your subscription` : `Subscribe to Mender ${selectedPlan.name}`} onClose={onClose} />
@@ -162,7 +163,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
         </div>
       )}
 
-      {isEdit || (isTrial && !billing) ? (
+      {isEdit || (isTrial && (!billing || Object.keys(billing).length == 0)) ? (
         <Form
           classes={classes}
           onSubmit={handleBillingProfileEdit}
