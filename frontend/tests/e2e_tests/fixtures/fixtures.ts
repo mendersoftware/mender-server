@@ -16,6 +16,7 @@ import type { Page } from '@playwright/test';
 import { test as nonCoveredTest } from '@playwright/test';
 
 import { getPeristentLoginInfo } from '../utils/commands.ts';
+import { timeouts } from '../utils/constants.ts';
 
 type DemoArtifactVersionInfo = {
   artifactVersion: string;
@@ -53,6 +54,7 @@ const defaultConfig = {
 const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : coveredTest).extend<TestFixtures>({
   page: async ({ baseUrl, page }, use) => {
     await page.goto(baseUrl);
+    await page.waitForTimeout(timeouts.oneSecond);
     await use(page);
   },
   // eslint-disable-next-line no-empty-pattern
