@@ -461,6 +461,15 @@ paths:
           name: created_after
           schema:
             type: integer
+        - description: |
+            Supports sorting the deployments list by creation date.
+          in: query
+          name: sort
+          schema:
+            enum:
+              - asc
+              - desc
+            type: string
       responses:
         '200':
           content:
@@ -2797,6 +2806,8 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
       security:
         - DeviceJWT: []
   /api/internal/v1/devauth/alive:
@@ -2857,6 +2868,8 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/internal/v1/devauth/tokens:
     delete:
       operationId: DeviceAuth Internal Revoke Device Tokens
@@ -2882,6 +2895,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices:
     get:
       operationId: DeviceAuth Internal Get Device Limit
@@ -2992,6 +3007,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}/external:
     put:
       operationId: DeviceAuth Internal Set external identity
@@ -3371,6 +3388,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/management/v2/devauth/devices/{id}/auth/{aid}:
     delete:
       operationId: DeviceAuth Management Remove authentication
@@ -3401,6 +3420,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/management/v2/devauth/devices/{id}/auth/{aid}/status:
     put:
       operationId: DeviceAuth Management Set Authentication Status
@@ -3445,6 +3466,8 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
     get:
       operationId: DeviceAuth Management Get Authentication Status
       security:
@@ -3528,6 +3551,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/management/v2/devauth/limits/max_devices:
     get:
       operationId: DeviceAuth Management Get Device Limit
@@ -3547,6 +3572,8 @@ paths:
                 $ref: '#/components/schemas/Limit'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/devices/v1/deviceconfig/configuration:
     get:
       operationId: DeviceConfig Get Device Configuration
@@ -7139,6 +7166,15 @@ components:
           example:
             error: Forbidden
             request_id: eed14d55-d996-42cd-8248-e806663810a8
+    UnavailableError:
+      description: Service is unavailabe.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: service unavailable
+            request_id: eed14d55-d996-42cd-8248-e806663810a8
   schemas:
     Error:
       description: Error descriptor.
@@ -7798,8 +7834,8 @@ components:
                     checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                     size: 123
                     date: 2016-03-11T13:03:17.063+0000
-                meta_data: []
                 metadata: {}
+                meta_data: []
             artifact_provides:
               artifact_name: test
               rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -9127,6 +9163,9 @@ components:
           type: integer
           description: The number of times a device can retry the deployment in case of failure, defaults to 0
           default: 0
+          x-mender-plan:
+            - professional
+            - enterprise
         update_control_map:
           x-mender-plan:
             - enterprise

@@ -67,6 +67,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+        "503":
+          $ref: '../common/responses.yaml#/components/responses/UnavailableError'
 
 components:
   securitySchemes:
