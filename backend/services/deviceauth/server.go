@@ -111,7 +111,10 @@ func RunServer(c config.Reader) error {
 					MiddlewareGin),
 			)
 		}
+	} else if c.GetBool(rate1.SettingRateLimitsAuthEnable) {
+		return errors.New("ratelimits: redis is required but disabled")
 	}
+
 	apiOptions = append(apiOptions, api_http.SetMaxRequestSize(
 		int64(c.GetInt(dconfig.SettingMaxRequestSize)),
 	))
