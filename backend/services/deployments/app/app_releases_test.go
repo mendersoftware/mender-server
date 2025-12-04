@@ -337,7 +337,7 @@ func TestDeleteReleases(t *testing.T) {
 
 			GetDatabase: func(t *testing.T, self *testCase) *mocks.DataStore {
 				ds := new(mocks.DataStore)
-				ds.On("GetDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
+				ds.On("GetActiveDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
 					Return([]string{}, nil)
 				ds.On("DeleteImagesByNames", self.Context, self.ReleaseNames).
 					Return(nil)
@@ -354,7 +354,7 @@ func TestDeleteReleases(t *testing.T) {
 
 			GetDatabase: func(t *testing.T, self *testCase) *mocks.DataStore {
 				ds := new(mocks.DataStore)
-				ds.On("GetDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
+				ds.On("GetActiveDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
 					Return([]string{"foo"}, nil)
 				return ds
 			},
@@ -368,7 +368,7 @@ func TestDeleteReleases(t *testing.T) {
 
 			GetDatabase: func(t *testing.T, self *testCase) *mocks.DataStore {
 				ds := new(mocks.DataStore)
-				ds.On("GetDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
+				ds.On("GetActiveDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
 					Return([]string{}, errors.New("some error"))
 				return ds
 			},
@@ -382,7 +382,7 @@ func TestDeleteReleases(t *testing.T) {
 
 			GetDatabase: func(t *testing.T, self *testCase) *mocks.DataStore {
 				ds := new(mocks.DataStore)
-				ds.On("GetDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
+				ds.On("GetActiveDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
 					Return([]string{}, nil)
 				ds.On("DeleteImagesByNames", self.Context, self.ReleaseNames).
 					Return(errors.New("some error"))
@@ -398,7 +398,7 @@ func TestDeleteReleases(t *testing.T) {
 
 			GetDatabase: func(t *testing.T, self *testCase) *mocks.DataStore {
 				ds := new(mocks.DataStore)
-				ds.On("GetDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
+				ds.On("GetActiveDeploymentIDsByArtifactNames", self.Context, self.ReleaseNames).
 					Return([]string{}, nil)
 				ds.On("DeleteImagesByNames", self.Context, self.ReleaseNames).
 					Return(nil)

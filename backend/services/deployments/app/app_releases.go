@@ -131,7 +131,7 @@ func (d *Deployments) DeleteReleases(
 	ctx context.Context,
 	releaseNames []string,
 ) ([]string, error) {
-	ids, err := d.db.GetDeploymentIDsByArtifactNames(ctx, releaseNames)
+	ids, err := d.db.GetActiveDeploymentIDsByArtifactNames(ctx, releaseNames)
 	if err != nil || len(ids) > 0 {
 		return ids, err
 	}

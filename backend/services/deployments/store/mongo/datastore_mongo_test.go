@@ -2419,9 +2419,9 @@ func TestDeleteImagesByNames(t *testing.T) {
 	}
 }
 
-func TestGetDeploymentIDsByArtifactNames(t *testing.T) {
+func TestGetActiveDeploymentIDsByArtifactNames(t *testing.T) {
 	if testing.Short() {
-		t.Skip("skipping TestGetDeploymentIDsByArtifactNames in short mode.")
+		t.Skip("skipping TestGetActiveDeploymentIDsByArtifactNames in short mode.")
 	}
 
 	testCases := map[string]struct {
@@ -2434,18 +2434,21 @@ func TestGetDeploymentIDsByArtifactNames(t *testing.T) {
 		"ok": {
 			inputDeployments: []interface{}{
 				&model.Deployment{
+					Status: model.DeploymentStatusInProgress,
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "foo",
 					},
 					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
 				},
 				&model.Deployment{
+					Status: model.DeploymentStatusInProgress,
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "bar",
 					},
 					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
 				},
 				&model.Deployment{
+					Status: model.DeploymentStatusPending,
 					DeploymentConstructor: &model.DeploymentConstructor{
 						ArtifactName: "baz",
 					},
@@ -2454,6 +2457,26 @@ func TestGetDeploymentIDsByArtifactNames(t *testing.T) {
 			},
 			artifactNames: []string{"foo", "baz"},
 			outputIDs:     []string{"a108ae14-bb4e-455f-9b40-2ef4bab97bb7", "d1804903-5caa-4a73-a3ae-0efcc3205406"},
+		},
+		"no active deployments:": {
+			inputDeployments: []interface{}{
+				&model.Deployment{
+					Status: model.DeploymentStatusFinished, // sets active to false
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "foo",
+					},
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				},
+				&model.Deployment{
+					Status: model.DeploymentStatusFinished,
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "bar",
+					},
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
+				},
+			},
+			artifactNames: []string{"foo", "bar"},
+			outputIDs:     []string{},
 		},
 		"no deployments": {
 			artifactNames: []string{"foo", "baz"},
@@ -2481,7 +2504,7 @@ func TestGetDeploymentIDsByArtifactNames(t *testing.T) {
 				assert.NoError(t, err)
 			}
 
-			ids, err := ds.GetDeploymentIDsByArtifactNames(ctx, tc.artifactNames)
+			ids, err := ds.GetActiveDeploymentIDsByArtifactNames(ctx, tc.artifactNames)
 			assert.NoError(t, err)
 			assert.Equal(t, tc.outputIDs, ids)
 		})
