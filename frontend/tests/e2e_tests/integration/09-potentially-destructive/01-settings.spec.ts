@@ -224,7 +224,7 @@ test.describe('Settings', () => {
       const wasUpgraded = await page.isVisible(`css=#limit >> text=350`);
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.goto(`${baseUrl}ui/subscription`);
-
+      await page.waitForTimeout(timeouts.default);
       const deviceNumberInput = page.getByRole('spinbutton', { name: 'Number of devices' });
       await deviceNumberInput.fill('310');
       await page.press('body', 'Tab');
