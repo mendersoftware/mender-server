@@ -227,7 +227,8 @@ test.describe('Settings', () => {
 
       const deviceNumberInput = page.getByRole('spinbutton', { name: 'Number of devices' });
       await deviceNumberInput.fill('310');
-      await page.waitForTimeout(timeouts.default);
+      await page.press('body', 'Tab');
+      await page.waitForTimeout(timeouts.oneSecond);
       await expect(deviceNumberInput).toHaveValue('350');
 
       await page.getByRole('radio', { name: 'Professional' }).click();
