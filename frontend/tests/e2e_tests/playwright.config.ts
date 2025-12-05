@@ -63,9 +63,21 @@ const options: PlaywrightTestConfig = {
     { name: 'advanced-firefox', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.firefox, dependencies: ['baseline-firefox'], workers: 1 },
     { name: 'advanced-webkit', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.webkit, dependencies: ['baseline-webkit'], workers: 1 },
 
-    { name: 'chromium', testDir: `${testDirBase}/09-risky`, use: projectParamsByBrowser.chrome, dependencies: ['advanced-chromium'], workers: 1 },
-    { name: 'firefox', testDir: `${testDirBase}/09-risky`, use: projectParamsByBrowser.firefox, dependencies: ['advanced-firefox'], workers: 1 },
-    { name: 'webkit', testDir: `${testDirBase}/09-risky`, use: projectParamsByBrowser.webkit, dependencies: ['advanced-webkit'], workers: 1 }
+    {
+      name: 'chromium',
+      testDir: `${testDirBase}/09-potentially-destructive`,
+      use: projectParamsByBrowser.chrome,
+      dependencies: ['advanced-chromium'],
+      workers: 1
+    },
+    {
+      name: 'firefox',
+      testDir: `${testDirBase}/09-potentially-destructive`,
+      use: projectParamsByBrowser.firefox,
+      dependencies: ['advanced-firefox'],
+      workers: 1
+    },
+    { name: 'webkit', testDir: `${testDirBase}/09-potentially-destructive`, use: projectParamsByBrowser.webkit, dependencies: ['advanced-webkit'], workers: 1 }
   ],
   reporter: process.env.CI
     ? [
