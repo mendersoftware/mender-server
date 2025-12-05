@@ -57,7 +57,7 @@ exports[`OnboardingTips Components > tiny onboarding tips > renders DashboardOnb
 
 exports[`OnboardingTips Components > tiny onboarding tips > renders DashboardOnboardingState correctly 1`] = `
 <div>
-  Your device has requested to join the server. Click the row to expand the device details.
+  Your device has requested to join the server. Click the row to open the device details.
 </div>
 `;
 
@@ -127,9 +127,11 @@ exports[`OnboardingTips Components > tiny onboarding tips > renders DevicesAccep
 
 exports[`OnboardingTips Components > tiny onboarding tips > renders DevicesPendingAcceptingOnboarding correctly 1`] = `
 <div>
-  Your device has made a request to join the Mender server. You can inspect its identity details, such as mac address and public key, to verify it is definitely your device.
-  <br />
-  When you are ready, Accept it!
+  Verify your device's details, like MAC address and public key, then click 
+  <b>
+    Accept
+  </b>
+   to allow it to connect to the Mender Server.
 </div>
 `;
 
