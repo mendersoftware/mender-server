@@ -120,6 +120,7 @@ run_tests() {
         # 'npm install && npx playwright install' are needed to help with updates
         # to the playwright packages as we rely on the prebuilt
         # mender-test-containers image
+        export COMPOSE_PROFILES=testing
         docker compose run gui-tests-runner \
           /bin/sh -c 'npm i && npx playwright install && npm run test'
     else

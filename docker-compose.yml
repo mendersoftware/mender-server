@@ -392,6 +392,8 @@ services:
     image: mendersoftware/mender-client-qemu:mender-master
     scale: 0
     privileged: true
+    profiles:
+      - testing
     environment:
       SERVER_URL: "${SERVER_URL:-https://docker.mender.io}"
       TENANT_TOKEN: "${TENANT_TOKEN:-}"
