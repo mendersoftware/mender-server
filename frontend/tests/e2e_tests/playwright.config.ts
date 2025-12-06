@@ -32,7 +32,7 @@ export const contextArgs = {
 export const launchOptions: LaunchOptions = {
   ...contextArgs,
   args: process.env.TEST_ENVIRONMENT === 'staging' ? [] : ['--disable-dev-shm-usage', '--disable-web-security'],
-  slowMo: process.env.TEST_ENVIRONMENT === 'staging' ? undefined : 50
+  slowMo: 50
   // to ease running the test locally and "headful" uncomment and modify the below option to match your preferred browser installation
   // this might also require adjusting the `runWith` call at the bottom of the file
   // executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
@@ -63,9 +63,21 @@ const options: PlaywrightTestConfig = {
     { name: 'advanced-firefox', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.firefox, dependencies: ['baseline-firefox'], workers: 1 },
     { name: 'advanced-webkit', testDir: `${testDirBase}/03-advanced`, use: projectParamsByBrowser.webkit, dependencies: ['baseline-webkit'], workers: 1 },
 
-    { name: 'chromium', testDir: `${testDirBase}/09-risky`, use: projectParamsByBrowser.chrome, dependencies: ['advanced-chromium'], workers: 1 },
-    { name: 'firefox', testDir: `${testDirBase}/09-risky`, use: projectParamsByBrowser.firefox, dependencies: ['advanced-firefox'], workers: 1 },
-    { name: 'webkit', testDir: `${testDirBase}/09-risky`, use: projectParamsByBrowser.webkit, dependencies: ['advanced-webkit'], workers: 1 }
+    {
+      name: 'chromium',
+      testDir: `${testDirBase}/09-potentially-destructive`,
+      use: projectParamsByBrowser.chrome,
+      dependencies: ['advanced-chromium'],
+      workers: 1
+    },
+    {
+      name: 'firefox',
+      testDir: `${testDirBase}/09-potentially-destructive`,
+      use: projectParamsByBrowser.firefox,
+      dependencies: ['advanced-firefox'],
+      workers: 1
+    },
+    { name: 'webkit', testDir: `${testDirBase}/09-potentially-destructive`, use: projectParamsByBrowser.webkit, dependencies: ['advanced-webkit'], workers: 1 }
   ],
   reporter: process.env.CI
     ? [
