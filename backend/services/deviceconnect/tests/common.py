@@ -47,9 +47,8 @@ class Device:
         r = client.provision_device_with_http_info(
             tenant_id=tenant_id,
             device=internal_api.Device(device_id=device_id),
-            _preload_content=False,
         )
-        assert r.status == 201
+        assert r.status_code == 201
 
     def connect(self):
         return ws_session(
@@ -124,6 +123,7 @@ def make_user_token(user_id=None, plan=None, tenant_id=None):
 def management_api_with_params(user_id, plan=None, tenant_id=None):
     api_conf = management_api.Configuration.get_default_copy()
     api_conf.access_token = make_user_token(user_id, plan, tenant_id)
+    api_conf.client_side_validation = False
     return management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
 
 

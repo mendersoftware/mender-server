@@ -468,9 +468,12 @@ class TestInternalSearch:
         client = internal_api.InternalAPIClient()
 
         try:
-            body, status, headers = client.device_search_with_http_info(
+            rsp = client.device_search_with_http_info(
                 test_case.tenant_id, device_search_terms=test_case.search_terms
             )
+            body = rsp.data
+            status = rsp.status_code
+            headers = rsp.headers
         except internal_api.ApiException as r:
             body = r.body
             status = r.status

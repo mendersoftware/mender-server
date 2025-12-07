@@ -26,14 +26,14 @@ def device_id():
     device_id = str(uuid.uuid4())
     new_device = {"device_id": device_id}
     r = client.provision_device_with_http_info(
-        tenant_id="tenant-id", new_device=new_device, _preload_content=False
+        tenant_id="tenant-id", new_device=new_device
     )
-    assert r.status == 201
+    assert r.status_code == 201
     yield device_id
     r = client.decommission_device_with_http_info(
-        tenant_id="tenant-id", device_id=device_id, _preload_content=False
+        tenant_id="tenant-id", device_id=device_id
     )
-    assert r.status == 204
+    assert r.status_code == 204
 
 
 class TestAuditlogs:
@@ -47,10 +47,10 @@ class TestAuditlogs:
             "another-key": "another-value",
             "dollar-key": "$",
         }
-        r = client.set_device_configuration(
-            device_id, request_body=configuration, _preload_content=False
+        r = client.set_device_configuration_with_http_info(
+            device_id, request_body=configuration
         )
-        assert r.status == 204
+        assert r.status_code == 204
         #
         # verify the auditlogs
         res = requests.get(mmock_url + "/api/request/all")
@@ -89,20 +89,20 @@ class TestAuditlogs:
             "another-key": "another-value",
             "dollar-key": "$",
         }
-        r = client.set_device_configuration(
-            device_id, request_body=configuration, _preload_content=False
+        r = client.set_device_configuration_with_http_info(
+            device_id, request_body=configuration
         )
-        assert r.status == 204
+        assert r.status_code == 204
         #
         # deploy the configuration
         request = {
             "retries": 1,
         }
-        r = client.deploy_device_configuration(
-            device_id, new_configuration_deployment=request, _preload_content=False
+        r = client.deploy_device_configuration_with_http_info(
+            device_id, new_configuration_deployment=request
         )
-        assert r.status == 200
-        assert "deployment_id" in str(r.data)
+        assert r.status_code == 200
+        assert r.data is not None and r.data.deployment_id is not None
         #
         # verify the auditlogs
         res = requests.get(mmock_url + "/api/request/all")

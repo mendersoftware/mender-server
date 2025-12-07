@@ -367,15 +367,18 @@ class TestSyncAzureIoTHub:
         for tenant_id, devices in self.tenant_devices.items():
             conn_str = f"HostName=mock.azure-devices.net:443;SharedAccessKeyName={tenant_id};SharedAccessKey=c2VjcmV0"
             client = ManagementAPIClient(tenant_id)
-            _, code, hdr = client.register_integration(
+            rsp = client.register_integration_with_http_info(
                 models.Integration(
                     provider="iot-hub",
                     credentials=models.Credentials(
-                        type="sas", connection_string=conn_str
+                        models.AzureSharedAccessSecret(
+                            type="sas",
+                            connection_string=conn_str,
+                        )
                     ),
                 ),
-                _return_http_data_only=False,
             )
+            _, code, hdr = rsp.data, rsp.status_code, rsp.headers
             assert code == 201
             assert "Location" in hdr
             location_basename = path.basename(hdr.get("Location"))

@@ -378,40 +378,28 @@ class TestDeviceApiGetConfigurationDeploymentNext:
             assert status_code == 201
 
             dc = SimpleDeviceClient()
-            nodep = {}
-            try:
-                dc.get_next_deployment(
-                    dev.fake_token_mt(other_tenant_id),
-                    artifact_name="dontcare",
-                    device_type=dev.device_type,
-                )
-            except ValueError:
-                nodep = None
+            nodep = dc.get_next_deployment(
+                dev.fake_token_mt(other_tenant_id),
+                artifact_name="dontcare",
+                device_type=dev.device_type,
+            )
             assert nodep is None
 
             # correct tenant, incorrect device id (but correct type)
             otherdev = Device()
-            nodep = {}
-            try:
-                dc.get_next_deployment(
-                    otherdev.fake_token_mt(tenant_id),
-                    artifact_name="dontcare",
-                    device_type=dev.device_type,
-                )
-            except ValueError:
-                nodep = None
+            nodep = dc.get_next_deployment(
+                otherdev.fake_token_mt(tenant_id),
+                artifact_name="dontcare",
+                device_type=dev.device_type,
+            )
             assert nodep is None
 
             # correct tenant, correct device id, incorrect type
-            nodep = {}
-            try:
-                dc.get_next_deployment(
-                    otherdev.fake_token_mt(tenant_id),
-                    artifact_name="dontcare",
-                    device_type=otherdev.device_type,
-                )
-            except:
-                nodep = None
+            nodep = dc.get_next_deployment(
+                otherdev.fake_token_mt(tenant_id),
+                artifact_name="dontcare",
+                device_type=otherdev.device_type,
+            )
             assert nodep is None
             l.unlock()
 

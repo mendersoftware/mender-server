@@ -414,12 +414,12 @@ class TestDeployment:
                     # NOTE: asking for a deployment while having it already
                     # installed is special in the sense that the status of
                     # deployment for this device will be marked as 'already-installed'
-                    with pytest.raises(ValueError):
-                        dc.get_next_deployment(
-                            dev.fake_token,
-                            artifact_name=artifact_name,
-                            device_type=dev.device_type,
-                        )
+                    nodep = dc.get_next_deployment(
+                        dev.fake_token,
+                        artifact_name=artifact_name,
+                        device_type=dev.device_type,
+                    )
+                    assert nodep is None
                     # verify that device status was properly recorded
                     self.d.verify_deployment_stats(
                         depid, expected={"already_installed": 1}
@@ -517,12 +517,12 @@ class TestDeployment:
                     self.d.verify_deployment_stats(depid, expected={"failure": 1})
 
                     # deployment is finished, should get no more updates
-                    with pytest.raises(ValueError):
-                        dc.get_next_deployment(
-                            dev.fake_token,
-                            artifact_name="other {}".format(artifact_name),
-                            device_type=dev.device_type,
-                        )
+                    nodep = dc.get_next_deployment(
+                        dev.fake_token,
+                        artifact_name="other {}".format(artifact_name),
+                        device_type=dev.device_type,
+                    )
+                    assert nodep is None
 
                     # TODO: check this path; it looks like something which shouldn't be possible;
                     # TODO: update the test after verifying or fixing deployments service behavior
@@ -598,7 +598,7 @@ class TestDeployment:
                     ).get_deployment_log_for_device_with_http_info(
                         deployment_id=depid, device_id=dev.devid
                     )
-                    logs = rsp[0]
+                    logs = rsp.data
                     self.d.log.info("device logs\n%s", logs)
 
                     assert "lorem ipsum" in logs
