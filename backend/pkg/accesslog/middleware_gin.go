@@ -107,9 +107,6 @@ func (a AccessLogger) LogFunc(
 	logCtx["responsetime"] = latency.String()
 	logCtx["status"] = c.Writer.Status()
 	logCtx["byteswritten"] = c.Writer.Size()
-	if length := c.Request.ContentLength; length > -1 {
-		logCtx["contentlength"] = length
-	}
 
 	var logLevel logrus.Level = logrus.InfoLevel
 	if code >= 500 {
