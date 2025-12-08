@@ -1109,17 +1109,17 @@ func (d *DevAuth) RevokeToken(ctx context.Context, tokenID string) error {
 	}
 
 	l.Warnf("Revoke token with jti: %s", tokenID)
-	err = d.db.DeleteToken(ctx, tokenOID)
-
-	if err == nil && d.cache != nil {
+	if d.cache != nil {
 		err = d.cacheDeleteToken(ctx, token.Claims.Subject.String())
-		err = errors.Wrapf(
-			err,
-			"failed to delete token for %s from cache",
-			token.Claims.Subject.String(),
-		)
+		if err != nil {
+			return errors.Wrapf(
+				err,
+				"failed to delete token for %s from cache",
+				token.Claims.Subject.String(),
+			)
+		}
 	}
-	return err
+	return d.db.DeleteToken(ctx, tokenOID)
 }
 
 func (d *DevAuth) validateJWTToken(ctx context.Context, jti oid.ObjectID, raw string) error {
@@ -1402,17 +1402,17 @@ func (d *DevAuth) DeleteTenantLimit(ctx context.Context, tenant_id string, limit
 
 	l.Infof("removing limit %v for tenant %v", limit, tenant_id)
 
-	if err := d.db.DeleteLimit(ctx, limit); err != nil {
-		l.Errorf("failed to delete limit %v for tenant %v to database: %v",
-			limit, tenant_id, err)
-		return errors.Wrapf(err, "failed to delete limit %v for tenant %v to database",
-			limit, tenant_id)
-	}
 	if d.cache != nil {
 		errCache := d.cache.DeleteLimit(ctx, limit)
 		if errCache != nil {
 			l.Warnf("error removing limit %q from cache: %s", limit, errCache.Error())
 		}
+	}
+	if err := d.db.DeleteLimit(ctx, limit); err != nil {
+		l.Errorf("failed to delete limit %v for tenant %v to database: %v",
+			limit, tenant_id, err)
+		return errors.Wrapf(err, "failed to delete limit %v for tenant %v to database",
+			limit, tenant_id)
 	}
 	return nil
 }
