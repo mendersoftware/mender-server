@@ -17,6 +17,7 @@ package accesslog
 import (
 	"context"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 	"strings"
@@ -107,6 +108,9 @@ func (a AccessLogger) LogFunc(
 	logCtx["responsetime"] = latency.String()
 	logCtx["status"] = c.Writer.Status()
 	logCtx["byteswritten"] = c.Writer.Size()
+	if bl, ok := c.Request.Body.(*BodyLogger); ok && bl != nil {
+		logCtx["bytesprocessed"] = bl.N
+	}
 
 	var logLevel logrus.Level = logrus.InfoLevel
 	if code >= 500 {
@@ -133,6 +137,17 @@ func (a AccessLogger) LogFunc(
 		Log(logLevel)
 }
 
+type BodyLogger struct {
+	io.ReadCloser
+	N int64
+}
+
+func (bl *BodyLogger) Read(b []byte) (int, error) {
+	n, err := bl.ReadCloser.Read(b)
+	bl.N += int64(n)
+	return n, err
+}
+
 // Middleware implementsa gin compatible MiddlewareFunc
 //
 // NOTE: This accesslog middleware also implements the legacy requestlog
@@ -143,6 +158,9 @@ func (a AccessLogger) Middleware(c *gin.Context) {
 	ctx = log.WithContext(ctx, log.New(log.Ctx{}))
 	ctx = withContext(ctx, &logContext{maxErrors: DefaultMaxErrors})
 	c.Request = c.Request.WithContext(ctx)
+	if c.Request.Body != nil {
+		c.Request.Body = &BodyLogger{ReadCloser: c.Request.Body}
+	}
 	defer a.LogFunc(ctx, c, startTime)
 	c.Next()
 }
