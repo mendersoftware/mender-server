@@ -24,7 +24,7 @@ stripe
 tornado
 twisted
 tz
-urllib3==2.3.0
+urllib3==2.6.0
 websocket_client >= 0.57
 pydantic==2.12.3
 pyjwt==2.10.1
