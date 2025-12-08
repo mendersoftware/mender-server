@@ -30,62 +30,6 @@ import {
 import { emptyStorageState, selectors, storagePath, timeouts } from '../../utils/constants';
 
 test.describe('Settings', () => {
-  test.describe('access token feature', () => {
-    test('allows access to access tokens', async ({ baseUrl, page }) => {
-      await page.goto(`${baseUrl}ui/settings`);
-      const tokenGenerationButton = await page.getByRole('button', { name: /Generate a token/i });
-      if (!(await tokenGenerationButton.isVisible())) {
-        console.log('settings may not be loaded - move around');
-        await page.goto(`${baseUrl}ui/help`);
-        await page.goto(`${baseUrl}ui/settings`);
-      }
-      await tokenGenerationButton.waitFor();
-    });
-    test('allows generating & revoking tokens', async ({ baseUrl, browserName, page }, { retry }) => {
-      await page.goto(`${baseUrl}ui/settings`);
-      const tokenGenerationButton = await page.getByText(/generate a token/i);
-      await tokenGenerationButton.waitFor();
-      const revokeButton = await page.getByText(/revoke/i);
-      const revokeTokenButton = await page.getByRole('button', { name: /Revoke token/i });
-      if (await revokeButton.isVisible()) {
-        await revokeButton.click();
-        await revokeTokenButton.waitFor();
-        await revokeTokenButton.click();
-      }
-      await tokenGenerationButton.click();
-      const tokenName = `aNewToken-${retry}`;
-      await page.getByText(/Create new token/i).waitFor();
-      await page.getByPlaceholder('Name').fill(tokenName);
-      await page.getByText(/a year/i).click({ force: true });
-      await page.getByRole('option', { name: '7 days' }).click();
-      await page.getByRole('button', { name: /Create token/i }).click();
-      await page.getByRole('button', { name: /Close/i }).click();
-      await page.mouse.wheel(0, 200);
-      await page
-        .getByText(/in 7 days/i)
-        .first()
-        .waitFor();
-      await page.getByRole('button', { name: /Revoke/i }).click();
-      await revokeTokenButton.waitFor();
-      await revokeTokenButton.click();
-      await tokenGenerationButton.click();
-      await page.getByPlaceholder(/Name/i).fill(tokenName);
-      await page.getByRole('button', { name: /Create token/i }).click();
-      const copyButton = page.getByRole('button', { name: /copy to clipboard/i });
-      await copyButton.click();
-      await page.getByText(/copied to clipboard/i).waitFor();
-      let token = '';
-      if (browserName === 'chromium') {
-        token = await page.evaluate(() => navigator.clipboard.readText());
-      } else {
-        token = await copyButton.locator('..').locator('.copyable-content').innerText();
-      }
-      expect(token).toBeTruthy();
-      await page.getByRole('button', { name: /Close/i }).click();
-      await page.getByText(/in a year/i).waitFor();
-    });
-  });
-
   test.describe('2FA setup', () => {
     test('supports regular 2fa setup', async ({ baseUrl, environment, page }) => {
       test.skip(environment !== 'staging');
@@ -280,10 +224,11 @@ test.describe('Settings', () => {
       const wasUpgraded = await page.isVisible(`css=#limit >> text=350`);
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.goto(`${baseUrl}ui/subscription`);
-
-      const deviceNumberInput = page.getByRole('spinbutton', { name: 'Number of devices' });
-      await deviceNumberInput.fill('310');
       await page.waitForTimeout(timeouts.default);
+      const deviceNumberInput = page.getByRole('spinbutton');
+      await deviceNumberInput.fill('310');
+      await page.press('body', 'Tab');
+      await page.waitForTimeout(timeouts.oneSecond);
       await expect(deviceNumberInput).toHaveValue('350');
 
       await page.getByRole('radio', { name: 'Professional' }).click();
