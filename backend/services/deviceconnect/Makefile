@@ -8,7 +8,7 @@ tests/%: docs/%.yml
 	docker run --rm -t -v $(MAKEDIR):/work -w /work \
 		--ulimit nofile=65536:65536 \
 		-u $(shell id -u):$(shell id -g) \
-		openapitools/openapi-generator-cli:v7.12.0 generate \
+		openapitools/openapi-generator-cli:v7.17.0 generate \
 		-g python -i $< \
 		-c tests/.openapi-generator.yml \
 		-o $(dir $@) \
