@@ -67,7 +67,7 @@ class TestWebhooks:
         authset_id = "70338f23-b4e6-49ef-a126-097ce6a44140"
         mmock = setup_test_case
         intrnl = InternalAPIClient()
-        assert isinstance(intrnl_models.NewDevice(id="123"), BaseModel)
+        assert isinstance(intrnl_models.NewDevice(id="00000000-0000-0000-0000-000000000123"), BaseModel)
         dev = intrnl_models.NewDevice(
             id=device_id,
             status="accepted",
