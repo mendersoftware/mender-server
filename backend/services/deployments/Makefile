@@ -15,9 +15,13 @@ tests/%: ../../../backend/docs/api/deployments/%.yaml
 		-c tests/.openapi-generator.yml \
 		-o $(dir $@) \
 		--additional-properties=packageName=$* && \
-		sed -i.gitignore -e 's/"log":false/"log":False/g' tests/*/test/test_*.py
+		sed -i.gitignore -e 's/"log":false/"log":False/g' tests/*/test/test_*.py && \
+		sed -i.gitignore -e 's/response\.getheaders()/response\.headers/g' -e 's/urllib3_response\.getheaders()/urllib3_response\.headers/g' -e 's/urllib3_response\.getheader(/urllib3_response\.headers\.get(/g' -e 's/response\.getheader(/response\.headers\.get(/g' tests/*/*.py
 		# see https://github.com/OpenAPITools/openapi-generator/issues/11421
 		# there is a bug in the python generator which produces non-python syntax
+		# see the urllib depcrecating and removing the getheader call
+		# https://urllib3.readthedocs.io/en/stable/v2-migration-guide.html#what-are-the-important-changes
+		# this is hacky and a bit dirty but it was the fastest track to unlock
 
 .PHONY: docs
 docs: $(patsubst ../../../backend/docs/api/deployments/%.yaml,tests/%,$(DOCFILES))
