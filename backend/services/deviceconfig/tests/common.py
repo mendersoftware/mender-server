@@ -85,3 +85,37 @@ def devices_api_with_params(device_id, plan=None, tenant_id=None):
     api_conf = devices_api.Configuration.get_default_copy()
     api_conf.access_token = make_device_token(device_id, plan, tenant_id)
     return devices_api.DeviceAPIClient(devices_api.ApiClient(api_conf))
+
+
+def management_api_set_config_raw(user_id, tenant_id, device_id, configuration):
+    token = make_user_token(user_id, tenant_id=tenant_id)
+    api_conf = management_api.Configuration.get_default_copy()
+    api_conf.access_token = token
+    api_client = management_api.ApiClient(api_conf)
+    url = f"{api_client.configuration.host}/configurations/device/{device_id}"
+    return api_client.call_api(
+        "PUT",
+        url,
+        header_params={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        },
+        body=configuration,
+    )
+
+
+def devices_api_report_config_raw(device_id, tenant_id, configuration):
+    token = make_device_token(device_id, tenant_id=tenant_id)
+    api_conf = devices_api.Configuration.get_default_copy()
+    api_conf.access_token = token
+    api_client = devices_api.ApiClient(api_conf)
+    url = f"{api_client.configuration.host}/configuration"
+    return api_client.call_api(
+        "PUT",
+        url,
+        header_params={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        },
+        body=configuration,
+    )

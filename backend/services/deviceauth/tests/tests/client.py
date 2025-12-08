@@ -130,9 +130,19 @@ class InternalClient(SwaggerApiClient):
     def get_max_devices_limit(self, tenant_id):
         return self.clientInternal.get_device_limit(tenant_id=tenant_id)
 
-    def put_max_devices_limit(self, tenant_id, limit):
-        l = management_models.Limit(limit=limit)
-        return self.clientInternal.update_device_limit(tenant_id=tenant_id, limit=l)
+    def put_max_devices_limit(self, tenant_id, limit, client_side_validation=True):
+        if client_side_validation:
+            l = internal_api.Limit(limit=limit)
+            return self.clientInternal.update_device_limit(tenant_id=tenant_id, limit=l)
+        else:
+            api_client = self.clientInternal.api_client
+            url = f"{api_client.configuration.host}/tenant/{tenant_id}/limits/max_devices"
+            return api_client.call_api(
+                "PUT",
+                url,
+                header_params={"Content-Type": "application/json"},
+                body={"limit": limit},
+            )
 
     def create_tenant(self, tenant_id):
         return self.clientInternal.create_tenant(new_tenant={"tenant_id": tenant_id})

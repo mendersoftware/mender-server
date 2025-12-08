@@ -461,6 +461,15 @@ paths:
           name: created_after
           schema:
             type: integer
+        - description: |
+            Supports sorting the deployments list by creation date.
+          in: query
+          name: sort
+          schema:
+            enum:
+              - asc
+              - desc
+            type: string
       responses:
         '200':
           content:
@@ -7798,8 +7807,8 @@ components:
                     checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                     size: 123
                     date: 2016-03-11T13:03:17.063+0000
-                meta_data: []
                 metadata: {}
+                meta_data: []
             artifact_provides:
               artifact_name: test
               rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -8561,7 +8570,6 @@ components:
             Attribute type is implicit, inferred from the JSON type.
             Supported types: number, string, array of numbers, array of strings.
             Mixed arrays are not allowed.
-          type: string
       required:
         - attribute
         - scope
@@ -9127,6 +9135,9 @@ components:
           type: integer
           description: The number of times a device can retry the deployment in case of failure, defaults to 0
           default: 0
+          x-mender-plan:
+            - professional
+            - enterprise
         update_control_map:
           x-mender-plan:
             - enterprise
@@ -9610,22 +9621,10 @@ components:
         - provider
         - credentials
     Credentials:
-      allOf:
-        - type: object
-          properties:
-            type:
-              description: The credential type
-              type: string
-              enum:
-                - aws
-                - sas
-                - http
-          required:
-            - type
-        - oneOf:
-            - $ref: '#/components/schemas/AWSCredentials'
-            - $ref: '#/components/schemas/AzureSharedAccessSecret'
-            - $ref: '#/components/schemas/HTTP'
+      oneOf:
+        - $ref: '#/components/schemas/AWSCredentials'
+        - $ref: '#/components/schemas/AzureSharedAccessSecret'
+        - $ref: '#/components/schemas/HTTP'
       discriminator:
         propertyName: type
         mapping:
@@ -9636,6 +9635,11 @@ components:
       type: object
       description: AWS credentials in the form of access key id and secret access key, a region and a device policy name.
       properties:
+        type:
+          description: The credential type
+          type: string
+          enum:
+            - aws
         aws:
           type: object
           properties:
@@ -9653,14 +9657,21 @@ components:
             - region
             - device_policy_name
       required:
+        - type
         - aws
     AzureSharedAccessSecret:
       type: object
       description: Shared Access Secret is an authentication mechanism in the form of a connection string for Azure IoT Hub.
       properties:
+        type:
+          description: The credential type
+          type: string
+          enum:
+            - sas
         connection_string:
           type: string
       required:
+        - type
         - connection_string
     DeviceState:
       type: object
@@ -9675,6 +9686,11 @@ components:
       type: object
       description: HTTP Webhook configuration.
       properties:
+        type:
+          description: The credential type
+          type: string
+          enum:
+            - http
         http:
           type: object
           properties:
@@ -9688,6 +9704,7 @@ components:
           required:
             - url
       required:
+        - type
         - http
     Event:
       type: object

@@ -18,10 +18,10 @@ import internal_api
 class TestInternal:
     def test_internal_alive(self):
         client = internal_api.InternalAPIClient()
-        r = client.check_health_with_http_info(_preload_content=False)
-        assert r.status == 204
+        r = client.check_health_with_http_info()
+        assert r.status_code == 204
 
     def test_internal_health(self):
         client = internal_api.InternalAPIClient()
-        r = client.check_liveliness_with_http_info(_preload_content=False)
-        assert r.status == 204
+        r = client.check_liveliness_with_http_info()
+        assert r.status_code == 204

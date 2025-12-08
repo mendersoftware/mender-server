@@ -371,7 +371,6 @@ components:
             Attribute type is implicit, inferred from the JSON type.
             Supported types: number, string, array of numbers, array of strings.
             Mixed arrays are not allowed.
-          type: string
       required:
       - attribute
       - scope
