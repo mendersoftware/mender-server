@@ -88,6 +88,15 @@ paths:
               example:
                 error: "internal error"
                 request_id: "f7881e82-0492-49fb-b459-795654e7188d"
+        '503':
+          description: Service is unavailabe.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "service unavailable"
+                request_id: "f7881e82-0492-49fb-b459-795654e7188d"
 
 components:
   securitySchemes:
