@@ -181,7 +181,7 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
   const { isHosted } = useSelector(getFeatures);
   const isPreRelease = useSelector(getIsPreview);
   const onboardingState = useSelector(getOnboardingState);
-  const { tenant_token: tenantToken } = useSelector(getOrganization);
+  const { trial: isTrial, tenant_token: tenantToken } = useSelector(getOrganization);
   const { Integration: version } = useSelector(getFullVersionInformation);
   const { token } = useSelector(getCurrentSession);
   const { hasMonitor } = useSelector(getTenantCapabilities);
@@ -215,6 +215,7 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
       isEnterprise={isEnterprise}
       isHosted={isHosted}
       isPreRelease={isPreRelease}
+      isTrial={isTrial}
       onboardingState={onboardingState}
       onSelect={onSelect}
       selection={selection}
