@@ -101,6 +101,7 @@ type InventoryApp interface {
 	CheckAlerts(ctx context.Context, deviceId string) (int, error)
 	WithLimits(attributes, tags int) InventoryApp
 	WithDevicemonitor(client devicemonitor.Client) InventoryApp
+	GetDeviceStatistics(ctx context.Context) (*model.DeviceStatistics, error)
 }
 
 type inventory struct {
@@ -683,4 +684,19 @@ func (i *inventory) reindexTextField(ctx context.Context, devices []*model.Devic
 			}
 		}
 	}
+}
+
+func (i *inventory) GetDeviceStatistics(ctx context.Context) (*model.DeviceStatistics, error) {
+	byStatus, err := i.db.GetDeviceTierStatisticsByStatus(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if byStatus == nil {
+		return nil, errors.New("found no device statistics")
+	}
+
+	return &model.DeviceStatistics{
+		ByStatus: *byStatus,
+	}, nil
 }

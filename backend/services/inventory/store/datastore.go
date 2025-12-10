@@ -157,6 +157,8 @@ type DataStore interface {
 		searchParams model.SearchParams,
 	) ([]model.Device, int, error)
 
+	GetDeviceTierStatisticsByStatus(ctx context.Context) (*model.DeviceStatisticsByStatus, error)
+
 	MigrateTenant(ctx context.Context, version string, tenantId string) error
 
 	Migrate(ctx context.Context, version string) error
