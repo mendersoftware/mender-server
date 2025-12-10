@@ -28,6 +28,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/mendersoftware/mender-server/pkg/plan"
+	mredis "github.com/mendersoftware/mender-server/pkg/redis"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
@@ -639,7 +640,7 @@ func (d *DevAuth) GetDevice(ctx context.Context, devId string) (*model.Device, e
 		}
 
 		checkInTime, err := d.cache.GetCheckInTime(ctx, tenantID, devId)
-		if err != nil {
+		if err != nil && !mredis.IsErrCacheInvalid(err) {
 			l := log.FromContext(ctx)
 			l.Errorf("Failed to get check-in times for device")
 		} else if checkInTime != nil {
@@ -1163,6 +1164,7 @@ func (d *DevAuth) VerifyToken(ctx context.Context, raw string) error {
 	// throttle and try fetch token from cache - if cached, it was
 	// already verified against the db checks below, we trust it
 	cachedToken, err := d.cacheThrottleVerify(ctx, token, raw, origMethod, origUri)
+	setCache := !mredis.IsErrCacheInvalid(err)
 
 	if cachedToken != "" && raw == cachedToken {
 		// update device check-in time
@@ -1234,8 +1236,9 @@ func (d *DevAuth) VerifyToken(ctx context.Context, raw string) error {
 	)
 
 	// after successful token verification - cache it (best effort)
-	_ = d.cacheSetToken(ctx, token, raw)
-
+	if setCache {
+		_ = d.cacheSetToken(ctx, token, raw)
+	}
 	return nil
 }
 
@@ -1316,9 +1319,13 @@ func (d *DevAuth) GetLimit(ctx context.Context, name string) (*model.Limit, erro
 		limit *model.Limit
 		err   error
 	)
+	setCache := true
+
 	if d.cache != nil {
 		limit, err = d.cache.GetLimit(ctx, name)
-		if err != nil {
+		if mredis.IsErrCacheInvalid(err) {
+			setCache = false
+		} else if err != nil {
 			l.Warnf("error fetching limit from cache: %s", err.Error())
 		}
 	}
@@ -1332,7 +1339,7 @@ func (d *DevAuth) GetLimit(ctx context.Context, name string) (*model.Limit, erro
 				return nil, err
 			}
 		}
-		if d.cache != nil {
+		if d.cache != nil && setCache {
 			errCache := d.cache.SetLimit(ctx, limit)
 			if errCache != nil {
 				l.Warnf("failed to store limit %q in cache: %s", name, errCache.Error())
