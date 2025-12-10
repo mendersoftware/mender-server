@@ -1232,11 +1232,13 @@ func (db *DataStoreMongo) GetDeviceTierStatisticsByStatus(
 	match := bson.M{
 		"$match": bson.M{
 			indexAttrName(attrIdentityStatus): bson.M{
-				"$in": []string{"accepted", "pending"},
+				"$in": []string{
+					model.DeviceStatusAccepted,
+					model.DeviceStatusPending,
+				},
 			},
 		},
 	}
-
 	group := bson.M{
 		"$group": bson.M{
 			"_id": bson.M{
@@ -1285,7 +1287,7 @@ func (db *DataStoreMongo) GetDeviceTierStatisticsByStatus(
 	var statistics model.DeviceStatisticsByStatus
 	for _, count := range deviceCounts {
 		var dest *model.DeviceCountPerTier
-		if count.Status == "accepted" {
+		if count.Status == model.DeviceStatusAccepted {
 			dest = &statistics.Accepted
 		} else {
 			dest = &statistics.Pending
