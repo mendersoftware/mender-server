@@ -45,11 +45,18 @@ type client struct {
 	urlBase string
 }
 
+// NewClient creates a new inventory client.
+// This now uses the shared generated client under the hood.
 func NewClient(urlBase string) Client {
-	return &client{
-		client:  &http.Client{},
-		urlBase: urlBase,
+	adapter, err := NewClientAdapter(urlBase)
+	if err != nil {
+		// Fall back to legacy implementation if adapter creation fails
+		return &client{
+			client:  &http.Client{},
+			urlBase: urlBase,
+		}
 	}
+	return adapter
 }
 
 func (c *client) GetDevices(

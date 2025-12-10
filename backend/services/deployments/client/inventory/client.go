@@ -61,7 +61,8 @@ type Client interface {
 	GetDeviceGroups(ctx context.Context, tenantId, deviceId string) ([]string, error)
 }
 
-// NewClient returns a new inventory client
+// NewClient returns a new inventory client.
+// This now uses the shared generated client under the hood.
 func NewClient() Client {
 	var timeout time.Duration
 	baseURL := config.Config.GetString(dconfig.SettingInventoryAddr)
@@ -74,10 +75,15 @@ func NewClient() Client {
 		timeout = time.Duration(t) * time.Second
 	}
 
-	return &client{
-		baseURL:    baseURL,
-		httpClient: &http.Client{Timeout: timeout},
+	adapter, err := NewClientAdapter(baseURL, timeout)
+	if err != nil {
+		// Fall back to legacy implementation if adapter creation fails
+		return &client{
+			baseURL:    baseURL,
+			httpClient: &http.Client{Timeout: timeout},
+		}
 	}
+	return adapter
 }
 
 type client struct {

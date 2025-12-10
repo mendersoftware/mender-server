@@ -72,17 +72,26 @@ type client struct {
 	urlBase string
 }
 
-func NewClient(urlBase string, skipVerify bool) *client {
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: skipVerify},
+// NewClient creates a new inventory client.
+// This now uses the shared generated client under the hood.
+// The skipVerify parameter is deprecated and ignored - TLS verification
+// is handled by the shared client infrastructure.
+func NewClient(urlBase string, skipVerify bool) Client {
+	adapter, err := NewClientAdapter(urlBase)
+	if err != nil {
+		// Fall back to legacy implementation if adapter creation fails
+		// This should not happen in normal circumstances
+		tr := &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: skipVerify},
+		}
+		return &client{
+			client: &http.Client{
+				Transport: tr,
+			},
+			urlBase: urlBase,
+		}
 	}
-
-	return &client{
-		client: &http.Client{
-			Transport: tr,
-		},
-		urlBase: urlBase,
-	}
+	return adapter
 }
 
 func (c *client) CheckHealth(ctx context.Context) error {
