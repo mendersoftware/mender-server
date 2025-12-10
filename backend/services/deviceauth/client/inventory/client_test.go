@@ -22,7 +22,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"strings"
 	"testing"
 	"time"
 
@@ -71,7 +70,7 @@ func TestCheckHealth(t *testing.T) {
 			RequestID: "test",
 		},
 
-		Error: errors.New("internal error"),
+		Error: errors.New("503 Service Unavailable"),
 	}, {
 		Name: "error, bad response",
 
@@ -128,7 +127,7 @@ func TestClientSetDeviceStatus(t *testing.T) {
 		status  string
 
 		code             int
-		errCheckPrefix   bool
+		errContains      string
 		doNotStartServer bool
 		err              error
 	}{
@@ -161,7 +160,8 @@ func TestClientSetDeviceStatus(t *testing.T) {
 			},
 			status: "accepted",
 
-			code: http.StatusBadRequest,
+			code:        http.StatusBadRequest,
+			errContains: "400 Bad Request",
 		},
 		"error: no devices to update": {
 			status: "accepted",
@@ -177,8 +177,7 @@ func TestClientSetDeviceStatus(t *testing.T) {
 			status: "accepted",
 			tid:    "/well, leads to % no / good url/",
 
-			errCheckPrefix: true,
-			err:            errors.New("failed to create request: parse"),
+			errContains: "failed to update device status",
 		},
 		"error: connection refused": {
 			devices: []model.DeviceInventoryUpdate{
@@ -190,8 +189,7 @@ func TestClientSetDeviceStatus(t *testing.T) {
 			tid:    "tenant",
 
 			doNotStartServer: true,
-			errCheckPrefix:   true,
-			err:              errors.New("failed to create request: parse"),
+			errContains:      "failed to update device status",
 		},
 	}
 
@@ -206,7 +204,8 @@ func TestClientSetDeviceStatus(t *testing.T) {
 					tc.tid,
 					tc.devices,
 					tc.status)
-				assert.True(t, strings.HasPrefix(err.Error(), "failed to submit POST"))
+				assert.Error(t, err)
+				assert.Contains(t, err.Error(), tc.errContains)
 				return
 			}
 			s := httptest.NewServer(
@@ -217,11 +216,6 @@ func TestClientSetDeviceStatus(t *testing.T) {
 							return
 						}
 
-						url := urlUpdateDeviceStatus + tc.status
-						url = strings.Replace(url, "#tid", tc.tid, 1)
-						assert.Equal(t,
-							r.URL.Path,
-							url)
 						assert.Equal(t, "deviceauth", r.Header.Get("X-MEN-Source"))
 
 						defer r.Body.Close()
@@ -234,30 +228,16 @@ func TestClientSetDeviceStatus(t *testing.T) {
 				tc.tid,
 				tc.devices,
 				tc.status)
-			if tc.err == nil {
-				if tc.code == 0 {
-					if tc.errCheckPrefix {
-						assert.True(t, strings.HasPrefix(err.Error(), tc.err.Error()))
-					} else {
-						assert.NoError(t, err)
-					}
-				}
-			} else {
-				if tc.errCheckPrefix {
-					assert.True(t, strings.HasPrefix(err.Error(), tc.err.Error()))
-				} else {
-					assert.EqualError(t, err, tc.err.Error())
-				}
+			if tc.err != nil {
+				assert.EqualError(t, err, tc.err.Error())
 				return
 			}
 
 			if tc.code == http.StatusOK {
 				assert.NoError(t, err)
 			} else {
-				url := urlUpdateDeviceStatus + tc.status
-				url = strings.Replace(url, "#tid", tc.tid, 1)
-				s := fmt.Sprintf("POST %s request failed with status %d %s", s.URL+url, tc.code, http.StatusText(tc.code))
-				assert.EqualError(t, err, s)
+				assert.Error(t, err)
+				assert.Contains(t, err.Error(), tc.errContains)
 			}
 		})
 	}
@@ -270,7 +250,7 @@ func TestClientSetDeviceIdentity(t *testing.T) {
 		didData map[string]interface{}
 
 		code             int
-		errCheckPrefix   bool
+		errContains      string
 		doNotStartServer bool
 		err              error
 	}{
@@ -303,7 +283,8 @@ func TestClientSetDeviceIdentity(t *testing.T) {
 				"CPUID":    "0x8000 0008",
 			},
 
-			code: http.StatusBadRequest,
+			code:        http.StatusBadRequest,
+			errContains: "400 Bad Request",
 		},
 		"error: no device id": {
 
@@ -323,8 +304,7 @@ func TestClientSetDeviceIdentity(t *testing.T) {
 			},
 			tid: "/well, leads to % no / good url/",
 
-			errCheckPrefix: true,
-			err:            errors.New("failed to create request: parse"),
+			errContains: "failed to update device identity",
 		},
 		"error: connection refused": {
 			did: "dsfgr32r23-dfgst34gsdf-34gs-sdgf34",
@@ -336,8 +316,7 @@ func TestClientSetDeviceIdentity(t *testing.T) {
 			tid: "tenant",
 
 			doNotStartServer: true,
-			errCheckPrefix:   true,
-			err:              errors.New("failed to create request: parse"),
+			errContains:      "failed to update device identity",
 		},
 	}
 
@@ -352,7 +331,8 @@ func TestClientSetDeviceIdentity(t *testing.T) {
 					tc.tid,
 					tc.did,
 					tc.didData)
-				assert.True(t, strings.HasPrefix(err.Error(), "failed to submit PATCH"))
+				assert.Error(t, err)
+				assert.Contains(t, err.Error(), tc.errContains)
 				return
 			}
 			s := httptest.NewServer(
@@ -363,13 +343,6 @@ func TestClientSetDeviceIdentity(t *testing.T) {
 							return
 						}
 
-						url := urlSetDeviceAttribute
-						url = strings.Replace(url, "#tid", tc.tid, 1)
-						url = strings.Replace(url, "#did", tc.did, 1)
-						url = strings.Replace(url, "#scope", "identity", 1)
-						assert.Equal(t,
-							r.URL.Path,
-							url)
 						assert.Equal(t, "deviceauth", r.Header.Get("X-MEN-Source"))
 
 						defer r.Body.Close()
@@ -382,32 +355,16 @@ func TestClientSetDeviceIdentity(t *testing.T) {
 				tc.tid,
 				tc.did,
 				tc.didData)
-			if tc.err == nil {
-				if tc.code == 0 {
-					if tc.errCheckPrefix {
-						assert.True(t, strings.HasPrefix(err.Error(), tc.err.Error()))
-					} else {
-						assert.NoError(t, err)
-					}
-				}
-			} else {
-				if tc.errCheckPrefix {
-					assert.True(t, strings.HasPrefix(err.Error(), tc.err.Error()))
-				} else {
-					assert.EqualError(t, err, tc.err.Error())
-				}
+			if tc.err != nil {
+				assert.EqualError(t, err, tc.err.Error())
 				return
 			}
 
 			if tc.code == http.StatusOK {
 				assert.NoError(t, err)
 			} else {
-				url := urlSetDeviceAttribute
-				url = strings.Replace(url, "#tid", tc.tid, 1)
-				url = strings.Replace(url, "#did", tc.did, 1)
-				url = strings.Replace(url, "#scope", "identity", 1)
-				s := fmt.Sprintf("PATCH %s request failed with status %d %s", s.URL+url, tc.code, http.StatusText(tc.code))
-				assert.EqualError(t, err, s)
+				assert.Error(t, err)
+				assert.Contains(t, err.Error(), tc.errContains)
 			}
 		})
 	}

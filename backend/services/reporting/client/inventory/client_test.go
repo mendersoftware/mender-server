@@ -30,6 +30,15 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 )
 
+// newTestClient creates a legacy client for testing purposes.
+// This bypasses the adapter and directly creates the legacy client.
+func newTestClient(urlBase string) *client {
+	return &client{
+		client:  &http.Client{},
+		urlBase: urlBase,
+	}
+}
+
 func newTestServer(
 	rspChan <-chan *http.Response,
 	reqChan chan<- *http.Request,
@@ -162,7 +171,7 @@ func TestGetDevices(t *testing.T) {
 			srv := newTestServer(rspChan, nil)
 			defer srv.Close()
 
-			client := NewClient(srv.URL + tc.URLNoise)
+			client := newTestClient(srv.URL + tc.URLNoise)
 
 			rsp := &http.Response{
 				StatusCode: tc.ResponseCode,

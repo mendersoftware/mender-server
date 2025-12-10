@@ -32,6 +32,15 @@ import (
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
+// newTestClient creates a legacy client for testing purposes.
+// This bypasses the adapter and directly creates the legacy client.
+func newTestClient(baseURL string) *client {
+	return &client{
+		baseURL:    baseURL,
+		httpClient: &http.Client{Timeout: defaultTimeout},
+	}
+}
+
 func TestCheckHealth(t *testing.T) {
 	t.Parallel()
 
@@ -90,8 +99,7 @@ func TestCheckHealth(t *testing.T) {
 		}
 	}
 	srv := httptest.NewServer(http.HandlerFunc(serveHTTP))
-	client := NewClient().(*client)
-	client.baseURL = srv.URL
+	client := newTestClient(srv.URL)
 	defer srv.Close()
 
 	for _, tc := range testCases {
@@ -169,8 +177,7 @@ func TestGetDeviceGroups(t *testing.T) {
 		}
 	}
 	srv := httptest.NewServer(http.HandlerFunc(serveHTTP))
-	client := NewClient().(*client)
-	client.baseURL = srv.URL
+	client := newTestClient(srv.URL)
 	defer srv.Close()
 
 	for name, tc := range testCases {
