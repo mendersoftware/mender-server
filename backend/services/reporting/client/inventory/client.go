@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //	Licensed under the Apache License, Version 2.0 (the "License");
 //	you may not use this file except in compliance with the License.
@@ -11,107 +11,69 @@
 //	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //	See the License for the specific language governing permissions and
 //	limitations under the License.
+
 package inventory
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
-	"net/http"
-	"strings"
-	"time"
 
 	"github.com/pkg/errors"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
-
-	"github.com/mendersoftware/mender-server/services/reporting/utils"
+	inventory "github.com/mendersoftware/mender-server/pkg/api/internalapi/inventory"
 )
 
-const (
-	urlSearch      = "/api/internal/v2/inventory/tenants/:tid/filters/search"
-	defaultPage    = 1
-	defaultTimeout = 10 * time.Second
-)
-
+// Client is the inventory client interface.
+//
 //go:generate ../../../../utils/mockgen.sh
 type Client interface {
-	//GetDevices uses the search endpoint to get devices just by ids (not filters)
+	// GetDevices uses the search endpoint to get devices just by ids (not filters)
 	GetDevices(ctx context.Context, tid string, deviceIDs []string) ([]Device, error)
 }
 
-type client struct {
-	client  *http.Client
-	urlBase string
+// clientWrapper wraps the shared InventoryClient to implement the service-specific interface.
+type clientWrapper struct {
+	*inventory.InventoryClient
 }
 
-// NewClient creates a new inventory client.
-// This now uses the shared generated client under the hood.
+// NewClient creates a new inventory client using the shared generated client.
 func NewClient(urlBase string) Client {
-	adapter, err := NewClientAdapter(urlBase)
+	client, err := inventory.NewInventoryClient(urlBase)
 	if err != nil {
-		// Fall back to legacy implementation if adapter creation fails
-		return &client{
-			client:  &http.Client{},
-			urlBase: urlBase,
-		}
+		panic(errors.Wrap(err, "failed to create inventory client"))
 	}
-	return adapter
+	return &clientWrapper{InventoryClient: client}
 }
 
-func (c *client) GetDevices(
+// GetDevices retrieves devices by their IDs using the search endpoint.
+func (c *clientWrapper) GetDevices(
 	ctx context.Context,
 	tid string,
 	deviceIDs []string,
 ) ([]Device, error) {
-	l := log.FromContext(ctx)
-
-	perPage := uint(len(deviceIDs))
-	getReq := &GetDevsReq{
-		DeviceIDs: deviceIDs,
-		Page:      defaultPage,
-		PerPage:   perPage,
-	}
-
-	body, err := json.Marshal(getReq)
+	devices, err := c.InventoryClient.GetDevices(ctx, tid, deviceIDs)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to serialize get devices request")
+		return nil, err
 	}
 
-	rd := bytes.NewReader(body)
-
-	url := utils.JoinURL(c.urlBase, urlSearch)
-	url = strings.Replace(url, ":tid", tid, 1)
-
-	ctx, cancel := context.WithTimeout(ctx, defaultTimeout)
-	defer cancel()
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, rd)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create request")
+	// Convert inventory.InvDevice to local Device type
+	result := make([]Device, len(devices))
+	for i, d := range devices {
+		attrs := make(DeviceAttributes, len(d.Attributes))
+		for j, attr := range d.Attributes {
+			attrs[j] = DeviceAttribute{
+				Name:  attr.Name,
+				Scope: string(attr.Scope),
+				Value: attr.Value,
+			}
+			if attr.Description != nil {
+				attrs[j].Description = attr.Description
+			}
+		}
+		result[i] = Device{
+			ID:         DeviceID(d.ID),
+			Attributes: attrs,
+		}
 	}
 
-	req.Header.Set("Content-Type", "application/json")
-
-	rsp, err := c.client.Do(req)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to submit %s %s", req.Method, req.URL)
-	}
-	defer rsp.Body.Close()
-
-	if rsp.StatusCode != http.StatusOK {
-		l.Errorf("request %s %s failed with status %v, response: %s",
-			req.Method, req.URL, rsp.Status, body)
-
-		return nil, errors.Errorf(
-			"%s %s request failed with status %v", req.Method, req.URL, rsp.Status)
-	}
-
-	dec := json.NewDecoder(rsp.Body)
-	var invDevs []Device
-	if err = dec.Decode(&invDevs); err != nil {
-		return nil, errors.Wrap(err, "failed to parse request body")
-	}
-
-	return invDevs, nil
+	return result, nil
 }

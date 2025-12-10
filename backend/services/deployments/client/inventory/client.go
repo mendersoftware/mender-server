@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -17,29 +17,20 @@ package inventory
 import (
 	"context"
 	"encoding/json"
-	"net/http"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/pkg/errors"
 
+	inventory "github.com/mendersoftware/mender-server/pkg/api/internalapi/inventory"
 	"github.com/mendersoftware/mender-server/pkg/config"
-	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
 const (
-	healthURL          = "/api/internal/v1/inventory/health"
-	searchURL          = "/api/internal/v2/inventory/tenants/:tenantId/filters/search"
-	getDeviceGroupsURL = "/api/internal/v1/inventory/tenants/:tenantId/devices/:deviceId/groups"
-
 	defaultTimeout = 5 * time.Second
-
-	hdrTotalCount = "X-Total-Count"
 )
 
 // Errors
@@ -61,8 +52,12 @@ type Client interface {
 	GetDeviceGroups(ctx context.Context, tenantId, deviceId string) ([]string, error)
 }
 
-// NewClient returns a new inventory client.
-// This now uses the shared generated client under the hood.
+// clientWrapper wraps the shared InventoryClient to implement the service-specific interface.
+type clientWrapper struct {
+	*inventory.InventoryClient
+}
+
+// NewClient returns a new inventory client using the shared generated client.
 func NewClient() Client {
 	var timeout time.Duration
 	baseURL := config.Config.GetString(dconfig.SettingInventoryAddr)
@@ -75,141 +70,73 @@ func NewClient() Client {
 		timeout = time.Duration(t) * time.Second
 	}
 
-	adapter, err := NewClientAdapter(baseURL, timeout)
+	client, err := inventory.NewInventoryClient(baseURL, inventory.WithClientTimeout(timeout))
 	if err != nil {
-		// Fall back to legacy implementation if adapter creation fails
-		return &client{
-			baseURL:    baseURL,
-			httpClient: &http.Client{Timeout: timeout},
-		}
+		panic(errors.Wrap(err, "failed to create inventory client"))
 	}
-	return adapter
+	return &clientWrapper{InventoryClient: client}
 }
 
-type client struct {
-	baseURL    string
-	httpClient *http.Client
-}
-
-func (c *client) CheckHealth(ctx context.Context) error {
-	var (
-		apiErr rest.Error
-		client http.Client
-	)
-
-	if ctx == nil {
-		ctx = context.Background()
-	}
-	if _, ok := ctx.Deadline(); !ok {
-		var cancel context.CancelFunc
-		ctx, cancel = context.WithTimeout(ctx, defaultTimeout)
-		defer cancel()
-	}
-	req, _ := http.NewRequestWithContext(
-		ctx, "GET", c.baseURL+healthURL, nil,
-	)
-
-	rsp, err := client.Do(req)
-	if err != nil {
-		return err
-	}
-	defer rsp.Body.Close()
-
-	if rsp.StatusCode >= http.StatusOK && rsp.StatusCode < 300 {
-		return nil
-	}
-	decoder := json.NewDecoder(rsp.Body)
-	err = decoder.Decode(&apiErr)
-	if err != nil {
-		return errors.Errorf("health check HTTP error: %s", rsp.Status)
-	}
-	return &apiErr
-}
-
-func (c *client) Search(
+// Search searches for devices in inventory using the shared client.
+func (c *clientWrapper) Search(
 	ctx context.Context,
-	tenantId string,
+	tenantID string,
 	searchParams model.SearchParams,
 ) ([]model.InvDevice, int, error) {
-	l := log.FromContext(ctx)
-	l.Debugf("Search")
+	// Convert model.FilterPredicate to inventory.FilterPredicate
+	filters := make([]inventory.FilterPredicate, len(searchParams.Filters))
+	for i, f := range searchParams.Filters {
+		filters[i] = inventory.FilterPredicate{
+			Scope:     inventory.Scope(f.Scope),
+			Attribute: f.Attribute,
+			Type:      inventory.FilterPredicateType(f.Type),
+			Value:     interfaceToString(f.Value),
+		}
+	}
 
-	repl := strings.NewReplacer(":tenantId", tenantId)
-	url := c.baseURL + repl.Replace(searchURL)
+	params := inventory.SearchParams{
+		Page:      searchParams.Page,
+		PerPage:   searchParams.PerPage,
+		Filters:   filters,
+		DeviceIDs: searchParams.DeviceIDs,
+	}
 
-	payload, _ := json.Marshal(searchParams)
-	req, err := http.NewRequest("POST", url, strings.NewReader(string(payload)))
+	devices, totalCount, err := c.InventoryClient.Search(ctx, tenantID, params)
 	if err != nil {
 		return nil, -1, err
 	}
-	req.Header.Set("Content-Type", "application/json")
 
-	rsp, err := c.httpClient.Do(req)
-	if err != nil {
-		return nil, -1, errors.Wrap(err, "search devices request failed")
-	}
-	defer rsp.Body.Close()
-
-	if rsp.StatusCode != http.StatusOK {
-		return nil, -1, errors.Errorf(
-			"search devices request failed with unexpected status %v",
-			rsp.StatusCode,
-		)
-	}
-
-	devs := []model.InvDevice{}
-	if err := json.NewDecoder(rsp.Body).Decode(&devs); err != nil {
-		return nil, -1, errors.Wrap(err, "error parsing search devices response")
-	}
-
-	totalCountStr := rsp.Header.Get(hdrTotalCount)
-	totalCount, err := strconv.Atoi(totalCountStr)
-	if err != nil {
-		return nil, -1, errors.Wrap(err, "error parsing "+hdrTotalCount+" header")
+	// Convert inventory.InvDevice to model.InvDevice
+	result := make([]model.InvDevice, len(devices))
+	for i, d := range devices {
+		attrs := make([]model.DeviceAttribute, len(d.Attributes))
+		for j, attr := range d.Attributes {
+			attrs[j] = model.DeviceAttribute{
+				Name:  attr.Name,
+				Scope: string(attr.Scope),
+				Value: attr.Value,
+			}
+			if attr.Description != nil {
+				attrs[j].Description = attr.Description
+			}
+		}
+		result[i] = model.InvDevice{
+			ID:         d.ID,
+			Attributes: attrs,
+		}
 	}
 
-	return devs, totalCount, nil
+	return result, totalCount, nil
 }
 
-func (c *client) GetDeviceGroups(ctx context.Context, tenantId, deviceId string) ([]string, error) {
-	repl := strings.NewReplacer(":tenantId", tenantId, ":deviceId", deviceId)
-	url := c.baseURL + repl.Replace(getDeviceGroupsURL)
-
-	if ctx == nil {
-		ctx = context.Background()
+// interfaceToString converts an interface{} value to a string representation.
+func interfaceToString(v interface{}) string {
+	if s, ok := v.(string); ok {
+		return s
 	}
-	if _, ok := ctx.Deadline(); !ok {
-		var cancel context.CancelFunc
-		ctx, cancel = context.WithTimeout(ctx, defaultTimeout)
-		defer cancel()
-	}
-	req, err := http.NewRequestWithContext(
-		ctx, "GET", url, nil,
-	)
+	b, err := json.Marshal(v)
 	if err != nil {
-		return nil, err
+		return ""
 	}
-
-	rsp, err := c.httpClient.Do(req)
-	if err != nil {
-		return nil, errors.Wrap(err, "get device groups request failed")
-	}
-	defer rsp.Body.Close()
-
-	if rsp.StatusCode != http.StatusOK {
-		if rsp.StatusCode == http.StatusNotFound {
-			return []string{}, nil
-		}
-		return nil, errors.Errorf(
-			"get device groups request failed with unexpected status: %v",
-			rsp.StatusCode,
-		)
-	}
-
-	res := model.DeviceGroups{}
-	if err := json.NewDecoder(rsp.Body).Decode(&res); err != nil {
-		return nil, errors.Wrap(err, "error parsing device groups response")
-	}
-
-	return res.Groups, nil
+	return string(b)
 }
