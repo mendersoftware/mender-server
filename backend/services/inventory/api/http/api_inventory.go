@@ -974,14 +974,7 @@ func getTenantContext(ctx context.Context, tenantId string) context.Context {
 }
 
 func (i *InternalAPI) InternalDevicesStatusHandler(c *gin.Context) {
-	const (
-		StatusDecommissioned = "decommissioned"
-		StatusAccepted       = "accepted"
-		StatusRejected       = "rejected"
-		StatusPreauthorized  = "preauthorized"
-		StatusPending        = "pending"
-		StatusNoAuth         = "noauth"
-	)
+
 	var (
 		devices []model.DeviceUpdate
 		result  *model.UpdateResult
@@ -1004,9 +997,9 @@ func (i *InternalAPI) InternalDevicesStatusHandler(c *gin.Context) {
 	}
 
 	switch status {
-	case StatusAccepted, StatusPreauthorized,
-		StatusPending, StatusRejected,
-		StatusNoAuth:
+	case model.DeviceStatusAccepted, model.DeviceStatusPreauthorized,
+		model.DeviceStatusPending, model.DeviceStatusRejected,
+		model.DeviceStatusNoAuth:
 		// Update statuses
 		attrs := model.DeviceAttributes{{
 			Name:  "status",
@@ -1014,7 +1007,7 @@ func (i *InternalAPI) InternalDevicesStatusHandler(c *gin.Context) {
 			Value: status,
 		}}
 		result, err = i.App.UpsertDevicesStatuses(ctx, devices, attrs)
-	case StatusDecommissioned:
+	case model.DeviceStatusDecommissioned:
 		// Delete Inventory
 		result, err = i.App.DeleteDevices(ctx, getIdsFromDevices(devices))
 	default:
