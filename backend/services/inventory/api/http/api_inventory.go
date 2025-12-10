@@ -64,6 +64,7 @@ const (
 	apiUrlManagementV2           = "/api/management/v2/inventory"
 	urlFiltersAttributes         = "/filters/attributes"
 	urlFiltersSearch             = "/filters/search"
+	urlDeviceStatistics          = "/statistics"
 
 	apiUrlInternalV2         = "/api/internal/v2/inventory"
 	urlInternalFiltersSearch = "/tenants/:tenant_id/filters/search"
@@ -1162,4 +1163,14 @@ func parseSearchParams(c *gin.Context) (*model.SearchParams, error) {
 	}
 
 	return &searchParams, nil
+}
+
+func (i *ManagementAPI) GetDeviceStatistics(c *gin.Context) {
+	statistics, err := i.App.GetDeviceStatistics(c.Request.Context())
+	switch err {
+	case nil:
+		c.JSON(http.StatusOK, statistics)
+	default:
+		rest.RenderInternalError(c, err)
+	}
 }
