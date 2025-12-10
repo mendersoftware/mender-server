@@ -108,7 +108,14 @@ const statusColumns = [
     key: 'totalTime',
     title: 'Total time',
     cellProps: { style: { width: '10%' } },
-    render: ({ totalTime }) => totalTime
+    render: ({ total_time }) => {
+      if (!total_time) {
+        return '-';
+      }
+      const duration = dayjs.duration(`PT${total_time}`.toUpperCase());
+      const format = duration.asSeconds() >= 60 ? 'HH:mm' : 'HH:mm:ss'; // allowing quick generations to also show something
+      return duration.format(format);
+    }
   },
   {
     key: 'toArtifactSize',
@@ -142,44 +149,6 @@ const statusColumns = [
     render: () => ''
   }
 ];
-
-const DELTA_GENERATION_TIMEOUT_MINUTES = 60;
-
-const getTotalTime = (started?: string, finished?: string): string => {
-  if (!started) {
-    return '-';
-  }
-  const startTime = dayjs(started);
-  if (!finished) {
-    const duration = dayjs.duration(startTime.diff(dayjs()));
-    if (duration.asMinutes() > DELTA_GENERATION_TIMEOUT_MINUTES) {
-      return `${DELTA_GENERATION_TIMEOUT_MINUTES}:00`;
-    }
-  }
-  const endTime = dayjs(finished);
-  const duration = dayjs.duration(startTime.diff(endTime));
-  if (duration.minutes() !== Math.abs(duration.minutes())) {
-    // negative time calculated => something's off
-    return '-';
-  }
-  return duration.format('HH:mm');
-};
-
-// Look for completion patterns in the log
-const finishingPattern = /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}).*?(:?completed|finished|done)/i;
-const getFinishedTimeFromLog = (log?: string): string | undefined => {
-  if (!log) {
-    return;
-  }
-  const lines = log.split('/n');
-  for (const line of lines) {
-    const match = line.match(finishingPattern);
-    if (match) {
-      return match[1];
-    }
-  }
-  return;
-};
 
 type EnhancedJobDetailsItem = DeltaJobDetailsItem &
   DeltaJobsListItem & {
@@ -242,17 +211,13 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
     if (!deltaJob) {
       return;
     }
-    const { details, started, target_size, delta_artifact_size, to_release, to_version, from_release, from_version } = deltaJob;
-    const finished = getFinishedTimeFromLog(details);
-    const totalTime = getTotalTime(started, finished);
+    const { target_size, delta_artifact_size, to_release, to_version, from_release, from_version } = deltaJob;
     const dataSaved = target_size && delta_artifact_size ? Math.max(0, target_size - delta_artifact_size) : 0;
 
     return {
       ...deltaJob,
       toRelease: to_release || to_version || '-',
       fromRelease: from_release || from_version || '-',
-      finished,
-      totalTime,
       dataSaved
     };
   }, [deltaJob]);
@@ -299,7 +264,7 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
             </div>
             <LinedHeader className="margin-top-large" heading="Status" />
             <DetailsTable className={classes.table} columns={statusColumns} items={[combinedData]} />
-            {combinedData.status === 'failed' && combinedData.log && <Code className="log">{combinedData.log}</Code>}
+            {combinedData.status === 'failed' && combinedData.details && <Code className="log">{combinedData.details}</Code>}
           </>
         )}
       </div>
