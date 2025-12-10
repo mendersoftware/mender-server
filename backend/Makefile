@@ -18,6 +18,8 @@ DOCKER_ACCEPTANCE_TARGETS := $(addsuffix -docker-acceptance, $(SERVICES))
 DOCKER_PUBLISH_TARGETS := $(addsuffix -docker-publish, $(SERVICES))
 REDOCLY := npx @redocly/cli@2.2.2
 COMBINED_SPEC := docs/api/dist/openapi.yaml
+OAPI_CODEGEN_VERSION := v2.4.1
+OAPI_CODEGEN := go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@$(OAPI_CODEGEN_VERSION)
 
 .PHONY: generate-openapi-spec
 generate-openapi-spec:
@@ -110,3 +112,39 @@ docker-publish: $(DOCKER_PUBLISH_TARGETS)
 .PHONY: $(DOCKER_PUBLISH_TARGETS)
 $(DOCKER_PUBLISH_TARGETS):
 	@$(MAKE) -C services/$(subst -docker-publish,,$@) docker-publish
+
+.PHONY: generate-api-clients
+generate-api-clients: generate-api-types generate-api-internal generate-api-management generate-api-device
+
+.PHONY: generate-api-types
+generate-api-types:
+	@echo "Generating shared API types..."
+	@if [ -f pkg/api/types/generate.yaml ]; then \
+		$(OAPI_CODEGEN) --config=pkg/api/types/generate.yaml $(COMBINED_SPEC); \
+	else \
+		echo "  Skipping: pkg/api/types/generate.yaml not found"; \
+	fi
+
+.PHONY: generate-api-internal
+generate-api-internal:
+	@echo "Generating internal API clients..."
+	@for config in $$(find pkg/api/internalapi -name 'generate.yaml' 2>/dev/null); do \
+		echo "  $$(dirname $$config)..."; \
+		$(OAPI_CODEGEN) --config="$$config" $(COMBINED_SPEC); \
+	done
+
+.PHONY: generate-api-management
+generate-api-management:
+	@echo "Generating management API clients..."
+	@for config in $$(find pkg/api/management -name 'generate.yaml' 2>/dev/null); do \
+		echo "  $$(dirname $$config)..."; \
+		$(OAPI_CODEGEN) --config="$$config" $(COMBINED_SPEC); \
+	done
+
+.PHONY: generate-api-device
+generate-api-device:
+	@echo "Generating device API clients..."
+	@for config in $$(find pkg/api/device -name 'generate.yaml' 2>/dev/null); do \
+		echo "  $$(dirname $$config)..."; \
+		$(OAPI_CODEGEN) --config="$$config" $(COMBINED_SPEC); \
+	done
