@@ -465,14 +465,7 @@ components:
           format: date-time
           description: Creation timestamp
         data:
-          oneOf:
-          - $ref: '#/components/schemas/DeviceAuthEvent'
-          discriminator:
-            propertyName: type
-            mapping:
-              device-provisioned: '#/components/schemas/DeviceAuthEvent'
-              device-decommissioned: '#/components/schemas/DeviceAuthEvent'
-              device-status-changed: '#/components/schemas/DeviceAuthEvent'
+          $ref: '#/components/schemas/DeviceAuthEvent'
     DeviceAuthEvent:
       type: object
       description: 'DeviceAuthEvent describes an event that relates to changes to
