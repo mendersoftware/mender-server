@@ -28,7 +28,7 @@ services:
       - '8822:8822' # Expose QEMU SSH port from container
     hostname: qemu-client
     volumes:
-      - ${GUI_REPOSITORY}/tests/e2e_tests/qemu/setup-mender-configuration.py:/setup-mender-configuration.py:ro
+      # - ${GUI_REPOSITORY}/tests/e2e_tests/qemu/setup-mender-configuration.py:/setup-mender-configuration.py:ro
       - ${SERVER_ROOT}/compose/certs/mender.crt:/mnt/config/server.crt:ro
     networks:
       default:
