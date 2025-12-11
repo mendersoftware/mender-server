@@ -620,21 +620,19 @@ const collectClientLogs = async logDir => {
   writeFileSync(fullClientLogPath, fullClientLog);
 };
 
-const cleanup = async (exitCode = 0) => {
+const cleanup = async () => {
   killTestProcesses();
   const logDir = join(config.guiRepository, 'logs');
   const logPath = join(logDir, 'gui_e2e_tests.txt');
 
-  if (exitCode !== 0) {
-    try {
-      mkdirSync(logDir, { recursive: true });
-      await collectClientLogs(logDir);
-      console.log(chalk.yellow(`📋 Tests failed, dumping logs to ${chalk.cyan(logPath)}`));
-      const logs = await composeLogs(config);
-      writeFileSync(logPath, logs);
-    } catch (error) {
-      console.error(chalk.red('💥 Failed to dump logs:'), error);
-    }
+  try {
+    mkdirSync(logDir, { recursive: true });
+    await collectClientLogs(logDir);
+    console.log(chalk.yellow(`📋 Dumping logs to ${chalk.cyan(logPath)}`));
+    const logs = await composeLogs(config);
+    writeFileSync(logPath, logs);
+  } catch (error) {
+    console.error(chalk.red('💥 Failed to dump logs:'), error);
   }
 
   if (config.skipCleanup) {
@@ -675,7 +673,7 @@ try {
   }
   exitCode = 1;
 } finally {
-  await withSpinner('🧹 Cleanup', async () => await cleanup(exitCode), 'so sparkling clean', 'clean up failed');
+  await withSpinner('🧹 Cleanup', cleanup, 'so sparkling clean', 'clean up failed');
   if (exitCode === 0) {
     console.log(chalk.green('🚀 Test runner completed successfully!'));
   } else {
