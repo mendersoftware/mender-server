@@ -53,16 +53,14 @@ paths:
         in: query
         description: Starting page.
         schema:
-          type: number
-          format: integer
-          default: 1.0
+          type: integer
+          default: 1
       - name: per_page
         in: query
         description: Maximum number of results per page.
         schema:
-          type: number
-          format: integer
-          default: 10.0
+          type: integer
+          default: 10
       - name: sort
         in: query
         description: |
@@ -475,7 +473,7 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices for which the group was cleared sucessfully.
                 description: |
@@ -577,7 +575,7 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices for which the group was cleared sucessfully.
                 description: |
@@ -628,11 +626,11 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices listed that changed group.
                   matched_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices listed that matched a valid device id internally.
                 description: |
