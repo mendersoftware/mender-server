@@ -9268,7 +9268,15 @@ components:
           type: string
           description: Attribute description.
         value:
-          type: string
+          oneOf:
+            - type: string
+            - type: number
+            - type: array
+              items:
+                type: string
+            - type: array
+              items:
+                type: number
           description: |
             The current value of the attribute.
 
@@ -9470,7 +9478,15 @@ components:
           type: string
           description: Attribute description.
         value:
-          type: string
+          oneOf:
+            - type: string
+            - type: number
+            - type: array
+              items:
+                type: string
+            - type: array
+              items:
+                type: number
           description: |
             The current value of the attribute.
 
@@ -9499,7 +9515,15 @@ components:
           type: string
           description: Attribute description.
         value:
-          type: string
+          oneOf:
+            - type: string
+            - type: number
+            - type: array
+              items:
+                type: string
+            - type: array
+              items:
+                type: number
           description: |
             The current value of the attribute.
 
