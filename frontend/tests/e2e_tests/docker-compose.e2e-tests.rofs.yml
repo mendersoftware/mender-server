@@ -13,6 +13,8 @@ services:
     ports:
       - '8822:8822' # Expose QEMU SSH port from container
     hostname: qemu-client
+    volumes:
+      - ${SERVER_ROOT}/compose/certs/mender.crt:/mnt/config/server.crt:ro
     networks:
       default:
         aliases:
