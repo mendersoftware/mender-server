@@ -108,7 +108,11 @@ type DataStore interface {
 
 	// RejectAuthSetsForDevice updates the auth set status for all auth sets
 	// with status "accepted" or "preauthorized" to "rejected"
-	RejectAuthSetsForDevice(ctx context.Context, deviceID string) error
+	RejectAuthSetsForDevice(
+		ctx context.Context,
+		deviceID string,
+		excludeAuthSetIDs ...string,
+	) error
 	UpdateAuthSetById(ctx context.Context, authId string, mod model.AuthSetUpdate) error
 
 	// deletes all auth sets for device
