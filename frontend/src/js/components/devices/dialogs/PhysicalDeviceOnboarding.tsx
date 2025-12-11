@@ -17,18 +17,17 @@ import { Link } from 'react-router-dom';
 
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { Autocomplete, TextField, Typography } from '@mui/material';
-import { createFilterOptions } from '@mui/material/useAutocomplete';
+import { UseAutocompleteProps, createFilterOptions } from '@mui/material/useAutocomplete';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { EXTERNAL_PROVIDER, onboardingSteps } from '@northern.tech/store/constants';
+import { initialState } from '@northern.tech/store/onboardingSlice';
 import {
   getCurrentSession,
   getFeatures,
-  getFullVersionInformation,
   getHostAddress,
-  getIsEnterprise,
   getIsPreview,
   getOnboardingState,
   getOrganization,
@@ -36,7 +35,7 @@ import {
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '@northern.tech/store/thunks';
 
-import { getDebConfigurationCode } from '../../../utils/helpers';
+import { DebConfigurationProps, getDebConfigurationCode } from '../../../utils/helpers';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 
@@ -84,7 +83,23 @@ export const ExternalProviderTip = ({ hasExternalIntegration, integrationProvide
   </MenderTooltipClickable>
 );
 
-export const DeviceTypeSelectionStep = ({ hasConvertedImage, hasExternalIntegration, integrationProvider, onboardingState, onSelect, selection = '' }) => {
+interface DeviceTypeSelectionStepProps {
+  hasConvertedImage: boolean;
+  hasExternalIntegration: boolean;
+  integrationProvider: keyof typeof EXTERNAL_PROVIDER;
+  onboardingState: typeof initialState;
+  onSelect: UseAutocompleteProps<string | { key?: string; title: string; value: string }, false, false, true>['onChange'];
+  selection: string;
+}
+
+export const DeviceTypeSelectionStep = ({
+  hasConvertedImage,
+  hasExternalIntegration,
+  integrationProvider,
+  onboardingState,
+  onSelect,
+  selection = ''
+}: DeviceTypeSelectionStepProps) => {
   const shouldShowOnboardingTip = !onboardingState.complete && onboardingState.showTips;
   return (
     <>
@@ -143,7 +158,12 @@ export const DeviceTypeSelectionStep = ({ hasConvertedImage, hasExternalIntegrat
   );
 };
 
-export const InstallationStep = ({ advanceOnboarding, selection, ...remainingProps }) => {
+interface InstallationStepProps extends DebConfigurationProps {
+  advanceOnboarding: (stepId: string) => void;
+  selection: string;
+}
+
+export const InstallationStep = ({ advanceOnboarding, selection, ...remainingProps }: InstallationStepProps) => {
   const codeToCopy = getDebConfigurationCode({ ...remainingProps, deviceType: selection });
   return (
     <>
@@ -176,13 +196,11 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
     const { [EXTERNAL_PROVIDER['iot-hub'].credentialsAttribute]: azureConnectionString = '' } = credentials;
     return !!azureConnectionString;
   });
-  const ipAddress = useSelector(getHostAddress);
-  const isEnterprise = useSelector(getIsEnterprise);
+  const ipAddress = useSelector(getHostAddress) || '';
   const { isHosted } = useSelector(getFeatures);
   const isPreRelease = useSelector(getIsPreview);
   const onboardingState = useSelector(getOnboardingState);
-  const { tenant_token: tenantToken } = useSelector(getOrganization);
-  const { Integration: version } = useSelector(getFullVersionInformation);
+  const { trial: isTrial, tenant_token: tenantToken } = useSelector(getOrganization);
   const { token } = useSelector(getCurrentSession);
   const { hasMonitor } = useSelector(getTenantCapabilities);
   const dispatch = useDispatch();
@@ -201,28 +219,26 @@ export const PhysicalDeviceOnboarding = ({ progress }) => {
     }
   };
 
-  const hasConvertedImage = !!selection && selection.length && (selection.startsWith('raspberrypi3') || selection.startsWith('raspberrypi4'));
+  const hasConvertedImage = Boolean(!!selection && selection.length && (selection.startsWith('raspberrypi3') || selection.startsWith('raspberrypi4')));
 
   const ComponentToShow = steps[progress];
-  return (
-    <ComponentToShow
-      advanceOnboarding={step => dispatch(advanceOnboarding(step))}
-      hasConvertedImage={hasConvertedImage}
-      hasExternalIntegration={hasExternalIntegration}
-      hasMonitor={hasMonitor}
-      integrationProvider={integrationProvider}
-      ipAddress={ipAddress}
-      isEnterprise={isEnterprise}
-      isHosted={isHosted}
-      isPreRelease={isPreRelease}
-      onboardingState={onboardingState}
-      onSelect={onSelect}
-      selection={selection}
-      tenantToken={tenantToken}
-      token={token}
-      version={version}
-    />
-  );
+  const componentProps: DeviceTypeSelectionStepProps | InstallationStepProps = {
+    advanceOnboarding: step => dispatch(advanceOnboarding(step)),
+    hasConvertedImage,
+    hasExternalIntegration,
+    hasMonitor,
+    integrationProvider,
+    ipAddress,
+    isHosted,
+    isPreRelease,
+    isTrial,
+    onboardingState,
+    onSelect,
+    selection,
+    tenantToken,
+    token
+  };
+  return <ComponentToShow {...componentProps} />;
 };
 
 export default PhysicalDeviceOnboarding;
