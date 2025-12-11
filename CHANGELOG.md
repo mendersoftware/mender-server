@@ -1,4 +1,3 @@
----
 ## 4.0.0 - 2025-02-10
 
 
@@ -24708,8 +24707,6 @@ artifact description
 * Fix bug that caused the update not to be retried after failing during
 previous attempt (#193)
 
----
 ## Mender v1.0.0
 _Released 02.20.2017_
 
----
