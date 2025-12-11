@@ -9,6 +9,7 @@ services:
     image: registry.mender.io/mendersoftware/mender-qemu-rofs-commercial:mender-master
     environment:
       - SERVER_URL=https://docker.mender.io
+      - SERVER_IP=10.0.2.2
       - TENANT_TOKEN
     ports:
       - '8822:8822' # Expose QEMU SSH port from container
