@@ -11,14 +11,18 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Schedule as HelpIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
-import { advanceOnboarding } from '@northern.tech/store/thunks';
+import { getOnboardingState } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { advanceOnboarding, setOnboardingComplete } from '@northern.tech/store/thunks';
+import DocsLink from '@northern.tech/common-ui/DocsLink';
 
 import BaseOnboardingTip, { BaseOnboardingTooltip } from './BaseOnoardingTip';
 
@@ -33,7 +37,7 @@ export const DevicePendingTip = props => (
 );
 
 export const GetStartedTip = props => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <BaseOnboardingTooltip {...props}>
       <div className="margin-top" style={{ marginBottom: -12 }}>
@@ -56,35 +60,62 @@ export const DevicesPendingDelayed = () => (
   <div>If your device still isn&apos;t showing, try following the connection steps again or see our documentation for more.</div>
 );
 
-export const DashboardOnboardingState = () => <div>Your device has requested to join the server. Click the row to expand the device details.</div>;
+export const DashboardOnboardingState = () => <div>Your device has requested to join the server. Click the row to open the device details.</div>;
 
 export const DevicesPendingAcceptingOnboarding = () => (
   <div>
-    Your device has made a request to join the Mender server. You can inspect its identity details, such as mac address and public key, to verify it is
-    definitely your device.
-    <br />
-    When you are ready, Accept it!
+    Verify your device&#39;s details, like MAC address and public key, then click <b>Accept</b> to allow it to connect to the Mender Server.
   </div>
 );
 
 export const DashboardOnboardingPendings = () => <div>Next accept your device</div>;
-
+const useStyles = makeStyles()(theme => ({
+  link: {
+    color: theme.palette.grey[100],
+    '&:hover': {
+      color: theme.palette.grey[100]
+    }
+  },
+  buttonContainer: {
+    justifyContent: 'flex-end'
+  }
+}));
 export const DevicesAcceptedOnboarding = props => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { approach } = useSelector(getOnboardingState);
+  const isMcu = approach === 'mcu';
+  const { classes } = useStyles();
   return (
     <BaseOnboardingTooltip {...props}>
-      <div className="margin-top" style={{ marginBottom: -12 }}>
+      {isMcu ? (
         <div>
           <p>Your device is now authenticated and has connected to the server! It&apos;s ready to receive updates, report its data and more.</p>
-          Would you like to learn how to deploy your first update?
+          <p>
+            If you would like to learn how to deploy your first update, follow the steps in the documentation and{' '}
+            <DocsLink path="get-started/microcontroller-preview/deploy-a-firmware-update" className={`bold ${classes.link}`} >
+              deploy a firmware update for Zephyr.
+            </DocsLink>
+          </p>
+          <div className={`flexbox ${classes.buttonContainer}`}>
+            <Button variant="contained" onClick={() => dispatch(setOnboardingComplete(true))}>
+              End tour
+            </Button>
+          </div>
         </div>
-        <div className="flexbox center-aligned margin-top-small space-between">
-          <b className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))}>
-            Dismiss the tutorial
-          </b>
-          <Button onClick={() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_ACCEPTED_ONBOARDING))}>Yes, let&apos;s deploy!</Button>
-        </div>
-      </div>
+      ) : (
+        <>
+          <div>
+            <p>Your device is now authenticated and has connected to the server! It&apos;s ready to receive updates, report its data and more.</p>
+            Would you like to learn how to deploy your first update?
+          </div>
+          <div className="flexbox center-aligned margin-top-small space-between">
+            <b className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))}>
+              Dismiss the tutorial
+            </b>
+            <Button onClick={() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_ACCEPTED_ONBOARDING))}>Yes, let&apos;s deploy!</Button>
+          </div>
+        </>
+      )}
     </BaseOnboardingTooltip>
   );
 };
