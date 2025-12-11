@@ -10,3 +10,4 @@ backend/services/deployments/tests/management_v2_*
 backend/services/deployments/tests/.openapi-generator-ignore
 backend/services/deployments/tests/.openapi-generator
 cliff.toml
+openapi.tmp.yaml
