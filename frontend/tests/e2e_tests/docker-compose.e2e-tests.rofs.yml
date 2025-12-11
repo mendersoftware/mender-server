@@ -1,3 +1,10 @@
+networks:
+  default:
+    name: gui-tests_default
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+
 services:
   gui-tests-runner:
     volumes:
@@ -5,11 +12,17 @@ services:
     environment:
       - CLIENT_IP
 
+  traefik:
+    networks:
+      default:
+        ipv4_address: 172.30.0.100
+
   client:
     image: registry.mender.io/mendersoftware/mender-qemu-rofs-commercial:mender-master
     environment:
       - SERVER_URL=https://docker.mender.io
-      - SERVER_IP=10.0.2.2
+      # This IP is traefik's fixed IP on the Docker network, reachable from QEMU VM via the container's network stack
+      - SERVER_IP=172.30.0.100
       - TENANT_TOKEN
     ports:
       - '8822:8822' # Expose QEMU SSH port from container
