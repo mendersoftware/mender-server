@@ -775,22 +775,13 @@ release:mender-docs-changelog:
       else
       export CHANGELOG_SUFFIX="";
       fi;
-    - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
   script:
-    # Generate the change for this release only
-    - git cliff --use-branch-tags --current --output this_mender_docs_changelog.md
     - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
     - cd ${GITHUB_CHANGELOG_REPO_URL#*/}
     - git checkout -b changelog-${CI_JOB_ID}
-    # Backup the Changelog file and remove the header
-    - tail -n +9 ${CHANGELOG_REMOTE_FILE} > ${CHANGELOG_REMOTE_FILE}.${CI_JOB_ID}
-    - sed -i -E "s/^---$//" ${CHANGELOG_REMOTE_FILE}.${CI_JOB_ID}
-    - cat ../.docs_header.md > ${CHANGELOG_REMOTE_FILE}
-    - cat ../this_mender_docs_changelog.md | grep -v -E '^---' >> ${CHANGELOG_REMOTE_FILE}
-    - cat ${CHANGELOG_REMOTE_FILE}.${CI_JOB_ID} >> ${CHANGELOG_REMOTE_FILE}
+    - cat ../.docs_header.md "../CHANGELOG${CHANGELOG_SUFFIX}.md" > "${CHANGELOG_REMOTE_FILE}"
     - git add ${CHANGELOG_REMOTE_FILE}
-    - |
-      git commit -s -m "chore: add $CI_PROJECT_NAME changelog"
+    - 'git commit -s -m "chore: add $CI_PROJECT_NAME changelog"'
     - git push origin changelog-${CI_JOB_ID}
     - gh pr create --title "Update CHANGELOG${CHANGELOG_SUFFIX}.md for $CI_PROJECT_NAME" --body "Automated change to the CHANGELOG${CHANGELOG_SUFFIX}.md file" --base master --head changelog-${CI_JOB_ID}
 
