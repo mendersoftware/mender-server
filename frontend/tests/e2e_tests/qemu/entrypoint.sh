@@ -1,0 +1,56 @@
+#!/bin/bash
+# Custom entrypoint that patches setup-mender-configuration.py before running the original entrypoint
+# This is a workaround until the upstream script includes the ServerCertificate fix
+
+set -x -e
+
+# Source the environment
+. /env.txt
+
+# For SaaS platform.
+[ -s /saas/extensions.sh ] && source /saas/extensions.sh
+
+for file in "$BOOTLOADER" "$BOOTLOADER_DATA" "$DISK_IMG"; do
+    if [ -z "$file" ]; then
+        continue
+    fi
+    file="$(basename "$file")"
+    if [ -e "/mnt/build/tmp/deploy/images/$MACHINE/$file" ]; then
+        cp "/mnt/build/tmp/deploy/images/$MACHINE/$file" /
+    fi
+done
+
+CONFIG_ARGS=
+
+if [ -f /mnt/config/server.crt ]; then
+    CONFIG_ARGS="$CONFIG_ARGS --server-crt=/mnt/config/server.crt"
+fi
+
+if [ -f /mnt/config/artifact-verify-key.pem ]; then
+    CONFIG_ARGS="$CONFIG_ARGS --verify-key=/mnt/config/artifact-verify-key.pem"
+fi
+
+# Extract Docker IP and exclude loopback address.
+DOCKER_IP="$(ip addr | sed -ne '/^ *inet /{/127\.0\.0\.1/d;s/^ *inet  *\([^ ]*\) .*/\1/;p}')"
+
+if [ ! -e /mender-setup-complete ]; then
+    # Use the patched setup script if available, otherwise use the original
+    SETUP_SCRIPT="./setup-mender-configuration.py"
+    if [ -f /mnt/qemu/setup-mender-configuration.py ]; then
+        SETUP_SCRIPT="/mnt/qemu/setup-mender-configuration.py"
+    fi
+
+    $SETUP_SCRIPT --img="$DISK_IMG" \
+                  --server-url=$SERVER_URL \
+                  --server-ip=$SERVER_IP \
+                  --tenant-token=$TENANT_TOKEN $CONFIG_ARGS \
+                  --device-tier=$DEVICE_TIER \
+                  --log-level=$LOG_LEVEL \
+                  --log-dir=$LOG_DIR \
+                  --docker-ip="$DOCKER_IP" \
+                  --mender-gateway-conffile "$MENDER_GATEWAY_CONFFILE"
+    touch /mender-setup-complete
+fi
+
+export QEMU_NET_HOSTFWD=",hostfwd=tcp::80-:80,hostfwd=tcp::85-:85,hostfwd=tcp::443-:443,hostfwd=tcp::8080-:8080"
+./mender-qemu "$@"
