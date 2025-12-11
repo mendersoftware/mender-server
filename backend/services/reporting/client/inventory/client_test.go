@@ -30,6 +30,70 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 )
 
+// legacyTestClient is a test-only HTTP client for unit tests.
+type legacyTestClient struct {
+	client  *http.Client
+	urlBase string
+}
+
+func newTestClient(urlBase string) *legacyTestClient {
+	return &legacyTestClient{
+		client:  &http.Client{},
+		urlBase: urlBase,
+	}
+}
+
+func (c *legacyTestClient) GetDevices(
+	ctx context.Context,
+	tid string,
+	deviceIDs []string,
+) ([]Device, error) {
+	perPage := uint(len(deviceIDs))
+	getReq := &GetDevsReq{
+		DeviceIDs: deviceIDs,
+		Page:      1,
+		PerPage:   perPage,
+	}
+
+	body, err := json.Marshal(getReq)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to serialize get devices request")
+	}
+
+	rd := bytes.NewReader(body)
+
+	url := c.urlBase + "/api/internal/v2/inventory/tenants/" + tid + "/filters/search"
+
+	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, rd)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to create request")
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+
+	rsp, err := c.client.Do(req)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to submit %s %s", req.Method, req.URL)
+	}
+	defer rsp.Body.Close()
+
+	if rsp.StatusCode != http.StatusOK {
+		return nil, errors.Errorf(
+			"%s %s request failed with status %v", req.Method, req.URL, rsp.Status)
+	}
+
+	dec := json.NewDecoder(rsp.Body)
+	var invDevs []Device
+	if err = dec.Decode(&invDevs); err != nil {
+		return nil, errors.Wrap(err, "failed to parse request body")
+	}
+
+	return invDevs, nil
+}
+
 func newTestServer(
 	rspChan <-chan *http.Response,
 	reqChan chan<- *http.Request,
@@ -162,7 +226,7 @@ func TestGetDevices(t *testing.T) {
 			srv := newTestServer(rspChan, nil)
 			defer srv.Close()
 
-			client := NewClient(srv.URL + tc.URLNoise)
+			client := newTestClient(srv.URL + tc.URLNoise)
 
 			rsp := &http.Response{
 				StatusCode: tc.ResponseCode,

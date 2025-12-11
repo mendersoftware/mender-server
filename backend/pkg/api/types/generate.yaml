@@ -1,0 +1,15 @@
+# oapi-codegen configuration for generating shared API types
+# All schemas from the combined OpenAPI spec are generated into this package.
+# Per-service clients will import types from here instead of duplicating them.
+
+package: types
+output: pkg/api/types/types.gen.go
+generate:
+  client: false
+  models: true
+  embedded-spec: false
+output-options:
+  skip-prune: false
+  skip-fmt: false
+  # Use name-normalizer to handle duplicate type names from inline enums
+  name-normalizer: ToCamelCaseWithInitialisms

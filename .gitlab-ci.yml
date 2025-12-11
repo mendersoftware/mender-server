@@ -232,7 +232,6 @@ test:backend:static:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node
   before_script:
     - npm install -g @redocly/cli@2.2.2
-    - cd backend/docs/api
   artifacts:
     when: always
     expire_in: 2 weeks
@@ -242,21 +241,8 @@ test:backend:static:
 test:backend:combine-api:
   extends: .template:combine-api
   script:
-    - |
-      redocly join --prefix-tags-with-info-prop title \
-        root.openapi.yaml \
-        common/*.yaml \
-        deployments/*.yaml \
-        deviceauth/*.yaml \
-        deviceconfig/*.yaml \
-        deviceconnect/*.yaml \
-        inventory/*.yaml \
-        iot-manager/*.yaml \
-        useradm/*.yaml \
-        workflows/*.yaml \
-        -o dist/openapi.tmp.yaml
-    - redocly bundle dist/openapi.tmp.yaml --config config/redocly.yaml -o dist/openapi.yaml
-    - git diff --exit-code dist/openapi.yaml
+    - make -C backend generate-openapi-spec
+    - git diff --exit-code backend/docs/api/dist/openapi.yaml
   allow_failure: false
 
 test:backend:validate-open-api:

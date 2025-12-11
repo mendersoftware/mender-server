@@ -631,7 +631,7 @@ paths:
       description: |
         Upload mender artifact to a specific tenant. Multipart request with meta and artifact.
         Supports artifact [versions v1, v2, v3](https://docs.mender.io/overview/artifact#versions).
-      operationId: Upload artifact
+      operationId: Deployments Internal Upload artifact
       parameters:
         - description: Tenant ID, or "default" if running in non-multitenant setup
           in: path
@@ -4757,13 +4757,11 @@ paths:
               type: object
               properties:
                 page:
-                  type: number
+                  type: integer
                   description: Starting page.
-                  format: integer
                 per_page:
-                  type: number
+                  type: integer
                   description: Number of results per page.
-                  format: integer
                 device_ids:
                   type: array
                   description: List of device IDs
@@ -4864,15 +4862,13 @@ paths:
           in: query
           description: Starting page.
           schema:
-            type: number
-            format: integer
+            type: integer
             default: 1
         - name: per_page
           in: query
           description: Maximum number of results per page.
           schema:
-            type: number
-            format: integer
+            type: integer
             default: 10
         - name: sort
           in: query
@@ -5284,7 +5280,7 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices for which the group was cleared sucessfully.
                 description: |
@@ -5385,7 +5381,7 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices for which the group was cleared sucessfully.
                 description: |
@@ -5436,11 +5432,11 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices listed that changed group.
                   matched_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices listed that matched a valid device id internally.
                 description: |
@@ -5504,13 +5500,11 @@ paths:
               type: object
               properties:
                 page:
-                  type: number
+                  type: integer
                   description: Starting page.
-                  format: integer
                 per_page:
-                  type: number
+                  type: integer
                   description: Maximum number of results per page.
-                  format: integer
                 text:
                   type: string
                   description: Free-text search query
@@ -6868,16 +6862,14 @@ paths:
           in: query
           description: Starting page.
           schema:
-            type: number
-            format: integer
+            type: integer
             default: 1
         - name: per_page
           in: query
           description: Maximum number of results per page.
           schema:
             maximum: 500
-            type: number
-            format: integer
+            type: integer
             default: 20
       responses:
         '200':
@@ -7618,6 +7610,7 @@ components:
         - device_ids
       type: object
     Upload_artifact_request:
+      x-go-name: InternalUploadArtifactRequest
       properties:
         artifact_id:
           description: Artifact ID, optional; the server generates a randome one if not provided.
@@ -7654,6 +7647,7 @@ components:
         - usage
       type: object
     DeviceStatus:
+      x-go-name: DeploymentDeviceStatus
       enum:
         - failure
         - aborted
@@ -9100,6 +9094,7 @@ components:
           $ref: '#/components/schemas/IdentityData'
         status:
           type: string
+          x-go-name: DeviceAuthStatus
           enum:
             - pending
             - accepted
@@ -9320,9 +9315,8 @@ components:
           type: string
           description: Device identifier.
         revision:
-          type: number
+          type: integer
           description: Device object revision.
-          format: integer
       description: Object containing device id and device revision of the device to update.
     Groups:
       required:
@@ -9776,14 +9770,7 @@ components:
           format: date-time
           description: Creation timestamp
         data:
-          oneOf:
-            - $ref: '#/components/schemas/DeviceAuthEvent'
-          discriminator:
-            propertyName: type
-            mapping:
-              device-provisioned: '#/components/schemas/DeviceAuthEvent'
-              device-decommissioned: '#/components/schemas/DeviceAuthEvent'
-              device-status-changed: '#/components/schemas/DeviceAuthEvent'
+          $ref: '#/components/schemas/DeviceAuthEvent'
     DeviceAuthEvent:
       type: object
       description: 'DeviceAuthEvent describes an event that relates to changes to a device''s authentication data. The properties included depends on the event type: device provisioning includes the entire device with the accepted authentication set, status change events only includes the device id and the new status, and device decommissioning will only include the device id.'
@@ -9908,7 +9895,7 @@ components:
           type: string
           description: Name of a token.
         expires_in:
-          type: number
+          type: integer
           description: |
             Expiration time in seconds (maximum one year - 31536000s).
             If you omit it or set it to zero, the Personal Access Token will never expire.

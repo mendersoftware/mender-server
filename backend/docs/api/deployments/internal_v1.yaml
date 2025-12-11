@@ -414,7 +414,7 @@ paths:
         Supports artifact [versions v1, v2, v3](https://docs.mender.io/overview/artifact#versions).
 
         '
-      operationId: Upload artifact
+      operationId: Deployments Internal Upload artifact
       parameters:
       - description: Tenant ID, or "default" if running in non-multitenant setup
         in: path
@@ -801,6 +801,7 @@ components:
       - device_ids
       type: object
     Upload_artifact_request:
+      x-go-name: InternalUploadArtifactRequest
       properties:
         artifact_id:
           description: Artifact ID, optional; the server generates a randome one if

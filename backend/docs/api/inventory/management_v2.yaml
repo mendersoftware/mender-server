@@ -62,13 +62,11 @@ paths:
               type: object
               properties:
                 page:
-                  type: number
+                  type: integer
                   description: Starting page.
-                  format: integer
                 per_page:
-                  type: number
+                  type: integer
                   description: Maximum number of results per page.
-                  format: integer
                 text:
                   type: string
                   description: Free-text search query

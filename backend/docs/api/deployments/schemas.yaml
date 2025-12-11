@@ -97,6 +97,7 @@ components:
           type: string
       type: object
     DeviceStatus:
+      x-go-name: DeploymentDeviceStatus
       enum:
       - failure
       - aborted

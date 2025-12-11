@@ -342,9 +342,8 @@ components:
           type: string
           description: Device identifier.
         revision:
-          type: number
+          type: integer
           description: Device object revision.
-          format: integer
       description: Object containing device id and device revision of the device to
         update.
     Groups:

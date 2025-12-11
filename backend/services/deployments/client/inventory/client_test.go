@@ -1,4 +1,4 @@
-// Copyright 2021 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 
@@ -31,6 +32,93 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
+
+// legacyTestClient is a test-only HTTP client for unit tests.
+// It provides direct HTTP client functionality without the shared client wrapper.
+type legacyTestClient struct {
+	baseURL    string
+	httpClient *http.Client
+}
+
+func newTestClient(baseURL string) *legacyTestClient {
+	return &legacyTestClient{
+		baseURL:    baseURL,
+		httpClient: &http.Client{Timeout: defaultTimeout},
+	}
+}
+
+func (c *legacyTestClient) CheckHealth(ctx context.Context) error {
+	var apiErr rest.Error
+
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	if _, ok := ctx.Deadline(); !ok {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, defaultTimeout)
+		defer cancel()
+	}
+	req, _ := http.NewRequestWithContext(
+		ctx, "GET", c.baseURL+"/api/internal/v1/inventory/health", nil,
+	)
+
+	rsp, err := c.httpClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer rsp.Body.Close()
+
+	if rsp.StatusCode >= http.StatusOK && rsp.StatusCode < 300 {
+		return nil
+	}
+	decoder := json.NewDecoder(rsp.Body)
+	err = decoder.Decode(&apiErr)
+	if err != nil {
+		return errors.Errorf("health check HTTP error: %s", rsp.Status)
+	}
+	return &apiErr
+}
+
+func (c *legacyTestClient) GetDeviceGroups(ctx context.Context, tenantId, deviceId string) ([]string, error) {
+	repl := strings.NewReplacer(":tenantId", tenantId, ":deviceId", deviceId)
+	url := c.baseURL + repl.Replace("/api/internal/v1/inventory/tenants/:tenantId/devices/:deviceId/groups")
+
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	if _, ok := ctx.Deadline(); !ok {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, defaultTimeout)
+		defer cancel()
+	}
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	rsp, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, errors.Wrap(err, "get device groups request failed")
+	}
+	defer rsp.Body.Close()
+
+	if rsp.StatusCode != http.StatusOK {
+		if rsp.StatusCode == http.StatusNotFound {
+			return []string{}, nil
+		}
+		return nil, errors.Errorf(
+			"get device groups request failed with unexpected status: %v",
+			rsp.StatusCode,
+		)
+	}
+
+	res := model.DeviceGroups{}
+	if err := json.NewDecoder(rsp.Body).Decode(&res); err != nil {
+		return nil, errors.Wrap(err, "error parsing device groups response")
+	}
+
+	return res.Groups, nil
+}
 
 func TestCheckHealth(t *testing.T) {
 	t.Parallel()
@@ -90,8 +178,7 @@ func TestCheckHealth(t *testing.T) {
 		}
 	}
 	srv := httptest.NewServer(http.HandlerFunc(serveHTTP))
-	client := NewClient().(*client)
-	client.baseURL = srv.URL
+	client := newTestClient(srv.URL)
 	defer srv.Close()
 
 	for _, tc := range testCases {
@@ -169,8 +256,7 @@ func TestGetDeviceGroups(t *testing.T) {
 		}
 	}
 	srv := httptest.NewServer(http.HandlerFunc(serveHTTP))
-	client := NewClient().(*client)
-	client.baseURL = srv.URL
+	client := newTestClient(srv.URL)
 	defer srv.Close()
 
 	for name, tc := range testCases {

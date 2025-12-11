@@ -483,6 +483,7 @@ components:
           $ref: '#/components/schemas/IdentityData'
         status:
           type: string
+          x-go-name: DeviceAuthStatus
           enum:
           - pending
           - accepted

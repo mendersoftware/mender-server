@@ -1,0 +1,15 @@
+# oapi-codegen configuration for inventory internal API client
+# Generates client code for internal inventory service endpoints.
+
+package: inventory
+output: pkg/api/internalapi/inventory/client.gen.go
+generate:
+  client: true
+  models: true
+  embedded-spec: false
+output-options:
+  skip-prune: false
+  name-normalizer: ToCamelCaseWithInitialisms
+  include-tags:
+    - Device_inventory_Internal API
+    - Device_inventory_filters_and_search_Internal API
