@@ -4048,6 +4048,75 @@ func TestApiInventoryInternalSearchDevices(t *testing.T) {
 	}
 }
 
+func TestApiInventoryGetStatistics(t *testing.T) {
+	t.Parallel()
+
+	testCases := map[string]struct {
+		inReq      *http.Request
+		statistics *model.DeviceStatistics
+		err        error
+		status     int
+	}{
+		"ok": {
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/management/v2/inventory/statistics",
+				Auth:   true,
+			}),
+			statistics: &model.DeviceStatistics{
+				ByStatus: model.DeviceStatisticsByStatus{
+					Accepted: model.DeviceCountPerTier{
+						Standard: 1,
+						Micro:    2,
+						System:   3,
+					},
+					Pending: model.DeviceCountPerTier{
+						Standard: 4,
+						Micro:    5,
+						System:   6,
+					},
+				},
+			},
+			err:    nil,
+			status: http.StatusOK,
+		},
+		"error": {
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "GET",
+				Path:   "http://localhost/api/management/v2/inventory/statistics",
+				Auth:   true,
+			}),
+			statistics: nil,
+			err:        errors.New("error"),
+			status:     http.StatusInternalServerError,
+		},
+	}
+
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			inv := minventory.InventoryApp{}
+
+			ctx := contextMatcher()
+
+			inv.On("GetDeviceStatistics",
+				ctx,
+			).Return(tc.statistics, tc.err)
+
+			apih := makeMockApiHandler(t, &inv)
+			if tc.statistics != nil {
+				runTestRequest(t, apih, tc.inReq, JSONResponseParams{
+					OutputStatus:     tc.status,
+					OutputBodyObject: tc.statistics,
+				})
+			} else {
+				runTestRequest(t, apih, tc.inReq, JSONResponseParams{
+					OutputStatus:     tc.status,
+					OutputBodyObject: RestError("internal error"),
+				})
+			}
+		})
+	}
+}
 func restError(status string) map[string]interface{} {
 	return map[string]interface{}{"error": status, "request_id": "test"}
 }
