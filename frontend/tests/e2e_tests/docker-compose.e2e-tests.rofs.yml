@@ -19,8 +19,6 @@ services:
 
   client:
     image: registry.mender.io/mendersoftware/mender-qemu-rofs-commercial:mender-master
-    # Override configs from base compose file - QEMU client doesn't use Docker configs
-    configs: []
     environment:
       - SERVER_URL=https://docker.mender.io
       # This IP is traefik's fixed IP on the Docker network, reachable from QEMU VM via the container's network stack
@@ -30,8 +28,6 @@ services:
       - '8822:8822' # Expose QEMU SSH port from container
     hostname: qemu-client
     volumes:
-      # Mount patched setup script over the original in the container
-      - ${GUI_REPOSITORY}/tests/e2e_tests/qemu/setup-mender-configuration.py:/setup-mender-configuration.py:ro
       - ${SERVER_ROOT}/compose/certs/mender.crt:/mnt/config/server.crt:ro
     networks:
       default:
