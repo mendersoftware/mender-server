@@ -186,7 +186,7 @@ test.describe('Settings', () => {
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.getByText('Upgrade now').click();
 
-      const deviceInput = page.getByRole('spinbutton', { name: 'Number of devices' });
+      const deviceInput = page.getByRole('spinbutton');
       await deviceInput.focus();
       // Increase by 2 steps (50 => 150)
       await page.keyboard.press('ArrowUp');
