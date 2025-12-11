@@ -19,6 +19,7 @@ services:
 
   client:
     image: registry.mender.io/mendersoftware/mender-qemu-rofs-commercial:mender-master
+    entrypoint: ["/mnt/config/entrypoint.sh"]
     environment:
       - SERVER_URL=https://docker.mender.io
       # This IP is traefik's fixed IP on the Docker network, reachable from QEMU VM via the container's network stack
@@ -28,7 +29,8 @@ services:
       - '8822:8822' # Expose QEMU SSH port from container
     hostname: qemu-client
     volumes:
-      # - ${GUI_REPOSITORY}/tests/e2e_tests/qemu/setup-mender-configuration.py:/setup-mender-configuration.py:ro
+      - ${GUI_REPOSITORY}/tests/e2e_tests/qemu/entrypoint.sh:/mnt/config/entrypoint.sh:ro
+      - ${GUI_REPOSITORY}/tests/e2e_tests/qemu/setup-mender-configuration.py:/mnt/config/setup-mender-configuration.py:ro
       - ${SERVER_ROOT}/compose/certs/mender.crt:/mnt/config/server.crt:ro
     networks:
       default:
