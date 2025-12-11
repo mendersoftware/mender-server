@@ -3,6 +3,7 @@ configs:
   client_json:
     content: |
       {
+        "SkipVerify": true,
         "InventoryPollIntervalSeconds": 5,
         "RetryPollIntervalSeconds": 5,
         "ServerURL": "${SERVER_URL:-https://docker.mender.io}",
