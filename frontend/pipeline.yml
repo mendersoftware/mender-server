@@ -196,6 +196,8 @@ build:frontend:docker:
       - frontend/screenshots
       - frontend/logs
       - frontend/junit
+      - frontend/test-results
+      - frontend/traces
     reports:
       junit:
         - frontend/junit/results.xml
