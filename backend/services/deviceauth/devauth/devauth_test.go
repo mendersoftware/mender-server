@@ -471,7 +471,8 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 					})).Return(tc.addAuthSetErr)
 			db.On("RejectAuthSetsForDevice",
 				ctxMatcher,
-				tc.getDevByKeyId).
+				tc.getDevByKeyId,
+				mock.AnythingOfType("string")).
 				Return(nil)
 			db.On("GetAuthSetByIdDataHashKey",
 				ctxMatcher,
@@ -783,7 +784,8 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 
 			db.On("RejectAuthSetsForDevice",
 				ctxMatcher,
-				dummyDevId).
+				dummyDevId,
+				mock.AnythingOfType("string")).
 				Return(nil)
 
 			// at the end of processing, updates the preauthorized set to 'accepted'

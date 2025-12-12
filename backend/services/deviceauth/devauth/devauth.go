@@ -373,7 +373,7 @@ func (d *DevAuth) handlePreAuthDevice(
 	}
 
 	// Ensure that the old acceptable auth sets are rejected
-	if err := d.db.RejectAuthSetsForDevice(ctx, aset.DeviceId); err != nil &&
+	if err := d.db.RejectAuthSetsForDevice(ctx, aset.DeviceId, aset.Id); err != nil &&
 		!errors.Is(err, store.ErrAuthSetNotFound) {
 		return nil, errors.Wrap(err, "failed to reject auth sets")
 	}
@@ -918,7 +918,7 @@ func (d *DevAuth) setAuthSetStatus(
 	// if accepting an auth set
 	if status == model.DevStatusAccepted {
 		// reject all accepted auth sets for this device first
-		err := d.db.RejectAuthSetsForDevice(ctx, deviceID)
+		err := d.db.RejectAuthSetsForDevice(ctx, deviceID, aset.Id)
 		if err != nil && err != store.ErrAuthSetNotFound {
 			return errors.Wrap(err, "failed to reject auth sets")
 		}

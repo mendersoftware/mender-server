@@ -760,6 +760,7 @@ func (db *DataStoreMongo) GetAuthSetsForDevice(
 func (db *DataStoreMongo) RejectAuthSetsForDevice(
 	ctx context.Context,
 	deviceID string,
+	excludeAuthSetIDs ...string,
 ) error {
 	c := db.client.Database(DbName).Collection(DbAuthSetColl)
 	var tenantID string
@@ -776,6 +777,9 @@ func (db *DataStoreMongo) RejectAuthSetsForDevice(
 		"$set": bson.M{
 			model.AuthSetKeyStatus: model.DevStatusRejected,
 		},
+	}
+	if len(excludeAuthSetIDs) > 0 {
+		filter["_id"] = bson.M{"$nin": excludeAuthSetIDs}
 	}
 
 	if res, err := c.UpdateMany(ctx, filter, update); err != nil {
