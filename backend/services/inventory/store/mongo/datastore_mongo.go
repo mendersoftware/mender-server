@@ -33,6 +33,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
+	"github.com/mendersoftware/mender-server/pkg/tiers"
 
 	"github.com/mendersoftware/mender-server/services/inventory/model"
 	"github.com/mendersoftware/mender-server/services/inventory/store"
@@ -66,7 +67,8 @@ const (
 	FiltersAttributesMaxDevices = 5000
 	FiltersAttributesLimit      = 500
 
-	attrIdentityStatus = "identity-status"
+	attrIdentityStatus = model.AttrScopeIdentity + "-status"
+	attrSystemTier     = model.AttrScopeSystem + "-tier"
 )
 
 var (
@@ -1215,6 +1217,93 @@ func (db *DataStoreMongo) SearchDevices(
 	}
 
 	return devices, int(count), nil
+}
+
+func (db *DataStoreMongo) GetDeviceTierStatisticsByStatus(
+	ctx context.Context,
+) (
+	*model.DeviceStatisticsByStatus,
+	error,
+) {
+	collection := db.client.Database(
+		mstore.DbFromContext(ctx, DbName),
+	).Collection(DbDevicesColl)
+
+	match := bson.M{
+		"$match": bson.M{
+			indexAttrName(attrIdentityStatus): bson.M{
+				"$in": []string{
+					model.DeviceStatusAccepted,
+					model.DeviceStatusPending,
+				},
+			},
+		},
+	}
+	group := bson.M{
+		"$group": bson.M{
+			"_id": bson.M{
+				"status": "$" + indexAttrName(attrIdentityStatus),
+				"tier": bson.M{
+					"$ifNull": bson.A{
+						"$" + indexAttrName(attrSystemTier),
+						tiers.StandardTier,
+					},
+				},
+			},
+			"devices": bson.M{
+				"$sum": 1,
+			},
+		},
+	}
+
+	project := bson.M{
+		"$project": bson.M{
+			"_id":     0,
+			"status":  "$_id.status",
+			"tier":    "$_id.tier",
+			"devices": 1,
+		},
+	}
+
+	cursor, err := collection.Aggregate(
+		ctx,
+		[]bson.M{match, group, project},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	var deviceCounts []struct {
+		Status  string `bson:"status"`
+		Tier    string `bson:"tier"`
+		Devices uint64 `bson:"devices"`
+	}
+
+	err = cursor.All(ctx, &deviceCounts)
+	if err != nil {
+		return nil, err
+	}
+
+	var statistics model.DeviceStatisticsByStatus
+	for _, count := range deviceCounts {
+		var dest *model.DeviceCountPerTier
+		if count.Status == model.DeviceStatusAccepted {
+			dest = &statistics.Accepted
+		} else {
+			dest = &statistics.Pending
+		}
+
+		switch count.Tier {
+		case tiers.StandardTier:
+			dest.Standard = count.Devices
+		case tiers.MicroTier:
+			dest.Micro = count.Devices
+		case tiers.SystemTier:
+			dest.System = count.Devices
+		}
+	}
+
+	return &statistics, nil
 }
 
 func indexAttr(s *mongo.Client, ctx context.Context, attr string) error {

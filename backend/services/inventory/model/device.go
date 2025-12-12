@@ -45,6 +45,15 @@ const (
 )
 
 const (
+	DeviceStatusDecommissioned = "decommissioned"
+	DeviceStatusAccepted       = "accepted"
+	DeviceStatusRejected       = "rejected"
+	DeviceStatusPreauthorized  = "preauthorized"
+	DeviceStatusPending        = "pending"
+	DeviceStatusNoAuth         = "noauth"
+)
+
+const (
 	runeDollar = '\uFF04'
 	runeDot    = '\uFF0E'
 )

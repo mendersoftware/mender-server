@@ -323,6 +323,27 @@ def make_accepted_devices(devauthd, devauthm, utoken, tenant_token="", num_devic
     return devices
 
 
+def set_device_limit_for_tier(tenant, tier, limit):
+    url = ""
+    if tier == "micro":
+        url = deviceauth.URL_INTERNAL_LIMITS_MAX_MICRO_DEVICES
+    elif tier == "system":
+        url = deviceauth.URL_INTERNAL_LIMITS_MAX_SYSTEM_DEVICES
+    else:
+        url = deviceauth.URL_INTERNAL_LIMITS_MAX_STANDARD_DEVICES
+
+    devauthi = ApiClient(
+        deviceauth.URL_INTERNAL, host=deviceauth.HOST, schema="http://"
+    )
+    r = devauthi.call(
+        "PUT",
+        url,
+        {"limit": limit},
+        path_params={"tid": tenant.id},
+    )
+    assert r.status_code == 204
+
+
 def make_device_with_inventory(attributes, utoken, tenant_token):
     devauthm = ApiClient(deviceauth.URL_MGMT)
     devauthd = ApiClient(deviceauth.URL_DEVICES)
