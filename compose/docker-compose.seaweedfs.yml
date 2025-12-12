@@ -80,7 +80,11 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.s3.priority: "99999"
-      traefik.http.routers.s3.rule: PathPrefix(`/mender`)
+      traefik.http.routers.s3.rule:
+        (Host(`s3.${MENDER_HOSTNAME:-docker.mender.io}`) ||
+        Host(`${MENDER_HOSTNAME:-docker.mender.io}`) ||
+        Host(`localhost`)) &&
+        PathPrefix(`/mender`)
       traefik.http.services.s3.loadBalancer.server.port: "8080"
     healthcheck:
       test:
