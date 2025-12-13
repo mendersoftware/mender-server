@@ -75,12 +75,6 @@ variables:
   CHANGELOG_REMOTE_FILE:
     description: "The changelog file in the remote changelog repo"
     value: "10.Mender-Server/docs.md"
-  GIT_CLIFF__CHANGELOG__HEADER:
-    description: "Override the default git cliff header for this project"
-    value: ""
-  GIT_CLIFF__CHANGELOG__FOOTER:
-    description: "Override the default git cliff footer for this project"
-    value: ""
 
   # Helm version bump
   HELM_MENDER_PUBLISH_REGISTRY:
@@ -773,7 +767,7 @@ release:mender-docs-changelog:
     - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
     - cd ${GITHUB_CHANGELOG_REPO_URL#*/}
     - git checkout -b changelog-${CI_JOB_ID}
-    - cat ../.docs_header.md "../CHANGELOG${CHANGELOG_SUFFIX}.md" > "${CHANGELOG_REMOTE_FILE}"
+    - cat ../.docs_header.md "../CHANGELOG${CHANGELOG_SUFFIX}.md" | grep -v -E '^---$' > "${CHANGELOG_REMOTE_FILE}"
     - git add ${CHANGELOG_REMOTE_FILE}
     - 'git commit -s -m "chore: add $CI_PROJECT_NAME changelog"'
     - git push origin changelog-${CI_JOB_ID}
