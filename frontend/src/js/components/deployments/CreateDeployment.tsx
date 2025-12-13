@@ -35,7 +35,6 @@ import Confirm from '@northern.tech/common-ui/Confirm';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
 import {
-  getAcceptedDevices,
   getDeviceCountsByStatus,
   getDevicesById,
   getFeatures,
@@ -95,10 +94,9 @@ export const CreateDeployment = props => {
   const { isHosted } = useSelector(getFeatures);
   const { createdGroup, groups, hasDynamicGroups } = useSelector(getGroupData);
   const { hasDelta: hasDeltaEnabled } = useSelector(state => state.deployments.config) ?? {};
-  const { total: acceptedDeviceCount } = useSelector(getAcceptedDevices);
-  const hasDevices = !!acceptedDeviceCount;
   const devicesById = useSelector(getDevicesById);
-  const { pending: hasPending } = useSelector(getDeviceCountsByStatus);
+  const { accepted: acceptedDeviceCount, pending: hasPending } = useSelector(getDeviceCountsByStatus);
+  const hasDevices = !!acceptedDeviceCount;
   const idAttribute = useSelector(getIdAttribute);
   const isEnterprise = useSelector(getIsEnterprise);
   const { needsDeploymentConfirmation: needsCheck, previousPhases = [], retries: previousRetries = 0 } = useSelector(getGlobalSettings);

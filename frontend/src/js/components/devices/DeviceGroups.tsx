@@ -23,7 +23,6 @@ import storeActions from '@northern.tech/store/actions';
 import { DEVICE_FILTERING_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
-  getAcceptedDevices,
   getCombinedLimit,
   getDeviceCountsByStatus,
   getDeviceFilters,
@@ -97,14 +96,13 @@ export const DeviceGroups = () => {
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const { groupNames, ...groupsByType } = useSelector(getGroupsSelector);
   const groups = groupNames;
-  const { total: acceptedCount = 0 } = useSelector(getAcceptedDevices);
   const canPreview = useSelector(getIsPreview);
   const deviceLimit = useSelector(getCombinedLimit);
   const deviceListState = useSelector(state => state.devices.deviceList);
   const features = useSelector(getFeatures);
   const filters = useSelector(getDeviceFilters);
   const limitMaxed = useSelector(getLimitMaxed);
-  const { pending: pendingCount } = useSelector(getDeviceCountsByStatus);
+  const { accepted: acceptedCount, pending: pendingCount } = useSelector(getDeviceCountsByStatus);
   const showDeviceConnectionDialog = useSelector(state => state.users.showConnectDeviceDialog);
   const onboardingState = useSelector(getOnboardingState);
   const isEnterprise = useSelector(getIsEnterprise);

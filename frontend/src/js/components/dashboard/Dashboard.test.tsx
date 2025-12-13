@@ -57,7 +57,7 @@ describe('Dashboard Component', () => {
         ...defaultState.devices,
         byStatus: {
           ...defaultState.devices.byStatus,
-          accepted: { deviceIds: [], total: 0 }
+          accepted: { deviceIds: [], counts: { standard: 0 } }
         }
       }
     };
@@ -70,7 +70,7 @@ describe('Dashboard Component', () => {
     );
     const { rerender, store } = render(ui, { preloadedState });
     await waitFor(() => rerender(ui));
-    await act(() => store.dispatch({ type: deviceActions.setDevicesCountByStatus.type, payload: { status: 'accepted', count: 0 } }));
+    await act(() => store.dispatch({ type: deviceActions.setDevicesCountByStatus.type, payload: { status: 'accepted', countsPerTier: { total: 0 } } }));
     await user.click(screen.getByText(/pending devices/i));
     await waitFor(() => screen.queryByText(/pendings route/i));
     expect(screen.getByText(/pendings route/i)).toBeVisible();

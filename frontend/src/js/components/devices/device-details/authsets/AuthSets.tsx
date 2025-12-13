@@ -20,7 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
-import { getAcceptedDevices, getCombinedLimit, getLimitMaxed, getUserCapabilities } from '@northern.tech/store/selectors';
+import { getCombinedLimit, getDeviceCountsByStatus, getLimitMaxed, getUserCapabilities } from '@northern.tech/store/selectors';
 import { advanceOnboarding, deleteAuthset, updateDeviceAuth } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
@@ -43,7 +43,7 @@ export const Authsets = ({ decommission, device, listRef }) => {
   const [confirmDecommission, setConfirmDecomission] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { total: acceptedDevices = 0 } = useSelector(getAcceptedDevices);
+  const { accepted: acceptedDevices } = useSelector(getDeviceCountsByStatus);
   const deviceLimit = useSelector(getCombinedLimit);
   const limitMaxed = useSelector(getLimitMaxed);
   const userCapabilities = useSelector(getUserCapabilities);

@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom';
 import storeActions from '@northern.tech/store/actions';
 import { onboardingSteps } from '@northern.tech/store/constants';
 import {
-  getAcceptedDevices,
   getAvailableIssueOptionsByType,
   getDeviceCountsByStatus,
   getOnboardingState,
@@ -43,12 +42,11 @@ export const Devices = ({ clickHandle }) => {
   const pendingsRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { total: acceptedDevicesCount } = useSelector(getAcceptedDevices);
   const availableIssueOptions = useSelector(getAvailableIssueOptionsByType);
   const { canManageDevices } = useSelector(getUserCapabilities);
   const { hasReporting, plan } = useSelector(getTenantCapabilities);
   const onboardingState = useSelector(getOnboardingState);
-  const { pending: pendingDevicesCount } = useSelector(getDeviceCountsByStatus);
+  const { accepted: acceptedDevicesCount, pending: pendingDevicesCount } = useSelector(getDeviceCountsByStatus);
 
   const refreshDevices = useCallback(() => {
     const issueRequests = Object.keys(availableIssueOptions).map(key =>
