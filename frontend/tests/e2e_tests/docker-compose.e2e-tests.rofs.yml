@@ -6,7 +6,7 @@ services:
       - CLIENT_IP
 
   client:
-    image: registry.mender.io/mendersoftware/mender-qemu-rofs-commercial:mender-master-pin-qa-1417
+    image: registry.gitlab.com/northern.tech/mender/mender-qa:2211014311-mender-qemu-rofs-commercial
     environment:
       - SERVER_URL=https://docker.mender.io
       - TENANT_TOKEN
