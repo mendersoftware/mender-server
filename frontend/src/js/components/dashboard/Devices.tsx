@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import storeActions from '@northern.tech/store/actions';
-import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
+import { onboardingSteps } from '@northern.tech/store/constants';
 import {
   getAcceptedDevices,
   getAvailableIssueOptionsByType,
@@ -25,7 +25,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
-import { advanceOnboarding, getDeviceCount, getIssueCountsByType } from '@northern.tech/store/thunks';
+import { advanceOnboarding, getAllDeviceCounts, getIssueCountsByType } from '@northern.tech/store/thunks';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
@@ -54,7 +54,7 @@ export const Devices = ({ clickHandle }) => {
     const issueRequests = Object.keys(availableIssueOptions).map(key =>
       dispatch(getIssueCountsByType({ type: key, options: { filters: [], selectedIssues: [key] } }))
     );
-    return Promise.all([dispatch(getDeviceCount(DEVICE_STATES.accepted)), dispatch(getDeviceCount(DEVICE_STATES.pending)), ...issueRequests]);
+    return Promise.all([dispatch(getAllDeviceCounts()).unwrap(), ...issueRequests]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(availableIssueOptions), dispatch]);
 
