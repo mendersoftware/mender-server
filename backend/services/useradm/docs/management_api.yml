@@ -75,10 +75,6 @@ paths:
           description: Internal server error.
           schema:
             $ref: '#/definitions/Error'
-        503:
-          description: Service is isunavailabe.
-          schema:
-            $ref: '#/definitions/Error'
 
   /auth/logout:
     post:

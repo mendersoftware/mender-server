@@ -24,7 +24,6 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mredis "github.com/mendersoftware/mender-server/pkg/redis"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/useradm/authz"
@@ -183,8 +182,6 @@ func (u *UserAdmApiHandlers) AuthLoginHandler(c *gin.Context) {
 		switch {
 		case err == useradm.ErrUnauthorized || err == useradm.ErrTenantAccountSuspended:
 			rest.RenderError(c, http.StatusUnauthorized, err)
-		case mredis.IsUnavailableErr(err):
-			rest.RenderUnavailable(c, err)
 		default:
 			rest.RenderInternalError(c, err)
 		}
@@ -548,11 +545,9 @@ func (u *UserAdmApiHandlers) DeleteTokensHandler(c *gin.Context) {
 	userId := c.Request.URL.Query().Get("user_id")
 
 	err := u.userAdm.DeleteTokens(ctx, tenantId, userId)
-	switch {
-	case err == nil:
+	switch err {
+	case nil:
 		c.Status(http.StatusNoContent)
-	case mredis.IsUnavailableErr(err):
-		rest.RenderUnavailable(c, err)
 	default:
 		rest.RenderInternalError(c, err)
 	}
