@@ -231,6 +231,59 @@ paths:
                 $ref: '../common/schemas.yaml#/components/schemas/Error'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+  /api/internal/v1/inventory/tenants/{tenant_id}/device/{device_id}/attributes:
+    patch:
+      tags:
+      - Internal API
+      summary: Update multiple inventory attributes for a device
+      description: |
+        An API end-point that allows to update the inventory attributes for a device.
+        It is operating in the same way as the /attribute/scope/{scope} endpoint, but
+        does not override the scope of the attributes that you provide.
+      operationId: Update Inventory for a Device Scope Wise
+      parameters:
+      - name: If-Unmodified-Since
+        in: header
+        description: Skips updating the device if modified after the given RFC1123 timestamp.
+        required: false
+        schema:
+          type: string
+      - name: tenant_id
+        in: path
+        description: ID of given tenant.
+        required: true
+        schema:
+          type: string
+      - name: device_id
+        in: path
+        description: ID of given device.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: List of inventory attributes to set.
+        content:
+          '*/*':
+            schema:
+              type: array
+              description: A list of attribute descriptors.
+              items:
+                $ref: './schemas.yaml#/components/schemas/Attribute'
+        required: true
+      responses:
+        "200":
+          description: Device inventory successfully updated.
+          content: {}
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "412":
+          description: "Precondition failed: If-Unmodified-Since condition not met"
+          content:
+            application/json:
+              schema:
+                $ref: '../common/schemas.yaml#/components/schemas/Error'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}/groups:
     get:
       tags:
