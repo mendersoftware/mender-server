@@ -175,6 +175,10 @@ func NewRouter(app inv.InventoryApp, options ...Option) http.Handler {
 	intrnlAPIV1.GET(uriInternalHealth, intrnlHandler.HealthCheckHandler)
 	intrnlAPIV1.GET(uriInternalAlive, intrnlHandler.LivelinessHandler)
 	intrnlAPIV1.PATCH(urlInternalAttributes, intrnlHandler.PatchDeviceAttributesInternalHandler)
+	intrnlAPIV1.PATCH(
+		urlInternalAttributesNoScope,
+		intrnlHandler.PatchDeviceAttributesInternalHandler,
+	)
 	intrnlAPIV1.POST(urlInternalReindex, intrnlHandler.ReindexDeviceDataHandler)
 	intrnlAPIV1.POST(uriInternalTenants, intrnlHandler.CreateTenantHandler)
 

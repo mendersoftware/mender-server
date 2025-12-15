@@ -50,19 +50,20 @@ const (
 	uriAttributes       = "/attributes"
 	uriDeviceAttributes = "/device/attributes"
 
-	apiUrlInternalV1         = "/api/internal/v1/inventory"
-	uriInternalAlive         = "/alive"
-	uriInternalHealth        = "/health"
-	uriInternalTenants       = "/tenants"
-	uriInternalDevices       = "/tenants/:tenant_id/devices"
-	urlInternalDevicesStatus = "/tenants/:tenant_id/devices/status/:status"
-	uriInternalDeviceDetails = "/tenants/:tenant_id/devices/:device_id"
-	uriInternalDeviceGroups  = "/tenants/:tenant_id/devices/:device_id/groups"
-	urlInternalAttributes    = "/tenants/:tenant_id/device/:device_id/attribute/scope/:scope"
-	urlInternalReindex       = "/tenants/:tenant_id/devices/:device_id/reindex"
-	apiUrlManagementV2       = "/api/management/v2/inventory"
-	urlFiltersAttributes     = "/filters/attributes"
-	urlFiltersSearch         = "/filters/search"
+	apiUrlInternalV1             = "/api/internal/v1/inventory"
+	uriInternalAlive             = "/alive"
+	uriInternalHealth            = "/health"
+	uriInternalTenants           = "/tenants"
+	uriInternalDevices           = "/tenants/:tenant_id/devices"
+	urlInternalDevicesStatus     = "/tenants/:tenant_id/devices/status/:status"
+	uriInternalDeviceDetails     = "/tenants/:tenant_id/devices/:device_id"
+	uriInternalDeviceGroups      = "/tenants/:tenant_id/devices/:device_id/groups"
+	urlInternalAttributes        = "/tenants/:tenant_id/device/:device_id/attribute/scope/:scope"
+	urlInternalAttributesNoScope = "/tenants/:tenant_id/device/:device_id/attributes"
+	urlInternalReindex           = "/tenants/:tenant_id/devices/:device_id/reindex"
+	apiUrlManagementV2           = "/api/management/v2/inventory"
+	urlFiltersAttributes         = "/filters/attributes"
+	urlFiltersSearch             = "/filters/search"
 
 	apiUrlInternalV2         = "/api/internal/v2/inventory"
 	urlInternalFiltersSearch = "/tenants/:tenant_id/filters/search"
@@ -529,8 +530,11 @@ func (i *InternalAPI) PatchDeviceAttributesInternalHandler(
 		}
 		notModifiedAfter = &parsed
 	}
+	scopeFromUrl := c.FullPath() == (apiUrlInternalV1 + urlInternalAttributes)
 	for i := range attrs {
-		attrs[i].Scope = c.Param("scope")
+		if scopeFromUrl {
+			attrs[i].Scope = c.Param("scope")
+		}
 		if attrs[i].Name == checkInTimeParamName && attrs[i].Scope == checkInTimeParamScope {
 			t, err := time.Parse(time.RFC3339, fmt.Sprintf("%v", attrs[i].Value))
 			if err != nil {
