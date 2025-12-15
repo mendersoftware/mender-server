@@ -44,17 +44,14 @@ services:
       traefik.http.services.deployments.loadBalancer.server.port: "8080"
       traefik.http.routers.deploymentsDL.middlewares: "sec-headers@file"
       traefik.http.routers.deploymentsDL.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/devices/v[0-9a-z]+/deployments/download`)
       traefik.http.routers.deploymentsDL.service: deployments
       traefik.http.routers.deploymentsDev.middlewares: "devStack@file"
       traefik.http.routers.deploymentsDev.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/devices/v[0-9a-z]+/deployments`)
       traefik.http.routers.deploymentsDev.service: deployments
       traefik.http.routers.deploymentsMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deploymentsMgmt.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/management/v[0-9a-z]+/deployments`)
       traefik.http.routers.deploymentsMgmt.service: deployments
     networks:
@@ -86,12 +83,10 @@ services:
       traefik.http.services.deviceauth.loadBalancer.server.port: "8080"
       traefik.http.routers.deviceauthDev.middlewares: "compression@file"
       traefik.http.routers.deviceauthDev.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/devices/v[0-9a-z]+/authentication`)
       traefik.http.routers.deviceauthDev.service: deviceauth
       traefik.http.routers.deviceauthMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceauthMgmt.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/management/v[0-9a-z]+/devauth`)
       traefik.http.routers.deviceauthMgmt.service: deviceauth
     networks:
@@ -117,12 +112,10 @@ services:
       traefik.http.services.deviceconfig.loadBalancer.server.port: "8080"
       traefik.http.routers.deviceconfigDev.middlewares: "devStack@file"
       traefik.http.routers.deviceconfigDev.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/devices/v[0-9a-z]+/deviceconfig`)
       traefik.http.routers.deviceconfigDev.service: deviceconfig
       traefik.http.routers.deviceconfigMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceconfigMgmt.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/management/v[0-9a-z]+/deviceconfig`)
       traefik.http.routers.deviceconfigMgmt.service: deviceconfig
     networks:
@@ -151,12 +144,10 @@ services:
       traefik.http.services.deviceconnect.loadBalancer.server.port: "8080"
       traefik.http.routers.deviceconnectDev.middlewares: "devStack@file"
       traefik.http.routers.deviceconnectDev.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/devices/v[0-9a-z]+/deviceconnect`)
       traefik.http.routers.deviceconnectDev.service: deviceconnect
       traefik.http.routers.deviceconnectMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.deviceconnectMgmt.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/management/v[0-9a-z]+/deviceconnect`)
       traefik.http.routers.deviceconnectMgmt.service: deviceconnect
     networks:
@@ -175,9 +166,7 @@ services:
       traefik.http.routers.gui.middlewares: >-
         compression@file,sec-headers@file
       traefik.http.routers.gui.priority: 1
-      traefik.http.routers.gui.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
-        PathPrefix(`/`)
+      traefik.http.routers.gui.rule: PathPrefix(`/`)
       traefik.http.routers.gui.service: gui
     environment:
       HAVE_AUDITLOGS: "0"
@@ -212,23 +201,19 @@ services:
       traefik.http.routers.inventoryDevV1.middlewares: >-
         devStack@file,inventoryV1-replacepathregex@file
       traefik.http.routers.inventoryDevV1.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/devices/v1/inventory`)
       traefik.http.routers.inventoryDevV1.service: inventory
       traefik.http.routers.inventoryMgmtV1.middlewares: >-
         mgmtStack@file,inventoryMgmtV1-replacepathregex@file
       traefik.http.routers.inventoryMgmtV1.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/management/v1/inventory`)
       traefik.http.routers.inventoryMgmtV1.service: inventory
       traefik.http.routers.inventoryDev.middlewares: "devStack@file"
       traefik.http.routers.inventoryDev.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/devices/v[2-9]/inventory`)
       traefik.http.routers.inventoryDev.service: inventory
       traefik.http.routers.inventoryMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.inventoryMgmt.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/management/v[2-9]/inventory`)
       traefik.http.routers.inventoryMgmt.service: inventory
 
@@ -256,7 +241,6 @@ services:
       traefik.http.services.iot-manager.loadBalancer.server.port: "8080"
       traefik.http.routers.iot-managerMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.iot-managerMgmt.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/management/v[0-9a-z]+/iot-manager`)
       traefik.http.routers.iot-managerMgmt.service: iot-manager
     networks:
@@ -281,15 +265,13 @@ services:
       traefik.http.services.useradm.loadBalancer.server.port: "8080"
       traefik.http.routers.useradm.middlewares: "mgmtStack@file"
       traefik.http.routers.useradm.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
         PathRegexp(`/api/management/v[0-9a-z]+/useradm`)
       traefik.http.routers.useradm.service: useradm
       traefik.http.routers.userauth.middlewares: >-
         compression@file,sec-headers@file
       traefik.http.routers.userauth.rule: >-
-        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`)) &&
-        (!PathRegexp(`/api/management/v[0-9a-z]+/useradm/auth/logout`) &&
-        PathRegexp(`/api/management/v[0-9a-z]+/useradm/(auth|oauth2|oidc)`))
+        !PathRegexp(`/api/management/v[0-9a-z]+/useradm/auth/logout`) &&
+        PathRegexp(`/api/management/v[0-9a-z]+/useradm/(auth|oauth2|oidc)`)
       traefik.http.routers.userauth.service: useradm
     networks:
       default:
