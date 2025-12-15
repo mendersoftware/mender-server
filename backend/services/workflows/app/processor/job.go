@@ -17,6 +17,8 @@ package processor
 import (
 	"strings"
 
+	"github.com/thedevsaddam/gojsonq"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
@@ -36,6 +38,7 @@ func NewJobProcessor(job *model.Job) *JobProcessor {
 	}
 }
 
+//nolint:gocyclo
 func (j JobProcessor) ProcessJSON(
 	data interface{},
 	ps *JobStringProcessor,
@@ -61,6 +64,18 @@ func (j JobProcessor) ProcessJSON(
 				len(key) > len(workflowInputVariable) {
 				key = key[len(workflowInputVariable):]
 				for _, param := range j.job.InputParameters {
+					// support for key === "device.jsonInput.tier"; accessing the input params
+					// objects by JSON identifiers. for instance, if a whole device is passed
+					// as an input parameter, then with `device.jsonInput.tier` you can refer
+					// to the Device.Tier field
+					if strings.HasPrefix(key, param.Name+jsonRefInputVariable) {
+						return gojsonq.New().FromString(param.Value).Find(
+							strings.TrimPrefix(
+								key,
+								param.Name+jsonRefInputVariable,
+							),
+						)
+					}
 					if param.Name == key && param.Raw != nil {
 						return j.ProcessJSON(param.Raw, ps)
 					}

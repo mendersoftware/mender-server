@@ -15,6 +15,7 @@
 package processor
 
 import (
+	"encoding/json"
 	"html"
 	"net/url"
 	"os"
@@ -30,6 +31,7 @@ import (
 const (
 	workflowEnvVariable   = "env."
 	workflowInputVariable = "workflow.input."
+	jsonRefInputVariable  = ".jsonInput"
 	regexVariable         = `\$\{(?P<options>(?:(?:[a-zA-Z]+)=(?:[a-zA-Z0-9]+);)*)` +
 		`(?P<name>[^;\}\|]+)(?:\|(?P<default>[^\}]+))?}`
 	regexOutputVariable = `(.*)\.json\.(.*)`
@@ -118,6 +120,7 @@ func processOptionString(expression string) (opts Options) {
 	return
 }
 
+//nolint:gocyclo
 func (j *JobStringProcessor) ProcessJobString(data string) string {
 	matches := reExpression.FindAllStringSubmatch(data, -1)
 
@@ -136,6 +139,25 @@ SubMatchLoop:
 			// Replace ${workflow.input.KEY} with the KEY input variable
 			paramName := varName[len(workflowInputVariable):]
 			for _, param := range j.job.InputParameters {
+				// support for key === "device.jsonInput.tier"; accessing the input params
+				// objects by JSON identifiers. for instance, if a whole device is passed
+				// as an input parameter, then with `device.jsonInput.tier` you can refer
+				// to the Device.Tier field
+				if strings.HasPrefix(paramName, param.Name+jsonRefInputVariable) {
+					dataAny := gojsonq.New().FromString(param.Value).Find(
+						strings.TrimPrefix(
+							paramName,
+							param.Name+jsonRefInputVariable,
+						),
+					)
+					switch d := dataAny.(type) {
+					case string:
+						return d
+					default:
+						b, _ := json.Marshal(dataAny)
+						return string(b)
+					}
+				}
 				if param.Name == paramName {
 					value = param.Value
 					break
