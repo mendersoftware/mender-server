@@ -182,7 +182,11 @@ build:backend:docker:
   extends: .template:build:docker
   rules:
     - changes:
-        paths: ["backend/**/*", ".gitlab-ci.yml"]
+        paths:
+          - "backend/**/*"
+          - ".gitlab-ci.yml"
+          - "docker-compose.yml"
+          - "compose/docker-compose.enterprise.yml"
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: always
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
@@ -356,7 +360,11 @@ test:backend:integration:
   extends: .build:base
   rules:
     - changes:
-        paths: ["backend/**/*", ".gitlab-ci.yml"]
+        paths:
+          - "backend/**/*"
+          - ".gitlab-ci.yml"
+          - "docker-compose.yml"
+          - "compose/docker-compose.enterprise.yml"
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
