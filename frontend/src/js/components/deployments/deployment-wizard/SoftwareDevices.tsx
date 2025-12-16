@@ -12,20 +12,21 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
-import { Alert, Autocomplete, TextField, Tooltip } from '@mui/material';
+import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { Alert, Autocomplete, Button, TextField, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import AsyncAutocomplete from '@northern.tech/common-ui/AsyncAutocomplete';
 import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
 import InfoText from '@northern.tech/common-ui/InfoText';
 import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIONS, DEVICE_STATES } from '@northern.tech/store/constants';
 import { formatDeviceSearch } from '@northern.tech/store/locationutils';
 import { getDeviceLimits } from '@northern.tech/store/selectors';
-import { getReleases, getSystemDevices } from '@northern.tech/store/thunks';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { getExistingReleaseTags, getSystemDevices, getUpdateTypes } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
@@ -33,6 +34,7 @@ import validator from 'validator';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
+import { ReleaseArtifactFilter } from './ReleaseArtifactFilter';
 
 const { isUUID } = validator;
 
@@ -41,14 +43,10 @@ const useStyles = makeStyles()(theme => ({
     minWidth: 400,
     borderBottom: 'none'
   },
-  selection: { minWidth: 'min-content', maxWidth: theme.spacing(50), minHeight: 96 }
+  selection: { minWidth: 'min-content', maxWidth: theme.spacing(50), minHeight: 96 },
+  releaseSelect: { maxWidth: '400px', minWidth: '235px' },
+  releaseSelectText: { minWidth: 0, flexGrow: 1 }
 }));
-
-const hardCodedStyle = {
-  textField: {
-    minWidth: 400
-  }
-};
 
 export const getDevicesLink = ({ devices, filters = [], group, name }) => {
   let devicesLink = '/devices';
@@ -141,7 +139,7 @@ export const Devices = ({
   const { classes } = useStyles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { deploymentDeviceCount = 0, devices = [], filter, group = null } = deploymentObject;
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -240,29 +238,21 @@ export const Devices = ({
 const MCU_ARTIFACT_SIZE_LIMIT = 5 * 1024 ** 2;
 
 export const Software = ({ commonClasses, deploymentObject, releaseRef, releases, releasesById, setDeploymentSettings }) => {
-  const [isLoadingReleases, setIsLoadingReleases] = useState(!releases.length);
+  const [releaseFilterOpened, setReleaseFilterOpened] = useState(false);
   const [showSizeWarning, setShowSizeWarning] = useState(false);
   const deviceLimits = useSelector(getDeviceLimits);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const { devices = [], release: deploymentRelease = null, releaseSelectionLocked } = deploymentObject;
   const device = devices.length ? devices[0] : undefined;
   const hasMicroDevicesOnly = deviceLimits.micro !== 0 && !(deviceLimits.standard && deviceLimits.system);
 
   useEffect(() => {
-    setIsLoadingReleases(!releases.length);
-  }, [releases.length]);
+    dispatch(getExistingReleaseTags());
+    dispatch(getUpdateTypes());
+  }, [dispatch]);
 
-  const releaseItems = useMemo(() => {
-    let releaseItems = releases.map(rel => releasesById[rel]);
-    if (device && device.attributes) {
-      // If single device, don't show incompatible releases
-      releaseItems = releaseItems.filter(rel => rel.device_types_compatible.some(type => device.attributes.device_type.includes(type)));
-    }
-    return releaseItems;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [device, releases]);
-
+  const releaseItems = releases.map(rel => releasesById[rel]);
   const onReleaseSelectionChange = useCallback(
     release => {
       if (release !== deploymentObject.release) {
@@ -273,14 +263,6 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
       }
     },
     [deploymentObject.release, hasMicroDevicesOnly, setDeploymentSettings]
-  );
-
-  const onReleaseInputChange = useCallback(
-    inputValue => {
-      setIsLoadingReleases(!releases.length);
-      return dispatch(getReleases({ page: 1, perPage: 100, searchTerm: inputValue, searchOnly: true })).finally(() => setIsLoadingReleases(false));
-    },
-    [dispatch, releases.length]
   );
 
   const releaseDeviceTypes = (deploymentRelease && deploymentRelease.device_types_compatible) ?? [];
@@ -300,18 +282,25 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
           {releaseSelectionLocked ? (
             <TextField value={deploymentRelease?.name} label="Release" disabled className={classes.infoStyle} />
           ) : (
-            <AsyncAutocomplete
-              id="deployment-release-selection"
-              initialValue={deploymentRelease?.name}
-              labelAttribute="name"
-              placeholder="Select a Release"
-              selectionAttribute="name"
-              options={releaseItems}
-              onChange={onReleaseInputChange}
-              onChangeSelection={onReleaseSelectionChange}
-              isLoading={isLoadingReleases}
-              styles={hardCodedStyle}
-            />
+            <>
+              <ReleaseArtifactFilter
+                device={device}
+                releases={releaseItems}
+                onSelect={onReleaseSelectionChange}
+                open={releaseFilterOpened}
+                onClose={() => setReleaseFilterOpened(false)}
+              />
+              <Button
+                size="large"
+                color="neutral"
+                variant="outlined"
+                className={classes.releaseSelect}
+                endIcon={releaseFilterOpened ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                onClick={() => setReleaseFilterOpened(!releaseFilterOpened)}
+              >
+                <span className={`${classes.releaseSelectText} text-overflow`}>{deploymentRelease?.name ?? 'Select a release'}</span>
+              </Button>
+            </>
           )}
           {!releaseItems.length ? (
             <ReleasesWarning lacksReleases />
