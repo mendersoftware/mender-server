@@ -64,6 +64,7 @@ const (
 	apiUrlManagementV2           = "/api/management/v2/inventory"
 	urlFiltersAttributes         = "/filters/attributes"
 	urlFiltersSearch             = "/filters/search"
+	urlDeviceStatistics          = "/statistics"
 
 	apiUrlInternalV2         = "/api/internal/v2/inventory"
 	urlInternalFiltersSearch = "/tenants/:tenant_id/filters/search"
@@ -977,14 +978,7 @@ func getTenantContext(ctx context.Context, tenantId string) context.Context {
 }
 
 func (i *InternalAPI) InternalDevicesStatusHandler(c *gin.Context) {
-	const (
-		StatusDecommissioned = "decommissioned"
-		StatusAccepted       = "accepted"
-		StatusRejected       = "rejected"
-		StatusPreauthorized  = "preauthorized"
-		StatusPending        = "pending"
-		StatusNoAuth         = "noauth"
-	)
+
 	var (
 		devices []model.DeviceUpdate
 		result  *model.UpdateResult
@@ -1007,9 +1001,9 @@ func (i *InternalAPI) InternalDevicesStatusHandler(c *gin.Context) {
 	}
 
 	switch status {
-	case StatusAccepted, StatusPreauthorized,
-		StatusPending, StatusRejected,
-		StatusNoAuth:
+	case model.DeviceStatusAccepted, model.DeviceStatusPreauthorized,
+		model.DeviceStatusPending, model.DeviceStatusRejected,
+		model.DeviceStatusNoAuth:
 		// Update statuses
 		attrs := model.DeviceAttributes{{
 			Name:  "status",
@@ -1017,7 +1011,7 @@ func (i *InternalAPI) InternalDevicesStatusHandler(c *gin.Context) {
 			Value: status,
 		}}
 		result, err = i.App.UpsertDevicesStatuses(ctx, devices, attrs)
-	case StatusDecommissioned:
+	case model.DeviceStatusDecommissioned:
 		// Delete Inventory
 		result, err = i.App.DeleteDevices(ctx, getIdsFromDevices(devices))
 	default:
@@ -1162,4 +1156,14 @@ func parseSearchParams(c *gin.Context) (*model.SearchParams, error) {
 	}
 
 	return &searchParams, nil
+}
+
+func (i *ManagementAPI) GetDeviceStatistics(c *gin.Context) {
+	statistics, err := i.App.GetDeviceStatistics(c.Request.Context())
+	switch err {
+	case nil:
+		c.JSON(http.StatusOK, statistics)
+	default:
+		rest.RenderInternalError(c, err)
+	}
 }

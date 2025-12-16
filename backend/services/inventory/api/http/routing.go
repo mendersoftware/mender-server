@@ -138,6 +138,7 @@ func NewRouter(app inv.InventoryApp, options ...Option) http.Handler {
 	mgmtAPIV2.GET(urlFiltersAttributes, mgmtHandler.FiltersAttributesHandler)
 	mgmtAPIV2.Group(".").Use(contenttype.CheckJSON()).
 		POST(urlFiltersSearch, mgmtHandler.FiltersSearchHandler)
+	mgmtAPIV2.GET(urlDeviceStatistics, mgmtHandler.GetDeviceStatistics)
 
 	mgmtAPIV1Legacy.Use(rewritePathPrefix(apiUrlLegacy, apiUrlManagementV1))
 	mgmtAPIV1Legacy.GET(uriDevices, mgmtHandler.GetDevicesHandler)

@@ -5622,6 +5622,31 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       security:
         - ManagementJWT: []
+  /api/management/v2/inventory/statistics:
+    get:
+      tags:
+        - Device_inventory_filters_and_search_Management API
+      summary: Get inventory statistics
+      description: |
+        The following statistics are currently supported:
+        * Number of accepted and pending devices in each device tier
+      operationId: Get Statistics
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - devices_by_status
+                properties:
+                  devices_by_status:
+                    $ref: '#/components/schemas/DeviceStatusStatistics'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
   /api/internal/v1/iot-manager/health:
     get:
       tags:
@@ -9675,6 +9700,40 @@ components:
         name: serial_no
         scope: inventory
         count: 10
+    DeviceStatusStatistics:
+      type: object
+      description: Device statistics grouped by device status
+      required:
+        - accepted
+        - pending
+      properties:
+        accepted:
+          $ref: '#/components/schemas/DeviceCountByTier'
+        pending:
+          $ref: '#/components/schemas/DeviceCountByTier'
+      example:
+        accepted:
+          standard: 975
+          micro: 3546
+          system: 0
+        pending:
+          standard: 2
+          micro: 30
+          system: 1
+    DeviceCountByTier:
+      description: Number of devices per tier
+      type: object
+      required:
+        - standard
+        - micro
+        - system
+      properties:
+        standard:
+          type: number
+        micro:
+          type: number
+        system:
+          type: number
     NewDevice:
       type: object
       properties:
