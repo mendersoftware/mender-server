@@ -19,5 +19,10 @@ export const selectReleaseByName = async (page: Page, name: string) => {
   await page.getByRole('button', { name: 'Select a release' }).click();
   await page.getByRole('textbox', { name: 'Search releases...' }).fill(name);
   await page.waitForTimeout(timeouts.default);
-  return page.locator(`#deployment-release-container > div:has-text('${name}')`).click();
+  return locateReleaseByName(page, name).click();
+};
+
+export const locateReleaseByName = (page: Page, name: string) => {
+  const container = page.locator('#deployment-release-container');
+  return container.getByText(name).first();
 };
