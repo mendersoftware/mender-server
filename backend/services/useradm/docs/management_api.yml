@@ -76,7 +76,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
         503:
-          description: Service is isunavailabe.
+          description: Service is unavailable.
           schema:
             $ref: '#/definitions/Error'
 
