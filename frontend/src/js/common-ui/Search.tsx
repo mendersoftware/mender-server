@@ -91,17 +91,20 @@ export const ControlledSearch = ({ className = '', isSearching, name = 'search',
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field: {ref, ...restField} }) => (
         <TextField
           className={className}
           slotProps={{ input: adornments }}
           onKeyUp={onTriggerSearch}
           onFocus={onFocus}
           placeholder={placeholder}
-          inputRef={inputRef}
           size="small"
           style={style}
-          {...field}
+          {...restField}
+          inputRef={(el) => {
+            ref(el);
+            inputRef.current = el;
+          }}
         />
       )}
     />
