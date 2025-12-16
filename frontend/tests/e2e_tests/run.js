@@ -338,6 +338,7 @@ const setupTenantToken = async (tenantId, config) =>
     async () => {
       const tenantTokenResult = await composeExec('tenantadm', `tenantadm get-tenant --id ${tenantId}`, config);
       process.env.TENANT_TOKEN = JSON.parse(tenantTokenResult.out).tenant_token;
+      console.log(chalk.gray(`👤 Configured tenant token for client to pick up: ${process.env.TENANT_TOKEN}`));
     },
     'Tenant token retrieved',
     'Failed to setup tenant token'
