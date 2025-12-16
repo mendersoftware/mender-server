@@ -47,6 +47,26 @@ test.describe('Deployments', () => {
     await checkTimeFilter(page, 'From');
     await checkTimeFilter(page, 'To', true);
   });
+  test('advanced deployment release filters', async ({ page }) => {
+    const releaseName = 'mender-demo-artifact';
+    await navbar.getByRole('link', { name: /deployments/i }).click();
+    await page.click(`button:has-text('Create a deployment')`);
+    await page.getByRole('button', { name: 'Select a release' }).click();
+
+    await page.getByRole('button', { name: 'Advanced filter (0)' }).click();
+    await page.getByRole('combobox', { name: 'Type or Select tags...' }).click();
+    await page.getByRole('option', { name: 'sometag' }).click();
+    await page.waitForTimeout(timeouts.default);
+    await expect(page.locator(`#deployment-release-container > div:has-text('${releaseName}')`)).toBeVisible();
+
+    await page.getByRole('button', { name: 'Clear all' }).click();
+    await page.getByRole('combobox', { name: 'Select type...' }).click();
+    await page.getByRole('option', { name: 'directory' }).click();
+    await page.waitForTimeout(timeouts.default);
+    await expect(page.locator(`#deployment-release-container > div:has-text('${releaseName}')`)).toBeVisible();
+    await page.getByRole('button', { name: 'Clear all' }).click();
+  });
+
   test('ensure release page filters are not used on deployment creation', async ({ page }) => {
     await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
     await navbar.getByRole('link', { name: /deployments/i }).click();
