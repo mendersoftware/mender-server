@@ -233,7 +233,7 @@ describe('Deployments Component', () => {
           accepted: {
             ...mockState.devices.byStatus.accepted,
             deviceIds: [...Object.keys(mockState.devices.byId), 'test1', 'test2'],
-            total: Object.keys(mockState.devices.byId).length + 3
+            counts: { standard: Object.keys(mockState.devices.byId).length + 3 }
           }
         }
       },

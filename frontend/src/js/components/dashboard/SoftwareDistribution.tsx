@@ -21,8 +21,8 @@ import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { MAX_PAGE_SIZE, TIMEOUTS, defaultReports, rootfsImageVersion, softwareIndicator, softwareTitleMap } from '@northern.tech/store/constants';
 import {
-  getAcceptedDevices,
   getAttributesList,
+  getDeviceCountsByStatus,
   getDeviceReports,
   getDeviceReportsForUser,
   getGroupsByIdWithoutUngrouped,
@@ -108,7 +108,7 @@ export const SoftwareDistribution = () => {
   const reports = useSelector(getDeviceReportsForUser);
   const groups = useSelector(getGroupsByIdWithoutUngrouped);
   const attributes = useSelector(getAttributesList);
-  const { total } = useSelector(getAcceptedDevices);
+  const { accepted: total } = useSelector(getDeviceCountsByStatus);
   const hasDevices = !!total;
   const isEnterprise = useSelector(getIsEnterprise);
   const hasUserSettingsInitialized = useSelector(getUserSettingsInitialized);

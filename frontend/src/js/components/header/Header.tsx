@@ -40,7 +40,6 @@ import Search from '@northern.tech/common-ui/Search';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import {
-  getAcceptedDevices,
   getCurrentSession,
   getCurrentUser,
   getDeploymentsByStatus,
@@ -283,7 +282,6 @@ export const Header = ({ isDarkMode }) => {
   const [hasOfferCookie, setHasOfferCookie] = useState(false);
 
   const organization = useSelector(getOrganization);
-  const { total: acceptedDevices = 0 } = useSelector(getAcceptedDevices);
   const announcement = useSelector(getHostedAnnouncement);
   const { standard: deviceLimit } = useSelector(getDeviceLimits);
   const feedbackProbability = useSelector(getFeedbackProbability);
@@ -295,7 +293,7 @@ export const Header = ({ isDarkMode }) => {
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasFeedbackEnabled, isHosted } = useSelector(getFeatures);
   const { isSearching, searchTerm, refreshTrigger } = useSelector(getSearchState);
-  const { pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
+  const { accepted: acceptedDevices, pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
   const userSettingInitialized = useSelector(getUserSettingsInitialized);
   const user = useSelector(getCurrentUser);
   const { token } = useSelector(getCurrentSession);
