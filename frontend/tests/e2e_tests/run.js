@@ -268,8 +268,8 @@ const composeLogs = async config =>
 const runCommand = (command, args = [], config, options = {}) =>
   new Promise((resolve, reject) => {
     const { quiet = true, throwOnError = true, shell = false, ...remainderOptions } = options
-    let stdout = '';
-    let stderr = '';
+    let output = '';
+
     const child = spawn(command, args, {
       stdio: ['inherit', 'pipe', 'pipe'],
       env: { ...process.env, TEST_ENVIRONMENT: config.environment },
@@ -278,14 +278,14 @@ const runCommand = (command, args = [], config, options = {}) =>
     });
     child.stdout.on('data', data => {
       const text = data.toString();
-      stdout += text;
+      output += text;
       if (!quiet) {
         process.stdout.write(text);
       }
     });
     child.stderr.on('data', data => {
       const text = data.toString();
-      stderr += text;
+      output += text;
       if (!quiet) {
         process.stdout.write(text);
       }
@@ -299,16 +299,11 @@ const runCommand = (command, args = [], config, options = {}) =>
     };
 
     child.on('close', code => {
-      if (throwOnError) {
-        if (code === 0) {
-          resolve(stdout.trim());
-        } else {
-          cleanup();
-          reject(new Error(`Command failed with exit code ${code}: ${stderr}`));
-        }
+      if (!throwOnError || code === 0) {
+        resolve(output.trim());
       } else {
-        // If the user accepts errors, resolve with both stdout and stderr
-        resolve(stdout.trim() + stderr.trim())
+        cleanup();
+        reject(new Error(`Command failed with exit code ${code}: ${output}`));
       }
     });
 
