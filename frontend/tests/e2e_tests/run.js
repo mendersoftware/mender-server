@@ -15,7 +15,7 @@ import chalk from 'chalk';
 import { execSync, spawn } from 'child_process';
 import { Command } from 'commander';
 import * as compose from 'docker-compose';
-import { existsSync, mkdirSync } from 'fs';
+import { appendFileSync, existsSync, mkdirSync } from 'fs';
 import { writeFileSync } from 'fs';
 import inquirer from 'inquirer';
 import ora from 'ora';
@@ -617,6 +617,7 @@ const collectClientLogs = async logDir => {
   }
   const clientLogPath = join(logDir, 'client.log');
   const fullClientLogPath = join(logDir, 'fullClient.log');
+  const debugClientFilesPath = join(logDir, 'debugClient.log');
 
   const clientLog = await runCommand('docker', ['logs', clientContainer], config);
   writeFileSync(clientLogPath, clientLog);
@@ -624,6 +625,13 @@ const collectClientLogs = async logDir => {
   const ip = await runCommand('docker', ['inspect', `--format={{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, clientContainer], config);
   const fullClientLog = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'journalctl', '--no-pager', '--all'], config);
   writeFileSync(fullClientLogPath, fullClientLog);
+
+  const clientConf = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/etc/mender/mender.conf'], config);
+  writeFileSync(debugClientFilesPath, 'Mender configuration:');
+  appendFileSync(debugClientFilesPath, clientConf);
+  const deploymentsLogs = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/data/mender/deployment*.log'], {throwOnError: false, ...config});
+  appendFileSync(debugClientFilesPath, 'Deployment logs:');
+  appendFileSync(debugClientFilesPath, deploymentsLogs)
 };
 
 const cleanup = async (exitCode = 0) => {
