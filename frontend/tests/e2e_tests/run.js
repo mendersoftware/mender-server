@@ -267,7 +267,7 @@ const composeLogs = async config =>
 
 const runCommand = (command, args = [], config, options = {}) =>
   new Promise((resolve, reject) => {
-    const { quiet = true, ...remainderOptions } = options;
+    const { quiet = true, throwOnError = true, ...remainderOptions } = options;
     let stdout = '';
     let stderr = '';
     const child = spawn(command, args, {
@@ -298,11 +298,16 @@ const runCommand = (command, args = [], config, options = {}) =>
     };
 
     child.on('close', code => {
-      if (code === 0) {
-        resolve(stdout.trim());
+      if (throwOnError) {
+        if (code === 0) {
+          resolve(stdout.trim());
+        } else {
+          cleanup();
+          reject(new Error(`Command failed with exit code ${code}: ${stderr}`));
+        }
       } else {
-        cleanup();
-        reject(new Error(`Command failed with exit code ${code}: ${stderr}`));
+        // If the user accepts errors, resolve with both stdout and stderr
+        resolve(stdout.trim() + stderr.trim())
       }
     });
 
