@@ -155,6 +155,8 @@ test.describe('Devices', () => {
       .getByRole('table')
       .getByText(/pending/i)
       .waitFor({ state: 'hidden', timeout: 2 * timeouts.sixtySeconds });
+    const detailsColumns = await page.getByRole('cell', { name: '-', exact: true }).all();
+    expect(detailsColumns.length).toBeLessThanOrEqual(1); // allow a single column to be empty in case there was no delta generated
     await page.getByRole('button', { name: /close/i }).click();
     await expect(page.getByText('Delta Artifact information')).not.toBeVisible();
   });
