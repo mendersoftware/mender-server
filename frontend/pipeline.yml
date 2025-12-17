@@ -219,7 +219,7 @@ test:frontend:acceptance:enterprise:
     - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
     - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise
 
-test:frontend:acceptance:enterprise:qemu:
+test:frontend:acceptance:enterprise:qemu:0:
   extends: .template:test:frontend:acceptance
   variables:
     TEST_ENVIRONMENT: enterprise
@@ -237,6 +237,33 @@ test:frontend:acceptance:enterprise:qemu:
       - script_failure
       - runner_system_failure
       - unknown_failure
+
+test:frontend:acceptance:enterprise:qemu:1:
+  extends: test:frontend:acceptance:enterprise:qemu:0
+
+test:frontend:acceptance:enterprise:qemu:2:
+  extends: test:frontend:acceptance:enterprise:qemu:0
+
+test:frontend:acceptance:enterprise:qemu:3:
+  extends: test:frontend:acceptance:enterprise:qemu:0
+
+test:frontend:acceptance:enterprise:qemu:4:
+  extends: test:frontend:acceptance:enterprise:qemu:0
+
+test:frontend:acceptance:enterprise:qemu:5:
+  extends: test:frontend:acceptance:enterprise:qemu:0
+
+test:frontend:acceptance:enterprise:qemu:6:
+  extends: test:frontend:acceptance:enterprise:qemu:0
+
+test:frontend:acceptance:enterprise:qemu:7:
+  extends: test:frontend:acceptance:enterprise:qemu:0
+
+test:frontend:acceptance:enterprise:qemu:8:
+  extends: test:frontend:acceptance:enterprise:qemu:0
+
+test:frontend:acceptance:enterprise:qemu:9:
+  extends: test:frontend:acceptance:enterprise:qemu:0
 
 publish:frontend:tests:
   extends: coveralls:done
