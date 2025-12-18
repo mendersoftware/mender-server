@@ -314,7 +314,7 @@ const runCommand = (command, args = [], config, options = {}) =>
 
     child.on('error', error => {
       cleanup();
-      if (!throwOnError) {
+      if (throwOnError) {
         reject(error);
       }
     });
