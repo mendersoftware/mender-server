@@ -97,8 +97,6 @@ include:
   - project: "Northern.tech/Mender/mendertesting"
     file:
       - ".gitlab-ci-github-status-updates.yml"
-      # QA-1046 Remove after hardening sign-off checks in the modern commit linter
-      - ".gitlab-ci-check-commits-signoffs.yml"
   - local: "/frontend/pipeline.yml"
   - local: "/.gitlab/merge-enterprise.yml"
     rules:
