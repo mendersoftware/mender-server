@@ -194,6 +194,7 @@ test.describe('Settings', () => {
 
       await page.getByRole('button', { name: 'Upgrade now' }).click();
 
+      await page.getByRole('heading', { name: /Subscribe to Mender Basic/i }).waitFor({ timeout: timeouts.default });
       const addressInput = await page.getByRole('textbox', { name: /address line 1/i });
       const hasNoBillingDetails = await addressInput.isVisible();
       if (hasNoBillingDetails) {
