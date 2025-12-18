@@ -195,7 +195,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: 'Upgrade now' }).click();
 
       await page.getByRole('heading', { name: /Subscribe to Mender Basic/i }).waitFor({ timeout: timeouts.default });
-      const addressInput = await page.getByRole('textbox', { name: /address line 1/i });
+      const addressInput = await page.getByRole('textbox', { name: /address line/i });
       const hasNoBillingDetails = await addressInput.isVisible();
       if (hasNoBillingDetails) {
         await addressInput.fill('Blindernveien');
@@ -265,7 +265,7 @@ test.describe('Settings', () => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username });
       await page.goto(`${baseUrl}ui/settings/billing`);
       await page.getByRole('button', { name: /edit/i }).click();
-      await page.getByRole('textbox', { name: /address line 1/i }).fill('Gaustadalleen 12');
+      await page.getByRole('textbox', { name: /address line/i }).fill('Gaustadalleen 12');
       await page.getByRole('textbox', { name: /state/i }).fill('Moss');
       await page.getByRole('textbox', { name: /city/i }).fill('Moss');
       await page.getByRole('textbox', { name: /zip or postal code/i }).fill('54321');
