@@ -313,7 +313,9 @@ const runCommand = (command, args = [], config, options = {}) =>
 
     child.on('error', error => {
       cleanup();
-      reject(error);
+      if (!throwOnError) {
+        reject(error);
+      }
     });
 
     currentProcesses.push(child);
