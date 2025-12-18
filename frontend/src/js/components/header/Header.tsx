@@ -44,7 +44,6 @@ import {
   getCurrentUser,
   getDeploymentsByStatus,
   getDeviceCountsByStatus,
-  getDeviceLimits,
   getFeatures,
   getFeedbackProbability,
   getHostedAnnouncement,
@@ -283,7 +282,6 @@ export const Header = ({ isDarkMode }) => {
 
   const organization = useSelector(getOrganization);
   const announcement = useSelector(getHostedAnnouncement);
-  const { standard: deviceLimit } = useSelector(getDeviceLimits);
   const feedbackProbability = useSelector(getFeedbackProbability);
   const firstLoginAfterSignup = useSelector(getIsFirstLogin);
   const { feedbackCollectedAt, trackingConsentGiven: hasTrackingEnabled, firstLoginTimestamp } = useSelector(getUserSettings);
@@ -401,7 +399,7 @@ export const Header = ({ isDarkMode }) => {
           <>
             <Search className={classes.search} isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
             <div className="flexbox center-aligned">
-              <DeviceNotifications className={classes.headerSection} pending={pendingDevices} total={acceptedDevices} limit={deviceLimit} />
+              <DeviceNotifications className={classes.headerSection} pending={pendingDevices} total={acceptedDevices} />
               <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
               <DeploymentNotifications className={classes.headerSection} inprogress={inProgress} />
               <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
