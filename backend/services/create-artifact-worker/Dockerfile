@@ -47,7 +47,7 @@ FROM alpine:3.22.2
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534:65534
-RUN apk add libc6-compat xz
+RUN apk add libc6-compat xz bash
 USER $USER
 
 # Setup work directory
