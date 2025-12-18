@@ -257,7 +257,7 @@ const composeLogs = async config =>
     '📋 Collecting container logs...',
     async () => {
       console.log('getting em logs');
-      const result = await compose.logs(getComposeOptions(config));
+      const result = await compose.logs([], getComposeOptions(config));
       console.log('gotten logs', result);
       return result.out;
     },
