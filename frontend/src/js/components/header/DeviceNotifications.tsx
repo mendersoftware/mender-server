@@ -73,8 +73,9 @@ const numberLocale = 'en-US';
 
 const DeviceLimit = (props: DeviceLimitProps) => {
   const { type, limit, total } = props;
-  const warning = total / limit > 0.8 && total < limit;
-  const error = total >= limit;
+  const unlimited = limit === -1;
+  const warning = total / limit > 0.8 && total < limit && !unlimited;
+  const error = total >= limit && !unlimited;
   const color = error ? 'error' : warning ? 'warning' : 'primary';
   const { classes } = useStyles();
 
@@ -91,35 +92,41 @@ const DeviceLimit = (props: DeviceLimitProps) => {
           {error && <ErrorOutlineIcon fontSize="small" color="error" className="margin-left-x-small" />}
         </div>
         <Typography variant="body2">
-          {total.toLocaleString(numberLocale)}/{limit.toLocaleString(numberLocale)}
+          {total.toLocaleString(numberLocale)}
+          {!unlimited && `/${limit.toLocaleString(numberLocale)}`}
         </Typography>
       </div>
-      <div className="margin-bottom-x-small margin-top-x-small">
-        <LinearProgress color={color} variant="determinate" value={Math.floor((total / limit) * 100)} />
-      </div>
-      <div className="flexbox">
-        <Typography variant="caption">{Math.floor((total / limit) * 100)}% used</Typography>
-        {warning && (
-          <>
-            <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
-              •
-            </Typography>{' '}
-            <Typography variant="caption" color="warning">
-              Near limit
-            </Typography>
-          </>
-        )}
-        {error && (
-          <>
-            <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
-              •
-            </Typography>{' '}
-            <Typography variant="caption" color="error">
-              Limit reached
-            </Typography>
-          </>
-        )}
-      </div>
+      {!unlimited && (
+        <>
+          <div className="margin-bottom-x-small margin-top-x-small">
+            <LinearProgress color={color} variant="determinate" value={Math.floor((total / limit) * 100)} />
+          </div>
+
+          <div className="flexbox">
+            <Typography variant="caption">{Math.floor((total / limit) * 100)}% used</Typography>
+            {warning && (
+              <>
+                <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
+                  •
+                </Typography>{' '}
+                <Typography variant="caption" color="warning">
+                  Near limit
+                </Typography>
+              </>
+            )}
+            {error && (
+              <>
+                <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
+                  •
+                </Typography>{' '}
+                <Typography variant="caption" color="error">
+                  Limit reached
+                </Typography>
+              </>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
@@ -147,19 +154,22 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
   };
 
   const mappedLimits = Object.entries(limits)
-    .filter(([, limit]) => limit > 0)
+    .filter(([, limit]) => limit !== 0)
     .map(([type, limit]) => ({ type, limit: limit, total: accepted[type] }));
 
   const severityMap = { 0: 'primary', 1: 'warning', 2: 'error' };
 
   const maxSeverityIndex = mappedLimits.reduce((maxIndex, { limit, total }) => {
-    if (total >= limit) {
-      return 2;
-    } else if (total / limit > 0.8) {
-      return Math.max(maxIndex, 1);
-    } else {
-      return maxIndex;
+    let severity = 0;
+
+    if (limit !== -1) {
+      if (total >= limit) {
+        severity = 2;
+      } else if (total / limit > 0.8) {
+        severity = 1;
+      }
     }
+    return Math.max(maxIndex, severity);
   }, 0);
 
   const severity = severityMap[maxSeverityIndex];
