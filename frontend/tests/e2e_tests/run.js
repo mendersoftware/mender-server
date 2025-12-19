@@ -631,7 +631,7 @@ const collectClientLogs = async logDir => {
   const clientConf = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/etc/mender/mender.conf'], config);
   writeFileSync(debugClientFilesPath, 'Mender configuration:');
   appendFileSync(debugClientFilesPath, clientConf);
-  const deploymentsLogs = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/data/mender/deployment*.log'], {throwOnError: false, ...config});
+  const deploymentsLogs = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/data/mender/deployment*.log'], config, {throwOnError: false});
   appendFileSync(debugClientFilesPath, 'Deployment logs:');
   appendFileSync(debugClientFilesPath, deploymentsLogs)
 };
