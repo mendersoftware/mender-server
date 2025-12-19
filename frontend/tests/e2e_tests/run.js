@@ -645,10 +645,10 @@ const cleanup = async (exitCode = 0) => {
   if (exitCode !== 0) {
     try {
       mkdirSync(logDir, { recursive: true });
-      await collectClientLogs(logDir);
       console.log(chalk.yellow(`📋 Tests failed, dumping logs to ${chalk.cyan(logPath)}`));
       const logs = await composeLogs(config);
       writeFileSync(logPath, logs);
+      await collectClientLogs(logDir);
     } catch (error) {
       console.error(chalk.red('💥 Failed to dump logs:'), error);
     }
