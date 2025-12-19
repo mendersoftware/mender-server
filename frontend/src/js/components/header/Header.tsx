@@ -339,8 +339,8 @@ export const Header = ({ isDarkMode }) => {
   useEffect(() => {
     const today = dayjs();
     const lastFeedbackCollectedMonthsAgo = today.diff(feedbackCollectedAt, 'months');
-    const firstLoginHoursAgo = today.diff(firstLoginTimestamp, 'hours');
-    const isFeedbackEligible = lastFeedbackCollectedMonthsAgo > 3 && firstLoginHoursAgo > 3;
+    const firstLoginDaysAgo = today.diff(firstLoginTimestamp, 'days');
+    const isFeedbackEligible = lastFeedbackCollectedMonthsAgo > 6 && firstLoginDaysAgo > 14;
     if (!hasFeedbackEnabled || !userSettingInitialized || !token || (feedbackCollectedAt && !isFeedbackEligible)) {
       return;
     }
