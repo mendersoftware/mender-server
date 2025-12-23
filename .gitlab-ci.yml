@@ -541,7 +541,9 @@ publish:backend:docker:
     # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#override-the-entrypoint-of-an-image
     entrypoint: [""]
   rules:
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+    - if: "$CI_COMMIT_TAG"
+      when: on_success
+    - if: '$CI_COMMIT_BRANCH =~ /^(main|v?[0-9]+\.[0-9]+\.x)$/'
       when: on_success
     - when: never
   before_script:
