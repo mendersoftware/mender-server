@@ -151,6 +151,8 @@ func (h ManagementController) Connect(c *gin.Context) {
 		})
 		return
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
 
 	tenantID := idata.Tenant
 	userID := idata.Subject
@@ -579,14 +581,6 @@ func (h ManagementController) ConnectServeWS(
 	remoteTerminalRunning := false
 
 	defer func() {
-		if err != nil {
-			select {
-			case errChan <- err:
-
-			case <-time.After(time.Second):
-				l.Warn("Failed to propagate error to client")
-			}
-		}
 		if remoteTerminalRunning {
 			msg := ws.ProtoMsg{
 				Header: ws.ProtoHdr{
@@ -634,8 +628,27 @@ func (h ManagementController) ConnectServeWS(
 		sessionRecorderBuffered,
 		controlRecorderBuffered)
 
-	return h.connectServeWSProcessMessages(ctx, conn, sess, deviceChan,
+	err = h.connectServeWSProcessMessages(ctx, conn, sess, deviceChan,
 		&remoteTerminalRunning, controlRecorderBuffered)
+
+	if err != nil {
+		var closeErr *websocket.CloseError
+		// Did we receive a close frame from the client?
+		if errors.As(err, &closeErr) {
+			if closeErr.Code == websocket.CloseNormalClosure {
+				return
+			}
+		} else {
+			// Notify writer to handle error
+			select {
+			case errChan <- err:
+
+			case <-time.After(time.Second):
+				l.Warn("Failed to propagate error to client")
+			}
+		}
+	}
+	return err
 }
 
 func (h ManagementController) connectServeWSProcessMessages(

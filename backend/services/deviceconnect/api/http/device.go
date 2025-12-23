@@ -178,6 +178,7 @@ func (h DeviceController) Connect(c *gin.Context) {
 
 	// register the websocket for graceful shutdown
 	ctxWithCancel, cancel := context.WithCancel(ctx)
+	defer cancel()
 	registerID := h.app.RegisterShutdownCancel(cancel)
 	defer h.app.UnregisterShutdownCancel(registerID)
 
@@ -186,12 +187,22 @@ func (h DeviceController) Connect(c *gin.Context) {
 	go h.connectWSWriter(ctxWithCancel, conn, msgChan, errChan)
 	err = h.ConnectServeWS(ctxWithCancel, conn)
 	if err != nil {
-		select {
-		case errChan <- err:
+		var closeErr *websocket.CloseError
+		// Did we receive a close frame from the client?
+		if errors.As(err, &closeErr) {
+			if closeErr.Code == websocket.CloseNormalClosure {
+				return
+			}
+		} else {
+			// Notify writer to handle error
+			select {
+			case errChan <- err:
 
-		case <-time.After(time.Second):
-			l.Warn("Failed to propagate error to client")
+			case <-time.After(time.Second):
+				l.Warn("Failed to propagate error to client")
+			}
 		}
+		_ = c.Error(err)
 	}
 }
 
@@ -263,7 +274,6 @@ Loop:
 			}
 			ticker.Reset(pingPeriod)
 		case <-ctx.Done():
-			err = errors.New("connection closed by the server")
 			break Loop
 		case <-ticker.C:
 			if pingErr := websocketPing(conn); pingErr != nil {
