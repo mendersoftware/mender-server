@@ -545,37 +545,27 @@ publish:backend:docker:
     - skopeo login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - skopeo login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD docker.io
     - dnf install -y make git-core
-    - export MENDER_PUBLISH_TAG="${CI_COMMIT_REF_NAME}"
+    - |
+      if test -n "$CI_COMMIT_TAG"; then
+        export MENDER_PUBLISH_TAG="${CI_COMMIT_TAG}"
+      else
+        export MENDER_PUBLISH_TAG="${CI_COMMIT_REF_NAME}"
+      fi
   script:
-    - make -C backend -j 4 docker-publish NOASK=y \
-      SKOPEO_ARGS='--digestfile '''${CI_PROJECT_DIR}'''/.digests/$(COMPONENT)'
+    - echo "About to publish tag ${MENDER_PUBLISH_TAG}"
+    - |
+      make -C backend -j 4 docker-publish NOASK=y \
+        SKOPEO_ARGS='--digestfile '"${CI_PROJECT_DIR}"'/.digests/$(COMPONENT)'
     - |
       if echo -n "${MENDER_PUBLISH_TAG}" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
-         make -C backend -j 4 docker-publish NOASK=y \
-            MENDER_PUBLISH_TAG=$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2) # vX.Y
-         make -C backend -j 4 docker-publish NOASK=y \
-            MENDER_PUBLISH_TAG=$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1) # vX
-
-        # Check if we need to update latest
-        MAJOR_VERSION=$(echo $MENDER_PUBLISH_TAG | cut -d . -f1 | tr -d -c '[:digit:]')
-        MINOR_VERSION=$(echo $MENDER_PUBLISH_TAG | cut -d . -f2 | tr -d -c '[:digit:]')
-        PATCH_VERSION=$(echo $MENDER_PUBLISH_TAG | cut -d . -f3 | tr -d -c '[:digit:]')
-        for service in $(find backend/services -maxdepth 1 -mindepth 1 -type d -exec basename {} \;); do
-          NEXT_PATCH="${MENDER_PUBLISH_IMAGE}/${service}:v${MAJOR_VERSION}.${MINOR_VERSION}.$(expr $PATCH_VERSION + 1)"
-          NEXT_MINOR="${MENDER_PUBLISH_IMAGE}/${service}:v${MAJOR_VERSION}.$(expr $MINOR_VERSION + 1)"
-          NEXT_MAJOR="${MENDER_PUBLISH_IMAGE}/${service}:v$(expr $MAJOR_VERSION + 1)"
-          if skopeo inspect "docker://$NEXT_PATCH" 1>/dev/null 2>&1; then
-            echo "Next image '$NEXT_PATCH' exists: not updating 'latest' reference"
-          elif skopeo inspect "docker://$NEXT_MINOR" 1>/dev/null 2>&1; then
-            echo "Next image '$NEXT_MINOR' exists: not updating 'latest' reference"
-          elif skopeo inspect "docker://$NEXT_MAJOR" 1>/dev/null 2>&1; then
-            echo "Next image '$NEXT_MAJOR' exists: not updating 'latest' reference"
-          else
-            echo "Updating 'latest' reference: ${MENDER_PUBLISH_IMAGE}/${service}:latest"
-            make -C backend -j 4 "${service}-docker-publish" NOASK=y \
-               MENDER_PUBLISH_TAG=latest
-          fi
-        done
+        make -C backend -j 4 docker-publish NOASK=y \
+          MENDER_PUBLISH_TAG="$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-2)"
+        make -C backend -j 4 docker-publish NOASK=y \
+          MENDER_PUBLISH_TAG="$(echo -n $MENDER_PUBLISH_TAG | cut -d . -f-1)"
+        if .gitlab/check_publish_latest.sh; then
+          echo "This is the latest version, publishing..."
+          make -C backend -j 4 docker-publish NOASK=y MENDER_PUBLISH_TAG=latest
+        fi
       fi
   artifacts:
     when: on_success
