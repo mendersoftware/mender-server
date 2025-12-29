@@ -21,7 +21,7 @@ import docker
 import pytest
 
 from client import ManagementAPIClient
-from management_api import models
+from management_v1 import models
 from utils import compare_expectations
 
 
@@ -367,7 +367,7 @@ class TestSyncAzureIoTHub:
         for tenant_id, devices in self.tenant_devices.items():
             conn_str = f"HostName=mock.azure-devices.net:443;SharedAccessKeyName={tenant_id};SharedAccessKey=c2VjcmV0"
             client = ManagementAPIClient(tenant_id)
-            rsp = client.register_integration_with_http_info(
+            rsp = client.io_t_manager_management_register_integration_with_http_info(
                 models.Integration(
                     provider="iot-hub",
                     credentials=models.Credentials(

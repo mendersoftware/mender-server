@@ -48,7 +48,7 @@ class TestInventorySorting:
                 if i.name == "number":
                     t.append(i.value)
 
-        assert sorted(numbers) == t
+        assert [str(x) for x in sorted(numbers)] == t
 
         t = []
         r = management_client.getAllDevices(sort="number:desc")
@@ -57,4 +57,4 @@ class TestInventorySorting:
                 if i.name == "number":
                     t.append(i.value)
 
-        assert sorted(numbers, reverse=True) == t
+        assert [str(x) for x in sorted(numbers, reverse=True)] == t

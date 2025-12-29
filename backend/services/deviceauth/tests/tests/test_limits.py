@@ -12,8 +12,8 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import pytest
-import management_api as ma
-import internal_api as ia
+import management_v2 as ma
+import internal_v1 as ia
 
 from common import (
     clean_db,

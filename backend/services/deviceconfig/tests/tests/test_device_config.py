@@ -15,24 +15,23 @@
 import uuid
 import pytest
 
-from common import devices_api_with_params, devices_api_report_config_raw
+from common import devices_api_with_params
 from common import management_api_with_params
-from devices_api import ApiException as DevicesApiException
-from internal_api import InternalAPIClient
+from devices_v1 import DeviceAPIClient, ApiException as DevicesApiException
+from internal_v1 import InternalAPIClient, ProvisionDevice
 
 
 @pytest.fixture
 def device_id():
     client = InternalAPIClient()
-    device_id = str(uuid.uuid4())
-    new_device = {"device_id": device_id}
-    r = client.provision_device_with_http_info(
-        tenant_id="tenant-id", new_device=new_device
+    device_id = uuid.uuid4()
+    r = client.device_config_internal_provision_device_with_http_info(
+        tenant_id="tenant-id", provision_device=ProvisionDevice(device_id=device_id)
     )
     assert r.status_code == 201
-    yield device_id
-    r = client.decommission_device_with_http_info(
-        tenant_id="tenant-id", device_id=device_id
+    yield str(device_id)
+    r = client.device_config_internal_decommission_device_with_http_info(
+        tenant_id="tenant-id", device_id=str(device_id)
     )
     assert r.status_code == 204
 
@@ -51,13 +50,13 @@ class TestDeviceConfig:
             "another-key": "another-value",
             "dollar-key": "$",
         }
-        r = management_client.set_device_configuration_with_http_info(
+        r = management_client.device_config_management_set_device_configuration_with_http_info(
             device_id, request_body=configuration
         )
         assert r.status_code == 204
         #
         # get the configuration
-        data = client.get_device_configuration()
+        data = client.device_config_get_device_configuration()
         assert data == {
             "key": "value",
             "another-key": "another-value",
@@ -72,7 +71,7 @@ class TestDeviceConfig:
         client = devices_api_with_params(device_id=device_id, tenant_id="tenant-id")
         #
         # get the configuration (empty)
-        r = management_client.get_device_configuration(device_id)
+        r = management_client.device_config_management_get_device_configuration(device_id)
         data = r.to_dict()
         assert {"id": device_id, "reported": {}, "configured": {}} == {
             k: (str(data[k]) if k == "id" else data[k]) for k in ("id", "reported", "configured")
@@ -85,13 +84,13 @@ class TestDeviceConfig:
             "another-key": "another-value",
             "dollar-key": "$",
         }
-        r = client.report_device_configuration_with_http_info(
+        r = client.device_config_report_device_configuration_with_http_info(
             request_body=configuration
         )
         assert r.status_code == 204
         #
         # get the configuration
-        r = management_client.get_device_configuration(device_id)
+        r = management_client.device_config_management_get_device_configuration(device_id)
         data = r.to_dict()
         assert {
             "id": device_id,
@@ -109,13 +108,13 @@ class TestDeviceConfig:
             "key": "update-value",
             "additional-key": "",
         }
-        r = client.report_device_configuration_with_http_info(
+        r = client.device_config_report_device_configuration_with_http_info(
             request_body=configuration
         )
         assert r.status_code == 204
         #
         # get the configuration
-        r = management_client.get_device_configuration(device_id)
+        r = management_client.device_config_management_get_device_configuration(device_id)
         data = r.to_dict()
         assert {
             "id": device_id,
@@ -126,13 +125,13 @@ class TestDeviceConfig:
         #
         # remove the configuration
         configuration = {}
-        r = client.report_device_configuration_with_http_info(
+        r = client.device_config_report_device_configuration_with_http_info(
             request_body=configuration
         )
         assert r.status_code == 204
         #
         # get the configuration
-        r = management_client.get_device_configuration(device_id)
+        r = management_client.device_config_management_get_device_configuration(device_id)
         data = r.to_dict()
         assert {"id": device_id, "reported": {}, "configured": {}} == {
             k: (str(data[k]) if k == "id" else data[k]) for k in ("id", "reported", "configured")
@@ -147,7 +146,7 @@ class TestDeviceConfig:
         client = devices_api_with_params(device_id=device_id, tenant_id="tenant-id")
         #
         # get the configuration (empty)
-        r = management_client.get_device_configuration(device_id)
+        r = management_client.device_config_management_get_device_configuration(device_id)
         data = r.to_dict()
         assert {"id": device_id, "reported": {}, "configured": {}} == {
             k: (str(data[k]) if k == "id" else data[k]) for k in ("id", "reported", "configured")
@@ -159,13 +158,13 @@ class TestDeviceConfig:
             "key": "value",
             "another-key": "another-value",
         }
-        r = client.report_device_configuration_with_http_info(
+        r = client.device_config_report_device_configuration_with_http_info(
             request_body=configuration
         )
         assert r.status_code == 204
         #
         # get the configuration
-        r = management_client.get_device_configuration(device_id)
+        r = management_client.device_config_management_get_device_configuration(device_id)
         data = r.to_dict()
         assert {
             "id": device_id,
@@ -179,13 +178,13 @@ class TestDeviceConfig:
             "key": "value",
             "another-key": "",
         }
-        r = client.report_device_configuration_with_http_info(
+        r = client.device_config_report_device_configuration_with_http_info(
             request_body=configuration
         )
         assert r.status_code == 204
         #
         # get the configuration
-        r = management_client.get_device_configuration(device_id)
+        r = management_client.device_config_management_get_device_configuration(device_id)
         data = r.to_dict()
         assert {
             "id": device_id,
@@ -196,30 +195,54 @@ class TestDeviceConfig:
 
     def test_config_device_value_number(self, device_id):
         configuration = {"key": "value", "another-key": 1234}
-        response = devices_api_report_config_raw(device_id, "tenant-id", configuration)
-        assert response.status == 400
+        client = devices_api_with_params(device_id=device_id, tenant_id="tenant-id")
+        with pytest.raises(DevicesApiException) as excinfo:
+            DeviceAPIClient.device_config_report_device_configuration.raw_function(
+                client, request_body=configuration,
+            )
+        assert excinfo.value.status == 400
 
     def test_config_device_value_none(self, device_id):
         configuration = {"key": "value", "another-key": None}
-        response = devices_api_report_config_raw(device_id, "tenant-id", configuration)
-        assert response.status == 400
+        client = devices_api_with_params(device_id=device_id, tenant_id="tenant-id")
+        with pytest.raises(DevicesApiException) as excinfo:
+            DeviceAPIClient.device_config_report_device_configuration.raw_function(
+                client, request_body=configuration,
+            )
+        assert excinfo.value.status == 400
 
     def test_config_device_value_boolean(self, device_id):
         configuration = {"key": "value", "another-key": False}
-        response = devices_api_report_config_raw(device_id, "tenant-id", configuration)
-        assert response.status == 400
+        client = devices_api_with_params(device_id=device_id, tenant_id="tenant-id")
+        with pytest.raises(DevicesApiException) as excinfo:
+            DeviceAPIClient.device_config_report_device_configuration.raw_function(
+                client, request_body=configuration,
+            )
+        assert excinfo.value.status == 400
 
     def test_config_device_value_dict(self, device_id):
         configuration = {"key": "value", "another-key": {}}
-        response = devices_api_report_config_raw(device_id, "tenant-id", configuration)
-        assert response.status == 400
+        client = devices_api_with_params(device_id=device_id, tenant_id="tenant-id")
+        with pytest.raises(DevicesApiException) as excinfo:
+            client.device_config_report_device_configuration.raw_function(
+                client, request_body=configuration,
+            )
+        assert excinfo.value.status == 400
 
     def test_config_device_value_list(self, device_id):
         configuration = {"key": "value", "another-key": []}
-        response = devices_api_report_config_raw(device_id, "tenant-id", configuration)
-        assert response.status == 400
+        client = devices_api_with_params(device_id=device_id, tenant_id="tenant-id")
+        with pytest.raises(DevicesApiException) as excinfo:
+            DeviceAPIClient.device_config_report_device_configuration.raw_function(
+                client, request_body=configuration,
+            )
+        assert excinfo.value.status == 400
 
     def test_config_device_key_too_long(self, device_id):
         configuration = {"k" * 4097: "value"}
-        response = devices_api_report_config_raw(device_id, "tenant-id", configuration)
-        assert response.status == 400
+        client = devices_api_with_params(device_id=device_id, tenant_id="tenant-id")
+        with pytest.raises(DevicesApiException) as excinfo:
+            DeviceAPIClient.device_config_report_device_configuration.raw_function(
+                client, request_body=configuration,
+            )
+        assert excinfo.value.status == 400

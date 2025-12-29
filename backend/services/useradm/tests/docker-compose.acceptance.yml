@@ -4,12 +4,9 @@ services:
   acceptance-tester:
     volumes:
       - ../services/useradm/tests:/testing
-      - ../services/useradm/docs:/docs
     entrypoint:
       - pytest
       - --host=useradm:8080
-      - --management-spec=/docs/management_api.yml
-      - --internal-spec=/docs/internal_api.yml
       - --mongo-url=mongodb://mongo
     depends_on:
       - mmock
