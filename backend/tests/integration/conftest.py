@@ -11,23 +11,16 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-import pytest
 import subprocess
 
 from urllib.parse import urlparse
 
+import pytest
+
 from testutils.infra.mongo import MongoClient
-
-# See https://docs.pytest.org/en/latest/writing_plugins.html#assertion-rewriting
-pytest.register_assert_rewrite("testutils")
-
-from requests.packages import urllib3
 from testutils.common import wait_until_healthy
 from testutils.infra.container_manager.kubernetes_manager import isK8S
 from testutils.api.client import get_free_tcp_port, wait_for_port
-
-
-urllib3.disable_warnings()
 
 wait_until_healthy("backend-tests")
 
