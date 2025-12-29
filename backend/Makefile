@@ -18,9 +18,9 @@ DOCKER_ACCEPTANCE_TARGETS := $(addsuffix -docker-acceptance, $(SERVICES))
 DOCKER_PUBLISH_TARGETS := $(addsuffix -docker-publish, $(SERVICES))
 REDOCLY := npx @redocly/cli@2.2.2
 COMBINED_SPEC := docs/api/dist/openapi.yaml
+SPEC_FILES := $(shell find docs/api -name '*.yaml' -and -not -path 'docs/api/dist/*')
 
-.PHONY: generate-openapi-spec
-generate-openapi-spec:
+docs/api/dist/openapi.yaml: $(SPEC_FILES)
 	@echo "Regenerating combined OpenAPI spec..."
 	@cd docs/api && $(REDOCLY) join --prefix-tags-with-info-prop title \
 		root.openapi.yaml \
@@ -37,6 +37,9 @@ generate-openapi-spec:
 	@cd docs/api && $(REDOCLY) bundle dist/openapi.tmp.yaml --config config/redocly.yaml -o dist/openapi.yaml
 	@rm -f docs/api/dist/openapi.tmp.yaml
 	@echo "Generated $(COMBINED_SPEC)"
+
+.PHONY: generate-openapi-spec
+generate-openapi-spec: $(COMBINED_SPEC)
 
 .PHONY: docker
 docker: $(DOCKER_TARGETS)
