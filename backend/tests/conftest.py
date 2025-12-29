@@ -1,4 +1,4 @@
-# Copyright 2025 Northern.tech AS
+# Copyright 2022 Northern.tech AS
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -13,9 +13,9 @@
 #    limitations under the License.
 import pytest
 
-from testutils.common import wait_until_healthy
-
 # See https://docs.pytest.org/en/latest/writing_plugins.html#assertion-rewriting
 pytest.register_assert_rewrite("testutils")
 
-wait_until_healthy("backend-tests")
+from requests.packages import urllib3
+
+urllib3.disable_warnings()
