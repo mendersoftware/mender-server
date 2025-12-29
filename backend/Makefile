@@ -103,7 +103,7 @@ $(TEST_ACCEPTANCE_TARGETS):
 
 .PHONY: test-integration
 test-integration:
-	./tests/integration/run $(args)
+	./tests/run-integration.bash $(args)
 
 .PHONY: build-acceptance
 build-acceptance: $(BUILD_ACCEPTANCE_TARGETS)

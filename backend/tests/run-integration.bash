@@ -7,20 +7,20 @@ export MENDER_SERVER_PATH
 
 DOWNLOAD_REQUIREMENTS="true"
 
-COMPOSE_FILES_BASE="-f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests.yml"
+COMPOSE_FILES_BASE="-f $MENDER_SERVER_PATH/backend/tests/docker/docker-compose.backend-tests.yml"
 COMPOSE_FILES_OPEN=" \
         -f $MENDER_SERVER_PATH/backend/tests/docker-compose.yml \
-        -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests.yml \
+        -f $MENDER_SERVER_PATH/backend/tests/docker/docker-compose.backend-tests.yml \
         "
 COMPOSE_FILES_ENTERPRISE="${COMPOSE_FILES_OPEN} \
-        -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-enterprise.yml \
+        -f $MENDER_SERVER_PATH/backend/tests/docker/docker-compose.backend-tests-enterprise.yml \
         "
 COMPOSE_FILES_COMPAT="${COMPOSE_FILES_OPEN} \
-        -f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.backend-tests-compat.yml \
+        -f $MENDER_SERVER_PATH/backend/tests/docker/docker-compose.backend-tests-compat.yml \
         "
-COMPOSE_FILE_STORAGE_AZURE="-f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.storage.azblob.yml"
+COMPOSE_FILE_STORAGE_AZURE="-f $MENDER_SERVER_PATH/backend/tests/docker/docker-compose.storage.azblob.yml"
 
-COMPOSE_FILE_AZURE_SETUP="-f $MENDER_SERVER_PATH/backend/tests/integration/docker/docker-compose.azblob.setup.yml"
+COMPOSE_FILE_AZURE_SETUP="-f $MENDER_SERVER_PATH/backend/tests/docker/docker-compose.azblob.setup.yml"
 
 COMPOSE_FILES=""
 
@@ -44,7 +44,7 @@ PYTEST_REPORT=""
 
 PYTEST_ADDOPTS=""
 
-DOCS="$MENDER_SERVER_PATH/backend/tests/integration/docs"
+DOCS="$MENDER_SERVER_PATH/backend/tests/docs"
 
 usage() {
     echo "runner script for backend-specific integration tests"
