@@ -23,7 +23,7 @@ import uuid
 from base64 import b64decode
 
 import trustme
-from azure.iot.hub import IoTHubRegistryManager
+from azure_iot_hub_api import IoTHubRegistryManager
 from pytest_httpserver import HTTPServer
 from redo import retrier, retriable
 from requests.models import Response
