@@ -1,3 +1,5 @@
+MAKEDIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+
 MENDER_IMAGE_REGISTRY ?= docker.io
 MENDER_IMAGE_REPOSITORY ?= mendersoftware
 MENDER_IMAGE_TAG ?= latest
@@ -40,6 +42,16 @@ docs/api/dist/openapi.yaml: $(SPEC_FILES)
 
 .PHONY: generate-openapi-spec
 generate-openapi-spec: $(COMBINED_SPEC)
+
+tests/mender_client: $(COMBINED_SPEC)
+	[ -e $@ ] && rm -r $@; \
+	docker run --rm -t -v $(MAKEDIR):/work -w /work \
+		--ulimit nofile=65536:65536 \
+		-u $(shell id -u):$(shell id -g) \
+		openapitools/openapi-generator-cli:v7.17.0 generate \
+		-g python -i $< \
+		-c $(dir $@).openapi-generator.yaml \
+		-o $(dir $@)
 
 .PHONY: docker
 docker: $(DOCKER_TARGETS)
