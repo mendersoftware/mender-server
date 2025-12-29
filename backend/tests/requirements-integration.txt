@@ -1,5 +1,5 @@
 attrs==26.1.0
-azure-iot-hub==2.7.0
+azure-iot-hub-api==0.2.2
 boto3==1.43.20
 certifi==2026.5.20
 cffi==2.0.0
