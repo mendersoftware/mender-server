@@ -20,7 +20,6 @@ from common import (
     mongo,
 )
 
-import bravado
 import pytest
 
 

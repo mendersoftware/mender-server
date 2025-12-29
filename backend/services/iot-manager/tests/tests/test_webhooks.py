@@ -18,13 +18,13 @@ import time
 
 import pytest
 
-import internal_api.exceptions as intrnl_exceptions
+import internal_v1.exceptions as intrnl_exceptions
 
 from pydantic import BaseModel
 
 from client import ManagementAPIClient, InternalAPIClient
-from management_api import models as mgmt_models
-from internal_api import models as intrnl_models
+from management_v1 import models as mgmt_models
+from internal_v1 import models as intrnl_models
 from utils import compare_expectations
 
 TEST_TENANT_ID = "123456789012345678901234"
@@ -169,7 +169,9 @@ class TestWebhooks:
         intrnl = InternalAPIClient()
         try:
             intrnl.update_device_statuses(
-                TEST_TENANT_ID, "rejected", [intrnl_models.UpdateDeviceStatusesRequestInner(id=device_id)]
+                TEST_TENANT_ID,
+                "rejected",
+                [intrnl_models.IoTManagerInternalUpdateDeviceStatusesRequestInner(id=device_id)]
             )
         except intrnl_exceptions.NotFoundException:
             pass
