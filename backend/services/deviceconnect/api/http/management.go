@@ -216,7 +216,7 @@ func (h ManagementController) Connect(c *gin.Context) {
 	conn.SetReadLimit(int64(app.MessageSizeLimit))
 
 	//nolint:errcheck
-	h.ConnectServeWS(ctx, conn, session, deviceChan)
+	h.ConnectServeWS(c, ctx, conn, session, deviceChan)
 }
 
 func (h ManagementController) Playback(c *gin.Context) {
@@ -570,6 +570,7 @@ func sendLimitErrDevice(ctx context.Context, session *model.Session, nats nats.C
 // ConnectServeWS starts a websocket connection with the device
 // Currently this handler only properly handles a single terminal session.
 func (h ManagementController) ConnectServeWS(
+	c *gin.Context,
 	ctx context.Context,
 	conn *websocket.Conn,
 	sess *model.Session,
@@ -632,21 +633,7 @@ func (h ManagementController) ConnectServeWS(
 		&remoteTerminalRunning, controlRecorderBuffered)
 
 	if err != nil {
-		var closeErr *websocket.CloseError
-		// Did we receive a close frame from the client?
-		if errors.As(err, &closeErr) {
-			if closeErr.Code == websocket.CloseNormalClosure {
-				return
-			}
-		} else {
-			// Notify writer to handle error
-			select {
-			case errChan <- err:
-
-			case <-time.After(time.Second):
-				l.Warn("Failed to propagate error to client")
-			}
-		}
+		handleWebsocketReadError(c, err, errChan)
 	}
 	return err
 }
