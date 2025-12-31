@@ -12,16 +12,16 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-import internal_api
+import internal_v1 as internal_api
 
 
 class TestInternal:
     def test_internal_alive(self):
         client = internal_api.InternalAPIClient()
-        r = client.check_health_with_http_info()
-        assert r.status_code == 204
+        r = client.device_config_internal_check_liveliness_without_preload_content()
+        assert r.status == 204
 
     def test_internal_health(self):
         client = internal_api.InternalAPIClient()
-        r = client.check_liveliness_with_http_info()
-        assert r.status_code == 204
+        r = client.device_config_internal_check_liveliness_without_preload_content()
+        assert r.status == 204

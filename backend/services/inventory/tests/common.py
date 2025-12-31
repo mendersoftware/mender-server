@@ -64,27 +64,17 @@ def cli(request):
 
 @pytest.fixture(scope="session")
 def management_client(request):
-    return ManagementClient(
-        request.config.getoption("host"),
-        request.config.getoption("management_spec"),
-        request.config.getoption("api"),
-    )
+    return ManagementClient()
 
 
 @pytest.fixture(scope="session")
 def management_client_v2(request):
-    return ManagementClientV2(
-        request.config.getoption("host"),
-        request.config.getoption("management_v2_spec"),
-        request.config.getoption("api"),
-    )
+    return ManagementClientV2()
 
 
 @pytest.fixture(scope="session")
 def internal_client(request):
-    return InternalApiClient(
-        request.config.getoption("host"), request.config.getoption("internal_spec"),
-    )
+    return InternalApiClient()
 
 
 @pytest.fixture(scope="session")

@@ -17,21 +17,21 @@ import pytest
 import requests
 
 from common import management_api_with_params
-from internal_api import InternalAPIClient
+from internal_v1 import InternalAPIClient, ProvisionDevice
+from management_v1 import NewConfigurationDeployment
 
 
 @pytest.fixture
 def device_id():
     client = InternalAPIClient()
-    device_id = str(uuid.uuid4())
-    new_device = {"device_id": device_id}
-    r = client.provision_device_with_http_info(
-        tenant_id="tenant-id", new_device=new_device
+    device_id = uuid.uuid4()
+    r = client.device_config_internal_provision_device_with_http_info(
+        tenant_id="tenant-id", provision_device=ProvisionDevice(device_id=device_id)
     )
     assert r.status_code == 201
-    yield device_id
-    r = client.decommission_device_with_http_info(
-        tenant_id="tenant-id", device_id=device_id
+    yield str(device_id)
+    r = client.device_config_internal_decommission_device_with_http_info(
+        tenant_id="tenant-id", device_id=str(device_id)
     )
     assert r.status_code == 204
 
@@ -47,7 +47,7 @@ class TestAuditlogs:
             "another-key": "another-value",
             "dollar-key": "$",
         }
-        r = client.set_device_configuration_with_http_info(
+        r = client.device_config_management_set_device_configuration_with_http_info(
             device_id, request_body=configuration
         )
         assert r.status_code == 204
@@ -89,17 +89,14 @@ class TestAuditlogs:
             "another-key": "another-value",
             "dollar-key": "$",
         }
-        r = client.set_device_configuration_with_http_info(
+        r = client.device_config_management_set_device_configuration_with_http_info(
             device_id, request_body=configuration
         )
         assert r.status_code == 204
         #
         # deploy the configuration
-        request = {
-            "retries": 1,
-        }
-        r = client.deploy_device_configuration_with_http_info(
-            device_id, new_configuration_deployment=request
+        r = client.device_config_management_deploy_device_configuration_with_http_info(
+            device_id, new_configuration_deployment=NewConfigurationDeployment(retries=1)
         )
         assert r.status_code == 200
         assert r.data is not None and r.data.deployment_id is not None
