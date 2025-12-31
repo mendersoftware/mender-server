@@ -69,12 +69,21 @@ func (j JobProcessor) ProcessJSON(
 					// as an input parameter, then with `device.jsonInput.tier` you can refer
 					// to the Device.Tier field
 					if strings.HasPrefix(key, param.Name+jsonRefInputVariable) {
-						return gojsonq.New().FromString(param.Value).Find(
-							strings.TrimPrefix(
-								key,
-								param.Name+jsonRefInputVariable,
-							),
+						findString := strings.TrimPrefix(
+							key,
+							param.Name+jsonRefInputVariable+".",
 						)
+						if strings.Contains(findString, "|") {
+							findString = strings.Split(findString, "|")[0]
+						}
+						v := gojsonq.New().FromString(param.Value).Find(
+							findString,
+						)
+						values := strings.Split(key, "|")
+						if v == nil && len(values) > 1 {
+							return strings.TrimSuffix(values[1], "}")
+						}
+						return v
 					}
 					if param.Name == key && param.Raw != nil {
 						return j.ProcessJSON(param.Raw, ps)
