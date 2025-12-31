@@ -26,7 +26,7 @@ paths:
                 status: ok
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
-  /health:
+  /api/v1/health:
     get:
       summary: Check if service and all operational dependencies are healthy.
       operationId: Workflows Check Health
