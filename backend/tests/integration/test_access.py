@@ -19,6 +19,8 @@ import os
 import time
 import redo
 
+import mender_client
+
 from testutils.common import Tenant, User, update_tenant, create_user, create_org
 from testutils.infra.cli import CliTenantadm
 from testutils.api.client import ApiClient
@@ -76,48 +78,38 @@ class _TestAccessBase:
     # troubleshoot
     def check_access_remote_term(self, auth, devid, forbid=False):
 
-        devconn = ApiClient(deviceconnect.URL_MGMT)
+        api_client = mender_client.ApiClient()
+        api_client.configuration.access_token = auth
+        devconn = mender_client.DeviceConnectManagementAPIApi(api_client=api_client)
 
         logger.info(
             f"using {auth} to call {deviceconnect.URL_MGMT_DEVICE} with devid={devid}"
         )
-        res = devconn.with_auth(auth).call(
-            "GET", deviceconnect.URL_MGMT_DEVICE, path_params={"id": devid},
-        )
+        rsp = devconn.device_connect_management_get_device_without_preload_content(devid)
 
         if forbid:
-            assert res.status_code == 403
+            assert rsp.status == 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
         else:
-            assert res.status_code == 200
+            assert rsp.status == 200, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
 
     def check_access_file_transfer(self, auth, devid, forbid=False):
-        devconn = ApiClient(deviceconnect.URL_MGMT)
-
-        res = devconn.with_auth(auth).call(
-            "GET",
-            deviceconnect.URL_MGMT_FDOWNLOAD,
-            path_params={"id": devid},
-            qs_params={"path": "/etc/mender/mender.conf"},
-        )
-
+        api_client = mender_client.ApiClient()
+        api_client.configuration.access_token = auth
+        devconn = mender_client.DeviceConnectManagementAPIApi(api_client=api_client)
+        rsp = devconn.device_connect_management_download_without_preload_content(devid, path="/etc/mender/mender.conf")
         if forbid:
-            assert res.status_code == 403
+            assert rsp.status == 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
         else:
-            assert res.status_code in [404, 409]
+            assert rsp.status in [404, 409], f"unexpected status code {rsp.status}, body follows: {rsp.data}"
 
-        res = devconn.with_auth(auth).call(
-            "PUT",
-            deviceconnect.URL_MGMT_FUPLOAD,
-            path_params={"id": devid},
-            qs_params={"path": "/etc/mender/mender.conf"},
-        )
-
+        rsp = devconn.device_connect_management_upload_without_preload_content(devid, path="/etc/mender/mender.conf")
         if forbid:
-            assert res.status_code == 403
+            assert rsp.status == 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
         else:
-            assert res.status_code != 403
+            assert rsp.status != 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
 
     def check_access_auditlogs(self, auth, forbid=False):
+        # FIXME: Cannot use generated client due to auditlogs spec being closed source.
         alogs = ApiClient(auditlogs.URL_MGMT)
 
         res = alogs.with_auth(auth).call("GET", auditlogs.URL_LOGS)
@@ -128,30 +120,28 @@ class _TestAccessBase:
             assert res.status_code == 200
 
     def check_access_sessionlogs(self, auth, forbid=False):
-        devconn = ApiClient(deviceconnect.URL_MGMT)
+        api_client = mender_client.ApiClient()
+        api_client.configuration.access_token = auth
+        devconn = mender_client.DeviceConnectManagementAPIApi(api_client=api_client)
 
-        res = devconn.with_auth(auth).call(
-            "GET", deviceconnect.URL_MGMT_PLAYBACK, path_params={"session_id": "foo"},
-        )
+        rsp = devconn.device_connect_management_playback_without_preload_content(session_id="foo")
 
         if forbid:
-            assert res.status_code == 403
+            assert rsp.status == 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
         else:
-            assert res.status_code != 403
+            assert rsp.status != 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
 
     # configure
     def check_access_deviceconfig(self, auth, devid, forbid=False):
-        devconf = ApiClient(deviceconfig.URL_MGMT)
-        res = devconf.with_auth(auth).call(
-            "GET",
-            deviceconfig.URL_MGMT_DEVICE_CONFIGURATION,
-            path_params={"id": devid},
-        )
+        api_client = mender_client.ApiClient()
+        api_client.configuration.access_token = auth
+        devconf = mender_client.DeviceConfigureManagementAPIApi(api_client=api_client)
+        rsp = devconf.device_config_management_get_device_configuration_without_preload_content(device_id=devid)
 
         if forbid:
-            assert res.status_code == 403
+            assert rsp.status == 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
         else:
-            assert res.status_code == 200
+            assert rsp.status == 200, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
 
     # rbac (no addon)
     def check_access_rbac(self, auth, forbid=False):
