@@ -234,8 +234,12 @@ test:backend:static:
         paths: ["backend/docs/api/*.yaml", "backend/docs/api/**/*.yaml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
   before_script:
+    - apk add --no-cache npm make
     - npm install -g @redocly/cli@2.2.2
   artifacts:
     when: always
@@ -243,11 +247,13 @@ test:backend:static:
     paths:
       - backend/docs/api/
 
-test:backend:combine-api:
+test:backend:api-spec:
   extends: .template:combine-api
   script:
     - make -C backend generate-openapi-spec
     - git diff --exit-code backend/docs/api/dist/openapi.yaml
+    - make -C backend tests/mender_client
+    - git diff --exit-code backend/tests/mender_client
   allow_failure: false
 
 test:backend:validate-open-api:
