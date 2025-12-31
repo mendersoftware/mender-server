@@ -147,9 +147,12 @@ SubMatchLoop:
 					dataAny := gojsonq.New().FromString(param.Value).Find(
 						strings.TrimPrefix(
 							paramName,
-							param.Name+jsonRefInputVariable,
+							param.Name+jsonRefInputVariable+".",
 						),
 					)
+					if dataAny == nil && len(value) > 0 {
+						return value
+					}
 					switch d := dataAny.(type) {
 					case string:
 						return d
