@@ -12,61 +12,73 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-import pytest
-
-from urllib import parse
-
-from testutils.api import client
+from mender_client import ApiClient, api
 
 
 class TestHealthCheck:
-    @pytest.mark.parametrize(
-        "url",
-        [
-            "http://mender-deployments:8080/api/internal/v1/deployments/health",
-            "http://mender-deviceauth:8080/api/internal/v1/devauth/health",
-            "http://mender-deviceconfig:8080/api/internal/v1/deviceconfig/health",
-            "http://mender-deviceconnect:8080/api/internal/v1/deviceconnect/health",
-            "http://mender-inventory:8080/api/internal/v1/inventory/health",
-            "http://mender-iot-manager:8080/api/internal/v1/iot-manager/health",
-            "http://mender-useradm:8080/api/internal/v1/useradm/health",
-            "http://mender-workflows:8080/api/v1/health",
-        ],
-    )
-    def test_health_check(self, url):
-        parsed = parse.urlparse(url)
-        api_client = client.ApiClient(
-            base_url="",
-            host=parsed.hostname + ":" + str(parsed.port),
-            schema=parsed.scheme + "://",
-        )
-        rsp = api_client.call("GET", parsed.path)
-        assert rsp.status_code == 204, rsp.text
+    def test_health_check(self):
+        api_client_deployments = ApiClient.get_default()
+        api_client_deployments.configuration.host = "http://deployments:8080"
+        api.DeploymentsInternalAPIInternalAPIApi(
+            api_client_deployments
+        ).deployments_internal_check_health()
+        api_client_deviceauth = ApiClient.get_default()
+        api_client_deviceauth.configuration.host = "http://deviceauth:8080"
+        api.DeviceAuthenticationInternalAPIApi(
+            api_client_deviceauth
+        ).device_auth_internal_check_health()
+        api_client_deviceconfig = ApiClient.get_default()
+        api_client_deviceconfig.configuration.host = "http://deviceconfig:8080"
+        api.DeviceConfigureInternalAPIApi(
+            api_client_deviceconfig
+        ).device_config_internal_check_health()
+        api_client_deviceconnect = ApiClient.get_default()
+        api_client_deviceconnect.configuration.host = "http://deviceconnect:8080"
+        api.DeviceConnectInternalAPIApi(
+            api_client_deviceconnect
+        ).device_connect_internal_check_health()
+        api_client_inventory = ApiClient.get_default()
+        api_client_inventory.configuration.host = "http://inventory:8080"
+        api.DeviceInventoryInternalAPIApi(
+            api_client_inventory
+        ).inventory_internal_check_health()
+        api_client_iot_manager = ApiClient.get_default()
+        api_client_iot_manager.configuration.host = "http://iot-manager:8080"
+        api.IoTManagerInternalAPIApi(
+            api_client_iot_manager
+        ).io_t_manager_internal_check_health()
+        api_client_useradm = ApiClient.get_default()
+        api_client_useradm.configuration.host = "http://useradm:8080"
+        api.UserAdministrationAndAuthenticationInternalAPIApi(
+            api_client_useradm
+        ).useradm_check_health()
+        api_client_workflows = ApiClient.get_default()
+        api_client_workflows.configuration.host = "http://workflows:8080"
+        api.WorkflowsOtherApi(api_client_workflows).workflows_check_health()
 
 
-class TestHealthCheckEnterprise:
-    @pytest.mark.parametrize(
-        "url",
-        [
-            "http://mender-auditlogs:8080/api/internal/v1/auditlogs/health",
-            "http://mender-deployments:8080/api/internal/v1/deployments/health",
-            "http://mender-deviceauth:8080/api/internal/v1/devauth/health",
-            "http://mender-deviceconfig:8080/api/internal/v1/deviceconfig/health",
-            "http://mender-deviceconnect:8080/api/internal/v1/deviceconnect/health",
-            "http://mender-devicemonitor:8080/api/internal/v1/devicemonitor/health",
-            "http://mender-inventory:8080/api/internal/v1/inventory/health",
-            "http://mender-iot-manager:8080/api/internal/v1/iot-manager/health",
-            "http://mender-tenantadm:8080/api/internal/v1/tenantadm/health",
-            "http://mender-useradm:8080/api/internal/v1/useradm/health",
-            "http://mender-workflows:8080/api/v1/health",
-        ],
-    )
-    def test_health_check(self, url):
-        parsed = parse.urlparse(url)
-        api_client = client.ApiClient(
-            base_url="",
-            host=parsed.hostname + ":" + str(parsed.port),
-            schema=parsed.scheme + "://",
+class TestHealthCheckEnterprise(TestHealthCheck):
+    def test_health_check(self):
+        super().test_health_check()
+        # FIXME: enterprise API specs are private
+        api_client_auditlogs = ApiClient.get_default()
+        api_client_auditlogs.configuration.host = "http://auditlogs:8080"
+        api_client_auditlogs.call_api(
+            *api_client_auditlogs.param_serialize(
+                "GET", "/api/internal/v1/auditlogs/health"
+            )
         )
-        rsp = api_client.call("GET", parsed.path)
-        assert rsp.status_code == 204, rsp.text
+        api_client_devicemonitor = ApiClient.get_default()
+        api_client_devicemonitor.configuration.host = "http://devicemonitor:8080"
+        api_client_devicemonitor.call_api(
+            *api_client_devicemonitor.param_serialize(
+                "GET", "/api/internal/v1/devicemonitor/health"
+            )
+        )
+        api_client_tenantadm = ApiClient.get_default()
+        api_client_tenantadm.configuration.host = "http://tenantadm:8080"
+        api_client_tenantadm.call_api(
+            *api_client_tenantadm.param_serialize(
+                "GET", "/api/internal/v1/tenantadm/health"
+            )
+        )
