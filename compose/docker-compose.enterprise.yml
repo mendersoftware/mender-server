@@ -175,7 +175,7 @@ services:
     image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/workflows:${MENDER_IMAGE_TAG:-latest}
 
   redis:
-    image: redis:8.2
+    image: redis:8.4
     networks:
       default:
         aliases: [mender-redis]
