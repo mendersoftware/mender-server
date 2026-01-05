@@ -140,7 +140,7 @@ export const ReleaseArtifactFilter = props => {
               <Typography variant="subtitle2" className="margin-bottom-x-small">
                 Release name
               </Typography>
-              <ControlledSearch name="searchTerm" placeholder="Search releases..." />
+              <ControlledSearch asFormField name="searchTerm" placeholder="Search releases..." />
             </div>
           </form>
         </FormProvider>
