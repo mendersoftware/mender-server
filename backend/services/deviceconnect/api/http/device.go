@@ -187,23 +187,29 @@ func (h DeviceController) Connect(c *gin.Context) {
 	go h.connectWSWriter(ctxWithCancel, conn, msgChan, errChan)
 	err = h.ConnectServeWS(ctxWithCancel, conn)
 	if err != nil {
-		var closeErr *websocket.CloseError
-		// Did we receive a close frame from the client?
-		if errors.As(err, &closeErr) {
-			if closeErr.Code == websocket.CloseNormalClosure {
-				return
-			}
-		} else {
-			// Notify writer to handle error
-			select {
-			case errChan <- err:
-
-			case <-time.After(time.Second):
-				l.Warn("Failed to propagate error to client")
-			}
-		}
-		_ = c.Error(err)
+		handleWebsocketReadError(c, err, errChan)
 	}
+}
+
+func handleWebsocketReadError(c *gin.Context, err error, errChan chan<- error) {
+	l := log.FromContext(c.Request.Context())
+	var closeErr *websocket.CloseError
+	// Did we receive a close frame from the client?
+	if errors.As(err, &closeErr) {
+		if closeErr.Code == websocket.CloseNormalClosure {
+			return
+		}
+	} else {
+		// Notify writer to handle error
+		select {
+		case errChan <- err:
+
+		case <-time.After(time.Second):
+			l.Warn("Failed to propagate error to client")
+		}
+	}
+	// Push the error to the context
+	_ = c.Error(err)
 }
 
 // websocketWriter is the go-routine responsible for the writing end of the
