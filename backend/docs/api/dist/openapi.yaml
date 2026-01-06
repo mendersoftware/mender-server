@@ -5554,9 +5554,12 @@ paths:
               properties:
                 page:
                   type: integer
+                  default: 1
                   description: Starting page.
                 per_page:
                   type: integer
+                  default: 20
+                  maximum: 500
                   description: Maximum number of results per page.
                 text:
                   type: string

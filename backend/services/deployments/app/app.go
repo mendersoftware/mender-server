@@ -52,7 +52,7 @@ const (
 
 	DefaultUpdateDownloadLinkExpire  = 24 * time.Hour
 	DefaultImageGenerationLinkExpire = 7 * 24 * time.Hour
-	PerPageInventoryDevices          = 512
+	PerPageInventoryDevices          = 500
 	InventoryGroupScope              = "system"
 	InventoryIdentityScope           = "identity"
 	InventoryGroupAttributeName      = "group"

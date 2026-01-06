@@ -19,6 +19,8 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pkg/errors"
+
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 )
 
 var validSelectors = []interface{}{"$eq", "$in", "$nin"}
@@ -94,7 +96,9 @@ func (sp SearchParams) Validate() error {
 			return err
 		}
 	}
-	return nil
+	return validation.ValidateStruct(&sp,
+		validation.Field(&sp.PerPage, validation.Max(rest.PerPageMax)),
+	)
 }
 
 func (f Filter) Validate() error {

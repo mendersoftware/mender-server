@@ -93,7 +93,8 @@ paths:
               per_page:
                 type: number
                 format: integer
-                default: 10
+                default: 20
+                maximum: 500
                 description: Maximum number of results per page.
               text:
                 type: string

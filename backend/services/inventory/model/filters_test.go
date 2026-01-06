@@ -154,6 +154,12 @@ func TestSearchParams(t *testing.T) {
 			},
 			err: errors.New("scope: must be one of system, identity, inventory, monitor, tags."),
 		},
+		"ko, per_page exceed limit (500)": {
+			params: &SearchParams{
+				PerPage: 501,
+			},
+			err: errors.New("per_page: must be no greater than 500."),
+		},
 	}
 
 	for name, tc := range testCases {
