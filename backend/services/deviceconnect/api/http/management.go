@@ -578,7 +578,6 @@ func (h ManagementController) ConnectServeWS(
 ) (err error) {
 	l := log.FromContext(ctx)
 	id := identity.FromContext(ctx)
-	errChan := make(chan error, 1)
 	remoteTerminalRunning := false
 
 	defer func() {
@@ -608,7 +607,6 @@ func (h ManagementController) ConnectServeWS(
 				)
 			}
 		}
-		close(errChan)
 	}()
 
 	controlRecorder := h.app.GetControlRecorder(ctx, sess.ID)
@@ -619,37 +617,56 @@ func (h ManagementController) ConnectServeWS(
 	sessionRecorderBuffered := bufio.NewWriterSize(sessionRecorder, app.RecorderBufferSize)
 	defer sessionRecorderBuffered.Flush()
 
-	// websocketWriter is responsible for closing the websocket
+	errChan := make(chan error)
 	//nolint:errcheck
-	go h.websocketWriter(ctx,
+	go h.connectServeWSProcessMessages(ctx, conn, sess, errChan,
+		&remoteTerminalRunning, controlRecorderBuffered)
+
+	err = h.websocketWriter(ctx,
 		conn,
 		sess,
 		deviceChan,
 		errChan,
 		sessionRecorderBuffered,
 		controlRecorderBuffered)
-
-	err = h.connectServeWSProcessMessages(ctx, conn, sess, deviceChan,
-		&remoteTerminalRunning, controlRecorderBuffered)
-
 	if err != nil {
-		handleWebsocketReadError(c, err, errChan)
+		_ = c.Error(err)
 	}
 	return err
+}
+
+func (h ManagementController) handleReadErrors(
+	ctx context.Context,
+	errP *error,
+	errChan chan<- error) {
+	var err error
+	if errP != nil {
+		err = *errP
+	}
+	log.FromContext(ctx).SimpleRecovery(log.NewRecoveryOption().WithError(err))
+	if err != nil && !websocket.IsUnexpectedCloseError(err) {
+		select {
+		case <-ctx.Done():
+		case errChan <- err:
+		}
+	}
+	close(errChan)
 }
 
 func (h ManagementController) connectServeWSProcessMessages(
 	ctx context.Context,
 	conn *websocket.Conn,
 	sess *model.Session,
-	deviceChan chan *natsio.Msg,
+	errChan chan<- error,
 	remoteTerminalRunning *bool,
 	controlRecorderBuffered *bufio.Writer,
-) (err error) {
+) {
+	var err error
 	l := log.FromContext(ctx)
 	id := identity.FromContext(ctx)
 	logTerminal := false
 	logPortForward := false
+	defer h.handleReadErrors(ctx, &err, errChan)
 
 	var data []byte
 	controlBytes := 0
@@ -658,14 +675,14 @@ func (h ManagementController) connectServeWSProcessMessages(
 		_, data, err = conn.ReadMessage()
 		if err != nil {
 			if _, ok := err.(*websocket.CloseError); ok {
-				return nil
+				err = nil
 			}
-			return err
+			return
 		}
 		m := &ws.ProtoMsg{}
 		err = msgpack.Unmarshal(data, m)
 		if err != nil {
-			return err
+			return
 		}
 
 		m.Header.SessionID = sess.ID
@@ -678,9 +695,9 @@ func (h ManagementController) connectServeWSProcessMessages(
 		case ws.ProtoTypeShell:
 			// send the audit log for remote terminal
 			if !logTerminal {
-				if err := h.app.LogUserSession(ctx, sess,
+				if err = h.app.LogUserSession(ctx, sess,
 					model.SessionTypeTerminal); err != nil {
-					return err
+					return
 				}
 				sess.Types = append(sess.Types, model.SessionTypeTerminal)
 				logTerminal = true
@@ -707,9 +724,9 @@ func (h ManagementController) connectServeWSProcessMessages(
 			}
 		case ws.ProtoTypePortForward:
 			if !logPortForward {
-				if err := h.app.LogUserSession(ctx, sess,
+				if err = h.app.LogUserSession(ctx, sess,
 					model.SessionTypePortForward); err != nil {
-					return err
+					return
 				}
 				sess.Types = append(sess.Types, model.SessionTypePortForward)
 				logPortForward = true
@@ -718,7 +735,7 @@ func (h ManagementController) connectServeWSProcessMessages(
 
 		err = h.nats.Publish(model.GetDeviceSubject(id.Tenant, sess.DeviceID), data)
 		if err != nil {
-			return err
+			return
 		}
 	}
 }
