@@ -11882,9 +11882,8 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 >
                   <button
                     aria-label="Previous month"
-                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeEnd MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-previousIconButton emotion-36"
-                    disabled=""
-                    tabindex="-1"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-previousIconButton emotion-36"
+                    tabindex="0"
                     title="Previous month"
                     type="button"
                   >
@@ -14019,9 +14018,8 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 >
                   <button
                     aria-label="Previous month"
-                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeEnd MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-previousIconButton emotion-36"
-                    disabled=""
-                    tabindex="-1"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium MuiPickersArrowSwitcher-button MuiPickersArrowSwitcher-previousIconButton emotion-36"
+                    tabindex="0"
                     title="Previous month"
                     type="button"
                   >
