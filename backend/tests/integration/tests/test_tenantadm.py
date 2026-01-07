@@ -60,13 +60,12 @@ class TestCreateOrganizationCLIEnterprise:
         self.logger.debug("Tenant id: %s" % tenant_id)
 
         # Retry login every second for 3 min
-        for i in range(60 * 3):
+        for _ in retrier(attempts=60*3, sleeptime=1):
             rsp = self.api_mgmt_useradm.call(
                 "POST", api.useradm.URL_LOGIN, auth=(username, password)
             )
             if rsp.status_code == 200:
                 break
-            time.sleep(1)
 
         assert rsp.status_code == 200
 
@@ -93,14 +92,13 @@ class TestCreateOrganizationCLIEnterprise:
         self.logger.debug("Tenant id: %s" % tenant_id)
 
         # Retry login every second for 2 min
-        for i in range(60 * 2):
+        for _ in retrier(attempts=60*2, sleeptime=1):
             rsp = self.api_mgmt_useradm.call(
                 "POST", api.useradm.URL_LOGIN, auth=(username, password)
             )
             if rsp.status_code == 200:
                 self.logger.debug("Successfully logged into account")
                 break
-            time.sleep(1)
         assert rsp.status_code == 200
 
         try:

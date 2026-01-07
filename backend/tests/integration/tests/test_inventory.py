@@ -15,6 +15,7 @@ import logging
 import pytest
 import time
 import uuid
+import redo
 
 from testutils.api.client import ApiClient
 from testutils.infra.cli import CliUseradm, CliDeviceauth
@@ -102,11 +103,13 @@ class TestGetDevicesBase:
         make_accepted_devices(devauthd, devauthm, utoken, tenant_token, 40)
 
         # wait for devices to be provisioned
-        time.sleep(3)
+        for _ in redo.retrier(attempts=3, sleeptime=1):
+            r = invm.with_auth(utoken).call(
+                "GET", inventory.URL_DEVICES, qs_params={"per_page": 1}
+            )
+            if r.status_code == 200:
+                break
 
-        r = invm.with_auth(utoken).call(
-            "GET", inventory.URL_DEVICES, qs_params={"per_page": 1}
-        )
         assert r.status_code == 200
         new_count = int(r.headers["X-Total-Count"])
         assert new_count == count + 40
@@ -133,11 +136,13 @@ class TestGetDevicesBase:
         devs = make_accepted_devices(devauthd, devauthm, utoken, tenant_token, 40)
 
         # wait for devices to be provisioned
-        time.sleep(3)
+        for _ in redo.retrier(attempts=3, sleeptime=1):
+            r = invm.with_auth(utoken).call(
+                "GET", inventory.URL_DEVICES, qs_params={"per_page": 1}
+            )
+            if r.status_code == 200:
+                break
 
-        r = invm.with_auth(utoken).call(
-            "GET", inventory.URL_DEVICES, qs_params={"per_page": 1}
-        )
         assert r.status_code == 200
         new_count = int(r.headers["X-Total-Count"])
         assert new_count == count + 40
