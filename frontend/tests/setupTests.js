@@ -39,10 +39,13 @@ export const mockAbortController = { signal: { addEventListener: () => {}, remov
 // Setup requests interception
 let server;
 
+// ensure consistent snapshots across dev machines and CI
+// - module loading order prevents this from fitting into the regular hooks
+Object.defineProperty(process, 'platform', { value: 'linux', writable: true });
+
 const oldWindowLocalStorage = window.localStorage;
 const oldWindowLocation = window.location;
 const oldWindowSessionStorage = window.sessionStorage;
-
 jest.retryTimes(RETRY_TIMES);
 jest.mock('universal-cookie', () => {
   const mockCookie = {
