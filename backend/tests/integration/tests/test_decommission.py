@@ -16,6 +16,7 @@ import time
 import logging
 import pytest
 import uuid
+import redo
 
 from testutils.api.client import ApiClient
 import testutils.api.useradm as useradm
@@ -149,16 +150,12 @@ class TestDeviceDecomissioningBase:
         dtoken = r.text
 
         # wait for the device provisioning workflow to do its job
-        timeout = time.time() + 60
-        while time.time() < timeout:
+        for _ in redo.retrier(attempts=60, sleeptime=1):
             r = inventorym.with_auth(utoken).call(
                 "GET", inventory.URL_DEVICE, path_params={"id": aset.did}
             )
             if r.status_code == 200:
                 break
-            else:
-                logger.debug("waiting for the device to be added to inventory...")
-                time.sleep(1)
         else:
             assert False, "device not added to the inventory"
 
@@ -184,30 +181,24 @@ class TestDeviceDecomissioningBase:
 
         # check device gone from inventory
         # this may take some time because it's done as an async job (workflow)
-        timeout = time.time() + (60 * 3)
-        while time.time() < timeout:
+        timeout = 60 * 3
+        for _ in redo.retrier(attempts=timeout, sleeptime=1):
             r = inventorym.with_auth(utoken).call(
                 "GET", inventory.URL_DEVICE, path_params={"id": aset.did}
             )
             if r.status_code == 404:
                 break
-            else:
-                logger.debug("waiting for the device to be removed from inventory...")
-                time.sleep(1)
         else:
             assert False, "device not removed from the inventory"
 
         # check device gone from deviceauth
-        timeout = time.time() + 60
-        while time.time() < timeout:
+        timeout = 60
+        for _ in redo.retrier(attempts=timeout, sleeptime=1):
             r = devauthm.with_auth(utoken).call(
                 "GET", deviceauth.URL_DEVICE.format(id=aset.did)
             )
             if r.status_code == 404:
                 break
-            else:
-                logger.debug("waiting for the device to be removed from deviceauth...")
-                time.sleep(1)
         else:
             assert False, "device not removed from the deviceauth"
 

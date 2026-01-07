@@ -16,6 +16,7 @@ import pytest
 import re
 import time
 import uuid
+import redo
 
 from testutils.api import useradm
 from testutils.api.client import ApiClient
@@ -54,12 +55,11 @@ class TestVerifyEmailEnterprise:
         assert r.status_code == 202
         # wait for the verification email
         message = None
-        for i in range(15):
+        for _ in redo.retrier(attempts=15, sleeptime=1):
             messages = smtp_server.filtered_messages(email)
             if len(messages) > 0:
                 message = messages[0]
                 break
-            time.sleep(1)
         # be sure we received the email
         assert message is not None
         assert message.data != ""

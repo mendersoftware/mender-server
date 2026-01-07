@@ -16,6 +16,7 @@ import pytest
 import re
 import time
 import uuid
+import redo
 
 import testutils.api.tenantadm_v2 as tenantadm_v2
 from testutils.api import useradm
@@ -70,12 +71,11 @@ class TestContactSupportEnterprise:
         assert r.status_code == 202
         # wait for the email
         message = None
-        for i in range(15):
+        for _ in redo.retrier(attempts=15, sleeptime=1):
             messages = smtp_server.filtered_messages("support@mender.io")
             if len(messages) > 0:
                 message = messages[0]
                 break
-            time.sleep(1)
 
         # be sure we received the email
         assert message is not None

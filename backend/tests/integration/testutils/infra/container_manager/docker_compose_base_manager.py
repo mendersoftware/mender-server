@@ -188,17 +188,11 @@ class DockerComposeBaseNamespace(DockerNamespace):
             retry_attempts = 8
 
             # Take down all docker instances in this namespace.
-            while retry_attempts > 0:
-                logger.info(
-                    "(attempts left: %d) trying to stop all containers in %s"
-                    % (retry_attempts, self.name)
-                )
+            for _ in redo.retrier(attempts=retry_attempts, sleeptime=stop_sleep_seconds):
                 try:
                     self._docker_compose_cmd(
                         "down -v --remove-orphans", fail_early=False
                     )
                     break
                 except Exception as e:
-                    time.sleep(stop_sleep_seconds)
                     logger.error(e)
-                    retry_attempts = retry_attempts - 1
