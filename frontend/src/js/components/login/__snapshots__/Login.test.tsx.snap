@@ -1398,7 +1398,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
           class="dashboard-header emotion-12 margin-top-large flexbox centered"
         >
           <span
-            style="padding: 15px; top: -24px;"
+            style="padding: 15px;"
           >
             or your email address
           </span>
