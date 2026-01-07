@@ -63,6 +63,7 @@ linters:
         - G109 # Potential Integer overflow made by strconv.Atoi result conversion to int16/32
         - G110 # Potential DoS vulnerability via decompression bomb
         - G111 # Potential directory traversal
+        - G114 # Use of net/http serve function that has no support for setting timeouts
         - G201 # SQL query construction using format string
         - G202 # SQL query construction using string concatenation
         - G203 # Use of unescaped data in HTML templates
@@ -86,12 +87,10 @@ linters:
         - G507 # Import blocklist: golang.org/x/crypto/ripemd160
         - G601 # Implicit memory aliasing of items from a range statement
         - G602 # Slice access out of bounds
-      # FIXME: (QA-903) These rules should be enabled, only G115 has known issues.
       excludes: # To specify a set of rules to explicitly exclude.
         - G101 # Look for hard coded credentials
         - G107 # Url provided to HTTP request as taint input
         - G112 # Potential slowloris attack
-        - G114 # Use of net/http serve function that has no support for setting timeouts
         - G115 # Potential integer overflow when converting between integer types
         - G204 # Audit use of command execution
         - G402 # Look for bad TLS connection settings

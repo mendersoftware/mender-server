@@ -215,17 +215,17 @@ func RunServer(ctx context.Context) error {
 
 	listen := c.GetString(dconfig.SettingListen)
 
+	srv := &http.Server{
+		Addr:    listen,
+		Handler: handler,
+	}
+
 	if c.IsSet(dconfig.SettingHttps) {
 
 		cert := c.GetString(dconfig.SettingHttpsCertificate)
 		key := c.GetString(dconfig.SettingHttpsKey)
 
-		return http.ListenAndServeTLS(listen, cert, key, handler)
-	}
-
-	srv := &http.Server{
-		Addr:    listen,
-		Handler: handler,
+		return srv.ListenAndServeTLS(cert, key)
 	}
 
 	errChan := make(chan error, 1)
