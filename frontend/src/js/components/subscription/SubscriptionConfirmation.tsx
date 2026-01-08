@@ -22,20 +22,21 @@ import { cleanUp } from '@northern.tech/store/auth';
 import { ADDONS, AvailableAddon, Plan } from '@northern.tech/store/constants';
 import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
 
+import { deviceTypes } from './SubscriptionPage';
 import { formatPrice } from './utils';
 
 interface SubscriptionConfirmationProps {
-  devices: number;
   orderedAddons: { name: AvailableAddon }[];
   plan: Plan;
   price: number;
+  products: { id: string; quantity: number }[];
 }
 export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) => {
-  const { plan, devices, price, orderedAddons } = props;
+  const { plan, products, price, orderedAddons } = props;
   const { addons: enabledAddons, plan: currentPlan } = useSelector(getOrganization);
 
   const [addonList] = useState(orderedAddons.map(addon => addon.name));
-
+  const productsList = products.map(({ id, quantity }) => `${quantity} ${deviceTypes[id].summaryLabel}`).join(', ');
   const previousAddonsList = enabledAddons.filter(addon => addon.enabled);
   const willLogout = addonList.length > previousAddonsList.length || currentPlan !== plan.id;
   const [count, setCount] = useState<number>(60);
@@ -84,7 +85,7 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
         <div className="margin-top-small margin-bottom-small">
           <Typography variant="subtitle1"> Subscription details: </Typography>
           <Typography> Plan: {plan.name} </Typography>
-          <Typography> Devices: {devices} </Typography>
+          <Typography> Devices: {productsList}</Typography>
           {addonList.length > 0 && <Typography>Add-ons: {addonList.map(addon => ADDONS[addon].title).join(', ')}</Typography>}
           <Typography>Monthly cost: {formatPrice(price)}</Typography>
         </div>
