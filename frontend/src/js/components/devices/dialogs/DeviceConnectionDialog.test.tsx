@@ -26,6 +26,23 @@ describe('DeviceConnectionDialog Component', () => {
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
+  it('renders Zephyr correctly', async () => {
+    const { baseElement } = render(<DeviceConnectionDialog onCancel={vi.fn} />, {
+      preloadedState: {
+        ...defaultState,
+        app: {
+          ...defaultState.app,
+          features: {
+            ...defaultState.app.features,
+            hasMCUEnabled: true
+          }
+        }
+      }
+    });
+    const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
 
   it('works as intended', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
