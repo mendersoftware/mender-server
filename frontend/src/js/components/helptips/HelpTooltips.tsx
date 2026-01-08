@@ -282,6 +282,20 @@ const PlanUpgradeEmail = () => (
   </>
 );
 
+const MCUDevice = () => (
+  <>
+    Typically low-power (MCU) devices that require smaller, less frequent updates. Artifact size is limited to 5MB on micro devices, and polling intervals are
+    longer. <DocsLink path="/overview/limits" title="Learn more about limits" />
+  </>
+);
+
+const StandardDevice = () => (
+  <>
+    These are typically Linux-based devices that need larger, more frequent updates. Artifacts can be bigger and device polling intervals are more frequent.{' '}
+    <DocsLink path="/overview/limits" title="Learn more about limits" />
+  </>
+);
+
 export type HelpTooltipComponent = {
   Component?: FC;
   id: string;
@@ -322,6 +336,7 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   expandArtifact: { id: 'expandArtifact', Component: ExpandArtifact },
   forceDeployment: { id: 'forceDeployment', Component: ForceDeployment },
   groupDeployment: { id: 'groupDeployment', Component: GroupDeployment },
+  mcuDevice: { id: 'mcuDevice', Component: MCUDevice },
   menderArtifactUpload: { id: 'menderArtifactUpload', Component: MenderArtifactUpload },
   nameFilterTip: { id: 'nameFilterTip', Component: NameFilterTip },
   nameTagTip: { id: 'nameTagTip', Component: NameTagTip },
@@ -332,6 +347,7 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   ssoMetadata: { id: 'ssoMetadata', Component: SsoMetadata },
   scheduleDeployment: { id: 'scheduleDeployment', Component: ScheduleDeployment },
   singleFileUpload: { id: 'singleFileUpload', Component: SingleFileUpload },
+  standardDevice: { id: 'standardDevice', Component: StandardDevice },
   subTenantDeltaArtifactGeneration: { id: 'subTenantDeltaArtifactGeneration', Component: SubTenantDeltaArtifactGeneration },
   subTenantDeviceLimit: { id: 'subTenantDeviceLimit', Component: SubTenantDeviceLimit },
   subTenantSSO: { id: 'subTenantSSO', Component: SubTenantSSO },
