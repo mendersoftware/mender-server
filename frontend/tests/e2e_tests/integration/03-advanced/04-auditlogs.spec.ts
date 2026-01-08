@@ -95,13 +95,14 @@ test.describe('Auditlogs', () => {
     const terminalText = await page.locator(`css=${selectors.terminalText}`);
     await terminalText.fill('passwd');
     await page.keyboard.press('Enter');
-    const expectedPath = path.join(__dirname, '..', 'test-results', 'diffs', 'terminalSecretContent.png');
+    const screenshotBasePath = path.join(__dirname, '..', '..', 'test-results');
+    const expectedPath = path.join(screenshotBasePath, 'diffs', 'terminalSecretContent.png');
     const elementHandle = await page.$(selectors.terminalElement);
     await elementHandle.screenshot({ path: expectedPath });
     await page.waitForTimeout(timeouts.oneSecond);
     await terminalText.pressSequentially(secret);
 
-    const screenShotPath = path.join(__dirname, '..', 'test-results', 'diffs', 'terminalSecretContent-actual.png');
+    const screenShotPath = path.join(screenshotBasePath, 'diffs', 'terminalSecretContent-actual.png');
     await elementHandle.screenshot({ path: screenShotPath });
     const { pass } = compareImages(expectedPath, screenShotPath);
     expect(pass).toBeTruthy();
