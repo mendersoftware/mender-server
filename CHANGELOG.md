@@ -1,4 +1,2115 @@
 ---
+## 4.1.0 - 2026-01-08
+
+
+### Bug fixes
+
+
+- *(deviceauth)* Use mongo's error code to check for record duplication in AddDevice
+ ([3f91f6e](https://github.com/mendersoftware/mender-server/commit/3f91f6e7621d3d4ce01ba87357cd0be16933636f)) 
+
+
+
+- *(useradm)* Always generate a unique user ID for newly created users
+([MEN-8514](https://northerntech.atlassian.net/browse/MEN-8514)) ([aa30855](https://github.com/mendersoftware/mender-server/commit/aa308552935b4859f3afad93b9bb4b8be4dbe3fe)) 
+
+
+
+
+
+
+- Introduce docker-compose healthcheck for mongo, nats and traefik
+ ([d15626c](https://github.com/mendersoftware/mender-server/commit/d15626c63908fa4e70e67ef0d1db3dc031307498)) 
+
+
+
+
+  Introducing healthcheck allow to monitor services.
+  This permits a better dependency when mender services are starting,
+  waiting for mongo, nats, traefik to be heatlhy before starting.
+- Increase docker-compose restart
+ ([5923299](https://github.com/mendersoftware/mender-server/commit/59232993063ab8a00679fe7811718054dbf60546)) 
+
+
+
+
+  Some services still fails after the introduction of the healthcheck on
+  slow machines. Increase the number restarts allowed to solve it, no
+  better mechanisms found.
+
+
+
+
+### Features
+
+
+- Update traefik version
+ ([65b91f3](https://github.com/mendersoftware/mender-server/commit/65b91f35f6f1ff06583d02b9bc936eb603bfde90)) 
+
+
+
+
+  Update of traefik version to support Docker 29.x with API >= 1.44.
+
+
+
+
+### Security
+
+
+- Bump mender-artifact to the latest version
+ ([0cca94e](https://github.com/mendersoftware/mender-server/commit/0cca94eacaabab49c9b2c0c65c101f58624c88e5)) 
+
+
+
+- Bump the playwright group
+ ([4e92def](https://github.com/mendersoftware/mender-server/commit/4e92def1a295a4c43068fda67dda3b844939e334)) 
+
+
+
+
+  Bumps the playwright group in /frontend/tests/e2e_tests with 3 updates: [@playwright/test](https://github.com/microsoft/playwright), [playwright](https://github.com/microsoft/playwright) and [playwright-chromium](https://github.com/microsoft/playwright).
+  
+  
+  Updates `@playwright/test` from 1.50.1 to 1.55.0
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.1...v1.55.0)
+  
+  Updates `playwright` from 1.50.1 to 1.55.0
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.1...v1.55.0)
+  
+  Updates `playwright-chromium` from 1.50.1 to 1.55.0
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.1...v1.55.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@playwright/test"
+    dependency-version: 1.55.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: playwright
+  - dependency-name: playwright
+    dependency-version: 1.55.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: playwright
+  - dependency-name: playwright-chromium
+    dependency-version: 1.55.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: playwright
+  ...
+- Bump node in /frontend
+ ([28c1d42](https://github.com/mendersoftware/mender-server/commit/28c1d42a5a40106ff96ad6ebd91e5124a475b427)) 
+
+
+
+
+  Bumps node from 23.11.1-alpine3.20 to 24.1.0-alpine3.20.
+  
+  ---
+  updated-dependencies:
+  - dependency-name: node
+    dependency-version: 24.1.0-alpine3.20
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+- Bump nginxinc/nginx-unprivileged in /frontend
+ ([5e77340](https://github.com/mendersoftware/mender-server/commit/5e77340bc075d8f5a17ca4bed8aa59f20a7808dc)) 
+
+
+
+
+  Bumps nginxinc/nginx-unprivileged from 1.27.5-alpine3.21-slim to 1.28.0-alpine3.21-slim.
+  
+  ---
+  updated-dependencies:
+  - dependency-name: nginxinc/nginx-unprivileged
+    dependency-version: 1.28.0-alpine3.21-slim
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+- Bump the e2e-test-dependencies group
+ ([26e3558](https://github.com/mendersoftware/mender-server/commit/26e355826dbb3c1819a8a5bbde2b036db2cd8dd0)) 
+
+
+
+
+  Bumps the e2e-test-dependencies group in /frontend/tests/e2e_tests with 7 updates:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@bgotink/playwright-coverage](https://github.com/bgotink/playwright-coverage) | `0.3.0` | `0.3.2` |
+  | [axios](https://github.com/axios/axios) | `1.7.9` | `1.11.0` |
+  | [dayjs](https://github.com/iamkun/dayjs) | `1.11.13` | `1.11.18` |
+  | [pixelmatch](https://github.com/mapbox/pixelmatch) | `6.0.0` | `7.1.0` |
+  | [typescript](https://github.com/microsoft/TypeScript) | `5.7.3` | `5.9.2` |
+  | [uuid](https://github.com/uuidjs/uuid) | `11.0.5` | `11.1.0` |
+  | [yaml](https://github.com/eemeli/yaml) | `2.7.0` | `2.8.1` |
+  
+  
+  Updates `@bgotink/playwright-coverage` from 0.3.0 to 0.3.2
+  - [Commits](https://github.com/bgotink/playwright-coverage/compare/v0.3.0...v0.3.2)
+  
+  Updates `axios` from 1.7.9 to 1.11.0
+  - [Release notes](https://github.com/axios/axios/releases)
+  - [Changelog](https://github.com/axios/axios/blob/v1.x/CHANGELOG.md)
+  - [Commits](https://github.com/axios/axios/compare/v1.7.9...v1.11.0)
+  
+  Updates `dayjs` from 1.11.13 to 1.11.18
+  - [Release notes](https://github.com/iamkun/dayjs/releases)
+  - [Changelog](https://github.com/iamkun/dayjs/blob/v1.11.18/CHANGELOG.md)
+  - [Commits](https://github.com/iamkun/dayjs/compare/v1.11.13...v1.11.18)
+  
+  Updates `pixelmatch` from 6.0.0 to 7.1.0
+  - [Release notes](https://github.com/mapbox/pixelmatch/releases)
+  - [Commits](https://github.com/mapbox/pixelmatch/compare/v6.0.0...v7.1.0)
+  
+  Updates `typescript` from 5.7.3 to 5.9.2
+  - [Release notes](https://github.com/microsoft/TypeScript/releases)
+  - [Changelog](https://github.com/microsoft/TypeScript/blob/main/azure-pipelines.release-publish.yml)
+  - [Commits](https://github.com/microsoft/TypeScript/compare/v5.7.3...v5.9.2)
+  
+  Updates `uuid` from 11.0.5 to 11.1.0
+  - [Release notes](https://github.com/uuidjs/uuid/releases)
+  - [Changelog](https://github.com/uuidjs/uuid/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/uuidjs/uuid/compare/v11.0.5...v11.1.0)
+  
+  Updates `yaml` from 2.7.0 to 2.8.1
+  - [Release notes](https://github.com/eemeli/yaml/releases)
+  - [Commits](https://github.com/eemeli/yaml/compare/v2.7.0...v2.8.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@bgotink/playwright-coverage"
+    dependency-version: 0.3.2
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: e2e-test-dependencies
+  - dependency-name: axios
+    dependency-version: 1.11.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  - dependency-name: dayjs
+    dependency-version: 1.11.18
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: e2e-test-dependencies
+  - dependency-name: pixelmatch
+    dependency-version: 7.1.0
+    dependency-type: direct:development
+    update-type: version-update:semver-major
+    dependency-group: e2e-test-dependencies
+  - dependency-name: typescript
+    dependency-version: 5.9.2
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  - dependency-name: uuid
+    dependency-version: 11.1.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  - dependency-name: yaml
+    dependency-version: 2.8.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  ...
+- Bump the backend-docker-dependencies group across 10 directories with 2 updates
+ ([dacc542](https://github.com/mendersoftware/mender-server/commit/dacc5428e1feafae93935550cdf21ff8a9bc4219)) 
+
+
+
+
+  Bumps the backend-docker-dependencies group with 2 updates in the /backend/services/create-artifact-worker directory: golang and alpine.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deployments directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceauth directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceconfig directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceconnect directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/inventory directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/iot-manager directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/reporting directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/useradm directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/workflows directory: golang.
+  
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `alpine` from 3.21.3 to 3.22.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  Updates `golang` from 1.23.9 to 1.25.1
+  
+  ---
+  updated-dependencies:
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: alpine
+    dependency-version: 3.22.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.25.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  ...
+- Bump the production-dependencies group across 1 directory with 15 updates
+ ([17a2d06](https://github.com/mendersoftware/mender-server/commit/17a2d06f61cbf50b1db6c91ab45efa1f46cee2bc)) 
+
+
+
+
+  Bumps the production-dependencies group with 15 updates in the /frontend directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@hello-pangea/dnd](https://github.com/hello-pangea/dnd) | `17.0.0` | `18.0.1` |
+  | [@monaco-editor/react](https://github.com/suren-atoyan/monaco-react) | `4.6.0` | `4.7.0` |
+  | [@reduxjs/toolkit](https://github.com/reduxjs/redux-toolkit) | `2.5.1` | `2.9.0` |
+  | [@stripe/react-stripe-js](https://github.com/stripe/react-stripe-js) | `3.1.1` | `4.0.2` |
+  | [@stripe/stripe-js](https://github.com/stripe/stripe-js) | `5.6.0` | `7.9.0` |
+  | [axios](https://github.com/axios/axios) | `1.7.9` | `1.12.2` |
+  | [dayjs](https://github.com/iamkun/dayjs) | `1.11.13` | `1.11.18` |
+  | [react-big-calendar](https://github.com/jquense/react-big-calendar) | `1.17.1` | `1.19.4` |
+  | [react-dropzone](https://github.com/react-dropzone/react-dropzone) | `14.3.5` | `14.3.8` |
+  | [react-hook-form](https://github.com/react-hook-form/react-hook-form) | `7.54.2` | `7.63.0` |
+  | [react-router-dom](https://github.com/remix-run/react-router/tree/HEAD/packages/react-router-dom) | `7.5.2` | `7.9.1` |
+  | [tss-react](https://github.com/garronej/tss-react) | `4.9.15` | `4.9.19` |
+  | [universal-cookie](https://github.com/bendotcodes/cookies) | `7.1.4` | `8.0.1` |
+  | [uuid](https://github.com/uuidjs/uuid) | `11.0.5` | `13.0.0` |
+  | [validator](https://github.com/validatorjs/validator.js) | `13.12.0` | `13.15.15` |
+  
+  
+  
+  Updates `@hello-pangea/dnd` from 17.0.0 to 18.0.1
+  - [Release notes](https://github.com/hello-pangea/dnd/releases)
+  - [Changelog](https://github.com/hello-pangea/dnd/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/hello-pangea/dnd/compare/v17.0.0...v18.0.1)
+  
+  Updates `@monaco-editor/react` from 4.6.0 to 4.7.0
+  - [Release notes](https://github.com/suren-atoyan/monaco-react/releases)
+  - [Changelog](https://github.com/suren-atoyan/monaco-react/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/suren-atoyan/monaco-react/compare/v4.6.0...v4.7.0)
+  
+  Updates `@reduxjs/toolkit` from 2.5.1 to 2.9.0
+  - [Release notes](https://github.com/reduxjs/redux-toolkit/releases)
+  - [Commits](https://github.com/reduxjs/redux-toolkit/compare/v2.5.1...v2.9.0)
+  
+  Updates `@stripe/react-stripe-js` from 3.1.1 to 4.0.2
+  - [Release notes](https://github.com/stripe/react-stripe-js/releases)
+  - [Changelog](https://github.com/stripe/react-stripe-js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/stripe/react-stripe-js/compare/v3.1.1...v4.0.2)
+  
+  Updates `@stripe/stripe-js` from 5.6.0 to 7.9.0
+  - [Release notes](https://github.com/stripe/stripe-js/releases)
+  - [Commits](https://github.com/stripe/stripe-js/compare/v5.6.0...v7.9.0)
+  
+  Updates `axios` from 1.7.9 to 1.12.2
+  - [Release notes](https://github.com/axios/axios/releases)
+  - [Changelog](https://github.com/axios/axios/blob/v1.x/CHANGELOG.md)
+  - [Commits](https://github.com/axios/axios/compare/v1.7.9...v1.12.2)
+  
+  Updates `dayjs` from 1.11.13 to 1.11.18
+  - [Release notes](https://github.com/iamkun/dayjs/releases)
+  - [Changelog](https://github.com/iamkun/dayjs/blob/v1.11.18/CHANGELOG.md)
+  - [Commits](https://github.com/iamkun/dayjs/compare/v1.11.13...v1.11.18)
+  
+  Updates `react-big-calendar` from 1.17.1 to 1.19.4
+  - [Release notes](https://github.com/jquense/react-big-calendar/releases)
+  - [Changelog](https://github.com/jquense/react-big-calendar/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/jquense/react-big-calendar/compare/v1.17.1...v1.19.4)
+  
+  Updates `react-dropzone` from 14.3.5 to 14.3.8
+  - [Release notes](https://github.com/react-dropzone/react-dropzone/releases)
+  - [Commits](https://github.com/react-dropzone/react-dropzone/compare/v14.3.5...v14.3.8)
+  
+  Updates `react-hook-form` from 7.54.2 to 7.63.0
+  - [Release notes](https://github.com/react-hook-form/react-hook-form/releases)
+  - [Changelog](https://github.com/react-hook-form/react-hook-form/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/react-hook-form/react-hook-form/compare/v7.54.2...v7.63.0)
+  
+  Updates `react-router-dom` from 7.5.2 to 7.9.1
+  - [Release notes](https://github.com/remix-run/react-router/releases)
+  - [Changelog](https://github.com/remix-run/react-router/blob/main/packages/react-router-dom/CHANGELOG.md)
+  - [Commits](https://github.com/remix-run/react-router/commits/react-router-dom@7.9.1/packages/react-router-dom)
+  
+  Updates `tss-react` from 4.9.15 to 4.9.19
+  - [Release notes](https://github.com/garronej/tss-react/releases)
+  - [Commits](https://github.com/garronej/tss-react/compare/v4.9.15...v4.9.19)
+  
+  Updates `universal-cookie` from 7.1.4 to 8.0.1
+  - [Release notes](https://github.com/bendotcodes/cookies/releases)
+  - [Changelog](https://github.com/bendotcodes/cookies/blob/main/LEGACY-CHANGELOG.md)
+  - [Commits](https://github.com/bendotcodes/cookies/compare/v7.1.4...v8.0.1)
+  
+  Updates `uuid` from 11.0.5 to 13.0.0
+  - [Release notes](https://github.com/uuidjs/uuid/releases)
+  - [Changelog](https://github.com/uuidjs/uuid/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/uuidjs/uuid/compare/v11.0.5...v13.0.0)
+  
+  Updates `validator` from 13.12.0 to 13.15.15
+  - [Release notes](https://github.com/validatorjs/validator.js/releases)
+  - [Changelog](https://github.com/validatorjs/validator.js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/validatorjs/validator.js/compare/13.12.0...13.15.15)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@hello-pangea/dnd"
+    dependency-version: 18.0.1
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: production-dependencies
+  - dependency-name: "@monaco-editor/react"
+    dependency-version: 4.7.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: production-dependencies
+  - dependency-name: "@reduxjs/toolkit"
+    dependency-version: 2.9.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: production-dependencies
+  - dependency-name: "@stripe/react-stripe-js"
+    dependency-version: 4.0.2
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: production-dependencies
+  - dependency-name: "@stripe/stripe-js"
+    dependency-version: 7.9.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: production-dependencies
+  - dependency-name: axios
+    dependency-version: 1.12.2
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: production-dependencies
+  - dependency-name: dayjs
+    dependency-version: 1.11.18
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: production-dependencies
+  - dependency-name: react-big-calendar
+    dependency-version: 1.19.4
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: production-dependencies
+  - dependency-name: react-dropzone
+    dependency-version: 14.3.8
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: production-dependencies
+  - dependency-name: react-hook-form
+    dependency-version: 7.63.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: production-dependencies
+  - dependency-name: react-router-dom
+    dependency-version: 7.9.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: production-dependencies
+  - dependency-name: tss-react
+    dependency-version: 4.9.19
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: production-dependencies
+  - dependency-name: universal-cookie
+    dependency-version: 8.0.1
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: production-dependencies
+  - dependency-name: uuid
+    dependency-version: 13.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: production-dependencies
+  - dependency-name: validator
+    dependency-version: 13.15.15
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: production-dependencies
+  ...
+- Bump the development-dependencies group across 1 directory with 27 updates
+ ([919fc3f](https://github.com/mendersoftware/mender-server/commit/919fc3fa9eb2f62042824f086c581c2c4aebb11b)) 
+
+
+
+
+  Bumps the development-dependencies group with 27 updates in the /frontend directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@babel/core](https://github.com/babel/babel/tree/HEAD/packages/babel-core) | `7.26.7` | `7.28.4` |
+  | [@babel/preset-env](https://github.com/babel/babel/tree/HEAD/packages/babel-preset-env) | `7.26.7` | `7.28.3` |
+  | [@babel/preset-react](https://github.com/babel/babel/tree/HEAD/packages/babel-preset-react) | `7.26.3` | `7.27.1` |
+  | [@babel/preset-typescript](https://github.com/babel/babel/tree/HEAD/packages/babel-preset-typescript) | `7.26.0` | `7.27.1` |
+  | [@northern.tech/eslint-config](https://github.com/NorthernTechHQ/nt-gui) | `0.2.0` | `0.6.1` |
+  | [@northern.tech/prettier-config](https://github.com/NorthernTechHQ/nt-gui) | `0.2.0` | `0.2.1` |
+  | [@northern.tech/typescript-config](https://github.com/NorthernTechHQ/nt-gui) | `0.1.1` | `0.2.0` |
+  | [@rspack/cli](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack-cli) | `1.2.2` | `1.5.6` |
+  | [@rspack/core](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack) | `1.2.2` | `1.5.6` |
+  | [@testing-library/jest-dom](https://github.com/testing-library/jest-dom) | `6.6.3` | `6.8.0` |
+  | [@testing-library/react](https://github.com/testing-library/react-testing-library) | `16.2.0` | `16.3.0` |
+  | [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node) | `22.13.0` | `24.5.2` |
+  | [autoprefixer](https://github.com/postcss/autoprefixer) | `10.4.20` | `10.4.21` |
+  | [core-js](https://github.com/zloirock/core-js/tree/HEAD/packages/core-js) | `3.40.0` | `3.45.1` |
+  | [esbuild-loader](https://github.com/privatenumber/esbuild-loader) | `4.2.2` | `4.3.0` |
+  | [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) | `5.6.3` | `5.6.4` |
+  | [less](https://github.com/less/less.js) | `4.2.2` | `4.4.1` |
+  | [less-loader](https://github.com/webpack-contrib/less-loader) | `12.2.0` | `12.3.0` |
+  | [lint-staged](https://github.com/lint-staged/lint-staged) | `15.4.3` | `16.2.0` |
+  | [msw](https://github.com/mswjs/msw) | `2.7.0` | `2.11.3` |
+  | [postcss](https://github.com/postcss/postcss) | `8.5.1` | `8.5.6` |
+  | [postcss-loader](https://github.com/webpack-contrib/postcss-loader) | `8.1.1` | `8.2.0` |
+  | [prettier](https://github.com/prettier/prettier) | `3.4.2` | `3.6.2` |
+  | [ts-jest](https://github.com/kulshekhar/ts-jest) | `29.2.5` | `29.4.4` |
+  | [typescript](https://github.com/microsoft/TypeScript) | `5.7.3` | `5.9.2` |
+  | [undici](https://github.com/nodejs/undici) | `7.3.0` | `7.16.0` |
+  | [webpack-license-plugin](https://github.com/codepunkt/webpack-license-plugin) | `4.5.0` | `4.5.1` |
+  
+  
+  
+  Updates `@babel/core` from 7.26.7 to 7.28.4
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.28.4/packages/babel-core)
+  
+  Updates `@babel/preset-env` from 7.26.7 to 7.28.3
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.28.3/packages/babel-preset-env)
+  
+  Updates `@babel/preset-react` from 7.26.3 to 7.27.1
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.27.1/packages/babel-preset-react)
+  
+  Updates `@babel/preset-typescript` from 7.26.0 to 7.27.1
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.27.1/packages/babel-preset-typescript)
+  
+  Updates `@northern.tech/eslint-config` from 0.2.0 to 0.6.1
+  - [Release notes](https://github.com/NorthernTechHQ/nt-gui/releases)
+  - [Changelog](https://github.com/NorthernTechHQ/nt-gui/blob/main/release-please-config.json)
+  - [Commits](https://github.com/NorthernTechHQ/nt-gui/compare/@northern.tech/eslint-config-0.2.0...@northern.tech/eslint-config-0.6.1)
+  
+  Updates `@northern.tech/prettier-config` from 0.2.0 to 0.2.1
+  - [Release notes](https://github.com/NorthernTechHQ/nt-gui/releases)
+  - [Changelog](https://github.com/NorthernTechHQ/nt-gui/blob/main/release-please-config.json)
+  - [Commits](https://github.com/NorthernTechHQ/nt-gui/compare/@northern.tech/prettier-config-0.2.0...@northern.tech/prettier-config-0.2.1)
+  
+  Updates `@northern.tech/typescript-config` from 0.1.1 to 0.2.0
+  - [Release notes](https://github.com/NorthernTechHQ/nt-gui/releases)
+  - [Changelog](https://github.com/NorthernTechHQ/nt-gui/blob/main/release-please-config.json)
+  - [Commits](https://github.com/NorthernTechHQ/nt-gui/compare/@northern.tech/typescript-config-0.1.1...@northern.tech/typescript-config-0.2.0)
+  
+  Updates `@rspack/cli` from 1.2.2 to 1.5.6
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.5.6/packages/rspack-cli)
+  
+  Updates `@rspack/core` from 1.2.2 to 1.5.6
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.5.6/packages/rspack)
+  
+  Updates `@testing-library/jest-dom` from 6.6.3 to 6.8.0
+  - [Release notes](https://github.com/testing-library/jest-dom/releases)
+  - [Changelog](https://github.com/testing-library/jest-dom/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/testing-library/jest-dom/compare/v6.6.3...v6.8.0)
+  
+  Updates `@testing-library/react` from 16.2.0 to 16.3.0
+  - [Release notes](https://github.com/testing-library/react-testing-library/releases)
+  - [Changelog](https://github.com/testing-library/react-testing-library/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/testing-library/react-testing-library/compare/v16.2.0...v16.3.0)
+  
+  Updates `@types/node` from 22.13.0 to 24.5.2
+  - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
+  - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node)
+  
+  Updates `autoprefixer` from 10.4.20 to 10.4.21
+  - [Release notes](https://github.com/postcss/autoprefixer/releases)
+  - [Changelog](https://github.com/postcss/autoprefixer/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/postcss/autoprefixer/compare/10.4.20...10.4.21)
+  
+  Updates `core-js` from 3.40.0 to 3.45.1
+  - [Release notes](https://github.com/zloirock/core-js/releases)
+  - [Changelog](https://github.com/zloirock/core-js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/zloirock/core-js/commits/v3.45.1/packages/core-js)
+  
+  Updates `esbuild-loader` from 4.2.2 to 4.3.0
+  - [Release notes](https://github.com/privatenumber/esbuild-loader/releases)
+  - [Commits](https://github.com/privatenumber/esbuild-loader/compare/v4.2.2...v4.3.0)
+  
+  Updates `html-webpack-plugin` from 5.6.3 to 5.6.4
+  - [Release notes](https://github.com/jantimon/html-webpack-plugin/releases)
+  - [Changelog](https://github.com/jantimon/html-webpack-plugin/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/jantimon/html-webpack-plugin/compare/v5.6.3...v5.6.4)
+  
+  Updates `less` from 4.2.2 to 4.4.1
+  - [Release notes](https://github.com/less/less.js/releases)
+  - [Changelog](https://github.com/less/less.js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/less/less.js/compare/v4.2.2...v4.4.1)
+  
+  Updates `less-loader` from 12.2.0 to 12.3.0
+  - [Release notes](https://github.com/webpack-contrib/less-loader/releases)
+  - [Changelog](https://github.com/webpack-contrib/less-loader/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/webpack-contrib/less-loader/compare/v12.2.0...v12.3.0)
+  
+  Updates `lint-staged` from 15.4.3 to 16.2.0
+  - [Release notes](https://github.com/lint-staged/lint-staged/releases)
+  - [Changelog](https://github.com/lint-staged/lint-staged/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/lint-staged/lint-staged/compare/v15.4.3...v16.2.0)
+  
+  Updates `msw` from 2.7.0 to 2.11.3
+  - [Release notes](https://github.com/mswjs/msw/releases)
+  - [Changelog](https://github.com/mswjs/msw/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/mswjs/msw/compare/v2.7.0...v2.11.3)
+  
+  Updates `postcss` from 8.5.1 to 8.5.6
+  - [Release notes](https://github.com/postcss/postcss/releases)
+  - [Changelog](https://github.com/postcss/postcss/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/postcss/postcss/compare/8.5.1...8.5.6)
+  
+  Updates `postcss-loader` from 8.1.1 to 8.2.0
+  - [Release notes](https://github.com/webpack-contrib/postcss-loader/releases)
+  - [Changelog](https://github.com/webpack-contrib/postcss-loader/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/webpack-contrib/postcss-loader/compare/v8.1.1...v8.2.0)
+  
+  Updates `prettier` from 3.4.2 to 3.6.2
+  - [Release notes](https://github.com/prettier/prettier/releases)
+  - [Changelog](https://github.com/prettier/prettier/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/prettier/prettier/compare/3.4.2...3.6.2)
+  
+  Updates `ts-jest` from 29.2.5 to 29.4.4
+  - [Release notes](https://github.com/kulshekhar/ts-jest/releases)
+  - [Changelog](https://github.com/kulshekhar/ts-jest/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/kulshekhar/ts-jest/compare/v29.2.5...v29.4.4)
+  
+  Updates `typescript` from 5.7.3 to 5.9.2
+  - [Release notes](https://github.com/microsoft/TypeScript/releases)
+  - [Changelog](https://github.com/microsoft/TypeScript/blob/main/azure-pipelines.release-publish.yml)
+  - [Commits](https://github.com/microsoft/TypeScript/compare/v5.7.3...v5.9.2)
+  
+  Updates `undici` from 7.3.0 to 7.16.0
+  - [Release notes](https://github.com/nodejs/undici/releases)
+  - [Commits](https://github.com/nodejs/undici/compare/v7.3.0...v7.16.0)
+  
+  Updates `webpack-license-plugin` from 4.5.0 to 4.5.1
+  - [Release notes](https://github.com/codepunkt/webpack-license-plugin/releases)
+  - [Changelog](https://github.com/codepunkt/webpack-license-plugin/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/codepunkt/webpack-license-plugin/compare/v4.5.0...v4.5.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@babel/core"
+    dependency-version: 7.28.4
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@babel/preset-env"
+    dependency-version: 7.28.3
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@babel/preset-react"
+    dependency-version: 7.27.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@babel/preset-typescript"
+    dependency-version: 7.27.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@northern.tech/eslint-config"
+    dependency-version: 0.6.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@northern.tech/prettier-config"
+    dependency-version: 0.2.1
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@northern.tech/typescript-config"
+    dependency-version: 0.2.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/cli"
+    dependency-version: 1.5.6
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/core"
+    dependency-version: 1.5.6
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@testing-library/jest-dom"
+    dependency-version: 6.8.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@testing-library/react"
+    dependency-version: 16.3.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@types/node"
+    dependency-version: 24.5.2
+    dependency-type: direct:development
+    update-type: version-update:semver-major
+    dependency-group: development-dependencies
+  - dependency-name: autoprefixer
+    dependency-version: 10.4.21
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: core-js
+    dependency-version: 3.45.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: esbuild-loader
+    dependency-version: 4.3.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: html-webpack-plugin
+    dependency-version: 5.6.4
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: less
+    dependency-version: 4.4.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: less-loader
+    dependency-version: 12.3.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: lint-staged
+    dependency-version: 16.2.0
+    dependency-type: direct:development
+    update-type: version-update:semver-major
+    dependency-group: development-dependencies
+  - dependency-name: msw
+    dependency-version: 2.11.3
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: postcss
+    dependency-version: 8.5.6
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: postcss-loader
+    dependency-version: 8.2.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: prettier
+    dependency-version: 3.6.2
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: ts-jest
+    dependency-version: 29.4.4
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: typescript
+    dependency-version: 5.9.2
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: undici
+    dependency-version: 7.16.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: webpack-license-plugin
+    dependency-version: 4.5.1
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  ...
+- Bump the production-dependencies group
+ ([37c9ced](https://github.com/mendersoftware/mender-server/commit/37c9cedba3738b6b6ce1a928c7c05f731e2a31fd)) 
+
+
+
+
+  Bumps the production-dependencies group in /frontend with 3 updates: [@stripe/react-stripe-js](https://github.com/stripe/react-stripe-js), [@stripe/stripe-js](https://github.com/stripe/stripe-js) and [react-router-dom](https://github.com/remix-run/react-router/tree/HEAD/packages/react-router-dom).
+  
+  
+  Updates `@stripe/react-stripe-js` from 4.0.2 to 5.0.0
+  - [Release notes](https://github.com/stripe/react-stripe-js/releases)
+  - [Changelog](https://github.com/stripe/react-stripe-js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/stripe/react-stripe-js/compare/v4.0.2...v5.0.0)
+  
+  Updates `@stripe/stripe-js` from 7.9.0 to 8.0.0
+  - [Release notes](https://github.com/stripe/stripe-js/releases)
+  - [Commits](https://github.com/stripe/stripe-js/compare/v7.9.0...v8.0.0)
+  
+  Updates `react-router-dom` from 7.9.1 to 7.9.3
+  - [Release notes](https://github.com/remix-run/react-router/releases)
+  - [Changelog](https://github.com/remix-run/react-router/blob/main/packages/react-router-dom/CHANGELOG.md)
+  - [Commits](https://github.com/remix-run/react-router/commits/react-router-dom@7.9.3/packages/react-router-dom)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@stripe/react-stripe-js"
+    dependency-version: 5.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: production-dependencies
+  - dependency-name: "@stripe/stripe-js"
+    dependency-version: 8.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: production-dependencies
+  - dependency-name: react-router-dom
+    dependency-version: 7.9.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: production-dependencies
+  ...
+- Bump typescript
+ ([3cc598d](https://github.com/mendersoftware/mender-server/commit/3cc598d7655b1bb652d69d5b1b00756a45e87dca)) 
+
+
+
+
+  Bumps the e2e-test-dependencies group in /frontend/tests/e2e_tests with 1 update: [typescript](https://github.com/microsoft/TypeScript).
+  
+  
+  Updates `typescript` from 5.9.2 to 5.9.3
+  - [Release notes](https://github.com/microsoft/TypeScript/releases)
+  - [Changelog](https://github.com/microsoft/TypeScript/blob/main/azure-pipelines.release-publish.yml)
+  - [Commits](https://github.com/microsoft/TypeScript/compare/v5.9.2...v5.9.3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: typescript
+    dependency-version: 5.9.3
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: e2e-test-dependencies
+  ...
+- Bump the development-dependencies group
+ ([04926fe](https://github.com/mendersoftware/mender-server/commit/04926fe0a19911f1aa7d2fca1eb96a15ba849720)) 
+
+
+
+
+  Bumps the development-dependencies group in /frontend with 7 updates:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@northern.tech/eslint-config](https://github.com/NorthernTechHQ/nt-gui) | `0.2.0` | `0.6.1` |
+  | [@rspack/cli](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack-cli) | `1.5.6` | `1.5.8` |
+  | [@rspack/core](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack) | `1.5.6` | `1.5.8` |
+  | [@testing-library/jest-dom](https://github.com/testing-library/jest-dom) | `6.8.0` | `6.9.0` |
+  | [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node) | `24.5.2` | `24.6.1` |
+  | [lint-staged](https://github.com/lint-staged/lint-staged) | `16.2.0` | `16.2.3` |
+  | [typescript](https://github.com/microsoft/TypeScript) | `5.9.2` | `5.9.3` |
+  
+  
+  Updates `@northern.tech/eslint-config` from 0.2.0 to 0.6.1
+  - [Release notes](https://github.com/NorthernTechHQ/nt-gui/releases)
+  - [Changelog](https://github.com/NorthernTechHQ/nt-gui/blob/main/release-please-config.json)
+  - [Commits](https://github.com/NorthernTechHQ/nt-gui/compare/@northern.tech/eslint-config-0.2.0...@northern.tech/eslint-config-0.6.1)
+  
+  Updates `@rspack/cli` from 1.5.6 to 1.5.8
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.5.8/packages/rspack-cli)
+  
+  Updates `@rspack/core` from 1.5.6 to 1.5.8
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.5.8/packages/rspack)
+  
+  Updates `@testing-library/jest-dom` from 6.8.0 to 6.9.0
+  - [Release notes](https://github.com/testing-library/jest-dom/releases)
+  - [Changelog](https://github.com/testing-library/jest-dom/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/testing-library/jest-dom/compare/v6.8.0...v6.9.0)
+  
+  Updates `@types/node` from 24.5.2 to 24.6.1
+  - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
+  - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node)
+  
+  Updates `lint-staged` from 16.2.0 to 16.2.3
+  - [Release notes](https://github.com/lint-staged/lint-staged/releases)
+  - [Changelog](https://github.com/lint-staged/lint-staged/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/lint-staged/lint-staged/compare/v16.2.0...v16.2.3)
+  
+  Updates `typescript` from 5.9.2 to 5.9.3
+  - [Release notes](https://github.com/microsoft/TypeScript/releases)
+  - [Changelog](https://github.com/microsoft/TypeScript/blob/main/azure-pipelines.release-publish.yml)
+  - [Commits](https://github.com/microsoft/TypeScript/compare/v5.9.2...v5.9.3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@northern.tech/eslint-config"
+    dependency-version: 0.6.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/cli"
+    dependency-version: 1.5.8
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/core"
+    dependency-version: 1.5.8
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@testing-library/jest-dom"
+    dependency-version: 6.9.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@types/node"
+    dependency-version: 24.6.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: lint-staged
+    dependency-version: 16.2.3
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: typescript
+    dependency-version: 5.9.3
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  ...
+- Bump the mui group in /frontend with 4 updates
+ ([3d7b7e0](https://github.com/mendersoftware/mender-server/commit/3d7b7e0f042446c4a12c82b37e8cbe478fe84ed9)) 
+
+
+
+
+  Bumps the mui group in /frontend with 4 updates: [@emotion/styled](https://github.com/emotion-js/emotion), [@mui/icons-material](https://github.com/mui/material-ui/tree/HEAD/packages/mui-icons-material), [@mui/material](https://github.com/mui/material-ui/tree/HEAD/packages/mui-material) and [@mui/x-date-pickers](https://github.com/mui/mui-x/tree/HEAD/packages/x-date-pickers).
+  
+  
+  Updates `@emotion/styled` from 11.14.0 to 11.14.1
+  - [Release notes](https://github.com/emotion-js/emotion/releases)
+  - [Changelog](https://github.com/emotion-js/emotion/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/emotion-js/emotion/compare/@emotion/styled@11.14.0...@emotion/styled@11.14.1)
+  
+  Updates `@mui/icons-material` from 6.4.2 to 7.3.2
+  - [Release notes](https://github.com/mui/material-ui/releases)
+  - [Changelog](https://github.com/mui/material-ui/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/material-ui/commits/v7.3.2/packages/mui-icons-material)
+  
+  Updates `@mui/material` from 6.4.2 to 7.3.2
+  - [Release notes](https://github.com/mui/material-ui/releases)
+  - [Changelog](https://github.com/mui/material-ui/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/material-ui/commits/v7.3.2/packages/mui-material)
+  
+  Updates `@mui/x-date-pickers` from 7.25.0 to 8.11.1
+  - [Release notes](https://github.com/mui/mui-x/releases)
+  - [Changelog](https://github.com/mui/mui-x/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/mui-x/commits/v8.11.1/packages/x-date-pickers)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@emotion/styled"
+    dependency-version: 11.14.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: mui
+  - dependency-name: "@mui/icons-material"
+    dependency-version: 7.3.2
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: mui
+  - dependency-name: "@mui/material"
+    dependency-version: 7.3.2
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: mui
+  - dependency-name: "@mui/x-date-pickers"
+    dependency-version: 8.11.1
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: mui
+  ...
+- Bump @mui/x-date-pickers in /frontend in the mui group
+ ([5833116](https://github.com/mendersoftware/mender-server/commit/5833116c84787c04ef22b98f14d30d57c39ee04e)) 
+
+
+
+
+  Bumps the mui group in /frontend with 1 update: [@mui/x-date-pickers](https://github.com/mui/mui-x/tree/HEAD/packages/x-date-pickers).
+  
+  
+  Updates `@mui/x-date-pickers` from 8.12.0 to 8.16.0
+  - [Release notes](https://github.com/mui/mui-x/releases)
+  - [Changelog](https://github.com/mui/mui-x/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/mui-x/commits/v8.16.0/packages/x-date-pickers)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@mui/x-date-pickers"
+    dependency-version: 8.16.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: mui
+  ...
+- Bump the mui group in /frontend with 3 updates
+ ([8936b76](https://github.com/mendersoftware/mender-server/commit/8936b7641c13e0eba2e5a88514c069629e98fe8d)) 
+
+
+
+
+  Bumps the mui group in /frontend with 3 updates: [@mui/icons-material](https://github.com/mui/material-ui/tree/HEAD/packages/mui-icons-material), [@mui/material](https://github.com/mui/material-ui/tree/HEAD/packages/mui-material) and [@mui/x-date-pickers](https://github.com/mui/mui-x/tree/HEAD/packages/x-date-pickers).
+  
+  
+  Updates `@mui/icons-material` from 7.3.4 to 7.3.5
+  - [Release notes](https://github.com/mui/material-ui/releases)
+  - [Changelog](https://github.com/mui/material-ui/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/material-ui/commits/v7.3.5/packages/mui-icons-material)
+  
+  Updates `@mui/material` from 7.3.4 to 7.3.5
+  - [Release notes](https://github.com/mui/material-ui/releases)
+  - [Changelog](https://github.com/mui/material-ui/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/material-ui/commits/v7.3.5/packages/mui-material)
+  
+  Updates `@mui/x-date-pickers` from 8.16.0 to 8.19.0
+  - [Release notes](https://github.com/mui/mui-x/releases)
+  - [Changelog](https://github.com/mui/mui-x/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/mui-x/commits/v8.19.0/packages/x-date-pickers)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@mui/icons-material"
+    dependency-version: 7.3.5
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: mui
+  - dependency-name: "@mui/material"
+    dependency-version: 7.3.5
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: mui
+  - dependency-name: "@mui/x-date-pickers"
+    dependency-version: 8.19.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: mui
+  ...
+- Bump the backend-golang-dependencies group
+ ([403d666](https://github.com/mendersoftware/mender-server/commit/403d6662b1427d1f99456a0d92f08044facdd71f)) 
+
+
+
+
+  Bumps the backend-golang-dependencies group in /backend with 20 updates:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [github.com/Azure/azure-sdk-for-go/sdk/azcore](https://github.com/Azure/azure-sdk-for-go) | `1.18.0` | `1.20.0` |
+  | [github.com/Azure/azure-sdk-for-go/sdk/storage/azblob](https://github.com/Azure/azure-sdk-for-go) | `1.6.1` | `1.6.3` |
+  | [github.com/aws/aws-sdk-go-v2](https://github.com/aws/aws-sdk-go-v2) | `1.36.3` | `1.41.0` |
+  | [github.com/aws/aws-sdk-go-v2/config](https://github.com/aws/aws-sdk-go-v2) | `1.29.14` | `1.32.6` |
+  | [github.com/aws/aws-sdk-go-v2/credentials](https://github.com/aws/aws-sdk-go-v2) | `1.17.67` | `1.19.6` |
+  | [github.com/aws/aws-sdk-go-v2/service/iot](https://github.com/aws/aws-sdk-go-v2) | `1.64.2` | `1.72.0` |
+  | [github.com/aws/aws-sdk-go-v2/service/iotdataplane](https://github.com/aws/aws-sdk-go-v2) | `1.27.2` | `1.32.16` |
+  | [github.com/aws/aws-sdk-go-v2/service/s3](https://github.com/aws/aws-sdk-go-v2) | `1.79.3` | `1.95.0` |
+  | [github.com/gin-gonic/gin](https://github.com/gin-gonic/gin) | `1.10.0` | `1.11.0` |
+  | [github.com/nats-io/nats-server/v2](https://github.com/nats-io/nats-server) | `2.11.3` | `2.12.3` |
+  | [github.com/nats-io/nats.go](https://github.com/nats-io/nats.go) | `1.42.0` | `1.47.0` |
+  | [github.com/redis/go-redis/v9](https://github.com/redis/go-redis) | `9.8.0` | `9.17.2` |
+  | [github.com/spf13/cobra](https://github.com/spf13/cobra) | `1.9.1` | `1.10.2` |
+  | [github.com/spf13/viper](https://github.com/spf13/viper) | `1.20.1` | `1.21.0` |
+  | [github.com/stretchr/testify](https://github.com/stretchr/testify) | `1.10.0` | `1.11.1` |
+  | [go.mongodb.org/mongo-driver](https://github.com/mongodb/mongo-go-driver) | `1.17.3` | `1.17.6` |
+  | [golang.org/x/crypto](https://github.com/golang/crypto) | `0.38.0` | `0.46.0` |
+  | [golang.org/x/net](https://github.com/golang/net) | `0.40.0` | `0.47.0` |
+  | [golang.org/x/sys](https://github.com/golang/sys) | `0.33.0` | `0.39.0` |
+  | [golang.org/x/term](https://github.com/golang/term) | `0.32.0` | `0.38.0` |
+  
+  
+  Updates `github.com/Azure/azure-sdk-for-go/sdk/azcore` from 1.18.0 to 1.20.0
+  - [Release notes](https://github.com/Azure/azure-sdk-for-go/releases)
+  - [Commits](https://github.com/Azure/azure-sdk-for-go/compare/sdk/azcore/v1.18.0...sdk/azcore/v1.20.0)
+  
+  Updates `github.com/Azure/azure-sdk-for-go/sdk/storage/azblob` from 1.6.1 to 1.6.3
+  - [Release notes](https://github.com/Azure/azure-sdk-for-go/releases)
+  - [Commits](https://github.com/Azure/azure-sdk-for-go/compare/sdk/azcore/v1.6.1...sdk/storage/azblob/v1.6.3)
+  
+  Updates `github.com/aws/aws-sdk-go-v2` from 1.36.3 to 1.41.0
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/v1.36.3...v1.41.0)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/config` from 1.29.14 to 1.32.6
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/config/v1.29.14...v1.32.6)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/credentials` from 1.17.67 to 1.19.6
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/credentials/v1.17.67...service/m2/v1.19.6)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/service/iot` from 1.64.2 to 1.72.0
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/service/ecs/v1.64.2...service/s3/v1.72.0)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/service/iotdataplane` from 1.27.2 to 1.32.16
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/v1.27.2...service/mgn/v1.32.16)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/service/s3` from 1.79.3 to 1.95.0
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/service/s3/v1.79.3...service/s3/v1.95.0)
+  
+  Updates `github.com/gin-gonic/gin` from 1.10.0 to 1.11.0
+  - [Release notes](https://github.com/gin-gonic/gin/releases)
+  - [Changelog](https://github.com/gin-gonic/gin/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/gin-gonic/gin/compare/v1.10.0...v1.11.0)
+  
+  Updates `github.com/nats-io/nats-server/v2` from 2.11.3 to 2.12.3
+  - [Release notes](https://github.com/nats-io/nats-server/releases)
+  - [Commits](https://github.com/nats-io/nats-server/compare/v2.11.3...v2.12.3)
+  
+  Updates `github.com/nats-io/nats.go` from 1.42.0 to 1.47.0
+  - [Release notes](https://github.com/nats-io/nats.go/releases)
+  - [Commits](https://github.com/nats-io/nats.go/compare/v1.42.0...v1.47.0)
+  
+  Updates `github.com/redis/go-redis/v9` from 9.8.0 to 9.17.2
+  - [Release notes](https://github.com/redis/go-redis/releases)
+  - [Changelog](https://github.com/redis/go-redis/blob/v9.17.2/RELEASE-NOTES.md)
+  - [Commits](https://github.com/redis/go-redis/compare/v9.8.0...v9.17.2)
+  
+  Updates `github.com/spf13/cobra` from 1.9.1 to 1.10.2
+  - [Release notes](https://github.com/spf13/cobra/releases)
+  - [Commits](https://github.com/spf13/cobra/compare/v1.9.1...v1.10.2)
+  
+  Updates `github.com/spf13/viper` from 1.20.1 to 1.21.0
+  - [Release notes](https://github.com/spf13/viper/releases)
+  - [Commits](https://github.com/spf13/viper/compare/v1.20.1...v1.21.0)
+  
+  Updates `github.com/stretchr/testify` from 1.10.0 to 1.11.1
+  - [Release notes](https://github.com/stretchr/testify/releases)
+  - [Commits](https://github.com/stretchr/testify/compare/v1.10.0...v1.11.1)
+  
+  Updates `go.mongodb.org/mongo-driver` from 1.17.3 to 1.17.6
+  - [Release notes](https://github.com/mongodb/mongo-go-driver/releases)
+  - [Commits](https://github.com/mongodb/mongo-go-driver/compare/v1.17.3...v1.17.6)
+  
+  Updates `golang.org/x/crypto` from 0.38.0 to 0.46.0
+  - [Commits](https://github.com/golang/crypto/compare/v0.38.0...v0.46.0)
+  
+  Updates `golang.org/x/net` from 0.40.0 to 0.47.0
+  - [Commits](https://github.com/golang/net/compare/v0.40.0...v0.47.0)
+  
+  Updates `golang.org/x/sys` from 0.33.0 to 0.39.0
+  - [Commits](https://github.com/golang/sys/compare/v0.33.0...v0.39.0)
+  
+  Updates `golang.org/x/term` from 0.32.0 to 0.38.0
+  - [Commits](https://github.com/golang/term/compare/v0.32.0...v0.38.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/Azure/azure-sdk-for-go/sdk/azcore
+    dependency-version: 1.20.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/Azure/azure-sdk-for-go/sdk/storage/azblob
+    dependency-version: 1.6.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2
+    dependency-version: 1.41.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/config
+    dependency-version: 1.32.6
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/credentials
+    dependency-version: 1.19.6
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/service/iot
+    dependency-version: 1.72.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/service/iotdataplane
+    dependency-version: 1.32.16
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/service/s3
+    dependency-version: 1.95.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/gin-gonic/gin
+    dependency-version: 1.11.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/nats-io/nats-server/v2
+    dependency-version: 2.12.3
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/nats-io/nats.go
+    dependency-version: 1.47.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/redis/go-redis/v9
+    dependency-version: 9.17.2
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/spf13/cobra
+    dependency-version: 1.10.2
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/spf13/viper
+    dependency-version: 1.21.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/stretchr/testify
+    dependency-version: 1.11.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: go.mongodb.org/mongo-driver
+    dependency-version: 1.17.6
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: golang.org/x/crypto
+    dependency-version: 0.46.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: golang.org/x/net
+    dependency-version: 0.47.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: golang.org/x/sys
+    dependency-version: 0.39.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: golang.org/x/term
+    dependency-version: 0.38.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  ...
+- Bump the development-dependencies group across 1 directory with 16 updates
+ ([ebcb6c9](https://github.com/mendersoftware/mender-server/commit/ebcb6c906134e5bef694f16da1f8756ef22a79f8)) 
+
+
+
+
+  Bumps the development-dependencies group with 16 updates in the /frontend directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@emotion/jest](https://github.com/emotion-js/emotion) | `11.13.0` | `11.14.2` |
+  | [@rspack/cli](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack-cli) | `1.6.0` | `1.7.1` |
+  | [@rspack/core](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack) | `1.6.0` | `1.7.1` |
+  | [@testing-library/react](https://github.com/testing-library/react-testing-library) | `16.3.0` | `16.3.1` |
+  | [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node) | `24.9.2` | `25.0.3` |
+  | [autoprefixer](https://github.com/postcss/autoprefixer) | `10.4.21` | `10.4.23` |
+  | [core-js](https://github.com/zloirock/core-js/tree/HEAD/packages/core-js) | `3.46.0` | `3.47.0` |
+  | [esbuild-loader](https://github.com/privatenumber/esbuild-loader) | `4.4.0` | `4.4.2` |
+  | [eslint-rspack-plugin](https://github.com/rspack-contrib/eslint-rspack-plugin) | `4.2.1` | `4.3.0` |
+  | [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) | `5.6.4` | `5.6.5` |
+  | [less](https://github.com/less/less.js) | `4.4.2` | `4.5.1` |
+  | [lint-staged](https://github.com/lint-staged/lint-staged) | `16.2.6` | `16.2.7` |
+  | [msw](https://github.com/mswjs/msw) | `2.11.6` | `2.12.7` |
+  | [prettier](https://github.com/prettier/prettier) | `3.6.2` | `3.7.4` |
+  | [ts-jest](https://github.com/kulshekhar/ts-jest) | `29.4.5` | `29.4.6` |
+  | [undici](https://github.com/nodejs/undici) | `7.16.0` | `7.18.2` |
+  
+  Updates `@emotion/jest` from 11.13.0 to 11.14.2
+  - [Release notes](https://github.com/emotion-js/emotion/releases)
+  - [Changelog](https://github.com/emotion-js/emotion/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/emotion-js/emotion/compare/@emotion/jest@11.13.0...@emotion/jest@11.14.2)
+  
+  Updates `@rspack/cli` from 1.6.0 to 1.7.1
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.7.1/packages/rspack-cli)
+  
+  Updates `@rspack/core` from 1.6.0 to 1.7.1
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.7.1/packages/rspack)
+  
+  Updates `@testing-library/react` from 16.3.0 to 16.3.1
+  - [Release notes](https://github.com/testing-library/react-testing-library/releases)
+  - [Changelog](https://github.com/testing-library/react-testing-library/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/testing-library/react-testing-library/compare/v16.3.0...v16.3.1)
+  
+  Updates `@types/node` from 24.9.2 to 25.0.3
+  - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
+  - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node)
+  
+  Updates `autoprefixer` from 10.4.21 to 10.4.23
+  - [Release notes](https://github.com/postcss/autoprefixer/releases)
+  - [Changelog](https://github.com/postcss/autoprefixer/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/postcss/autoprefixer/compare/10.4.21...10.4.23)
+  
+  Updates `core-js` from 3.46.0 to 3.47.0
+  - [Release notes](https://github.com/zloirock/core-js/releases)
+  - [Changelog](https://github.com/zloirock/core-js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/zloirock/core-js/commits/v3.47.0/packages/core-js)
+  
+  Updates `esbuild-loader` from 4.4.0 to 4.4.2
+  - [Release notes](https://github.com/privatenumber/esbuild-loader/releases)
+  - [Commits](https://github.com/privatenumber/esbuild-loader/compare/v4.4.0...v4.4.2)
+  
+  Updates `eslint-rspack-plugin` from 4.2.1 to 4.3.0
+  - [Release notes](https://github.com/rspack-contrib/eslint-rspack-plugin/releases)
+  - [Changelog](https://github.com/rstackjs/eslint-rspack-plugin/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/rspack-contrib/eslint-rspack-plugin/compare/v4.2.1...v4.3.0)
+  
+  Updates `html-webpack-plugin` from 5.6.4 to 5.6.5
+  - [Release notes](https://github.com/jantimon/html-webpack-plugin/releases)
+  - [Changelog](https://github.com/jantimon/html-webpack-plugin/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/jantimon/html-webpack-plugin/compare/v5.6.4...v5.6.5)
+  
+  Updates `less` from 4.4.2 to 4.5.1
+  - [Release notes](https://github.com/less/less.js/releases)
+  - [Changelog](https://github.com/less/less.js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/less/less.js/commits)
+  
+  Updates `lint-staged` from 16.2.6 to 16.2.7
+  - [Release notes](https://github.com/lint-staged/lint-staged/releases)
+  - [Changelog](https://github.com/lint-staged/lint-staged/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/lint-staged/lint-staged/compare/v16.2.6...v16.2.7)
+  
+  Updates `msw` from 2.11.6 to 2.12.7
+  - [Release notes](https://github.com/mswjs/msw/releases)
+  - [Changelog](https://github.com/mswjs/msw/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/mswjs/msw/compare/v2.11.6...v2.12.7)
+  
+  Updates `prettier` from 3.6.2 to 3.7.4
+  - [Release notes](https://github.com/prettier/prettier/releases)
+  - [Changelog](https://github.com/prettier/prettier/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/prettier/prettier/compare/3.6.2...3.7.4)
+  
+  Updates `ts-jest` from 29.4.5 to 29.4.6
+  - [Release notes](https://github.com/kulshekhar/ts-jest/releases)
+  - [Changelog](https://github.com/kulshekhar/ts-jest/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/kulshekhar/ts-jest/compare/v29.4.5...v29.4.6)
+  
+  Updates `undici` from 7.16.0 to 7.18.2
+  - [Release notes](https://github.com/nodejs/undici/releases)
+  - [Commits](https://github.com/nodejs/undici/compare/v7.16.0...v7.18.2)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@emotion/jest"
+    dependency-version: 11.14.2
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/cli"
+    dependency-version: 1.7.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/core"
+    dependency-version: 1.7.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@testing-library/react"
+    dependency-version: 16.3.1
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@types/node"
+    dependency-version: 25.0.3
+    dependency-type: direct:development
+    update-type: version-update:semver-major
+    dependency-group: development-dependencies
+  - dependency-name: autoprefixer
+    dependency-version: 10.4.23
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: core-js
+    dependency-version: 3.47.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: esbuild-loader
+    dependency-version: 4.4.2
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: eslint-rspack-plugin
+    dependency-version: 4.3.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: html-webpack-plugin
+    dependency-version: 5.6.5
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: less
+    dependency-version: 4.5.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: lint-staged
+    dependency-version: 16.2.7
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: msw
+    dependency-version: 2.12.7
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: prettier
+    dependency-version: 3.7.4
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: ts-jest
+    dependency-version: 29.4.6
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: undici
+    dependency-version: 7.18.2
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  ...
+
+
+
+
+
+
 ## 4.0.1 - 2025-05-19
 
 
