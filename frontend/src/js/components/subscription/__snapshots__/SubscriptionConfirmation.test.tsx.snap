@@ -509,8 +509,7 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
             class="MuiTypography-root MuiTypography-body1 emotion-9"
           >
              Devices: 
-            100
-             
+            50 Micro, 100 Standard
           </p>
           <p
             class="MuiTypography-root MuiTypography-body1 emotion-9"

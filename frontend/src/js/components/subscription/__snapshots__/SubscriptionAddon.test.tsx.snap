@@ -165,6 +165,67 @@ exports[`Subscription Summary component > renders correctly 1`] = `
 }
 
 .emotion-8 {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  background-color: transparent;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 6px 16px;
+  color: rgb(1, 67, 97);
+  background-color: rgb(229, 246, 253);
+}
+
+.emotion-8 .MuiAlert-icon {
+  color: #0288d1;
+}
+
+.emotion-9 {
+  margin-right: 12px;
+  padding: 7px 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+.emotion-10 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: inherit;
+}
+
+.emotion-11 {
+  padding: 8px 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -176,7 +237,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   padding: 8px;
 }
 
-.emotion-8>:not(style)~:not(style) {
+.emotion-12>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
@@ -224,9 +285,35 @@ exports[`Subscription Summary component > renders correctly 1`] = `
       >
         Expand your plan with device configuration features
       </p>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard emotion-8"
+        role="alert"
+        style="--Paper-shadow: none;"
+      >
+        <div
+          class="MuiAlert-icon emotion-9"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
+            data-testid="InfoOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="MuiAlert-message emotion-11"
+        >
+          This Add-on is only available on Standard devices.
+        </div>
+      </div>
     </div>
     <div
-      class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-8"
+      class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-12"
     >
       <a
         href="https://mender.io/pricing/add-ons/configure"

@@ -20,7 +20,9 @@ import { SubscriptionAddon } from './SubscriptionAddon';
 
 describe('Subscription Summary component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<SubscriptionAddon checked={true} addon={ADDONS.configure} selectedPlan={PLANS.os} onChange={vi.fn} disabled={false} />);
+    const { baseElement } = render(
+      <SubscriptionAddon checked={true} disabledDueToTier={true} addon={ADDONS.configure} selectedPlan={PLANS.os} onChange={vi.fn} disabled={false} />
+    );
     const view = baseElement.lastElementChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
