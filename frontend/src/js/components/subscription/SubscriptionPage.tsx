@@ -451,23 +451,26 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
           ) : (
             <Controller
               name="selectedAddons"
-              render={({ field: { value = [], onChange } }) =>
-                Object.values(ADDONS).map(addon => (
-                  <SubscriptionAddon
-                    selectedPlan={selectedPlan}
-                    key={addon.id}
-                    addon={addon}
-                    disabled={isAddonDisabled(addon) && !specialHandling}
-                    checked={value.includes(addon.id)}
-                    onChange={(addonId, selected) => {
-                      if (selected) {
-                        return onChange([...value, addonId]);
-                      }
-                      onChange(value.filter(id => id !== addonId));
-                    }}
-                  />
-                ))
-              }
+              render={({ field: { value = [], onChange } }) => (
+                <>
+                  {Object.values(ADDONS).map(addon => (
+                    <SubscriptionAddon
+                      selectedPlan={selectedPlan}
+                      key={addon.id}
+                      addon={addon}
+                      disabled={isAddonDisabled(addon) && !specialHandling}
+                      disabledDueToTier={!deviceTierEnabled[addonsEligibleDeviceTypes[0]]}
+                      checked={value.includes(addon.id)}
+                      onChange={(addonId, selected) => {
+                        if (selected) {
+                          return onChange([...value, addonId]);
+                        }
+                        onChange(value.filter(id => id !== addonId));
+                      }}
+                    />
+                  ))}
+                </>
+              )}
             />
           )}
         </div>
