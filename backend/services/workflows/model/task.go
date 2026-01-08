@@ -14,12 +14,28 @@
 
 package model
 
+import (
+	"context"
+	"os/exec"
+
+	"github.com/pkg/errors"
+)
+
 // Type of tasks
 const (
 	TaskTypeCLI  = "cli"
 	TaskTypeHTTP = "http"
 	TaskTypeNATS = "nats"
 	TaskTypeSMTP = "smtp"
+)
+
+var (
+	ErrCommandNotFound   = errors.New("command not found")
+	ErrCommandNotAllowed = errors.New("command not allowed")
+
+	allowedCommands = map[string]string{
+		"create-artifact": "/usr/bin/create-artifact",
+	}
 )
 
 // Task stores the definition of a task within a workflow
@@ -53,6 +69,33 @@ type HTTPTask struct {
 type CLITask struct {
 	Command          []string `json:"command" bson:"command"`
 	ExecutionTimeOut int      `json:"executionTimeOut" bson:"executionTimeOut"`
+	// Override the NewCommand method. Meant to be use for testing
+	commandCreator func(ctx context.Context, command []string) (*exec.Cmd, error)
+}
+
+func (c *CLITask) WithCustomCreator(
+	creator func(context.Context, []string) (*exec.Cmd, error)) {
+	c.commandCreator = creator
+}
+
+func (c *CLITask) NewCommand(ctx context.Context) (*exec.Cmd, error) {
+	if len(c.Command) == 0 {
+		return nil, ErrCommandNotFound
+	}
+
+	// check if there is a custom commandCreator
+	if c.commandCreator != nil {
+		return c.commandCreator(ctx, c.Command)
+	}
+
+	// default commandCreator
+	executable, valid := allowedCommands[c.Command[0]]
+	if !valid {
+		return nil, ErrCommandNotAllowed
+	}
+
+	return exec.CommandContext(ctx, executable, c.Command[1:]...), nil
+
 }
 
 // NATSTask stores the parameters of the NATS parameters for a WorkflowTask

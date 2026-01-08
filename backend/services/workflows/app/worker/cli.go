@@ -39,6 +39,7 @@ func processCLITask(
 		command := ps.ProcessJobString(command)
 		commands = append(commands, command)
 	}
+	cliTask.Command = commands
 
 	ctx := context.Background()
 	timeout := cliTask.ExecutionTimeOut
@@ -54,7 +55,10 @@ func processCLITask(
 		},
 	}
 
-	cmd := exec.CommandContext(ctxWithOptionalTimeOut, commands[0], commands[1:]...)
+	cmd, err := cliTask.NewCommand(ctxWithOptionalTimeOut)
+	if err != nil {
+		return nil, err
+	}
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
