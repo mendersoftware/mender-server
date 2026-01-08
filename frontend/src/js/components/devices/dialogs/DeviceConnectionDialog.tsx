@@ -85,9 +85,52 @@ const OnPremDeviceConnectionExplainer = ({ isEnterprise }) => (
     <MenderHubReference />
   </>
 );
+const ZephyrMCUGuide = ({ setMcu }) => {
+  const { classes } = useStyles();
+  return (
+    <div className={`padding-small padding-bottom-none flexbox column ${classes.deviceSection}`}>
+      <div className="flexbox space-between">
+        <div className="flexbox centered">
+          <img src={zephyr} className={classes.zephyrLogo} />
+          <Typography variant="subtitle1" gutterBottom>
+            Zephyr MCU
+          </Typography>
+        </div>
+        <Chip size="small" label="Micro" />
+      </div>
+      <Typography variant="body1">Connect an Espressif ESP32-S3 DevKitC, or any compatible microcontroller that supports MCUBoot in Zephyr.</Typography>
+      <div>
+        <Button variant="text" size="small" endIcon={<ArrowForwardIcon />} onClick={() => setMcu(true)}>
+          Get started with Zephyr
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const OtherDevicesGuide = () => {
+  const { classes } = useStyles();
+  return (
+    <div className={`padding-small flexbox column ${classes.deviceSection}`}>
+      <Typography variant="subtitle1" gutterBottom>
+        Other devices
+      </Typography>
+      <Typography variant="body1">See the documentation to integrate the following with Mender:</Typography>
+      <List>
+        {docsLinks.map(item => (
+          <ListItem key={item.key} disablePadding className="padding-top-none padding-bottom-none">
+            <DocsLink path={item.target} title={item.title} />
+          </ListItem>
+        ))}
+      </List>
+      <MenderHubReference />
+    </div>
+  );
+};
 
 const DeviceConnectionExplainer = ({ setOnDevice, setVirtualDevice, setMcu }) => {
   const { classes } = useStyles();
+  const { hasMCUEnabled } = useSelector(getFeatures);
   return (
     <>
       <Typography variant="body1">
@@ -111,23 +154,7 @@ const DeviceConnectionExplainer = ({ setOnDevice, setVirtualDevice, setMcu }) =>
         </div>
       </div>
       <div className="two-columns margin-top-small">
-        <div className={`padding-small padding-bottom-none flexbox column ${classes.deviceSection}`}>
-          <div className="flexbox space-between">
-            <div className="flexbox centered">
-              <img src={zephyr} className={classes.zephyrLogo} />
-              <Typography variant="subtitle1" gutterBottom>
-                Zephyr MCU
-              </Typography>
-            </div>
-            <Chip size="small" label="Micro" />
-          </div>
-          <Typography variant="body1">Connect an Espressif ESP32-S3 DevKitC, or any compatible microcontroller that supports MCUBoot in Zephyr.</Typography>
-          <div>
-            <Button variant="text" size="small" endIcon={<ArrowForwardIcon />} onClick={() => setMcu(true)}>
-              Get started with Zephyr
-            </Button>
-          </div>
-        </div>
+        {hasMCUEnabled ? <ZephyrMCUGuide setMcu={setMcu} /> : <OtherDevicesGuide />}
         <div className={`padding-small ${classes.deviceSection}`}>
           <Typography variant="subtitle1" gutterBottom>
             Don&#39;t have a device?
@@ -143,8 +170,8 @@ const DeviceConnectionExplainer = ({ setOnDevice, setVirtualDevice, setMcu }) =>
         </div>
       </div>
       <Typography variant="body1" className={classes.bottomText}>
-        <DocsLink path="overview/device-support" title="Visit our documentation" />{' '}
-        for full information about device support including Debian family and Yocto OSes.
+        <DocsLink path="overview/device-support" title="Visit our documentation" /> for full information about device support including Debian family and Yocto
+        OSes.
       </Typography>
     </>
   );

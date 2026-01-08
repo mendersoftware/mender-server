@@ -18,10 +18,10 @@ import { Link } from 'react-router-dom';
 import { Typography } from '@mui/material';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
+import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { getOrganization } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { setOnboardingApproach } from '@northern.tech/store/thunks';
-import DocsLink from '@northern.tech/common-ui/DocsLink';
 
 export const McuDeviceOnboarding = () => {
   const { tenant_token: tenantToken } = useSelector(getOrganization);
