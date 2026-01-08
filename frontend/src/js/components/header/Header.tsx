@@ -328,6 +328,8 @@ export const Header = ({ isDarkMode }) => {
     setHasOfferCookie(showOfferCookie);
     clearInterval(deviceTimer.current);
     if (!service_provider) {
+      const fetchDeviceCounts = () => dispatch(getAllDeviceCounts());
+      fetchDeviceCounts();
       deviceTimer.current = setInterval(() => dispatch(getAllDeviceCounts()), TIMEOUTS.refreshDefault);
     }
     return () => {
