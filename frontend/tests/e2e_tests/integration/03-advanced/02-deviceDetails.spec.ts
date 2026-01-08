@@ -71,10 +71,9 @@ test.describe('Device details', () => {
         await page.locator('.MuiDrawer-paper').hover();
         await page.mouse.wheel(0, -100);
         await elementHandle.scrollIntoViewIfNeeded();
-
-        const screenShotPath = path.join(__dirname, '..', 'test-results', 'diffs', 'terminalContent-actual.png');
+        const screenshotBasePath = path.join(__dirname, '..', '..', 'test-results');
+        const screenShotPath = path.join(screenshotBasePath, 'diffs', 'terminalContent-actual.png');
         await elementHandle.screenshot({ path: screenShotPath });
-
         const expectedPath = path.join(__dirname, '..', '..', 'fixtures', terminalReferenceFileMap[browserName] ?? terminalReferenceFileMap.default);
         const { pass } = compareImages(expectedPath, screenShotPath);
         expect(pass).toBeTruthy();
