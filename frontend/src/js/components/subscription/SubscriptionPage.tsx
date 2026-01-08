@@ -188,6 +188,20 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
     isTrial;
   const couldGetPreview = isOrgLoaded && !specialHandling && selectedPlan.id !== PLANS.enterprise.id;
 
+  // Enable tiers the user has devices or already bought
+  useEffect(() => {
+    if (!deviceStatisticsLoaded || initializedRef.current || !deviceLimitsInitialized) return;
+    const newEnabled = deviceTypeIds.reduce<Record<DeviceTypeId, boolean>>(
+      (acc, curr) => ({ ...acc, [curr]: accepted[curr] > 0 || (currentDeviceLimits[curr] > 0 && !isTrial) }),
+      {} as Record<DeviceTypeId, boolean>
+    );
+    if (accepted.total === 0) {
+      newEnabled.standard = true;
+    }
+    setDeviceTierEnabled(newEnabled);
+    initializedRef.current = true;
+  }, [accepted, isTrial, deviceLimitsInitialized, currentDeviceLimits, deviceStatisticsLoaded]);
+
   useEffect(() => {
     const [micro, standard] = limits;
     onUpdateFormValues({
