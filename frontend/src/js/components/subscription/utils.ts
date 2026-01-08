@@ -11,21 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-type Line = { addon?: string; amount: number; currency: string; description: string; quantity: number };
-
-export const parseSubscriptionPreview = (lines: Line[]) =>
-  lines.reduce(
-    (acc, { addon, amount }) => {
-      const key = addon || 'plan';
-      if (key === 'plan') {
-        acc.plan += amount;
-      } else {
-        acc.addons[key] = (acc.addons[key] ?? 0) + amount;
-      }
-      return acc;
-    },
-    { plan: 0, addons: {} }
-  );
 
 export const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 });
 export const formatPrice = (cents: number) => currencyFormatter.format(cents / 100);
