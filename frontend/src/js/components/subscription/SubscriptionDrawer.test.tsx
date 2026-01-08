@@ -110,13 +110,7 @@ describe('Subscription Summary component', () => {
 
     const { baseElement } = render(
       <Elements stripe={stripe}>
-        <SubscriptionDrawer
-          organization={defaultState.organization.organization}
-          onClose={vi.fn()}
-          plan={PLANS.os}
-          addons={{ monitor: false, configure: false, troubleshoot: false }}
-          isTrial={true}
-        />
+        <SubscriptionDrawer organization={defaultState.organization.organization} onClose={vi.fn()} plan={PLANS.os} addons={[]} isTrial={true} />
       </Elements>
     );
     const view = baseElement.lastElementChild;
@@ -131,13 +125,7 @@ describe('Subscription Summary component', () => {
     const { createBillingProfile } = StoreThunks;
     const ui = (
       <Elements stripe={stripe}>
-        <SubscriptionDrawer
-          organization={defaultState.organization.organization}
-          onClose={vi.fn()}
-          plan={PLANS.os}
-          addons={{ monitor: false, configure: false, troubleshoot: false }}
-          isTrial={true}
-        />
+        <SubscriptionDrawer organization={defaultState.organization.organization} onClose={vi.fn()} plan={PLANS.os} addons={[]} isTrial={true} />
       </Elements>
     );
     render(ui, {
@@ -174,7 +162,13 @@ describe('Subscription Summary component', () => {
 
     await waitFor(() => expect(createBillingProfile).toHaveBeenCalledWith(createBillingProfileReq));
   });
-  const newOrder = { plan: 'professional', products: [{ name: 'mender_standard', quantity: 250, addons: [] }] };
+  const newOrder = {
+    plan: 'professional',
+    products: [
+      { name: 'mender_standard', quantity: 250, addons: [] },
+      { name: 'mender_micro', quantity: 500, addons: [] }
+    ]
+  };
   it('Allows upgrading subscription', async () => {
     const stripe = loadStripe();
 
@@ -187,7 +181,7 @@ describe('Subscription Summary component', () => {
           onClose={vi.fn()}
           plan={PLANS.professional}
           order={newOrder}
-          addons={{ monitor: false, configure: false, troubleshoot: false }}
+          addons={[]}
           isTrial={false}
           currentPlanId={PLANS.os.id}
         />
