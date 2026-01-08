@@ -76,6 +76,7 @@ linters:
         - G307 # Poor file permissions used when creating a file with os.Create
         - G401 # Detect the usage of MD5 or SHA1
         - G403 # Ensure minimum RSA key length of 2048 bits
+        - G404 # Insecure random number source (rand)
         - G405 # Detect the usage of DES or RC4
         - G406 # Detect the usage of MD4 or RIPEMD160
         - G501 # Import blocklist: crypto/md5
@@ -94,7 +95,6 @@ linters:
         - G115 # Potential integer overflow when converting between integer types
         - G204 # Audit use of command execution
         - G402 # Look for bad TLS connection settings
-        - G404 # Insecure random number source (rand)
 
       severity: medium # Filter out the issues with a lower severity than the given value.
       confidence: low # Filter out the issues with a lower confidence than the given value.
