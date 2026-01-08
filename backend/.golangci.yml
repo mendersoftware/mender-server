@@ -59,6 +59,7 @@ linters:
         - G103 # Audit the use of unsafe block
         - G104 # Audit errors not checked
         - G106 # Audit the use of ssh.InsecureIgnoreHostKey
+        - G107 # Url provided to HTTP request as taint input
         - G108 # Profiling endpoint automatically exposed on /debug/pprof
         - G109 # Potential Integer overflow made by strconv.Atoi result conversion to int16/32
         - G110 # Potential DoS vulnerability via decompression bomb
@@ -90,7 +91,6 @@ linters:
         - G602 # Slice access out of bounds
       excludes: # To specify a set of rules to explicitly exclude.
         - G101 # Look for hard coded credentials
-        - G107 # Url provided to HTTP request as taint input
         - G112 # Potential slowloris attack
         - G115 # Potential integer overflow when converting between integer types
         - G204 # Audit use of command execution
