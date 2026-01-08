@@ -17,6 +17,7 @@ package worker
 import (
 	"context"
 	"net/http"
+	"os/exec"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -25,6 +26,20 @@ import (
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 	"github.com/mendersoftware/mender-server/services/workflows/store/mock"
 )
+
+func mockCommandCreator(ctx context.Context, command []string) (*exec.Cmd, error) {
+	return exec.CommandContext(ctx, command[0], command[1:]...), nil
+
+}
+
+func newTestCLITask(command []string, executionTimeOut int) *model.CLITask {
+	task := &model.CLITask{
+		Command:          command,
+		ExecutionTimeOut: executionTimeOut,
+	}
+	task.WithCustomCreator(mockCommandCreator)
+	return task
+}
 
 func TestProcessJobCLI(t *testing.T) {
 	ctx := context.Background()
@@ -37,12 +52,12 @@ func TestProcessJobCLI(t *testing.T) {
 			{
 				Name: "task_1",
 				Type: model.TaskTypeCLI,
-				CLI: &model.CLITask{
-					Command: []string{
+				CLI: newTestCLITask(
+					[]string{
 						"echo",
 						"TEST",
-					},
-				},
+					}, 0,
+				),
 			},
 		},
 	}
@@ -112,13 +127,13 @@ func TestProcessJobCLIWrongExitCode(t *testing.T) {
 			{
 				Name: "task_1",
 				Type: model.TaskTypeCLI,
-				CLI: &model.CLITask{
-					Command: []string{
+				CLI: newTestCLITask(
+					[]string{
 						"bash",
 						"-c",
 						"exit 10",
-					},
-				},
+					}, 0,
+				),
 			},
 			{
 				Name: "task_2",
@@ -202,14 +217,13 @@ func TestProcessJobCLTimeOut(t *testing.T) {
 			{
 				Name: "task_1",
 				Type: model.TaskTypeCLI,
-				CLI: &model.CLITask{
-					Command: []string{
+				CLI: newTestCLITask(
+					[]string{
 						"bash",
 						"-c",
 						"sleep 10",
-					},
-					ExecutionTimeOut: 2,
-				},
+					}, 2,
+				),
 			},
 		},
 	}
