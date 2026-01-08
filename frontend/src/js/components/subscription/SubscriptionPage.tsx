@@ -512,9 +512,8 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
               isPreviewLoading={isPreviewLoading}
               plan={selectedPlan}
               addons={selectedAddons}
-              deviceLimit={specialHandling ? limit : Math.min(Math.max(debouncedLimit, selectedPlan.minimalDeviceCount), enterpriseDeviceCount)}
               title="Your subscription:"
-              isNew={isNew}
+              isEnabled={isNew && areRequiredTiersEnabled(deviceTierEnabled, accepted)}
               previewPrice={previewPrice}
               onAction={onShowUpgradeDrawer}
             />

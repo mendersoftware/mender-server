@@ -141,15 +141,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
 
   const summary = previewPrice && order && (
     <div style={{ maxWidth: '250px' }} className="margin-top-large">
-      <SubscriptionSummary
-        previewPrice={previewPrice}
-        plan={props.plan}
-        title="Your new subscription"
-        isNew={false}
-        addons={props.addons}
-        deviceLimit={order.products[0].quantity}
-        readOnly
-      />
+      <SubscriptionSummary previewPrice={previewPrice} plan={props.plan} title="Your new subscription" isEnabled={false} addons={props.addons} readOnly />
     </div>
   );
   const cardDetailsDisabled = isTrial && isEmpty(billing);

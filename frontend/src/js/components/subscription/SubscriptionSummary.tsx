@@ -15,13 +15,12 @@ import { Button, Card, CardContent, CardHeader, Chip, Divider, Skeleton, Typogra
 
 import { AvailableAddon, Plan } from '@northern.tech/store/appSlice/constants';
 
-import { PreviewPrice } from './SubscriptionPage';
+import { PreviewPrice, deviceTypes } from './SubscriptionPage';
 import { formatPrice } from './utils';
 
 interface SubscriptionSummaryProps {
   addons: AvailableAddon[];
-  deviceLimit: number;
-  isNew: boolean;
+  isEnabled: boolean;
   isPreviewLoading?: boolean;
   onAction?: () => void;
   plan: Plan;
@@ -32,7 +31,9 @@ interface SubscriptionSummaryProps {
 const NumberSkeleton = () => <Skeleton width={35} height={26} />;
 
 export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
-  const { plan, deviceLimit, addons: enabledAddons, title, isNew, isPreviewLoading, readOnly, onAction, previewPrice } = props;
+  const { plan, addons: enabledAddons, title, isEnabled, isPreviewLoading, readOnly, onAction, previewPrice } = props;
+  const disabled = previewPrice.total === 0;
+  const textColor = disabled ? 'text.disabled' : 'text.primary';
   const outlinedProps = { variant: 'outlined' as const, className: 'padding' };
   return (
     <Card style={{ minWidth: '320px' }} {...(readOnly ? { elevation: 0 } : outlinedProps)}>
@@ -41,28 +42,49 @@ export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
         title={
           <div className="flexbox space-between">
             <Typography variant="subtitle1">{title}</Typography>
-            {isNew && <Chip variant="outlined" size="small" label="New" color="primary" />}
+            {isEnabled && <Chip variant="outlined" size="small" label="New" color="primary" />}
           </div>
         }
       />
       <CardContent className="padding-none">
-        <div className="flexbox space-between margin-top-small margin-bottom-small">
-          <div>
-            <Typography variant="body2">Plan: {plan.name}</Typography>
-            <Typography variant="body1">Devices: x {deviceLimit}</Typography>
-          </div>
-          <Typography variant="subtitle1">{isPreviewLoading ? <NumberSkeleton /> : formatPrice(previewPrice.plan)}</Typography>
-        </div>
+        <Typography variant="body2" className="margin-top-small">
+          Plan: {plan.name}
+        </Typography>
+        {Object.values(deviceTypes).map(({ id, summaryLabel }) => {
+          const disabled = previewPrice[id].price === 0;
+          const textColor = disabled ? 'text.disabled' : 'text.primary';
+          return (
+            <div key={id} className="flexbox space-between margin-top-small margin-bottom-small">
+              <div>
+                <Typography color={textColor} variant="body1">
+                  {summaryLabel}
+                </Typography>
+                <Typography color={textColor} variant="caption">
+                  x {previewPrice[id].quantity} devices
+                </Typography>
+              </div>
+              {isPreviewLoading || !disabled ? (
+                <Typography variant="subtitle1">{isPreviewLoading ? <NumberSkeleton /> : formatPrice(previewPrice[id].price)}</Typography>
+              ) : (
+                <Typography color={textColor} variant="subtitle2">
+                  -
+                </Typography>
+              )}
+            </div>
+          );
+        })}
         {enabledAddons.length > 0 && (
-          <div className="margin-top-small margin-bottom-small">
-            <Typography variant="body2">Add-ons</Typography>
+          <div className="margin-left-x-small margin-top-small margin-bottom-small">
+            <Typography variant="body2" className="margin-bottom-x-small">
+              Add-ons
+            </Typography>
             {enabledAddons.map(addon => (
-              <div key={addon} className="flexbox space-between">
+              <div key={addon} className="flexbox space-between margin-bottom-x-small">
                 <div>
                   <Typography textTransform="capitalize" variant="body1">
                     {addon}
                   </Typography>
-                  <Typography variant="body2">x {deviceLimit} devices</Typography>
+                  <Typography variant="body2">x {previewPrice['standard'].quantity} devices</Typography>
                 </div>
                 <Typography variant="subtitle1">
                   {isPreviewLoading || !previewPrice.addons[addon] ? <NumberSkeleton /> : formatPrice(previewPrice.addons[addon])}
@@ -73,12 +95,18 @@ export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
         )}
         <Divider variant="middle" className="margin-none" />
         <div className="flexbox space-between margin-top-small">
-          <Typography variant="subtitle1">Monthly price</Typography>
-          <Typography variant="h5">{isPreviewLoading ? <NumberSkeleton /> : formatPrice(previewPrice.total)} </Typography>
+          <Typography color={textColor} variant="subtitle1">
+            Monthly price
+          </Typography>
+          {isPreviewLoading || !disabled ? (
+            <Typography variant="h5">{isPreviewLoading ? <NumberSkeleton /> : formatPrice(previewPrice.total)} </Typography>
+          ) : (
+            <Typography variant="subtitle2">-</Typography>
+          )}
         </div>
       </CardContent>
       {!readOnly && (
-        <Button className="margin-top-small" disabled={!isNew} variant="contained" onClick={onAction} fullWidth>
+        <Button className="margin-top-small" disabled={!isEnabled || disabled} variant="contained" onClick={onAction} fullWidth>
           Upgrade now
         </Button>
       )}
