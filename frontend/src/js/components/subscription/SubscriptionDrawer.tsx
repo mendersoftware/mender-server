@@ -22,7 +22,6 @@ import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
-import { Address } from '@northern.tech/store/api/types';
 import { AvailableAddon, PLANS, Plan } from '@northern.tech/store/constants';
 import { Organization } from '@northern.tech/store/organizationSlice/types';
 import { getBillingProfile, getCard, getCurrentUser, getSubscription } from '@northern.tech/store/selectors';
@@ -35,6 +34,7 @@ import {
   requestPlanUpgrade,
   startCardUpdate
 } from '@northern.tech/store/thunks';
+import { Address } from '@northern.tech/types/MenderTypes';
 import { isEmpty } from '@northern.tech/utils/helpers';
 
 import CardSection from '../settings/CardSection';
@@ -93,6 +93,9 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   const [loading, setLoading] = useState(false);
   const [billingSaved, setBillingSaved] = useState(false);
 
+  const orderedAddons = order?.products.filter(product => product.addons?.length).reduce((acc, curr) => [...acc, ...curr.addons], []);
+  const orderedProducts = order?.products.map(product => ({ id: product.name.slice('mender_'.length), quantity: product.quantity }));
+  const canShowConfirmation = successConfirmationShown && previewPrice && order;
   const { classes } = useStyles();
 
   const onInitEditProfile = () => {
@@ -252,13 +255,8 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
       ) : (
         currentSubscription && <Loader show />
       )}
-      {successConfirmationShown && previewPrice && (
-        <SubscriptionConfirmation
-          devices={order.products[0].quantity}
-          plan={selectedPlan}
-          price={previewPrice?.total}
-          orderedAddons={order.products[0].addons}
-        />
+      {canShowConfirmation && (
+        <SubscriptionConfirmation products={orderedProducts} plan={selectedPlan} price={previewPrice?.total} orderedAddons={orderedAddons} />
       )}
     </Drawer>
   );
