@@ -19,11 +19,12 @@ interface AddonProps {
   addon: Addon;
   checked: boolean;
   disabled: boolean;
+  disabledDueToTier: boolean;
   onChange: (addon: AvailableAddon, checked: boolean) => void;
   selectedPlan: Plan;
 }
 export const SubscriptionAddon = (props: AddonProps) => {
-  const { addon, disabled, checked = false, onChange, selectedPlan } = props;
+  const { addon, disabled, checked = false, onChange, selectedPlan, disabledDueToTier } = props;
   const disabledDueToPlan = !addon.eligible.includes(selectedPlan.id);
   return (
     <Card variant="outlined" className="margin-bottom-small">
@@ -32,14 +33,15 @@ export const SubscriptionAddon = (props: AddonProps) => {
           className="margin-none"
           disabled={disabled}
           value={checked}
-          onChange={(event, checked) => onChange(addon.id, checked)}
+          onChange={(event, checked) => onChange(addon.id as AvailableAddon, checked)}
           control={<Checkbox name={addon.id} className="padding-none margin-x-small" checked={checked} />}
           label={addon.title}
         />
         <Typography className="margin-top-x-small margin-bottom-x-small" variant="body2">
           {addon.description}
         </Typography>
-        {disabledDueToPlan && (
+        {disabledDueToTier && <Alert severity="info">This Add-on is only available on Standard devices.</Alert>}
+        {disabledDueToPlan && !disabledDueToTier && (
           <Alert severity="info" className="margin-bottom-x-small">
             {addon.title} is not available on the {selectedPlan.name} plan.
           </Alert>
