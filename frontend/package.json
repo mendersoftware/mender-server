@@ -11,7 +11,7 @@
     "@mui/icons-material": "7.3.6",
     "@mui/material": "7.3.6",
     "@mui/x-date-pickers": "8.23.0",
-    "@northern.tech/store": "0.13.0",
+    "@northern.tech/store": "0.14.0",
     "@northern.tech/themes": "0.10.2",
     "@northern.tech/utils": "0.7.2",
     "@redux-devtools/extension": "3.3.0",

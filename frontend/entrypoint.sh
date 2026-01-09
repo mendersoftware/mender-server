@@ -44,6 +44,7 @@ cat >/var/www/mender-gui/dist/env.js <<EOF
       hasDeltaProgress: "$HAVE_DELTA_PROGRESS",
       hasFeedbackEnabled: "$HAVE_FEEDBACK_ENABLED",
       hasMonitor: "$HAVE_MONITOR",
+      hasMCUEnabled: "HAVE_MCU_ENABLED",
       hasMultitenancy: "$HAVE_MULTITENANT",
       hasReleaseTags: "$HAVE_RELEASE_TAGS",
       hasReporting: "$HAVE_REPORTING",
