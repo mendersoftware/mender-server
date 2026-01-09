@@ -30,7 +30,8 @@ from common import (
     make_auth,
     TENANTS,
 )
-import bravado
+import internal_v1
+import management_v1
 import pytest
 
 
@@ -44,40 +45,40 @@ class TestManagementApiPostTokenBase:
         tenant_id=None,
     ):
         user = init_users[0]
-        _, r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
         assert r.status_code == 200
         user_token = r.text
 
         auth = {"Authorization": "Bearer " + user_token}
 
-        _, r = api_client_mgmt.create_token(token_request, auth)
+        r = api_client_mgmt.create_token(token_request, auth)
         assert r.status_code == 200
         personal_access_token = r.text
 
         # check if the token is valid
-        _, r = api_client_int.verify(personal_access_token)
+        r = api_client_int.verify(personal_access_token)
         assert r.status_code == 200
 
         # get tokens
-        tokens, r = api_client_mgmt.list_tokens(auth)
+        r = api_client_mgmt.list_tokens(auth)
         assert r.status_code == 200
-        assert len(tokens) == 1
+        assert len(r.data) == 1
 
         # revoke token
-        r = api_client_mgmt.delete_token(tokens[0].id, auth)
+        r = api_client_mgmt.delete_token(r.data[0].id, auth)
         assert r.status_code == 204
 
         # verify token has been removed
-        tokens, r = api_client_mgmt.list_tokens(auth)
+        r = api_client_mgmt.list_tokens(auth)
         assert r.status_code == 200
-        assert len(tokens) == 0
-        with pytest.raises(bravado.exception.HTTPError) as e:
-            _, r = api_client_int.verify(personal_access_token)
-            assert e.response.status_code == 401
+        assert len(r.data) == 0
+        with pytest.raises(internal_v1.exceptions.ApiException) as e:
+            r = api_client_int.verify(personal_access_token)
+            assert e.status == 401
 
     def _test_pat_limit(self, api_client_mgmt, init_users):
         user = init_users[0]
-        _, r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
         assert r.status_code == 200
         user_token = r.text
 
@@ -89,7 +90,7 @@ class TestManagementApiPostTokenBase:
                 "name": f"personal_access_token_{''.join(sample(string.ascii_lowercase, 5))}",
                 "expires_in": 3600,
             }
-            _, r = api_client_mgmt.create_token(token_request, auth)
+            r = api_client_mgmt.create_token(token_request, auth)
             assert r.status_code == 200
 
         # send one token request more
@@ -97,13 +98,13 @@ class TestManagementApiPostTokenBase:
             "name": f"personal_access_token_{''.join(sample(string.ascii_lowercase, 5))}",
             "expires_in": 3600,
         }
-        with pytest.raises(bravado.exception.HTTPUnprocessableEntity):
-            _, r = api_client_mgmt.create_token(token_request, auth)
-            assert r.status_code == 422
+        with pytest.raises(management_v1.exceptions.ApiException) as e:
+            r = api_client_mgmt.create_token(token_request, auth)
+        assert e.value.status == 422
 
     def _test_pat_name_collision_for_one_user(self, api_client_mgmt, init_users):
         user = init_users[1]
-        _, r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
         assert r.status_code == 200
         user_token = r.text
 
@@ -113,16 +114,16 @@ class TestManagementApiPostTokenBase:
             "name": "conflicting_personal_access_token",
             "expires_in": 3600,
         }
-        _, r = api_client_mgmt.create_token(token_request, auth)
+        r = api_client_mgmt.create_token(token_request, auth)
         assert r.status_code == 200
 
-        with pytest.raises(bravado.exception.HTTPConflict):
-            _, r = api_client_mgmt.create_token(token_request, auth)
-            assert r.status_code == 409
+        with pytest.raises(management_v1.exceptions.ApiException) as e:
+            r = api_client_mgmt.create_token(token_request, auth)
+        assert e.value.status == 409
 
     def _test_pat_name_collision_for_multiple_users(self, api_client_mgmt, init_users):
         first_user = init_users[2]
-        _, r = api_client_mgmt.login(first_user.email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(first_user.email, "correcthorsebatterystaple")
         assert r.status_code == 200
         first_user_token = r.text
 
@@ -132,22 +133,22 @@ class TestManagementApiPostTokenBase:
             "name": "conflicting_personal_access_token",
             "expires_in": 3600,
         }
-        _, r = api_client_mgmt.create_token(token_request, auth)
+        r = api_client_mgmt.create_token(token_request, auth)
         assert r.status_code == 200
 
         # two names with same name for one user cannot exist
-        with pytest.raises(bravado.exception.HTTPConflict):
-            _, r = api_client_mgmt.create_token(token_request, auth)
-            assert r.status_code == 409
+        with pytest.raises(management_v1.exceptions.ApiException) as e:
+            r = api_client_mgmt.create_token(token_request, auth)
+        assert e.value.status == 409
 
         second_user = init_users[3]
-        _, r = api_client_mgmt.login(second_user.email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(second_user.email, "correcthorsebatterystaple")
         assert r.status_code == 200
         second_user_token = r.text
         auth = {"Authorization": "Bearer " + second_user_token}
 
         # another user can create token with the same name
-        _, r = api_client_mgmt.create_token(token_request, auth)
+        r = api_client_mgmt.create_token(token_request, auth)
         assert r.status_code == 200
 
 
