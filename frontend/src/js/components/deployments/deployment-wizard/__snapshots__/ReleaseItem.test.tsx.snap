@@ -1,0 +1,85 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ReleaseArtifactItem Component > renders correctly 1`] = `
+.emotion-0 {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 8px;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+.emotion-0:hover {
+  background-color: rgba(66, 165, 245, 0.08);
+  cursor: pointer;
+}
+
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+}
+
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded margin-top-small padding-small emotion-0"
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-x-small emotion-1"
+    >
+      r1
+    </h6>
+    <p
+      class="MuiTypography-root MuiTypography-body2 margin-bottom-x-small emotion-2"
+    >
+      test description
+    </p>
+    <div
+      class="margin-top-x-small"
+    />
+    <span
+      class="MuiTypography-root MuiTypography-caption emotion-3"
+    >
+      Updated 
+      <time
+        datetime="2020-09-10T12:16:22+00:00"
+      >
+        2020-09-10 12:16
+      </time>
+    </span>
+  </div>
+</div>
+`;

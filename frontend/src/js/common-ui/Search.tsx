@@ -37,7 +37,7 @@ const startAdornment = (
 // due to search not working reliably for single letter searches, only start at 2
 const MINIMUM_SEARCH_LENGTH = 2;
 
-export const ControlledSearch = ({ className = '', isSearching, name = 'search', onSearch, placeholder = 'Search devices', style = {} }) => {
+export const ControlledSearch = ({ className = '', isSearching, asFormField = false, name = 'search', onSearch, placeholder = 'Search devices', style = {} }) => {
   const { control, watch } = useFormContext();
   const inputRef = useRef();
   const focusLockRef = useRef(true);
@@ -47,6 +47,7 @@ export const ControlledSearch = ({ className = '', isSearching, name = 'search',
   const searchValue = watch(name, '');
 
   const debouncedSearchTerm = useDebounce(searchValue, TIMEOUTS.debounceDefault);
+  const shouldTriggerSearch = !asFormField && !!onSearch;
 
   const focusAndLock = () => {
     focusLockRef.current = false;
@@ -64,44 +65,47 @@ export const ControlledSearch = ({ className = '', isSearching, name = 'search',
   );
 
   useEffect(() => {
-    if (debouncedSearchTerm.length < MINIMUM_SEARCH_LENGTH || triggerDebounceRef.current) {
+    if (!shouldTriggerSearch || debouncedSearchTerm.length < MINIMUM_SEARCH_LENGTH || triggerDebounceRef.current) {
       return;
     }
     triggerDebounceRef.current = true;
     onSearch(debouncedSearchTerm).then(focusAndLock);
-  }, [debouncedSearchTerm, onSearch]);
+  }, [debouncedSearchTerm, onSearch, shouldTriggerSearch]);
 
   const onTriggerSearch = useCallback(
     ({ key }) => {
-      if (key === 'Enter' && (!debouncedSearchTerm || debouncedSearchTerm.length >= MINIMUM_SEARCH_LENGTH)) {
+      if (shouldTriggerSearch && key === 'Enter' && (!debouncedSearchTerm || debouncedSearchTerm.length >= MINIMUM_SEARCH_LENGTH)) {
         onSearch(debouncedSearchTerm).then(focusAndLock);
       }
     },
-    [debouncedSearchTerm, onSearch]
+    [debouncedSearchTerm, onSearch, shouldTriggerSearch]
   );
 
   const onFocus = useCallback(() => {
-    if (focusLockRef.current && debouncedSearchTerm.length >= MINIMUM_SEARCH_LENGTH) {
+    if (shouldTriggerSearch && focusLockRef.current && debouncedSearchTerm.length >= MINIMUM_SEARCH_LENGTH) {
       onSearch(debouncedSearchTerm).then(focusAndLock);
     }
-  }, [debouncedSearchTerm, onSearch]);
+  }, [debouncedSearchTerm, onSearch, shouldTriggerSearch]);
 
   const adornments = isSearching ? { startAdornment, endAdornment } : { startAdornment };
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field: {ref, ...restField} }) => (
         <TextField
           className={className}
           slotProps={{ input: adornments }}
           onKeyUp={onTriggerSearch}
           onFocus={onFocus}
           placeholder={placeholder}
-          inputRef={inputRef}
           size="small"
           style={style}
-          {...field}
+          {...restField}
+          inputRef={(el) => {
+            ref(el);
+            inputRef.current = el;
+          }}
         />
       )}
     />
