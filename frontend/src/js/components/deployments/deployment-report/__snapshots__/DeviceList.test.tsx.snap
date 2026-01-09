@@ -129,7 +129,7 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
     class="break-all two-columns css-11rvwt0-root compact "
   >
     <div
-      class="align-right  muted"
+      class="align-right muted"
     >
       <b>
         Total download size

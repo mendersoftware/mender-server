@@ -132,6 +132,10 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
+.emotion-7 {
+  background-color: rgb(255, 255, 255);
+}
+
 .emotion-7 img {
   height: 30px;
   margin-right: 12px;
@@ -971,6 +975,10 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;
+}
+
+.emotion-7 {
+  background-color: rgb(255, 255, 255);
 }
 
 .emotion-7 img {

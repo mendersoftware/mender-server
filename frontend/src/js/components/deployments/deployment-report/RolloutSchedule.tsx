@@ -68,14 +68,13 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
         <>
           <div className="flexbox">
             <TwoColumnData
-              chipLikeKey={false}
               config={{
                 'Start time': <Time value={formatTime(start_time)} />,
                 'Current phase': currentPhaseTime
               }}
             />
             <ArrowForward className={classes.phasesOverviewArrow} />
-            <TwoColumnData chipLikeKey={false} config={{ 'End time': endTime }} />
+            <TwoColumnData config={{ 'End time': endTime }} />
           </div>
           <ProgressChartComponent className="margin-top no-background" phases={displayablePhases} PhaseLabel={PhaseLabel} />
         </>
@@ -105,7 +104,7 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
             <div className={`flexbox column centered ${classes.phaseInfo} ${isCurrentPhase ? classes.currentPhaseInfo : ''}`} key={startTime}>
               {phaseTitle}
               <Chip className={classes.phaseIndex} size="small" label={`Phase ${index + 1}`} />
-              <TwoColumnData chipLikeKey={false} config={phaseObject} style={{ alignSelf: 'initial' }} />
+              <TwoColumnData config={phaseObject} style={{ alignSelf: 'initial' }} />
             </div>
           );
         })}

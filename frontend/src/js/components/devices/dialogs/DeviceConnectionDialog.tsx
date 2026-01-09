@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
-import { Button, Chip, DialogActions, DialogContent, List, ListItem, Typography } from '@mui/material';
+import { Button, Chip, DialogActions, DialogContent, List, ListItem, Typography, lighten } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -36,6 +36,7 @@ import VirtualDeviceOnboarding from './VirtualDeviceOnboarding';
 
 const useStyles = makeStyles()(theme => ({
   rpiQuickstart: {
+    backgroundColor: lighten(theme.palette.background.paper, 0.25),
     'img': { height: 30, marginRight: theme.spacing(1.5), marginLeft: theme.spacing(0.75) }
   },
   zephyrLogo: { height: '24px', marginRight: theme.spacing(2) },

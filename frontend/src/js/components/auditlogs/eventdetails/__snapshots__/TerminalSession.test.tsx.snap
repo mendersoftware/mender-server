@@ -494,7 +494,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         class="break-all two-columns emotion-10  emotion-11"
       >
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
             Device ID
@@ -530,7 +530,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           </a>
         </div>
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
             Device type
@@ -546,7 +546,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
             Operating system version
@@ -562,7 +562,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
              
@@ -593,7 +593,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         class="break-all two-columns emotion-10  emotion-11"
       >
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
             Session ID
@@ -609,7 +609,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
             Start time
@@ -625,7 +625,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           </time>
         </div>
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
             End time
@@ -641,7 +641,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           </time>
         </div>
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
             Duration
@@ -657,7 +657,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="align-right key muted"
+          class="align-right muted"
         >
           <b>
             User

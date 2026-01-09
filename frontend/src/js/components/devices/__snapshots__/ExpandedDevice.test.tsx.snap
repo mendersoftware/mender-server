@@ -787,7 +787,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 }
 
 .emotion-37 {
-  background-color: #03a9f4;
+  background-color: rgb(255, 255, 255);
   margin-bottom: 16px;
   min-width: 700px;
   padding: 16px;
@@ -842,11 +842,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   border-color: #1565c0;
 }
 
-.emotion-41 .header,
-.emotion-41 .MuiAccordion-root {
-  border-bottom: 1px solid #757575;
-}
-
 .emotion-41 .columnHeader,
 .emotion-41 .MuiAccordionSummary-root,
 .emotion-41 .MuiAccordionSummary-content {
@@ -879,7 +874,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   overflow-anchor: none;
-  background-color: #03a9f4;
 }
 
 .emotion-43::before {
@@ -1926,7 +1920,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
             style="max-width: 80%; grid-template-columns: minmax(max-content, 150px) max-content; margin-bottom: 5px; align-items: center;"
           >
             <div
-              class="align-right key muted"
+              class="align-right muted"
             >
               <b>
                 Name
@@ -1987,7 +1981,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
           style="max-width: 80%; grid-template-columns: minmax(max-content, 150px) auto;"
         >
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               ID
@@ -2016,7 +2010,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
             </svg>
           </div>
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               mac
@@ -2045,7 +2039,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
             </svg>
           </div>
           <div
-            class="align-right key muted"
+            class="align-right muted"
           >
             <b>
               First request

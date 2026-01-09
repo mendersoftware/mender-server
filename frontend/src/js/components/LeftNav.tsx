@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 // material ui
-import { List, ListItem, ListItemText, Typography, listClasses } from '@mui/material';
+import { List, ListItem, ListItemText, Typography, darken, lighten, listClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -24,6 +24,7 @@ import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
+import { isDarkMode } from '@northern.tech/store/utils';
 import copy from 'copy-to-clipboard';
 
 import { routeConfigs } from '../config/routes';
@@ -48,7 +49,7 @@ const listItems = [
 const useStyles = makeStyles()(theme => ({
   licenseLink: { fontWeight: 'inherit' },
   list: {
-    backgroundColor: theme.palette.background.lightgrey ? theme.palette.background.lightgrey : theme.palette.grey[100],
+    backgroundColor: isDarkMode(theme.palette.mode) ? lighten(theme.palette.background.paper, 0.08) : darken(theme.palette.background.paper, 0.08),
     borderRight: `1px solid ${theme.palette.divider}`,
     [`.${listClasses.root}`]: { paddingTop: 0 }
   },

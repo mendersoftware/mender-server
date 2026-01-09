@@ -14,9 +14,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Collapse, Switch } from '@mui/material';
+import { Collapse } from '@mui/material';
 
-import InfoText from '@northern.tech/common-ui/InfoText';
+import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
 import storeActions from '@northern.tech/store/actions';
 import { twoFAStates } from '@northern.tech/store/constants';
 import { getCurrentUser, getHas2FA } from '@northern.tech/store/selectors';
@@ -106,13 +106,12 @@ export const TwoFactorAuthSetup = () => {
 
   return (
     <div className="margin-top">
-      <div className="clickable flexbox space-between" onClick={onToggle2FAClick}>
-        <p className="help-content">Enable Two Factor authentication</p>
-        <Switch checked={is2FAEnabled} />
-      </div>
-      <InfoText style={{ width: '75%', margin: 0 }}>
-        Two Factor Authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in.
-      </InfoText>
+      <ToggleSetting
+        description="Two Factor Authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in."
+        title="Enable Two Factor authentication"
+        onClick={onToggle2FAClick}
+        value={is2FAEnabled}
+      />
       {showEmailVerification && (
         <EmailVerification
           activationCode={activationCode}

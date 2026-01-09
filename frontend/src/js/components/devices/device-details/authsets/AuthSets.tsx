@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Button } from '@mui/material';
+import { Button, lighten } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
@@ -32,7 +32,7 @@ import Authsetlist from './AuthSetList';
 const useStyles = makeStyles()(theme => ({
   decommission: { justifyContent: 'flex-end', marginTop: theme.spacing(2) },
   wrapper: {
-    backgroundColor: theme.palette.background.lightgrey ? theme.palette.grey[400] : theme.palette.info.light,
+    backgroundColor: lighten(theme.palette.background.paper, 0.25),
     marginBottom: theme.spacing(2),
     minWidth: 700,
     padding: theme.spacing(2)

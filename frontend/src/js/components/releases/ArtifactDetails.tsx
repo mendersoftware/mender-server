@@ -17,12 +17,12 @@ import { useDispatch, useSelector } from 'react-redux';
 // material ui
 import {
   Add as AddIcon,
-  Cancel as CancelIcon,
   CancelOutlined as CancelOutlinedIcon,
   CheckCircleOutline as CheckCircleOutlineIcon,
-  ExitToApp as ExitToAppIcon,
+  Delete as DeleteIcon,
   Launch as LaunchIcon,
-  Remove as RemoveIcon
+  Remove as RemoveIcon,
+  SaveAlt as SaveAltIcon
 } from '@mui/icons-material';
 import { Accordion, AccordionDetails, AccordionSummary, Button, List, ListItem, ListItemText } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -53,17 +53,13 @@ const useStyles = makeStyles()(theme => ({
   },
   paddingOverride: { paddingBottom: 4, paddingTop: 0 },
   accordPanel1: {
-    background: theme.palette.grey[500],
-    borderTop: 'none',
     padding: '0 15px',
     marginBottom: 30,
     [`&.Mui-expanded`]: {
-      background: theme.palette.grey[500],
       marginBottom: 30
     }
   },
   accordSummary: {
-    background: theme.palette.grey[500],
     padding: 0
   }
 }));
@@ -234,14 +230,16 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
           <>
             <Button
               href={artifact.url}
+              color="neutral"
+              variant="outlined"
               target="_blank"
               disabled={!artifact.url}
               download={artifact.name ? `${artifact.name}.mender` : true}
-              startIcon={<ExitToAppIcon style={{ transform: 'rotateZ(90deg)' }} />}
+              startIcon={<SaveAltIcon />}
             >
               Download Artifact
             </Button>
-            <Button onClick={showRemoveArtifactDialog} startIcon={<CancelIcon className="red auth" />}>
+            <Button onClick={showRemoveArtifactDialog} variant="outlined" color="error" startIcon={<DeleteIcon className="red auth" />}>
               Remove this Artifact?
             </Button>
           </>

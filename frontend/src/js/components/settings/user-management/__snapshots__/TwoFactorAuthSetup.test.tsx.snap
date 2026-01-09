@@ -2,6 +2,55 @@
 
 exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
 .emotion-0 {
+  max-width: 550px;
+}
+
+.emotion-1 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  vertical-align: top;
+}
+
+.emotion-2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  margin-left: -11px;
+  margin-right: 16px;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  margin-right: -11px;
+  margin-left: 16px;
+}
+
+.emotion-2.Mui-disabled {
+  cursor: default;
+}
+
+.emotion-2 .MuiFormControlLabel-label.Mui-disabled {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-3 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -20,13 +69,13 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
 }
 
 @media print {
-  .emotion-0 {
+  .emotion-3 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-1 {
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -70,79 +119,79 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-1::-moz-focus-inner {
+.emotion-4::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-1.Mui-disabled {
+.emotion-4.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-1 {
+  .emotion-4 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-1.Mui-checked {
+.emotion-4.Mui-checked {
   -webkit-transform: translateX(20px);
   -moz-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
 }
 
-.emotion-1.Mui-disabled {
+.emotion-4.Mui-disabled {
   color: #f5f5f5;
 }
 
-.emotion-1.Mui-checked+.MuiSwitch-track {
+.emotion-4.Mui-checked+.MuiSwitch-track {
   opacity: 0.5;
 }
 
-.emotion-1.Mui-disabled+.MuiSwitch-track {
+.emotion-4.Mui-disabled+.MuiSwitch-track {
   opacity: 0.12;
 }
 
-.emotion-1 .MuiSwitch-input {
+.emotion-4 .MuiSwitch-input {
   left: -100%;
   width: 300%;
 }
 
-.emotion-1:hover {
+.emotion-4:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-1:hover {
+  .emotion-4:hover {
     background-color: transparent;
   }
 }
 
-.emotion-1.Mui-checked {
+.emotion-4.Mui-checked {
   color: #1976d2;
 }
 
-.emotion-1.Mui-checked:hover {
+.emotion-4.Mui-checked:hover {
   background-color: rgba(25, 118, 210, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-1.Mui-checked:hover {
+  .emotion-4.Mui-checked:hover {
     background-color: transparent;
   }
 }
 
-.emotion-1.Mui-checked.Mui-disabled {
+.emotion-4.Mui-checked.Mui-disabled {
   color: rgb(167, 202, 237);
 }
 
-.emotion-1.Mui-checked+.MuiSwitch-track {
+.emotion-4.Mui-checked+.MuiSwitch-track {
   background-color: #1976d2;
 }
 
-.emotion-2 {
+.emotion-5 {
   cursor: inherit;
   position: absolute;
   opacity: 0;
@@ -155,7 +204,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   z-index: 1;
 }
 
-.emotion-3 {
+.emotion-6 {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
   background-color: currentColor;
   width: 20px;
@@ -163,7 +212,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-4 {
+.emotion-7 {
   height: 100%;
   width: 100%;
   border-radius: 7px;
@@ -174,47 +223,67 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   opacity: 0.38;
 }
 
-.emotion-5 {
-  color: rgba(0, 0, 0, 0.38);
-  margin: 15px 0;
+.emotion-8 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-9 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 <div
   class="margin-top"
 >
   <div
-    class="clickable flexbox space-between"
+    class="flexbox column emotion-0 "
   >
-    <p
-      class="help-content"
+    <div
+      class="MuiFormControl-root emotion-1"
     >
-      Enable Two Factor authentication
-    </p>
-    <span
-      class="MuiSwitch-root MuiSwitch-sizeMedium emotion-0"
-    >
-      <span
-        class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-1"
+      <label
+        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-2"
       >
-        <input
-          class="PrivateSwitchBase-input MuiSwitch-input emotion-2"
-          role="switch"
-          type="checkbox"
-        />
         <span
-          class="MuiSwitch-thumb emotion-3"
-        />
-      </span>
-      <span
-        class="MuiSwitch-track emotion-4"
-      />
-    </span>
+          class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-3"
+        >
+          <span
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-4"
+          >
+            <input
+              class="PrivateSwitchBase-input MuiSwitch-input emotion-5"
+              role="switch"
+              type="checkbox"
+            />
+            <span
+              class="MuiSwitch-thumb emotion-6"
+            />
+          </span>
+          <span
+            class="MuiSwitch-track emotion-7"
+          />
+        </span>
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label capitalized-start emotion-8"
+        >
+          Enable Two Factor authentication
+        </span>
+      </label>
+    </div>
+    <p
+      class="MuiTypography-root MuiTypography-body2 margin-top-x-small emotion-9"
+    >
+      Two Factor Authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in.
+    </p>
   </div>
-  <p
-    class="emotion-5 "
-    style="width: 75%; margin: 0px;"
-  >
-    Two Factor Authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in.
-  </p>
 </div>
 `;

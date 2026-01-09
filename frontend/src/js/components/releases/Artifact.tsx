@@ -23,17 +23,21 @@ const useStyles = makeStyles()(theme => ({
     border: '1px solid',
     borderColor: theme.palette.grey[500],
     width: '100%'
+  },
+  index: {
+    color: theme.palette.grey[500],
+    marginTop: theme.spacing(2.5)
   }
 }));
 
-export const Artifact = ({ artifact, columns, expanded, index, onRowSelection, showRemoveArtifactDialog }) => {
+export const Artifact = ({ artifact, className, columns, expanded, index, onRowSelection, showRemoveArtifactDialog }) => {
   const { classes } = useStyles();
 
   return (
-    <div className="release-repo-item flexbox">
-      <div className="muted">{index + 1}</div>
-      <Accordion className={classes.accordion} square expanded={expanded} onChange={onRowSelection}>
-        <AccordionSummary style={{ padding: '0 12px' }} classes={{ content: 'repo-item' }}>
+    <div className="flexbox">
+      <div className={`${classes.index} margin-right-small`}>{index + 1}</div>
+      <Accordion className={`${classes.accordion} ${className}`} square expanded={expanded} onChange={onRowSelection}>
+        <AccordionSummary classes={{ content: 'repo-item' }}>
           {columns.map(({ name, render: Component }) => (
             <Component key={name} artifact={artifact} />
           ))}

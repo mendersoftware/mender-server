@@ -14,12 +14,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Switch, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
-import InfoText from '@northern.tech/common-ui/InfoText';
+import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
@@ -37,7 +37,6 @@ const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(() => ({
   formField: { width: 400, maxWidth: '100%' },
-  infoText: { margin: 0, width: '75%' },
   jwt: { maxWidth: '70%' },
   oauthIcon: { fontSize: '36px', marginRight: 10 },
   widthLimit: { maxWidth: 750 }
@@ -96,7 +95,7 @@ export const SelfUserManagement = () => {
           )}
         </div>
       ) : (
-        <Form defaultValues={{ email }} onSubmit={editSubmit} handleCancel={handleEmail} submitLabel="Save" showButtons={editEmail} buttonColor="secondary">
+        <Form defaultValues={{ email }} onSubmit={editSubmit} handleCancel={handleEmail} submitLabel="Save" showButtons={editEmail}>
           <TextInput hint="Email" id="email" label="Email" validations="isLength:1,isEmail,trim" />
           <PasswordInput
             className="margin-top-x-small"
@@ -118,7 +117,7 @@ export const SelfUserManagement = () => {
         ) : (
           <>
             <h3 className="margin-top">Change password</h3>
-            <Form onSubmit={editSubmit} handleCancel={handlePass} submitLabel="Save" buttonColor="secondary" showButtons={editPass}>
+            <Form onSubmit={editSubmit} handleCancel={handlePass} submitLabel="Save" showButtons={editPass}>
               <PasswordInput
                 className="margin-bottom-x-small"
                 id="current_password"
@@ -137,10 +136,7 @@ export const SelfUserManagement = () => {
             </Form>
           </>
         ))}
-      <div className="clickable flexbox space-between margin-top" onClick={toggleMode}>
-        <p className="help-content">Enable dark theme</p>
-        <Switch checked={isDarkMode} />
-      </div>
+      <ToggleSetting className="margin-top" title="Enable dark theme" onClick={toggleMode} value={isDarkMode} />
       {!isOAuth2 ? (
         canHave2FA && <TwoFactorAuthSetup />
       ) : (
@@ -170,13 +166,13 @@ export const SelfUserManagement = () => {
       </div>
       <AccessTokenManagement />
       {isEnterprise && hasTracking && (
-        <div className="margin-top">
-          <div className="clickable flexbox space-between" onClick={() => dispatch(saveUserSettings({ trackingConsentGiven: !hasTrackingConsent }))}>
-            <p className="help-content">Help us improve Mender</p>
-            <Switch checked={!!hasTrackingConsent} />
-          </div>
-          <InfoText className={classes.infoText}>Enable usage data and errors to be sent to help us improve our service.</InfoText>
-        </div>
+        <ToggleSetting
+          className="margin-top"
+          description="Enable usage data and errors to be sent to help us improve our service."
+          title="Help us improve Mender"
+          onClick={() => dispatch(saveUserSettings({ trackingConsentGiven: !hasTrackingConsent }))}
+          value={!!hasTrackingConsent}
+        />
       )}
     </div>
   );

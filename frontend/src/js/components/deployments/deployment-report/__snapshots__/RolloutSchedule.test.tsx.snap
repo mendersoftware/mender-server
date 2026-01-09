@@ -235,7 +235,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
       class="break-all two-columns emotion-1  column-data "
     >
       <div
-        class="align-right  muted"
+        class="align-right muted"
       >
         <b>
           Start time
@@ -251,7 +251,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
         </time>
       </div>
       <div
-        class="align-right  muted"
+        class="align-right muted"
       >
         <b>
           Current phase
@@ -282,7 +282,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
       class="break-all two-columns emotion-1  column-data "
     >
       <div
-        class="align-right  muted"
+        class="align-right muted"
       >
         <b>
           End time
@@ -367,7 +367,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
         style="align-self: initial;"
       >
         <div
-          class="align-right  muted"
+          class="align-right muted"
         >
           <b>
             Phase start time
@@ -383,7 +383,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
           </time>
         </div>
         <div
-          class="align-right  muted"
+          class="align-right muted"
         >
           <b>
             Batch size

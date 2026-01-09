@@ -222,7 +222,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
       style="grid-template-columns: max-content 1fr;"
     >
       <div
-        class="align-right  muted"
+        class="align-right muted"
       >
         <b>
           Update attempts per device
@@ -238,7 +238,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="align-right  muted"
+        class="align-right muted"
       >
         <b>
           Maximum number of devices
