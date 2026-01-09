@@ -7008,7 +7008,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       tags:
         - Workflows_other
-  /health:
+  /api/v1/health:
     get:
       summary: Check if service and all operational dependencies are healthy.
       operationId: Workflows Check Health
