@@ -24,11 +24,11 @@ describe('Subscription Summary component', () => {
       <SubscriptionSummary
         addons={['configure']}
         deviceLimit={50}
-        isNew
+        isEnabled
         isPreviewLoading={false}
         onAction={vi.fn}
         plan={PLANS.os}
-        previewPrice={{ addons: { configure: 1000 }, plan: 3200, total: 4200 }}
+        previewPrice={{ addons: { configure: 1000 }, standard: { quantity: 50, price: 3200 }, micro: { quantity: 100, price: 3200 }, total: 7400 }}
         readOnly={false}
         title={'your subscription '}
       />

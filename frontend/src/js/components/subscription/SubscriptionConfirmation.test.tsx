@@ -19,7 +19,11 @@ import { SubscriptionConfirmation } from './SubscriptionConfirmation';
 
 describe('Subscription Confirmation component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<SubscriptionConfirmation plan={PLANS.professional} devices={100} price={1000} orderedAddons={[]} />);
+    const products = [
+      { id: 'micro', quantity: 50 },
+      { id: 'standard', quantity: 100 }
+    ];
+    const { baseElement } = render(<SubscriptionConfirmation plan={PLANS.professional} products={products} price={1000} orderedAddons={[]} />);
     const view = baseElement.lastElementChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

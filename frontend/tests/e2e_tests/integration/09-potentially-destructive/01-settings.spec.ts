@@ -185,8 +185,8 @@ test.describe('Settings', () => {
       const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.getByText('Upgrade now').click();
-
-      const deviceInput = page.getByRole('spinbutton');
+      await page.waitForTimeout(timeouts.default); // wait to load the current device limits
+      const deviceInput = page.locator('#standard');
       await deviceInput.focus();
       // Increase by 2 steps (50 => 150)
       await page.keyboard.press('ArrowUp');
@@ -226,7 +226,8 @@ test.describe('Settings', () => {
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.goto(`${baseUrl}ui/subscription`);
       await page.waitForTimeout(timeouts.default);
-      const deviceNumberInput = page.getByRole('spinbutton');
+      const deviceNumberInput = page.locator('#standard');
+
       await deviceNumberInput.fill('310');
       await page.press('body', 'Tab');
       await page.waitForTimeout(timeouts.oneSecond);

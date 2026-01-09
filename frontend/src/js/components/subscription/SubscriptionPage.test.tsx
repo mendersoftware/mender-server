@@ -42,6 +42,11 @@ const professionalReq = {
       addons: [],
       name: 'mender_standard',
       quantity: 250
+    },
+    {
+      name: 'mender_micro',
+      quantity: 500,
+      addons: []
     }
   ]
 };

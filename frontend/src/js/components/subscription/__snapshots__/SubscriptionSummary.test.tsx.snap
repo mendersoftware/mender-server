@@ -261,9 +261,20 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-12 {
+.emotion-10 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.emotion-16 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -273,7 +284,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   text-transform: capitalize;
 }
 
-.emotion-15 {
+.emotion-19 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -286,7 +297,17 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   margin-right: 16px;
 }
 
-.emotion-18 {
+.emotion-20 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.emotion-22 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -344,57 +365,57 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-18::-moz-focus-inner {
+.emotion-22::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-18.Mui-disabled {
+.emotion-22.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-18 {
+  .emotion-22 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-18:hover {
+.emotion-22:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-18.Mui-disabled {
+.emotion-22.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-18:hover {
+.emotion-22:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-18:hover {
+  .emotion-22:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-18:active {
+.emotion-22:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-18.Mui-focusVisible {
+.emotion-22.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-18.Mui-disabled {
+.emotion-22.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-18:hover {
+  .emotion-22:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -402,7 +423,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   }
 }
 
-.emotion-18.MuiButton-loading {
+.emotion-22.MuiButton-loading {
   color: transparent;
 }
 
@@ -444,22 +465,28 @@ exports[`Subscription Summary component > renders correctly 1`] = `
     <div
       class="MuiCardContent-root padding-none emotion-7"
     >
+      <p
+        class="MuiTypography-root MuiTypography-body2 margin-top-small emotion-8"
+      >
+        Plan: 
+        Basic
+      </p>
       <div
         class="flexbox space-between margin-top-small margin-bottom-small"
       >
         <div>
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-8"
-          >
-            Plan: 
-            Basic
-          </p>
-          <p
             class="MuiTypography-root MuiTypography-body1 emotion-9"
           >
-            Devices: x 
-            50
+            Micro
           </p>
+          <span
+            class="MuiTypography-root MuiTypography-caption emotion-10"
+          >
+            x 
+            100
+             devices
+          </span>
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
@@ -468,19 +495,42 @@ exports[`Subscription Summary component > renders correctly 1`] = `
         </h6>
       </div>
       <div
-        class="margin-top-small margin-bottom-small"
+        class="flexbox space-between margin-top-small margin-bottom-small"
+      >
+        <div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 emotion-9"
+          >
+            Standard
+          </p>
+          <span
+            class="MuiTypography-root MuiTypography-caption emotion-10"
+          >
+            x 
+            50
+             devices
+          </span>
+        </div>
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+        >
+          $32
+        </h6>
+      </div>
+      <div
+        class="margin-left-x-small margin-top-small margin-bottom-small"
       >
         <p
-          class="MuiTypography-root MuiTypography-body2 emotion-8"
+          class="MuiTypography-root MuiTypography-body2 margin-bottom-x-small emotion-8"
         >
           Add-ons
         </p>
         <div
-          class="flexbox space-between"
+          class="flexbox space-between margin-bottom-x-small"
         >
           <div>
             <p
-              class="MuiTypography-root MuiTypography-body1 emotion-12"
+              class="MuiTypography-root MuiTypography-body1 emotion-16"
             >
               configure
             </p>
@@ -500,26 +550,26 @@ exports[`Subscription Summary component > renders correctly 1`] = `
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-middle margin-none emotion-15"
+        class="MuiDivider-root MuiDivider-middle margin-none emotion-19"
       />
       <div
         class="flexbox space-between margin-top-small"
       >
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+          class="MuiTypography-root MuiTypography-subtitle1 emotion-20"
         >
           Monthly price
         </h6>
         <h5
           class="MuiTypography-root MuiTypography-h5 emotion-3"
         >
-          $42
+          $74
            
         </h5>
       </div>
     </div>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-18"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-22"
       tabindex="0"
       type="button"
     >
