@@ -20,7 +20,7 @@ requests==2.32.5
 semver==3.0.4
 stripe==14.0.1
 tornado==6.5.2
-urllib3==2.6.1
+urllib3==2.6.3
 websocket_client >= 0.57
 pydantic==2.12.5
 pyjwt==2.10.1
