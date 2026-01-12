@@ -24,7 +24,15 @@ import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { ADDONS, Addon, AddonId, AvailableAddon, AvailablePlans, PLANS, TIMEOUTS } from '@northern.tech/store/constants';
-import { getAcceptedDevices, getAppInitDone, getCombinedLimit, getDeviceLimits, getOrganization, getStripeKey } from '@northern.tech/store/selectors';
+import {
+  getAcceptedDevices,
+  getAppInitDone,
+  getCombinedLimit,
+  getDeviceLimits,
+  getFeatures,
+  getOrganization,
+  getStripeKey
+} from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getBillingPreview, getCurrentCard, getUserBilling, getUserSubscription, requestPlanChange } from '@northern.tech/store/thunks';
 import type { DeviceTierLimits } from '@northern.tech/types/MenderTypes';
@@ -46,14 +54,28 @@ const useStyles = makeStyles()(() => ({
     }
   }
 }));
-export const deviceTypes = {
-  micro: { id: 'micro', stripeProductName: 'mender_micro', label: 'Micro devices', summaryLabel: 'Micro', tooltipId: 'mcuDevice', step: 100 },
+type DeviceTypeId = 'micro' | 'standard';
+
+type DeviceTypeConfig = {
+  id: string;
+  label: string;
+  step: number;
+  stripeProductName: string;
+  summaryLabel: string;
+  tooltipId: string;
+};
+
+export type DeviceTypes = Record<DeviceTypeId, DeviceTypeConfig>;
+
+export const standardDeviceTier: Partial<DeviceTypes> = {
   standard: { id: 'standard', stripeProductName: 'mender_standard', label: 'Standard devices', summaryLabel: 'Standard', tooltipId: 'standardDevice', step: 50 }
-} as const;
+};
+export const microDeviceTier: Partial<DeviceTypes> = {
+  micro: { id: 'micro', stripeProductName: 'mender_micro', label: 'Micro devices', summaryLabel: 'Micro', tooltipId: 'mcuDevice', step: 100 }
+};
 
-type DeviceTypeId = keyof typeof deviceTypes;
 
-export const deviceTypeIds = Object.keys(deviceTypes) as DeviceTypeId[];
+
 const addonsEligibleDeviceTypes = ['standard'];
 
 export type PreviewPrice = {
@@ -135,24 +157,31 @@ interface FormData {
 }
 
 interface SubscriptionFormProps {
+  deviceTypes: DeviceTypes;
   onShowUpgradeDrawer: () => void;
   onUpdateFormValues: (values: Partial<FormData>) => void;
   previewPrice: PreviewPrice;
+  setDeviceTypes: (tier: DeviceTypes) => void;
   setOrder: (order: any) => void;
   setPreviewPrice: (price: PreviewPrice) => void;
   specialHandling: boolean;
 }
 type TiersEnabled = Record<DeviceTypeId, boolean>;
-const areRequiredTiersEnabled = (deviceTierEnabled: TiersEnabled, currentLimits: DeviceTierLimits) =>
-  deviceTypeIds.every(deviceTypeId => currentLimits[deviceTypeId] < 1 || deviceTierEnabled[deviceTypeId]);
 
-const isLimitIncreased = (newLimits: number[], currentLimits: DeviceTierLimits, deviceTierEnabled: TiersEnabled) =>
-  deviceTypeIds.some((deviceTypeId, index) => newLimits[index] > currentLimits[deviceTypeId] && deviceTierEnabled[deviceTypeId]);
-
-const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPrice, setPreviewPrice, setOrder, specialHandling }: SubscriptionFormProps) => {
+const SubscriptionForm = ({
+  onShowUpgradeDrawer,
+  onUpdateFormValues,
+  previewPrice,
+  setPreviewPrice,
+  setOrder,
+  specialHandling,
+  deviceTypes,
+  setDeviceTypes
+}: SubscriptionFormProps) => {
   const { setValue, watch, control, setFocus } = useFormContext<FormData>();
   const currentDeviceLimits = useSelector(getDeviceLimits);
   const totalDeviceLimit = useSelector(getCombinedLimit);
+  const { hasMCUEnabled } = useSelector(getFeatures);
   const { counts: accepted } = useSelector(getAcceptedDevices);
   const deviceStatisticsLoaded = useSelector(getAppInitDone);
   const org = useSelector(getOrganization);
@@ -164,6 +193,7 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
   const enabledAddons = useMemo(() => orgAddOns.filter(addon => addon.enabled), [orgAddOns]);
   const currentPlanId = plan.id;
 
+  const deviceTypeIds = useMemo(() => Object.keys(deviceTypes) as DeviceTypeId[], [deviceTypes]);
   const selectedPlan = PLANS[watch('selectedPlan')] || PLANS.os;
   const selectedAddons = watch('selectedAddons');
   const limits = useWatch({ control, name: deviceTypeIds });
@@ -181,6 +211,12 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
   const initializedRef = useRef(false);
   const deviceLimitsInitialized = totalDeviceLimit > 0;
   const selectedAddonsLength = selectedAddons.length;
+  const areRequiredTiersEnabled = (deviceTierEnabled: TiersEnabled, currentLimits: DeviceTierLimits) =>
+    deviceTypeIds.every(deviceTypeId => currentLimits[deviceTypeId] < 1 || deviceTierEnabled[deviceTypeId]);
+
+  const isLimitIncreased = (newLimits: number[], currentLimits: DeviceTierLimits, deviceTierEnabled: TiersEnabled) =>
+    deviceTypeIds.some((deviceTypeId, index) => newLimits[index] > currentLimits[deviceTypeId] && deviceTierEnabled[deviceTypeId]);
+
   const isNew =
     currentPlanId !== selectedPlan.id ||
     enabledAddons.length < selectedAddonsLength ||
@@ -191,6 +227,10 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
   // Enable tiers the user has devices or already bought
   useEffect(() => {
     if (!deviceStatisticsLoaded || initializedRef.current || !deviceLimitsInitialized) return;
+    if (hasMCUEnabled && !deviceTypes['micro']) {
+      setDeviceTypes(curr => ({ ...curr, ...microDeviceTier }));
+      return;
+    }
     const newEnabled = deviceTypeIds.reduce<Record<DeviceTypeId, boolean>>(
       (acc, curr) => ({ ...acc, [curr]: accepted[curr] > 0 || (currentDeviceLimits[curr] > 0 && !isTrial) }),
       {} as Record<DeviceTypeId, boolean>
@@ -200,10 +240,10 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
     }
     setDeviceTierEnabled(newEnabled);
     initializedRef.current = true;
-  }, [accepted, isTrial, deviceLimitsInitialized, currentDeviceLimits, deviceStatisticsLoaded]);
+  }, [accepted, isTrial, deviceLimitsInitialized, currentDeviceLimits, deviceStatisticsLoaded, deviceTypeIds, hasMCUEnabled, deviceTypes, setDeviceTypes]);
 
   useEffect(() => {
-    const [micro, standard] = limits;
+    const [standard, micro] = limits;
     onUpdateFormValues({
       selectedPlan: selectedPlan.id,
       selectedAddons,
@@ -239,7 +279,7 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
         setValue(deviceTypeId, selectedPlan.minimalDeviceCount[deviceTypeId]);
       }
     });
-  }, [currentDeviceLimits, debouncedLimits, selectedPlan.minimalDeviceCount, selectedPlan.name, setValue, specialHandling]);
+  }, [currentDeviceLimits, debouncedLimits, deviceTypeIds, selectedPlan, setValue, specialHandling]);
 
   const setTierPreviewPrice = useCallback(
     preview => {
@@ -263,7 +303,7 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
 
       setPreviewPrice(newPreviewPrice);
     },
-    [deviceTierEnabled, debouncedLimits, setPreviewPrice]
+    [deviceTypeIds, setPreviewPrice, deviceTierEnabled, debouncedLimits]
   );
   useEffect(() => {
     if (!couldGetPreview) {
@@ -307,13 +347,15 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
     couldGetPreview,
     debouncedLimits,
     deviceTierEnabled,
+    deviceTypeIds,
     dispatch,
     selectedAddons,
     selectedPlan.id,
     selectedPlan.minimalDeviceCount,
     setOrder,
     setPreviewPrice,
-    setTierPreviewPrice
+    setTierPreviewPrice,
+    deviceTypes
   ]);
 
   const handleDeviceLimitBlur = (event: ChangeEvent<HTMLInputElement>) => {
@@ -403,39 +445,50 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
             <Typography variant="subtitle1" className="margin-top margin-bottom-x-small">
               2. Set a device limit
             </Typography>
-            {Object.values(deviceTypes).map(deviceType => (
-              <div key={deviceType.id}>
-                <FormControlLabel
-                  control={<Checkbox checked={deviceTierEnabled[deviceType.id]} onChange={() => onToggleDeviceTier(deviceType.id)} />}
-                  label={
-                    <div className="flexbox">
-                      <Typography>{deviceType.label}</Typography>
-                      <MenderHelpTooltip id={HELPTOOLTIPS[deviceType.tooltipId].id} className="margin-left-small" />
-                    </div>
-                  }
-                  disabled={(!isTrial && currentDeviceLimits[deviceType.id] > 0) || !deviceStatisticsLoaded}
-                />
-                <TextInput
-                  id={deviceType.id}
-                  label="Device limit"
-                  disabled={!deviceTierEnabled[deviceType.id]}
-                  type="number"
-                  InputProps={{
-                    inputProps: { min: Math.max(currentDeviceLimits[deviceType.id], selectedPlan.minimalDeviceCount[deviceType.id]), step: deviceType.step },
-                    size: 'small',
-                    onBlur: handleDeviceLimitBlur
-                  }}
-                  width="100%"
-                />
-                <FormHelperText className="margin-left-small">{inputHelperText[deviceType.id]}</FormHelperText>
-                {contactReason[deviceType.id] && selectedPlan.id !== PLANS.enterprise.id && (
-                  <ContactReasonAlert reason={contactReason[deviceType.id]} tier={deviceType.id} />
-                )}
-                {!deviceTierEnabled[deviceType.id] && accepted[deviceType.id] > 0 && (
-                  <DevicesConnectedAlert deviceCount={accepted[deviceType.id]} deviceLabel={deviceType.label} />
-                )}
-              </div>
-            ))}
+            {Object.values(deviceTypes).map(
+              deviceType =>
+                deviceTierEnabled[deviceType.id] !== undefined && (
+                  <div key={deviceType.id}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          disabled={(!isTrial && currentDeviceLimits[deviceType.id] > 0) || !deviceStatisticsLoaded}
+                          checked={deviceTierEnabled[deviceType.id]}
+                          onChange={() => onToggleDeviceTier(deviceType.id)}
+                        />
+                      }
+                      label={
+                        <div className="flexbox">
+                          <Typography color="textPrimary">{deviceType.label}</Typography>
+                          <MenderHelpTooltip id={HELPTOOLTIPS[deviceType.tooltipId].id} className="margin-left-small" />
+                        </div>
+                      }
+                    />
+                    <TextInput
+                      id={deviceType.id}
+                      label="Device limit"
+                      disabled={!deviceTierEnabled[deviceType.id]}
+                      type="number"
+                      InputProps={{
+                        inputProps: {
+                          min: Math.max(currentDeviceLimits[deviceType.id], selectedPlan.minimalDeviceCount[deviceType.id]),
+                          step: deviceType.step
+                        },
+                        size: 'small',
+                        onBlur: handleDeviceLimitBlur
+                      }}
+                      width="100%"
+                    />
+                    <FormHelperText className="margin-left-small">{inputHelperText[deviceType.id]}</FormHelperText>
+                    {contactReason[deviceType.id] && selectedPlan.id !== PLANS.enterprise.id && (
+                      <ContactReasonAlert reason={contactReason[deviceType.id]} tier={deviceType.id} />
+                    )}
+                    {!deviceTierEnabled[deviceType.id] && accepted[deviceType.id] > 0 && (
+                      <DevicesConnectedAlert deviceCount={accepted[deviceType.id]} deviceLabel={deviceType.label} />
+                    )}
+                  </div>
+                )
+            )}
             {Object.values(deviceTierEnabled).every(enabled => !enabled) && accepted.total === 0 && (
               <Alert severity="error">You must select at least one device limit for your new plan.</Alert>
             )}
@@ -512,6 +565,7 @@ const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPric
               isPreviewLoading={isPreviewLoading}
               plan={selectedPlan}
               addons={selectedAddons}
+              deviceTypes={deviceTypes}
               title="Your subscription:"
               isEnabled={isNew && areRequiredTiersEnabled(deviceTierEnabled, accepted)}
               previewPrice={previewPrice}
@@ -545,6 +599,7 @@ export const SubscriptionPage = () => {
   const [loadingFinished, setLoadingFinished] = useState(!stripeAPIKey);
   const [currentFormValues, setCurrentFormValues] = useState<Partial<FormData>>({});
   const [previewPrice, setPreviewPrice] = useState<PreviewPrice>(initialPreviewPrice);
+  const [deviceTypes, setDeviceTypes] = useState<DeviceTypes>(standardDeviceTier);
   const [order, setOrder] = useState();
   const [specialHandling, setSpecialHandling] = useState(false);
 
@@ -610,6 +665,8 @@ export const SubscriptionPage = () => {
 
       <Form initialValues={initialValues} defaultValues={defaultValues} onSubmit={onSubmit} autocomplete="off">
         <SubscriptionForm
+          deviceTypes={deviceTypes}
+          setDeviceTypes={setDeviceTypes}
           onShowUpgradeDrawer={setShowUpgradeDrawer}
           onUpdateFormValues={setCurrentFormValues}
           setOrder={setOrder}
@@ -622,6 +679,7 @@ export const SubscriptionPage = () => {
       {loadingFinished && showUpgradeDrawer && (
         <Elements stripe={stripePromise}>
           <SubscriptionDrawer
+            deviceTypes={deviceTypes}
             order={order}
             isTrial={isTrial}
             previewPrice={previewPrice}

@@ -43,13 +43,14 @@ import { CardDetails } from '../settings/organization/Billing';
 import { BillingDetails } from '../settings/organization/BillingDetails';
 import OrganizationPaymentSettings from '../settings/organization/OrganizationPaymentSettings';
 import { SubscriptionConfirmation } from './SubscriptionConfirmation';
-import { PreviewPrice } from './SubscriptionPage';
+import { DeviceTypes, PreviewPrice } from './SubscriptionPage';
 import { SubscriptionSummary } from './SubscriptionSummary';
 import { formatPrice } from './utils';
 
 interface SubscriptionDrawerProps {
   addons: AvailableAddon[];
   currentPlanId?: string;
+  deviceTypes: DeviceTypes;
   isTrial?: boolean;
   onClose: () => void;
   order?: any;
@@ -75,7 +76,7 @@ const useStyles = makeStyles()(theme => ({
 const emptyAddress: Address = { city: '', country: '', line1: '', postal_code: '', state: '' };
 
 export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
-  const { onClose, previewPrice, order, isTrial, plan: selectedPlan, organization, currentPlanId } = props;
+  const { onClose, previewPrice, order, isTrial, plan: selectedPlan, organization, currentPlanId, deviceTypes } = props;
   const { email } = useSelector(getCurrentUser);
   const card = useSelector(getCard);
   const billing = useSelector(getBillingProfile);
@@ -144,7 +145,15 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
 
   const summary = previewPrice && order && (
     <div style={{ maxWidth: '250px' }} className="margin-top-large">
-      <SubscriptionSummary previewPrice={previewPrice} plan={props.plan} title="Your new subscription" isEnabled={false} addons={props.addons} readOnly />
+      <SubscriptionSummary
+        previewPrice={previewPrice}
+        plan={props.plan}
+        title="Your new subscription"
+        isEnabled={false}
+        addons={props.addons}
+        readOnly
+        deviceTypes={deviceTypes}
+      />
     </div>
   );
   const cardDetailsDisabled = isTrial && isEmpty(billing);
@@ -256,7 +265,13 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
         currentSubscription && <Loader show />
       )}
       {canShowConfirmation && (
-        <SubscriptionConfirmation products={orderedProducts} plan={selectedPlan} price={previewPrice?.total} orderedAddons={orderedAddons} />
+        <SubscriptionConfirmation
+          deviceTypes={deviceTypes}
+          products={orderedProducts}
+          plan={selectedPlan}
+          price={previewPrice?.total}
+          orderedAddons={orderedAddons}
+        />
       )}
     </Drawer>
   );

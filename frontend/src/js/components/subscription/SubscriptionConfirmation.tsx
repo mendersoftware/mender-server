@@ -22,17 +22,18 @@ import { cleanUp } from '@northern.tech/store/auth';
 import { ADDONS, AvailableAddon, Plan } from '@northern.tech/store/constants';
 import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
 
-import { deviceTypes } from './SubscriptionPage';
+import { DeviceTypes } from './SubscriptionPage';
 import { formatPrice } from './utils';
 
 interface SubscriptionConfirmationProps {
+  deviceTypes: DeviceTypes;
   orderedAddons: { name: AvailableAddon }[];
   plan: Plan;
   price: number;
   products: { id: string; quantity: number }[];
 }
 export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) => {
-  const { plan, products, price, orderedAddons } = props;
+  const { plan, products, price, orderedAddons, deviceTypes } = props;
   const { addons: enabledAddons, plan: currentPlan } = useSelector(getOrganization);
 
   const [addonList] = useState(orderedAddons.map(addon => addon.name));

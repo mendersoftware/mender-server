@@ -15,11 +15,12 @@ import { Button, Card, CardContent, CardHeader, Chip, Divider, Skeleton, Typogra
 
 import { AvailableAddon, Plan } from '@northern.tech/store/appSlice/constants';
 
-import { PreviewPrice, deviceTypes } from './SubscriptionPage';
+import { DeviceTypes, PreviewPrice } from './SubscriptionPage';
 import { formatPrice } from './utils';
 
 interface SubscriptionSummaryProps {
   addons: AvailableAddon[];
+  deviceTypes: DeviceTypes;
   isEnabled: boolean;
   isPreviewLoading?: boolean;
   onAction?: () => void;
@@ -31,7 +32,7 @@ interface SubscriptionSummaryProps {
 const NumberSkeleton = () => <Skeleton width={35} height={26} />;
 
 export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
-  const { plan, addons: enabledAddons, title, isEnabled, isPreviewLoading, readOnly, onAction, previewPrice } = props;
+  const { plan, addons: enabledAddons, title, isEnabled, isPreviewLoading, readOnly, onAction, previewPrice, deviceTypes } = props;
   const disabled = previewPrice.total === 0;
   const textColor = disabled ? 'text.disabled' : 'text.primary';
   const outlinedProps = { variant: 'outlined' as const, className: 'padding' };
@@ -51,6 +52,7 @@ export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
           Plan: {plan.name}
         </Typography>
         {Object.values(deviceTypes).map(({ id, summaryLabel }) => {
+          if (!previewPrice[id]) return null;
           const disabled = previewPrice[id].price === 0;
           const textColor = disabled ? 'text.disabled' : 'text.primary';
           return (
