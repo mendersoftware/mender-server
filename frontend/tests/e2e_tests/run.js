@@ -619,6 +619,10 @@ const collectClientLogs = async logDir => {
 
   const clientLog = await runCommand('docker', ['logs', clientContainer], config);
   writeFileSync(clientLogPath, clientLog);
+  if (config.variant !== testSuiteVariants.qemu) {
+    console.log(chalk.yellow('🟢 Docker client logs written'));
+    return;
+  }
 
   const ip = await runCommand('docker', ['inspect', `--format={{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, clientContainer], config);
   const fullClientLog = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'journalctl', '--no-pager', '--all'], config);

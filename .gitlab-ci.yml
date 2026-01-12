@@ -474,6 +474,7 @@ test:prep:
   artifacts:
     expire_in: 2w
     paths:
+      - frontend/logs
       - frontend/tests/e2e_tests/test-results
       - frontend/tests/e2e_tests/traces
     when: always
