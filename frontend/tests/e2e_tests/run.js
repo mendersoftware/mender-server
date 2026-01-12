@@ -267,7 +267,7 @@ const composeLogs = async config =>
 
 const runCommand = (command, args = [], config, options = {}) =>
   new Promise((resolve, reject) => {
-    const { quiet = true, throwOnError = true, shell = false, ...remainderOptions } = options
+    const { quiet = true, throwOnError = true, shell = false, ...remainderOptions } = options;
     let output = '';
 
     const child = spawn(command, args, {
@@ -631,9 +631,14 @@ const collectClientLogs = async (logDir, config) => {
   const clientConf = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/etc/mender/mender.conf'], config);
   writeFileSync(debugClientFilesPath, 'Mender configuration:');
   appendFileSync(debugClientFilesPath, clientConf);
-  const deploymentsLogs = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/data/mender/deployment*.log'], config, {throwOnError: false, shell: true});
+  const deploymentsLogs = await runCommand(
+    'ssh',
+    ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/data/mender/deployment*.log'],
+    config,
+    { throwOnError: false, shell: true }
+  );
   appendFileSync(debugClientFilesPath, 'Deployment logs:');
-  appendFileSync(debugClientFilesPath, deploymentsLogs)
+  appendFileSync(debugClientFilesPath, deploymentsLogs);
 };
 
 const cleanup = async () => {
