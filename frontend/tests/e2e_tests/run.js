@@ -267,7 +267,7 @@ const composeLogs = async config =>
 
 const runCommand = (command, args = [], config, options = {}) =>
   new Promise((resolve, reject) => {
-    const { quiet = true, throwOnError = true, shell = false, ...remainderOptions } = options
+    const { quiet = true, throwOnError = true, shell = false, ...remainderOptions } = options;
     let output = '';
 
     const child = spawn(command, args, {
@@ -604,7 +604,7 @@ const killTestProcesses = () => {
   currentProcesses = [];
 };
 
-const collectClientLogs = async logDir => {
+const collectClientLogs = async (logDir, config) => {
   // the client gets often started outside of the compose setup, so track it down by name
   console.log(chalk.yellow(`📋 Capturing client logs to ${chalk.cyan(join(logDir, 'client.*'))}`));
   const containerNames = await runCommand('docker', ['ps', '-a', `--format={{.Names}}`], config);
@@ -619,6 +619,10 @@ const collectClientLogs = async logDir => {
 
   const clientLog = await runCommand('docker', ['logs', clientContainer], config);
   writeFileSync(clientLogPath, clientLog);
+  if (config.variant !== testSuiteVariants.qemu) {
+    console.log(chalk.yellow('🟢 Docker client logs written'));
+    return;
+  }
 
   const ip = await runCommand('docker', ['inspect', `--format={{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, clientContainer], config);
   const fullClientLog = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'journalctl', '--no-pager', '--all'], config);
@@ -627,9 +631,14 @@ const collectClientLogs = async logDir => {
   const clientConf = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/etc/mender/mender.conf'], config);
   writeFileSync(debugClientFilesPath, 'Mender configuration:');
   appendFileSync(debugClientFilesPath, clientConf);
-  const deploymentsLogs = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/data/mender/deployment*.log'], config, {throwOnError: false, shell: true});
+  const deploymentsLogs = await runCommand(
+    'ssh',
+    ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/data/mender/deployment*.log'],
+    config,
+    { throwOnError: false, shell: true }
+  );
   appendFileSync(debugClientFilesPath, 'Deployment logs:');
-  appendFileSync(debugClientFilesPath, deploymentsLogs)
+  appendFileSync(debugClientFilesPath, deploymentsLogs);
 };
 
 const cleanup = async () => {
@@ -639,7 +648,7 @@ const cleanup = async () => {
 
   try {
     mkdirSync(logDir, { recursive: true });
-    await collectClientLogs(logDir);
+    await collectClientLogs(logDir, config);
     console.log(chalk.yellow(`📋 Dumping logs to ${chalk.cyan(logPath)}`));
     const logs = await composeLogs(config);
     writeFileSync(logPath, logs);
