@@ -604,7 +604,7 @@ const killTestProcesses = () => {
   currentProcesses = [];
 };
 
-const collectClientLogs = async logDir => {
+const collectClientLogs = async (logDir, config) => {
   // the client gets often started outside of the compose setup, so track it down by name
   console.log(chalk.yellow(`📋 Capturing client logs to ${chalk.cyan(join(logDir, 'client.*'))}`));
   const containerNames = await runCommand('docker', ['ps', '-a', `--format={{.Names}}`], config);
@@ -643,7 +643,7 @@ const cleanup = async () => {
 
   try {
     mkdirSync(logDir, { recursive: true });
-    await collectClientLogs(logDir);
+    await collectClientLogs(logDir, config);
     console.log(chalk.yellow(`📋 Dumping logs to ${chalk.cyan(logPath)}`));
     const logs = await composeLogs(config);
     writeFileSync(logPath, logs);
