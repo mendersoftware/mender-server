@@ -16,6 +16,7 @@ import { PLANS } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 
+import { microDeviceTier, standardDeviceTier } from './SubscriptionPage';
 import { SubscriptionSummary } from './SubscriptionSummary';
 
 describe('Subscription Summary component', () => {
@@ -24,6 +25,7 @@ describe('Subscription Summary component', () => {
       <SubscriptionSummary
         addons={['configure']}
         deviceLimit={50}
+        deviceTypes={{...microDeviceTier, ...standardDeviceTier,  }}
         isEnabled
         isPreviewLoading={false}
         onAction={vi.fn}

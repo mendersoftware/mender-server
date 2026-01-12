@@ -22,6 +22,7 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { SubscriptionDrawer } from './SubscriptionDrawer';
+import { microDeviceTier, standardDeviceTier } from './SubscriptionPage';
 
 vi.mock('@northern.tech/store/thunks', { spy: true });
 
@@ -110,7 +111,14 @@ describe('Subscription Summary component', () => {
 
     const { baseElement } = render(
       <Elements stripe={stripe}>
-        <SubscriptionDrawer organization={defaultState.organization.organization} onClose={vi.fn()} plan={PLANS.os} addons={[]} isTrial={true} />
+        <SubscriptionDrawer
+          deviceTypes={{ ...standardDeviceTier, ...microDeviceTier }}
+          organization={defaultState.organization.organization}
+          onClose={vi.fn()}
+          plan={PLANS.os}
+          addons={[]}
+          isTrial={true}
+        />
       </Elements>
     );
     const view = baseElement.lastElementChild;
@@ -125,7 +133,14 @@ describe('Subscription Summary component', () => {
     const { createBillingProfile } = StoreThunks;
     const ui = (
       <Elements stripe={stripe}>
-        <SubscriptionDrawer organization={defaultState.organization.organization} onClose={vi.fn()} plan={PLANS.os} addons={[]} isTrial={true} />
+        <SubscriptionDrawer
+          deviceTypes={{ ...standardDeviceTier, ...microDeviceTier }}
+          organization={defaultState.organization.organization}
+          onClose={vi.fn()}
+          plan={PLANS.os}
+          addons={[]}
+          isTrial={true}
+        />
       </Elements>
     );
     render(ui, {

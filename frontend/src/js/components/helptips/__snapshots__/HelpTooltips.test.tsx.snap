@@ -367,6 +367,20 @@ NodeList [
 
 exports[`Helptooltips Components > renders GroupDeployment correctly 1`] = `The deployment will skip any devices in the group that are already on the target Release version, or that have an incompatible device type.`;
 
+exports[`Helptooltips Components > renders MCUDevice correctly 1`] = `
+NodeList [
+  Typically low-power (MCU) devices that require smaller, less frequent updates. Artifact size is limited to 5MB on micro devices, and polling intervals are longer. ,
+  <a
+    class=""
+    href="https://docs.mender.io//overview/limits"
+    rel="noopener"
+    target="_blank"
+  >
+    Learn more about limits
+  </a>,
+]
+`;
+
 exports[`Helptooltips Components > renders MenderArtifactUpload correctly 1`] = `
 NodeList [
   If there is no Release matching this Artifact’s name, a new Release will be created for this Artifact.,
@@ -413,6 +427,21 @@ exports[`Helptooltips Components > renders ScheduleDeployment correctly 1`] = `T
 exports[`Helptooltips Components > renders SingleFileUpload correctly 1`] = `This will generate a single file application update Artifact, which requires some additional metadata to be entered.`;
 
 exports[`Helptooltips Components > renders SsoMetadata correctly 1`] = `Submit the metadata document from your Identity Provider`;
+
+exports[`Helptooltips Components > renders StandardDevice correctly 1`] = `
+NodeList [
+  These are typically Linux-based devices that need larger, more frequent updates. Artifacts can be bigger and device polling intervals are more frequent.,
+   ,
+  <a
+    class=""
+    href="https://docs.mender.io//overview/limits"
+    rel="noopener"
+    target="_blank"
+  >
+    Learn more about limits
+  </a>,
+]
+`;
 
 exports[`Helptooltips Components > renders SubTenantDeltaArtifactGeneration correctly 1`] = `This option will enable the server-side generation of Delta Artifacts for the created tenant when turned on`;
 

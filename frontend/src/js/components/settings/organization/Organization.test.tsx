@@ -130,6 +130,7 @@ describe('smaller components', () => {
           handleCancelSubscription={vi.fn}
           orgName="test"
           mailBodyTexts={{ billing: 'bill this', upgrade: 'upgrade here' }}
+          deviceLimits={{standard: 100, micro: 10, system: 20}}
         />
       );
       const view = baseElement.lastChild?.firstChild;

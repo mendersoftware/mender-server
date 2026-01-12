@@ -489,12 +489,17 @@ exports[`Billing Component > renders correctly 1`] = `
                 </b>
                 .
                 <br />
-                Your device limit is 
+                Your device 
+                limit
+                 
+                is
+                : 
                 <b>
-                  500
+                  500 Standard
                 </b>
                  
                 devices
+                .
               </div>
             </div>
           </div>
