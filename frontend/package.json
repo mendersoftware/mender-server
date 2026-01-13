@@ -137,7 +137,9 @@
     "serve": "rspack serve --mode development",
     "test": "vitest --dir src/js",
     "test-types": "tsc --project ./tsconfig-test.json",
-    "watch": "rspack --watch --mode development"
+    "watch": "rspack --watch --mode development",
+    "yalc:init": "yalc add @northern.tech/store @northern.tech/themes @northern.tech/utils @northern.tech/testing",
+    "yalc:clean": "yalc remove --all && npm install"
   },
   "author": "Northern.tech AS",
   "license": "Apache-2.0",

@@ -188,6 +188,9 @@ export default (env, argv) => {
       },
       tsConfig: path.resolve(__dirname, 'tsconfig.json')
     },
+    watchOptions:{
+      ignored: /node_modules\/(?!(@northern.tech)\/).*/
+    },
     target: 'web',
     profile: true
   };
