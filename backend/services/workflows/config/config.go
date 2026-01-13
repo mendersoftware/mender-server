@@ -115,9 +115,13 @@ const (
 	SettingDebugLog = "debug_log"
 	// SettingDebugLogDefault is the default value for the debug log enabling
 	SettingDebugLogDefault = false
+
+	SettingWorkerAllowedBinaries = "allowed_binaries"
 )
 
 var (
+	SettingWorkerAllowedBinariesDefault = []string{}
+
 	// Defaults are the default configuration settings
 	Defaults = []config.Default{
 		{Key: SettingListen, Value: SettingListenDefault},
@@ -137,6 +141,7 @@ var (
 		{Key: SettingNatsConsumerAckWait, Value: SettingNatsConsumerAckWaitDefault},
 		{Key: SettingNatsConsumerMaxDeliver, Value: SettingNatsConsumerMaxDeliverDefault},
 		{Key: SettingNatsConsumerMaxPending, Value: SettingNatsConsumerMaxPendingDefault},
+		{Key: SettingWorkerAllowedBinaries, Value: SettingWorkerAllowedBinariesDefault},
 	}
 )
 

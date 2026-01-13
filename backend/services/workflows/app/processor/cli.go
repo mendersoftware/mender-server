@@ -52,7 +52,10 @@ func (jp *JobProcessor) ProcessCLITask(
 		},
 	}
 
-	cmd := exec.CommandContext(ctxWithOptionalTimeOut, commands[0], commands[1:]...)
+	cmd, err := jp.executor.Command(ctxWithOptionalTimeOut, commands[0], commands[1:]...)
+	if err != nil {
+		return nil, err
+	}
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr

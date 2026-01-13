@@ -28,9 +28,9 @@ import (
 )
 
 var (
-	executorMock = executor.New(map[string]string{
-		"echo": "/usr/bin/echo",
-		"bash": "/usr/bin/bash",
+	executorMock = executor.New([]string{
+		"/usr/bin/echo",
+		"/usr/bin/bash",
 	})
 )
 
@@ -47,7 +47,7 @@ func TestProcessJobCLI(t *testing.T) {
 				Type: model.TaskTypeCLI,
 				CLI: &model.CLITask{
 					Command: []string{
-						"echo",
+						"/usr/bin/echo",
 						"TEST",
 					},
 				},
@@ -123,7 +123,7 @@ func TestProcessJobCLIWrongExitCode(t *testing.T) {
 				Type: model.TaskTypeCLI,
 				CLI: &model.CLITask{
 					Command: []string{
-						"bash",
+						"/usr/bin/bash",
 						"-c",
 						"exit 10",
 					},
@@ -214,7 +214,7 @@ func TestProcessJobCLTimeOut(t *testing.T) {
 				Type: model.TaskTypeCLI,
 				CLI: &model.CLITask{
 					Command: []string{
-						"bash",
+						"/usr/bin/bash",
 						"-c",
 						"sleep 10",
 					},
@@ -343,7 +343,7 @@ func TestProcessJobCLINotAllowedCommand(t *testing.T) {
 				Type: model.TaskTypeCLI,
 				CLI: &model.CLITask{
 					Command: []string{
-						"python3",
+						"/usr/bin/python3",
 						"-c",
 						`'print("Get Hacked!")'`,
 					},
