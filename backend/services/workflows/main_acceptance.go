@@ -17,10 +17,8 @@
 
 package main
 
-import (
-	"github.com/mendersoftware/mender-server/services/workflows/app/worker"
-)
+import "github.com/mendersoftware/mender-server/services/workflows/app/processor"
 
 func init() {
-	worker.NoEphemeralWorkflows = true
+	processor.NoEphemeralWorkflows = true
 }

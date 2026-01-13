@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"context"
@@ -189,7 +189,8 @@ func TestProcessJobHTTP(t *testing.T) {
 				}
 				return resp, nil
 			}
-			err := processJob(ctx, job, dataStore, nil)
+			jp := mockJobProcessor(job, dataStore, nil, nil)
+			err := jp.ProcessJob(ctx)
 			makeHTTPRequest = makeHTTPRequestOriginal
 
 			switch e := testCase.Error.(type) {
@@ -295,7 +296,8 @@ func TestProcessJobHTTPValidStatusCode(t *testing.T) {
 		}
 		return resp, nil
 	}
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, nil)
+	err := jp.ProcessJob(ctx)
 	makeHTTPRequest = makeHTTPRequestOriginal
 
 	assert.Nil(t, err)
@@ -404,7 +406,8 @@ func TestProcessJobHTTPWrongStatusCode(t *testing.T) {
 		}
 		return resp, nil
 	}
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, nil)
+	err := jp.ProcessJob(ctx)
 	makeHTTPRequest = makeHTTPRequestOriginal
 
 	assert.Nil(t, err)
@@ -456,7 +459,8 @@ func TestProcessJobHTTPFailedIncompatibleDefinition(t *testing.T) {
 		model.StatusFailure,
 	).Return(nil)
 
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, nil)
+	err := jp.ProcessJob(ctx)
 	assert.NotNil(t, err)
 	assert.EqualError(t, err, "Error: Task definition incompatible with specified type (http)")
 }

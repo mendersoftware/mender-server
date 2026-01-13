@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"bytes"
@@ -20,7 +20,6 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/mendersoftware/mender-server/services/workflows/app/processor"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 )
 
@@ -29,10 +28,9 @@ const (
 	MaxExecutionTime int = 3600 * 4
 )
 
-func processCLITask(
+func (jp *JobProcessor) ProcessCLITask(
 	cliTask *model.CLITask,
-	ps *processor.JobStringProcessor,
-	jp *processor.JobProcessor,
+	ps *JobStringProcessor,
 ) (*model.TaskResult, error) {
 	commands := make([]string, 0, 10)
 	for _, command := range cliTask.Command {

@@ -93,7 +93,7 @@ func InitAndRun(
 	signal.Notify(quit, unix.SIGINT, unix.SIGTERM)
 
 	// Spawn worker pool
-	wg := NewWorkGroup(jobChan, notifyPeriod, natsClient, dataStore, sub)
+	wg := NewWorkGroup(jobChan, notifyPeriod, natsClient, dataStore, sub, nil)
 	for i := 0; i < concurrency; i++ {
 		go wg.RunWorker(ctx)
 	}

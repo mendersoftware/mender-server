@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"context"
@@ -216,7 +216,8 @@ func TestProcessJobSMTP(t *testing.T) {
 					}),
 			).Return(nil)
 
-			err := processJob(ctx, job, dataStore, nil)
+			jp := mockJobProcessor(job, dataStore, nil, nil)
+			err := jp.ProcessJob(ctx)
 
 			assert.Nil(t, err)
 		})
@@ -331,7 +332,8 @@ func TestProcessJobSMTPLoadFromFile(t *testing.T) {
 			}),
 	).Return(nil)
 
-	err = processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, nil)
+	err = jp.ProcessJob(ctx)
 
 	assert.Nil(t, err)
 
@@ -425,7 +427,8 @@ func TestProcessJobSMTPLoadFromFileFailed(t *testing.T) {
 				model.StatusFailure,
 			).Return(nil)
 
-			err := processJob(ctx, job, dataStore, nil)
+			jp := mockJobProcessor(job, dataStore, nil, nil)
+			err := jp.ProcessJob(ctx)
 
 			assert.NotNil(t, err)
 			assert.Equal(t, "open /this/file/does/not/exits/for/sure: no such file or directory", err.Error())
@@ -531,7 +534,8 @@ func TestProcessJobSMTPFailure(t *testing.T) {
 			}),
 	).Return(nil)
 
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, nil)
+	err := jp.ProcessJob(ctx)
 
 	assert.Nil(t, err)
 
@@ -584,7 +588,8 @@ func TestProcessJobSMTPFailedIncompatibleDefinition(t *testing.T) {
 		model.StatusFailure,
 	).Return(nil)
 
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, nil)
+	err := jp.ProcessJob(ctx)
 	assert.NotNil(t, err)
 	assert.EqualError(t, err, "Error: Task definition incompatible with specified type (smtp)")
 }
