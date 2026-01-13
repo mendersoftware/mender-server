@@ -262,6 +262,33 @@ test.describe('Settings', () => {
       }).toPass({ timeout: timeouts.sixtySeconds });
       await page.context().close();
     });
+    test('allows adding MCU devices', async ({ baseUrl, browser, password, request, username }) => {
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username });
+      // @ts-ignore
+      const features = await page.evaluate(() => window.mender_environment?.features);
+      test.skip(!features || !features.hasMCUEnabled);
+      await page.goto(`${baseUrl}ui/subscription`);
+      await page.waitForTimeout(timeouts.default);
+      const microCheckbox = page.getByRole('checkbox', { name: 'Micro devices' });
+      await microCheckbox.click();
+      const deviceNumberInput = page.locator('#micro');
+
+      await deviceNumberInput.fill('680');
+      await page.press('body', 'Tab');
+      await page.waitForTimeout(timeouts.oneSecond);
+      await expect(deviceNumberInput).toHaveValue('700');
+
+      await page.waitForTimeout(timeouts.default);
+
+      await page.getByRole('button', { name: 'Upgrade now' }).click();
+      await page.waitForTimeout(timeouts.default);
+
+      await expect(page.getByRole('heading', { name: '$1154' })).toBeVisible();
+      await page.getByRole('button', { name: /Confirm subscription/i }).click();
+
+      await page.getByText(/Your device limit has been successfully updated/i).waitFor({ timeout: timeouts.fifteenSeconds });
+      await page.context().close();
+    });
     test('allows billing profile editing', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username });
       await page.goto(`${baseUrl}ui/settings/billing`);
