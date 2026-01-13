@@ -68,6 +68,7 @@ linters:
         - G201 # SQL query construction using format string
         - G202 # SQL query construction using string concatenation
         - G203 # Use of unescaped data in HTML templates
+        - G204 # Audit use of command execution
         - G301 # Poor file permissions used when creating a directory
         - G302 # Poor file permissions used with chmod
         - G303 # Creating tempfile using a predictable path
@@ -93,7 +94,6 @@ linters:
         - G101 # Look for hard coded credentials
         - G112 # Potential slowloris attack
         - G115 # Potential integer overflow when converting between integer types
-        - G204 # Audit use of command execution
         - G402 # Look for bad TLS connection settings
 
       severity: medium # Filter out the issues with a lower severity than the given value.
