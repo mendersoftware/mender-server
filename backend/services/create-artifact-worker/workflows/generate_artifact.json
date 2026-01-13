@@ -2,14 +2,14 @@
     "name": "generate_artifact",
     "topic": "generate_artifact",
     "description": "Runs a single CLI command -- An invocation of the create_artifact CLI",
-    "version": 2,
+    "version": 3,
     "tasks": [
         {
             "name": "Run create_artifact CLI",
             "type": "cli",
             "cli": {
                 "command": [
-                    "create-artifact",
+                    "/usr/bin/create-artifact",
                     "single-file",
                     "--artifact-id", "${workflow.input.artifact_id}",
                     "--artifact-name", "${workflow.input.name}",
