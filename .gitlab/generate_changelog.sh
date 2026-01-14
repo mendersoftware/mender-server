@@ -79,13 +79,15 @@ if [ -n "$PR_BODY_FILE" ]; then
     echo "DEBUG - PR body command: git cliff ${RANGE} ${PR_CLIFF_FLAGS}"
     git cliff ${RANGE} ${PR_CLIFF_FLAGS}
 
-    # Safeguard: GitHub PR body has a limit (~65KB). Truncate if too long while preserving
-    # the '---' markers at the beginning and end of the file.
+    # Safeguard: GitHub PR body has a limit (~65KB), GitHub Release body has a limit of 125000 characters.
+    # Truncate if too long while preserving the '---' markers at the beginning and end of the file.
     FILE_SIZE=$(wc -c < "${PR_BODY_FILE}")
-    MAX_SIZE=60000  # Stay well under GitHub's limit to account for additional PR metadata
+    FILE_CHARS=$(wc -m < "${PR_BODY_FILE}")
+    MAX_SIZE=60000  # Stay well under GitHub's PR body limit (~65KB) to account for additional PR metadata
+    MAX_CHARACTERS=120000  # Stay well under GitHub's Release body limit (125000 characters)
 
-    if [ "$FILE_SIZE" -gt "$MAX_SIZE" ]; then
-        echo "WARN - PR body is too large (${FILE_SIZE} bytes), truncating to ${MAX_SIZE} bytes"
+    if [ "$FILE_SIZE" -gt "$MAX_SIZE" ] || [ "$FILE_CHARS" -gt "$MAX_CHARACTERS" ]; then
+        echo "WARN - PR body is too large (${FILE_SIZE} bytes, ${FILE_CHARS} characters), truncating to ${MAX_SIZE} bytes / ${MAX_CHARACTERS} characters"
 
         # Extract header (first line with ---)
         HEAD_MARKER=$(head -1 "${PR_BODY_FILE}")
@@ -97,7 +99,9 @@ if [ -n "$PR_BODY_FILE" ]; then
         TMP_FILE="${PR_BODY_FILE}.tmp"
 
         # Calculate how many lines we can keep (rough estimate: avg 100 chars per line)
-        MAX_LINES=$((MAX_SIZE / 100))
+        # Use the more restrictive limit between bytes and characters
+        EFFECTIVE_LIMIT=$((MAX_SIZE < MAX_CHARACTERS ? MAX_SIZE : MAX_CHARACTERS))
+        MAX_LINES=$((EFFECTIVE_LIMIT / 100))
 
         # Build truncated file: header + content + truncation notice + footer
         echo "${HEAD_MARKER}" > "${TMP_FILE}"
