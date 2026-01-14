@@ -1,4 +1,5140 @@
 ---
+## 4.1.0 - 2026-01-14
+
+
+### Bug fixes
+
+
+- *(deployments)* Invalid Location header when returning 201 Created
+ ([cfccf2a](https://github.com/mendersoftware/mender-server/commit/cfccf2a8e71814d8fca40e9135aa6afe06f15344))  by @alfrunes
+
+
+
+
+
+
+- *(deployments)* Preset number of pending devices in deployments statistics
+([MEN-8522](https://northerntech.atlassian.net/browse/MEN-8522)) ([e442a50](https://github.com/mendersoftware/mender-server/commit/e442a509eda03d67f0e72679c8920050e30eb467))  by @kjaskiewiczz
+
+
+
+
+
+
+- *(deployments)* Lower size limit for single file uploads
+ ([07f5c61](https://github.com/mendersoftware/mender-server/commit/07f5c618e9e1c5e37499b35446e0925dc0b6968e))  by @frodeha
+
+
+
+- *(deployments)* Limit `name`, `type` and `device types compatible` length
+ ([6f612d4](https://github.com/mendersoftware/mender-server/commit/6f612d4c2d8ecb9e3d4f1246cd0755d77cdda11f))  by @frodeha
+
+
+
+
+  Limit the max length of `name` (aka `Release name` in the gui),
+  `type` and `device types compatible` fields in `MultipartGenerateImageMsg`
+  (used by single file uploads) to 256 characters.
+  
+  There has been introduced a limit of 256 characters to the corresponding
+  fields in mender-artifact:
+      https://github.com/mendersoftware/mender-artifact/commit/ddd821f8a5150fb8a3186b337525f17b2757599c
+  causing uploads that do not abide by this limit to fail silently in the
+  background when being processed by the workflow worker.
+  
+  With this input validation we provide an explicit error to the user in
+  this case.
+
+- *(deployments)* Throw error when `per_page` exceeds maximum allowed value
+([MEN-8841](https://northerntech.atlassian.net/browse/MEN-8841)) ([e7c966c](https://github.com/mendersoftware/mender-server/commit/e7c966cb9311b2866b13570a97efa3e54c06ad9c))  by @bahaa-ghazal
+
+
+
+
+- *(deployments)* Aligned update metadata understanding w/ mender-artifact
+ ([33fae57](https://github.com/mendersoftware/mender-server/commit/33fae571932e14ca5b16afd26bc8e410b5c2a92b))  by @mzedel
+
+
+
+
+  - api responses represented the content as a list, whereas the proper representation is the object
+
+- *(deployments)* Backwards compatible artifact metadata
+ ([8110c52](https://github.com/mendersoftware/mender-server/commit/8110c5251b1025bc00a9b7c56e42500715c477d0))  by @frodeha
+
+
+
+
+- *(deployments)* Panic on database errors on DELETE /artifacts
+ ([f3c9bda](https://github.com/mendersoftware/mender-server/commit/f3c9bda8eb050ceb744f0ce7f45c58c44934c861))  by @alfrunes
+
+
+
+- *(deviceauth)* Fix the pagination logic in devices search endpoint
+([MEN-8521](https://northerntech.atlassian.net/browse/MEN-8521)) ([5431bc1](https://github.com/mendersoftware/mender-server/commit/5431bc1f6b91379021c633cc2c7d3e29ad31c1d9))  by @bahaa-ghazal
+
+
+
+
+
+
+- *(deviceauth)* `request_size_limit` configuration not applied
+([MEN-8788](https://northerntech.atlassian.net/browse/MEN-8788)) ([93d82a5](https://github.com/mendersoftware/mender-server/commit/93d82a59001e23650efb8d5d2518b4b0b9534206))  by @alfrunes
+
+
+
+
+- *(deviceauth)* Always exit with non-zero exit code on error
+ ([c486a45](https://github.com/mendersoftware/mender-server/commit/c486a4520bdfdd4402134a2cdfe4ac6a4a206d7a))  by @alfrunes
+
+
+
+- *(deviceconnect)* Increase the file upload size limit
+ ([6ff38c3](https://github.com/mendersoftware/mender-server/commit/6ff38c39c3a04a37e52098a7d21225bb310c6e1f))  by @bahaa-ghazal
+
+
+
+
+
+- *(deviceconnect)* Make sure goroutines recover when panicing
+([MEN-7750](https://northerntech.atlassian.net/browse/MEN-7750)) ([0f5870a](https://github.com/mendersoftware/mender-server/commit/0f5870ad5d8fc073193a243e9b9a4f12f00752c4))  by @bahaa-ghazal
+
+
+
+
+- *(deviceconnect)* SetReadDeadline when setting up ping handler
+([MEN-8843](https://northerntech.atlassian.net/browse/MEN-8843)) ([b10a3a8](https://github.com/mendersoftware/mender-server/commit/b10a3a8dd0b1b4c85c6b33184b9f9ed6b5fa8b86))  by @kjaskiewiczz
+
+
+
+
+
+
+- *(gui)* Made user list tracking rely only on backend data instead of local store to prevent duplicate users listed
+([MEN-8049](https://northerntech.atlassian.net/browse/MEN-8049)) ([7d1b060](https://github.com/mendersoftware/mender-server/commit/7d1b060d096ff2549305cc0f453d8a35b21257b0))  by @mzedel
+
+
+
+
+
+
+- *(gui)* Fixed an issue that would cause the ui to crash when creating phased deployments
+([ME-434](https://northerntech.atlassian.net/browse/ME-434)) ([9827ba9](https://github.com/mendersoftware/mender-server/commit/9827ba928889f52e7eb4216b68707386c082dc74))  by @mzedel
+
+
+
+
+
+
+- *(gui)* Fixed remaining device percentage not being displayed correctly on phased deployment creation
+ ([5600913](https://github.com/mendersoftware/mender-server/commit/560091349c778c288ad1bdc5a8bcd9b54c39f399))  by @mzedel
+
+
+
+
+
+
+- *(gui)* Fixed date parsing & formatting issues after dayjs migation
+([ME-443](https://northerntech.atlassian.net/browse/ME-443)) ([95dd540](https://github.com/mendersoftware/mender-server/commit/95dd5400cc14888ae965feeba48c21bef7e4b901))  by @mzedel
+
+
+
+
+- *(gui)* Fixed an issue that would prevent showing phased deployments
+([ME-443](https://northerntech.atlassian.net/browse/ME-443)) ([1e73ba7](https://github.com/mendersoftware/mender-server/commit/1e73ba734acbb33f2432d0b209a4baafd669651d))  by @mzedel
+
+
+
+
+- *(gui)* Let read-only user no longer think they could act on selected releases
+([MEN-8110](https://northerntech.atlassian.net/browse/MEN-8110)) ([dd710a7](https://github.com/mendersoftware/mender-server/commit/dd710a723b68c15f6d92b22e3ea81356e5e638c7))  by @mzedel
+
+
+
+
+  also aligned component label + usage with reality
+  Ticket: MEN-8110
+
+- *(gui)* Fixed pagination for pending deployments
+([MEN-8140](https://northerntech.atlassian.net/browse/MEN-8140)) ([c3f406b](https://github.com/mendersoftware/mender-server/commit/c3f406b1585756cc9d57638a549edb7e4b81093e))  by @mzedel
+
+
+
+
+- *(gui)* Prevented a situation where one release upload could prevent another
+([MEN-8125](https://northerntech.atlassian.net/browse/MEN-8125)) ([84b24ec](https://github.com/mendersoftware/mender-server/commit/84b24ec1ae572731c44cdb5ab937de13c9cc0bcb))  by @mzedel
+
+
+
+
+- *(gui)* Made rbac limitations visible in release tagging too
+ ([c706020](https://github.com/mendersoftware/mender-server/commit/c7060207dfe15eae736bcfd5b9d84f51b8f083a7))  by @mzedel
+
+
+
+- *(gui)* Ensured release tag creation is waited for before changing UI
+([MEN-8078](https://northerntech.atlassian.net/browse/MEN-8078)) ([9b0c722](https://github.com/mendersoftware/mender-server/commit/9b0c7226f187a77a4831460dd48ea8bc2cba9ef2))  by @mzedel
+
+
+
+
+- *(gui)* Fixed an issue with editing credit card when no billing address was provided
+([MEN-8154](https://northerntech.atlassian.net/browse/MEN-8154)) ([0fd9658](https://github.com/mendersoftware/mender-server/commit/0fd9658edee50b7db614eb45a83931db43518380))  by @mineralsfree
+
+
+
+
+- *(gui)* Removed border on active tab in left nav bar
+([MEN-8113](https://northerntech.atlassian.net/browse/MEN-8113)) ([a5d5df4](https://github.com/mendersoftware/mender-server/commit/a5d5df49f70a34427edcde7348858fbb9d18c4b7))  by @mineralsfree
+
+
+
+
+- *(gui)* Fixed time filter in past deployments
+([MEN-7989](https://northerntech.atlassian.net/browse/MEN-7989)) ([25cdee0](https://github.com/mendersoftware/mender-server/commit/25cdee07a5e6f76942f8b0dcaa67a4f76b1b2ecb))  by @mineralsfree
+
+
+
+
+- *(gui)* Fixed location not being changed on device status filter change
+([MEN-8118](https://northerntech.atlassian.net/browse/MEN-8118)) ([36eb469](https://github.com/mendersoftware/mender-server/commit/36eb4695544a0fdc2559d4178b9e0cfa5c647691))  by @mineralsfree
+
+
+
+
+- *(gui)* Restored rspack to license generator compatible version
+ ([1280dc7](https://github.com/mendersoftware/mender-server/commit/1280dc7363135444575611f32f5011935557f01b))  by @mzedel
+
+
+
+- *(gui)* Fixed default roles being shown before loading ones from backend
+([MEN-8095](https://northerntech.atlassian.net/browse/MEN-8095)) ([d934020](https://github.com/mendersoftware/mender-server/commit/d9340200ce40229fab441e2334117906ab18e103))  by @mineralsfree
+
+
+
+
+- *(gui)* Fixed an issue that would prevent new signups from using the onboarding
+ ([fbaa329](https://github.com/mendersoftware/mender-server/commit/fbaa329fb66bb3dc687db463a7cc507f8643a6b8))  by @mzedel
+
+
+
+- *(gui)* Default to eu in eu.hosted domain during signup
+([MEN-7925](https://northerntech.atlassian.net/browse/MEN-7925)) ([0512d24](https://github.com/mendersoftware/mender-server/commit/0512d24b7b6ddbf8e90677f737da4625d95c5e6f))  by @mineralsfree
+
+
+
+
+- *(gui)* Fixed webhook configuration checks by subscription
+ ([6b5989d](https://github.com/mendersoftware/mender-server/commit/6b5989d8b61fc05bde9b788b69b60474f99983f2))  by @mzedel
+
+
+
+- *(gui)* Ensured form validation is applied during validation phase only
+ ([b6b870c](https://github.com/mendersoftware/mender-server/commit/b6b870c9c39a3e5a24f42ef9bec02184fc830bb0))  by @mzedel
+
+
+
+- *(gui)* Fixed permission extension issue in roles form
+([MEN-8108](https://northerntech.atlassian.net/browse/MEN-8108)) ([0a41d0d](https://github.com/mendersoftware/mender-server/commit/0a41d0dd4fec2a82ab8e746fa6a8a748843dc1a3))  by @mineralsfree
+
+
+
+
+- *(gui)* Fixed an issue that prevented phased deployments when reusing phase definitions
+([MEN-8192](https://northerntech.atlassian.net/browse/MEN-8192)) ([f9b735f](https://github.com/mendersoftware/mender-server/commit/f9b735f250a41db9e073546fc69a6a471028a50a))  by @mzedel
+
+
+
+
+- *(gui)* Fixed an issue that could clear search queries
+ ([c308b2b](https://github.com/mendersoftware/mender-server/commit/c308b2bd72f915c11521af236f9fd4ed6659f4e4))  by @mzedel
+
+
+
+
+  - when search was run multiple times in non-search searchfields
+
+- *(gui)* Provide more context on failed 2fa enabled login
+ ([dfcb767](https://github.com/mendersoftware/mender-server/commit/dfcb767e33c054bdca64aba209eb8ce05902a89a))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that would prevent some info messages from showing
+ ([e1277bd](https://github.com/mendersoftware/mender-server/commit/e1277bdf3c289d2c383ce4303da4567606193bf5))  by @mzedel
+
+
+
+- *(gui)* Restored group creation notification
+ ([3bdb3f3](https://github.com/mendersoftware/mender-server/commit/3bdb3f34c8b1e6aa3c2e1cf34a619933684d4f04))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue where admin existence sometimes wasn't taken into account on tenant creation
+ ([330ac67](https://github.com/mendersoftware/mender-server/commit/330ac67ee20b0ffeaf9a20b9f48db5b48a2bd169))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that prevented properly paginating deployments
+([MEN-8212](https://northerntech.atlassian.net/browse/MEN-8212)) ([a20db14](https://github.com/mendersoftware/mender-server/commit/a20db1477aab026d60297e789cbbd85e242b8d7c))  by @mzedel
+
+
+
+
+- *(gui)* Fixed an issue on tenant creation that prevented some email addresses from becoming tenant admins
+([ME-470](https://northerntech.atlassian.net/browse/ME-470)) ([20b32f9](https://github.com/mendersoftware/mender-server/commit/20b32f90130521dd54d51ff30202e122b298a093))  by @mzedel
+
+
+
+
+- *(gui)* Fixed an issue that would retain passwords on tenant creation across different admins
+ ([a5e2132](https://github.com/mendersoftware/mender-server/commit/a5e2132c015bd3a7c296c6848cf136157ffbad1b))  by @mzedel
+
+
+
+- *(gui)* Fixed layout issue on tenant list + aligned styling with remainder of codebase
+ ([cc41aee](https://github.com/mendersoftware/mender-server/commit/cc41aee501ecd4834c73abc051e51df3a90b8868))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue propagating password validation errors
+ ([d1d8827](https://github.com/mendersoftware/mender-server/commit/d1d882768d39b7cca657cd091c5bcedd8e416f57))  by @mzedel
+
+
+
+- *(gui)* Ensured errormessages get propagated in forms
+ ([b19f8b3](https://github.com/mendersoftware/mender-server/commit/b19f8b33727fd0aab573ebf677a93a3a7811ae39))  by @mzedel
+
+
+
+
+  - as rhf depends on them to determine error existence in some modes
+
+- *(gui)* Fixed an issue that could hinder pagination in very frequently created deployments
+ ([34ca4ea](https://github.com/mendersoftware/mender-server/commit/34ca4eab7332388e3ddd5a830b8458890315ee42))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that would prevent showing unassigned static group devices
+([ME-519](https://northerntech.atlassian.net/browse/ME-519)) ([cf7f15d](https://github.com/mendersoftware/mender-server/commit/cf7f15d7cc1b2761ec1ad2804387cb62e155504a))  by @mineralsfree
+
+
+
+
+- *(gui)* Fixed an issue that would add device filter automatically
+([MEN-8309](https://northerntech.atlassian.net/browse/MEN-8309)) ([8d0233c](https://github.com/mendersoftware/mender-server/commit/8d0233cadf69f6930888c7820579f02611841a02))  by @mineralsfree
+
+
+
+
+- *(gui)* Fixed an issue with a filter input not reset after save
+([MEN-8309](https://northerntech.atlassian.net/browse/MEN-8309)) ([ed6b9f9](https://github.com/mendersoftware/mender-server/commit/ed6b9f97d1d55bef11b50b880b9fd14a488d9d94))  by @mineralsfree
+
+
+
+
+- *(gui)* Fixed an issue with 'true' value being set after selecting 'exists' operator
+([MEN-8309](https://northerntech.atlassian.net/browse/MEN-8309)) ([b8c8d8a](https://github.com/mendersoftware/mender-server/commit/b8c8d8a9fea896dccc1add172816ebbb5b85ebfd))  by @mineralsfree
+
+
+
+
+- *(gui)* Ensured selection filter is reset when attribute or value input are emptied
+([MEN-8309](https://northerntech.atlassian.net/browse/MEN-8309)) ([9cb2ff3](https://github.com/mendersoftware/mender-server/commit/9cb2ff3e002d045a225c4a3de30be0cd51e6fc0e))  by @mineralsfree
+
+
+
+
+- *(gui)* Restored global settings layout after general input layout adjustments
+ ([f83c94e](https://github.com/mendersoftware/mender-server/commit/f83c94eb38a1a425e8031d0693262120bb48db6b))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that prevented showing deployment calendar entries
+ ([a7d386f](https://github.com/mendersoftware/mender-server/commit/a7d386fdcaa19f81db059d709e52d998c0e99ea8))  by @mzedel
+
+
+
+- *(gui)* Changed cancel button in device configuration edit to close the form
+([MEN-8344](https://northerntech.atlassian.net/browse/MEN-8344)) ([f1f542a](https://github.com/mendersoftware/mender-server/commit/f1f542a4322de05692da5a94d85a61d1c840488e))  by @mineralsfree
+
+
+
+
+- *(gui)* Made RBAC roles visible again for non-enterprise users
+ ([43f829b](https://github.com/mendersoftware/mender-server/commit/43f829b6ec0e44bef0ed1de1a1b83e4e56077afd))  by @mzedel
+
+
+
+- *(gui)* Restored role removal prevention for built-in roles
+ ([89a1c43](https://github.com/mendersoftware/mender-server/commit/89a1c431af488c7c07577ff5ea4f06b96ef2362d))  by @mzedel
+
+
+
+- *(gui)* Aligned Roles & Users drawer closing behaviour
+([MEN-8063](https://northerntech.atlassian.net/browse/MEN-8063)) ([346fd97](https://github.com/mendersoftware/mender-server/commit/346fd976cfd026e4b8c85cdf7765f4593a94598b))  by @mineralsfree
+
+
+
+
+- *(gui)* Fixed closing animation for deployment drawer
+([MEN-8063](https://northerntech.atlassian.net/browse/MEN-8063)) ([a9bca65](https://github.com/mendersoftware/mender-server/commit/a9bca657c31002b053297d0c371a191f1369f4e3))  by @mineralsfree
+
+
+
+
+- *(gui)* Restored error handling on user edits
+([ME-522](https://northerntech.atlassian.net/browse/ME-522)) ([882a5c7](https://github.com/mendersoftware/mender-server/commit/882a5c7f6bc03325a4fd5875d2b92d22fe6d7e29))  by @mzedel
+
+
+
+
+
+  - regression from 5888d3e3ee47b764b256e89da9419f903936e4f3 in the prior repo
+
+- *(gui)* Fixed an issue that would prevent showing all webhook activity
+ ([70d9eda](https://github.com/mendersoftware/mender-server/commit/70d9eda75dd1cf955daa892bcc86a9760743be5f))  by @mzedel
+
+
+
+- *(gui)* Fixed reset button location in device tags & similar editors
+ ([00335b2](https://github.com/mendersoftware/mender-server/commit/00335b22dff4b324269ceeeac2e664caa061c960))  by @mzedel
+
+
+
+- *(gui)* Allowed clearing device tags & device configuration entirely
+([ME-529](https://northerntech.atlassian.net/browse/ME-529)) ([896f2a9](https://github.com/mendersoftware/mender-server/commit/896f2a967220ecc514b99e8873841ed31f2d2dde))  by @mzedel
+
+
+
+
+- *(gui)* Fixed location of device name tag help to not disturb tag editor
+ ([e27417c](https://github.com/mendersoftware/mender-server/commit/e27417cbb4298f235bf31044b5934501affcc9af))  by @mzedel
+
+
+
+
+  - this takes the kv related styles from less into the component making theming a bit more consistent and encapsulating the component further
+
+- *(gui)* Prevented device tag editor to be shown when no tags exist
+([ME-528](https://northerntech.atlassian.net/browse/ME-528)) ([3b6b0db](https://github.com/mendersoftware/mender-server/commit/3b6b0dbbe39c278bd10d2385c82fd34042d1dbac))  by @mzedel
+
+
+
+
+
+  - this is to reduce confusion about tags defined async to the current session not being visible
+
+- *(gui)* Fixed wording and position of onboarding tooltip
+([MEN-8407](https://northerntech.atlassian.net/browse/MEN-8407)) ([69c1a6d](https://github.com/mendersoftware/mender-server/commit/69c1a6ddd185ed1277fdbb66b194d6f09c4b06a0))  by @mineralsfree
+
+
+
+
+- *(gui)* Aligned supported OS versions in download section with tool support
+([ME-499](https://northerntech.atlassian.net/browse/ME-499)) ([c256688](https://github.com/mendersoftware/mender-server/commit/c256688950a0f81fdb63326f6fb524e035969ab3))  by @mzedel
+
+
+
+
+- *(gui)* Fixed billing profile not being fetched
+ ([9042c6b](https://github.com/mendersoftware/mender-server/commit/9042c6be7ccc445a5affca63b65559bb562e6597))  by @mineralsfree
+
+
+
+- *(gui)* Fixed a problem that could apply RBAC restrictions on non-RBAC plans
+([MEN-8498](https://northerntech.atlassian.net/browse/MEN-8498)) ([c870092](https://github.com/mendersoftware/mender-server/commit/c87009221163505732cb677e44a9c159233c3d68))  by @mzedel
+
+
+
+
+- *(gui)* Fixed an issue that could cause the organization token to overflow for older tenants
+ ([e04f0e9](https://github.com/mendersoftware/mender-server/commit/e04f0e99df3c4edcd932034bc3d0aad31bd8467f))  by @mzedel
+
+
+
+- *(gui)* Fixed another situation that could cause the organization token to overflow
+ ([555cb1e](https://github.com/mendersoftware/mender-server/commit/555cb1e7ec1571bd5ed02104c1185138b6e25d4a))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that would not show progress in the final phase of phased deployments
+ ([5f3be23](https://github.com/mendersoftware/mender-server/commit/5f3be23d2aa35f4503979294d8e165c6ca7a9f60))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that prevented reactivating highlighted tooltips in the UI
+ ([4babe2e](https://github.com/mendersoftware/mender-server/commit/4babe2e0a390dd4e7482692c1217342b2c645de2))  by @mzedel
+
+
+
+- *(gui)* Improved likelyhood of getting all device report related data from backend
+ ([f429a5d](https://github.com/mendersoftware/mender-server/commit/f429a5ddf0166ffe563ace806a33084003a65746))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that could limit release selection during deployment creation
+([MEN-8421](https://northerntech.atlassian.net/browse/MEN-8421)) ([a7e5352](https://github.com/mendersoftware/mender-server/commit/a7e5352aa2b2491bb61d15142bebab172d906905))  by @mzedel
+
+
+
+
+- *(gui)* Restricted to use id when adding users on trial plan
+([ME-532](https://northerntech.atlassian.net/browse/ME-532)) ([20f8936](https://github.com/mendersoftware/mender-server/commit/20f89367ae97779489c2decfc5d38b9b59d9cf02))  by @mineralsfree
+
+
+
+
+- *(gui)* Reject configuration deployment with too long field length
+([MEN-8123](https://northerntech.atlassian.net/browse/MEN-8123)) ([c95e30f](https://github.com/mendersoftware/mender-server/commit/c95e30fae4687dbf1b17e742c0ef3c5900384b01))  by @bahaa-ghazal
+
+
+
+
+
+
+- *(gui)* Prevented a situation that created the appearance we support multiple integrations
+ ([1dba715](https://github.com/mendersoftware/mender-server/commit/1dba715184b01835b42dc09001fab29d506b4754))  by @mzedel
+
+
+
+- *(gui)* Let artifact type filtering no longer autoselect an option to reduce user confusion
+ ([f77aaee](https://github.com/mendersoftware/mender-server/commit/f77aaeeaf164d7310f2456c629c03cc3ab416192))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that prevented showing details of a auditlogged portforward session
+ ([a807849](https://github.com/mendersoftware/mender-server/commit/a807849137af0a2470e2a0bbb4d53d1f3e7b25a2))  by @mzedel
+
+
+
+
+  - extracted the shared logic to a reusable hook to improve reusability of the working approach
+
+- *(gui)* Added proper links to subscription addon
+([MEN-8412](https://northerntech.atlassian.net/browse/MEN-8412)) ([c32a427](https://github.com/mendersoftware/mender-server/commit/c32a4272c7385edbb1a7837705cdf99878aa17b0))  by @mineralsfree
+
+
+
+
+- *(gui)* Adjusted price parsing for the new stripe configuration
+([MEN-8412](https://northerntech.atlassian.net/browse/MEN-8412)) ([951d3af](https://github.com/mendersoftware/mender-server/commit/951d3af8c1509fb7bfebaa913428d9c5466e672a))  by @mineralsfree
+
+
+
+
+- *(gui)* Adjusted billing page for older customers to exclude upgrade page
+([MEN-8412](https://northerntech.atlassian.net/browse/MEN-8412)) ([2c0de68](https://github.com/mendersoftware/mender-server/commit/2c0de680085518b5cabea33db73543986de61725))  by @mineralsfree
+
+
+
+
+- *(gui)* Aligned license report download location w/ backend expectation
+([MEN-8447](https://northerntech.atlassian.net/browse/MEN-8447)) ([4a638e2](https://github.com/mendersoftware/mender-server/commit/4a638e2bb9f48b7802fb4d5366a9cbc7bac7716f))  by @mzedel
+
+
+
+
+- *(gui)* Fixed an issue that would prevent showing updated pagination info in some situations
+ ([989d785](https://github.com/mendersoftware/mender-server/commit/989d78577f7e79aa67508ed94f0da3fdb418b750))  by @mzedel
+
+
+
+- *(gui)* Changed pending deployment stats to rely on backend value
+([MEN-8522](https://northerntech.atlassian.net/browse/MEN-8522)) ([751c5cd](https://github.com/mendersoftware/mender-server/commit/751c5cda92fc09835146ab099710112ce374e8c3))  by @mineralsfree
+
+
+
+
+- *(gui)* Handle error conditions during trial signup gracefully
+ ([744dfd1](https://github.com/mendersoftware/mender-server/commit/744dfd1deb37675b32e708266673928dce56f1a7))  by @frodeha
+
+
+
+- *(gui)* Let artifact generation success depend on artifact presence, not time
+ ([3679a0f](https://github.com/mendersoftware/mender-server/commit/3679a0f3cea7b782a550d970b6455719b352a2ec))  by @mzedel
+
+
+
+- *(gui)* Let theme switch also be reflected via external style definitions
+ ([2485bf1](https://github.com/mendersoftware/mender-server/commit/2485bf1a8c00b2060797b0977284980fd420fd63))  by @mzedel
+
+
+
+- *(gui)* Fetch billing profile on trial
+([MEN-8644](https://northerntech.atlassian.net/browse/MEN-8644)) ([0900de9](https://github.com/mendersoftware/mender-server/commit/0900de9307a2f5e36bef3c48758a76eeec11f452))  by @mineralsfree
+
+
+
+
+- *(gui)* Fixed contact descriptions
+([MEN-8644](https://northerntech.atlassian.net/browse/MEN-8644)) ([a013a00](https://github.com/mendersoftware/mender-server/commit/a013a0074da904d19d1ca01c9ad8dfef0382d083))  by @mineralsfree
+
+
+
+
+- *(gui)* Let users know about billing related issues
+ ([00ac623](https://github.com/mendersoftware/mender-server/commit/00ac6232535cceaaef31cbbe7c5782024fe2f0dc))  by @mzedel
+
+
+
+
+  - to e.g. help identify rate limiting failures
+
+- *(gui)* Fixed an issue that prevented showing billing errors
+ ([06f0cec](https://github.com/mendersoftware/mender-server/commit/06f0cecd067917479b8249b362d5edfa317b89e4))  by @mzedel
+
+
+
+- *(gui)* Fall back to delta job count while pagination total isn't available
+ ([79360cc](https://github.com/mendersoftware/mender-server/commit/79360cc0e91249c86e867eb766b9216dcd3f2fa9))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that could cause the deployment device limit to be ignored
+([ME-568](https://northerntech.atlassian.net/browse/ME-568)) ([64974ec](https://github.com/mendersoftware/mender-server/commit/64974ec50a534fc690c9ce0ea91c80dbb3407607))  by @mzedel
+
+
+
+
+- *(gui)* Reduce situations deployments to specific devices won't find releases
+ ([bd4e361](https://github.com/mendersoftware/mender-server/commit/bd4e361f8e0fa34f7d479237f3b17a1d24de6675))  by @mzedel
+
+
+
+- *(gui)* Limited chances a set deployment device limit gets changed unintended
+ ([1f12d38](https://github.com/mendersoftware/mender-server/commit/1f12d38249ac4bba72bbbc7ebb92ffdcf4fe9b09))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that could prevent the billing overview from working
+ ([4d1f0f3](https://github.com/mendersoftware/mender-server/commit/4d1f0f3f41ece22b75310d76f2015ff7576f4a8c))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that prevented editing SSO configurations
+ ([3005bea](https://github.com/mendersoftware/mender-server/commit/3005beaad9511b5c4768eff7438fc009fd8b567f))  by @mzedel
+
+
+
+- *(gui)* Fixed faulty check to see if user settings info can be relied on
+ ([9251747](https://github.com/mendersoftware/mender-server/commit/92517472e60c29c5025ea4b948525aeb45d04599))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that left notch in outlined w/o a background
+ ([1673cff](https://github.com/mendersoftware/mender-server/commit/1673cff934be78a379d9123f93317336ee83bfe0))  by @mzedel
+
+
+
+- *(gui)* Fixed an issue that prevented closing details view of an ongoing delta generation
+ ([0770333](https://github.com/mendersoftware/mender-server/commit/07703338737f7b400198b6b58da55895d9dc2a06))  by @mzedel
+
+
+
+- *(gui)* Removed error messages shown when subscribing or showing billing info as trial user
+ ([231d4e3](https://github.com/mendersoftware/mender-server/commit/231d4e34a0d376a2b963e4e01a4a393a975f2668))  by @mzedel
+
+
+
+
+  - NB: this lets the frontend rely on trial signups to always provide a new billing profile when signing up
+
+- *(gui)* Fixed an issue that prevented updating existing sso configs
+ ([d022d1a](https://github.com/mendersoftware/mender-server/commit/d022d1a78ba2f2b60cc1670b0015451c01c5734e))  by @mzedel
+
+
+
+- *(gui)* Increased reliance on theme defined button colors to align more w/ updated theme
+ ([28cd0fd](https://github.com/mendersoftware/mender-server/commit/28cd0fd1a2e5c976d16769a25daff75125748035))  by @mzedel
+
+
+
+- *(gui)* Fixed pagination in device search results
+([MEN-8196](https://northerntech.atlassian.net/browse/MEN-8196)) ([62c4de2](https://github.com/mendersoftware/mender-server/commit/62c4de2b2a73c22bac716a368e6b70701fa5b652))  by @mineralsfree
+
+
+
+
+- *(inventory)* Broken links for legacy endpoints for listing devices
+([MEN-8517](https://northerntech.atlassian.net/browse/MEN-8517)) ([9cf39b3](https://github.com/mendersoftware/mender-server/commit/9cf39b34f5ec6fb313a1b0e3c9afe30b5abce73e))  by @alfrunes
+
+
+
+
+
+  When using the /api/managment/v1/inventory/devices to list devices, the
+  path prefix is rewritten to /api/0.1.0/devices. This commit fixes the
+  regression.
+
+- *(inventory)* Invalid path for device attribute route
+([MEN-8216](https://northerntech.atlassian.net/browse/MEN-8216)) ([c4a439b](https://github.com/mendersoftware/mender-server/commit/c4a439b3224b112c8b40eff5fbbee6c8438db5b4))  by @alfrunes
+
+
+
+
+
+
+- *(inventory)* Added input validation of attribute scopes
+ ([25c7d10](https://github.com/mendersoftware/mender-server/commit/25c7d102387bbfdb3af0b0e337c4780305c4c8ac))  by @frodeha
+
+
+
+- *(iot-manager)* Do not store events if there are no integrations
+([MEN-7868](https://northerntech.atlassian.net/browse/MEN-7868)) ([0c0ee9d](https://github.com/mendersoftware/mender-server/commit/0c0ee9d3e497d04cbf43e4693fbdd17c30f1edb3))  by @merlin-northern
+
+
+
+
+
+
+- *(iot-manager)* Creating new integration creates a new ID
+([MEN-7801](https://northerntech.atlassian.net/browse/MEN-7801)) ([c52491e](https://github.com/mendersoftware/mender-server/commit/c52491eb648fa6ab6550ca39386327b1ae2de4df))  by @merlin-northern
+
+
+
+
+
+
+- *(useradm)* Use contenttype middleware for login endpoint
+ ([1f5bc7d](https://github.com/mendersoftware/mender-server/commit/1f5bc7d624d7bd57b9ee9a7d6fbecdfb88650bd7))  by @bahaa-ghazal in #759
+
+
+
+- *(useradm)* Always generate a unique user ID for newly created users
+([MEN-8514](https://northerntech.atlassian.net/browse/MEN-8514)) ([85e0ea9](https://github.com/mendersoftware/mender-server/commit/85e0ea9351a6afc981f0719e66b69a73aad0a0b9))  by @alfrunes
+
+
+
+
+
+
+- *(workflows)* Move inventory to end of decommission workflow
+ ([355fcd9](https://github.com/mendersoftware/mender-server/commit/355fcd91eeb0a0e3cd5d2fb4005d213b00b2a524))  by @alfrunes
+
+
+
+
+
+  To lower the probability of failed decommission causing the device not
+  to show up in the UI. By not removing the device from inventory it is
+  possible to initiate the retry from the UI.
+
+- *(workflows)* Expose Jetstream `replicas` parameter
+([MEN-7164](https://northerntech.atlassian.net/browse/MEN-7164)) ([b87100e](https://github.com/mendersoftware/mender-server/commit/b87100eb5aa12fec6ac83dd59329e1742a6fbfa9))  by @bahaa-ghazal
+
+
+
+
+- Update outdated api endpoints in the `inventory` service
+([MEN-7017](https://northerntech.atlassian.net/browse/MEN-7017)) ([73c7149](https://github.com/mendersoftware/mender-server/commit/73c714951a61642b2fc100214c61e5f66c27ee0c))  by @bahaa-ghazal
+
+
+
+
+
+- Limiting the size of metadata when uploading and generating artifacts
+([MEN-7166](https://northerntech.atlassian.net/browse/MEN-7166)) ([9e80728](https://github.com/mendersoftware/mender-server/commit/9e8072874c94da9e7a3659207e08c6a05fc48cc4))  by @bahaa-ghazal
+
+
+
+
+
+- Race when provisioning and connecting a device
+([MEN-8164](https://northerntech.atlassian.net/browse/MEN-8164)) ([eae5bf2](https://github.com/mendersoftware/mender-server/commit/eae5bf230060838f6b93d656ba19d68c609bb425))  by @alfrunes
+
+
+
+
+
+
+  If a device gets provisioned and submits a connection request while the
+  device is getting provisioned, the device might end up in an
+  inconsistent state where the connection status gets overwritten to
+  "unknown".
+  The issue was discovered in a test where the system was under load
+  and the device was running on the same network (artificially low RTT).
+- Stop deviceconnect's `/connect` endpoints from sending ping
+([MEN-8061](https://northerntech.atlassian.net/browse/MEN-8061)) ([79a32a6](https://github.com/mendersoftware/mender-server/commit/79a32a6f12fd1b90be3560a896e50d8d63516210))  by @bahaa-ghazal
+
+
+
+
+
+- Skip IoT Core/IoT Hub integration if device is not yet provisioned
+([MEN-8230](https://northerntech.atlassian.net/browse/MEN-8230)) ([eeffe42](https://github.com/mendersoftware/mender-server/commit/eeffe42fd158956bb531c916639b84c93d6d4e63))  by @alfrunes
+
+
+
+
+
+- Check if deployment was found when updating device deployment status
+([MEN-7749](https://northerntech.atlassian.net/browse/MEN-7749)) ([6b15227](https://github.com/mendersoftware/mender-server/commit/6b15227135cc38dd96813c204c3a12d494f0313f))  by @bahaa-ghazal
+
+
+
+- Ensure email is always encoded in lowercase when stored
+([MEN-8328](https://northerntech.atlassian.net/browse/MEN-8328)) ([d80c818](https://github.com/mendersoftware/mender-server/commit/d80c818eed43765387cfe81445e187f9c1833156))  by @alfrunes
+
+
+
+
+
+- Make all routes response with JSON when route or method missing
+([MEN-8523](https://northerntech.atlassian.net/browse/MEN-8523)) ([0825b4d](https://github.com/mendersoftware/mender-server/commit/0825b4d8bcaf40e9e747247f7f7f5a5031c37c8a))  by @bahaa-ghazal
+
+
+
+- Ensure that middlewares are set in the correct order
+([MEN-8587](https://northerntech.atlassian.net/browse/MEN-8587)) ([e3d1101](https://github.com/mendersoftware/mender-server/commit/e3d1101bf5dcdf41090ed50ae8c52920b162734e))  by @bahaa-ghazal
+
+
+
+- List services in Makefile correctly on MacOS
+ ([7580e91](https://github.com/mendersoftware/mender-server/commit/7580e91c1a3f75bcc2610c4407702a2513339be5))  by @frodeha
+
+
+
+
+  The Makefile function `wildcard`returns both files and directories
+  in the /services/ directory (at least on Mac). This leads to test
+  execution failing midway. A simple solution is to keep only directories
+  using the `dir` function.
+  
+  In addition, I believe the ordering produced by `wildward` is not
+  deterministic, so I added a call to `sort` as well to ensure tests are
+  executed in a consistent order (alphabetical).
+- Upgrade backend golang version to 1.25.0
+ ([d336b7d](https://github.com/mendersoftware/mender-server/commit/d336b7d3d160d8630112820f82b3a71b186de0a6))  by @alfrunes
+
+
+
+- Validate rate limit config when setting up redis
+([MEN-8864](https://northerntech.atlassian.net/browse/MEN-8864)) ([39b60a7](https://github.com/mendersoftware/mender-server/commit/39b60a7a28133ed621c8f72a0e0e9fa15e9252e4))  by @bahaa-ghazal
+
+
+
+
+- Introduce docker-compose healthcheck for mongo, nats and traefik
+ ([e3aea0b](https://github.com/mendersoftware/mender-server/commit/e3aea0bd890ac71c18ba08be9e80dd59b4ad3da5))  by @joelguittet
+
+
+
+
+  Introducing healthcheck allow to monitor services.
+  This permits a better dependency when mender services are starting,
+  waiting for mongo, nats, traefik to be heatlhy before starting.
+- Increase docker-compose restart
+ ([d687f66](https://github.com/mendersoftware/mender-server/commit/d687f664183da924d5be642c6ced14ebe0e5dfd5))  by @joelguittet
+
+
+
+
+  Some services still fails after the introduction of the healthcheck on
+  slow machines. Increase the number restarts allowed to solve it, no
+  better mechanisms found.
+
+
+
+
+### Documentation
+
+
+- *(api)* Made operationIds unique across API specs
+ ([8e45186](https://github.com/mendersoftware/mender-server/commit/8e451863d4dae2caafe2ad2331bece31d5367f6b))  by @mzedel
+
+
+
+- *(api)* Unified path structure + servers across specs
+ ([2a73980](https://github.com/mendersoftware/mender-server/commit/2a739800ae8694fa5d210365fceac50413696f44))  by @mzedel
+
+
+
+- *(api)* Deduplicated schema definitions across service specs
+ ([a7f31cb](https://github.com/mendersoftware/mender-server/commit/a7f31cbd2e9c48bd28a23bc624297d628fd7b145))  by @mzedel
+
+
+
+- *(deployments)* Clarifications for the GET /deployments version 2 endpoint.
+([MEN-8053](https://northerntech.atlassian.net/browse/MEN-8053)) ([0231b1b](https://github.com/mendersoftware/mender-server/commit/0231b1b1786a7c341d0b56544e17e952c4bd5059))  by @merlin-northern
+
+
+
+
+
+
+- *(deployments)* Fix spelling
+ ([f2a8379](https://github.com/mendersoftware/mender-server/commit/f2a8379bd770e465573123d3f892642dfcdbeb72))  by @vbpieter
+
+
+
+- *(deployments)* Fix API specification
+([QA-990](https://northerntech.atlassian.net/browse/QA-990)) ([4f8d069](https://github.com/mendersoftware/mender-server/commit/4f8d069d054761479abad32b2c1630581be3a422))  by @kjaskiewiczz
+
+
+
+
+
+
+  Remove type properties from fields where value is not strictly defined.
+
+- *(deployments)* Create API spec for v2 GET `artifacts` endpoint
+([MEN-8180](https://northerntech.atlassian.net/browse/MEN-8180)) ([081969d](https://github.com/mendersoftware/mender-server/commit/081969dc39b9bef720f5efe19e3e53b6da972403))  by @bahaa-ghazal
+
+
+
+
+- *(deployments)* Deprecate v1 GET `/artifacts/list` management endpoint
+([MEN-8183](https://northerntech.atlassian.net/browse/MEN-8183)) ([2b308d5](https://github.com/mendersoftware/mender-server/commit/2b308d55b0f08bde3a6d845fa260587bac328d7f))  by @bahaa-ghazal
+
+
+
+
+
+
+- *(deployments)* Clarify V2 `/artifacts` endpoint usage
+([MEN-8842](https://northerntech.atlassian.net/browse/MEN-8842)) ([d5a1a0f](https://github.com/mendersoftware/mender-server/commit/d5a1a0f471fd51fc82d07fcf41082abd74b42b9c))  by @bahaa-ghazal
+
+
+
+
+- *(deployments)* Mark release meta_data as deprecated
+ ([33563c6](https://github.com/mendersoftware/mender-server/commit/33563c6ac639c4fdba1471eb0c1e65e66e2e4f80))  by @frodeha
+
+
+
+
+- *(deployments)* Use array type for deprecated meta_data attribute
+ ([0135305](https://github.com/mendersoftware/mender-server/commit/0135305d78d95038ff7c3bfadcdd8d34d7a8a8df))  by @alfrunes
+
+
+
+
+- *(deployments)* Document 'sort' option in the internal endpoint for getting deployments
+([MEN-8914](https://northerntech.atlassian.net/browse/MEN-8914)) ([7165f58](https://github.com/mendersoftware/mender-server/commit/7165f58eec679b36e0a83f5a4d4b71595c62aa30))  by @kjaskiewiczz
+
+
+
+
+- *(deviceaut)* Enhance description of the /devices/count endpoint
+([MEN-8255](https://northerntech.atlassian.net/browse/MEN-8255)) ([c9e3633](https://github.com/mendersoftware/mender-server/commit/c9e3633f10d6439b8e6e19b49607ebb0d2c83c76))  by @kjaskiewiczz
+
+
+
+
+
+
+- *(deviceauth)* Rename operation id for removing device authentication
+ ([3f99b91](https://github.com/mendersoftware/mender-server/commit/3f99b91c57c52214e01a70caa78ed47912956c9f))  by @alfrunes
+
+
+
+
+  "Reject" is in the UI associated with updating the authentication status
+  where as "dismiss" is used for removing authentication.
+
+- *(inventory)* Migrate API specs to OpenAPI v3.0.1
+([QA-886](https://northerntech.atlassian.net/browse/QA-886)) ([e7ce7e5](https://github.com/mendersoftware/mender-server/commit/e7ce7e5762405732e9cb02ee32447dc1073ee369))  by @kjaskiewiczz
+
+
+
+
+- *(inventory)* Added accepted scope values to inventory openapi specs
+ ([c186ad3](https://github.com/mendersoftware/mender-server/commit/c186ad321a0d391579408ae75ebc247547ccb349))  by @frodeha
+
+
+
+- *(inventory)* Add clarity to list devices api docs
+ ([c460380](https://github.com/mendersoftware/mender-server/commit/c46038013ba60510d2a45fcea66917be29642976))  by @frodeha
+
+
+
+- *(useradm)* Move API specification to single file
+([QA-1094](https://northerntech.atlassian.net/browse/QA-1094)) ([9bcf6cf](https://github.com/mendersoftware/mender-server/commit/9bcf6cf82123f35dc0a0ff7869d0bcd30869aeff))  by @kjaskiewiczz
+
+
+
+
+
+
+- *(useradm)* Make API specs more consistent with enterprise
+([MEN-8345](https://northerntech.atlassian.net/browse/MEN-8345)) ([1022949](https://github.com/mendersoftware/mender-server/commit/1022949e7df31ccb90b624d1c6ba411950c98634))  by @bahaa-ghazal
+
+
+
+
+- *(workflows)* Prepare API specification in OpenAPI format
+([QA-893](https://northerntech.atlassian.net/browse/QA-893)) ([0986835](https://github.com/mendersoftware/mender-server/commit/0986835db0a349d6ac776bc1fc95adc913c2e4f5))  by @kjaskiewiczz
+
+
+
+
+
+
+- Add missing breaking changes to changelog
+ ([799f42d](https://github.com/mendersoftware/mender-server/commit/799f42dad02145fedf80d1d6e29bb5239536f7de))  by @alfrunes
+
+
+- Migrate deployments specs to OpenAPI 3.0
+ ([4631b2f](https://github.com/mendersoftware/mender-server/commit/4631b2fc3f16a53490089b273c708a0ffee3b345))  by @alfrunes
+
+
+- Correct spelling errors and incorrect descriptions
+ ([001407c](https://github.com/mendersoftware/mender-server/commit/001407c4538f1cc7147c950ef73f27892c732476))  by @alfrunes
+
+
+- Let docs rely on common error + security definitions
+ ([d9fe72b](https://github.com/mendersoftware/mender-server/commit/d9fe72b035450aea8079c84cec954281dda44397))  by @mzedel
+
+
+- Let api docs rely on common internal error response
+ ([286c453](https://github.com/mendersoftware/mender-server/commit/286c4535a0dedb85d8dd7ea12a5275a5e83e8931))  by @mzedel
+
+
+- Let api docs rely on common 404 response
+ ([9225d00](https://github.com/mendersoftware/mender-server/commit/9225d00670ae7e2d4163638d02f07e6d6aac5ece))  by @mzedel
+
+
+- Aligned more error responses w/ existing shared response definitions
+ ([d5596d5](https://github.com/mendersoftware/mender-server/commit/d5596d572c1a0621e87b973549fc86d4542d5b69))  by @mzedel
+
+
+- Aligned unauthorized errors definitions w/ shared definition
+ ([9d26fd7](https://github.com/mendersoftware/mender-server/commit/9d26fd700a572600bba631291102eb1dc34baba3))  by @mzedel
+
+
+- Fix paths in remaining service specs
+ ([a452ff7](https://github.com/mendersoftware/mender-server/commit/a452ff7dcd6babc8ef9f001c2cc4249f6b59cd59))  by @mzedel
+
+
+- Use common schemas and unique operationIds
+ ([72ee78b](https://github.com/mendersoftware/mender-server/commit/72ee78bfbdef8e60ded346b929d25ed9187696a3))  by @mzedel
+
+
+- Deduplicate schemas across newly moved service specs
+ ([e6f75e2](https://github.com/mendersoftware/mender-server/commit/e6f75e29c185ed07c9c9e50235b880d431b82d46))  by @mzedel
+
+
+- Aligned update metadata w/ defined type to allow parsing
+ ([f306fac](https://github.com/mendersoftware/mender-server/commit/f306fac4caac94f14daed287def36f0b375d1069))  by @mzedel
+
+
+- Add documentation that `retries` is restricted to professional and enterprise plans
+ ([02e404a](https://github.com/mendersoftware/mender-server/commit/02e404a7e1754c02450bf762ef268d69b9ca52a2))  by @nickanderson
+
+
+
+
+
+
+### Features
+
+
+- *(create-artifact-worker)* Update `mender-artifact` to latest v4.1.0
+([MEN-8337](https://northerntech.atlassian.net/browse/MEN-8337)) ([153cb8e](https://github.com/mendersoftware/mender-server/commit/153cb8eb392af6d7159fd1ffcbba6e204f372e02))  by @lluiscampos
+
+
+
+
+
+  Modifying also the integration to build the tool from source instead or
+  repurposing the upstream Debian package. This has the main advantage
+  that we can compile it statically (by disabling a feature that we don't
+  use) and that we have control of the compatibility aspects of the
+  binary.
+
+- *(deployments)* Implement new v2 GET `/artifacts` endpoint
+([MEN-8181](https://northerntech.atlassian.net/browse/MEN-8181)) ([8e3e25c](https://github.com/mendersoftware/mender-server/commit/8e3e25c4446630e49cf5b4f9a0e8cb68fb645827))  by @bahaa-ghazal
+
+
+
+
+
+
+- *(deviceauth)* Added command to propagate identity to inventory
+([MEN-8733](https://northerntech.atlassian.net/browse/MEN-8733)) ([ee7c84b](https://github.com/mendersoftware/mender-server/commit/ee7c84bb9e48ad0f28966838929d9a9cfe00cefb))  by @alfrunes
+
+
+
+
+
+  Created a new command `deviceauth maintenance propagate-inventory` which
+  propagates data from deviceauth (id_data and status) to inventory
+  service.
+
+- *(gui)* Clarified user creation capabilities for non-enterprise users
+([MEN-7883](https://northerntech.atlassian.net/browse/MEN-7883)) ([d2fd192](https://github.com/mendersoftware/mender-server/commit/d2fd192e8c09443dabb694288d73636853b02d86))  by @mzedel
+
+
+
+
+
+
+- *(gui)* Added automatic refresh to get webhook events
+([MEN-8045](https://northerntech.atlassian.net/browse/MEN-8045)) ([502e06a](https://github.com/mendersoftware/mender-server/commit/502e06aab96f3ce980cd6fe197a2fd6d7e99233a))  by @mzedel
+
+
+
+
+
+
+- *(gui)* Split release deployment onboarding step in 2 steps
+([MEN-7882](https://northerntech.atlassian.net/browse/MEN-7882)) ([3fc2e9a](https://github.com/mendersoftware/mender-server/commit/3fc2e9a61fe128b52b73ad24de356cfb59a658bd))  by @mineralsfree
+
+
+
+
+- *(gui)* Made ui improvements to the deployment onboarding flow
+([MEN-7882](https://northerntech.atlassian.net/browse/MEN-7882)) ([35d0f11](https://github.com/mendersoftware/mender-server/commit/35d0f116319efa79d24edc64957d3f0f6552e16c))  by @mineralsfree
+
+
+
+
+- *(gui)* Made onboard action tooltip rely on position of action item
+([MEN-7882](https://northerntech.atlassian.net/browse/MEN-7882)) ([dfeb0d6](https://github.com/mendersoftware/mender-server/commit/dfeb0d6e574d2192b59bfe4918645d1d07d61960))  by @mineralsfree
+
+
+
+
+- *(gui)* Made device issue selection on devices page available for more plans
+([MEN-8076](https://northerntech.atlassian.net/browse/MEN-8076)) ([d7d2f97](https://github.com/mendersoftware/mender-server/commit/d7d2f976518ef822d103834e0eb1816f0fcdb01b))  by @mzedel
+
+
+
+
+- *(gui)* Made device tag confirmation message align with change
+ ([3374b93](https://github.com/mendersoftware/mender-server/commit/3374b93c9d899d68a7563171ec1645c2987b7b92))  by @mzedel
+
+
+
+- *(gui)* Unified dialog backdrop and esc closing behaviour
+([MEN-7998](https://northerntech.atlassian.net/browse/MEN-7998)) ([8b78680](https://github.com/mendersoftware/mender-server/commit/8b786806a390feda0281de233acf6639bc61a8a1))  by @mineralsfree
+
+
+
+
+- *(gui)* Added year to timeframe picker
+([MEN-8136](https://northerntech.atlassian.net/browse/MEN-8136)) ([48a5e98](https://github.com/mendersoftware/mender-server/commit/48a5e98cdfc7793fac653f80d1dbe7ae6172956c))  by @mineralsfree
+
+
+
+
+- *(gui)* Changed login form to a more stepwise approach in order to reduce confusion
+([MEN-7761](https://northerntech.atlassian.net/browse/MEN-7761)) ([543bf7a](https://github.com/mendersoftware/mender-server/commit/543bf7a7d0e6b2cd0badf20be9a9ecdb0ce2bc6c))  by @mzedel
+
+
+
+
+  - this relies on an as of yet unreleased bugfix release of RHF
+  Ticket: MEN-7761
+
+- *(gui)* Made password forgotten flow more informative to reduce confusion
+([MEN-7761](https://northerntech.atlassian.net/browse/MEN-7761)) ([ed81bc6](https://github.com/mendersoftware/mender-server/commit/ed81bc69f2d809be0f95f060042c7762bd3855c6))  by @mzedel
+
+
+
+
+- *(gui)* Made subtenant creation a bit more comfortable in case of errors
+([ME-469](https://northerntech.atlassian.net/browse/ME-469)) ([e01171f](https://github.com/mendersoftware/mender-server/commit/e01171fe5aa9434cad9eefb16f52a6c785657bbe))  by @mzedel
+
+
+
+
+- *(gui)* Added more user visible context on tenant creation failures
+ ([c027064](https://github.com/mendersoftware/mender-server/commit/c02706471c536f15e844fd5806deb999dbdbb5d2))  by @mzedel
+
+
+
+  - also centralized mui alert styling to account for increased usage
+  Signed-off-by: Manuel Zedel <manuel.zedel@northern.tech>
+
+- *(gui)* Made login form less reactive when entering login info
+([MEN-8221](https://northerntech.atlassian.net/browse/MEN-8221)) ([00b4d7b](https://github.com/mendersoftware/mender-server/commit/00b4d7be55cfaebdbcd787e308a720d01a40362d))  by @mzedel
+
+
+
+
+- *(gui)* Added sentry integration
+ ([0fe2ad0](https://github.com/mendersoftware/mender-server/commit/0fe2ad0682fc250f75947f8eda690663a3ad2b7d))  by @mzedel
+
+
+
+- *(gui)* Enhanced debugging info to help track down user issues
+ ([c559467](https://github.com/mendersoftware/mender-server/commit/c559467c461470e66d7d3a68674511c1215a8cc2))  by @mzedel
+
+
+
+- *(gui)* Allowed enabling fine grained state debug information to be sent
+ ([298059d](https://github.com/mendersoftware/mender-server/commit/298059dff2d29cb8367b50753e0b7421ceb28341))  by @mzedel
+
+
+
+- *(gui)* Made device tags functionality available in all device auth states
+([ME-528](https://northerntech.atlassian.net/browse/ME-528)) ([7b1f3c6](https://github.com/mendersoftware/mender-server/commit/7b1f3c61e4b4151cb81a8aab5c4a22c581e01cb3))  by @mzedel
+
+
+
+
+- *(gui)* Let tenant token not be visible by default
+([MEN-8397](https://northerntech.atlassian.net/browse/MEN-8397)) ([b70e0b4](https://github.com/mendersoftware/mender-server/commit/b70e0b44cf627d6b0621da92f0d0a154588aafb1))  by @mzedel
+
+
+
+
+- *(gui)* Made device tag setting requirement for fully defined keys & values more visible
+ ([a3ec69f](https://github.com/mendersoftware/mender-server/commit/a3ec69ff8e3fd2940ead0e355a9dc2ac84b9b302))  by @mzedel
+
+
+
+- *(gui)* Staggered device report retrieval to further minimize hitting rate limits
+ ([02f85ff](https://github.com/mendersoftware/mender-server/commit/02f85ff88f4baf77d445a8c1ae6194d748e1a028))  by @mzedel
+
+
+
+- *(gui)* Let UI aggregate all device software again - not just rootfs info
+ ([cfa3712](https://github.com/mendersoftware/mender-server/commit/cfa3712ecfd833c0c31151e114b4dd2456665666))  by @mzedel
+
+
+
+
+  - due to the continued absence of the reporting backend this is re-introduced, but now in combination with the report scoped device retrieval
+
+- *(gui)* Added plan & updated add-on description
+([MEN-8412](https://northerntech.atlassian.net/browse/MEN-8412)) ([7a9d144](https://github.com/mendersoftware/mender-server/commit/7a9d144b4684f9fe5ccebaf45087afd92361e2d8))  by @mineralsfree
+
+
+
+
+- *(gui)* Added subscription page component
+([MEN-8412](https://northerntech.atlassian.net/browse/MEN-8412)) ([ef47bcd](https://github.com/mendersoftware/mender-server/commit/ef47bcdd50fa8c52fd54c4d43cab68c48f89594b))  by @mineralsfree
+
+
+
+
+- *(gui)* Added subscription fetch to storehooks
+([MEN-8412](https://northerntech.atlassian.net/browse/MEN-8412)) ([e6b2dce](https://github.com/mendersoftware/mender-server/commit/e6b2dce18e66c01673ed95a4a5ca379f1cc6f672))  by @mineralsfree
+
+
+
+
+- *(gui)* Added subscription drawer & subscription page adjustments
+([MEN-8412](https://northerntech.atlassian.net/browse/MEN-8412)) ([22ee40f](https://github.com/mendersoftware/mender-server/commit/22ee40f1180002cfef565231b620c0d8c444f0c3))  by @mineralsfree
+
+
+
+
+- *(gui)* Added subscription page route
+([MEN-8412](https://northerntech.atlassian.net/browse/MEN-8412)) ([b4980a4](https://github.com/mendersoftware/mender-server/commit/b4980a4e8d63a11c9851ded8e1fcf4937db34155))  by @mineralsfree
+
+
+
+
+- *(gui)* Changed upgrade links to the new subscription page
+([MEN-8412](https://northerntech.atlassian.net/browse/MEN-8412)) ([215ae41](https://github.com/mendersoftware/mender-server/commit/215ae4173bc1cb89ecc1b5f6e551ee354de54cc0))  by @mineralsfree
+
+
+
+
+- *(gui)* Navigate user to a proper upgrade component depending on the current pricing
+([MEN-8412](https://northerntech.atlassian.net/browse/MEN-8412)) ([a8d66a7](https://github.com/mendersoftware/mender-server/commit/a8d66a7c1ad6ac4aefacb4103c2db5e8093794df))  by @mineralsfree
+
+
+
+
+- *(gui)* Let only trial users use demo intervals for deb package installs
+([MEN-8620](https://northerntech.atlassian.net/browse/MEN-8620)) ([8117480](https://github.com/mendersoftware/mender-server/commit/81174809581bc484bf2f520481676e7c1ecc1fd1))  by @mzedel
+
+
+
+
+- *(gui)* Added log analysis
+ ([9f6c8c2](https://github.com/mendersoftware/mender-server/commit/9f6c8c29d9d5ab0d76fef5f94b333df99da89329))  by @mzedel
+
+
+
+- *(gui)* Let ai request cool down time reflect reality when rate limited
+ ([92e8864](https://github.com/mendersoftware/mender-server/commit/92e8864a8c9d95991d17ad562877bc6e114ec727))  by @mzedel
+
+
+
+- *(gui)* Added execution feedback to troubleshooting device interactions
+([MEN-8632](https://northerntech.atlassian.net/browse/MEN-8632)) ([e1e4074](https://github.com/mendersoftware/mender-server/commit/e1e4074581b787e9a7bf43943aba68cf9a4a4407))  by @mzedel
+
+
+
+
+- *(gui)* Let tenant sso setting inheritance conditions be more explicit
+([MEN-8672](https://northerntech.atlassian.net/browse/MEN-8672)) ([76d4db9](https://github.com/mendersoftware/mender-server/commit/76d4db9a219758e21d357f487435cf106bbc62c6))  by @mzedel
+
+
+
+
+- *(gui)* Made it possible for tenants to allow improving ai functionality in the future
+([MEN-8719](https://northerntech.atlassian.net/browse/MEN-8719)) ([c2dd114](https://github.com/mendersoftware/mender-server/commit/c2dd114e1ec2d2eeb8b33dc300d04de04d3861cd))  by @mzedel
+
+
+
+
+- *(gui)* Switched billing details form to don't disable; validate pattern
+([MEN-8644](https://northerntech.atlassian.net/browse/MEN-8644)) ([c3a0a0d](https://github.com/mendersoftware/mender-server/commit/c3a0a0da140bf547dcab26322696af293571a159))  by @mineralsfree
+
+
+
+
+- *(gui)* Separated billing details edit & cc edit
+([MEN-8644](https://northerntech.atlassian.net/browse/MEN-8644)) ([2dad62a](https://github.com/mendersoftware/mender-server/commit/2dad62a9f83030af5759324e1466a08b10c59a65))  by @mineralsfree
+
+
+
+
+- *(gui)* Cc form adjustments
+([MEN-8644](https://northerntech.atlassian.net/browse/MEN-8644)) ([d1e9292](https://github.com/mendersoftware/mender-server/commit/d1e9292e9a046219234f3eca11f67997c0463bbe))  by @mineralsfree
+
+
+
+
+
+  autofocus, non disabling validation & disabled state
+
+- *(gui)* Cosmetic subscription adjustments & typography usage
+([MEN-8644](https://northerntech.atlassian.net/browse/MEN-8644)) ([0d37587](https://github.com/mendersoftware/mender-server/commit/0d375876f258b8d1651e26fd593e054d23bbca10))  by @mineralsfree
+
+
+
+
+- *(gui)* Added special handling for non-stripe non-enterprise customers
+([MEN-8644](https://northerntech.atlassian.net/browse/MEN-8644)) ([3e99e17](https://github.com/mendersoftware/mender-server/commit/3e99e17765e2010f4feb95f30ce9658a398a36d0))  by @mineralsfree
+
+
+
+
+- *(gui)* Utilized AddonSelect for enterprise/non-stripe users
+([MEN-8644](https://northerntech.atlassian.net/browse/MEN-8644)) ([13b7c79](https://github.com/mendersoftware/mender-server/commit/13b7c798a8d2815b33fb838bd021ca8541ed81f0))  by @mineralsfree
+
+
+
+
+- *(gui)* Switched to a new endpoint for user feedback
+([MEN-7739](https://northerntech.atlassian.net/browse/MEN-7739)) ([e8dae0d](https://github.com/mendersoftware/mender-server/commit/e8dae0d247307b49f45f95c4d428c0671300ef7e))  by @mineralsfree
+
+
+
+
+- *(gui)* Adjusted ai feedback to use new feedback endpoint
+([MEN-7739](https://northerntech.atlassian.net/browse/MEN-7739)) ([ec2a3f2](https://github.com/mendersoftware/mender-server/commit/ec2a3f2c0fd90c3d19a94207e6e05c5a9968b9b4))  by @mineralsfree
+
+
+
+
+- *(gui)* Added chinese server to login notifications
+([MEN-8770](https://northerntech.atlassian.net/browse/MEN-8770)) ([ac933a0](https://github.com/mendersoftware/mender-server/commit/ac933a083e936486673d0eb8dc8c544350304493))  by @mzedel
+
+
+
+
+- *(gui)* Added improved success payment modal
+([MEN-8703](https://northerntech.atlassian.net/browse/MEN-8703)) ([f56e4c6](https://github.com/mendersoftware/mender-server/commit/f56e4c64333876fce83b484baed36b0d7a27069b))  by @mineralsfree
+
+
+
+
+- *(gui)* Let confirmation modal to delay the logout after token invalidation
+([MEN-8703](https://northerntech.atlassian.net/browse/MEN-8703)) ([2a1a71e](https://github.com/mendersoftware/mender-server/commit/2a1a71e76e4d029d030d01ea09e1c0753d783890))  by @mineralsfree
+
+
+
+
+- *(gui)* Added delta artifact generation job retrieval functionality
+ ([66e577a](https://github.com/mendersoftware/mender-server/commit/66e577ad3872122a10f81627fa6518a2d985c3f5))  by @mzedel
+
+
+
+- *(gui)* Added a way to see details about delta generation jobs
+([MEN-8250](https://northerntech.atlassian.net/browse/MEN-8250)) ([36c6adf](https://github.com/mendersoftware/mender-server/commit/36c6adfdaa51ff5a3ca243d691e290afbbcf9fce))  by @mzedel
+
+
+
+
+- *(gui)* Added overview of recent delta generation jobs
+([MEN-8251](https://northerntech.atlassian.net/browse/MEN-8251)) ([0ca8799](https://github.com/mendersoftware/mender-server/commit/0ca8799dae18dca14f513fcb3ea48ca6335082f9))  by @mzedel
+
+
+
+
+- *(gui)* Let release upload be focused on releases view to reduce confusion
+([MEN-8248](https://northerntech.atlassian.net/browse/MEN-8248)) ([22bc53c](https://github.com/mendersoftware/mender-server/commit/22bc53c41293450cb880c58fa5fda847f861ffa5))  by @mzedel
+
+
+
+
+- *(gui)* Let device deployments history access our log viewer as well
+([MEN-8727](https://northerntech.atlassian.net/browse/MEN-8727)) ([f1753f7](https://github.com/mendersoftware/mender-server/commit/f1753f74d684e448176f062dc1d93b0258b2b68d))  by @mzedel
+
+
+
+
+- *(gui)* Let timeframe filter elements also show context dependent notifications
+ ([59cac13](https://github.com/mendersoftware/mender-server/commit/59cac137acd21daf69ea8f54dddb6f1fde0da7b2))  by @mzedel
+
+
+
+- *(gui)* Added notification about auditlog retention time to explain missing entries
+([MEN-8153](https://northerntech.atlassian.net/browse/MEN-8153)) ([51c8fa1](https://github.com/mendersoftware/mender-server/commit/51c8fa1fa4ba9e020a0a385272c4e531216bfd8e))  by @mzedel
+
+
+
+
+- *(gui)* Ensured progress gets updated when monitoring a delta generation job
+ ([7487d8f](https://github.com/mendersoftware/mender-server/commit/7487d8f0dc6b921ede11ddac6ab3bae392a1ffff))  by @mzedel
+
+
+
+- *(inventory)* Add If-Modified-Since to internal Update Device Attributes
+ ([55ae1a1](https://github.com/mendersoftware/mender-server/commit/55ae1a111efbd1202cbe0f31c60f50508d011925))  by @alfrunes
+
+
+
+
+  Adds precondition header `If-Modified-Since` to the internal API for
+  updating attributes within a scope.
+
+- *(iot-manager)* Allowed disabling address verification during webhook configuration
+ ([e05997c](https://github.com/mendersoftware/mender-server/commit/e05997c7c7846c5fec9049a1b937461431687b3a))  by @mzedel
+
+
+
+- *(iot-manager)* Added integration_id query parameter to API for getting events
+([MEN-7801](https://northerntech.atlassian.net/browse/MEN-7801)) ([bc0dae3](https://github.com/mendersoftware/mender-server/commit/bc0dae393ecf61edba3c71555248c2fef25cd2ac))  by @merlin-northern
+
+
+
+
+
+
+  Allows to:
+  * get device events from iot-manager by integration ID
+  * maintains backward compatibility for GET /event
+  * with UI calling the new endpoint this fixes the showing
+    of events from old webhooks in the integraiton details
+
+- *(pkg)* Added request content length to access logs
+([MEN-8935](https://northerntech.atlassian.net/browse/MEN-8935)) ([137da33](https://github.com/mendersoftware/mender-server/commit/137da33ab3056aa80eca0dc4226dddd24b84e7bc))  by @frodeha
+
+
+
+
+- *(useradm)* Backport redis settings to useradm open source
+ ([0e3e894](https://github.com/mendersoftware/mender-server/commit/0e3e8940a73131a52e3116bc0980b2ffb57a5e1d))  by @alfrunes
+
+
+
+
+
+
+  Exposes two new settings for configuring Redis with useradm open source:
+  * redis_connection_string - connection URL to connect to a redis server
+    * Exmple: redis://my.redis.fqdn
+  * redis_key_prefix - a string that will be prepended to every SET
+    operation done by this application.
+    * Default: useradm:v1
+
+- *(useradm)* Add rate limiting configuration for authenticated requests
+([MEN-7745](https://northerntech.atlassian.net/browse/MEN-7745)) ([07d5b18](https://github.com/mendersoftware/mender-server/commit/07d5b18a1e7df6c710fad94d1d53c6173fadf013))  by @alfrunes
+
+
+
+
+
+
+  Added the following configuration parameters:
+  
+  ```yaml
+  ratelimits:
+    # auth configures ratelimits for authenticated requests.
+    auth:
+      # enable rate limiting also requires redis_connection_string to be effective.
+      enable: false
+      # reject_unmatched rejects requests that does not resolve to a
+      # ratelimit group. That is, if either there's no api_pattern matching
+      # the request or if the group_expression does not match a group.
+      # Defaults to false - disable ratelimiting for unmatched requests.
+      reject_unmatched: false
+      # groups specify rate limiting groups that overrides the parameters in the
+      # default group.
+      groups:
+          # name defines the name of the group. The name is used in
+          # match.group_expression to match an api_pattern with a group.
+        - name: default
+          # interval is the time interval when the rate limiter resets.
+          interval: 1m
+          # quota is the number of requests allowed in an interval.
+          quota: 300
+          # event_expression is a go template for grouping requests.
+          # The following attributes are available in the context:
+          # Identity - contains a subset of the JWT claims:
+          # .Subject  (jwt:"sub")          string
+          # .Tenant   (jwt:"mender.tenant") string
+          # .Plan     (jwt:"mender.plan")   string
+          # .Addons   (jwt:"mender.addons") []struct{Enabled bool; Name string}
+          # .IsUser   (jwt:"mender.user")   bool
+          # .IsDevice (jwt:"mender.device") bool
+          # .Trial    (jwt:"mender.trial")  bool
+          event_expression: "{{with .Identity}}{{.Subject}}{{end}}"
+          # More example groups:
+      # - name: "example_slow_group_by_tenant"
+      #   quota: 1
+      #   interval: 30s
+      #   event_expression: "{{with .Identity}}{{.Tenant}}{{end}}"
+      # match specifies matching expressions for mapping API requests to rate
+      # limiting groups.
+      match:
+          # api_pattern specifies an API path pattern as defined by http.ServeMux
+          # https://pkg.go.dev/net/http#hdr-Patterns-ServeMux
+        - api_pattern: /
+          # group_expression defines  the group for this matching expression.
+          # A group can be selected dynamically using Go templates or statically
+          # with a literal string.
+          # See group.event_expression for template context attributes.
+          group_expression: "default"
+          # More example match rules:
+      # - api_pattern: /api/management/v1/useradm/expample/slow/api/
+      #   group_expression: "example_slow_group_by_tenant"
+      # - api_pattern: /api/management/v1/useradm/expample/slow/api/
+      #   group_expression: >
+      #     {{-if .Identity.Trial-}}
+      #     example_slow_group_by_tenant
+      #     {{-else-}}
+      #     default
+      #     {{-end-}}
+  ```
+
+- *(workflows)* Support both pull and push mode consumer
+([MEN-8326](https://northerntech.atlassian.net/browse/MEN-8326)) ([4a93316](https://github.com/mendersoftware/mender-server/commit/4a9331623ffcd19435620ff845c788d3a0e869e2))  by @bahaa-ghazal
+
+
+
+
+- *(workflows)* Add CLI flag to migrate consumers from push to pull mode
+ ([8b9a9a2](https://github.com/mendersoftware/mender-server/commit/8b9a9a2aeb9dc9406dab6497594d94d156f510e1))  by @bahaa-ghazal
+
+
+
+- Add caching for device limits
+([MEN-7760](https://northerntech.atlassian.net/browse/MEN-7760)) ([5466c62](https://github.com/mendersoftware/mender-server/commit/5466c626ca1437ed366151263c3bc03686c58853))  by @alfrunes
+
+
+
+
+
+- Implemented content type checker middleware for gin framework
+([MEN-8327](https://northerntech.atlassian.net/browse/MEN-8327)) ([9016554](https://github.com/mendersoftware/mender-server/commit/9016554b702297ad00f1a748d0824fdf19d05678))  by @bahaa-ghazal
+
+
+
+
+
+- Integrate requestsize middleware into deployments
+ ([c957f12](https://github.com/mendersoftware/mender-server/commit/c957f1210db1de0e2d748cfff2f348f63d64edd6))  by @bahaa-ghazal
+
+
+
+- Integrate requestsize middleware into deviceauth
+ ([a67ade9](https://github.com/mendersoftware/mender-server/commit/a67ade9d1ea7609df515a44396680e4101c9f5e9))  by @bahaa-ghazal
+
+
+
+- Integrate requestsize middleware into deviceconfig
+ ([5cac8ca](https://github.com/mendersoftware/mender-server/commit/5cac8ca0f260f16966ad3cb5e605dd193833dcb1))  by @bahaa-ghazal
+
+
+
+- Integrate requestsize middleware into deviceconnect
+ ([7ca1025](https://github.com/mendersoftware/mender-server/commit/7ca10258c293d32fdc8e1567811b5ffe1f4a23fb))  by @bahaa-ghazal
+
+
+
+- Integrate requestsize middleware into inventory
+ ([9b2ed08](https://github.com/mendersoftware/mender-server/commit/9b2ed083119aaea30226f1e9cd80025cbd0b4001))  by @bahaa-ghazal
+
+
+
+- Integrate requestsize middleware into iot-manager
+ ([7135c16](https://github.com/mendersoftware/mender-server/commit/7135c16f1fbdcfd75b3eda787d0146b3e0ed3ac8))  by @bahaa-ghazal
+
+
+
+- Integrate requestsize middleware into reporting
+ ([0a1797a](https://github.com/mendersoftware/mender-server/commit/0a1797a636c8400b6027d46f6d703351aa586d32))  by @bahaa-ghazal
+
+
+
+- Integrate requestsize middleware into useradm
+ ([bf7b3b5](https://github.com/mendersoftware/mender-server/commit/bf7b3b591599962839178ce0dc712911a449bd8e))  by @bahaa-ghazal
+
+
+
+- Update traefik version
+ ([106f570](https://github.com/mendersoftware/mender-server/commit/106f570bc67613071f276bb69dad42ba47d83d07))  by @joelguittet
+
+
+
+
+  Update of traefik version to support Docker 29.x with API >= 1.44.
+
+
+
+
+### Performance
+
+
+- Put routing path and parameters in separate accesslog fields
+ ([51832b6](https://github.com/mendersoftware/mender-server/commit/51832b685d70d6dbe2f8cdf8442b96d6eec843fb))  by @alfrunes
+
+
+
+
+  By separating the two, it is much less complex to index paths in the log
+  parser.
+
+
+
+
+### Refactor
+
+
+- *(deviceauth)* Move api urls and router maker to `routing.go`
+([MEN-8235](https://northerntech.atlassian.net/browse/MEN-8235)) ([7ecd14e](https://github.com/mendersoftware/mender-server/commit/7ecd14e37aca2d0a8c61b6382e5593a9038b8921))  by @bahaa-ghazal
+
+
+
+
+- *(deviceauth)* Remove tenantadm related code from OS
+([MEN-8649](https://northerntech.atlassian.net/browse/MEN-8649)) ([31b9d2b](https://github.com/mendersoftware/mender-server/commit/31b9d2beeb60a4485449f620ca58df580ba1cae9))  by @bahaa-ghazal
+
+
+
+
+- *(deviceauth)* Extend RejectAuthSetsForDevice to exclude AuthSets
+ ([4411524](https://github.com/mendersoftware/mender-server/commit/4411524fdf7e718f71013c9126ccc2a9ece7e02b)) 
+
+
+
+
+- *(gui)* Isolated organization information in settings to align with design
+([MEN-8411](https://northerntech.atlassian.net/browse/MEN-8411)) ([2d0eb79](https://github.com/mendersoftware/mender-server/commit/2d0eb79e1c51eb31c7a9c1df83754f0aee663a70))  by @mzedel
+
+
+
+
+
+  + made settings items customizable from outside
+
+- *(gui)* Moved billing data to separate settings section & aligned with design
+([MEN-8411](https://northerntech.atlassian.net/browse/MEN-8411)) ([bf7578b](https://github.com/mendersoftware/mender-server/commit/bf7578b3966c82d293127d4d9a0cf6d98d90008e))  by @mzedel
+
+
+
+
+- *(gui)* Centralized support contact component
+ ([0dd79cb](https://github.com/mendersoftware/mender-server/commit/0dd79cb8d2cdd8bc96d4f5c47ef0f7d3f58175a4))  by @mzedel
+
+
+
+- *(gui)* Let chart adding + editing rely on rhf
+ ([1f5f43f](https://github.com/mendersoftware/mender-server/commit/1f5f43f83c97808fd08ac29388947d88ecda255c))  by @mzedel
+
+
+
+- *(gui)* Let report data retrieval + generation work per single report
+ ([049437f](https://github.com/mendersoftware/mender-server/commit/049437f4410cc51a5a4f76bc90b5b8ed2fc53385))  by @mzedel
+
+
+
+- *(gui)* Let each device report handle data retrieval separately
+([ME-542](https://northerntech.atlassian.net/browse/ME-542)) ([23e16b2](https://github.com/mendersoftware/mender-server/commit/23e16b2dc95ce3fd4f5b94ed97198c2d9b0a8e5a))  by @mzedel
+
+
+
+
+
+  + limit report retrieval + visibility to reasonably safe request counts
+  - this might reduce availability of dashboard widgets for more users, but until backend support arrives we'll remain limited
+  - in order to handle the reduced availability & measure interest a support note was added
+  
+  - to account for the improbability of return of the reporting service the reliance on this was removed too
+
+- *(gui)* Aligned delta artifact generation settings w/ updated design
+ ([b3e0587](https://github.com/mendersoftware/mender-server/commit/b3e0587833dade80d103d6db166bcd5cb58683ae))  by @mzedel
+
+
+
+
+  + moved form to RHF to ease working w/ the changed UX
+
+- *(gui)* Unified session details display for device connect sessions
+ ([8d526ae](https://github.com/mendersoftware/mender-server/commit/8d526ae8433393c7f7095fea299e44d17e7ab588))  by @mzedel
+
+
+
+- *(gui)* Made use of store + testing package in codebase
+ ([2d90e96](https://github.com/mendersoftware/mender-server/commit/2d90e9682eeaf53f45612b7c13b70c2abcc580ed))  by @mzedel
+
+
+
+- *(gui)* Made use of testing package & utils in tests
+ ([f416d68](https://github.com/mendersoftware/mender-server/commit/f416d68d89986df4b446f6bca9955c392cee8d34))  by @mzedel
+
+
+
+- *(gui)* Aligned thunk spying w/ updated store package format
+ ([ab1ee33](https://github.com/mendersoftware/mender-server/commit/ab1ee331199ec1bab9183d9ebb0568a2a2ffa136))  by @mzedel
+
+
+
+- *(gui)* Let email check be done in thunk to align msw handler location
+ ([eaae614](https://github.com/mendersoftware/mender-server/commit/eaae614b8ae7b9b4ed46a9f5fd630ff54e8c746e))  by @mzedel
+
+
+
+- *(gui)* Refactored subscription form to be a RHF form & reduce faulty billing calls
+ ([5938972](https://github.com/mendersoftware/mender-server/commit/59389724fd85802e50dc6ce951814a5d8d4beeb0))  by @mzedel
+
+
+
+- *(inventory)* Migrate from ant0nie/go-json-rest to gin-gonic/gin
+([MEN-8236](https://northerntech.atlassian.net/browse/MEN-8236)) ([f6899d4](https://github.com/mendersoftware/mender-server/commit/f6899d44129b892708bbe0bfcc485fbf8f705166))  by @bahaa-ghazal
+
+
+
+
+
+
+- *(pkg)* Create event aware Limiter and refactor redis limiter
+ ([2ac56be](https://github.com/mendersoftware/mender-server/commit/2ac56be82cc7c180526a5c902fccd3f46f0fffbd))  by @alfrunes
+
+
+
+- *(ratelimits)* Move ratelimits default configs to service config
+ ([f5af7f3](https://github.com/mendersoftware/mender-server/commit/f5af7f30fdd67235a0532c0989617db9505bdc61))  by @alfrunes
+
+
+
+
+  The defaults will differ so we need to decentralize them.
+
+- *(useradm)* Remove the redundant authz middleware
+ ([49c629d](https://github.com/mendersoftware/mender-server/commit/49c629d0a8bd50314c0c462211e1ea1d29c5dc8d))  by @bahaa-ghazal
+
+
+
+- *(useradm)* Make the http pkg structure more consistent
+ ([f645fe7](https://github.com/mendersoftware/mender-server/commit/f645fe7ce6216cc42a5b11145ff183263c175979))  by @bahaa-ghazal
+
+
+
+
+  Move the endpoints to `router.go` and rename `middleware.go` to `utils.go`
+
+- *(useradm)* Create utility function to load JWT PKI
+ ([e1e9c31](https://github.com/mendersoftware/mender-server/commit/e1e9c31d4f14a906e3c76aba522e2d7c3143ead5))  by @alfrunes
+
+
+
+
+  ... to lower cyclomatic complexity for main.RunServer.
+
+- Put MakeTestRequest in dedicated testing package
+ ([7597129](https://github.com/mendersoftware/mender-server/commit/7597129bd6336a8542ec9357dbf4d105de371269))  by @alfrunes
+
+
+
+
+  Utilities for testing should be separate from application code.
+- Remove ant0ine/go-json-rest dependency from `requestid.GetReqId()`
+ ([863e415](https://github.com/mendersoftware/mender-server/commit/863e41536cd65293b79f65dd127a7100c9d0f569))  by @bahaa-ghazal
+
+
+- Remove unused ant0ine/go-json-rest utilities from deployments
+ ([90dd5f8](https://github.com/mendersoftware/mender-server/commit/90dd5f80af8bf35df2461dfe60939700062af8a0))  by @bahaa-ghazal in #760
+
+
+- Swap ant0ine/go-json-rest with gin-gonic/gin in routing pkg
+ ([b53abcd](https://github.com/mendersoftware/mender-server/commit/b53abcd60631dcbf9a7895af8de2bcdfcc007460))  by @bahaa-ghazal
+
+
+- Remove rest_utils pkg and migrate existing utils to rest.utils
+([MEN-8233](https://northerntech.atlassian.net/browse/MEN-8233)) ([b25a5f9](https://github.com/mendersoftware/mender-server/commit/b25a5f944e3c25e6f7552d705c78351a7ce796ae))  by @bahaa-ghazal
+
+
+
+- Move integration fixtures to conftest.py and remove unused imports
+ ([dae51c6](https://github.com/mendersoftware/mender-server/commit/dae51c61cbf7a03b487c3307cbcb3c52ebbce44c))  by @alfrunes
+
+
+
+
+
+
+### Security
+
+
+- Bump the backend-tests-python-dependencies group across 1 directory with 6 updates
+ ([928ca70](https://github.com/mendersoftware/mender-server/commit/928ca70e62a539b756b1963378633e8d52fc9814))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-tests-python-dependencies group with 6 updates in the /backend/tests directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [pymongo](https://github.com/mongodb/mongo-python-driver) | `4.10.1` | `4.11` |
+  | [certifi](https://github.com/certifi/python-certifi) | `2024.12.14` | `2025.1.31` |
+  | [boto3](https://github.com/boto/boto3) | `1.36.5` | `1.36.11` |
+  | [semver](https://github.com/python-semver/python-semver) | `3.0.2` | `3.0.4` |
+  | [stripe](https://github.com/stripe/stripe-python) | `11.4.1` | `11.5.0` |
+  | [attrs](https://github.com/sponsors/hynek) | `24.3.0` | `25.1.0` |
+  
+  
+  
+  Updates `pymongo` from 4.10.1 to 4.11
+  - [Release notes](https://github.com/mongodb/mongo-python-driver/releases)
+  - [Changelog](https://github.com/mongodb/mongo-python-driver/blob/master/doc/changelog.rst)
+  - [Commits](https://github.com/mongodb/mongo-python-driver/compare/4.10.1...4.11)
+  
+  Updates `certifi` from 2024.12.14 to 2025.1.31
+  - [Commits](https://github.com/certifi/python-certifi/compare/2024.12.14...2025.01.31)
+  
+  Updates `boto3` from 1.36.5 to 1.36.11
+  - [Release notes](https://github.com/boto/boto3/releases)
+  - [Commits](https://github.com/boto/boto3/compare/1.36.5...1.36.11)
+  
+  Updates `semver` from 3.0.2 to 3.0.4
+  - [Release notes](https://github.com/python-semver/python-semver/releases)
+  - [Changelog](https://github.com/python-semver/python-semver/blob/master/CHANGELOG.rst)
+  - [Commits](https://github.com/python-semver/python-semver/compare/3.0.2...3.0.4)
+  
+  Updates `stripe` from 11.4.1 to 11.5.0
+  - [Release notes](https://github.com/stripe/stripe-python/releases)
+  - [Changelog](https://github.com/stripe/stripe-python/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/stripe/stripe-python/compare/v11.4.1...v11.5.0)
+  
+  Updates `attrs` from 24.3.0 to 25.1.0
+  - [Commits](https://github.com/sponsors/hynek/commits)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: pymongo
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: certifi
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: boto3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: semver
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: stripe
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: attrs
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  ...
+- Bump the backend-golang-dependencies group
+ ([45f7936](https://github.com/mendersoftware/mender-server/commit/45f7936981648f507bd781ded545b621d4016ef0))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-golang-dependencies group in /backend with 6 updates:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [github.com/aws/aws-sdk-go-v2](https://github.com/aws/aws-sdk-go-v2) | `1.33.0` | `1.36.0` |
+  | [github.com/aws/aws-sdk-go-v2/config](https://github.com/aws/aws-sdk-go-v2) | `1.29.1` | `1.29.4` |
+  | [github.com/aws/aws-sdk-go-v2/credentials](https://github.com/aws/aws-sdk-go-v2) | `1.17.54` | `1.17.57` |
+  | [github.com/aws/aws-sdk-go-v2/service/iot](https://github.com/aws/aws-sdk-go-v2) | `1.62.4` | `1.62.7` |
+  | [github.com/aws/aws-sdk-go-v2/service/iotdataplane](https://github.com/aws/aws-sdk-go-v2) | `1.26.11` | `1.26.14` |
+  | [github.com/aws/aws-sdk-go-v2/service/s3](https://github.com/aws/aws-sdk-go-v2) | `1.74.0` | `1.75.2` |
+  
+  
+  Updates `github.com/aws/aws-sdk-go-v2` from 1.33.0 to 1.36.0
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/v1.33.0...v1.36.0)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/config` from 1.29.1 to 1.29.4
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/config/v1.29.1...config/v1.29.4)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/credentials` from 1.17.54 to 1.17.57
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/credentials/v1.17.54...credentials/v1.17.57)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/service/iot` from 1.62.4 to 1.62.7
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/service/iot/v1.62.4...service/iot/v1.62.7)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/service/iotdataplane` from 1.26.11 to 1.26.14
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/service/s3/v1.26.11...service/signer/v1.26.14)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/service/s3` from 1.74.0 to 1.75.2
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/service/s3/v1.74.0...service/s3/v1.75.2)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/aws/aws-sdk-go-v2
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/config
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/credentials
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/service/iot
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/service/iotdataplane
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/service/s3
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  ...
+- Bump node in /frontend
+ ([b362d43](https://github.com/mendersoftware/mender-server/commit/b362d43a5d00862dd1edba661c28427a7d212522))  by @dependabot[bot]
+
+
+
+
+  Bumps node from 23.6.1-alpine3.20 to 23.7.0-alpine3.20.
+  
+  ---
+  updated-dependencies:
+  - dependency-name: node
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+- Bump the playwright group
+ ([19b4f4e](https://github.com/mendersoftware/mender-server/commit/19b4f4e65413b28c8431178af37b9239c86e5984))  by @dependabot[bot]
+
+
+
+
+  Bumps the playwright group in /frontend/tests/e2e_tests with 3 updates: [@playwright/test](https://github.com/microsoft/playwright), [playwright](https://github.com/microsoft/playwright) and [playwright-chromium](https://github.com/microsoft/playwright).
+  
+  
+  Updates `@playwright/test` from 1.50.0 to 1.50.1
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.0...v1.50.1)
+  
+  Updates `playwright` from 1.50.0 to 1.50.1
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.0...v1.50.1)
+  
+  Updates `playwright-chromium` from 1.50.0 to 1.50.1
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.0...v1.50.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@playwright/test"
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: playwright
+  - dependency-name: playwright
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: playwright
+  - dependency-name: playwright-chromium
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: playwright
+  ...
+- Bump the development-dependencies group
+ ([35ae319](https://github.com/mendersoftware/mender-server/commit/35ae319e1c9b95be8a5399dafb370469ae37d5a5))  by @dependabot[bot]
+
+
+
+
+  Bumps the development-dependencies group in /frontend with 4 updates: [@babel/core](https://github.com/babel/babel/tree/HEAD/packages/babel-core), [@babel/preset-env](https://github.com/babel/babel/tree/HEAD/packages/babel-preset-env), [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node) and [lint-staged](https://github.com/lint-staged/lint-staged).
+  
+  
+  Updates `@babel/core` from 7.26.0 to 7.26.7
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.26.7/packages/babel-core)
+  
+  Updates `@babel/preset-env` from 7.26.0 to 7.26.7
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.26.7/packages/babel-preset-env)
+  
+  Updates `@types/node` from 22.10.10 to 22.13.0
+  - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
+  - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node)
+  
+  Updates `lint-staged` from 15.4.2 to 15.4.3
+  - [Release notes](https://github.com/lint-staged/lint-staged/releases)
+  - [Changelog](https://github.com/lint-staged/lint-staged/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/lint-staged/lint-staged/compare/v15.4.2...v15.4.3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@babel/core"
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@babel/preset-env"
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@types/node"
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: lint-staged
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  ...
+- Bump the production-dependencies group
+ ([4bb54ea](https://github.com/mendersoftware/mender-server/commit/4bb54ea81a7e2560514ad5f00c63d9d80dc1d49c))  by @dependabot[bot]
+
+
+
+
+  Bumps the production-dependencies group in /frontend with 3 updates: [@reduxjs/toolkit](https://github.com/reduxjs/redux-toolkit), [@stripe/stripe-js](https://github.com/stripe/stripe-js) and [react-router-dom](https://github.com/remix-run/react-router/tree/HEAD/packages/react-router-dom).
+  
+  
+  Updates `@reduxjs/toolkit` from 2.5.0 to 2.5.1
+  - [Release notes](https://github.com/reduxjs/redux-toolkit/releases)
+  - [Commits](https://github.com/reduxjs/redux-toolkit/compare/v2.5.0...v2.5.1)
+  
+  Updates `@stripe/stripe-js` from 5.5.0 to 5.6.0
+  - [Release notes](https://github.com/stripe/stripe-js/releases)
+  - [Commits](https://github.com/stripe/stripe-js/compare/v5.5.0...v5.6.0)
+  
+  Updates `react-router-dom` from 7.1.3 to 7.1.5
+  - [Release notes](https://github.com/remix-run/react-router/releases)
+  - [Changelog](https://github.com/remix-run/react-router/blob/main/packages/react-router-dom/CHANGELOG.md)
+  - [Commits](https://github.com/remix-run/react-router/commits/react-router-dom@7.1.5/packages/react-router-dom)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@reduxjs/toolkit"
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: production-dependencies
+  - dependency-name: "@stripe/stripe-js"
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: production-dependencies
+  - dependency-name: react-router-dom
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: production-dependencies
+  ...
+- Bump the mui group in /frontend with 3 updates
+ ([566a381](https://github.com/mendersoftware/mender-server/commit/566a381e60eb838fb1a4edfa03f0e79e638f956c))  by @dependabot[bot]
+
+
+
+
+  Bumps the mui group in /frontend with 3 updates: [@mui/icons-material](https://github.com/mui/material-ui/tree/HEAD/packages/mui-icons-material), [@mui/material](https://github.com/mui/material-ui/tree/HEAD/packages/mui-material) and [@mui/x-date-pickers](https://github.com/mui/mui-x/tree/HEAD/packages/x-date-pickers).
+  
+  
+  Updates `@mui/icons-material` from 6.4.1 to 6.4.2
+  - [Release notes](https://github.com/mui/material-ui/releases)
+  - [Changelog](https://github.com/mui/material-ui/blob/v6.4.2/CHANGELOG.md)
+  - [Commits](https://github.com/mui/material-ui/commits/v6.4.2/packages/mui-icons-material)
+  
+  Updates `@mui/material` from 6.4.1 to 6.4.2
+  - [Release notes](https://github.com/mui/material-ui/releases)
+  - [Changelog](https://github.com/mui/material-ui/blob/v6.4.2/CHANGELOG.md)
+  - [Commits](https://github.com/mui/material-ui/commits/v6.4.2/packages/mui-material)
+  
+  Updates `@mui/x-date-pickers` from 7.24.1 to 7.25.0
+  - [Release notes](https://github.com/mui/mui-x/releases)
+  - [Changelog](https://github.com/mui/mui-x/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/mui-x/commits/v7.25.0/packages/x-date-pickers)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@mui/icons-material"
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: mui
+  - dependency-name: "@mui/material"
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: mui
+  - dependency-name: "@mui/x-date-pickers"
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: mui
+  ...
+- Bump to v4.1.0 after branching out 4.0.x
+ ([0737924](https://github.com/mendersoftware/mender-server/commit/073792455d331c77447e5ea8d2e0b448907bc92f))  by @oldgiova
+
+
+
+
+
+  We created the branch 4.0.x specifically for the 4.0 release, so main
+  branch will handle the upcoming 4.1 version.
+- Bump cryptography from 44.0.0 to 44.0.1 in /backend/tests
+ ([9f65d60](https://github.com/mendersoftware/mender-server/commit/9f65d60d5d81792bc662ccc0617f58fcfcc550a0))  by @dependabot[bot]
+
+
+
+
+  Bumps [cryptography](https://github.com/pyca/cryptography) from 44.0.0 to 44.0.1.
+  - [Changelog](https://github.com/pyca/cryptography/blob/main/CHANGELOG.rst)
+  - [Commits](https://github.com/pyca/cryptography/compare/44.0.0...44.0.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: cryptography
+    dependency-type: direct:production
+  ...
+- Bump elliptic from 6.5.7 to 6.6.1 in /frontend
+ ([c4a1e01](https://github.com/mendersoftware/mender-server/commit/c4a1e018b945e6d0e641710a8977eaad37f47a9f))  by @dependabot[bot]
+
+
+
+
+  Bumps [elliptic](https://github.com/indutny/elliptic) from 6.5.7 to 6.6.1.
+  - [Commits](https://github.com/indutny/elliptic/compare/v6.5.7...v6.6.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: elliptic
+    dependency-type: indirect
+  ...
+- Bump the backend-tests-python-dependencies group across 1 directory with 3 updates
+ ([47fd263](https://github.com/mendersoftware/mender-server/commit/47fd26379ed4e5bedb51eae36e8c019035002a9b))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-tests-python-dependencies group with 3 updates in the /backend/tests directory: [pymongo](https://github.com/mongodb/mongo-python-driver), [boto3](https://github.com/boto/boto3) and [websockets](https://github.com/python-websockets/websockets).
+  
+  
+  Updates `pymongo` from 4.11 to 4.11.1
+  - [Release notes](https://github.com/mongodb/mongo-python-driver/releases)
+  - [Changelog](https://github.com/mongodb/mongo-python-driver/blob/4.11.1/doc/changelog.rst)
+  - [Commits](https://github.com/mongodb/mongo-python-driver/compare/4.11...4.11.1)
+  
+  Updates `boto3` from 1.36.11 to 1.36.21
+  - [Release notes](https://github.com/boto/boto3/releases)
+  - [Commits](https://github.com/boto/boto3/compare/1.36.11...1.36.21)
+  
+  Updates `websockets` from 14.2 to 15.0
+  - [Release notes](https://github.com/python-websockets/websockets/releases)
+  - [Commits](https://github.com/python-websockets/websockets/compare/14.2...15.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: pymongo
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: boto3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: websockets
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  ...
+- Bump the backend-docker-dependencies group across 10 directories with 2 updates
+ ([397ecbc](https://github.com/mendersoftware/mender-server/commit/397ecbce6675da4f21d90693e1efd669e60e8ae9))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-docker-dependencies group with 2 updates in the /backend/services/create-artifact-worker directory: golang and alpine.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deployments directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceauth directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceconfig directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceconnect directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/inventory directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/iot-manager directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/reporting directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/useradm directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/workflows directory: golang.
+  
+  
+  Updates `golang` from 1.23.5 to 1.24.0
+  
+  Updates `alpine` from 3.21.2 to 3.21.3
+  
+  Updates `golang` from 1.23.5 to 1.24.0
+  
+  Updates `golang` from 1.23.5 to 1.24.0
+  
+  Updates `golang` from 1.23.5 to 1.24.0
+  
+  Updates `golang` from 1.23.5 to 1.24.0
+  
+  Updates `golang` from 1.23.5 to 1.24.0
+  
+  Updates `golang` from 1.23.5 to 1.24.0
+  
+  Updates `golang` from 1.23.5 to 1.24.0
+  
+  Updates `golang` from 1.23.5 to 1.24.0
+  
+  Updates `golang` from 1.23.5 to 1.24.0
+  
+  ---
+  updated-dependencies:
+  - dependency-name: golang
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: alpine
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-dependencies
+  ...
+- Bump the e2e-test-dependencies group
+ ([4b84f06](https://github.com/mendersoftware/mender-server/commit/4b84f06a45394f74d40f13cd6ea0726fd47f93fb))  by @dependabot[bot]
+
+
+
+
+  Bumps the e2e-test-dependencies group in /frontend/tests/e2e_tests with 5 updates:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@bgotink/playwright-coverage](https://github.com/bgotink/playwright-coverage) | `0.3.0` | `0.3.1` |
+  | [axios](https://github.com/axios/axios) | `1.7.9` | `1.8.1` |
+  | [pixelmatch](https://github.com/mapbox/pixelmatch) | `6.0.0` | `7.1.0` |
+  | [typescript](https://github.com/microsoft/TypeScript) | `5.7.3` | `5.8.2` |
+  | [uuid](https://github.com/uuidjs/uuid) | `11.0.5` | `11.1.0` |
+  
+  
+  Updates `@bgotink/playwright-coverage` from 0.3.0 to 0.3.1
+  - [Commits](https://github.com/bgotink/playwright-coverage/compare/v0.3.0...v0.3.1)
+  
+  Updates `axios` from 1.7.9 to 1.8.1
+  - [Release notes](https://github.com/axios/axios/releases)
+  - [Changelog](https://github.com/axios/axios/blob/v1.x/CHANGELOG.md)
+  - [Commits](https://github.com/axios/axios/compare/v1.7.9...v1.8.1)
+  
+  Updates `pixelmatch` from 6.0.0 to 7.1.0
+  - [Release notes](https://github.com/mapbox/pixelmatch/releases)
+  - [Commits](https://github.com/mapbox/pixelmatch/compare/v6.0.0...v7.1.0)
+  
+  Updates `typescript` from 5.7.3 to 5.8.2
+  - [Release notes](https://github.com/microsoft/TypeScript/releases)
+  - [Changelog](https://github.com/microsoft/TypeScript/blob/main/azure-pipelines.release.yml)
+  - [Commits](https://github.com/microsoft/TypeScript/compare/v5.7.3...v5.8.2)
+  
+  Updates `uuid` from 11.0.5 to 11.1.0
+  - [Release notes](https://github.com/uuidjs/uuid/releases)
+  - [Changelog](https://github.com/uuidjs/uuid/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/uuidjs/uuid/compare/v11.0.5...v11.1.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@bgotink/playwright-coverage"
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: e2e-test-dependencies
+  - dependency-name: axios
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  - dependency-name: pixelmatch
+    dependency-type: direct:development
+    update-type: version-update:semver-major
+    dependency-group: e2e-test-dependencies
+  - dependency-name: typescript
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  - dependency-name: uuid
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  ...
+- Bump the development-dependencies group across 1 directory with 11 updates
+ ([cdb6a76](https://github.com/mendersoftware/mender-server/commit/cdb6a76eddb5cb9c039c1484b421cf8092e21482))  by @dependabot[bot]
+
+
+
+
+  Bumps the development-dependencies group with 10 updates in the /frontend directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@rspack/cli](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack-cli) | `1.2.2` | `1.2.6` |
+  | [@rspack/core](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack) | `1.2.2` | `1.2.6` |
+  | [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node) | `22.13.4` | `22.13.8` |
+  | [@vitest/coverage-v8](https://github.com/vitest-dev/vitest/tree/HEAD/packages/coverage-v8) | `3.0.5` | `3.0.7` |
+  | [core-js](https://github.com/zloirock/core-js/tree/HEAD/packages/core-js) | `3.40.0` | `3.41.0` |
+  | [msw](https://github.com/mswjs/msw) | `2.7.0` | `2.7.3` |
+  | [prettier](https://github.com/prettier/prettier) | `3.5.1` | `3.5.2` |
+  | [typescript](https://github.com/microsoft/TypeScript) | `5.7.3` | `5.8.2` |
+  | [undici](https://github.com/nodejs/undici) | `7.3.0` | `7.4.0` |
+  | [webpack-license-plugin](https://github.com/codepunkt/webpack-license-plugin) | `4.5.0` | `4.5.1` |
+  
+  
+  
+  Updates `@rspack/cli` from 1.2.2 to 1.2.6
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.2.6/packages/rspack-cli)
+  
+  Updates `@rspack/core` from 1.2.2 to 1.2.6
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.2.6/packages/rspack)
+  
+  Updates `@types/node` from 22.13.4 to 22.13.8
+  - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
+  - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node)
+  
+  Updates `@vitest/coverage-v8` from 3.0.5 to 3.0.7
+  - [Release notes](https://github.com/vitest-dev/vitest/releases)
+  - [Commits](https://github.com/vitest-dev/vitest/commits/v3.0.7/packages/coverage-v8)
+  
+  Updates `core-js` from 3.40.0 to 3.41.0
+  - [Release notes](https://github.com/zloirock/core-js/releases)
+  - [Changelog](https://github.com/zloirock/core-js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/zloirock/core-js/commits/v3.41.0/packages/core-js)
+  
+  Updates `msw` from 2.7.0 to 2.7.3
+  - [Release notes](https://github.com/mswjs/msw/releases)
+  - [Changelog](https://github.com/mswjs/msw/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/mswjs/msw/compare/v2.7.0...v2.7.3)
+  
+  Updates `prettier` from 3.5.1 to 3.5.2
+  - [Release notes](https://github.com/prettier/prettier/releases)
+  - [Changelog](https://github.com/prettier/prettier/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/prettier/prettier/compare/3.5.1...3.5.2)
+  
+  Updates `typescript` from 5.7.3 to 5.8.2
+  - [Release notes](https://github.com/microsoft/TypeScript/releases)
+  - [Changelog](https://github.com/microsoft/TypeScript/blob/main/azure-pipelines.release.yml)
+  - [Commits](https://github.com/microsoft/TypeScript/compare/v5.7.3...v5.8.2)
+  
+  Updates `undici` from 7.3.0 to 7.4.0
+  - [Release notes](https://github.com/nodejs/undici/releases)
+  - [Commits](https://github.com/nodejs/undici/compare/v7.3.0...v7.4.0)
+  
+  Updates `vitest` from 3.0.5 to 3.0.7
+  - [Release notes](https://github.com/vitest-dev/vitest/releases)
+  - [Commits](https://github.com/vitest-dev/vitest/commits/v3.0.7/packages/vitest)
+  
+  Updates `webpack-license-plugin` from 4.5.0 to 4.5.1
+  - [Release notes](https://github.com/codepunkt/webpack-license-plugin/releases)
+  - [Changelog](https://github.com/codepunkt/webpack-license-plugin/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/codepunkt/webpack-license-plugin/compare/v4.5.0...v4.5.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@rspack/cli"
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/core"
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@types/node"
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@vitest/coverage-v8"
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: core-js
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: msw
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: prettier
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: typescript
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: undici
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: vitest
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: webpack-license-plugin
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  ...
+- Bump axios from 1.8.1 to 1.8.2 in /frontend
+ ([f2f0e2c](https://github.com/mendersoftware/mender-server/commit/f2f0e2c0c951a2212ea1cff4aed062a2adaf9d4b))  by @dependabot[bot]
+
+
+
+
+  Bumps [axios](https://github.com/axios/axios) from 1.8.1 to 1.8.2.
+  - [Release notes](https://github.com/axios/axios/releases)
+  - [Changelog](https://github.com/axios/axios/blob/v1.x/CHANGELOG.md)
+  - [Commits](https://github.com/axios/axios/compare/v1.8.1...v1.8.2)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: axios
+    dependency-type: direct:production
+  ...
+- Bump axios from 1.8.1 to 1.8.2 in /frontend/tests/e2e_tests
+ ([5f14e99](https://github.com/mendersoftware/mender-server/commit/5f14e99eee38f54e79371ebdb2444ca1ad6436c6))  by @dependabot[bot]
+
+
+
+
+  Bumps [axios](https://github.com/axios/axios) from 1.8.1 to 1.8.2.
+  - [Release notes](https://github.com/axios/axios/releases)
+  - [Changelog](https://github.com/axios/axios/blob/v1.x/CHANGELOG.md)
+  - [Commits](https://github.com/axios/axios/compare/v1.8.1...v1.8.2)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: axios
+    dependency-type: direct:development
+  ...
+- Bump golang.org/x/net from 0.35.0 to 0.36.0 in /backend
+ ([b46831a](https://github.com/mendersoftware/mender-server/commit/b46831affb05649cd306517c391f46aa3d51f4ad))  by @dependabot[bot]
+
+
+
+
+  Bumps [golang.org/x/net](https://github.com/golang/net) from 0.35.0 to 0.36.0.
+  - [Commits](https://github.com/golang/net/compare/v0.35.0...v0.36.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: golang.org/x/net
+    dependency-type: direct:production
+  ...
+- Bump github.com/golang-jwt/jwt/v4 from 4.5.1 to 4.5.2 in /backend
+ ([647181d](https://github.com/mendersoftware/mender-server/commit/647181d0911325932b46face8fc7854191a38b32))  by @dependabot[bot]
+
+
+
+
+  Bumps [github.com/golang-jwt/jwt/v4](https://github.com/golang-jwt/jwt) from 4.5.1 to 4.5.2.
+  - [Release notes](https://github.com/golang-jwt/jwt/releases)
+  - [Changelog](https://github.com/golang-jwt/jwt/blob/main/VERSION_HISTORY.md)
+  - [Commits](https://github.com/golang-jwt/jwt/compare/v4.5.1...v4.5.2)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/golang-jwt/jwt/v4
+    dependency-type: direct:production
+  ...
+- Bump xml-crypto from 2.1.5 to 2.1.6 in /frontend/tests/e2e_tests
+ ([c9b2351](https://github.com/mendersoftware/mender-server/commit/c9b235182d2a7dd825eaede998618f063824e6e3))  by @dependabot[bot]
+
+
+
+
+  Bumps [xml-crypto](https://github.com/node-saml/xml-crypto) from 2.1.5 to 2.1.6.
+  - [Release notes](https://github.com/node-saml/xml-crypto/releases)
+  - [Changelog](https://github.com/node-saml/xml-crypto/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/node-saml/xml-crypto/compare/v2.1.5...v2.1.6)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: xml-crypto
+    dependency-type: indirect
+  ...
+- Bump github.com/redis/go-redis/v9 from 9.7.1 to 9.7.3 in /backend
+ ([460e035](https://github.com/mendersoftware/mender-server/commit/460e0358e3288eaae5dc0fde717c100b12e9ee44))  by @dependabot[bot]
+
+
+
+
+  Bumps [github.com/redis/go-redis/v9](https://github.com/redis/go-redis) from 9.7.1 to 9.7.3.
+  - [Release notes](https://github.com/redis/go-redis/releases)
+  - [Changelog](https://github.com/redis/go-redis/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/redis/go-redis/compare/v9.7.1...v9.7.3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/redis/go-redis/v9
+    dependency-type: direct:production
+  ...
+- Bump vite from 6.1.0 to 6.2.4 in /frontend
+ ([7cf7f5a](https://github.com/mendersoftware/mender-server/commit/7cf7f5a45f13b51b0db69f2b1dcabe8aaa805ea9))  by @dependabot[bot]
+
+
+
+
+  Bumps [vite](https://github.com/vitejs/vite/tree/HEAD/packages/vite) from 6.1.0 to 6.2.4.
+  - [Release notes](https://github.com/vitejs/vite/releases)
+  - [Changelog](https://github.com/vitejs/vite/blob/v6.2.4/packages/vite/CHANGELOG.md)
+  - [Commits](https://github.com/vitejs/vite/commits/v6.2.4/packages/vite)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: vite
+    dependency-type: indirect
+  ...
+- Bump @playwright/test
+ ([d5a40f6](https://github.com/mendersoftware/mender-server/commit/d5a40f60d517a9c7cf949585112a47df38cb9c89))  by @dependabot[bot]
+
+
+
+
+  Bumps the playwright group in /frontend/tests/e2e_tests with 1 update: [@playwright/test](https://github.com/microsoft/playwright).
+  
+  
+  Updates `@playwright/test` from 1.50.1 to 1.51.1
+  - [Release notes](https://github.com/microsoft/playwright/releases)
+  - [Commits](https://github.com/microsoft/playwright/compare/v1.50.1...v1.51.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@playwright/test"
+    dependency-version: 1.51.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: playwright
+  ...
+- Bump the backend-docker-dependencies group across 10 directories with 1 update
+ ([557370d](https://github.com/mendersoftware/mender-server/commit/557370d5b48bcfa84470a107da2a2b180aa0f5eb))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/create-artifact-worker directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deployments directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceauth directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceconfig directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/deviceconnect directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/inventory directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/iot-manager directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/reporting directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/useradm directory: golang.
+  Bumps the backend-docker-dependencies group with 1 update in the /backend/services/workflows directory: golang.
+  
+  
+  Updates `golang` from 1.24.0 to 1.24.2
+  
+  Updates `golang` from 1.24.0 to 1.24.2
+  
+  Updates `golang` from 1.24.0 to 1.24.2
+  
+  Updates `golang` from 1.24.0 to 1.24.2
+  
+  Updates `golang` from 1.24.0 to 1.24.2
+  
+  Updates `golang` from 1.24.0 to 1.24.2
+  
+  Updates `golang` from 1.24.0 to 1.24.2
+  
+  Updates `golang` from 1.24.0 to 1.24.2
+  
+  Updates `golang` from 1.24.0 to 1.24.2
+  
+  Updates `golang` from 1.24.0 to 1.24.2
+  
+  ---
+  updated-dependencies:
+  - dependency-name: golang
+    dependency-version: 1.24.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.24.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.24.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.24.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.24.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.24.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.24.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.24.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.24.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  - dependency-name: golang
+    dependency-version: 1.24.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-docker-dependencies
+  ...
+- Bump the backend-tests-python-dependencies group across 1 directory with 10 updates
+ ([0336e9e](https://github.com/mendersoftware/mender-server/commit/0336e9e3897d45018b4fafa6326f70532289e6c6))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-tests-python-dependencies group with 10 updates in the /backend/tests directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [pytest](https://github.com/pytest-dev/pytest) | `8.3.4` | `8.3.5` |
+  | [pymongo](https://github.com/mongodb/mongo-python-driver) | `4.11.1` | `4.11.3` |
+  | [attrs](https://github.com/sponsors/hynek) | `25.1.0` | `25.3.0` |
+  | [boto3](https://github.com/boto/boto3) | `1.37.4` | `1.37.24` |
+  | [cryptography](https://github.com/pyca/cryptography) | `44.0.1` | `44.0.2` |
+  | [filelock](https://github.com/tox-dev/py-filelock) | `3.17.0` | `3.18.0` |
+  | [iniconfig](https://github.com/pytest-dev/iniconfig) | `2.0.0` | `2.1.0` |
+  | [pillow](https://github.com/python-pillow/Pillow) | `11.1.0` | `11.2.0` |
+  | [pyparsing](https://github.com/pyparsing/pyparsing) | `3.2.1` | `3.2.3` |
+  | [websockets](https://github.com/python-websockets/websockets) | `15.0` | `15.0.1` |
+  
+  
+  
+  Updates `pytest` from 8.3.4 to 8.3.5
+  - [Release notes](https://github.com/pytest-dev/pytest/releases)
+  - [Changelog](https://github.com/pytest-dev/pytest/blob/main/CHANGELOG.rst)
+  - [Commits](https://github.com/pytest-dev/pytest/compare/8.3.4...8.3.5)
+  
+  Updates `pymongo` from 4.11.1 to 4.11.3
+  - [Release notes](https://github.com/mongodb/mongo-python-driver/releases)
+  - [Changelog](https://github.com/mongodb/mongo-python-driver/blob/4.11.3/doc/changelog.rst)
+  - [Commits](https://github.com/mongodb/mongo-python-driver/compare/4.11.1...4.11.3)
+  
+  Updates `attrs` from 25.1.0 to 25.3.0
+  - [Commits](https://github.com/sponsors/hynek/commits)
+  
+  Updates `boto3` from 1.37.4 to 1.37.24
+  - [Release notes](https://github.com/boto/boto3/releases)
+  - [Commits](https://github.com/boto/boto3/compare/1.37.4...1.37.24)
+  
+  Updates `cryptography` from 44.0.1 to 44.0.2
+  - [Changelog](https://github.com/pyca/cryptography/blob/main/CHANGELOG.rst)
+  - [Commits](https://github.com/pyca/cryptography/compare/44.0.1...44.0.2)
+  
+  Updates `filelock` from 3.17.0 to 3.18.0
+  - [Release notes](https://github.com/tox-dev/py-filelock/releases)
+  - [Changelog](https://github.com/tox-dev/filelock/blob/main/docs/changelog.rst)
+  - [Commits](https://github.com/tox-dev/py-filelock/compare/3.17.0...3.18.0)
+  
+  Updates `iniconfig` from 2.0.0 to 2.1.0
+  - [Release notes](https://github.com/pytest-dev/iniconfig/releases)
+  - [Changelog](https://github.com/pytest-dev/iniconfig/blob/main/CHANGELOG)
+  - [Commits](https://github.com/pytest-dev/iniconfig/compare/v2.0.0...v2.1.0)
+  
+  Updates `pillow` from 11.1.0 to 11.2.0
+  - [Release notes](https://github.com/python-pillow/Pillow/releases)
+  - [Changelog](https://github.com/python-pillow/Pillow/blob/main/CHANGES.rst)
+  - [Commits](https://github.com/python-pillow/Pillow/compare/11.1.0...11.2.0)
+  
+  Updates `pyparsing` from 3.2.1 to 3.2.3
+  - [Release notes](https://github.com/pyparsing/pyparsing/releases)
+  - [Changelog](https://github.com/pyparsing/pyparsing/blob/master/CHANGES)
+  - [Commits](https://github.com/pyparsing/pyparsing/compare/3.2.1...3.2.3)
+  
+  Updates `websockets` from 15.0 to 15.0.1
+  - [Release notes](https://github.com/python-websockets/websockets/releases)
+  - [Commits](https://github.com/python-websockets/websockets/compare/15.0...15.0.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: pytest
+    dependency-version: 8.3.5
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pymongo
+    dependency-version: 4.11.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: attrs
+    dependency-version: 25.3.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: boto3
+    dependency-version: 1.37.24
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: cryptography
+    dependency-version: 44.0.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: filelock
+    dependency-version: 3.18.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: iniconfig
+    dependency-version: 2.1.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pillow
+    dependency-version: 11.2.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pyparsing
+    dependency-version: 3.2.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: websockets
+    dependency-version: 15.0.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  ...
+- Bump the development-dependencies group across 1 directory with 14 updates
+ ([6f18d5f](https://github.com/mendersoftware/mender-server/commit/6f18d5f5243de54d575586413e0526f5603c3590))  by @dependabot[bot]
+
+
+
+
+  Bumps the development-dependencies group with 13 updates in the /frontend directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@babel/core](https://github.com/babel/babel/tree/HEAD/packages/babel-core) | `7.26.9` | `7.26.10` |
+  | [@babel/preset-typescript](https://github.com/babel/babel/tree/HEAD/packages/babel-preset-typescript) | `7.26.0` | `7.27.0` |
+  | [@rspack/cli](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack-cli) | `1.2.2` | `1.3.2` |
+  | [@rspack/core](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack) | `1.2.2` | `1.3.2` |
+  | [@testing-library/react](https://github.com/testing-library/react-testing-library) | `16.2.0` | `16.3.0` |
+  | [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node) | `22.13.8` | `22.14.0` |
+  | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint/tree/HEAD/packages/eslint-plugin) | `8.25.0` | `8.29.0` |
+  | [@vitest/coverage-v8](https://github.com/vitest-dev/vitest/tree/HEAD/packages/coverage-v8) | `3.0.7` | `3.1.1` |
+  | [autoprefixer](https://github.com/postcss/autoprefixer) | `10.4.20` | `10.4.21` |
+  | [lint-staged](https://github.com/lint-staged/lint-staged) | `15.4.3` | `15.5.0` |
+  | [prettier](https://github.com/prettier/prettier) | `3.5.2` | `3.5.3` |
+  | [typescript](https://github.com/microsoft/TypeScript) | `5.7.3` | `5.8.2` |
+  | [undici](https://github.com/nodejs/undici) | `7.4.0` | `7.7.0` |
+  
+  
+  
+  Updates `@babel/core` from 7.26.9 to 7.26.10
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.26.10/packages/babel-core)
+  
+  Updates `@babel/preset-typescript` from 7.26.0 to 7.27.0
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.27.0/packages/babel-preset-typescript)
+  
+  Updates `@rspack/cli` from 1.2.2 to 1.3.2
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.3.2/packages/rspack-cli)
+  
+  Updates `@rspack/core` from 1.2.2 to 1.3.2
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.3.2/packages/rspack)
+  
+  Updates `@testing-library/react` from 16.2.0 to 16.3.0
+  - [Release notes](https://github.com/testing-library/react-testing-library/releases)
+  - [Changelog](https://github.com/testing-library/react-testing-library/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/testing-library/react-testing-library/compare/v16.2.0...v16.3.0)
+  
+  Updates `@types/node` from 22.13.8 to 22.14.0
+  - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
+  - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node)
+  
+  Updates `@typescript-eslint/eslint-plugin` from 8.25.0 to 8.29.0
+  - [Release notes](https://github.com/typescript-eslint/typescript-eslint/releases)
+  - [Changelog](https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/CHANGELOG.md)
+  - [Commits](https://github.com/typescript-eslint/typescript-eslint/commits/v8.29.0/packages/eslint-plugin)
+  
+  Updates `@vitest/coverage-v8` from 3.0.7 to 3.1.1
+  - [Release notes](https://github.com/vitest-dev/vitest/releases)
+  - [Commits](https://github.com/vitest-dev/vitest/commits/v3.1.1/packages/coverage-v8)
+  
+  Updates `autoprefixer` from 10.4.20 to 10.4.21
+  - [Release notes](https://github.com/postcss/autoprefixer/releases)
+  - [Changelog](https://github.com/postcss/autoprefixer/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/postcss/autoprefixer/compare/10.4.20...10.4.21)
+  
+  Updates `lint-staged` from 15.4.3 to 15.5.0
+  - [Release notes](https://github.com/lint-staged/lint-staged/releases)
+  - [Changelog](https://github.com/lint-staged/lint-staged/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/lint-staged/lint-staged/compare/v15.4.3...v15.5.0)
+  
+  Updates `prettier` from 3.5.2 to 3.5.3
+  - [Release notes](https://github.com/prettier/prettier/releases)
+  - [Changelog](https://github.com/prettier/prettier/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/prettier/prettier/compare/3.5.2...3.5.3)
+  
+  Updates `typescript` from 5.7.3 to 5.8.2
+  - [Release notes](https://github.com/microsoft/TypeScript/releases)
+  - [Changelog](https://github.com/microsoft/TypeScript/blob/main/azure-pipelines.release-publish.yml)
+  - [Commits](https://github.com/microsoft/TypeScript/compare/v5.7.3...v5.8.2)
+  
+  Updates `undici` from 7.4.0 to 7.7.0
+  - [Release notes](https://github.com/nodejs/undici/releases)
+  - [Commits](https://github.com/nodejs/undici/compare/v7.4.0...v7.7.0)
+  
+  Updates `vitest` from 3.0.7 to 3.1.1
+  - [Release notes](https://github.com/vitest-dev/vitest/releases)
+  - [Commits](https://github.com/vitest-dev/vitest/commits/v3.1.1/packages/vitest)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@babel/core"
+    dependency-version: 7.26.10
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@babel/preset-typescript"
+    dependency-version: 7.27.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/cli"
+    dependency-version: 1.3.2
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/core"
+    dependency-version: 1.3.2
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@testing-library/react"
+    dependency-version: 16.3.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@types/node"
+    dependency-version: 22.14.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    dependency-version: 8.29.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@vitest/coverage-v8"
+    dependency-version: 3.1.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: autoprefixer
+    dependency-version: 10.4.21
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: lint-staged
+    dependency-version: 15.5.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: prettier
+    dependency-version: 3.5.3
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: typescript
+    dependency-version: 5.8.2
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: undici
+    dependency-version: 7.7.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: vitest
+    dependency-version: 3.1.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  ...
+- Bump vite from 6.2.4 to 6.2.5 in /frontend
+ ([05bb10b](https://github.com/mendersoftware/mender-server/commit/05bb10b94a101a02e049d4b95e6f78356979aae9))  by @dependabot[bot]
+
+
+
+
+  Bumps [vite](https://github.com/vitejs/vite/tree/HEAD/packages/vite) from 6.2.4 to 6.2.5.
+  - [Release notes](https://github.com/vitejs/vite/releases)
+  - [Changelog](https://github.com/vitejs/vite/blob/v6.2.5/packages/vite/CHANGELOG.md)
+  - [Commits](https://github.com/vitejs/vite/commits/v6.2.5/packages/vite)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: vite
+    dependency-version: 6.2.5
+    dependency-type: indirect
+  ...
+- Bump vite from 6.2.5 to 6.2.6 in /frontend
+ ([155e9fb](https://github.com/mendersoftware/mender-server/commit/155e9fbeecb245390255af4b5dfbda8f5de09580))  by @dependabot[bot]
+
+
+
+
+  Bumps [vite](https://github.com/vitejs/vite/tree/HEAD/packages/vite) from 6.2.5 to 6.2.6.
+  - [Release notes](https://github.com/vitejs/vite/releases)
+  - [Changelog](https://github.com/vitejs/vite/blob/v6.2.6/packages/vite/CHANGELOG.md)
+  - [Commits](https://github.com/vitejs/vite/commits/v6.2.6/packages/vite)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: vite
+    dependency-version: 6.2.6
+    dependency-type: indirect
+  ...
+- Bump github.com/nats-io/nats-server/v2 in /backend
+ ([8a1989a](https://github.com/mendersoftware/mender-server/commit/8a1989a3a99fc7003ce46e8f54b6b7023fea3399))  by @dependabot[bot]
+
+
+
+
+  Bumps [github.com/nats-io/nats-server/v2](https://github.com/nats-io/nats-server) from 2.11.0 to 2.11.1.
+  - [Release notes](https://github.com/nats-io/nats-server/releases)
+  - [Changelog](https://github.com/nats-io/nats-server/blob/main/.goreleaser.yml)
+  - [Commits](https://github.com/nats-io/nats-server/compare/v2.11.0...v2.11.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/nats-io/nats-server/v2
+    dependency-version: 2.11.1
+    dependency-type: direct:production
+  ...
+- Bump golang.org/x/net from 0.37.0 to 0.38.0 in /backend
+ ([7c13de8](https://github.com/mendersoftware/mender-server/commit/7c13de892f62f1c8a3c21bb464d96f404e7261a3))  by @dependabot[bot]
+
+
+
+
+  Bumps [golang.org/x/net](https://github.com/golang/net) from 0.37.0 to 0.38.0.
+  - [Commits](https://github.com/golang/net/compare/v0.37.0...v0.38.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: golang.org/x/net
+    dependency-version: 0.38.0
+    dependency-type: direct:production
+  ...
+- Bump http-proxy-middleware from 2.0.7 to 2.0.9 in /frontend
+ ([b4100b9](https://github.com/mendersoftware/mender-server/commit/b4100b9e3ad9d08809dc365a965f5551bf0bc4a3))  by @dependabot[bot]
+
+
+
+
+  Bumps [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware) from 2.0.7 to 2.0.9.
+  - [Release notes](https://github.com/chimurai/http-proxy-middleware/releases)
+  - [Changelog](https://github.com/chimurai/http-proxy-middleware/blob/v2.0.9/CHANGELOG.md)
+  - [Commits](https://github.com/chimurai/http-proxy-middleware/compare/v2.0.7...v2.0.9)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: http-proxy-middleware
+    dependency-version: 2.0.9
+    dependency-type: indirect
+  ...
+- Bump react-router and react-router-dom in /frontend
+ ([0e9f3ca](https://github.com/mendersoftware/mender-server/commit/0e9f3ca8a16ee8fec08762d8ddb7ee9d65b653af))  by @dependabot[bot]
+
+
+
+
+  Bumps [react-router](https://github.com/remix-run/react-router/tree/HEAD/packages/react-router) to 7.5.2 and updates ancestor dependency [react-router-dom](https://github.com/remix-run/react-router/tree/HEAD/packages/react-router-dom). These dependencies need to be updated together.
+  
+  
+  Updates `react-router` from 7.4.1 to 7.5.2
+  - [Release notes](https://github.com/remix-run/react-router/releases)
+  - [Changelog](https://github.com/remix-run/react-router/blob/main/packages/react-router/CHANGELOG.md)
+  - [Commits](https://github.com/remix-run/react-router/commits/react-router@7.5.2/packages/react-router)
+  
+  Updates `react-router-dom` from 7.4.1 to 7.5.2
+  - [Release notes](https://github.com/remix-run/react-router/releases)
+  - [Changelog](https://github.com/remix-run/react-router/blob/main/packages/react-router-dom/CHANGELOG.md)
+  - [Commits](https://github.com/remix-run/react-router/commits/react-router-dom@7.5.2/packages/react-router-dom)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: react-router
+    dependency-version: 7.5.2
+    dependency-type: indirect
+  - dependency-name: react-router-dom
+    dependency-version: 7.5.2
+    dependency-type: direct:production
+  ...
+- Bump the development-dependencies group across 1 directory with 18 updates
+ ([95e02e9](https://github.com/mendersoftware/mender-server/commit/95e02e9187b9a29229c4e7dc941009c01a1983bc))  by @dependabot[bot]
+
+
+
+
+  Bumps the development-dependencies group with 17 updates in the /frontend directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@babel/core](https://github.com/babel/babel/tree/HEAD/packages/babel-core) | `7.26.10` | `7.27.1` |
+  | [@babel/preset-env](https://github.com/babel/babel/tree/HEAD/packages/babel-preset-env) | `7.26.9` | `7.27.1` |
+  | [@babel/preset-react](https://github.com/babel/babel/tree/HEAD/packages/babel-preset-react) | `7.26.3` | `7.27.1` |
+  | [@babel/preset-typescript](https://github.com/babel/babel/tree/HEAD/packages/babel-preset-typescript) | `7.27.0` | `7.27.1` |
+  | [@rspack/cli](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack-cli) | `1.2.2` | `1.3.8` |
+  | [@rspack/core](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack) | `1.2.2` | `1.3.8` |
+  | [@sentry/webpack-plugin](https://github.com/getsentry/sentry-javascript-bundler-plugins) | `3.2.2` | `3.3.1` |
+  | [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node) | `22.14.0` | `22.15.3` |
+  | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint/tree/HEAD/packages/eslint-plugin) | `8.29.0` | `8.31.1` |
+  | [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/tree/HEAD/packages/plugin-react) | `4.3.4` | `4.4.1` |
+  | [@vitest/coverage-v8](https://github.com/vitest-dev/vitest/tree/HEAD/packages/coverage-v8) | `3.1.1` | `3.1.2` |
+  | [core-js](https://github.com/zloirock/core-js/tree/HEAD/packages/core-js) | `3.41.0` | `3.42.0` |
+  | [less](https://github.com/less/less.js) | `4.2.2` | `4.3.0` |
+  | [less-loader](https://github.com/webpack-contrib/less-loader) | `12.2.0` | `12.3.0` |
+  | [lint-staged](https://github.com/lint-staged/lint-staged) | `15.5.0` | `15.5.1` |
+  | [msw](https://github.com/mswjs/msw) | `2.7.3` | `2.7.5` |
+  | [undici](https://github.com/nodejs/undici) | `7.7.0` | `7.8.0` |
+  
+  
+  
+  Updates `@babel/core` from 7.26.10 to 7.27.1
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.27.1/packages/babel-core)
+  
+  Updates `@babel/preset-env` from 7.26.9 to 7.27.1
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.27.1/packages/babel-preset-env)
+  
+  Updates `@babel/preset-react` from 7.26.3 to 7.27.1
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.27.1/packages/babel-preset-react)
+  
+  Updates `@babel/preset-typescript` from 7.27.0 to 7.27.1
+  - [Release notes](https://github.com/babel/babel/releases)
+  - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/babel/babel/commits/v7.27.1/packages/babel-preset-typescript)
+  
+  Updates `@rspack/cli` from 1.2.2 to 1.3.8
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.3.8/packages/rspack-cli)
+  
+  Updates `@rspack/core` from 1.2.2 to 1.3.8
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.3.8/packages/rspack)
+  
+  Updates `@sentry/webpack-plugin` from 3.2.2 to 3.3.1
+  - [Release notes](https://github.com/getsentry/sentry-javascript-bundler-plugins/releases)
+  - [Changelog](https://github.com/getsentry/sentry-javascript-bundler-plugins/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/getsentry/sentry-javascript-bundler-plugins/compare/3.2.2...3.3.1)
+  
+  Updates `@types/node` from 22.14.0 to 22.15.3
+  - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
+  - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node)
+  
+  Updates `@typescript-eslint/eslint-plugin` from 8.29.0 to 8.31.1
+  - [Release notes](https://github.com/typescript-eslint/typescript-eslint/releases)
+  - [Changelog](https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/CHANGELOG.md)
+  - [Commits](https://github.com/typescript-eslint/typescript-eslint/commits/v8.31.1/packages/eslint-plugin)
+  
+  Updates `@vitejs/plugin-react` from 4.3.4 to 4.4.1
+  - [Release notes](https://github.com/vitejs/vite-plugin-react/releases)
+  - [Changelog](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/CHANGELOG.md)
+  - [Commits](https://github.com/vitejs/vite-plugin-react/commits/plugin-react@4.4.1/packages/plugin-react)
+  
+  Updates `@vitest/coverage-v8` from 3.1.1 to 3.1.2
+  - [Release notes](https://github.com/vitest-dev/vitest/releases)
+  - [Commits](https://github.com/vitest-dev/vitest/commits/v3.1.2/packages/coverage-v8)
+  
+  Updates `core-js` from 3.41.0 to 3.42.0
+  - [Release notes](https://github.com/zloirock/core-js/releases)
+  - [Changelog](https://github.com/zloirock/core-js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/zloirock/core-js/commits/v3.42.0/packages/core-js)
+  
+  Updates `less` from 4.2.2 to 4.3.0
+  - [Release notes](https://github.com/less/less.js/releases)
+  - [Changelog](https://github.com/less/less.js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/less/less.js/compare/v4.2.2...v4.3.0)
+  
+  Updates `less-loader` from 12.2.0 to 12.3.0
+  - [Release notes](https://github.com/webpack-contrib/less-loader/releases)
+  - [Changelog](https://github.com/webpack-contrib/less-loader/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/webpack-contrib/less-loader/compare/v12.2.0...v12.3.0)
+  
+  Updates `lint-staged` from 15.5.0 to 15.5.1
+  - [Release notes](https://github.com/lint-staged/lint-staged/releases)
+  - [Changelog](https://github.com/lint-staged/lint-staged/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/lint-staged/lint-staged/compare/v15.5.0...v15.5.1)
+  
+  Updates `msw` from 2.7.3 to 2.7.5
+  - [Release notes](https://github.com/mswjs/msw/releases)
+  - [Changelog](https://github.com/mswjs/msw/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/mswjs/msw/compare/v2.7.3...v2.7.5)
+  
+  Updates `undici` from 7.7.0 to 7.8.0
+  - [Release notes](https://github.com/nodejs/undici/releases)
+  - [Commits](https://github.com/nodejs/undici/compare/v7.7.0...v7.8.0)
+  
+  Updates `vitest` from 3.1.1 to 3.1.2
+  - [Release notes](https://github.com/vitest-dev/vitest/releases)
+  - [Commits](https://github.com/vitest-dev/vitest/commits/v3.1.2/packages/vitest)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@babel/core"
+    dependency-version: 7.27.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@babel/preset-env"
+    dependency-version: 7.27.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@babel/preset-react"
+    dependency-version: 7.27.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@babel/preset-typescript"
+    dependency-version: 7.27.1
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/cli"
+    dependency-version: 1.3.8
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/core"
+    dependency-version: 1.3.8
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@sentry/webpack-plugin"
+    dependency-version: 3.3.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@types/node"
+    dependency-version: 22.15.3
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    dependency-version: 8.31.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@vitejs/plugin-react"
+    dependency-version: 4.4.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@vitest/coverage-v8"
+    dependency-version: 3.1.2
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: core-js
+    dependency-version: 3.42.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: less
+    dependency-version: 4.3.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: less-loader
+    dependency-version: 12.3.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: lint-staged
+    dependency-version: 15.5.1
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: msw
+    dependency-version: 2.7.5
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: undici
+    dependency-version: 7.8.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: vitest
+    dependency-version: 3.1.2
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  ...
+- Bump typescript
+ ([53ce282](https://github.com/mendersoftware/mender-server/commit/53ce282452910352e5a1960d16f609ab83c28825))  by @dependabot[bot]
+
+
+
+
+  Bumps the e2e-test-dependencies group in /frontend/tests/e2e_tests with 1 update: [typescript](https://github.com/microsoft/TypeScript).
+  
+  
+  Updates `typescript` from 5.8.2 to 5.8.3
+  - [Release notes](https://github.com/microsoft/TypeScript/releases)
+  - [Changelog](https://github.com/microsoft/TypeScript/blob/main/azure-pipelines.release-publish.yml)
+  - [Commits](https://github.com/microsoft/TypeScript/compare/v5.8.2...v5.8.3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: typescript
+    dependency-version: 5.8.3
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: e2e-test-dependencies
+  ...
+- Bump the backend-tests-python-dependencies group across 1 directory with 7 updates
+ ([bf3bfec](https://github.com/mendersoftware/mender-server/commit/bf3bfecf527b7122a96d0a79834a15aa7c4ad0bc))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-tests-python-dependencies group with 7 updates in the /backend/tests directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [pymongo](https://github.com/mongodb/mongo-python-driver) | `4.11.3` | `4.12.1` |
+  | [certifi](https://github.com/certifi/python-certifi) | `2025.1.31` | `2025.4.26` |
+  | [urllib3](https://github.com/urllib3/urllib3) | `2.3.0` | `2.4.0` |
+  | [boto3](https://github.com/boto/boto3) | `1.37.24` | `1.38.6` |
+  | [packaging](https://github.com/pypa/packaging) | `24.2` | `25.0` |
+  | [pytest-httpserver](https://github.com/csernazs/pytest-httpserver) | `1.1.2` | `1.1.3` |
+  | [stripe](https://github.com/stripe/stripe-python) | `11.5.0` | `12.0.1` |
+  
+  
+  
+  Updates `pymongo` from 4.11.3 to 4.12.1
+  - [Release notes](https://github.com/mongodb/mongo-python-driver/releases)
+  - [Changelog](https://github.com/mongodb/mongo-python-driver/blob/master/doc/changelog.rst)
+  - [Commits](https://github.com/mongodb/mongo-python-driver/compare/4.11.3...4.12.1)
+  
+  Updates `certifi` from 2025.1.31 to 2025.4.26
+  - [Commits](https://github.com/certifi/python-certifi/compare/2025.01.31...2025.04.26)
+  
+  Updates `urllib3` from 2.3.0 to 2.4.0
+  - [Release notes](https://github.com/urllib3/urllib3/releases)
+  - [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst)
+  - [Commits](https://github.com/urllib3/urllib3/compare/2.3.0...2.4.0)
+  
+  Updates `boto3` from 1.37.24 to 1.38.6
+  - [Release notes](https://github.com/boto/boto3/releases)
+  - [Commits](https://github.com/boto/boto3/compare/1.37.24...1.38.6)
+  
+  Updates `packaging` from 24.2 to 25.0
+  - [Release notes](https://github.com/pypa/packaging/releases)
+  - [Changelog](https://github.com/pypa/packaging/blob/main/CHANGELOG.rst)
+  - [Commits](https://github.com/pypa/packaging/compare/24.2...25.0)
+  
+  Updates `pytest-httpserver` from 1.1.2 to 1.1.3
+  - [Release notes](https://github.com/csernazs/pytest-httpserver/releases)
+  - [Changelog](https://github.com/csernazs/pytest-httpserver/blob/master/CHANGES.rst)
+  - [Commits](https://github.com/csernazs/pytest-httpserver/compare/1.1.2...1.1.3)
+  
+  Updates `stripe` from 11.5.0 to 12.0.1
+  - [Release notes](https://github.com/stripe/stripe-python/releases)
+  - [Changelog](https://github.com/stripe/stripe-python/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/stripe/stripe-python/compare/v11.5.0...v12.0.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: pymongo
+    dependency-version: 4.12.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: certifi
+    dependency-version: 2025.4.26
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: urllib3
+    dependency-version: 2.4.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: boto3
+    dependency-version: 1.38.6
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: packaging
+    dependency-version: '25.0'
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pytest-httpserver
+    dependency-version: 1.1.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: stripe
+    dependency-version: 12.0.1
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  ...
+- Bump vite from 6.2.6 to 6.3.4 in /frontend
+ ([03506da](https://github.com/mendersoftware/mender-server/commit/03506da1dfa189da0a062f03c178e0d67fc69d0d))  by @dependabot[bot]
+
+
+
+
+  Bumps [vite](https://github.com/vitejs/vite/tree/HEAD/packages/vite) from 6.2.6 to 6.3.4.
+  - [Release notes](https://github.com/vitejs/vite/releases)
+  - [Changelog](https://github.com/vitejs/vite/blob/main/packages/vite/CHANGELOG.md)
+  - [Commits](https://github.com/vitejs/vite/commits/v6.3.4/packages/vite)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: vite
+    dependency-version: 6.3.4
+    dependency-type: indirect
+  ...
+- Bump yaml
+ ([64b5ae9](https://github.com/mendersoftware/mender-server/commit/64b5ae9b391ec548b940cfe5302bbdf7125b7671))  by @dependabot[bot]
+
+
+
+
+  Bumps the e2e-test-dependencies group in /frontend/tests/e2e_tests with 1 update: [yaml](https://github.com/eemeli/yaml).
+  
+  
+  Updates `yaml` from 2.7.1 to 2.8.0
+  - [Release notes](https://github.com/eemeli/yaml/releases)
+  - [Commits](https://github.com/eemeli/yaml/compare/v2.7.1...v2.8.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: yaml
+    dependency-version: 2.8.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: e2e-test-dependencies
+  ...
+- Bump the development-dependencies group across 1 directory with 12 updates
+ ([30cc04b](https://github.com/mendersoftware/mender-server/commit/30cc04b5c9794066440094afdec1ef2a47edf461))  by @dependabot[bot]
+
+
+
+
+  Bumps the development-dependencies group with 10 updates in the /frontend directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@northern.tech/eslint-config](https://github.com/NorthernTechHQ/nt-gui) | `0.4.0` | `0.5.0` |
+  | [@rspack/cli](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack-cli) | `1.3.8` | `1.3.13` |
+  | [@rspack/core](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack) | `1.3.8` | `1.3.13` |
+  | [@sentry/webpack-plugin](https://github.com/getsentry/sentry-javascript-bundler-plugins) | `3.3.1` | `3.5.0` |
+  | [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node) | `22.15.3` | `22.15.29` |
+  | [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/tree/HEAD/packages/plugin-react) | `4.4.1` | `4.5.0` |
+  | [@vitest/coverage-v8](https://github.com/vitest-dev/vitest/tree/HEAD/packages/coverage-v8) | `3.1.2` | `3.1.4` |
+  | [lint-staged](https://github.com/lint-staged/lint-staged) | `15.5.1` | `16.1.0` |
+  | [msw](https://github.com/mswjs/msw) | `2.7.5` | `2.8.7` |
+  | [undici](https://github.com/nodejs/undici) | `7.8.0` | `7.10.0` |
+  
+  
+  
+  Updates `@northern.tech/eslint-config` from 0.4.0 to 0.5.0
+  - [Release notes](https://github.com/NorthernTechHQ/nt-gui/releases)
+  - [Changelog](https://github.com/NorthernTechHQ/nt-gui/blob/main/release-please-config.json)
+  - [Commits](https://github.com/NorthernTechHQ/nt-gui/compare/@northern.tech/eslint-config-0.4.0...@northern.tech/eslint-config-0.5.0)
+  
+  Updates `@rspack/cli` from 1.3.8 to 1.3.13
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.3.13/packages/rspack-cli)
+  
+  Updates `@rspack/core` from 1.3.8 to 1.3.13
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.3.13/packages/rspack)
+  
+  Updates `@sentry/webpack-plugin` from 3.3.1 to 3.5.0
+  - [Release notes](https://github.com/getsentry/sentry-javascript-bundler-plugins/releases)
+  - [Changelog](https://github.com/getsentry/sentry-javascript-bundler-plugins/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/getsentry/sentry-javascript-bundler-plugins/compare/3.3.1...3.5.0)
+  
+  Updates `@types/node` from 22.15.3 to 22.15.29
+  - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
+  - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node)
+  
+  Updates `@typescript-eslint/eslint-plugin` from 8.32.1 to 8.33.0
+  - [Release notes](https://github.com/typescript-eslint/typescript-eslint/releases)
+  - [Changelog](https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/CHANGELOG.md)
+  - [Commits](https://github.com/typescript-eslint/typescript-eslint/commits/v8.33.0/packages/eslint-plugin)
+  
+  Updates `@vitejs/plugin-react` from 4.4.1 to 4.5.0
+  - [Release notes](https://github.com/vitejs/vite-plugin-react/releases)
+  - [Changelog](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/CHANGELOG.md)
+  - [Commits](https://github.com/vitejs/vite-plugin-react/commits/plugin-react@4.5.0/packages/plugin-react)
+  
+  Updates `@vitest/coverage-v8` from 3.1.2 to 3.1.4
+  - [Release notes](https://github.com/vitest-dev/vitest/releases)
+  - [Commits](https://github.com/vitest-dev/vitest/commits/v3.1.4/packages/coverage-v8)
+  
+  Updates `lint-staged` from 15.5.1 to 16.1.0
+  - [Release notes](https://github.com/lint-staged/lint-staged/releases)
+  - [Changelog](https://github.com/lint-staged/lint-staged/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/lint-staged/lint-staged/compare/v15.5.1...v16.1.0)
+  
+  Updates `msw` from 2.7.5 to 2.8.7
+  - [Release notes](https://github.com/mswjs/msw/releases)
+  - [Changelog](https://github.com/mswjs/msw/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/mswjs/msw/compare/v2.7.5...v2.8.7)
+  
+  Updates `undici` from 7.8.0 to 7.10.0
+  - [Release notes](https://github.com/nodejs/undici/releases)
+  - [Commits](https://github.com/nodejs/undici/compare/v7.8.0...v7.10.0)
+  
+  Updates `vitest` from 3.1.2 to 3.1.4
+  - [Release notes](https://github.com/vitest-dev/vitest/releases)
+  - [Commits](https://github.com/vitest-dev/vitest/commits/v3.1.4/packages/vitest)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@northern.tech/eslint-config"
+    dependency-version: 0.5.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/cli"
+    dependency-version: 1.3.13
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/core"
+    dependency-version: 1.3.13
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@sentry/webpack-plugin"
+    dependency-version: 3.5.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@types/node"
+    dependency-version: 22.15.29
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    dependency-version: 8.33.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@vitejs/plugin-react"
+    dependency-version: 4.5.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@vitest/coverage-v8"
+    dependency-version: 3.1.4
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: lint-staged
+    dependency-version: 16.1.0
+    dependency-type: direct:development
+    update-type: version-update:semver-major
+    dependency-group: development-dependencies
+  - dependency-name: msw
+    dependency-version: 2.8.7
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: undici
+    dependency-version: 7.10.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: vitest
+    dependency-version: 3.1.4
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  ...
+- Bump the mui group across 1 directory with 3 updates
+ ([96d55d3](https://github.com/mendersoftware/mender-server/commit/96d55d3f34b37fa17ef593d310c1e6e9a0a80a2d))  by @dependabot[bot]
+
+
+
+
+  Bumps the mui group with 3 updates in the /frontend directory: [@mui/icons-material](https://github.com/mui/material-ui/tree/HEAD/packages/mui-icons-material), [@mui/material](https://github.com/mui/material-ui/tree/HEAD/packages/mui-material) and [@mui/x-date-pickers](https://github.com/mui/mui-x/tree/HEAD/packages/x-date-pickers).
+  
+  
+  Updates `@mui/icons-material` from 7.1.0 to 7.1.1
+  - [Release notes](https://github.com/mui/material-ui/releases)
+  - [Changelog](https://github.com/mui/material-ui/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/material-ui/commits/v7.1.1/packages/mui-icons-material)
+  
+  Updates `@mui/material` from 7.1.0 to 7.1.1
+  - [Release notes](https://github.com/mui/material-ui/releases)
+  - [Changelog](https://github.com/mui/material-ui/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/material-ui/commits/v7.1.1/packages/mui-material)
+  
+  Updates `@mui/x-date-pickers` from 8.2.0 to 8.5.0
+  - [Release notes](https://github.com/mui/mui-x/releases)
+  - [Changelog](https://github.com/mui/mui-x/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/mui-x/commits/v8.5.0/packages/x-date-pickers)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@mui/icons-material"
+    dependency-version: 7.1.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: mui
+  - dependency-name: "@mui/material"
+    dependency-version: 7.1.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: mui
+  - dependency-name: "@mui/x-date-pickers"
+    dependency-version: 8.5.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: mui
+  ...
+- Bump the backend-tests-python-dependencies group across 1 directory with 5 updates
+ ([bfc4838](https://github.com/mendersoftware/mender-server/commit/bfc4838fefe59382cb747f5745f8b59f23bc4a71))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-tests-python-dependencies group with 5 updates in the /backend/tests directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [boto3](https://github.com/boto/boto3) | `1.38.6` | `1.38.27` |
+  | [cryptography](https://github.com/pyca/cryptography) | `44.0.2` | `45.0.3` |
+  | [pluggy](https://github.com/pytest-dev/pluggy) | `1.5.0` | `1.6.0` |
+  | [redis](https://github.com/redis/redis-py) | `5.2.1` | `6.2.0` |
+  | [pytest-xdist](https://github.com/pytest-dev/pytest-xdist) | `3.6.1` | `3.7.0` |
+  
+  
+  
+  Updates `boto3` from 1.38.6 to 1.38.27
+  - [Release notes](https://github.com/boto/boto3/releases)
+  - [Commits](https://github.com/boto/boto3/compare/1.38.6...1.38.27)
+  
+  Updates `cryptography` from 44.0.2 to 45.0.3
+  - [Changelog](https://github.com/pyca/cryptography/blob/main/CHANGELOG.rst)
+  - [Commits](https://github.com/pyca/cryptography/compare/44.0.2...45.0.3)
+  
+  Updates `pluggy` from 1.5.0 to 1.6.0
+  - [Changelog](https://github.com/pytest-dev/pluggy/blob/main/CHANGELOG.rst)
+  - [Commits](https://github.com/pytest-dev/pluggy/compare/1.5.0...1.6.0)
+  
+  Updates `redis` from 5.2.1 to 6.2.0
+  - [Release notes](https://github.com/redis/redis-py/releases)
+  - [Changelog](https://github.com/redis/redis-py/blob/master/CHANGES)
+  - [Commits](https://github.com/redis/redis-py/compare/v5.2.1...v6.2.0)
+  
+  Updates `pytest-xdist` from 3.6.1 to 3.7.0
+  - [Release notes](https://github.com/pytest-dev/pytest-xdist/releases)
+  - [Changelog](https://github.com/pytest-dev/pytest-xdist/blob/master/CHANGELOG.rst)
+  - [Commits](https://github.com/pytest-dev/pytest-xdist/compare/v3.6.1...v3.7.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: boto3
+    dependency-version: 1.38.27
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: cryptography
+    dependency-version: 45.0.3
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pluggy
+    dependency-version: 1.6.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: redis
+    dependency-version: 6.2.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pytest-xdist
+    dependency-version: 3.7.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  ...
+- Bump webpack-dev-server and @rspack/cli in /frontend
+ ([ff4bc85](https://github.com/mendersoftware/mender-server/commit/ff4bc85de991a11e258ba0a1e4a6e1fbd81592f5))  by @dependabot[bot]
+
+
+
+
+  Bumps [webpack-dev-server](https://github.com/webpack/webpack-dev-server) to 5.2.2 and updates ancestor dependency [@rspack/cli](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack-cli). These dependencies need to be updated together.
+  
+  
+  Updates `webpack-dev-server` from 5.2.0 to 5.2.2
+  - [Release notes](https://github.com/webpack/webpack-dev-server/releases)
+  - [Changelog](https://github.com/webpack/webpack-dev-server/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/webpack/webpack-dev-server/compare/v5.2.0...v5.2.2)
+  
+  Updates `@rspack/cli` from 1.3.13 to 1.3.15
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.3.15/packages/rspack-cli)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: webpack-dev-server
+    dependency-version: 5.2.2
+    dependency-type: indirect
+  - dependency-name: "@rspack/cli"
+    dependency-version: 1.3.15
+    dependency-type: direct:development
+  ...
+- Bump requests in /backend/services/iot-manager/tests
+ ([695983a](https://github.com/mendersoftware/mender-server/commit/695983abeeaf65400923ec435f2738d7475d7cf5))  by @dependabot[bot]
+
+
+
+
+  Bumps [requests](https://github.com/psf/requests) from 2.32.3 to 2.32.4.
+  - [Release notes](https://github.com/psf/requests/releases)
+  - [Changelog](https://github.com/psf/requests/blob/main/HISTORY.md)
+  - [Commits](https://github.com/psf/requests/compare/v2.32.3...v2.32.4)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: requests
+    dependency-version: 2.32.4
+    dependency-type: direct:production
+  ...
+- Bump @mui/x-date-pickers in /frontend in the mui group
+ ([0b07854](https://github.com/mendersoftware/mender-server/commit/0b07854d18232ca6bc0f31235ee04db9055c7081))  by @dependabot[bot]
+
+
+
+
+  Bumps the mui group in /frontend with 1 update: [@mui/x-date-pickers](https://github.com/mui/mui-x/tree/HEAD/packages/x-date-pickers).
+  
+  
+  Updates `@mui/x-date-pickers` from 8.5.0 to 8.5.1
+  - [Release notes](https://github.com/mui/mui-x/releases)
+  - [Changelog](https://github.com/mui/mui-x/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/mui/mui-x/commits/v8.5.1/packages/x-date-pickers)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@mui/x-date-pickers"
+    dependency-version: 8.5.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: mui
+  ...
+- Bump urllib3 from 2.4.0 to 2.5.0 in /backend/tests
+ ([f7fcb02](https://github.com/mendersoftware/mender-server/commit/f7fcb0283b29b4bb1d56c52e247581d0d486dc67))  by @dependabot[bot]
+
+
+
+
+  Bumps [urllib3](https://github.com/urllib3/urllib3) from 2.4.0 to 2.5.0.
+  - [Release notes](https://github.com/urllib3/urllib3/releases)
+  - [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst)
+  - [Commits](https://github.com/urllib3/urllib3/compare/2.4.0...2.5.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: urllib3
+    dependency-version: 2.5.0
+    dependency-type: direct:production
+  ...
+- Bump github.com/go-viper/mapstructure/v2 in /backend
+ ([777d367](https://github.com/mendersoftware/mender-server/commit/777d3673eb1bb9b9a3d82aa48cbf8091417f8bb4))  by @dependabot[bot]
+
+
+
+
+  Bumps [github.com/go-viper/mapstructure/v2](https://github.com/go-viper/mapstructure) from 2.2.1 to 2.3.0.
+  - [Release notes](https://github.com/go-viper/mapstructure/releases)
+  - [Changelog](https://github.com/go-viper/mapstructure/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/go-viper/mapstructure/compare/v2.2.1...v2.3.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/go-viper/mapstructure/v2
+    dependency-version: 2.3.0
+    dependency-type: indirect
+  ...
+- Bump pillow from 11.2.1 to 11.3.0 in /backend/tests
+ ([8aef575](https://github.com/mendersoftware/mender-server/commit/8aef575eb2aa55e2ea26cbc5595181166281a639))  by @dependabot[bot]
+
+
+
+
+  Bumps [pillow](https://github.com/python-pillow/Pillow) from 11.2.1 to 11.3.0.
+  - [Release notes](https://github.com/python-pillow/Pillow/releases)
+  - [Changelog](https://github.com/python-pillow/Pillow/blob/main/CHANGES.rst)
+  - [Commits](https://github.com/python-pillow/Pillow/compare/11.2.1...11.3.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: pillow
+    dependency-version: 11.3.0
+    dependency-type: direct:production
+  ...
+- Bump the backend-tests-python-dependencies group across 2 directories with 10 updates
+ ([85a6aeb](https://github.com/mendersoftware/mender-server/commit/85a6aebda942e11894a5b1908cf12969d2fcd600))  by @dependabot[bot]
+
+
+
+
+  ---
+  updated-dependencies:
+  - dependency-name: opensearch-py
+    dependency-version: 3.0.0
+    dependency-type: direct:production
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pytest
+    dependency-version: 8.4.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pymongo
+    dependency-version: 4.13.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: certifi
+    dependency-version: 2025.6.15
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: opensearch-py
+    dependency-version: 3.0.0
+    dependency-type: direct:production
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: boto3
+    dependency-version: 1.39.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: kubernetes
+    dependency-version: 33.1.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pillow
+    dependency-version: 11.3.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pytest-xdist
+    dependency-version: 3.8.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: stripe
+    dependency-version: 12.2.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pydantic
+    dependency-version: 2.11.7
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  ...
+- Bump on-headers, express-session and morgan
+ ([873c2c0](https://github.com/mendersoftware/mender-server/commit/873c2c001696c19965980485deb1c9fbcb7eb50f))  by @dependabot[bot]
+
+
+
+
+  Bumps [on-headers](https://github.com/jshttp/on-headers), [express-session](https://github.com/expressjs/session) and [morgan](https://github.com/expressjs/morgan). These dependencies needed to be updated together.
+  
+  Updates `on-headers` from 1.0.2 to 1.1.0
+  - [Release notes](https://github.com/jshttp/on-headers/releases)
+  - [Changelog](https://github.com/jshttp/on-headers/blob/master/HISTORY.md)
+  - [Commits](https://github.com/jshttp/on-headers/compare/v1.0.2...v1.1.0)
+  
+  Updates `express-session` from 1.18.1 to 1.18.2
+  - [Release notes](https://github.com/expressjs/session/releases)
+  - [Changelog](https://github.com/expressjs/session/blob/master/HISTORY.md)
+  - [Commits](https://github.com/expressjs/session/compare/v1.18.1...v1.18.2)
+  
+  Updates `morgan` from 1.10.0 to 1.10.1
+  - [Release notes](https://github.com/expressjs/morgan/releases)
+  - [Changelog](https://github.com/expressjs/morgan/blob/master/HISTORY.md)
+  - [Commits](https://github.com/expressjs/morgan/compare/1.10.0...1.10.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: on-headers
+    dependency-version: 1.1.0
+    dependency-type: indirect
+  - dependency-name: express-session
+    dependency-version: 1.18.2
+    dependency-type: indirect
+  - dependency-name: morgan
+    dependency-version: 1.10.1
+    dependency-type: indirect
+  ...
+- Bump on-headers and compression in /frontend
+ ([11cd11c](https://github.com/mendersoftware/mender-server/commit/11cd11c4dce26cc951a7b261cec7efc65b5479c9))  by @dependabot[bot]
+
+
+
+
+  Bumps [on-headers](https://github.com/jshttp/on-headers) and [compression](https://github.com/expressjs/compression). These dependencies needed to be updated together.
+  
+  Updates `on-headers` from 1.0.2 to 1.1.0
+  - [Release notes](https://github.com/jshttp/on-headers/releases)
+  - [Changelog](https://github.com/jshttp/on-headers/blob/master/HISTORY.md)
+  - [Commits](https://github.com/jshttp/on-headers/compare/v1.0.2...v1.1.0)
+  
+  Updates `compression` from 1.8.0 to 1.8.1
+  - [Release notes](https://github.com/expressjs/compression/releases)
+  - [Changelog](https://github.com/expressjs/compression/blob/master/HISTORY.md)
+  - [Commits](https://github.com/expressjs/compression/compare/1.8.0...v1.8.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: on-headers
+    dependency-version: 1.1.0
+    dependency-type: indirect
+  - dependency-name: compression
+    dependency-version: 1.8.1
+    dependency-type: indirect
+  ...
+- Bump pbkdf2 from 3.1.2 to 3.1.3 in /frontend
+ ([00e44b0](https://github.com/mendersoftware/mender-server/commit/00e44b08654f8d2c3dedc22159db53fa98e88444))  by @dependabot[bot]
+
+
+
+
+  Bumps [pbkdf2](https://github.com/crypto-browserify/pbkdf2) from 3.1.2 to 3.1.3.
+  - [Changelog](https://github.com/browserify/pbkdf2/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/crypto-browserify/pbkdf2/compare/v3.1.2...v3.1.3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: pbkdf2
+    dependency-version: 3.1.3
+    dependency-type: indirect
+  ...
+- Bump form-data from 4.0.1 to 4.0.4 in /frontend
+ ([1de20af](https://github.com/mendersoftware/mender-server/commit/1de20af63d14ffcad40a756f3e5d65ec6a923dfd))  by @dependabot[bot]
+
+
+
+
+  Bumps [form-data](https://github.com/form-data/form-data) from 4.0.1 to 4.0.4.
+  - [Release notes](https://github.com/form-data/form-data/releases)
+  - [Changelog](https://github.com/form-data/form-data/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/form-data/form-data/compare/v4.0.1...v4.0.4)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: form-data
+    dependency-version: 4.0.4
+    dependency-type: indirect
+  ...
+- Bump axios from 1.10.0 to 1.11.0 in /frontend
+ ([ec258ce](https://github.com/mendersoftware/mender-server/commit/ec258ce841a5c473515533267253a063db056b7e))  by @dependabot[bot]
+
+
+
+
+  Bumps [axios](https://github.com/axios/axios) from 1.10.0 to 1.11.0.
+  - [Release notes](https://github.com/axios/axios/releases)
+  - [Changelog](https://github.com/axios/axios/blob/v1.x/CHANGELOG.md)
+  - [Commits](https://github.com/axios/axios/compare/v1.10.0...v1.11.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: axios
+    dependency-version: 1.11.0
+    dependency-type: direct:production
+  ...
+- Bump mender-artifact to the latest version
+ ([5091cc4](https://github.com/mendersoftware/mender-server/commit/5091cc426c67b6140e7864bb9eedc7629cbed715))  by @alfrunes
+
+
+
+- Bump the mui group in /frontend with 4 updates
+ ([0b504f6](https://github.com/mendersoftware/mender-server/commit/0b504f67457dda2b09426895ff0ed2362f865429))  by @dependabot[bot]
+
+
+
+
+  ---
+  updated-dependencies:
+  - dependency-name: "@emotion/styled"
+    dependency-version: 11.14.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: mui
+  - dependency-name: "@mui/icons-material"
+    dependency-version: 7.2.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: mui
+  - dependency-name: "@mui/material"
+    dependency-version: 7.2.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: mui
+  - dependency-name: "@mui/x-date-pickers"
+    dependency-version: 8.6.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: mui
+  ...
+- Bump the backend-tests-python-dependencies group across 1 directory with 4 updates
+ ([43f7d7f](https://github.com/mendersoftware/mender-server/commit/43f7d7f647d31124d0d6497e8d10862202f66536))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-tests-python-dependencies group with 4 updates in the /backend/tests directory: [boto3](https://github.com/boto/boto3), [certifi](https://github.com/certifi/python-certifi), [cryptography](https://github.com/pyca/cryptography) and [stripe](https://github.com/stripe/stripe-python).
+  
+  
+  Updates `boto3` from 1.39.0 to 1.40.0
+  - [Release notes](https://github.com/boto/boto3/releases)
+  - [Commits](https://github.com/boto/boto3/compare/1.39.0...1.40.0)
+  
+  Updates `certifi` from 2025.6.15 to 2025.7.14
+  - [Commits](https://github.com/certifi/python-certifi/compare/2025.06.15...2025.07.14)
+  
+  Updates `cryptography` from 45.0.4 to 45.0.5
+  - [Changelog](https://github.com/pyca/cryptography/blob/main/CHANGELOG.rst)
+  - [Commits](https://github.com/pyca/cryptography/compare/45.0.4...45.0.5)
+  
+  Updates `stripe` from 12.2.0 to 12.4.0
+  - [Release notes](https://github.com/stripe/stripe-python/releases)
+  - [Changelog](https://github.com/stripe/stripe-python/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/stripe/stripe-python/compare/v12.2.0...v12.4.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: boto3
+    dependency-version: 1.40.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: certifi
+    dependency-version: 2025.7.14
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: cryptography
+    dependency-version: 45.0.5
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: stripe
+    dependency-version: 12.4.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  ...
+- Bump the development-dependencies group across 1 directory with 16 updates
+ ([6ce2f8a](https://github.com/mendersoftware/mender-server/commit/6ce2f8af551b6f7d51000c89083c953296c17068))  by @dependabot[bot]
+
+
+
+
+  Bumps the development-dependencies group with 16 updates in the /frontend directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [@northern.tech/eslint-config](https://github.com/NorthernTechHQ/nt-gui) | `0.5.0` | `0.6.0` |
+  | [@northern.tech/prettier-config](https://github.com/NorthernTechHQ/nt-gui) | `0.2.0` | `0.2.1` |
+  | [@northern.tech/themes](https://github.com/NorthernTechHQ/nt-gui) | `0.2.0` | `0.3.0` |
+  | [@northern.tech/typescript-config](https://github.com/NorthernTechHQ/nt-gui) | `0.1.3` | `0.2.0` |
+  | [@rspack/cli](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack-cli) | `1.4.8` | `1.4.11` |
+  | [@rspack/core](https://github.com/web-infra-dev/rspack/tree/HEAD/packages/rspack) | `1.4.8` | `1.4.11` |
+  | [@sentry/webpack-plugin](https://github.com/getsentry/sentry-javascript-bundler-plugins) | `4.0.0` | `4.1.1` |
+  | [@testing-library/jest-dom](https://github.com/testing-library/jest-dom) | `6.6.3` | `6.7.0` |
+  | [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/HEAD/types/node) | `24.1.0` | `24.3.0` |
+  | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint/tree/HEAD/packages/eslint-plugin) | `8.38.0` | `8.39.1` |
+  | [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/tree/HEAD/packages/plugin-react) | `4.7.0` | `5.0.0` |
+  | [core-js](https://github.com/zloirock/core-js/tree/HEAD/packages/core-js) | `3.44.0` | `3.45.0` |
+  | [lint-staged](https://github.com/lint-staged/lint-staged) | `16.1.2` | `16.1.5` |
+  | [msw](https://github.com/mswjs/msw) | `2.10.4` | `2.10.5` |
+  | [typescript](https://github.com/microsoft/TypeScript) | `5.7.3` | `5.9.2` |
+  | [undici](https://github.com/nodejs/undici) | `7.12.0` | `7.14.0` |
+  
+  
+  
+  Updates `@northern.tech/eslint-config` from 0.5.0 to 0.6.0
+  - [Release notes](https://github.com/NorthernTechHQ/nt-gui/releases)
+  - [Changelog](https://github.com/NorthernTechHQ/nt-gui/blob/main/release-please-config.json)
+  - [Commits](https://github.com/NorthernTechHQ/nt-gui/compare/@northern.tech/eslint-config-0.5.0...@northern.tech/eslint-config-0.6.0)
+  
+  Updates `@northern.tech/prettier-config` from 0.2.0 to 0.2.1
+  - [Release notes](https://github.com/NorthernTechHQ/nt-gui/releases)
+  - [Changelog](https://github.com/NorthernTechHQ/nt-gui/blob/main/release-please-config.json)
+  - [Commits](https://github.com/NorthernTechHQ/nt-gui/compare/@northern.tech/prettier-config-0.2.0...@northern.tech/prettier-config-0.2.1)
+  
+  Updates `@northern.tech/themes` from 0.2.0 to 0.3.0
+  - [Release notes](https://github.com/NorthernTechHQ/nt-gui/releases)
+  - [Changelog](https://github.com/NorthernTechHQ/nt-gui/blob/main/release-please-config.json)
+  - [Commits](https://github.com/NorthernTechHQ/nt-gui/compare/@northern.tech/themes-0.2.0...@northern.tech/themes-0.3.0)
+  
+  Updates `@northern.tech/typescript-config` from 0.1.3 to 0.2.0
+  - [Release notes](https://github.com/NorthernTechHQ/nt-gui/releases)
+  - [Changelog](https://github.com/NorthernTechHQ/nt-gui/blob/main/release-please-config.json)
+  - [Commits](https://github.com/NorthernTechHQ/nt-gui/compare/@northern.tech/typescript-config-0.1.3...@northern.tech/typescript-config-0.2.0)
+  
+  Updates `@rspack/cli` from 1.4.8 to 1.4.11
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.4.11/packages/rspack-cli)
+  
+  Updates `@rspack/core` from 1.4.8 to 1.4.11
+  - [Release notes](https://github.com/web-infra-dev/rspack/releases)
+  - [Commits](https://github.com/web-infra-dev/rspack/commits/v1.4.11/packages/rspack)
+  
+  Updates `@sentry/webpack-plugin` from 4.0.0 to 4.1.1
+  - [Release notes](https://github.com/getsentry/sentry-javascript-bundler-plugins/releases)
+  - [Changelog](https://github.com/getsentry/sentry-javascript-bundler-plugins/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/getsentry/sentry-javascript-bundler-plugins/compare/4.0.0...4.1.1)
+  
+  Updates `@testing-library/jest-dom` from 6.6.3 to 6.7.0
+  - [Release notes](https://github.com/testing-library/jest-dom/releases)
+  - [Changelog](https://github.com/testing-library/jest-dom/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/testing-library/jest-dom/compare/v6.6.3...v6.7.0)
+  
+  Updates `@types/node` from 24.1.0 to 24.3.0
+  - [Release notes](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
+  - [Commits](https://github.com/DefinitelyTyped/DefinitelyTyped/commits/HEAD/types/node)
+  
+  Updates `@typescript-eslint/eslint-plugin` from 8.38.0 to 8.39.1
+  - [Release notes](https://github.com/typescript-eslint/typescript-eslint/releases)
+  - [Changelog](https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/CHANGELOG.md)
+  - [Commits](https://github.com/typescript-eslint/typescript-eslint/commits/v8.39.1/packages/eslint-plugin)
+  
+  Updates `@vitejs/plugin-react` from 4.7.0 to 5.0.0
+  - [Release notes](https://github.com/vitejs/vite-plugin-react/releases)
+  - [Changelog](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/CHANGELOG.md)
+  - [Commits](https://github.com/vitejs/vite-plugin-react/commits/plugin-react@5.0.0/packages/plugin-react)
+  
+  Updates `core-js` from 3.44.0 to 3.45.0
+  - [Release notes](https://github.com/zloirock/core-js/releases)
+  - [Changelog](https://github.com/zloirock/core-js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/zloirock/core-js/commits/v3.45.0/packages/core-js)
+  
+  Updates `lint-staged` from 16.1.2 to 16.1.5
+  - [Release notes](https://github.com/lint-staged/lint-staged/releases)
+  - [Changelog](https://github.com/lint-staged/lint-staged/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/lint-staged/lint-staged/compare/v16.1.2...v16.1.5)
+  
+  Updates `msw` from 2.10.4 to 2.10.5
+  - [Release notes](https://github.com/mswjs/msw/releases)
+  - [Changelog](https://github.com/mswjs/msw/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/mswjs/msw/compare/v2.10.4...v2.10.5)
+  
+  Updates `typescript` from 5.7.3 to 5.9.2
+  - [Release notes](https://github.com/microsoft/TypeScript/releases)
+  - [Changelog](https://github.com/microsoft/TypeScript/blob/main/azure-pipelines.release-publish.yml)
+  - [Commits](https://github.com/microsoft/TypeScript/compare/v5.7.3...v5.9.2)
+  
+  Updates `undici` from 7.12.0 to 7.14.0
+  - [Release notes](https://github.com/nodejs/undici/releases)
+  - [Commits](https://github.com/nodejs/undici/compare/v7.12.0...v7.14.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: "@northern.tech/eslint-config"
+    dependency-version: 0.6.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@northern.tech/prettier-config"
+    dependency-version: 0.2.1
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@northern.tech/themes"
+    dependency-version: 0.3.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@northern.tech/typescript-config"
+    dependency-version: 0.2.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/cli"
+    dependency-version: 1.4.11
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@rspack/core"
+    dependency-version: 1.4.11
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: "@sentry/webpack-plugin"
+    dependency-version: 4.1.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@testing-library/jest-dom"
+    dependency-version: 6.7.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@types/node"
+    dependency-version: 24.3.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    dependency-version: 8.39.1
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: "@vitejs/plugin-react"
+    dependency-version: 5.0.0
+    dependency-type: direct:development
+    update-type: version-update:semver-major
+    dependency-group: development-dependencies
+  - dependency-name: core-js
+    dependency-version: 3.45.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: lint-staged
+    dependency-version: 16.1.5
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: msw
+    dependency-version: 2.10.5
+    dependency-type: direct:development
+    update-type: version-update:semver-patch
+    dependency-group: development-dependencies
+  - dependency-name: typescript
+    dependency-version: 5.9.2
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  - dependency-name: undici
+    dependency-version: 7.14.0
+    dependency-type: direct:development
+    update-type: version-update:semver-minor
+    dependency-group: development-dependencies
+  ...
+- Bump mermaid from 11.9.0 to 11.10.1 in /frontend
+ ([f20bb82](https://github.com/mendersoftware/mender-server/commit/f20bb82e79c924b12017a2eabdadd347e85cfae8))  by @dependabot[bot]
+
+
+
+
+  Bumps [mermaid](https://github.com/mermaid-js/mermaid) from 11.9.0 to 11.10.1.
+  - [Release notes](https://github.com/mermaid-js/mermaid/releases)
+  - [Commits](https://github.com/mermaid-js/mermaid/compare/mermaid@11.9.0...mermaid@11.10.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: mermaid
+    dependency-version: 11.10.1
+    dependency-type: indirect
+  ...
+- Bump github.com/ulikunitz/xz from 0.5.12 to 0.5.14 in /backend
+ ([38f8599](https://github.com/mendersoftware/mender-server/commit/38f8599baa51997ec41dffb28490a096c765ab46))  by @dependabot[bot]
+
+
+
+
+  Bumps [github.com/ulikunitz/xz](https://github.com/ulikunitz/xz) from 0.5.12 to 0.5.14.
+  - [Commits](https://github.com/ulikunitz/xz/compare/v0.5.12...v0.5.14)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/ulikunitz/xz
+    dependency-version: 0.5.14
+    dependency-type: indirect
+  ...
+- Bump the backend-tests-python-dependencies group across 2 directories with 9 updates
+ ([ea1783d](https://github.com/mendersoftware/mender-server/commit/ea1783dc61fc1c19a522c2118ca182ec5b899c22))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-tests-python-dependencies group with 1 update in the /backend/services/iot-manager/tests directory: [requests](https://github.com/psf/requests).
+  Bumps the backend-tests-python-dependencies group with 9 updates in the /backend/tests directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [pymongo](https://github.com/mongodb/mongo-python-driver) | `4.13.2` | `4.14.1` |
+  | [certifi](https://github.com/certifi/python-certifi) | `2025.7.14` | `2025.8.3` |
+  | [requests](https://github.com/psf/requests) | `2.32.4` | `2.32.5` |
+  | [azure-iot-hub](https://github.com/Azure/azure-iot-hub-python) | `2.6.1` | `2.7.0` |
+  | [boto3](https://github.com/boto/boto3) | `1.40.0` | `1.40.21` |
+  | [cryptography](https://github.com/pyca/cryptography) | `45.0.5` | `45.0.7` |
+  | [filelock](https://github.com/tox-dev/py-filelock) | `3.18.0` | `3.19.1` |
+  | [stripe](https://github.com/stripe/stripe-python) | `12.4.0` | `12.5.0` |
+  | [redis](https://github.com/redis/redis-py) | `6.2.0` | `6.4.0` |
+  
+  
+  
+  Updates `requests` from 2.32.4 to 2.32.5
+  - [Release notes](https://github.com/psf/requests/releases)
+  - [Changelog](https://github.com/psf/requests/blob/main/HISTORY.md)
+  - [Commits](https://github.com/psf/requests/compare/v2.32.4...v2.32.5)
+  
+  Updates `pymongo` from 4.13.2 to 4.14.1
+  - [Release notes](https://github.com/mongodb/mongo-python-driver/releases)
+  - [Changelog](https://github.com/mongodb/mongo-python-driver/blob/master/doc/changelog.rst)
+  - [Commits](https://github.com/mongodb/mongo-python-driver/compare/4.13.2...4.14.1)
+  
+  Updates `certifi` from 2025.7.14 to 2025.8.3
+  - [Commits](https://github.com/certifi/python-certifi/compare/2025.07.14...2025.08.03)
+  
+  Updates `requests` from 2.32.4 to 2.32.5
+  - [Release notes](https://github.com/psf/requests/releases)
+  - [Changelog](https://github.com/psf/requests/blob/main/HISTORY.md)
+  - [Commits](https://github.com/psf/requests/compare/v2.32.4...v2.32.5)
+  
+  Updates `azure-iot-hub` from 2.6.1 to 2.7.0
+  - [Changelog](https://github.com/Azure/azure-iot-hub-python/blob/main/RELEASE%20INSTRUCTIONS.md)
+  - [Commits](https://github.com/Azure/azure-iot-hub-python/commits)
+  
+  Updates `boto3` from 1.40.0 to 1.40.21
+  - [Release notes](https://github.com/boto/boto3/releases)
+  - [Commits](https://github.com/boto/boto3/compare/1.40.0...1.40.21)
+  
+  Updates `cryptography` from 45.0.5 to 45.0.7
+  - [Changelog](https://github.com/pyca/cryptography/blob/main/CHANGELOG.rst)
+  - [Commits](https://github.com/pyca/cryptography/compare/45.0.5...45.0.7)
+  
+  Updates `filelock` from 3.18.0 to 3.19.1
+  - [Release notes](https://github.com/tox-dev/py-filelock/releases)
+  - [Changelog](https://github.com/tox-dev/filelock/blob/main/docs/changelog.rst)
+  - [Commits](https://github.com/tox-dev/py-filelock/compare/3.18.0...3.19.1)
+  
+  Updates `stripe` from 12.4.0 to 12.5.0
+  - [Release notes](https://github.com/stripe/stripe-python/releases)
+  - [Changelog](https://github.com/stripe/stripe-python/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/stripe/stripe-python/compare/v12.4.0...v12.5.0)
+  
+  Updates `redis` from 6.2.0 to 6.4.0
+  - [Release notes](https://github.com/redis/redis-py/releases)
+  - [Changelog](https://github.com/redis/redis-py/blob/master/CHANGES)
+  - [Commits](https://github.com/redis/redis-py/compare/v6.2.0...v6.4.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: requests
+    dependency-version: 2.32.5
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pymongo
+    dependency-version: 4.14.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: certifi
+    dependency-version: 2025.8.3
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: requests
+    dependency-version: 2.32.5
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: azure-iot-hub
+    dependency-version: 2.7.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: boto3
+    dependency-version: 1.40.21
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: cryptography
+    dependency-version: 45.0.7
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: filelock
+    dependency-version: 3.19.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: stripe
+    dependency-version: 12.5.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: redis
+    dependency-version: 6.4.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  ...
+- Bump github.com/redis/go-redis/v9
+ ([ee255e2](https://github.com/mendersoftware/mender-server/commit/ee255e2351698964d064b4fa0b7bac2efa3c9d7f))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-golang-dependencies group in /backend with 1 update: [github.com/redis/go-redis/v9](https://github.com/redis/go-redis).
+  
+  
+  Updates `github.com/redis/go-redis/v9` from 9.12.1 to 9.13.0
+  - [Release notes](https://github.com/redis/go-redis/releases)
+  - [Changelog](https://github.com/redis/go-redis/blob/master/RELEASE-NOTES.md)
+  - [Commits](https://github.com/redis/go-redis/compare/v9.12.1...v9.13.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/redis/go-redis/v9
+    dependency-version: 9.13.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  ...
+- Bump the backend-tests-python-dependencies group across 1 directory with 2 updates
+ ([b1fb007](https://github.com/mendersoftware/mender-server/commit/b1fb0078c69f82c459bcfe5753f84d72355556f2))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-tests-python-dependencies group with 2 updates in the /backend/tests directory: [pytest](https://github.com/pytest-dev/pytest) and [boto3](https://github.com/boto/boto3).
+  
+  
+  Updates `pytest` from 8.4.1 to 8.4.2
+  - [Release notes](https://github.com/pytest-dev/pytest/releases)
+  - [Changelog](https://github.com/pytest-dev/pytest/blob/main/CHANGELOG.rst)
+  - [Commits](https://github.com/pytest-dev/pytest/compare/8.4.1...8.4.2)
+  
+  Updates `boto3` from 1.40.21 to 1.40.24
+  - [Release notes](https://github.com/boto/boto3/releases)
+  - [Commits](https://github.com/boto/boto3/compare/1.40.21...1.40.24)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: pytest
+    dependency-version: 8.4.2
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: boto3
+    dependency-version: 1.40.24
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  ...
+- Bump vite from 7.0.6 to 7.1.5 in /frontend
+ ([fd3c822](https://github.com/mendersoftware/mender-server/commit/fd3c8223d58894792976e2ac08eaf05d5f61d31c))  by @dependabot[bot]
+
+
+
+
+  Bumps [vite](https://github.com/vitejs/vite/tree/HEAD/packages/vite) from 7.0.6 to 7.1.5.
+  - [Release notes](https://github.com/vitejs/vite/releases)
+  - [Changelog](https://github.com/vitejs/vite/blob/main/packages/vite/CHANGELOG.md)
+  - [Commits](https://github.com/vitejs/vite/commits/v7.1.5/packages/vite)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: vite
+    dependency-version: 7.1.5
+    dependency-type: indirect
+  ...
+- Bump axios from 1.11.0 to 1.12.0 in /frontend
+ ([b460d89](https://github.com/mendersoftware/mender-server/commit/b460d8916f2562686675b8d327a7974901a0ddc4))  by @dependabot[bot]
+
+
+
+
+  Bumps [axios](https://github.com/axios/axios) from 1.11.0 to 1.12.0.
+  - [Release notes](https://github.com/axios/axios/releases)
+  - [Changelog](https://github.com/axios/axios/blob/v1.x/CHANGELOG.md)
+  - [Commits](https://github.com/axios/axios/compare/v1.11.0...v1.12.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: axios
+    dependency-version: 1.12.0
+    dependency-type: direct:production
+  ...
+- Bump the backend-docker-compose-dependencies group across 2 directories with 4 updates
+ ([020619a](https://github.com/mendersoftware/mender-server/commit/020619a35768dd1682f5128a8a98bcaa07e59819))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-docker-compose-dependencies group with 2 updates in the / directory: traefik and nats.
+  Bumps the backend-docker-compose-dependencies group with 2 updates in the /compose directory: redis and chrislusf/seaweedfs.
+  
+  
+  Updates `traefik` from v3.1 to 3.5
+  
+  Updates `nats` from 2.10 to 2.11
+  
+  Updates `redis` from 7.2 to 8.2
+  
+  Updates `chrislusf/seaweedfs` from 3.85 to 3.97
+  
+  ---
+  updated-dependencies:
+  - dependency-name: traefik
+    dependency-version: '3.5'
+    dependency-type: direct:production
+    dependency-group: backend-docker-compose-dependencies
+  - dependency-name: nats
+    dependency-version: '2.11'
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-compose-dependencies
+  - dependency-name: redis
+    dependency-version: '8.2'
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-docker-compose-dependencies
+  - dependency-name: chrislusf/seaweedfs
+    dependency-version: '3.97'
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-compose-dependencies
+  ...
+- Bump nats
+ ([6ef8f84](https://github.com/mendersoftware/mender-server/commit/6ef8f840f0b80bddfcaf20b5a3a13bf112873d68))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-docker-compose-dependencies group with 1 update in the / directory: nats.
+  
+  
+  Updates `nats` from 2.11 to 2.12
+  
+  ---
+  updated-dependencies:
+  - dependency-name: nats
+    dependency-version: '2.12'
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-compose-dependencies
+  ...
+- Bump the backend-golang-dependencies group across 1 directory with 17 updates
+ ([9e22c80](https://github.com/mendersoftware/mender-server/commit/9e22c80c9521fb3d9e782f7922e97610f6e361f5))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-golang-dependencies group with 12 updates in the /backend directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [github.com/Azure/azure-sdk-for-go/sdk/azcore](https://github.com/Azure/azure-sdk-for-go) | `1.19.0` | `1.19.1` |
+  | [github.com/aws/aws-sdk-go-v2](https://github.com/aws/aws-sdk-go-v2) | `1.38.3` | `1.39.2` |
+  | [github.com/aws/aws-sdk-go-v2/config](https://github.com/aws/aws-sdk-go-v2) | `1.31.6` | `1.31.12` |
+  | [github.com/aws/aws-sdk-go-v2/service/iot](https://github.com/aws/aws-sdk-go-v2) | `1.69.1` | `1.69.5` |
+  | [github.com/aws/aws-sdk-go-v2/service/iotdataplane](https://github.com/aws/aws-sdk-go-v2) | `1.32.2` | `1.32.6` |
+  | [github.com/aws/aws-sdk-go-v2/service/s3](https://github.com/aws/aws-sdk-go-v2) | `1.87.3` | `1.88.3` |
+  | [github.com/gin-gonic/gin](https://github.com/gin-gonic/gin) | `1.10.1` | `1.11.0` |
+  | [github.com/nats-io/nats-server/v2](https://github.com/nats-io/nats-server) | `2.11.8` | `2.12.0` |
+  | [github.com/nats-io/nats.go](https://github.com/nats-io/nats.go) | `1.45.0` | `1.46.1` |
+  | [github.com/redis/go-redis/v9](https://github.com/redis/go-redis) | `9.13.0` | `9.14.0` |
+  | [github.com/spf13/viper](https://github.com/spf13/viper) | `1.20.1` | `1.21.0` |
+  | [golang.org/x/net](https://github.com/golang/net) | `0.43.0` | `0.44.0` |
+  
+  
+  
+  Updates `github.com/Azure/azure-sdk-for-go/sdk/azcore` from 1.19.0 to 1.19.1
+  - [Release notes](https://github.com/Azure/azure-sdk-for-go/releases)
+  - [Changelog](https://github.com/Azure/azure-sdk-for-go/blob/main/documentation/sdk-breaking-changes-guide-migration.md)
+  - [Commits](https://github.com/Azure/azure-sdk-for-go/compare/sdk/azcore/v1.19.0...sdk/azcore/v1.19.1)
+  
+  Updates `github.com/aws/aws-sdk-go-v2` from 1.38.3 to 1.39.2
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/v1.38.3...v1.39.2)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/config` from 1.31.6 to 1.31.12
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/config/v1.31.6...config/v1.31.12)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/credentials` from 1.18.10 to 1.18.16
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/config/v1.18.10...config/v1.18.16)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/service/iot` from 1.69.1 to 1.69.5
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/service/iot/v1.69.1...service/iot/v1.69.5)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/service/iotdataplane` from 1.32.2 to 1.32.6
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/v1.32.2...v1.32.6)
+  
+  Updates `github.com/aws/aws-sdk-go-v2/service/s3` from 1.87.3 to 1.88.3
+  - [Release notes](https://github.com/aws/aws-sdk-go-v2/releases)
+  - [Changelog](https://github.com/aws/aws-sdk-go-v2/blob/main/changelog-template.json)
+  - [Commits](https://github.com/aws/aws-sdk-go-v2/compare/service/s3/v1.87.3...service/s3/v1.88.3)
+  
+  Updates `github.com/gin-gonic/gin` from 1.10.1 to 1.11.0
+  - [Release notes](https://github.com/gin-gonic/gin/releases)
+  - [Changelog](https://github.com/gin-gonic/gin/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/gin-gonic/gin/compare/v1.10.1...v1.11.0)
+  
+  Updates `github.com/nats-io/nats-server/v2` from 2.11.8 to 2.12.0
+  - [Release notes](https://github.com/nats-io/nats-server/releases)
+  - [Changelog](https://github.com/nats-io/nats-server/blob/main/.goreleaser.yml)
+  - [Commits](https://github.com/nats-io/nats-server/compare/v2.11.8...v2.12.0)
+  
+  Updates `github.com/nats-io/nats.go` from 1.45.0 to 1.46.1
+  - [Release notes](https://github.com/nats-io/nats.go/releases)
+  - [Commits](https://github.com/nats-io/nats.go/compare/v1.45.0...v1.46.1)
+  
+  Updates `github.com/redis/go-redis/v9` from 9.13.0 to 9.14.0
+  - [Release notes](https://github.com/redis/go-redis/releases)
+  - [Changelog](https://github.com/redis/go-redis/blob/master/RELEASE-NOTES.md)
+  - [Commits](https://github.com/redis/go-redis/compare/v9.13.0...v9.14.0)
+  
+  Updates `github.com/spf13/viper` from 1.20.1 to 1.21.0
+  - [Release notes](https://github.com/spf13/viper/releases)
+  - [Commits](https://github.com/spf13/viper/compare/v1.20.1...v1.21.0)
+  
+  Updates `golang.org/x/crypto` from 0.41.0 to 0.42.0
+  - [Commits](https://github.com/golang/crypto/compare/v0.41.0...v0.42.0)
+  
+  Updates `golang.org/x/net` from 0.43.0 to 0.44.0
+  - [Commits](https://github.com/golang/net/compare/v0.43.0...v0.44.0)
+  
+  Updates `golang.org/x/sys` from 0.35.0 to 0.36.0
+  - [Commits](https://github.com/golang/sys/compare/v0.35.0...v0.36.0)
+  
+  Updates `golang.org/x/term` from 0.34.0 to 0.35.0
+  - [Commits](https://github.com/golang/term/compare/v0.34.0...v0.35.0)
+  
+  Updates `golang.org/x/time` from 0.12.0 to 0.13.0
+  - [Commits](https://github.com/golang/time/compare/v0.12.0...v0.13.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/Azure/azure-sdk-for-go/sdk/azcore
+    dependency-version: 1.19.1
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2
+    dependency-version: 1.39.2
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/config
+    dependency-version: 1.31.12
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/credentials
+    dependency-version: 1.18.16
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/service/iot
+    dependency-version: 1.69.5
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/service/iotdataplane
+    dependency-version: 1.32.6
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/aws/aws-sdk-go-v2/service/s3
+    dependency-version: 1.88.3
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/gin-gonic/gin
+    dependency-version: 1.11.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/nats-io/nats-server/v2
+    dependency-version: 2.12.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/nats-io/nats.go
+    dependency-version: 1.46.1
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/redis/go-redis/v9
+    dependency-version: 9.14.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: github.com/spf13/viper
+    dependency-version: 1.21.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: golang.org/x/crypto
+    dependency-version: 0.42.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: golang.org/x/net
+    dependency-version: 0.44.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: golang.org/x/sys
+    dependency-version: 0.36.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: golang.org/x/term
+    dependency-version: 0.35.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  - dependency-name: golang.org/x/time
+    dependency-version: 0.13.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-golang-dependencies
+  ...
+- Bump github.com/quic-go/quic-go from 0.54.0 to 0.54.1 in /backend
+ ([27df7d6](https://github.com/mendersoftware/mender-server/commit/27df7d6bee416bec25b8fda09c445ad0740bca6a))  by @dependabot[bot]
+
+
+
+
+  Bumps [github.com/quic-go/quic-go](https://github.com/quic-go/quic-go) from 0.54.0 to 0.54.1.
+  - [Release notes](https://github.com/quic-go/quic-go/releases)
+  - [Commits](https://github.com/quic-go/quic-go/compare/v0.54.0...v0.54.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/quic-go/quic-go
+    dependency-version: 0.54.1
+    dependency-type: indirect
+  ...
+- Bump vite from 7.1.5 to 7.1.11 in /frontend
+ ([0839758](https://github.com/mendersoftware/mender-server/commit/08397583bcd1c3e9df9efdc054a05137bec9f9bc))  by @dependabot[bot]
+
+
+
+
+  Bumps [vite](https://github.com/vitejs/vite/tree/HEAD/packages/vite) from 7.1.5 to 7.1.11.
+  - [Release notes](https://github.com/vitejs/vite/releases)
+  - [Changelog](https://github.com/vitejs/vite/blob/main/packages/vite/CHANGELOG.md)
+  - [Commits](https://github.com/vitejs/vite/commits/v7.1.11/packages/vite)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: vite
+    dependency-version: 7.1.11
+    dependency-type: indirect
+  ...
+- Bump validator in /frontend/tests/e2e_tests
+ ([f9d5dd6](https://github.com/mendersoftware/mender-server/commit/f9d5dd641b6fbb7ebf24049de8cd20d541b3bc84))  by @dependabot[bot]
+
+
+
+
+  Bumps [validator](https://github.com/validatorjs/validator.js) from 13.15.15 to 13.15.20.
+  - [Release notes](https://github.com/validatorjs/validator.js/releases)
+  - [Changelog](https://github.com/validatorjs/validator.js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/validatorjs/validator.js/compare/13.15.15...13.15.20)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: validator
+    dependency-version: 13.15.20
+    dependency-type: direct:development
+  ...
+- Bump validator from 13.15.15 to 13.15.20 in /frontend
+ ([94a0d8a](https://github.com/mendersoftware/mender-server/commit/94a0d8ad6f672f011e922ce1813632887499a301))  by @dependabot[bot]
+
+
+
+
+  Bumps [validator](https://github.com/validatorjs/validator.js) from 13.15.15 to 13.15.20.
+  - [Release notes](https://github.com/validatorjs/validator.js/releases)
+  - [Changelog](https://github.com/validatorjs/validator.js/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/validatorjs/validator.js/compare/13.15.15...13.15.20)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: validator
+    dependency-version: 13.15.20
+    dependency-type: direct:production
+  ...
+- Bump chrislusf/seaweedfs
+ ([7bcb49b](https://github.com/mendersoftware/mender-server/commit/7bcb49b2bef8b6dd098d32040d8ca4ecf4f308e0))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-docker-compose-dependencies group with 1 update in the /compose directory: chrislusf/seaweedfs.
+  
+  
+  Updates `chrislusf/seaweedfs` from 3.97 to 3.99
+  
+  ---
+  updated-dependencies:
+  - dependency-name: chrislusf/seaweedfs
+    dependency-version: '3.99'
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-docker-compose-dependencies
+  ...
+- Bump the backend-tests-python-dependencies group across 1 directory with 17 updates
+ ([2cae646](https://github.com/mendersoftware/mender-server/commit/2cae6466e34d2928760bcb6a55df3f351b63d33b))  by @dependabot[bot]
+
+
+
+
+  Bumps the backend-tests-python-dependencies group with 17 updates in the /backend/tests directory:
+  
+  | Package | From | To |
+  | --- | --- | --- |
+  | [attrs](https://github.com/sponsors/hynek) | `25.3.0` | `25.4.0` |
+  | [boto3](https://github.com/boto/boto3) | `1.40.24` | `1.40.58` |
+  | [certifi](https://github.com/certifi/python-certifi) | `2025.8.3` | `2025.10.5` |
+  | [cffi](https://github.com/python-cffi/cffi) | `1.17.1` | `2.0.0` |
+  | [cryptography](https://github.com/pyca/cryptography) | `45.0.7` | `46.0.3` |
+  | [filelock](https://github.com/tox-dev/py-filelock) | `3.19.1` | `3.20.0` |
+  | [idna](https://github.com/kjd/idna) | `3.10` | `3.11` |
+  | [iniconfig](https://github.com/pytest-dev/iniconfig) | `2.1.0` | `2.3.0` |
+  | [kubernetes](https://github.com/kubernetes-client/python) | `33.1.0` | `34.1.0` |
+  | [pillow](https://github.com/python-pillow/Pillow) | `11.3.0` | `12.0.0` |
+  | [pycparser](https://github.com/eliben/pycparser) | `2.22` | `2.23` |
+  | [pymongo](https://github.com/mongodb/mongo-python-driver) | `4.14.1` | `4.15.3` |
+  | [pyparsing](https://github.com/pyparsing/pyparsing) | `3.2.3` | `3.2.5` |
+  | [pyyaml](https://github.com/yaml/pyyaml) | `6.0.2` | `6.0.3` |
+  | [stripe](https://github.com/stripe/stripe-python) | `12.5.0` | `13.0.1` |
+  | [redis](https://github.com/redis/redis-py) | `6.4.0` | `7.0.0` |
+  | [pydantic](https://github.com/pydantic/pydantic) | `2.11.7` | `2.12.3` |
+  
+  
+  
+  Updates `attrs` from 25.3.0 to 25.4.0
+  - [Commits](https://github.com/sponsors/hynek/commits)
+  
+  Updates `boto3` from 1.40.24 to 1.40.58
+  - [Release notes](https://github.com/boto/boto3/releases)
+  - [Commits](https://github.com/boto/boto3/compare/1.40.24...1.40.58)
+  
+  Updates `certifi` from 2025.8.3 to 2025.10.5
+  - [Commits](https://github.com/certifi/python-certifi/compare/2025.08.03...2025.10.05)
+  
+  Updates `cffi` from 1.17.1 to 2.0.0
+  - [Release notes](https://github.com/python-cffi/cffi/releases)
+  - [Commits](https://github.com/python-cffi/cffi/compare/v1.17.1...v2.0.0)
+  
+  Updates `cryptography` from 45.0.7 to 46.0.3
+  - [Changelog](https://github.com/pyca/cryptography/blob/main/CHANGELOG.rst)
+  - [Commits](https://github.com/pyca/cryptography/compare/45.0.7...46.0.3)
+  
+  Updates `filelock` from 3.19.1 to 3.20.0
+  - [Release notes](https://github.com/tox-dev/py-filelock/releases)
+  - [Changelog](https://github.com/tox-dev/filelock/blob/main/docs/changelog.rst)
+  - [Commits](https://github.com/tox-dev/py-filelock/compare/3.19.1...3.20.0)
+  
+  Updates `idna` from 3.10 to 3.11
+  - [Release notes](https://github.com/kjd/idna/releases)
+  - [Changelog](https://github.com/kjd/idna/blob/master/HISTORY.rst)
+  - [Commits](https://github.com/kjd/idna/compare/v3.10...v3.11)
+  
+  Updates `iniconfig` from 2.1.0 to 2.3.0
+  - [Release notes](https://github.com/pytest-dev/iniconfig/releases)
+  - [Changelog](https://github.com/pytest-dev/iniconfig/blob/main/CHANGELOG)
+  - [Commits](https://github.com/pytest-dev/iniconfig/compare/v2.1.0...v2.3.0)
+  
+  Updates `kubernetes` from 33.1.0 to 34.1.0
+  - [Release notes](https://github.com/kubernetes-client/python/releases)
+  - [Changelog](https://github.com/kubernetes-client/python/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/kubernetes-client/python/compare/v33.1.0...v34.1.0)
+  
+  Updates `pillow` from 11.3.0 to 12.0.0
+  - [Release notes](https://github.com/python-pillow/Pillow/releases)
+  - [Changelog](https://github.com/python-pillow/Pillow/blob/main/CHANGES.rst)
+  - [Commits](https://github.com/python-pillow/Pillow/compare/11.3.0...12.0.0)
+  
+  Updates `pycparser` from 2.22 to 2.23
+  - [Release notes](https://github.com/eliben/pycparser/releases)
+  - [Changelog](https://github.com/eliben/pycparser/blob/main/CHANGES)
+  - [Commits](https://github.com/eliben/pycparser/compare/release_v2.22...release_v2.23)
+  
+  Updates `pymongo` from 4.14.1 to 4.15.3
+  - [Release notes](https://github.com/mongodb/mongo-python-driver/releases)
+  - [Changelog](https://github.com/mongodb/mongo-python-driver/blob/master/doc/changelog.rst)
+  - [Commits](https://github.com/mongodb/mongo-python-driver/compare/4.14.1...4.15.3)
+  
+  Updates `pyparsing` from 3.2.3 to 3.2.5
+  - [Release notes](https://github.com/pyparsing/pyparsing/releases)
+  - [Changelog](https://github.com/pyparsing/pyparsing/blob/master/CHANGES)
+  - [Commits](https://github.com/pyparsing/pyparsing/compare/3.2.3...3.2.5)
+  
+  Updates `pyyaml` from 6.0.2 to 6.0.3
+  - [Release notes](https://github.com/yaml/pyyaml/releases)
+  - [Changelog](https://github.com/yaml/pyyaml/blob/6.0.3/CHANGES)
+  - [Commits](https://github.com/yaml/pyyaml/compare/6.0.2...6.0.3)
+  
+  Updates `stripe` from 12.5.0 to 13.0.1
+  - [Release notes](https://github.com/stripe/stripe-python/releases)
+  - [Changelog](https://github.com/stripe/stripe-python/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/stripe/stripe-python/compare/v12.5.0...v13.0.1)
+  
+  Updates `redis` from 6.4.0 to 7.0.0
+  - [Release notes](https://github.com/redis/redis-py/releases)
+  - [Changelog](https://github.com/redis/redis-py/blob/master/CHANGES)
+  - [Commits](https://github.com/redis/redis-py/compare/v6.4.0...v7.0.0)
+  
+  Updates `pydantic` from 2.11.7 to 2.12.3
+  - [Release notes](https://github.com/pydantic/pydantic/releases)
+  - [Changelog](https://github.com/pydantic/pydantic/blob/main/HISTORY.md)
+  - [Commits](https://github.com/pydantic/pydantic/compare/v2.11.7...v2.12.3)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: attrs
+    dependency-version: 25.4.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: boto3
+    dependency-version: 1.40.58
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: certifi
+    dependency-version: 2025.10.5
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: cffi
+    dependency-version: 2.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: cryptography
+    dependency-version: 46.0.3
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: filelock
+    dependency-version: 3.20.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: idna
+    dependency-version: '3.11'
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: iniconfig
+    dependency-version: 2.3.0
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: kubernetes
+    dependency-version: 34.1.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pillow
+    dependency-version: 12.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pycparser
+    dependency-version: '2.23'
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pymongo
+    dependency-version: 4.15.3
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pyparsing
+    dependency-version: 3.2.5
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pyyaml
+    dependency-version: 6.0.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: stripe
+    dependency-version: 13.0.1
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: redis
+    dependency-version: 7.0.0
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+    dependency-group: backend-tests-python-dependencies
+  - dependency-name: pydantic
+    dependency-version: 2.12.3
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+    dependency-group: backend-tests-python-dependencies
+  ...
+- Bump js-yaml from 4.1.0 to 4.1.1 in /frontend
+ ([b0b6165](https://github.com/mendersoftware/mender-server/commit/b0b6165551dce4310f78b63d6081ca0ae35f8d5f))  by @dependabot[bot]
+
+
+
+
+  Bumps [js-yaml](https://github.com/nodeca/js-yaml) from 4.1.0 to 4.1.1.
+  - [Changelog](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/nodeca/js-yaml/compare/4.1.0...4.1.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: js-yaml
+    dependency-version: 4.1.1
+    dependency-type: indirect
+  ...
+- Bump golang.org/x/crypto from 0.43.0 to 0.45.0 in /backend
+ ([8981e10](https://github.com/mendersoftware/mender-server/commit/8981e10742a4e097df46534fe5c314bc11ea2de7))  by @dependabot[bot]
+
+
+
+
+  Bumps [golang.org/x/crypto](https://github.com/golang/crypto) from 0.43.0 to 0.45.0.
+  - [Commits](https://github.com/golang/crypto/compare/v0.43.0...v0.45.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: golang.org/x/crypto
+    dependency-version: 0.45.0
+    dependency-type: direct:production
+  ...
+
+
+
+
+### Build
+
+
+- *(gui)* Added HMR enabled dev option
+ ([4eb4d22](https://github.com/mendersoftware/mender-server/commit/4eb4d22f357acf104e083d9c2477a1b5aac79f18))  by @mzedel
+
+
+
+- Change default make target to test for backend/pkg
+ ([5ba3fd7](https://github.com/mendersoftware/mender-server/commit/5ba3fd7deda6421612029b31317cc61c2b1ef373))  by @alfrunes
+
+
+- Add make target for pkg unit tests to test-unit root target
+ ([5c2e23a](https://github.com/mendersoftware/mender-server/commit/5c2e23a6ff9b073b38cad1ef56e8845264369817))  by @alfrunes
+
+
+
+
+
+
+### Refac
+
+
+- *(gui)* Extraced login related form elements to isolate form handling
+ ([0088e78](https://github.com/mendersoftware/mender-server/commit/0088e78dac5aa9d8512809fb8a197428201e8a38))  by @mzedel
+
+
+
+- *(gui)* Split signup in separate forms to ease handling validation mode differences
+ ([620592b](https://github.com/mendersoftware/mender-server/commit/620592bea038b835990e7625db7ae7f736f3f6e4))  by @mzedel
+
+
+
+- *(gui)* Rely on externally gzipping build files to use sourcemaps in sentry
+ ([24bdd2f](https://github.com/mendersoftware/mender-server/commit/24bdd2f3f048e8088daf40fffd92afc7eed15dbc))  by @mzedel
+
+
+
+
+
+
+
+### Revert
+
+
+- Gin utility for applying middleware to routes
+ ([9f5c79c](https://github.com/mendersoftware/mender-server/commit/9f5c79cc30a4ee2576ef39f650b3a161c5996548))  by @alfrunes
+
+
+
+
+  The func does not implement what it is intended to do and instead
+  applies the middleware to all routes in the group.
+- "ci: Debug mongodb in backend unit tests"
+ ([441c1ea](https://github.com/mendersoftware/mender-server/commit/441c1eaa43cc79737468aef3068784f0bfadef28))  by @alfrunes
+
+
+
+
+  Enabling logging just overflows the log buffer.
+  
+  This reverts commit 6d164c4c70d1fff7d28e88a50390f8afb676c814.
+- "test: Unit tests for configuring rate limits"
+ ([4ef01b1](https://github.com/mendersoftware/mender-server/commit/4ef01b1a66d5f20e10d587fbdfc9d3febe14ee8e))  by @alfrunes
+
+
+
+
+  This reverts commit 16caca6ae355f2dfa843c019f31f0722456b1c96.
+- "test: Unit tests for rate limit parameters and applying rate limits"
+ ([4102778](https://github.com/mendersoftware/mender-server/commit/4102778ea46ac4bda13db499177cb491362b6000))  by @alfrunes
+
+
+
+
+  This reverts commit 4bf8462399128586238c734fdd14c90ad7ce0479.
+- "feat(deviceauth): Rate limit device requests"
+ ([9c158a3](https://github.com/mendersoftware/mender-server/commit/9c158a3377fe6b9ac9f98f2b7cb15936237b6de1))  by @alfrunes
+
+
+
+
+  This reverts commit 9c3041f5d54ea06c920ae0cc977c8af594133fb2.
+- "feat(deviceauth): Rate limit authenticated devices API"
+ ([aa7eff8](https://github.com/mendersoftware/mender-server/commit/aa7eff8de394de13f53008e2aaa5273bf7939a5c))  by @alfrunes
+
+
+
+
+  This reverts commit 8c8028081a54a62ba8673071350414b096aa87b0.
+- "test: Fix deviceauth.cache tests after changing client initialization"
+ ([9d21a83](https://github.com/mendersoftware/mender-server/commit/9d21a83e05444189a51e197d4d5945d148e2a7f6))  by @alfrunes
+
+
+
+
+  This reverts commit 721a2f760a38a9c25c38e5aa95fbd9f6f180ea7f.
+- "chore(iot-manager): replace deprecated cipher NewCFBDecrypter and NewCFBEncrypter (...)"
+ ([b9f3810](https://github.com/mendersoftware/mender-server/commit/b9f38101319e9e118d724c0d1d18a6c4db7a5111))  by @kjaskiewiczz
+
+
+
+
+  This reverts commit 8baa94e909df4b39f55e8ac31653d5b490cf918c.
+
+
+
+
+
+
 ## 4.0.0 - 2025-02-10
 
 
