@@ -64,6 +64,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 interface DeviceLimitProps {
+  compact?: boolean;
   limit: number;
   total: number;
   type: string;
@@ -71,8 +72,8 @@ interface DeviceLimitProps {
 
 const numberLocale = 'en-US';
 
-const DeviceLimit = (props: DeviceLimitProps) => {
-  const { type, limit, total } = props;
+export const DeviceLimit = (props: DeviceLimitProps) => {
+  const { type, limit, total, compact = false } = props;
   const unlimited = limit === -1;
   const warning = total / limit > 0.8 && total < limit && !unlimited;
   const error = total >= limit && !unlimited;
@@ -80,9 +81,7 @@ const DeviceLimit = (props: DeviceLimitProps) => {
   const { classes } = useStyles();
 
   return (
-    <div
-      className={`flexbox column margin-bottom-small padding-x-small ${classes.limitContainer} ${warning ? classes.warningBg : ''} ${error ? classes.errorBg : ''}`}
-    >
+    <div className={`flexbox column padding-x-small ${classes.limitContainer} ${warning ? classes.warningBg : ''} ${error ? classes.errorBg : ''}`}>
       <div className="flexbox full-width space-between">
         <div className="flexbox">
           <Typography variant="subtitle2" className="capitalized-start">
@@ -98,33 +97,35 @@ const DeviceLimit = (props: DeviceLimitProps) => {
       </div>
       {!unlimited && (
         <>
-          <div className="margin-bottom-x-small margin-top-x-small">
+          <div className="margin-top-x-small">
             <LinearProgress color={color} variant="determinate" value={Math.floor((total / limit) * 100)} />
           </div>
 
-          <div className="flexbox">
-            <Typography variant="caption">{Math.floor((total / limit) * 100)}% used</Typography>
-            {warning && (
-              <>
-                <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
-                  •
-                </Typography>{' '}
-                <Typography variant="caption" color="warning">
-                  Near limit
-                </Typography>
-              </>
-            )}
-            {error && (
-              <>
-                <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
-                  •
-                </Typography>{' '}
-                <Typography variant="caption" color="error">
-                  Limit reached
-                </Typography>
-              </>
-            )}
-          </div>
+          {!compact && (
+            <div className="flexbox margin-top-x-small">
+              <Typography variant="caption">{Math.floor((total / limit) * 100)}% used</Typography>
+              {warning && (
+                <>
+                  <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
+                    •
+                  </Typography>{' '}
+                  <Typography variant="caption" color="warning">
+                    Near limit
+                  </Typography>
+                </>
+              )}
+              {error && (
+                <>
+                  <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
+                    •
+                  </Typography>{' '}
+                  <Typography variant="caption" color="error">
+                    Limit reached
+                  </Typography>
+                </>
+              )}
+            </div>
+          )}
         </>
       )}
     </div>
@@ -239,7 +240,9 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
             <Divider />
             <div className="margin-top-small">
               {mappedLimits.map(limit => (
-                <DeviceLimit key={limit.type} {...limit} />
+                <div key={limit.type} className="margin-bottom-small">
+                  <DeviceLimit {...limit} />
+                </div>
               ))}
             </div>
             {isAdmin && (
