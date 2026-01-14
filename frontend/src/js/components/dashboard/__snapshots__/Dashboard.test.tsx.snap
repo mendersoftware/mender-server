@@ -59,6 +59,69 @@ exports[`Dashboard Component > renders correctly 1`] = `
 }
 
 .emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
+}
+
+.emotion-4 {
+  width: calc(100% + 12px);
+  margin-left: -6px;
+  border-radius: 4px;
+}
+
+.emotion-5 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+}
+
+.emotion-6 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-7 {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: 4px;
+  z-index: 0;
+  background-color: rgb(167, 202, 237);
+}
+
+@media print {
+  .emotion-7 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-8 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+  background-color: #1976d2;
+  -webkit-transition: -webkit-transform .4s linear;
+  transition: transform .4s linear;
+}
+
+.emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -116,63 +179,63 @@ exports[`Dashboard Component > renders correctly 1`] = `
   z-index: 1;
 }
 
-.emotion-3::-moz-focus-inner {
+.emotion-9::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-3.Mui-disabled {
+.emotion-9.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-3 {
+  .emotion-9 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-3:active {
+.emotion-9:active {
   box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12);
 }
 
-.emotion-3:hover {
+.emotion-9:hover {
   background-color: #f5f5f5;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 @media (hover: none) {
-  .emotion-3:hover {
+  .emotion-9:hover {
     background-color: #e0e0e0;
   }
 }
 
-.emotion-3.Mui-focusVisible {
+.emotion-9.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-3:hover {
+.emotion-9:hover {
   background-color: #1565c0;
 }
 
 @media (hover: none) {
-  .emotion-3:hover {
+  .emotion-9:hover {
     background-color: #1976d2;
   }
 }
 
-.emotion-3.Mui-disabled {
+.emotion-9.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-5 {
+.emotion-11 {
   gap: 16px;
 }
 
-.emotion-6 {
+.emotion-12 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -250,28 +313,28 @@ exports[`Dashboard Component > renders correctly 1`] = `
   text-transform: uppercase;
 }
 
-.emotion-6::-moz-focus-inner {
+.emotion-12::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-12.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-6 {
+  .emotion-12 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-6.Mui-disabled {
+.emotion-12.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-6 .MuiChip-avatar {
+.emotion-12 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -280,17 +343,17 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-6 .MuiChip-avatarColorPrimary {
+.emotion-12 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: #1565c0;
 }
 
-.emotion-6 .MuiChip-avatarColorSecondary {
+.emotion-12 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: #7b1fa2;
 }
 
-.emotion-6 .MuiChip-avatarSmall {
+.emotion-12 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -298,12 +361,12 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: 0.625rem;
 }
 
-.emotion-6 .MuiChip-icon {
+.emotion-12 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-6 .MuiChip-deleteIcon {
+.emotion-12 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -311,35 +374,35 @@ exports[`Dashboard Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-6 .MuiChip-deleteIcon:hover {
+.emotion-12 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-6 .MuiChip-icon {
+.emotion-12 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-6:hover {
+.emotion-12:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-6.Mui-focusVisible {
+.emotion-12.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-6:active {
+.emotion-12:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-6:hover {
+.emotion-12:hover {
   font-weight: bold;
 }
 
-.emotion-6:hover {
+.emotion-12:hover {
   font-weight: bold;
 }
 
-.emotion-7 {
+.emotion-13 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -347,16 +410,16 @@ exports[`Dashboard Component > renders correctly 1`] = `
   white-space: nowrap;
 }
 
-.emotion-8 {
+.emotion-14 {
   margin: auto;
   margin-left: 0;
 }
 
-.emotion-8:hover svg {
+.emotion-14:hover svg {
   color: #1565c0;
 }
 
-.emotion-9 {
+.emotion-15 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -374,11 +437,11 @@ exports[`Dashboard Component > renders correctly 1`] = `
   color: #1976d2;
 }
 
-.emotion-9.read {
+.emotion-15.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-10 {
+.emotion-16 {
   position: absolute;
   top: -4px;
   bottom: -4px;
@@ -388,20 +451,20 @@ exports[`Dashboard Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-10.read {
+.emotion-16.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-10:hover {
+.emotion-16:hover {
   border-color: #1565c0;
 }
 
-.emotion-11 {
+.emotion-17 {
   font-size: 1rem;
   cursor: pointer;
 }
 
-.emotion-14 {
+.emotion-20 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -412,28 +475,28 @@ exports[`Dashboard Component > renders correctly 1`] = `
   padding-top: 0;
 }
 
-.emotion-14 .deployments .dashboard>h4 {
+.emotion-20 .deployments .dashboard>h4 {
   margin-top: 48px;
 }
 
-.emotion-14 .deployments .dashboard>h4.margin-top-none {
+.emotion-20 .deployments .dashboard>h4.margin-top-none {
   margin-top: 0;
 }
 
 @media (min-width:1536px) {
-  .emotion-14 {
+  .emotion-20 {
     border-left: 1px solid #9e9e9e;
     margin-top: -16px;
     padding-left: 48px;
     padding-top: 16px;
   }
 
-  .emotion-14 .deployments .dashboard>h4 {
+  .emotion-20 .deployments .dashboard>h4 {
     margin-top: 0;
   }
 }
 
-.emotion-15 {
+.emotion-21 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -448,11 +511,11 @@ exports[`Dashboard Component > renders correctly 1`] = `
   padding: 8px;
 }
 
-.emotion-15>div:last-child {
+.emotion-21>div:last-child {
   width: 100%;
 }
 
-.emotion-16 {
+.emotion-22 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -469,7 +532,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: inherit;
 }
 
-.emotion-22 {
+.emotion-28 {
   background-color: #bdbdbd;
   padding: 10px 20px;
   border-radius: 4px;
@@ -480,61 +543,61 @@ exports[`Dashboard Component > renders correctly 1`] = `
   min-height: 70px;
 }
 
-.emotion-22 .chart-container {
+.emotion-28 .chart-container {
   min-height: 70px;
 }
 
-.emotion-22 .progress-chart {
+.emotion-28 .progress-chart {
   min-height: 45px;
 }
 
-.emotion-22 .compact .progress-step,
-.emotion-22 .detailed .progress-step {
+.emotion-28 .compact .progress-step,
+.emotion-28 .detailed .progress-step {
   min-height: 45px;
 }
 
-.emotion-22 .progress-step,
-.emotion-22 .detailed .progress-step-total {
+.emotion-28 .progress-step,
+.emotion-28 .detailed .progress-step-total {
   position: absolute;
   border-right-style: none;
 }
 
-.emotion-22 .progress-step-total .progress-bar {
+.emotion-28 .progress-step-total .progress-bar {
   background-color: #fafafa;
 }
 
-.emotion-22 .progress-step-number {
+.emotion-28 .progress-step-number {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
   margin-top: -4px;
 }
 
-.emotion-22.minimal {
+.emotion-28.minimal {
   padding: initial;
 }
 
-.emotion-22.no-background {
+.emotion-28.no-background {
   background: none;
 }
 
-.emotion-22.stepped-progress .progress-step-total {
+.emotion-28.stepped-progress .progress-step-total {
   margin-left: -0.25%;
   width: 100.5%;
 }
 
-.emotion-22.stepped-progress .progress-step-total .progress-bar {
+.emotion-28.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
   border: 1px solid #424242;
   border-radius: 2px;
   height: 12px;
 }
 
-.emotion-22.stepped-progress .detailed .progress-step {
+.emotion-28.stepped-progress .detailed .progress-step {
   min-height: 20px;
 }
 
-.emotion-27 {
+.emotion-33 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -545,32 +608,32 @@ exports[`Dashboard Component > renders correctly 1`] = `
   max-width: 500px;
 }
 
-.emotion-27>time {
+.emotion-33>time {
   -webkit-align-self: flex-end;
   -ms-flex-item-align: flex-end;
   align-self: flex-end;
   margin-right: 6px;
 }
 
-.emotion-29 {
+.emotion-35 {
   background: #fff;
   border-radius: 4px;
   padding: 4px;
 }
 
-.emotion-30 {
+.emotion-36 {
   -webkit-column-gap: 8px;
   column-gap: 8px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 32px);
 }
 
-.emotion-30>div {
+.emotion-36>div {
   -webkit-column-gap: 4px;
   column-gap: 4px;
 }
 
-.emotion-30 .disabled {
+.emotion-36 .disabled {
   opacity: 0.1;
 }
 
@@ -613,12 +676,65 @@ exports[`Dashboard Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="flexbox column widgetMainContent"
+            class="widgetMainContent"
           >
             <div
-              class="counter"
+              class="full-width"
             >
-              2
+              <h5
+                class="MuiTypography-root MuiTypography-h5 emotion-3"
+              >
+                2
+              </h5>
+              <div
+                class="flexbox column full-width margin-top-small"
+              >
+                <div
+                  aria-label="0% used. To increase limits, go to Settings > Billing"
+                  class="margin-bottom-x-small"
+                  data-mui-internal-clone-element="true"
+                >
+                  <div
+                    class="flexbox column padding-x-small emotion-4  "
+                  >
+                    <div
+                      class="flexbox full-width space-between"
+                    >
+                      <div
+                        class="flexbox"
+                      >
+                        <h6
+                          class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-5"
+                        >
+                          standard
+                        </h6>
+                      </div>
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 emotion-6"
+                      >
+                        2
+                        /500
+                      </p>
+                    </div>
+                    <div
+                      class="margin-top-x-small"
+                    >
+                      <span
+                        aria-valuemax="100"
+                        aria-valuemin="0"
+                        aria-valuenow="0"
+                        class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-7"
+                        role="progressbar"
+                      >
+                        <span
+                          class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-8"
+                          style="transform: translateX(-100%);"
+                        />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -626,7 +742,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           class="relative"
         >
           <a
-            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-3"
+            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-9"
             data-discover="true"
             href="/devices/pending"
             tabindex="0"
@@ -685,7 +801,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           class="widget"
         >
           <div
-            class="flexbox center-aligned  emotion-5"
+            class="flexbox center-aligned  emotion-11"
             style="align-items: end;"
           >
             <div
@@ -693,24 +809,24 @@ exports[`Dashboard Component > renders correctly 1`] = `
               data-mui-internal-clone-element="true"
             >
               <div
-                class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-6"
+                class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-12"
                 role="button"
                 tabindex="0"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-7"
+                  class="MuiChip-label MuiChip-labelMedium emotion-13"
                 >
                   Enterprise
                 </span>
               </div>
             </div>
             <div
-              class="relative flexbox emotion-8  "
+              class="relative flexbox emotion-14  "
               data-mui-internal-clone-element="true"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-9"
+                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-15"
                 data-testid="HelpIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -720,12 +836,12 @@ exports[`Dashboard Component > renders correctly 1`] = `
                 />
               </svg>
               <div
-                class="emotion-10 "
+                class="emotion-16 "
               />
             </div>
           </div>
           <div
-            class="flexbox centered muted emotion-11"
+            class="flexbox centered muted emotion-17"
           >
             <svg
               aria-hidden="true"
@@ -739,7 +855,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               />
             </svg>
             <span
-              class="emotion-11"
+              class="emotion-17"
             >
               add a widget
             </span>
@@ -748,7 +864,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="emotion-14 deployments"
+      class="emotion-20 deployments"
     >
       <div
         class="dashboard flexbox column"
@@ -765,7 +881,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           Pending
         </h5>
         <div
-          class="clickable emotion-15"
+          class="clickable emotion-21"
         >
           <div>
             <div />
@@ -781,7 +897,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -797,7 +913,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="clickable emotion-15"
+          class="clickable emotion-21"
         >
           <div>
             <div>
@@ -815,7 +931,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -831,7 +947,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="clickable emotion-15"
+          class="clickable emotion-21"
         >
           <div>
             <div>
@@ -849,7 +965,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -870,7 +986,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           In Progress
         </h5>
         <div
-          class="clickable emotion-15"
+          class="clickable emotion-21"
         >
           <div>
             <div />
@@ -882,7 +998,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="relative emotion-22 minimal "
+            class="relative emotion-28 minimal "
           >
             <div
               class="chart-container"
@@ -987,7 +1103,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="clickable emotion-15"
+          class="clickable emotion-21"
         >
           <div>
             <div>
@@ -1001,7 +1117,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="relative emotion-22 minimal "
+            class="relative emotion-28 minimal "
           >
             <div
               class="chart-container"
@@ -1042,7 +1158,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="clickable emotion-15"
+          class="clickable emotion-21"
         >
           <div>
             <div>
@@ -1060,7 +1176,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -1081,7 +1197,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           Finished
         </h5>
         <div
-          class="emotion-27"
+          class="emotion-33"
         >
           <time
             class="muted slightly-smaller"
@@ -1090,7 +1206,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             2019-01-13 13:00
           </time>
           <div
-            class="clickable emotion-15"
+            class="clickable emotion-21"
           >
             <div>
               <div />
@@ -1102,10 +1218,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="emotion-29"
+              class="emotion-35"
             >
               <div
-                class="flexbox emotion-30 "
+                class="flexbox emotion-36 "
               >
                 <div
                   aria-label="Skipped"
@@ -1182,7 +1298,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="emotion-27"
+          class="emotion-33"
         >
           <time
             class="muted slightly-smaller"
@@ -1191,7 +1307,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             2019-01-13 13:00
           </time>
           <div
-            class="clickable emotion-15"
+            class="clickable emotion-21"
           >
             <div>
               <div>
@@ -1205,10 +1321,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="emotion-29"
+              class="emotion-35"
             >
               <div
-                class="flexbox emotion-30 "
+                class="flexbox emotion-36 "
               >
                 <div
                   aria-label="Skipped"
@@ -1285,7 +1401,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="emotion-27"
+          class="emotion-33"
         >
           <time
             class="muted slightly-smaller"
@@ -1294,7 +1410,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             2019-01-13 13:00
           </time>
           <div
-            class="clickable emotion-15"
+            class="clickable emotion-21"
           >
             <div>
               <div>
@@ -1308,10 +1424,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="emotion-29"
+              class="emotion-35"
             >
               <div
-                class="flexbox emotion-30 "
+                class="flexbox emotion-36 "
               >
                 <div
                   aria-label="Skipped"
