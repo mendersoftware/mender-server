@@ -26,7 +26,7 @@ import {
 import { Alert, Badge, Button, Divider, LinearProgress, Popover, Tooltip, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { getAcceptedDevices, getDeviceLimits, getUserRoles } from '@northern.tech/store/selectors';
+import { getUserRoles, getDeviceLimitStats } from '@northern.tech/store/selectors';
 import pluralize from 'pluralize';
 
 const useStyles = makeStyles()(theme => ({
@@ -137,9 +137,8 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [tooltip, setTooltip] = useState(false);
-  const { counts: accepted } = useSelector(getAcceptedDevices);
   const { isAdmin } = useSelector(getUserRoles);
-  const limits = useSelector(getDeviceLimits);
+  const mappedLimits = useSelector(getDeviceLimitStats);
 
   const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -154,9 +153,6 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
     navigate('/devices/pending');
   };
 
-  const mappedLimits = Object.entries(limits)
-    .filter(([, limit]) => limit !== 0)
-    .map(([type, limit]) => ({ type, limit: limit, total: accepted[type] }));
 
   const severityMap = { 0: 'primary', 1: 'warning', 2: 'error' };
 
