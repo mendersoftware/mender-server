@@ -82,9 +82,9 @@ export const PlanDescriptor = ({
 }) => {
   const limits = Object.entries(deviceLimits)
     .map(([id, quantity]) => ({ id, quantity }))
-    .filter(limit => limit.quantity > 0);
+    .filter(limit => limit.quantity !== 0);
   const formatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
-  const items = limits.map(({ quantity, id }) => `${quantity} ${deviceTierLabelMap[id]}`);
+  const items = limits.map(({ quantity, id }) => `${quantity === -1 ? 'unlimited' : quantity} ${deviceTierLabelMap[id]}`);
   const formattedElements = formatter.formatToParts(items).map((part, index) => {
     if (part.type === 'element') {
       return <b key={index}>{part.value}</b>;
