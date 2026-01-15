@@ -13,11 +13,13 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { CheckCircleOutlined as CheckCircleOutlinedIcon, ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
-import { Alert, Button, CircularProgress, Divider, Drawer, Typography, buttonClasses } from '@mui/material';
+import { Alert, AlertTitle, Button, CircularProgress, Divider, Drawer, Typography, buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
@@ -86,6 +88,8 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   const [isValid, setIsValid] = useState(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [successConfirmationShown, setSuccessConfirmationShown] = useState(false);
+  const { addons: orgAddons } = organization;
+  const enabledAddons = orgAddons.filter(addon => addon.enabled);
 
   const [nextPayment, setNextPayment] = useState(0);
   const [updatingCard, setUpdatingCard] = useState(false);
@@ -97,6 +101,11 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   const orderedAddons = order?.products.filter(product => product.addons?.length).reduce((acc, curr) => [...acc, ...curr.addons], []);
   const orderedProducts = order?.products.map(product => ({ id: product.name.slice('mender_'.length), quantity: product.quantity }));
   const canShowConfirmation = successConfirmationShown && previewPrice && order;
+
+  const enabledAddonsNames = new Set(enabledAddons?.map(a => a.name));
+  const addonsChanged = orderedAddons?.length !== enabledAddons?.length || !orderedAddons?.every(({ name }) => enabledAddonsNames?.has(name));
+  const willLogout = addonsChanged || currentPlanId !== selectedPlan.id;
+
   const { classes } = useStyles();
 
   const onInitEditProfile = () => {
@@ -271,7 +280,19 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
           plan={selectedPlan}
           price={previewPrice?.total}
           orderedAddons={orderedAddons}
+          willLogout={willLogout}
         />
+      )}
+      {willLogout && (
+        <Alert severity="warning" className="margin-top">
+          <AlertTitle>Action required after upgrade</AlertTitle>
+          <Typography>
+            Upgrading your plan will invalidate existing{' '}
+            <DocsLink path="server-integration/using-the-apis#personal-access-tokens" title="Personal Access Tokens" />
+            (PATs) for all users for security reasons. After upgrade, you will need to generate new PATs for any scripts or integrations using these tokens. You
+            can manage your own PATs in <Link to="/settings/my-profile">your profile</Link>.
+          </Typography>
+        </Alert>
       )}
     </Drawer>
   );

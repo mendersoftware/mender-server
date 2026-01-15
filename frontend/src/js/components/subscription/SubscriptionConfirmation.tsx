@@ -31,15 +31,14 @@ interface SubscriptionConfirmationProps {
   plan: Plan;
   price: number;
   products: { id: string; quantity: number }[];
+  willLogout: boolean;
 }
 export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) => {
-  const { plan, products, price, orderedAddons, deviceTypes } = props;
-  const { addons: enabledAddons, plan: currentPlan } = useSelector(getOrganization);
+  const { plan, products, price, orderedAddons, deviceTypes, willLogout } = props;
+  const { plan: currentPlan } = useSelector(getOrganization);
 
   const [addonList] = useState(orderedAddons.map(addon => addon.name));
   const productsList = products.map(({ id, quantity }) => `${quantity} ${deviceTypes[id].summaryLabel}`).join(', ');
-  const previousAddonsList = enabledAddons.filter(addon => addon.enabled);
-  const willLogout = addonList.length > previousAddonsList.length || currentPlan !== plan.id;
   const [count, setCount] = useState<number>(60);
   const logOut = () => {
     cleanUp();
@@ -95,7 +94,8 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
             <AlertTitle textAlign="center">Automatic logout in {count} seconds</AlertTitle>
             <div className="flexbox column centered">
               <Typography className="margin-bottom-x-small" textAlign="center" variant="body2">
-                You will be logged out automatically, for your new subscription to take effect.
+                You will be logged out automatically, for your new subscription to take effect. <br/>
+                If you are using Personal Access Tokens, remember to generate and deploy new tokens when you log in again.
               </Typography>
               <Button variant="contained" onClick={logOut}>
                 Log out now
