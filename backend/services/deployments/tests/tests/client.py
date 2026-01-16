@@ -223,18 +223,18 @@ class ArtifactsClient(BaseApiClient):
     def list_artifacts(self):
         rsp = management_v1_client(jwt=self._jwt).list_artifacts_with_http_info()
         try:
-            assert rsp[1] == 200
+            assert rsp.status_code == 200
         except AssertionError:
             raise ArtifactsClientError("get failed", rsp)
-        return rsp[0]
+        return rsp.data
 
     def show_artifact(self, artid=""):
         rsp = management_v1_client(jwt=self._jwt).show_artifact_with_http_info(id=artid)
         try:
-            assert rsp[1] == 200
+            assert rsp.status_code == 200
         except AssertionError:
             raise ArtifactsClientError("get failed", rsp)
-        return rsp[0]
+        return rsp.data
 
     @contextmanager
     def with_added_artifact(self, description="", size=0, data=None):
@@ -329,7 +329,7 @@ class DeploymentsClient(BaseApiClient):
         r = management_v1_client(jwt=self.get_jwt()).deployments_create_deployment_with_http_info(
             dep
         )
-        loc = r[2]["Location"]
+        loc = r.headers["Location"]
         depid = os.path.basename(loc)
 
         self.log.debug("added new deployment with ID: %s", depid)
@@ -501,7 +501,7 @@ class InternalApiClient(BaseApiClient):
         r = internal_v1_client().deployments_internal_create_tenant_with_http_info(
             new_tenant=iv1.NewTenant(tenant_id=tenant_id)
         )
-        return r[1]
+        return r.status_code
 
     def get_jwt(self):
         return self._jwt

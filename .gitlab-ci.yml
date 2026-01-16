@@ -97,8 +97,6 @@ include:
   - project: "Northern.tech/Mender/mendertesting"
     file:
       - ".gitlab-ci-github-status-updates.yml"
-      # QA-1046 Remove after hardening sign-off checks in the modern commit linter
-      - ".gitlab-ci-check-commits-signoffs.yml"
   - local: "/frontend/pipeline.yml"
   - local: "/.gitlab/merge-enterprise.yml"
     rules:
@@ -151,6 +149,9 @@ default:
     - *requires-docker
   retry:
     max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
     exit_codes:
       - 2
       - 137
@@ -182,7 +183,11 @@ build:backend:docker:
   extends: .template:build:docker
   rules:
     - changes:
-        paths: ["backend/**/*", ".gitlab-ci.yml"]
+        paths:
+          - "backend/**/*"
+          - ".gitlab-ci.yml"
+          - "docker-compose.yml"
+          - "compose/docker-compose.enterprise.yml"
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: always
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
@@ -232,7 +237,6 @@ test:backend:static:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/node
   before_script:
     - npm install -g @redocly/cli@2.2.2
-    - cd backend/docs/api
   artifacts:
     when: always
     expire_in: 2 weeks
@@ -242,21 +246,8 @@ test:backend:static:
 test:backend:combine-api:
   extends: .template:combine-api
   script:
-    - |
-      redocly join --prefix-tags-with-info-prop title \
-        root.openapi.yaml \
-        common/*.yaml \
-        deployments/*.yaml \
-        deviceauth/*.yaml \
-        deviceconfig/*.yaml \
-        deviceconnect/*.yaml \
-        inventory/*.yaml \
-        iot-manager/*.yaml \
-        useradm/*.yaml \
-        workflows/*.yaml \
-        -o dist/openapi.tmp.yaml
-    - redocly bundle dist/openapi.tmp.yaml --config config/redocly.yaml -o dist/openapi.yaml
-    - git diff --exit-code dist/openapi.yaml
+    - make -C backend generate-openapi-spec
+    - git diff --exit-code backend/docs/api/dist/openapi.yaml
   allow_failure: false
 
 test:backend:validate-open-api:
@@ -370,7 +361,11 @@ test:backend:integration:
   extends: .build:base
   rules:
     - changes:
-        paths: ["backend/**/*", ".gitlab-ci.yml"]
+        paths:
+          - "backend/**/*"
+          - ".gitlab-ci.yml"
+          - "docker-compose.yml"
+          - "compose/docker-compose.enterprise.yml"
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
@@ -479,6 +474,7 @@ test:prep:
   artifacts:
     expire_in: 2w
     paths:
+      - frontend/logs
       - frontend/tests/e2e_tests/test-results
       - frontend/tests/e2e_tests/traces
     when: always
@@ -704,26 +700,41 @@ changelog:
     - |
       case $RELEASE_VERSION in
         *saas*)
+          # Saas prerelease from main: only update CHANGELOG-saas.md
           if [[ "$CI_PROJECT_NAME" == "mender-server-enterprise" ]]; then
-            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-saas" "${GITHUB_REPO_URL}" "${CI_COMMIT_REF_NAME}"
+            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-saas" "${GITHUB_REPO_URL}" "tmp_pr_body.md"
           else
-            echo "INFO - Skipping changelog generation for saas release"
+            echo "INFO - Skipping changelog generation for saas release in open source"
+            git add CHANGELOG.md  # restore the original CHANGELOG.md after release-please
+          fi
+          ;;
+        *rc*)
+          # RC prerelease from maintenance branch: only update CHANGELOG-rc.md
+          if [[ "$CI_PROJECT_NAME" == "mender-server-enterprise" ]]; then
+            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-rc" "${GITHUB_REPO_URL}" "tmp_pr_body.md"
+          else
+            echo "INFO - Skipping changelog generation for rc release in open source"
             git add CHANGELOG.md  # restore the original CHANGELOG.md after release-please
           fi
           ;;
         *)
+          # Stable release
           if [[ "$CI_PROJECT_NAME" == "mender-server-enterprise" ]]; then
-            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-enterprise" "${GITHUB_REPO_URL}" "${CI_COMMIT_REF_NAME}"
-            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-saas" "${GITHUB_REPO_URL}" "${CI_COMMIT_REF_NAME}"
+            # Enterprise: always generate enterprise changelog (with PR body)
+            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-enterprise" "${GITHUB_REPO_URL}" "tmp_pr_body.md"
+            # If from main branch, also update saas changelog
+            if [[ "$CI_COMMIT_REF_NAME" == "main" ]]; then
+              ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "-saas" "${GITHUB_REPO_URL}"
+            fi
           else
-            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "" "${GITHUB_REPO_URL}" "${CI_COMMIT_REF_NAME}"
+            # Open source: generate standard changelog (with PR body)
+            ./.gitlab/generate_changelog.sh "${RELEASE_VERSION}" "" "${GITHUB_REPO_URL}" "tmp_pr_body.md"
           fi
           ;;
       esac
     - git commit --amend -s --no-edit
     - git push github-${CI_JOB_ID} --force
-    # Update the PR body
-    - git cliff --unreleased --bump -o tmp_pr_body.md --github-repo ${GITHUB_REPO_URL} --use-branch-tags
+    # Update the PR body (generated by generate_changelog.sh)
     - gh pr edit $RELEASE_PLEASE_PR --body-file tmp_pr_body.md
     - rm tmp_pr_body.md
   after_script:
@@ -769,22 +780,13 @@ release:mender-docs-changelog:
       else
       export CHANGELOG_SUFFIX="";
       fi;
-    - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
   script:
-    # Generate the change for this release only
-    - git cliff --use-branch-tags --current --output this_mender_docs_changelog.md
     - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
     - cd ${GITHUB_CHANGELOG_REPO_URL#*/}
     - git checkout -b changelog-${CI_JOB_ID}
-    # Backup the Changelog file and remove the header
-    - tail -n +9 ${CHANGELOG_REMOTE_FILE} > ${CHANGELOG_REMOTE_FILE}.${CI_JOB_ID}
-    - sed -i -E "s/^---$//" ${CHANGELOG_REMOTE_FILE}.${CI_JOB_ID}
-    - cat ../.docs_header.md > ${CHANGELOG_REMOTE_FILE}
-    - cat ../this_mender_docs_changelog.md | grep -v -E '^---' >> ${CHANGELOG_REMOTE_FILE}
-    - cat ${CHANGELOG_REMOTE_FILE}.${CI_JOB_ID} >> ${CHANGELOG_REMOTE_FILE}
+    - cat ../.docs_header.md "../CHANGELOG${CHANGELOG_SUFFIX}.md" | grep -v -E '^---$' > "${CHANGELOG_REMOTE_FILE}"
     - git add ${CHANGELOG_REMOTE_FILE}
-    - |
-      git commit -s -m "chore: add $CI_PROJECT_NAME changelog"
+    - 'git commit -s -m "chore: add $CI_PROJECT_NAME changelog"'
     - git push origin changelog-${CI_JOB_ID}
     - gh pr create --title "Update CHANGELOG${CHANGELOG_SUFFIX}.md for $CI_PROJECT_NAME" --body "Automated change to the CHANGELOG${CHANGELOG_SUFFIX}.md file" --base master --head changelog-${CI_JOB_ID}
 

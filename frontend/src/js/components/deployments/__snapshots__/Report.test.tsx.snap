@@ -564,19 +564,53 @@ Devices that are in the middle of the deployment at the time of abort will finis
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                installing
                 <div
-                  style="position: absolute; bottom: 0px; width: 100%;"
+                  class="flexbox center-aligned margin-bottom-x-small"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorInfo MuiSvgIcon-fontSizeMedium margin-right-x-small css-ocq0ss-MuiSvgIcon-root"
+                    data-testid="PendingOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+                    />
+                    <circle
+                      cx="7"
+                      cy="12"
+                      r="1.5"
+                    />
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="1.5"
+                    />
+                    <circle
+                      cx="17"
+                      cy="12"
+                      r="1.5"
+                    />
+                  </svg>
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 capitalized-start css-7ctihp-MuiTypography-root"
+                  >
+                    installing
+                  </p>
+                </div>
+                <div
+                  style="position: absolute; bottom: 0px; width: 100%; padding-right: 32px;"
                 >
                   <span
-                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate css-1txyin7-MuiLinearProgress-root"
+                    class="MuiLinearProgress-root MuiLinearProgress-colorInfo MuiLinearProgress-indeterminate css-hvup99-MuiLinearProgress-root"
                     role="progressbar"
                   >
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate css-lcqqge-MuiLinearProgress-bar1"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorInfo MuiLinearProgress-bar1Indeterminate css-1tp6vqc-MuiLinearProgress-bar1"
                     />
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate css-lfb3c7-MuiLinearProgress-bar2"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorInfo MuiLinearProgress-bar2Indeterminate css-1btyq4i-MuiLinearProgress-bar2"
                     />
                   </span>
                 </div>
@@ -585,7 +619,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary css-1ccsd5i-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary nowrap css-1ccsd5i-MuiButtonBase-root-MuiButton-root"
                   tabindex="0"
                   type="button"
                 >
@@ -1519,19 +1553,53 @@ Devices that are in the middle of the deployment at the time of abort will finis
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                accepted
                 <div
-                  style="position: absolute; bottom: 0px; width: 100%;"
+                  class="flexbox center-aligned margin-bottom-x-small"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorInfo MuiSvgIcon-fontSizeMedium margin-right-x-small css-ocq0ss-MuiSvgIcon-root"
+                    data-testid="PendingOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+                    />
+                    <circle
+                      cx="7"
+                      cy="12"
+                      r="1.5"
+                    />
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="1.5"
+                    />
+                    <circle
+                      cx="17"
+                      cy="12"
+                      r="1.5"
+                    />
+                  </svg>
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 capitalized-start css-7ctihp-MuiTypography-root"
+                  >
+                    accepted
+                  </p>
+                </div>
+                <div
+                  style="position: absolute; bottom: 0px; width: 100%; padding-right: 32px;"
                 >
                   <span
-                    class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate css-1txyin7-MuiLinearProgress-root"
+                    class="MuiLinearProgress-root MuiLinearProgress-colorInfo MuiLinearProgress-indeterminate css-hvup99-MuiLinearProgress-root"
                     role="progressbar"
                   >
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate css-lcqqge-MuiLinearProgress-bar1"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorInfo MuiLinearProgress-bar1Indeterminate css-1tp6vqc-MuiLinearProgress-bar1"
                     />
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate css-lfb3c7-MuiLinearProgress-bar2"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorInfo MuiLinearProgress-bar2Indeterminate css-1btyq4i-MuiLinearProgress-bar2"
                     />
                   </span>
                 </div>

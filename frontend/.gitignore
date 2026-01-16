@@ -6,6 +6,7 @@ videos
 .vscode
 screenshots/**
 coverage
+.yalc
 
 #files
 src/main.css

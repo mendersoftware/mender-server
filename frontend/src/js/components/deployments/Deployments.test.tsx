@@ -173,18 +173,17 @@ describe('Deployments Component', () => {
     const releaseId = 'release-998';
     await waitFor(() => rerender(ui));
     await act(() => vi.advanceTimersByTime(1000));
-    await waitFor(() => expect(screen.queryByPlaceholderText(/Select a Release/i)).toBeInTheDocument(), { timeout: 3000 });
-    const releaseSelect = screen.getByPlaceholderText(/Select a Release/i);
-    expect(within(releaseSelect).queryByDisplayValue(releaseId)).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('button', { name: /select a release/i })).toBeInTheDocument(), { timeout: 3000 });
+    const releaseSelect = screen.getByRole('button', { name: /select a release/i });
     await user.click(releaseSelect);
-    await user.keyboard(specialKeys.ArrowDown);
-    await user.keyboard(specialKeys.Enter);
+    await user.click(screen.getByRole('heading', { name: releaseId }));
     const groupSelect = screen.getByPlaceholderText(/Select a device group/i);
     await user.click(groupSelect);
     await user.type(groupSelect, 'testGroupDyn');
     await user.keyboard(specialKeys.ArrowDown);
     await user.keyboard(specialKeys.Enter);
 
+    await waitFor(() => expect(screen.getByRole('button', { name: /advanced options/i })).toBeInTheDocument(), { timeout: 3000 });
     await user.click(screen.getByRole('button', { name: /advanced options/i }));
     await user.click(screen.getByRole('checkbox', { name: /maximum number of devices/i }));
     await waitFor(() => rerender(ui));
@@ -233,7 +232,7 @@ describe('Deployments Component', () => {
           accepted: {
             ...mockState.devices.byStatus.accepted,
             deviceIds: [...Object.keys(mockState.devices.byId), 'test1', 'test2'],
-            total: Object.keys(mockState.devices.byId).length + 3
+            counts: { standard: Object.keys(mockState.devices.byId).length + 3 }
           }
         }
       },
@@ -271,11 +270,11 @@ describe('Deployments Component', () => {
     await user.click(groupSelect);
     await user.keyboard(specialKeys.Enter);
     expect(groupSelect).toHaveValue(ALL_DEVICES);
-    await waitFor(() => expect(screen.queryByPlaceholderText(/Select a Release/i)).toBeInTheDocument(), { timeout: 3000 });
-    const releaseSelect = screen.getByPlaceholderText(/Select a Release/i);
+    await waitFor(() => expect(screen.getByRole('button', { name: /select a release/i })).toBeInTheDocument(), { timeout: 3000 });
+    const releaseSelect = screen.getByRole('button', { name: /select a release/i });
     await user.click(releaseSelect);
-    await user.keyboard(specialKeys.ArrowDown);
-    await user.keyboard(specialKeys.Enter);
+    await user.click(screen.getByRole('heading', { name: releaseId }));
+    await waitFor(() => expect(screen.getByRole('button', { name: /advanced options/i })).toBeInTheDocument(), { timeout: 3000 });
     await user.click(screen.getByRole('button', { name: /advanced options/i }));
     await user.click(screen.getByRole('checkbox', { name: /select a rollout pattern/i }));
     await waitFor(() => rerender(ui));

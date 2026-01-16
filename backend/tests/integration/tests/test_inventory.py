@@ -15,6 +15,7 @@ import logging
 import pytest
 import time
 import uuid
+import redo
 
 from testutils.api.client import ApiClient
 from testutils.infra.cli import CliUseradm, CliDeviceauth
@@ -29,6 +30,8 @@ from testutils.common import (
     create_org,
     make_accepted_device,
     make_accepted_devices,
+    make_pending_device,
+    set_device_limit_for_tier,
     useExistingTenant,
 )
 
@@ -100,11 +103,13 @@ class TestGetDevicesBase:
         make_accepted_devices(devauthd, devauthm, utoken, tenant_token, 40)
 
         # wait for devices to be provisioned
-        time.sleep(3)
+        for _ in redo.retrier(attempts=3, sleeptime=1):
+            r = invm.with_auth(utoken).call(
+                "GET", inventory.URL_DEVICES, qs_params={"per_page": 1}
+            )
+            if r.status_code == 200:
+                break
 
-        r = invm.with_auth(utoken).call(
-            "GET", inventory.URL_DEVICES, qs_params={"per_page": 1}
-        )
         assert r.status_code == 200
         new_count = int(r.headers["X-Total-Count"])
         assert new_count == count + 40
@@ -131,11 +136,13 @@ class TestGetDevicesBase:
         devs = make_accepted_devices(devauthd, devauthm, utoken, tenant_token, 40)
 
         # wait for devices to be provisioned
-        time.sleep(3)
+        for _ in redo.retrier(attempts=3, sleeptime=1):
+            r = invm.with_auth(utoken).call(
+                "GET", inventory.URL_DEVICES, qs_params={"per_page": 1}
+            )
+            if r.status_code == 200:
+                break
 
-        r = invm.with_auth(utoken).call(
-            "GET", inventory.URL_DEVICES, qs_params={"per_page": 1}
-        )
         assert r.status_code == 200
         new_count = int(r.headers["X-Total-Count"])
         assert new_count == count + 40
@@ -1401,6 +1408,49 @@ class TestDeviceFilteringEnterprise(DeviceFilteringTests):
             "Unexpected device set returned by saved filters, "
             + "expected: %s, received: %s" % (devs_recv, devs_exct)
         )
+
+
+class TestDeviceStatisticsEnterprise:
+    @pytest.mark.skip(
+        reason="Tier information is not propagated to inventory yet (see MEN-9096)"
+    )
+    def test_get_device_statistics(self, tenants_users):
+        useradmm = ApiClient(useradm.URL_MGMT)
+        devauthd = ApiClient(deviceauth.URL_DEVICES)
+        devauthm = ApiClient(deviceauth.URL_MGMT)
+        invm = ApiClient(inventory_v2.URL_MGMT)
+
+        set_device_limit_for_tier(tenants_users[0], "standard", 10)
+        set_device_limit_for_tier(tenants_users[0], "micro", 10)
+        set_device_limit_for_tier(tenants_users[0], "system", 10)
+
+        user = tenants_users[0].users[0]
+        r = useradmm.call("POST", useradm.URL_LOGIN, auth=(user.name, user.pwd))
+        assert r.status_code == 200
+
+        tenant_token = tenants_users[0].tenant_token
+        user_token = r.text
+
+        make_accepted_devices(
+            devauthd, devauthm, user_token, tenant_token, 2, "standard"
+        )
+        make_accepted_devices(devauthd, devauthm, user_token, tenant_token, 3, "micro")
+        make_accepted_devices(devauthd, devauthm, user_token, tenant_token, 4, "system")
+
+        make_pending_device(devauthd, devauthm, user_token, tenant_token, "standard")
+        make_pending_device(devauthd, devauthm, user_token, tenant_token, "micro")
+        make_pending_device(devauthd, devauthm, user_token, tenant_token, "system")
+
+        r = invm.with_auth(user_token).call("GET", inventory_v2.URL_STATISTICS)
+        assert r.status_code == 200
+
+        statistics = r.json()["devices_by_status"]
+        assert statistics["accepted"]["standard"] == 2
+        assert statistics["accepted"]["micro"] == 3
+        assert statistics["accepted"]["system"] == 4
+        assert statistics["pending"]["standard"] == 1
+        assert statistics["pending"]["micro"] == 1
+        assert statistics["pending"]["system"] == 1
 
 
 def assert_device_attributes(dev, api_dev):

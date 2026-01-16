@@ -36,6 +36,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	mredis "github.com/mendersoftware/mender-server/pkg/redis"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 )
@@ -132,13 +133,19 @@ func (rl *RedisCache) GetLimit(ctx context.Context, name string) (*model.Limit, 
 	if id != nil {
 		tenantID = id.Tenant
 	}
-	value, err := rl.c.Get(ctx, rl.keyLimit(tenantID, name)).Uint64()
-	if err != nil {
+	cmd := mredis.GetCache(ctx, rl.c, rl.keyLimit(tenantID, name))
+	if err := cmd.Err(); err != nil {
 		if errors.Is(err, redis.Nil) {
 			return nil, nil
 		}
 		return nil, err
 	}
+
+	value, err := cmd.Uint64()
+	if err != nil {
+		return nil, err
+	}
+
 	return &model.Limit{
 		TenantID: tenantID,
 		Value:    value,
@@ -166,7 +173,7 @@ func (rl *RedisCache) DeleteLimit(ctx context.Context, name string) error {
 		tenantID = id.Tenant
 	}
 	key := rl.keyLimit(tenantID, name)
-	return rl.c.Del(ctx, key).Err()
+	return mredis.InvalidateCache(ctx, rl.c, key)
 }
 
 func (rl *RedisCache) Throttle(
@@ -259,8 +266,7 @@ func (rl *RedisCache) DeleteToken(ctx context.Context, tid, id, idtype string) e
 	if err != nil {
 		return err
 	}
-	res := rl.c.Del(ctx, rl.KeyToken(tid, id, idtype, version))
-	return res.Err()
+	return mredis.InvalidateCache(ctx, rl.c, rl.KeyToken(tid, id, idtype, version))
 }
 
 func (rl *RedisCache) KeyToken(tid, id, idtype string, version int) string {
@@ -322,7 +328,7 @@ func (rl *RedisCache) GetCheckInTime(
 		return nil, err
 	}
 
-	res := rl.c.Get(ctx, rl.KeyCheckInTime(tid, id, IdTypeDevice, version))
+	res := mredis.GetCache(ctx, rl.c, rl.KeyCheckInTime(tid, id, IdTypeDevice, version))
 
 	if res.Err() != nil {
 		if isErrRedisNil(res.Err()) {
@@ -421,7 +427,7 @@ func (rl *RedisCache) SuspendTenant(
 }
 
 func (rl *RedisCache) getTenantKeyVersion(ctx context.Context, tid string) (int, error) {
-	res := rl.c.Get(ctx, rl.KeyTenantVersion(tid))
+	res := mredis.GetCache(ctx, rl.c, rl.KeyTenantVersion(tid))
 	if res.Err() != nil {
 		if isErrRedisNil(res.Err()) {
 			return 0, nil

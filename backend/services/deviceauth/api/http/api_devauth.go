@@ -25,6 +25,7 @@ import (
 
 	ctxhttpheader "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	mredis "github.com/mendersoftware/mender-server/pkg/redis"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
@@ -128,17 +129,21 @@ func (i *DevAuthApiHandlers) SubmitAuthRequestHandler(c *gin.Context) {
 
 	token, err := i.app.SubmitAuthRequest(ctx, &authreq)
 	if err != nil {
-		if devauth.IsErrDevAuthUnauthorized(err) {
+		switch {
+		case devauth.IsErrDevAuthUnauthorized(err):
 			rest.RenderError(c,
 				http.StatusUnauthorized,
 				errors.Cause(err),
 			)
 			return
-		} else if devauth.IsErrDevAuthBadRequest(err) {
+		case devauth.IsErrDevAuthBadRequest(err):
 			rest.RenderError(c,
 				http.StatusBadRequest,
 				errors.Cause(err),
 			)
+			return
+		case mredis.IsUnavailableErr(err):
+			rest.RenderUnavailable(c, err)
 			return
 		}
 	}
@@ -327,11 +332,15 @@ func (i *DevAuthApiHandlers) DecommissionDeviceHandler(c *gin.Context) {
 	devId := c.Param("id")
 
 	if err := i.app.DecommissionDevice(ctx, devId); err != nil {
-		if err == store.ErrDevNotFound {
+		switch {
+		case err == store.ErrDevNotFound:
 			c.Status(http.StatusNotFound)
-			return
+		case mredis.IsUnavailableErr(err):
+			rest.RenderUnavailable(c, err)
+		default:
+			rest.RenderInternalError(c, err)
+
 		}
-		rest.RenderInternalError(c, err)
 		return
 	}
 
@@ -346,11 +355,14 @@ func (i *DevAuthApiHandlers) DeleteDeviceAuthSetHandler(c *gin.Context) {
 	authId := c.Param("aid")
 
 	if err := i.app.DeleteAuthSet(ctx, devId, authId); err != nil {
-		if err == store.ErrAuthSetNotFound {
+		switch {
+		case err == store.ErrAuthSetNotFound:
 			c.Status(http.StatusNotFound)
-			return
+		case mredis.IsUnavailableErr(err):
+			rest.RenderUnavailable(c, err)
+		default:
+			rest.RenderInternalError(c, err)
 		}
-		rest.RenderInternalError(c, err)
 		return
 	}
 
@@ -363,12 +375,15 @@ func (i *DevAuthApiHandlers) DeleteTokenHandler(c *gin.Context) {
 	tokenID := c.Param("id")
 	err := i.app.RevokeToken(ctx, tokenID)
 	if err != nil {
-		if err == store.ErrTokenNotFound ||
-			err == devauth.ErrInvalidAuthSetID {
+		switch {
+		case err == store.ErrTokenNotFound ||
+			err == devauth.ErrInvalidAuthSetID:
 			c.Status(http.StatusNotFound)
-			return
+		case mredis.IsUnavailableErr(err):
+			rest.RenderUnavailable(c, err)
+		default:
+			rest.RenderInternalError(c, err)
 		}
-		rest.RenderInternalError(c, err)
 		return
 	}
 
@@ -401,6 +416,8 @@ func (i *DevAuthApiHandlers) VerifyTokenHandler(c *gin.Context) {
 		default:
 			if _, ok := e.(access.PermissionError); ok {
 				rest.RenderError(c, http.StatusForbidden, e)
+			} else if mredis.IsUnavailableErr(err) {
+				rest.RenderUnavailable(c, err)
 			} else {
 				rest.RenderInternalError(c, err)
 			}
@@ -452,7 +469,11 @@ func (i *DevAuthApiHandlers) UpdateDeviceStatusHandler(c *gin.Context) {
 		case devauth.ErrMaxDeviceCountReached:
 			rest.RenderError(c, http.StatusUnprocessableEntity, err)
 		default:
-			rest.RenderInternalError(c, err)
+			if mredis.IsUnavailableErr(err) {
+				rest.RenderUnavailable(c, err)
+			} else {
+				rest.RenderInternalError(c, err)
+			}
 		}
 		return
 	}
@@ -555,6 +576,10 @@ func (i *DevAuthApiHandlers) GetLimitHandler(c *gin.Context) {
 
 	lim, err := i.app.GetLimit(ctx, name)
 	if err != nil {
+		if mredis.IsUnavailableErr(err) {
+			rest.RenderUnavailable(c, err)
+			return
+		}
 		rest.RenderInternalError(c, err)
 		return
 	}
@@ -576,9 +601,11 @@ func (i *DevAuthApiHandlers) DeleteTokensHandler(c *gin.Context) {
 	devId := c.Query("device_id")
 
 	err := i.app.DeleteTokens(ctx, tenantId, devId)
-	switch err {
-	case nil:
+	switch {
+	case err == nil:
 		c.Status(http.StatusNoContent)
+	case mredis.IsUnavailableErr(err):
+		rest.RenderUnavailable(c, err)
 	default:
 		rest.RenderInternalError(c, err)
 	}
@@ -660,14 +687,16 @@ func (i *DevAuthApiHandlers) DeleteDeviceHandler(c *gin.Context) {
 	did := c.Param("did")
 
 	err := i.app.DeleteDevice(ctx, did)
-	switch err {
-	case nil:
+	switch {
+	case err == nil:
 		c.Status(http.StatusNoContent)
-	case devauth.ErrInvalidDeviceID:
+	case err == devauth.ErrInvalidDeviceID:
 		didErr := errors.New("device id (did) cannot be empty")
 		rest.RenderError(c, http.StatusBadRequest, didErr)
-	case store.ErrDevNotFound:
+	case err == store.ErrDevNotFound:
 		c.Status(http.StatusNotFound)
+	case mredis.IsUnavailableErr(err):
+		rest.RenderUnavailable(c, err)
 	default:
 		rest.RenderInternalError(c, err)
 	}

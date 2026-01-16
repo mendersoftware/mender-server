@@ -40,12 +40,11 @@ import Search from '@northern.tech/common-ui/Search';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import {
-  getAcceptedDevices,
   getCurrentSession,
   getCurrentUser,
   getDeploymentsByStatus,
   getDeviceCountsByStatus,
-  getDeviceLimit,
+  getDeviceLimits,
   getFeatures,
   getFeedbackProbability,
   getHostedAnnouncement,
@@ -283,19 +282,18 @@ export const Header = ({ isDarkMode }) => {
   const [hasOfferCookie, setHasOfferCookie] = useState(false);
 
   const organization = useSelector(getOrganization);
-  const { total: acceptedDevices = 0 } = useSelector(getAcceptedDevices);
   const announcement = useSelector(getHostedAnnouncement);
-  const deviceLimit = useSelector(getDeviceLimit);
+  const { standard: deviceLimit } = useSelector(getDeviceLimits);
   const feedbackProbability = useSelector(getFeedbackProbability);
   const firstLoginAfterSignup = useSelector(getIsFirstLogin);
-  const { feedbackCollectedAt, trackingConsentGiven: hasTrackingEnabled } = useSelector(getUserSettings);
+  const { feedbackCollectedAt, trackingConsentGiven: hasTrackingEnabled, firstLoginTimestamp } = useSelector(getUserSettings);
   const { isAdmin } = useSelector(getUserRoles);
   const { inprogress: inprogressDeployments } = useSelector(getDeploymentsByStatus);
   const { total: inProgress } = inprogressDeployments;
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasFeedbackEnabled, isHosted } = useSelector(getFeatures);
   const { isSearching, searchTerm, refreshTrigger } = useSelector(getSearchState);
-  const { pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
+  const { accepted: acceptedDevices, pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
   const userSettingInitialized = useSelector(getUserSettingsInitialized);
   const user = useSelector(getCurrentUser);
   const { token } = useSelector(getCurrentSession);
@@ -340,8 +338,9 @@ export const Header = ({ isDarkMode }) => {
 
   useEffect(() => {
     const today = dayjs();
-    const diff = dayjs.duration(dayjs(feedbackCollectedAt).diff(today));
-    const isFeedbackEligible = diff.asMonths() > 3;
+    const lastFeedbackCollectedMonthsAgo = today.diff(feedbackCollectedAt, 'months');
+    const firstLoginDaysAgo = today.diff(firstLoginTimestamp, 'days');
+    const isFeedbackEligible = lastFeedbackCollectedMonthsAgo > 6 && firstLoginDaysAgo > 14;
     if (!hasFeedbackEnabled || !userSettingInitialized || !token || (feedbackCollectedAt && !isFeedbackEligible)) {
       return;
     }
@@ -349,7 +348,7 @@ export const Header = ({ isDarkMode }) => {
     pickAUser({ jti, probability: feedbackProbability }).then(isSelected => {
       feedbackTimer.current = setTimeout(() => dispatch(setShowFeedbackDialog(isSelected)), TIMEOUTS.threeSeconds);
     });
-  }, [dispatch, feedbackCollectedAt, feedbackProbability, hasFeedbackEnabled, isAdmin, userSettingInitialized, token]);
+  }, [dispatch, feedbackCollectedAt, feedbackProbability, hasFeedbackEnabled, isAdmin, userSettingInitialized, token, firstLoginTimestamp]);
 
   const onSearch = useCallback((searchTerm, refreshTrigger) => dispatch(setSearchState({ refreshTrigger, searchTerm, page: 1 })), [dispatch]);
 

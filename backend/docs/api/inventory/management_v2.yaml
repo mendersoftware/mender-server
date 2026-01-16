@@ -62,13 +62,14 @@ paths:
               type: object
               properties:
                 page:
-                  type: number
+                  type: integer
+                  default: 1
                   description: Starting page.
-                  format: integer
                 per_page:
-                  type: number
+                  type: integer
+                  default: 20
+                  maximum: 500
                   description: Maximum number of results per page.
-                  format: integer
                 text:
                   type: string
                   description: Free-text search query
@@ -129,6 +130,31 @@ paths:
                 updated_ts: 2016-10-04T18:24:21.432Z
         "400":
           $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      security:
+      - ManagementJWT: []
+  /api/management/v2/inventory/statistics:
+    get:
+      tags:
+        - Management API
+      summary: Get inventory statistics
+      description: |
+        The following statistics are currently supported:
+        * Number of accepted and pending devices in each device tier
+      operationId: Get Statistics
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - devices_by_status
+                properties:
+                  devices_by_status:
+                    $ref: '#/components/schemas/DeviceStatusStatistics'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -217,3 +243,37 @@ components:
         - inventory
         - monitor
         - tags
+    DeviceStatusStatistics:
+      type: object
+      description: Device statistics grouped by device status
+      required:
+        - accepted
+        - pending
+      properties:
+        accepted:
+          $ref: '#/components/schemas/DeviceCountByTier'
+        pending:
+          $ref: '#/components/schemas/DeviceCountByTier'
+      example:
+        accepted:
+          standard: 975
+          micro: 3546
+          system: 0
+        pending:
+          standard: 2
+          micro: 30
+          system: 1
+    DeviceCountByTier:
+      description: Number of devices per tier
+      type: object
+      required:
+        - standard
+        - micro
+        - system
+      properties:
+        standard:
+          type: number
+        micro:
+          type: number
+        system:
+          type: number

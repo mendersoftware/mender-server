@@ -1351,21 +1351,23 @@ class TestSyncAWSIoTCore:
         dc = docker.from_env()
         for tenant_id, devices in self.tenant_devices.items():
             client = ManagementAPIClient(tenant_id)
-            _, code, hdr = client.register_integration(
+            rsp = client.register_integration_with_http_info(
                 models.Integration(
                     provider="iot-core",
                     credentials=models.Credentials(
-                        type="aws",
-                        aws=models.AWSCredentialsAws(
-                            access_key_id="access_key_id",
-                            secret_access_key="secret_access_key",
-                            device_policy_name="device-policy",
-                            region="region",
-                        ),
+                        models.AWSCredentials(
+                            type="aws",
+                            aws=models.AWSCredentialsAws(
+                                access_key_id="access_key_id",
+                                secret_access_key="secret_access_key",
+                                device_policy_name="device-policy",
+                                region="region",
+                            ),
+                        )
                     ),
                 ),
-                _return_http_data_only=False,
             )
+            _, code, hdr = rsp.data, rsp.status_code, rsp.headers
             assert code == 201
             assert "Location" in hdr
             location_basename = path.basename(hdr.get("Location"))

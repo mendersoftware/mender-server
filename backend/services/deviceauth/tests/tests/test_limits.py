@@ -51,8 +51,9 @@ class TestLimits:
 
     def test_put_limit_malformed_limit(self, internal_api):
         try:
-            internal_api.put_max_devices_limit("foo", "1")
+            response = internal_api.put_max_devices_limit(
+                "foo", "1", client_side_validation=False
+            )
+            assert response.status == 400
         except ia.ApiException as e:
             assert e.status == 400
-        else:
-            pytest.fail("Expected Bad Request (400)")

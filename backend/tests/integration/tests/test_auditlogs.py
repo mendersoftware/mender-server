@@ -230,8 +230,6 @@ class TestAuditLogsEnterprise:
                 ]
                 if len(found) == 1:
                     return found[0]["time"]
-
-                time.sleep(0.5)
             else:
                 assert False, "max GET /logs retries hit"
 

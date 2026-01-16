@@ -312,6 +312,10 @@ paths:
           description: Internal server error.
           schema:
             $ref: "#/definitions/Error"
+        503:
+          description: Service unavailable.
+          schema:
+            $ref: '#/definitions/Error'
 
 definitions:
   Error:

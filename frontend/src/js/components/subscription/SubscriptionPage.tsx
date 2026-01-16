@@ -23,7 +23,7 @@ import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { ADDONS, Addon, AddonId, AvailableAddon, AvailablePlans, PLANS, TIMEOUTS } from '@northern.tech/store/constants';
-import { getDeviceLimit, getOrganization, getStripeKey } from '@northern.tech/store/selectors';
+import { getDeviceLimits, getOrganization, getStripeKey } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getBillingPreview, getCurrentCard, getUserBilling, getUserSubscription, requestPlanChange } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -106,7 +106,7 @@ interface SubscriptionFormProps {
 
 const SubscriptionForm = ({ onShowUpgradeDrawer, onUpdateFormValues, previewPrice, setPreviewPrice, setOrder, specialHandling }: SubscriptionFormProps) => {
   const { setValue, watch } = useFormContext<FormData>();
-  const currentDeviceLimit = useSelector(getDeviceLimit);
+  const { standard: currentDeviceLimit } = useSelector(getDeviceLimits);
   const org = useSelector(getOrganization);
   const dispatch = useAppDispatch();
 
@@ -361,7 +361,7 @@ const defaultValues = {
 };
 
 export const SubscriptionPage = () => {
-  const currentDeviceLimit = useSelector(getDeviceLimit);
+  const { standard: currentDeviceLimit } = useSelector(getDeviceLimits);
   const stripeAPIKey = useSelector(getStripeKey);
   const org = useSelector(getOrganization);
   const dispatch = useAppDispatch();
@@ -402,10 +402,10 @@ export const SubscriptionPage = () => {
 
   //Fetch Billing profile & subscription
   useEffect(() => {
+    dispatch(getUserBilling());
     if (isTrial) {
       return;
     }
-    dispatch(getUserBilling());
     dispatch(getCurrentCard());
     //We need to handle special enterprise-like agreements
     dispatch(getUserSubscription())

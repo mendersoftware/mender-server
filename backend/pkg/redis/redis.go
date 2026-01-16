@@ -17,16 +17,27 @@ package redis
 import (
 	"context"
 	"crypto/tls"
+	"errors"
 	"fmt"
 	"net"
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
 
 type Client = redis.Cmdable
+
+const (
+	CacheInvalidValue           = ""
+	CacheInvalidValueExpiration = time.Second * 10 // 10s
+)
+
+var (
+	ErrCacheInvalid = errors.New("cache invalidated")
+)
 
 // nolint:lll
 // NewClient creates a new redis client (Cmdable) from the parameters in the
@@ -154,4 +165,66 @@ func ClientFromConnectionString(
 		Ping(ctx).
 		Result()
 	return rdb, err
+}
+
+func IsUnavailableErr(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	checkers := []func(error) bool{
+		redis.IsClusterDownError, // The cluster is down
+		redis.IsLoadingError,     // Redis is still loading the dataset
+		redis.IsMasterDownError,  // The master node is down
+		redis.IsTryAgainError,    // The operation should be retried
+	}
+
+	for _, checker := range checkers {
+		if checker(err) {
+			return true
+		}
+	}
+	var netErr net.Error
+	return errors.As(err, &netErr)
+}
+
+// Invalidates a cache entry by swapping it with a temporary short-lived empty value.
+// When a function receives this temporary value, it should count it as a cache miss,
+// but also stop the caching of the value fetched DB value.
+func InvalidateCache(ctx context.Context, c Client, key string) error {
+	if c == nil {
+		return errors.New("redis client is nil")
+	}
+	expiration := CacheInvalidValueExpiration
+	deadline, ok := ctx.Deadline()
+	if ok {
+		expiration = time.Until(deadline)
+	}
+	res := c.Set(ctx, key,
+		CacheInvalidValue, expiration)
+	return res.Err()
+}
+
+// Retrieves a cache entry. If the invalidated value is found, returns `ErrCacheInvalid`
+// instead of the raw result to prevent parsing errors.
+func GetCache(ctx context.Context, c Client, key string) *redis.StringCmd {
+	if c == nil {
+		cmd := redis.NewStringCmd(ctx)
+		cmd.SetErr(errors.New("redis client is nil"))
+		return cmd
+	}
+	cmd := c.Get(ctx, key)
+	if cmd.Val() == CacheInvalidValue && !IsErrRedisNil(cmd.Err()) {
+		cmd.SetErr(ErrCacheInvalid)
+	}
+
+	return cmd
+}
+
+func IsErrCacheInvalid(err error) bool {
+	return errors.Is(err, ErrCacheInvalid)
+}
+
+func IsErrRedisNil(e error) bool {
+	return errors.Is(e, redis.Nil)
 }

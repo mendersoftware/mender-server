@@ -24,7 +24,7 @@ configs:
 
 services:
   s3-master:
-    image: chrislusf/seaweedfs:3.99
+    image: chrislusf/seaweedfs:4.04
     command:
       - master
       - -mdir=/data
@@ -37,7 +37,7 @@ services:
       - s3:/data
 
   s3-volume:
-    image: chrislusf/seaweedfs:3.99
+    image: chrislusf/seaweedfs:4.04
     command:
       - volume
       - -mserver=s3-master:9333
@@ -51,7 +51,7 @@ services:
       - s3:/data
 
   s3-filer:
-    image: chrislusf/seaweedfs:3.99
+    image: chrislusf/seaweedfs:4.04
     command:
       - filer
       - -master=s3-master:9333
@@ -63,7 +63,7 @@ services:
       - s3:/data
 
   s3:
-    image: chrislusf/seaweedfs:3.99
+    image: chrislusf/seaweedfs:4.04
     command:
       - s3
       - -port=8080
@@ -80,7 +80,11 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.s3.priority: "99999"
-      traefik.http.routers.s3.rule: PathPrefix(`/mender`)
+      traefik.http.routers.s3.rule:
+        (Host(`s3.${MENDER_HOSTNAME:-docker.mender.io}`) ||
+        Host(`${MENDER_HOSTNAME:-docker.mender.io}`) ||
+        Host(`localhost`)) &&
+        PathPrefix(`/mender`)
       traefik.http.services.s3.loadBalancer.server.port: "8080"
     healthcheck:
       test:

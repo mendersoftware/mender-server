@@ -13,6 +13,7 @@
 #    limitations under the License.
 import pytest
 import time
+import redo
 
 from testutils.api.client import ApiClient
 from testutils.infra.cli import CliUseradm, CliDeviceauth
@@ -73,14 +74,12 @@ class TestClientCompat:
         devices_per_page = 64
         qs_params = {"page": 1, "per_page": devices_per_page, "status": "pending"}
         pending = []
-        j = max_tries
-        while j > 0:
+        for _ in redo.retrier(attempts=max_tries, sleeptime=1):
             r = devauthm.with_auth(utoken).call(
                 "GET", deviceauth.URL_MGMT_DEVICES, qs_params=qs_params
             )
             assert r.status_code == 200
-            time.sleep(1)
-            j = j - 1
+
             pending = r.json()
             if len(pending) >= len(expected_client_versions):
                 break
@@ -98,14 +97,12 @@ class TestClientCompat:
 
         qs_params = {"page": 1, "per_page": devices_per_page, "status": "accepted"}
         accepted = []
-        j = max_tries
-        while j > 0:
+        for _ in redo.retrier(attempts=max_tries, sleeptime=1):
             r = devauthm.with_auth(utoken).call(
                 "GET", deviceauth.URL_MGMT_DEVICES, qs_params=qs_params
             )
             assert r.status_code == 200
-            time.sleep(1)
-            j = j - 1
+
             accepted = r.json()
             if len(accepted) >= len(expected_client_versions):
                 break
@@ -117,8 +114,7 @@ class TestClientCompat:
         devices_ids = []
         for i in range(len(accepted)):
             device = accepted[i]
-            j = max_tries
-            while j > 0:
+            for _ in redo.retrier(attempts=max_tries, sleeptime=1):
                 r = invm.with_auth(utoken).call(
                     "GET", inventory.URL_DEVICE, path_params={"id": device["id"]}
                 )
@@ -132,8 +128,6 @@ class TestClientCompat:
                 ]
                 if len(mender_client_version_attributes) > 0:
                     break
-                j = j - 1
-                time.sleep(1)
             mender_client_version = mender_client_version_attributes[0]["value"]
             seen_versions.add(mender_client_version)
             device_id_to_mender_version[device["id"]] = mender_client_version
@@ -173,8 +167,7 @@ class TestClientCompat:
         assert rsp.status_code == 201
 
         deployment_id = rsp.headers.get("Location").split("/")[-1]
-        j = max_tries
-        while j > 0:
+        for _ in redo.retrier(attempts=max_tries, sleeptime=1):
             rsp = deploymentsm.with_auth(utoken).call(
                 "GET", deployments.URL_DEPLOYMENTS_ID.format(id=deployment_id)
             )
@@ -190,11 +183,9 @@ class TestClientCompat:
                 assert rsp.json()["failure"] == 0
                 assert rsp.json()["success"] == dpl["device_count"]
                 break
-            elif j <= 0:
-                pytest.fail("timeout: Waiting for devices to update")
-            else:
-                time.sleep(1)
-            j = j - 1
+        else:
+            pytest.fail("timeout: Waiting for devices to update")
+  
 
         for i in range(len(devices_ids)):
             r = devauthm.with_auth(utoken).call(

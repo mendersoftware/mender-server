@@ -10,7 +10,7 @@ const globalsConfig = {
 
 export default [
   ...reactConfig,
-  { ignores: ['node_modules/', 'dist/', 'tests/licenses'] },
+  { ignores: ['node_modules/', 'dist/', 'tests/licenses', '.yalc/'] },
   {
     languageOptions: { globals: globalsConfig },
     rules: {

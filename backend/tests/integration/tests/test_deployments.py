@@ -2636,3 +2636,54 @@ class TestDeploymentArtifactEnterprise(_TestDeploymentsArtifactBase):
         _user, _tenant, user_token, devs = setup_devices_and_management_mt(10)
         artifacts = create_test_artifacts(utoken=user_token, mongo_client=clean_mongo)
         self.do_list_artifacts_v2(clean_mongo, user_token, artifacts)
+
+
+class _TestReleasesBase:
+    def do_test_delete_releases(self, clean_mongo, user_token, devs):
+        api_mgmt_dep = ApiClient(deployments.URL_MGMT)
+        api_mgmt_dep_v2 = ApiClient(deployments_v2.URL_MGMT)
+
+        # Create a deployment that uses the release (artifact)
+        deployment_req = {
+            "name": "phased-deployment",
+            "artifact_name": "deployments-phase-testing",
+            "devices": [dev.id for dev in devs],
+        }
+        r = api_mgmt_dep.with_auth(user_token).call(
+            "POST", deployments.URL_DEPLOYMENTS, deployment_req
+        )
+        assert r.status_code == 201
+
+        # Check that we can't delete the release when
+        # it's part of an active deployment
+        r = api_mgmt_dep_v2.with_auth(user_token).call(
+            "DELETE",
+            deployments_v2.URL_RELEASES + "?name=" + "deployments-phase-testing",
+        )
+        assert r.status_code == 409
+
+        # Perform the upgrade to mark the deployment as finished
+        status_code = try_update(devs[0], default_device_type="foo")
+        assert status_code == 204
+
+        # Check that we can delete the release now that
+        # the deployment is finished
+        r = api_mgmt_dep_v2.with_auth(user_token).call(
+            "DELETE",
+            deployments_v2.URL_RELEASES + "?name=" + "deployments-phase-testing",
+        )
+        assert r.status_code == 204
+
+
+@pytest.mark.storage_test
+class TestReleasesOpenSource(_TestReleasesBase):
+    def test_delete_releases(self, clean_mongo):
+        _user, user_token, devs = setup_devices_and_management_st(1)
+        self.do_test_delete_releases(clean_mongo, user_token, devs)
+
+
+@pytest.mark.storage_test
+class TestReleasesEnterprise(_TestReleasesBase):
+    def test_delete_releases(self, clean_mongo):
+        _user, _tenant, user_token, devs = setup_devices_and_management_mt(1)
+        self.do_test_delete_releases(clean_mongo, user_token, devs)

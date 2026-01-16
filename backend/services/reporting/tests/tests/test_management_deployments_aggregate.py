@@ -237,9 +237,12 @@ class TestManagementSearch:
         api_client = management_api.ApiClient(configuration=conf)
         client = management_api.ManagementAPIClient(api_client=api_client)
         try:
-            body, status, headers = client.aggregate_deployments_with_http_info(
+            rsp = client.aggregate_deployments_with_http_info(
                 deployment_aggregation_terms=test_case.aggregation_terms
             )
+            body = rsp.data
+            status = rsp.status_code
+            headers = rsp.headers
         except management_api.ApiException as r:
             body = r.body
             status = r.status

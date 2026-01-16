@@ -1,0 +1,240 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`McuDeviceOnboarding Component > renders correctly 1`] = `
+.emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-3 {
+  background-color: #f5f5f5;
+  font-family: monospace;
+  border-radius: 4px;
+  padding: 16px;
+  overflow-y: auto;
+  position: relative;
+  white-space: pre-line;
+}
+
+.emotion-3 .copyable-content {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #1976d2;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  float: right;
+  margin-right: -16px;
+  margin-top: -2px;
+}
+
+.emotion-4::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-4.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-4 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-4:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-4.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+@media (hover: hover) {
+  .emotion-4:hover {
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
+  }
+}
+
+.emotion-4.MuiButton-loading {
+  color: transparent;
+}
+
+.emotion-5 {
+  display: inherit;
+  margin-right: 8px;
+  margin-left: -4px;
+}
+
+.emotion-5>*:nth-of-type(1) {
+  font-size: 20px;
+}
+
+.emotion-6 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+}
+
+<div>
+  <h6
+    class="MuiTypography-root MuiTypography-subtitle1 margin-bottom-small emotion-0"
+  >
+    Set up a Zephyr application with Mender
+  </h6>
+  <p
+    class="MuiTypography-root MuiTypography-body1 margin-bottom-small emotion-1"
+  >
+    To do this, you’ll need to visit our documentation and follow the guide there. Go to
+     
+    <a
+      class=""
+      href="https://docs.mender.io/get-started/microcontroller-preview/prepare-an-esp32-s3-with-zephyr"
+      rel="noopener"
+      target="_blank"
+    >
+      Prepare an ESP32-S3 with Zephyr
+    </a>
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body1 margin-bottom-small emotion-1"
+  >
+    First, copy your 
+    <b>
+      organization token
+    </b>
+     below as you will need it to complete the steps in the guide:
+  </p>
+  <div
+    class="emotion-3 "
+  >
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
+      tabindex="0"
+      title="Copy to clipboard"
+      type="button"
+    >
+      <span
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-5"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
+          data-testid="FileCopyIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
+          />
+        </svg>
+      </span>
+      Copy to clipboard
+    </button>
+    <span
+      class="copyable-content"
+    />
+  </div>
+  <p />
+  <p
+    class="MuiTypography-root MuiTypography-body1 emotion-1"
+  >
+    Once you have completed steps 1 and 2 in the documentation, your device should show in the Mender UI as 
+    <i>
+      “Pending”
+    </i>
+    . Go to
+     
+    <a
+      data-discover="true"
+      href="/devices"
+    >
+      Devices
+    </a>
+     to see it.
+  </p>
+</div>
+`;

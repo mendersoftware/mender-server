@@ -469,6 +469,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   text-transform: none;
+  box-shadow: none;
   text-transform: none;
   display: -webkit-box;
   display: -webkit-flex;
@@ -519,6 +520,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 
 .emotion-19.MuiButton-loading {
   color: transparent;
+}
+
+.emotion-19:hover:not(.MuiButton-colorInfo) {
+  box-shadow: none;
 }
 
 .emotion-19:hover {
@@ -999,6 +1004,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   white-space: nowrap;
 }
 
+.emotion-53 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-53:hover svg {
   color: #015969;
 }
@@ -1027,10 +1037,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 
 .emotion-55 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1d8faf;
   border-radius: 50%;
 }
@@ -1326,7 +1336,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               <input
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-9"
-                id="_r_1o_"
+                id="_r_1k_"
                 name="search"
                 placeholder="Search devices"
                 type="text"
@@ -1707,27 +1717,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   </div>
                 </div>
                 <div
-                  class=""
+                  class="relative flexbox emotion-53  "
                   data-mui-internal-clone-element="true"
                 >
-                  <div
-                    class="relative emotion-53"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-54"
+                    data-testid="HelpIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-54"
-                      data-testid="HelpIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                      />
-                    </svg>
-                    <div
-                      class="emotion-55 "
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
                     />
-                  </div>
+                  </svg>
+                  <div
+                    class="emotion-55 "
+                  />
                 </div>
               </div>
               <div
@@ -2827,6 +2833,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   text-transform: none;
+  box-shadow: none;
   text-transform: none;
   display: -webkit-box;
   display: -webkit-flex;
@@ -2877,6 +2884,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 
 .emotion-16.MuiButton-loading {
   color: transparent;
+}
+
+.emotion-16:hover:not(.MuiButton-colorInfo) {
+  box-shadow: none;
 }
 
 .emotion-16:hover {
@@ -3357,6 +3368,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   white-space: nowrap;
 }
 
+.emotion-50 {
+  margin: auto;
+  margin-left: 0;
+}
+
 .emotion-50:hover svg {
   color: #015969;
 }
@@ -3385,10 +3401,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 
 .emotion-52 {
   position: absolute;
-  top: -5px;
-  bottom: 0;
-  left: -5px;
-  right: -5px;
+  top: -4px;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
   border: 1px dashed #1d8faf;
   border-radius: 50%;
 }
@@ -3880,27 +3896,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 </div>
               </div>
               <div
-                class=""
+                class="relative flexbox emotion-50  "
                 data-mui-internal-clone-element="true"
               >
-                <div
-                  class="relative emotion-50"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-51"
+                  data-testid="HelpIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-51"
-                    data-testid="HelpIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-                    />
-                  </svg>
-                  <div
-                    class="emotion-52 "
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
                   />
-                </div>
+                </svg>
+                <div
+                  class="emotion-52 "
+                />
               </div>
             </div>
             <div

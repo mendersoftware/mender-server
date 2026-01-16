@@ -93,6 +93,8 @@ func RunServer(c config.Reader) error {
 				WithRewriteRequests(true).
 				MiddlewareGin)
 		}
+	} else if c.GetBool(rate.SettingRateLimitsAuthEnable) {
+		return errors.New("ratelimits: redis is required but disabled")
 	}
 
 	handler := api_http.MakeRouter(useradmapi)

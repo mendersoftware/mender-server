@@ -23,6 +23,8 @@ from datetime import datetime, timedelta
 
 def compare_expectations(expected, actual):
     if isinstance(expected, re.Pattern):
+        if isinstance(actual, uuid.UUID):
+            actual = str(actual) # need to convert uuids to allow regex matching
         assert isinstance(actual, str)
         assert bool(
             expected.match(actual)

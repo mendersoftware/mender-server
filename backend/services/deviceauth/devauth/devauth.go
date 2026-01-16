@@ -28,6 +28,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	"github.com/mendersoftware/mender-server/pkg/plan"
+	mredis "github.com/mendersoftware/mender-server/pkg/redis"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
@@ -639,7 +640,7 @@ func (d *DevAuth) GetDevice(ctx context.Context, devId string) (*model.Device, e
 		}
 
 		checkInTime, err := d.cache.GetCheckInTime(ctx, tenantID, devId)
-		if err != nil {
+		if err != nil && !mredis.IsErrCacheInvalid(err) {
 			l := log.FromContext(ctx)
 			l.Errorf("Failed to get check-in times for device")
 		} else if checkInTime != nil {
@@ -1109,17 +1110,17 @@ func (d *DevAuth) RevokeToken(ctx context.Context, tokenID string) error {
 	}
 
 	l.Warnf("Revoke token with jti: %s", tokenID)
-	err = d.db.DeleteToken(ctx, tokenOID)
-
-	if err == nil && d.cache != nil {
+	if d.cache != nil {
 		err = d.cacheDeleteToken(ctx, token.Claims.Subject.String())
-		err = errors.Wrapf(
-			err,
-			"failed to delete token for %s from cache",
-			token.Claims.Subject.String(),
-		)
+		if err != nil {
+			return errors.Wrapf(
+				err,
+				"failed to delete token for %s from cache",
+				token.Claims.Subject.String(),
+			)
+		}
 	}
-	return err
+	return d.db.DeleteToken(ctx, tokenOID)
 }
 
 func (d *DevAuth) validateJWTToken(ctx context.Context, jti oid.ObjectID, raw string) error {
@@ -1163,6 +1164,7 @@ func (d *DevAuth) VerifyToken(ctx context.Context, raw string) error {
 	// throttle and try fetch token from cache - if cached, it was
 	// already verified against the db checks below, we trust it
 	cachedToken, err := d.cacheThrottleVerify(ctx, token, raw, origMethod, origUri)
+	setCache := !mredis.IsErrCacheInvalid(err)
 
 	if cachedToken != "" && raw == cachedToken {
 		// update device check-in time
@@ -1234,8 +1236,9 @@ func (d *DevAuth) VerifyToken(ctx context.Context, raw string) error {
 	)
 
 	// after successful token verification - cache it (best effort)
-	_ = d.cacheSetToken(ctx, token, raw)
-
+	if setCache {
+		_ = d.cacheSetToken(ctx, token, raw)
+	}
 	return nil
 }
 
@@ -1316,9 +1319,13 @@ func (d *DevAuth) GetLimit(ctx context.Context, name string) (*model.Limit, erro
 		limit *model.Limit
 		err   error
 	)
+	setCache := true
+
 	if d.cache != nil {
 		limit, err = d.cache.GetLimit(ctx, name)
-		if err != nil {
+		if mredis.IsErrCacheInvalid(err) {
+			setCache = false
+		} else if err != nil {
 			l.Warnf("error fetching limit from cache: %s", err.Error())
 		}
 	}
@@ -1332,7 +1339,7 @@ func (d *DevAuth) GetLimit(ctx context.Context, name string) (*model.Limit, erro
 				return nil, err
 			}
 		}
-		if d.cache != nil {
+		if d.cache != nil && setCache {
 			errCache := d.cache.SetLimit(ctx, limit)
 			if errCache != nil {
 				l.Warnf("failed to store limit %q in cache: %s", name, errCache.Error())
@@ -1402,17 +1409,17 @@ func (d *DevAuth) DeleteTenantLimit(ctx context.Context, tenant_id string, limit
 
 	l.Infof("removing limit %v for tenant %v", limit, tenant_id)
 
-	if err := d.db.DeleteLimit(ctx, limit); err != nil {
-		l.Errorf("failed to delete limit %v for tenant %v to database: %v",
-			limit, tenant_id, err)
-		return errors.Wrapf(err, "failed to delete limit %v for tenant %v to database",
-			limit, tenant_id)
-	}
 	if d.cache != nil {
 		errCache := d.cache.DeleteLimit(ctx, limit)
 		if errCache != nil {
 			l.Warnf("error removing limit %q from cache: %s", limit, errCache.Error())
 		}
+	}
+	if err := d.db.DeleteLimit(ctx, limit); err != nil {
+		l.Errorf("failed to delete limit %v for tenant %v to database: %v",
+			limit, tenant_id, err)
+		return errors.Wrapf(err, "failed to delete limit %v for tenant %v to database",
+			limit, tenant_id)
 	}
 	return nil
 }

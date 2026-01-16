@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-interface DebConfigurationProps {
+export interface DebConfigurationProps {
   deviceType?: string;
   hasMonitor?: boolean;
   ipAddress?: string;

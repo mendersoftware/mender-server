@@ -93,7 +93,8 @@ paths:
               per_page:
                 type: number
                 format: integer
-                default: 10
+                default: 20
+                maximum: 500
                 description: Maximum number of results per page.
               text:
                 type: string
@@ -160,6 +161,31 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /statistics:
+    get:
+      tags:
+        - Management API
+      security:
+        - ManagementJWT: []
+      summary: Get inventory statistics
+      description: |
+        The following statistics are currently supported:
+        * Number of accepted and pending devices in each device tier
+      operationId: Get Statistics
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            type: object
+            required:
+              - devices_by_status
+            properties:
+              devices_by_status:
+                $ref: '#/definitions/DeviceStatusStatistics'
+        500:
+          description: Internal error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Attribute:
     description: Attribute descriptor.
@@ -222,7 +248,40 @@ definitions:
           value: "00.01:02:03:04:05"
           description: "MAC address"
       updated_ts: "2016-10-03T16:58:51.639Z"
-
+  DeviceStatusStatistics:
+      type: object
+      description: Device statistics grouped by device status
+      required:
+        - accepted
+        - pending
+      properties:
+        accepted:
+          $ref: '#/definitions/DeviceCountByTier'
+        pending:
+          $ref: '#/definitions/DeviceCountByTier'
+      example:
+        accepted:
+          standard: 975
+          micro: 3546
+          system: 0
+        pending:
+          standard: 2
+          micro: 30
+          system: 1
+  DeviceCountByTier:
+    description: Number of devices per tier
+    type: object
+    required:
+      - standard
+      - micro
+      - system
+    properties:
+      standard:
+        type: number
+      micro:
+        type: number
+      system:
+        type: number
   Error:
     description: Error descriptor.
     type: object

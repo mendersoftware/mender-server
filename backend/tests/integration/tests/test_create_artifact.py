@@ -16,7 +16,7 @@ import os
 import tempfile
 import time
 import uuid
-
+import redo
 from json import dumps
 
 from testutils.api.client import ApiClient
@@ -80,8 +80,7 @@ class TestCreateArtifactBase:
         )
 
         artifact = None
-        for i in range(15):
-            time.sleep(1)
+        for _ in redo.retrier(attempts=15, sleeptime=1):
             r = api_client.call("GET", artifact_url,)
             if r.status_code == 200:
                 artifact = r.json()

@@ -33,7 +33,7 @@ const preloadedState = {
       ...defaultState.devices.byStatus,
       accepted: {
         deviceIds: [],
-        total: 0
+        counts: { standard: 0 }
       }
     }
   }

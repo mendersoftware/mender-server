@@ -15,7 +15,7 @@ import chalk from 'chalk';
 import { execSync, spawn } from 'child_process';
 import { Command } from 'commander';
 import * as compose from 'docker-compose';
-import { existsSync, mkdirSync } from 'fs';
+import { appendFileSync, existsSync, mkdirSync } from 'fs';
 import { writeFileSync } from 'fs';
 import inquirer from 'inquirer';
 import ora from 'ora';
@@ -257,7 +257,7 @@ const composeLogs = async config =>
     '📋 Collecting container logs...',
     async () => {
       console.log('getting em logs');
-      const result = await compose.logs(getComposeOptions(config));
+      const result = await compose.logs([], getComposeOptions(config));
       console.log('gotten logs', result);
       return result.out;
     },
@@ -267,24 +267,25 @@ const composeLogs = async config =>
 
 const runCommand = (command, args = [], config, options = {}) =>
   new Promise((resolve, reject) => {
-    const { quiet = true, ...remainderOptions } = options;
-    let stdout = '';
-    let stderr = '';
+    const { quiet = true, throwOnError = true, shell = false, ...remainderOptions } = options;
+    let output = '';
+
     const child = spawn(command, args, {
       stdio: ['inherit', 'pipe', 'pipe'],
       env: { ...process.env, TEST_ENVIRONMENT: config.environment },
+      shell,
       ...remainderOptions
     });
     child.stdout.on('data', data => {
       const text = data.toString();
-      stdout += text;
+      output += text;
       if (!quiet) {
         process.stdout.write(text);
       }
     });
     child.stderr.on('data', data => {
       const text = data.toString();
-      stderr += text;
+      output += text;
       if (!quiet) {
         process.stdout.write(text);
       }
@@ -298,17 +299,19 @@ const runCommand = (command, args = [], config, options = {}) =>
     };
 
     child.on('close', code => {
-      if (code === 0) {
-        resolve(stdout.trim());
+      if (!throwOnError || code === 0) {
+        resolve(output.trim());
       } else {
         cleanup();
-        reject(new Error(`Command failed with exit code ${code}: ${stderr}`));
+        reject(new Error(`Command failed with exit code ${code}: ${output}`));
       }
     });
 
     child.on('error', error => {
       cleanup();
-      reject(error);
+      if (throwOnError) {
+        reject(error);
+      }
     });
 
     currentProcesses.push(child);
@@ -338,6 +341,7 @@ const setupTenantToken = async (tenantId, config) =>
     async () => {
       const tenantTokenResult = await composeExec('tenantadm', `tenantadm get-tenant --id ${tenantId}`, config);
       process.env.TENANT_TOKEN = JSON.parse(tenantTokenResult.out).tenant_token;
+      console.log(chalk.gray(`👤 Configured tenant token for client to pick up: ${process.env.TENANT_TOKEN}`));
     },
     'Tenant token retrieved',
     'Failed to setup tenant token'
@@ -600,7 +604,7 @@ const killTestProcesses = () => {
   currentProcesses = [];
 };
 
-const collectClientLogs = async logDir => {
+const collectClientLogs = async (logDir, config) => {
   // the client gets often started outside of the compose setup, so track it down by name
   console.log(chalk.yellow(`📋 Capturing client logs to ${chalk.cyan(join(logDir, 'client.*'))}`));
   const containerNames = await runCommand('docker', ['ps', '-a', `--format={{.Names}}`], config);
@@ -611,30 +615,45 @@ const collectClientLogs = async logDir => {
   }
   const clientLogPath = join(logDir, 'client.log');
   const fullClientLogPath = join(logDir, 'fullClient.log');
+  const debugClientFilesPath = join(logDir, 'debugClient.log');
 
   const clientLog = await runCommand('docker', ['logs', clientContainer], config);
   writeFileSync(clientLogPath, clientLog);
+  if (config.variant !== testSuiteVariants.qemu) {
+    console.log(chalk.yellow('🟢 Docker client logs written'));
+    return;
+  }
 
   const ip = await runCommand('docker', ['inspect', `--format={{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}`, clientContainer], config);
   const fullClientLog = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'journalctl', '--no-pager', '--all'], config);
   writeFileSync(fullClientLogPath, fullClientLog);
+
+  const clientConf = await runCommand('ssh', ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/etc/mender/mender.conf'], config);
+  writeFileSync(debugClientFilesPath, 'Mender configuration:');
+  appendFileSync(debugClientFilesPath, clientConf);
+  const deploymentsLogs = await runCommand(
+    'ssh',
+    ['-p', '8822', '-o', 'StrictHostKeyChecking=no', `root@${ip}`, 'cat', '/data/mender/deployment*.log'],
+    config,
+    { throwOnError: false, shell: true }
+  );
+  appendFileSync(debugClientFilesPath, 'Deployment logs:');
+  appendFileSync(debugClientFilesPath, deploymentsLogs);
 };
 
-const cleanup = async (exitCode = 0) => {
+const cleanup = async () => {
   killTestProcesses();
   const logDir = join(config.guiRepository, 'logs');
   const logPath = join(logDir, 'gui_e2e_tests.txt');
 
-  if (exitCode !== 0) {
-    try {
-      mkdirSync(logDir, { recursive: true });
-      await collectClientLogs(logDir);
-      console.log(chalk.yellow(`📋 Tests failed, dumping logs to ${chalk.cyan(logPath)}`));
-      const logs = await composeLogs(config);
-      writeFileSync(logPath, logs);
-    } catch (error) {
-      console.error(chalk.red('💥 Failed to dump logs:'), error);
-    }
+  try {
+    mkdirSync(logDir, { recursive: true });
+    await collectClientLogs(logDir, config);
+    console.log(chalk.yellow(`📋 Dumping logs to ${chalk.cyan(logPath)}`));
+    const logs = await composeLogs(config);
+    writeFileSync(logPath, logs);
+  } catch (error) {
+    console.error(chalk.red('💥 Failed to dump logs:'), error);
   }
 
   if (config.skipCleanup) {
@@ -675,7 +694,7 @@ try {
   }
   exitCode = 1;
 } finally {
-  await withSpinner('🧹 Cleanup', async () => await cleanup(exitCode), 'so sparkling clean', 'clean up failed');
+  await withSpinner('🧹 Cleanup', cleanup, 'so sparkling clean', 'clean up failed');
   if (exitCode === 0) {
     console.log(chalk.green('🚀 Test runner completed successfully!'));
   } else {

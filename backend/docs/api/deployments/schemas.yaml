@@ -97,6 +97,7 @@ components:
           type: string
       type: object
     DeviceStatus:
+      x-go-name: DeploymentDeviceStatus
       enum:
       - failure
       - aborted
@@ -371,7 +372,6 @@ components:
             Attribute type is implicit, inferred from the JSON type.
             Supported types: number, string, array of numbers, array of strings.
             Mixed arrays are not allowed.
-          type: string
       required:
       - attribute
       - scope

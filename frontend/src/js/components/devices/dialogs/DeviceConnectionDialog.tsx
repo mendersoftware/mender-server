@@ -15,7 +15,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, DialogActions, DialogContent, List, ListItem, Typography } from '@mui/material';
+import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
+import { Button, Chip, DialogActions, DialogContent, List, ListItem, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -25,27 +26,26 @@ import { DEVICE_STATES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/c
 import { getDeviceCountsByStatus, getFeatures, getOnboardingState, getTenantCapabilities } from '@northern.tech/store/selectors';
 import { advanceOnboarding, saveUserSettings, setDeviceListState } from '@northern.tech/store/thunks';
 
-import docker from '../../../../assets/img/docker.png';
-import raspberryPi4 from '../../../../assets/img/raspberrypi4.png';
 import raspberryPi from '../../../../assets/img/raspberrypi.png';
+import zephyr from '../../../../assets/img/zephyr_logo.png';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
+import { McuDeviceOnboarding } from './McuDeviceOnboarding';
 import PhysicalDeviceOnboarding from './PhysicalDeviceOnboarding';
 import VirtualDeviceOnboarding from './VirtualDeviceOnboarding';
 
 const useStyles = makeStyles()(theme => ({
   rpiQuickstart: {
-    backgroundColor: theme.palette.background.lightgrey ? theme.palette.background.lightgrey : theme.palette.grey[100],
-    '.os-list img': {
-      height: 80,
-      margin: theme.spacing(2)
-    }
+    'img': { height: 30, marginRight: theme.spacing(1.5), marginLeft: theme.spacing(0.75) }
   },
-  virtualLogo: { height: 40, marginLeft: theme.spacing(2) },
+  zephyrLogo: { height: '24px', marginRight: theme.spacing(2) },
   deviceSection: {
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.spacing(0.5),
     gap: theme.spacing(1)
+  },
+  bottomText: {
+    marginTop: theme.spacing(3)
   }
 }));
 
@@ -85,67 +85,94 @@ const OnPremDeviceConnectionExplainer = ({ isEnterprise }) => (
     <MenderHubReference />
   </>
 );
-
-const DeviceConnectionExplainer = ({ setOnDevice, setVirtualDevice }) => {
+const ZephyrMCUGuide = ({ setMcu }) => {
   const { classes } = useStyles();
+  return (
+    <div className={`padding-small padding-bottom-none flexbox column ${classes.deviceSection}`}>
+      <div className="flexbox space-between">
+        <div className="flexbox centered">
+          <img src={zephyr} className={classes.zephyrLogo} />
+          <Typography variant="subtitle1" gutterBottom>
+            Zephyr MCU
+          </Typography>
+        </div>
+        <Chip size="small" label="Micro" />
+      </div>
+      <Typography variant="body1">Connect an Espressif ESP32-S3 DevKitC, or any compatible microcontroller that supports MCUBoot in Zephyr.</Typography>
+      <div>
+        <Button variant="text" size="small" endIcon={<ArrowForwardIcon />} onClick={() => setMcu(true)}>
+          Get started with Zephyr
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const OtherDevicesGuide = () => {
+  const { classes } = useStyles();
+  return (
+    <div className={`padding-small flexbox column ${classes.deviceSection}`}>
+      <Typography variant="subtitle1" gutterBottom>
+        Other devices
+      </Typography>
+      <Typography variant="body1">See the documentation to integrate the following with Mender:</Typography>
+      <List>
+        {docsLinks.map(item => (
+          <ListItem key={item.key} disablePadding className="padding-top-none padding-bottom-none">
+            <DocsLink path={item.target} title={item.title} />
+          </ListItem>
+        ))}
+      </List>
+      <MenderHubReference />
+    </div>
+  );
+};
+
+const DeviceConnectionExplainer = ({ setOnDevice, setVirtualDevice, setMcu }) => {
+  const { classes } = useStyles();
+  const { hasMCUEnabled } = useSelector(getFeatures);
   return (
     <>
       <Typography variant="body1">
-        You can connect almost any device and Linux OS with Mender, but to make things simple during evaluation we recommend you use a Raspberry Pi as a test
-        device.
+        You can connect almost any device from Linux to RTOSes. For simplicity, we recommend you use a Raspberry Pi as a test device.
       </Typography>
-      <div className={`margin-top-small padding-small rpi-quickstart ${classes.rpiQuickstart}`}>
-        <Typography variant="subtitle1">Raspberry Pi quick start</Typography>
-        <Typography variant="body1">We&apos;ll walk you through the steps to connect a Raspberry Pi and deploy your first update with Mender.</Typography>
-        <div className="flexbox column centered">
-          <div className="flexbox centered os-list">
-            {[raspberryPi, raspberryPi4].map((tile, index) => (
-              <img key={`tile-${index}`} src={tile} />
-            ))}
+      <div className={`margin-top-small padding-small rpi-quickstart ${classes.rpiQuickstart} ${classes.deviceSection}`}>
+        <div className="flexbox margin-bottom-small space-between">
+          <div className="flexbox centered">
+            <img src={raspberryPi} alt="rpi-logo" />
+            <Typography variant="subtitle1">Raspberry Pi quick start</Typography>
           </div>
-          <Button variant="contained" color="secondary" onClick={() => setOnDevice(true)}>
+          <Chip size="small" label="Standard" />
+        </div>
+        <Typography variant="body1">
+          A step-by-step guide for new users — connect your Raspberry Pi and get started with your first update using Mender.
+        </Typography>
+        <div className="flexbox margin-top-small">
+          <Button variant="text" size="small" onClick={() => setOnDevice(true)} endIcon={<ArrowForwardIcon />}>
             Get started
           </Button>
         </div>
       </div>
       <div className="two-columns margin-top-small">
-        <div className={`padding-small padding-bottom-none flexbox column ${classes.deviceSection}`}>
-          <div className="flexbox center-aligned">
-            <Typography variant="subtitle1" gutterBottom>
-              Use a virtual device
-            </Typography>
-            <img src={docker} className={classes.virtualLogo} />
-          </div>
-          <Typography variant="body1">
-            Don&apos;t have a Raspberry Pi?
-            <br />
-            You can use our Docker-run virtual device to go through the same tutorial.
+        {hasMCUEnabled ? <ZephyrMCUGuide setMcu={setMcu} /> : <OtherDevicesGuide />}
+        <div className={`padding-small ${classes.deviceSection}`}>
+          <Typography variant="subtitle1" gutterBottom>
+            Don&#39;t have a device?
           </Typography>
-          <div>
-            <Typography variant="body1" color="text.secondary">
-              If you want to evaluate our commercial components such as mender-monitor, please use a physical device instead as the virtual client does not
-              support these components at this time.
-            </Typography>
-            <Button variant="text" size="small" onClick={() => setVirtualDevice(true)}>
-              Try a virtual device
+          <Typography variant="body1">
+            You can use our virtual device to explore the UI, deploy an update and get a quick feel for the features of Mender.
+          </Typography>
+          <div className="flexbox margin-top-small">
+            <Button variant="text" size="small" onClick={() => setVirtualDevice(true)} endIcon={<ArrowForwardIcon />}>
+              Try the virtual device
             </Button>
           </div>
         </div>
-        <div className={`padding-small ${classes.deviceSection}`}>
-          <Typography variant="subtitle1" gutterBottom>
-            Other devices
-          </Typography>
-          <Typography variant="body1">See the documentation to integrate the following with Mender:</Typography>
-          <List>
-            {docsLinks.map(item => (
-              <ListItem key={item.key} disablePadding className="padding-top-none padding-bottom-none">
-                <DocsLink path={item.target} title={item.title} />
-              </ListItem>
-            ))}
-          </List>
-          <MenderHubReference />
-        </div>
       </div>
+      <Typography variant="body1" className={classes.bottomText}>
+        <DocsLink path="overview/device-support" title="Visit our documentation" /> for full information about device support including Debian family and Yocto
+        OSes.
+      </Typography>
     </>
   );
 };
@@ -154,6 +181,7 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
   const [onDevice, setOnDevice] = useState(false);
   const [progress, setProgress] = useState(1);
   const [virtualDevice, setVirtualDevice] = useState(false);
+  const [mcu, setMcu] = useState(false);
   const { pending: pendingCount } = useSelector(getDeviceCountsByStatus);
   const [pendingDevicesCount] = useState(pendingCount);
   const [hasMoreDevices, setHasMoreDevices] = useState(false);
@@ -184,6 +212,7 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
       updatedProgress = 1;
       setOnDevice(false);
       setVirtualDevice(false);
+      setMcu(false);
     }
     setProgress(updatedProgress);
   };
@@ -193,11 +222,13 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
     setProgress(progress + 1);
   };
 
-  let content = <DeviceConnectionExplainer setOnDevice={setOnDevice} setVirtualDevice={setVirtualDevice} />;
+  let content = <DeviceConnectionExplainer setOnDevice={setOnDevice} setVirtualDevice={setVirtualDevice} setMcu={setMcu} />;
   if (onDevice) {
     content = <PhysicalDeviceOnboarding progress={progress} />;
   } else if (virtualDevice) {
     content = <VirtualDeviceOnboarding />;
+  } else if (mcu) {
+    content = <McuDeviceOnboarding />;
   } else if (!isHosted) {
     content = <OnPremDeviceConnectionExplainer isEnterprise={isEnterprise} />;
   }
@@ -208,27 +239,27 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
 
   const isPhysicalAndNotFinal = progress < 2 && (!virtualDevice || progress < 1);
   return (
-    <BaseDialog open title="Connecting a device" maxWidth="sm" onClose={onCancel}>
+    <BaseDialog open title={mcu ? 'Connecting a Zephyr-based MCU' : 'Connecting a device'} maxWidth="sm" onClose={onCancel}>
       <DialogContent>{content}</DialogContent>
       <DialogActions>
-        {onDevice || virtualDevice ? (
+        {onDevice || virtualDevice || mcu ? (
           <>
-            {isPhysicalAndNotFinal && <Button onClick={onCancel}>Cancel</Button>}
+            {isPhysicalAndNotFinal && !mcu && <Button onClick={onCancel}>Cancel</Button>}
             <Button onClick={onBackClick} variant="outlined">
               Back
             </Button>
-            {isPhysicalAndNotFinal ? (
+            {isPhysicalAndNotFinal && !mcu ? (
               <Button variant="contained" disabled={!(virtualDevice || (onDevice && onboardingDeviceType))} onClick={onAdvance}>
                 Next
               </Button>
             ) : (
               <Button
                 variant="contained"
-                disabled={!onboardingComplete}
+                disabled={!onboardingComplete && !mcu}
                 onClick={onCancel}
-                endIcon={!onboardingComplete && <Loader show small table style={{ top: -24 }} />}
+                endIcon={!onboardingComplete && !mcu && <Loader show small table style={{ top: -24 }} />}
               >
-                {onboardingComplete ? 'Close' : 'Waiting for device'}
+                {onboardingComplete || mcu ? 'Close' : 'Waiting for device'}
               </Button>
             )}
           </>

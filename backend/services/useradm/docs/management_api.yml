@@ -75,6 +75,10 @@ paths:
           description: Internal server error.
           schema:
             $ref: '#/definitions/Error'
+        503:
+          description: Service is unavailable.
+          schema:
+            $ref: '#/definitions/Error'
 
   /auth/logout:
     post:

@@ -339,19 +339,7 @@ components:
       - provider
       - credentials
     Credentials:
-      allOf:
-      - type: object
-        properties:
-          type:
-            description: The credential type
-            type: string
-            enum:
-            - aws
-            - sas
-            - http
-        required:
-        - type
-      - oneOf:
+      oneOf:
         - $ref: '#/components/schemas/AWSCredentials'
         - $ref: '#/components/schemas/AzureSharedAccessSecret'
         - $ref: '#/components/schemas/HTTP'
@@ -366,6 +354,10 @@ components:
       description: 'AWS credentials in the form of access key id and secret access
         key, a region and a device policy name.'
       properties:
+        type:
+          description: The credential type
+          type: string
+          enum: [aws]
         aws:
           type: object
           properties:
@@ -383,15 +375,21 @@ components:
           - region
           - device_policy_name
       required:
+      - type
       - aws
     AzureSharedAccessSecret:
       type: object
       description: 'Shared Access Secret is an authentication mechanism in the form
         of a connection string for Azure IoT Hub.'
       properties:
+        type:
+          description: The credential type
+          type: string
+          enum: [sas]
         connection_string:
           type: string
       required:
+      - type
       - connection_string
     DeviceState:
       type: object
@@ -407,6 +405,10 @@ components:
       type: object
       description: 'HTTP Webhook configuration.'
       properties:
+        type:
+          description: The credential type
+          type: string
+          enum: [http]
         http:
           type: object
           properties:
@@ -422,6 +424,7 @@ components:
           required:
           - url
       required:
+      - type
       - http
     Event:
       type: object
@@ -462,14 +465,7 @@ components:
           format: date-time
           description: Creation timestamp
         data:
-          oneOf:
-          - $ref: '#/components/schemas/DeviceAuthEvent'
-          discriminator:
-            propertyName: type
-            mapping:
-              device-provisioned: '#/components/schemas/DeviceAuthEvent'
-              device-decommissioned: '#/components/schemas/DeviceAuthEvent'
-              device-status-changed: '#/components/schemas/DeviceAuthEvent'
+          $ref: '#/components/schemas/DeviceAuthEvent'
     DeviceAuthEvent:
       type: object
       description: 'DeviceAuthEvent describes an event that relates to changes to

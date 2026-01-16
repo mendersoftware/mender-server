@@ -18,6 +18,7 @@ import isBetween from 'dayjs/plugin/isBetween.js';
 import test, { expect } from '../../fixtures/fixtures';
 import { getTokenFromStorage } from '../../utils/commands';
 import { releaseTag, selectors, timeouts } from '../../utils/constants';
+import { locateReleaseByName, selectReleaseByName } from '../../utils/utils.ts';
 
 dayjs.extend(isBetween);
 
@@ -46,14 +47,32 @@ test.describe('Deployments', () => {
     await checkTimeFilter(page, 'From');
     await checkTimeFilter(page, 'To', true);
   });
+  test('advanced deployment release filters', async ({ page }) => {
+    const releaseName = 'mender-demo-artifact';
+    await navbar.getByRole('link', { name: /deployments/i }).click();
+    await page.click(`button:has-text('Create a deployment')`);
+    await page.getByRole('button', { name: 'Select a release' }).click();
+
+    await page.getByRole('button', { name: 'Advanced filter (0)' }).click();
+    await page.getByRole('combobox', { name: 'Type or Select tags...' }).click();
+    await page.getByRole('option', { name: 'sometag' }).click();
+    await page.waitForTimeout(timeouts.default);
+    await expect(locateReleaseByName(page, releaseName)).toBeVisible();
+
+    await page.getByRole('button', { name: 'Clear all' }).click();
+    await page.getByRole('combobox', { name: 'Select type...' }).click();
+    await page.getByRole('option', { name: 'directory' }).click();
+    await page.waitForTimeout(timeouts.default);
+    await expect(locateReleaseByName(page, releaseName)).toBeVisible();
+    await page.getByRole('button', { name: 'Clear all' }).click();
+  });
+
   test('ensure release page filters are not used on deployment creation', async ({ page }) => {
     await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
     await navbar.getByRole('link', { name: /deployments/i }).click();
     await page.getByRole('button', { name: /create a deployment/i }).click();
-    await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });
-    const releaseSelect = await page.getByPlaceholder(/select a release/i);
-    await releaseSelect.focus();
-    await expect(page.locator(`#deployment-release-selection-listbox li:has-text('mender-demo-artifact')`)).toBeVisible();
+    await page.getByRole('button', { name: 'Select a release' }).click();
+    await expect(locateReleaseByName(page, 'mender-demo-artifact')).toBeVisible();
   });
   test('allows shortcut deployments', async ({ page }) => {
     // create an artifact to download first
@@ -84,17 +103,9 @@ test.describe('Deployments', () => {
     await page.getByText(/original/i).click();
     await page.click('.MuiSpeedDial-fab');
     await page.click('[aria-label="create-deployment"]');
-    await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });
-    const releaseSelect = await page.getByPlaceholder(/select a release/i);
-    await releaseSelect.focus();
-    await releaseSelect.fill('mender-demo');
-    await page.click(`#deployment-release-selection-listbox li`);
-    await page.getByRole('button', { name: 'Clear' }).click();
-    const textContent = await releaseSelect.textContent();
-    expect(textContent).toBeFalsy();
-    await releaseSelect.focus();
-    await releaseSelect.fill('mender-demo');
-    await page.click(`#deployment-release-selection-listbox li`);
+
+    await selectReleaseByName(page, 'mender-demo-artifact');
+
     const creationButton = await page.getByRole('button', { name: /create deployment/i });
     await creationButton.scrollIntoViewIfNeeded();
     await creationButton.click();
@@ -114,11 +125,7 @@ test.describe('Deployments', () => {
     await navbar.getByRole('link', { name: /deployments/i }).click();
     await page.click(`button:has-text('Create a deployment')`);
 
-    await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });
-    const releaseSelect = await page.getByPlaceholder(/select a release/i);
-    await releaseSelect.focus();
-    await releaseSelect.fill('mender');
-    await page.click(`#deployment-release-selection-listbox li:has-text('mender-demo-artifact')`);
+    await selectReleaseByName(page, 'mender-demo-artifact');
 
     await page.waitForSelector(selectors.deviceGroupSelect, { timeout: timeouts.fiveSeconds });
     const deviceGroupSelect = await page.getByPlaceholder(/select a device group/i);

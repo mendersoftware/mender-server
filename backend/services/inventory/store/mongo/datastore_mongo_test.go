@@ -23,6 +23,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
@@ -32,6 +33,7 @@ import (
 	"github.com/mendersoftware/mender-server/services/inventory/utils"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/tiers"
 
 	"github.com/pkg/errors"
 
@@ -5081,4 +5083,118 @@ func TestMongoUpsertDevicesAttributesWithRevision(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestMongoGetDeviceTierStatisticsByStatus(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping GetDeviceTierStatisticsByStatus in short mode.")
+	}
+
+	statusAttribute := func(status string) model.DeviceAttribute {
+		return model.DeviceAttribute{
+			Scope: model.AttrScopeIdentity,
+			Name:  "status",
+			Value: status,
+		}
+	}
+
+	tierAttribute := func(tier string) model.DeviceAttribute {
+		return model.DeviceAttribute{
+			Scope: model.AttrScopeSystem,
+			Name:  "tier",
+			Value: tier,
+		}
+	}
+
+	// A reciepe of devices to be created for the test
+	devs := []struct {
+		count      int
+		attributes model.DeviceAttributes
+	}{
+		{
+			count: 1,
+			attributes: model.DeviceAttributes{
+				statusAttribute(model.DeviceStatusAccepted),
+			},
+		},
+		{
+			count: 2,
+			attributes: model.DeviceAttributes{
+				statusAttribute(model.DeviceStatusAccepted),
+				tierAttribute(tiers.StandardTier),
+			},
+		},
+		{
+			count: 4,
+			attributes: model.DeviceAttributes{
+				statusAttribute(model.DeviceStatusAccepted),
+				tierAttribute(tiers.MicroTier),
+			},
+		},
+		{
+			count: 5,
+			attributes: model.DeviceAttributes{
+				statusAttribute(model.DeviceStatusAccepted),
+				tierAttribute(tiers.SystemTier),
+			},
+		},
+		{
+			count: 6,
+			attributes: model.DeviceAttributes{
+				statusAttribute(model.DeviceStatusPending),
+			},
+		},
+		{
+			count: 7,
+			attributes: model.DeviceAttributes{
+				statusAttribute(model.DeviceStatusPending),
+				tierAttribute(tiers.StandardTier),
+			},
+		},
+		{
+			count: 8,
+			attributes: model.DeviceAttributes{
+				statusAttribute(model.DeviceStatusPending),
+				tierAttribute(tiers.MicroTier),
+			},
+		},
+		{
+			count: 9,
+			attributes: model.DeviceAttributes{
+				statusAttribute(model.DeviceStatusPending),
+				tierAttribute(tiers.SystemTier),
+			},
+		},
+	}
+
+	db.Wipe()
+	ctx := identity.WithContext(
+		t.Context(),
+		&identity.Identity{Tenant: "tenant-id-1"},
+	)
+
+	mongoStore := NewDataStoreMongoWithSession(db.Client())
+	for idx, dev := range devs {
+		for i := 0; i < dev.count; i++ {
+			d := model.Device{
+				ID:         model.DeviceID(fmt.Sprintf("%d%d", idx, i)),
+				Attributes: dev.attributes,
+			}
+
+			err := mongoStore.AddDevice(ctx, &d)
+			require.NoError(t, err, "failed to setup input data")
+		}
+	}
+
+	status, err := mongoStore.GetDeviceTierStatisticsByStatus(ctx)
+	require.NoError(t, err, "unexpected error getting device tier statistics")
+
+	assert := assert.New(t)
+	assert.Equal(uint64(3), status.Accepted.Standard) // 3 is the sum of status "active" and tier: "standard" || null
+	assert.Equal(uint64(4), status.Accepted.Micro)
+	assert.Equal(uint64(5), status.Accepted.System)
+
+	assert.Equal(uint64(13), status.Pending.Standard) // 13 is the sum of status "pending" with tier: "standard" || null
+	assert.Equal(uint64(8), status.Pending.Micro)
+	assert.Equal(uint64(9), status.Pending.System)
 }

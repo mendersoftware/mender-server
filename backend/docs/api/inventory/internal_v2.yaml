@@ -33,13 +33,11 @@ paths:
               type: object
               properties:
                 page:
-                  type: number
+                  type: integer
                   description: Starting page.
-                  format: integer
                 per_page:
-                  type: number
+                  type: integer
                   description: Number of results per page.
-                  format: integer
                 device_ids:
                   type: array
                   description: List of device IDs

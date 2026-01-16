@@ -17,6 +17,7 @@ import pytest
 import uuid
 import os
 import time
+import redo
 
 from testutils.common import Tenant, User, update_tenant, create_user, create_org
 from testutils.infra.cli import CliTenantadm
@@ -444,19 +445,16 @@ def _make_trial_tenant():
 
     propagate_wait_s = 2
     max_tries = 150
-    tries_left = max_tries
-    while tries_left > 0:
+    for i in redo.retrier(attempts=max_tries, sleeptime=propagate_wait_s):
         r = ApiClient(useradm.URL_MGMT).call(
             "POST", useradm.URL_LOGIN, auth=(email, password)
         )
         if r.status_code == 200:
             logger.info(
                 "_make_trial_tenant: it took %d tries to login"
-                % (max_tries - tries_left + 1)
+                % (i)
             )
             break
-        time.sleep(propagate_wait_s)
-        tries_left = tries_left - 1
 
     assert r.status_code == 200
 

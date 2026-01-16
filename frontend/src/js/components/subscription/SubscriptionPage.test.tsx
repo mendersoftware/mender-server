@@ -71,7 +71,7 @@ describe('Subscription Summary component', () => {
     render(ui, {
       preloadedState: {
         ...defaultState,
-        devices: { ...defaultState.devices, limit: 10 },
+        devices: { ...defaultState.devices, limits: { ...defaultState.devices.limits, standard: 10 } },
         organization: { ...defaultState.organization, organization: { ...defaultState.organization.organization, trial: true } }
       }
     });

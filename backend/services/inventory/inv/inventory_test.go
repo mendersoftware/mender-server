@@ -25,6 +25,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	mdm "github.com/mendersoftware/mender-server/services/inventory/client/devicemonitor/mocks"
@@ -2055,6 +2056,61 @@ func TestCheckAlerts(t *testing.T) {
 				assert.NoError(t, err)
 				assert.Equal(t, tc.outCount, count)
 			}
+		})
+	}
+}
+func TestGetDeviceStatistics(t *testing.T) {
+	t.Parallel()
+
+	testCases := map[string]struct {
+		status *model.DeviceStatisticsByStatus
+		err    error
+	}{
+		"ok": {
+			status: &model.DeviceStatisticsByStatus{
+				Accepted: model.DeviceCountPerTier{
+					Standard: 1,
+					Micro:    2,
+					System:   3,
+				},
+				Pending: model.DeviceCountPerTier{
+					Standard: 4,
+					Micro:    5,
+					System:   6,
+				},
+			},
+			err: nil,
+		},
+		"nil stats": {
+			status: nil,
+			err:    nil,
+		},
+		"db error": {
+			status: nil,
+			err:    nil,
+		},
+	}
+
+	for desc, tc := range testCases {
+		t.Run(desc, func(t *testing.T) {
+			ctx := context.Background()
+			db := &mstore.DataStore{}
+			db.On("GetDeviceTierStatisticsByStatus",
+				ctx,
+			).Return(tc.status, tc.err)
+
+			i := invForTest(db)
+			res, err := i.GetDeviceStatistics(ctx)
+			if tc.status != nil && res != nil {
+				require.NoError(t, err, "expected no error")
+				assert.Equal(t, *tc.status, res.ByStatus)
+			} else if tc.status == nil && tc.err == nil {
+				require.Error(t, err, "expected error")
+			} else {
+				require.Error(t, err, "expected error")
+				assert.Equal(t, tc.err, err)
+			}
+
 		})
 	}
 }

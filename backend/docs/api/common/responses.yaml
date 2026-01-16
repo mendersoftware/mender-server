@@ -45,3 +45,12 @@ components:
           example:
             error: "Forbidden"
             request_id: "eed14d55-d996-42cd-8248-e806663810a8"
+    UnavailableError:
+      description: Service is unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: "./schemas.yaml#/components/schemas/Error"
+          example:
+            error: "service unavailable"
+            request_id: "eed14d55-d996-42cd-8248-e806663810a8"

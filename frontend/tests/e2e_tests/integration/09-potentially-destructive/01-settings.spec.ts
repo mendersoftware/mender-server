@@ -30,62 +30,6 @@ import {
 import { emptyStorageState, selectors, storagePath, timeouts } from '../../utils/constants';
 
 test.describe('Settings', () => {
-  test.describe('access token feature', () => {
-    test('allows access to access tokens', async ({ baseUrl, page }) => {
-      await page.goto(`${baseUrl}ui/settings`);
-      const tokenGenerationButton = await page.getByRole('button', { name: /Generate a token/i });
-      if (!(await tokenGenerationButton.isVisible())) {
-        console.log('settings may not be loaded - move around');
-        await page.goto(`${baseUrl}ui/help`);
-        await page.goto(`${baseUrl}ui/settings`);
-      }
-      await tokenGenerationButton.waitFor();
-    });
-    test('allows generating & revoking tokens', async ({ baseUrl, browserName, page }, { retry }) => {
-      await page.goto(`${baseUrl}ui/settings`);
-      const tokenGenerationButton = await page.getByText(/generate a token/i);
-      await tokenGenerationButton.waitFor();
-      const revokeButton = await page.getByText(/revoke/i);
-      const revokeTokenButton = await page.getByRole('button', { name: /Revoke token/i });
-      if (await revokeButton.isVisible()) {
-        await revokeButton.click();
-        await revokeTokenButton.waitFor();
-        await revokeTokenButton.click();
-      }
-      await tokenGenerationButton.click();
-      const tokenName = `aNewToken-${retry}`;
-      await page.getByText(/Create new token/i).waitFor();
-      await page.getByPlaceholder('Name').fill(tokenName);
-      await page.getByText(/a year/i).click({ force: true });
-      await page.getByRole('option', { name: '7 days' }).click();
-      await page.getByRole('button', { name: /Create token/i }).click();
-      await page.getByRole('button', { name: /Close/i }).click();
-      await page.mouse.wheel(0, 200);
-      await page
-        .getByText(/in 7 days/i)
-        .first()
-        .waitFor();
-      await page.getByRole('button', { name: /Revoke/i }).click();
-      await revokeTokenButton.waitFor();
-      await revokeTokenButton.click();
-      await tokenGenerationButton.click();
-      await page.getByPlaceholder(/Name/i).fill(tokenName);
-      await page.getByRole('button', { name: /Create token/i }).click();
-      const copyButton = page.getByRole('button', { name: /copy to clipboard/i });
-      await copyButton.click();
-      await page.getByText(/copied to clipboard/i).waitFor();
-      let token = '';
-      if (browserName === 'chromium') {
-        token = await page.evaluate(() => navigator.clipboard.readText());
-      } else {
-        token = await copyButton.locator('..').locator('.copyable-content').innerText();
-      }
-      expect(token).toBeTruthy();
-      await page.getByRole('button', { name: /Close/i }).click();
-      await page.getByText(/in a year/i).waitFor();
-    });
-  });
-
   test.describe('2FA setup', () => {
     test('supports regular 2fa setup', async ({ baseUrl, environment, page }) => {
       test.skip(environment !== 'staging');
@@ -242,7 +186,7 @@ test.describe('Settings', () => {
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.getByText('Upgrade now').click();
 
-      const deviceInput = page.getByRole('spinbutton', { name: 'Number of devices' });
+      const deviceInput = page.getByRole('spinbutton');
       await deviceInput.focus();
       // Increase by 2 steps (50 => 150)
       await page.keyboard.press('ArrowUp');
@@ -250,7 +194,8 @@ test.describe('Settings', () => {
 
       await page.getByRole('button', { name: 'Upgrade now' }).click();
 
-      const addressInput = await page.getByRole('textbox', { name: /address line 1/i });
+      await page.getByRole('heading', { name: /Subscribe to Mender Basic/i }).waitFor({ timeout: timeouts.default });
+      const addressInput = await page.getByRole('textbox', { name: /address line/i });
       const hasNoBillingDetails = await addressInput.isVisible();
       if (hasNoBillingDetails) {
         await addressInput.fill('Blindernveien');
@@ -280,10 +225,11 @@ test.describe('Settings', () => {
       const wasUpgraded = await page.isVisible(`css=#limit >> text=350`);
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.goto(`${baseUrl}ui/subscription`);
-
-      const deviceNumberInput = page.getByRole('spinbutton', { name: 'Number of devices' });
-      await deviceNumberInput.fill('310');
       await page.waitForTimeout(timeouts.default);
+      const deviceNumberInput = page.getByRole('spinbutton');
+      await deviceNumberInput.fill('310');
+      await page.press('body', 'Tab');
+      await page.waitForTimeout(timeouts.oneSecond);
       await expect(deviceNumberInput).toHaveValue('350');
 
       await page.getByRole('radio', { name: 'Professional' }).click();
@@ -319,7 +265,7 @@ test.describe('Settings', () => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username });
       await page.goto(`${baseUrl}ui/settings/billing`);
       await page.getByRole('button', { name: /edit/i }).click();
-      await page.getByRole('textbox', { name: /address line 1/i }).fill('Gaustadalleen 12');
+      await page.getByRole('textbox', { name: /address line/i }).fill('Gaustadalleen 12');
       await page.getByRole('textbox', { name: /state/i }).fill('Moss');
       await page.getByRole('textbox', { name: /city/i }).fill('Moss');
       await page.getByRole('textbox', { name: /zip or postal code/i }).fill('54321');

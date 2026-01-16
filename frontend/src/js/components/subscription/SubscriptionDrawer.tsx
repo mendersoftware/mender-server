@@ -35,6 +35,7 @@ import {
   requestPlanUpgrade,
   startCardUpdate
 } from '@northern.tech/store/thunks';
+import { isEmpty } from '@northern.tech/utils/helpers';
 
 import CardSection from '../settings/CardSection';
 import { PlanExpandedForm } from '../settings/PlanExpandedForm';
@@ -151,7 +152,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
       />
     </div>
   );
-  const cardDetailsDisabled = isTrial && !billing;
+  const cardDetailsDisabled = isTrial && isEmpty(billing);
   return (
     <Drawer anchor="right" open={true} PaperProps={{ style: { minWidth: '50vw' } }}>
       <DrawerTitle title={currentSubscription ? `Upgrade your subscription` : `Subscribe to Mender ${selectedPlan.name}`} onClose={onClose} />
@@ -162,11 +163,11 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
         </div>
       )}
 
-      {isEdit || (isTrial && !billing) ? (
+      {isEdit || (isTrial && isEmpty(billing)) ? (
         <Form
           classes={classes}
           onSubmit={handleBillingProfileEdit}
-          handleCancel={billing && (() => setIsEdit(false))}
+          handleCancel={!isEmpty(billing) && (() => setIsEdit(false))}
           defaultValues={formInitialValues}
           submitLabel="Save Billing details"
           showButtons

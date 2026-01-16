@@ -461,6 +461,15 @@ paths:
           name: created_after
           schema:
             type: integer
+        - description: |
+            Supports sorting the deployments list by creation date.
+          in: query
+          name: sort
+          schema:
+            enum:
+              - asc
+              - desc
+            type: string
       responses:
         '200':
           content:
@@ -622,7 +631,7 @@ paths:
       description: |
         Upload mender artifact to a specific tenant. Multipart request with meta and artifact.
         Supports artifact [versions v1, v2, v3](https://docs.mender.io/overview/artifact#versions).
-      operationId: Upload artifact
+      operationId: Deployments Internal Upload artifact
       parameters:
         - description: Tenant ID, or "default" if running in non-multitenant setup
           in: path
@@ -2797,6 +2806,8 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
       security:
         - DeviceJWT: []
   /api/internal/v1/devauth/alive:
@@ -2857,6 +2868,8 @@ paths:
           $ref: '#/components/responses/ForbiddenError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/internal/v1/devauth/tokens:
     delete:
       operationId: DeviceAuth Internal Revoke Device Tokens
@@ -2882,6 +2895,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices:
     get:
       operationId: DeviceAuth Internal Get Device Limit
@@ -2992,6 +3007,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}/external:
     put:
       operationId: DeviceAuth Internal Set external identity
@@ -3371,6 +3388,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/management/v2/devauth/devices/{id}/auth/{aid}:
     delete:
       operationId: DeviceAuth Management Remove authentication
@@ -3401,6 +3420,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/management/v2/devauth/devices/{id}/auth/{aid}/status:
     put:
       operationId: DeviceAuth Management Set Authentication Status
@@ -3445,6 +3466,8 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
     get:
       operationId: DeviceAuth Management Get Authentication Status
       security:
@@ -3528,6 +3551,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/management/v2/devauth/limits/max_devices:
     get:
       operationId: DeviceAuth Management Get Device Limit
@@ -3547,6 +3572,8 @@ paths:
                 $ref: '#/components/schemas/Limit'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/devices/v1/deviceconfig/configuration:
     get:
       operationId: DeviceConfig Get Device Configuration
@@ -4640,6 +4667,59 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /api/internal/v1/inventory/tenants/{tenant_id}/device/{device_id}/attributes:
+    patch:
+      tags:
+        - Device_inventory_Internal API
+      summary: Update multiple inventory attributes for a device
+      description: |
+        An API end-point that allows to update the inventory attributes for a device.
+        It is operating in the same way as the /attribute/scope/{scope} endpoint, but
+        does not override the scope of the attributes that you provide.
+      operationId: Update Inventory for a Device Scope Wise
+      parameters:
+        - name: If-Unmodified-Since
+          in: header
+          description: Skips updating the device if modified after the given RFC1123 timestamp.
+          required: false
+          schema:
+            type: string
+        - name: tenant_id
+          in: path
+          description: ID of given tenant.
+          required: true
+          schema:
+            type: string
+        - name: device_id
+          in: path
+          description: ID of given device.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: List of inventory attributes to set.
+        content:
+          '*/*':
+            schema:
+              type: array
+              description: A list of attribute descriptors.
+              items:
+                $ref: '#/components/schemas/Attribute'
+        required: true
+      responses:
+        '200':
+          description: Device inventory successfully updated.
+          content: {}
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '412':
+          description: 'Precondition failed: If-Unmodified-Since condition not met'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /api/internal/v1/inventory/tenants/{tenant_id}/devices/{device_id}/groups:
     get:
       tags:
@@ -4730,13 +4810,11 @@ paths:
               type: object
               properties:
                 page:
-                  type: number
+                  type: integer
                   description: Starting page.
-                  format: integer
                 per_page:
-                  type: number
+                  type: integer
                   description: Number of results per page.
-                  format: integer
                 device_ids:
                   type: array
                   description: List of device IDs
@@ -4837,15 +4915,13 @@ paths:
           in: query
           description: Starting page.
           schema:
-            type: number
-            format: integer
+            type: integer
             default: 1
         - name: per_page
           in: query
           description: Maximum number of results per page.
           schema:
-            type: number
-            format: integer
+            type: integer
             default: 10
         - name: sort
           in: query
@@ -5257,7 +5333,7 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices for which the group was cleared sucessfully.
                 description: |
@@ -5358,7 +5434,7 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices for which the group was cleared sucessfully.
                 description: |
@@ -5409,11 +5485,11 @@ paths:
                 type: object
                 properties:
                   updated_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices listed that changed group.
                   matched_count:
-                    type: number
+                    type: integer
                     description: |
                       Number of devices listed that matched a valid device id internally.
                 description: |
@@ -5477,13 +5553,14 @@ paths:
               type: object
               properties:
                 page:
-                  type: number
+                  type: integer
+                  default: 1
                   description: Starting page.
-                  format: integer
                 per_page:
-                  type: number
+                  type: integer
+                  default: 20
+                  maximum: 500
                   description: Maximum number of results per page.
-                  format: integer
                 text:
                   type: string
                   description: Free-text search query
@@ -5544,6 +5621,31 @@ paths:
                   updated_ts: '2016-10-04T18:24:21.432Z'
         '400':
           $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+  /api/management/v2/inventory/statistics:
+    get:
+      tags:
+        - Device_inventory_filters_and_search_Management API
+      summary: Get inventory statistics
+      description: |
+        The following statistics are currently supported:
+        * Number of accepted and pending devices in each device tier
+      operationId: Get Statistics
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - devices_by_status
+                properties:
+                  devices_by_status:
+                    $ref: '#/components/schemas/DeviceStatusStatistics'
         '500':
           $ref: '#/components/responses/InternalServerError'
       security:
@@ -6285,6 +6387,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
   /api/management/v1/useradm/auth/login:
     post:
       tags:
@@ -6347,6 +6451,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '503':
+          $ref: '#/components/responses/UnavailableError'
       security:
         - Login: []
   /api/management/v1/useradm/auth/logout:
@@ -6837,16 +6943,14 @@ paths:
           in: query
           description: Starting page.
           schema:
-            type: number
-            format: integer
+            type: integer
             default: 1
         - name: per_page
           in: query
           description: Maximum number of results per page.
           schema:
             maximum: 500
-            type: number
-            format: integer
+            type: integer
             default: 20
       responses:
         '200':
@@ -7138,6 +7242,15 @@ components:
             $ref: '#/components/schemas/Error'
           example:
             error: Forbidden
+            request_id: eed14d55-d996-42cd-8248-e806663810a8
+    UnavailableError:
+      description: Service is unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: service unavailable
             request_id: eed14d55-d996-42cd-8248-e806663810a8
   schemas:
     Error:
@@ -7578,6 +7691,7 @@ components:
         - device_ids
       type: object
     Upload_artifact_request:
+      x-go-name: InternalUploadArtifactRequest
       properties:
         artifact_id:
           description: Artifact ID, optional; the server generates a randome one if not provided.
@@ -7614,6 +7728,7 @@ components:
         - usage
       type: object
     DeviceStatus:
+      x-go-name: DeploymentDeviceStatus
       enum:
         - failure
         - aborted
@@ -7798,8 +7913,8 @@ components:
                     checksum: cc436f982bc60a8255fe1926a450db5f195a19ad
                     size: 123
                     date: 2016-03-11T13:03:17.063+0000
-                meta_data: []
                 metadata: {}
+                meta_data: []
             artifact_provides:
               artifact_name: test
               rootfs-image.checksum: 32714818ad6f98ee0185a52e23a475d89122e3efd2b2c26c733781c28e798c99
@@ -8561,7 +8676,6 @@ components:
             Attribute type is implicit, inferred from the JSON type.
             Supported types: number, string, array of numbers, array of strings.
             Mixed arrays are not allowed.
-          type: string
       required:
         - attribute
         - scope
@@ -9061,6 +9175,7 @@ components:
           $ref: '#/components/schemas/IdentityData'
         status:
           type: string
+          x-go-name: DeviceAuthStatus
           enum:
             - pending
             - accepted
@@ -9127,6 +9242,9 @@ components:
           type: integer
           description: The number of times a device can retry the deployment in case of failure, defaults to 0
           default: 0
+          x-mender-plan:
+            - professional
+            - enterprise
         update_control_map:
           x-mender-plan:
             - enterprise
@@ -9226,7 +9344,15 @@ components:
           type: string
           description: Attribute description.
         value:
-          type: string
+          oneOf:
+            - type: string
+            - type: number
+            - type: array
+              items:
+                type: string
+            - type: array
+              items:
+                type: number
           description: |
             The current value of the attribute.
 
@@ -9278,9 +9404,8 @@ components:
           type: string
           description: Device identifier.
         revision:
-          type: number
+          type: integer
           description: Device object revision.
-          format: integer
       description: Object containing device id and device revision of the device to update.
     Groups:
       required:
@@ -9428,7 +9553,15 @@ components:
           type: string
           description: Attribute description.
         value:
-          type: string
+          oneOf:
+            - type: string
+            - type: number
+            - type: array
+              items:
+                type: string
+            - type: array
+              items:
+                type: number
           description: |
             The current value of the attribute.
 
@@ -9457,7 +9590,15 @@ components:
           type: string
           description: Attribute description.
         value:
-          type: string
+          oneOf:
+            - type: string
+            - type: number
+            - type: array
+              items:
+                type: string
+            - type: array
+              items:
+                type: number
           description: |
             The current value of the attribute.
 
@@ -9562,6 +9703,40 @@ components:
         name: serial_no
         scope: inventory
         count: 10
+    DeviceStatusStatistics:
+      type: object
+      description: Device statistics grouped by device status
+      required:
+        - accepted
+        - pending
+      properties:
+        accepted:
+          $ref: '#/components/schemas/DeviceCountByTier'
+        pending:
+          $ref: '#/components/schemas/DeviceCountByTier'
+      example:
+        accepted:
+          standard: 975
+          micro: 3546
+          system: 0
+        pending:
+          standard: 2
+          micro: 30
+          system: 1
+    DeviceCountByTier:
+      description: Number of devices per tier
+      type: object
+      required:
+        - standard
+        - micro
+        - system
+      properties:
+        standard:
+          type: number
+        micro:
+          type: number
+        system:
+          type: number
     NewDevice:
       type: object
       properties:
@@ -9610,22 +9785,10 @@ components:
         - provider
         - credentials
     Credentials:
-      allOf:
-        - type: object
-          properties:
-            type:
-              description: The credential type
-              type: string
-              enum:
-                - aws
-                - sas
-                - http
-          required:
-            - type
-        - oneOf:
-            - $ref: '#/components/schemas/AWSCredentials'
-            - $ref: '#/components/schemas/AzureSharedAccessSecret'
-            - $ref: '#/components/schemas/HTTP'
+      oneOf:
+        - $ref: '#/components/schemas/AWSCredentials'
+        - $ref: '#/components/schemas/AzureSharedAccessSecret'
+        - $ref: '#/components/schemas/HTTP'
       discriminator:
         propertyName: type
         mapping:
@@ -9636,6 +9799,11 @@ components:
       type: object
       description: AWS credentials in the form of access key id and secret access key, a region and a device policy name.
       properties:
+        type:
+          description: The credential type
+          type: string
+          enum:
+            - aws
         aws:
           type: object
           properties:
@@ -9653,14 +9821,21 @@ components:
             - region
             - device_policy_name
       required:
+        - type
         - aws
     AzureSharedAccessSecret:
       type: object
       description: Shared Access Secret is an authentication mechanism in the form of a connection string for Azure IoT Hub.
       properties:
+        type:
+          description: The credential type
+          type: string
+          enum:
+            - sas
         connection_string:
           type: string
       required:
+        - type
         - connection_string
     DeviceState:
       type: object
@@ -9675,6 +9850,11 @@ components:
       type: object
       description: HTTP Webhook configuration.
       properties:
+        type:
+          description: The credential type
+          type: string
+          enum:
+            - http
         http:
           type: object
           properties:
@@ -9688,6 +9868,7 @@ components:
           required:
             - url
       required:
+        - type
         - http
     Event:
       type: object
@@ -9728,14 +9909,7 @@ components:
           format: date-time
           description: Creation timestamp
         data:
-          oneOf:
-            - $ref: '#/components/schemas/DeviceAuthEvent'
-          discriminator:
-            propertyName: type
-            mapping:
-              device-provisioned: '#/components/schemas/DeviceAuthEvent'
-              device-decommissioned: '#/components/schemas/DeviceAuthEvent'
-              device-status-changed: '#/components/schemas/DeviceAuthEvent'
+          $ref: '#/components/schemas/DeviceAuthEvent'
     DeviceAuthEvent:
       type: object
       description: 'DeviceAuthEvent describes an event that relates to changes to a device''s authentication data. The properties included depends on the event type: device provisioning includes the entire device with the accepted authentication set, status change events only includes the device id and the new status, and device decommissioning will only include the device id.'
@@ -9860,7 +10034,7 @@ components:
           type: string
           description: Name of a token.
         expires_in:
-          type: number
+          type: integer
           description: |
             Expiration time in seconds (maximum one year - 31536000s).
             If you omit it or set it to zero, the Personal Access Token will never expire.

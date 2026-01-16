@@ -17,16 +17,16 @@ import socket
 import docker
 import requests
 
-from management_api.apis import ManagementAPIClient as GenManagementAPIClient
 from management_api import (
+    ManagementAPIClient as GenManagementAPIClient,
     Configuration as mgmt_Configuration,
     ApiClient as mgmt_ApiClient,
 )
 from internal_api import (
+    InternalAPIClient as GenInternalAPIClient,
     Configuration as intrnl_Configuration,
     ApiClient as intrnl_ApiClient,
 )
-from internal_api.apis import InternalAPIClient as GenInternalAPIClient
 from utils import generate_jwt
 
 

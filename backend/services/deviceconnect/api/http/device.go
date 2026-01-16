@@ -161,9 +161,6 @@ func (h DeviceController) Connect(c *gin.Context) {
 		},
 	}
 
-	errChan := make(chan error)
-	defer close(errChan)
-
 	// upgrade get request to websocket protocol
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
@@ -178,20 +175,17 @@ func (h DeviceController) Connect(c *gin.Context) {
 
 	// register the websocket for graceful shutdown
 	ctxWithCancel, cancel := context.WithCancel(ctx)
+	defer cancel()
 	registerID := h.app.RegisterShutdownCancel(cancel)
 	defer h.app.UnregisterShutdownCancel(registerID)
 
 	// websocketWriter is responsible for closing the websocket
+	errChan := make(chan error)
 	//nolint:errcheck
-	go h.connectWSWriter(ctxWithCancel, conn, msgChan, errChan)
-	err = h.ConnectServeWS(ctxWithCancel, conn)
+	go h.ConnectServeWS(ctxWithCancel, conn, errChan)
+	err = h.connectWSWriter(ctxWithCancel, conn, msgChan, errChan)
 	if err != nil {
-		select {
-		case errChan <- err:
-
-		case <-time.After(time.Second):
-			l.Warn("Failed to propagate error to client")
-		}
+		_ = c.Error(err)
 	}
 }
 
@@ -241,15 +235,10 @@ func (h DeviceController) connectWSWriter(
 	defer ticker.Stop()
 	conn.SetPongHandler(func(string) error {
 		ticker.Reset(pingPeriod)
-		return conn.SetReadDeadline(time.Now().Add(pongWait))
+		return nil
 	})
 
 	conn.SetPingHandler(func(msg string) error {
-		err := conn.SetReadDeadline(time.Now().Add(pongWait))
-		if err != nil {
-			return err
-		}
-
 		ticker.Reset(pingPeriod)
 		return conn.WriteControl(
 			websocket.PongMessage,
@@ -268,7 +257,6 @@ Loop:
 			}
 			ticker.Reset(pingPeriod)
 		case <-ctx.Done():
-			err = errors.New("connection closed by the server")
 			break Loop
 		case <-ticker.C:
 			if pingErr := websocketPing(conn); pingErr != nil {
@@ -285,16 +273,26 @@ Loop:
 func (h DeviceController) ConnectServeWS(
 	ctx context.Context,
 	conn *websocket.Conn,
+	errChan chan<- error,
 ) (err error) {
 	l := log.FromContext(ctx)
 	id := identity.FromContext(ctx)
 	sessMap := make(map[string]*model.ActiveSession)
+	defer func() {
+		l.SimpleRecovery(log.NewRecoveryOption().WithError(err))
+		if err != nil && !websocket.IsUnexpectedCloseError(err) {
+			select {
+			case <-ctx.Done():
+			case errChan <- err:
+			}
+		}
+		close(errChan)
+	}()
 
 	// update the device status on websocket opening
 	var version int64
 	version, err = h.app.SetDeviceConnected(ctx, id.Tenant, id.Subject)
 	if err != nil {
-		l.Error(err)
 		return
 	}
 	defer func() {

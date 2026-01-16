@@ -113,7 +113,9 @@ test.describe('RBAC functionality', () => {
   test.describe('has working RBAC limitations for', () => {
     test('device groups', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-${username}` });
-      await page.getByRole('link', { name: /devices/i }).click({ force: true, timeout: timeouts.tenSeconds });
+      const navigationButton = page.getByRole('link', { name: /devices/i });
+      await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
+      await navigationButton.click({ force: true });
       await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
       // the created role does have permission to configure devices, so the section should be visible
       await page.getByText(/configuration/i).click();
@@ -122,7 +124,9 @@ test.describe('RBAC functionality', () => {
     });
     test('read-only all releases', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-ro-releases-${username}` });
-      await page.getByRole('link', { name: /releases/i }).click({ force: true, timeout: timeouts.tenSeconds });
+      const navigationButton = page.getByRole('link', { name: /releases/i });
+      await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
+      await navigationButton.click({ force: true });
       // there should be multiple releases present
       await expect(page.getByText('1-2 of 2')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
@@ -133,7 +137,9 @@ test.describe('RBAC functionality', () => {
     });
     test('read-only tagged releases', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-ro-${releaseTag}-${username}` });
-      await page.getByRole('link', { name: /releases/i }).click({ force: true, timeout: timeouts.tenSeconds });
+      const navigationButton = page.getByRole('link', { name: /releases/i });
+      await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
+      await navigationButton.click({ force: true });
       // there should be only one release tagged with the releaseTag
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
@@ -142,7 +148,9 @@ test.describe('RBAC functionality', () => {
     });
     test('manage tagged releases', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-manage-${releaseTag}-${username}` });
-      await page.getByRole('link', { name: /releases/i }).click({ force: true, timeout: timeouts.tenSeconds });
+      const navigationButton = page.getByRole('link', { name: /releases/i });
+      await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
+      await navigationButton.click({ force: true });
       // there should be only one release tagged with the releaseTag
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role does have permission to upload artifacts, so the button should be visible

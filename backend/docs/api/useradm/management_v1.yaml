@@ -71,6 +71,8 @@ paths:
             application/json:
               schema:
                 $ref: '../common/schemas.yaml#/components/schemas/Error'
+        "503":
+          $ref: '../common/responses.yaml#/components/responses/UnavailableError' 
       security:
       - Login: []
   /api/management/v1/useradm/auth/logout:
@@ -563,17 +565,15 @@ paths:
         in: query
         description: Starting page.
         schema:
-          type: number
-          format: integer
-          default: 1.0
+          type: integer
+          default: 1
       - name: per_page
         in: query
         description: Maximum number of results per page.
         schema:
           maximum: 500
-          type: number
-          format: integer
-          default: 20.0
+          type: integer
+          default: 20
       responses:
         "200":
           description: Successful response - list of plans is returned.
@@ -694,7 +694,7 @@ components:
           type: string
           description: Name of a token.
         expires_in:
-          type: number
+          type: integer
           description: |
             Expiration time in seconds (maximum one year - 31536000s).
             If you omit it or set it to zero, the Personal Access Token will never expire.

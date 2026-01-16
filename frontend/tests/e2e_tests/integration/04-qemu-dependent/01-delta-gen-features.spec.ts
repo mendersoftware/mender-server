@@ -17,6 +17,7 @@ import * as path from 'path';
 import test, { expect } from '../../fixtures/fixtures';
 import { extractArtifactFromDevice, modifyArtifactChecksum } from '../../utils/commands';
 import { selectors, timeouts } from '../../utils/constants';
+import { selectReleaseByName } from '../../utils/utils.ts';
 
 const qemuDeviceType = 'qemux86-64';
 
@@ -103,11 +104,9 @@ test.describe('Devices', () => {
     await page.getByText(/qemu/i).click();
     await page.click('.MuiSpeedDial-fab');
     await page.click('[aria-label="create-deployment"]');
-    await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });
-    const releaseSelect = await page.getByPlaceholder(/select a release/i);
-    await releaseSelect.focus();
-    await releaseSelect.fill('snapshot-test');
-    await page.click(`#deployment-release-selection-listbox li`);
+
+    await selectReleaseByName(page, 'snapshot-test');
+
     const creationButton = await page.getByRole('button', { name: /create deployment/i });
     await creationButton.scrollIntoViewIfNeeded();
     await creationButton.click();
@@ -121,11 +120,9 @@ test.describe('Devices', () => {
     await page.getByText(/qemu/i).click();
     await page.click('.MuiSpeedDial-fab');
     await page.click('[aria-label="create-deployment"]');
-    await page.waitForSelector(selectors.releaseSelect, { timeout: timeouts.fiveSeconds });
-    const releaseSelect = await page.getByPlaceholder(/select a release/i);
-    await releaseSelect.focus();
-    await releaseSelect.fill('snapshot-modified');
-    await page.click(`#deployment-release-selection-listbox li`);
+
+    await selectReleaseByName(page, 'snapshot-modified');
+
     await page.getByRole('button', { name: /advanced options/i }).click();
     await page.getByRole('checkbox', { name: /delta artifacts/i }).click();
     const creationButton = await page.getByRole('button', { name: /create deployment/i });
@@ -158,6 +155,8 @@ test.describe('Devices', () => {
       .getByRole('table')
       .getByText(/pending/i)
       .waitFor({ state: 'hidden', timeout: 2 * timeouts.sixtySeconds });
+    const detailsColumns = await page.getByRole('cell', { name: '-', exact: true }).all();
+    expect(detailsColumns.length).toBeLessThanOrEqual(1); // allow a single column to be empty in case there was no delta generated
     await page.getByRole('button', { name: /close/i }).click();
     await expect(page.getByText('Delta Artifact information')).not.toBeVisible();
   });
