@@ -774,7 +774,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   padding-right: 11px;
 }
 
-.emotion-93 {
+.emotion-61 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -791,7 +791,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   font-size: 1.25rem;
 }
 
-.emotion-111 {
+.emotion-79 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -863,28 +863,28 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   cursor: pointer;
 }
 
-.emotion-111::-moz-focus-inner {
+.emotion-79::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-111.Mui-disabled {
+.emotion-79.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-111 {
+  .emotion-79 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-111.Mui-disabled {
+.emotion-79.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-111 .MuiChip-avatar {
+.emotion-79 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -893,17 +893,17 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   font-size: 0.75rem;
 }
 
-.emotion-111 .MuiChip-avatarColorPrimary {
+.emotion-79 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: #1565c0;
 }
 
-.emotion-111 .MuiChip-avatarColorSecondary {
+.emotion-79 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: #7b1fa2;
 }
 
-.emotion-111 .MuiChip-avatarSmall {
+.emotion-79 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -911,12 +911,12 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   font-size: 0.625rem;
 }
 
-.emotion-111 .MuiChip-icon {
+.emotion-79 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-111 .MuiChip-deleteIcon {
+.emotion-79 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -924,31 +924,31 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   margin: 0 5px 0 -6px;
 }
 
-.emotion-111 .MuiChip-deleteIcon:hover {
+.emotion-79 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-111 .MuiChip-icon {
+.emotion-79 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-111.Mui-focusVisible {
+.emotion-79.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-111:hover {
+.emotion-79:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-111.Mui-focusVisible {
+.emotion-79.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-111:active {
+.emotion-79:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-113 {
+.emotion-81 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -1127,210 +1127,6 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bdebian%2Bbookworm_amd64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    debian+bullseye - armhf
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bdebian%2Bbullseye_armhf.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    debian+bullseye - arm64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bdebian%2Bbullseye_arm64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    debian+bullseye - amd64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bdebian%2Bbullseye_amd64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - armhf
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bubuntu%2Bfocal_armhf.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - arm64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bubuntu%2Bfocal_arm64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - amd64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bubuntu%2Bfocal_amd64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1600,74 +1396,6 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   <span
                     class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
-                    debian+bullseye - all
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client-dev_3.3.0-1%2Bdebian%2Bbullseye_all.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - all
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client-dev_3.3.0-1%2Bubuntu%2Bfocal_all.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
                     ubuntu+jammy - all
                   </span>
                   <svg
@@ -1728,7 +1456,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-61"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -1849,7 +1577,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault margin-bottom-small margin-right-small emotion-111"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault margin-bottom-small margin-right-small emotion-79"
                   role="button"
                   tabindex="0"
                 >
@@ -1865,7 +1593,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-113"
+                    class="MuiChip-label MuiChip-labelMedium emotion-81"
                   >
                     Unix
                   </span>
@@ -1893,7 +1621,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-61"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -2024,7 +1752,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-61"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -2145,7 +1873,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault margin-bottom-small margin-right-small emotion-111"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault margin-bottom-small margin-right-small emotion-79"
                   role="button"
                   tabindex="0"
                 >
@@ -2161,7 +1889,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-113"
+                    class="MuiChip-label MuiChip-labelMedium emotion-81"
                   >
                     Unix
                   </span>
@@ -2189,7 +1917,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-61"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -2328,74 +2056,6 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   <span
                     class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
-                    debian+bullseye - all
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-configure/mender-configure_1.0.4-1%2Bdebian%2Bbullseye_all.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - all
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-configure/mender-configure_1.0.4-1%2Bubuntu%2Bfocal_all.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
                     ubuntu+jammy - all
                   </span>
                   <svg
@@ -2477,74 +2137,6 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     value="https://downloads.mender.io/repos/debian/pool/main/m/mender-configure/mender-configure-demo_1.0.4-1%2Bdebian%2Bbookworm_all.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    debian+bullseye - all
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-configure/mender-configure-demo_1.0.4-1%2Bdebian%2Bbullseye_all.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - all
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-configure/mender-configure-demo_1.0.4-1%2Bubuntu%2Bfocal_all.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -2678,74 +2270,6 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   <span
                     class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
-                    debian+bullseye - all
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-configure/mender-configure-timezone_1.0.4-1%2Bdebian%2Bbullseye_all.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - all
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-configure/mender-configure-timezone_1.0.4-1%2Bubuntu%2Bfocal_all.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
                     ubuntu+jammy - all
                   </span>
                   <svg
@@ -2806,7 +2330,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-61"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -2987,210 +2511,6 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     value="https://downloads.mender.io/repos/debian/pool/main/m/mender-connect/mender-connect_2.0.2-1%2Bdebian%2Bbookworm_amd64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    debian+bullseye - armhf
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-connect/mender-connect_2.0.2-1%2Bdebian%2Bbullseye_armhf.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    debian+bullseye - arm64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-connect/mender-connect_2.0.2-1%2Bdebian%2Bbullseye_arm64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    debian+bullseye - amd64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-connect/mender-connect_2.0.2-1%2Bdebian%2Bbullseye_amd64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - armhf
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-connect/mender-connect_2.0.2-1%2Bubuntu%2Bfocal_armhf.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - arm64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-connect/mender-connect_2.0.2-1%2Bubuntu%2Bfocal_arm64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - amd64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-connect/mender-connect_2.0.2-1%2Bubuntu%2Bfocal_amd64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -3413,7 +2733,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-61"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -3544,7 +2864,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-61"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -3725,210 +3045,6 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     value="https://downloads.customer.mender.io/content/hosted/mender-gateway/debian/1.0.0/mender-gateway_1.0.0-1%2Bdebian%2Bbookworm_amd64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    debian+bullseye - armhf
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.customer.mender.io/content/hosted/mender-gateway/debian/1.0.0/mender-gateway_1.0.0-1%2Bdebian%2Bbullseye_armhf.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    debian+bullseye - arm64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.customer.mender.io/content/hosted/mender-gateway/debian/1.0.0/mender-gateway_1.0.0-1%2Bdebian%2Bbullseye_arm64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    debian+bullseye - amd64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.customer.mender.io/content/hosted/mender-gateway/debian/1.0.0/mender-gateway_1.0.0-1%2Bdebian%2Bbullseye_amd64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - armhf
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.customer.mender.io/content/hosted/mender-gateway/debian/1.0.0/mender-gateway_1.0.0-1%2Bubuntu%2Bfocal_armhf.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - arm64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.customer.mender.io/content/hosted/mender-gateway/debian/1.0.0/mender-gateway_1.0.0-1%2Bubuntu%2Bfocal_arm64.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - amd64
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.customer.mender.io/content/hosted/mender-gateway/debian/1.0.0/mender-gateway_1.0.0-1%2Bubuntu%2Bfocal_amd64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -4151,7 +3267,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-61"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -4290,74 +3406,6 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   <span
                     class="MuiChip-label MuiChip-labelMedium emotion-15"
                   >
-                    debian+bullseye - all
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.customer.mender.io/content/hosted/mender-monitor/debian/1.2.0/mender-monitor_1.2.0-1%2Bdebian%2Bbullseye_all.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
-                    ubuntu+focal - all
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    value="https://downloads.customer.mender.io/content/hosted/mender-monitor/debian/1.2.0/mender-monitor_1.2.0-1%2Bubuntu%2Bfocal_all.deb"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-outlinedDefault margin-bottom-small margin-right-small emotion-13"
-                  role="button"
-                  tabindex="0"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-avatar MuiChip-avatarMedium MuiChip-avatarColorDefault emotion-7"
-                    data-testid="FileDownloadOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3zm-1-4-1.41-1.41L13 12.17V4h-2v8.17L8.41 9.59 7 11l5 5z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-15"
-                  >
                     ubuntu+jammy - all
                   </span>
                   <svg
@@ -4418,7 +3466,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-61"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -4447,7 +3495,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
        
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-93"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-61"
         data-testid="LaunchIcon"
         focusable="false"
         style="vertical-align: text-bottom;"
