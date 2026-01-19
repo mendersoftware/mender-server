@@ -24,7 +24,7 @@ services:
   integration-tester:
     platform: linux/amd64
     scale: 0
-    image: "${CI_REGISTRY_IMAGE:-localhost/backend-tester}:${CI_INTEGRATION_IMAGE_TAG:-integration_v2}"
+    image: "${CI_REGISTRY_IMAGE:-localhost/backend-tester}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}"
     build:
       dockerfile: Dockerfile.integration
     working_dir: /tests
