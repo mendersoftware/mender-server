@@ -30,7 +30,6 @@ services:
     working_dir: /tests
     volumes:
         - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/docs:/docs
-        - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/downloaded-tools/mender-artifact:/usr/local/bin/mender-artifact
         - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration:/tests
         - /var/run/docker.sock:/var/run/docker.sock
     command:
