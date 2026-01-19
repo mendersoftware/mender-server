@@ -281,6 +281,7 @@ export const processLoginForm = async ({
     await checkbox.check();
   }
 
+  await page.waitForTimeout(timeouts.oneSecond); // give extra time in case form value processing hasn't finished before
   await page.getByRole('button', { name: /next/i }).click();
 };
 
