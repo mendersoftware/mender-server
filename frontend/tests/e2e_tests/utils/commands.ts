@@ -266,8 +266,7 @@ export const processLoginForm = async ({
   stayLoggedIn?: boolean;
   username: string;
 }) => {
-  await page.click(selectors.email);
-  await page.fill(selectors.email, username);
+  await page.getByRole('textbox', { name: /email/i }).fill(username);
 
   if (isEnterpriseOrStaging(environment)) {
     // enterprise supports two-step login, and the first screen does not have password field until submit clicked
@@ -275,14 +274,14 @@ export const processLoginForm = async ({
     await page.getByRole('button', { name: /next/i }).click();
   }
 
-  await page.click(selectors.password);
-  await page.fill(selectors.password, password);
+  await page.getByRole('textbox', { name: /password/i }).fill(password);
 
   if (stayLoggedIn) {
     const checkbox = await page.getByLabel(/stay logged in/i);
     await checkbox.check();
   }
 
+  await page.waitForTimeout(timeouts.oneSecond); // give extra time in case form value processing hasn't finished before
   await page.getByRole('button', { name: /next/i }).click();
 };
 
