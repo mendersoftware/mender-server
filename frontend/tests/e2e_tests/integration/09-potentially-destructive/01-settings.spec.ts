@@ -28,6 +28,7 @@ import {
   tenantTokenRetrieval
 } from '../../utils/commands';
 import { emptyStorageState, selectors, storagePath, timeouts } from '../../utils/constants';
+import { selectDeviceLimitInput } from '../../utils/utils.ts';
 
 test.describe('Settings', () => {
   test.describe('2FA setup', () => {
@@ -186,7 +187,7 @@ test.describe('Settings', () => {
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.getByText('Upgrade now').click();
       await page.waitForTimeout(timeouts.default); // wait to load the current device limits
-      const deviceInput = page.locator('#standard');
+      const deviceInput = selectDeviceLimitInput(page, 'Standard');
       await deviceInput.focus();
       // Increase by 2 steps (50 => 150)
       await page.keyboard.press('ArrowUp');
@@ -226,7 +227,7 @@ test.describe('Settings', () => {
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.goto(`${baseUrl}ui/subscription`);
       await page.waitForTimeout(timeouts.default);
-      const deviceNumberInput = page.locator('#standard');
+      const deviceNumberInput = selectDeviceLimitInput(page, 'Standard');
 
       await deviceNumberInput.fill('310');
       await page.press('body', 'Tab');
@@ -243,6 +244,7 @@ test.describe('Settings', () => {
       await page.waitForTimeout(timeouts.default);
 
       await expect(page.getByRole('heading', { name: '$777' })).toBeVisible();
+      await expect(page.getByText('Action required after upgrade')).toBeVisible();
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
 
       await page.getByText(/Your subscription has been successfully updated to Mender Professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
@@ -271,7 +273,7 @@ test.describe('Settings', () => {
       await page.waitForTimeout(timeouts.default);
       const microCheckbox = page.getByRole('checkbox', { name: 'Micro devices' });
       await microCheckbox.click();
-      const deviceNumberInput = page.locator('#micro');
+      const deviceNumberInput = selectDeviceLimitInput(page, 'Micro');
 
       await deviceNumberInput.fill('680');
       await page.press('body', 'Tab');
