@@ -11,55 +11,43 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { Button } from '@mui/material';
+import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
 
-import Loader from '@northern.tech/common-ui/Loader';
-import Form from '@northern.tech/common-ui/forms/Form';
-import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import { TIMEOUTS } from '@northern.tech/store/constants';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 
-export const EmailVerification = ({ activationCode, verifyEmailComplete, verifyEmailStart }) => {
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setIsVerifying(Boolean(activationCode));
-  }, [activationCode]);
+export const EmailVerificationConfirmation = ({ onClose, email }) => (
+  <BaseDialog open maxWidth="sm" title="Email verification" onClose={onClose}>
+    <DialogContent>
+      <Typography className="margin-bottom-small">
+        We sent a verification link to you at <b>{email}</b>
+      </Typography>
+      <Typography>Check your email for instructions to continue. If it&#39;s not there, take a quick look in your spam folder.</Typography>
+    </DialogContent>
+    <DialogActions>
+      <Button variant="text" onClick={onClose}>
+        Close
+      </Button>
+    </DialogActions>
+  </BaseDialog>
+);
+export const EmailVerification = ({ verifyEmailStart, email }) => {
+  const [confirmationShown, setConfirmationShown] = useState(false);
 
   const startVerification = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsVerifying(true);
-      setIsLoading(false);
-    }, TIMEOUTS.threeSeconds);
-    verifyEmailStart().catch(() => setIsVerifying(false));
-  };
-
-  const completeVerification = formData => {
-    verifyEmailComplete(formData.emailVerification);
+    verifyEmailStart().then(() => setConfirmationShown(true));
   };
 
   return (
-    <div className="margin-top">
+    <div className="margin-top-x-small">
       Please verify your email address first, to enable Two Factor Authentication.
-      <br />
-      Once you click the button below we will send you an email with a confirmation link in it and a confirmation field will appear below. Click on the link to
-      complete the verification. If the link does not work, you can also enter the confirmation code from the link in a confirmation field that will appear
-      below once you clicked the button.
-      {!isVerifying ? (
-        <div className="flexbox center-aligned">
-          <Button variant="contained" disabled={isLoading} color="primary" onClick={startVerification} style={{ marginTop: 20, marginRight: 30 }}>
-            Verify your email address
-          </Button>
-          <Loader show={isLoading} />
-        </div>
-      ) : (
-        <Form showButtons={isVerifying} buttonColor="primary" onSubmit={completeVerification} submitLabel="Verify">
-          <TextInput hint="Verification code" label="Verification code" id="emailVerification" required={true} value={activationCode} />
-        </Form>
-      )}
+      {confirmationShown && <EmailVerificationConfirmation onClose={() => setConfirmationShown(false)} email={email} />}
+      <div className="flexbox center-aligned">
+        <Button className="margin-top-x-small" variant="contained" color="primary" onClick={startVerification}>
+          Verify
+        </Button>
+      </div>
     </div>
   );
 };
