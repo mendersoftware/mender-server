@@ -20,6 +20,7 @@ import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
 import storeActions from '@northern.tech/store/actions';
 import { twoFAStates } from '@northern.tech/store/constants';
 import { getCurrentUser, getHas2FA } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { disableUser2fa, enableUser2fa, get2FAQRCode, verify2FA, verifyEmailComplete, verifyEmailStart } from '@northern.tech/store/thunks';
 
 import AuthSetup from './twofactorauth-steps/AuthSetup';
@@ -27,7 +28,7 @@ import EmailVerification from './twofactorauth-steps/EmailVerification';
 
 const { setSnackbar } = storeActions;
 
-export const TwoFactorAuthSetup = () => {
+export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
   const activationCode = useSelector(state => state.users.activationCode);
   const currentUser = useSelector(getCurrentUser);
   const has2FA = useSelector(getHas2FA);
@@ -35,7 +36,7 @@ export const TwoFactorAuthSetup = () => {
   const [qrExpanded, setQrExpanded] = useState(false);
   const [is2FAEnabled, setIs2FAEnabled] = useState(has2FA);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if ((currentUser.verified || currentUser.email?.endsWith('@example.com')) && is2FAEnabled && !has2FA) {
@@ -47,16 +48,15 @@ export const TwoFactorAuthSetup = () => {
   useEffect(() => {
     if (activationCode) {
       setIs2FAEnabled(true);
-      dispatch(verifyEmailComplete(activationCode))
+      dispatch(verifyEmailComplete(activationCode)).unwrap()
         .catch(() => {
           setShowEmailVerification(true);
           setQrExpanded(false);
         })
-        // we have to explicitly call this, to not send the returned promise as user to activate 2fa for
-        .then(() => dispatch(enableUser2fa()))
-        .then(() => dispatch(get2FAQRCode()));
+        .then(() => setShowNotice(notificationMap.email))
+
     }
-  }, [activationCode, dispatch]);
+  }, [activationCode, dispatch, setShowNotice]);
 
   useEffect(() => {
     if (has2FA) {
