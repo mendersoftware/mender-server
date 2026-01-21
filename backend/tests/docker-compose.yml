@@ -22,6 +22,25 @@ services:
       - workflows-worker
 
   integration-tester:
+    depends_on:
+      - create-artifact-worker
+      - deployments
+      - deviceauth
+      - deviceconfig
+      - deviceconnect
+      - gui
+      - inventory
+      - iot-manager
+      - mongo
+      - nats
+      - s3
+      - s3-filer
+      - s3-master
+      - s3-volume
+      - traefik
+      - useradm
+      - workflows
+      - workflows-worker
     platform: linux/amd64
     scale: 0
     image: "${CI_REGISTRY_IMAGE:-localhost/backend-tester}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}"
@@ -30,10 +49,10 @@ services:
     working_dir: /tests
     volumes:
         - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/docs:/docs
-        - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration:/tests
+        - ${MENDER_SERVER_PATH:-../../}/backend/tests:/tests
         - /var/run/docker.sock:/var/run/docker.sock
     command:
-      - tests
+      - integration
     environment:
         PYTHONPATH: "/tests"
         PYTHONDONTWRITEBYTECODE: 1

@@ -1,0 +1,14 @@
+#
+# .openapi-generator-config.yml
+# - https://openapi-generator.tech
+#
+additionalProperties:
+  generateSourceCodeOnly: true
+  hideGenerationTimestamp: true
+  packageName: "mender_client"
+
+globalProperties:
+  apiDocs: false
+  apiTests: false
+  modelDocs: false
+  modelTests: false
