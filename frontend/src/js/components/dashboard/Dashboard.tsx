@@ -12,13 +12,17 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { Alert } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
-import { getCurrentUser } from '@northern.tech/store/selectors';
+import { getCurrentUser, getShowSecurityAlert } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { saveUserSettings } from '@northern.tech/store/thunks';
+import dayjs from 'dayjs';
 
 import Deployments from './Deployments';
 import Devices from './Devices';
@@ -63,8 +67,10 @@ const useStyles = makeStyles()(theme => ({
 export const Dashboard = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { id: currentUser } = useSelector(getCurrentUser);
+  const dispatch = useAppDispatch();
 
+  const { id: currentUser } = useSelector(getCurrentUser);
+  const showSecurityAlert = useSelector(getShowSecurityAlert);
   const handleClick = params => {
     let redirect = params.route;
     if (params.route === 'deployments') {
@@ -74,9 +80,23 @@ export const Dashboard = () => {
     }
     navigate(redirect, { state: { internal: true } });
   };
+  const dismissAlert = () => {
+    dispatch(saveUserSettings({ securityAlertDismissedTimestamp: dayjs().format() }));
+  };
 
   return (
     <>
+      {showSecurityAlert && (
+        <Alert className="margin-bottom-small margin-right" onClose={dismissAlert} severity="warning">
+          <>
+            Your Mender account is not using recommended security settings. Improve your account security in{' '}
+            <Link to="/settings/my-profile" color="inherit">
+              My profile
+            </Link>
+            .
+          </>
+        </Alert>
+      )}
       <h4 className="margin-left-small">Dashboard</h4>
       {currentUser ? (
         <div className={classes.board}>
