@@ -12,11 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { Collapse } from '@mui/material';
+import { Alert, Button, Chip, Collapse } from '@mui/material';
 
-import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
+import InfoText from '@northern.tech/common-ui/InfoText';
 import storeActions from '@northern.tech/store/actions';
 import { twoFAStates } from '@northern.tech/store/constants';
 import { getCurrentUser, getHas2FA } from '@northern.tech/store/selectors';
@@ -25,6 +26,7 @@ import { disableUser2fa, enableUser2fa, get2FAQRCode, verify2FA, verifyEmailComp
 
 import AuthSetup from './twofactorauth-steps/AuthSetup';
 import EmailVerification from './twofactorauth-steps/EmailVerification';
+import { notificationMap } from './SelfUserManagement';
 
 const { setSnackbar } = storeActions;
 
@@ -33,6 +35,7 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
   const currentUser = useSelector(getCurrentUser);
   const has2FA = useSelector(getHas2FA);
   const qrImage = useSelector(state => state.users.qrCode);
+  const [confirmDisable, setConfirmDisable] = useState(false);
   const [qrExpanded, setQrExpanded] = useState(false);
   const [is2FAEnabled, setIs2FAEnabled] = useState(has2FA);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
@@ -106,21 +109,45 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
 
   return (
     <div className="margin-top">
-      <ToggleSetting
-        description="Two Factor Authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in."
-        title="Enable Two Factor authentication"
-        onClick={onToggle2FAClick}
-        value={is2FAEnabled}
-      />
-      {showEmailVerification && (
-        <EmailVerification
-          activationCode={activationCode}
-          verifyEmailComplete={data => dispatch(verifyEmailComplete(data))}
-          verifyEmailStart={() => dispatch(verifyEmailStart())}
+      <div className="flexbox center-aligned">
+        <p className="help-content">Two Factor authentication</p>
+        <Chip
+          size="small"
+          label={has2FA ? 'Enabled' : 'Not enabled'}
+          variant="outlined"
+          color={has2FA ? 'success' : 'warning'}
+          className="margin-left-x-small"
         />
+      </div>
+      {!has2FA && !needsVerification && (
+        <Alert severity="warning">Two-factor authentication is not enabled yet. Enable it now to prevent unauthorized access.</Alert>
       )}
+      <InfoText style={{ width: '75%' }} className="margin-top-x-small margin-bottom-x-small">
+        Two-factor authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in.
+      </InfoText>
+      {!showEmailVerification &&
+        !qrExpanded &&
+        (has2FA ? (
+          <Button variant="outlined" color="error" onClick={() => setConfirmDisable(true)}>
+            Disable 2FA
+          </Button>
+        ) : (
+          <Button variant="contained" color="primary" onClick={onToggle2FAClick}>
+            Set up
+          </Button>
+        ))}
+      <ConfirmModal
+        open={confirmDisable}
+        description="Are you sure you want to turn off 2FA? This will make your account less secure."
+        header="Disable two-factor authentication"
+        close={() => setConfirmDisable(false)}
+        confirmButtonText="Disable 2FA"
+        onConfirm={onToggle2FAClick}
+      />
+      {showEmailVerification && <EmailVerification email={currentUser.email} verifyEmailStart={() => dispatch(verifyEmailStart()).unwrap()} />}
       <Collapse in={qrExpanded} timeout="auto" unmountOnExit>
         <AuthSetup
+          setShowNotice={setShowNotice}
           currentUser={currentUser}
           handle2FAState={handle2FAState}
           has2FA={has2FA}
