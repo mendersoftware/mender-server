@@ -42,7 +42,7 @@ test.describe('Settings', () => {
       }
       test.skip(tfaSecret, 'looks like the account is already 2fa enabled, continue with the remaining tests');
       await page.goto(`${baseUrl}ui/settings/my-profile`);
-      await page.getByText(/Enable Two Factor/).click();
+      await page.getByRole('button',{ name: /set up/i }).click();
       await page.waitForSelector('.margin-top img');
       const qrCode = await page.$eval('.margin-top img', (el: HTMLImageElement) => el.src);
       const png = PNG.sync.read(Buffer.from(qrCode.slice('data:image/png;base64,'.length), 'base64'));
@@ -53,8 +53,7 @@ test.describe('Settings', () => {
       console.log('Generated otp:', qrToken);
       await page.getByLabel(/Verification code/i).fill(qrToken);
       await page.getByRole('button', { name: /Verify/i }).click();
-      await page.waitForSelector(`css=ol >> text=Verified`);
-      await page.getByRole('button', { name: /save/i }).click();
+      await page.getByText('Two-factor authentication successfully enabled.').waitFor({ timeout: timeouts.default });
       await page.waitForTimeout(timeouts.default);
     });
     test(`prevents from logging in without 2fa code`, async ({ baseUrl, browser, environment, password, username }) => {
@@ -88,9 +87,11 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /next/i }).click();
       await isLoggedIn(page);
       await page.goto(`${baseUrl}ui/settings/my-profile`);
-      await page.getByText(/Enable Two Factor/).click();
-      const failureNotification = await page.getByText(/There was an error disabling/i);
-      await expect(failureNotification).not.toBeVisible();
+      await page.getByRole('button', { name: /Disable 2FA/i}).click();
+      // click again in the confirmation dialog
+      await page.getByRole('button', { name: /Disable 2FA/i}).click();
+      const securityAlert = page.getByText('Two-factor authentication is not enabled')
+      await expect(securityAlert).toBeVisible();
       await page.waitForTimeout(timeouts.default);
       await context.close();
     });
@@ -129,7 +130,7 @@ test.describe('Settings', () => {
     test('allows changing the password', async ({ browserName, page, username, password }) => {
       test.skip(browserName === 'webkit');
       await page.getByRole('button', { name: username }).click();
-      await page.getByText(/my profile/i).click();
+      await page.getByRole('menuitem', { name: 'My profile' }).click();
       await page.getByRole('button', { name: /change password/i }).click();
       expect(await page.$eval(selectors.password, (el: HTMLInputElement) => el.value)).toBeFalsy();
       await page.getByRole('button', { exact: true, name: 'Generate' }).click();
@@ -157,7 +158,7 @@ test.describe('Settings', () => {
       test.skip(browserName === 'webkit');
       const page = await prepareNewPage({ baseUrl, browser, password: replacementPassword, request, username });
       await page.getByRole('button', { name: username }).click();
-      await page.getByText(/my profile/i).click();
+      await page.getByRole('menuitem', { name: /My profile/i }).click();
       await page.getByRole('button', { name: /change password/i }).click();
       await page.fill(selectors.password, password);
       const typedPassword = await page.$eval(selectors.password, (el: HTMLInputElement) => el.value);
