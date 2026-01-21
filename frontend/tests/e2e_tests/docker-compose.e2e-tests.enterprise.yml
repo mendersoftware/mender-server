@@ -22,6 +22,8 @@ services:
   useradm:
     environment:
       USERADM_BASE_URL: "https://docker.mender.io"
+      # FIXME: QA-1457 - Setup mail server to verify email
+      USERADM_INSECURE_DISABLE_EMAIL_VERIFICATION: "true"
 
   iot-manager:
     environment:
