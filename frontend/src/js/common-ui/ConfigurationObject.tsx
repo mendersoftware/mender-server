@@ -99,14 +99,6 @@ export const TwoColumns = ({
 
 export const TwoColumnData = ({ className = '', config, ...props }) => <TwoColumns className={`column-data ${className}`} items={config} {...props} />;
 
-export const TwoColumnDataMultiple = ({ className = '', config, style, ...props }) => (
-  <div className={`two-columns-multiple ${className}`} style={{ ...style }}>
-    {Object.entries(config).map(([key, value]) => (
-      <TwoColumnData className="multiple" config={{ [key]: value }} key={key} compact {...props} />
-    ))}
-  </div>
-);
-
 export const ConfigurationObject = ({ config, ...props }) => {
   const content = Object.entries(config).reduce((accu, [key, value]) => {
     accu[key] = `${value}`;
