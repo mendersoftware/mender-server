@@ -438,13 +438,13 @@ test:prep:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
   script:
-    - docker run --rm --entrypoint "/bin/sh" -v $(pwd):/extract mendersoftware/mender-stress-test-client:master -c "cp mender-stress-test-client /extract/"
+    - docker create --name stress-client mendersoftware/mender-stress-test-client:master
+    - docker cp stress-client:/mender-stress-test-client ./
+    - docker rm stress-client
   artifacts:
     paths:
       - mender-stress-test-client
     expire_in: 2w
-  tags:
-    - hetzner-amd-beefy
 
 .template:test:staging-deployment:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
