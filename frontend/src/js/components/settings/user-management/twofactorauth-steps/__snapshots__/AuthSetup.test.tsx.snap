@@ -2,6 +2,25 @@
 
 exports[`AuthSetup Component > renders correctly 1`] = `
 .emotion-0 {
+  margin-bottom: 0;
+  margin-top: 8px;
+  max-width: 550px;
+}
+
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-3 {
+  max-width: 188px;
+}
+
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -15,9 +34,11 @@ exports[`AuthSetup Component > renders correctly 1`] = `
   margin: 0;
   border: 0;
   vertical-align: top;
+  max-width: 220px;
+  margin-top: 8px;
 }
 
-.emotion-1 {
+.emotion-5 {
   color: rgba(0, 0, 0, 0.6);
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -50,19 +71,19 @@ exports[`AuthSetup Component > renders correctly 1`] = `
   max-width: calc(100% - 24px);
 }
 
-.emotion-1.Mui-focused {
+.emotion-5.Mui-focused {
   color: #1976d2;
 }
 
-.emotion-1.Mui-disabled {
+.emotion-5.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-1.Mui-error {
+.emotion-5.Mui-error {
   color: #d32f2f;
 }
 
-.emotion-2 {
+.emotion-6 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -84,38 +105,38 @@ exports[`AuthSetup Component > renders correctly 1`] = `
   border-radius: 4px;
 }
 
-.emotion-2.Mui-disabled {
+.emotion-6.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-2:hover .MuiOutlinedInput-notchedOutline {
+.emotion-6:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
-  .emotion-2:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-6:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-2.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-6.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
-.emotion-2.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-6.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #1976d2;
 }
 
-.emotion-2.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-6.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #d32f2f;
 }
 
-.emotion-2.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-6.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-3 {
+.emotion-7 {
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
@@ -136,80 +157,80 @@ exports[`AuthSetup Component > renders correctly 1`] = `
   padding: 16.5px 14px;
 }
 
-.emotion-3::-webkit-input-placeholder {
+.emotion-7::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-3::-moz-placeholder {
+.emotion-7::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-3::-ms-input-placeholder {
+.emotion-7::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-3:focus {
+.emotion-7:focus {
   outline: 0;
 }
 
-.emotion-3:invalid {
+.emotion-7:invalid {
   box-shadow: none;
 }
 
-.emotion-3::-webkit-search-decoration {
+.emotion-7::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-3::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-3::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-3::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-3.Mui-disabled {
+.emotion-7.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-3:-webkit-autofill {
+.emotion-7:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-3:-webkit-autofill {
+.emotion-7:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-4 {
+.emotion-8 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -227,7 +248,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-5 {
+.emotion-9 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -242,7 +263,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   white-space: nowrap;
 }
 
-.emotion-5>span {
+.emotion-9>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
@@ -250,7 +271,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   visibility: visible;
 }
 
-.emotion-6 {
+.emotion-10 {
   color: rgba(0, 0, 0, 0.6);
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -266,15 +287,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   margin-right: 14px;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-10.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-6.Mui-error {
+.emotion-10.Mui-error {
   color: #d32f2f;
 }
 
-.emotion-7 {
+.emotion-11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -289,7 +310,18 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   margin-top: 32px;
 }
 
-.emotion-8 {
+.emotion-12 {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  margin-top: 16px;
+}
+
+.emotion-13 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -346,57 +378,57 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-8::-moz-focus-inner {
+.emotion-13::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-8.Mui-disabled {
+.emotion-13.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-8 {
+  .emotion-13 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-8:hover {
+.emotion-13:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-8.Mui-disabled {
+.emotion-13.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-8:hover {
+.emotion-13:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-8:hover {
+  .emotion-13:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-8:active {
+.emotion-13:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-8.Mui-focusVisible {
+.emotion-13.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-8.Mui-disabled {
+.emotion-13.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-8:hover {
+  .emotion-13:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -404,168 +436,67 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   }
 }
 
-.emotion-8.MuiButton-loading {
-  color: transparent;
-}
-
-.emotion-9 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.75;
-  letter-spacing: 0.02857em;
-  text-transform: uppercase;
-  min-width: 64px;
-  padding: 6px 16px;
-  border: 0;
-  border-radius: 4px;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  padding: 6px 8px;
-  color: var(--variant-textColor);
-  background-color: var(--variant-textBg);
-  --variant-textColor: #1976d2;
-  --variant-outlinedColor: #1976d2;
-  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
-  --variant-containedColor: #fff;
-  --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.emotion-9::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-9.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-9 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-9:hover {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-9.Mui-disabled {
-  color: rgba(0, 0, 0, 0.26);
-}
-
-@media (hover: hover) {
-  .emotion-9:hover {
-    --variant-containedBg: #1565c0;
-    --variant-textBg: rgba(25, 118, 210, 0.04);
-    --variant-outlinedBorder: #1976d2;
-    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
-  }
-}
-
-.emotion-9.MuiButton-loading {
+.emotion-13.MuiButton-loading {
   color: transparent;
 }
 
 <div>
   <div
-    class="margin-top"
+    class="margin-top-x-small"
   >
     Setup:
     <div
-      class="flexbox margin-top"
+      class="flexbox"
     >
       <ol
-        class="spaced-list margin-right-large"
-        style="padding-inline-start: 20px;"
+        class="emotion-0"
       >
         <li
-          class="margin-top-none"
+          class="margin-top-none margin-bottom-small"
         >
-          To use Two Factor Authentication, first download a third party authentication app such as
-           
-          <a
-            href="https://authy.com/download/"
-            rel="noopener noreferrer"
-            target="_blank"
+          <p
+            class="MuiTypography-root MuiTypography-body1 emotion-1"
           >
-            Authy
-          </a>
-           
-          or
-           
-          <a
-            href="https://support.google.com/accounts/answer/1066447"
-            rel="noopener noreferrer"
-            target="_blank"
+            Download a third party authentication app such as Authy or Google authenticator.
+          </p>
+        </li>
+        <li
+          class="margin-bottom-small"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 emotion-1"
           >
-            Google Authenticator
-          </a>
-          .
+            On your authenticator application, tap the “+” icon and then select “Scan QR code” to scan the QR code below.
+          </p>
         </li>
-        <li>
-          Scan the QR code on the right with the authenticator app you just downloaded on your device.
-        </li>
+        <img
+          class="emotion-3"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAAGIAQAAAABzOEqLAAAAJHRFWHRTb2Z0d2FyZQBRUi1QTkcgaHR0cDovL3FyLnN3dGNoLmNvbS9nj329AAAJe0lEQVR4AWP4TyoY1TGqY1THqI5RHQgdI1cHw/////8zMDAwMDAw/GdgYPjPwMDA8J/h////DAz/GRj+M/z/z8Dw/z8DAwMDAwPD/////4/qoKUOhv////9n+P//////DP8Z/jP8/////////xn+/////z/DfwYGBgYGBob/DP//////n+H/////R3XQUgfD/////zP8Z2Bg+M/wn4Hh/3+G/wz///9nYPjP8P8/AwPD/////zP8/8/wn4GB4T/D/////4/qoKUOhv////9n+M/AwPCf4T/Df4b//xn+MzAw/Gf4z8Dw/z8DA8P//wz/Gf4z/GdgYPjP8P////+jOmipg+H/////Gf4zMDD8Z/jPwMDwn4GBgYGBgYHhPwMDw///DAz/Gf4z/P/P8J+BgeE/w/////+P6qClDob/////Z/j//////wz//zP8/////38GBob/DAwM////Z/jPwPCfgYHhP8P//////2f4/////1EdtNTB8P////8MDAwMDAwM/xn+M/xn+M/wn+E/w3+G/wz/Gf4z/Gf4z/Cf4T8DAwMDAwPD/////4/qoKUOhv////////////////9nYGBg+P///38Ghv8M//////+f4T8DAwMDA8P/////////////////j+qgpQ6G///////PwPCf4T8Dw38GBob/DP8ZGBj+////n4HhPwMDw38Ghv8M/xn+MzAwMDD8/////6gOWupg+P///////xkYGBj+///PwPCf4T/Df4b/////Z2BgYPj//z8Dw////xkY/v//z8DA8P////+jOmipg+H/////GRgY/v9nYGBg+M/w/z/Df4b//xkYGP7/Z/jP8P8/AwPDf4b/DP//M/xnYPj/////UR201MHw//////8ZGBgYGP4z/P/PwPD//38Ghv8M/xn+MzAwMDAwMDD8////P8N/hv//Gf7//////6gOWupg+P//////DAz//zMwMPz//5/hP8P//wwM/xn+M/z/z/D/////DAwMDAwM//8z/Gdg+P////9RHbTUwfD//////xkYGP4z/P/PwMDAwMDA8J/hP8N/hv8MDAwM/xn+////n4GB4f//////M/z/////qA5a6mD4////fwaG/wwM/xn+M/z/z8DAwPCfgeH//////zMwMDD8//+f4T8DAwMDAwMDA8P/////j+qgpQ6G/////////z/D////Gf4zMPxnYGD4z8DA8P8/A8N/Bob/DP8ZGP7/////P8P///////////+oDlrqYPj//////wwM////Z2D4////f4b/DAwMDAz/////z8DAwPCfgeH///8MDAz/Gf4z/P//////UR201MHw////////M/xn+P+f4T/D//////9nYGBg+P+fgeE/AwPDfwYGhv///zP8/8/wn4Hh/////0d10FIHw////////8/AwPCfgeE/AwPDfwYGBob/DP8Z/jP8//+f4f///////2dgYGD4z8DA8P////+jOmipg+H//////zP8/8/A8P8/w///DAz/Gf7//////38GBgYGBgYGBob/DAz//zP8//+f4f//////j+qgpQ6G/////////////wwM/////8/AwPD//38Ghv8MDAz/Gf4z/GdgYGBgYGBg+P//PwPD/////4/qoKUOhv////9n+P//PwPDfwaG/wz/Gf4zMDD8/8/A8P//f4b/DP8Z/jP8Z2Bg+P///38Ghv////8f1UFLHQz/////z/CfgeE/AwMDA8N/BgYGBob/DP8ZGP7//8/A8P//f4b//xn+M/z/z8DAwPD/////ozpoqYPh/////xn+/2f4z/D/PwMDw///DAwMDP///////z/DfwYGBgYGBgaG/wz//////5/h/////0d10FIHw////////8/A8P8/w///DP8ZGP7///+f4f////8ZGBj+////n+H///8MDP//M/z/z/D/////ozpoqYPh/////xkYGP7///+fgeE/w/////8zMPxnYPj/n+E/A8P//wz/Gf7/Z2Bg+P//PwPD/////4/qoKUOhv////9n+M/w/z8DA8N/hv//Gf4z/Gdg+P///3+G////M/z/////fwYGBgaG/wwMDP////8/qoOWOhj+////n4GBgYGB4T/DfwaG/wwMDAwMDAwM////Z2Bg+P+fgYGB4f/////////PwPD/////ozpoqYPh/////xkYGP7/Z2D4z/Cf4T/Df4b//xkY/v9nYPj/n+E/AwPDf4b/DAz//zP8Z/j//////6M6aKmD4f/////////P8J/h/38GBob//xn+M/z///8/w///DP///2dgYPj/n4GB4f9/hv8MDP////8/qoOWOhj+////n+E/AwMDAwMDw///DP8Z/v///5+B4T8Dw/////8zMDAw/P/PwPD/////DAz/////P6qDljoY/v////8/w38GBob//xn+MzD8Z/j/n+H/fwaG//8Z/jMw/GdgYPj/n+E/AwPD/////////39UBy11MPz///8/w///DP//M/z//5/h/3+G///////PwPD//3+G//8Z/jP8/8/AwMDAwPD/P8P/////j+qgpQ6G/////////////////2f4z8Dw/z8DAwMDAwPD////Gf7//8/wn4GB4f///wz/GRgY/v///39UBy11MPz///8/AwMDAwMDw3+G////MzD8Z2Bg+M/AwPD//3+G///////PwPCf4T/DfwYGhv////8f1UFLHQz/////z/D//////xn+/2f4z/D/PwMDAwPD/////zMw/P///z8Dw3+G////M/z/z8Dw/////6M6aKmD4f////8Z/jMwMPxn+M/A8P8/A8P/////MzAw/P/P8P////8M/xn+MzAwMDD8/8/w//////9HddBSB8P/////M/xnYGD4z/D/////DAwM/xn+/2dg+P+f4T/D////GRj+/2f4/5+BgeE/w///////H9VBSx0M/////8/wn4GB4T/Df4b/DP8ZGBj+MzAwMDD8/////////xn+/2f4//8/A8P//wwM/////z+qg5Y6GP7///+f4f//////M/xnYGBg+M/w/z8DAwPD//8MDAwMDAwMDP8ZGP4zMPxn+M/w//////9HddBSB8P/////MzAwMDAwMPz///8/AwMDAwPDfwYGBob//xkY/v9nYPjPwPD//3+G//8ZGP7///9/VActdTD8JxWM6hjVMapjVMeoDoSOkasDAEN0S0qMdGQGAAAAAElFTkSuQmCC"
+        />
         <li>
           <div>
-            Type in the generated code in the input field below and click Verify.
+            Once the code has been scanned, type in the generated code from the app to verify.
             <form
-              class="margin-text-small"
+              class=""
               novalidate=""
             >
               <div
-                class="MuiFormControl-root required emotion-0"
+                class="MuiFormControl-root emotion-4"
                 style="width: 400px;"
               >
                 <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-1"
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-5"
                   data-shrink="false"
                   for="token2fa"
                 >
                   Verification code
                 </label>
                 <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-2"
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-6"
                 >
                   <input
                     aria-invalid="false"
-                    class="MuiInputBase-input MuiOutlinedInput-input emotion-3"
+                    class="MuiInputBase-input MuiOutlinedInput-input emotion-7"
                     id="token2fa"
                     name="token2fa"
                     placeholder="Verification code"
@@ -574,10 +505,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
                   />
                   <fieldset
                     aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline emotion-4"
+                    class="MuiOutlinedInput-notchedOutline emotion-8"
                   >
                     <legend
-                      class="emotion-5"
+                      class="emotion-9"
                     >
                       <span>
                         Verification code
@@ -586,53 +517,25 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
                   </fieldset>
                 </div>
                 <p
-                  class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-6"
+                  class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-10"
                 />
               </div>
               <div
-                class="button-wrapper emotion-7 "
+                class="button-wrapper emotion-11 emotion-12"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-8"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
                   disabled=""
                   tabindex="-1"
                   type="submit"
                 >
-                  Verify
+                  Verify and Save
                 </button>
               </div>
             </form>
           </div>
         </li>
-        <li>
-          Then each time you log in, you will be asked for a verification code which you can retrieve from the authentication app on your device.
-        </li>
       </ol>
-      <img
-        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAAGIAQAAAABzOEqLAAAAJHRFWHRTb2Z0d2FyZQBRUi1QTkcgaHR0cDovL3FyLnN3dGNoLmNvbS9nj329AAAJe0lEQVR4AWP4TyoY1TGqY1THqI5RHQgdI1cHw/////8zMDAwMDAw/GdgYPjPwMDA8J/h////DAz/GRj+M/z/z8Dw/z8DAwMDAwPD/////4/qoKUOhv////9n+P//////DP8Z/jP8/////////xn+/////z/DfwYGBgYGBob/DP//////n+H/////R3XQUgfD/////zP8Z2Bg+M/wn4Hh/3+G/wz///9nYPjP8P8/AwPD/////zP8/8/wn4GB4T/D/////4/qoKUOhv////9n+M/AwPCf4T/Df4b//xn+MzAw/Gf4z8Dw/z8DA8P//wz/Gf4z/GdgYPjP8P////+jOmipg+H/////Gf4zMDD8Z/jPwMDwn4GBgYGBgYHhPwMDw///DAz/Gf4z/P/P8J+BgeE/w/////+P6qClDob/////Z/j//////wz//zP8/////38GBob/DAwM////Z/jPwPCfgYHhP8P//////2f4/////1EdtNTB8P////8MDAwMDAwM/xn+M/xn+M/wn+E/w3+G/wz/Gf4z/Gf4z/Cf4T8DAwMDAwPD/////4/qoKUOhv////////////////9nYGBg+P///38Ghv8M//////+f4T8DAwMDA8P/////////////////j+qgpQ6G///////PwPCf4T8Dw38GBob/DP8ZGBj+////n4HhPwMDw38Ghv8M/xn+MzAwMDD8/////6gOWupg+P///////xkYGBj+///PwPCf4T/Df4b/////Z2BgYPj//z8Dw////xkY/v//z8DA8P////+jOmipg+H/////GRgY/v9nYGBg+M/w/z/Df4b//xkYGP7/Z/jP8P8/AwPDf4b/DP//M/xnYPj/////UR201MHw//////8ZGBgYGP4z/P/PwPD//38Ghv8M/xn+MzAwMDAwMDD8////P8N/hv//Gf7//////6gOWupg+P//////DAz//zMwMPz//5/hP8P//wwM/xn+M/z/z/D/////DAwMDAwM//8z/Gdg+P////9RHbTUwfD//////xkYGP4z/P/PwMDAwMDA8J/hP8N/hv8MDAwM/xn+////n4GB4f//////M/z/////qA5a6mD4////fwaG/wwM/xn+M/z/z8DAwPCfgeH//////zMwMDD8//+f4T8DAwMDAwMDA8P/////j+qgpQ6G/////////z/D////Gf4zMPxnYGD4z8DA8P8/A8N/Bob/DP8ZGP7/////P8P///////////+oDlrqYPj//////wwM////Z2D4////f4b/DAwMDAz/////z8DAwPCfgeH///8MDAz/Gf4z/P//////UR201MHw////////M/xn+P+f4T/D//////9nYGBg+P+fgeE/AwPDfwYGhv///zP8/8/wn4Hh/////0d10FIHw////////8/AwPCfgeE/AwPDfwYGBob/DP8Z/jP8//+f4f///////2dgYGD4z8DA8P////+jOmipg+H//////zP8/8/A8P8/w///DAz/Gf7//////38GBgYGBgYGBob/DAz//zP8//+f4f//////j+qgpQ6G/////////////wwM/////8/AwPD//38Ghv8MDAz/Gf4z/GdgYGBgYGBg+P//PwPD/////4/qoKUOhv////9n+P//PwPDfwaG/wz/Gf4zMDD8/8/A8P//f4b/DP8Z/jP8Z2Bg+P///38Ghv////8f1UFLHQz/////z/CfgeE/AwMDA8N/BgYGBob/DP8ZGP7//8/A8P//f4b//xn+M/z/z8DAwPD/////ozpoqYPh/////xn+/2f4z/D/PwMDw///DAwMDP///////z/DfwYGBgYGBgaG/wz//////5/h/////0d10FIHw////////8/A8P8/w///DP8ZGP7///+f4f////8ZGBj+////n+H///8MDP//M/z/z/D/////ozpoqYPh/////xkYGP7///+fgeE/w/////8zMPxnYPj/n+E/A8P//wz/Gf7/Z2Bg+P//PwPD/////4/qoKUOhv////9n+M/w/z8DA8N/hv//Gf4z/Gdg+P///3+G////M/z/////fwYGBgaG/wwMDP////8/qoOWOhj+////n4GBgYGB4T/DfwaG/wwMDAwMDAwM////Z2Bg+P+fgYGB4f/////////PwPD/////ozpoqYPh/////xkYGP7/Z2D4z/Cf4T/Df4b//xkY/v9nYPj/n+E/AwPDf4b/DAz//zP8Z/j//////6M6aKmD4f/////////P8J/h/38GBob//xn+M/z///8/w///DP///2dgYPj/n4GB4f9/hv8MDP////8/qoOWOhj+////n+E/AwMDAwMDw///DP8Z/v///5+B4T8Dw/////8zMDAw/P/PwPD/////DAz/////P6qDljoY/v////8/w38GBob//xn+MzD8Z/j/n+H/fwaG//8Z/jMw/GdgYPj/n+E/AwPD/////////39UBy11MPz///8/w///DP//M/z//5/h/3+G///////PwPD//3+G//8Z/jP8/8/AwMDAwPD/P8P/////j+qgpQ6G/////////////////2f4z8Dw/z8DAwMDAwPD////Gf7//8/wn4GB4f///wz/GRgY/v///39UBy11MPz///8/AwMDAwMDw3+G////MzD8Z2Bg+M/AwPD//3+G///////PwPCf4T/DfwYGhv////8f1UFLHQz/////z/D//////xn+/2f4z/D/PwMDAwPD/////zMw/P///z8Dw3+G////M/z/z8Dw/////6M6aKmD4f////8Z/jMwMPxn+M/A8P8/A8P/////MzAw/P/P8P////8M/xn+MzAwMDD8/8/w//////9HddBSB8P/////M/xnYGD4z/D/////DAwM/xn+/2dg+P+f4T/D////GRj+/2f4/5+BgeE/w///////H9VBSx0M/////8/wn4GB4T/Df4b/DP8ZGBj+MzAwMDD8/////////xn+/2f4//8/A8P//wwM/////z+qg5Y6GP7///+f4f//////M/xnYGBg+M/w/z8DAwPD//8MDAwMDAwMDP8ZGP4zMPxn+M/w//////9HddBSB8P/////MzAwMDAwMPz///8/AwMDAwPDfwYGBob//xkY/v9nYPjPwPD//3+G//8ZGP7///9/VActdTD8JxWM6hjVMapjVMeoDoSOkasDAEN0S0qMdGQGAAAAAElFTkSuQmCC"
-        style="max-height: 20vh;"
-      />
-    </div>
-    <div
-      class="flexbox"
-      style="justify-content: flex-end;"
-    >
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
-        style="margin-right: 10px;"
-        tabindex="0"
-        type="button"
-      >
-        Cancel
-      </button>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-8"
-        disabled=""
-        tabindex="-1"
-        type="button"
-      >
-        Save
-      </button>
     </div>
   </div>
 </div>
