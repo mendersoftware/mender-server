@@ -57,7 +57,6 @@
     "@northern.tech/eslint-config": "0.6.2",
     "@northern.tech/prettier-config": "0.2.1",
     "@northern.tech/testing": "0.5.0",
-    "@northern.tech/themes": "0.10.2",
     "@northern.tech/types": "0.3.1",
     "@northern.tech/typescript-config": "0.2.0",
     "@rspack/cli": "1.7.0",
