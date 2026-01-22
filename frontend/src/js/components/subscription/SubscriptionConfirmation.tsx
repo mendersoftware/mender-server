@@ -22,22 +22,23 @@ import { cleanUp } from '@northern.tech/store/auth';
 import { ADDONS, AvailableAddon, Plan } from '@northern.tech/store/constants';
 import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
 
+import { DeviceTypes } from './SubscriptionPage';
 import { formatPrice } from './utils';
 
 interface SubscriptionConfirmationProps {
-  devices: number;
+  deviceTypes: DeviceTypes;
   orderedAddons: { name: AvailableAddon }[];
   plan: Plan;
   price: number;
+  products: { id: string; quantity: number }[];
+  willLogout: boolean;
 }
 export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) => {
-  const { plan, devices, price, orderedAddons } = props;
-  const { addons: enabledAddons, plan: currentPlan } = useSelector(getOrganization);
+  const { plan, products, price, orderedAddons, deviceTypes, willLogout } = props;
+  const { plan: currentPlan } = useSelector(getOrganization);
 
   const [addonList] = useState(orderedAddons.map(addon => addon.name));
-
-  const previousAddonsList = enabledAddons.filter(addon => addon.enabled);
-  const willLogout = addonList.length > previousAddonsList.length || currentPlan !== plan.id;
+  const productsList = products.map(({ id, quantity }) => `${quantity} ${deviceTypes[id].summaryLabel}`).join(', ');
   const [count, setCount] = useState<number>(60);
   const logOut = () => {
     cleanUp();
@@ -84,7 +85,7 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
         <div className="margin-top-small margin-bottom-small">
           <Typography variant="subtitle1"> Subscription details: </Typography>
           <Typography> Plan: {plan.name} </Typography>
-          <Typography> Devices: {devices} </Typography>
+          <Typography> Devices: {productsList}</Typography>
           {addonList.length > 0 && <Typography>Add-ons: {addonList.map(addon => ADDONS[addon].title).join(', ')}</Typography>}
           <Typography>Monthly cost: {formatPrice(price)}</Typography>
         </div>
@@ -93,7 +94,8 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
             <AlertTitle textAlign="center">Automatic logout in {count} seconds</AlertTitle>
             <div className="flexbox column centered">
               <Typography className="margin-bottom-x-small" textAlign="center" variant="body2">
-                You will be logged out automatically, for your new subscription to take effect.
+                You will be logged out automatically, for your new subscription to take effect. <br/>
+                If you are using Personal Access Tokens, remember to generate and deploy new tokens when you log in again.
               </Typography>
               <Button variant="contained" onClick={logOut}>
                 Log out now

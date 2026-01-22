@@ -26,3 +26,9 @@ export const locateReleaseByName = (page: Page, name: string) => {
   const container = page.locator('#deployment-release-container');
   return container.getByText(name).first();
 };
+
+export const selectDeviceLimitInput = (page: Page, tier: string) => {
+  const tierCheckbox =  page.getByLabel(`${tier} devices`);
+  const deviceInputContainer = page.locator('div').filter({ has: tierCheckbox }).last();
+  return deviceInputContainer.getByLabel('Device limit');
+}

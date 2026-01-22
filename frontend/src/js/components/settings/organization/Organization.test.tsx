@@ -130,6 +130,7 @@ describe('smaller components', () => {
           handleCancelSubscription={vi.fn}
           orgName="test"
           mailBodyTexts={{ billing: 'bill this', upgrade: 'upgrade here' }}
+          deviceLimits={{ standard: 100, micro: 10, system: 20 }}
         />
       );
       const view = baseElement.lastChild?.firstChild;
@@ -137,5 +138,12 @@ describe('smaller components', () => {
       expect(view).toEqual(expect.not.stringMatching(undefineds));
       expect(view).toBeTruthy();
     });
+  });
+  it('renders unlimited Standard devices in billing correctly', () => {
+    const { baseElement } = render(<PlanDescriptor deviceLimits={{ standard: -1, micro: 10, system: 20 }} isTrial={false} plan="Basic" />);
+    const view = baseElement;
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+    expect(view).toBeTruthy();
   });
 });

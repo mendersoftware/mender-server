@@ -28,6 +28,7 @@ import {
   tenantTokenRetrieval
 } from '../../utils/commands';
 import { emptyStorageState, selectors, storagePath, timeouts } from '../../utils/constants';
+import { selectDeviceLimitInput } from '../../utils/utils.ts';
 
 test.describe('Settings', () => {
   test.describe('2FA setup', () => {
@@ -185,8 +186,8 @@ test.describe('Settings', () => {
       const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.getByText('Upgrade now').click();
-
-      const deviceInput = page.getByRole('spinbutton');
+      await page.waitForTimeout(timeouts.default); // wait to load the current device limits
+      const deviceInput = selectDeviceLimitInput(page, 'Standard');
       await deviceInput.focus();
       // Increase by 2 steps (50 => 150)
       await page.keyboard.press('ArrowUp');
@@ -226,7 +227,8 @@ test.describe('Settings', () => {
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.goto(`${baseUrl}ui/subscription`);
       await page.waitForTimeout(timeouts.default);
-      const deviceNumberInput = page.getByRole('spinbutton');
+      const deviceNumberInput = selectDeviceLimitInput(page, 'Standard');
+
       await deviceNumberInput.fill('310');
       await page.press('body', 'Tab');
       await page.waitForTimeout(timeouts.oneSecond);
@@ -242,6 +244,7 @@ test.describe('Settings', () => {
       await page.waitForTimeout(timeouts.default);
 
       await expect(page.getByRole('heading', { name: '$777' })).toBeVisible();
+      await expect(page.getByText('Action required after upgrade')).toBeVisible();
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
 
       await page.getByText(/Your subscription has been successfully updated to Mender Professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
@@ -259,6 +262,33 @@ test.describe('Settings', () => {
         const pendingNotification = await page.getByRole('link', { name: /pending/i }).innerText();
         expect(Number(pendingNotification.split(' ')[0])).toBeGreaterThan(10);
       }).toPass({ timeout: timeouts.sixtySeconds });
+      await page.context().close();
+    });
+    test('allows adding MCU devices', async ({ baseUrl, browser, password, request, username }) => {
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username });
+      // @ts-ignore
+      const features = await page.evaluate(() => window.mender_environment?.features);
+      test.skip(!features || !features.hasMCUEnabled);
+      await page.goto(`${baseUrl}ui/subscription`);
+      await page.waitForTimeout(timeouts.default);
+      const microCheckbox = page.getByRole('checkbox', { name: 'Micro devices' });
+      await microCheckbox.click();
+      const deviceNumberInput = selectDeviceLimitInput(page, 'Micro');
+
+      await deviceNumberInput.fill('680');
+      await page.press('body', 'Tab');
+      await page.waitForTimeout(timeouts.oneSecond);
+      await expect(deviceNumberInput).toHaveValue('700');
+
+      await page.waitForTimeout(timeouts.default);
+
+      await page.getByRole('button', { name: 'Upgrade now' }).click();
+      await page.waitForTimeout(timeouts.default);
+
+      await expect(page.getByRole('heading', { name: '$1154' })).toBeVisible();
+      await page.getByRole('button', { name: /Confirm subscription/i }).click();
+
+      await page.getByText(/Your device limit has been successfully updated/i).waitFor({ timeout: timeouts.fifteenSeconds });
       await page.context().close();
     });
     test('allows billing profile editing', async ({ baseUrl, browser, password, request, username }) => {

@@ -22,6 +22,7 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { SubscriptionDrawer } from './SubscriptionDrawer';
+import { microDeviceTier, standardDeviceTier } from './SubscriptionPage';
 
 vi.mock('@northern.tech/store/thunks', { spy: true });
 
@@ -111,10 +112,11 @@ describe('Subscription Summary component', () => {
     const { baseElement } = render(
       <Elements stripe={stripe}>
         <SubscriptionDrawer
+          deviceTypes={{ ...standardDeviceTier, ...microDeviceTier }}
           organization={defaultState.organization.organization}
           onClose={vi.fn()}
           plan={PLANS.os}
-          addons={{ monitor: false, configure: false, troubleshoot: false }}
+          addons={[]}
           isTrial={true}
         />
       </Elements>
@@ -132,10 +134,11 @@ describe('Subscription Summary component', () => {
     const ui = (
       <Elements stripe={stripe}>
         <SubscriptionDrawer
+          deviceTypes={{ ...standardDeviceTier, ...microDeviceTier }}
           organization={defaultState.organization.organization}
           onClose={vi.fn()}
           plan={PLANS.os}
-          addons={{ monitor: false, configure: false, troubleshoot: false }}
+          addons={[]}
           isTrial={true}
         />
       </Elements>
@@ -174,7 +177,13 @@ describe('Subscription Summary component', () => {
 
     await waitFor(() => expect(createBillingProfile).toHaveBeenCalledWith(createBillingProfileReq));
   });
-  const newOrder = { plan: 'professional', products: [{ name: 'mender_standard', quantity: 250, addons: [] }] };
+  const newOrder = {
+    plan: 'professional',
+    products: [
+      { name: 'mender_standard', quantity: 250, addons: [] },
+      { name: 'mender_micro', quantity: 500, addons: [] }
+    ]
+  };
   it('Allows upgrading subscription', async () => {
     const stripe = loadStripe();
 
@@ -187,7 +196,7 @@ describe('Subscription Summary component', () => {
           onClose={vi.fn()}
           plan={PLANS.professional}
           order={newOrder}
-          addons={{ monitor: false, configure: false, troubleshoot: false }}
+          addons={[]}
           isTrial={false}
           currentPlanId={PLANS.os.id}
         />

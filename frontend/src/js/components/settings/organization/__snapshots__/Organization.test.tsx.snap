@@ -935,3 +935,41 @@ exports[`smaller components > renders DeviceLimitExpansionNotification correctly
 `;
 
 exports[`smaller components > renders PlanDescriptor correctly 1`] = `You're currently on the `;
+
+exports[`smaller components > renders unlimited Standard devices in billing correctly 1`] = `
+<body
+  style=""
+>
+  <script
+    src="/ui/vs/loader.js"
+  />
+  <div>
+    You're currently on the 
+    <b>
+      Basic
+       plan
+    </b>
+    .
+    <br />
+    Your device 
+    limits
+     
+    are
+    : 
+    <b>
+      unlimited Standard
+    </b>
+    , 
+    <b>
+      10 Micro
+    </b>
+    , and 
+    <b>
+      20 System
+    </b>
+     
+    devices
+    .
+  </div>
+</body>
+`;

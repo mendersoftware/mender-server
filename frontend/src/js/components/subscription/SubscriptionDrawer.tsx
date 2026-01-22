@@ -13,16 +13,17 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { CheckCircleOutlined as CheckCircleOutlinedIcon, ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
-import { Alert, Button, CircularProgress, Divider, Drawer, Typography, buttonClasses } from '@mui/material';
+import { Alert, AlertTitle, Button, CircularProgress, Divider, Drawer, Typography, buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
-import { Address } from '@northern.tech/store/api/types';
 import { AvailableAddon, PLANS, Plan } from '@northern.tech/store/constants';
 import { Organization } from '@northern.tech/store/organizationSlice/types';
 import { getBillingProfile, getCard, getCurrentUser, getSubscription } from '@northern.tech/store/selectors';
@@ -35,6 +36,7 @@ import {
   requestPlanUpgrade,
   startCardUpdate
 } from '@northern.tech/store/thunks';
+import { Address } from '@northern.tech/types/MenderTypes';
 import { isEmpty } from '@northern.tech/utils/helpers';
 
 import CardSection from '../settings/CardSection';
@@ -43,13 +45,14 @@ import { CardDetails } from '../settings/organization/Billing';
 import { BillingDetails } from '../settings/organization/BillingDetails';
 import OrganizationPaymentSettings from '../settings/organization/OrganizationPaymentSettings';
 import { SubscriptionConfirmation } from './SubscriptionConfirmation';
-import { PreviewPrice } from './SubscriptionPage';
+import { DeviceTypes, PreviewPrice } from './SubscriptionPage';
 import { SubscriptionSummary } from './SubscriptionSummary';
 import { formatPrice } from './utils';
 
 interface SubscriptionDrawerProps {
   addons: AvailableAddon[];
   currentPlanId?: string;
+  deviceTypes: DeviceTypes;
   isTrial?: boolean;
   onClose: () => void;
   order?: any;
@@ -75,7 +78,7 @@ const useStyles = makeStyles()(theme => ({
 const emptyAddress: Address = { city: '', country: '', line1: '', postal_code: '', state: '' };
 
 export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
-  const { onClose, previewPrice, order, isTrial, plan: selectedPlan, organization, currentPlanId } = props;
+  const { onClose, previewPrice, order, isTrial, plan: selectedPlan, organization, currentPlanId, deviceTypes } = props;
   const { email } = useSelector(getCurrentUser);
   const card = useSelector(getCard);
   const billing = useSelector(getBillingProfile);
@@ -85,6 +88,8 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   const [isValid, setIsValid] = useState(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [successConfirmationShown, setSuccessConfirmationShown] = useState(false);
+  const { addons: orgAddons } = organization;
+  const enabledAddons = orgAddons.filter(addon => addon.enabled);
 
   const [nextPayment, setNextPayment] = useState(0);
   const [updatingCard, setUpdatingCard] = useState(false);
@@ -92,6 +97,14 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [billingSaved, setBillingSaved] = useState(false);
+
+  const orderedAddons = order?.products.filter(product => product.addons?.length).reduce((acc, curr) => [...acc, ...curr.addons], []);
+  const orderedProducts = order?.products.map(product => ({ id: product.name.slice('mender_'.length), quantity: product.quantity }));
+  const canShowConfirmation = successConfirmationShown && previewPrice && order;
+
+  const enabledAddonsNames = new Set(enabledAddons?.map(a => a.name));
+  const addonsChanged = orderedAddons?.length !== enabledAddons?.length || !orderedAddons?.every(({ name }) => enabledAddonsNames?.has(name));
+  const willLogout = addonsChanged || currentPlanId !== selectedPlan.id;
 
   const { classes } = useStyles();
 
@@ -145,10 +158,10 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
         previewPrice={previewPrice}
         plan={props.plan}
         title="Your new subscription"
-        isNew={false}
+        isEnabled={false}
         addons={props.addons}
-        deviceLimit={order.products[0].quantity}
         readOnly
+        deviceTypes={deviceTypes}
       />
     </div>
   );
@@ -260,13 +273,26 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
       ) : (
         currentSubscription && <Loader show />
       )}
-      {successConfirmationShown && previewPrice && (
+      {canShowConfirmation && (
         <SubscriptionConfirmation
-          devices={order.products[0].quantity}
+          deviceTypes={deviceTypes}
+          products={orderedProducts}
           plan={selectedPlan}
           price={previewPrice?.total}
-          orderedAddons={order.products[0].addons}
+          orderedAddons={orderedAddons}
+          willLogout={willLogout}
         />
+      )}
+      {willLogout && (
+        <Alert severity="warning" className="margin-top">
+          <AlertTitle>Action required after upgrade</AlertTitle>
+          <Typography>
+            Upgrading your plan will invalidate existing{' '}
+            <DocsLink path="server-integration/using-the-apis#personal-access-tokens" title="Personal Access Tokens" />
+            (PATs) for all users for security reasons. After upgrade, you will need to generate new PATs for any scripts or integrations using these tokens. You
+            can manage your own PATs in <Link to="/settings/my-profile">your profile</Link>.
+          </Typography>
+        </Alert>
       )}
     </Drawer>
   );

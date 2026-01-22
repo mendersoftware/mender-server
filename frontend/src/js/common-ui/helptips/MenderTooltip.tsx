@@ -70,7 +70,10 @@ export const MenderTooltipClickable = ({
     onOpenChange(open);
   }, [open, onOpenChange]);
 
-  const toggleVisibility = () => setOpen(toggle);
+  const toggleVisibility = e => {
+    e.preventDefault();
+    setOpen(toggle);
+  };
 
   const hide = () => setOpen(false);
 

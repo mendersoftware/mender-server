@@ -269,12 +269,16 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
   display: -ms-flexbox;
   display: flex;
   padding: 6px 16px;
-  color: rgb(1, 67, 97);
-  background-color: rgb(229, 246, 253);
+  color: rgb(30, 70, 32);
+  background-color: rgb(237, 247, 237);
 }
 
 .emotion-14 .MuiAlert-icon {
-  color: #0288d1;
+  color: #2e7d32;
+}
+
+.emotion-14 .MuiAlert-message {
+  width: 100%;
 }
 
 .emotion-15 {
@@ -351,9 +355,11 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
   border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  color: var(--variant-containedColor);
-  background-color: var(--variant-containedBg);
-  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  padding: 5px 15px;
+  border: 1px solid currentColor;
+  border-color: var(--variant-outlinedBorder, currentColor);
+  background-color: var(--variant-outlinedBg);
+  color: var(--variant-outlinedColor);
   --variant-textColor: #1976d2;
   --variant-outlinedColor: #1976d2;
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
@@ -388,28 +394,8 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-18:hover {
-  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
-}
-
-@media (hover: none) {
-  .emotion-18:hover {
-    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  }
-}
-
-.emotion-18:active {
-  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
-}
-
-.emotion-18.Mui-focusVisible {
-  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
-}
-
 .emotion-18.Mui-disabled {
-  color: rgba(0, 0, 0, 0.26);
-  box-shadow: none;
-  background-color: rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
@@ -488,7 +474,7 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body1 emotion-9"
         >
-          Your subscription has been successfully updated to Mender Professional.
+          Your device limit has been successfully updated.
         </p>
         <div
           class="margin-top-small margin-bottom-small"
@@ -509,8 +495,7 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
             class="MuiTypography-root MuiTypography-body1 emotion-9"
           >
              Devices: 
-            100
-             
+            50 Micro, 100 Standard
           </p>
           <p
             class="MuiTypography-root MuiTypography-body1 emotion-9"
@@ -520,7 +505,7 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
           </p>
         </div>
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard emotion-14"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorSuccess MuiAlert-standardSuccess MuiAlert-standard flexbox space-between emotion-14"
           role="alert"
           style="--Paper-shadow: none;"
         >
@@ -530,9 +515,7 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
             <div
               class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiAlertTitle-root emotion-16"
             >
-              Automatic logout in 
-              60
-               seconds
+              Subscription Active
             </div>
             <div
               class="flexbox column centered"
@@ -540,14 +523,15 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body2 margin-bottom-x-small emotion-17"
               >
-                You will be logged out automatically, for your new subscription to take effect.
+                Your updated subscription is ready to use.
+                 
               </p>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-18"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary emotion-18"
                 tabindex="0"
                 type="button"
               >
-                Log out now
+                Close
               </button>
             </div>
           </div>

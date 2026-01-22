@@ -11,15 +11,41 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { render } from '@/testUtils';
+import { defaultState, render } from '@/testUtils';
 import { PLANS } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 
 import { SubscriptionConfirmation } from './SubscriptionConfirmation';
+import { microDeviceTier, standardDeviceTier } from './SubscriptionPage';
 
 describe('Subscription Confirmation component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<SubscriptionConfirmation plan={PLANS.professional} devices={100} price={1000} orderedAddons={[]} />);
+    const products = [
+      { id: 'micro', quantity: 50 },
+      { id: 'standard', quantity: 100 }
+    ];
+    const { baseElement } = render(
+      <SubscriptionConfirmation
+        deviceTypes={{ ...standardDeviceTier, ...microDeviceTier }}
+        plan={PLANS.professional}
+        products={products}
+        price={1000}
+        orderedAddons={[]}
+      />,
+      {
+        preloadedState: {
+          ...defaultState,
+          app: {
+            ...defaultState.app,
+            features: {
+              ...defaultState.app.features,
+              hasMCUEnabled: true,
+              isHosted: true
+            }
+          }
+        }
+      }
+    );
     const view = baseElement.lastElementChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

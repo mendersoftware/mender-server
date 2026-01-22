@@ -42,13 +42,18 @@ const professionalReq = {
       addons: [],
       name: 'mender_standard',
       quantity: 250
+    },
+    {
+      addons: [],
+      name: 'mender_micro',
+      quantity: 500
     }
   ]
 };
-const professionalReq300 = { ...professionalReq, products: [{ ...professionalReq.products[0], quantity: 300 }] };
+const professionalReq300 = { ...professionalReq, products: [{ ...professionalReq.products[0], quantity: 300 }, {...professionalReq.products[1]}] };
 const professionalReq300WithMonitor = {
   ...professionalReq,
-  products: [{ ...professionalReq.products[0], quantity: 300, addons: [{ name: ADDONS.monitor.id }] }]
+  products: [{ ...professionalReq.products[0], quantity: 300, addons: [{ name: ADDONS.monitor.id }] }, {...professionalReq.products[1]}]
 };
 describe('Subscription Summary component', () => {
   it('renders correctly', async () => {
@@ -72,7 +77,15 @@ describe('Subscription Summary component', () => {
       preloadedState: {
         ...defaultState,
         devices: { ...defaultState.devices, limits: { ...defaultState.devices.limits, standard: 10 } },
-        organization: { ...defaultState.organization, organization: { ...defaultState.organization.organization, trial: true } }
+        organization: { ...defaultState.organization, organization: { ...defaultState.organization.organization, trial: true } },
+        app: {
+          ...defaultState.app,
+          appInitDone: true,
+          features: {
+            ...defaultState.app.features,
+            hasMCUEnabled: true
+          }
+        }
       }
     });
     expect(screen.getByText('Upgrade your subscription')).toBeInTheDocument();
@@ -81,8 +94,14 @@ describe('Subscription Summary component', () => {
 
     // Monitor should be disabled for Basic Plan
     expect(monitorAddonCheckbox).toBeDisabled();
-    const deviceLimit = screen.getByLabelText('Number of devices');
-    expect(deviceLimit).toHaveValue(PLANS.os.minimalDeviceCount);
+    const microCheckbox = screen.getByRole('checkbox', { name: /micro devices/i });
+    await user.click(microCheckbox);
+
+    const deviceLimits = screen.getAllByLabelText('Device limit');
+    const [standardLimit, microLimit] = deviceLimits;
+    expect(standardLimit).toHaveValue(PLANS.os.minimalDeviceCount.standard);
+    expect(microLimit).toHaveValue(PLANS.os.minimalDeviceCount.micro);
+
     await act(async () => {
       vi.runOnlyPendingTimers();
       vi.runAllTicks();
@@ -92,18 +111,19 @@ describe('Subscription Summary component', () => {
     await user.click(professionalRadioButton);
     expect(professionalRadioButton).toBeChecked();
 
-    await waitFor(() => expect(deviceLimit).toHaveValue(PLANS.professional.minimalDeviceCount));
+    await waitFor(() => expect(microLimit).toHaveValue(PLANS.professional.minimalDeviceCount.micro));
+    await waitFor(() => expect(standardLimit).toHaveValue(PLANS.professional.minimalDeviceCount.standard));
     // Monitor addon should not be disabled for Professional Plan
     expect(monitorAddonCheckbox).not.toBeDisabled();
     await waitFor(() => expect(getBillingPreview).toHaveBeenCalled());
     expect(getBillingPreview).toHaveBeenCalledWith(professionalReq);
     await act(async () => {
-      await user.clear(deviceLimit);
-      await user.type(deviceLimit, '255');
+      await user.clear(standardLimit);
+      await user.type(standardLimit, '255');
       await user.tab();
     });
     await act(async () => vi.runOnlyPendingTimers());
-    await waitFor(() => expect(deviceLimit).toHaveValue(300));
+    await waitFor(() => expect(standardLimit).toHaveValue(300));
     await act(async () => vi.runOnlyPendingTimers());
     expect(getBillingPreview).toHaveBeenCalledWith(professionalReq300);
     await user.click(monitorAddonCheckbox);

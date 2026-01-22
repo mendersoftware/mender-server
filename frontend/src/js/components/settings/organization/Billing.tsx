@@ -25,6 +25,7 @@ import { ADDONS, PLANS } from '@northern.tech/store/constants';
 import { getBillingProfile, getCard, getDeviceLimits, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { cancelRequest, getCurrentCard, getUserBilling } from '@northern.tech/store/thunks';
+import { DeviceTierLimits } from '@northern.tech/types/MenderTypes';
 import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
@@ -66,23 +67,38 @@ const AddOnDescriptor = ({ addOns = [], isTrial }: { addOns: string[]; isTrial: 
     </>
   );
 };
+const deviceTierLabelMap = { micro: 'Micro', standard: 'Standard', system: 'System' };
 
 export const PlanDescriptor = ({
   plan,
   isTrial,
   trialExpiration,
-  deviceLimit
+  deviceLimits
 }: {
-  deviceLimit: number;
+  deviceLimits: DeviceTierLimits;
   isTrial: boolean;
   plan: string;
   trialExpiration: string;
 }) => {
-  const deviceLimitNote = (
-    <>
-      Your device limit is <b>{deviceLimit}</b> {pluralize('device', deviceLimit)}
-    </>
-  );
+  const limits = Object.entries(deviceLimits)
+    .map(([id, quantity]) => ({ id, quantity }))
+    .filter(limit => limit.quantity !== 0);
+  const formatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
+  const items = limits.map(({ quantity, id }) => `${quantity === -1 ? 'unlimited' : quantity} ${deviceTierLabelMap[id]}`);
+  const formattedElements = formatter.formatToParts(items).map((part, index) => {
+    if (part.type === 'element') {
+      return <b key={index}>{part.value}</b>;
+    }
+    return part.value;
+  });
+
+  const deviceLimitNote =
+    limits.length > 0 ? (
+      <>
+        Your device {pluralize('limit', limits.length)} {pluralize('is', limits.length)}: {formattedElements}{' '}
+        {pluralize('device', limits[limits.length - 1].quantity)}.
+      </>
+    ) : null;
   if (isTrial) {
     return (
       <>
@@ -186,7 +202,7 @@ export const Billing = () => {
   const isEnterprise = useSelector(getIsEnterprise);
   const organization = useSelector(getOrganization);
   const card = useSelector(getCard);
-  const { standard: deviceLimit } = useSelector(getDeviceLimits);
+  const deviceLimits = useSelector(getDeviceLimits);
   const billing = useSelector(getBillingProfile);
   const { addons = [], plan: currentPlan = PLANS.os.id, trial: isTrial, trial_expiration } = organization;
   const dispatch = useAppDispatch();
@@ -223,7 +239,7 @@ export const Billing = () => {
       <div className={`flexbox column ${classes.wrapper}`}>
         <OrganizationSettingsItem
           title="Current plan"
-          secondary={<PlanDescriptor plan={planName} isTrial={isTrial} trialExpiration={trial_expiration} deviceLimit={deviceLimit} />}
+          secondary={<PlanDescriptor plan={planName} isTrial={isTrial} trialExpiration={trial_expiration} deviceLimits={deviceLimits} />}
         />
         <OrganizationSettingsItem title="Current Add-ons" secondary={<AddOnDescriptor addOns={enabledAddOns} isTrial={isTrial} />} />
         {!isEnterprise && <UpgradeNote isTrial={isTrial} />}
