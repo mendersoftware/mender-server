@@ -19,7 +19,7 @@ import { Launch as LaunchIcon } from '@mui/icons-material';
 import { Alert, Divider, Drawer, LinearProgress, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumns } from '@northern.tech/common-ui/ConfigurationObject';
+import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import { Code } from '@northern.tech/common-ui/CopyCode';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
@@ -259,8 +259,8 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
         ) : (
           <>
             <div className="two-columns">
-              <TwoColumns items={staticDetailsLeft} />
-              <TwoColumns items={staticDetailsRight} />
+              <TwoColumnData config={staticDetailsLeft} />
+              <TwoColumnData config={staticDetailsRight} />
             </div>
             <LinedHeader className="margin-top-large" heading="Status" />
             <DetailsTable className={classes.table} columns={statusColumns} items={[combinedData]} />

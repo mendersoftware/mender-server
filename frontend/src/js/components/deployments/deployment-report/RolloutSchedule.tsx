@@ -104,7 +104,7 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
             <div className={`flexbox column centered ${classes.phaseInfo} ${isCurrentPhase ? classes.currentPhaseInfo : ''}`} key={startTime}>
               {phaseTitle}
               <Chip className={classes.phaseIndex} size="small" label={`Phase ${index + 1}`} />
-              <TwoColumnData config={phaseObject} style={{ alignSelf: 'initial' }} />
+              <TwoColumnData config={phaseObject} />
             </div>
           );
         })}

@@ -16,25 +16,21 @@ import { Link } from 'react-router-dom';
 import { Launch as LaunchIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumns } from '@northern.tech/common-ui/ConfigurationObject';
+import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, rootfsImageVersion } from '@northern.tech/store/constants';
 import { formatAuditlogs } from '@northern.tech/store/locationutils';
 
 const useStyles = makeStyles()(theme => ({
-  eventDetails: { gridTemplateColumns: 'minmax(max-content, 150px) max-content', rowGap: theme.spacing(2.5) },
   deviceLink: { color: theme.palette.text.secondary, fontWeight: 'initial' }
 }));
 
-export const DetailInformation = ({ title, details }) => {
-  const { classes } = useStyles();
-  return (
-    <div key={`${title}-details`} className="flexbox column margin-top-small">
-      <b className="margin-bottom-small capitalized-start">{title} details</b>
-      <TwoColumns className={classes.eventDetails} items={details} />
-    </div>
-  );
-};
+export const DetailInformation = ({ title, details }) => (
+  <div key={`${title}-details`} className="flexbox column margin-top-small">
+    <b className="margin-bottom-small capitalized-start">{title} details</b>
+    <TwoColumnData config={details} />
+  </div>
+);
 
 const deviceAuditlogType = AUDIT_LOGS_TYPES.find(type => type.value === 'device');
 

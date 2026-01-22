@@ -19,7 +19,7 @@ import { Block as BlockIcon, CheckCircleOutline as CheckCircleOutlineIcon, Refre
 import { Button, Divider, Drawer, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
+import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import Confirm from '@northern.tech/common-ui/Confirm';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
@@ -269,7 +269,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
         {isConfigurationDeployment && (
           <>
             <LinedHeader className={classes.header} heading="Configuration" />
-            <ConfigurationObject className="margin-top-small margin-bottom-large" config={config} />
+            <TwoColumnData chipLikeKey className="margin-top-small margin-bottom-large" config={config} />
           </>
         )}
         <LinedHeader className={classes.header} heading="Status" />

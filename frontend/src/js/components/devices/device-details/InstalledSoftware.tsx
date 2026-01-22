@@ -109,9 +109,9 @@ const SoftwareLayer = ({ classes, layer, isNested, overviewOnly, setSnackbar }) 
     {!isEmpty(layer.content) && (
       <div className={isNested || overviewOnly ? '' : classes.topLevelBorder}>
         <TwoColumnData
+          chipLikeKey
           className={`${isNested || overviewOnly ? 'margin-bottom-small' : ''} margin-left-small margin-top-small`}
           config={layer.content}
-          compact
           setSnackbar={setSnackbar}
         />
       </div>

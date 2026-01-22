@@ -14,7 +14,7 @@
 import type { ComponentType, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
+import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import storeActions from '@northern.tech/store/actions';
@@ -103,7 +103,7 @@ const ConfigureRaspberryLedTip = () => {
     <>
       To see the effects of applying a configuration to your device you can set one of the below values to modify the behaviour of your Raspberry Pi green
       status LED
-      <ConfigurationObject
+      <TwoColumnData
         className="margin-top-small margin-bottom-small"
         config={{
           mmc0: 'The default, which blinks the led on storage activity',
@@ -111,7 +111,6 @@ const ConfigureRaspberryLedTip = () => {
           off: 'Turn off the light permanently',
           heartbeat: 'Enable heartbeat blinking'
         }}
-        compact
         setSnackbar={(...args) => dispatch(setSnackbar(...args))}
       />
       There are other possible values, but we won&apos;t advertise them here. See

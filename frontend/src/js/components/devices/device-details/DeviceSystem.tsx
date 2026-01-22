@@ -87,7 +87,7 @@ export const DeviceSystem = ({ columnSelection, device, onConnectToGatewayClick,
           </div>
         }
       >
-        <TwoColumnData config={{ 'Server IP': deviceIp }} compact setSnackbar={message => dispatch(setSnackbar(message))} />
+        <TwoColumnData config={{ 'Server IP': deviceIp }} setSnackbar={message => dispatch(setSnackbar(message))} />
       </DeviceDataCollapse>
       <DeviceDataCollapse className={classes.container} title="System for this gateway">
         {systemDeviceTotal ? (

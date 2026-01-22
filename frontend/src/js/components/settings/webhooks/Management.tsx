@@ -39,12 +39,6 @@ const { setSnackbar } = actions;
 const useStyles = makeStyles()(theme => ({
   divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
   statusIcon: { fontSize: 12, marginRight: theme.spacing() },
-  twoColumnsMultiple: {
-    gridTemplateColumns: 'max-content 1fr',
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2),
-    maxWidth: 'initial'
-  },
   wrapper: { justifyContent: 'end' }
 }));
 
@@ -142,7 +136,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
         <Slide in={!selectedEvent} container={containerRef.current} direction="right">
           <div className="absolute margin-top full-width" style={{ top: 0 }}>
             <h4>Settings</h4>
-            <TwoColumnData className={classes.twoColumnsMultiple} config={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
+            <TwoColumnData className="margin-top margin-bottom" config={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
             <h4>Activity</h4>
             <WebhookActivity
               classes={classes}

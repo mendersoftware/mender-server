@@ -95,22 +95,19 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
     </Link>
   );
 
+  const createdBy = creator ? { 'Created by': creator } : {};
   const deploymentInfo = {
     'Release': deploymentRelease,
     'Target device(s)': targetDevices,
-    'Category': isSoftwareDeployment ? 'Software update' : 'Configuration'
-  };
-  const createdBy = creator ? { 'Created by': creator } : {};
-  const deploymentInfo2 = {
+    'Category': isSoftwareDeployment ? 'Software update' : 'Configuration',
     ...createdBy,
     'Created at': <Time value={creationTime} />
   };
 
   return (
     <div className="report-container margin-top-large margin-bottom-large">
-      <TwoColumnData config={deploymentInfo} />
       <div className="flexbox column">
-        <TwoColumnData config={deploymentInfo2} />
+        <TwoColumnData config={deploymentInfo} />
         <a className={`margin-top-small flexbox center-aligned ${classes.scheduleLink}`} onClick={onScheduleClick}>
           Schedule details <ScrollDownIcon fontSize="small" />
         </a>

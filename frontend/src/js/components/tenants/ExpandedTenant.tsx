@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 import { Button, Checkbox, Divider, Drawer, FormControl, FormControlLabel, FormHelperText, TextField, formControlLabelClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumns } from '@northern.tech/common-ui/ConfigurationObject';
+import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
@@ -94,7 +94,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
       />
       <Divider className="margin-bottom-large" />
       <div className={classes.formWrapper}>
-        <TwoColumns className="align-self-start" setSnackbar={(str: string) => dispatch(setSnackbar(str))} items={{ name, ID: id }} />
+        <TwoColumnData setSnackbar={(str: string) => dispatch(setSnackbar(str))} config={{ name, ID: id }} />
         <FormControlLabel control={<Checkbox color="primary" size="small" disabled checked={binary_delta} />} label="Enable Delta Artifact generation" />
         {!!ssoConfig && (
           <>
