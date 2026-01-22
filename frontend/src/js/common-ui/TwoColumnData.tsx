@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { Fragment, ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, Fragment, ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
 
 // material ui
 import { FileCopyOutlined as CopyToClipboardIcon } from '@mui/icons-material';
@@ -20,7 +20,9 @@ import { makeStyles } from 'tss-react/mui';
 
 import copy from 'copy-to-clipboard';
 
-const getGridTemplateColumnSizing = columnWidth => `${columnWidth} minmax(auto, 650px)`;
+const getGridTemplateColumnSizing = (columnWidth: string): string => `${columnWidth} minmax(auto, 650px)`;
+
+type DataValue = ReactNode | string;
 
 const useStyles = makeStyles()(theme => ({
   textContent: {
@@ -48,7 +50,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-const ValueColumn = ({ setSnackbar, value = '' }) => {
+const ValueColumn = ({ setSnackbar, value = '' }: { setSnackbar?: (message: string) => void; value?: DataValue }) => {
   const { classes } = useStyles();
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const isComponent = React.isValidElement(value);
@@ -86,7 +88,7 @@ const ValueColumn = ({ setSnackbar, value = '' }) => {
   );
 };
 
-const KeyColumn = ({ chipLikeKey, setColumnWidth, value }) => {
+const KeyColumn = ({ chipLikeKey, setColumnWidth, value }: { chipLikeKey?: boolean; setColumnWidth?: (width: number) => void; value: string }) => {
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -105,7 +107,17 @@ const KeyColumn = ({ chipLikeKey, setColumnWidth, value }) => {
   );
 };
 
-export const TwoColumnData = ({ chipLikeKey = false, className = '', columnWidth, data = {}, setColumnWidth, setSnackbar, style = {} }) => {
+export interface TwoColumnDataProps {
+  chipLikeKey?: boolean;
+  className?: string;
+  columnWidth?: number;
+  data?: Record<string, DataValue>;
+  setColumnWidth?: (width: number) => void;
+  setSnackbar?: (message: string) => void;
+  style?: CSSProperties;
+}
+
+export const TwoColumnData = ({ chipLikeKey = false, className = '', columnWidth, data = {}, setColumnWidth, setSnackbar, style = {} }: TwoColumnDataProps) => {
   const { classes } = useStyles();
   return (
     <div
@@ -134,7 +146,7 @@ export const ColumnWidthProvider = ({ children }: { children: ReactNode }) => {
   return <ColumnWidthContext.Provider value={{ columnWidth, setColumnWidth: updateColumnWidth }}>{children}</ColumnWidthContext.Provider>;
 };
 
-export const SynchronizedTwoColumnData = props => {
+export const SynchronizedTwoColumnData = (props: Omit<TwoColumnDataProps, 'columnWidth' | 'setColumnWidth'>) => {
   const { columnWidth, setColumnWidth } = useContext(ColumnWidthContext)!;
   return <TwoColumnData {...props} columnWidth={columnWidth} setColumnWidth={setColumnWidth} />;
 };
