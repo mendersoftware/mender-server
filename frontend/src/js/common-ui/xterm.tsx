@@ -11,17 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { FitAddon } from '@xterm/addon-fit';
 import { SearchAddon } from '@xterm/addon-search';
 import { Terminal } from '@xterm/xterm';
 import '@xterm/xterm/css/xterm.css';
 
-const searchAddon = new SearchAddon();
-const fitAddon = new FitAddon();
-
-const addons = [fitAddon, searchAddon];
 const defaultOptions = { allowProposedApi: true, scrollback: 5000 };
 
 export const Xterm = ({ className, customKeyEventHandler, options = {}, onResize, style, triggerResize, xtermRef, ...remainingProps }) => {
@@ -36,13 +32,21 @@ export const Xterm = ({ className, customKeyEventHandler, options = {}, onResize
    * The ref for the containing element.
    */
   // const terminalRef = ref.current.terminalRef.current;
+  const fitAddonRef = useRef<FitAddon | null>(null);
 
   useEffect(() => {
     const { terminal, terminalRef } = xtermRef.current;
     // Setup the XTerm terminal.
     terminal.current = new Terminal({ ...defaultOptions, ...options });
+
+    // Create addons per terminal instance to avoid relying on disposed addons
+    const fitAddon = new FitAddon();
+    const searchAddon = new SearchAddon();
+    fitAddonRef.current = fitAddon;
+
     // Load addons
-    addons.forEach(addon => terminal.current.loadAddon(addon));
+    terminal.current.loadAddon(fitAddon);
+    terminal.current.loadAddon(searchAddon);
 
     // Create Listeners
     Object.entries(remainingProps).forEach(([key, value]) => (value ? terminal.current[key](value) : undefined));
@@ -62,15 +66,15 @@ export const Xterm = ({ className, customKeyEventHandler, options = {}, onResize
       terminal.current.dispose();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addons, customKeyEventHandler, JSON.stringify(options), Object.keys(remainingProps).join('')]);
+  }, [customKeyEventHandler, JSON.stringify(options), Object.keys(remainingProps).join('')]);
 
   useEffect(() => {
-    if (!xtermRef.current.terminalRef.current) {
+    if (!xtermRef.current.terminalRef.current || !fitAddonRef.current) {
       return;
     }
     try {
-      fitAddon.fit();
-      const { rows = 40, cols = 80 } = fitAddon.proposeDimensions() || {};
+      fitAddonRef.current.fit();
+      const { rows = 40, cols = 80 } = fitAddonRef.current.proposeDimensions() || {};
       if (onResize) {
         onResize({ rows, cols });
       }
