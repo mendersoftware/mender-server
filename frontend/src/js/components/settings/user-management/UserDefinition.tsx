@@ -19,7 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
-import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { ColumnWidthProvider, SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';
@@ -178,26 +178,28 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         />
       )}
       <UserRolesSelect disabled={!isEnterprise} currentUser={currentUser} onSelect={onRolesSelect} roles={roles} user={selectedUser} />
-      {!!(hasScopedPermissionsDefined || !isEmpty(areas)) && (
-        <InputLabel className="margin-top" shrink>
-          Role permissions
-        </InputLabel>
-      )}
-      <TwoColumnData className={rolesClasses} data={areas} />
-      {Object.entries(scopedAreas).reduce((accu, [area, areaPermissions]) => {
-        if (isEmpty(areaPermissions)) {
+      <ColumnWidthProvider>
+        {!!(hasScopedPermissionsDefined || !isEmpty(areas)) && (
+          <InputLabel className="margin-top" shrink>
+            Role permissions
+          </InputLabel>
+        )}
+        <SynchronizedTwoColumnData className={rolesClasses} data={areas} />
+        {Object.entries(scopedAreas).reduce((accu, [area, areaPermissions]) => {
+          if (isEmpty(areaPermissions)) {
+            return accu;
+          }
+          accu.push(
+            <Fragment key={area}>
+              <InputLabel className="margin-top-small" shrink>
+                {scopedPermissionAreas[area]}
+              </InputLabel>
+              <SynchronizedTwoColumnData className={rolesClasses} data={areaPermissions} />
+            </Fragment>
+          );
           return accu;
-        }
-        accu.push(
-          <Fragment key={area}>
-            <InputLabel className="margin-top-small" shrink>
-              {scopedPermissionAreas[area]}
-            </InputLabel>
-            <TwoColumnData className={rolesClasses} data={areaPermissions} />
-          </Fragment>
-        );
-        return accu;
-      }, [])}
+        }, [])}
+      </ColumnWidthProvider>
       <Divider className={classes.divider} light />
       <div className={`flexbox centered margin-top ${classes.actionButtons}`}>
         <Button className={classes.leftButton} onClick={onCancel}>

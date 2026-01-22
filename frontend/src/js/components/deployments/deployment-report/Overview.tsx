@@ -18,7 +18,7 @@ import { Button, Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Time from '@northern.tech/common-ui/Time';
-import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
 import pluralize from 'pluralize';
@@ -101,7 +101,7 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
   return (
     <div className="report-container margin-top-large margin-bottom-large">
       <div>
-        <TwoColumnData data={deploymentInfo} />
+        <SynchronizedTwoColumnData data={deploymentInfo} />
         <Button endIcon={<ScrollDownIcon fontSize="small" />} className="margin-top" onClick={onScheduleClick} variant="text">
           See schedule details
         </Button>

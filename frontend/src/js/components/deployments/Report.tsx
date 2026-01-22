@@ -22,7 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 import Confirm from '@northern.tech/common-ui/Confirm';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
-import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
 import { AUDIT_LOGS_TYPES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, TIMEOUTS, deploymentStatesToSubstates, onboardingSteps } from '@northern.tech/store/constants';
 import {
@@ -264,29 +264,31 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
       />
       <Divider />
       <div>
-        <DeploymentPhaseNotification deployment={deployment} onReviewClick={scrollToBottom} />
-        <DeploymentOverview creator={creator} deployment={deployment} devicesById={devicesById} idAttribute={idAttribute} onScheduleClick={scrollToBottom} />
-        {isConfigurationDeployment && (
-          <>
-            <LinedHeader className={classes.header} heading="Configuration" />
-            <TwoColumnData chipLikeKey className="margin-top-small margin-bottom-large" data={config} />
-          </>
-        )}
-        <LinedHeader className={classes.header} heading="Status" />
-        <DeploymentStatus deployment={deployment} />
-        {!!totalDeviceCount && (
-          <>
-            <LinedHeader className={classes.header} heading="Devices" />
-            <DeviceList {...props} viewLog={viewLog} />
-          </>
-        )}
-        <RolloutSchedule
-          deployment={deployment}
-          headerClass={classes.header}
-          onUpdateControlChange={onUpdateControlChange}
-          onAbort={abort}
-          innerRef={rolloutSchedule}
-        />
+        <ColumnWidthProvider>
+          <DeploymentPhaseNotification deployment={deployment} onReviewClick={scrollToBottom} />
+          <DeploymentOverview creator={creator} deployment={deployment} devicesById={devicesById} idAttribute={idAttribute} onScheduleClick={scrollToBottom} />
+          {isConfigurationDeployment && (
+            <>
+              <LinedHeader className={classes.header} heading="Configuration" />
+              <TwoColumnData chipLikeKey className="margin-top-small margin-bottom-large" data={config} />
+            </>
+          )}
+          <LinedHeader className={classes.header} heading="Status" />
+          <DeploymentStatus deployment={deployment} />
+          {!!totalDeviceCount && (
+            <>
+              <LinedHeader className={classes.header} heading="Devices" />
+              <DeviceList {...props} viewLog={viewLog} />
+            </>
+          )}
+          <RolloutSchedule
+            deployment={deployment}
+            headerClass={classes.header}
+            onUpdateControlChange={onUpdateControlChange}
+            onAbort={abort}
+            innerRef={rolloutSchedule}
+          />
+        </ColumnWidthProvider>
         {Boolean(deviceId.length) && <LogDialog canAi={canAi} deviceId={deviceId} deployment={deployment} onClose={() => setDeviceId('')} />}
       </div>
       <Divider className={classes.divider} light />

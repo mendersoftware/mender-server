@@ -32,7 +32,7 @@ import FileSize from '@northern.tech/common-ui/FileSize';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
-import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import {
   DEVICE_LIST_DEFAULTS,
@@ -262,7 +262,7 @@ export const DeploymentDeviceList = ({ canAi, deployment, getDeploymentDevices, 
           />
           <Loader show={isLoading} small />
         </div>
-        <TwoColumnData data={{ 'Total download size': <ValueFileSize value={totalSize} /> }} />
+        <SynchronizedTwoColumnData data={{ 'Total download size': <ValueFileSize value={totalSize} /> }} />
       </div>
     </>
   );
