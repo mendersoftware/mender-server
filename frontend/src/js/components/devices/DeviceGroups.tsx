@@ -111,7 +111,7 @@ export const DeviceGroups = () => {
   const location = useLocation();
   const { classes } = useStyles();
 
-  const [locationParams, setLocationParams] = useLocationParams('devices', {
+  const [locationParams, setLocationParams, { shouldInitializeFromUrl }] = useLocationParams('devices', {
     filteringAttributes,
     filters,
     defaults: { sort: { direction: SORTING_OPTIONS.desc } }
@@ -140,11 +140,16 @@ export const DeviceGroups = () => {
   ]);
 
   useEffect(() => {
-    // set isInitialized ref to false when location changes, otherwise when you go back setLocationParams will be set with a duplicate item
-    isInitialized.current = false;
-  }, [location]);
+    if (shouldInitializeFromUrl) {
+      // set isInitialized ref to false when location changes, otherwise when you go back setLocationParams will be set with a duplicate item
+      isInitialized.current = false;
+    }
+  }, [shouldInitializeFromUrl, location.key]);
 
   useEffect(() => {
+    if (!location.state?.internal && (isInitialized.current || !shouldInitializeFromUrl)) {
+      isInitialized.current = true;
+    }
     const { groupName, filters = [], id = [], ...remainder } = locationParams;
     const { hasFullFiltering } = tenantCapabilities;
     if (groupName) {
@@ -175,7 +180,7 @@ export const DeviceGroups = () => {
       dispatch(setOfflineThreshold());
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, JSON.stringify(tenantCapabilities), JSON.stringify(locationParams), statusParam]);
+  }, [dispatch, JSON.stringify(tenantCapabilities), JSON.stringify(locationParams), statusParam, shouldInitializeFromUrl, location.state?.internal]);
 
   /*
    * Groups

@@ -273,7 +273,9 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
       if (target === seriesOther) {
         return;
       }
-      navigate(`/devices/accepted?inventory=${group ? `group:eq:${group}&` : ''}${ensureVersionString(software, attribute)}:eq:${target}`);
+      navigate(`/devices/accepted?inventory=${group ? `group:eq:${group}&` : ''}${ensureVersionString(software, attribute)}:eq:${target}`, {
+        state: { internal: true }
+      });
     },
     [attribute, group, navigate, software]
   );

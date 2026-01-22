@@ -68,7 +68,7 @@ export const Devices = ({ clickHandle }) => {
 
   const onConnectClick = () => {
     dispatch(setShowConnectingDialog(true));
-    navigate('/devices/accepted');
+    navigate('/devices/accepted', { state: { internal: true } });
   };
 
   let onboardingComponent = null;

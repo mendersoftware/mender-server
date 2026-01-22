@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { CloudUpload } from '@mui/icons-material';
 import { Button, Tab, Tabs, TextField, inputBaseClasses, outlinedInputClasses } from '@mui/material';
@@ -164,7 +165,11 @@ export const Releases = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [showAddArtifactDialog, setShowAddArtifactDialog] = useState(false);
   const artifactTimer = useRef();
-  const [locationParams, setLocationParams] = useLocationParams('releases', { defaults: { direction: SORTING_OPTIONS.desc, key: 'modified' } });
+  const isInitialized = useRef(false);
+  const location = useLocation();
+  const [locationParams, setLocationParams, { shouldInitializeFromUrl }] = useLocationParams('releases', {
+    defaults: { direction: SORTING_OPTIONS.desc, key: 'modified' }
+  });
   const debouncedSearchTerm = useDebounce(searchTerm, TIMEOUTS.debounceDefault);
   const debouncedTypeFilter = useDebounce(type, TIMEOUTS.debounceDefault);
 
@@ -176,7 +181,13 @@ export const Releases = () => {
   }, [dispatch, selectedRelease, showAddArtifactDialog]);
 
   useEffect(() => {
-    if (!artifactTimer.current) {
+    if (shouldInitializeFromUrl) {
+      isInitialized.current = false;
+    }
+  }, [shouldInitializeFromUrl, location.key]);
+
+  useEffect(() => {
+    if (!isInitialized.current) {
       return;
     }
     setLocationParams({ pageState: { ...releasesListState, selectedRelease: selectedRelease.name } });
@@ -196,6 +207,10 @@ export const Releases = () => {
   ]);
 
   useEffect(() => {
+    if (artifactTimer.current && (isInitialized.current || !shouldInitializeFromUrl)) {
+      isInitialized.current = true;
+      return;
+    }
     const { selectedRelease, selectedJob, tags, ...remainder } = locationParams;
     if (selectedRelease) {
       dispatch(selectRelease(selectedRelease));
@@ -204,13 +219,14 @@ export const Releases = () => {
       dispatch(setSelectedJob(selectedJob));
     }
     dispatch(setReleasesListState({ ...remainder, selectedTags: tags }));
+    isInitialized.current = true;
     clearInterval(artifactTimer.current);
     artifactTimer.current = setInterval(() => dispatch(getReleases()), refreshArtifactsLength);
     return () => {
       clearInterval(artifactTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, JSON.stringify(locationParams)]);
+  }, [dispatch, JSON.stringify(locationParams), shouldInitializeFromUrl]);
 
   useEffect(() => {
     dispatch(getReleases({ searchTerm: '', searchOnly: true, page: 1, perPage: 1, selectedTags: [], type: '' }));

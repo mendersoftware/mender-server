@@ -11,8 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { Check as CheckIcon, Warning as WarningIcon } from '@mui/icons-material';
 
@@ -131,8 +132,10 @@ export const TenantList = () => {
   const tenantListState = useSelector(getTenantsList);
   const { tenants, perPage, selectedTenant, sort = {} } = tenantListState;
   const dispatch: AppDispatch = useDispatch();
+  const isInitialized = useRef(false);
+  const location = useLocation();
 
-  const [locationParams, setLocationParams] = useLocationParams('tenants', {
+  const [locationParams, setLocationParams, { shouldInitializeFromUrl }] = useLocationParams('tenants', {
     defaults: {
       direction: SORTING_OPTIONS.desc,
       key: 'name',
@@ -141,16 +144,29 @@ export const TenantList = () => {
   });
 
   useEffect(() => {
+    if (shouldInitializeFromUrl) {
+      isInitialized.current = false;
+    }
+  }, [shouldInitializeFromUrl, location.key]);
+
+  useEffect(() => {
+    if (isInitialized.current || !shouldInitializeFromUrl) {
+      isInitialized.current = true;
+      return;
+    }
     const { selectedTenant: selectedTenantName } = locationParams;
     if (selectedTenantName) {
       dispatch(setTenantsListState({ selectedTenant: selectedTenantName }));
     }
-  }, [dispatch, locationParams]);
+    isInitialized.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, JSON.stringify(locationParams), shouldInitializeFromUrl]);
 
   useEffect(() => {
-    if (selectedTenant) {
-      setLocationParams({ pageState: { ...tenantListState, selectedTenant } });
+    if (!isInitialized.current || !selectedTenant) {
+      return;
     }
+    setLocationParams({ pageState: { ...tenantListState, selectedTenant } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setLocationParams, JSON.stringify(sort), selectedTenant]);
 

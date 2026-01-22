@@ -28,7 +28,6 @@ import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
-import { ColumnWidthProvider } from '@northern.tech/common-ui/ConfigurationObject';
 import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/Confirm';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
@@ -341,7 +340,8 @@ export const ReleaseDetails = () => {
 
   const onCloseClick = () => dispatch(selectRelease(null));
 
-  const onCreateDeployment = () => navigate(`${DEPLOYMENT_ROUTES.active.route}?open=true&release=${encodeURIComponent(releaseName)}`);
+  const onCreateDeployment = () =>
+    navigate(`${DEPLOYMENT_ROUTES.active.route}?open=true&release=${encodeURIComponent(releaseName)}`, { state: { internal: true } });
 
   const onToggleReleaseDeletion = () => setConfirmReleaseDeletion(toggle);
 
