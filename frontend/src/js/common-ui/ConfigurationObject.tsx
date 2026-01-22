@@ -15,22 +15,34 @@ import React, { Fragment, useState } from 'react';
 
 // material ui
 import { FileCopyOutlined as CopyToClipboardIcon } from '@mui/icons-material';
-import { Tooltip } from '@mui/material';
+import { Chip, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import copy from 'copy-to-clipboard';
 
+const getGridTemplateColumnSizing = columnWidth => `${columnWidth} 650px`;
+
 const useStyles = makeStyles()(theme => ({
+  copyIconOverride: {
+    '&.copy-to-clipboard svg': {
+      fill: theme.palette.action.active
+    }
+  },
+  copyIconVisible: {
+    opacity: 1
+  },
   root: {
-    ['.key > b']: {
-      backgroundColor: theme.palette.grey[400],
-      color: theme.palette.getContrastText(theme.palette.grey[400])
+    '&.two-columns.column-data': {
+      gridTemplateColumns: getGridTemplateColumnSizing('max-content'),
+      maxWidth: 'initial',
+      rowGap: theme.spacing()
     }
   }
 }));
 
 const cutoffLength = 100;
 const ValueColumn = ({ value = '', setSnackbar }) => {
+  const { classes } = useStyles();
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const isComponent = React.isValidElement(value);
   const onClick = () => {
@@ -45,66 +57,50 @@ const ValueColumn = ({ value = '', setSnackbar }) => {
   };
   let shownValue = value;
   if (!isComponent) {
-    shownValue = <div title={value}>{value.length > cutoffLength ? `${value.substring(0, cutoffLength - 3)}...` : value}</div>;
+    shownValue = value.length > cutoffLength ? `${value.substring(0, cutoffLength - 3)}...` : value;
   }
   return (
-    <div
-      className={`flexbox ${setSnackbar ? 'clickable' : ''}`}
+    <Typography
+      className={`flexbox copy-to-clipboard ${setSnackbar ? 'clickable' : ''} ${classes.copyIconOverride}`}
+      component="div"
       onClick={onClick}
+      title={value}
       onMouseEnter={() => setTooltipVisible(true)}
       onMouseLeave={() => setTooltipVisible(false)}
+      variant="body2"
     >
       {shownValue}
       {setSnackbar && (
-        <Tooltip title={'Copy to clipboard'} placement="top" open={tooltipVisible}>
-          <CopyToClipboardIcon color="primary" className={`margin-left-small ${tooltipVisible ? 'fadeIn' : 'fadeOut'}`} fontSize="small" />
+        <Tooltip title="Copy to clipboard" placement="top">
+          <CopyToClipboardIcon color="action" fontSize="small" className={`margin-left-x-small ${tooltipVisible ? classes.copyIconVisible : ''}`} />
         </Tooltip>
       )}
-    </div>
+    </Typography>
   );
 };
 
-const KeyColumn = ({ value }) => (
-  <div className="align-right muted">
-    <b>{value}</b>
-  </div>
-);
+const KeyColumn = ({ value, chipLikeKey }) =>
+  chipLikeKey ? (
+    <Chip label={value} size="small" style={{ justifySelf: 'end' }} />
+  ) : (
+    <Typography className="key" variant="subtitle2">
+      {value}
+    </Typography>
+  );
 
-export const TwoColumns = ({
-  className = '',
-  children = undefined,
-  compact = false,
-  items = {},
-  KeyComponent = KeyColumn,
-  KeyProps = {},
-  setSnackbar,
-  style = {},
-  ValueComponent = ValueColumn,
-  ValueProps = {}
-}) => {
+export const TwoColumnData = ({ className = '', chipLikeKey = false, columnSize, config = {}, setSnackbar, style = {} }) => {
   const { classes } = useStyles();
   return (
-    <div className={`break-all two-columns ${classes.root} ${compact ? 'compact' : ''} ${className}`} style={style}>
-      {children
-        ? children
-        : Object.entries(items).map(([key, value]) => (
-            <Fragment key={key}>
-              <KeyComponent value={key} {...KeyProps} />
-              <ValueComponent setSnackbar={setSnackbar} value={value} {...ValueProps} />
-            </Fragment>
-          ))}
+    <div
+      className={`break-all two-columns ${classes.root} column-data ${className}`}
+      style={{ ...style, gridTemplateColumns: columnSize ? getGridTemplateColumnSizing(`${columnSize}px`) : undefined }}
+    >
+      {Object.entries(config).map(([key, value]) => (
+        <Fragment key={key}>
+          <KeyColumn chipLikeKey={chipLikeKey} value={key} />
+          <ValueColumn setSnackbar={setSnackbar} value={value} />
+        </Fragment>
+      ))}
     </div>
   );
 };
-
-export const TwoColumnData = ({ className = '', config, ...props }) => <TwoColumns className={`column-data ${className}`} items={config} {...props} />;
-
-export const ConfigurationObject = ({ config, ...props }) => {
-  const content = Object.entries(config).reduce((accu, [key, value]) => {
-    accu[key] = `${value}`;
-    return accu;
-  }, {});
-  return <TwoColumnData {...props} config={content} />;
-};
-
-export default ConfigurationObject;
