@@ -92,7 +92,7 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
         ))}
       </div>
       <TwoColumnData
-        config={{ 'Update attempts per device': retries, 'Maximum number of devices': max_devices || 'N/A' }}
+        data={{ 'Update attempts per device': retries, 'Maximum number of devices': max_devices || 'N/A' }}
         style={{ gridTemplateColumns: 'max-content 1fr' }}
       />
     </div>

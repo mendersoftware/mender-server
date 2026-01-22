@@ -97,7 +97,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
             </div>
           </>
         ) : hasTags ? (
-          <TwoColumnData className="margin-left" chipLikeKey config={tags} setSnackbar={setSnackbar} />
+          <TwoColumnData className="margin-left" chipLikeKey data={tags} setSnackbar={setSnackbar} />
         ) : (
           <Typography variant="subtitle2">No tags have been set for this device.</Typography>
         )}

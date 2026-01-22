@@ -183,7 +183,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
           Role permissions
         </InputLabel>
       )}
-      <TwoColumnData className={rolesClasses} config={areas} />
+      <TwoColumnData className={rolesClasses} data={areas} />
       {Object.entries(scopedAreas).reduce((accu, [area, areaPermissions]) => {
         if (isEmpty(areaPermissions)) {
           return accu;
@@ -193,7 +193,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
             <InputLabel className="margin-top-small" shrink>
               {scopedPermissionAreas[area]}
             </InputLabel>
-            <TwoColumnData className={rolesClasses} config={areaPermissions} />
+            <TwoColumnData className={rolesClasses} data={areaPermissions} />
           </Fragment>
         );
         return accu;

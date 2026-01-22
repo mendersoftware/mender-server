@@ -111,7 +111,7 @@ const SoftwareLayer = ({ classes, layer, isNested, overviewOnly, setSnackbar }) 
         <TwoColumnData
           chipLikeKey
           className={`${isNested || overviewOnly ? 'margin-bottom-small' : ''} margin-left-small margin-top-small`}
-          config={layer.content}
+          data={layer.content}
           setSnackbar={setSnackbar}
         />
       </div>

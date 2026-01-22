@@ -28,7 +28,7 @@ const useStyles = makeStyles()(theme => ({
 export const DetailInformation = ({ title, details }) => (
   <div key={`${title}-details`} className="flexbox column margin-top-small">
     <b className="margin-bottom-small capitalized-start">{title} details</b>
-    <TwoColumnData config={details} />
+    <TwoColumnData data={details} />
   </div>
 );
 

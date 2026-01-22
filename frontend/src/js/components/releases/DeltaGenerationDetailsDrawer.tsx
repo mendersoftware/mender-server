@@ -259,8 +259,8 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
         ) : (
           <>
             <div className="two-columns">
-              <TwoColumnData config={staticDetailsLeft} />
-              <TwoColumnData config={staticDetailsRight} />
+              <TwoColumnData data={staticDetailsLeft} />
+              <TwoColumnData data={staticDetailsRight} />
             </div>
             <LinedHeader className="margin-top-large" heading="Status" />
             <DetailsTable className={classes.table} columns={statusColumns} items={[combinedData]} />

@@ -105,7 +105,7 @@ const ConfigureRaspberryLedTip = () => {
       status LED
       <TwoColumnData
         className="margin-top-small margin-bottom-small"
-        config={{
+        data={{
           mmc0: 'The default, which blinks the led on storage activity',
           on: 'Turn on the light permanently',
           off: 'Turn off the light permanently',

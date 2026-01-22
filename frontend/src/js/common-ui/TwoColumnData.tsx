@@ -88,14 +88,14 @@ const KeyColumn = ({ value, chipLikeKey }) =>
     </Typography>
   );
 
-export const TwoColumnData = ({ className = '', chipLikeKey = false, columnSize, config = {}, setSnackbar, style = {} }) => {
+export const TwoColumnData = ({ chipLikeKey = false, className = '', columnSize, data = {}, setSnackbar, style = {} }) => {
   const { classes } = useStyles();
   return (
     <div
       className={`break-all two-columns ${classes.root} column-data ${className}`}
       style={{ ...style, gridTemplateColumns: columnSize ? getGridTemplateColumnSizing(`${columnSize}px`) : undefined }}
     >
-      {Object.entries(config).map(([key, value]) => (
+      {Object.entries(data).map(([key, value]) => (
         <Fragment key={key}>
           <KeyColumn chipLikeKey={chipLikeKey} value={key} />
           <ValueColumn setSnackbar={setSnackbar} value={value} />

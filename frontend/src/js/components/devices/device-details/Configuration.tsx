@@ -393,7 +393,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
             onInputChange={setChangedConfig}
           />
         ) : (
-          hasDeviceConfig && <TwoColumnData chipLikeKey config={reported} setSnackbar={onSetSnackbar} />
+          hasDeviceConfig && <TwoColumnData chipLikeKey data={reported} setSnackbar={onSetSnackbar} />
         )}
         {hasDeviceConfig && <div className="flexbox center-aligned margin-bottom margin-top">{footer}</div>}
         {showLog && <LogDialog logData={updateLog} onClose={() => setShowLog(false)} type="configUpdateLog" />}

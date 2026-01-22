@@ -262,7 +262,7 @@ export const DeploymentDeviceList = ({ canAi, deployment, getDeploymentDevices, 
           />
           <Loader show={isLoading} small />
         </div>
-        <TwoColumnData config={{ 'Total download size': <ValueFileSize value={totalSize} /> }} />
+        <TwoColumnData data={{ 'Total download size': <ValueFileSize value={totalSize} /> }} />
       </div>
     </>
   );

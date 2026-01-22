@@ -38,7 +38,7 @@ export const DeviceIdentity = ({ device, setSnackbar }) => {
 
   return (
     <DeviceDataCollapse header={null} title="Device identity">
-      <TwoColumnData config={{ Name: <DeviceNameInput device={device} isHovered />, ...content }} setSnackbar={setSnackbar} />
+      <TwoColumnData data={{ Name: <DeviceNameInput device={device} isHovered />, ...content }} setSnackbar={setSnackbar} />
     </DeviceDataCollapse>
   );
 };

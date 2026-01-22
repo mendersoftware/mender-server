@@ -269,7 +269,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
         {isConfigurationDeployment && (
           <>
             <LinedHeader className={classes.header} heading="Configuration" />
-            <TwoColumnData chipLikeKey className="margin-top-small margin-bottom-large" config={config} />
+            <TwoColumnData chipLikeKey className="margin-top-small margin-bottom-large" data={config} />
           </>
         )}
         <LinedHeader className={classes.header} heading="Status" />

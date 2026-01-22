@@ -136,7 +136,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
         <Slide in={!selectedEvent} container={containerRef.current} direction="right">
           <div className="absolute margin-top full-width" style={{ top: 0 }}>
             <h4>Settings</h4>
-            <TwoColumnData className="margin-top margin-bottom" config={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
+            <TwoColumnData className="margin-top margin-bottom" data={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
             <h4>Activity</h4>
             <WebhookActivity
               classes={classes}

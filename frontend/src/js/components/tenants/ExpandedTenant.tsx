@@ -94,7 +94,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
       />
       <Divider className="margin-bottom-large" />
       <div className={classes.formWrapper}>
-        <TwoColumnData setSnackbar={(str: string) => dispatch(setSnackbar(str))} config={{ name, ID: id }} />
+        <TwoColumnData setSnackbar={(str: string) => dispatch(setSnackbar(str))} data={{ name, ID: id }} />
         <FormControlLabel control={<Checkbox color="primary" size="small" disabled checked={binary_delta} />} label="Enable Delta Artifact generation" />
         {!!ssoConfig && (
           <>

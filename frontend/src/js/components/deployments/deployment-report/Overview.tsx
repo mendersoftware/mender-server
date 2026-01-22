@@ -107,7 +107,7 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
   return (
     <div className="report-container margin-top-large margin-bottom-large">
       <div className="flexbox column">
-        <TwoColumnData config={deploymentInfo} />
+        <TwoColumnData data={deploymentInfo} />
         <a className={`margin-top-small flexbox center-aligned ${classes.scheduleLink}`} onClick={onScheduleClick}>
           Schedule details <ScrollDownIcon fontSize="small" />
         </a>

@@ -80,7 +80,7 @@ const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSna
       </div>
       <Divider className={classes.divider} />
       <h4>Event details</h4>
-      <TwoColumnData className="margin-top margin-bottom" config={content} setSnackbar={setSnackbar} />
+      <TwoColumnData className="margin-top margin-bottom" data={content} setSnackbar={setSnackbar} />
       <h4>Payload</h4>
       {data && <Editor {...editorProps} className="editor modified" value={JSON.stringify(data, null, '\t')} />}
       <Divider className={classes.divider} />
