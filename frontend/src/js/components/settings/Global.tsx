@@ -232,7 +232,10 @@ export const GlobalSettingsDialog = ({
 
   const onEditDeltaClick = () => setShowDeltaConfig(true);
 
-  const onToggleAiClick = useCallback(current => saveGlobalSettings({ aiFeatures: { ...aiFeatures, enabled: !current } }), [aiFeatures, saveGlobalSettings]);
+  const onToggleAiClick = useCallback(
+    current => saveGlobalSettings({ aiFeatures: { ...aiFeatures, enabled: !current, trainingEnabled: aiFeatures.trainingEnabled || !current } }),
+    [aiFeatures, saveGlobalSettings]
+  );
 
   const onToggleAiTrainingClick = useCallback(
     ({ target: { checked } }) => saveGlobalSettings({ aiFeatures: { ...aiFeatures, trainingEnabled: checked } }),
@@ -327,7 +330,9 @@ export const GlobalSettingsDialog = ({
               description="Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 50 requests per day. "
             />
             <FormControlLabel
-              control={<Checkbox disabled={!isAiEnabled} checked={isAiTrainingEnabled} onChange={onToggleAiTrainingClick} />}
+              control={
+                <Checkbox key={`aiEnabled-${isAiTrainingEnabled}`} disabled={!isAiEnabled} checked={isAiTrainingEnabled} onChange={onToggleAiTrainingClick} />
+              }
               label="Allow us to use data for training"
             />
             <Typography variant="body2">This allows us to enhance the responses you get, collect your feedback, and refine the AI model.</Typography>
