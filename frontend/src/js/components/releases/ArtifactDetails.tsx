@@ -16,96 +16,77 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
 import {
-  Add as AddIcon,
-  CancelOutlined as CancelOutlinedIcon,
-  CheckCircleOutline as CheckCircleOutlineIcon,
   Delete as DeleteIcon,
+  ExpandLess,
+  ExpandMore,
   Launch as LaunchIcon,
-  Remove as RemoveIcon,
-  SaveAlt as SaveAltIcon
+  SaveAlt as SaveAltIcon,
+  GppGoodOutlined as SignedIcon,
+  GppBadOutlined as UnsignedIcon
 } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary, Button, List, ListItem, ListItemText } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
-import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
+import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { getUserCapabilities } from '@northern.tech/store/selectors';
 import { editArtifact, getArtifactInstallCount, getArtifactUrl } from '@northern.tech/store/thunks';
-import { extractSoftware, extractSoftwareItem, toggle } from '@northern.tech/utils/helpers';
+import { extractSoftware, extractSoftwareItem, isEmpty, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
 import ArtifactMetadataList from './ArtifactMetadataList';
 import ArtifactPayload from './ArtifactPayload';
 
-const useStyles = makeStyles()(theme => ({
-  link: { marginTop: theme.spacing() },
-  listItemStyle: {
-    bordered: {
-      borderBottom: '1px solid',
-      borderBottomColor: theme.palette.grey[500]
-    },
-    color: theme.palette.text.primary,
-    fontSize: 13,
-    marginRight: '2vw',
-    minWidth: 200,
-    padding: 0,
-    width: 'initial'
-  },
-  paddingOverride: { paddingBottom: 4, paddingTop: 0 },
+const useStyles = makeStyles()(() => ({
   accordPanel1: {
     padding: '0 15px',
     marginBottom: 30,
     [`&.Mui-expanded`]: {
       marginBottom: 30
     }
-  },
-  accordSummary: {
-    padding: 0
   }
 }));
 
 export const transformArtifactCapabilities = (capabilities = {}) =>
   Object.entries(capabilities).reduce((accu, [key, value]) => {
     if (!Array.isArray(value)) {
-      accu.push({ key, primary: key, secondary: value });
+      accu[key] = value;
     } else if (!key.startsWith('device_type')) {
       // we can expect this to be an array of artifacts or artifact groups this artifact depends on
-      const dependencies = value.reduce((dependencies, dependency, index) => {
+      accu = value.reduce((dependenciesAccu, dependency, index) => {
         const dependencyKey = value.length > 1 ? `${key}-${index + 1}` : key;
-        dependencies.push({ key: dependencyKey, primary: dependencyKey, secondary: dependency });
-        return dependencies;
-      }, []);
-      accu.push(...dependencies);
+        dependenciesAccu[dependencyKey] = dependency;
+        return dependenciesAccu;
+      }, accu);
     }
     return accu;
-  }, []);
+  }, {});
 
 export const transformArtifactMetadata = (metadata = {}) =>
   Object.entries(metadata).reduce((accu, [key, value]) => {
-    const commonProps = { key, primary: key, secondaryTypographyProps: { component: 'div' } };
     if (Array.isArray(value)) {
-      accu.push({ ...commonProps, secondary: value.length ? value.join(',') : '-' });
+      accu[key] = value.length ? value.join(',') : '-';
     } else if (value instanceof Object) {
-      accu.push({ ...commonProps, secondary: JSON.stringify(value) || '-' });
+      accu[key] = JSON.stringify(value) || '-';
     } else {
-      accu.push({ ...commonProps, secondary: value || '-' });
+      accu[key] = value || '-';
     }
     return accu;
-  }, []);
+  }, {});
 
-const DevicesLink = ({ artifact: { installCount }, softwareItem: { key, name, version } }) => {
-  const { classes } = useStyles();
+const DevicesLink = ({ artifact: { installCount }, softwareItem: { key, name, version }, title = '' }) => {
   const text = `${installCount} ${pluralize('device', installCount)}`;
   if (!installCount) {
-    return <div className={classes.link}>{text}</div>;
+    return <div title={title}>{text}</div>;
   }
   const attribute = `${key}${name ? `.${name}` : ''}.version`;
   return (
     <a
-      className={`flexbox center-aligned ${classes.link}`}
+      className="flexbox center-aligned"
       href={`${window.location.origin}/ui/devices/accepted?inventory=${attribute}:eq:${version}`}
       target="_blank"
       rel="noreferrer"
+      title={title}
     >
       {text}
       <LaunchIcon className="margin-left-small" fontSize="small" />
@@ -159,56 +140,49 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
   const softwareInformation = softwareItem
     ? {
         title: 'Software versioning information',
-        content: [
-          { key: 'software-filesystem', primary: 'Software filesystem', secondary: softwareItem.key },
-          { key: 'software-name', primary: 'Software name', secondary: softwareItem.name },
-          { key: 'software-version', primary: 'Software version', secondary: softwareItem.version }
-        ]
+        content: {
+          'Software filesystem': softwareItem.key,
+          'Software name': softwareItem.name,
+          'Software version': softwareItem.version
+        }
       }
-    : { content: [] };
+    : { title: '', content: {} };
 
   const artifactMetaInfo = [
-    { title: 'Depends', content: transformArtifactCapabilities(artifact.artifact_depends) },
-    { title: 'Clears', content: transformArtifactCapabilities(artifact.artifact_clears) },
-    { title: 'Provides', content: transformArtifactCapabilities(artifact.artifact_provides) },
-    { title: 'Artifact metadata', content: transformArtifactMetadata(artifact.metaData) }
+    { key: 'depends', title: 'Depends', content: transformArtifactCapabilities(artifact.artifact_depends) },
+    { key: 'clears', title: 'Clears', content: transformArtifactCapabilities(artifact.artifact_clears) },
+    { key: 'provides', title: 'Provides', content: transformArtifactCapabilities(artifact.artifact_provides) },
+    { key: 'metadata', title: 'Artifact metadata', content: transformArtifactMetadata(artifact.metaData) }
   ];
-  const hasMetaInfo = artifactMetaInfo.some(item => !!item.content.length);
+  const hasMetaInfo = artifactMetaInfo.some(item => !isEmpty(item.content));
   const { installCount } = artifact;
-  const itemProps = { classes: { root: 'attributes', disabled: 'opaque' }, className: classes.listItemStyle };
   return (
     <div className={artifact.name == null ? 'muted' : null}>
-      <List className="list-horizontal-flex">
-        <ListItem {...itemProps}>
-          <ListItemText
-            primary="Description"
-            style={{ marginBottom: -3, minWidth: 600 }}
-            primaryTypographyProps={{ style: { marginBottom: 3 } }}
-            secondary={<EditableLongText fullWidth original={artifact.description} onChange={onDescriptionChanged} />}
-            secondaryTypographyProps={{ component: 'div' }}
-          />
-        </ListItem>
-        <ListItem {...itemProps} className={`${classes.listItemStyle} ${classes.listItemStyle.bordered}`}>
-          <ListItemText primary="Signed" secondary={artifact.signed ? <CheckCircleOutlineIcon className="green" /> : <CancelOutlinedIcon className="red" />} />
-        </ListItem>
-        {installCount !== undefined && softwareVersions.length === 1 && (
-          <ExpandableAttribute
-            classes={{ root: classes.paddingOverride }}
-            disableGutters
-            primary="Installed on"
-            secondary={<DevicesLink artifact={artifact} softwareItem={softwareItem} />}
-            secondaryTypographyProps={{ title: `installed on ${installCount} ${pluralize('device', installCount)}` }}
-            style={{ padding: 0 }}
-          />
-        )}
-      </List>
+      <SynchronizedTwoColumnData
+        className="margin-bottom-small"
+        data={{
+          'Description': <EditableLongText fullWidth original={artifact.description} onChange={onDescriptionChanged} />,
+          'Signed': artifact.signed ? <SignedIcon className="green" /> : <UnsignedIcon className="red" />
+        }}
+      />
+
+      {installCount !== undefined && softwareVersions.length === 1 && (
+        <SynchronizedTwoColumnData
+          className="margin-bottom-small"
+          data={{
+            'Installed on': (
+              <DevicesLink artifact={artifact} softwareItem={softwareItem} title={`installed on ${installCount} ${pluralize('device', installCount)}`} />
+            )
+          }}
+        />
+      )}
       <ArtifactMetadataList metaInfo={softwareInformation} />
       <Accordion square expanded={showPayloads} onChange={() => setShowPayloads(toggle)} className={classes.accordPanel1}>
-        <AccordionSummary className={classes.accordSummary}>
-          <p>Artifact contents</p>
-          <div style={{ marginLeft: 'auto' }}>{showPayloads ? <RemoveIcon /> : <AddIcon />}</div>
+        <AccordionSummary className="flexbox center-aligned">
+          <Typography>Artifact contents</Typography>
+          <div style={{ marginLeft: 'auto' }}>{showPayloads ? <ExpandLess /> : <ExpandMore />}</div>
         </AccordionSummary>
-        <AccordionDetails className={classes.accordSummary}>
+        <AccordionDetails>
           {showPayloads &&
             !!artifact.updates.length &&
             artifact.updates.map((update, index) => <ArtifactPayload index={index} payload={update} key={`artifact-update-${index}`} />)}
@@ -216,12 +190,24 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
       </Accordion>
       {hasMetaInfo && (
         <Accordion square expanded={showProvidesDepends} onChange={() => setShowProvidesDepends(!showProvidesDepends)} className={classes.accordPanel1}>
-          <AccordionSummary className={classes.accordSummary}>
-            <p>Provides and Depends</p>
-            <div style={{ marginLeft: 'auto' }}>{showProvidesDepends ? <RemoveIcon /> : <AddIcon />}</div>
+          <AccordionSummary className="flexbox center-aligned">
+            <Typography>Provides and Depends</Typography>
+            <div style={{ marginLeft: 'auto' }}>{showProvidesDepends ? <ExpandLess /> : <ExpandMore />}</div>
           </AccordionSummary>
-          <AccordionDetails className={classes.accordSummary}>
-            {showProvidesDepends && artifactMetaInfo.map((info, index) => <ArtifactMetadataList metaInfo={info} key={`artifact-info-${index}`} />)}
+          <AccordionDetails>
+            {artifactMetaInfo.reduce((accu, { key, title, content }) => {
+              if (isEmpty(content)) {
+                return accu;
+              }
+              accu.push(
+                <div key={key}>
+                  <Typography variant="subtitle2">{title}</Typography>
+                  <Divider className="margin-top-small margin-bottom-small" />
+                  <SynchronizedTwoColumnData data={content} />
+                </div>
+              );
+              return accu;
+            }, [])}
           </AccordionDetails>
         </Accordion>
       )}

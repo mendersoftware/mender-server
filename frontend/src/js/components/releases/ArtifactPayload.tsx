@@ -11,27 +11,19 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { List, ListItem, ListItemText, Table, TableBody, TableCell, TableHead, TableRow, lighten } from '@mui/material';
+import { Divider, Table, TableBody, TableCell, TableHead, TableRow, Typography, lighten } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import FileSize from '@northern.tech/common-ui/FileSize';
 import Time from '@northern.tech/common-ui/Time';
+import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { getFormattedSize } from '@northern.tech/utils/helpers';
 
 const METADATA_SPACING = 2;
 
 const useStyles = makeStyles()(theme => ({
-  metadataList: {
-    display: 'flex',
-    flexDirection: 'row'
-  },
   table: {
     background: 'transparent'
-  },
-  metadataListItem: {
-    paddingBottom: 11,
-    borderBottom: `1px solid ${theme.palette.grey[600]}`,
-    marginRight: '2vw'
   },
   payloadHeader: {
     background: lighten(theme.palette.background.paper, 0.25),
@@ -49,20 +41,14 @@ export const ArtifactPayload = ({ index, payload: { files: payloadFiles, meta_da
   const files = payloadFiles || [];
   const summedSize = files.reduce((accu, item) => accu + item.size, 0);
   const metaDataObject = meta_data;
-  const metaData = [
-    { title: 'Type', value: type_info.type },
-    { title: 'Total Size (uncompressed)', value: getFormattedSize(summedSize) }
-  ];
+  const metaData = {
+    'Type': type_info.type,
+    'Total Size (uncompressed)': getFormattedSize(summedSize)
+  };
   return (
     <div className="file-details">
       <h4 className={classes.payloadHeader}>Payload {index}</h4>
-      <List className={classes.metadataList}>
-        {metaData.map((item, index) => (
-          <ListItem disabled={true} className={classes.metadataListItem} classes={{ root: 'attributes', disabled: 'opaque' }} key={`metadata-item-${index}`}>
-            <ListItemText primary={item.title} secondary={item.value} />
-          </ListItem>
-        ))}
-      </List>
+      <SynchronizedTwoColumnData className="margin-top margin-bottom" data={metaData} />
       <div className="file-meta">
         {Object.keys(metaDataObject).length ? (
           <div>
@@ -72,7 +58,8 @@ export const ArtifactPayload = ({ index, payload: { files: payloadFiles, meta_da
             </pre>
           </div>
         ) : null}
-        <h4>Files</h4>
+        <Typography variant="subtitle2">Files</Typography>
+        <Divider className="margin-top-small margin-bottom-small" />
         {files.length ? (
           <Table className={classes.table}>
             <TableHead>

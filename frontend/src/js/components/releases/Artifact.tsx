@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // material ui
-import { ArrowDropDown as ArrowDropDownIcon, ArrowDropUp as ArrowDropUpIcon } from '@mui/icons-material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -41,7 +41,7 @@ export const Artifact = ({ artifact, className, columns, expanded, index, onRowS
           {columns.map(({ name, render: Component }) => (
             <Component key={name} artifact={artifact} />
           ))}
-          {expanded ? <ArrowDropUpIcon className="expandButton" fontSize="large" /> : <ArrowDropDownIcon className="expandButton" fontSize="large" />}
+          {expanded ? <ExpandLess className="expandButton" /> : <ExpandMore className="expandButton" />}
         </AccordionSummary>
         <AccordionDetails>
           <ArtifactDetails artifact={artifact} open={expanded} showRemoveArtifactDialog={showRemoveArtifactDialog} />
