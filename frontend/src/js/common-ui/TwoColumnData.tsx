@@ -23,6 +23,14 @@ import copy from 'copy-to-clipboard';
 const getGridTemplateColumnSizing = columnWidth => `${columnWidth} 650px`;
 
 const useStyles = makeStyles()(theme => ({
+  textContent: {
+    display: '-webkit-box',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    WebkitLineClamp: 5,
+    WebkitBoxOrient: 'vertical',
+    wordBreak: 'break-word'
+  },
   copyIconOverride: {
     '&.copy-to-clipboard svg': {
       fill: theme.palette.action.active
@@ -40,11 +48,11 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-const cutoffLength = 100;
-const ValueColumn = ({ value = '', setSnackbar }) => {
+const ValueColumn = ({ setSnackbar, value = '' }) => {
   const { classes } = useStyles();
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const isComponent = React.isValidElement(value);
+
   const onClick = () => {
     if (setSnackbar) {
       let copyable = value;
@@ -55,27 +63,26 @@ const ValueColumn = ({ value = '', setSnackbar }) => {
       setSnackbar('Value copied to clipboard');
     }
   };
-  let shownValue = value;
-  if (!isComponent) {
-    shownValue = value.length > cutoffLength ? `${value.substring(0, cutoffLength - 3)}...` : value;
-  }
+
   return (
-    <Typography
-      className={`flexbox copy-to-clipboard ${setSnackbar ? 'clickable' : ''} ${classes.copyIconOverride}`}
-      component="div"
-      onClick={onClick}
-      title={value}
-      onMouseEnter={() => setTooltipVisible(true)}
-      onMouseLeave={() => setTooltipVisible(false)}
-      variant="body2"
-    >
-      {shownValue}
+    <div className={`flexbox center-aligned ${setSnackbar ? 'copy-to-clipboard' : ''} ${classes.copyIconOverride}`}>
+      <Typography
+        className={`${classes.textContent} ${setSnackbar ? 'clickable' : ''}`}
+        component="div"
+        onClick={onClick}
+        title={isComponent ? value.props.value : value}
+        onMouseEnter={() => setTooltipVisible(true)}
+        onMouseLeave={() => setTooltipVisible(false)}
+        variant="body2"
+      >
+        {value}
+      </Typography>
       {setSnackbar && (
         <Tooltip title="Copy to clipboard" placement="top">
           <CopyToClipboardIcon color="action" fontSize="small" className={`margin-left-x-small ${tooltipVisible ? classes.copyIconVisible : ''}`} />
         </Tooltip>
       )}
-    </Typography>
+    </div>
   );
 };
 
