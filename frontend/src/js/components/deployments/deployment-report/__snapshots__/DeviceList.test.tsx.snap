@@ -126,17 +126,25 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
     </div>
   </div>
   <div
-    class="break-all two-columns css-11rvwt0-root compact "
+    class="break-all two-columns css-7gpf1z-root column-data "
   >
-    <div
-      class="align-right muted"
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+      style="width: max-content;"
     >
-      <b>
-        Total download size
-      </b>
-    </div>
-    <div>
-      1.21 KB
+      Total download size
+    </h6>
+    <div
+      class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+    >
+      <div
+        class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+        title="1234"
+      >
+        <div>
+          1.21 KB
+        </div>
+      </div>
     </div>
   </div>
 </div>"

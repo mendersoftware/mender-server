@@ -9,86 +9,49 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
   top: -20px;
 }
 
-.emotion-1 {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
+.emotion-1.two-columns.column-data {
+  grid-template-columns: max-content minmax(auto, 650px);
+  max-width: initial;
+  row-gap: 8px;
 }
 
 .emotion-2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  position: relative;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  width: 100%;
-  box-sizing: border-box;
-  text-align: left;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 11px;
-  border-bottom: 1px solid #757575;
-  margin-right: 2vw;
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
 }
 
-.emotion-3 {
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  min-width: 0;
-  margin-top: 4px;
-  margin-bottom: 4px;
-  margin-top: 6px;
-  margin-bottom: 6px;
-}
-
-.MuiTypography-root:where(.emotion-3 .MuiListItemText-primary) {
-  display: block;
-}
-
-.MuiTypography-root:where(.emotion-3 .MuiListItemText-secondary) {
-  display: block;
+.emotion-3.copy-to-clipboard svg {
+  fill: rgba(0, 0, 0, 0.54);
 }
 
 .emotion-4 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-  letter-spacing: 0.00938em;
-}
-
-.emotion-5 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  color: rgba(0, 0, 0, 0.6);
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.emotion-9 {
+  margin: 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
 }
 
 <div
@@ -99,54 +62,53 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
   >
     Payload 
   </h4>
-  <ul
-    class="MuiList-root MuiList-padding emotion-1"
+  <div
+    class="break-all two-columns emotion-1 column-data margin-top margin-bottom"
   >
-    <li
-      class="MuiListItem-root attributes MuiListItem-gutters MuiListItem-padding emotion-2"
-      disabled=""
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-2"
+      style="width: max-content;"
+    >
+      Type
+    </h6>
+    <div
+      class="flexbox center-aligned  emotion-3"
     >
       <div
-        class="MuiListItemText-root MuiListItemText-multiline emotion-3"
+        class="MuiTypography-root MuiTypography-body2 emotion-4"
+        title="test"
       >
-        <span
-          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
-        >
-          Type
-        </span>
-        <p
-          class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-5"
-        >
-          test
-        </p>
+        test
       </div>
-    </li>
-    <li
-      class="MuiListItem-root attributes MuiListItem-gutters MuiListItem-padding emotion-2"
-      disabled=""
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-2"
+      style="width: max-content;"
+    >
+      Total Size (uncompressed)
+    </h6>
+    <div
+      class="flexbox center-aligned  emotion-3"
     >
       <div
-        class="MuiListItemText-root MuiListItemText-multiline emotion-3"
+        class="MuiTypography-root MuiTypography-body2 emotion-4"
+        title="0 Bytes"
       >
-        <span
-          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
-        >
-          Total Size (uncompressed)
-        </span>
-        <p
-          class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-5"
-        >
-          0 Bytes
-        </p>
+        0 Bytes
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
   <div
     class="file-meta"
   >
-    <h4>
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 emotion-2"
+    >
       Files
-    </h4>
+    </h6>
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-9"
+    />
     <p>
       There are no files in this Artifact
     </p>

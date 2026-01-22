@@ -2,118 +2,78 @@
 
 exports[`ArtifactPayload Component > renders correctly 1`] = `
 .emotion-0 {
-  list-style: none;
   margin: 0;
-  padding: 0;
-  position: relative;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
 }
 
 .emotion-1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  position: relative;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  width: 100%;
-  box-sizing: border-box;
-  text-align: left;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 16px;
-  padding-right: 16px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-}
-
-.emotion-2 {
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  min-width: 0;
-  margin-top: 4px;
-  margin-bottom: 4px;
-  margin-top: 6px;
-  margin-bottom: 6px;
-}
-
-.MuiTypography-root:where(.emotion-2 .MuiListItemText-primary) {
-  display: block;
-}
-
-.MuiTypography-root:where(.emotion-2 .MuiListItemText-secondary) {
-  display: block;
-}
-
-.emotion-3 {
   margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-  letter-spacing: 0.00938em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
 }
 
-.emotion-4 {
+.emotion-2.two-columns.column-data {
+  grid-template-columns: max-content minmax(auto, 650px);
+  max-width: initial;
+  row-gap: 8px;
+}
+
+.emotion-4.copy-to-clipboard svg {
+  fill: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-5 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  color: rgba(0, 0, 0, 0.6);
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
 }
 
 <div>
-  <p
-    class="margin-bottom-none"
+  <h6
+    class="MuiTypography-root MuiTypography-subtitle2 emotion-0"
   >
     test
-  </p>
-  <ul
-    class="MuiList-root MuiList-padding list-horizontal-flex emotion-0"
-    style="padding-top: 0px;"
+  </h6>
+  <hr
+    class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-1"
+  />
+  <div
+    class="break-all two-columns emotion-2 column-data margin-bottom-small"
   >
-    <div
-      class=""
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-0"
+      style="width: max-content;"
     >
-      <li
-        class="MuiListItem-root attributes MuiListItem-gutters MuiListItem-padding MuiListItem-divider emotion-1"
+      custom-key
+    </h6>
+    <div
+      class="flexbox center-aligned  emotion-4"
+    >
+      <div
+        class="MuiTypography-root MuiTypography-body2 emotion-5"
+        title="secondary text"
       >
-        <div
-          class="MuiListItemText-root MuiListItemText-multiline emotion-2"
-        >
-          <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-3"
-          >
-            primary text
-          </span>
-          <div
-            class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-4"
-            title="secondary text"
-          >
-            <span
-              class="inventory-text"
-            >
-              secondary text
-            </span>
-             
-          </div>
-        </div>
-      </li>
+        secondary text
+      </div>
     </div>
-  </ul>
+  </div>
 </div>
 `;

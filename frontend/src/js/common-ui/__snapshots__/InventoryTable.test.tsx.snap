@@ -1,0 +1,505 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`InventoryTable Component > renders correctly 1`] = `
+.emotion-0 {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.emotion-0 caption {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.6);
+  text-align: left;
+  caption-side: bottom;
+}
+
+.emotion-1 {
+  display: table-header-group;
+}
+
+.emotion-2 {
+  color: inherit;
+  display: table-row;
+  vertical-align: middle;
+  outline: 0;
+}
+
+.emotion-2.MuiTableRow-hover:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.emotion-2.Mui-selected {
+  background-color: rgba(25, 118, 210, 0.08);
+}
+
+.emotion-2.Mui-selected:hover {
+  background-color: rgba(25, 118, 210, 0.12);
+}
+
+.emotion-3 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 1.5rem;
+  font-weight: 500;
+  width: 30%;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-flex-direction: inherit;
+  -ms-flex-direction: inherit;
+  flex-direction: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-4::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-4.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-4 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-4:focus {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.emotion-4:hover {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.emotion-4:hover .MuiTableSortLabel-icon {
+  opacity: 0.5;
+}
+
+.emotion-4.Mui-active {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.emotion-4.Mui-active .MuiTableSortLabel-icon {
+  opacity: 1;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.emotion-5 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+  font-size: 18px;
+  margin-right: 4px;
+  margin-left: 4px;
+  opacity: 0;
+  -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,-webkit-transform 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.emotion-6 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 1.5rem;
+  font-weight: 500;
+  width: 70%;
+}
+
+.emotion-9 {
+  display: table-row-group;
+}
+
+.emotion-11 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  width: 30%;
+}
+
+.emotion-12.copy-to-clipboard svg {
+  fill: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-13 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.emotion-14 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.25rem;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-15 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+<table
+  class="MuiTable-root emotion-0"
+>
+  <thead
+    class="MuiTableHead-root emotion-1"
+  >
+    <tr
+      class="MuiTableRow-root MuiTableRow-head emotion-2"
+    >
+      <th
+        class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium bold emotion-3"
+        scope="col"
+      >
+        <span
+          class="MuiButtonBase-root MuiTableSortLabel-root Mui-active MuiTableSortLabel-directionAsc emotion-4"
+          role="button"
+          tabindex="0"
+        >
+          Attribute
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc emotion-5"
+            data-testid="ArrowDownwardIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+            />
+          </svg>
+        </span>
+      </th>
+      <th
+        class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium bold emotion-6"
+        scope="col"
+      >
+        <span
+          class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc emotion-4"
+          role="button"
+          tabindex="0"
+        >
+          Value
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc emotion-5"
+            data-testid="ArrowDownwardIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+            />
+          </svg>
+        </span>
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    class="MuiTableBody-root emotion-9"
+  >
+    <tr
+      class="MuiTableRow-root emotion-2"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold emotion-11"
+      >
+        <div
+          class="flexbox center-aligned copy-to-clipboard emotion-12"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 bold emotion-13"
+            title="hostname"
+          >
+            hostname
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
+        </div>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-15"
+      >
+        <div
+          class="flexbox center-aligned copy-to-clipboard emotion-12"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-13"
+            title="device-001"
+          >
+            device-001
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
+        </div>
+      </td>
+    </tr>
+    <tr
+      class="MuiTableRow-root emotion-2"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold emotion-11"
+      >
+        <div
+          class="flexbox center-aligned copy-to-clipboard emotion-12"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 bold emotion-13"
+            title="ipAddress"
+          >
+            ipAddress
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
+        </div>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-15"
+      >
+        <div
+          class="flexbox center-aligned copy-to-clipboard emotion-12"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-13"
+            title="192.168.1.100"
+          >
+            192.168.1.100
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
+        </div>
+      </td>
+    </tr>
+    <tr
+      class="MuiTableRow-root emotion-2"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold emotion-11"
+      >
+        <div
+          class="flexbox center-aligned copy-to-clipboard emotion-12"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 bold emotion-13"
+            title="macAddress"
+          >
+            macAddress
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
+        </div>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-15"
+      >
+        <div
+          class="flexbox center-aligned copy-to-clipboard emotion-12"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-13"
+            title="aa:bb:cc:dd:ee:ff"
+          >
+            aa:bb:cc:dd:ee:ff
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
