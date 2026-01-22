@@ -111,6 +111,7 @@ include:
 stages:
   - lint
   - build
+  - review
   - test
   - publish
   - changelog
@@ -211,6 +212,149 @@ build:backend:docker-acceptance:
   script:
     # NOTE: Only build for test platform (default) for the acceptance test images
     - make -C backend docker-acceptance
+
+#
+# Review Apps
+#
+review:deploy:
+  stage: review
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
+  needs:
+    - job: build:backend:docker
+      artifacts: false
+    - job: build:frontend:docker
+      artifacts: false
+  rules:
+    # Only deploy review apps for non-protected branches (feature branches)
+    - if: '$CI_COMMIT_REF_PROTECTED != "true" && $CI_PIPELINE_SOURCE == "push"'
+      when: on_success
+  id_tokens:
+    GITLAB_OIDC_TOKEN:
+      aud: https://gitlab.com
+  environment:
+    name: review/${CI_COMMIT_REF_NAME}
+    url: https://${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}
+    on_stop: review:stop
+    auto_stop_in: 7 days
+  variables:
+    NAMESPACE: mender-${CI_COMMIT_REF_SLUG}
+  before_script:
+    - echo "Deploying review app for branch ${CI_COMMIT_REF_NAME}"
+
+    # Generate short identifier to avoid Kubernetes 52 character name limit
+    # Use first 12 characters of branch slug hash for uniqueness
+    - export RELEASE_NAME="mender-$(echo -n ${CI_COMMIT_REF_SLUG} | md5sum | cut -c1-12)"
+    - echo "Release name - ${RELEASE_NAME}"
+    - echo "Namespace - ${NAMESPACE}"
+    - echo "URL - https://${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
+  script:
+    - echo "Authenticating to AWS using OIDC..."
+    - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s"
+      $(/usr/bin/env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_SESSION_TOKEN --
+      aws sts assume-role-with-web-identity
+      --role-arn ${REVIEW_APPS_AWS_ASSUME_ROLE_ARN}
+      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
+      --web-identity-token ${GITLAB_OIDC_TOKEN}
+      --duration-seconds 3600
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+      --output text))
+    - echo "Successfully authenticated to AWS"
+
+    - echo "Configuring kubectl for EKS cluster ${REVIEW_APPS_EKS_CLUSTER_NAME}..."
+    - aws eks update-kubeconfig --name ${REVIEW_APPS_EKS_CLUSTER_NAME} --region ${REVIEW_APPS_AWS_REGION}
+    - kubectl cluster-info
+    - echo "Successfully configured kubectl"
+
+    - echo "Setting up namespace ${NAMESPACE}..."
+    - ./compose/k8s/setup-review-namespace.sh
+
+    - echo "Adding Mender Helm repository..."
+    - helm repo add mender https://charts.mender.io
+    - helm repo update
+
+    - echo "Generating Helm values file..."
+    - apt-get update && apt-get install -y gettext-base
+    - envsubst < compose/k8s/review-values.yaml.tpl > /tmp/review-values.yaml
+    - echo "Generated Helm values:"
+    - cat /tmp/review-values.yaml
+
+    - echo "Deploying Mender with Helm (release name - ${RELEASE_NAME})..."
+    - helm upgrade --install ${RELEASE_NAME} mender/mender
+      -n ${NAMESPACE}
+      --create-namespace
+      -f /tmp/review-values.yaml
+      --wait
+      --timeout 15m
+    - echo "Deployment completed successfully"
+
+    - echo "Creating initial tenant and user..."
+    - chmod +x ./compose/k8s/create-initial-user.sh
+    - ./compose/k8s/create-initial-user.sh
+
+    - echo "=== Deployment Information ==="
+    - echo "URL - https://${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
+    - echo "Namespace - ${NAMESPACE}"
+    - echo ""
+    - echo "Note - Login credentials were displayed above by the create-initial-user script"
+    - echo ""
+    - echo "=== Pods ==="
+    - kubectl get pods -n ${NAMESPACE}
+    - echo "=== Services ==="
+    - kubectl get svc -n ${NAMESPACE}
+    - echo "=== Ingress ==="
+    - kubectl get ingress -n ${NAMESPACE}
+    - echo "Review app deployed successfully!"
+  artifacts:
+    reports:
+      dotenv: review-deploy.env
+    paths:
+      - review-deploy.env
+    expire_in: 1 week
+
+review:stop:
+  stage: review
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
+  needs: []
+  rules:
+    # Trigger on manual stop or branch deletion
+    - if: '$CI_COMMIT_REF_PROTECTED != "true"'
+      when: manual
+      allow_failure: true
+  id_tokens:
+    GITLAB_OIDC_TOKEN:
+      aud: https://gitlab.com
+  environment:
+    name: review/${CI_COMMIT_REF_NAME}
+    action: stop
+  variables:
+    NAMESPACE: mender-${CI_COMMIT_REF_SLUG}
+    GIT_STRATEGY: none
+  script:
+    # Generate same short identifier used during deploy
+    - export RELEASE_NAME="mender-$(echo -n ${CI_COMMIT_REF_SLUG} | md5sum | cut -c1-12)"
+    - echo "Cleaning up review app - ${RELEASE_NAME}"
+
+    - echo "Authenticating to AWS using OIDC..."
+    - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s"
+      $(/usr/bin/env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_SESSION_TOKEN --
+      aws sts assume-role-with-web-identity
+      --role-arn ${REVIEW_APPS_AWS_ASSUME_ROLE_ARN}
+      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
+      --web-identity-token ${GITLAB_OIDC_TOKEN}
+      --duration-seconds 3600
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+      --output text))
+
+    - echo "Configuring kubectl for EKS cluster ${REVIEW_APPS_EKS_CLUSTER_NAME}..."
+    - aws eks update-kubeconfig --name ${REVIEW_APPS_EKS_CLUSTER_NAME} --region ${REVIEW_APPS_AWS_REGION}
+
+    - echo "Uninstalling Helm release ${RELEASE_NAME}..."
+    - helm uninstall ${RELEASE_NAME} -n ${NAMESPACE} --wait || echo "Release not found or already deleted"
+
+    - echo "Deleting namespace ${NAMESPACE}..."
+    - kubectl delete namespace ${NAMESPACE} --wait=true --timeout=5m || echo "Namespace not found or already deleted"
+
+    - echo "Review app cleanup completed successfully!"
 
 test:backend:static:
   stage: test
