@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { render } from '@/testUtils';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { undefineds } from '@northern.tech/testing/mockData';
 
 import Artifact from './Artifact';
@@ -20,20 +21,22 @@ import { columns } from './ReleaseDetails';
 describe('Artifact Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <Artifact
-        artifact={{
-          artifact_provides: {
-            artifact_name: 'myapp',
-            'data-partition.myapp.version': 'v2020.10',
-            list_of_fancy: ['x172']
-          },
-          device_types_compatible: ['test-type'],
-          updates: [],
-          modified: '2019-01-01'
-        }}
-        index={0}
-        columns={columns}
-      />
+      <ColumnWidthProvider>
+        <Artifact
+          artifact={{
+            artifact_provides: {
+              artifact_name: 'myapp',
+              'data-partition.myapp.version': 'v2020.10',
+              list_of_fancy: ['x172']
+            },
+            device_types_compatible: ['test-type'],
+            updates: [],
+            modified: '2019-01-01'
+          }}
+          index={0}
+          columns={columns}
+        />
+      </ColumnWidthProvider>
     );
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();

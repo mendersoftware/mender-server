@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 
 import DeploymentOverview from './Overview';
 
@@ -28,7 +29,11 @@ describe('DeploymentOverview Component', () => {
       group: 'testGroup',
       statistics: { status: {} }
     };
-    const { baseElement } = render(<DeploymentOverview devicesById={{}} deployment={deployment} tenantCapabilities={{ hasFullFiltering: true }} />);
+    const { baseElement } = render(
+      <ColumnWidthProvider>
+        <DeploymentOverview devicesById={{}} deployment={deployment} tenantCapabilities={{ hasFullFiltering: true }} />
+      </ColumnWidthProvider>
+    );
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
   });
@@ -44,7 +49,11 @@ describe('DeploymentOverview Component', () => {
       finished: creationDate,
       statistics: { status: {} }
     };
-    const { getByRole } = render(<DeploymentOverview devicesById={{}} deployment={deployment} tenantCapabilities={{ hasFullFiltering: true }} />);
+    const { getByRole } = render(
+      <ColumnWidthProvider>
+        <DeploymentOverview devicesById={{}} deployment={deployment} tenantCapabilities={{ hasFullFiltering: true }} />
+      </ColumnWidthProvider>
+    );
     expect(getByRole('link', { name: RegExp(filter.name, 'i') })).toHaveAttribute('href', '/devices?inventory=group:eq:filter1&system=group:eq:things');
   });
 });

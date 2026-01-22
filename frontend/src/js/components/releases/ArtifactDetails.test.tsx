@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -22,17 +23,19 @@ import ArtifactDetails, { transformArtifactCapabilities, transformArtifactMetada
 describe('ArtifactDetails Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <ArtifactDetails
-        artifact={{
-          artifact_provides: {
-            artifact_name: 'myapp',
-            'data-partition.myapp.version': 'v2020.10',
-            list_of_fancy: ['x172']
-          },
-          description: 'text',
-          name: 'test'
-        }}
-      />
+      <ColumnWidthProvider>
+        <ArtifactDetails
+          artifact={{
+            artifact_provides: {
+              artifact_name: 'myapp',
+              'data-partition.myapp.version': 'v2020.10',
+              list_of_fancy: ['x172']
+            },
+            description: 'text',
+            name: 'test'
+          }}
+        />
+      </ColumnWidthProvider>
     );
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
@@ -41,15 +44,17 @@ describe('ArtifactDetails Component', () => {
   it('renders correctly without software', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { baseElement } = render(
-      <ArtifactDetails
-        artifact={{
-          artifact_provides: {
-            list_of_fancy: ['x172']
-          },
-          description: 'text',
-          name: 'test'
-        }}
-      />
+      <ColumnWidthProvider>
+        <ArtifactDetails
+          artifact={{
+            artifact_provides: {
+              list_of_fancy: ['x172']
+            },
+            description: 'text',
+            name: 'test'
+          }}
+        />
+      </ColumnWidthProvider>
     );
     await user.click(screen.getByText(/Provides and Depends/i));
 
@@ -61,25 +66,23 @@ describe('ArtifactDetails Component', () => {
 
 describe('transformArtifactCapabilities', () => {
   it('works as expected', async () => {
-    expect(transformArtifactCapabilities(defaultState.releases.byId.r1.artifacts[0].artifact_provides)).toEqual([
-      { key: 'artifact_name', primary: 'artifact_name', secondary: 'myapp' },
-      { key: 'data-partition.myapp.version', primary: 'data-partition.myapp.version', secondary: 'v2020.10' },
-      { key: 'list_of_fancy-1', primary: 'list_of_fancy-1', secondary: 'qemux86-64' },
-      { key: 'list_of_fancy-2', primary: 'list_of_fancy-2', secondary: 'x172' }
-    ]);
-    expect(transformArtifactCapabilities(defaultState.releases.byId.r1.artifacts[0].clears_artifact_provides)).toEqual([
-      { key: '0', primary: '0', secondary: 'data-partition.myapp.*' }
-    ]);
-    expect(transformArtifactCapabilities(defaultState.releases.byId.r1.artifacts[0].artifact_depends)).toEqual([]);
+    expect(transformArtifactCapabilities(defaultState.releases.byId.r1.artifacts[0].artifact_provides)).toEqual({
+      'artifact_name': 'myapp',
+      'data-partition.myapp.version': 'v2020.10',
+      'list_of_fancy-1': 'qemux86-64',
+      'list_of_fancy-2': 'x172'
+    });
+    expect(transformArtifactCapabilities(defaultState.releases.byId.r1.artifacts[0].clears_artifact_provides)).toEqual({ '0': 'data-partition.myapp.*' });
+    expect(transformArtifactCapabilities(defaultState.releases.byId.r1.artifacts[0].artifact_depends)).toEqual({});
   });
 });
 describe('transformArtifactMetadata', () => {
   it('works as expected', async () => {
-    expect(transformArtifactMetadata({ thing: 'thang', more: ['like', 'a', 'list'], or: { anObject: true }, less: undefined })).toEqual([
-      { key: 'thing', primary: 'thing', secondary: 'thang', secondaryTypographyProps: { component: 'div' } },
-      { key: 'more', primary: 'more', secondary: 'like,a,list', secondaryTypographyProps: { component: 'div' } },
-      { key: 'or', primary: 'or', secondary: '{"anObject":true}', secondaryTypographyProps: { component: 'div' } },
-      { key: 'less', primary: 'less', secondary: '-', secondaryTypographyProps: { component: 'div' } }
-    ]);
+    expect(transformArtifactMetadata({ thing: 'thang', more: ['like', 'a', 'list'], or: { anObject: true }, less: undefined })).toEqual({
+      thing: 'thang',
+      more: 'like,a,list',
+      or: '{"anObject":true}',
+      less: '-'
+    });
   });
 });

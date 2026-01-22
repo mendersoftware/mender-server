@@ -13,14 +13,32 @@
 //    limitations under the License.
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
 
-import { TwoColumnData } from './TwoColumnData';
+import { ColumnWidthProvider, SynchronizedTwoColumnData, TwoColumnData } from './TwoColumnData';
 
-describe('ConfigurationObject Component', () => {
+describe('TwoColumnData Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<TwoColumnData data={{ uiPasswordRequired: true, foo: 'bar', timezone: 'GMT+2' }} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+  it('renders with chipLikeKey prop', async () => {
+    const { baseElement } = render(<TwoColumnData chipLikeKey data={{ attribute: 'value', another: 'item' }} />);
+    const view = baseElement.firstChild.firstChild;
+    expect(view).toMatchSnapshot();
+    expect(screen.getByText('attribute')).toBeInTheDocument();
+    expect(screen.getByText('another')).toBeInTheDocument();
+  });
+  it('synchronizes column width across multiple SynchronizedTwoColumnData components', async () => {
+    const { container } = render(
+      <ColumnWidthProvider>
+        <SynchronizedTwoColumnData data={{ short: 'value1' }} />
+        <SynchronizedTwoColumnData data={{ muchlongerattribute: 'value2' }} />
+      </ColumnWidthProvider>
+    );
+    const twoColumnElements = container.querySelectorAll('.two-columns');
+    expect(twoColumnElements).toHaveLength(2);
   });
 });
