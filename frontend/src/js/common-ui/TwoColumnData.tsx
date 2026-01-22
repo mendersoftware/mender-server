@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
 
 // material ui
 import { FileCopyOutlined as CopyToClipboardIcon } from '@mui/icons-material';
@@ -20,7 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import copy from 'copy-to-clipboard';
 
-const getGridTemplateColumnSizing = columnWidth => `${columnWidth} 650px`;
+const getGridTemplateColumnSizing = columnWidth => `${columnWidth} minmax(auto, 650px)`;
 
 const useStyles = makeStyles()(theme => ({
   textContent: {
@@ -86,28 +86,55 @@ const ValueColumn = ({ setSnackbar, value = '' }) => {
   );
 };
 
-const KeyColumn = ({ value, chipLikeKey }) =>
-  chipLikeKey ? (
+const KeyColumn = ({ chipLikeKey, setColumnWidth, value }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (ref.current && setColumnWidth) {
+      const width = ref.current.scrollWidth;
+      setColumnWidth(width);
+    }
+  }, [setColumnWidth, value]);
+
+  return chipLikeKey ? (
     <Chip label={value} size="small" style={{ justifySelf: 'end' }} />
   ) : (
-    <Typography className="key" variant="subtitle2">
+    <Typography ref={ref} className="key" variant="subtitle2" style={{ width: 'max-content' }}>
       {value}
     </Typography>
   );
+};
 
-export const TwoColumnData = ({ chipLikeKey = false, className = '', columnSize, data = {}, setSnackbar, style = {} }) => {
+export const TwoColumnData = ({ chipLikeKey = false, className = '', columnWidth, data = {}, setColumnWidth, setSnackbar, style = {} }) => {
   const { classes } = useStyles();
   return (
     <div
       className={`break-all two-columns ${classes.root} column-data ${className}`}
-      style={{ ...style, gridTemplateColumns: columnSize ? getGridTemplateColumnSizing(`${columnSize}px`) : undefined }}
+      style={{ ...style, gridTemplateColumns: columnWidth ? getGridTemplateColumnSizing(`${columnWidth}px`) : undefined }}
     >
       {Object.entries(data).map(([key, value]) => (
         <Fragment key={key}>
-          <KeyColumn chipLikeKey={chipLikeKey} value={key} />
+          <KeyColumn chipLikeKey={chipLikeKey} setColumnWidth={setColumnWidth} value={key} />
           <ValueColumn setSnackbar={setSnackbar} value={value} />
         </Fragment>
       ))}
     </div>
   );
+};
+
+const ColumnWidthContext = createContext<{ columnWidth: number; setColumnWidth: (width: number) => void } | null>(null);
+
+export const ColumnWidthProvider = ({ children }: { children: ReactNode }) => {
+  const [columnWidth, setColumnWidth] = useState<number>(0);
+
+  const updateColumnWidth = (width: number) => {
+    setColumnWidth(prevWidth => Math.max(prevWidth, width));
+  };
+
+  return <ColumnWidthContext.Provider value={{ columnWidth, setColumnWidth: updateColumnWidth }}>{children}</ColumnWidthContext.Provider>;
+};
+
+export const SynchronizedTwoColumnData = props => {
+  const { columnWidth, setColumnWidth } = useContext(ColumnWidthContext)!;
+  return <TwoColumnData {...props} columnWidth={columnWidth} setColumnWidth={setColumnWidth} />;
 };
