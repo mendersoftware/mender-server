@@ -14,7 +14,7 @@
 import { Link } from 'react-router-dom';
 
 import { Launch as LaunchIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-material';
-import { Chip } from '@mui/material';
+import { Button, Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Time from '@northern.tech/common-ui/Time';
@@ -32,12 +32,6 @@ const useStyles = makeStyles()(theme => ({
     opacity: 0.5,
     fontSize: '0.675rem',
     height: 18
-  },
-  scheduleLink: {
-    marginLeft: theme.spacing(12),
-    '&svg': {
-      marginLeft: theme.spacing()
-    }
   },
   statusWrapper: {
     backgroundColor: theme.palette.background.lightgrey,
@@ -106,35 +100,38 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
 
   return (
     <div className="report-container margin-top-large margin-bottom-large">
-      <div className="flexbox column">
+      <div>
         <TwoColumnData data={deploymentInfo} />
-        <a className={`margin-top-small flexbox center-aligned ${classes.scheduleLink}`} onClick={onScheduleClick}>
-          Schedule details <ScrollDownIcon fontSize="small" />
-        </a>
+        <Button endIcon={<ScrollDownIcon fontSize="small" />} className="margin-top" onClick={onScheduleClick} variant="text">
+          See schedule details
+        </Button>
       </div>
 
       {finished && (
-        <div className="statusLarge flexbox centered">
-          <img src={successes ? successImage : failImage} />
-          <div className={`statusWrapper flexbox centered ${classes.statusWrapper}`}>
-            <div className="statusWrapperMessage">
-              {(!!successes || !failures) && (
-                <>
-                  <b className={successes ? 'green' : 'red'}>
-                    {successes === totalDeviceCount && totalDeviceCount > 1 && <>All </>}
-                    {successes}
-                  </b>{' '}
-                  {pluralize('devices', successes)} updated successfully
-                </>
-              )}
-              {!!failures && (
-                <>
-                  <b className="red">{failures}</b> {pluralize('devices', failures)} failed to update
-                </>
-              )}
+        <>
+          <div />
+          <div className="statusLarge flexbox center-aligned">
+            <img src={successes ? successImage : failImage} />
+            <div className={`statusWrapper flexbox centered ${classes.statusWrapper}`}>
+              <div className="statusWrapperMessage">
+                {(!!successes || !failures) && (
+                  <>
+                    <b className={successes ? 'green' : 'red'}>
+                      {successes === totalDeviceCount && totalDeviceCount > 1 && <>All </>}
+                      {successes}
+                    </b>{' '}
+                    {pluralize('devices', successes)} updated successfully
+                  </>
+                )}
+                {!!failures && (
+                  <>
+                    <b className="red">{failures}</b> {pluralize('devices', failures)} failed to update
+                  </>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
