@@ -14,6 +14,7 @@
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
@@ -83,9 +84,9 @@ export const Filters = ({ className = '', defaultValues, filters = [], initialVa
           </div>
         ))}
         {isDirty && (
-          <span className={`link absolute ${classes.filterReset}`} onClick={() => reset()}>
+          <Button className={`absolute ${classes.filterReset}`} color="info" variant="outlined" onClick={() => reset()}>
             Clear filter
-          </span>
+          </Button>
         )}
       </form>
     </FormProvider>

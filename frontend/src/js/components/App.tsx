@@ -35,8 +35,8 @@ import {
   getCommit,
   getCurrentSession,
   getCurrentUser,
+  getFeatures,
   getIsDarkMode,
-  getIsPreview,
   getIsServiceProvider,
   getOrganization,
   getSentryConfig,
@@ -46,8 +46,8 @@ import {
 import { store } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
-import { dark as darkTheme, light as lightTheme } from '@northern.tech/themes/Mender';
-import { dark as nextDarkTheme, light as nextLightTheme } from '@northern.tech/themes/MenderNext';
+import { dark as oldDarkTheme, light as oldLightTheme } from '@northern.tech/themes/Mender';
+import { dark as darkTheme, light as lightTheme } from '@northern.tech/themes/MenderNext';
 import { toggle } from '@northern.tech/utils/helpers';
 import { browserTracingIntegration, replayIntegration, setUser } from '@sentry/react';
 import Cookies from 'universal-cookie';
@@ -129,9 +129,9 @@ const THEMES = {
     [LIGHT_MODE]: lightTheme,
     [DARK_MODE]: darkTheme
   },
-  next: {
-    [LIGHT_MODE]: nextLightTheme,
-    [DARK_MODE]: nextDarkTheme
+  old: {
+    [LIGHT_MODE]: oldLightTheme,
+    [DARK_MODE]: oldDarkTheme
   }
 };
 
@@ -154,18 +154,18 @@ export const AppRoot = () => {
   const { token: storedToken } = getSessionInfo();
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);
   const { id: tenantId } = useSelector(getOrganization);
-  const isPreview = useSelector(getIsPreview);
+  const { hasOldTheme } = useSelector(getFeatures);
 
   useEffect(() => {
     const loadThemeStyles = async () => {
-      if (isPreview) {
-        await import('@northern.tech/themes/MenderNext/styles/main.css');
-      } else {
+      if (hasOldTheme) {
         await import('@northern.tech/themes/Mender/styles/main.css');
+      } else {
+        await import('@northern.tech/themes/MenderNext/styles/main.css');
       }
     };
     loadThemeStyles();
-  }, [isPreview]);
+  }, [hasOldTheme]);
 
   const trackLocationChange = useCallback(
     pathname => {
@@ -251,7 +251,7 @@ export const AppRoot = () => {
 
   const onToggleSearchResult = () => setShowSearchResult(toggle);
 
-  const theme = createTheme(THEMES[isPreview ? 'next' : 'default'][isDarkMode ? DARK_MODE : LIGHT_MODE] || THEMES.default.light);
+  const theme = createTheme(THEMES[hasOldTheme ? 'old' : 'default'][isDarkMode ? DARK_MODE : LIGHT_MODE] || THEMES.default.light);
 
   const { classes } = useStyles();
   const globalCssVars = cssVariables({ theme })['@global'];

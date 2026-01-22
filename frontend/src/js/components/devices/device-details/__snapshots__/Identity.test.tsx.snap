@@ -341,7 +341,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
       style="max-width: 80%; grid-template-columns: minmax(max-content, 150px) max-content; margin-bottom: 5px; align-items: center;"
     >
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           Name
@@ -402,7 +402,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
     style="max-width: 80%; grid-template-columns: minmax(max-content, 150px) auto;"
   >
     <div
-      class="align-right key muted"
+      class="align-right muted"
     >
       <b>
         ID
@@ -431,7 +431,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
       </svg>
     </div>
     <div
-      class="align-right key muted"
+      class="align-right muted"
     >
       <b>
         mac
@@ -460,7 +460,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
       </svg>
     </div>
     <div
-      class="align-right key muted"
+      class="align-right muted"
     >
       <b>
         First request
@@ -833,7 +833,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
       style="max-width: 80%; grid-template-columns: minmax(max-content, 150px) max-content; margin-bottom: 5px; align-items: center;"
     >
       <div
-        class="align-right key muted"
+        class="align-right muted"
       >
         <b>
           Name
@@ -894,7 +894,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
     style="max-width: 80%; grid-template-columns: minmax(max-content, 150px) auto;"
   >
     <div
-      class="align-right key muted"
+      class="align-right muted"
     >
       <b>
         ID

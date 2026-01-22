@@ -114,7 +114,7 @@ export const AuditLogsFilter = ({
           },
           {
             key: 'detail',
-            title: '',
+            title: '\u{200B}',
             Component: ControlledAutoComplete,
             componentProps: {
               ...autoSelectProps,

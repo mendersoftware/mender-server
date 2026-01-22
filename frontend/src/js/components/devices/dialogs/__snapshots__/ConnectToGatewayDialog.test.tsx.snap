@@ -125,7 +125,7 @@ exports[`ConnectToGatewayDialog Component > renders correctly 1`] = `
 }
 
 .emotion-6 {
-  background-color: #f5f5f5;
+  background-color: rgba(2, 136, 209, 0.92);
   font-family: monospace;
   border-radius: 4px;
   padding: 16px;

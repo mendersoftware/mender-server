@@ -80,7 +80,7 @@ const Pagination = props => {
       classes={{ spacer: 'flexbox no-basis' }}
       component="div"
       labelDisplayedRows={() => ''}
-      slotProps={{ select: { name: 'pagination' } }}
+      slotProps={{ select: { name: 'pagination', size: 'medium' } }}
       rowsPerPageOptions={rowsPerPageOptions}
       onRowsPerPageChange={e => onChangeRowsPerPage(e.target.value)}
       page={propsPage}

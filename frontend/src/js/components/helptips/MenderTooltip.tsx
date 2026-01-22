@@ -69,21 +69,15 @@ export const OnboardingTooltip = withStyles(Tooltip, theme => ({
   tooltip: {
     backgroundColor: theme.palette.primary.main,
     boxShadow: theme.shadows[1],
-    color: theme.palette.grey[500],
-    fontSize: 14,
+    color: theme.palette.grey[50],
+    fontSize: 16,
     maxWidth: 350,
     padding: '12px 18px',
     width: 350,
-    '& a': {
-      color: theme.palette.grey[500]
-    },
     '&.MuiTooltip-tooltipPlacementTop': { marginLeft: iconWidth, marginBottom: 0, marginTop: `calc(${iconWidth} + ${theme.spacing(1.5)})` },
     '&.MuiTooltip-tooltipPlacementRight': { marginTop: iconWidth / 2 },
     '&.MuiTooltip-tooltipPlacementBottom': { marginLeft: iconWidth },
     '&.MuiTooltip-tooltipPlacementLeft': { marginTop: iconWidth / 2 }
-  },
-  popper: {
-    opacity: 0.9
   }
 }));
 

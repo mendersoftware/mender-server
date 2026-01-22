@@ -262,7 +262,7 @@ export const DeploymentDeviceList = ({ canAi, deployment, getDeploymentDevices, 
           />
           <Loader show={isLoading} small />
         </div>
-        <TwoColumns chipLikeKey={false} compact items={{ 'Total download size': totalSize }} ValueComponent={ValueFileSize} />
+        <TwoColumns compact items={{ 'Total download size': totalSize }} ValueComponent={ValueFileSize} />
       </div>
     </>
   );

@@ -22,7 +22,7 @@ const ListOptions = ({ options, title = 'Table options' }) => {
 
   return (
     <>
-      <Button style={{ textTransform: 'none' }} onClick={e => setAnchorEl(e.currentTarget)} endIcon={anchorEl ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}>
+      <Button variant="text" color="inherit" onClick={e => setAnchorEl(e.currentTarget)} endIcon={anchorEl ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}>
         {title}
       </Button>
       <Menu

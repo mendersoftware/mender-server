@@ -17,12 +17,12 @@ import { Schedule as HelpIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DocsLink from '@northern.tech/common-ui/DocsLink';
 import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
 import { getOnboardingState } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, setOnboardingComplete } from '@northern.tech/store/thunks';
-import DocsLink from '@northern.tech/common-ui/DocsLink';
 
 import BaseOnboardingTip, { BaseOnboardingTooltip } from './BaseOnoardingTip';
 
@@ -40,17 +40,17 @@ export const GetStartedTip = props => {
   const dispatch = useAppDispatch();
   return (
     <BaseOnboardingTooltip {...props}>
-      <div className="margin-top" style={{ marginBottom: -12 }}>
-        <p>
-          <b>Welcome to Mender!</b>
-        </p>
-        We can help you get started with connecting your first device and deploying an update to it.
-        <div className="flexbox center-aligned margin-top-small space-between">
-          <b className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))}>
-            No thanks, I don&apos;t need help
-          </b>
-          <Button onClick={() => dispatch(setShowConnectingDialog(true))}>Get started</Button>
-        </div>
+      <p>
+        <b>Welcome to Mender!</b>
+      </p>
+      We can help you get started with connecting your first device and deploying an update to it.
+      <div className="flexbox center-aligned margin-top-small space-between">
+        <span className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))} style={{ textDecoration: 'underline' }}>
+          Skip the tour
+        </span>
+        <Button variant="contained" onClick={() => dispatch(setShowConnectingDialog(true))}>
+          Confirm
+        </Button>
       </div>
     </BaseOnboardingTooltip>
   );
@@ -92,7 +92,7 @@ export const DevicesAcceptedOnboarding = props => {
           <p>Your device is now authenticated and has connected to the server! It&apos;s ready to receive updates, report its data and more.</p>
           <p>
             If you would like to learn how to deploy your first update, follow the steps in the documentation and{' '}
-            <DocsLink path="get-started/microcontroller-preview/deploy-a-firmware-update" className={`bold ${classes.link}`} >
+            <DocsLink path="get-started/microcontroller-preview/deploy-a-firmware-update" className={`bold ${classes.link}`}>
               deploy a firmware update for Zephyr.
             </DocsLink>
           </p>

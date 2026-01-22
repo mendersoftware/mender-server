@@ -14,15 +14,26 @@
 import { Link } from 'react-router-dom';
 
 // material ui
-import { Refresh as RefreshIcon } from '@mui/icons-material';
+import { Sync as RefreshIcon } from '@mui/icons-material';
+import { Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 
-const DeploymentNotifications = ({ className = '', inprogress }) => (
-  <Link to={DEPLOYMENT_ROUTES.active.route} className={className}>
-    <RefreshIcon className="flip-horizontal margin-right-x-small" fontSize="small" />
-    <div>{inprogress}</div>
-  </Link>
-);
+const useStyles = makeStyles()(theme => ({
+  root: {
+    color: theme.palette.text.secondary
+  }
+}));
+
+const DeploymentNotifications = ({ className = '', inprogress }) => {
+  const { classes } = useStyles();
+  return (
+    <Link to={DEPLOYMENT_ROUTES.active.route} className={`flexbox center-aligned ${classes.root} ${className}`}>
+      <RefreshIcon className="flip-horizontal margin-right-x-small" fontSize="small" />
+      <Typography variant="subtitle2">{inprogress}</Typography>
+    </Link>
+  );
+};
 
 export default DeploymentNotifications;

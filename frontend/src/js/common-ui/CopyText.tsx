@@ -46,7 +46,9 @@ export const CopyTextToClipboard = ({ notify = true, onCopy = yes, token }: Copy
   return (
     <div>
       <CopyToClipboard text={token} onCopy={onCopied}>
-        <Button startIcon={<CopyPasteIcon />}>Copy to clipboard</Button>
+        <Button color="info" variant="outlined" startIcon={<CopyPasteIcon />}>
+          Copy to clipboard
+        </Button>
       </CopyToClipboard>
       {notify && <p className={classes.copyNotification}>{copied && <span className="green fadeIn">Copied to clipboard.</span>}</p>}
     </div>

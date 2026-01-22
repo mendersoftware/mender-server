@@ -96,14 +96,16 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  padding: 6px 8px;
-  color: var(--variant-textColor);
-  background-color: var(--variant-textBg);
-  --variant-textColor: #1976d2;
-  --variant-outlinedColor: #1976d2;
-  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
+  padding: 5px 15px;
+  border: 1px solid currentColor;
+  border-color: var(--variant-outlinedBorder, currentColor);
+  background-color: var(--variant-outlinedBg);
+  color: var(--variant-outlinedColor);
+  --variant-textColor: #0288d1;
+  --variant-outlinedColor: #0288d1;
+  --variant-outlinedBorder: rgba(2, 136, 209, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #1976d2;
+  --variant-containedBg: #0288d1;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
@@ -133,12 +135,16 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-8.Mui-disabled {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 @media (hover: hover) {
   .emotion-8:hover {
-    --variant-containedBg: #1565c0;
-    --variant-textBg: rgba(25, 118, 210, 0.04);
-    --variant-outlinedBorder: #1976d2;
-    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
+    --variant-containedBg: #01579b;
+    --variant-textBg: rgba(2, 136, 209, 0.04);
+    --variant-outlinedBorder: #0288d1;
+    --variant-outlinedBg: rgba(2, 136, 209, 0.04);
   }
 }
 
@@ -178,6 +184,26 @@ exports[`MyOrganization Component > renders correctly 1`] = `
 }
 
 .emotion-31 {
+  max-width: 550px;
+}
+
+.emotion-32 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  vertical-align: top;
+}
+
+.emotion-33 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -198,15 +224,15 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   margin-left: 16px;
 }
 
-.emotion-31.Mui-disabled {
+.emotion-33.Mui-disabled {
   cursor: default;
 }
 
-.emotion-31 .MuiFormControlLabel-label.Mui-disabled {
+.emotion-33 .MuiFormControlLabel-label.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-32 {
+.emotion-34 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -225,13 +251,13 @@ exports[`MyOrganization Component > renders correctly 1`] = `
 }
 
 @media print {
-  .emotion-32 {
+  .emotion-34 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-33 {
+.emotion-35 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -275,79 +301,79 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-33::-moz-focus-inner {
+.emotion-35::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-33.Mui-disabled {
+.emotion-35.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-33 {
+  .emotion-35 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-33.Mui-checked {
+.emotion-35.Mui-checked {
   -webkit-transform: translateX(20px);
   -moz-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
 }
 
-.emotion-33.Mui-disabled {
+.emotion-35.Mui-disabled {
   color: #f5f5f5;
 }
 
-.emotion-33.Mui-checked+.MuiSwitch-track {
+.emotion-35.Mui-checked+.MuiSwitch-track {
   opacity: 0.5;
 }
 
-.emotion-33.Mui-disabled+.MuiSwitch-track {
+.emotion-35.Mui-disabled+.MuiSwitch-track {
   opacity: 0.12;
 }
 
-.emotion-33 .MuiSwitch-input {
+.emotion-35 .MuiSwitch-input {
   left: -100%;
   width: 300%;
 }
 
-.emotion-33:hover {
+.emotion-35:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-33:hover {
+  .emotion-35:hover {
     background-color: transparent;
   }
 }
 
-.emotion-33.Mui-checked {
+.emotion-35.Mui-checked {
   color: #1976d2;
 }
 
-.emotion-33.Mui-checked:hover {
+.emotion-35.Mui-checked:hover {
   background-color: rgba(25, 118, 210, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-33.Mui-checked:hover {
+  .emotion-35.Mui-checked:hover {
     background-color: transparent;
   }
 }
 
-.emotion-33.Mui-checked.Mui-disabled {
+.emotion-35.Mui-checked.Mui-disabled {
   color: rgb(167, 202, 237);
 }
 
-.emotion-33.Mui-checked+.MuiSwitch-track {
+.emotion-35.Mui-checked+.MuiSwitch-track {
   background-color: #1976d2;
 }
 
-.emotion-34 {
+.emotion-36 {
   cursor: inherit;
   position: absolute;
   opacity: 0;
@@ -360,7 +386,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   z-index: 1;
 }
 
-.emotion-35 {
+.emotion-37 {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
   background-color: currentColor;
   width: 20px;
@@ -368,7 +394,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-36 {
+.emotion-38 {
   height: 100%;
   width: 100%;
   border-radius: 7px;
@@ -379,7 +405,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   opacity: 0.38;
 }
 
-.emotion-37 {
+.emotion-39 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -422,7 +448,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
               </div>
               <div>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-8"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo emotion-8"
                   tabindex="0"
                   type="button"
                 >
@@ -468,7 +494,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
               </div>
               <div>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-8"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo emotion-8"
                   tabindex="0"
                   type="button"
                 >
@@ -530,7 +556,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
               </div>
               <div>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-8"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo emotion-8"
                   tabindex="0"
                   type="button"
                 >
@@ -555,35 +581,41 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             </div>
           </div>
         </div>
-        <div>
-          <label
-            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart margin-bottom-small margin-left-none emotion-31"
+        <div
+          class="flexbox column emotion-31 margin-bottom-small"
+        >
+          <div
+            class="MuiFormControl-root emotion-32"
           >
-            <span
-              class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-32"
+            <label
+              class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-33"
             >
               <span
-                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-33"
+                class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-34"
               >
-                <input
-                  class="PrivateSwitchBase-input MuiSwitch-input emotion-34"
-                  role="switch"
-                  type="checkbox"
-                />
                 <span
-                  class="MuiSwitch-thumb emotion-35"
+                  class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-35"
+                >
+                  <input
+                    class="PrivateSwitchBase-input MuiSwitch-input emotion-36"
+                    role="switch"
+                    type="checkbox"
+                  />
+                  <span
+                    class="MuiSwitch-thumb emotion-37"
+                  />
+                </span>
+                <span
+                  class="MuiSwitch-track emotion-38"
                 />
               </span>
               <span
-                class="MuiSwitch-track emotion-36"
-              />
-            </span>
-            <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-37"
-            >
-              Enable Single Sign-On
-            </span>
-          </label>
+                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label capitalized-start emotion-39"
+              >
+                Enable Single Sign-On
+              </span>
+            </label>
+          </div>
         </div>
       </div>
       <div

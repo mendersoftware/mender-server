@@ -13,8 +13,7 @@
 //    limitations under the License.
 import { Link } from 'react-router-dom';
 
-import { InfoOutlined as InfoIcon, Payment } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Chip } from '@mui/material';
 
 import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import dayjs from 'dayjs';
@@ -40,21 +39,15 @@ const TrialInformation = () => (
   </>
 );
 
-const TrialNotification = ({ iconClassName, sectionClassName, expiration }) => {
+const TrialNotification = ({ sectionClassName, expiration }) => {
   const expirationDate = dayjs(expiration);
   const duration = dayjs.duration(expirationDate.diff(dayjs()));
   const daysLeft = Math.floor(duration.asDays());
   return (
     <div className={`flexbox centered ${sectionClassName}`}>
-      <MenderTooltipClickable className="flexbox center-aligned muted margin-right-small" disableHoverListener={false} title={<TrialInformation />}>
-        <>
-          <InfoIcon className={iconClassName} style={{ marginRight: 2 }} />
-          Trial plan
-        </>
+      <MenderTooltipClickable className="flexbox center-aligned margin-right-small" disableHoverListener={false} title={<TrialInformation />}>
+        <Chip className="clickable" component={Link} label="Trial plan" size="small" to="/subscription" variant="outlined" />
       </MenderTooltipClickable>
-      <Button className={iconClassName} component={Link} startIcon={<Payment />} to="/subscription">
-        Upgrade now
-      </Button>
 
       {expiration && daysLeft <= 100 && daysLeft >= 0 && (
         <div className="muted">
