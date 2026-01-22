@@ -17,8 +17,8 @@ import { Launch as LaunchIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } f
 import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import Time from '@northern.tech/common-ui/Time';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
 import pluralize from 'pluralize';

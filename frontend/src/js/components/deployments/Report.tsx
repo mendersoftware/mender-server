@@ -19,10 +19,10 @@ import { Block as BlockIcon, CheckCircleOutline as CheckCircleOutlineIcon, Refre
 import { Button, Divider, Drawer, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import Confirm from '@northern.tech/common-ui/Confirm';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
 import { AUDIT_LOGS_TYPES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, TIMEOUTS, deploymentStatesToSubstates, onboardingSteps } from '@northern.tech/store/constants';
 import {

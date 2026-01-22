@@ -33,6 +33,7 @@ import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';

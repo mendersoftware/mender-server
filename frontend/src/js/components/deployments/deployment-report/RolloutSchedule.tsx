@@ -15,9 +15,9 @@ import { ArrowForward } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import Time from '@northern.tech/common-ui/Time';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
 import { formatTime } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';

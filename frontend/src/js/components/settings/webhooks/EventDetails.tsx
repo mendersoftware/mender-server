@@ -17,10 +17,10 @@ import { ArrowCircleLeftOutlined as ArrowLeftIcon } from '@mui/icons-material';
 import { Divider, IconButton } from '@mui/material';
 
 import Editor, { loader } from '@monaco-editor/react';
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Loader from '@northern.tech/common-ui/Loader';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { Event } from '@northern.tech/store/api/types';
 import { Webhook } from '@northern.tech/store/constants';
 

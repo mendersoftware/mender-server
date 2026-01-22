@@ -14,7 +14,7 @@
 import { Pause as PauseIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { deploymentDisplayStates, pauseMap } from '@northern.tech/store/constants';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
 

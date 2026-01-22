@@ -14,7 +14,7 @@
 import { deepmerge } from '@mui/utils';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
 import { extractSoftware, isEmpty } from '@northern.tech/utils/helpers';
 

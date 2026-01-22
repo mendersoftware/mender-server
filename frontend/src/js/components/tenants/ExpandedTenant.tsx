@@ -18,10 +18,10 @@ import { Link } from 'react-router-dom';
 import { Button, Checkbox, Divider, Drawer, FormControl, FormControlLabel, FormHelperText, TextField, formControlLabelClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import actions from '@northern.tech/store/actions';
 import { generateTenantPathById } from '@northern.tech/store/locationutils';
 import { getOrganization, getSsoConfig } from '@northern.tech/store/selectors';

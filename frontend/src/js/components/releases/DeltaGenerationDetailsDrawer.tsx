@@ -19,7 +19,6 @@ import { Launch as LaunchIcon } from '@mui/icons-material';
 import { Alert, Divider, Drawer, LinearProgress, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import { Code } from '@northern.tech/common-ui/CopyCode';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
@@ -27,6 +26,7 @@ import FileSize from '@northern.tech/common-ui/FileSize';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import Loader from '@northern.tech/common-ui/Loader';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';

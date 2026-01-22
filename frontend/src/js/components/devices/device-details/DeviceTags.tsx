@@ -16,8 +16,8 @@ import { useDispatch } from 'react-redux';
 
 import { Button, Typography } from '@mui/material';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import { EditButton } from '@northern.tech/common-ui/Confirm';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
 

@@ -19,11 +19,11 @@ import { Circle as CircleIcon } from '@mui/icons-material';
 import { Button, Divider, Drawer, Slide } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Time from '@northern.tech/common-ui/Time';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import actions from '@northern.tech/store/actions';
 import { Event } from '@northern.tech/store/api/types';
 import { EXTERNAL_PROVIDER, Webhook, emptyWebhook } from '@northern.tech/store/constants';

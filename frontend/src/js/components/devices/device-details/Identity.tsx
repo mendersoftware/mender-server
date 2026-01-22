@@ -11,9 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import DeviceNameInput from '@northern.tech/common-ui/DeviceNameInput';
 import Time from '@northern.tech/common-ui/Time';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
 
 import AuthStatus from './AuthStatus';

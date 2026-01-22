@@ -17,9 +17,9 @@ import { Fragment, useEffect, useMemo, useState } from 'react';
 import { Button, Checkbox, Divider, Drawer, FormControl, FormControlLabel, FormHelperText, InputLabel, TextField, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';

@@ -16,6 +16,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import FileSize from '@northern.tech/common-ui/FileSize';
 import Time from '@northern.tech/common-ui/Time';
+import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { getFormattedSize } from '@northern.tech/utils/helpers';
 
 const METADATA_SPACING = 2;
