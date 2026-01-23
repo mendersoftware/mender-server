@@ -182,10 +182,12 @@ test.describe('Settings', () => {
     test.beforeEach(({ environment }) => {
       test.skip(environment !== 'staging');
     });
-    test('allows subscribing to Basic', async ({ page }) => {
+    test('allows subscribing to Basic', async ({ page, username }) => {
       const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
-      await page.getByText('Upgrade now').click();
+      await page.getByRole('button', { name: username }).click();
+      await page.getByRole('menuitem', { name: 'Settings' }).click();
+      await page.getByText('Upgrade to a plan').click();
       await page.waitForTimeout(timeouts.default); // wait to load the current device limits
       const deviceInput = selectDeviceLimitInput(page, 'Standard');
       await deviceInput.focus();
