@@ -20,6 +20,7 @@ import {
   Cancel as CancelIcon,
   CheckCircle as CheckIcon,
   Error as ErrorIcon,
+  Launch as LaunchIcon,
   PendingOutlined as PendingIcon,
   SvgIconComponent
 } from '@mui/icons-material';
@@ -77,14 +78,22 @@ const stateInfoMap: Record<string, StateInfoEntry> = {
 
 const undefinedStates = [deploymentSubstates.pending, deploymentSubstates.decommissioned, deploymentSubstates.alreadyInstalled];
 
+const defaultLinkProps = {
+  className: 'flexbox center-aligned',
+  style: { fontWeight: '500' },
+  target: '_blank',
+  rel: 'noopener noreferrer'
+};
+
 const deviceListColumns = [
   {
     key: 'idAttribute',
     title: 'id',
     renderTitle: ({ idAttribute }) => idAttribute.attribute,
     render: ({ device }) => (
-      <Link style={{ fontWeight: 'initial' }} to={`/devices?id=${device.id}`}>
+      <Link {...defaultLinkProps} to={`/devices?id=${device.id}`}>
         <DeviceIdentityDisplay device={device} isEditable={false} />
+        <LaunchIcon className="margin-left-x-small" fontSize="small" />
       </Link>
     ),
     canShow
@@ -108,8 +117,9 @@ const deviceListColumns = [
       const encodedArtifactName = encodeURIComponent(softwareName);
       return softwareName ? (
         canReadReleases ? (
-          <Link style={{ fontWeight: 'initial' }} to={`/releases/${encodedArtifactName}`}>
+          <Link {...defaultLinkProps} to={`/releases/${encodedArtifactName}`}>
             {softwareName}
+            <LaunchIcon className="margin-left-x-small" fontSize="small" />
           </Link>
         ) : (
           softwareName
@@ -129,9 +139,9 @@ const deviceListColumns = [
       const encodedArtifactName = encodeURIComponent(softwareName);
       return softwareName ? (
         canReadReleases ? (
-          <Link style={{ fontWeight: 'initial' }} to={`/releases/${encodedArtifactName}`}>
+          <a style={{ fontWeight: 'initial' }} href={`/releases/${encodedArtifactName}`}>
             {softwareName}
-          </Link>
+          </a>
         ) : (
           softwareName
         )
