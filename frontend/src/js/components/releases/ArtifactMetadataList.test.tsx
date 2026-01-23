@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { render } from '@/testUtils';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { undefineds } from '@northern.tech/testing/mockData';
 
 import ArtifactMetadataList from './ArtifactMetadataList';
@@ -19,7 +20,9 @@ import ArtifactMetadataList from './ArtifactMetadataList';
 describe('ArtifactPayload Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <ArtifactMetadataList metaInfo={{ content: [{ key: 'custom-key', primary: 'primary text', secondary: 'secondary text' }], title: 'test' }} />
+      <ColumnWidthProvider>
+        <ArtifactMetadataList metaInfo={{ content: { 'custom-key': 'secondary text' }, title: 'test' }} />
+      </ColumnWidthProvider>
     );
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();

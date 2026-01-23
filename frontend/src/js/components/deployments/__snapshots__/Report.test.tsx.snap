@@ -122,138 +122,148 @@ Devices that are in the middle of the deployment at the time of abort will finis
         <div
           class="report-container margin-top-large margin-bottom-large"
         >
-          <div
-            class="break-all two-columns css-11rvwt0-root  column-data "
-          >
+          <div>
             <div
-              class="align-right muted"
+              class="break-all two-columns css-7gpf1z-root column-data "
             >
-              <b>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
                 Release
-              </b>
-            </div>
-            <div
-              class="flexbox "
-            >
-              <a
-                class="flexbox centered"
-                data-discover="true"
-                href="/releases/r1"
-                rel="noopener noreferrer"
-                style="font-weight: 500;"
-                target="_blank"
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
               >
-                r1
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                  data-testid="LaunchIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                  />
-                </svg>
-              </a>
-            </div>
-            <div
-              class="align-right muted"
-            >
-              <b>
-                Target device(s)
-              </b>
-            </div>
-            <div
-              class="flexbox "
-            >
-              <a
-                class="flexbox centered"
-                data-discover="true"
-                href="/devices"
-                rel="noopener noreferrer"
-                style="font-weight: 500;"
-                target="_blank"
-              >
-                test deployment
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                  data-testid="LaunchIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                  />
-                </svg>
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-1xm4ydy-MuiChip-root-chip"
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                  <a
+                    class="flexbox centered"
+                    data-discover="true"
+                    href="/releases/r1"
+                    rel="noopener noreferrer"
+                    style="font-weight: 500;"
+                    target="_blank"
                   >
-                    static
-                  </span>
+                    r1
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
+                      data-testid="LaunchIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+                      />
+                    </svg>
+                  </a>
                 </div>
-              </a>
-            </div>
-            <div
-              class="align-right muted"
-            >
-              <b>
-                Category
-              </b>
-            </div>
-            <div
-              class="flexbox "
-            >
-              <div
-                title="Software update"
-              >
-                Software update
               </div>
-            </div>
-          </div>
-          <div
-            class="flexbox column"
-          >
-            <div
-              class="break-all two-columns css-11rvwt0-root  column-data "
-            >
-              <div
-                class="align-right muted"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
               >
-                <b>
-                  Created at
-                </b>
-              </div>
+                Target device(s)
+              </h6>
               <div
-                class="flexbox "
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
               >
-                <time
-                  datetime="2019-01-01T12:30:00+00:00"
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 >
-                  2019-01-01 12:30
-                </time>
+                  <a
+                    class="flexbox centered"
+                    data-discover="true"
+                    href="/devices"
+                    rel="noopener noreferrer"
+                    style="font-weight: 500;"
+                    target="_blank"
+                  >
+                    test deployment
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
+                      data-testid="LaunchIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+                      />
+                    </svg>
+                    <div
+                      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-1xm4ydy-MuiChip-root-chip"
+                    >
+                      <span
+                        class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                      >
+                        static
+                      </span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
+                Category
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  title="Software update"
+                >
+                  Software update
+                </div>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
+                Created at
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  title="2019-01-01T12:30:00.000Z"
+                >
+                  <time
+                    datetime="2019-01-01T12:30:00+00:00"
+                  >
+                    2019-01-01 12:30
+                  </time>
+                </div>
               </div>
             </div>
-            <a
-              class="margin-top-small flexbox center-aligned css-1ds475v-scheduleLink"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
             >
-              Schedule details 
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-                data-testid="ArrowDropDownCircleOutlinedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              See schedule details
+              <span
+                class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium css-1gulhci-MuiButton-endIcon"
               >
-                <path
-                  d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
-                />
-              </svg>
-            </a>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                  data-testid="ArrowDropDownCircleOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
+                  />
+                </svg>
+              </span>
+            </button>
           </div>
         </div>
         <h4
@@ -383,36 +393,35 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <div
-            class="break-all two-columns css-11rvwt0-root  column-data "
-            style="grid-template-columns: max-content 1fr;"
+            class="break-all two-columns css-7gpf1z-root column-data margin-left"
           >
-            <div
-              class="align-right muted"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
             >
-              <b>
-                Update attempts per device
-              </b>
-            </div>
+              Update attempts per device
+            </h6>
             <div
-              class="flexbox "
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
             >
               <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="1"
               >
                 1
               </div>
             </div>
-            <div
-              class="align-right muted"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
             >
-              <b>
-                Maximum number of devices
-              </b>
-            </div>
+              Maximum number of devices
+            </h6>
             <div
-              class="flexbox "
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
             >
               <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="N/A"
               >
                 N/A
@@ -661,7 +670,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 />
                 <p
                   class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                  id="_r_8_"
+                  id="_r_9_"
                 >
                   Rows per page:
                 </p>
@@ -671,9 +680,9 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    aria-labelledby="_r_8_ _r_7_"
+                    aria-labelledby="_r_9_ _r_8_"
                     class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                    id="_r_7_"
+                    id="_r_8_"
                     role="combobox"
                     tabindex="0"
                   >
@@ -769,17 +778,25 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <div
-            class="break-all two-columns css-11rvwt0-root compact "
+            class="break-all two-columns css-7gpf1z-root column-data "
           >
-            <div
-              class="align-right muted"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
             >
-              <b>
-                Total download size
-              </b>
-            </div>
-            <div>
-              1.21 KB
+              Total download size
+            </h6>
+            <div
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                title="1234"
+              >
+                <div>
+                  1.21 KB
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -794,35 +811,39 @@ Devices that are in the middle of the deployment at the time of abort will finis
           class="flexbox"
         >
           <div
-            class="break-all two-columns css-11rvwt0-root  column-data "
+            class="break-all two-columns css-7gpf1z-root column-data "
           >
-            <div
-              class="align-right muted"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
             >
-              <b>
-                Start time
-              </b>
-            </div>
+              Start time
+            </h6>
             <div
-              class="flexbox "
-            >
-              <time
-                datetime="2019-01-01T12:30:00+00:00"
-              >
-                2019-01-01 12:30
-              </time>
-            </div>
-            <div
-              class="align-right muted"
-            >
-              <b>
-                Current phase
-              </b>
-            </div>
-            <div
-              class="flexbox "
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
             >
               <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                title="2019-01-01T12:30:00.000Z"
+              >
+                <time
+                  datetime="2019-01-01T12:30:00+00:00"
+                >
+                  2019-01-01 12:30
+                </time>
+              </div>
+            </div>
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
+            >
+              Current phase
+            </h6>
+            <div
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="1"
               >
                 1
@@ -841,19 +862,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
             />
           </svg>
           <div
-            class="break-all two-columns css-11rvwt0-root  column-data "
+            class="break-all two-columns css-7gpf1z-root column-data css-1083ul4-phaseOverview"
           >
-            <div
-              class="align-right muted"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
             >
-              <b>
-                End time
-              </b>
-            </div>
+              End time
+            </h6>
             <div
-              class="flexbox "
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
             >
               <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="-"
               >
                 -
@@ -929,39 +950,45 @@ Devices that are in the middle of the deployment at the time of abort will finis
               </span>
             </div>
             <div
-              class="break-all two-columns css-11rvwt0-root  column-data "
-              style="align-self: initial;"
+              class="break-all two-columns css-7gpf1z-root column-data "
             >
-              <div
-                class="align-right muted"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
               >
-                <b>
-                  Phase start time
-                </b>
-              </div>
+                Phase start time
+              </h6>
               <div
-                class="flexbox "
-              >
-                <time
-                  datetime="2019-01-01T12:30:00+00:00"
-                >
-                  2019-01-01 12:30
-                </time>
-              </div>
-              <div
-                class="align-right muted"
-              >
-                <b>
-                  Batch size
-                </b>
-              </div>
-              <div
-                class="flexbox "
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="muted"
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  title="2019-01-01T12:30:00.000Z"
                 >
-                  100% (1 device)
+                  <time
+                    datetime="2019-01-01T12:30:00+00:00"
+                  >
+                    2019-01-01 12:30
+                  </time>
+                </div>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
+                Batch size
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                >
+                  <div
+                    class="muted"
+                  >
+                    100% (1 device)
+                  </div>
                 </div>
               </div>
             </div>
@@ -1102,137 +1129,147 @@ Devices that are in the middle of the deployment at the time of abort will finis
         <div
           class="report-container margin-top-large margin-bottom-large"
         >
-          <div
-            class="break-all two-columns css-11rvwt0-root  column-data "
-          >
+          <div>
             <div
-              class="align-right muted"
+              class="break-all two-columns css-7gpf1z-root column-data "
             >
-              <b>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
                 Release
-              </b>
-            </div>
-            <div
-              class="flexbox "
-            >
-              <a
-                class="flexbox centered"
-                data-discover="true"
-                href="/releases/undefined"
-                rel="noopener noreferrer"
-                style="font-weight: 500;"
-                target="_blank"
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                  data-testid="LaunchIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                  />
-                </svg>
-              </a>
-            </div>
-            <div
-              class="align-right muted"
-            >
-              <b>
-                Target device(s)
-              </b>
-            </div>
-            <div
-              class="flexbox "
-            >
-              <a
-                class="flexbox centered"
-                data-discover="true"
-                href="/devices"
-                rel="noopener noreferrer"
-                style="font-weight: 500;"
-                target="_blank"
-              >
-                Test
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                  data-testid="LaunchIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                  />
-                </svg>
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-1xm4ydy-MuiChip-root-chip"
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                  <a
+                    class="flexbox centered"
+                    data-discover="true"
+                    href="/releases/undefined"
+                    rel="noopener noreferrer"
+                    style="font-weight: 500;"
+                    target="_blank"
                   >
-                    static
-                  </span>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
+                      data-testid="LaunchIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+                      />
+                    </svg>
+                  </a>
                 </div>
-              </a>
-            </div>
-            <div
-              class="align-right muted"
-            >
-              <b>
-                Category
-              </b>
-            </div>
-            <div
-              class="flexbox "
-            >
-              <div
-                title="Software update"
-              >
-                Software update
               </div>
-            </div>
-          </div>
-          <div
-            class="flexbox column"
-          >
-            <div
-              class="break-all two-columns css-11rvwt0-root  column-data "
-            >
-              <div
-                class="align-right muted"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
               >
-                <b>
-                  Created at
-                </b>
-              </div>
+                Target device(s)
+              </h6>
               <div
-                class="flexbox "
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
               >
-                <time
-                  datetime="2019-01-31T12:59:30+00:00"
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 >
-                  2019-01-31 12:59
-                </time>
+                  <a
+                    class="flexbox centered"
+                    data-discover="true"
+                    href="/devices"
+                    rel="noopener noreferrer"
+                    style="font-weight: 500;"
+                    target="_blank"
+                  >
+                    Test
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
+                      data-testid="LaunchIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+                      />
+                    </svg>
+                    <div
+                      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-1xm4ydy-MuiChip-root-chip"
+                    >
+                      <span
+                        class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                      >
+                        static
+                      </span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
+                Category
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  title="Software update"
+                >
+                  Software update
+                </div>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
+                Created at
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  title="2019-01-31T12:59:30.020Z"
+                >
+                  <time
+                    datetime="2019-01-31T12:59:30+00:00"
+                  >
+                    2019-01-31 12:59
+                  </time>
+                </div>
               </div>
             </div>
-            <a
-              class="margin-top-small flexbox center-aligned css-1ds475v-scheduleLink"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
             >
-              Schedule details 
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-                data-testid="ArrowDropDownCircleOutlinedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              See schedule details
+              <span
+                class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium css-1gulhci-MuiButton-endIcon"
               >
-                <path
-                  d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
-                />
-              </svg>
-            </a>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                  data-testid="ArrowDropDownCircleOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
+                  />
+                </svg>
+              </span>
+            </button>
           </div>
         </div>
         <h4
@@ -1361,36 +1398,35 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <div
-            class="break-all two-columns css-11rvwt0-root  column-data "
-            style="grid-template-columns: max-content 1fr;"
+            class="break-all two-columns css-7gpf1z-root column-data margin-left"
           >
-            <div
-              class="align-right muted"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
             >
-              <b>
-                Update attempts per device
-              </b>
-            </div>
+              Update attempts per device
+            </h6>
             <div
-              class="flexbox "
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
             >
               <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="0"
               >
                 0
               </div>
             </div>
-            <div
-              class="align-right muted"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
             >
-              <b>
-                Maximum number of devices
-              </b>
-            </div>
+              Maximum number of devices
+            </h6>
             <div
-              class="flexbox "
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
             >
               <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="N/A"
               >
                 N/A
@@ -1627,7 +1663,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 />
                 <p
                   class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                  id="_r_j_"
+                  id="_r_l_"
                 >
                   Rows per page:
                 </p>
@@ -1637,9 +1673,9 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    aria-labelledby="_r_j_ _r_i_"
+                    aria-labelledby="_r_l_ _r_k_"
                     class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                    id="_r_i_"
+                    id="_r_k_"
                     role="combobox"
                     tabindex="0"
                   >
@@ -1734,17 +1770,25 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <div
-            class="break-all two-columns css-11rvwt0-root compact "
+            class="break-all two-columns css-7gpf1z-root column-data "
           >
-            <div
-              class="align-right muted"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
             >
-              <b>
-                Total download size
-              </b>
-            </div>
-            <div>
-              1.21 KB
+              Total download size
+            </h6>
+            <div
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                title="1234"
+              >
+                <div>
+                  1.21 KB
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1759,35 +1803,39 @@ Devices that are in the middle of the deployment at the time of abort will finis
           class="flexbox"
         >
           <div
-            class="break-all two-columns css-11rvwt0-root  column-data "
+            class="break-all two-columns css-7gpf1z-root column-data "
           >
-            <div
-              class="align-right muted"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
             >
-              <b>
-                Start time
-              </b>
-            </div>
+              Start time
+            </h6>
             <div
-              class="flexbox "
-            >
-              <time
-                datetime="2019-01-31T12:59:30+00:00"
-              >
-                2019-01-31 12:59
-              </time>
-            </div>
-            <div
-              class="align-right muted"
-            >
-              <b>
-                Current phase
-              </b>
-            </div>
-            <div
-              class="flexbox "
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
             >
               <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                title="2019-01-31T12:59:30.020Z"
+              >
+                <time
+                  datetime="2019-01-31T12:59:30+00:00"
+                >
+                  2019-01-31 12:59
+                </time>
+              </div>
+            </div>
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
+            >
+              Current phase
+            </h6>
+            <div
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="N/A"
               >
                 N/A
@@ -1806,19 +1854,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
             />
           </svg>
           <div
-            class="break-all two-columns css-11rvwt0-root  column-data "
+            class="break-all two-columns css-7gpf1z-root column-data css-1083ul4-phaseOverview"
           >
-            <div
-              class="align-right muted"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="width: max-content;"
             >
-              <b>
-                End time
-              </b>
-            </div>
+              End time
+            </h6>
             <div
-              class="flexbox "
+              class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
             >
               <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="-"
               >
                 -
@@ -1980,39 +2028,45 @@ Devices that are in the middle of the deployment at the time of abort will finis
               </span>
             </div>
             <div
-              class="break-all two-columns css-11rvwt0-root  column-data "
-              style="align-self: initial;"
+              class="break-all two-columns css-7gpf1z-root column-data "
             >
-              <div
-                class="align-right muted"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
               >
-                <b>
-                  Phase start time
-                </b>
-              </div>
+                Phase start time
+              </h6>
               <div
-                class="flexbox "
-              >
-                <time
-                  datetime="2019-01-31T12:59:30+00:00"
-                >
-                  2019-01-31 12:59
-                </time>
-              </div>
-              <div
-                class="align-right muted"
-              >
-                <b>
-                  Batch size
-                </b>
-              </div>
-              <div
-                class="flexbox "
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="muted"
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  title="2019-01-31T12:59:30.020Z"
                 >
-                  2% (2 devices)
+                  <time
+                    datetime="2019-01-31T12:59:30+00:00"
+                  >
+                    2019-01-31 12:59
+                  </time>
+                </div>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
+                Batch size
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                >
+                  <div
+                    class="muted"
+                  >
+                    2% (2 devices)
+                  </div>
                 </div>
               </div>
             </div>
@@ -2033,39 +2087,45 @@ Devices that are in the middle of the deployment at the time of abort will finis
               </span>
             </div>
             <div
-              class="break-all two-columns css-11rvwt0-root  column-data "
-              style="align-self: initial;"
+              class="break-all two-columns css-7gpf1z-root column-data "
             >
-              <div
-                class="align-right muted"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
               >
-                <b>
-                  Phase start time
-                </b>
-              </div>
+                Phase start time
+              </h6>
               <div
-                class="flexbox "
-              >
-                <time
-                  datetime="2019-02-04T11:45:10+00:00"
-                >
-                  2019-02-04 11:45
-                </time>
-              </div>
-              <div
-                class="align-right muted"
-              >
-                <b>
-                  Batch size
-                </b>
-              </div>
-              <div
-                class="flexbox "
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="muted"
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  title="2019-02-04T11:45:10.002Z"
                 >
-                  3% (3 devices)
+                  <time
+                    datetime="2019-02-04T11:45:10+00:00"
+                  >
+                    2019-02-04 11:45
+                  </time>
+                </div>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
+                Batch size
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                >
+                  <div
+                    class="muted"
+                  >
+                    3% (3 devices)
+                  </div>
                 </div>
               </div>
             </div>
@@ -2086,39 +2146,45 @@ Devices that are in the middle of the deployment at the time of abort will finis
               </span>
             </div>
             <div
-              class="break-all two-columns css-11rvwt0-root  column-data "
-              style="align-self: initial;"
+              class="break-all two-columns css-7gpf1z-root column-data "
             >
-              <div
-                class="align-right muted"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
               >
-                <b>
-                  Phase start time
-                </b>
-              </div>
+                Phase start time
+              </h6>
               <div
-                class="flexbox "
-              >
-                <time
-                  datetime="2019-02-05T11:45:10+00:00"
-                >
-                  2019-02-05 11:45
-                </time>
-              </div>
-              <div
-                class="align-right muted"
-              >
-                <b>
-                  Batch size
-                </b>
-              </div>
-              <div
-                class="flexbox "
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="muted"
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  title="2019-02-05T11:45:10.002Z"
                 >
-                  5% (5 devices)
+                  <time
+                    datetime="2019-02-05T11:45:10+00:00"
+                  >
+                    2019-02-05 11:45
+                  </time>
+                </div>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
+                Batch size
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                >
+                  <div
+                    class="muted"
+                  >
+                    5% (5 devices)
+                  </div>
                 </div>
               </div>
             </div>
@@ -2139,39 +2205,45 @@ Devices that are in the middle of the deployment at the time of abort will finis
               </span>
             </div>
             <div
-              class="break-all two-columns css-11rvwt0-root  column-data "
-              style="align-self: initial;"
+              class="break-all two-columns css-7gpf1z-root column-data "
             >
-              <div
-                class="align-right muted"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
               >
-                <b>
-                  Phase start time
-                </b>
-              </div>
+                Phase start time
+              </h6>
               <div
-                class="flexbox "
-              >
-                <time
-                  datetime="2019-02-06T11:45:10+00:00"
-                >
-                  2019-02-06 11:45
-                </time>
-              </div>
-              <div
-                class="align-right muted"
-              >
-                <b>
-                  Batch size
-                </b>
-              </div>
-              <div
-                class="flexbox "
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="muted"
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  title="2019-02-06T11:45:10.002Z"
                 >
-                  5% (5 devices)
+                  <time
+                    datetime="2019-02-06T11:45:10+00:00"
+                  >
+                    2019-02-06 11:45
+                  </time>
+                </div>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
+                Batch size
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                >
+                  <div
+                    class="muted"
+                  >
+                    5% (5 devices)
+                  </div>
                 </div>
               </div>
             </div>
@@ -2192,39 +2264,45 @@ Devices that are in the middle of the deployment at the time of abort will finis
               </span>
             </div>
             <div
-              class="break-all two-columns css-11rvwt0-root  column-data "
-              style="align-self: initial;"
+              class="break-all two-columns css-7gpf1z-root column-data "
             >
-              <div
-                class="align-right muted"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
               >
-                <b>
-                  Phase start time
-                </b>
-              </div>
+                Phase start time
+              </h6>
               <div
-                class="flexbox "
-              >
-                <time
-                  datetime="2019-02-21T11:45:10+00:00"
-                >
-                  2019-02-21 11:45
-                </time>
-              </div>
-              <div
-                class="align-right muted"
-              >
-                <b>
-                  Batch size
-                </b>
-              </div>
-              <div
-                class="flexbox "
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="muted"
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  title="2019-02-21T11:45:10.002Z"
                 >
-                  5% (5 devices)
+                  <time
+                    datetime="2019-02-21T11:45:10+00:00"
+                  >
+                    2019-02-21 11:45
+                  </time>
+                </div>
+              </div>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="width: max-content;"
+              >
+                Batch size
+              </h6>
+              <div
+                class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                >
+                  <div
+                    class="muted"
+                  >
+                    5% (5 devices)
+                  </div>
                 </div>
               </div>
             </div>

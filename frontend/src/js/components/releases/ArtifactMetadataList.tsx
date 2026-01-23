@@ -11,19 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { List } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
 
-import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
+import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { isEmpty } from '@northern.tech/utils/helpers';
 
-export const ArtifactMetadataList = ({ metaInfo = { content: [] } }) =>
-  !!metaInfo.content.length && (
+export const ArtifactMetadataList = ({ metaInfo = { title: '', content: {} } }) =>
+  !isEmpty(metaInfo.content) && (
     <>
-      <p className="margin-bottom-none">{metaInfo.title}</p>
-      <List className="list-horizontal-flex" style={{ paddingTop: 0 }}>
-        {metaInfo.content.map(({ key, ...info }) => (
-          <ExpandableAttribute key={key} {...info} />
-        ))}
-      </List>
+      <Typography variant="subtitle2">{metaInfo.title}</Typography>
+      <Divider className="margin-top-small margin-bottom-small" />
+      <SynchronizedTwoColumnData className="margin-bottom-small" data={metaInfo.content} />
     </>
   );
 

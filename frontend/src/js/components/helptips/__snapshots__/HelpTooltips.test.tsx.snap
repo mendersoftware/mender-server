@@ -95,12 +95,41 @@ exports[`Helptooltips Components > renders ConfigureAddOnTip correctly 1`] = `
 exports[`Helptooltips Components > renders ConfigureRaspberryLedTip correctly 1`] = `
 NodeList [
   To see the effects of applying a configuration to your device you can set one of the below values to modify the behaviour of your Raspberry Pi green status LED,
-  .emotion-0 .key>b {
-  background-color: #bdbdbd;
-  color: rgba(0, 0, 0, 0.87);
+  .emotion-0.two-columns.column-data {
+  grid-template-columns: max-content minmax(auto, 650px);
+  max-width: initial;
+  row-gap: 8px;
 }
 
 .emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+}
+
+.emotion-2.copy-to-clipboard svg {
+  fill: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.emotion-4 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -115,23 +144,23 @@ NodeList [
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
   font-size: 1.25rem;
-  color: #1976d2;
+  color: rgba(0, 0, 0, 0.54);
 }
 
 <div
-    class="break-all two-columns emotion-0 compact column-data margin-top-small margin-bottom-small"
+    class="break-all two-columns emotion-0 column-data margin-top-small margin-bottom-small"
   >
-    <div
-      class="align-right muted"
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+      style="width: max-content;"
     >
-      <b>
-        mmc0
-      </b>
-    </div>
+      mmc0
+    </h6>
     <div
-      class="flexbox clickable"
+      class="flexbox center-aligned copy-to-clipboard emotion-2"
     >
       <div
+        class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="The default, which blinks the led on storage activity"
       >
         The default, which blinks the led on storage activity
@@ -139,7 +168,7 @@ NodeList [
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"
-        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-1"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-4"
         data-mui-internal-clone-element="true"
         data-testid="FileCopyOutlinedIcon"
         focusable="false"
@@ -150,17 +179,17 @@ NodeList [
         />
       </svg>
     </div>
-    <div
-      class="align-right muted"
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+      style="width: max-content;"
     >
-      <b>
-        on
-      </b>
-    </div>
+      on
+    </h6>
     <div
-      class="flexbox clickable"
+      class="flexbox center-aligned copy-to-clipboard emotion-2"
     >
       <div
+        class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="Turn on the light permanently"
       >
         Turn on the light permanently
@@ -168,7 +197,7 @@ NodeList [
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"
-        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-1"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-4"
         data-mui-internal-clone-element="true"
         data-testid="FileCopyOutlinedIcon"
         focusable="false"
@@ -179,17 +208,17 @@ NodeList [
         />
       </svg>
     </div>
-    <div
-      class="align-right muted"
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+      style="width: max-content;"
     >
-      <b>
-        off
-      </b>
-    </div>
+      off
+    </h6>
     <div
-      class="flexbox clickable"
+      class="flexbox center-aligned copy-to-clipboard emotion-2"
     >
       <div
+        class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="Turn off the light permanently"
       >
         Turn off the light permanently
@@ -197,7 +226,7 @@ NodeList [
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"
-        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-1"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-4"
         data-mui-internal-clone-element="true"
         data-testid="FileCopyOutlinedIcon"
         focusable="false"
@@ -208,17 +237,17 @@ NodeList [
         />
       </svg>
     </div>
-    <div
-      class="align-right muted"
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+      style="width: max-content;"
     >
-      <b>
-        heartbeat
-      </b>
-    </div>
+      heartbeat
+    </h6>
     <div
-      class="flexbox clickable"
+      class="flexbox center-aligned copy-to-clipboard emotion-2"
     >
       <div
+        class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="Enable heartbeat blinking"
       >
         Enable heartbeat blinking
@@ -226,7 +255,7 @@ NodeList [
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"
-        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-1"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-4"
         data-mui-internal-clone-element="true"
         data-testid="FileCopyOutlinedIcon"
         focusable="false"

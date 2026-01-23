@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { produce } from 'immer';
 import { vi } from 'vitest';
@@ -21,10 +22,12 @@ import { RolloutSchedule } from './RolloutSchedule';
 describe('RolloutSchedule Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <RolloutSchedule
-        deployment={produce({ ...defaultState.deployments.byId.d2, phases: [{ id: '0', batch_size: 100, device_count: 1 }] }, i => i)}
-        innerRef={vi.fn()}
-      />
+      <ColumnWidthProvider>
+        <RolloutSchedule
+          deployment={produce({ ...defaultState.deployments.byId.d2, phases: [{ id: '0', batch_size: 100, device_count: 1 }] }, i => i)}
+          innerRef={vi.fn()}
+        />
+      </ColumnWidthProvider>
     );
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();

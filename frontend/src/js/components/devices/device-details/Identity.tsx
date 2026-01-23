@@ -11,17 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import DeviceNameInput from '@northern.tech/common-ui/DeviceNameInput';
 import Time from '@northern.tech/common-ui/Time';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
 
 import AuthStatus from './AuthStatus';
 import DeviceDataCollapse from './DeviceDataCollapse';
 import DeviceTags from './DeviceTags';
-
-const style = { maxWidth: '80%', gridTemplateColumns: 'minmax(max-content, 150px) auto' };
-const previewStyle = { ...style, marginBottom: 5 };
 
 export const DeviceIdentity = ({ device, setSnackbar }) => {
   const { created_ts, id, identity_data = {}, status = DEVICE_STATES.accepted } = device;
@@ -40,19 +37,8 @@ export const DeviceIdentity = ({ device, setSnackbar }) => {
   }
 
   return (
-    <DeviceDataCollapse
-      header={
-        <TwoColumnData
-          compact
-          style={{ ...previewStyle, alignItems: 'center', gridTemplateColumns: 'minmax(max-content, 150px) max-content' }}
-          config={{ Name: device }}
-          ValueProps={{ device, isHovered: true }}
-          ValueComponent={DeviceNameInput}
-        />
-      }
-      title="Device identity"
-    >
-      <TwoColumnData config={content} compact setSnackbar={setSnackbar} style={style} />
+    <DeviceDataCollapse header={null} title="Device identity">
+      <TwoColumnData data={{ Name: <DeviceNameInput device={device} isHovered />, ...content }} setSnackbar={setSnackbar} />
     </DeviceDataCollapse>
   );
 };

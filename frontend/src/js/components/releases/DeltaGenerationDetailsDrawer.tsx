@@ -19,7 +19,6 @@ import { Launch as LaunchIcon } from '@mui/icons-material';
 import { Alert, Divider, Drawer, LinearProgress, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumns } from '@northern.tech/common-ui/ConfigurationObject';
 import { Code } from '@northern.tech/common-ui/CopyCode';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
@@ -27,6 +26,7 @@ import FileSize from '@northern.tech/common-ui/FileSize';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import Loader from '@northern.tech/common-ui/Loader';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
+import { ColumnWidthProvider, SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
@@ -258,10 +258,12 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
           <Loader show={true} />
         ) : (
           <>
-            <div className="two-columns">
-              <TwoColumns items={staticDetailsLeft} />
-              <TwoColumns items={staticDetailsRight} />
-            </div>
+            <ColumnWidthProvider>
+              <div className="two-columns">
+                <SynchronizedTwoColumnData data={staticDetailsLeft} />
+                <SynchronizedTwoColumnData data={staticDetailsRight} />
+              </div>
+            </ColumnWidthProvider>
             <LinedHeader className="margin-top-large" heading="Status" />
             <DetailsTable className={classes.table} columns={statusColumns} items={[combinedData]} />
             {combinedData.status === 'failed' && combinedData.details && <Code className="log">{combinedData.details}</Code>}

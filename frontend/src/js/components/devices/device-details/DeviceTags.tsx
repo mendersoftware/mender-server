@@ -16,8 +16,8 @@ import { useDispatch } from 'react-redux';
 
 import { Button, Typography } from '@mui/material';
 
-import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import { EditButton } from '@northern.tech/common-ui/Confirm';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
 
@@ -97,7 +97,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
             </div>
           </>
         ) : hasTags ? (
-          <ConfigurationObject config={tags} setSnackbar={setSnackbar} />
+          <TwoColumnData className="margin-left" chipLikeKey data={tags} setSnackbar={setSnackbar} />
         ) : (
           <Typography variant="subtitle2">No tags have been set for this device.</Typography>
         )}

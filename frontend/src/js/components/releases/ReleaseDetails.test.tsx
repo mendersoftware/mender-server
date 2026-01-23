@@ -14,6 +14,7 @@
 import { paperClasses } from '@mui/material';
 
 import { defaultState, render } from '@/testUtils';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { undefineds } from '@northern.tech/testing/mockData';
 
 import ReleaseDetails from './ReleaseDetails';
@@ -35,7 +36,12 @@ const preloadedState = {
 
 describe('ReleaseDetails Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<ReleaseDetails />, { preloadedState });
+    const { baseElement } = render(
+      <ColumnWidthProvider>
+        <ReleaseDetails />
+      </ColumnWidthProvider>,
+      { preloadedState }
+    );
     const view = baseElement.querySelector(`.${paperClasses.root}`);
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

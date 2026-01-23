@@ -18,13 +18,13 @@ import { Link } from 'react-router-dom';
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Error as ErrorIcon, Refresh as RefreshIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
 
-import ConfigurationObject from '@northern.tech/common-ui/ConfigurationObject';
 import Confirm, { EditButton } from '@northern.tech/common-ui/Confirm';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import LogDialog from '@northern.tech/common-ui/dialogs/Log';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import storeActions from '@northern.tech/store/actions';
@@ -393,7 +393,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
             onInputChange={setChangedConfig}
           />
         ) : (
-          hasDeviceConfig && <ConfigurationObject config={reported} setSnackbar={onSetSnackbar} />
+          hasDeviceConfig && <TwoColumnData chipLikeKey data={reported} setSnackbar={onSetSnackbar} />
         )}
         {hasDeviceConfig && <div className="flexbox center-aligned margin-bottom margin-top">{footer}</div>}
         {showLog && <LogDialog logData={updateLog} onClose={() => setShowLog(false)} type="configUpdateLog" />}

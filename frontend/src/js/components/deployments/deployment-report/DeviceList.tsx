@@ -26,13 +26,13 @@ import {
 import { Button, LinearProgress, LinearProgressProps, SvgIconOwnProps, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumns } from '@northern.tech/common-ui/ConfigurationObject';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
+import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import {
   DEVICE_LIST_DEFAULTS,
@@ -262,7 +262,7 @@ export const DeploymentDeviceList = ({ canAi, deployment, getDeploymentDevices, 
           />
           <Loader show={isLoading} small />
         </div>
-        <TwoColumns compact items={{ 'Total download size': totalSize }} ValueComponent={ValueFileSize} />
+        <SynchronizedTwoColumnData data={{ 'Total download size': <ValueFileSize value={totalSize} /> }} />
       </div>
     </>
   );

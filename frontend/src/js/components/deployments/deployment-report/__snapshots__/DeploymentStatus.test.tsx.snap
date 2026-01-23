@@ -92,9 +92,38 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
   padding: 16px 64px 16px;
 }
 
-.emotion-1 .key>b {
-  background-color: #bdbdbd;
-  color: rgba(0, 0, 0, 0.87);
+.emotion-1.two-columns.column-data {
+  grid-template-columns: max-content minmax(auto, 650px);
+  max-width: initial;
+  row-gap: 8px;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+}
+
+.emotion-3.copy-to-clipboard svg {
+  fill: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-4 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
 }
 
 <div>
@@ -218,36 +247,35 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="break-all two-columns emotion-1  column-data "
-      style="grid-template-columns: max-content 1fr;"
+      class="break-all two-columns emotion-1 column-data margin-left"
     >
-      <div
-        class="align-right muted"
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle2 key emotion-2"
+        style="width: max-content;"
       >
-        <b>
-          Update attempts per device
-        </b>
-      </div>
+        Update attempts per device
+      </h6>
       <div
-        class="flexbox "
+        class="flexbox center-aligned  emotion-3"
       >
         <div
+          class="MuiTypography-root MuiTypography-body2 emotion-4"
           title="1"
         >
           1
         </div>
       </div>
-      <div
-        class="align-right muted"
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle2 key emotion-2"
+        style="width: max-content;"
       >
-        <b>
-          Maximum number of devices
-        </b>
-      </div>
+        Maximum number of devices
+      </h6>
       <div
-        class="flexbox "
+        class="flexbox center-aligned  emotion-3"
       >
         <div
+          class="MuiTypography-root MuiTypography-body2 emotion-4"
           title="N/A"
         >
           N/A

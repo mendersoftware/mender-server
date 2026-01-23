@@ -1,0 +1,269 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TwoColumnData Component > renders correctly 1`] = `
+.emotion-0.two-columns.column-data {
+  grid-template-columns: max-content minmax(auto, 650px);
+  max-width: initial;
+  row-gap: 8px;
+}
+
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+}
+
+.emotion-2.copy-to-clipboard svg {
+  fill: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+<div
+  class="break-all two-columns emotion-0 column-data "
+>
+  <h6
+    class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+    style="width: max-content;"
+  >
+    uiPasswordRequired
+  </h6>
+  <div
+    class="flexbox center-aligned  emotion-2"
+  >
+    <div
+      class="MuiTypography-root MuiTypography-body2 emotion-3"
+    />
+  </div>
+  <h6
+    class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+    style="width: max-content;"
+  >
+    foo
+  </h6>
+  <div
+    class="flexbox center-aligned  emotion-2"
+  >
+    <div
+      class="MuiTypography-root MuiTypography-body2 emotion-3"
+      title="bar"
+    >
+      bar
+    </div>
+  </div>
+  <h6
+    class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+    style="width: max-content;"
+  >
+    timezone
+  </h6>
+  <div
+    class="flexbox center-aligned  emotion-2"
+  >
+    <div
+      class="MuiTypography-root MuiTypography-body2 emotion-3"
+      title="GMT+2"
+    >
+      GMT+2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TwoColumnData Component > renders with chipLikeKey prop 1`] = `
+.emotion-0.two-columns.column-data {
+  grid-template-columns: max-content minmax(auto, 650px);
+  max-width: initial;
+  row-gap: 8px;
+}
+
+.emotion-1 {
+  max-width: 100%;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  white-space: nowrap;
+  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  cursor: unset;
+  outline: 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  border: 0;
+  padding: 0;
+  vertical-align: middle;
+  box-sizing: border-box;
+  height: 24px;
+}
+
+.emotion-1.Mui-disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.emotion-1 .MuiChip-avatar {
+  margin-left: 5px;
+  margin-right: -6px;
+  width: 24px;
+  height: 24px;
+  color: #616161;
+  font-size: 0.75rem;
+}
+
+.emotion-1 .MuiChip-avatarColorPrimary {
+  color: #fff;
+  background-color: #1565c0;
+}
+
+.emotion-1 .MuiChip-avatarColorSecondary {
+  color: #fff;
+  background-color: #7b1fa2;
+}
+
+.emotion-1 .MuiChip-avatarSmall {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
+}
+
+.emotion-1 .MuiChip-icon {
+  margin-left: 5px;
+  margin-right: -6px;
+}
+
+.emotion-1 .MuiChip-deleteIcon {
+  -webkit-tap-highlight-color: transparent;
+  color: rgba(0, 0, 0, 0.26);
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0 5px 0 -6px;
+}
+
+.emotion-1 .MuiChip-deleteIcon:hover {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-1 .MuiChip-icon {
+  font-size: 18px;
+  margin-left: 4px;
+  margin-right: -4px;
+}
+
+.emotion-1 .MuiChip-deleteIcon {
+  font-size: 16px;
+  margin-right: 4px;
+  margin-left: -4px;
+}
+
+.emotion-1 .MuiChip-icon {
+  color: #616161;
+}
+
+.emotion-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.emotion-3.copy-to-clipboard svg {
+  fill: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-4 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+<div
+  class="break-all two-columns emotion-0 column-data "
+>
+  <div
+    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-1"
+    style="justify-self: end;"
+  >
+    <span
+      class="MuiChip-label MuiChip-labelSmall emotion-2"
+    >
+      attribute
+    </span>
+  </div>
+  <div
+    class="flexbox center-aligned  emotion-3"
+  >
+    <div
+      class="MuiTypography-root MuiTypography-body2 emotion-4"
+      title="value"
+    >
+      value
+    </div>
+  </div>
+  <div
+    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-1"
+    style="justify-self: end;"
+  >
+    <span
+      class="MuiChip-label MuiChip-labelSmall emotion-2"
+    >
+      another
+    </span>
+  </div>
+  <div
+    class="flexbox center-aligned  emotion-3"
+  >
+    <div
+      class="MuiTypography-root MuiTypography-body2 emotion-4"
+      title="item"
+    >
+      item
+    </div>
+  </div>
+</div>
+`;

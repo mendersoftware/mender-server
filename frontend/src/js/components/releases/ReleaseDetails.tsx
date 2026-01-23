@@ -28,11 +28,13 @@ import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/ConfigurationObject';
 import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/Confirm';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
@@ -367,14 +369,16 @@ export const ReleaseDetails = () => {
         onClose={onCloseClick}
       />
       <Divider className="margin-bottom" />
-      <ReleaseNotes onChange={onReleaseNotesChanged} release={release} />
-      <ReleaseTags existingTags={existingTags} onChange={onTagSelectionChanged} release={release} userCapabilities={userCapabilities} />
-      <ArtifactsList
-        artifacts={artifacts}
-        selectedArtifact={selectedArtifact}
-        setSelectedArtifact={setSelectedArtifact}
-        setShowRemoveArtifactDialog={setShowRemoveArtifactDialog}
-      />
+      <ColumnWidthProvider>
+        <ReleaseNotes onChange={onReleaseNotesChanged} release={release} />
+        <ReleaseTags existingTags={existingTags} onChange={onTagSelectionChanged} release={release} userCapabilities={userCapabilities} />
+        <ArtifactsList
+          artifacts={artifacts}
+          selectedArtifact={selectedArtifact}
+          setSelectedArtifact={setSelectedArtifact}
+          setShowRemoveArtifactDialog={setShowRemoveArtifactDialog}
+        />
+      </ColumnWidthProvider>
       <RemoveArtifactDialog
         artifact={selectedArtifact}
         open={!!showRemoveDialog}

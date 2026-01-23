@@ -15,9 +15,9 @@ import { ArrowForward } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import Time from '@northern.tech/common-ui/Time';
+import { SynchronizedTwoColumnData, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
 import { formatTime } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
@@ -33,6 +33,7 @@ const useStyles = makeStyles()(theme => ({
   currentPhaseInfo: { backgroundColor: theme.palette.grey[400] },
   phaseInfo: { maxWidth: maxPhaseWidth, borderRadius: 5, paddingTop: theme.spacing(), paddingBottom: theme.spacing(3) },
   phaseIndex: { alignSelf: 'flex-start', margin: theme.spacing(2), marginLeft: theme.spacing(2.5) },
+  phaseOverview: { alignItems: 'baseline' },
   phasesOverviewArrow: { marginLeft: theme.spacing(4), marginRight: theme.spacing(4) }
 }));
 
@@ -67,14 +68,14 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
       {phases.length > 1 || !update_control_map ? (
         <>
           <div className="flexbox">
-            <TwoColumnData
-              config={{
+            <SynchronizedTwoColumnData
+              data={{
                 'Start time': <Time value={formatTime(start_time)} />,
                 'Current phase': currentPhaseTime
               }}
             />
             <ArrowForward className={classes.phasesOverviewArrow} />
-            <TwoColumnData config={{ 'End time': endTime }} />
+            <SynchronizedTwoColumnData className={classes.phaseOverview} data={{ 'End time': endTime }} />
           </div>
           <ProgressChartComponent className="margin-top no-background" phases={displayablePhases} PhaseLabel={PhaseLabel} />
         </>
@@ -104,7 +105,7 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
             <div className={`flexbox column centered ${classes.phaseInfo} ${isCurrentPhase ? classes.currentPhaseInfo : ''}`} key={startTime}>
               {phaseTitle}
               <Chip className={classes.phaseIndex} size="small" label={`Phase ${index + 1}`} />
-              <TwoColumnData config={phaseObject} style={{ alignSelf: 'initial' }} />
+              <TwoColumnData data={phaseObject} />
             </div>
           );
         })}

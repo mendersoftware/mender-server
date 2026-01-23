@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { TwoColumnDataMultiple } from '@northern.tech/common-ui/ConfigurationObject';
+import { InventoryTable } from '@northern.tech/common-ui/InventoryTable';
 import Time from '@northern.tech/common-ui/Time';
 import { extractSoftware } from '@northern.tech/utils/helpers';
 
@@ -29,36 +29,17 @@ export const Title = ({ updateTime }) => (
 
 export const DeviceInventory = ({ device, setSnackbar }) => {
   const { attributes = {}, updated_ts: updateTime } = device;
-
-  const { device_type, ...remainingAttributes } = attributes;
-
   const { nonSoftware } = extractSoftware(attributes);
-  const keyAttributeCount = Object.keys(attributes).length - Object.keys(remainingAttributes).length;
-  const { deviceInventory, keyContent } = nonSoftware
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .reduce(
-      (accu, attribute, index) => {
-        if (attribute[0] === 'device_type') {
-          return accu;
-        }
-        const attributeValue = Array.isArray(attribute[1]) ? attribute[1].join(',') : attribute[1];
-        if (index < keyAttributeCount) {
-          accu.keyContent[attribute[0]] = attributeValue;
-        } else {
-          accu.deviceInventory[attribute[0]] = attributeValue;
-        }
-        return accu;
-      },
-      { deviceInventory: {}, keyContent: { device_type } }
-    );
+  const deviceInventory = nonSoftware.reduce((accu, attribute) => {
+    const attributeValue = Array.isArray(attribute[1]) ? attribute[1].join(',') : attribute[1];
+    accu[attribute[0]] = attributeValue;
+    return accu;
+  }, {});
 
   const waiting = !Object.values(attributes).some(i => i);
   return (
-    <DeviceDataCollapse
-      header={waiting ? <DeviceInventoryLoader /> : <TwoColumnDataMultiple config={keyContent} setSnackbar={setSnackbar} style={{ marginBottom: 5 }} />}
-      title={<Title updateTime={updateTime} />}
-    >
-      <TwoColumnDataMultiple config={deviceInventory} setSnackbar={setSnackbar} />
+    <DeviceDataCollapse header={null} title={<Title updateTime={updateTime} />}>
+      {waiting ? <DeviceInventoryLoader /> : <InventoryTable config={deviceInventory} setSnackbar={setSnackbar} />}
     </DeviceDataCollapse>
   );
 };

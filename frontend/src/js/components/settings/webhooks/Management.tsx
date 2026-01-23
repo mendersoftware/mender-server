@@ -19,11 +19,11 @@ import { Circle as CircleIcon } from '@mui/icons-material';
 import { Button, Divider, Drawer, Slide } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Time from '@northern.tech/common-ui/Time';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import actions from '@northern.tech/store/actions';
 import { Event } from '@northern.tech/store/api/types';
 import { EXTERNAL_PROVIDER, Webhook, emptyWebhook } from '@northern.tech/store/constants';
@@ -39,12 +39,6 @@ const { setSnackbar } = actions;
 const useStyles = makeStyles()(theme => ({
   divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
   statusIcon: { fontSize: 12, marginRight: theme.spacing() },
-  twoColumnsMultiple: {
-    gridTemplateColumns: 'max-content 1fr',
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2),
-    maxWidth: 'initial'
-  },
   wrapper: { justifyContent: 'end' }
 }));
 
@@ -142,7 +136,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
         <Slide in={!selectedEvent} container={containerRef.current} direction="right">
           <div className="absolute margin-top full-width" style={{ top: 0 }}>
             <h4>Settings</h4>
-            <TwoColumnData className={classes.twoColumnsMultiple} config={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
+            <TwoColumnData className="margin-top margin-bottom" data={webhookConfig} setSnackbar={dispatchedSetSnackbar} />
             <h4>Activity</h4>
             <WebhookActivity
               classes={classes}

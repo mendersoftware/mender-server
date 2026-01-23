@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { adminUserCapabilities, undefineds } from '@northern.tech/testing/mockData';
 import { act, cleanup, prettyDOM, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
@@ -24,13 +25,15 @@ describe('ProgressDeviceList Component', () => {
   it('renders correctly', async () => {
     const getDeploymentDevicesMock = vi.fn().mockResolvedValue(true);
     const ui = (
-      <ProgressDeviceList
-        selectedDevices={Object.values(defaultState.deployments.byId.d1.devices)}
-        deployment={defaultState.deployments.byId.d1}
-        getDeploymentDevices={getDeploymentDevicesMock}
-        userCapabilities={adminUserCapabilities}
-        idAttribute={{ attribute: 'foo', scope: 'bar' }}
-      />
+      <ColumnWidthProvider>
+        <ProgressDeviceList
+          selectedDevices={Object.values(defaultState.deployments.byId.d1.devices)}
+          deployment={defaultState.deployments.byId.d1}
+          getDeploymentDevices={getDeploymentDevicesMock}
+          userCapabilities={adminUserCapabilities}
+          idAttribute={{ attribute: 'foo', scope: 'bar' }}
+        />
+      </ColumnWidthProvider>
     );
     const { asFragment, rerender } = render(ui);
     await act(async () => vi.advanceTimersByTime(5000));

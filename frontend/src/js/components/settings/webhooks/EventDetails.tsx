@@ -17,10 +17,10 @@ import { ArrowCircleLeftOutlined as ArrowLeftIcon } from '@mui/icons-material';
 import { Divider, IconButton } from '@mui/material';
 
 import Editor, { loader } from '@monaco-editor/react';
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Loader from '@northern.tech/common-ui/Loader';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { Event } from '@northern.tech/store/api/types';
 import { Webhook } from '@northern.tech/store/constants';
 
@@ -80,7 +80,7 @@ const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSna
       </div>
       <Divider className={classes.divider} />
       <h4>Event details</h4>
-      <TwoColumnData className={classes.twoColumnsMultiple} config={content} setSnackbar={setSnackbar} />
+      <TwoColumnData className="margin-top margin-bottom" data={content} setSnackbar={setSnackbar} />
       <h4>Payload</h4>
       {data && <Editor {...editorProps} className="editor modified" value={JSON.stringify(data, null, '\t')} />}
       <Divider className={classes.divider} />

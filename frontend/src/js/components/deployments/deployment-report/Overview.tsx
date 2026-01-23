@@ -14,11 +14,11 @@
 import { Link } from 'react-router-dom';
 
 import { Launch as LaunchIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-material';
-import { Chip } from '@mui/material';
+import { Button, Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
 import Time from '@northern.tech/common-ui/Time';
+import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
 import pluralize from 'pluralize';
@@ -32,12 +32,6 @@ const useStyles = makeStyles()(theme => ({
     opacity: 0.5,
     fontSize: '0.675rem',
     height: 18
-  },
-  scheduleLink: {
-    marginLeft: theme.spacing(12),
-    '&svg': {
-      marginLeft: theme.spacing()
-    }
   },
   statusWrapper: {
     backgroundColor: theme.palette.background.lightgrey,
@@ -95,49 +89,49 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
     </Link>
   );
 
+  const createdBy = creator ? { 'Created by': creator } : {};
   const deploymentInfo = {
     'Release': deploymentRelease,
     'Target device(s)': targetDevices,
-    'Category': isSoftwareDeployment ? 'Software update' : 'Configuration'
-  };
-  const createdBy = creator ? { 'Created by': creator } : {};
-  const deploymentInfo2 = {
+    'Category': isSoftwareDeployment ? 'Software update' : 'Configuration',
     ...createdBy,
     'Created at': <Time value={creationTime} />
   };
 
   return (
     <div className="report-container margin-top-large margin-bottom-large">
-      <TwoColumnData config={deploymentInfo} />
-      <div className="flexbox column">
-        <TwoColumnData config={deploymentInfo2} />
-        <a className={`margin-top-small flexbox center-aligned ${classes.scheduleLink}`} onClick={onScheduleClick}>
-          Schedule details <ScrollDownIcon fontSize="small" />
-        </a>
+      <div>
+        <SynchronizedTwoColumnData data={deploymentInfo} />
+        <Button endIcon={<ScrollDownIcon fontSize="small" />} className="margin-top" onClick={onScheduleClick} variant="text">
+          See schedule details
+        </Button>
       </div>
 
       {finished && (
-        <div className="statusLarge flexbox centered">
-          <img src={successes ? successImage : failImage} />
-          <div className={`statusWrapper flexbox centered ${classes.statusWrapper}`}>
-            <div className="statusWrapperMessage">
-              {(!!successes || !failures) && (
-                <>
-                  <b className={successes ? 'green' : 'red'}>
-                    {successes === totalDeviceCount && totalDeviceCount > 1 && <>All </>}
-                    {successes}
-                  </b>{' '}
-                  {pluralize('devices', successes)} updated successfully
-                </>
-              )}
-              {!!failures && (
-                <>
-                  <b className="red">{failures}</b> {pluralize('devices', failures)} failed to update
-                </>
-              )}
+        <>
+          <div />
+          <div className="statusLarge flexbox center-aligned">
+            <img src={successes ? successImage : failImage} />
+            <div className={`statusWrapper flexbox centered ${classes.statusWrapper}`}>
+              <div className="statusWrapperMessage">
+                {(!!successes || !failures) && (
+                  <>
+                    <b className={successes ? 'green' : 'red'}>
+                      {successes === totalDeviceCount && totalDeviceCount > 1 && <>All </>}
+                      {successes}
+                    </b>{' '}
+                    {pluralize('devices', successes)} updated successfully
+                  </>
+                )}
+                {!!failures && (
+                  <>
+                    <b className="red">{failures}</b> {pluralize('devices', failures)} failed to update
+                  </>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

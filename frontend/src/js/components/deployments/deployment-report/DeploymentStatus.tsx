@@ -14,7 +14,7 @@
 import { Pause as PauseIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
-import { TwoColumnData } from '@northern.tech/common-ui/ConfigurationObject';
+import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { deploymentDisplayStates, pauseMap } from '@northern.tech/store/constants';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
 
@@ -91,8 +91,9 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
           </div>
         ))}
       </div>
-      <TwoColumnData
-        config={{ 'Update attempts per device': retries, 'Maximum number of devices': max_devices || 'N/A' }}
+      <SynchronizedTwoColumnData
+        className="margin-left"
+        data={{ 'Update attempts per device': retries, 'Maximum number of devices': max_devices || 'N/A' }}
         style={{ gridTemplateColumns: 'max-content 1fr' }}
       />
     </div>

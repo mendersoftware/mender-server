@@ -12,13 +12,18 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { undefineds } from '@northern.tech/testing/mockData';
 
 import DeploymentStatus, { DeploymentPhaseNotification } from './DeploymentStatus';
 
 describe('DeploymentStatus Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<DeploymentStatus deployment={defaultState.deployments.byId.d2} />);
+    const { baseElement } = render(
+      <ColumnWidthProvider>
+        <DeploymentStatus deployment={defaultState.deployments.byId.d2} />
+      </ColumnWidthProvider>
+    );
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

@@ -597,12 +597,142 @@ exports[`Configuration Component > renders correctly 1`] = `
   white-space: nowrap;
 }
 
-.emotion-16 .key>b {
-  background-color: #bdbdbd;
-  color: rgba(0, 0, 0, 0.87);
+.emotion-16.two-columns.column-data {
+  grid-template-columns: max-content minmax(auto, 650px);
+  max-width: initial;
+  row-gap: 8px;
 }
 
 .emotion-17 {
+  max-width: 100%;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 0.8125rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 32px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  white-space: nowrap;
+  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  cursor: unset;
+  outline: 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  border: 0;
+  padding: 0;
+  vertical-align: middle;
+  box-sizing: border-box;
+  height: 24px;
+}
+
+.emotion-17.Mui-disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.emotion-17 .MuiChip-avatar {
+  margin-left: 5px;
+  margin-right: -6px;
+  width: 24px;
+  height: 24px;
+  color: #616161;
+  font-size: 0.75rem;
+}
+
+.emotion-17 .MuiChip-avatarColorPrimary {
+  color: #fff;
+  background-color: #1565c0;
+}
+
+.emotion-17 .MuiChip-avatarColorSecondary {
+  color: #fff;
+  background-color: #7b1fa2;
+}
+
+.emotion-17 .MuiChip-avatarSmall {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
+}
+
+.emotion-17 .MuiChip-icon {
+  margin-left: 5px;
+  margin-right: -6px;
+}
+
+.emotion-17 .MuiChip-deleteIcon {
+  -webkit-tap-highlight-color: transparent;
+  color: rgba(0, 0, 0, 0.26);
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0 5px 0 -6px;
+}
+
+.emotion-17 .MuiChip-deleteIcon:hover {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-17 .MuiChip-icon {
+  font-size: 18px;
+  margin-left: 4px;
+  margin-right: -4px;
+}
+
+.emotion-17 .MuiChip-deleteIcon {
+  font-size: 16px;
+  margin-right: 4px;
+  margin-left: -4px;
+}
+
+.emotion-17 .MuiChip-icon {
+  color: #616161;
+}
+
+.emotion-18 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.emotion-19.copy-to-clipboard svg {
+  fill: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-20 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.emotion-21 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -617,10 +747,10 @@ exports[`Configuration Component > renders correctly 1`] = `
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
   font-size: 1.25rem;
-  color: #1976d2;
+  color: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-21 {
+.emotion-33 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
@@ -629,7 +759,7 @@ exports[`Configuration Component > renders correctly 1`] = `
   letter-spacing: 0.00714em;
 }
 
-.emotion-22 {
+.emotion-34 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -774,27 +904,28 @@ exports[`Configuration Component > renders correctly 1`] = `
     class="relative"
   >
     <div
-      class="break-all two-columns emotion-16  column-data "
+      class="break-all two-columns emotion-16 column-data "
     >
       <div
-        class="align-right muted"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-17"
+        style="justify-self: end;"
       >
-        <b>
+        <span
+          class="MuiChip-label MuiChip-labelSmall emotion-18"
+        >
           uiPasswordRequired
-        </b>
+        </span>
       </div>
       <div
-        class="flexbox clickable"
+        class="flexbox center-aligned copy-to-clipboard emotion-19"
       >
         <div
-          title="true"
-        >
-          true
-        </div>
+          class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
+        />
         <svg
           aria-hidden="true"
           aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-17"
+          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-21"
           data-mui-internal-clone-element="true"
           data-testid="FileCopyOutlinedIcon"
           focusable="false"
@@ -806,16 +937,20 @@ exports[`Configuration Component > renders correctly 1`] = `
         </svg>
       </div>
       <div
-        class="align-right muted"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-17"
+        style="justify-self: end;"
       >
-        <b>
+        <span
+          class="MuiChip-label MuiChip-labelSmall emotion-18"
+        >
           foo
-        </b>
+        </span>
       </div>
       <div
-        class="flexbox clickable"
+        class="flexbox center-aligned copy-to-clipboard emotion-19"
       >
         <div
+          class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
           title="bar"
         >
           bar
@@ -823,7 +958,7 @@ exports[`Configuration Component > renders correctly 1`] = `
         <svg
           aria-hidden="true"
           aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-17"
+          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-21"
           data-mui-internal-clone-element="true"
           data-testid="FileCopyOutlinedIcon"
           focusable="false"
@@ -835,16 +970,20 @@ exports[`Configuration Component > renders correctly 1`] = `
         </svg>
       </div>
       <div
-        class="align-right muted"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-17"
+        style="justify-self: end;"
       >
-        <b>
+        <span
+          class="MuiChip-label MuiChip-labelSmall emotion-18"
+        >
           timezone
-        </b>
+        </span>
       </div>
       <div
-        class="flexbox clickable"
+        class="flexbox center-aligned copy-to-clipboard emotion-19"
       >
         <div
+          class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
           title="GMT+2"
         >
           GMT+2
@@ -852,7 +991,7 @@ exports[`Configuration Component > renders correctly 1`] = `
         <svg
           aria-hidden="true"
           aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall margin-left-small fadeOut emotion-17"
+          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-21"
           data-mui-internal-clone-element="true"
           data-testid="FileCopyOutlinedIcon"
           focusable="false"
@@ -884,13 +1023,13 @@ exports[`Configuration Component > renders correctly 1`] = `
         </svg>
         <div>
           <h6
-            class="MuiTypography-root MuiTypography-subtitle2 emotion-21"
+            class="MuiTypography-root MuiTypography-subtitle2 emotion-33"
             style="text-transform: capitalize; text-align: left;"
           >
             Configuration up-to-date on the device
           </h6>
           <span
-            class="MuiTypography-root MuiTypography-caption muted emotion-22"
+            class="MuiTypography-root MuiTypography-caption muted emotion-34"
             style="text-transform: capitalize; text-align: left;"
           >
             Updated: 
