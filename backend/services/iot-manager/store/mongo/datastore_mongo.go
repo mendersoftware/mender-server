@@ -18,6 +18,7 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
+	"iter"
 	"strings"
 	"time"
 
@@ -97,7 +98,7 @@ func mergeConfig(configs ...*Config) *Config {
 }
 
 // SetupDataStore returns the mongo data store and optionally runs migrations
-func SetupDataStore(conf *Config) (store.DataStore, error) {
+func SetupDataStore(conf *Config) (*DataStoreMongo, error) {
 	conf = mergeConfig(conf)
 	ctx := context.Background()
 	dbClient, err := NewClient(ctx, config.Config)
@@ -106,7 +107,14 @@ func SetupDataStore(conf *Config) (store.DataStore, error) {
 	}
 	dataStore := NewDataStoreWithClient(dbClient, conf)
 
-	return dataStore, dataStore.Migrate(ctx)
+	if conf.Automigrate != nil && *conf.Automigrate {
+		err := dataStore.Migrate(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return dataStore, nil
 }
 
 func (ds *DataStoreMongo) Migrate(ctx context.Context) error {
@@ -171,6 +179,8 @@ type DataStoreMongo struct {
 	*Config
 }
 
+var _ store.DataStore = &DataStoreMongo{}
+
 // NewDataStoreWithClient initializes a DataStore object
 func NewDataStoreWithClient(client *mongo.Client, conf ...*Config) *DataStoreMongo {
 	return &DataStoreMongo{
@@ -205,23 +215,20 @@ func (db *DataStoreMongo) ListCollectionNames(
 	return db.client.Database(*db.DbName).ListCollectionNames(ctx, mopts.ListCollectionsOptions{})
 }
 
-func (db *DataStoreMongo) GetIntegrations(
+func (db *DataStoreMongo) getIntegrations(
 	ctx context.Context,
 	fltr model.IntegrationFilter,
-) ([]model.Integration, error) {
+) (*mongo.Cursor, error) {
 	var (
-		err      error
-		tenantID string
-		results  = []model.Integration{}
+		err error
 	)
-	id := identity.FromContext(ctx)
-	if id != nil {
-		tenantID = id.Tenant
-	}
 
 	collIntegrations := db.Collection(CollNameIntegrations)
 	findOpts := mopts.Find().
 		SetSort(bson.D{{
+			Key:   KeyTenantID,
+			Value: 1,
+		}, {
 			Key:   KeyProvider,
 			Value: 1,
 		}, {
@@ -233,7 +240,10 @@ func (db *DataStoreMongo) GetIntegrations(
 	}
 
 	fltrDoc := make(bson.D, 0, 3)
-	fltrDoc = append(fltrDoc, bson.E{Key: KeyTenantID, Value: tenantID})
+	id := identity.FromContext(ctx)
+	if id != nil {
+		fltrDoc = append(fltrDoc, bson.E{Key: KeyTenantID, Value: id.Tenant})
+	}
 	if fltr.Provider != model.ProviderEmpty {
 		fltrDoc = append(fltrDoc, bson.E{Key: KeyProvider, Value: fltr.Provider})
 	}
@@ -241,7 +251,7 @@ func (db *DataStoreMongo) GetIntegrations(
 		switch len(fltr.IDs) {
 		case 0:
 			// Won't match anything, let's save the request
-			return results, nil
+			return nil, nil
 		case 1:
 			fltrDoc = append(fltrDoc, bson.E{Key: KeyID, Value: fltr.IDs[0]})
 
@@ -259,10 +269,53 @@ func (db *DataStoreMongo) GetIntegrations(
 	if err != nil {
 		return nil, errors.Wrap(err, "error executing integrations collection request")
 	}
-	if err = cur.All(ctx, &results); err != nil {
-		return nil, errors.Wrap(err, "error retrieving integrations collection results")
+	return cur, nil
+}
+
+func (db *DataStoreMongo) GetIntegrationsIter(
+	ctx context.Context,
+	fltr model.IntegrationFilter,
+) iter.Seq2[*model.Integration, error] {
+	cur, err := db.getIntegrations(ctx, fltr)
+	if err != nil {
+		return func(yield func(*model.Integration, error) bool) {
+			yield(nil, err)
+		}
+	}
+	return func(yield func(*model.Integration, error) bool) {
+		defer cur.Close(ctx)
+		for cur.Next(ctx) {
+			var integration model.Integration
+			err := cur.Decode(&integration)
+			if err != nil {
+				yield(nil, err)
+				return
+			}
+			if !yield(&integration, nil) {
+				return
+			}
+		}
+		if err := cur.Err(); err != nil {
+			yield(nil, err)
+		}
 	}
 
+}
+
+func (db *DataStoreMongo) GetIntegrations(
+	ctx context.Context,
+	fltr model.IntegrationFilter,
+) ([]model.Integration, error) {
+	cur, err := db.getIntegrations(ctx, fltr)
+	if err != nil {
+		return nil, err
+	}
+	results := []model.Integration{}
+	if cur != nil {
+		if err = cur.All(ctx, &results); err != nil {
+			return nil, errors.Wrap(err, "error retrieving integrations collection results")
+		}
+	}
 	return results, nil
 }
 
