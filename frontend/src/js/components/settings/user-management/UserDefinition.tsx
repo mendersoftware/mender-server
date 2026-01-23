@@ -52,7 +52,7 @@ export const getUserSSOState = user => {
   return { isOAuth2, provider };
 };
 
-const mapPermissions = permissions => permissions.map(permission => uiPermissionsById[permission].title).join(', ');
+const mapPermissions = permissions => permissions.map(permission => uiPermissionsById[permission].title).join(', ') || 'None';
 
 const scopedPermissionAreas = {
   groups: 'Device groups',
