@@ -152,7 +152,7 @@ NodeList [
   >
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       mmc0
     </h6>
@@ -181,7 +181,7 @@ NodeList [
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       on
     </h6>
@@ -210,7 +210,7 @@ NodeList [
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       off
     </h6>
@@ -239,7 +239,7 @@ NodeList [
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       heartbeat
     </h6>

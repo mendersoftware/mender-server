@@ -370,7 +370,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   >
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       Name
     </h6>
@@ -445,7 +445,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       ID
     </h6>
@@ -474,7 +474,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       mac
     </h6>
@@ -503,7 +503,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       First request
     </h6>
@@ -908,7 +908,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   >
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       Name
     </h6>
@@ -983,7 +983,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       ID
     </h6>

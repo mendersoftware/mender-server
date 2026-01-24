@@ -1940,7 +1940,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-29:focus::-ms-input-
         >
           <h6
             class="MuiTypography-root MuiTypography-subtitle2 key emotion-25"
-            style="width: max-content;"
+            style="white-space: nowrap;"
           >
             Name
           </h6>
@@ -2015,7 +2015,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-29:focus::-ms-input-
           </div>
           <h6
             class="MuiTypography-root MuiTypography-subtitle2 key emotion-25"
-            style="width: max-content;"
+            style="white-space: nowrap;"
           >
             ID
           </h6>
@@ -2044,7 +2044,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-29:focus::-ms-input-
           </div>
           <h6
             class="MuiTypography-root MuiTypography-subtitle2 key emotion-25"
-            style="width: max-content;"
+            style="white-space: nowrap;"
           >
             mac
           </h6>
@@ -2073,7 +2073,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-29:focus::-ms-input-
           </div>
           <h6
             class="MuiTypography-root MuiTypography-subtitle2 key emotion-25"
-            style="width: max-content;"
+            style="white-space: nowrap;"
           >
             First request
           </h6>

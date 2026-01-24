@@ -283,7 +283,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     >
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         Release
       </h6>
@@ -318,7 +318,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       </div>
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         Target device(s)
       </h6>
@@ -362,7 +362,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       </div>
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         Category
       </h6>
@@ -378,7 +378,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       </div>
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         Created at
       </h6>
