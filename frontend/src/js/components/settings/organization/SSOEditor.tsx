@@ -91,9 +91,13 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
     onClose();
   }, [config, hasSSOConfig, isEditing, onCancel, setFileContent, onClose]);
 
-  const onSubmitClick = () => {
-    onSave();
-    setIsEditing(false);
+  const onSubmitClick = async () => {
+    try {
+      await onSave();
+      setIsEditing(false);
+    } catch {
+      // error already handled in thunk - leave open
+    }
   };
 
   const onCopyClick = () => copy(fileContent);

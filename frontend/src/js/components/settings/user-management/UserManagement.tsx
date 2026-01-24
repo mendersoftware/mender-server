@@ -112,25 +112,22 @@ export const UserManagement = () => {
     setRemoveDialog(false);
   };
 
-  const submit = (userData, type, id, passwordResetEmail) => {
-    if (userData) {
-      let request = null;
-      if (id) {
-        request = props[actions[type]](id, userData);
-      } else {
-        request = props[actions[type]](userData);
-      }
-      return request.then(() => {
-        if (passwordResetEmail) {
-          dispatch(passwordResetStart(passwordResetEmail));
+  const submit = async (userData, type, id, passwordResetEmail) => {
+    try {
+      if (userData) {
+        if (id) {
+          await props[actions[type]](id, userData).unwrap();
+        } else {
+          await props[actions[type]](userData).unwrap();
         }
-        dialogDismiss();
-      });
+      }
+      if (passwordResetEmail) {
+        dispatch(passwordResetStart(passwordResetEmail));
+      }
+      dialogDismiss();
+    } catch {
+      // error already handled in thunk - leave open
     }
-    if (passwordResetEmail) {
-      dispatch(passwordResetStart(passwordResetEmail));
-    }
-    return dialogDismiss();
   };
 
   return (

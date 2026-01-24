@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Divider, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
@@ -22,6 +22,7 @@ import InfoHint from '@northern.tech/common-ui/InfoHint';
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
 import { getExternalIntegrations, getIsPreview } from '@northern.tech/store/selectors';
 import { changeIntegration, createIntegration, deleteIntegration, getIntegrations } from '@northern.tech/store/thunks';
+import type { Integration } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { customSort } from '@northern.tech/utils/helpers';
 
@@ -245,12 +246,17 @@ export const Integrations = () => {
     setIsConfiguringWebhook(false);
   };
 
-  const onSaveClick = integration => {
-    if (integration.id === 'new') {
-      setIsConfiguringWebhook(false);
-      return dispatch(createIntegration(integration));
+  const onSaveClick = async (integration: Integration) => {
+    try {
+      if (integration.id === 'new') {
+        await dispatch(createIntegration(integration)).unwrap();
+        setIsConfiguringWebhook(false);
+        return;
+      }
+      await dispatch(changeIntegration(integration)).unwrap();
+    } catch {
+      // error already handled in thunk - leave open
     }
-    dispatch(changeIntegration(integration));
   };
 
   const isConfiguring = configuredIntegrations.some(({ id }) => id === 'new');

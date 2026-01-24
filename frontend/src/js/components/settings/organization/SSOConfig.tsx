@@ -85,9 +85,13 @@ export const SSOConfig = ({ ssoItem, config, onCancel, onSave, setSnackbar, toke
     onCancel();
   };
 
-  const onSaveSSOSettings = () => {
-    onSave(id, fileContent);
-    setIsEditing(false);
+  const onSaveSSOSettings = async () => {
+    try {
+      await onSave(id, fileContent);
+      setIsEditing(false);
+    } catch {
+      // error already handled in thunk - leave open
+    }
   };
 
   const onDrop = acceptedFiles => {
