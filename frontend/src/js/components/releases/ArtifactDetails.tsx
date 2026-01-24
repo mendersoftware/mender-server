@@ -195,19 +195,15 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
             <div style={{ marginLeft: 'auto' }}>{showProvidesDepends ? <ExpandLess /> : <ExpandMore />}</div>
           </AccordionSummary>
           <AccordionDetails>
-            {artifactMetaInfo.reduce((accu, { key, title, content }) => {
-              if (isEmpty(content)) {
-                return accu;
-              }
-              accu.push(
+            {artifactMetaInfo
+              .filter(({ content }) => !isEmpty(content))
+              .map(({ key, title, content }) => (
                 <div key={key}>
                   <Typography variant="subtitle2">{title}</Typography>
                   <Divider className="margin-top-small margin-bottom-small" />
                   <SynchronizedTwoColumnData data={content} />
                 </div>
-              );
-              return accu;
-            }, [])}
+              ))}
           </AccordionDetails>
         </Accordion>
       )}
