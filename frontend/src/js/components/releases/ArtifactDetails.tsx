@@ -162,7 +162,17 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
         className="margin-bottom-small"
         data={{
           'Description': <EditableLongText fullWidth original={artifact.description} onChange={onDescriptionChanged} />,
-          'Signed': artifact.signed ? <SignedIcon className="green" /> : <UnsignedIcon className="red" />
+          'Signed': artifact.signed ? (
+            <div className="flexbox center-aligned">
+              <SignedIcon className="green margin-right-x-small" />
+              <Typography variant="body2">Signed</Typography>
+            </div>
+          ) : (
+            <div className="flexbox center-aligned">
+              <UnsignedIcon className="red margin-right-x-small" />
+              <Typography variant="body2">Unsigned</Typography>
+            </div>
+          )
         }}
       />
 
