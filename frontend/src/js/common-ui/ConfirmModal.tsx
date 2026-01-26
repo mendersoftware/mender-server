@@ -20,6 +20,7 @@ import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 interface ConfirmModalProps {
   className?: string;
   close: () => void;
+  confirmButtonText?: string;
   description: string;
   header: string;
   maxWidth?: DialogProps['maxWidth'];
@@ -28,7 +29,7 @@ interface ConfirmModalProps {
   toType: string;
 }
 export const ConfirmModal = (props: ConfirmModalProps) => {
-  const { close, onConfirm, className = '', toType, header, description, open, maxWidth = 'xs' } = props;
+  const { close, onConfirm, className = '', toType, header, description, open, maxWidth = 'xs', confirmButtonText = 'Confirm' } = props;
   const [inputValue, setInputValue] = useState<string>('');
   return (
     <BaseDialog
@@ -50,24 +51,28 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
     >
       <DialogContent>
         <DialogContentText className="margin-bottom-small">{description}</DialogContentText>
-        <DialogContentText className="margin-bottom-small">Type &#39;{toType}&#39; below to continue</DialogContentText>
-        <TextField
-          value={inputValue}
-          onChange={e => setInputValue(e.target.value)}
-          autoFocus
-          required
-          name="confirmation-text"
-          id="confirmation-text"
-          label={toType}
-          type="text"
-        />
+        {toType && (
+          <>
+            <DialogContentText className="margin-bottom-small">Type &#39;{toType}&#39; below to continue</DialogContentText>
+            <TextField
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value)}
+              autoFocus
+              required
+              name="confirmation-text"
+              id="confirmation-text"
+              label={toType}
+              type="text"
+            />
+          </>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={close} size="small">
           Cancel
         </Button>
-        <Button color="secondary" type="submit" variant="contained" disabled={inputValue !== toType} size="small">
-          Confirm
+        <Button color="error" type="submit" variant="contained" disabled={!!toType && inputValue !== toType} size="small">
+          {confirmButtonText}
         </Button>
       </DialogActions>
     </BaseDialog>

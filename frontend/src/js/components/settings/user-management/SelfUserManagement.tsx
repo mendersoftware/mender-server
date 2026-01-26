@@ -12,9 +12,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { Button, TextField } from '@mui/material';
+import { Alert, Button, Chip, TextField, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
@@ -26,27 +26,36 @@ import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import storeActions from '@northern.tech/store/actions';
 import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
-import { editUser, saveUserSettings } from '@northern.tech/store/thunks';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { editUser, saveUserSettings, verifyEmailStart } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import AccessTokenManagement from '../AccessTokenManagement';
 import TwoFactorAuthSetup from './TwoFactorAuthSetup';
 import { UserId, getUserSSOState } from './UserDefinition';
+import { EmailVerificationConfirmation } from './twofactorauth-steps/EmailVerification';
 
 const { setSnackbar } = storeActions;
 
-const useStyles = makeStyles()(() => ({
+const useStyles = makeStyles()(theme => ({
   formField: { width: 400, maxWidth: '100%' },
   jwt: { maxWidth: '70%' },
   oauthIcon: { fontSize: '36px', marginRight: 10 },
-  widthLimit: { maxWidth: 750 }
+  widthLimit: { maxWidth: 750 },
+  sessionTokenSection: { marginTop: theme.spacing(6) }
 }));
+export const notificationMap = {
+  email: 'Email successfully verified.',
+  enabled2fa: 'Two-factor authentication successfully enabled.'
+};
 
 export const SelfUserManagement = () => {
   const [editEmail, setEditEmail] = useState(false);
   const [editPass, setEditPass] = useState(false);
+  const [confirmationShown, setConfirmationShown] = useState(false);
+
   const { classes } = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { isHosted } = useSelector(getFeatures);
   const isEnterprise = useSelector(getIsEnterprise);
@@ -58,6 +67,7 @@ export const SelfUserManagement = () => {
   const { trackingConsentGiven: hasTrackingConsent } = useSelector(getUserSettings);
   const isDarkMode = useSelector(getIsDarkMode);
   const { token } = useSelector(getCurrentSession);
+  const [showNotice, setShowNotice] = useState<string>('');
 
   const editSubmit = userData => {
     if (userData.password != userData.password_confirmation) {
@@ -79,21 +89,58 @@ export const SelfUserManagement = () => {
     dispatch(saveUserSettings({ mode: newMode }));
   };
 
+  const startVerification = () => {
+    dispatch(verifyEmailStart())
+      .unwrap()
+      .then(() => setConfirmationShown(true));
+  };
   const handlePass = () => setEditPass(toggle);
 
+  const needsVerification = currentUser.email && !currentUser.verified;
   return (
     <div className={`margin-top-small ${classes.widthLimit}`}>
       <h2 className="margin-top-small">My profile</h2>
+      {needsVerification && (
+        <Alert severity="warning" className="margin-bottom">
+          Enhance your account security. We recommend you complete these essential steps:{' '}
+          <ul className="margin-none padding-left">
+            <li>Verify your email</li>
+            <li>Enable two-factor authentication (2FA)</li>
+          </ul>
+        </Alert>
+      )}
+      {!needsVerification && showNotice && (
+        <Alert className="flexbox center-aligned margin-bottom-small" severity="success" onClose={() => setShowNotice('')}>
+          <Typography>{showNotice}</Typography>
+        </Alert>
+      )}
+      {confirmationShown && <EmailVerificationConfirmation onClose={() => setConfirmationShown(false)} email={email} />}
       <UserId className="margin-bottom-none" userId={userId} />
       {!editEmail && email ? (
-        <div className="flexbox space-between margin-bottom-small">
-          <TextField className={classes.formField} label="Email" key={email} disabled defaultValue={email} />
-          {!isOAuth2 && (
-            <Button color="primary" id="change_email" onClick={handleEmail}>
-              Change email
+        <>
+          <div className="flexbox space-between margin-bottom-small">
+            <div className="flexbox center-aligned">
+              <TextField className={classes.formField} label="Email" key={email} disabled defaultValue={email} />
+              <Chip
+                size="small"
+                label={needsVerification ? 'Not verified' : 'Verified'}
+                variant="outlined"
+                color={needsVerification ? 'warning' : 'success'}
+                className="margin-left-x-small"
+              />
+            </div>
+            {!isOAuth2 && (
+              <Button color="primary" id="change_email" onClick={handleEmail}>
+                Change email
+              </Button>
+            )}
+          </div>
+          {needsVerification && (
+            <Button className="margin-top-x-small" variant="contained" color="primary" onClick={startVerification}>
+              Verify
             </Button>
           )}
-        </div>
+        </>
       ) : (
         <Form defaultValues={{ email }} onSubmit={editSubmit} handleCancel={handleEmail} submitLabel="Save" showButtons={editEmail}>
           <TextInput hint="Email" id="email" label="Email" validations="isLength:1,isEmail,trim" />
@@ -138,7 +185,7 @@ export const SelfUserManagement = () => {
         ))}
       <ToggleSetting className="margin-top" title="Enable dark theme" onClick={toggleMode} value={isDarkMode} />
       {!isOAuth2 ? (
-        canHave2FA && <TwoFactorAuthSetup />
+        canHave2FA && <TwoFactorAuthSetup setShowNotice={setShowNotice} needsVerification={needsVerification} />
       ) : (
         <div className="flexbox margin-top">
           <div className={classes.oauthIcon}>{provider.icon}</div>
@@ -149,7 +196,7 @@ export const SelfUserManagement = () => {
           </div>
         </div>
       )}
-      <div className="flexbox space-between margin-top-large">
+      <div className={`flexbox space-between ${classes.sessionTokenSection}`}>
         <div className={classes.jwt}>
           <div className="help-content">Session token</div>
           <ExpandableAttribute

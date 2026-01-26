@@ -69,10 +69,10 @@ describe('SelfUserManagement Component', () => {
     await user.click(passwordGeneration);
     expect(copyCheck).toHaveBeenCalled();
     await user.click(screen.getByRole('button', { name: /cancel/i }));
-    await user.click(screen.getByText(/Enable Two Factor authentication/i));
+    await user.click(screen.getByRole('button', { name: /set up/i }));
     await act(async () => vi.runAllTicks());
     await waitFor(() => rerender(ui));
-    expect(screen.getByText(/Scan the QR code on the right/i)).toBeInTheDocument();
+    expect(screen.getByText(/“Scan QR code” to scan the QR code below/i)).toBeInTheDocument();
     await user.type(screen.getByPlaceholderText(/Verification code/i), '1234');
     expect(screen.getByText(/Must be at least 6 characters long/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Verify/i })).toBeDisabled();
