@@ -59,11 +59,12 @@ const useStyles = makeStyles()(theme => ({
 interface KeyValueFieldsProps {
   disabled?: boolean;
   errortext?: string;
+  initialValues: InputLineItem[];
   inputHelpTipsMap: Record<string, { component: React.ComponentType<any>; props: any }>;
   onInputChange: (value: Record<string, string>) => void;
 }
 
-const KeyValueFields = ({ disabled, errortext, inputHelpTipsMap, onInputChange }: KeyValueFieldsProps) => {
+const KeyValueFields = ({ disabled, errortext, initialValues, inputHelpTipsMap, onInputChange }: KeyValueFieldsProps) => {
   const { classes } = useStyles();
   const {
     control,
@@ -93,6 +94,11 @@ const KeyValueFields = ({ disabled, errortext, inputHelpTipsMap, onInputChange }
     onInputChange(inputObject);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(inputs), onInputChange]);
+
+  useEffect(() => {
+    replace(initialValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(initialValues)]);
 
   const onClearClick = () => replace([{ ...emptyInput }]);
 
@@ -168,16 +174,27 @@ const KeyValueFields = ({ disabled, errortext, inputHelpTipsMap, onInputChange }
 export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange }) => {
   const defaultValues = {
     inputs: Object.keys(initialInput).length
-      ? Object.entries(initialInput).map(([key, value]) => ({ helptip: inputHelpTipsMap[key.toLowerCase()], key, value }))
+      ? Object.entries(initialInput).map(([key, value]) => ({ helptip: inputHelpTipsMap[key.toLowerCase()], key, value }) as InputLineItem)
       : [{ ...emptyInput }]
   };
-  const [initialValues] = useState(defaultValues);
+  const [initialValues, setInitialValues] = useState(defaultValues);
+
+  useEffect(() => {
+    setInitialValues(defaultValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(initialInput)]);
 
   const onFormSubmit = data => onInputChange(reducePairs(data.inputs));
 
   return (
     <Form autocomplete="off" defaultValues={defaultValues} id="key-value-editor" initialValues={initialValues} onSubmit={onFormSubmit}>
-      <KeyValueFields disabled={disabled} errortext={errortext} inputHelpTipsMap={inputHelpTipsMap} onInputChange={onInputChange} />
+      <KeyValueFields
+        disabled={disabled}
+        errortext={errortext}
+        initialValues={defaultValues.inputs}
+        inputHelpTipsMap={inputHelpTipsMap}
+        onInputChange={onInputChange}
+      />
     </Form>
   );
 };
