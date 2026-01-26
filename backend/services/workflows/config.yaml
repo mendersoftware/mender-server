@@ -126,3 +126,8 @@ workflows_path: "/etc/workflows/definitions"
 # Overwrite with environment variable: WORKFLOWS_CONCURRENCY
 
 # concurrency: 10
+
+# Allowed binaries that can be executed in the workers.
+
+allowed_binaries:
+#  - example/path/to/binary

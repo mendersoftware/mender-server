@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"context"
@@ -129,8 +129,8 @@ func TestProcessJobNATS(t *testing.T) {
 					}),
 			).Return(nil)
 
-			err := processJob(ctx, job, dataStore, nats)
-
+			jp := mockJobProcessor(job, dataStore, nats, nil)
+			err := jp.ProcessJob(ctx)
 			assert.Nil(t, err)
 		})
 	}

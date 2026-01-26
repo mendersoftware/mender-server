@@ -22,19 +22,33 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
+	"github.com/mendersoftware/mender-server/pkg/executor"
+
+	"github.com/mendersoftware/mender-server/services/workflows/client/nats"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
+	"github.com/mendersoftware/mender-server/services/workflows/store"
 )
 
 type JobProcessor struct {
-	job *model.Job
+	store    store.DataStore
+	client   nats.Client
+	executor executor.BinaryExecutor
+	job      *model.Job
 }
 
 type JsonOptions struct {
 }
 
-func NewJobProcessor(job *model.Job) *JobProcessor {
+func NewJobProcessor(job *model.Job,
+	store store.DataStore,
+	client nats.Client,
+	exec executor.BinaryExecutor,
+) *JobProcessor {
 	return &JobProcessor{
-		job: job,
+		job:      job,
+		store:    store,
+		client:   client,
+		executor: exec,
 	}
 }
 

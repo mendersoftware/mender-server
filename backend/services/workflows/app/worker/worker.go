@@ -25,6 +25,7 @@ import (
 	"golang.org/x/sys/unix"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/executor"
 	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/workflows/client/nats"
@@ -69,6 +70,9 @@ func InitAndRun(
 	durableName := config.Config.GetString(dconfig.SettingNatsSubscriberDurable)
 	concurrency := conf.GetInt(dconfig.SettingConcurrency)
 
+	allowedBinaries := config.Config.GetStringSlice(dconfig.SettingWorkerAllowedBinaries)
+	binExec := executor.New(allowedBinaries)
+
 	cfg, err := natsClient.GetConsumerConfig(durableName)
 	if err != nil {
 		return err
@@ -93,7 +97,7 @@ func InitAndRun(
 	signal.Notify(quit, unix.SIGINT, unix.SIGTERM)
 
 	// Spawn worker pool
-	wg := NewWorkGroup(jobChan, notifyPeriod, natsClient, dataStore, sub)
+	wg := NewWorkGroup(jobChan, notifyPeriod, natsClient, dataStore, sub, binExec)
 	for i := 0; i < concurrency; i++ {
 		go wg.RunWorker(ctx)
 	}

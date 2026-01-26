@@ -12,21 +12,17 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"encoding/json"
 
-	"github.com/mendersoftware/mender-server/services/workflows/app/processor"
-	"github.com/mendersoftware/mender-server/services/workflows/client/nats"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 )
 
-func processNATSTask(
+func (jp *JobProcessor) ProcessNATSTask(
 	natsTask *model.NATSTask,
-	ps *processor.JobStringProcessor,
-	jp *processor.JobProcessor,
-	nats nats.Client,
+	ps *JobStringProcessor,
 ) (*model.TaskResult, error) {
 
 	var result *model.TaskResult = &model.TaskResult{
@@ -36,8 +32,8 @@ func processNATSTask(
 	dataJSON := jp.ProcessJSON(natsTask.Data, ps)
 	dataJSONBytes, err := json.Marshal(dataJSON)
 	if err == nil {
-		subject := nats.StreamName() + "." + natsTask.Subject
-		err = nats.JetStreamPublish(subject, dataJSONBytes)
+		subject := jp.client.StreamName() + "." + natsTask.Subject
+		err = jp.client.JetStreamPublish(subject, dataJSONBytes)
 	}
 	result.Success = err == nil
 	if err != nil {

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"bytes"
@@ -26,17 +26,15 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
 
-	"github.com/mendersoftware/mender-server/services/workflows/app/processor"
 	dconfig "github.com/mendersoftware/mender-server/services/workflows/config"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 )
 
 var smtpClient SMTPClientInterface = new(SMTPClient)
 
-func processSMTPTask(
+func (jp *JobProcessor) processSMTPTask(
 	smtpTask *model.SMTPTask,
-	ps *processor.JobStringProcessor,
-	jp *processor.JobProcessor,
+	ps *JobStringProcessor,
 	l *log.Logger,
 ) (*model.TaskResult, error) {
 	var result *model.TaskResult = &model.TaskResult{

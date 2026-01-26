@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"encoding/json"
@@ -24,7 +24,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 
-	"github.com/mendersoftware/mender-server/services/workflows/app/processor"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 )
 
@@ -38,7 +37,7 @@ func TestProcessJobString(t *testing.T) {
 		},
 	}
 
-	ps := processor.NewJobStringProcessor(job)
+	ps := NewJobStringProcessor(job)
 	res := ps.ProcessJobString("_${workflow.input.key}_")
 	assert.Equal(t, "_test+test_", res)
 
@@ -55,7 +54,7 @@ func TestProcessJobString(t *testing.T) {
 func TestProcessJobStringEnvVariable(t *testing.T) {
 	job := &model.Job{}
 
-	ps := processor.NewJobStringProcessor(job)
+	ps := NewJobStringProcessor(job)
 	res := ps.ProcessJobString("_${env.PWD}_")
 	pwd := os.Getenv("PWD")
 	expected := fmt.Sprintf("_%s_", pwd)
@@ -157,7 +156,7 @@ func TestProcessJobStringJSONOutputFromPreviousResult(t *testing.T) {
 			Results: []model.TaskResult{test.taskResult},
 		}
 
-		ps := processor.NewJobStringProcessor(job)
+		ps := NewJobStringProcessor(job)
 		res := ps.ProcessJobString(test.expression)
 		assert.Equal(t, test.expectedValue, res)
 	}
@@ -272,8 +271,8 @@ func TestProcessJobJSON(t *testing.T) {
 				},
 			}
 
-			ps := processor.NewJobStringProcessor(job)
-			jp := processor.NewJobProcessor(job)
+			ps := NewJobStringProcessor(job)
+			jp := NewJobProcessor(job, nil, nil, nil)
 
 			res := jp.ProcessJSON(test.json, ps)
 			assert.Equal(t, test.result, res)

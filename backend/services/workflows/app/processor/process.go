@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"context"
@@ -24,10 +24,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 
-	"github.com/mendersoftware/mender-server/services/workflows/app/processor"
-	"github.com/mendersoftware/mender-server/services/workflows/client/nats"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
-	"github.com/mendersoftware/mender-server/services/workflows/store"
 )
 
 // this variable is set when running acceptance tests to disable ephemeral jobs
@@ -35,15 +32,14 @@ import (
 // values stored in the database
 var NoEphemeralWorkflows = false
 
-func processJob(ctx context.Context, job *model.Job,
-	dataStore store.DataStore, nats nats.Client) error {
+func (jp *JobProcessor) ProcessJob(ctx context.Context) error {
 	l := log.FromContext(ctx)
 
-	workflow, err := dataStore.GetWorkflowByName(ctx, job.WorkflowName, job.WorkflowVersion)
+	workflow, err := jp.store.GetWorkflowByName(ctx, jp.job.WorkflowName, jp.job.WorkflowVersion)
 	if err != nil {
 		l.Warnf("The workflow %q of job %s does not exist: %v",
-			job.WorkflowName, job.ID, err)
-		err := dataStore.UpdateJobStatus(ctx, job, model.StatusFailure)
+			jp.job.WorkflowName, jp.job.ID, err)
+		err := jp.store.UpdateJobStatus(ctx, jp.job, model.StatusFailure)
 		if err != nil {
 			return err
 		}
@@ -51,26 +47,27 @@ func processJob(ctx context.Context, job *model.Job,
 	}
 
 	if !workflow.Ephemeral || NoEphemeralWorkflows {
-		job.Status = model.StatusPending
-		_, err = dataStore.UpsertJob(ctx, job)
+		jp.job.Status = model.StatusPending
+		_, err = jp.store.UpsertJob(ctx, jp.job)
 		if err != nil {
 			return errors.Wrap(err, "insert of the job failed")
 		}
 	}
 
-	l.Infof("%s: started, %s", job.ID, job.WorkflowName)
+	l.Infof("%s: started, %s", jp.job.ID, jp.job.WorkflowName)
 
 	success := true
 	for _, task := range workflow.Tasks {
-		l.Infof("%s: started, %s task :%s", job.ID, job.WorkflowName, task.Name)
+		l.Infof("%s: started, %s task :%s", jp.job.ID, jp.job.WorkflowName, task.Name)
 		var (
 			result  *model.TaskResult
 			attempt uint8 = 0
 		)
 		for attempt <= task.Retries {
-			result, err = processTask(task, job, workflow, nats, l)
+
+			result, err = jp.processTask(task, workflow, l)
 			if err != nil {
-				_ = dataStore.UpdateJobStatus(ctx, job, model.StatusFailure)
+				_ = jp.store.UpdateJobStatus(ctx, jp.job, model.StatusFailure)
 				return err
 			}
 			attempt++
@@ -81,9 +78,9 @@ func processJob(ctx context.Context, job *model.Job,
 				time.Sleep(time.Duration(task.RetryDelaySeconds) * time.Second)
 			}
 		}
-		job.Results = append(job.Results, *result)
+		jp.job.Results = append(jp.job.Results, *result)
 		if !workflow.Ephemeral || !result.Success || NoEphemeralWorkflows {
-			err = dataStore.UpdateJobAddResult(ctx, job, result)
+			err = jp.store.UpdateJobAddResult(ctx, jp.job, result)
 			if err != nil {
 				l.Errorf("Error uploading results: %s", err.Error())
 			}
@@ -102,25 +99,24 @@ func processJob(ctx context.Context, job *model.Job,
 	}
 	if !workflow.Ephemeral || NoEphemeralWorkflows {
 		newStatus := model.StatusToString(status)
-		err = dataStore.UpdateJobStatus(ctx, job, status)
+		err = jp.store.UpdateJobStatus(ctx, jp.job, status)
 		if err != nil {
 			l.Warn(fmt.Sprintf("Unable to set job status to %s", newStatus))
 			return err
 		}
 	}
 
-	l.Infof("%s: done", job.ID)
+	l.Infof("%s: done", jp.job.ID)
 	return nil
 }
 
-func processTask(task model.Task, job *model.Job,
-	workflow *model.Workflow, nats nats.Client, l *log.Logger) (*model.TaskResult, error) {
+func (jp *JobProcessor) processTask(task model.Task,
+	workflow *model.Workflow, l *log.Logger) (*model.TaskResult, error) {
 
 	var result *model.TaskResult
 	var err error
 
-	ps := processor.NewJobStringProcessor(job)
-	jp := processor.NewJobProcessor(job)
+	ps := NewJobStringProcessor(jp.job)
 	if len(task.Requires) > 0 {
 		for _, require := range task.Requires {
 			require = ps.ProcessJobString(require)
@@ -144,7 +140,7 @@ func processTask(task model.Task, job *model.Job,
 				"Error: Task definition incompatible " +
 					"with specified type (http)")
 		}
-		result, err = processHTTPTask(httpTask, ps, jp, l)
+		result, err = jp.ProcessHTTPTask(httpTask, ps, l)
 	case model.TaskTypeCLI:
 		var cliTask *model.CLITask = task.CLI
 		if cliTask == nil {
@@ -152,7 +148,7 @@ func processTask(task model.Task, job *model.Job,
 				"Error: Task definition incompatible " +
 					"with specified type (cli)")
 		}
-		result, err = processCLITask(cliTask, ps, jp)
+		result, err = jp.ProcessCLITask(cliTask, ps)
 	case model.TaskTypeNATS:
 		var natsTask *model.NATSTask = task.NATS
 		if natsTask == nil {
@@ -160,7 +156,7 @@ func processTask(task model.Task, job *model.Job,
 				"Error: Task definition incompatible " +
 					"with specified type (nats)")
 		}
-		result, err = processNATSTask(natsTask, ps, jp, nats)
+		result, err = jp.ProcessNATSTask(natsTask, ps)
 	case model.TaskTypeSMTP:
 		var smtpTask *model.SMTPTask = task.SMTP
 		if smtpTask == nil {
@@ -173,7 +169,7 @@ func processTask(task model.Task, job *model.Job,
 			ps.ProcessJobString(strings.Join(smtpTask.To, ",")),
 			ps.ProcessJobString(smtpTask.Subject),
 		)
-		result, err = processSMTPTask(smtpTask, ps, jp, l)
+		result, err = jp.processSMTPTask(smtpTask, ps, l)
 	default:
 		result = nil
 		err = fmt.Errorf("Unrecognized task type: %s", task.Type)

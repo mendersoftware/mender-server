@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"encoding/json"
@@ -25,7 +25,6 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 
-	"github.com/mendersoftware/mender-server/services/workflows/app/processor"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 )
 
@@ -40,10 +39,9 @@ var makeHTTPRequest = func(req *http.Request, timeout time.Duration) (*http.Resp
 	return res, nil
 }
 
-func processHTTPTask(
+func (jp *JobProcessor) ProcessHTTPTask(
 	httpTask *model.HTTPTask,
-	ps *processor.JobStringProcessor,
-	jp *processor.JobProcessor,
+	ps *JobStringProcessor,
 	l *log.Logger,
 ) (*model.TaskResult, error) {
 	uri := ps.ProcessJobString(httpTask.URI)

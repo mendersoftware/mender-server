@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"bytes"
@@ -20,6 +20,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"os/exec"
 	"testing"
 	"time"
 
@@ -27,11 +28,29 @@ import (
 	"github.com/stretchr/testify/mock"
 	mocklib "github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/executor"
 	"github.com/mendersoftware/mender-server/pkg/log"
 
+	natsmock "github.com/mendersoftware/mender-server/services/workflows/client/nats/mocks"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
+	"github.com/mendersoftware/mender-server/services/workflows/store"
 	storemock "github.com/mendersoftware/mender-server/services/workflows/store/mock"
 )
+
+func mockCommandExecutor(ctx context.Context, command []string) (*exec.Cmd, error) {
+	return exec.CommandContext(ctx, command[0], command[1:]...), nil
+
+}
+
+func mockJobProcessor(job *model.Job, store store.DataStore, client *natsmock.Client,
+	exec executor.BinaryExecutor) *JobProcessor {
+	return &JobProcessor{
+		store:    store,
+		client:   client,
+		executor: exec,
+		job:      job,
+	}
+}
 
 func TestProcessJobFailedWorkflowDoesNotExist(t *testing.T) {
 	ctx := context.Background()
@@ -55,8 +74,8 @@ func TestProcessJobFailedWorkflowDoesNotExist(t *testing.T) {
 		job,
 		model.StatusFailure,
 	).Return(nil)
-
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, nil)
+	err := jp.ProcessJob(ctx)
 	assert.Nil(t, err)
 }
 
@@ -98,7 +117,8 @@ func TestProcessJobFailedUpsert(t *testing.T) {
 		job,
 	).Return(nil, errors.New("failed"))
 
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, nil)
+	err := jp.ProcessJob(ctx)
 	assert.EqualError(t, err, "insert of the job failed: failed")
 }
 
@@ -231,7 +251,8 @@ func TestProcessTaskSkipped(t *testing.T) {
 
 			ctx := context.Background()
 			l := log.FromContext(ctx)
-			result, err := processTask(*tc.task, tc.job, tc.workflow, nil, l)
+			jp := mockJobProcessor(tc.job, nil, nil, nil)
+			result, err := jp.processTask(*tc.task, tc.workflow, l)
 			assert.NoError(t, err)
 			assert.Equal(t, tc.skipped, result.Skipped)
 
@@ -328,8 +349,8 @@ func TestProcessTaskRetries(t *testing.T) {
 				tc.job,
 				mock.AnythingOfType("*model.TaskResult"),
 			).Return(nil)
-
-			err := processJob(ctx, tc.job, dataStore, nil)
+			jp := mockJobProcessor(tc.job, dataStore, nil, nil)
+			err := jp.ProcessJob(ctx)
 			assert.NoError(t, err)
 			assert.Equal(t, true, firstCallHappened)
 
@@ -384,7 +405,8 @@ func TestProcessJobUnrecognizedTaskType(t *testing.T) {
 		model.StatusFailure,
 	).Return(nil)
 
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, nil)
+	err := jp.ProcessJob(ctx)
 	assert.NotNil(t, err)
 	assert.EqualError(t, err, "Unrecognized task type: dummy")
 }

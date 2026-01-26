@@ -12,16 +12,14 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"os"
 	"strings"
-
-	"github.com/mendersoftware/mender-server/services/workflows/app/processor"
 )
 
-func processJobStringOrFile(data string, ps *processor.JobStringProcessor) (string, error) {
+func processJobStringOrFile(data string, ps *JobStringProcessor) (string, error) {
 	data = ps.ProcessJobString(data)
 	if strings.HasPrefix(data, "@") {
 		filePath := data[1:]

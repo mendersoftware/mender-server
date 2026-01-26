@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package worker
+package processor
 
 import (
 	"context"
@@ -22,8 +22,16 @@ import (
 	"github.com/stretchr/testify/assert"
 	mocklib "github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/executor"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 	"github.com/mendersoftware/mender-server/services/workflows/store/mock"
+)
+
+var (
+	executorMock = executor.New([]string{
+		"/usr/bin/echo",
+		"/usr/bin/bash",
+	})
 )
 
 func TestProcessJobCLI(t *testing.T) {
@@ -39,7 +47,7 @@ func TestProcessJobCLI(t *testing.T) {
 				Type: model.TaskTypeCLI,
 				CLI: &model.CLITask{
 					Command: []string{
-						"echo",
+						"/usr/bin/echo",
 						"TEST",
 					},
 				},
@@ -96,7 +104,8 @@ func TestProcessJobCLI(t *testing.T) {
 			}),
 	).Return(nil)
 
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, executorMock)
+	err := jp.ProcessJob(ctx)
 
 	assert.Nil(t, err)
 }
@@ -114,7 +123,7 @@ func TestProcessJobCLIWrongExitCode(t *testing.T) {
 				Type: model.TaskTypeCLI,
 				CLI: &model.CLITask{
 					Command: []string{
-						"bash",
+						"/usr/bin/bash",
 						"-c",
 						"exit 10",
 					},
@@ -187,7 +196,8 @@ func TestProcessJobCLIWrongExitCode(t *testing.T) {
 			}),
 	).Return(nil)
 
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, executorMock)
+	err := jp.ProcessJob(ctx)
 	assert.Nil(t, err)
 }
 
@@ -204,7 +214,7 @@ func TestProcessJobCLTimeOut(t *testing.T) {
 				Type: model.TaskTypeCLI,
 				CLI: &model.CLITask{
 					Command: []string{
-						"bash",
+						"/usr/bin/bash",
 						"-c",
 						"sleep 10",
 					},
@@ -263,7 +273,8 @@ func TestProcessJobCLTimeOut(t *testing.T) {
 			}),
 	).Return(nil)
 
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, executorMock)
+	err := jp.ProcessJob(ctx)
 	assert.Nil(t, err)
 }
 
@@ -313,7 +324,66 @@ func TestProcessJobCLIFailedIncompatibleDefinition(t *testing.T) {
 		model.StatusFailure,
 	).Return(nil)
 
-	err := processJob(ctx, job, dataStore, nil)
+	jp := mockJobProcessor(job, dataStore, nil, executorMock)
+	err := jp.ProcessJob(ctx)
 	assert.NotNil(t, err)
 	assert.EqualError(t, err, "Error: Task definition incompatible with specified type (cli)")
+}
+
+func TestProcessJobCLINotAllowedCommand(t *testing.T) {
+	ctx := context.Background()
+	dataStore := mock.NewDataStore()
+	defer dataStore.AssertExpectations(t)
+
+	workflow := &model.Workflow{
+		Name: "test",
+		Tasks: []model.Task{
+			{
+				Name: "task_1",
+				Type: model.TaskTypeCLI,
+				CLI: &model.CLITask{
+					Command: []string{
+						"/usr/bin/python3",
+						"-c",
+						`'print("Get Hacked!")'`,
+					},
+				},
+			},
+		},
+	}
+
+	job := &model.Job{
+		WorkflowName: workflow.Name,
+		Status:       model.StatusPending,
+	}
+	dataStore.On("GetWorkflowByName",
+		mocklib.MatchedBy(
+			func(_ context.Context) bool {
+				return true
+			}),
+		workflow.Name,
+		mocklib.AnythingOfType("string"),
+	).Return(workflow, nil)
+
+	dataStore.On("UpsertJob",
+		mocklib.MatchedBy(
+			func(_ context.Context) bool {
+				return true
+			}),
+		job,
+	).Return(job, nil)
+
+	dataStore.On("UpdateJobStatus",
+		mocklib.MatchedBy(
+			func(_ context.Context) bool {
+				return true
+			}),
+		job,
+		model.StatusFailure,
+	).Return(nil)
+
+	jp := mockJobProcessor(job, dataStore, nil, executorMock)
+	err := jp.ProcessJob(ctx)
+
+	assert.ErrorIs(t, err, executor.ErrCommandNotAllowed)
 }

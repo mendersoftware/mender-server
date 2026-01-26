@@ -24,8 +24,10 @@ import (
 	natsio "github.com/nats-io/nats.go"
 	"github.com/pkg/errors"
 
+	"github.com/mendersoftware/mender-server/pkg/executor"
 	"github.com/mendersoftware/mender-server/pkg/log"
 
+	"github.com/mendersoftware/mender-server/services/workflows/app/processor"
 	"github.com/mendersoftware/mender-server/services/workflows/client/nats"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 	"github.com/mendersoftware/mender-server/services/workflows/store"
@@ -42,9 +44,10 @@ type workerGroup struct {
 	input        <-chan *natsio.Msg
 	notifyPeriod time.Duration
 
-	sub    *natsio.Subscription
-	client nats.Client
-	store  store.DataStore
+	sub     *natsio.Subscription
+	client  nats.Client
+	store   store.DataStore
+	binExec executor.BinaryExecutor
 }
 
 func NewWorkGroup(
@@ -53,6 +56,7 @@ func NewWorkGroup(
 	nc nats.Client,
 	ds store.DataStore,
 	sub *natsio.Subscription,
+	be executor.BinaryExecutor,
 ) *workerGroup {
 	return &workerGroup{
 		done:      make(chan struct{}),
@@ -63,6 +67,7 @@ func NewWorkGroup(
 		client:       nc,
 		store:        ds,
 		sub:          sub,
+		binExec:      be,
 	}
 }
 
@@ -228,7 +233,8 @@ func (w *workerGroup) doWokerJob(
 	}
 	// process the job
 	l.Infof("processing job %s workflow %s", job.ID, job.WorkflowName)
-	err = processJob(ctx, job, w.store, w.client)
+	jp := processor.NewJobProcessor(job, w.store, w.client, w.binExec)
+	err = jp.ProcessJob(ctx)
 	if err != nil {
 		l.Errorf("error processing job: %s", err.Error())
 	} else {
