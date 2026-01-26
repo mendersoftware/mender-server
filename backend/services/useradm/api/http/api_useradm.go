@@ -307,7 +307,7 @@ func (u *UserAdmApiHandlers) AddUserHandler(c *gin.Context) {
 		return
 	}
 
-	c.Writer.Header().Add("Location", "users/"+string(user.ID))
+	c.Writer.Header().Add("Location", c.Request.URL.JoinPath(user.ID).EscapedPath())
 	c.Status(http.StatusCreated)
 
 }
