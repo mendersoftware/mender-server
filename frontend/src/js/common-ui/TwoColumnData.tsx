@@ -20,7 +20,9 @@ import { makeStyles } from 'tss-react/mui';
 
 import copy from 'copy-to-clipboard';
 
-const getGridTemplateColumnSizing = (columnWidth: string): string => `${columnWidth} minmax(auto, 650px)`;
+const contentWidth = 650;
+
+const getGridTemplateColumnSizing = (columnWidth: string): string => `${columnWidth} minmax(auto, ${contentWidth}px)`;
 
 type DataValue = ReactNode | string;
 
@@ -88,7 +90,14 @@ const ValueColumn = ({ setSnackbar, value = '' }: { setSnackbar?: (message: stri
   );
 };
 
-const KeyColumn = ({ chipLikeKey, setColumnWidth, value }: { chipLikeKey?: boolean; setColumnWidth?: (width: number) => void; value: string }) => {
+interface KeyColumnProps {
+  chipLikeKey?: boolean;
+  isTooWide?: boolean;
+  setColumnWidth?: (width: number) => void;
+  value: string;
+}
+
+const KeyColumn = ({ chipLikeKey, isTooWide, setColumnWidth, value }: KeyColumnProps) => {
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -98,10 +107,12 @@ const KeyColumn = ({ chipLikeKey, setColumnWidth, value }: { chipLikeKey?: boole
     }
   }, [setColumnWidth, value]);
 
+  const isMeasuringTooWide = isTooWide || (ref.current && ref.current.scrollWidth > contentWidth / 3);
+
   return chipLikeKey ? (
     <Chip label={value} size="small" style={{ justifySelf: 'end' }} />
   ) : (
-    <Typography ref={ref} className="key" variant="subtitle2" style={{ width: 'max-content' }}>
+    <Typography ref={ref} className="key" variant="subtitle2" style={isMeasuringTooWide ? { wordBreak: 'break-word' } : { whiteSpace: 'nowrap' }}>
       {value}
     </Typography>
   );
@@ -112,21 +123,31 @@ export interface TwoColumnDataProps {
   className?: string;
   columnWidth?: number;
   data?: Record<string, DataValue>;
+  isTooWide?: boolean;
   setColumnWidth?: (width: number) => void;
   setSnackbar?: (message: string) => void;
   style?: CSSProperties;
 }
 
-export const TwoColumnData = ({ chipLikeKey = false, className = '', columnWidth, data = {}, setColumnWidth, setSnackbar, style = {} }: TwoColumnDataProps) => {
+export const TwoColumnData = ({
+  chipLikeKey = false,
+  className = '',
+  columnWidth,
+  data = {},
+  isTooWide,
+  setColumnWidth,
+  setSnackbar,
+  style = {}
+}: TwoColumnDataProps) => {
   const { classes } = useStyles();
   return (
     <div
       className={`break-all two-columns ${classes.root} column-data ${className}`}
-      style={{ ...style, gridTemplateColumns: columnWidth ? getGridTemplateColumnSizing(`${columnWidth}px`) : undefined }}
+      style={{ ...style, gridTemplateColumns: columnWidth ? getGridTemplateColumnSizing(`${Math.min(contentWidth / 3, columnWidth)}px`) : undefined }}
     >
       {Object.entries(data).map(([key, value]) => (
         <Fragment key={key}>
-          <KeyColumn chipLikeKey={chipLikeKey} setColumnWidth={setColumnWidth} value={key} />
+          <KeyColumn chipLikeKey={chipLikeKey} isTooWide={isTooWide} setColumnWidth={setColumnWidth} value={key} />
           <ValueColumn setSnackbar={setSnackbar} value={value} />
         </Fragment>
       ))}
@@ -134,19 +155,19 @@ export const TwoColumnData = ({ chipLikeKey = false, className = '', columnWidth
   );
 };
 
-const ColumnWidthContext = createContext<{ columnWidth: number; setColumnWidth: (width: number) => void } | null>(null);
+const ColumnWidthContext = createContext<{ columnWidth: number; isTooWide: boolean; setColumnWidth: (width: number) => void } | null>(null);
 
 export const ColumnWidthProvider = ({ children }: { children: ReactNode }) => {
   const [columnWidth, setColumnWidth] = useState<number>(0);
 
-  const updateColumnWidth = (width: number) => {
-    setColumnWidth(prevWidth => Math.max(prevWidth, width));
-  };
+  const updateColumnWidth = (width: number) => setColumnWidth(currentWidth => Math.max(currentWidth, width));
 
-  return <ColumnWidthContext.Provider value={{ columnWidth, setColumnWidth: updateColumnWidth }}>{children}</ColumnWidthContext.Provider>;
+  const isTooWide = columnWidth > contentWidth / 3;
+
+  return <ColumnWidthContext.Provider value={{ columnWidth, isTooWide, setColumnWidth: updateColumnWidth }}>{children}</ColumnWidthContext.Provider>;
 };
 
 export const SynchronizedTwoColumnData = (props: Omit<TwoColumnDataProps, 'columnWidth' | 'setColumnWidth'>) => {
-  const { columnWidth, setColumnWidth } = useContext(ColumnWidthContext)!;
-  return <TwoColumnData {...props} columnWidth={columnWidth} setColumnWidth={setColumnWidth} />;
+  const { columnWidth, isTooWide, setColumnWidth } = useContext(ColumnWidthContext)!;
+  return <TwoColumnData {...props} columnWidth={columnWidth} isTooWide={isTooWide} setColumnWidth={setColumnWidth} />;
 };

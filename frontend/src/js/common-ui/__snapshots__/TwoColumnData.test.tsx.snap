@@ -40,7 +40,7 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
 >
   <h6
     class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-    style="width: max-content;"
+    style="white-space: nowrap;"
   >
     uiPasswordRequired
   </h6>
@@ -53,7 +53,7 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
   </div>
   <h6
     class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-    style="width: max-content;"
+    style="white-space: nowrap;"
   >
     foo
   </h6>
@@ -69,7 +69,7 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
   </div>
   <h6
     class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-    style="width: max-content;"
+    style="white-space: nowrap;"
   >
     timezone
   </h6>

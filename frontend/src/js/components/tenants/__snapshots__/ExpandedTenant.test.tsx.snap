@@ -615,7 +615,7 @@ exports[`ExpandedTenant > renders correctly 1`] = `
         >
           <h6
             class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-            style="width: max-content;"
+            style="white-space: nowrap;"
           >
             name
           </h6>
@@ -644,7 +644,7 @@ exports[`ExpandedTenant > renders correctly 1`] = `
           </div>
           <h6
             class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-            style="width: max-content;"
+            style="white-space: nowrap;"
           >
             ID
           </h6>

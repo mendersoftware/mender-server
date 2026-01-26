@@ -251,7 +251,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
     >
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-2"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         Update attempts per device
       </h6>
@@ -267,7 +267,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
       </div>
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-2"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         Maximum number of devices
       </h6>

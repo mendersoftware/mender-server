@@ -30,9 +30,9 @@ export const Title = ({ updateTime }) => (
 export const DeviceInventory = ({ device, setSnackbar }) => {
   const { attributes = {}, updated_ts: updateTime } = device;
   const { nonSoftware } = extractSoftware(attributes);
-  const deviceInventory = nonSoftware.reduce((accu, attribute) => {
-    const attributeValue = Array.isArray(attribute[1]) ? attribute[1].join(',') : attribute[1];
-    accu[attribute[0]] = attributeValue;
+  const deviceInventory = nonSoftware.reduce((accu, [key, value]) => {
+    const attributeValue = Array.isArray(value) ? value.join(',') : value;
+    accu[key] = attributeValue;
     return accu;
   }, {});
 

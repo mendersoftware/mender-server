@@ -130,7 +130,7 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
   >
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       Total download size
     </h6>

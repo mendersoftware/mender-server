@@ -81,7 +81,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
     >
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         Device ID
       </h6>
@@ -120,7 +120,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
       </div>
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         Device type
       </h6>
@@ -136,7 +136,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
       </div>
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         Operating system version
       </h6>
@@ -152,7 +152,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
       </div>
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
          
       </h6>
@@ -186,7 +186,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
     >
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         something
       </h6>
@@ -216,7 +216,7 @@ exports[`DeviceConfiguration Component > renders correctly 1`] = `
     >
       <h6
         class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="width: max-content;"
+        style="white-space: nowrap;"
       >
         User
       </h6>

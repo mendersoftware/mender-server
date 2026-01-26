@@ -229,7 +229,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   font-size: 1.5rem;
 }
 
-.emotion-18 {
+.emotion-19 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -240,7 +240,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   border-bottom-width: thin;
 }
 
-.emotion-29 {
+.emotion-30 {
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -255,7 +255,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   margin-bottom: 30px;
 }
 
-.emotion-29::before {
+.emotion-30::before {
   position: absolute;
   left: 0;
   top: -1px;
@@ -268,43 +268,43 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-29:first-of-type::before {
+.emotion-30:first-of-type::before {
   display: none;
 }
 
-.emotion-29.Mui-expanded::before {
+.emotion-30.Mui-expanded::before {
   opacity: 0;
 }
 
-.emotion-29.Mui-expanded:first-of-type {
+.emotion-30.Mui-expanded:first-of-type {
   margin-top: 0;
 }
 
-.emotion-29.Mui-expanded:last-of-type {
+.emotion-30.Mui-expanded:last-of-type {
   margin-bottom: 0;
 }
 
-.emotion-29.Mui-expanded+.emotion-29.Mui-expanded::before {
+.emotion-30.Mui-expanded+.emotion-30.Mui-expanded::before {
   display: none;
 }
 
-.emotion-29.Mui-disabled {
+.emotion-30.Mui-disabled {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-29.Mui-expanded {
+.emotion-30.Mui-expanded {
   margin: 16px 0;
 }
 
-.emotion-29.Mui-expanded {
+.emotion-30.Mui-expanded {
   margin-bottom: 30px;
 }
 
-.emotion-30 {
+.emotion-31 {
   all: unset;
 }
 
-.emotion-31 {
+.emotion-32 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -348,39 +348,39 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-31::-moz-focus-inner {
+.emotion-32::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-31.Mui-disabled {
+.emotion-32.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-31 {
+  .emotion-32 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-31.Mui-focusVisible {
+.emotion-32.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-31.Mui-disabled {
+.emotion-32.Mui-disabled {
   opacity: 0.38;
 }
 
-.emotion-31:hover:not(.Mui-disabled) {
+.emotion-32:hover:not(.Mui-disabled) {
   cursor: pointer;
 }
 
-.emotion-31.Mui-expanded {
+.emotion-32.Mui-expanded {
   min-height: 64px;
 }
 
-.emotion-32 {
+.emotion-33 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -395,11 +395,11 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-32.Mui-expanded {
+.emotion-33.Mui-expanded {
   margin: 20px 0;
 }
 
-.emotion-33 {
+.emotion-34 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -408,7 +408,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
-.emotion-35 {
+.emotion-36 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -416,7 +416,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   visibility: hidden;
 }
 
-.emotion-36 {
+.emotion-37 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -424,15 +424,15 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-37 {
+.emotion-38 {
   width: 100%;
 }
 
-.emotion-39 {
+.emotion-40 {
   padding: 8px 16px 16px;
 }
 
-.emotion-63 {
+.emotion-64 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -486,50 +486,50 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-63::-moz-focus-inner {
+.emotion-64::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-63.Mui-disabled {
+.emotion-64.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-63 {
+  .emotion-64 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-63:hover {
+.emotion-64:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-63.Mui-disabled {
+.emotion-64.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-63.Mui-disabled {
+.emotion-64.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.emotion-63.MuiButton-loading {
+.emotion-64.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-64 {
+.emotion-65 {
   display: inherit;
   margin-right: 8px;
   margin-left: -4px;
 }
 
-.emotion-64>*:nth-of-type(1) {
+.emotion-65>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-66 {
+.emotion-67 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -588,37 +588,37 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-66::-moz-focus-inner {
+.emotion-67::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-66.Mui-disabled {
+.emotion-67.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-66 {
+  .emotion-67 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-66:hover {
+.emotion-67:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-66.Mui-disabled {
+.emotion-67.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-66.Mui-disabled {
+.emotion-67.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-66:hover {
+  .emotion-67:hover {
     --variant-containedBg: #c62828;
     --variant-textBg: rgba(211, 47, 47, 0.04);
     --variant-outlinedBorder: #d32f2f;
@@ -626,7 +626,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   }
 }
 
-.emotion-66.MuiButton-loading {
+.emotion-67.MuiButton-loading {
   color: transparent;
 }
 
@@ -636,7 +636,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   >
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       Description
     </h6>
@@ -704,7 +704,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       Signed
     </h6>
@@ -714,17 +714,26 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red emotion-12"
-          data-testid="GppBadOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
+        <div
+          class="flexbox center-aligned"
         >
-          <path
-            d="M12 2 4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5zm6 9.09c0 4-2.55 7.7-6 8.83-3.45-1.13-6-4.82-6-8.83v-4.7l6-2.25 6 2.25zM9.91 8.5 8.5 9.91 10.59 12 8.5 14.09l1.41 1.41L12 13.42l2.09 2.08 1.41-1.41L13.42 12l2.08-2.09-1.41-1.41L12 10.59z"
-          />
-        </svg>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red margin-right-x-small emotion-12"
+            data-testid="GppBadOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2 4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5zm6 9.09c0 4-2.55 7.7-6 8.83-3.45-1.13-6-4.82-6-8.83v-4.7l6-2.25 6 2.25zM9.91 8.5 8.5 9.91 10.59 12 8.5 14.09l1.41 1.41L12 13.42l2.09 2.08 1.41-1.41L13.42 12l2.08-2.09-1.41-1.41L12 10.59z"
+            />
+          </svg>
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-7"
+          >
+            Unsigned
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -734,14 +743,14 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     Software versioning information
   </h6>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-18"
+    class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-19"
   />
   <div
     class="break-all two-columns emotion-0 column-data margin-bottom-small"
   >
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       Software filesystem
     </h6>
@@ -757,7 +766,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       Software name
     </h6>
@@ -773,7 +782,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       Software version
     </h6>
@@ -789,23 +798,23 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     </div>
   </div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-29"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-30"
     style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
   >
     <h3
-      class="MuiAccordion-heading emotion-30"
+      class="MuiAccordion-heading emotion-31"
     >
       <button
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox center-aligned emotion-31"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox center-aligned emotion-32"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-32"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-33"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 emotion-33"
+            class="MuiTypography-root MuiTypography-body1 emotion-34"
           >
             Artifact contents
           </p>
@@ -828,21 +837,21 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       </button>
     </h3>
     <div
-      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-35"
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-36"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-36"
+        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-37"
       >
         <div
-          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-37"
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-38"
         >
           <div
-            class="MuiAccordion-region emotion-38"
+            class="MuiAccordion-region emotion-39"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-39"
+              class="MuiAccordionDetails-root emotion-40"
             />
           </div>
         </div>
@@ -850,23 +859,23 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     </div>
   </div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-29"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-30"
     style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
   >
     <h3
-      class="MuiAccordion-heading emotion-30"
+      class="MuiAccordion-heading emotion-31"
     >
       <button
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox center-aligned emotion-31"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox center-aligned emotion-32"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-32"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-33"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 emotion-33"
+            class="MuiTypography-root MuiTypography-body1 emotion-34"
           >
             Provides and Depends
           </p>
@@ -889,21 +898,21 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       </button>
     </h3>
     <div
-      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-35"
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-36"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-36"
+        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-37"
       >
         <div
-          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-37"
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-38"
         >
           <div
-            class="MuiAccordion-region emotion-38"
+            class="MuiAccordion-region emotion-39"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-39"
+              class="MuiAccordionDetails-root emotion-40"
             >
               <div>
                 <h6
@@ -912,14 +921,14 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                   Provides
                 </h6>
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-18"
+                  class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-19"
                 />
                 <div
                   class="break-all two-columns emotion-0 column-data "
                 >
                   <h6
                     class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-                    style="width: max-content;"
+                    style="white-space: nowrap;"
                   >
                     artifact_name
                   </h6>
@@ -935,7 +944,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                   </div>
                   <h6
                     class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-                    style="width: max-content;"
+                    style="white-space: nowrap;"
                   >
                     data-partition.myapp.version
                   </h6>
@@ -951,7 +960,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                   </div>
                   <h6
                     class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-                    style="width: max-content;"
+                    style="white-space: nowrap;"
                   >
                     list_of_fancy
                   </h6>
@@ -978,7 +987,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     style="max-width: fit-content;"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-63"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-64"
       disabled=""
       download="test.mender"
       tabindex="-1"
@@ -986,7 +995,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-64"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-65"
       >
         <svg
           aria-hidden="true"
@@ -1003,12 +1012,12 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       Download Artifact
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-66"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-67"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-64"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-65"
       >
         <svg
           aria-hidden="true"
@@ -1257,7 +1266,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   font-size: 1.5rem;
 }
 
-.emotion-17 {
+.emotion-18 {
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -1272,7 +1281,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   margin-bottom: 30px;
 }
 
-.emotion-17::before {
+.emotion-18::before {
   position: absolute;
   left: 0;
   top: -1px;
@@ -1285,43 +1294,43 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-17:first-of-type::before {
+.emotion-18:first-of-type::before {
   display: none;
 }
 
-.emotion-17.Mui-expanded::before {
+.emotion-18.Mui-expanded::before {
   opacity: 0;
 }
 
-.emotion-17.Mui-expanded:first-of-type {
+.emotion-18.Mui-expanded:first-of-type {
   margin-top: 0;
 }
 
-.emotion-17.Mui-expanded:last-of-type {
+.emotion-18.Mui-expanded:last-of-type {
   margin-bottom: 0;
 }
 
-.emotion-17.Mui-expanded+.emotion-17.Mui-expanded::before {
+.emotion-18.Mui-expanded+.emotion-18.Mui-expanded::before {
   display: none;
 }
 
-.emotion-17.Mui-disabled {
+.emotion-18.Mui-disabled {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-17.Mui-expanded {
+.emotion-18.Mui-expanded {
   margin: 16px 0;
 }
 
-.emotion-17.Mui-expanded {
+.emotion-18.Mui-expanded {
   margin-bottom: 30px;
 }
 
-.emotion-18 {
+.emotion-19 {
   all: unset;
 }
 
-.emotion-19 {
+.emotion-20 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1365,39 +1374,39 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-19::-moz-focus-inner {
+.emotion-20::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-19.Mui-disabled {
+.emotion-20.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-19 {
+  .emotion-20 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-19.Mui-focusVisible {
+.emotion-20.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-19.Mui-disabled {
+.emotion-20.Mui-disabled {
   opacity: 0.38;
 }
 
-.emotion-19:hover:not(.Mui-disabled) {
+.emotion-20:hover:not(.Mui-disabled) {
   cursor: pointer;
 }
 
-.emotion-19.Mui-expanded {
+.emotion-20.Mui-expanded {
   min-height: 64px;
 }
 
-.emotion-20 {
+.emotion-21 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1412,11 +1421,11 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-20.Mui-expanded {
+.emotion-21.Mui-expanded {
   margin: 20px 0;
 }
 
-.emotion-21 {
+.emotion-22 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -1425,7 +1434,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   letter-spacing: 0.00938em;
 }
 
-.emotion-23 {
+.emotion-24 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -1433,7 +1442,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   visibility: hidden;
 }
 
-.emotion-24 {
+.emotion-25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1441,22 +1450,22 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   width: 100%;
 }
 
-.emotion-25 {
+.emotion-26 {
   width: 100%;
 }
 
-.emotion-27 {
+.emotion-28 {
   padding: 8px 16px 16px;
 }
 
-.emotion-34 {
+.emotion-35 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-40 {
+.emotion-41 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -1467,7 +1476,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   border-bottom-width: thin;
 }
 
-.emotion-45 {
+.emotion-46 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1521,50 +1530,50 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-45::-moz-focus-inner {
+.emotion-46::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-45.Mui-disabled {
+.emotion-46.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-45 {
+  .emotion-46 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-45:hover {
+.emotion-46:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-45.Mui-disabled {
+.emotion-46.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-45.Mui-disabled {
+.emotion-46.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.emotion-45.MuiButton-loading {
+.emotion-46.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-46 {
+.emotion-47 {
   display: inherit;
   margin-right: 8px;
   margin-left: -4px;
 }
 
-.emotion-46>*:nth-of-type(1) {
+.emotion-47>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-48 {
+.emotion-49 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1623,37 +1632,37 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-48::-moz-focus-inner {
+.emotion-49::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-48.Mui-disabled {
+.emotion-49.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-48 {
+  .emotion-49 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-48:hover {
+.emotion-49:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-48.Mui-disabled {
+.emotion-49.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-48.Mui-disabled {
+.emotion-49.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-48:hover {
+  .emotion-49:hover {
     --variant-containedBg: #c62828;
     --variant-textBg: rgba(211, 47, 47, 0.04);
     --variant-outlinedBorder: #d32f2f;
@@ -1661,7 +1670,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   }
 }
 
-.emotion-48.MuiButton-loading {
+.emotion-49.MuiButton-loading {
   color: transparent;
 }
 
@@ -1671,7 +1680,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   >
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       Description
     </h6>
@@ -1739,7 +1748,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       Signed
     </h6>
@@ -1749,38 +1758,47 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red emotion-12"
-          data-testid="GppBadOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
+        <div
+          class="flexbox center-aligned"
         >
-          <path
-            d="M12 2 4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5zm6 9.09c0 4-2.55 7.7-6 8.83-3.45-1.13-6-4.82-6-8.83v-4.7l6-2.25 6 2.25zM9.91 8.5 8.5 9.91 10.59 12 8.5 14.09l1.41 1.41L12 13.42l2.09 2.08 1.41-1.41L13.42 12l2.08-2.09-1.41-1.41L12 10.59z"
-          />
-        </svg>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red margin-right-x-small emotion-12"
+            data-testid="GppBadOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2 4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5zm6 9.09c0 4-2.55 7.7-6 8.83-3.45-1.13-6-4.82-6-8.83v-4.7l6-2.25 6 2.25zM9.91 8.5 8.5 9.91 10.59 12 8.5 14.09l1.41 1.41L12 13.42l2.09 2.08 1.41-1.41L13.42 12l2.08-2.09-1.41-1.41L12 10.59z"
+            />
+          </svg>
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-7"
+          >
+            Unsigned
+          </p>
+        </div>
       </div>
     </div>
   </div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-17"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-18"
     style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
   >
     <h3
-      class="MuiAccordion-heading emotion-18"
+      class="MuiAccordion-heading emotion-19"
     >
       <button
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox center-aligned emotion-19"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox center-aligned emotion-20"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-20"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-21"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 emotion-21"
+            class="MuiTypography-root MuiTypography-body1 emotion-22"
           >
             Artifact contents
           </p>
@@ -1803,21 +1821,21 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       </button>
     </h3>
     <div
-      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-23"
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-24"
       style="min-height: 0px;"
     >
       <div
-        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-24"
+        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-25"
       >
         <div
-          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-25"
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-26"
         >
           <div
-            class="MuiAccordion-region emotion-26"
+            class="MuiAccordion-region emotion-27"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-27"
+              class="MuiAccordionDetails-root emotion-28"
             />
           </div>
         </div>
@@ -1825,23 +1843,23 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     </div>
   </div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root Mui-expanded MuiAccordion-gutters emotion-17"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root Mui-expanded MuiAccordion-gutters emotion-18"
     style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
   >
     <h3
-      class="MuiAccordion-heading emotion-18"
+      class="MuiAccordion-heading emotion-19"
     >
       <button
         aria-expanded="true"
-        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters flexbox center-aligned emotion-19"
+        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters flexbox center-aligned emotion-20"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters emotion-20"
+          class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters emotion-21"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 emotion-21"
+            class="MuiTypography-root MuiTypography-body1 emotion-22"
           >
             Provides and Depends
           </p>
@@ -1864,21 +1882,21 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       </button>
     </h3>
     <div
-      class="MuiCollapse-root MuiCollapse-vertical emotion-34"
+      class="MuiCollapse-root MuiCollapse-vertical emotion-35"
       style="min-height: 0px; height: 0px; transition-duration: 0ms;"
     >
       <div
-        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-24"
+        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-25"
       >
         <div
-          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-25"
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-26"
         >
           <div
-            class="MuiAccordion-region emotion-26"
+            class="MuiAccordion-region emotion-27"
             role="region"
           >
             <div
-              class="MuiAccordionDetails-root emotion-27"
+              class="MuiAccordionDetails-root emotion-28"
             >
               <div>
                 <h6
@@ -1887,14 +1905,14 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
                   Provides
                 </h6>
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-40"
+                  class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-41"
                 />
                 <div
                   class="break-all two-columns emotion-0 column-data "
                 >
                   <h6
                     class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-                    style="width: max-content;"
+                    style="white-space: nowrap;"
                   >
                     list_of_fancy
                   </h6>
@@ -1921,7 +1939,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     style="max-width: fit-content;"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-45"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-46"
       disabled=""
       download="test.mender"
       tabindex="-1"
@@ -1929,7 +1947,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-46"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-47"
       >
         <svg
           aria-hidden="true"
@@ -1946,12 +1964,12 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       Download Artifact
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-48"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-49"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-46"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-47"
       >
         <svg
           aria-hidden="true"

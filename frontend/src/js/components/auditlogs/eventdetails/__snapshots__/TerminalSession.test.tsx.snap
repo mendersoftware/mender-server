@@ -519,7 +519,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
       >
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-          style="width: max-content;"
+          style="white-space: nowrap;"
         >
           Device ID
         </h6>
@@ -558,7 +558,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-          style="width: max-content;"
+          style="white-space: nowrap;"
         >
           Device type
         </h6>
@@ -574,7 +574,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-          style="width: max-content;"
+          style="white-space: nowrap;"
         >
           Operating system version
         </h6>
@@ -590,7 +590,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-          style="width: max-content;"
+          style="white-space: nowrap;"
         >
            
         </h6>
@@ -624,7 +624,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
       >
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-          style="width: max-content;"
+          style="white-space: nowrap;"
         >
           Session ID
         </h6>
@@ -640,7 +640,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-          style="width: max-content;"
+          style="white-space: nowrap;"
         >
           Start time
         </h6>
@@ -660,7 +660,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-          style="width: max-content;"
+          style="white-space: nowrap;"
         >
           End time
         </h6>
@@ -680,7 +680,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-          style="width: max-content;"
+          style="white-space: nowrap;"
         >
           Duration
         </h6>
@@ -696,7 +696,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
-          style="width: max-content;"
+          style="white-space: nowrap;"
         >
           User
         </h6>

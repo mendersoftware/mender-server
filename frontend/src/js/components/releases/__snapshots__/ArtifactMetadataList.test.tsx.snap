@@ -60,7 +60,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
   >
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-0"
-      style="width: max-content;"
+      style="white-space: nowrap;"
     >
       custom-key
     </h6>
