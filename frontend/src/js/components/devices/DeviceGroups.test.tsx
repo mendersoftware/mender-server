@@ -11,14 +11,23 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 
-import { defaultState, render } from '@/testUtils';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+import { defaultState } from '@/testUtils';
+import { DEVICE_FILTERING_OPTIONS } from '@northern.tech/store/constants';
+import { getConfiguredStore } from '@northern.tech/store/store';
 import { undefineds } from '@northern.tech/testing/mockData';
-import { act, prettyDOM } from '@testing-library/react';
+import { light } from '@northern.tech/testing/theme/light';
+import { ATTRIBUTE_SCOPES } from '@northern.tech/utils/constants';
+import { act, prettyDOM, render, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import DeviceGroups from './DeviceGroups';
+
+const theme = createTheme(light);
 
 const preloadedState = {
   ...defaultState,
@@ -35,33 +44,22 @@ const preloadedState = {
   }
 };
 
-vi.mock('react-router-dom', async importOriginal => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    useLocation: vi.fn(),
-    useSearchParams: vi.fn()
-  };
-});
+const renderWithRouter = (ui: React.ReactElement, { route = '/', preloadedState: state = preloadedState } = {}) => {
+  const store = getConfiguredStore({ preloadedState: state });
+  const Wrapper = ({ children }) => (
+    <ThemeProvider theme={theme}>
+      <MemoryRouter initialEntries={[route]}>
+        <Provider store={store}>{children}</Provider>
+      </MemoryRouter>
+    </ThemeProvider>
+  );
+  return { store, ...render(ui, { wrapper: Wrapper }) };
+};
 
 describe('DeviceGroups Component', () => {
-  const searchParams = `inventory=group:eq:${preloadedState.devices.groups.selectedGroup}`;
   it('renders correctly', async () => {
-    const location = {
-      pathname: '/ui/devices/accepted',
-      search: `?${searchParams}`,
-      hash: '',
-      state: {},
-      key: 'testKey'
-    };
-    const mockSearchParams = new URLSearchParams(searchParams);
-    const setParams = vi.fn();
-
-    // mock location and search params as DeviceGroups component pays attention to the url and parses state from it
-    useLocation.mockImplementation(() => location);
-    useSearchParams.mockReturnValue([mockSearchParams, setParams]);
-
-    const { baseElement } = render(<DeviceGroups />, { preloadedState });
+    const route = `/ui/devices/accepted?inventory=group:eq:${preloadedState.devices.groups.selectedGroup}`;
+    const { baseElement } = renderWithRouter(<DeviceGroups />, { route, preloadedState });
     // special snapshot handling here to work around unstable ids in mui code...
     const view = prettyDOM(baseElement.firstChild, 100000, { highlight: false })
       .replace(/(:?aria-labelledby|id)=":.*:"/g, '')
@@ -69,5 +67,39 @@ describe('DeviceGroups Component', () => {
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
     await act(async () => vi.runAllTicks());
+  });
+
+  it('applies id filter with correct scope when navigating to URL with multiple device ids', async () => {
+    const deviceIds = [preloadedState.devices.byId.a1.id, preloadedState.devices.byId.b1.id];
+    const route = `/ui/devices?id=${deviceIds[0]}&id=${deviceIds[1]}`;
+
+    const enterpriseState = {
+      ...defaultState,
+      app: {
+        ...defaultState.app,
+        features: {
+          ...defaultState.app.features,
+          isEnterprise: true
+        }
+      },
+      devices: {
+        ...defaultState.devices,
+        filters: [],
+        deviceList: {
+          ...defaultState.devices.deviceList,
+          deviceIds: []
+        }
+      }
+    };
+
+    const { store } = renderWithRouter(<DeviceGroups />, { route, preloadedState: enterpriseState });
+
+    await waitFor(() => {
+      const state = store.getState();
+      const idFilter = state.devices.filters.find(filter => filter.key === 'id' && filter.operator === DEVICE_FILTERING_OPTIONS.$in.key);
+      expect(idFilter).toBeDefined();
+      expect(idFilter!.scope).toBe(ATTRIBUTE_SCOPES.inventory);
+      expect(idFilter!.value).toEqual(deviceIds);
+    });
   });
 });

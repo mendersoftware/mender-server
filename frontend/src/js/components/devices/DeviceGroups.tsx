@@ -48,6 +48,7 @@ import {
   setOfflineThreshold,
   updateDynamicGroup
 } from '@northern.tech/store/thunks';
+import { ATTRIBUTE_SCOPES } from '@northern.tech/utils/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
@@ -169,7 +170,9 @@ export const DeviceGroups = () => {
     if (id.length === 1 && Boolean(locationParams.open)) {
       listState.selectedId = id[0];
     } else if (id.length && hasFullFiltering) {
-      dispatch(setDeviceFilters([...filters, { ...emptyFilter, key: 'id', operator: DEVICE_FILTERING_OPTIONS.$in.key, value: id }]));
+      dispatch(
+        setDeviceFilters([...filters, { ...emptyFilter, key: 'id', operator: DEVICE_FILTERING_OPTIONS.$in.key, scope: ATTRIBUTE_SCOPES.inventory, value: id }])
+      );
     }
     dispatch(setDeviceListState(listState)).then(() => {
       if (isInitialized.current) {
