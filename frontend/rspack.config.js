@@ -147,10 +147,7 @@ export default (env, argv) => {
         cleanAfterEveryBuildPatterns: ['!assets/fonts/*', '!assets/img/*']
       }),
       new rspack.CopyRspackPlugin({
-        patterns: [
-          { from: 'node_modules/monaco-editor/min/vs/', to: 'vs' },
-          argv.mode !== 'production' && { from: 'node_modules/monaco-editor/min-maps/vs/', to: 'min-maps/vs' }
-        ].filter(Boolean)
+        patterns: [{ from: 'node_modules/monaco-editor/min/vs/', to: 'vs' }]
       }),
       new rspack.ProvidePlugin({
         process: 'process/browser',
@@ -188,7 +185,7 @@ export default (env, argv) => {
       },
       tsConfig: path.resolve(__dirname, 'tsconfig.json')
     },
-    watchOptions:{
+    watchOptions: {
       ignored: /node_modules\/(?!(@northern.tech)\/).*/
     },
     target: 'web',
