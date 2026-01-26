@@ -200,7 +200,6 @@ export const DeviceConnectionDialog = ({ onCancel }) => {
     if ((virtualDevice || progress >= 2) && hasMoreDevices && !window.location.hash.includes('pending')) {
       dispatch(advanceOnboarding(onboardingSteps.DASHBOARD_ONBOARDING_START));
       dispatch(setDeviceListState({ state: DEVICE_STATES.pending }));
-      navigate('/devices/pending');
     }
     if (virtualDevice || progress >= 2) {
       dispatch(saveUserSettings({ onboarding: { deviceConnection: new Date().toISOString() } }));

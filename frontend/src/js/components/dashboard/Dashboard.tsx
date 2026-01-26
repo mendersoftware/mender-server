@@ -72,7 +72,7 @@ export const Dashboard = () => {
       query = params.id ? [...query, `id=${params.id}`] : query;
       redirect = `/deployments/${params.tab || DEPLOYMENT_ROUTES.active.key}?${query.join('&')}`;
     }
-    navigate(redirect);
+    navigate(redirect, { state: { internal: true } });
   };
 
   return (

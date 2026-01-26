@@ -14,7 +14,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { Button, Tab, Tabs } from '@mui/material';
 
@@ -76,14 +76,24 @@ export const Deployments = () => {
   const tabsRef = useRef();
   const isInitialized = useRef(false);
   const deploymentObjInitialized = useRef(false);
-  const navigate = useNavigate();
   const { reportType, showCreationDialog: createDialog, showReportDialog: reportDialog, state } = selectionState.general;
   const { canDeploy, canReadReleases } = userCapabilities;
 
   const [date] = useState(getISOStringBoundaries(new Date()));
   const { start: today, end: tonight } = date;
+  const location = useLocation();
 
-  const [locationParams, setLocationParams] = useLocationParams('deployments', { today, tonight, defaults: listDefaultsByState });
+  const [locationParams, setLocationParams, { shouldInitializeFromUrl }] = useLocationParams('deployments', {
+    today,
+    tonight,
+    defaults: listDefaultsByState
+  });
+
+  useEffect(() => {
+    if (shouldInitializeFromUrl) {
+      isInitialized.current = false;
+    }
+  }, [shouldInitializeFromUrl, location.key]);
 
   useEffect(() => {
     if (!isInitialized.current) {
@@ -111,6 +121,10 @@ export const Deployments = () => {
   ]);
 
   useEffect(() => {
+    if (!location.state?.internal && (isInitialized.current || !shouldInitializeFromUrl)) {
+      isInitialized.current = true;
+      return;
+    }
     dispatch(getGroups());
     if (isEnterprise) {
       dispatch(getDynamicGroups());
@@ -122,7 +136,7 @@ export const Deployments = () => {
     setDeploymentObject({ devices, release, releaseSelectionLocked: !!release });
     dispatch(setDeploymentsState({ selectedId: selectedId[0], ...remainder }));
     isInitialized.current = true;
-  }, [dispatch, isEnterprise]);
+  }, [dispatch, isEnterprise, JSON.stringify(locationParams), shouldInitializeFromUrl, location.state?.internal]);
 
   useEffect(() => {
     if (Object.keys(deploymentObject).length > 0) {
@@ -161,7 +175,6 @@ export const Deployments = () => {
     setDeploymentObject({});
     // successfully retrieved new deployment
     if (routes.active.key !== state) {
-      navigate(routes.active.route);
       changeTab(undefined, routes.active.key);
     }
   };

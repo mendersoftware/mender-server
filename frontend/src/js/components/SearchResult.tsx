@@ -97,9 +97,9 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
   }, [onToggleSearchResult, open, searchTerm]);
 
   const onDeviceSelect = device => {
-    dispatch(setDeviceListState({ selectedId: device.id }));
+    dispatch(setDeviceListState({ selectedId: device.id, state: device.status }));
     onToggleSearchResult();
-    setTimeout(() => navigate(`/devices/${device.status}?id=${device.id}`), TIMEOUTS.debounceShort);
+    setTimeout(() => navigate(`/devices/${device.status}?id=${device.id}`, { state: { internal: true } }), TIMEOUTS.debounceShort);
   };
 
   const handlePageChange = page => {

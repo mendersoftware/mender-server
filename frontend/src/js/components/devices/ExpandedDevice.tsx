@@ -238,7 +238,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
 
   const scrollToDeviceSystem = target => {
     if (target) {
-      return navigate(`/devices?${target}`);
+      return navigate(`/devices?${target}`, { state: { internal: true } });
     }
     return setDetailsTab('device-system');
   };

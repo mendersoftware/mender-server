@@ -142,8 +142,7 @@ export const Devices = ({
   const dispatch = useAppDispatch();
 
   const { deploymentDeviceCount = 0, devices = [], filter, group = null } = deploymentObject;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const device = useMemo(() => (devices.length === 1 ? devices[0] : {}), [devices.length]);
+  const device = devices.length === 1 ? devices[0] : {};
 
   useEffect(() => {
     const { attributes = {} } = device;

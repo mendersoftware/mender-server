@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -71,7 +72,8 @@ export const AuditLogs = () => {
   const { start: today, end: tonight } = date;
 
   const isInitialized = useRef();
-  const [locationParams, setLocationParams] = useLocationParams('auditlogs', { today, tonight, defaults: locationDefaults });
+  const location = useLocation();
+  const [locationParams, setLocationParams, { shouldInitializeFromUrl }] = useLocationParams('auditlogs', { today, tonight, defaults: locationDefaults });
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const events = useSelector(getAuditLog);
@@ -97,6 +99,12 @@ export const AuditLogs = () => {
       setAuditLogsTypes(SP_AUDIT_LOGS_TYPES);
     }
   }, [isSP]);
+
+  useEffect(() => {
+    if (shouldInitializeFromUrl) {
+      isInitialized.current = undefined;
+    }
+  }, [shouldInitializeFromUrl, location.key]);
 
   useEffect(() => {
     if (!hasAuditlogs || !isInitialized.current) {

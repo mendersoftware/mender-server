@@ -389,7 +389,8 @@ export const Authorized = ({
     }
   };
 
-  const onCreateDeploymentClick = devices => navigate(`/deployments?open=true&${devices.map(({ id }) => `deviceId=${id}`).join('&')}`);
+  const onCreateDeploymentClick = devices =>
+    navigate(`/deployments?open=true&${devices.map(({ id }) => `deviceId=${id}`).join('&')}`, { state: { internal: true } });
 
   const onCloseExpandedDevice = useCallback(() => dispatchDeviceListState({ selectedId: undefined, detailsTab: '' }), [dispatchDeviceListState]);
 
