@@ -1,6 +1,20 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`App Component > is embedded in working providers 1`] = `
+@keyframes animation-0 {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -333,35 +347,132 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 }
 
 .emotion-12 {
+  position: relative;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: middle;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.emotion-13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  text-transform: none;
+  font-family: Red Hat Text;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #1d8faf;
+  --variant-outlinedColor: #1d8faf;
+  --variant-outlinedBorder: rgba(29, 143, 175, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #1d8faf;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  text-transform: none;
+  box-shadow: none;
+  text-transform: none;
   color: #5f5f60;
-  height: 24px;
+  --pressed-color: rgba(95, 95, 96, 0.3);
 }
 
-.emotion-12:hover {
-  color: #5f5f60;
+.emotion-13::-moz-focus-inner {
+  border-style: none;
 }
 
-.emotion-13:hover .warning span,
-.emotion-13:hover .warning svg {
-  color: #ef5350;
+.emotion-13.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
 }
 
-.emotion-13 .warning span,
-.emotion-13 .warning svg {
-  color: #d32f2f;
+@media print {
+  .emotion-13 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
 }
 
-.emotion-13:hover .approaching span,
-.emotion-13:hover .approaching svg {
-  color: #ff9800;
+.emotion-13:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
-.emotion-13 .approaching span,
-.emotion-13 .approaching svg {
-  color: #ed6c02;
+.emotion-13.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+@media (hover: hover) {
+  .emotion-13:hover {
+    --variant-containedBg: #015969;
+    --variant-textBg: rgba(29, 143, 175, 0.04);
+    --variant-outlinedBorder: #1d8faf;
+    --variant-outlinedBg: rgba(29, 143, 175, 0.04);
+  }
+}
+
+.emotion-13.MuiButton-loading {
+  color: transparent;
+}
+
+.emotion-13:hover:not(.MuiButton-colorInfo) {
+  box-shadow: none;
 }
 
 .emotion-14 {
+  display: inherit;
+  margin-right: 8px;
+  margin-left: -4px;
+}
+
+.emotion-14>*:nth-of-type(1) {
+  font-size: 20px;
+}
+
+.emotion-15 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -378,7 +489,94 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   font-size: 1.25rem;
 }
 
-.emotion-15 {
+.emotion-16 {
+  display: inherit;
+  margin-right: -4px;
+  margin-left: 8px;
+}
+
+.emotion-16>*:nth-of-type(1) {
+  font-size: 20px;
+}
+
+.emotion-17 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.25rem;
+  color: #5f5f60;
+}
+
+.emotion-18 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  box-sizing: border-box;
+  font-family: Red Hat Text;
+  font-weight: 500;
+  font-size: 0.75rem;
+  min-width: 20px;
+  line-height: 1;
+  padding: 0 6px;
+  height: 20px;
+  border-radius: 10px;
+  z-index: 1;
+  -webkit-transition: -webkit-transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #1d8faf;
+  color: #fff;
+  top: 0;
+  left: 0;
+  -webkit-transform: scale(1) translate(-50%, -50%);
+  -moz-transform: scale(1) translate(-50%, -50%);
+  -ms-transform: scale(1) translate(-50%, -50%);
+  transform: scale(1) translate(-50%, -50%);
+  transform-origin: 0% 0%;
+}
+
+.emotion-18.MuiBadge-invisible {
+  -webkit-transform: scale(0) translate(-50%, -50%);
+  -moz-transform: scale(0) translate(-50%, -50%);
+  -ms-transform: scale(0) translate(-50%, -50%);
+  transform: scale(0) translate(-50%, -50%);
+}
+
+.emotion-18 .MuiBadge-colorInfo {
+  background-color: #f4f4f5;
+  color: #1f1f20;
+}
+
+.emotion-19 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -394,15 +592,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   height: 24px;
 }
 
-.emotion-15:hover {
+.emotion-19:hover {
   color: #5f5f60;
 }
 
-.emotion-16 {
+.emotion-20 {
   color: #5f5f60;
 }
 
-.emotion-19 {
+.emotion-21 {
+  color: #5f5f60;
+  height: 24px;
+}
+
+.emotion-21:hover {
+  color: #5f5f60;
+}
+
+.emotion-23 {
   margin: 0;
   font-family: Red Hat Text;
   font-weight: 500;
@@ -410,7 +617,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   line-height: 1.57;
 }
 
-.emotion-21 {
+.emotion-25 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -473,33 +680,33 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   height: 100%;
 }
 
-.emotion-21::-moz-focus-inner {
+.emotion-25::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-21.Mui-disabled {
+.emotion-25.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-21 {
+  .emotion-25 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-21:hover {
+.emotion-25:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-21.Mui-disabled {
+.emotion-25.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-21:hover {
+  .emotion-25:hover {
     --variant-containedBg: #015969;
     --variant-textBg: rgba(29, 143, 175, 0.04);
     --variant-outlinedBorder: #1d8faf;
@@ -507,29 +714,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   }
 }
 
-.emotion-21.MuiButton-loading {
+.emotion-25.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-21:hover:not(.MuiButton-colorInfo) {
+.emotion-25:hover:not(.MuiButton-colorInfo) {
   box-shadow: none;
 }
 
-.emotion-21:hover {
+.emotion-25:hover {
   color: #5f5f60;
 }
 
-.emotion-22 {
-  display: inherit;
-  margin-right: 8px;
-  margin-left: -4px;
-}
-
-.emotion-22>*:nth-of-type(1) {
-  font-size: 20px;
-}
-
-.emotion-23 {
+.emotion-27 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -546,16 +743,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   font-size: 1.5rem;
 }
 
-.emotion-24 {
+.emotion-28 {
   background-color: rgb(234, 234, 234);
   border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.emotion-24 .MuiList-root {
+.emotion-28 .MuiList-root {
   padding-top: 0;
 }
 
-.emotion-25 {
+.emotion-29 {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -564,7 +761,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   padding-bottom: 8px;
 }
 
-.emotion-26 {
+.emotion-30 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -591,13 +788,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   color: #1f1f20;
 }
 
-.emotion-26.active {
+.emotion-30.active {
   background-color: #fff;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.emotion-27 {
+.emotion-31 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -606,15 +803,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   margin-bottom: 4px;
 }
 
-.MuiTypography-root:where(.emotion-27 .MuiListItemText-primary) {
+.MuiTypography-root:where(.emotion-31 .MuiListItemText-primary) {
   display: block;
 }
 
-.MuiTypography-root:where(.emotion-27 .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-31 .MuiListItemText-secondary) {
   display: block;
 }
 
-.emotion-28 {
+.emotion-32 {
   margin: 0;
   font-family: Red Hat Text;
   font-weight: 400;
@@ -622,7 +819,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   line-height: 1.5;
 }
 
-.emotion-41 {
+.emotion-45 {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -632,7 +829,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   gap: 8px;
 }
 
-.emotion-42 {
+.emotion-46 {
   margin: 0;
   font-family: Red Hat Text;
   font-weight: 400;
@@ -640,11 +837,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   line-height: 1.43;
 }
 
-.emotion-44 {
+.emotion-48 {
   font-weight: inherit;
 }
 
-.emotion-47 {
+.emotion-51 {
   -webkit-column-gap: 48px;
   column-gap: 48px;
   display: -webkit-box;
@@ -658,7 +855,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   margin-bottom: 48px;
 }
 
-.emotion-48 {
+.emotion-52 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -679,12 +876,28 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 }
 
 @media (min-width:1536px) {
-  .emotion-48 {
+  .emotion-52 {
     min-width: 50vw;
   }
 }
 
-.emotion-50 {
+.emotion-54 {
+  margin: 0;
+  font-weight: 500;
+  font-family: Red Hat Text;
+  font-size: 1.5rem;
+  line-height: 1.334;
+}
+
+.emotion-55 {
+  display: block;
+  background-color: rgba(31, 31, 32, 0.11);
+  height: 1.2em;
+  -webkit-animation: animation-0 2s ease-in-out 0.5s infinite;
+  animation: animation-0 2s ease-in-out 0.5s infinite;
+}
+
+.emotion-56 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -742,63 +955,63 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   z-index: 1;
 }
 
-.emotion-50::-moz-focus-inner {
+.emotion-56::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-50.Mui-disabled {
+.emotion-56.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-50 {
+  .emotion-56 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-50:active {
+.emotion-56:active {
   box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12);
 }
 
-.emotion-50:hover {
+.emotion-56:hover {
   background-color: #f5f5f5;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 @media (hover: none) {
-  .emotion-50:hover {
+  .emotion-56:hover {
     background-color: #dededf;
   }
 }
 
-.emotion-50.Mui-focusVisible {
+.emotion-56.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-50:hover {
+.emotion-56:hover {
   background-color: #015969;
 }
 
 @media (hover: none) {
-  .emotion-50:hover {
+  .emotion-56:hover {
     background-color: #1d8faf;
   }
 }
 
-.emotion-50.Mui-disabled {
+.emotion-56.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-52 {
+.emotion-58 {
   gap: 16px;
 }
 
-.emotion-53 {
+.emotion-59 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -878,28 +1091,28 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   text-transform: uppercase;
 }
 
-.emotion-53::-moz-focus-inner {
+.emotion-59::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-53.Mui-disabled {
+.emotion-59.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-53 {
+  .emotion-59 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-53.Mui-disabled {
+.emotion-59.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-53 .MuiChip-avatar {
+.emotion-59 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -908,17 +1121,17 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   font-size: 0.75rem;
 }
 
-.emotion-53 .MuiChip-avatarColorPrimary {
+.emotion-59 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: #015969;
 }
 
-.emotion-53 .MuiChip-avatarColorSecondary {
+.emotion-59 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: #820f50;
 }
 
-.emotion-53 .MuiChip-avatarSmall {
+.emotion-59 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -926,12 +1139,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   font-size: 0.625rem;
 }
 
-.emotion-53 .MuiChip-icon {
+.emotion-59 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-53 .MuiChip-deleteIcon {
+.emotion-59 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(31, 31, 32, 0.26);
   font-size: 22px;
@@ -939,35 +1152,35 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   margin: 0 5px 0 -6px;
 }
 
-.emotion-53 .MuiChip-deleteIcon:hover {
+.emotion-59 .MuiChip-deleteIcon:hover {
   color: rgba(31, 31, 32, 0.4);
 }
 
-.emotion-53 .MuiChip-icon {
+.emotion-59 .MuiChip-icon {
   color: #5f5f60;
 }
 
-.emotion-53:hover {
+.emotion-59:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-53.Mui-focusVisible {
+.emotion-59.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-53:active {
+.emotion-59:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-53:hover {
+.emotion-59:hover {
   font-weight: bold;
 }
 
-.emotion-53:hover {
+.emotion-59:hover {
   font-weight: bold;
 }
 
-.emotion-54 {
+.emotion-60 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -975,16 +1188,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   white-space: nowrap;
 }
 
-.emotion-55 {
+.emotion-61 {
   margin: auto;
   margin-left: 0;
 }
 
-.emotion-55:hover svg {
+.emotion-61:hover svg {
   color: #015969;
 }
 
-.emotion-56 {
+.emotion-62 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -1002,11 +1215,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   color: #1d8faf;
 }
 
-.emotion-56.read {
+.emotion-62.read {
   color: #9c9c9d;
 }
 
-.emotion-57 {
+.emotion-63 {
   position: absolute;
   top: -4px;
   bottom: -4px;
@@ -1016,20 +1229,20 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   border-radius: 50%;
 }
 
-.emotion-57.read {
+.emotion-63.read {
   border-color: #9c9c9d;
 }
 
-.emotion-57:hover {
+.emotion-63:hover {
   border-color: #015969;
 }
 
-.emotion-58 {
+.emotion-64 {
   font-size: 1rem;
   cursor: pointer;
 }
 
-.emotion-61 {
+.emotion-67 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1040,28 +1253,28 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   padding-top: 0;
 }
 
-.emotion-61 .deployments .dashboard>h4 {
+.emotion-67 .deployments .dashboard>h4 {
   margin-top: 48px;
 }
 
-.emotion-61 .deployments .dashboard>h4.margin-top-none {
+.emotion-67 .deployments .dashboard>h4.margin-top-none {
   margin-top: 0;
 }
 
 @media (min-width:1536px) {
-  .emotion-61 {
+  .emotion-67 {
     border-left: 1px solid #9c9c9d;
     margin-top: -16px;
     padding-left: 48px;
     padding-top: 16px;
   }
 
-  .emotion-61 .deployments .dashboard>h4 {
+  .emotion-67 .deployments .dashboard>h4 {
     margin-top: 0;
   }
 }
 
-.emotion-62 {
+.emotion-68 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -1076,11 +1289,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   padding: 8px;
 }
 
-.emotion-62>div:last-child {
+.emotion-68>div:last-child {
   width: 100%;
 }
 
-.emotion-63 {
+.emotion-69 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -1097,7 +1310,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   font-size: inherit;
 }
 
-.emotion-69 {
+.emotion-75 {
   background-color: #bbbbbc;
   padding: 10px 20px;
   border-radius: 4px;
@@ -1108,61 +1321,61 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   min-height: 70px;
 }
 
-.emotion-69 .chart-container {
+.emotion-75 .chart-container {
   min-height: 70px;
 }
 
-.emotion-69 .progress-chart {
+.emotion-75 .progress-chart {
   min-height: 45px;
 }
 
-.emotion-69 .compact .progress-step,
-.emotion-69 .detailed .progress-step {
+.emotion-75 .compact .progress-step,
+.emotion-75 .detailed .progress-step {
   min-height: 45px;
 }
 
-.emotion-69 .progress-step,
-.emotion-69 .detailed .progress-step-total {
+.emotion-75 .progress-step,
+.emotion-75 .detailed .progress-step-total {
   position: absolute;
   border-right-style: none;
 }
 
-.emotion-69 .progress-step-total .progress-bar {
+.emotion-75 .progress-step-total .progress-bar {
   background-color: #fafafb;
 }
 
-.emotion-69 .progress-step-number {
+.emotion-75 .progress-step-number {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
   margin-top: -4px;
 }
 
-.emotion-69.minimal {
+.emotion-75.minimal {
   padding: initial;
 }
 
-.emotion-69.no-background {
+.emotion-75.no-background {
   background: none;
 }
 
-.emotion-69.stepped-progress .progress-step-total {
+.emotion-75.stepped-progress .progress-step-total {
   margin-left: -0.25%;
   width: 100.5%;
 }
 
-.emotion-69.stepped-progress .progress-step-total .progress-bar {
+.emotion-75.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
   border: 1px solid #404041;
   border-radius: 2px;
   height: 12px;
 }
 
-.emotion-69.stepped-progress .detailed .progress-step {
+.emotion-75.stepped-progress .detailed .progress-step {
   min-height: 20px;
 }
 
-.emotion-74 {
+.emotion-80 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1173,36 +1386,36 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   max-width: 500px;
 }
 
-.emotion-74>time {
+.emotion-80>time {
   -webkit-align-self: flex-end;
   -ms-flex-item-align: flex-end;
   align-self: flex-end;
   margin-right: 6px;
 }
 
-.emotion-76 {
+.emotion-82 {
   background: #fff;
   border-radius: 4px;
   padding: 4px;
 }
 
-.emotion-77 {
+.emotion-83 {
   -webkit-column-gap: 8px;
   column-gap: 8px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 32px);
 }
 
-.emotion-77>div {
+.emotion-83>div {
   -webkit-column-gap: 4px;
   column-gap: 4px;
 }
 
-.emotion-77 .disabled {
+.emotion-83 .disabled {
   opacity: 0.1;
 }
 
-.emotion-86 {
+.emotion-92 {
   position: fixed;
   display: grid;
   bottom: 0;
@@ -1307,7 +1520,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               <input
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-9"
-                id="_r_1k_"
+                id="_r_1o_"
                 name="search"
                 placeholder="Search devices"
                 type="text"
@@ -1339,50 +1552,74 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
           class="flexbox center-aligned"
         >
           <div
-            class="flexbox center-aligned emotion-12 emotion-13"
+            class=""
           >
-            <a
-              class="flexbox center-aligned "
-              data-discover="true"
-              href="/devices"
+            <div
+              aria-label="View device limits"
+              class=""
+              data-mui-internal-clone-element="true"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small emotion-14"
-                data-testid="DeveloperBoardIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <span
+                class="MuiBadge-root emotion-12"
               >
-                <path
-                  d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
-                />
-              </svg>
-              <div>
-                2
-              </div>
-            </a>
-            <a
-              class="margin-left-x-small"
-              data-discover="true"
-              href="/devices/pending"
-            >
-              1
-               pending
-            </a>
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned false emotion-13"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-14"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small margin-left-x-small emotion-15"
+                      data-testid="DeveloperBoardIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
+                      />
+                    </svg>
+                  </span>
+                  2
+                  <span
+                    class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-16"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
+                      data-testid="ArrowDropDownIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="m7 10 5 5 5-5z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+                <span
+                  class="MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopLeft MuiBadge-anchorOriginTopLeftRectangular MuiBadge-overlapRectangular MuiBadge-colorPrimary emotion-18"
+                >
+                  1
+                </span>
+              </span>
+            </div>
           </div>
           <div
             aria-orientation="vertical"
-            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-15"
+            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-19"
             role="separator"
           />
           <a
-            class="flexbox center-aligned emotion-16 emotion-12"
+            class="flexbox center-aligned emotion-20 emotion-21"
             data-discover="true"
             href="/deployments/active"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall flip-horizontal margin-right-x-small emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall flip-horizontal margin-right-x-small emotion-15"
               data-testid="SyncIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1392,27 +1629,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               />
             </svg>
             <h6
-              class="MuiTypography-root MuiTypography-subtitle2 emotion-19"
+              class="MuiTypography-root MuiTypography-subtitle2 emotion-23"
             >
               3
             </h6>
           </a>
           <div
             aria-orientation="vertical"
-            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-15"
+            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-19"
             role="separator"
           />
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned emotion-21"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned emotion-25"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-22"
+              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-14"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-23"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
                 data-testid="AccountCircleIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1428,82 +1665,82 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
       </div>
     </div>
     <div
-      class="leftFixed leftNav flexbox column space-between emotion-24"
+      class="leftFixed leftNav flexbox column space-between emotion-28"
     >
       <ul
-        class="MuiList-root MuiList-padding emotion-25"
+        class="MuiList-root MuiList-padding emotion-29"
       >
         <a
           aria-current="page"
-          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-26 active"
+          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-30 active"
           data-discover="true"
           href="/"
         >
           <div
-            class="MuiListItemText-root emotion-27"
+            class="MuiListItemText-root emotion-31"
           >
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-28"
+              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
             >
               Dashboard
             </span>
           </div>
         </a>
         <a
-          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-26"
+          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-30"
           data-discover="true"
           href="/devices"
         >
           <div
-            class="MuiListItemText-root emotion-27"
+            class="MuiListItemText-root emotion-31"
           >
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-28"
+              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
             >
               Devices
             </span>
           </div>
         </a>
         <a
-          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-26"
+          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-30"
           data-discover="true"
           href="/releases"
         >
           <div
-            class="MuiListItemText-root emotion-27"
+            class="MuiListItemText-root emotion-31"
           >
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-28"
+              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
             >
               Releases
             </span>
           </div>
         </a>
         <a
-          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-26"
+          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-30"
           data-discover="true"
           href="/deployments"
         >
           <div
-            class="MuiListItemText-root emotion-27"
+            class="MuiListItemText-root emotion-31"
           >
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-28"
+              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
             >
               Deployments
             </span>
           </div>
         </a>
         <a
-          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-26"
+          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-30"
           data-discover="true"
           href="/auditlog"
         >
           <div
-            class="MuiListItemText-root emotion-27"
+            class="MuiListItemText-root emotion-31"
           >
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-28"
+              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-32"
             >
               Audit log
             </span>
@@ -1511,7 +1748,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
         </a>
       </ul>
       <ul
-        class="MuiList-root MuiList-padding flexbox column padding-left-large padding-bottom emotion-41"
+        class="MuiList-root MuiList-padding flexbox column padding-left-large padding-bottom emotion-45"
       >
         <a
           class=""
@@ -1519,7 +1756,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
           href="/help"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-42"
+            class="MuiTypography-root MuiTypography-body2 emotion-46"
           >
             Help & support
           </p>
@@ -1531,10 +1768,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
           Version: next
         </div>
         <p
-          class="MuiTypography-root MuiTypography-body2 emotion-42"
+          class="MuiTypography-root MuiTypography-body2 emotion-46"
         >
           <a
-            class="emotion-44"
+            class="emotion-48"
             href="https://docs.mender.io/release-information/release-notes-changelog/mender-server"
             rel=""
             target="_blank"
@@ -1543,10 +1780,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
           </a>
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body2 emotion-42"
+          class="MuiTypography-root MuiTypography-body2 emotion-46"
         >
           <a
-            class="emotion-44"
+            class="emotion-48"
             href="https://docs.mender.io/release-information/open-source-licenses"
             rel=""
             target="_blank"
@@ -1565,11 +1802,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
         Dashboard
       </h4>
       <div
-        class="emotion-47"
+        class="emotion-51"
         style=""
       >
         <div
-          class="emotion-48"
+          class="emotion-52"
         >
           <div
             class="dashboard"
@@ -1586,7 +1823,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   Accepted devices 
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small green emotion-23"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small green emotion-27"
                     data-testid="CheckCircleIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -1598,12 +1835,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 </div>
               </div>
               <div
-                class="flexbox column widgetMainContent"
+                class="widgetMainContent"
               >
                 <div
-                  class="counter"
+                  class="full-width"
                 >
-                  2
+                  <h5
+                    class="MuiTypography-root MuiTypography-h5 emotion-54"
+                  >
+                    2
+                  </h5>
+                  <div
+                    class="flexbox column full-width margin-top-small"
+                  >
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse margin-bottom-x-small emotion-55"
+                      style="height: 47px;"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -1611,14 +1860,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               class="relative"
             >
               <a
-                class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-50"
+                class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-56"
                 data-discover="true"
                 href="/devices/pending"
                 tabindex="0"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-23"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
                   data-testid="AddIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1670,7 +1919,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               class="widget"
             >
               <div
-                class="flexbox center-aligned  emotion-52"
+                class="flexbox center-aligned  emotion-58"
                 style="align-items: end;"
               >
                 <div
@@ -1678,24 +1927,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   data-mui-internal-clone-element="true"
                 >
                   <div
-                    class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-53"
+                    class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-59"
                     role="button"
                     tabindex="0"
                   >
                     <span
-                      class="MuiChip-label MuiChip-labelMedium emotion-54"
+                      class="MuiChip-label MuiChip-labelMedium emotion-60"
                     >
                       Enterprise
                     </span>
                   </div>
                 </div>
                 <div
-                  class="relative flexbox emotion-55  "
+                  class="relative flexbox emotion-61  "
                   data-mui-internal-clone-element="true"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-56"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-62"
                     data-testid="HelpIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -1705,16 +1954,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                     />
                   </svg>
                   <div
-                    class="emotion-57 "
+                    class="emotion-63 "
                   />
                 </div>
               </div>
               <div
-                class="flexbox centered muted emotion-58"
+                class="flexbox centered muted emotion-64"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-23"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
                   data-testid="AddIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1724,7 +1973,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   />
                 </svg>
                 <span
-                  class="emotion-58"
+                  class="emotion-64"
                 >
                   add a widget
                 </span>
@@ -1733,7 +1982,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
           </div>
         </div>
         <div
-          class="emotion-61 deployments"
+          class="emotion-67 deployments"
         >
           <div
             class="dashboard flexbox column"
@@ -1750,7 +1999,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               Pending
             </h5>
             <div
-              class="clickable emotion-62"
+              class="clickable emotion-68"
             >
               <div>
                 <div />
@@ -1766,7 +2015,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-63"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-69"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -1782,7 +2031,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               </div>
             </div>
             <div
-              class="clickable emotion-62"
+              class="clickable emotion-68"
             >
               <div>
                 <div />
@@ -1798,7 +2047,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-63"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-69"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -1814,7 +2063,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               </div>
             </div>
             <div
-              class="clickable emotion-62"
+              class="clickable emotion-68"
             >
               <div>
                 <div>
@@ -1832,7 +2081,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-63"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-69"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -1853,7 +2102,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               In Progress
             </h5>
             <div
-              class="clickable emotion-62"
+              class="clickable emotion-68"
             >
               <div>
                 <div />
@@ -1865,7 +2114,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 </div>
               </div>
               <div
-                class="relative emotion-69 minimal "
+                class="relative emotion-75 minimal "
               >
                 <div
                   class="chart-container"
@@ -1970,7 +2219,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               </div>
             </div>
             <div
-              class="clickable emotion-62"
+              class="clickable emotion-68"
             >
               <div>
                 <div />
@@ -1982,7 +2231,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 </div>
               </div>
               <div
-                class="relative emotion-69 minimal "
+                class="relative emotion-75 minimal "
               >
                 <div
                   class="chart-container"
@@ -2023,7 +2272,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               </div>
             </div>
             <div
-              class="clickable emotion-62"
+              class="clickable emotion-68"
             >
               <div>
                 <div>
@@ -2041,7 +2290,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-63"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-69"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -2062,7 +2311,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               Finished
             </h5>
             <div
-              class="emotion-74"
+              class="emotion-80"
             >
               <time
                 class="muted slightly-smaller"
@@ -2071,7 +2320,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 2019-01-13 13:00
               </time>
               <div
-                class="clickable emotion-62"
+                class="clickable emotion-68"
               >
                 <div>
                   <div />
@@ -2083,10 +2332,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   </div>
                 </div>
                 <div
-                  class="emotion-76"
+                  class="emotion-82"
                 >
                   <div
-                    class="flexbox emotion-77 "
+                    class="flexbox emotion-83 "
                   >
                     <div
                       aria-label="Skipped"
@@ -2163,7 +2412,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               </div>
             </div>
             <div
-              class="emotion-74"
+              class="emotion-80"
             >
               <time
                 class="muted slightly-smaller"
@@ -2172,7 +2421,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 2019-01-13 13:00
               </time>
               <div
-                class="clickable emotion-62"
+                class="clickable emotion-68"
               >
                 <div>
                   <div />
@@ -2184,10 +2433,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   </div>
                 </div>
                 <div
-                  class="emotion-76"
+                  class="emotion-82"
                 >
                   <div
-                    class="flexbox emotion-77 "
+                    class="flexbox emotion-83 "
                   >
                     <div
                       aria-label="Skipped"
@@ -2264,7 +2513,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               </div>
             </div>
             <div
-              class="emotion-74"
+              class="emotion-80"
             >
               <time
                 class="muted slightly-smaller"
@@ -2273,7 +2522,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 2019-01-13 13:00
               </time>
               <div
-                class="clickable emotion-62"
+                class="clickable emotion-68"
               >
                 <div>
                   <div>
@@ -2287,10 +2536,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   </div>
                 </div>
                 <div
-                  class="emotion-76"
+                  class="emotion-82"
                 >
                   <div
-                    class="flexbox emotion-77 "
+                    class="flexbox emotion-83 "
                   >
                     <div
                       aria-label="Skipped"
@@ -2379,7 +2628,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
     </div>
   </div>
   <div
-    class="emotion-86"
+    class="emotion-92"
   />
 </div>
 `;
@@ -2672,35 +2921,132 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 }
 
 .emotion-9 {
+  position: relative;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: middle;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.emotion-10 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  text-transform: none;
+  font-family: Red Hat Text;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #1d8faf;
+  --variant-outlinedColor: #1d8faf;
+  --variant-outlinedBorder: rgba(29, 143, 175, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #1d8faf;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  text-transform: none;
+  box-shadow: none;
+  text-transform: none;
   color: #5f5f60;
-  height: 24px;
+  --pressed-color: rgba(95, 95, 96, 0.3);
 }
 
-.emotion-9:hover {
-  color: #5f5f60;
+.emotion-10::-moz-focus-inner {
+  border-style: none;
 }
 
-.emotion-10:hover .warning span,
-.emotion-10:hover .warning svg {
-  color: #ef5350;
+.emotion-10.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
 }
 
-.emotion-10 .warning span,
-.emotion-10 .warning svg {
-  color: #d32f2f;
+@media print {
+  .emotion-10 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
 }
 
-.emotion-10:hover .approaching span,
-.emotion-10:hover .approaching svg {
-  color: #ff9800;
+.emotion-10:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
-.emotion-10 .approaching span,
-.emotion-10 .approaching svg {
-  color: #ed6c02;
+.emotion-10.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-13 {
+@media (hover: hover) {
+  .emotion-10:hover {
+    --variant-containedBg: #015969;
+    --variant-textBg: rgba(29, 143, 175, 0.04);
+    --variant-outlinedBorder: #1d8faf;
+    --variant-outlinedBg: rgba(29, 143, 175, 0.04);
+  }
+}
+
+.emotion-10.MuiButton-loading {
+  color: transparent;
+}
+
+.emotion-10:hover:not(.MuiButton-colorInfo) {
+  box-shadow: none;
+}
+
+.emotion-11 {
+  display: inherit;
+  margin-right: 8px;
+  margin-left: -4px;
+}
+
+.emotion-11>*:nth-of-type(1) {
+  font-size: 20px;
+}
+
+.emotion-12 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2717,7 +3063,94 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   font-size: 1.25rem;
 }
 
+.emotion-13 {
+  display: inherit;
+  margin-right: -4px;
+  margin-left: 8px;
+}
+
+.emotion-13>*:nth-of-type(1) {
+  font-size: 20px;
+}
+
 .emotion-14 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.25rem;
+  color: #5f5f60;
+}
+
+.emotion-15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  box-sizing: border-box;
+  font-family: Red Hat Text;
+  font-weight: 500;
+  font-size: 0.75rem;
+  min-width: 20px;
+  line-height: 1;
+  padding: 0 6px;
+  height: 20px;
+  border-radius: 10px;
+  z-index: 1;
+  -webkit-transition: -webkit-transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #1d8faf;
+  color: #fff;
+  top: 0;
+  left: 0;
+  -webkit-transform: scale(1) translate(-50%, -50%);
+  -moz-transform: scale(1) translate(-50%, -50%);
+  -ms-transform: scale(1) translate(-50%, -50%);
+  transform: scale(1) translate(-50%, -50%);
+  transform-origin: 0% 0%;
+}
+
+.emotion-15.MuiBadge-invisible {
+  -webkit-transform: scale(0) translate(-50%, -50%);
+  -moz-transform: scale(0) translate(-50%, -50%);
+  -ms-transform: scale(0) translate(-50%, -50%);
+  transform: scale(0) translate(-50%, -50%);
+}
+
+.emotion-15 .MuiBadge-colorInfo {
+  background-color: #f4f4f5;
+  color: #1f1f20;
+}
+
+.emotion-16 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -2733,15 +3166,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   height: 24px;
 }
 
-.emotion-14:hover {
+.emotion-16:hover {
   color: #5f5f60;
 }
 
-.emotion-15 {
+.emotion-17 {
   color: #5f5f60;
 }
 
 .emotion-18 {
+  color: #5f5f60;
+  height: 24px;
+}
+
+.emotion-18:hover {
+  color: #5f5f60;
+}
+
+.emotion-20 {
   margin: 0;
   font-family: Red Hat Text;
   font-weight: 500;
@@ -2749,7 +3191,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   line-height: 1.57;
 }
 
-.emotion-20 {
+.emotion-22 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2812,33 +3254,33 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   height: 100%;
 }
 
-.emotion-20::-moz-focus-inner {
+.emotion-22::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-20.Mui-disabled {
+.emotion-22.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-20 {
+  .emotion-22 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-20:hover {
+.emotion-22:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-20.Mui-disabled {
+.emotion-22.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-20:hover {
+  .emotion-22:hover {
     --variant-containedBg: #015969;
     --variant-textBg: rgba(29, 143, 175, 0.04);
     --variant-outlinedBorder: #1d8faf;
@@ -2846,29 +3288,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   }
 }
 
-.emotion-20.MuiButton-loading {
+.emotion-22.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-20:hover:not(.MuiButton-colorInfo) {
+.emotion-22:hover:not(.MuiButton-colorInfo) {
   box-shadow: none;
 }
 
-.emotion-20:hover {
+.emotion-22:hover {
   color: #5f5f60;
 }
 
-.emotion-21 {
-  display: inherit;
-  margin-right: 8px;
-  margin-left: -4px;
-}
-
-.emotion-21>*:nth-of-type(1) {
-  font-size: 20px;
-}
-
-.emotion-22 {
+.emotion-24 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2885,16 +3317,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   font-size: 1.5rem;
 }
 
-.emotion-23 {
+.emotion-25 {
   background-color: rgb(234, 234, 234);
   border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.emotion-23 .MuiList-root {
+.emotion-25 .MuiList-root {
   padding-top: 0;
 }
 
-.emotion-24 {
+.emotion-26 {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -2903,7 +3335,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   padding-bottom: 8px;
 }
 
-.emotion-25 {
+.emotion-27 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2930,13 +3362,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   color: #1f1f20;
 }
 
-.emotion-25.active {
+.emotion-27.active {
   background-color: #fff;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.emotion-26 {
+.emotion-28 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -2945,15 +3377,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   margin-bottom: 4px;
 }
 
-.MuiTypography-root:where(.emotion-26 .MuiListItemText-primary) {
+.MuiTypography-root:where(.emotion-28 .MuiListItemText-primary) {
   display: block;
 }
 
-.MuiTypography-root:where(.emotion-26 .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-28 .MuiListItemText-secondary) {
   display: block;
 }
 
-.emotion-27 {
+.emotion-29 {
   margin: 0;
   font-family: Red Hat Text;
   font-weight: 400;
@@ -2961,7 +3393,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   line-height: 1.5;
 }
 
-.emotion-40 {
+.emotion-42 {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -2971,7 +3403,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   gap: 8px;
 }
 
-.emotion-41 {
+.emotion-43 {
   margin: 0;
   font-family: Red Hat Text;
   font-weight: 400;
@@ -2979,11 +3411,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   line-height: 1.43;
 }
 
-.emotion-43 {
+.emotion-45 {
   font-weight: inherit;
 }
 
-.emotion-46 {
+.emotion-48 {
   -webkit-column-gap: 48px;
   column-gap: 48px;
   display: -webkit-box;
@@ -2997,7 +3429,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   margin-bottom: 48px;
 }
 
-.emotion-47 {
+.emotion-49 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -3018,12 +3450,56 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 }
 
 @media (min-width:1536px) {
-  .emotion-47 {
+  .emotion-49 {
     min-width: 50vw;
   }
 }
 
-.emotion-49 {
+.emotion-51 {
+  margin: 0;
+  font-weight: 500;
+  font-family: Red Hat Text;
+  font-size: 1.5rem;
+  line-height: 1.334;
+}
+
+.emotion-52 {
+  width: calc(100% + 12px);
+  margin-left: -6px;
+  border-radius: 4px;
+}
+
+.emotion-55 {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: 4px;
+  z-index: 0;
+  background-color: rgb(169, 212, 224);
+}
+
+@media print {
+  .emotion-55 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-56 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+  background-color: #1d8faf;
+  -webkit-transition: -webkit-transform .4s linear;
+  transition: transform .4s linear;
+}
+
+.emotion-57 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -3081,63 +3557,63 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   z-index: 1;
 }
 
-.emotion-49::-moz-focus-inner {
+.emotion-57::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-49.Mui-disabled {
+.emotion-57.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-49 {
+  .emotion-57 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-49:active {
+.emotion-57:active {
   box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12);
 }
 
-.emotion-49:hover {
+.emotion-57:hover {
   background-color: #f5f5f5;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 @media (hover: none) {
-  .emotion-49:hover {
+  .emotion-57:hover {
     background-color: #dededf;
   }
 }
 
-.emotion-49.Mui-focusVisible {
+.emotion-57.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-49:hover {
+.emotion-57:hover {
   background-color: #015969;
 }
 
 @media (hover: none) {
-  .emotion-49:hover {
+  .emotion-57:hover {
     background-color: #1d8faf;
   }
 }
 
-.emotion-49.Mui-disabled {
+.emotion-57.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-51 {
+.emotion-59 {
   gap: 16px;
 }
 
-.emotion-52 {
+.emotion-60 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -3217,28 +3693,28 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   text-transform: uppercase;
 }
 
-.emotion-52::-moz-focus-inner {
+.emotion-60::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-52.Mui-disabled {
+.emotion-60.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-52 {
+  .emotion-60 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-52.Mui-disabled {
+.emotion-60.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-52 .MuiChip-avatar {
+.emotion-60 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -3247,17 +3723,17 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   font-size: 0.75rem;
 }
 
-.emotion-52 .MuiChip-avatarColorPrimary {
+.emotion-60 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: #015969;
 }
 
-.emotion-52 .MuiChip-avatarColorSecondary {
+.emotion-60 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: #820f50;
 }
 
-.emotion-52 .MuiChip-avatarSmall {
+.emotion-60 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -3265,12 +3741,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   font-size: 0.625rem;
 }
 
-.emotion-52 .MuiChip-icon {
+.emotion-60 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-52 .MuiChip-deleteIcon {
+.emotion-60 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(31, 31, 32, 0.26);
   font-size: 22px;
@@ -3278,35 +3754,35 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   margin: 0 5px 0 -6px;
 }
 
-.emotion-52 .MuiChip-deleteIcon:hover {
+.emotion-60 .MuiChip-deleteIcon:hover {
   color: rgba(31, 31, 32, 0.4);
 }
 
-.emotion-52 .MuiChip-icon {
+.emotion-60 .MuiChip-icon {
   color: #5f5f60;
 }
 
-.emotion-52:hover {
+.emotion-60:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-52.Mui-focusVisible {
+.emotion-60.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-52:active {
+.emotion-60:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-52:hover {
+.emotion-60:hover {
   font-weight: bold;
 }
 
-.emotion-52:hover {
+.emotion-60:hover {
   font-weight: bold;
 }
 
-.emotion-53 {
+.emotion-61 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -3314,16 +3790,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   white-space: nowrap;
 }
 
-.emotion-54 {
+.emotion-62 {
   margin: auto;
   margin-left: 0;
 }
 
-.emotion-54:hover svg {
+.emotion-62:hover svg {
   color: #015969;
 }
 
-.emotion-55 {
+.emotion-63 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -3341,11 +3817,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   color: #1d8faf;
 }
 
-.emotion-55.read {
+.emotion-63.read {
   color: #9c9c9d;
 }
 
-.emotion-56 {
+.emotion-64 {
   position: absolute;
   top: -4px;
   bottom: -4px;
@@ -3355,20 +3831,20 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   border-radius: 50%;
 }
 
-.emotion-56.read {
+.emotion-64.read {
   border-color: #9c9c9d;
 }
 
-.emotion-56:hover {
+.emotion-64:hover {
   border-color: #015969;
 }
 
-.emotion-57 {
+.emotion-65 {
   font-size: 1rem;
   cursor: pointer;
 }
 
-.emotion-60 {
+.emotion-68 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -3379,23 +3855,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   padding-top: 0;
 }
 
-.emotion-60 .deployments .dashboard>h4 {
+.emotion-68 .deployments .dashboard>h4 {
   margin-top: 48px;
 }
 
-.emotion-60 .deployments .dashboard>h4.margin-top-none {
+.emotion-68 .deployments .dashboard>h4.margin-top-none {
   margin-top: 0;
 }
 
 @media (min-width:1536px) {
-  .emotion-60 {
+  .emotion-68 {
     border-left: 1px solid #9c9c9d;
     margin-top: -16px;
     padding-left: 48px;
     padding-top: 16px;
   }
 
-  .emotion-60 .deployments .dashboard>h4 {
+  .emotion-68 .deployments .dashboard>h4 {
     margin-top: 0;
   }
 }
@@ -3489,59 +3965,74 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
         class="flexbox center-aligned"
       >
         <div
-          class="flexbox center-aligned emotion-9 emotion-10"
-          data-mui-internal-clone-element="true"
+          class=""
         >
           <div
-            class="flexbox center-aligned emotion-9 emotion-10"
+            aria-label="View device limits"
+            class=""
+            data-mui-internal-clone-element="true"
           >
-            <a
-              class="flexbox center-aligned "
-              data-discover="true"
-              href="/devices"
+            <span
+              class="MuiBadge-root emotion-9"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small emotion-13"
-                data-testid="DeveloperBoardIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned false emotion-10"
+                tabindex="0"
+                type="button"
               >
-                <path
-                  d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
-                />
-              </svg>
-              <div>
+                <span
+                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small margin-left-x-small emotion-12"
+                    data-testid="DeveloperBoardIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
+                    />
+                  </svg>
+                </span>
                 2
-              </div>
-              <div
-                id="limit"
+                <span
+                  class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-13"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-14"
+                    data-testid="ArrowDropDownIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m7 10 5 5 5-5z"
+                    />
+                  </svg>
+                </span>
+              </button>
+              <span
+                class="MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopLeft MuiBadge-anchorOriginTopLeftRectangular MuiBadge-overlapRectangular MuiBadge-colorPrimary emotion-15"
               >
-                /500
-              </div>
-            </a>
-            <a
-              class="margin-left-x-small"
-              data-discover="true"
-              href="/devices/pending"
-            >
-              1 pending
-            </a>
+                1
+              </span>
+            </span>
           </div>
         </div>
         <div
           aria-orientation="vertical"
-          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-14"
+          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-16"
           role="separator"
         />
         <a
-          class="flexbox center-aligned emotion-15 emotion-9"
+          class="flexbox center-aligned emotion-17 emotion-18"
           data-discover="true"
           href="/deployments/active"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall flip-horizontal margin-right-x-small emotion-13"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall flip-horizontal margin-right-x-small emotion-12"
             data-testid="SyncIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -3551,27 +4042,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             />
           </svg>
           <h6
-            class="MuiTypography-root MuiTypography-subtitle2 emotion-18"
+            class="MuiTypography-root MuiTypography-subtitle2 emotion-20"
           >
             0
           </h6>
         </a>
         <div
           aria-orientation="vertical"
-          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-14"
+          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-16"
           role="separator"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned emotion-20"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned emotion-22"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-21"
+            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-22"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-24"
               data-testid="AccountCircleIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -3587,82 +4078,82 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
     </div>
   </div>
   <div
-    class="leftFixed leftNav flexbox column space-between emotion-23"
+    class="leftFixed leftNav flexbox column space-between emotion-25"
   >
     <ul
-      class="MuiList-root MuiList-padding emotion-24"
+      class="MuiList-root MuiList-padding emotion-26"
     >
       <a
         aria-current="page"
-        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-25 active"
+        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-27 active"
         data-discover="true"
         href="/"
       >
         <div
-          class="MuiListItemText-root emotion-26"
+          class="MuiListItemText-root emotion-28"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-27"
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-29"
           >
             Dashboard
           </span>
         </div>
       </a>
       <a
-        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-25"
+        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-27"
         data-discover="true"
         href="/devices"
       >
         <div
-          class="MuiListItemText-root emotion-26"
+          class="MuiListItemText-root emotion-28"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-27"
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-29"
           >
             Devices
           </span>
         </div>
       </a>
       <a
-        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-25"
+        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-27"
         data-discover="true"
         href="/releases"
       >
         <div
-          class="MuiListItemText-root emotion-26"
+          class="MuiListItemText-root emotion-28"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-27"
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-29"
           >
             Releases
           </span>
         </div>
       </a>
       <a
-        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-25"
+        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-27"
         data-discover="true"
         href="/deployments"
       >
         <div
-          class="MuiListItemText-root emotion-26"
+          class="MuiListItemText-root emotion-28"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-27"
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-29"
           >
             Deployments
           </span>
         </div>
       </a>
       <a
-        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-25"
+        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-27"
         data-discover="true"
         href="/auditlog"
       >
         <div
-          class="MuiListItemText-root emotion-26"
+          class="MuiListItemText-root emotion-28"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-27"
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-29"
           >
             Audit log
           </span>
@@ -3670,7 +4161,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
       </a>
     </ul>
     <ul
-      class="MuiList-root MuiList-padding flexbox column padding-left-large padding-bottom emotion-40"
+      class="MuiList-root MuiList-padding flexbox column padding-left-large padding-bottom emotion-42"
     >
       <a
         class=""
@@ -3678,7 +4169,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
         href="/help"
       >
         <p
-          class="MuiTypography-root MuiTypography-body2 emotion-41"
+          class="MuiTypography-root MuiTypography-body2 emotion-43"
         >
           Help & support
         </p>
@@ -3690,10 +4181,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
         Version: next
       </div>
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-41"
+        class="MuiTypography-root MuiTypography-body2 emotion-43"
       >
         <a
-          class="emotion-43"
+          class="emotion-45"
           href="https://docs.mender.io/release-information/release-notes-changelog/mender-server"
           rel=""
           target="_blank"
@@ -3702,10 +4193,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
         </a>
       </p>
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-41"
+        class="MuiTypography-root MuiTypography-body2 emotion-43"
       >
         <a
-          class="emotion-43"
+          class="emotion-45"
           href="https://docs.mender.io/release-information/open-source-licenses"
           rel=""
           target="_blank"
@@ -3724,10 +4215,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
       Dashboard
     </h4>
     <div
-      class="emotion-46"
+      class="emotion-48"
     >
       <div
-        class="emotion-47"
+        class="emotion-49"
       >
         <div
           class="dashboard"
@@ -3744,7 +4235,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 Accepted devices 
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small green emotion-22"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small green emotion-24"
                   data-testid="CheckCircleIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -3756,12 +4247,64 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
               </div>
             </div>
             <div
-              class="flexbox column widgetMainContent"
+              class="widgetMainContent"
             >
               <div
-                class="counter"
+                class="full-width"
               >
-                2
+                <h5
+                  class="MuiTypography-root MuiTypography-h5 emotion-51"
+                >
+                  2
+                </h5>
+                <div
+                  class="flexbox column full-width margin-top-small"
+                >
+                  <div
+                    aria-label="0% used. To increase limits, go to Settings > Billing"
+                    class="margin-bottom-x-small"
+                    data-mui-internal-clone-element="true"
+                  >
+                    <div
+                      class="flexbox column padding-x-small emotion-52  "
+                    >
+                      <div
+                        class="flexbox full-width space-between"
+                      >
+                        <div
+                          class="flexbox"
+                        >
+                          <h6
+                            class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-20"
+                          >
+                            standard
+                          </h6>
+                        </div>
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 emotion-43"
+                        >
+                          2/500
+                        </p>
+                      </div>
+                      <div
+                        class="margin-top-x-small"
+                      >
+                        <span
+                          aria-valuemax="100"
+                          aria-valuemin="0"
+                          aria-valuenow="0"
+                          class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-55"
+                          role="progressbar"
+                        >
+                          <span
+                            class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-56"
+                            style="transform: translateX(-100%);"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -3769,14 +4312,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             class="relative"
           >
             <a
-              class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-49"
+              class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-57"
               data-discover="true"
               href="/devices/pending"
               tabindex="0"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-22"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-24"
                 data-testid="AddIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -3828,7 +4371,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             class="widget"
           >
             <div
-              class="flexbox center-aligned  emotion-51"
+              class="flexbox center-aligned  emotion-59"
               style="align-items: end;"
             >
               <div
@@ -3836,24 +4379,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 data-mui-internal-clone-element="true"
               >
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-52"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-60"
                   role="button"
                   tabindex="0"
                 >
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-53"
+                    class="MuiChip-label MuiChip-labelMedium emotion-61"
                   >
                     Enterprise
                   </span>
                 </div>
               </div>
               <div
-                class="relative flexbox emotion-54  "
+                class="relative flexbox emotion-62  "
                 data-mui-internal-clone-element="true"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-55"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-63"
                   data-testid="HelpIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -3863,16 +4406,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                   />
                 </svg>
                 <div
-                  class="emotion-56 "
+                  class="emotion-64 "
                 />
               </div>
             </div>
             <div
-              class="flexbox centered muted emotion-57"
+              class="flexbox centered muted emotion-65"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-22"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-24"
                 data-testid="AddIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -3882,7 +4425,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 />
               </svg>
               <span
-                class="emotion-57"
+                class="emotion-65"
               >
                 add a widget
               </span>
@@ -3891,7 +4434,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
         </div>
       </div>
       <div
-        class="emotion-60 deployments"
+        class="emotion-68 deployments"
       >
         <div
           class="dashboard flexbox column"

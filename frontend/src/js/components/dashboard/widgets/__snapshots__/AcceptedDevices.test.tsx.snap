@@ -1,6 +1,86 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`AcceptedDevices Component > renders correctly 1`] = `
+.emotion-0 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+}
+
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
+}
+
+.emotion-2 {
+  width: calc(100% + 12px);
+  margin-left: -6px;
+  border-radius: 4px;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+}
+
+.emotion-4 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-5 {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: 4px;
+  z-index: 0;
+  background-color: rgb(167, 202, 237);
+}
+
+@media print {
+  .emotion-5 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-6 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+  background-color: #1976d2;
+  -webkit-transition: -webkit-transform .4s linear;
+  transition: transform .4s linear;
+}
+
 <div
   class="widget "
 >
@@ -11,14 +91,80 @@ exports[`AcceptedDevices Component > renders correctly 1`] = `
       class="flexbox center-aligned"
     >
       Accepted devices 
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small green emotion-0"
+        data-testid="CheckCircleIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8z"
+        />
+      </svg>
     </div>
   </div>
   <div
-    class="flexbox column widgetMainContent"
+    class="widgetMainContent"
   >
     <div
-      class="counter"
-    />
+      class="full-width"
+    >
+      <h5
+        class="MuiTypography-root MuiTypography-h5 emotion-1"
+      >
+        250
+      </h5>
+      <div
+        class="flexbox column full-width margin-top-small"
+      >
+        <div
+          aria-label="0% used. To increase limits, go to Settings > Billing"
+          class="margin-bottom-x-small"
+          data-mui-internal-clone-element="true"
+        >
+          <div
+            class="flexbox column padding-x-small emotion-2  "
+          >
+            <div
+              class="flexbox full-width space-between"
+            >
+              <div
+                class="flexbox"
+              >
+                <h6
+                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-3"
+                >
+                  standard
+                </h6>
+              </div>
+              <p
+                class="MuiTypography-root MuiTypography-body2 emotion-4"
+              >
+                2
+                /500
+              </p>
+            </div>
+            <div
+              class="margin-top-x-small"
+            >
+              <span
+                aria-valuemax="100"
+                aria-valuemin="0"
+                aria-valuenow="0"
+                class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-5"
+                role="progressbar"
+              >
+                <span
+                  class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-6"
+                  style="transform: translateX(-100%);"
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

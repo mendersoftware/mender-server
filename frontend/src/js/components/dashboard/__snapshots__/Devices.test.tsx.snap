@@ -18,11 +18,74 @@ exports[`Devices Component > renders correctly 1`] = `
   font-size: 1.5rem;
 }
 
-.emotion-1.widget {
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
+}
+
+.emotion-2 {
+  width: calc(100% + 12px);
+  margin-left: -6px;
+  border-radius: 4px;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+}
+
+.emotion-4 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-5 {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: 4px;
+  z-index: 0;
+  background-color: rgb(167, 202, 237);
+}
+
+@media print {
+  .emotion-5 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-6 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+  background-color: #1976d2;
+  -webkit-transition: -webkit-transform .4s linear;
+  transition: transform .4s linear;
+}
+
+.emotion-7.widget {
   max-width: initial!important;
 }
 
-.emotion-1 .widgetMainContent {
+.emotion-7 .widgetMainContent {
   -webkit-column-gap: 16px;
   column-gap: 16px;
   display: -webkit-box;
@@ -35,19 +98,19 @@ exports[`Devices Component > renders correctly 1`] = `
   justify-content: space-evenly;
 }
 
-.emotion-2 {
+.emotion-8 {
   max-width: 6vh;
 }
 
-.emotion-2.red {
+.emotion-8.red {
   color: #9c27b0;
 }
 
-.emotion-2.green {
+.emotion-8.green {
   color: #1976d2;
 }
 
-.emotion-3 {
+.emotion-9 {
   border: 1px solid currentColor;
   border-radius: 50%;
   font-size: 2rem;
@@ -57,38 +120,38 @@ exports[`Devices Component > renders correctly 1`] = `
   max-height: 3em;
 }
 
-.emotion-4 {
+.emotion-10 {
   display: grid;
   place-content: center;
   width: 100%;
   height: 100%;
 }
 
-.emotion-5 {
+.emotion-11 {
   bottom: -8px;
   height: 20px;
   width: 100%;
 }
 
-.emotion-5>div {
+.emotion-11>div {
   display: grid;
   place-items: center;
   height: 100%;
   width: 100%;
 }
 
-.emotion-5>div>div {
+.emotion-11>div>div {
   background: currentColor;
   border-radius: 6px;
   height: 100%;
   width: 24px;
 }
 
-.emotion-5 svg {
+.emotion-11 svg {
   fill: #fff;
 }
 
-.emotion-6 {
+.emotion-12 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -105,7 +168,7 @@ exports[`Devices Component > renders correctly 1`] = `
   font-size: 1.25rem;
 }
 
-.emotion-7 {
+.emotion-13 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -163,53 +226,53 @@ exports[`Devices Component > renders correctly 1`] = `
   z-index: 1;
 }
 
-.emotion-7::-moz-focus-inner {
+.emotion-13::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-7.Mui-disabled {
+.emotion-13.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-7 {
+  .emotion-13 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-7:active {
+.emotion-13:active {
   box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12);
 }
 
-.emotion-7:hover {
+.emotion-13:hover {
   background-color: #f5f5f5;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 @media (hover: none) {
-  .emotion-7:hover {
+  .emotion-13:hover {
     background-color: #e0e0e0;
   }
 }
 
-.emotion-7.Mui-focusVisible {
+.emotion-13.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-7:hover {
+.emotion-13:hover {
   background-color: #1565c0;
 }
 
 @media (hover: none) {
-  .emotion-7:hover {
+  .emotion-13:hover {
     background-color: #1976d2;
   }
 }
 
-.emotion-7.Mui-disabled {
+.emotion-13.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
@@ -242,17 +305,70 @@ exports[`Devices Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox column widgetMainContent"
+      class="widgetMainContent"
     >
       <div
-        class="counter"
+        class="full-width"
       >
-        2
+        <h5
+          class="MuiTypography-root MuiTypography-h5 emotion-1"
+        >
+          2
+        </h5>
+        <div
+          class="flexbox column full-width margin-top-small"
+        >
+          <div
+            aria-label="0% used. To increase limits, go to Settings > Billing"
+            class="margin-bottom-x-small"
+            data-mui-internal-clone-element="true"
+          >
+            <div
+              class="flexbox column padding-x-small emotion-2  "
+            >
+              <div
+                class="flexbox full-width space-between"
+              >
+                <div
+                  class="flexbox"
+                >
+                  <h6
+                    class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-3"
+                  >
+                    standard
+                  </h6>
+                </div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 emotion-4"
+                >
+                  2
+                  /500
+                </p>
+              </div>
+              <div
+                class="margin-top-x-small"
+              >
+                <span
+                  aria-valuemax="100"
+                  aria-valuemin="0"
+                  aria-valuenow="0"
+                  class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-5"
+                  role="progressbar"
+                >
+                  <span
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-6"
+                    style="transform: translateX(-100%);"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <div
-    class="widget emotion-1"
+    class="widget emotion-7"
   >
     <div
       class="flexbox widgetHeader"
@@ -263,20 +379,20 @@ exports[`Devices Component > renders correctly 1`] = `
       class="widgetMainContent"
     >
       <a
-        class="flexbox center-aligned column emotion-2 green"
+        class="flexbox center-aligned column emotion-8 green"
         data-discover="true"
         href="/devices?issues=offline"
       >
         <div
-          class="relative emotion-3"
+          class="relative emotion-9"
         >
           <div
-            class="emotion-4"
+            class="emotion-10"
           >
             0
           </div>
           <div
-            class="absolute emotion-5"
+            class="absolute emotion-11"
           >
             <div
               class="relative"
@@ -286,7 +402,7 @@ exports[`Devices Component > renders correctly 1`] = `
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall absolute emotion-6"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall absolute emotion-12"
                 data-testid="WifiOffIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -310,7 +426,7 @@ exports[`Devices Component > renders correctly 1`] = `
     class="relative"
   >
     <a
-      class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-7"
+      class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-13"
       data-discover="true"
       href="/devices/pending"
       tabindex="0"

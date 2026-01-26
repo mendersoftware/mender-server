@@ -18,7 +18,7 @@ import AcceptedDevices from './AcceptedDevices';
 
 describe('AcceptedDevices Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<AcceptedDevices offlineThreshold={{ interval: 24, intervalUnit: 'hours' }} />);
+    const { baseElement } = render(<AcceptedDevices onClick={vi.fn} devicesCount={250} />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
