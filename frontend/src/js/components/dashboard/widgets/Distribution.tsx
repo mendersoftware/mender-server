@@ -127,11 +127,7 @@ const BarChart = ({ data, events }) => {
   );
 };
 
-const ChartContainer = ({ className, children, innerRef, style = {} }) => (
-  <div className={className} ref={innerRef} style={style}>
-    {children}
-  </div>
-);
+const ChartContainer = ({ className, children }) => <div className={className}>{children}</div>;
 
 const BarChartContainer = ({ classes = {}, data, events, ...remainder }) => (
   <ChartContainer className={classes.wrapper}>
@@ -142,21 +138,12 @@ const BarChartContainer = ({ classes = {}, data, events, ...remainder }) => (
 
 const PieChart = props => <VictoryPie {...props} padding={{ left: 0, right: 0, top: 0, bottom: 15 }} />;
 
-const padding = 10;
-const PieChartContainer = ({ classes = {}, ...chartProps }) => {
-  const ref = useRef();
-  let height;
-  if (ref.current) {
-    // use the widget height, remove the space the header takes up and account for widget padding (top + padding) + own padding for the chart
-    height = ref.current.parentElement.offsetHeight - ref.current.parentElement.children[0].offsetHeight - 3 * padding;
-  }
-  return (
-    <ChartContainer className={classes.wrapper} innerRef={ref} style={{ height }}>
-      <ChartLegend {...chartProps} classes={classes} />
-      {height && <PieChart {...chartProps} containerComponent={<VictoryContainer style={{ height }} />} />}
-    </ChartContainer>
-  );
-};
+const PieChartContainer = ({ classes = {}, ...chartProps }) => (
+  <ChartContainer className={classes.wrapper}>
+    <ChartLegend {...chartProps} classes={classes} />
+    <PieChart {...chartProps} containerComponent={<VictoryContainer />} />
+  </ChartContainer>
+);
 
 const VictoryBarChartContainer = ({ classes = {}, ...chartProps }) => (
   <ChartContainer className={classes.wrapper}>
