@@ -11,11 +11,12 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 const useStyles = makeStyles()(theme => ({
   border: {
-    borderBottom: `1px solid ${theme.palette.grey[50]}`,
+    borderBottom: `1px solid ${theme.palette.divider}`,
     span: {
       background: theme.palette.background.default
     }
@@ -31,9 +32,11 @@ const useStyles = makeStyles()(theme => ({
 const LinedHeader = ({ className = '', heading, innerStyle = {}, innerRef, style = {} }) => {
   const { classes } = useStyles();
   return (
-    <h4 className={`dashboard-header ${classes.border} ${className}`} ref={innerRef} style={style}>
-      <span style={innerStyle}>{heading}</span>
-    </h4>
+    <div className={`dashboard-header ${classes.border} ${className}`} ref={innerRef} style={style}>
+      <Typography variant="body2" style={innerStyle} component="span">
+        {heading}
+      </Typography>
+    </div>
   );
 };
 
