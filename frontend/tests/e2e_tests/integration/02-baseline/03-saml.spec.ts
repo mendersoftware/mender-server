@@ -36,7 +36,7 @@ let metadataLocation = '';
 
 test.describe('SAML Login via sso/id/login', () => {
   // Setups the SAML/SSO login with samltest.id Identity Provider
-  test('Set up SAML', async ({ browserName, environment, baseUrl, page, request }) => {
+  test('Set up SAML', async ({ environment, baseUrl, page, request }) => {
     test.skip(!isEnterpriseOrStaging(environment));
     // allow a lot of time to enter metadata + then some to handle uploading the config to the external service
     test.setTimeout(5 * timeouts.sixtySeconds + timeouts.fifteenSeconds);
@@ -58,13 +58,9 @@ test.describe('SAML Login via sso/id/login', () => {
       // Click text=input with the text editor
       await page.getByText('input with the text editor').click();
 
-      const textfield = await page.getByLabel(/editor content/i);
       const cleanedMetaData = metadata.replace(/(?:\r\n|\r|\n)/g, '');
-      if (browserName === 'firefox') {
-        await textfield.pressSequentially(cleanedMetaData);
-      } else {
-        await textfield.fill(cleanedMetaData);
-      }
+      await page.getByTestId('monaco-editor').click();
+      await page.keyboard.insertText(cleanedMetaData);
       console.log('typing metadata done.');
       // The screenshot saves the view of the typed metadata
       await page.screenshot({ 'path': './test-results/saml-edit-saving.png' });
