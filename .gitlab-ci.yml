@@ -405,6 +405,7 @@ test:backend:integration:
     when: always
     paths:
       - ${GOCOVERDIR}/integration
+      - backend/logs.*
       - backend/tests/integration/tests/logs.*
       - backend/tests/integration/tests/results_integration_*.xml
       - backend/tests/integration/tests/report_integration_*.html

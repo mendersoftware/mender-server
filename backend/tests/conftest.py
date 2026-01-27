@@ -30,9 +30,11 @@ def pytest_addoption(parser):
     parser.addoption(
         "--mender-url",
         action="store",
-        default=os.environ["TEST_MENDER_URL"]
-        if "TEST_MENDER_URL" in os.environ
-        else "https://docker.mender.io",
+        default=(
+            os.environ["TEST_MENDER_URL"]
+            if "TEST_MENDER_URL" in os.environ
+            else "https://traefik"
+        ),
         help="Address for host hosting deviceconnect API (env: TEST_MENDER_URL)",
     )
 
@@ -40,6 +42,7 @@ def pytest_addoption(parser):
 def pytest_configure(config: pytest.Config):
     mender_url = config.getoption("mender_url")
     client_config = Configuration(host=mender_url)
+    client_config.debug = True
     client_config.verify_ssl = False
     Configuration.set_default(client_config)
     ApiClient.set_default(ApiClient(client_config))
