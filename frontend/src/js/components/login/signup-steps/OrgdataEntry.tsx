@@ -63,6 +63,8 @@ const OrgDataContent = ({
       <TextInput
         controlRef={inputRef}
         id="name"
+        InputLabelProps={{ size: 'medium' }}
+        InputProps={{ size: 'medium' }}
         label="Your organization name"
         hint="Your organization name"
         required

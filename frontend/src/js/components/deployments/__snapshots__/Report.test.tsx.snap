@@ -266,13 +266,15 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </button>
           </div>
         </div>
-        <h4
-          class="dashboard-header css-hutgny-border css-zr8z23-header"
+        <div
+          class="dashboard-header css-ww9esm-border css-zr8z23-header"
         >
-          <span>
+          <span
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          >
             Status
           </span>
-        </h4>
+        </div>
         <div
           class="css-qfhcfv-progressStatus flexbox space-between centered margin-bottom "
         >
@@ -429,13 +431,15 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
         </div>
-        <h4
-          class="dashboard-header css-hutgny-border css-zr8z23-header"
+        <div
+          class="dashboard-header css-ww9esm-border css-zr8z23-header"
         >
-          <span>
+          <span
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          >
             Devices
           </span>
-        </h4>
+        </div>
         <table
           class="MuiTable-root margin-bottom css-taqie5-MuiTable-root-table"
         >
@@ -814,13 +818,15 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
         </div>
-        <h4
-          class="dashboard-header css-hutgny-border margin-top-large css-zr8z23-header"
+        <div
+          class="dashboard-header css-ww9esm-border margin-top-large css-zr8z23-header"
         >
-          <span>
+          <span
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          >
             Schedule details
           </span>
-        </h4>
+        </div>
         <div
           class="flexbox"
         >
@@ -1286,13 +1292,15 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </button>
           </div>
         </div>
-        <h4
-          class="dashboard-header css-hutgny-border css-zr8z23-header"
+        <div
+          class="dashboard-header css-ww9esm-border css-zr8z23-header"
         >
-          <span>
+          <span
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          >
             Status
           </span>
-        </h4>
+        </div>
         <div
           class="css-qfhcfv-progressStatus flexbox space-between centered margin-bottom "
         >
@@ -1448,13 +1456,15 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
         </div>
-        <h4
-          class="dashboard-header css-hutgny-border css-zr8z23-header"
+        <div
+          class="dashboard-header css-ww9esm-border css-zr8z23-header"
         >
-          <span>
+          <span
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          >
             Devices
           </span>
-        </h4>
+        </div>
         <table
           class="MuiTable-root margin-bottom css-taqie5-MuiTable-root-table"
         >
@@ -1820,13 +1830,15 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
         </div>
-        <h4
-          class="dashboard-header css-hutgny-border margin-top-large css-zr8z23-header"
+        <div
+          class="dashboard-header css-ww9esm-border margin-top-large css-zr8z23-header"
         >
-          <span>
+          <span
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          >
             Schedule details
           </span>
-        </h4>
+        </div>
         <div
           class="flexbox"
         >

@@ -43,22 +43,28 @@ export const UserDataEntry = ({ classes, onSubmit }) => {
     return trigger();
   };
 
+  const commonProps = {
+    InputLabelProps: { size: 'medium' },
+    InputProps: { size: 'medium' },
+    required: true
+  };
+
   return (
     <FormProvider {...methods}>
       <form className={classes.userData} noValidate onBlur={onFormBlur} onSubmit={handleSubmit(onSubmit)}>
         <h1 className="flexbox centered">Create your account</h1>
         <OAuthHeader type="Sign up" />
-        <TextInput hint="Email *" label="Email *" id="email" required={true} validations="isLength:1,isEmail,trim" />
+        <TextInput {...commonProps} hint="Email *" label="Email *" id="email" validations="isLength:1,isEmail,trim" />
         <PasswordInput
+          {...commonProps}
           id="password"
           label="Password *"
           validations={`isLength:8,isNot:${email}`}
           create={true}
           generate={false}
-          required={true}
           className="margin-bottom-small"
         />
-        <PasswordInput id="password_confirmation" label="Confirm password *" validations={`isLength:8,isNot:${email}`} required={true} />
+        <PasswordInput {...commonProps} id="password_confirmation" label="Confirm password *" validations={`isLength:8,isNot:${email}`} />
         <Button variant="contained" type="submit" disabled={isNotDefined}>
           Sign up
         </Button>

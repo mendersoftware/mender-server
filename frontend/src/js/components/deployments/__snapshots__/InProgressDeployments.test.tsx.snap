@@ -2,7 +2,7 @@
 
 exports[`InProgressDeployments Component > renders correctly 1`] = `
 .emotion-0 {
-  border-bottom: 1px solid #fafafa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .emotion-0 span {
@@ -10,10 +10,19 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
 }
 
 .emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-2 {
   white-space: initial;
 }
 
-.emotion-3 {
+.emotion-4 {
   background-color: #bdbdbd;
   padding: 10px 20px;
   border-radius: 4px;
@@ -24,67 +33,67 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
   min-height: 70px;
 }
 
-.emotion-3 .chart-container {
+.emotion-4 .chart-container {
   min-height: 70px;
 }
 
-.emotion-3 .progress-chart {
+.emotion-4 .progress-chart {
   min-height: 45px;
 }
 
-.emotion-3 .compact .progress-step,
-.emotion-3 .detailed .progress-step {
+.emotion-4 .compact .progress-step,
+.emotion-4 .detailed .progress-step {
   min-height: 45px;
 }
 
-.emotion-3 .progress-step,
-.emotion-3 .detailed .progress-step-total {
+.emotion-4 .progress-step,
+.emotion-4 .detailed .progress-step-total {
   position: absolute;
   border-right-style: none;
 }
 
-.emotion-3 .progress-step-total .progress-bar {
+.emotion-4 .progress-step-total .progress-bar {
   background-color: #fafafa;
 }
 
-.emotion-3 .progress-step-number {
+.emotion-4 .progress-step-number {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
   margin-top: -4px;
 }
 
-.emotion-3.minimal {
+.emotion-4.minimal {
   padding: initial;
 }
 
-.emotion-3.no-background {
+.emotion-4.no-background {
   background: none;
 }
 
-.emotion-3.stepped-progress .progress-step-total {
+.emotion-4.stepped-progress .progress-step-total {
   margin-left: -0.25%;
   width: 100.5%;
 }
 
-.emotion-3.stepped-progress .progress-step-total .progress-bar {
+.emotion-4.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
   border: 1px solid #424242;
   border-radius: 2px;
   height: 12px;
 }
 
-.emotion-3.stepped-progress .detailed .progress-step {
+.emotion-4.stepped-progress .detailed .progress-step {
   min-height: 20px;
 }
 
-.emotion-4 {
+.emotion-5 {
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-column-gap: 16px;
 }
 
-.emotion-4 .progress-chart.detailed {
+.emotion-5 .progress-chart.detailed {
   min-height: 20px;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -92,7 +101,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
   align-items: center;
 }
 
-.emotion-5 {
+.emotion-6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -153,57 +162,57 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
   text-transform: none;
 }
 
-.emotion-5::-moz-focus-inner {
+.emotion-6::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-5 {
+  .emotion-6 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-5:hover {
+.emotion-6:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-5:hover {
+.emotion-6:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-5:hover {
+  .emotion-6:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-5:active {
+.emotion-6:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-5.Mui-focusVisible {
+.emotion-6.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-5:hover {
+  .emotion-6:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -211,16 +220,16 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
   }
 }
 
-.emotion-5.MuiButton-loading {
+.emotion-6.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-5:hover {
+.emotion-6:hover {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-6 {
+.emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -268,42 +277,42 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
   font-size: 1.75rem;
 }
 
-.emotion-6::-moz-focus-inner {
+.emotion-7::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-7.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-6 {
+  .emotion-7 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-6:hover {
+.emotion-7:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-6:hover {
+  .emotion-7:hover {
     background-color: transparent;
   }
 }
 
-.emotion-6.Mui-disabled {
+.emotion-7.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-6.MuiIconButton-loading {
+.emotion-7.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-7 {
+.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -320,20 +329,20 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
   font-size: 1.5rem;
 }
 
-.emotion-8 {
+.emotion-9 {
   border-color: rgba(0, 0, 0, 0.06);
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-8 .dashboard-header span {
+.emotion-9 .dashboard-header span {
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-8 .MuiButtonBase-root {
+.emotion-9 .MuiButtonBase-root {
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-10 {
+.emotion-12 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -356,13 +365,15 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
   <div
     class="margin-left"
   >
-    <h4
+    <div
       class="dashboard-header emotion-0 margin-top-large  margin-right"
     >
-      <span>
+      <span
+        class="MuiTypography-root MuiTypography-body2 emotion-1"
+      >
         In progress now
       </span>
-    </h4>
+    </div>
     <div
       class="fadeIn deploy-table-contain "
     >
@@ -413,7 +424,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
               Release
             </span>
             <div
-              class="text-overflow emotion-1"
+              class="text-overflow emotion-2"
               title="r1"
             >
               r1
@@ -426,7 +437,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
               Target device(s)
             </span>
             <div
-              class="text-overflow emotion-1"
+              class="text-overflow emotion-2"
               title="test deployment"
             >
               test deployment
@@ -489,10 +500,10 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
               Status
             </span>
             <div
-              class="relative emotion-3  "
+              class="relative emotion-4  "
             >
               <div
-                class="emotion-4"
+                class="emotion-5"
               >
                 <div
                   class="progress-chart relative detailed"
@@ -546,7 +557,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-5"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-6"
             tabindex="0"
             type="button"
           >
@@ -554,14 +565,14 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
           </button>
           <button
             aria-label="Abort"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-6"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-7"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-7"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-8"
               data-testid="CancelOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -600,15 +611,17 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
     </div>
   </div>
   <div
-    class="deployments-pending margin-top margin-bottom-large emotion-8"
+    class="deployments-pending margin-top margin-bottom-large emotion-9"
   >
-    <h4
+    <div
       class="dashboard-header emotion-0 margin-small margin-top"
     >
-      <span>
+      <span
+        class="MuiTypography-root MuiTypography-body2 emotion-1"
+      >
         Pending
       </span>
-    </h4>
+    </div>
     <div
       class="fadeIn deploy-table-contain margin-left-small"
     >
@@ -739,7 +752,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-12"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -755,7 +768,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-5"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-6"
             tabindex="0"
             type="button"
           >
@@ -763,14 +776,14 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
           </button>
           <button
             aria-label="Abort"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-6"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge columnHeader emotion-7"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-7"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium cancelButton muted emotion-8"
               data-testid="CancelOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"
