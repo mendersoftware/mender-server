@@ -329,7 +329,7 @@ const createTenant = async (credentials, config, addons = [], options = '') => {
   const { name, password, user } = credentials;
   const tenantResult = await composeExec(
     'tenantadm',
-    `tenantadm create-org --name=${name} --username=${user} --password=${password} --device-limit=0 ${addons.map(addon => `--addon=${addon}`).join(' ')} ${options}`,
+    `tenantadm create-org --name=${name} --username=${user} --password=${password} --device-limit=-1 ${addons.map(addon => `--addon=${addon}`).join(' ')} ${options}`,
     config
   );
   return tenantResult.out.trim();
