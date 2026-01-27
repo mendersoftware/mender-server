@@ -65,6 +65,7 @@ export const PasswordInput = ({
   generate,
   id,
   InputLabelProps = {},
+  InputProps = {},
   label,
   onClear,
   placeholder,
@@ -183,6 +184,7 @@ export const PasswordInput = ({
                   </InputAdornment>
                 }
                 {...showAsNotched}
+                {...InputProps}
               />
               <FormHelperText>{(errors[errorKey] || error)?.message}</FormHelperText>
             </FormControl>

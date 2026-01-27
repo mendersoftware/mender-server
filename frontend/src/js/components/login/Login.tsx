@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ChevronRight } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
@@ -117,12 +117,21 @@ export const LocationWarning = () => {
 
 export const OAuthHeader = ({ buttonProps, type }) => (
   <>
-    <div className="flexbox centered margin-bottom">{type} with:</div>
+    <Typography variant="subtitle1" className="flexbox centered margin-bottom-small">
+      {type} with:
+    </Typography>
     <div className="flexbox centered">
       {OAuth2Providers.map(provider => {
         const props = buttonProps ? buttonProps : { href: `${useradmApiUrl}/oauth2/${provider.id}` };
         return (
-          <Button className="oauth-provider" variant="contained" key={provider.id} startIcon={provider.icon} {...props}>
+          <Button
+            className="margin-left-x-small margin-right-x-small"
+            variant="outlined"
+            color="neutral"
+            key={provider.id}
+            startIcon={provider.icon}
+            {...props}
+          >
             {provider.name}
           </Button>
         );
@@ -182,7 +191,9 @@ export const Login = () => {
         <div className={`flexbox column centered ${classes.reset}`}>
           <LoginLogo alt="mender-logo" id="login-logo" className="margin-bottom" />
           <div className="flexbox column" id="login-box">
-            <h1 className="flexbox centered">Welcome back!</h1>
+            <Typography className="flexbox centered margin-top margin-bottom-small" variant="h5">
+              Welcome back!
+            </Typography>
             {isHosted && <OAuthHeader type="Log in" buttonProps={{ onClick: onOAuthClick }} />}
             <LoginForm isEnterprise={isEnterprise} isHosted={isHosted} onSubmit={onLoginClick} />
           </div>

@@ -117,7 +117,6 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           id="email"
           required
           validations="isLength:1,isEmail,trim"
-          InputLabelProps={{ size: 'medium' }}
           InputProps={{
             endAdornment: emailEditingDisabled ? (
               <InputAdornment position="end">
@@ -129,7 +128,7 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
           }}
         />
         <Collapse className={showPassword ? '' : classes.gapRemover} in={showPassword} onEntering={onShowPassword} timeout={isOsInstallation ? 0 : 'auto'}>
-          <PasswordInput className={classes.passwordWrapper} id="password" InputLabelProps={{ size: 'medium' }} label="Password" required={isOsInstallation} />
+          <PasswordInput className={classes.passwordWrapper} id="password" label="Password" required={isOsInstallation} />
         </Collapse>
         {isHosted && (
           <div>
