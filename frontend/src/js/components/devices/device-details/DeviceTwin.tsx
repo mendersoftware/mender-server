@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { CheckCircleOutlined, CloudUploadOutlined as CloudUpload, Refresh as RefreshIcon } from '@mui/icons-material';
@@ -25,6 +25,7 @@ import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeviceTwin, setDeviceTwin } from '@northern.tech/store/thunks';
+import { getIsDarkMode } from '@northern.tech/store/usersSlice/selectors';
 import { deepCompare, isEmpty } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
@@ -151,6 +152,7 @@ export const DeviceTwin = ({ device, integration }) => {
   const editorRef = useRef(null);
   const { classes } = useStyles();
   const dispatch = useDispatch();
+  const isDarkMode = useSelector(getIsDarkMode);
 
   const externalProvider = EXTERNAL_PROVIDER[integration.provider];
   const { [integration.id]: deviceTwin = {} } = device.twinsByIntegration ?? {};
@@ -268,6 +270,7 @@ export const DeviceTwin = ({ device, integration }) => {
                 }}
                 className="editor modified"
                 onMount={handleEditorDidMount}
+                theme={isDarkMode ? 'vs-dark' : 'light'}
                 value={reported || configured}
                 onChange={setUpdated}
               />
