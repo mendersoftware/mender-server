@@ -268,7 +268,7 @@ paths:
               type: array
               description: A list of attribute descriptors.
               items:
-                $ref: './schemas.yaml#/components/schemas/Attribute'
+                $ref: './schemas.yaml#/components/schemas/AttributeV2'
         required: true
       responses:
         "200":

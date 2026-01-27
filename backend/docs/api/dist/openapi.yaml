@@ -4704,7 +4704,7 @@ paths:
               type: array
               description: A list of attribute descriptors.
               items:
-                $ref: '#/components/schemas/Attribute'
+                $ref: '#/components/schemas/AttributeV2'
         required: true
       responses:
         '200':
@@ -9421,6 +9421,45 @@ components:
         groups:
           - test
           - production
+    AttributeV2:
+      description: Attribute descriptor with scope (v2 APIs).
+      example:
+        name: serial_no
+        scope: inventory
+        description: Serial number
+        value: '123456789'
+      required:
+        - name
+        - scope
+        - value
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+        scope:
+          $ref: '#/components/schemas/Scope'
+        description:
+          type: string
+          description: Attribute description.
+        value:
+          oneOf:
+            - type: string
+            - type: number
+            - type: array
+              items:
+                type: string
+            - type: array
+              items:
+                type: number
+          description: |
+            The current value of the attribute.
+
+            Attribute type is implicit, inferred from the JSON type.
+
+            Supported types: number, string, array of numbers, array of strings.
+            Mixed arrays are not allowed.
     DeviceInventory:
       type: object
       properties:
@@ -9530,45 +9569,6 @@ components:
           enum:
             - asc
             - desc
-    AttributeV2:
-      description: Attribute descriptor with scope (v2 APIs).
-      example:
-        name: serial_no
-        scope: inventory
-        description: Serial number
-        value: '123456789'
-      required:
-        - name
-        - scope
-        - value
-      type: object
-      properties:
-        name:
-          type: string
-          description: |
-            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
-        scope:
-          $ref: '#/components/schemas/Scope'
-        description:
-          type: string
-          description: Attribute description.
-        value:
-          oneOf:
-            - type: string
-            - type: number
-            - type: array
-              items:
-                type: string
-            - type: array
-              items:
-                type: number
-          description: |
-            The current value of the attribute.
-
-            Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
-            Mixed arrays are not allowed.
     AttributeV1:
       required:
         - name
