@@ -147,6 +147,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
           readOnly: hasSSOConfig && !isEditing
         }}
         className="editor modified"
+        wrapperProps={{ 'data-testid': 'monaco-editor' }}
         onChange={setFileContent}
         onMount={handleEditorDidMount}
         value={fileContent}

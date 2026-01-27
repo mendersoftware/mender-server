@@ -392,6 +392,7 @@ exports[`SSOEditor Component > renders correctly 1`] = `
         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light emotion-8"
       />
       <section
+        data-testid="monaco-editor"
         style="display: flex; position: relative; text-align: initial; width: 100%; height: 700px;"
       >
         <div
