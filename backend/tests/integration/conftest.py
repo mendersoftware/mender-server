@@ -17,10 +17,24 @@ from urllib.parse import urlparse
 
 import pytest
 
+from mender_client import ApiClient
 from testutils.infra.mongo import MongoClient
 from testutils.common import wait_until_healthy
 from testutils.infra.container_manager.kubernetes_manager import isK8S
 from testutils.api.client import get_free_tcp_port, wait_for_port
+
+original_deserialize = ApiClient.deserialize
+
+
+def new_deserialize(self, response_text, response_type, content_type):
+    # the generated client does not support the application/jwt content type
+    if content_type == "application/jwt":
+        return response_text
+    return original_deserialize(self, response_text, response_type, content_type)
+
+
+ApiClient.deserialize = new_deserialize
+
 
 wait_until_healthy("backend-tests")
 
