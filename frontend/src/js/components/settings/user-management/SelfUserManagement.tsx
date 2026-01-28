@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Alert, Button, Chip, TextField, Typography } from '@mui/material';
@@ -27,7 +27,7 @@ import storeActions from '@northern.tech/store/actions';
 import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { editUser, saveUserSettings, verifyEmailStart } from '@northern.tech/store/thunks';
+import { editUser, saveUserSettings, verifyEmailComplete, verifyEmailStart } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import AccessTokenManagement from '../AccessTokenManagement';
@@ -62,6 +62,7 @@ export const SelfUserManagement = () => {
   const canHave2FA = isEnterprise || isHosted;
   const currentUser = useSelector(getCurrentUser);
   const { isOAuth2, provider } = getUserSSOState(currentUser);
+  const activationCode = useSelector(state => state.users.activationCode);
   const { email, id: userId } = currentUser;
   const hasTracking = useSelector(state => !!state.app.trackerCode);
   const { trackingConsentGiven: hasTrackingConsent } = useSelector(getUserSettings);
@@ -95,6 +96,16 @@ export const SelfUserManagement = () => {
       .then(() => setConfirmationShown(true));
   };
   const handlePass = () => setEditPass(toggle);
+  useEffect(() => {
+    if (activationCode) {
+      dispatch(verifyEmailComplete(activationCode))
+        .unwrap()
+        .catch(() => {
+          // error already handled in thunk
+        })
+        .then(() => setShowNotice(notificationMap.email));
+    }
+  }, [activationCode, dispatch, setShowNotice]);
 
   const needsVerification = currentUser.email && !currentUser.verified;
   return (
@@ -105,7 +116,7 @@ export const SelfUserManagement = () => {
           Enhance your account security. We recommend you complete these essential steps:{' '}
           <ul className="margin-none padding-left">
             <li>Verify your email</li>
-            <li>Enable two-factor authentication (2FA)</li>
+            {!isOAuth2 && <li>Enable two-factor authentication (2FA)</li>}
           </ul>
         </Alert>
       )}
