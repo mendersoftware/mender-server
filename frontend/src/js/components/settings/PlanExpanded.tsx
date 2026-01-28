@@ -59,7 +59,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-const emptyAddress: Address = { city: '', country: '', line1: '', postal_code: '', state: '' };
+const emptyAddress: Address = { city: '', country: '', line1: '', postal_code: '' };
 
 const successMessage = (plan: string) =>
   `Thank you! You have successfully subscribed to the ${plan} plan.  You can view and edit your billing details on the Organization and billing page.`;
@@ -82,11 +82,11 @@ export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
   };
   const initialValues = isEdit
     ? { ...(props.currentBillingProfile.address || emptyAddress), name: props.currentBillingProfile.name, email: props.currentBillingProfile.email }
-    : { email, name: organization?.name || '', line1: '', state: '', city: '', postal_code: '', country: '' };
+    : { email, name: organization?.name || '', line1: '',  city: '', postal_code: '', country: '' };
   const handleSubmit = async values => {
-    const { email, name, state, city, line1, postal_code } = values;
+    const { email, name, city, line1, postal_code } = values;
     const code: string = values.country.code ? values.country.code : values.country;
-    const billing_profile = { email, name, address: { country: code, state, city, line1, postal_code } };
+    const billing_profile = { email, name, address: { country: code, city, line1, postal_code } };
     if (isEdit) {
       await dispatch(editBillingProfile({ billingProfile: billing_profile }));
     } else {

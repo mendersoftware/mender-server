@@ -36,7 +36,6 @@ const preloadedState = {
           city: 'test City',
           line1: 'Test address',
           postal_code: '1234',
-          state: 'test State'
         },
         shipping: {
           name: 'Test account',
@@ -45,7 +44,6 @@ const preloadedState = {
             city: 'test City',
             line1: 'Test address',
             postal_code: '1234',
-            state: 'test State'
           }
         }
       }
@@ -65,7 +63,6 @@ const editProfileActionParams = {
       country: 'PL',
       line1: 'Blindernveien',
       postal_code: '5678',
-      state: 'Oslo'
     },
     email: 'ok@ok.ok',
     name: 'Test account'
@@ -90,16 +87,13 @@ describe('Billing Component', () => {
     const input = screen.getByLabelText<HTMLInputElement>('Country or region');
 
     const addressInput = screen.getByRole('textbox', { name: /address line 1/i });
-    const stateInput = screen.getByRole('textbox', { name: /state/i });
     const cityInput = screen.getByRole('textbox', { name: /city/i });
     const zipInput = screen.getByRole('textbox', { name: /zip or postal code/i });
     await user.clear(addressInput);
-    await user.clear(stateInput);
     await user.clear(cityInput);
     await user.clear(zipInput);
 
     await user.type(addressInput, 'Blindernveien');
-    await user.type(stateInput, 'Oslo');
     await user.type(cityInput, 'Oslo');
     await act(async () => await user.type(zipInput, '5678'));
     const countryAutoComplete = screen.getByRole('combobox', { name: /country/i });
