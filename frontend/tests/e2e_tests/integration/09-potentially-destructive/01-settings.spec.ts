@@ -255,8 +255,7 @@ test.describe('Settings', () => {
     });
     test('allows higher device limits once upgraded', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username });
-      await page.waitForSelector(`css=#limit >> text=350`, { timeout: timeouts.default });
-      await expect(page.locator(`css=#limit >> text=350`)).toBeVisible();
+      await expect(page.getByTestId('device-limit-standard')).toContainText('1/350')
       const token = await tenantTokenRetrieval(baseUrl, page);
       await startClient(baseUrl, token, 50);
       await page.goto(`${baseUrl}ui/devices`);

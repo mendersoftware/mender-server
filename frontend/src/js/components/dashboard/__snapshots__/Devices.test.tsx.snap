@@ -340,6 +340,7 @@ exports[`Devices Component > renders correctly 1`] = `
                 </div>
                 <p
                   class="MuiTypography-root MuiTypography-body2 emotion-4"
+                  data-testid="device-limit-standard"
                 >
                   2
                   /500
