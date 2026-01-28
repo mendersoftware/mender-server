@@ -22,16 +22,14 @@ import storeActions from '@northern.tech/store/actions';
 import { twoFAStates } from '@northern.tech/store/constants';
 import { getCurrentUser, getHas2FA } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { disableUser2fa, enableUser2fa, get2FAQRCode, verify2FA, verifyEmailComplete, verifyEmailStart } from '@northern.tech/store/thunks';
+import { disableUser2fa, enableUser2fa, get2FAQRCode, verify2FA, verifyEmailStart } from '@northern.tech/store/thunks';
 
 import AuthSetup from './twofactorauth-steps/AuthSetup';
 import EmailVerification from './twofactorauth-steps/EmailVerification';
-import { notificationMap } from './SelfUserManagement';
 
 const { setSnackbar } = storeActions;
 
 export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
-  const activationCode = useSelector(state => state.users.activationCode);
   const currentUser = useSelector(getCurrentUser);
   const has2FA = useSelector(getHas2FA);
   const qrImage = useSelector(state => state.users.qrCode);
@@ -47,19 +45,6 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
       setQrExpanded(true);
     }
   }, [currentUser.email, currentUser.verified, is2FAEnabled, has2FA]);
-
-  useEffect(() => {
-    if (activationCode) {
-      setIs2FAEnabled(true);
-      dispatch(verifyEmailComplete(activationCode)).unwrap()
-        .catch(() => {
-          setShowEmailVerification(true);
-          setQrExpanded(false);
-        })
-        .then(() => setShowNotice(notificationMap.email))
-
-    }
-  }, [activationCode, dispatch, setShowNotice]);
 
   useEffect(() => {
     if (has2FA) {
