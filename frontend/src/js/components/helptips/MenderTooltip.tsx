@@ -129,7 +129,6 @@ export const HelpTooltip = ({
   icon = undefined,
   id,
   className = '',
-  contentProps = {},
   tooltip,
   device,
   setAllTooltipsReadState,
@@ -152,12 +151,12 @@ export const HelpTooltip = ({
   const onReadAllClick = () => setAllTooltipsReadState({ readState: READ_STATES.read, tooltipIds: Object.keys(HELPTOOLTIPS) });
 
   const title = SpecialComponent ? (
-    <SpecialComponent device={device} {...contentProps} />
+    <SpecialComponent device={device} />
   ) : (
-    <TooltipWrapper className={classes.contentWrapper} content={<Component device={device} {...contentProps} />} onClose={() => setIsOpen(false)} onReadAll={onReadAllClick} />
+    <TooltipWrapper className={classes.contentWrapper} content={<Component device={device} />} onClose={() => setIsOpen(false)} onReadAll={onReadAllClick} />
   );
 
-  if (!isRelevant({ device, ...contentProps })) {
+  if (!isRelevant({ device })) {
     return null;
   }
 
@@ -178,15 +177,15 @@ export const HelpTooltip = ({
 };
 
 type MenderHelpTooltipProps = {
-  contentProps?: Record<string, unknown>;
+  deviceId?: string;
   id: string;
 } & Omit<HelpTooltipProps, 'setAllTooltipsReadState' | 'setTooltipReadState' | 'tooltip'>;
 
 export const MenderHelpTooltip = (props: MenderHelpTooltipProps) => {
-  const { id, contentProps = {} } = props;
+  const { id, deviceId } = props;
   const tooltipsById = useSelector(getTooltipsState);
   const dispatch = useDispatch();
-  const device = useSelector(state => getDeviceById(state, contentProps.deviceId));
+  const device = useSelector(state => getDeviceById(state, deviceId));
   const { readState = READ_STATES.unread } = tooltipsById[id] || {};
   const { Component, SpecialComponent, isRelevant = yes } = HELPTOOLTIPS[id];
 
