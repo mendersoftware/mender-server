@@ -534,6 +534,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
             </div>
             <p
               class="MuiTypography-root MuiTypography-body2 emotion-7"
+              data-testid="device-limit-standard"
             >
               100
               /250

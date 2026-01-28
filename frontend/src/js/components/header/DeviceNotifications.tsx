@@ -90,7 +90,7 @@ export const DeviceLimit = (props: DeviceLimitProps) => {
           {warning && <WarningAmberIcon fontSize="small" color="warning" className="margin-left-x-small" />}
           {error && <ErrorOutlineIcon fontSize="small" color="error" className="margin-left-x-small" />}
         </div>
-        <Typography variant="body2">
+        <Typography variant="body2" data-testid={`device-limit-${type}`}>
           {total.toLocaleString(numberLocale)}
           {!unlimited && `/${limit.toLocaleString(numberLocale)}`}
         </Typography>
