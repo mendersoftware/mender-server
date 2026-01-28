@@ -79,19 +79,27 @@ export const AttributeAutoComplete = ({ attributes, disabled = false, filter = e
     setKey(emptyFilter.key);
     setScope(emptyFilter.scope);
     const attributesClean = attributes.map(attr => {
-      if (!attr.category && attr.scope) {
-        attr.category = attr.scope;
+      if (!attr.category) {
+        attr.category = attr.scope || '';
       }
       return attr;
     });
+    const categoryPriorities = attributesClean.reduce((accu, { category, priority }) => {
+      if (!accu[category]) {
+        accu[category] = priority;
+      }
+      return accu;
+    }, {});
     setOptions(
-      attributesClean.sort((a, b) =>
-        a.category == b.category
-          ? a.priority == b.priority
-            ? (a.key || '').localeCompare(b.key || '', { sensitivity: 'case' })
-            : a.priority - b.priority
-          : (a.category || '').localeCompare(b.category || '', { sensitivity: 'case' })
-      )
+      attributesClean.sort((a, b) => {
+        const aCategoryPriority = categoryPriorities[a.category] ?? Infinity;
+        const bCategoryPriority = categoryPriorities[b.category] ?? Infinity;
+        return aCategoryPriority !== bCategoryPriority
+          ? aCategoryPriority - bCategoryPriority
+          : a.category !== b.category
+            ? a.category.localeCompare(b.category)
+            : (a.key || '').localeCompare(b.key || '');
+      })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attributes.length, reset]);
