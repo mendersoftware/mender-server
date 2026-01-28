@@ -27,7 +27,8 @@ from common import (
     migrate,
     make_auth,
 )
-import bravado
+import internal_v1
+import management_v1
 import pytest
 
 
@@ -37,7 +38,7 @@ class TestManagementApiPostUsersBase:
         if tenant_id is not None:
             auth = make_auth("foo", tenant_id)
 
-        _, r = api_client_mgmt.create_user(new_user, auth)
+        r = api_client_mgmt.create_user(new_user, auth)
         assert r.status_code == 201
 
         users = api_client_mgmt.get_users(auth)
@@ -56,8 +57,8 @@ class TestManagementApiPostUsersBase:
 
         try:
             api_client_mgmt.create_user(new_user, auth)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 422
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 422
 
 
 class TestManagementApiPostUsers(TestManagementApiPostUsersBase):
@@ -69,36 +70,36 @@ class TestManagementApiPostUsers(TestManagementApiPostUsersBase):
         new_user = {"foo": "bar"}
         try:
             api_client_mgmt.create_user(new_user)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 400
 
     def test_fail_no_password(self, api_client_mgmt):
         new_user = {"email": "foobar"}
         try:
             api_client_mgmt.create_user(new_user)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 400
 
     def test_fail_no_email(self, api_client_mgmt):
         new_user = {"password": "asdf1234zxcv"}
         try:
             api_client_mgmt.create_user(new_user)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 400
 
     def test_fail_not_an_email(self, api_client_mgmt):
         new_user = {"email": "foobar", "password": "asdf1234zxcv"}
         try:
             api_client_mgmt.create_user(new_user)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 400
 
     def test_fail_pwd_too_short(self, api_client_mgmt):
         new_user = {"email": "foo@bar.com", "password": "asdf"}
         try:
             api_client_mgmt.create_user(new_user)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 422
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 422
 
     def test_fail_duplicate_email(self, api_client_mgmt, init_users):
         new_user = {"email": "foo@bar.com", "password": "asdf"}
@@ -125,8 +126,8 @@ class TestManagementApiGetUserBase:
 
         try:
             not_found = api_client_mgmt.get_user("madeupid", auth)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 404
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 404
 
 
 class TestManagementApiGetUser(TestManagementApiGetUserBase):
@@ -171,13 +172,13 @@ class TestManagementApiDeleteUserBase:
         if tenant_id is not None:
             auth = make_auth("foo", tenant_id)
 
-        rsp = api_client_mgmt.delete_user(init_users[0]["id"], auth)
+        rsp = api_client_mgmt.delete_user(init_users[0].id, auth)
         assert rsp.status_code == 204
 
         users = api_client_mgmt.get_users(auth)
         assert len(users) == len(init_users) - 1
 
-        found = [u for u in users if u.id == init_users[0]["id"]]
+        found = [u for u in users if u.id == init_users[0].id]
         assert len(found) == 0
 
     def _do_test_not_found(self, api_client_mgmt, tenant_id=None):
@@ -201,7 +202,7 @@ class TestManagementApiPutUserBase:
     def _do_test_ok_email(
         self, api_client_mgmt, init_users, user, user_to_update, update, tenant_id=None
     ):
-        _, r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
         assert r.status_code == 200
         token = r.text
         auth = {"Authorization": "Bearer " + token}
@@ -210,7 +211,7 @@ class TestManagementApiPutUserBase:
             user_to_update.id = "me"
 
         # test update
-        _, r = api_client_mgmt.update_user(user_to_update.id, update, auth)
+        r = api_client_mgmt.update_user(user_to_update.id, update, auth)
         assert r.status_code == 204
 
         # get/verify users
@@ -223,7 +224,7 @@ class TestManagementApiPutUserBase:
     def _do_test_ok_email_or_pass(
         self, api_client_mgmt, init_users, user, user_to_update, update, tenant_id=None
     ):
-        _, r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
         assert r.status_code == 200
         token = r.text
         auth = {"Authorization": "Bearer " + token}
@@ -232,7 +233,7 @@ class TestManagementApiPutUserBase:
             user_to_update.id = "me"
 
         # test update
-        _, r = api_client_mgmt.update_user(user_to_update.id, update, auth)
+        r = api_client_mgmt.update_user(user_to_update.id, update, auth)
         assert r.status_code == 204
 
         # get/verify users
@@ -249,41 +250,41 @@ class TestManagementApiPutUserBase:
         assert found.email == email
 
         # try if login still works
-        _, r = api_client_mgmt.login(email, update["password"])
+        r = api_client_mgmt.login(email, update["password"])
 
         assert r.status_code == 200
 
     def _do_test_fail_not_found(
         self, api_client_mgmt, init_users, update, tenant_id=None
     ):
-        _, r = api_client_mgmt.login(init_users[0].email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(init_users[0].email, "correcthorsebatterystaple")
         assert r.status_code == 200
         token = r.text
         auth = {"Authorization": "Bearer " + token}
 
         try:
-            _, r = api_client_mgmt.update_user("madeupid", update, auth)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 404
+            r = api_client_mgmt.update_user("madeupid", update, auth)
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 404
 
     def _do_test_fail_bad_update(self, api_client_mgmt, init_users, tenant_id=None):
         try:
-            _, r = api_client_mgmt.update_user(init_users[0].id, {"foo": "bar"})
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+            r = api_client_mgmt.update_user(init_users[0].id, {"foo": "bar"})
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 400
 
     def _do_test_fail_unprocessable_entity(
         self, api_client_mgmt, init_users, user, user_to_update, update, tenant_id=None
     ):
-        _, r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(user.email, "correcthorsebatterystaple")
         assert r.status_code == 200
         token = r.text
         auth = {"Authorization": "Bearer " + token}
 
         try:
-            _, r = api_client_mgmt.update_user(user_to_update.id, update, auth)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 422
+            r = api_client_mgmt.update_user(user_to_update.id, update, auth)
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 422
 
 
 class TestManagementApiPutUser(TestManagementApiPutUserBase):
@@ -358,27 +359,27 @@ class TestManagementApiPutUser(TestManagementApiPutUserBase):
             "email": "unique1@foo.com",
             "current_password": "correcthorsebatterystaple",
         }
-        _, r = api_client_mgmt.login(users[0].email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(users[0].email, "correcthorsebatterystaple")
         assert r.status_code == 200
         token_one = r.text
         auth = {"Authorization": "Bearer " + token_one}
 
-        _, r = api_client_mgmt.login(users[1].email, "correcthorsebatterystaple")
+        r = api_client_mgmt.login(users[1].email, "correcthorsebatterystaple")
         assert r.status_code == 200
         token_two = r.text
-        _, r = api_client_int.verify(token_two)
+        r = api_client_int.verify(token_two)
         assert r.status_code == 200
 
         # test update
-        _, r = api_client_mgmt.update_user(users[1].id, update, auth)
+        r = api_client_mgmt.update_user(users[1].id, update, auth)
         assert r.status_code == 204
 
         # verify tokens
-        _, r = api_client_int.verify(token_one)
+        r = api_client_int.verify(token_one)
         assert r.status_code == 200
-        with pytest.raises(bravado.exception.HTTPError) as excinfo:
-            _, r = api_client_int.verify(token_two)
-            assert excinfo.value.response.status_code == 401
+        with pytest.raises(internal_v1.exceptions.ApiException) as excinfo:
+            r = api_client_int.verify(token_two)
+            assert excinfo.value.status == 401
 
 
 class TestManagementApiSettingsBase:
@@ -417,8 +418,8 @@ class TestManagementApiSettingsBase:
 
         try:
             r = api_client_mgmt.post_settings("asdf", auth)
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+        except management_v1.exceptions.ApiException as e:
+            assert e.status == 400
 
 
 class TestManagementApiSettings(TestManagementApiSettingsBase):
