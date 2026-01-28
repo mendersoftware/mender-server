@@ -65,6 +65,7 @@ const useStyles = makeStyles()(theme => ({
   },
   issueType: {
     maxWidth: '6vh',
+    textDecoration: 'none',
     ['&.red']: { color: theme.palette.secondary.main },
     ['&.green']: { color: theme.palette.primary.main }
   },
