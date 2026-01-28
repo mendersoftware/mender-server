@@ -15,16 +15,25 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { makeStyles } from 'tss-react/mui';
+
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import { passwordResetComplete } from '@northern.tech/store/thunks';
 
 import { PasswordScreenContainer } from './Password';
 
+const useStyles = makeStyles()(() => ({
+  buttonWrapper: {
+    button: { width: '100%' }
+  }
+}));
+
 export const PasswordReset = () => {
   const [confirm, setConfirm] = useState(false);
   const { secretHash } = useParams();
   const dispatch = useDispatch();
+  const { classes } = useStyles();
 
   const handleSubmit = formData =>
     dispatch(passwordResetComplete({ secretHash, newPassword: formData.password }))
@@ -37,14 +46,14 @@ export const PasswordReset = () => {
         <p className="margin-bottom align-center">Your password has been updated.</p>
       ) : (
         <>
-          <p className="margin-bottom align-center">
+          <p className="margin-bottom">
             You requested to change your password.
             <br />
             Enter a new, secure password of your choice below.
           </p>
-          <Form showButtons={true} onSubmit={handleSubmit} submitLabel="Save password">
+          <Form classes={classes} showButtons={true} onSubmit={handleSubmit} submitLabel="Save password">
             <PasswordInput id="password" label="Password *" validations="isLength:8" create={true} generate={false} required={true} />
-            <PasswordInput id="password_confirmation" label="Confirm password *" validations="isLength:8" required={true} />
+            <PasswordInput className="margin-top-small" id="password_confirmation" label="Confirm password *" validations="isLength:8" required={true} />
           </Form>
         </>
       )}
