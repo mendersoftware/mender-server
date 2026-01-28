@@ -32,8 +32,7 @@ const useStyles = makeStyles()((theme: Theme) => ({
   alert: { fontWeight: theme.typography.fontWeightMedium },
   gapRemover: { marginTop: theme.spacing(-1.5) },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(1.5), position: 'relative', '.required:after': { content: 'none' } },
-  passwordWrapper: { '.password-wrapper': { gridTemplateColumns: '1fr' } },
-  tfaNote: { maxWidth: 300 }
+  passwordWrapper: { '.password-wrapper': { gridTemplateColumns: '1fr' } }
 }));
 
 interface LoginFormState {
@@ -156,7 +155,6 @@ export const LoginForm = ({ isHosted, isEnterprise, onSubmit }) => {
             placement="right"
             className="absolute"
             style={{ top: twoFARef.current.parentElement.parentElement.offsetTop + twoFARef.current.parentElement.parentElement.offsetHeight / 4, right: -35 }}
-            contentProps={{ className: classes.tfaNote }}
           />
         )}
       </form>
