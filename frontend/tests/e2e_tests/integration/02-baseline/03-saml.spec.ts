@@ -152,6 +152,7 @@ test.describe('SAML Login via sso/id/login', () => {
     await samlPage.getByLabel(/E-Mail Address/i).fill(samlSettings.credentials[browserName]);
     await samlPage.getByRole('button', { name: /sign in/i }).click();
     // confirm we have logged in successfully
+    await samlPage.waitForTimeout(timeouts.default);
     await samlPage.screenshot({ path: './test-results/saml-logging-in-accept.png' });
     await isLoggedIn(samlPage);
     idpServer.close();
