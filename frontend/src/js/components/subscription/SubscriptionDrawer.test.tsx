@@ -168,7 +168,7 @@ describe('Subscription Summary component', () => {
 
     expect(input.value).toEqual('Poland');
 
-    await act(async () => await user.click(screen.getByRole('button', { name: /Save Billing details/i })));
+    await act(async () => await user.click(screen.getByRole('button', { name: /Save billing details/i })));
 
     await waitFor(() => expect(createBillingProfile).toHaveBeenCalledWith(createBillingProfileReq));
   });
