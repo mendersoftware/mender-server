@@ -48,7 +48,7 @@ tests/mender_client: $(COMBINED_SPEC)
 	docker run --rm -t -v $(MAKEDIR):/work -w /work \
 		--ulimit nofile=65536:65536 \
 		-u $(shell id -u):$(shell id -g) \
-		openapitools/openapi-generator-cli:v7.17.0 generate \
+		openapitools/openapi-generator-cli:v7.19.0 generate \
 		-g python -i $< \
 		-c $(dir $@).openapi-generator.yaml \
 		-o $(dir $@)
