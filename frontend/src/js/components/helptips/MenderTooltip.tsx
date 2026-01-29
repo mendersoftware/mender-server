@@ -16,7 +16,7 @@ import type { ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Help as HelpIcon } from '@mui/icons-material';
-import { Tooltip } from '@mui/material';
+import { Button, Tooltip, Typography } from '@mui/material';
 import { makeStyles, withStyles } from 'tss-react/mui';
 
 import { MenderTooltipClickable, MenderTooltipClickableProps } from '@northern.tech/common-ui/helptips/MenderTooltip';
@@ -31,6 +31,9 @@ import type { HelpTooltipComponent } from './HelpTooltips';
 import { HELPTOOLTIPS } from './HelpTooltips';
 
 const useStyles = makeStyles()(theme => ({
+  contentWrapper: {
+    width: 350
+  },
   icon: {
     '&.read': {
       color: theme.palette.text.disabled
@@ -87,21 +90,24 @@ const tooltipStateStyleMap = {
 };
 
 interface TooltipWrapperProps {
+  className: string;
   content: ReactNode;
   onClose: () => void;
   onReadAll: () => void;
 }
 
-const TooltipWrapper = ({ content, onClose, onReadAll }: TooltipWrapperProps) => (
-  <div>
-    {content}
+const TooltipWrapper = ({ className, content, onClose, onReadAll }: TooltipWrapperProps) => (
+  <div className={className}>
+    <Typography variant="body2" component="div">
+      {content}
+    </Typography>
     <div className="flexbox space-between margin-top-small">
-      <span className="link" onClick={onReadAll}>
+      <Button size="small" variant="text" onClick={onReadAll}>
         Mark all help tips as read
-      </span>
-      <span className="link" onClick={onClose}>
+      </Button>
+      <Button size="small" variant="text" color="inherit" onClick={onClose}>
         Close
-      </span>
+      </Button>
     </div>
   </div>
 );
@@ -123,7 +129,6 @@ export const HelpTooltip = ({
   icon = undefined,
   id,
   className = '',
-  contentProps = {},
   tooltip,
   device,
   setAllTooltipsReadState,
@@ -146,12 +151,12 @@ export const HelpTooltip = ({
   const onReadAllClick = () => setAllTooltipsReadState({ readState: READ_STATES.read, tooltipIds: Object.keys(HELPTOOLTIPS) });
 
   const title = SpecialComponent ? (
-    <SpecialComponent device={device} {...contentProps} />
+    <SpecialComponent device={device} />
   ) : (
-    <TooltipWrapper content={<Component device={device} {...contentProps} />} onClose={() => setIsOpen(false)} onReadAll={onReadAllClick} />
+    <TooltipWrapper className={classes.contentWrapper} content={<Component device={device} />} onClose={() => setIsOpen(false)} onReadAll={onReadAllClick} />
   );
 
-  if (!isRelevant({ device, ...contentProps })) {
+  if (!isRelevant({ device })) {
     return null;
   }
 
@@ -172,15 +177,15 @@ export const HelpTooltip = ({
 };
 
 type MenderHelpTooltipProps = {
-  contentProps?: Record<string, unknown>;
+  deviceId?: string;
   id: string;
 } & Omit<HelpTooltipProps, 'setAllTooltipsReadState' | 'setTooltipReadState' | 'tooltip'>;
 
 export const MenderHelpTooltip = (props: MenderHelpTooltipProps) => {
-  const { id, contentProps = {} } = props;
+  const { id, deviceId } = props;
   const tooltipsById = useSelector(getTooltipsState);
   const dispatch = useDispatch();
-  const device = useSelector(state => getDeviceById(state, contentProps.deviceId));
+  const device = useSelector(state => getDeviceById(state, deviceId));
   const { readState = READ_STATES.unread } = tooltipsById[id] || {};
   const { Component, SpecialComponent, isRelevant = yes } = HELPTOOLTIPS[id];
 

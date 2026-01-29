@@ -154,11 +154,11 @@ const DeviceTypeTip = () => (
   </>
 );
 
-const TwoFactorNote = ({ className }: { className?: string }) => (
-  <div className={className}>
+const TwoFactorNote = () => (
+  <>
     Two Factor Authentication is enabled for your account. If you haven&apos;t set up a 3rd party authentication app with a verification code, please contact an
     administrator.
-  </div>
+  </>
 );
 
 const AuditlogExplanation = () => <>The audit log shows the history of changes made to your Devices, Artifacts, Deployments, and user management.</>;
@@ -352,7 +352,7 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   subTenantSSO: { id: 'subTenantSSO', Component: SubTenantSSO },
   tenantAdmin: { id: 'tenantAdmin', Component: TenantAdmin },
   tenantInitialAdmin: { id: 'tenantInitialAdmin', Component: TenantInitialAdmin },
-  twoFactorNote: { id: 'twoFactorNote', SpecialComponent: TwoFactorNote },
+  twoFactorNote: { id: 'twoFactorNote', Component: TwoFactorNote },
   webhookEvents: { id: 'webhookEvents', Component: WebhookEvents },
   webhooks: { id: 'webhooks', Component: Webhooks },
   webhookSecret: { id: 'webhookSecret', Component: WebhookSecret }

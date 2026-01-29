@@ -482,11 +482,7 @@ exports[`Helptooltips Components > renders TenantAdmin correctly 1`] = `Set the 
 
 exports[`Helptooltips Components > renders TenantInitialAdmin correctly 1`] = `The user that was assigned as admin for this tenant when it was created. There is a chance the admin user will have changed or this user no longer exists in this tenant.`;
 
-exports[`Helptooltips Components > renders TwoFactorNote correctly 1`] = `
-<div>
-  Two Factor Authentication is enabled for your account. If you haven't set up a 3rd party authentication app with a verification code, please contact an administrator.
-</div>
-`;
+exports[`Helptooltips Components > renders TwoFactorNote correctly 1`] = `Two Factor Authentication is enabled for your account. If you haven't set up a 3rd party authentication app with a verification code, please contact an administrator.`;
 
 exports[`Helptooltips Components > renders WebhookEvents correctly 1`] = `You can select which type(s) of events the webhook will receive. Device authentication includes when devices are provisioned, decommissioned, or authentication status changes.`;
 
