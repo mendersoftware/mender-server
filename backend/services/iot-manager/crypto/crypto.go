@@ -45,6 +45,10 @@ var (
 )
 
 func SetAESEncryptionKey(key string) error {
+	if key == "" {
+		encryptionKey = key
+		return nil
+	}
 	if key, err := base64.RawStdEncoding.DecodeString(base64Repl.Replace(key)); err == nil {
 		if len(key) > 0 && len(key) != encryptionKeyLength {
 			return ErrEncryptionKeyWrongLength
@@ -57,6 +61,10 @@ func SetAESEncryptionKey(key string) error {
 }
 
 func SetAESEncryptionFallbackKey(key string) error {
+	if key == "" {
+		encryptionFallbackKey = key
+		return nil
+	}
 	if key, err := base64.RawStdEncoding.DecodeString(base64Repl.Replace(key)); err == nil {
 		if len(key) > 0 && len(key) != encryptionKeyLength {
 			return ErrEncryptionKeyWrongLength
