@@ -20,14 +20,14 @@ from common import (
     clean_db,
     inventory_attributes,
 )
-import bravado
+import internal_v1
 import pytest
 
 
 class TestInternalApiTenantCreate:
     def test_create_ok(self, internal_client, clean_db):
 
-        _, r = internal_client.create_tenant("foobar")
+        r = internal_client.create_tenant("foobar")
         assert r.status_code == 201
 
         assert "inventory-foobar" in clean_db.list_database_names()
@@ -35,18 +35,18 @@ class TestInternalApiTenantCreate:
 
     def test_create_twice(self, internal_client, clean_db):
 
-        _, r = internal_client.create_tenant("foobar")
+        r = internal_client.create_tenant("foobar")
         assert r.status_code == 201
 
         # creating once more should not fail
-        _, r = internal_client.create_tenant("foobar")
+        r = internal_client.create_tenant("foobar")
         assert r.status_code == 201
 
     def test_create_empty(self, internal_client):
         try:
-            _, r = internal_client.create_tenant("")
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+            r = internal_client.create_tenant("")
+        except internal_v1.exceptions.ApiException as e:
+            assert e.status == 400
 
 
 class TestInternalApiDeviceCreate:
@@ -54,7 +54,7 @@ class TestInternalApiDeviceCreate:
         self, internal_client, management_client, clean_db, inventory_attributes,
     ):
         devid = "".join([format(i, "02x") for i in os.urandom(128)])
-        _, r = internal_client.create_device(
+        r = internal_client.create_device(
             device_id=devid, attributes=inventory_attributes
         )
         assert r.status_code == 201
@@ -68,7 +68,7 @@ class TestInternalApiDeviceCreate:
     ):
         # insert first device
         devid = "".join([format(i, "02x") for i in os.urandom(128)])
-        _, r = internal_client.create_device(
+        r = internal_client.create_device(
             device_id=devid, attributes=inventory_attributes
         )
         assert r.status_code == 201
@@ -88,7 +88,7 @@ class TestInternalApiDeviceCreate:
         inventory_attributes.append(new_attr)
 
         # insert 'the same' device
-        _, r = internal_client.create_device(device_id=devid, attributes=new_attrs)
+        r = internal_client.create_device(device_id=devid, attributes=new_attrs)
         assert r.status_code == 201
 
         # verify update

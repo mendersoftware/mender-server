@@ -17,8 +17,8 @@ import pytest
 
 from common import devices_api_with_params, devices_api_report_config_raw
 from common import management_api_with_params
-from devices_api import ApiException as DevicesApiException
-from internal_api import InternalAPIClient
+from devices_v1 import ApiException as DevicesApiException
+from common import InternalAPIClient
 
 
 @pytest.fixture
