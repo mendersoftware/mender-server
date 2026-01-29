@@ -66,6 +66,8 @@ type StorageSettings struct {
 	// Bucket is the name of the bucket (s3) or container (azblob) storing artifacts.
 	Bucket string `json:"bucket" bson:"bucket"`
 
+	LiteralBucketURI *bool `json:"literal_bucket_uri,omitempty" bson:"literal_bucket_uri,omitempty"`
+
 	// Uri contains the (private) URI used to call the storage APIs.
 	Uri string `json:"uri" bson:"uri"`
 	// ExternalUri contains the public bucket / container URI.
@@ -150,7 +152,10 @@ func (s StorageSettings) Validate() error {
 			s.Type == StorageTypeS3 || s.ConnectionString == nil,
 			validation.Required, ruleLen5_100,
 		)),
-		validation.Field(&s.Uri, ruleLen3_2000),
+		validation.Field(&s.Uri, ruleLen3_2000, validation.When(
+			s.LiteralBucketURI != nil && *s.LiteralBucketURI,
+			validation.Required.Error("required when 'literal_bucket_uri' is set"),
+		)),
 		validation.Field(&s.ExternalUri, ruleLen3_2000),
 		validation.Field(&s.Token, ruleLen5_100),
 	)

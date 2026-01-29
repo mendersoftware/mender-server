@@ -186,6 +186,7 @@ func TestNewClient(t *testing.T) {
 		return rsp, err
 	})
 
+	u, _ := url.Parse("https://" + hostName)
 	options := NewOptions().
 		SetBucketName(bucketName).
 		SetBufferSize(5*1024*1024).
@@ -193,7 +194,7 @@ func TestNewClient(t *testing.T) {
 		SetDefaultExpire(time.Minute).
 		SetRegion(region).
 		SetStaticCredentials(keyID, secret, token).
-		SetURI("https://" + hostName).
+		SetURI(u).
 		SetForcePathStyle(false).
 		SetUseAccelerate(false).
 		SetUnsignedHeaders([]string{"Accept-Encoding"}).
@@ -521,7 +522,8 @@ func TestS3EndpointFormats(t *testing.T) {
 
 			// Set custom endpoint only for S3-compatible tests
 			if tc.endpoint != "" {
-				options.SetURI(tc.endpoint)
+				u, _ := url.Parse(tc.endpoint)
+				options.SetURI(u)
 			}
 
 			sss, err := New(context.Background(), options)
@@ -562,7 +564,7 @@ func TestS3CNAMEModeBehavior(t *testing.T) {
 		bucket       string
 		endpoint     string
 		pathStyle    bool
-		cnameMode    bool
+		bucketURL    bool
 		expectedHost string
 		expectedPath string
 	}{
@@ -572,7 +574,7 @@ func TestS3CNAMEModeBehavior(t *testing.T) {
 			bucket:       "test-bucket",
 			endpoint:     "", // Standard S3
 			pathStyle:    false,
-			cnameMode:    true, // No effect without custom endpoint
+			bucketURL:    false, // No effect without custom endpoint
 			expectedHost: "test-bucket.s3.us-east-1.amazonaws.com",
 			expectedPath: "/",
 		},
@@ -582,7 +584,7 @@ func TestS3CNAMEModeBehavior(t *testing.T) {
 			bucket:       "test-bucket",
 			endpoint:     "https://artifacts.example.com", // OSS CNAME endpoint
 			pathStyle:    false,
-			cnameMode:    true, // Should activate CNAME addressing
+			bucketURL:    true, // Should activate CNAME addressing
 			expectedHost: "artifacts.example.com",
 			expectedPath: "/",
 		},
@@ -592,7 +594,7 @@ func TestS3CNAMEModeBehavior(t *testing.T) {
 			bucket:       "test-bucket",
 			endpoint:     "https://minio.example.com",
 			pathStyle:    false,
-			cnameMode:    false, // Standard virtual-hosted addressing
+			bucketURL:    false, // Standard virtual-hosted addressing
 			expectedHost: "test-bucket.minio.example.com",
 			expectedPath: "/",
 		},
@@ -640,11 +642,13 @@ func TestS3CNAMEModeBehavior(t *testing.T) {
 				SetRegion(tc.region).
 				SetStaticCredentials("test-key", "test-secret", "").
 				SetForcePathStyle(tc.pathStyle).
-				SetCNAMEMode(tc.cnameMode).
 				SetTransport(customTransport)
 
 			if tc.endpoint != "" {
-				options.SetURI(tc.endpoint)
+				u, _ := url.Parse(tc.endpoint)
+				options.SetURI(u).SetLiteralBucketURI(tc.bucketURL)
+			} else if tc.bucketURL {
+				t.Fatalf("no endpoint specified for test with bucketURL")
 			}
 
 			sss, err := New(context.Background(), options)
@@ -690,12 +694,12 @@ func TestHealthCheckAlibabaOSS(t *testing.T) {
 		Name string
 
 		// OSS Configuration
-		Region         string
-		BucketName     string
-		UsePathStyle   bool
-		AccessKey      string
-		SecretKey      string
-		SecurityToken  string
+		Region        string
+		BucketName    string
+		UsePathStyle  bool
+		AccessKey     string
+		SecretKey     string
+		SecurityToken string
 
 		// Expected request validation
 		ExpectedHost   string
@@ -895,12 +899,12 @@ func TestHealthCheckAlibabaOSS(t *testing.T) {
 			}
 
 			// Configure S3 client for OSS
-			ossEndpoint := tc.Region + ".aliyuncs.com"
+			ossEndpoint, _ := url.Parse(tc.Region + ".aliyuncs.com")
 			options := NewOptions().
 				SetBucketName(tc.BucketName).
 				SetRegion(tc.Region).
 				SetStaticCredentials(tc.AccessKey, tc.SecretKey, tc.SecurityToken).
-				SetURI("https://" + ossEndpoint).
+				SetURI(ossEndpoint).
 				SetForcePathStyle(tc.UsePathStyle).
 				SetTransport(httpTransport)
 
@@ -1028,11 +1032,12 @@ func TestHealthCheckAlibabaOSSEndpointFormats(t *testing.T) {
 				},
 			}
 
+			u, _ := url.Parse("https://" + tc.region + ".aliyuncs.com")
 			options := NewOptions().
 				SetBucketName(tc.bucket).
 				SetRegion(tc.region).
 				SetStaticCredentials("test", "secret", "").
-				SetURI("https://" + tc.region + ".aliyuncs.com").
+				SetURI(u).
 				SetForcePathStyle(tc.pathStyle).
 				SetTransport(customTransport)
 

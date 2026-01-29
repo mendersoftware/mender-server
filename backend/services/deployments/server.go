@@ -17,6 +17,7 @@ package main
 import (
 	"context"
 	"encoding/base64"
+	"fmt"
 	"net/http"
 	"net/url"
 	"os"
@@ -66,7 +67,11 @@ func SetupS3(ctx context.Context, defaultOptions *s3.Options) (storage.ObjectSto
 	}
 	useAccelerate := c.GetBool(dconfig.SettingAwsS3UseAccelerate)
 	if c.IsSet(dconfig.SettingAwsURI) {
-		options.SetURI(c.GetString(dconfig.SettingAwsURI))
+		u, err := url.Parse(c.GetString(dconfig.SettingAwsURI))
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse %q: %s", dconfig.SettingAwsURI, err)
+		}
+		options.SetURI(u)
 		if useAccelerate {
 			log.FromContext(ctx).
 				Warn(`cannot use s3 transfer acceleration with custom "uri": ` +
@@ -76,7 +81,11 @@ func SetupS3(ctx context.Context, defaultOptions *s3.Options) (storage.ObjectSto
 		options.SetUseAccelerate(c.GetBool(dconfig.SettingAwsS3UseAccelerate))
 	}
 	if c.IsSet(dconfig.SettingAwsExternalURI) {
-		options.SetExternalURI(c.GetString(dconfig.SettingAwsExternalURI))
+		u, err := url.Parse(c.GetString(dconfig.SettingAwsExternalURI))
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse %q: %s", dconfig.SettingAwsURI, err)
+		}
+		options.SetExternalURI(u)
 	}
 	if c.IsSet(dconfig.SettingStorageProxyURI) {
 		rawURL := c.GetString(dconfig.SettingStorageProxyURI)
@@ -86,6 +95,7 @@ func SetupS3(ctx context.Context, defaultOptions *s3.Options) (storage.ObjectSto
 		}
 		options.SetProxyURI(proxyURL)
 	}
+	options.SetLiteralBucketURI(c.GetBool(dconfig.SettingAwsLiteralBucketURI))
 	if c.IsSet(dconfig.SettingAwsUnsignedHeaders) {
 		options.SetUnsignedHeaders(c.GetStringSlice(dconfig.SettingAwsUnsignedHeaders))
 	}

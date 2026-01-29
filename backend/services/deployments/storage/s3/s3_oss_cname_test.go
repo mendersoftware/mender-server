@@ -207,14 +207,15 @@ func TestOSSCNAMEAddressing(t *testing.T) {
 				},
 			}
 
+			bucketURL, _ := url.Parse("https://" + testCNAMEEndpoint)
 			// Configure S3 client for OSS CNAME
 			options := NewOptions().
 				SetBucketName(testBucketName).
 				SetRegion(testRegion).
 				SetStaticCredentials(testAccessKey, testSecretKey, "").
-				SetURI("https://" + testCNAMEEndpoint).
-				SetExternalURI("https://" + testCNAMEEndpoint).
 				SetForcePathStyle(false).
+				SetURI(bucketURL).
+				SetLiteralBucketURI(true).
 				SetTransport(httpTransport)
 
 			ctx, cancel := context.WithTimeout(context.Background(), testTimeout)
@@ -242,25 +243,25 @@ func TestOSSCNAMEAddressing(t *testing.T) {
 //
 // Mock Behavior vs Real OSS:
 //
-// 1. Bucket as subdomain (e.g., bucket.custom-domain.com):
-//    Mock: Returns 403 SecondLevelDomainForbidden
-//    Real: DNS would likely fail to resolve (CNAME only maps custom-domain.com, not bucket.custom-domain.com)
-//    Test Purpose: Ensures client never generates bucket.cname-domain URLs
+//  1. Bucket as subdomain (e.g., bucket.custom-domain.com):
+//     Mock: Returns 403 SecondLevelDomainForbidden
+//     Real: DNS would likely fail to resolve (CNAME only maps custom-domain.com, not bucket.custom-domain.com)
+//     Test Purpose: Ensures client never generates bucket.cname-domain URLs
 //
-// 2. Bucket in URL path (e.g., custom-domain.com/bucket/object):
-//    Mock: Returns 403 InvalidBucketName
-//    Real: OSS would likely return object not found or similar error
-//    Test Purpose: Ensures bucket name doesn't appear in URL path
+//  2. Bucket in URL path (e.g., custom-domain.com/bucket/object):
+//     Mock: Returns 403 InvalidBucketName
+//     Real: OSS would likely return object not found or similar error
+//     Test Purpose: Ensures bucket name doesn't appear in URL path
 //
-// 3. Public OSS endpoint (e.g., *.aliyuncs.com):
-//    Mock: Returns 403 PublicEndpointForbidden
-//    Real: Exact behavior - OSS returns this error for China mainland regions (as of March 2025)
-//    Reference: https://www.alibabacloud.com/help/en/oss/user-guide/access-buckets-via-custom-domain-names
+//  3. Public OSS endpoint (e.g., *.aliyuncs.com):
+//     Mock: Returns 403 PublicEndpointForbidden
+//     Real: Exact behavior - OSS returns this error for China mainland regions (as of March 2025)
+//     Reference: https://www.alibabacloud.com/help/en/oss/user-guide/access-buckets-via-custom-domain-names
 //
-// 4. Correct CNAME format (e.g., custom-domain.com/object-path):
-//    Mock: Returns 200 OK
-//    Real: OSS accepts and routes to mapped bucket
-//    Reference: URL format is https://YourDomainName/ObjectName (no bucket in URL)
+//  4. Correct CNAME format (e.g., custom-domain.com/object-path):
+//     Mock: Returns 200 OK
+//     Real: OSS accepts and routes to mapped bucket
+//     Reference: URL format is https://YourDomainName/ObjectName (no bucket in URL)
 //
 // The mock is intentionally STRICT to catch any incorrect URL generation patterns.
 func createCNAMEHandler(t *testing.T, requests *[]*http.Request) http.HandlerFunc {

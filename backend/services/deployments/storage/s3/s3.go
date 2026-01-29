@@ -176,7 +176,10 @@ func (s *SimpleStorageService) init(ctx context.Context) error {
 	} else if errors.As(err, &rspErr) {
 		switch rspErr.Response.StatusCode {
 		case http.StatusNotFound:
-			err = nil // pass
+			// If BucketURL is set, the bucket cannot be created
+			if !s.settings.LiteralBucketURI {
+				err = nil // pass
+			}
 		case http.StatusForbidden:
 			err = fmt.Errorf(
 				"s3: insufficient permissions for accessing bucket '%s'",
@@ -214,7 +217,7 @@ func (s *SimpleStorageService) optionsFromContext(
 	if ok && ss != nil {
 		err = ss.Validate()
 		if err == nil {
-			settings = newFromParent(&s.settings, ss)
+			settings, err = newFromParent(&s.settings, ss)
 		}
 	} else {
 		settings = &s.settings

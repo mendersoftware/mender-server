@@ -17,6 +17,7 @@ package s3
 import (
 	"context"
 	"crypto/tls"
+	"fmt"
 	"net/http"
 	"net/textproto"
 	"net/url"
@@ -25,8 +26,10 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	v4 "github.com/aws/aws-sdk-go-v2/aws/signer/v4"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	smithyendpoints "github.com/aws/smithy-go/endpoints"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 
+	"github.com/mendersoftware/mender-server/pkg/utils/types"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
 )
@@ -55,9 +58,12 @@ type storageSettings struct {
 	// Region where the bucket lives
 	Region *string
 	// ExternalURI is the URI used for signing requests.
-	ExternalURI *string
+	ExternalURI *url.URL
 	// URI is the URI for the s3 API.
-	URI *string
+	URI *url.URL
+
+	LiteralBucketURI bool
+
 	// ProxyURI is used for rewriting presigned requests, pointing the
 	// requests to the proxy URL instead of the direct URL to s3.
 	ProxyURI *url.URL
@@ -68,7 +74,11 @@ type storageSettings struct {
 	UseAccelerate bool
 }
 
-func newFromParent(defaults *storageSettings, parent *model.StorageSettings) *storageSettings {
+func newFromParent(
+	defaults *storageSettings,
+	parent *model.StorageSettings,
+) (*storageSettings, error) {
+	var err error
 	ret := new(storageSettings)
 	ret.patch(defaults)
 	if parent.Bucket != "" {
@@ -85,13 +95,25 @@ func newFromParent(defaults *storageSettings, parent *model.StorageSettings) *st
 		}
 	}
 	if parent.ExternalUri != "" {
-		ret.ExternalURI = &parent.ExternalUri
+		ret.ExternalURI, err = url.Parse(parent.ExternalUri)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse aws.external_uri: %w", err)
+		}
 	}
 	if parent.ProxyURI != nil {
-		ret.ProxyURI, _ = url.Parse(*parent.ProxyURI)
+		ret.ProxyURI, err = url.Parse(*parent.ProxyURI)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse storage.proxy_uri: %w", err)
+		}
 	}
 	if parent.Uri != "" {
-		ret.URI = &parent.Uri
+		ret.URI, err = url.Parse(parent.Uri)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse aws.uri: %w", err)
+		}
+	}
+	if parent.LiteralBucketURI != nil {
+		ret.LiteralBucketURI = *parent.LiteralBucketURI
 	}
 	if parent.ForcePathStyle != ret.ForcePathStyle {
 		ret.ForcePathStyle = parent.ForcePathStyle
@@ -99,13 +121,29 @@ func newFromParent(defaults *storageSettings, parent *model.StorageSettings) *st
 	if parent.UseAccelerate != ret.UseAccelerate {
 		ret.UseAccelerate = parent.UseAccelerate
 	}
-	return ret
+	return ret, nil
 }
 
 func (s storageSettings) Validate() error {
 	return validation.ValidateStruct(&s,
 		validation.Field(&s.StaticCredentials),
 	)
+}
+
+// endpointResolver implements custom endpoint resolution for OSS CNAME mode.
+// When CNAMEMode is enabled, the bucket name is NOT included in the URL.
+// This is required for Alibaba OSS CNAME addressing.
+type endpointResolver url.URL
+
+func (r endpointResolver) ResolveEndpoint(
+	ctx context.Context,
+	params s3.EndpointParameters,
+) (smithyendpoints.Endpoint, error) {
+	// Return the CNAME endpoint directly without bucket in hostname
+	// The bucket is still tracked internally for signing purposes
+	return smithyendpoints.Endpoint{
+		URI: url.URL(r),
+	}, nil
 }
 
 func (s storageSettings) options(opts *s3.Options) {
@@ -115,7 +153,21 @@ func (s storageSettings) options(opts *s3.Options) {
 	if s.Region != nil {
 		opts.Region = *s.Region
 	}
-	opts.BaseEndpoint = s.URI
+
+	// OSS CNAME Mode: Use custom endpoint resolver to prevent bucket
+	// from being added to the hostname
+	//
+	if s.URI != nil {
+		if s.URI.Scheme == "" {
+			s.URI.Scheme = "https"
+		}
+		if s.LiteralBucketURI {
+			opts.EndpointResolverV2 = endpointResolver(*s.URI)
+		} else {
+			opts.BaseEndpoint = types.Pointer(s.URI.String())
+		}
+	}
+
 	opts.UsePathStyle = s.ForcePathStyle
 	opts.UseAccelerate = s.UseAccelerate
 }
@@ -124,7 +176,20 @@ func (s storageSettings) presignOptions(opts *s3.PresignOptions) {
 	opts.ClientOptions = append(opts.ClientOptions, s.options)
 	if s.ExternalURI != nil {
 		opts.ClientOptions = append(opts.ClientOptions, func(clientOpts *s3.Options) {
-			clientOpts.BaseEndpoint = s.ExternalURI
+			if s.ExternalURI != nil {
+				if s.ExternalURI.Scheme == "" {
+					s.ExternalURI.Scheme = "https"
+				}
+				if s.LiteralBucketURI {
+					clientOpts.EndpointResolverV2 = endpointResolver(
+						*s.ExternalURI,
+					)
+				} else {
+					clientOpts.BaseEndpoint = types.Pointer(
+						s.ExternalURI.String(),
+					)
+				}
+			}
 		})
 	}
 }
@@ -191,6 +256,9 @@ func NewOptions(opts ...*Options) *Options {
 	}
 	for _, opt := range opts {
 		ret.storageSettings.patch(&opt.storageSettings)
+		if opt.LiteralBucketURI != ret.LiteralBucketURI {
+			ret.LiteralBucketURI = opt.LiteralBucketURI
+		}
 		if opt.DefaultExpire != nil {
 			ret.DefaultExpire = opt.DefaultExpire
 		}
@@ -246,13 +314,18 @@ func (opts *Options) SetFilenameSuffix(suffix string) *Options {
 	return opts
 }
 
-func (opts *Options) SetExternalURI(externalURI string) *Options {
-	opts.ExternalURI = &externalURI
+func (opts *Options) SetExternalURI(externalURI *url.URL) *Options {
+	opts.ExternalURI = externalURI
 	return opts
 }
 
-func (opts *Options) SetURI(URI string) *Options {
-	opts.URI = &URI
+func (opts *Options) SetURI(URI *url.URL) *Options {
+	opts.URI = URI
+	return opts
+}
+
+func (opts *Options) SetLiteralBucketURI(literal bool) *Options {
+	opts.LiteralBucketURI = literal
 	return opts
 }
 
