@@ -208,7 +208,7 @@ test.describe('Settings', () => {
         await page.getByRole('textbox', { name: /zip or postal code/i }).fill('12345');
         await page.getByLabel('Country').fill('Norw');
         await page.getByRole('option', { name: 'Norway' }).click();
-        await page.getByRole('button', { name: 'Save Billing details' }).click();
+        await page.getByRole('button', { name: 'Save billing details' }).click();
       }
 
       await page.waitForSelector('.StripeElement iframe');
@@ -298,7 +298,6 @@ test.describe('Settings', () => {
       await page.goto(`${baseUrl}ui/settings/billing`);
       await page.getByRole('button', { name: /edit/i }).click();
       await page.getByRole('textbox', { name: /address line/i }).fill('Gaustadalleen 12');
-      await page.getByRole('textbox', { name: /state/i }).fill('Moss');
       await page.getByRole('textbox', { name: /city/i }).fill('Moss');
       await page.getByRole('textbox', { name: /zip or postal code/i }).fill('54321');
       await page.getByLabel('Country').fill('Pol');
