@@ -220,6 +220,7 @@ export const Authorized = ({
     if (!filters.length && selectedGroup && groupFilters.length) {
       dispatch(setDeviceFilters(groupFilters));
     }
+    setShowFilters(!!filters.length);
     return () => {
       clearInterval(timer.current);
       clearAllRetryTimers(dispatchedSetSnackbar);
