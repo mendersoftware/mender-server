@@ -27,7 +27,7 @@ import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import actions from '@northern.tech/store/actions';
 import { Event } from '@northern.tech/store/api/types';
 import { EXTERNAL_PROVIDER, Webhook, emptyWebhook } from '@northern.tech/store/constants';
-import { getTenantCapabilities, getWebhookEventInfo } from '@northern.tech/store/selectors';
+import { getIsDarkMode, getTenantCapabilities, getWebhookEventInfo } from '@northern.tech/store/selectors';
 import { getWebhookEvents } from '@northern.tech/store/thunks';
 
 import WebhookActivity from './Activity';
@@ -90,6 +90,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
   const [selectedEvent, setSelectedEvent] = useState<Event>();
   const { events, eventsTotal } = useSelector(getWebhookEventInfo);
   const { canDelta: canScopeWebhooks } = useSelector(getTenantCapabilities);
+  const isDarkMode = useSelector(getIsDarkMode);
   const dispatch = useDispatch();
   const { classes } = useStyles();
   const containerRef = useRef();
@@ -156,6 +157,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
               columns={columns}
               entry={selectedEvent}
               onClickBack={handleBack}
+              isDarkMode={isDarkMode}
               setSnackbar={setSnackbar}
               webhook={webhook}
             />

@@ -60,12 +60,13 @@ interface SetSnackbarProps {
 interface WebhookEventDetailsProps extends ClassesOverrides {
   columns: WebhookColumns;
   entry?: Event | undefined;
+  isDarkMode?: boolean;
   onClickBack: () => void;
   setSnackbar: (args: string | SetSnackbarProps) => void;
   webhook: Webhook;
 }
 
-const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSnackbar, webhook }: WebhookEventDetailsProps) => {
+const WebhookEventDetails = ({ classes, columns, entry = {}, isDarkMode, onClickBack, setSnackbar, webhook }: WebhookEventDetailsProps) => {
   const { data = {} } = entry;
 
   const content = columns.slice(0, columns.length - 1).reduce((accu, column) => ({ ...accu, [column.title]: column.render(entry, { webhook, classes }) }), {});
@@ -82,7 +83,7 @@ const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSna
       <h4>Event details</h4>
       <TwoColumnData className="margin-top margin-bottom" data={content} setSnackbar={setSnackbar} />
       <h4>Payload</h4>
-      {data && <Editor {...editorProps} className="editor modified" value={JSON.stringify(data, null, '\t')} />}
+      {data && <Editor {...editorProps} className="editor modified" theme={isDarkMode ? 'vs-dark' : 'light'} value={JSON.stringify(data, null, '\t')} />}
       <Divider className={classes.divider} />
       <CopyTextToClipboard token={data} />
     </>
