@@ -1803,7 +1803,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-49:focus::-ms-input-
           tabindex="0"
           type="submit"
         >
-          Save Billing details
+          Save billing details
         </button>
       </div>
     </form>

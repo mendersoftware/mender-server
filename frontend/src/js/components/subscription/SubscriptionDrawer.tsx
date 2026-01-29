@@ -182,7 +182,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
           onSubmit={handleBillingProfileEdit}
           handleCancel={!isEmpty(billing) && (() => setIsEdit(false))}
           defaultValues={formInitialValues}
-          submitLabel="Save Billing details"
+          submitLabel="Save billing details"
           showButtons
           autocomplete="off"
           validationMode="onSubmit"
@@ -212,6 +212,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
             organization={organization}
             onCardConfirmed={onCardConfirmed}
             onSubmit={() => dispatch(startCardUpdate()).unwrap()}
+            onClose={onClose}
             summary={summary}
             isSignUp
             isValid={!isEdit}
