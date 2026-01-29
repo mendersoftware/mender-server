@@ -44,6 +44,11 @@ import (
 
 var appVersion = version.Get()
 
+const helpReencrypt = `Re-encrypt all client-side encrypted data in the database.
+To run the command, the server MUST first be configured to use the old key as ` +
+	"`aes_encryption_fallback_key`" + `.
+Add the new key as the ` + "`aes_encryption_key`" + ` and run this command.`
+
 func main() {
 	doMain(os.Args)
 }
@@ -86,8 +91,18 @@ func doMain(args []string) {
 			},
 			{
 				Name:   "re-encrypt",
-				Usage:  "Re-encrypt the secrets using the (new) encryption key",
+				Usage:  helpReencrypt,
 				Action: cmdReencrypt,
+				Flags: []cli.Flag{
+					cli.StringFlag{
+						Name:  "to-key",
+						Usage: "Override for the updated encryption key",
+					},
+					cli.StringFlag{
+						Name:  "from-key",
+						Usage: "Override for the from encryption key.",
+					},
+				},
 			},
 			{
 				Name:   "sync-devices",
@@ -204,6 +219,29 @@ func cmdReencrypt(args *cli.Context) error {
 		return err
 	}
 	defer dataStore.Close()
+	toKey := config.Config.GetString(dconfig.SettingAESEncryptionKey)
+	if args.IsSet("to-key") {
+		toKey = args.String("to-key")
+		err := crypto.SetAESEncryptionKey(toKey)
+		if err != nil {
+			return fmt.Errorf("error configuring new AES encryption key: %w", err)
+		}
+	}
+	if toKey == "" {
+		return fmt.Errorf("--to-key or aes_encryption_key key must be non-empty")
+	}
+
+	fromKey := config.Config.GetString(dconfig.SettingAESEncryptionFallbackKey)
+	if args.IsSet("from-key") {
+		fromKey = args.String("from-key")
+		err := crypto.SetAESEncryptionFallbackKey(args.String("from-key"))
+		if err != nil {
+			return fmt.Errorf("error configuring AES encryption key: %w", err)
+		}
+	}
+	if fromKey == "" {
+		return fmt.Errorf("--from-key or aes_encryption_fallback_key key must be non-empty")
+	}
 	return cmd.Reencrypt(dataStore)
 }
 

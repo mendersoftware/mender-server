@@ -17,6 +17,7 @@ package cmd
 import (
 	"context"
 	"errors"
+	"iter"
 	"testing"
 
 	"github.com/google/uuid"
@@ -27,6 +28,17 @@ import (
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 	"github.com/mendersoftware/mender-server/services/iot-manager/store/mocks"
 )
+
+func iterList[T any](slice []T) iter.Seq2[*T, error] {
+	return func(yield func(*T, error) bool) {
+		for len(slice) > 0 {
+			if !yield(&slice[0], nil) {
+				return
+			}
+			slice = slice[1:]
+		}
+	}
+}
 
 func TestReencrypt(t *testing.T) {
 	store := &mocks.DataStore{}
@@ -47,15 +59,12 @@ func TestReencrypt(t *testing.T) {
 			},
 		},
 	}
-	store.On("GetIntegrations",
+	store.On("GetIntegrationsIter",
 		mock.MatchedBy(func(_ context.Context) bool {
 			return true
 		}),
-		model.IntegrationFilter{
-			Skip:  int64(0),
-			Limit: defaultLimit,
-		},
-	).Return(integrations, nil).Once()
+		model.IntegrationFilter{Limit: -1},
+	).Return(iterList(integrations), nil).Once()
 
 	store.On("SetIntegrationCredentials",
 		mock.MatchedBy(func(_ context.Context) bool {
@@ -64,16 +73,6 @@ func TestReencrypt(t *testing.T) {
 		integrationID,
 		integrations[0].Credentials,
 	).Return(nil).Once()
-
-	store.On("GetIntegrations",
-		mock.MatchedBy(func(_ context.Context) bool {
-			return true
-		}),
-		model.IntegrationFilter{
-			Skip:  int64(0) + defaultLimit,
-			Limit: defaultLimit,
-		},
-	).Return([]model.Integration{}, nil).Once()
 
 	err := Reencrypt(store)
 	assert.NoError(t, err)
@@ -84,19 +83,19 @@ func TestReencryptErrorGetIntegrations(t *testing.T) {
 	defer store.AssertExpectations(t)
 
 	errStore := errors.New("error")
-	store.On("GetIntegrations",
+	store.On("GetIntegrationsIter",
 		mock.MatchedBy(func(_ context.Context) bool {
 			return true
 		}),
-		model.IntegrationFilter{
-			Skip:  int64(0),
-			Limit: defaultLimit,
-		},
-	).Return(nil, errStore).Once()
+		model.IntegrationFilter{Limit: -1},
+	).Return(iter.Seq2[*model.Integration, error](func(
+		yield func(*model.Integration, error) bool,
+	) {
+		yield(nil, errStore)
+	})).Once()
 
 	err := Reencrypt(store)
-	assert.Error(t, err)
-	assert.EqualError(t, err, errStore.Error())
+	assert.ErrorIs(t, err, errStore)
 }
 
 func TestReencryptErrorSetIntegrationCredentials(t *testing.T) {
@@ -120,15 +119,12 @@ func TestReencryptErrorSetIntegrationCredentials(t *testing.T) {
 			},
 		},
 	}
-	store.On("GetIntegrations",
+	store.On("GetIntegrationsIter",
 		mock.MatchedBy(func(_ context.Context) bool {
 			return true
 		}),
-		model.IntegrationFilter{
-			Skip:  int64(0),
-			Limit: defaultLimit,
-		},
-	).Return(integrations, nil).Once()
+		model.IntegrationFilter{Limit: -1},
+	).Return(iterList(integrations), nil).Once()
 
 	store.On("SetIntegrationCredentials",
 		mock.MatchedBy(func(_ context.Context) bool {
