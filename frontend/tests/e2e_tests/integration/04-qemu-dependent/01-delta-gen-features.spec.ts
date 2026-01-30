@@ -17,7 +17,7 @@ import * as path from 'path';
 import test, { expect } from '../../fixtures/fixtures';
 import { extractArtifactFromDevice, modifyArtifactChecksum } from '../../utils/commands';
 import { selectors, timeouts } from '../../utils/constants';
-import { selectReleaseByName } from '../../utils/utils.ts';
+import { selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
 
 const qemuDeviceType = 'qemux86-64';
 
@@ -106,11 +106,7 @@ test.describe('Devices', () => {
     await page.click('[aria-label="create-deployment"]');
 
     await selectReleaseByName(page, 'snapshot-test');
-
-    const creationButton = await page.getByRole('button', { name: /create deployment/i });
-    await creationButton.scrollIntoViewIfNeeded();
-    await creationButton.click();
-    await expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds });
+    await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByText('finished').click();
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: 10 * timeouts.sixtySeconds });
   });
@@ -125,10 +121,7 @@ test.describe('Devices', () => {
 
     await page.getByRole('button', { name: /advanced options/i }).click();
     await page.getByRole('checkbox', { name: /delta artifacts/i }).click();
-    const creationButton = await page.getByRole('button', { name: /create deployment/i });
-    await creationButton.scrollIntoViewIfNeeded();
-    await creationButton.click();
-    await expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds });
+    await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
   });
 

@@ -18,7 +18,7 @@ import isBetween from 'dayjs/plugin/isBetween.js';
 import test, { expect } from '../../fixtures/fixtures';
 import { getTokenFromStorage } from '../../utils/commands';
 import { releaseTag, selectors, timeouts } from '../../utils/constants';
-import { locateReleaseByName, selectReleaseByName } from '../../utils/utils.ts';
+import { locateReleaseByName, selectReleaseByName, triggerDeploymentCreation } from '../../utils/utils.ts';
 
 dayjs.extend(isBetween);
 
@@ -84,10 +84,7 @@ test.describe('Deployments', () => {
     await deviceGroupSelect.focus();
     await deviceGroupSelect.fill('All');
     await page.click(`#deployment-device-group-selection-listbox li:has-text('All devices')`);
-    const creationButton = await page.getByRole('button', { name: /create deployment/i });
-    await creationButton.scrollIntoViewIfNeeded();
-    await creationButton.click();
-    await page.waitForSelector(selectors.deploymentListItem, { timeout: timeouts.tenSeconds });
+    await triggerDeploymentCreation(page, page.waitForSelector(selectors.deploymentListItem, { timeout: timeouts.tenSeconds }));
     await page.getByRole('tab', { name: /finished/i }).click();
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
     const datetime = await page.getAttribute(`${selectors.deploymentListItemContent} time`, 'datetime');
@@ -105,11 +102,7 @@ test.describe('Deployments', () => {
     await page.click('[aria-label="create-deployment"]');
 
     await selectReleaseByName(page, 'mender-demo-artifact');
-
-    const creationButton = await page.getByRole('button', { name: /create deployment/i });
-    await creationButton.scrollIntoViewIfNeeded();
-    await creationButton.click();
-    await expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds });
+    await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByRole('tab', { name: /finished/i }).click();
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
     const datetime = await page.getAttribute(`${selectors.deploymentListItemContent} time`, 'datetime');
@@ -132,10 +125,7 @@ test.describe('Deployments', () => {
     await deviceGroupSelect.focus();
     await deviceGroupSelect.fill('test');
     await page.click(`#deployment-device-group-selection-listbox li:has-text('testgroup')`);
-    const creationButton = await page.getByRole('button', { name: /create deployment/i });
-    await creationButton.scrollIntoViewIfNeeded();
-    await creationButton.click();
-    await expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds });
+    await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.waitForSelector(selectors.deploymentListItem, { timeout: timeouts.tenSeconds });
     await page.getByRole('tab', { name: /finished/i }).click();
     await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
