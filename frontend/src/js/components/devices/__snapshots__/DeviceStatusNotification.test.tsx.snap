@@ -196,7 +196,7 @@ exports[`DeviceStatusNotification Component > renders correctly 1`] = `
       tabindex="0"
       type="button"
     >
-      View detail
+      View details
     </button>
   </div>
 </div>

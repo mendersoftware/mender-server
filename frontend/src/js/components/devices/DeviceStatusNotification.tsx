@@ -36,7 +36,7 @@ export const DeviceStatusNotification = ({ deviceCount, onClick, state }) => {
         {deviceCount} {pluralized} {pluralize('is', deviceCount)} {stateActionMap[state]}
       </div>
       <Button className="padding-bottom-none padding-top-none" size="small" variant="text">
-        View detail
+        View details
       </Button>
     </Alert>
   );
