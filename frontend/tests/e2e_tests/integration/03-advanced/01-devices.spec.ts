@@ -166,7 +166,7 @@ test.describe('Devices', () => {
     await expect(page.getByText('No devices found')).toBeVisible();
     await page.getByText(/clear filter/i).click();
     await page.waitForSelector(selectors.deviceListItem);
-    const pagination = await page.getByText('1-1');
+    const pagination = await page.getByText('1-1 of 1');
     await pagination.waitFor({ timeout: timeouts.default });
     await expect(pagination).toBeVisible();
   });
