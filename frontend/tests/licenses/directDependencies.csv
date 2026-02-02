@@ -45,7 +45,7 @@
 "copy-to-clipboard","MIT","https://github.com/sudodoki/copy-to-clipboard"
 "core-js","MIT","https://github.com/zloirock/core-js"
 "crypto-browserify","MIT","https://github.com/browserify/crypto-browserify"
-"css-loader","MIT","https://github.com/webpack-contrib/css-loader"
+"css-loader","MIT","https://github.com/webpack/css-loader"
 "dayjs","MIT","https://github.com/iamkun/dayjs"
 "esbuild-loader","MIT","https://github.com/privatenumber/esbuild-loader"
 "eslint-rspack-plugin","MIT","https://github.com/rspack-contrib/eslint-rspack-plugin"
