@@ -75,7 +75,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-const emptyAddress: Address = { city: '', country: '', line1: '', postal_code: '', state: '' };
+const emptyAddress: Address = { city: '', country: '', line1: '', postal_code: '' };
 
 export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   const { onClose, previewPrice, order, isTrial, plan: selectedPlan, organization, currentPlanId, deviceTypes } = props;
@@ -83,7 +83,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   const card = useSelector(getCard);
   const billing = useSelector(getBillingProfile);
   const currentSubscription = useSelector(getSubscription);
-  const initialValues = { email, name: organization?.name || '', line1: '', state: '', city: '', postal_code: '', country: '' };
+  const initialValues = { email, name: organization?.name || '', line1: '', city: '', postal_code: '', country: '' };
   const [formInitialValues, setFormInitialValues] = useState(initialValues);
   const [isValid, setIsValid] = useState(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -122,9 +122,9 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
     }
   }, [dispatch, isTrial, order]);
   const handleBillingProfileEdit = async values => {
-    const { email, name, state, city, line1, postal_code } = values;
+    const { email, name, city, line1, postal_code } = values;
     const code: string = values.country.code ? values.country.code : values.country;
-    const billing_profile = { email, name, address: { country: code, state, city, line1, postal_code } };
+    const billing_profile = { email, name, address: { country: code, city, line1, postal_code } };
     if (isEdit) {
       await dispatch(editBillingProfile({ billingProfile: billing_profile }));
     } else if (isTrial) {
@@ -182,7 +182,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
           onSubmit={handleBillingProfileEdit}
           handleCancel={!isEmpty(billing) && (() => setIsEdit(false))}
           defaultValues={formInitialValues}
-          submitLabel="Save Billing details"
+          submitLabel="Save billing details"
           showButtons
           autocomplete="off"
           validationMode="onSubmit"
@@ -212,6 +212,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
             organization={organization}
             onCardConfirmed={onCardConfirmed}
             onSubmit={() => dispatch(startCardUpdate()).unwrap()}
+            onClose={onClose}
             summary={summary}
             isSignUp
             isValid={!isEdit}

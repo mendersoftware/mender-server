@@ -50,7 +50,6 @@ export const PlanExpandedForm = (props: PlanExpandedFormProp) => {
       </Typography>
       <div className={className}>
         <TextInput {...commonInputProps} hint="Address line 1" label="Address line 1" id="line1" validations="isLength:3,trim" />
-        <TextInput {...commonInputProps} hint="State" label="State" id="state" validations="isLength:2,trim" />
         <TextInput {...commonInputProps} hint="City" label="City" id="city" validations="isLength:2,trim" />
         <TextInput {...commonInputProps} hint="Zip or Postal code" label="Zip or Postal code" id="postal_code" validations="isLength:4,trim" />
         <ControlledCountrySelect required id="country" />
