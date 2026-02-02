@@ -17,6 +17,7 @@ package store
 import (
 	"context"
 	"errors"
+	"iter"
 
 	"github.com/google/uuid"
 
@@ -31,6 +32,10 @@ type DataStore interface {
 	Ping(ctx context.Context) error
 	Close() error
 
+	GetIntegrationsIter(
+		ctx context.Context,
+		fltr model.IntegrationFilter,
+	) iter.Seq2[*model.Integration, error]
 	GetIntegrations(context.Context, model.IntegrationFilter) ([]model.Integration, error)
 	GetIntegrationById(context.Context, uuid.UUID) (*model.Integration, error)
 	CreateIntegration(context.Context, model.Integration) (*model.Integration, error)

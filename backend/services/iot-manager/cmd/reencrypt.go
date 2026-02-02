@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 
@@ -23,35 +24,23 @@ import (
 	"github.com/mendersoftware/mender-server/services/iot-manager/store"
 )
 
-const defaultLimit = int64(100)
-
 func Reencrypt(dataStore store.DataStore) error {
 	ctx := context.Background()
 	l := log.FromContext(ctx)
 
-	skip := int64(0)
-	for {
-		filter := model.IntegrationFilter{
-			Skip:  skip,
-			Limit: defaultLimit,
+	l.Info("starting to re-encrypt integration credentials...")
+	for integration, err := range dataStore.GetIntegrationsIter(
+		ctx, model.IntegrationFilter{Limit: -1},
+	) {
+		if err != nil {
+			return fmt.Errorf("error retrieving integrations: %w", err)
 		}
-		integrations, err := dataStore.GetIntegrations(ctx, filter)
+		l.Infof("Re-encrypting credentials for integration %s", integration.ID)
+		err = dataStore.SetIntegrationCredentials(ctx,
+			integration.ID, integration.Credentials)
 		if err != nil {
 			return err
-		} else if len(integrations) == 0 {
-			break
 		}
-		for _, integration := range integrations {
-			if integration.Credentials.Type == model.CredentialTypeSAS {
-				l.Infof("Re-encrypting credentials for integration %s", integration.ID)
-				err = dataStore.SetIntegrationCredentials(ctx,
-					integration.ID, integration.Credentials)
-				if err != nil {
-					return err
-				}
-			}
-		}
-		skip += defaultLimit
 	}
 	return nil
 }
