@@ -15,7 +15,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
     >
       <div />
       <div
-        class="MuiButtonGroup-root MuiButtonGroup-outlined MuiButtonGroup-horizontal MuiButtonGroup-colorPrimary css-zv9ro0-MuiButtonGroup-root"
+        class="MuiButtonGroup-root MuiButtonGroup-outlined MuiButtonGroup-horizontal MuiButtonGroup-colorPrimary css-1joretd-MuiButtonGroup-root"
         role="group"
       >
         <button
