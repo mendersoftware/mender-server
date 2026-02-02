@@ -18,6 +18,7 @@ import { CheckCircle as CheckIcon } from '@mui/icons-material';
 import { Skeleton, Tooltip, Typography } from '@mui/material';
 
 import { getDeviceLimitStats } from '@northern.tech/store/selectors';
+import pluralize from 'pluralize';
 
 import { DeviceLimit } from '../../header/DeviceNotifications';
 import { BaseWidget } from './BaseWidget';
@@ -33,7 +34,11 @@ export const AcceptedDevices = props => {
   const limits = mappedLimits.map(({ type, total, limit }) => (
     <Tooltip
       key={type}
-      title={`${Math.round(total / limit)}% used. To increase limits, go to Settings > Billing`}
+      title={
+        limit > 0
+          ? `${Math.round(total / limit)}% used. To increase limits, go to Settings > Billing`
+          : `You have ${total} accepted ${type} ${pluralize('device', total)}`
+      }
       slotProps={{
         popper: {
           modifiers: [
