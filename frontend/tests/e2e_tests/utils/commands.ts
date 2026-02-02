@@ -16,7 +16,7 @@ import { runServer } from '@sidewinder1138/saml-idp';
 import { spawn } from 'child_process';
 import * as fs from 'fs';
 import { jwtDecode } from 'jwt-decode';
-import { authenticator } from 'otplib';
+import { generate } from 'otplib';
 import * as path from 'path';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
@@ -307,7 +307,7 @@ export const generateOtp = async (otpSecret?) => {
   }
   fs.writeFileSync('secret.txt', secret);
   console.log(`2fa secret: ${secret}`);
-  return authenticator.generate(secret);
+  return generate(secret);
 };
 
 const protocol = 'https://';
