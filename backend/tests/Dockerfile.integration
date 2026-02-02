@@ -39,4 +39,12 @@ COPY requirements-integration.txt .
 RUN pip3 install --no-cache-dir -r requirements-integration.txt && \
   apt-get install --assume-yes libzbar0
 
+ENV GO_VERSION=1.24.0
+
+RUN curl -L "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz" | tar -C /usr/local -xz
+ENV PATH="${PATH}:/usr/local/go/bin"
+ENV GOPATH=/go
+ENV PATH=$PATH:$GOPATH/bin
+RUN go version
+
 ENTRYPOINT ["python3", "-m", "pytest"]
