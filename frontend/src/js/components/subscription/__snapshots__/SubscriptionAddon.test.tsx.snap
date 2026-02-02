@@ -283,7 +283,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
       <p
         class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-7"
       >
-        Expand your plan with device configuration features
+        Seamlessly configure applications and devices remotely – configure each device to its environment.
       </p>
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard emotion-8"

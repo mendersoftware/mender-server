@@ -1397,7 +1397,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 <p
                   class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
                 >
-                  Expand your plan with device configuration features
+                  Seamlessly configure applications and devices remotely – configure each device to its environment.
                 </p>
               </div>
               <div
@@ -1455,7 +1455,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 <p
                   class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
                 >
-                  Expand your plan with device monitoring features
+                  Detect and analyze health issues of devices, services and applications. Set up alerts so you can act quickly.
                 </p>
                 <div
                   class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard margin-bottom-x-small emotion-65"
@@ -1539,7 +1539,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 <p
                   class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-x-small emotion-1"
                 >
-                  Expand your plan with device troubleshooting features
+                  Secure, remote access to your devices – quickly diagnose and fix issues in real time.
                 </p>
               </div>
               <div

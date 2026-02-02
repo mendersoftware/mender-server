@@ -29,7 +29,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
             <span
               class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
             >
-              Professional
+              Enterprise
             </span>
           </div>
         </div>
