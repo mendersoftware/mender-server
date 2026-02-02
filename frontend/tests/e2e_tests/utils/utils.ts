@@ -28,7 +28,21 @@ export const locateReleaseByName = (page: Page, name: string) => {
 };
 
 export const selectDeviceLimitInput = (page: Page, tier: string) => {
-  const tierCheckbox =  page.getByLabel(`${tier} devices`);
+  const tierCheckbox = page.getByLabel(`${tier} devices`);
   const deviceInputContainer = page.locator('div').filter({ has: tierCheckbox }).last();
   return deviceInputContainer.getByLabel('Device limit');
-}
+};
+
+export const triggerDeploymentCreation = async (page: Page, successCheck: Promise<any>) => {
+  const creationButton = await page.getByRole('button', { name: /create deployment/i });
+  await creationButton.scrollIntoViewIfNeeded();
+  const deploymentWatcher = page.waitForResponse(
+    async response =>
+      response.url().match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i) &&
+      response.status() === 200 &&
+      response.request().method() === 'POST' &&
+      (await response.json()).status === 'finished'
+  );
+  await creationButton.click();
+  return Promise.any([successCheck, deploymentWatcher]);
+};
