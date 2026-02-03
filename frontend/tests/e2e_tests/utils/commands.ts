@@ -288,7 +288,7 @@ export const generateOtp = async (otpSecret?) => {
   }
   fs.writeFileSync('secret.txt', secret);
   console.log(`2fa secret: ${secret}`);
-  return generate(secret);
+  return generate({ secret });
 };
 
 const protocol = 'https://';
