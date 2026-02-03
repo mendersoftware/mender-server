@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { CloudUpload, FileCopyOutlined as CopyPasteIcon } from '@mui/icons-material';
@@ -22,6 +23,7 @@ import Editor, { loader } from '@monaco-editor/react';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Loader from '@northern.tech/common-ui/Loader';
 import { JSON_METADATA_FORMAT, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
+import { getIsDarkMode } from '@northern.tech/store/usersSlice/selectors';
 import { createFileDownload } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
@@ -51,6 +53,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
   const [isEditing, setIsEditing] = useState(false);
   const [isMetadataValid, setIsMetadataValid] = useState(false);
   const editorRef = useRef();
+  const isDarkMode = useSelector(getIsDarkMode);
 
   useEffect(() => {
     if (!fileContent) {
@@ -148,6 +151,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
         }}
         className="editor modified"
         wrapperProps={{ 'data-testid': 'monaco-editor' }}
+        theme={isDarkMode ? 'vs-dark' : 'light'}
         onChange={setFileContent}
         onMount={handleEditorDidMount}
         value={fileContent}
