@@ -23,3 +23,11 @@ func LegacyDeviceGroupeName(value interface{}) error {
 		deviceGroupPattern,
 	)
 }
+
+func DeploymentName(value interface{}) error {
+	s := fmt.Sprintf("%v", value)
+	return validation.Validate(s,
+		validation.Required,
+		deploymentNameSize,
+	)
+}

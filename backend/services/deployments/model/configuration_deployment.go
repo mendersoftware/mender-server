@@ -21,6 +21,8 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pkg/errors"
+
+	"github.com/mendersoftware/mender-server/pkg/rules"
 )
 
 const (
@@ -73,7 +75,7 @@ type ConfigurationDeploymentConstructor struct {
 // Validate validates the structure.
 func (c ConfigurationDeploymentConstructor) Validate() error {
 	return validation.ValidateStruct(&c,
-		validation.Field(&c.Name, validation.Required, lengthIn1To4096),
+		validation.Field(&c.Name, validation.By(rules.DeploymentName)),
 		validation.Field(&c.Configuration, validation.Required),
 	)
 }

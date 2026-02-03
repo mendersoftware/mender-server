@@ -7,4 +7,6 @@ import (
 var (
 	legacyDeviceGroupNameSize = validation.Length(0, 1024)
 	deviceGroupNameSize       = validation.Length(0, 256)
+
+	deploymentNameSize = validation.Length(0, 256)
 )
