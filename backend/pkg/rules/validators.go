@@ -40,3 +40,14 @@ func LegacyDeviceGroupName(value interface{}) error {
 		deviceGroupPattern,
 	)
 }
+
+func DeploymentName(value interface{}) error {
+	if !HasUnderlyingType(value, reflect.String) {
+		return fmt.Errorf("invalid type %T for deployment name", value)
+	}
+
+	return validation.Validate(value,
+		validation.Required,
+		deploymentNameSize,
+	)
+}

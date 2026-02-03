@@ -17,6 +17,7 @@ package model
 import (
 	"encoding/base64"
 	"encoding/json"
+	"strings"
 	"testing"
 
 	"github.com/pkg/errors"
@@ -42,6 +43,7 @@ func TestDeploymentConfigurationMarshalJSON(t *testing.T) {
 
 func TestConfigurationDeploymentValidate(t *testing.T) {
 	t.Parallel()
+	longStr := strings.Repeat("a", 257)
 
 	testCases := map[string]struct {
 		inputConstructor ConfigurationDeploymentConstructor
@@ -67,6 +69,12 @@ func TestConfigurationDeploymentValidate(t *testing.T) {
 		"ko, missing name and configuration": {
 			inputConstructor: ConfigurationDeploymentConstructor{},
 			outputError:      errors.New("configuration: cannot be blank; name: cannot be blank."),
+		},
+		"ko, name too long": {
+			inputConstructor: ConfigurationDeploymentConstructor{
+				Name:          longStr,
+				Configuration: []byte("foo")},
+			outputError: errors.New("name: the length must be no more than 256."),
 		},
 	}
 
