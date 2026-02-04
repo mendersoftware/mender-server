@@ -15,7 +15,8 @@ import { Button, Card, CardContent, CardHeader, Chip, Divider, Skeleton, Typogra
 
 import { AvailableAddon, Plan } from '@northern.tech/store/appSlice/constants';
 
-import { DeviceTypes, PreviewPrice } from './SubscriptionPage';
+import { DeviceTypes, PlanPreviewWithTotal } from './SubscriptionPage';
+import { SubscriptionSummaryItem } from './SubscriptionSummaryItem';
 import { formatPrice } from './utils';
 
 interface SubscriptionSummaryProps {
@@ -25,7 +26,7 @@ interface SubscriptionSummaryProps {
   isPreviewLoading?: boolean;
   onAction?: () => void;
   plan: Plan;
-  previewPrice: PreviewPrice;
+  previewPrice: PlanPreviewWithTotal;
   readOnly?: boolean;
   title: string;
 }
@@ -51,49 +52,17 @@ export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
         <Typography variant="body2" className="margin-top-small">
           Plan: {plan.name}
         </Typography>
-        {Object.values(deviceTypes).map(({ id, summaryLabel }) => {
-          if (!previewPrice[id]) return null;
-          const disabled = previewPrice[id].price === 0;
-          const textColor = disabled ? 'text.disabled' : 'text.primary';
-          return (
-            <div key={id} className="flexbox space-between margin-top-small margin-bottom-small">
-              <div>
-                <Typography color={textColor} variant="body1">
-                  {summaryLabel}
-                </Typography>
-                <Typography color={textColor} variant="caption">
-                  x {previewPrice[id].quantity} devices
-                </Typography>
-              </div>
-              {isPreviewLoading || !disabled ? (
-                <Typography variant="subtitle1">{isPreviewLoading ? <NumberSkeleton /> : formatPrice(previewPrice[id].price)}</Typography>
-              ) : (
-                <Typography color={textColor} variant="subtitle2">
-                  -
-                </Typography>
-              )}
-            </div>
-          );
-        })}
-        {enabledAddons.length > 0 && (
-          <div className="margin-left-x-small margin-top-small margin-bottom-small">
-            <Typography variant="body2" className="margin-bottom-x-small">
-              Add-ons
-            </Typography>
-            {enabledAddons.map(addon => (
-              <div key={addon} className="flexbox space-between margin-bottom-x-small">
-                <div>
-                  <Typography textTransform="capitalize" variant="body1">
-                    {addon}
-                  </Typography>
-                  <Typography variant="body2">x {previewPrice['standard'].quantity} devices</Typography>
-                </div>
-                <Typography variant="subtitle1">
-                  {isPreviewLoading || !previewPrice.addons[addon] ? <NumberSkeleton /> : formatPrice(previewPrice.addons[addon])}
-                </Typography>
-              </div>
-            ))}
-          </div>
+        {Object.values(deviceTypes).map(
+          ({ id, summaryLabel }) =>
+            !!previewPrice.items[id] && (
+              <SubscriptionSummaryItem
+                key={id}
+                addons={enabledAddons}
+                isPreviewLoading={!!isPreviewLoading}
+                previewPriceItem={previewPrice.items[id]}
+                summaryLabel={summaryLabel}
+              />
+            )
         )}
         <Divider variant="middle" className="margin-none" />
         <div className="flexbox space-between margin-top-small">
