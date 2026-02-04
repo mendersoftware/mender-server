@@ -16,7 +16,7 @@ import { PLANS } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 
-import { microDeviceTier, standardDeviceTier } from './SubscriptionPage';
+import { microDeviceTier, standardDeviceTier } from './SubscriptionPage.test';
 import { SubscriptionSummary } from './SubscriptionSummary';
 
 describe('Subscription Summary component', () => {
@@ -25,12 +25,15 @@ describe('Subscription Summary component', () => {
       <SubscriptionSummary
         addons={['configure']}
         deviceLimit={50}
-        deviceTypes={{...microDeviceTier, ...standardDeviceTier,  }}
+        deviceTypes={{ ...microDeviceTier, ...standardDeviceTier }}
         isEnabled
         isPreviewLoading={false}
         onAction={vi.fn}
         plan={PLANS.os}
-        previewPrice={{ addons: { configure: 1000 }, standard: { quantity: 50, price: 3200 }, micro: { quantity: 100, price: 3200 }, total: 7400 }}
+        previewPrice={{
+          items: { standard: { quantity: 50, price: 3200, addons: { configure: 1000 } }, micro: { quantity: 100, price: 3200, addons: {} } },
+          total: 7400
+        }}
         readOnly={false}
         title={'your subscription '}
       />
