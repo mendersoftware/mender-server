@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import { Alert, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Radio, RadioGroup, Typography, outlinedInputClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Loader } from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
@@ -31,6 +32,7 @@ import {
   getDeviceLimits,
   getFeatures,
   getOrganization,
+  getProducts,
   getStripeKey
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -587,6 +589,7 @@ const defaultValues = {
 
 export const SubscriptionPage = () => {
   const { standard: currentDeviceLimit, micro: currentMicroDeviceLimit } = useSelector(getDeviceLimits);
+export const SubscriptionPageContent = () => {
   const stripeAPIKey = useSelector(getStripeKey);
   const org = useSelector(getOrganization);
   const dispatch = useAppDispatch();
@@ -693,4 +696,19 @@ export const SubscriptionPage = () => {
       )}
     </div>
   );
+};
+export const SubscriptionPage = () => {
+  const products = useSelector(getProducts);
+
+  const isLoaded = products && typeof products === 'object';
+
+  if (!isLoaded) {
+    return (
+      <div className="flexbox centered">
+        <Loader show />;
+      </div>
+    );
+  }
+
+  return <SubscriptionPageContent />;
 };
