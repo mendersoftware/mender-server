@@ -335,7 +335,7 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   expandArtifact: { id: 'expandArtifact', Component: ExpandArtifact },
   forceDeployment: { id: 'forceDeployment', Component: ForceDeployment },
   groupDeployment: { id: 'groupDeployment', Component: GroupDeployment },
-  mcuDevice: { id: 'mcuDevice', Component: MCUDevice },
+  microDevice: { id: 'microDevice', Component: MCUDevice },
   menderArtifactUpload: { id: 'menderArtifactUpload', Component: MenderArtifactUpload },
   nameFilterTip: { id: 'nameFilterTip', Component: NameFilterTip },
   nameTagTip: { id: 'nameTagTip', Component: NameTagTip },
