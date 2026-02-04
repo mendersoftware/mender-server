@@ -1851,7 +1851,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("Group name cannot be blank"),
+				OutputBodyObject: RestError("group: cannot be blank."),
 			},
 			inventoryErr: nil,
 		},
@@ -1864,7 +1864,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("Group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)"),
+				OutputBodyObject: RestError("group: Group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)."),
 			},
 			inventoryErr: nil,
 		},
@@ -1877,7 +1877,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("Group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)"),
+				OutputBodyObject: RestError("group: Group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)."),
 			},
 			inventoryErr: nil,
 		},

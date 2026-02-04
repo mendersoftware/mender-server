@@ -26,6 +26,8 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/google/uuid"
+
+	"github.com/mendersoftware/mender-server/pkg/rules"
 )
 
 // Errors
@@ -96,7 +98,7 @@ type DeploymentConstructor struct {
 // TODO: Add custom validator to check devices array content (such us UUID formatting)
 func (c DeploymentConstructor) Validate() error {
 	return validation.ValidateStruct(&c,
-		validation.Field(&c.Name, validation.Required, lengthIn1To4096),
+		validation.Field(&c.Name, validation.By(rules.DeploymentName)),
 		validation.Field(&c.ArtifactName, validation.Required, lengthIn1To4096),
 		validation.Field(&c.Devices, validation.Each(validation.Required)),
 	)
