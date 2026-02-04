@@ -99,14 +99,10 @@ const contactReasons = {
   }
 } as const;
 
-const addOnsToString = (addons: Addon[] = []) =>
+const addOnsToString = (addons: OrgAddon[] = []): string =>
   addons
-    .reduce((accu: string[], item) => {
-      if (item.enabled) {
-        accu.push(item.name);
-      }
-      return accu;
-    }, [])
+    .filter(addon => addon.enabled)
+    .map(({ name }) => name)
     .join(', ');
 
 interface ContactReasonProps {
@@ -276,20 +272,22 @@ const SubscriptionForm = ({
   }, [currentDeviceLimits, debouncedLimits, deviceTypes, selectedPlan, setValue, specialHandling]);
 
   const setTierPreviewPrice = useCallback(
-    preview => {
+    (preview: PricePreview) => {
       const newPreviewPrice = {
-        addons: preview.addons,
-        total: preview.total
+        total: preview.total,
+        items: {}
       };
-      deviceTypeIds.forEach((deviceTypeId, index) => {
-        if (deviceTierEnabled[deviceTypeId]) {
-          newPreviewPrice[deviceTypeId] = {
-            quantity: debouncedLimits[index] || 0,
-            price: preview[deviceTypeId]
+      deviceTypeIds.forEach(deviceTypeId => {
+        if (deviceTierEnabled[deviceTypeId] && preview.items[deviceTypeId]) {
+          newPreviewPrice.items[deviceTypeId] = {
+            quantity: debouncedLimits[deviceTypeId] || 0,
+            addons: preview.items[deviceTypeId].addons,
+            price: preview.items[deviceTypeId].amount
           };
         } else {
-          newPreviewPrice[deviceTypeId] = {
+          newPreviewPrice.items[deviceTypeId] = {
             quantity: 0,
+            addons: {},
             price: 0
           };
         }
