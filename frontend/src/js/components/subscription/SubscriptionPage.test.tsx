@@ -12,17 +12,33 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
-import { ADDONS, PLANS, TIMEOUTS } from '@northern.tech/store/constants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
-import { act, screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { SubscriptionPage } from './SubscriptionPage';
+import { DeviceTypes, SubscriptionPage } from './SubscriptionPage';
 
 vi.mock('@northern.tech/store/thunks', { spy: true });
-
+export const standardDeviceTier: Partial<DeviceTypes> = {
+  standard: { id: 'standard', stripeProductName: 'mender_standard', label: 'Standard devices', summaryLabel: 'Standard', tooltipId: 'standardDevice' }
+};
+export const microDeviceTier: Partial<DeviceTypes> = {
+  micro: {
+    id: 'micro',
+    stripeProductName: 'mender_micro',
+    label: 'Micro devices',
+    summaryLabel: 'Micro',
+    tooltipId: 'microDevice',
+    limitConstrains: { os: { div: 100, min: 100, max: 250 }, professional: { div: 100, min: 100, max: 250 } },
+    addonsByPlan: {
+      os: [],
+      professional: []
+    }
+  }
+};
 const enterpriseReq = {
   content: {
     current_addons: '-',
@@ -40,22 +56,23 @@ const professionalReq = {
   products: [
     {
       addons: [],
-      name: 'mender_standard',
-      quantity: 250
+      name: 'mender_micro',
+      quantity: 500
     },
     {
       addons: [],
-      name: 'mender_micro',
-      quantity: 500
+      name: 'mender_standard',
+      quantity: 250
     }
   ]
 };
-const professionalReq300 = { ...professionalReq, products: [{ ...professionalReq.products[0], quantity: 300 }, {...professionalReq.products[1]}] };
+const { addons: ADDONS, plans: PLANS } = defaultState.organization.products;
+const professionalReq300 = { ...professionalReq, products: [{ ...professionalReq.products[0] }, { ...professionalReq.products[1], quantity: 300 }] };
 const professionalReq300WithMonitor = {
   ...professionalReq,
-  products: [{ ...professionalReq.products[0], quantity: 300, addons: [{ name: ADDONS.monitor.id }] }, {...professionalReq.products[1]}]
+  products: [{ ...professionalReq.products[0] }, { ...professionalReq.products[1], quantity: 300, addons: [{ name: ADDONS.monitor.id }] }]
 };
-describe('Subscription Summary component', () => {
+describe('Subscription Page component', () => {
   it('renders correctly', async () => {
     //
     const { baseElement } = render(<SubscriptionPage />, {
@@ -89,18 +106,17 @@ describe('Subscription Summary component', () => {
       }
     });
     expect(screen.getByText('Upgrade your subscription')).toBeInTheDocument();
-    const professionalRadioButton = screen.getByRole('radio', { name: new RegExp(PLANS.professional.name, 'i') });
+    const professionalRadioButton = screen.getByRole('radio', { name: new RegExp(PLANS.professional.id, 'i') });
     const monitorAddonCheckbox = screen.getByRole('checkbox', { name: new RegExp(ADDONS.monitor.title, 'i') });
-
     // Monitor should be disabled for Basic Plan
     expect(monitorAddonCheckbox).toBeDisabled();
     const microCheckbox = screen.getByRole('checkbox', { name: /micro devices/i });
     await user.click(microCheckbox);
 
     const deviceLimits = screen.getAllByLabelText('Device limit');
-    const [standardLimit, microLimit] = deviceLimits;
-    expect(standardLimit).toHaveValue(PLANS.os.minimalDeviceCount.standard);
-    expect(microLimit).toHaveValue(PLANS.os.minimalDeviceCount.micro);
+    const [microLimit, standardLimit] = deviceLimits;
+    expect(standardLimit).toHaveValue(PLANS.os.tierLimitsConstrains.standard.min);
+    expect(microLimit).toHaveValue(PLANS.os.tierLimitsConstrains.micro.min);
 
     await act(async () => {
       vi.runOnlyPendingTimers();
@@ -110,9 +126,8 @@ describe('Subscription Summary component', () => {
 
     await user.click(professionalRadioButton);
     expect(professionalRadioButton).toBeChecked();
-
-    await waitFor(() => expect(microLimit).toHaveValue(PLANS.professional.minimalDeviceCount.micro));
-    await waitFor(() => expect(standardLimit).toHaveValue(PLANS.professional.minimalDeviceCount.standard));
+    await waitFor(() => expect(microLimit).toHaveValue(PLANS.professional.tierLimitsConstrains.micro.min));
+    await waitFor(() => expect(standardLimit).toHaveValue(PLANS.professional.tierLimitsConstrains.standard.min));
     // Monitor addon should not be disabled for Professional Plan
     expect(monitorAddonCheckbox).not.toBeDisabled();
     await waitFor(() => expect(getBillingPreview).toHaveBeenCalled());
@@ -135,6 +150,14 @@ describe('Subscription Summary component', () => {
 
     const entRequestMessage = screen.getByLabelText('Your message');
     await user.type(entRequestMessage, 'I want mender so bad');
+    const addonSelect = screen.getByRole('combobox', { name: /select add-ons \(optional\)/i });
+    await user.click(addonSelect);
+
+    const options = within(screen.getByRole('listbox')).getAllByRole('option');
+
+    await user.click(options[1]);
+    expect(addonSelect).toHaveTextContent('Mender Monitor');
+    await user.keyboard('{Escape}');
     await user.click(screen.getByRole('button', { name: /Submit request/i }));
 
     expect(requestEnterprise).toHaveBeenCalledWith(enterpriseReq);

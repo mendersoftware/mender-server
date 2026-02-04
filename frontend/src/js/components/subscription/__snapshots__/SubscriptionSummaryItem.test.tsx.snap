@@ -1,0 +1,155 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Subscription Summary item component > renders correctly 1`] = `
+.emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-4 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  text-transform: capitalize;
+}
+
+<div>
+  <div
+    class="flexbox space-between margin-top-small margin-bottom-small"
+  >
+    <div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-0"
+      >
+        Micro Devices
+      </p>
+      <span
+        class="MuiTypography-root MuiTypography-caption emotion-1"
+      >
+        x 
+        50
+         devices
+      </span>
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle1 emotion-2"
+    >
+      $20
+    </h6>
+  </div>
+  <div
+    class="margin-left-x-small margin-top-small margin-bottom-small"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2 margin-bottom-x-small emotion-3"
+    >
+      Add-ons
+    </p>
+    <div
+      class="flexbox space-between margin-bottom-x-small"
+    >
+      <div>
+        <p
+          class="MuiTypography-root MuiTypography-body1 emotion-4"
+        >
+          configure
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          x 
+          50
+           devices
+        </p>
+      </div>
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1 emotion-2"
+      >
+        $10
+      </h6>
+    </div>
+    <div
+      class="flexbox space-between margin-bottom-x-small"
+    >
+      <div>
+        <p
+          class="MuiTypography-root MuiTypography-body1 emotion-4"
+        >
+          monitor
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          x 
+          50
+           devices
+        </p>
+      </div>
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1 emotion-2"
+      >
+        $10
+      </h6>
+    </div>
+    <div
+      class="flexbox space-between margin-bottom-x-small"
+    >
+      <div>
+        <p
+          class="MuiTypography-root MuiTypography-body1 emotion-4"
+        >
+          troubleshoot
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          x 
+          50
+           devices
+        </p>
+      </div>
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1 emotion-2"
+      >
+        $20
+      </h6>
+    </div>
+  </div>
+</div>
+`;

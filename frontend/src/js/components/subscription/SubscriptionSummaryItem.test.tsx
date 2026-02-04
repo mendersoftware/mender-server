@@ -20,7 +20,7 @@ describe('Subscription Summary item component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
       <SubscriptionSummaryItem
-        addons={['configure', 'monitor','troubleshoot']}
+        addons={['configure', 'monitor', 'troubleshoot']}
         isPreviewLoading={false}
         previewPriceItem={{
           addons: { configure: 1000, monitor: 1000, troubleshoot: 2000 },
