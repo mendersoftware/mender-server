@@ -702,7 +702,7 @@ export const SubscriptionPageContent = () => {
             plan={PLANS[currentFormValues.selectedPlan || plan.id]}
             addons={currentFormValues.selectedAddons || initialValues.selectedAddons}
             onClose={() => setShowUpgradeDrawer(false)}
-            currentPlanId={plan.id}
+            currentPlan={plan}
           />
         </Elements>
       )}

@@ -40,8 +40,8 @@ export const SubscriptionAddon = (props: AddonProps) => {
         <Typography className="margin-top-x-small margin-bottom-x-small" variant="body2">
           {addon.description}
         </Typography>
-        {disabledDueToTier && <Alert severity="info">This Add-on is only available on Standard devices.</Alert>}
-        {disabledDueToPlan && !disabledDueToTier && (
+        {disabledDueToTier && !disabledDueToPlan && <Alert severity="info">This Add-on is only available on Standard devices.</Alert>}
+        {disabledDueToPlan && (
           <Alert severity="info" className="margin-bottom-x-small">
             {addon.title} is not available on the {selectedPlan.name} plan.
           </Alert>

@@ -24,8 +24,8 @@ import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
-import { AvailableAddon, PLANS, Plan } from '@northern.tech/store/constants';
-import { Organization } from '@northern.tech/store/organizationSlice/types';
+import { AvailableAddon, Plan } from '@northern.tech/store/constants';
+import { Organization, ProductPlan } from '@northern.tech/store/organizationSlice/types';
 import { getBillingProfile, getCard, getCurrentUser, getSubscription } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import {
@@ -45,20 +45,20 @@ import { CardDetails } from '../settings/organization/Billing';
 import { BillingDetails } from '../settings/organization/BillingDetails';
 import OrganizationPaymentSettings from '../settings/organization/OrganizationPaymentSettings';
 import { SubscriptionConfirmation } from './SubscriptionConfirmation';
-import { DeviceTypes, PreviewPrice } from './SubscriptionPage';
+import { DeviceTypes, PlanPreviewWithTotal } from './SubscriptionPage';
 import { SubscriptionSummary } from './SubscriptionSummary';
 import { formatPrice } from './utils';
 
 interface SubscriptionDrawerProps {
   addons: AvailableAddon[];
-  currentPlanId?: string;
+  currentPlan: ProductPlan;
   deviceTypes: DeviceTypes;
   isTrial?: boolean;
   onClose: () => void;
   order?: any;
   organization: Organization;
   plan: Plan;
-  previewPrice?: PreviewPrice;
+  previewPrice?: PlanPreviewWithTotal;
 }
 
 const useStyles = makeStyles()(theme => ({
@@ -78,7 +78,8 @@ const useStyles = makeStyles()(theme => ({
 const emptyAddress: Address = { city: '', country: '', line1: '', postal_code: '' };
 
 export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
-  const { onClose, previewPrice, order, isTrial, plan: selectedPlan, organization, currentPlanId, deviceTypes } = props;
+  const { onClose, previewPrice, order, isTrial, plan: selectedPlan, organization, currentPlan, deviceTypes } = props;
+  const { id: currentPlanId, name: currentPlanName } = currentPlan;
   const { email } = useSelector(getCurrentUser);
   const card = useSelector(getCard);
   const billing = useSelector(getBillingProfile);
@@ -246,9 +247,9 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
       {nextPayment > 0 && currentSubscription && currentPlanId ? (
         <div className={classes.formWrapper}>
           <Typography variant="body2">
-            You’re currently subscribed to {PLANS[currentPlanId].name} at {formatPrice(currentSubscription.total)}/month. On your next payment, you&#39;ll be
-            charged for any days used under your current rate, and the rest will be billed at your new subscription rate. The total amount for your next payment
-            will be {formatPrice(nextPayment)}.
+            You’re currently subscribed to {currentPlanName} at {formatPrice(currentSubscription.total)}/month. On your next payment, you&#39;ll be charged for
+            any days used under your current rate, and the rest will be billed at your new subscription rate. The total amount for your next payment will be{' '}
+            {formatPrice(nextPayment)}.
           </Typography>
           {error && (
             <Alert icon={<ErrorOutlineIcon />} severity="error">
