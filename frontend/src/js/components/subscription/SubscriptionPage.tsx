@@ -24,7 +24,9 @@ import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import { ADDONS, Addon, AddonId, AvailableAddon, AvailablePlans, PLANS, TIMEOUTS } from '@northern.tech/store/constants';
+import type { Addon as OrgAddon } from '@northern.tech/store/api/types';
+import { Addon, AddonId, AvailableAddon, AvailablePlans, TIMEOUTS } from '@northern.tech/store/constants';
+import { PricePreview, ProductConfig, ProductTier } from '@northern.tech/store/organizationSlice/types';
 import {
   getAcceptedDevices,
   getAppInitDone,
@@ -56,12 +58,12 @@ const useStyles = makeStyles()(() => ({
     }
   }
 }));
-type DeviceTypeId = 'micro' | 'standard';
 
-type DeviceTypeConfig = {
-  id: string;
+//With hope in enum from backend types
+type DeviceTypeId = string;
+
+type DeviceTypeConfig = ProductTier & {
   label: string;
-  step: number;
   stripeProductName: string;
   summaryLabel: string;
   tooltipId: string;
@@ -69,32 +71,12 @@ type DeviceTypeConfig = {
 
 export type DeviceTypes = Record<DeviceTypeId, DeviceTypeConfig>;
 
-export const standardDeviceTier: Partial<DeviceTypes> = {
-  standard: { id: 'standard', stripeProductName: 'mender_standard', label: 'Standard devices', summaryLabel: 'Standard', tooltipId: 'standardDevice', step: 50 }
+export type PlanPreviewPriceItem = {
+  addons: { [key in AvailableAddon]?: number };
+  price: number;
+  quantity: number;
 };
-export const microDeviceTier: Partial<DeviceTypes> = {
-  micro: { id: 'micro', stripeProductName: 'mender_micro', label: 'Micro devices', summaryLabel: 'Micro', tooltipId: 'mcuDevice', step: 100 }
-};
-
-
-
-const addonsEligibleDeviceTypes = ['standard'];
-
-export type PreviewPrice = {
-  [key in DeviceTypeId]: {
-    price: number;
-    quantity: number;
-  };
-} & {
-  addons: { [key in AvailableAddon]: number };
-  total: number;
-};
-const initialPreviewPrice: PreviewPrice = {
-  addons: {},
-  micro: { price: 0, quantity: 0 },
-  standard: { price: 0, quantity: 0 },
-  total: 0
-};
+export type PlanPreviewWithTotal = { items: Record<string, PlanPreviewPriceItem>; total: number };
 
 const enterpriseDeviceCount = PLANS.enterprise.minimalDeviceCount;
 const planOrder = Object.keys(PLANS);
@@ -150,22 +132,21 @@ const DevicesConnectedAlert = ({ deviceCount, deviceLabel }) => (
 );
 
 interface FormData {
+  [plan: string]: any; // number
   enterpriseMessage: string;
-  limit: number;
-  micro: number;
   selectedAddons: AddonId[];
   selectedPlan: string;
-  standard: number;
 }
 
 interface SubscriptionFormProps {
   deviceTypes: DeviceTypes;
+  initialPreviewPrice: PlanPreviewWithTotal;
   onShowUpgradeDrawer: () => void;
   onUpdateFormValues: (values: Partial<FormData>) => void;
-  previewPrice: PreviewPrice;
-  setDeviceTypes: (tier: DeviceTypes) => void;
+  previewPrice: PlanPreviewWithTotal;
+  products: ProductConfig;
   setOrder: (order: any) => void;
-  setPreviewPrice: (price: PreviewPrice) => void;
+  setPreviewPrice: (price: PlanPreviewWithTotal) => void;
   specialHandling: boolean;
 }
 type TiersEnabled = Record<DeviceTypeId, boolean>;
@@ -580,19 +561,28 @@ const SubscriptionForm = ({
   );
 };
 
-const defaultValues = {
-  selectedPlan: PLANS.os.id,
-  selectedAddons: [],
-  limit: 50,
-  enterpriseMessage: ''
-};
-
-export const SubscriptionPage = () => {
-  const { standard: currentDeviceLimit, micro: currentMicroDeviceLimit } = useSelector(getDeviceLimits);
 export const SubscriptionPageContent = () => {
+  const currentDeviceTierLimits = useSelector(getDeviceLimits);
   const stripeAPIKey = useSelector(getStripeKey);
   const org = useSelector(getOrganization);
+  const products = useSelector(getProducts);
   const dispatch = useAppDispatch();
+  const { plans: PLANS = {}, tiers: backendTiers = [] } = products || {};
+  const deviceTypes = useMemo(
+    () =>
+      Object.fromEntries(
+        backendTiers.map(tier => [tier.id, { ...tier, label: `${tier.title} devices`, summaryLabel: tier.title, tooltipId: `${tier.id}Device` }])
+      ),
+    [backendTiers]
+  );
+
+  const initialPreviewPrice: PlanPreviewWithTotal = useMemo(
+    () => ({
+      items: Object.fromEntries(backendTiers.map(tier => [tier.id, { addons: {}, price: 0, quantity: 0 }])),
+      total: 0
+    }),
+    [backendTiers]
+  );
 
   const { addons: orgAddOns = [], plan: currentPlan = PLANS.os.id as AvailablePlans, trial: isTrial = true } = org;
   const plan = Object.values(PLANS).find(plan => plan.id === (isTrial ? PLANS.os.id : currentPlan)) || PLANS.os;
@@ -601,17 +591,24 @@ export const SubscriptionPageContent = () => {
   const [showUpgradeDrawer, setShowUpgradeDrawer] = useState(false);
   const [loadingFinished, setLoadingFinished] = useState(!stripeAPIKey);
   const [currentFormValues, setCurrentFormValues] = useState<Partial<FormData>>({});
-  const [previewPrice, setPreviewPrice] = useState<PreviewPrice>(initialPreviewPrice);
-  const [deviceTypes, setDeviceTypes] = useState<DeviceTypes>(standardDeviceTier);
+  const [previewPrice, setPreviewPrice] = useState<PlanPreviewWithTotal>(initialPreviewPrice);
   const [order, setOrder] = useState();
   const [specialHandling, setSpecialHandling] = useState(false);
 
+  const tierInitialLimits = Object.fromEntries(
+    Object.values(backendTiers).map(({ id, limitConstrains }) => [id, Math.max(limitConstrains[PLANS.os.id].min, currentDeviceTierLimits[id])])
+  );
+  const defaultValues = {
+    selectedPlan: PLANS.os.id,
+    selectedAddons: [],
+    enterpriseMessage: '',
+    ...tierInitialLimits
+  };
   const initialValues: FormData = {
     selectedPlan: plan.id,
     selectedAddons: enabledAddons.filter(({ enabled }) => enabled && !isTrial).map(({ name }) => name),
-    micro: Math.max(currentMicroDeviceLimit || 0, plan.minimalDeviceCount.micro),
-    standard: Math.max(currentDeviceLimit || 0, plan.minimalDeviceCount.standard),
-    enterpriseMessage: ''
+    enterpriseMessage: '',
+    ...tierInitialLimits
   };
 
   //Loading stripe Component
@@ -669,8 +666,9 @@ export const SubscriptionPageContent = () => {
       <Form initialValues={initialValues} defaultValues={defaultValues} onSubmit={onSubmit} autocomplete="off">
         <SubscriptionForm
           deviceTypes={deviceTypes}
-          setDeviceTypes={setDeviceTypes}
+          products={products}
           onShowUpgradeDrawer={setShowUpgradeDrawer}
+          initialPreviewPrice={initialPreviewPrice}
           onUpdateFormValues={setCurrentFormValues}
           setOrder={setOrder}
           setPreviewPrice={setPreviewPrice}
