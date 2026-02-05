@@ -16,7 +16,7 @@ import { PLANS } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 
 import { SubscriptionConfirmation } from './SubscriptionConfirmation';
-import { microDeviceTier, standardDeviceTier } from './SubscriptionPage';
+import { microDeviceTier, standardDeviceTier } from './SubscriptionPage.test';
 
 describe('Subscription Confirmation component', () => {
   it('renders correctly', async () => {
