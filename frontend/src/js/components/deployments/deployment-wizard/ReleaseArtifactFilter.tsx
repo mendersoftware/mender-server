@@ -14,6 +14,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { Close as CloseIcon, ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon, FilterList as FilterListIcon } from '@mui/icons-material';
 import { Button, DialogContent, Divider, TextField, Typography } from '@mui/material';
@@ -151,9 +152,19 @@ export const ReleaseArtifactFilter = props => {
           Results ({releaseItems.length})
         </Typography>
         <div className={classes.resultsContainer} id="deployment-release-container">
-          {releaseItems.map(item => (
-            <ReleaseItem key={item.name + item.modified} release={item} onClick={onSelectRelease} />
-          ))}
+          {releaseItems.length > 0 ? (
+            releaseItems.map(item => <ReleaseItem key={item.name + item.modified} release={item} onClick={onSelectRelease} />)
+          ) : (
+            <div className="flexbox column center-aligned margin-top-small">
+              <Typography>No Releases were found.</Typography>
+              <Typography className="margin-top-small">
+                Try adjusting the filters, or{' '}
+                <Link to="/releases" color="inherit">
+                  Upload a new Release
+                </Link>
+              </Typography>
+            </div>
+          )}
         </div>
       </DialogContent>
     </BaseDialog>
