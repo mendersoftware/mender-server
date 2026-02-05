@@ -96,10 +96,10 @@ export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
   const { isDirty } = formState;
 
   return (
-    <BaseDialog open={open} title="Select release" onClose={() => onCloseModal()}>
+    <BaseDialog open={open} title="Select a Release" onClose={() => onCloseModal()}>
       <DialogContent className={`${classes.dialogContainer} flexbox column`}>
         <Typography variant="body2" className="margin-bottom-small">
-          Filter and browse all available releases. Use the filters below to narrow down your search.
+          Filter and browse all available Releases. Use the filters below to narrow down your search.
         </Typography>
         <div className="flexbox space-between">
           <div className="flexbox center-aligned">
@@ -148,7 +148,7 @@ export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
               <Typography variant="subtitle2" className="margin-bottom-x-small">
                 Release name
               </Typography>
-              <ControlledSearch asFormField clearButtonOnHover name="searchTerm" placeholder="Search releases..." />
+              <ControlledSearch asFormField clearButtonOnHover name="searchTerm" placeholder="Search Releases..." />
             </div>
           </form>
         </FormProvider>
