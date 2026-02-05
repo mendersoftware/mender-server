@@ -20,6 +20,7 @@ import { Release } from '@northern.tech/store/releasesSlice';
 interface ReleaseItemProps {
   onClick: (rel: Release) => void;
   release: Release;
+  selected: boolean;
 }
 const useStyles = makeStyles()(theme => ({
   hoverPaper: {
@@ -29,6 +30,10 @@ const useStyles = makeStyles()(theme => ({
       backgroundColor: alpha(theme.palette.primary.light, 0.08),
       cursor: 'pointer'
     }
+  },
+  selectedPaper: {
+    backgroundColor: alpha(theme.palette.primary.light, 0.08),
+    border: `1px solid ${theme.palette.primary.main}`
   },
   linesOverflow: {
     display: '-webkit-box',
@@ -40,17 +45,21 @@ const useStyles = makeStyles()(theme => ({
 
 export const ReleaseItem = (props: ReleaseItemProps) => {
   const { classes } = useStyles();
-  const { release, onClick } = props;
-  const { name, artifacts, tags, modified } = release;
-  const description = artifacts[0]?.description;
+  const { release, onClick, selected } = props;
+  const { name, tags, modified, notes } = release;
   return (
-    <Paper elevation={0} variant="outlined" className={`margin-top-small padding-small ${classes.hoverPaper}`} onClick={() => onClick(release)}>
+    <Paper
+      elevation={0}
+      variant="outlined"
+      className={`margin-top-small padding-small ${classes.hoverPaper} ${selected ? classes.selectedPaper : ''}`}
+      onClick={() => onClick(release)}
+    >
       <Typography variant="subtitle2" className={`margin-bottom-x-small ${classes.linesOverflow}`}>
         {name}
       </Typography>
-      {description && (
+      {notes && (
         <Typography variant="body2" className={`margin-bottom-x-small ${classes.linesOverflow}`}>
-          {description}
+          {notes}
         </Typography>
       )}
       <div className="margin-top-x-small">

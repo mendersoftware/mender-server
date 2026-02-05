@@ -46,9 +46,14 @@ const useStyles = makeStyles()(theme => ({
     height: '75vh'
   }
 }));
-
-export const ReleaseArtifactFilter = props => {
-  const { open, onClose, onSelect } = props;
+interface ReleaseArtifactFilterProps {
+  onClose: () => void;
+  onSelect: (release: Release) => void;
+  open: boolean;
+  selectedRelease: string;
+}
+export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
+  const { open, onClose, onSelect, selectedRelease } = props;
   const { classes } = useStyles();
   const [initialValues] = useState({ tags: [], type: null, searchTerm: '' });
   const [filterCount, setFilterCount] = useState(0);
@@ -153,7 +158,9 @@ export const ReleaseArtifactFilter = props => {
         </Typography>
         <div className={classes.resultsContainer} id="deployment-release-container">
           {releaseItems.length > 0 ? (
-            releaseItems.map(item => <ReleaseItem key={item.name + item.modified} release={item} onClick={onSelectRelease} />)
+            releaseItems.map(item => (
+              <ReleaseItem key={item.name + item.modified} selected={selectedRelease === item.name} release={item} onClick={onSelectRelease} />
+            ))
           ) : (
             <div className="flexbox column center-aligned margin-top-small">
               <Typography>No Releases were found.</Typography>

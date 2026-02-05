@@ -286,6 +286,7 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
                 device={device}
                 releases={releaseItems}
                 onSelect={onReleaseSelectionChange}
+                selectedRelease={deploymentRelease?.name}
                 open={releaseFilterOpened}
                 onClose={() => setReleaseFilterOpened(false)}
               />
