@@ -50,10 +50,15 @@ services:
     volumes:
         - ${MENDER_SERVER_PATH:-../../}/backend/tests/integration/docs:/docs
         - ${MENDER_SERVER_PATH:-../../}/backend/tests:/tests
+        - ${MENDER_SERVER_PATH:-../../}/backend:/backend
+        - go_pkg_mod:/go/pkg/mod/
+        - go_build_cache:/root/.cache/go-build
+        - go_tmp_cache:/tmp
         - /var/run/docker.sock:/var/run/docker.sock
     command:
       - integration
     environment:
+        GOMODCACHE: /go/pkg/mod
         PYTHONPATH: "/tests"
         PYTHONDONTWRITEBYTECODE: 1
         PYTEST_TEST_TO_RUN: ${PYTEST_TEST_TO_RUN:-}
@@ -74,3 +79,8 @@ services:
         GMAIL_PASSWORD: ${GMAIL_PASSWORD:-}
         K8S: ${K8S:-}
         PYTEST_ADDOPTS: "${PYTEST_ADDOPTS:-}"
+
+volumes:
+  go_pkg_mod:
+  go_build_cache:
+  go_tmp_cache:

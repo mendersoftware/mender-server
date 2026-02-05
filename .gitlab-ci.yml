@@ -412,6 +412,51 @@ test:backend:integration:
     reports:
       junit: backend/tests/integration/tests/results_integration_*.xml
 
+test:backend:integration:ng:
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
+  stage: test
+  extends: .build:base
+  rules:
+    - changes:
+        paths:
+          - "backend/**/*"
+          - ".gitlab-ci.yml"
+          - "docker-compose.yml"
+          - "compose/docker-compose.enterprise.yml"
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: on_success
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
+      variables:
+        HEALTHCHECK_TCP_PORT: "2376"
+  needs:
+    - job: build:backend:docker
+      artifacts: false
+    - job: build:backend:docker-acceptance
+      artifacts: false
+  variables:
+    MANTRA_PROJECT_NAME: "backend_integration_ng_open_source"
+  before_script:
+    - *requires-docker
+    - apk add make bash git curl jq
+    - *dind-login
+    - mkdir -p ${GOCOVERDIR}/integration-ng
+    - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
+  script:
+    - make -C backend test-integration-ng
+      GOCOVERDIR=${GOCOVERDIR}/integration-ng
+      MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
+  after_script:
+    - !reference [.mantra-push-results]
+  artifacts:
+    expire_in: 1w
+    when: always
+    paths:
+      - ${GOCOVERDIR}/integration-ng
+
 test:integration:
   stage: test
   needs:

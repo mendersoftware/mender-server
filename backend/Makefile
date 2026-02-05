@@ -105,6 +105,10 @@ $(TEST_ACCEPTANCE_TARGETS):
 test-integration:
 	./tests/run-integration.bash $(args)
 
+.PHONY: test-integration-ng
+test-integration-ng:
+	./tests/runner/scripts/run.sh $(args)
+
 .PHONY: build-acceptance
 build-acceptance: $(BUILD_ACCEPTANCE_TARGETS)
 
