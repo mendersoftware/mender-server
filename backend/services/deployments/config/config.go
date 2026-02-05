@@ -40,9 +40,11 @@ const (
 
 	SettingStorage = "storage"
 
-	SettingDefaultStorage                = SettingStorage + ".default"
-	SettingDefaultStorageDefault         = "aws"
-	SettingStorageBucket                 = SettingStorage + ".bucket"
+	SettingDefaultStorage        = SettingStorage + ".default"
+	SettingDefaultStorageDefault = "aws"
+
+	SettingStorageBucket = SettingStorage + ".bucket"
+
 	SettingStorageBucketDefault          = "mender-artifact-storage"
 	SettingStorageMaxImageSize           = SettingStorage + ".max_image_size"
 	SettingStorageMaxImageSizeDefault    = 10 * 1024 * 1024 * 1024 // 10 GiB
@@ -71,6 +73,7 @@ const (
 	SettingAwsS3UseAccelerateDefault  = false
 	SettingAwsURI                     = SettingsAws + ".uri"
 	SettingAwsExternalURI             = SettingsAws + ".external_uri"
+	SettingAwsLiteralBucketURI        = SettingsAws + ".literal_bucket_uri"
 	SettingAwsUnsignedHeaders         = SettingsAws + ".unsigned_headers"
 	SettingAwsUnsignedHeadersDefault  = "Accept-Encoding"
 

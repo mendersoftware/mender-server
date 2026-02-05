@@ -212,6 +212,10 @@ aws:
 
     # uri: example.com
 
+    # Treat uri and external_uri literally - do not decorate with bucket name or region
+    # in the host name.
+    # literal_bucket_uri: false
+
     # S3 EXTERNAL URI (for devices)
     # Defaults to: none (S3 URI)
     # Overwrite with environment variable: DEPLOYMENTS_AWS_EXTERNAL_URI
