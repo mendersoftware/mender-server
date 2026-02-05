@@ -33,7 +33,6 @@ import { ReleaseItem } from './ReleaseItem';
 
 const useStyles = makeStyles()(theme => ({
   resultsContainer: {
-    maxHeight: 'calc(100% - 300px)',
     paddingBottom: theme.spacing(2),
     overflowY: 'auto',
     flexGrow: 1,
@@ -41,6 +40,9 @@ const useStyles = makeStyles()(theme => ({
   },
   advancedFiltersOpened: {
     background: theme.alpha(theme.palette.info.main, 0.5)
+  },
+  dialogContainer: {
+    height: '75vh'
   }
 }));
 
@@ -89,7 +91,7 @@ export const ReleaseArtifactFilter = props => {
 
   return (
     <BaseDialog open={open} title="Select release" onClose={() => onCloseModal()}>
-      <DialogContent sx={{ display: 'flex', flexDirection: 'column' }}>
+      <DialogContent className={`${classes.dialogContainer} flexbox column`}>
         <Typography variant="body2" className="margin-bottom-small">
           Filter and browse all available releases. Use the filters below to narrow down your search.
         </Typography>
