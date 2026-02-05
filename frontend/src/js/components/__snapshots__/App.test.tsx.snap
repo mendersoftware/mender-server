@@ -131,6 +131,12 @@ exports[`App Component > is embedded in working providers 1`] = `
   align-self: center;
 }
 
+.emotion-5 .MuiOutlinedInput-root:hover .MuiInputAdornment-root,
+.emotion-5 .Mui-focused .MuiInputAdornment-root {
+  visibility: visible;
+  opacity: 1;
+}
+
 .emotion-6 {
   font-family: Red Hat Text;
   font-weight: 400;
@@ -2703,6 +2709,12 @@ exports[`App Component > renders correctly 1`] = `
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+}
+
+.emotion-2 .MuiOutlinedInput-root:hover .MuiInputAdornment-root,
+.emotion-2 .Mui-focused .MuiInputAdornment-root {
+  visibility: visible;
+  opacity: 1;
 }
 
 .emotion-3 {

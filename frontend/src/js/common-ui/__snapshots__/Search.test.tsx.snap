@@ -17,6 +17,12 @@ exports[`Search Component > renders correctly 1`] = `
   vertical-align: top;
 }
 
+.emotion-0 .MuiOutlinedInput-root:hover .MuiInputAdornment-root,
+.emotion-0 .Mui-focused .MuiInputAdornment-root {
+  visibility: visible;
+  opacity: 1;
+}
+
 .emotion-1 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
