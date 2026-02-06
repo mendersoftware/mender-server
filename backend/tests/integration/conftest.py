@@ -25,6 +25,20 @@ from testutils.api.client import get_free_tcp_port, wait_for_port
 
 original_deserialize = ApiClient.deserialize
 
+def pytest_exception_interact(node, call, report):
+    if report.failed:
+        start = datetime.fromtimestamp(call.start, tz=timezone.utc)
+        stop = datetime.fromtimestamp(call.stop, tz=timezone.utc)
+        subprocess.run(
+            [
+                "docker",
+                "compose",
+                "logs",
+                f"--since={start.isoformat()}",
+                f"--until={stop.isoformat()}",
+            ],
+            env={"COMPOSE_PROJECT_NAME": "backend-tests"},
+        )
 
 def new_deserialize(self, response_text, response_type, content_type):
     # the generated client does not support the application/jwt content type
