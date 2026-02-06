@@ -1,6 +1,8 @@
+![Mender Gopher](backend/docs/assets/mender_gopher.svg)
+
 # mender-server
 
-Mender Server monorepo
+Mender Server monorepo.
 
 ## Getting started
 
