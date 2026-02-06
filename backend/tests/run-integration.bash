@@ -42,8 +42,6 @@ PYTEST_REPORT_ENTERPRISE="--self-contained-html \
         --html=/tests/logs/report_integration_enterprise.html"
 PYTEST_REPORT=""
 
-PYTEST_ADDOPTS=""
-
 DOCS="$MENDER_SERVER_PATH/backend/tests/docs"
 
 usage() {
@@ -156,7 +154,7 @@ prepare_pytest_args() {
     done
 
     echo "-- using PYTEST_FILTER=$PYTEST_FILTER"
-    PYTEST_ADDOPTS="$PYTEST_ADDOPTS -k '$PYTEST_FILTER' $PYTEST_REPORT"
+    PYTEST_ADDOPTS="-k '$PYTEST_FILTER' $PYTEST_REPORT $PYTEST_ADDOPTS"
 
     export PYTEST_ADDOPTS
 }
