@@ -39,6 +39,7 @@ require (
 	golang.org/x/term v0.39.0
 	golang.org/x/time v0.14.0
 	gopkg.in/tomb.v2 v2.0.0-20161208151619-d5d1b5820637
+	gopkg.in/validator.v2 v2.0.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 
