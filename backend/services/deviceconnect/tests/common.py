@@ -21,9 +21,9 @@ from datetime import datetime, timedelta, timezone
 
 from websocket import create_connection
 
-import devices_api
-import internal_api
-import management_api
+import devices_v1 as devices_api
+import internal_v1 as internal_api
+import management_v1 as management_api
 
 
 @contextmanager
@@ -44,9 +44,9 @@ class Device:
         self.plan = plan
 
         client = internal_api.InternalAPIClient()
-        r = client.provision_device_with_http_info(
+        r = client.device_connect_internal_provision_device_with_http_info(
             tenant_id=tenant_id,
-            device=internal_api.Device(device_id=device_id),
+            provision_device=internal_api.ProvisionDevice(device_id=device_id),
         )
         assert r.status_code == 201
 
@@ -55,7 +55,7 @@ class Device:
             devices_api.Configuration.get_default_copy().host.replace(
                 "http://", "ws://"
             )
-            + "/connect",
+            + "/api/devices/v1/deviceconnect/connect",
             cookie="JWT=%s" % self.jwt,
         )
 
@@ -120,11 +120,37 @@ def make_user_token(user_id=None, plan=None, tenant_id=None):
     )
 
 
+class ManagementAPIClientWrapper:
+    def __init__(self, client):
+        self._client = client
+
+    def get_device(self, id, **kwargs):
+        return self._client.device_connect_management_get_device(id, **kwargs)
+
+    def check_update(self, id, **kwargs):
+        return self._client.device_connect_management_check_update(id, **kwargs)
+
+    def connect(self, id, **kwargs):
+        return self._client.device_connect_management_connect(id, **kwargs)
+
+    def download(self, id, path, **kwargs):
+        return self._client.device_connect_management_download(id, path, **kwargs)
+
+    def send_inventory(self, id, **kwargs):
+        return self._client.device_connect_management_send_inventory(id, **kwargs)
+
+    def playback(self, session_id, **kwargs):
+        return self._client.device_connect_management_playback(session_id, **kwargs)
+
+    def upload(self, id, **kwargs):
+        return self._client.device_connect_management_upload(id, **kwargs)
+
+
 def management_api_with_params(user_id, plan=None, tenant_id=None):
     api_conf = management_api.Configuration.get_default_copy()
     api_conf.access_token = make_user_token(user_id, plan, tenant_id)
-    api_conf.client_side_validation = False
-    return management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    client = management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    return ManagementAPIClientWrapper(client)
 
 
 def management_api_connect(
@@ -140,6 +166,6 @@ def management_api_connect(
     jwt = make_user_token(user_id=user_id, tenant_id=tenant_id, plan=plan)
     url = (
         re.sub(r"^http(s?://.+$)", r"ws\1", api_conf.host).rstrip("/")
-        + f"/devices/{device_id}/connect"
+        + f"/api/management/v1/deviceconnect/devices/{device_id}/connect"
     )
     return ws_session(url, cookie=f"JWT={jwt}", **sess_args)

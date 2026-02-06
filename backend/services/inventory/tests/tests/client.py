@@ -13,7 +13,6 @@
 #    limitations under the License.
 
 import logging
-import os
 import socket
 
 from urllib import parse as urlparse
@@ -22,8 +21,10 @@ import docker
 import pytest  # noqa
 import requests
 
-from bravado.client import SwaggerClient, RequestsClient
-from bravado.swagger_model import load_file
+import internal_v1
+import management_v1
+import management_v2
+
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from requests.utils import parse_header_links
 
@@ -31,6 +32,15 @@ from requests.utils import parse_header_links
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 DEFAULT_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibWVuZGVyLnBsYW4iOiJlbnRlcnByaXNlIn0.s27fi93Qik81WyBmDB5APE0DfGko7Pq8BImbp33-gy4"
+
+
+class Response:
+    """Simple response object compatible with requests.Response interface"""
+    def __init__(self, status_code, text=None, data=None):
+        self.status_code = status_code
+        self.text = text if text is not None else ""
+        self.data = data
+
 
 def default_auth(**kwargs):
     if not "Authorization" in kwargs:
@@ -42,106 +52,119 @@ def default_auth(**kwargs):
 class ManagementClient:
     log = logging.getLogger("Client")
 
-    def __init__(self, host, spec, api):
-        config = {
-            "also_return_response": True,
-            "validate_responses": False,
-            "validate_requests": False,
-            "validate_swagger_spec": True,
-            "use_models": True,
-        }
+    def __init__(self):
+        api_conf = management_v1.Configuration.get_default_copy()
+        api_conf.access_token = DEFAULT_AUTH.replace("Bearer ", "")
+        self.client = management_v1.ManagementAPIClient(management_v1.ApiClient(api_conf))
 
-        http_client = RequestsClient()
-        http_client.session.verify = False
+        self.group = management_v1.Group
+        self.inventoryAttributeTag = management_v1.Tag
 
-        self.client = SwaggerClient.from_spec(
-            load_file(spec), config=config, http_client=http_client,
-        )
-        self.client.swagger_spec.api_url = "http://%s/api/%s" % (host, api)
+    def inventoryAttribute(self, name, value, scope, description=None):
+        """Create an AttributeV1 with the value properly wrapped in AttributeV1Value."""
+        wrapped_value = management_v1.AttributeV1Value(value)
+        return management_v1.AttributeV1(name=name, value=wrapped_value, scope=scope, description=description)
 
-        self.group = self.client.get_model("Group")
-        self.inventoryAttribute = self.client.get_model("Attribute")
-        self.inventoryAttributeTag = self.client.get_model("Tag")
-    
     def deleteAllGroups(self, **kwargs):
-        kwargs = default_auth(**kwargs)
+        if "Authorization" not in kwargs:
+            kwargs["Authorization"] = DEFAULT_AUTH
+        if not kwargs["Authorization"].startswith("Bearer "):
+            kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
 
-        groups = self.client.Management_API.List_Groups(**kwargs).result()[0]
+        self.client.api_client.configuration.access_token = kwargs["Authorization"].replace("Bearer ", "")
+        groups = self.client.list_groups()
         for g in groups:
             for d in self.getGroupDevices(g):
                 self.deleteDeviceInGroup(g, d)
 
-    def getAllDevices(self, page=1, sort=None, has_group=None, JWT=DEFAULT_AUTH):
+    def getAllDevices(self, page=1, sort=None, has_group=None, JWT=DEFAULT_AUTH, per_page=500):
         if not JWT.startswith("Bearer "):
             JWT = "Bearer " + JWT
-        r, h = self.client.Management_API.List_Device_Inventories(
-            page=page, sort=sort, has_group=has_group, Authorization=JWT
-        ).result()
-        for i in parse_header_links(h.headers["link"]):
+
+        self.client.api_client.configuration.access_token = JWT.replace("Bearer ", "")
+        resp = self.client.list_device_inventories_with_http_info(
+            page=page, sort=sort, has_group=has_group, per_page=per_page
+        )
+        r = resp.data
+        headers = resp.headers or {}
+
+        for i in parse_header_links(headers.get("link", "")):
             if i["rel"] == "next":
                 page = int(
                     dict(urlparse.parse_qs(urlparse.urlsplit(i["url"]).query))["page"][
                         0
                     ]
                 )
-                return r + self.getAllDevices(page=page, sort=sort)
+                return r + self.getAllDevices(page=page, sort=sort, per_page=per_page)
         else:
             return r
 
     def getDevice(self, device_id, Authorization=DEFAULT_AUTH):
         if not Authorization.startswith("Bearer "):
             Authorization = "Bearer " + Authorization
-        r, _ = self.client.Management_API.Get_Device_Inventory(
-            id=device_id, Authorization=Authorization
-        ).result()
+        self.client.api_client.configuration.access_token = Authorization.replace("Bearer ", "")
+        r = self.client.get_device_inventory(id=device_id)
         return r
 
     def updateTagAttributes(self, device_id, tags, eTag=None, JWT=DEFAULT_AUTH):
-        r, _ = self.client.Management_API.Add_Tags(
-            id=device_id, If_Match=eTag, tags=tags, Authorization=JWT,
-        ).result()
+        if not JWT.startswith("Bearer "):
+            JWT = "Bearer " + JWT
+        self.client.api_client.configuration.access_token = JWT.replace("Bearer ", "")
+        kwargs = {"id": device_id, "tag": tags}
+        if eTag is not None:
+            kwargs["if_match"] = eTag
+        r = self.client.add_tags(**kwargs)
         return r
 
     def setTagAttributes(self, device_id, tags, eTag=None, JWT=DEFAULT_AUTH):
-        r, _ = self.client.Management_API.Assign_Tags(
-            id=device_id, If_Match=eTag, tags=tags, Authorization=JWT,
-        ).result()
+        if not JWT.startswith("Bearer "):
+            JWT = "Bearer " + JWT
+        self.client.api_client.configuration.access_token = JWT.replace("Bearer ", "")
+        kwargs = {"id": device_id, "tag": tags}
+        if eTag is not None:
+            kwargs["if_match"] = eTag
+        r = self.client.assign_tags(**kwargs)
         return r
 
     def getAllGroups(self, **kwargs):
-        kwargs = default_auth(**kwargs)
-
-        r, _ = self.client.Management_API.List_Groups(**kwargs).result()
+        if "Authorization" not in kwargs:
+            kwargs["Authorization"] = DEFAULT_AUTH
+        if not kwargs["Authorization"].startswith("Bearer "):
+            kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
+        self.client.api_client.configuration.access_token = kwargs["Authorization"].replace("Bearer ", "")
+        r = self.client.list_groups()
         return r
 
     def getGroupDevices(self, group, expected_error=False, **kwargs):
-
         try:
-            kwargs = default_auth(**kwargs)
-            r = self.client.Management_API.Get_Devices_in_Group(
-                name=group, **kwargs,
-            ).result()
+            if "Authorization" not in kwargs:
+                kwargs["Authorization"] = DEFAULT_AUTH
+            if not kwargs["Authorization"].startswith("Bearer "):
+                kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
+
+            self.client.api_client.configuration.access_token = kwargs["Authorization"].replace("Bearer ", "")
+            r = self.client.get_devices_in_group(name=group)
         except Exception as e:
             if expected_error:
                 return []
             else:
                 pytest.fail()
-
         else:
-            return r[0]
+            return r
 
     def deleteDeviceInGroup(self, group, device, expected_error=False, **kwargs):
-        try:    
-            kwargs = default_auth(**kwargs)
-            r = self.client.Management_API.Clear_Group(
-                id=device, name=group, **kwargs
-            ).result()
+        try:
+            if "Authorization" not in kwargs:
+                kwargs["Authorization"] = DEFAULT_AUTH
+            if not kwargs["Authorization"].startswith("Bearer "):
+                kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
+            self.client.api_client.configuration.access_token = kwargs["Authorization"].replace("Bearer ", "")
+            r = self.client.clear_group(id=device, name=group)
         except Exception:
             if expected_error:
                 return []
             else:
                 pytest.fail()
-
         else:
             return r
 
@@ -149,15 +172,13 @@ class ManagementClient:
         if not JWT.startswith("Bearer "):
             JWT = "Bearer " + JWT
         try:
-            r = self.client.Management_API.Assign_Group(
-                group=group, id=device, Authorization=JWT
-            ).result()
+            self.client.api_client.configuration.access_token = JWT.replace("Bearer ", "")
+            r = self.client.assign_group(group=management_v1.Group(group=group), id=device)
         except Exception:
             if expected_error:
                 return []
             else:
                 pytest.fail()
-
         else:
             return r
 
@@ -165,28 +186,18 @@ class ManagementClient:
 class ManagementClientV2:
     log = logging.getLogger("Client")
 
-    def __init__(self, host, spec, api):
-        config = {
-            "also_return_response": True,
-            "validate_responses": True,
-            "validate_requests": True,
-            "validate_swagger_spec": True,
-            "use_models": True,
-        }
-
-        http_client = RequestsClient()
-        http_client.session.verify = False
-
-        self.client = SwaggerClient.from_spec(
-            load_file(spec), config=config, http_client=http_client,
-        )
-        self.client.swagger_spec.api_url = (
-            "http://%s/api/management/v2/inventory/" % host
-        )
+    def __init__(self):
+        api_conf = management_v2.Configuration.get_default_copy()
+        api_conf.access_token = DEFAULT_AUTH.replace("Bearer ", "")
+        self.client = management_v2.ManagementAPIClient(management_v2.ApiClient(api_conf))
 
     def getFiltersAttributes(self, **kwargs):
-        kwargs = default_auth(**kwargs)
-        r, _ = self.client.Management_API.Get_filterable_attributes(**kwargs).result()
+        if "Authorization" not in kwargs:
+            kwargs["Authorization"] = DEFAULT_AUTH
+        if not kwargs["Authorization"].startswith("Bearer "):
+            kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
+        self.client.api_client.configuration.access_token = kwargs["Authorization"].replace("Bearer ", "")
+        r = self.client.get_filterable_attributes()
         return r
 
 
@@ -220,70 +231,56 @@ class CliClient:
         return code, stdout, stderr
 
 
-class ApiClient:
-
-    log = logging.getLogger("client.ApiClient")
-
-    def make_api_url(self, path):
-        return os.path.join(
-            self.api_url, path if not path.startswith("/") else path[1:]
-        )
-
-    def setup_swagger(self, host, spec):
-        config = {
-            "also_return_response": True,
-            "validate_responses": True,
-            "validate_requests": False,
-            "validate_swagger_spec": False,
-            "use_models": True,
-        }
-
-        self.http_client = RequestsClient()
-        self.http_client.session.verify = False
-
-        self.client = SwaggerClient.from_spec(
-            load_file(spec), config=config, http_client=self.http_client
-        )
-        self.client.swagger_spec.api_url = self.api_url
-
-    def __init__(self, host, spec):
-        self.setup_swagger(host, spec)
-
-
-class InternalApiClient(ApiClient):
+class InternalApiClient:
     log = logging.getLogger("client.InternalClient")
 
-    def __init__(self, host, spec):
-        self.api_url = "http://%s/api/internal/v1/inventory/" % host
-        super().__init__(host, spec)
-
-    def verify(self, token, uri="/api/management/1.0/auth/verify", method="POST"):
-        if not token.startswith("Bearer "):
-            token = "Bearer " + token
-        return self.client.auth.post_auth_verify(
-            **{
-                "Authorization": token,
-                "X-Forwarded-Uri": uri,
-                "X-Forwarded-Method": method,
-            }
-        ).result()
+    def __init__(self):
+        api_conf = internal_v1.Configuration.get_default_copy()
+        self.client = internal_v1.InternalAPIClient(internal_v1.ApiClient(api_conf))
 
     def DeviceNew(self, **kwargs):
-        return self.client.get_model("DeviceNew")(**kwargs)
+        return internal_v1.DeviceNew(**kwargs)
 
     def Attribute(self, **kwargs):
-        return self.client.get_model("Attribute")(**kwargs)
+        # Return a dict instead of the model to allow flexible value types
+        # (the spec says string, but the backend accepts number, string, array, etc.)
+        return kwargs
 
     def create_tenant(self, tenant_id):
-        return self.client.Internal_API.Create_Tenant(
-            tenant={"tenant_id": tenant_id,}
-        ).result()
+        tenant = internal_v1.TenantNew(tenant_id=tenant_id)
+        r = self.client.inventory_internal_create_tenant_with_http_info(tenant_new=tenant)
+        return Response(status_code=r.status_code, data=r.data)
 
     def create_device(self, device_id, attributes, description="test device"):
-        device = self.DeviceNew(
-            id=device_id, description=description, attributes=attributes
-        )
+        # Convert attributes to the internal API format using internal_v1.Attribute
+        # The internal Attribute model has: name, description, value (AttributeValue)
+        # The management AttributeV1 has: name, scope, description, value (AttributeV1Value), timestamp
+        converted_attrs = []
+        for attr in attributes:
+            if hasattr(attr, 'value') and hasattr(attr.value, 'actual_instance'):
+                # This is an AttributeV1 with AttributeV1Value - extract the raw value
+                raw_value = attr.value.actual_instance
+            elif hasattr(attr, 'to_dict'):
+                attr_dict = attr.to_dict()
+                raw_value = attr_dict.get("value")
+            elif isinstance(attr, dict):
+                raw_value = attr.get("value")
+            else:
+                raw_value = attr
 
-        return self.client.Internal_API.Initialize_Device(
-            tenant_id="", device=device
-        ).result()
+            name = attr.name if hasattr(attr, 'name') else attr.get("name") if isinstance(attr, dict) else None
+            desc = attr.description if hasattr(attr, 'description') else attr.get("description") if isinstance(attr, dict) else None
+
+            # Create internal_v1.Attribute with proper AttributeValue wrapper
+            internal_attr = internal_v1.Attribute(
+                name=name,
+                value=internal_v1.AttributeValue(raw_value),
+                description=desc
+            )
+            converted_attrs.append(internal_attr)
+
+        device = self.DeviceNew(
+            id=device_id, attributes=converted_attrs
+        )
+        r = self.client.initialize_device_with_http_info(tenant_id="", device_new=device)
+        return Response(status_code=r.status_code, data=r.data)

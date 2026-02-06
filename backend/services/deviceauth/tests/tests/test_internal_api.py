@@ -14,7 +14,7 @@
 import pytest
 
 from common import clean_db, mongo, internal_api
-import internal_api as ia
+import internal_v1 as ia
 
 
 class TestInternalApi:

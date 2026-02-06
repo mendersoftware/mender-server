@@ -18,7 +18,7 @@ import time
 
 import msgpack
 
-import management_api
+import management_v1 as management_api
 
 from common import Device, management_api_with_params, management_api_connect
 

@@ -39,7 +39,7 @@ from common import (
     MONGO_LOCK_FILE,
 )
 from client import management_v1_client
-from management_v1.rest import ApiException
+from management_v1.exceptions import ApiException
 
 
 class TestArtifact:

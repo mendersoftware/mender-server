@@ -20,14 +20,14 @@ from common import (
     clean_db,
     inventory_attributes,
 )
-import bravado
+import internal_v1
 import pytest
 
 
 class TestInternalApiTenantCreate:
     def test_create_ok(self, internal_client, clean_db):
 
-        _, r = internal_client.create_tenant("foobar")
+        r = internal_client.create_tenant("foobar")
         assert r.status_code == 201
 
         assert "inventory-foobar" in clean_db.list_database_names()
@@ -35,18 +35,18 @@ class TestInternalApiTenantCreate:
 
     def test_create_twice(self, internal_client, clean_db):
 
-        _, r = internal_client.create_tenant("foobar")
+        r = internal_client.create_tenant("foobar")
         assert r.status_code == 201
 
         # creating once more should not fail
-        _, r = internal_client.create_tenant("foobar")
+        r = internal_client.create_tenant("foobar")
         assert r.status_code == 201
 
     def test_create_empty(self, internal_client):
         try:
-            _, r = internal_client.create_tenant("")
-        except bravado.exception.HTTPError as e:
-            assert e.response.status_code == 400
+            r = internal_client.create_tenant("")
+        except internal_v1.exceptions.ApiException as e:
+            assert e.status == 400
 
 
 class TestInternalApiDeviceCreate:
@@ -54,7 +54,7 @@ class TestInternalApiDeviceCreate:
         self, internal_client, management_client, clean_db, inventory_attributes,
     ):
         devid = "".join([format(i, "02x") for i in os.urandom(128)])
-        _, r = internal_client.create_device(
+        r = internal_client.create_device(
             device_id=devid, attributes=inventory_attributes
         )
         assert r.status_code == 201
@@ -68,7 +68,7 @@ class TestInternalApiDeviceCreate:
     ):
         # insert first device
         devid = "".join([format(i, "02x") for i in os.urandom(128)])
-        _, r = internal_client.create_device(
+        r = internal_client.create_device(
             device_id=devid, attributes=inventory_attributes
         )
         assert r.status_code == 201
@@ -78,17 +78,20 @@ class TestInternalApiDeviceCreate:
             name="new attr", value="new value", scope="inventory", description="desc",
         )
 
+        # Create a modified version of the first attribute instead of modifying in place
         existing = inventory_attributes[0]
-        existing.value = "newval"
-        existing.description = "newdesc"
+        modified_existing = management_client.inventoryAttribute(
+            name=existing.name, value="newval", scope=existing.scope, description="newdesc",
+        )
 
-        new_attrs = [new_attr, existing]
+        new_attrs = [new_attr, modified_existing]
 
-        # inventory_attributes will now act as 'expected' output attrs
+        # Update inventory_attributes for verification - replace first attr and add new one
+        inventory_attributes[0] = modified_existing
         inventory_attributes.append(new_attr)
 
         # insert 'the same' device
-        _, r = internal_client.create_device(device_id=devid, attributes=new_attrs)
+        r = internal_client.create_device(device_id=devid, attributes=new_attrs)
         assert r.status_code == 201
 
         # verify update
@@ -97,6 +100,12 @@ class TestInternalApiDeviceCreate:
         self._verify_inventory(inventory_attributes, dev.attributes)
 
     def _verify_inventory(self, expected, inventory):
+        # Helper to extract raw value from AttributeV1Value wrapper
+        def get_raw_value(val):
+            if hasattr(val, 'actual_instance'):
+                return val.actual_instance
+            return val
+
         # Filter only attributes within the inventory scope
         expected_inventory = list(filter(lambda a: a.scope == "inventory", expected))
         inventory = list(filter(lambda a: a.scope == "inventory", inventory))
@@ -109,7 +118,7 @@ class TestInternalApiDeviceCreate:
                 for f in inventory
                 if (
                     f.name == e.name
-                    and f.value == e.value
+                    and get_raw_value(f.value) == get_raw_value(e.value)
                     and f.description == e.description
                 )
             ]

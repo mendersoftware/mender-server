@@ -27,10 +27,10 @@ from datetime import datetime, timedelta
 import hmac
 import uuid
 
-import devices_api
-import internal_api
-import management_api
-from management_api import models as management_models
+import devices_v1 as devices_api
+import internal_v1 as internal_api
+import management_v2 as management_api
+from management_v2 import models as management_models
 
 
 def generate_jwt(tenant_id: str = "", subject: str = "", is_user: bool = True) -> str:
@@ -128,15 +128,21 @@ class InternalClient(SwaggerApiClient):
     spec_option = "spec"
 
     def get_max_devices_limit(self, tenant_id):
-        return self.clientInternal.get_device_limit(tenant_id=tenant_id)
+        return self.clientInternal.device_auth_internal_get_device_limit(
+            tenant_id=tenant_id
+        )
 
     def put_max_devices_limit(self, tenant_id, limit, client_side_validation=True):
         if client_side_validation:
             l = internal_api.Limit(limit=limit)
-            return self.clientInternal.update_device_limit(tenant_id=tenant_id, limit=l)
+            return self.clientInternal.device_auth_internal_update_device_limit(
+                tenant_id=tenant_id, limit=l
+            )
         else:
             api_client = self.clientInternal.api_client
-            url = f"{api_client.configuration.host}/tenant/{tenant_id}/limits/max_devices"
+            url = (
+                f"{api_client.configuration.host}/api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices"
+            )
             return api_client.call_api(
                 "PUT",
                 url,
@@ -145,13 +151,19 @@ class InternalClient(SwaggerApiClient):
             )
 
     def create_tenant(self, tenant_id):
-        return self.clientInternal.create_tenant(new_tenant={"tenant_id": tenant_id})
+        return self.clientInternal.device_auth_internal_create_tenant(
+            new_tenant={"tenant_id": tenant_id}
+        )
 
     def delete_device(self, device_id, tenant_id="", headers={}):
-        return self.clientInternal.delete_device(tid=tenant_id, did=device_id)
+        return self.clientInternal.device_auth_internal_delete_device(
+            tid=tenant_id, did=device_id
+        )
 
     def verify_jwt(self, authorization):
-        return self.clientInternal.verify_jwt(authorization=authorization)
+        return self.clientInternal.device_auth_internal_verify_jwt(
+            authorization=authorization
+        )
 
 
 class SimpleInternalClient(InternalClient):
@@ -180,23 +192,27 @@ class ManagementClient(SwaggerApiClient):
 
     def put_device_status(self, devid, aid, status, **kwargs):
         st = management_models.Status(status=status)
-        return self.client.set_authentication_status(
+        return self.client.device_auth_management_set_authentication_status(
             id=devid, aid=aid, status=st, **kwargs
         )
 
     def decommission_device(
         self, devid, headers={}, x_men_request_id="", authorization=""
     ):
-        return self.client.decommission_device(
+        return self.client.device_auth_management_decommission_device(
             id=devid,
             x_men_request_id=x_men_request_id,
         )
 
     def delete_authset(self, devid, aid, **kwargs):
-        return self.client.remove_authentication(id=devid, aid=aid)
+        return self.client.device_auth_management_remove_authentication(
+            id=devid, aid=aid
+        )
 
     def count_devices(self, status=None, **kwargs):
-        count = self.client.count_devices(status=status, **kwargs)
+        count = self.client.device_auth_management_count_devices(
+            status=status, **kwargs
+        )
         return count.count
 
     def make_auth(self, tenant_token):
@@ -212,13 +228,13 @@ class SimpleManagementClient(ManagementClient):
         super().__init__(hostname, swagger_spec)
 
     def list_devices(self, **kwargs):
-        return self.client.list_devices(**kwargs)
+        return self.client.device_auth_management_list_devices(**kwargs)
 
     def get_device_limit(self, **kwargs):
-        return self.client.get_device_limit(**kwargs)
+        return self.client.device_auth_management_get_device_limit(**kwargs)
 
     def get_device(self, **kwargs):
-        return self.client.get_device(**kwargs)
+        return self.client.device_auth_management_get_device(**kwargs)
 
     def get_single_device(self, **kwargs):
         page = 1
@@ -250,7 +266,7 @@ class SimpleManagementClient(ManagementClient):
         return None
 
     def delete_token(self, **kwargs):
-        return self.client.revoke_api_token(**kwargs)
+        return self.client.device_auth_management_revoke_api_token(**kwargs)
 
 
 class CliClient:

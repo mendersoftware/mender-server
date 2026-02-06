@@ -30,8 +30,8 @@ from common import (
 
 import orchestrator
 
-import management_api as ma
-import internal_api as ia
+import management_v2 as ma
+import internal_v1 as ia
 
 
 class TestDeleteDevice:

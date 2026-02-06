@@ -34,7 +34,7 @@ class TestGroupRemoving:
         g1 = "group-test-3"
 
         management_client.addDeviceToGroup(
-            device=d1, group=management_client.group(group=g1)
+            device=d1, group=g1
         )
         assert len(management_client.getGroupDevices(g1)) == 1
 

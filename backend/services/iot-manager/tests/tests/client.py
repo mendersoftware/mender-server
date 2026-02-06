@@ -17,12 +17,14 @@ import socket
 import docker
 import requests
 
-from management_api import (
+import management_v1 as management_api
+import internal_v1 as internal_api
+from management_v1 import (
     ManagementAPIClient as GenManagementAPIClient,
     Configuration as mgmt_Configuration,
     ApiClient as mgmt_ApiClient,
 )
-from internal_api import (
+from internal_v1 import (
     InternalAPIClient as GenInternalAPIClient,
     Configuration as intrnl_Configuration,
     ApiClient as intrnl_ApiClient,
@@ -38,12 +40,74 @@ class ManagementAPIClient(GenManagementAPIClient):
         client = mgmt_ApiClient(configuration=config)
         super().__init__(api_client=client)
 
+    def list_integrations(self, **kwargs):
+        return self.io_t_manager_management_list_integrations(**kwargs)
+
+    def register_integration(self, integration, **kwargs):
+        return self.io_t_manager_management_register_integration(integration, **kwargs)
+
+    def register_integration_with_http_info(self, integration, **kwargs):
+        return self.io_t_manager_management_register_integration_with_http_info(integration, **kwargs)
+
+    def remove_integration(self, id, **kwargs):
+        return self.io_t_manager_management_remove_integration(id, **kwargs)
+
+    def set_integration_credentials(self, id, credentials, **kwargs):
+        return self.io_t_manager_management_set_integration_credentials(
+            id, credentials, **kwargs
+        )
+
+    def unregister_device_integrations(self, device_id, **kwargs):
+        return self.io_t_manager_management_unregister_device_integrations(
+            device_id, **kwargs
+        )
+
+    def get_device_states(self, device_id, **kwargs):
+        return self.io_t_manager_management_get_device_states(device_id, **kwargs)
+
+    def replace_state(self, device_id, integration_id, **kwargs):
+        return self.io_t_manager_management_replace_state(
+            device_id, integration_id, **kwargs
+        )
+
+    def get_device_state(self, device_id, integration_id, **kwargs):
+        return self.io_t_manager_management_get_device_state(
+            device_id, integration_id, **kwargs
+        )
+
+    def list_events(self, **kwargs):
+        return self.io_t_manager_management_list_events(**kwargs)
+
 
 class InternalAPIClient(GenInternalAPIClient):
     def __init__(self):
         config = intrnl_Configuration.get_default_copy()
         client = intrnl_ApiClient(configuration=config)
         super().__init__(api_client=client)
+
+    def check_health(self, **kwargs):
+        return self.io_t_manager_internal_check_health(**kwargs)
+
+    def check_liveliness(self, **kwargs):
+        return self.io_t_manager_internal_check_liveliness(**kwargs)
+
+    def provision_device(self, tenant_id, new_device, **kwargs):
+        return self.io_t_manager_internal_provision_device(
+            tenant_id, new_device, **kwargs
+        )
+
+    def delete_tenant(self, tenant_id, **kwargs):
+        return self.io_t_manager_internal_delete_tenant(tenant_id, **kwargs)
+
+    def decommission_device(self, tenant_id, device_id, **kwargs):
+        return self.io_t_manager_internal_decommission_device(
+            tenant_id, device_id, **kwargs
+        )
+
+    def update_device_statuses(self, tenant_id, status, request_body, **kwargs):
+        return self.io_t_manager_internal_update_device_statuses(
+            tenant_id, status, request_body, **kwargs
+        )
 
 
 class CliIoTManager:

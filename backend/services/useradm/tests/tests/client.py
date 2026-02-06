@@ -15,152 +15,169 @@
 
 import logging
 import os.path
-import pytest
 import socket
-import subprocess
-from collections import namedtuple
-from typing import List
 
 import docker
 import requests
 
-from bravado.client import SwaggerClient, RequestsClient
-from bravado.swagger_model import load_file
-
+import internal_v1
+import management_v1
 import common
 
 
-class ApiClient:
-    log = logging.getLogger("client.ApiClient")
+class Response:
+    """Simple response object compatible with requests.Response interface"""
+    def __init__(self, status_code, text=None, data=None):
+        self.status_code = status_code
+        self.text = text if text is not None else ""
+        self.data = data
+
+
+class InternalApiClient:
+    log = logging.getLogger("client.InternalClient")
+
+    def __init__(self, host):
+        self.api_url = "http://%s/api/internal/v1/useradm/" % host
+        api_conf = internal_v1.Configuration.get_default_copy()
+        self.client = internal_v1.InternalAPIClient(internal_v1.ApiClient(api_conf))
 
     def make_api_url(self, path):
         return os.path.join(
             self.api_url, path if not path.startswith("/") else path[1:]
         )
 
-    def setup_swagger(self, host, swagger_spec):
-        config = {
-            "also_return_response": True,
-            "validate_responses": True,
-            "validate_requests": False,
-            "validate_swagger_spec": False,
-            "use_models": True,
-        }
-
-        self.http_client = RequestsClient()
-        self.http_client.session.verify = False
-
-        self.client = SwaggerClient.from_spec(
-            load_file(swagger_spec), config=config, http_client=self.http_client
-        )
-        self.client.swagger_spec.api_url = self.api_url
-
-    def __init__(self, host, swagger_spec):
-
-        self.setup_swagger(host, swagger_spec)
-
-
-class InternalApiClient(ApiClient):
-    log = logging.getLogger("client.InternalClient")
-    spec_option = "internal_spec"
-
-    def __init__(self, host, swagger_spec):
-        self.api_url = "http://%s/api/internal/v1/useradm/" % host
-        super().__init__(host, swagger_spec)
-
     def verify(self, token, uri="/api/management/1.0/auth/verify", method="POST"):
         if not token.startswith("Bearer "):
             token = "Bearer " + token
-        return self.client.Internal_API.Verify_JWT(
-            **{
-                "Authorization": token,
-                "X-Forwarded-Uri": uri,
-                "X-Forwarded-Method": method,
-            }
-        ).result()
+        r = self.client.verify_jwt_with_http_info(
+            authorization=token,
+            x_forwarded_uri=uri,
+            x_forwarded_method=method,
+        )
+        return Response(status_code=r.status_code, data=r.data)
 
     def create_tenant(self, tenant_id):
-        return self.client.Internal_API.Create_Tenant(
-            tenant={"tenant_id": tenant_id}
-        ).result()
+        tenant = internal_v1.TenantNew(tenant_id=tenant_id)
+        r = self.client.useradm_create_tenant_with_http_info(tenant_new=tenant)
+        return Response(status_code=r.status_code, data=r.data)
 
     def create_user_for_tenant(self, tenant_id, user):
-        return self.client.Internal_API.Create_User(
-            tenant_id=tenant_id, user=user
-        ).result()
+        r = self.client.create_user_internal_with_http_info(
+            tenant_id=tenant_id, user_new=user
+        )
+        return Response(status_code=r.status_code, data=r.data)
 
 
-class ManagementApiClient(ApiClient):
+class ManagementApiClient:
     log = logging.getLogger("client.ManagementClient")
-    spec_option = "management_spec"
 
-    # default user auth - single user, single tenant
-
-    def __init__(self, host, swagger_spec, auth):
+    def __init__(self, host, auth):
         self.api_url = "http://%s/api/management/v1/useradm/" % host
         self.auth = auth
-        super().__init__(host, swagger_spec)
+        api_conf = management_v1.Configuration.get_default_copy()
+        # Extract token from Bearer header if present
+        if auth and "Authorization" in auth:
+            token = auth["Authorization"]
+            if token.startswith("Bearer "):
+                token = token[7:]
+            api_conf.access_token = token
+        self.client = management_v1.ManagementAPIClient(management_v1.ApiClient(api_conf))
+
+    def make_api_url(self, path):
+        return os.path.join(
+            self.api_url, path if not path.startswith("/") else path[1:]
+        )
+
+    def _get_headers(self, auth=None):
+        if auth is None:
+            auth = self.auth
+        headers = {}
+        if auth and "Authorization" in auth:
+            headers["Authorization"] = auth["Authorization"]
+        return headers
 
     def get_users(self, auth=None):
-        if auth is None:
-            auth = self.auth
-
-        return self.client.Management_API.List_Users(
-            _request_options={"headers": auth}
-        ).result()[0]
+        headers = self._get_headers(auth)
+        # Update access token if auth provided
+        if auth:
+            token = headers.get("Authorization", "")
+            if token.startswith("Bearer "):
+                self.client.api_client.configuration.access_token = token[7:]
+        return self.client.list_users_management()
 
     def get_user(self, uid, auth=None):
-        if auth is None:
-            auth = self.auth
-
-        return self.client.Management_API.Show_User(
-            id=uid, _request_options={"headers": auth}
-        ).result()[0]
+        headers = self._get_headers(auth)
+        if auth:
+            token = headers.get("Authorization", "")
+            if token.startswith("Bearer "):
+                self.client.api_client.configuration.access_token = token[7:]
+        return self.client.show_user(id=uid)
 
     def create_user(self, user, auth=None):
-        if auth is None:
-            auth = self.auth
-
-        return self.client.Management_API.Create_User(
-            user=user, _request_options={"headers": auth}
-        ).result()
+        headers = self._get_headers(auth)
+        # For tests sending malformed data, bypass the generated client to test server-side validation
+        if isinstance(user, dict):
+            if auth is None:
+                auth = self.auth
+            headers["Authorization"] = auth["Authorization"]
+            rsp = requests.post(
+                self.make_api_url("/users"),
+                json=user,
+                headers=headers
+            )
+            if rsp.status_code >= 400:
+                raise management_v1.exceptions.ApiException(status=rsp.status_code, reason=rsp.text)
+            return Response(status_code=rsp.status_code, data=rsp.json() if rsp.text else None)
+        # For UserNew objects, use the generated client
+        if auth:
+            token = headers.get("Authorization", "")
+            if token.startswith("Bearer "):
+                self.client.api_client.configuration.access_token = token[7:]
+        r = self.client.create_user_management_with_http_info(user_new=user)
+        return Response(status_code=r.status_code, data=r.data)
 
     def delete_user(self, user_id, auth=None, headers={}):
         if auth is None:
             auth = self.auth
-
         headers["Authorization"] = auth["Authorization"]
-        # bravado for some reason doesn't issue DELETEs properly (silent failure)
         rsp = requests.delete(
             self.make_api_url("/users/{}".format(user_id)), headers=headers
         )
         return rsp
 
     def update_user(self, uid, update, auth=None):
-        if auth is None:
-            auth = self.auth
-
-        return self.client.Management_API.Update_User(
-            id=uid, update=update, _request_options={"headers": auth}
-        ).result()
+        headers = self._get_headers(auth)
+        if auth:
+            token = headers.get("Authorization", "")
+            if token.startswith("Bearer "):
+                self.client.api_client.configuration.access_token = token[7:]
+        r = self.client.update_user_with_http_info(id=uid, user_update=update)
+        return Response(status_code=r.status_code, data=r.data)
 
     def login(self, username, password):
         auth = common.make_basic_auth(username, password)
-        return self.client.Management_API.Login(
-            _request_options={"headers": {"Authorization": auth}}
-        ).result()
+        # For login, we need to use requests directly since it requires Basic auth
+        rsp = requests.post(
+            self.make_api_url("/auth/login"),
+            headers={"Authorization": auth}
+        )
+        # Raise exception for non-2xx responses
+        if rsp.status_code >= 400:
+            raise management_v1.exceptions.ApiException(status=rsp.status_code, reason=rsp.text)
+        return Response(status_code=rsp.status_code, text=rsp.text)
 
     def logout(self, auth=None):
-        if auth is None:
-            auth = self.auth
-        return self.client.Management_API.Logout(
-            _request_options={"headers": auth}
-        ).result()
+        headers = self._get_headers(auth)
+        if auth:
+            token = headers.get("Authorization", "")
+            if token.startswith("Bearer "):
+                self.client.api_client.configuration.access_token = token[7:]
+        r = self.client.logout_with_http_info()
+        return Response(status_code=r.status_code, data=r.data)
 
     def post_settings(self, settings, auth=None):
         if auth is None:
             auth = self.auth
-
         return requests.post(
             self.make_api_url("/settings"), json=settings, headers=auth
         )
@@ -168,29 +185,34 @@ class ManagementApiClient(ApiClient):
     def get_settings(self, auth=None):
         if auth is None:
             auth = self.auth
-
         return requests.get(self.make_api_url("/settings"), headers=auth)
 
     def create_token(self, token_request, auth=None):
         if auth is None:
             auth = self.auth
-
-        return self.client.Management_API.Create_Personal_Access_Token(
-            token=token_request, _request_options={"headers": auth}
-        ).result()
+        headers = {"Authorization": auth["Authorization"], "Content-Type": "application/json"}
+        # Use requests directly since the response has application/jwt content type
+        rsp = requests.post(
+            self.make_api_url("/settings/tokens"),
+            json=token_request.to_dict() if hasattr(token_request, 'to_dict') else token_request,
+            headers=headers
+        )
+        if rsp.status_code >= 400:
+            raise management_v1.exceptions.ApiException(status=rsp.status_code, reason=rsp.text)
+        return Response(status_code=rsp.status_code, text=rsp.text)
 
     def list_tokens(self, auth=None):
-        if auth is None:
-            auth = self.auth
-
-        return self.client.Management_API.List_User_Personal_Access_Tokens(
-            _request_options={"headers": auth}
-        ).result()
+        headers = self._get_headers(auth)
+        if auth:
+            token = headers.get("Authorization", "")
+            if token.startswith("Bearer "):
+                self.client.api_client.configuration.access_token = token[7:]
+        r = self.client.list_user_personal_access_tokens_with_http_info()
+        return Response(status_code=r.status_code, data=r.data)
 
     def delete_token(self, tid, auth=None, headers={}):
         if auth is None:
             auth = self.auth
-
         headers["Authorization"] = auth["Authorization"]
         rsp = requests.delete(
             self.make_api_url("/settings/tokens/{}".format(tid)), headers=headers

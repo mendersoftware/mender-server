@@ -32,7 +32,7 @@ from common import (
 from client import SimpleArtifactsClient, ArtifactsClientError
 
 from client import internal_v1_client
-from internal_v1.rest import ApiException
+from internal_v1.exceptions import ApiException
 
 
 class TestInternalApiTenantCreate:

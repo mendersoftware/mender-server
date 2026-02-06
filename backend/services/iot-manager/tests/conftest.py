@@ -14,8 +14,8 @@
 
 import os
 
-import internal_api
-import management_api
+import internal_v1
+import management_v1
 
 
 def pytest_addoption(parser):
@@ -29,13 +29,9 @@ def pytest_addoption(parser):
 
 def pytest_configure(config):
     host = config.getoption("host")
-    internal_api.Configuration.set_default(
-        internal_api.Configuration(
-            host="http://" + host + "/api/internal/v1/iot-manager"
-        )
+    internal_v1.Configuration.set_default(
+        internal_v1.Configuration(host="http://" + host)
     )
-    management_api.Configuration.set_default(
-        management_api.Configuration(
-            host="http://" + host + "/api/management/v1/iot-manager"
-        )
+    management_v1.Configuration.set_default(
+        management_v1.Configuration(host="http://" + host)
     )

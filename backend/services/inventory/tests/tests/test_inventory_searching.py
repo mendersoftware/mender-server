@@ -41,7 +41,7 @@ class TestInventorySearching:
             it = list(inventory_attributes)
             it.append(
                 management_client.inventoryAttribute(
-                    name=i, value=extra_inventory_items[i]
+                    name=i, value=extra_inventory_items[i], scope="inventory"
                 )
             )
 
@@ -49,7 +49,7 @@ class TestInventorySearching:
             internal_client.create_device(did, it)
 
         r = requests.get(
-            management_client.client.swagger_spec.api_url + "/devices",
+            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices",
             params=({"users_logged_in": 100}),
             verify=False,
             headers={"Authorization":DEFAULT_AUTH},
@@ -57,7 +57,7 @@ class TestInventorySearching:
         assert len(r.json()) == 1
 
         r = requests.get(
-            management_client.client.swagger_spec.api_url + "/devices",
+            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices",
             params=({"open_connections": 1231}),
             verify=False,
             headers={"Authorization":DEFAULT_AUTH},

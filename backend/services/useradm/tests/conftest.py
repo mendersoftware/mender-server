@@ -14,13 +14,14 @@
 #    limitations under the License.
 import logging
 
+import internal_v1
+import management_v1
+
 
 def pytest_addoption(parser):
     parser.addoption(
         "--host", action="store", default="useradm", help="host running API"
     )
-    parser.addoption("--internal-spec", default="../docs/internal_api.yml")
-    parser.addoption("--management-spec", default="../docs/management_api.yml")
     parser.addoption(
         "--mongo-url", default="tenantadm", help="Mongo URL (connection string)"
     )
@@ -31,6 +32,13 @@ def pytest_configure(config):
     if config.getoption("verbose"):
         lvl = logging.DEBUG
     logging.basicConfig(level=lvl)
-    # configure bravado related loggers to be less verbose
-    logging.getLogger("swagger_spec_validator").setLevel(logging.INFO)
-    logging.getLogger("bravado_core").setLevel(logging.INFO)
+
+    host = config.getoption("host")
+
+    # Configure generated API clients
+    internal_v1.Configuration.set_default(
+        internal_v1.Configuration(host="http://" + host)
+    )
+    management_v1.Configuration.set_default(
+        management_v1.Configuration(host="http://" + host)
+    )

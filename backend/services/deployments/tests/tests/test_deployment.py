@@ -32,7 +32,7 @@ from common import (
 )
 
 from client import management_v1_client
-from management_v1.rest import ApiException
+from management_v1.exceptions import ApiException
 import devices_v1
 import management_v1
 
