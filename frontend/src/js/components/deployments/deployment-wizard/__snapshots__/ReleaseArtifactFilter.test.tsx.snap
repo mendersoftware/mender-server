@@ -117,13 +117,7 @@ exports[`ReleaseArtifactFilter Component > renders correctly 1`] = `
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
   padding: 20px 24px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
+  height: 75vh;
 }
 
 .MuiDialogTitle-root+.emotion-5 {
@@ -299,6 +293,12 @@ exports[`ReleaseArtifactFilter Component > renders correctly 1`] = `
   margin: 0;
   border: 0;
   vertical-align: top;
+}
+
+.emotion-14 .MuiOutlinedInput-root:hover .MuiInputAdornment-root,
+.emotion-14 .Mui-focused .MuiInputAdornment-root {
+  visibility: visible;
+  opacity: 1;
 }
 
 .emotion-15 {
@@ -525,7 +525,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
 }
 
 .emotion-23 {
-  max-height: calc(100% - 300px);
   padding-bottom: 16px;
   overflow-y: auto;
   -webkit-box-flex: 1;
@@ -571,15 +570,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
           id="_r_1_"
         >
-          Select release
+          Select a Release
         </h2>
         <div
-          class="MuiDialogContent-root emotion-5"
+          class="MuiDialogContent-root flexbox column emotion-5"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 margin-bottom-small emotion-6"
           >
-            Filter and browse all available releases. Use the filters below to narrow down your search.
+            Filter and browse all available Releases. Use the filters below to narrow down your search.
           </p>
           <div
             class="flexbox space-between"
@@ -676,7 +675,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-18"
                     id="_r_3_"
                     name="searchTerm"
-                    placeholder="Search releases..."
+                    placeholder="Search Releases..."
                     type="text"
                     value=""
                   />
@@ -712,7 +711,30 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           <div
             class="emotion-23"
             id="deployment-release-container"
-          />
+          >
+            <div
+              class="flexbox column center-aligned margin-top-small"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 emotion-7"
+              >
+                No Releases were found.
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-top-small emotion-7"
+              >
+                Try adjusting the filters, or
+                 
+                <a
+                  color="inherit"
+                  data-discover="true"
+                  href="/releases"
+                >
+                  Upload a new Release
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

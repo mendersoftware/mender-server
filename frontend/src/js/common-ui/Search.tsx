@@ -14,8 +14,9 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-form';
 
-import { Search as SearchIcon } from '@mui/icons-material';
-import { InputAdornment, TextField } from '@mui/material';
+import { Clear as ClearIcon, Search as SearchIcon } from '@mui/icons-material';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -36,14 +37,38 @@ const startAdornment = (
 
 // due to search not working reliably for single letter searches, only start at 2
 const MINIMUM_SEARCH_LENGTH = 2;
+const useStyles = makeStyles()(() => ({
+  adornment: {
+    visibility: 'hidden',
+    opacity: 0,
+    transition: 'opacity 0.3s ease-in-out'
+  },
+  textFieldRoot: {
+    '& .MuiOutlinedInput-root:hover, & .Mui-focused': {
+      '& .MuiInputAdornment-root': {
+        visibility: 'visible',
+        opacity: 1
+      }
+    }
+  }
+}));
 
-export const ControlledSearch = ({ className = '', isSearching, asFormField = false, name = 'search', onSearch, placeholder = 'Search devices', style = {} }) => {
-  const { control, watch } = useFormContext();
+export const ControlledSearch = ({
+  className = '',
+  isSearching,
+  asFormField = false,
+  name = 'search',
+  onSearch,
+  placeholder = 'Search devices',
+  style = {},
+  clearButtonOnHover = false
+}) => {
+  const { control, watch, resetField } = useFormContext();
   const inputRef = useRef();
   const focusLockRef = useRef(true);
   const timer = useRef(); // this + the above focusLock are needed to work around the focus being reassigned to the input field which would cause runaway search triggers
   const triggerDebounceRef = useRef(false); // this is needed to reject the search triggered through the recreation of the onSearch callback
-
+  const { classes } = useStyles();
   const searchValue = watch(name, '');
 
   const debouncedSearchTerm = useDebounce(searchValue, TIMEOUTS.debounceDefault);
@@ -87,14 +112,22 @@ export const ControlledSearch = ({ className = '', isSearching, asFormField = fa
     }
   }, [debouncedSearchTerm, onSearch, shouldTriggerSearch]);
 
-  const adornments = isSearching ? { startAdornment, endAdornment } : { startAdornment };
+  const resetSearchAdornment = searchValue ? (
+    <InputAdornment position="end" className={clearButtonOnHover ? classes.adornment : ''}>
+      <IconButton onClick={() => resetField(name)}>
+        <ClearIcon />
+      </IconButton>
+    </InputAdornment>
+  ) : null;
+
+  const adornments = isSearching ? { startAdornment, endAdornment } : { startAdornment, endAdornment: resetSearchAdornment };
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field: {ref, ...restField} }) => (
+      render={({ field: { ref, ...restField } }) => (
         <TextField
-          className={className}
+          className={`${className} ${classes.textFieldRoot}`}
           slotProps={{ input: adornments }}
           onKeyUp={onTriggerSearch}
           onFocus={onFocus}
@@ -102,7 +135,7 @@ export const ControlledSearch = ({ className = '', isSearching, asFormField = fa
           size="small"
           style={style}
           {...restField}
-          inputRef={(el) => {
+          inputRef={el => {
             ref(el);
             inputRef.current = el;
           }}

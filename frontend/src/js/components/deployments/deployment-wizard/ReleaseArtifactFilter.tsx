@@ -14,6 +14,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { Close as CloseIcon, ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon, FilterList as FilterListIcon } from '@mui/icons-material';
 import { Button, DialogContent, Divider, TextField, Typography } from '@mui/material';
@@ -33,7 +34,6 @@ import { ReleaseItem } from './ReleaseItem';
 
 const useStyles = makeStyles()(theme => ({
   resultsContainer: {
-    maxHeight: 'calc(100% - 300px)',
     paddingBottom: theme.spacing(2),
     overflowY: 'auto',
     flexGrow: 1,
@@ -41,11 +41,19 @@ const useStyles = makeStyles()(theme => ({
   },
   advancedFiltersOpened: {
     background: theme.alpha(theme.palette.info.main, 0.5)
+  },
+  dialogContainer: {
+    height: '75vh'
   }
 }));
-
-export const ReleaseArtifactFilter = props => {
-  const { open, onClose, onSelect } = props;
+interface ReleaseArtifactFilterProps {
+  onClose: () => void;
+  onSelect: (release: Release) => void;
+  open: boolean;
+  selectedRelease: string;
+}
+export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
+  const { open, onClose, onSelect, selectedRelease } = props;
   const { classes } = useStyles();
   const [initialValues] = useState({ tags: [], type: null, searchTerm: '' });
   const [filterCount, setFilterCount] = useState(0);
@@ -88,10 +96,10 @@ export const ReleaseArtifactFilter = props => {
   const { isDirty } = formState;
 
   return (
-    <BaseDialog open={open} title="Select release" onClose={() => onCloseModal()}>
-      <DialogContent sx={{ display: 'flex', flexDirection: 'column' }}>
+    <BaseDialog open={open} title="Select a Release" onClose={() => onCloseModal()}>
+      <DialogContent className={`${classes.dialogContainer} flexbox column`}>
         <Typography variant="body2" className="margin-bottom-small">
-          Filter and browse all available releases. Use the filters below to narrow down your search.
+          Filter and browse all available Releases. Use the filters below to narrow down your search.
         </Typography>
         <div className="flexbox space-between">
           <div className="flexbox center-aligned">
@@ -140,7 +148,7 @@ export const ReleaseArtifactFilter = props => {
               <Typography variant="subtitle2" className="margin-bottom-x-small">
                 Release name
               </Typography>
-              <ControlledSearch asFormField name="searchTerm" placeholder="Search releases..." />
+              <ControlledSearch asFormField clearButtonOnHover name="searchTerm" placeholder="Search Releases..." />
             </div>
           </form>
         </FormProvider>
@@ -149,9 +157,21 @@ export const ReleaseArtifactFilter = props => {
           Results ({releaseItems.length})
         </Typography>
         <div className={classes.resultsContainer} id="deployment-release-container">
-          {releaseItems.map(item => (
-            <ReleaseItem key={item.name + item.modified} release={item} onClick={onSelectRelease} />
-          ))}
+          {releaseItems.length > 0 ? (
+            releaseItems.map(item => (
+              <ReleaseItem key={item.name + item.modified} selected={selectedRelease === item.name} release={item} onClick={onSelectRelease} />
+            ))
+          ) : (
+            <div className="flexbox column center-aligned margin-top-small">
+              <Typography>No Releases were found.</Typography>
+              <Typography className="margin-top-small">
+                Try adjusting the filters, or{' '}
+                <Link to="/releases" color="inherit">
+                  Upload a new Release
+                </Link>
+              </Typography>
+            </div>
+          )}
         </div>
       </DialogContent>
     </BaseDialog>

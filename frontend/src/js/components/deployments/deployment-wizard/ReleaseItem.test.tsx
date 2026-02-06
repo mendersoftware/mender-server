@@ -21,7 +21,7 @@ describe('ReleaseArtifactItem Component', () => {
   it('renders correctly', async () => {
     const release = Object.values(defaultState.releases.byId)[0];
 
-    const { baseElement } = render(<ReleaseItem release={release} onClick={vi.fn} />);
+    const { baseElement } = render(<ReleaseItem release={release} onClick={vi.fn} selected />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
