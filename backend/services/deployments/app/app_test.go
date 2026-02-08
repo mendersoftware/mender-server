@@ -1862,6 +1862,176 @@ func TestLookupDeployment(t *testing.T) {
 	}
 }
 
+func TestLookupDeploymentFallback(t *testing.T) {
+	t.Parallel()
+
+	t.Run("fallback finds device and returns deployments", func(t *testing.T) {
+		ctx := identity.WithContext(context.Background(), &identity.Identity{
+			Tenant: "tenant123",
+		})
+		query := model.Query{
+			Names:       []string{"my-device"},
+			IdAttribute: "mac",
+			IdScope:     "identity",
+			Limit:       10,
+		}
+		// First call: text search returns no results
+		db := mocks.DataStore{}
+		defer db.AssertExpectations(t)
+		db.On("FindDeployments", ctx, query).
+			Return(nil, int64(0), nil)
+
+		// Inventory returns a matching device
+		inv := &inventory_mocks.Client{}
+		defer inv.AssertExpectations(t)
+		inv.On("Search", ctx, "tenant123", model.SearchParams{
+			Page:    1,
+			PerPage: 1,
+			Filters: []model.FilterPredicate{{
+				Scope:     "identity",
+				Attribute: "mac",
+				Type:      "$eq",
+				Value:     "my-device",
+			}},
+		}).Return([]model.InvDevice{{ID: "device-uuid-123"}}, 1, nil)
+
+		// Second call: search by device ID
+		fallbackQuery := model.Query{
+			DeviceIDs: []string{"device-uuid-123"},
+			Limit:     10,
+		}
+		db.On("FindDeployments", ctx, fallbackQuery).
+			Return([]*model.Deployment{{
+				Id:          "dep-1",
+				DeviceCount: intPtr(1),
+			}}, int64(1), nil)
+
+		ds := &Deployments{
+			db:              &db,
+			inventoryClient: inv,
+		}
+
+		deployments, count, err := ds.LookupDeployment(ctx, query)
+		assert.NoError(t, err)
+		assert.Equal(t, int64(1), count)
+		assert.Len(t, deployments, 1)
+		assert.Equal(t, "dep-1", deployments[0].Id)
+	})
+
+	t.Run("fallback skipped when no identity params", func(t *testing.T) {
+		ctx := context.Background()
+		query := model.Query{
+			Names: []string{"my-device"},
+			Limit: 10,
+		}
+		db := mocks.DataStore{}
+		defer db.AssertExpectations(t)
+		db.On("FindDeployments", ctx, query).
+			Return(nil, int64(0), nil)
+
+		ds := &Deployments{db: &db}
+
+		deployments, count, err := ds.LookupDeployment(ctx, query)
+		assert.NoError(t, err)
+		assert.Equal(t, int64(0), count)
+		assert.Equal(t, []*model.Deployment{}, deployments)
+	})
+
+	t.Run("fallback skipped when name search has results", func(t *testing.T) {
+		ctx := identity.WithContext(context.Background(), &identity.Identity{
+			Tenant: "tenant123",
+		})
+		query := model.Query{
+			Names:       []string{"my-device"},
+			IdAttribute: "mac",
+			IdScope:     "identity",
+			Limit:       10,
+		}
+		db := mocks.DataStore{}
+		defer db.AssertExpectations(t)
+		db.On("FindDeployments", ctx, query).
+			Return([]*model.Deployment{{
+				Id:          "dep-1",
+				DeviceCount: intPtr(1),
+			}}, int64(1), nil)
+
+		ds := &Deployments{db: &db}
+
+		deployments, count, err := ds.LookupDeployment(ctx, query)
+		assert.NoError(t, err)
+		assert.Equal(t, int64(1), count)
+		assert.Len(t, deployments, 1)
+	})
+
+	t.Run("fallback inventory search returns no devices", func(t *testing.T) {
+		ctx := identity.WithContext(context.Background(), &identity.Identity{
+			Tenant: "tenant123",
+		})
+		query := model.Query{
+			Names:       []string{"unknown-device"},
+			IdAttribute: "mac",
+			IdScope:     "identity",
+			Limit:       10,
+		}
+		db := mocks.DataStore{}
+		defer db.AssertExpectations(t)
+		db.On("FindDeployments", ctx, query).
+			Return(nil, int64(0), nil)
+
+		inv := &inventory_mocks.Client{}
+		defer inv.AssertExpectations(t)
+		inv.On("Search", ctx, "tenant123", model.SearchParams{
+			Page:    1,
+			PerPage: 1,
+			Filters: []model.FilterPredicate{{
+				Scope:     "identity",
+				Attribute: "mac",
+				Type:      "$eq",
+				Value:     "unknown-device",
+			}},
+		}).Return([]model.InvDevice{}, 0, nil)
+
+		ds := &Deployments{
+			db:              &db,
+			inventoryClient: inv,
+		}
+
+		deployments, count, err := ds.LookupDeployment(ctx, query)
+		assert.NoError(t, err)
+		assert.Equal(t, int64(0), count)
+		assert.Equal(t, []*model.Deployment{}, deployments)
+	})
+
+	t.Run("fallback inventory search error", func(t *testing.T) {
+		ctx := identity.WithContext(context.Background(), &identity.Identity{
+			Tenant: "tenant123",
+		})
+		query := model.Query{
+			Names:       []string{"my-device"},
+			IdAttribute: "mac",
+			IdScope:     "identity",
+			Limit:       10,
+		}
+		db := mocks.DataStore{}
+		defer db.AssertExpectations(t)
+		db.On("FindDeployments", ctx, query).
+			Return(nil, int64(0), nil)
+
+		inv := &inventory_mocks.Client{}
+		defer inv.AssertExpectations(t)
+		inv.On("Search", ctx, "tenant123", mock.AnythingOfType("model.SearchParams")).
+			Return(nil, 0, errors.New("inventory error"))
+
+		ds := &Deployments{
+			db:              &db,
+			inventoryClient: inv,
+		}
+
+		_, _, err := ds.LookupDeployment(ctx, query)
+		assert.EqualError(t, err, "searching inventory for device: inventory error")
+	})
+}
+
 func TestGetDeploymentFilter(t *testing.T) {
 	testCases := map[string]struct {
 		inConstructor *model.DeploymentConstructor

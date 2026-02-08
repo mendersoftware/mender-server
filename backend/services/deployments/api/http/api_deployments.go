@@ -1717,6 +1717,37 @@ func ParseDeploymentLookupQueryV2(vals url.Values) (model.Query, error) {
 	query.Names = vals["name"]
 	query.IDs = vals["id"]
 
+	idAttribute := vals.Get("id_attribute")
+	idScope := vals.Get("id_scope")
+	if idScope != "" && idAttribute == "" {
+		return query, errors.New(
+			"id_scope requires id_attribute",
+		)
+	}
+	if idScope != "" && idScope != "identity" && idScope != "inventory" {
+		return query, errors.Errorf(
+			"invalid id_scope %q: must be \"identity\" or \"inventory\"",
+			idScope,
+		)
+	}
+	if idScope == "inventory" && idAttribute != "name" {
+		return query, errors.Errorf(
+			"id_scope \"inventory\" only supports id_attribute \"name\", got %q",
+			idAttribute,
+		)
+	}
+	if idAttribute != "" {
+		if idScope == "" {
+			if idAttribute == "name" {
+				idScope = "inventory"
+			} else {
+				idScope = "identity"
+			}
+		}
+		query.IdAttribute = idAttribute
+		query.IdScope = idScope
+	}
+
 	return query, nil
 }
 
