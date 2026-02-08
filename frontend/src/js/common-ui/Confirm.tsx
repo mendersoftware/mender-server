@@ -14,7 +14,19 @@
 import { useState } from 'react';
 
 import { Cancel as CancelIcon, CheckCircle as CheckCircleIcon, Check as CheckIcon, Close as CloseIcon, Edit as EditIcon } from '@mui/icons-material';
-import { Button, IconButton } from '@mui/material';
+import { Button, IconButton, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
+
+const useStyles = makeStyles()(theme => ({
+  nudgeInward: { marginRight: 6 },
+  wrapper: {
+    zIndex: 1,
+    background: theme.palette.info.light,
+    opacity: 1,
+    height: '100%',
+    justifyContent: 'flex-end'
+  }
+}));
 
 const defaultRemoving = 'Removing...';
 
@@ -56,6 +68,7 @@ const confirmationType = {
 export const Confirm = ({ action, cancel, classes = '', message = '', style = {}, type }) => {
   const [className, setClassName] = useState('fadeIn');
   const [loading, setLoading] = useState(false);
+  const { classes: localClasses } = useStyles();
 
   const handleCancel = () => {
     setClassName('fadeOut');
@@ -71,13 +84,15 @@ export const Confirm = ({ action, cancel, classes = '', message = '', style = {}
     notification = loading ? confirmationType[type].loading : confirmationType[type].message;
   }
   return (
-    <div className={`flexbox center-aligned ${className} ${classes}`} style={{ marginRight: '12px', justifyContent: 'flex-end', ...style }}>
-      <span className="bold">{notification}</span>
-      <IconButton id="confirmAbort" onClick={handleConfirm} size="large">
-        <CheckCircleIcon className="green" />
+    <div className={`flexbox center-aligned padding-right-small absolute full-width ${className} ${localClasses.wrapper} ${classes}`} style={style}>
+      <Typography className="margin-right-small" variant="subtitle2">
+        {notification}
+      </Typography>
+      <IconButton id="confirmAbort" onClick={handleConfirm}>
+        <CheckCircleIcon className="green" fontSize="small" />
       </IconButton>
-      <IconButton onClick={handleCancel} size="large">
-        <CancelIcon className="red" />
+      <IconButton className={localClasses.nudgeInward} onClick={handleCancel}>
+        <CancelIcon className="red" fontSize="small" />
       </IconButton>
     </div>
   );
