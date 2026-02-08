@@ -2670,6 +2670,86 @@ func TestFindDeployments(t *testing.T) {
 			query:             model.Query{},
 			outputDeployments: nil,
 		},
+		"ok, DeviceIDs matches by name (single-device deployment)": {
+			inputDeployments: []interface{}{
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "art1",
+						Name:         "device-uuid-1",
+					},
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "art2",
+						Name:         "other-name",
+					},
+					Id: "d1804903-5caa-4a73-a3ae-0efcc3205405",
+				},
+			},
+			query: model.Query{
+				DeviceIDs: []string{"device-uuid-1"},
+			},
+			outputDeployments: []*model.Deployment{
+				{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "art1",
+						Name:         "device-uuid-1",
+					},
+					Id:     "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+					Active: true,
+				},
+			},
+		},
+		"ok, DeviceIDs matches by device_list (multi-device deployment)": {
+			inputDeployments: []interface{}{
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "art1",
+						Name:         "multi-deploy",
+					},
+					DeviceList: []string{"device-uuid-1", "device-uuid-2"},
+					Id:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				},
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "art2",
+						Name:         "other-deploy",
+					},
+					DeviceList: []string{"device-uuid-3"},
+					Id:         "d1804903-5caa-4a73-a3ae-0efcc3205405",
+				},
+			},
+			query: model.Query{
+				DeviceIDs: []string{"device-uuid-2"},
+			},
+			outputDeployments: []*model.Deployment{
+				{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "art1",
+						Name:         "multi-deploy",
+					},
+					DeviceList: []string{"device-uuid-1", "device-uuid-2"},
+					Id:         "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+					Active:     true,
+				},
+			},
+		},
+		"ok, DeviceIDs no match": {
+			inputDeployments: []interface{}{
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "art1",
+						Name:         "some-name",
+					},
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				},
+			},
+			query: model.Query{
+				DeviceIDs: []string{"nonexistent-device"},
+			},
+			outputDeployments: nil,
+		},
 	}
 
 	for name, tc := range testCases {
