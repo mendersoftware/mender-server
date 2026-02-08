@@ -205,7 +205,6 @@ def clean_migrated_db(clean_db, cli):
 def management_api(request):
     yield SimpleManagementClient(
         request.config.getoption("--host"),
-        request.config.getoption("--management-spec"),
     )
 
 
@@ -213,7 +212,6 @@ def management_api(request):
 def internal_api(request):
     yield SimpleInternalClient(
         request.config.getoption("--host"),
-        request.config.getoption("--spec"),
     )
 
 

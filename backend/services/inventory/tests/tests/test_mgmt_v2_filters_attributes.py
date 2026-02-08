@@ -32,7 +32,6 @@ class TestGetAttributes:
         internal_client,
         inventory_attributes,
     ):
-        # NOTE: bravado request and response checks are enabled for management API v2 client
         management_client_v2.getFiltersAttributes()
         attributeList = []
         attr = management_client.inventoryAttribute(

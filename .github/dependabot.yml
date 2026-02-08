@@ -163,8 +163,6 @@ updates:
       backend-tests-python-dependencies:
         patterns:
           - "*"
-    ignore:
-      - dependency-name: "bravado"
     target-branch: main
   # maintenance branch - 4.0.x
   - commit-message:
@@ -237,6 +235,4 @@ updates:
       backend-tests-python-dependencies:
         patterns:
           - "*"
-    ignore:
-      - dependency-name: "bravado"
     target-branch: 4.0.x
