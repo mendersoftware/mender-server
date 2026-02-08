@@ -15,6 +15,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { Typography } from '@mui/material';
+
 import Loader from '@northern.tech/common-ui/Loader';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, TIMEOUTS, deploymentDisplayStates, onboardingSteps } from '@northern.tech/store/constants';
@@ -98,9 +100,9 @@ export const Deployments = ({ className = '', clickHandle }) => {
         <Loader show={loading} fade={true} />
       ) : (
         <div className="dashboard flexbox column" ref={deploymentsRef} style={{ gridTemplateColumns: '1fr', rowGap: 10 }}>
-          <h4 className={`${deploymentsCount ? 'margin-bottom-none' : 'margin-top-none'} margin-left-small`}>
+          <Typography variant="subtitle1" className={`${deploymentsCount ? 'margin-bottom-none' : 'margin-top-none'} margin-left-small`}>
             {deploymentsCount ? 'Recent deployments' : 'Deployments'}
-          </h4>
+          </Typography>
           {deploymentsCount ? (
             <>
               {Object.entries(stateMap).reduce((accu, [key, Component]) => {
@@ -109,7 +111,9 @@ export const Deployments = ({ className = '', clickHandle }) => {
                 }
                 accu.push(
                   <React.Fragment key={key}>
-                    <h5 className="margin-bottom-none">{deploymentDisplayStates[key]}</h5>
+                    <Typography variant="subtitle2" className="margin-bottom-none margin-top">
+                      {deploymentDisplayStates[key]}
+                    </Typography>
                     <Component deployments={deployments[key]} devicesById={devicesById} idAttribute={idAttribute} state={key} onClick={clickHandle} />
                   </React.Fragment>
                 );
