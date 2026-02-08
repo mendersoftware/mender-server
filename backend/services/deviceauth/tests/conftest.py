@@ -27,8 +27,6 @@ def pytest_addoption(parser):
         default="mongodb://mongo",
         help="The MongoDB URL (connection string)",
     )
-    parser.addoption("--spec", default="../docs/internal_api.yml")
-    parser.addoption("--management-spec", default="../docs/management_api.yml")
 
 
 def pytest_configure(config):

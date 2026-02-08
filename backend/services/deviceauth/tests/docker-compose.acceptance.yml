@@ -4,14 +4,11 @@ services:
   acceptance-tester:
     volumes:
       - ../services/deviceauth/tests:/testing
-      - ../services/deviceauth/docs:/docs
     depends_on:
       - deviceauth
     entrypoint:
       - pytest
       - --host=deviceauth:8080
-      - --spec=/docs/internal_api.yml
-      - --management-spec=/docs/management_api.yml
       - --mongo-url=mongodb://mongo
     environment:
       FAKE_ADMISSION_ADDR: "0.0.0.0:9997"
