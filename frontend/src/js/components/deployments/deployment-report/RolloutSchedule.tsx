@@ -25,9 +25,9 @@ import durationDayJs from 'dayjs/plugin/duration';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import pluralize from 'pluralize';
 
-import { ProgressChartComponent, getDeploymentPhasesInfo, getDisplayablePhases } from '../ProgressChart';
+import { getDeploymentPhasesInfo, getDisplayablePhases } from '../ProgressChart';
 import { getPhaseDeviceCount, getPhaseStartTime, getRemainderPercent } from '../deployment-wizard/PhaseSettings';
-import PhaseProgress from './PhaseProgress';
+import { PhaseProgress, ProgressChartComponent } from './PhaseProgress';
 
 const useStyles = makeStyles()(theme => ({
   currentPhaseInfo: { backgroundColor: theme.palette.grey[400] },
