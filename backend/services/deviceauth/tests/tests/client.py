@@ -90,19 +90,9 @@ class BaseDevicesApiClient(BaseApiClient):
 
 
 class SwaggerApiClient(BaseApiClient):
-    config = {
-        "also_return_response": True,
-        "validate_responses": True,
-        "validate_requests": False,
-        "validate_swagger_spec": True,
-        "use_models": True,
-    }
-
     log = logging.getLogger("client.SwaggerApiClient")
 
-    def __init__(self, hostname, swagger_spec):
-        self.spec = swagger_spec
-        self.config = management_api.Configuration()
+    def __init__(self, hostname):
         api_conf = management_api.Configuration.get_default_copy()
         device_id = str(uuid.uuid4())
         tenant_id = ""  # str(ObjectId())
@@ -119,13 +109,11 @@ class SwaggerApiClient(BaseApiClient):
 
 
 class InternalClient(SwaggerApiClient):
-    def __init__(self, hostname, swagger_spec):
-        super().__init__(hostname, swagger_spec)
+    def __init__(self, hostname):
+        super().__init__(hostname)
         self.api_url = "http://%s/api/internal/v1/devauth/" % hostname
 
     log = logging.getLogger("client.InternalClient")
-
-    spec_option = "spec"
 
     def get_max_devices_limit(self, tenant_id):
         return self.clientInternal.device_auth_internal_get_device_limit(
@@ -171,18 +159,13 @@ class SimpleInternalClient(InternalClient):
 
     log = logging.getLogger("client.SimpleInternalClient")
 
-    def __init__(self, hostname, swagger_spec):
-        super().__init__(hostname, swagger_spec)
-
 
 class ManagementClient(SwaggerApiClient):
-    def __init__(self, hostname, swagger_spec):
-        super().__init__(hostname, swagger_spec)
+    def __init__(self, hostname):
+        super().__init__(hostname)
         self.api_url = "http://%s/api/management/v2/devauth/" % hostname
 
     log = logging.getLogger("client.ManagementClient")
-
-    spec_option = "management_spec"
 
     def accept_device(self, devid, aid, **kwargs):
         return self.put_device_status(devid, aid, "accepted", **kwargs)
@@ -223,9 +206,6 @@ class SimpleManagementClient(ManagementClient):
     """Management API client. Cannot be used as pytest base class"""
 
     log = logging.getLogger("client.SimpleManagementClient")
-
-    def __init__(self, hostname, swagger_spec):
-        super().__init__(hostname, swagger_spec)
 
     def list_devices(self, **kwargs):
         return self.client.device_auth_management_list_devices(**kwargs)
