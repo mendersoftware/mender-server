@@ -57,7 +57,7 @@ const confirmationType = {
   },
   integrationRemoval: {
     loading: defaultRemoving,
-    message: 'Remove the ingration. Are you sure?'
+    message: 'Remove the integration. Are you sure?'
   },
   webhooksRemoval: {
     loading: defaultRemoving,
