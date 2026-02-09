@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 
-import { Tooltip } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
@@ -40,8 +40,11 @@ export const Time = ({ value, relative, format = defaultTimeFormat, valueFormat,
   );
 };
 
-export const MaybeTime = ({ className = '', value, ...remainingProps }) =>
-  value ? <Time value={value} {...remainingProps} /> : <div className={className}>-</div>;
+export const MaybeTime = ({ className = '', value, ...remainingProps }) => (
+  <Typography variant="body2" className={className}>
+    {value ? <Time value={value} {...remainingProps} /> : '-'}
+  </Typography>
+);
 
 const cutoff = -5 * 60;
 export const RelativeTime = ({ className, shouldCount = 'both', updateTime }) => {
@@ -59,14 +62,14 @@ export const RelativeTime = ({ className, shouldCount = 'both', updateTime }) =>
     (shouldCount === 'both' || (shouldCount === 'up' && diffSeconds > 0) || (shouldCount === 'down' && diffSeconds < 0))
   ) {
     timeDisplay = (
-      <time className={className} dateTime={updatedTime}>
+      <Typography className={className} variant="body2" component="time" dateTime={updatedTime}>
         {updatedTime.fromNow()}
-      </time>
+      </Typography>
     );
   }
   return (
     <Tooltip title={updatedTime ? updatedTime.toDate().toString().slice(0, 33) : ''} arrow enterDelay={500}>
-      <span>{timeDisplay}</span>
+      {timeDisplay}
     </Tooltip>
   );
 };
@@ -82,9 +85,9 @@ export const ApproximateRelativeDate = ({ className, updateTime }) => {
   const diff = updatedTime ? Math.abs(updatedTime.diff(dayjs(), 'days')) : 0;
   if (updatedTime && diff <= cutoffDays) {
     return (
-      <time className={className} dateTime={updatedTime.format(defaultDateFormat)}>
+      <Typography className={className} variant="body2" component="time" dateTime={updatedTime.format(defaultDateFormat)}>
         {diff !== 0 ? `${diff} ${pluralize('day', diff)} ago` : 'today'}
-      </time>
+      </Typography>
     );
   }
   return <MaybeTime className={className} value={updatedTime} format={defaultDateFormat} titleFormat={defaultDateFormat} />;
