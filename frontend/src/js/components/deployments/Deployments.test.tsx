@@ -133,7 +133,7 @@ describe('Deployments Component', () => {
     await user.click(screen.getByRole('button', { name: /Cancel/i }));
     await waitFor(() => rerender(ui));
     const inprogressDeployments = screen.getByText(/in progress now/i).parentElement.parentElement;
-    const deployment = within(inprogressDeployments).getAllByText(/test deployment/i)[0].parentElement.parentElement;
+    const deployment = within(inprogressDeployments).getAllByText(/test deployment/i)[0].parentElement;
     await user.click(within(deployment).getByRole('button', { name: /Abort/i }));
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.getByText(/Confirm abort/i)).toBeInTheDocument());
