@@ -11,6 +11,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     working_dir: /testing
+    environment:
+        PYTEST_ADDOPTS: "${PYTEST_ADDOPTS:-}"
     entrypoint:
       - pytest
       - --tb=long

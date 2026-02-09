@@ -11,8 +11,10 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
+import logging
 import subprocess
 
+from datetime import datetime, timezone
 from urllib.parse import urlparse
 
 import pytest
@@ -24,6 +26,42 @@ from testutils.infra.container_manager.kubernetes_manager import isK8S
 from testutils.api.client import get_free_tcp_port, wait_for_port
 
 original_deserialize = ApiClient.deserialize
+
+def _mongodump(node):
+    with open(f"/tests/logs/{node.name}.bson.gz", "wb") as f:
+        subprocess.run(
+            args=[
+                "docker",
+                "compose",
+                "exec",
+                "mongo",
+                "mongodump",
+                "--gzip",
+                "--archive",
+            ],
+            env={"COMPOSE_PROJECT_NAME": "backend-tests"},
+            stdout=f,
+            stderr=subprocess.PIPE,
+            check=True,
+        )
+
+
+def pytest_exception_interact(node, call, report):
+    if report.failed:
+        start = datetime.fromtimestamp(call.start, tz=timezone.utc)
+        stop = datetime.fromtimestamp(call.stop, tz=timezone.utc)
+        subprocess.run(
+            [
+                "docker",
+                "compose",
+                "logs",
+                f"--since={start.isoformat()}",
+                f"--until={stop.isoformat()}",
+            ],
+            env={"COMPOSE_PROJECT_NAME": "backend-tests"},
+        )
+        if logging.getLogger().level <= logging.DEBUG:
+            _mongodump(node)
 
 
 def new_deserialize(self, response_text, response_type, content_type):

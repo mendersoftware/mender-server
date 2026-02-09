@@ -404,13 +404,10 @@ test:backend:integration:
     expire_in: 1w
     when: always
     paths:
-      - ${GOCOVERDIR}/integration
-      - backend/logs.*
-      - backend/tests/integration/tests/logs.*
-      - backend/tests/integration/tests/results_integration_*.xml
-      - backend/tests/integration/tests/report_integration_*.html
+      - ${GOCOVERDIR}/integration/*
+      - backend/tests/logs/*
     reports:
-      junit: backend/tests/integration/tests/results_integration_*.xml
+      junit: backend/tests/logs/results_integration_*.xml
 
 test:backend:integration:ng:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
