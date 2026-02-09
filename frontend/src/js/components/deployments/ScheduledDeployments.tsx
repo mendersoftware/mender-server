@@ -17,7 +17,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CalendarToday as CalendarTodayIcon, List as ListIcon, Refresh as RefreshIcon } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseNotification';
@@ -62,7 +62,7 @@ const tabs = {
   list: {
     icon: <ListIcon />,
     index: 'list',
-    title: 'List view'
+    title: 'List'
   },
   calendar: {
     icon: <CalendarTodayIcon />,
@@ -154,7 +154,9 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   }, [JSON.stringify(items), tabIndex]);
 
   const abortDeployment = id => abort(id).then(refreshDeployments);
-
+  const handleToggleChange = (_, newMode: string) => {
+    setTabIndex(newMode);
+  };
   const props = {
     ...remainder,
     canDeploy,
@@ -171,17 +173,14 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
     <div className="fadeIn margin-left">
       {items.length ? (
         <>
-          <div className="margin-large margin-left-small">
-            {Object.entries(tabs).map(([currentIndex, tab]) => (
-              <Button
-                className={`${classes.tabSelect} ${currentIndex !== tabIndex ? classes.inactive : ''}`}
-                key={currentIndex}
-                startIcon={tab.icon}
-                onClick={() => setTabIndex(currentIndex)}
-              >
-                {tab.title}
-              </Button>
-            ))}
+          <div className="margin-top margin-bottom-medium margin-left-small">
+            <ToggleButtonGroup size="small" exclusive value={tabIndex} onChange={handleToggleChange} className={classes.toggleButtonGroup}>
+              {Object.entries(tabs).map(([currentIndex, tab]) => (
+                <ToggleButton size="small" className={classes.tabSelect} key={currentIndex} value={tab.index}>
+                  {tab.icon} <span className="margin-left-x-small">{tab.title}</span>
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
           </div>
           {tabIndex === tabs.list.index && (
             <DeploymentsList
