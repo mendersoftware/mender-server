@@ -289,7 +289,7 @@ exports[`Devices Component > renders correctly 1`] = `
           class="flexbox space-between margin-bottom-small"
         >
           <div
-            class="flexbox center-aligned emotion-0"
+            class="flexbox align-items-center emotion-0"
           >
             Software distribution
             <svg
@@ -305,7 +305,7 @@ exports[`Devices Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="flexbox center-aligned"
+            class="flexbox align-items-center"
             style="z-index: 1;"
           >
             <button
@@ -404,7 +404,7 @@ exports[`Devices Component > renders correctly 1`] = `
       class="widget"
     >
       <div
-        class="flexbox center-aligned  emotion-10"
+        class="flexbox align-items-center  emotion-10"
         style="align-items: end;"
       >
         <div
@@ -711,7 +711,7 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
       class="widget"
     >
       <div
-        class="flexbox center-aligned  emotion-0"
+        class="flexbox align-items-center  emotion-0"
         style="align-items: end;"
       >
         <div
@@ -884,7 +884,7 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
       class="widget"
     >
       <div
-        class="flexbox center-aligned  emotion-0"
+        class="flexbox align-items-center  emotion-0"
         style="align-items: end;"
       >
         <div
@@ -1259,7 +1259,7 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
           class="flexbox space-between margin-bottom-small"
         >
           <div
-            class="flexbox center-aligned emotion-0"
+            class="flexbox align-items-center emotion-0"
           >
             Software distribution
             <svg
@@ -1275,7 +1275,7 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
             </svg>
           </div>
           <div
-            class="flexbox center-aligned"
+            class="flexbox align-items-center"
             style="z-index: 1;"
           >
             <button
@@ -1374,7 +1374,7 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
       class="widget"
     >
       <div
-        class="flexbox center-aligned  emotion-10"
+        class="flexbox align-items-center  emotion-10"
         style="align-items: end;"
       >
         <div

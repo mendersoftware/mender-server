@@ -436,7 +436,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
     tabindex="-1"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard flexbox center-aligned margin-bottom-small emotion-3"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard flexbox align-items-center margin-bottom-small emotion-3"
       role="alert"
       style="--Paper-shadow: none;"
     >
@@ -456,7 +456,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
         </svg>
       </div>
       <div
-        class="MuiAlert-message flexbox center-aligned space-between full-width emotion-6"
+        class="MuiAlert-message flexbox align-items-center space-between full-width emotion-6"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 emotion-7"
@@ -816,7 +816,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
@@ -1097,7 +1097,7 @@ exports[`DeviceNotifications Component > renders correctly at limit 1`] = `
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
@@ -1378,7 +1378,7 @@ exports[`DeviceNotifications Component > renders correctly close to limits 1`] =
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
@@ -1655,7 +1655,7 @@ exports[`DeviceNotifications Component > renders correctly with limits 1`] = `
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
@@ -1932,7 +1932,7 @@ exports[`DeviceNotifications Component > renders correctly without limits 1`] = 
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >

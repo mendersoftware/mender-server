@@ -734,7 +734,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
       class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-4"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <b
           class="margin-right-small"
@@ -743,7 +743,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
         </b>
          (optional)
         <div
-          class="flexbox center-aligned margin-left-small emotion-5"
+          class="flexbox align-items-center margin-left-small emotion-5"
         >
           <div
             class=""
@@ -1583,7 +1583,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
       class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-4"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <b
           class="margin-right-small"
@@ -1592,7 +1592,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
         </b>
          (optional)
         <div
-          class="flexbox center-aligned margin-left-small emotion-5"
+          class="flexbox align-items-center margin-left-small emotion-5"
         >
           <div
             class=""
@@ -2970,7 +2970,7 @@ exports[`CreateDeployment Component > smaller components > renders ForceDeploy c
         class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-4"
       >
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <b
             class="margin-right-small"
@@ -3221,7 +3221,7 @@ exports[`CreateDeployment Component > smaller components > renders ForceDeploy c
         class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-4"
       >
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <b
             class="margin-right-small"
@@ -3281,7 +3281,7 @@ exports[`CreateDeployment Component > smaller components > renders ReleasesWarni
 
 <div>
   <div
-    class="flexbox center-aligned"
+    class="flexbox align-items-center"
   >
     <svg
       aria-hidden="true"
@@ -3338,7 +3338,7 @@ exports[`CreateDeployment Component > smaller components > renders ReleasesWarni
 
 <div>
   <div
-    class="flexbox center-aligned"
+    class="flexbox align-items-center"
   >
     <svg
       aria-hidden="true"
@@ -4379,13 +4379,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
 
 <div>
   <div
-    class="flexbox center-aligned margin-top-small margin-bottom-small"
+    class="flexbox align-items-center margin-top-small margin-bottom-small"
   >
     <b>
       Select the number of times each device will attempt to apply the update
     </b>
     <div
-      class="flexbox center-aligned margin-left-small emotion-0"
+      class="flexbox align-items-center margin-left-small emotion-0"
     >
       <div
         class=""
@@ -5545,13 +5545,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
 
 <div>
   <div
-    class="flexbox center-aligned margin-top-small margin-bottom-small"
+    class="flexbox align-items-center margin-top-small margin-bottom-small"
   >
     <b>
       Select the number of times each device will attempt to apply the update
     </b>
     <div
-      class="flexbox center-aligned margin-left-small emotion-0"
+      class="flexbox align-items-center margin-left-small emotion-0"
     >
       <div
         class=""
@@ -6568,7 +6568,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
       class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-4"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <b
           class="margin-right-small"
@@ -6577,7 +6577,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
         </b>
          (optional)
         <div
-          class="flexbox center-aligned margin-left-small emotion-5"
+          class="flexbox align-items-center margin-left-small emotion-5"
         >
           <div
             class=""
@@ -6677,7 +6677,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column center-aligned emotion-20"
+                class="flexbox column align-items-center emotion-20"
               >
                 <div
                   class="flexbox centered emotion-21"
@@ -6709,7 +6709,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column center-aligned emotion-20"
+                class="flexbox column align-items-center emotion-20"
               >
                 <div
                   class="flexbox centered emotion-21"
@@ -6742,7 +6742,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column center-aligned emotion-20"
+                class="flexbox column align-items-center emotion-20"
               >
                 <div
                   class="flexbox centered emotion-21"
@@ -7825,7 +7825,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
       class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-4"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <b
           class="margin-right-small"
@@ -7834,7 +7834,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
         </b>
          (optional)
         <div
-          class="flexbox center-aligned margin-left-small emotion-5"
+          class="flexbox align-items-center margin-left-small emotion-5"
         >
           <div
             class=""
@@ -7934,7 +7934,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column center-aligned emotion-20"
+                class="flexbox column align-items-center emotion-20"
               >
                 <div
                   class="flexbox centered emotion-21"
@@ -7991,7 +7991,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column center-aligned emotion-20"
+                class="flexbox column align-items-center emotion-20"
               >
                 <div
                   class="flexbox centered emotion-21"
@@ -8049,7 +8049,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column center-aligned emotion-20"
+                class="flexbox column align-items-center emotion-20"
               >
                 <div
                   class="flexbox centered emotion-21"
@@ -9080,7 +9080,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
       class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-4"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <b
           class="margin-right-small"
@@ -9089,7 +9089,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
         </b>
          (optional)
         <div
-          class="flexbox center-aligned margin-left-small emotion-5"
+          class="flexbox align-items-center margin-left-small emotion-5"
         >
           <div
             class=""
@@ -10172,7 +10172,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
       class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-4"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <b
           class="margin-right-small"
@@ -10181,7 +10181,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
         </b>
          (optional)
         <div
-          class="flexbox center-aligned margin-left-small emotion-5"
+          class="flexbox align-items-center margin-left-small emotion-5"
         >
           <div
             class=""

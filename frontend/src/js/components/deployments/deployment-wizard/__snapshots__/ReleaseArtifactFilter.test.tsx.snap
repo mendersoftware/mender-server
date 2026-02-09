@@ -584,7 +584,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
             class="flexbox space-between"
           >
             <div
-              class="flexbox center-aligned"
+              class="flexbox align-items-center"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 emotion-7"
@@ -713,7 +713,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
             id="deployment-release-container"
           >
             <div
-              class="flexbox column center-aligned margin-top-small"
+              class="flexbox column align-items-center margin-top-small"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 emotion-7"

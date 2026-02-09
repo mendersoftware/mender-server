@@ -123,10 +123,10 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
     class="margin-bottom "
   >
     <div
-      class="flexbox space-between center-aligned"
+      class="flexbox space-between align-items-center"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <h4>
           Troubleshooting
@@ -155,7 +155,7 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
             </svg>
           </a>
           <a
-            class="flexbox center-aligned margin-left"
+            class="flexbox align-items-center margin-left"
             data-discover="true"
             href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           >
@@ -352,11 +352,20 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
 }
 
 .emotion-6 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-7 {
   display: grid;
   place-content: center;
 }
 
-.emotion-7 {
+.emotion-8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -413,57 +422,57 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-7::-moz-focus-inner {
+.emotion-8::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-7 {
+  .emotion-8 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-7:hover {
+.emotion-8:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-7:hover {
+.emotion-8:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-7:hover {
+  .emotion-8:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-7:active {
+.emotion-8:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-7.Mui-focusVisible {
+.emotion-8.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-7:hover {
+  .emotion-8:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -471,15 +480,15 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   }
 }
 
-.emotion-7.MuiButton-loading {
+.emotion-8.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-8 {
+.emotion-9 {
   margin-top: 8px;
 }
 
-.emotion-9 {
+.emotion-10 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -536,33 +545,33 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-9::-moz-focus-inner {
+.emotion-10::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-9.Mui-disabled {
+.emotion-10.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-9 {
+  .emotion-10 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-9:hover {
+.emotion-10:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-9.Mui-disabled {
+.emotion-10.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-9:hover {
+  .emotion-10:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -570,15 +579,15 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   }
 }
 
-.emotion-9.MuiButton-loading {
+.emotion-10.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-11 {
+.emotion-12 {
   max-width: 640px;
 }
 
-.emotion-12 {
+.emotion-13 {
   overflow: hidden;
   min-height: 48px;
   -webkit-overflow-scrolling: touch;
@@ -589,12 +598,12 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
 }
 
 @media (max-width:599.95px) {
-  .emotion-12 .MuiTabs-scrollButtons {
+  .emotion-13 .MuiTabs-scrollButtons {
     display: none;
   }
 }
 
-.emotion-13 {
+.emotion-14 {
   position: relative;
   display: inline-block;
   -webkit-flex: 1 1 auto;
@@ -605,14 +614,14 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   width: 100%;
 }
 
-.emotion-14 {
+.emotion-15 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-15 {
+.emotion-16 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -668,31 +677,31 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-15::-moz-focus-inner {
+.emotion-16::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-16.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-15 {
+  .emotion-16 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-15.Mui-selected {
+.emotion-16.Mui-selected {
   color: #1976d2;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-16.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-17 {
+.emotion-18 {
   position: absolute;
   height: 2px;
   bottom: 0;
@@ -702,7 +711,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   background-color: #1976d2;
 }
 
-.emotion-18 {
+.emotion-19 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -713,7 +722,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   border-bottom-width: thin;
 }
 
-.emotion-20 {
+.emotion-21 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -730,7 +739,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   font-size: 1.5rem;
 }
 
-.emotion-21 {
+.emotion-22 {
   -webkit-align-items: end;
   -webkit-box-align: end;
   -ms-flex-align: end;
@@ -740,7 +749,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   grid-template-columns: 480px min-content;
 }
 
-.emotion-22 {
+.emotion-23 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -757,7 +766,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   width: 100%;
 }
 
-.emotion-23 {
+.emotion-24 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -781,38 +790,38 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   padding-right: 14px;
 }
 
-.emotion-23.Mui-disabled {
+.emotion-24.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-23:hover .MuiOutlinedInput-notchedOutline {
+.emotion-24:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
-  .emotion-23:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-24:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-23.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-24.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
-.emotion-23.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-24.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #1976d2;
 }
 
-.emotion-23.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-24.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #d32f2f;
 }
 
-.emotion-23.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-24.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-24 {
+.emotion-25 {
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
@@ -834,80 +843,80 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   padding-right: 0;
 }
 
-.emotion-24::-webkit-input-placeholder {
+.emotion-25::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-24::-moz-placeholder {
+.emotion-25::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-24::-ms-input-placeholder {
+.emotion-25::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-24:focus {
+.emotion-25:focus {
   outline: 0;
 }
 
-.emotion-24:invalid {
+.emotion-25:invalid {
   box-shadow: none;
 }
 
-.emotion-24::-webkit-search-decoration {
+.emotion-25::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-24::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-24::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-24::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-24.Mui-disabled {
+.emotion-25.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-24:-webkit-autofill {
+.emotion-25:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-24:-webkit-autofill {
+.emotion-25:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-25 {
+.emotion-26 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -922,7 +931,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
   margin-left: 8px;
 }
 
-.emotion-26 {
+.emotion-27 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -968,42 +977,42 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
   --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-26::-moz-focus-inner {
+.emotion-27::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-26.Mui-disabled {
+.emotion-27.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-26 {
+  .emotion-27 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-26:hover {
+.emotion-27:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-26:hover {
+  .emotion-27:hover {
     background-color: transparent;
   }
 }
 
-.emotion-26.Mui-disabled {
+.emotion-27.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-26.MuiIconButton-loading {
+.emotion-27.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-28 {
+.emotion-29 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -1021,7 +1030,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-29 {
+.emotion-30 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -1036,10 +1045,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
     class="margin-bottom "
   >
     <div
-      class="flexbox space-between center-aligned"
+      class="flexbox space-between align-items-center"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <h4>
           Troubleshooting
@@ -1068,7 +1077,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
             </svg>
           </a>
           <a
-            class="flexbox center-aligned margin-left"
+            class="flexbox align-items-center margin-left"
             data-discover="true"
             href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           >
@@ -1123,11 +1132,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                 Connection start
               </div>
               <b>
-                <div
-                  class=""
+                <p
+                  class="MuiTypography-root MuiTypography-body2 emotion-6"
                 >
                   -
-                </div>
+                </p>
               </b>
             </div>
             <div
@@ -1342,10 +1351,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
             </div>
           </div>
           <div
-            class="emotion-6"
+            class="emotion-7"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-7"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-8"
               tabindex="0"
               type="button"
             >
@@ -1353,10 +1362,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
             </button>
           </div>
           <div
-            class="flexbox space-between emotion-8"
+            class="flexbox space-between emotion-9"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
               tabindex="0"
               type="button"
             >
@@ -1364,7 +1373,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                Terminal
             </button>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
               data-discover="true"
               href="/auditlog?objectType=device&objectId=a1&startDate=2016-01-01T00:00:00.000Z"
               tabindex="0"
@@ -1381,22 +1390,22 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
           File transfer
         </h4>
         <div
-          class="emotion-11"
+          class="emotion-12"
         >
           <div
-            class="MuiTabs-root emotion-12"
+            class="MuiTabs-root emotion-13"
           >
             <div
-              class="MuiTabs-scroller MuiTabs-fixed emotion-13"
+              class="MuiTabs-scroller MuiTabs-fixed emotion-14"
               style="overflow: hidden;"
             >
               <div
-                class="MuiTabs-list MuiTabs-flexContainer emotion-14"
+                class="MuiTabs-list MuiTabs-flexContainer emotion-15"
                 role="tablist"
               >
                 <button
                   aria-selected="true"
-                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected capitalized emotion-15"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected capitalized emotion-16"
                   role="tab"
                   tabindex="0"
                   type="button"
@@ -1405,7 +1414,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                 </button>
                 <button
                   aria-selected="false"
-                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary capitalized emotion-15"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary capitalized emotion-16"
                   role="tab"
                   tabindex="-1"
                   type="button"
@@ -1414,16 +1423,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                 </button>
               </div>
               <span
-                class="MuiTabs-indicator emotion-17"
+                class="MuiTabs-indicator emotion-18"
                 style="left: 0px; width: 0px;"
               />
             </div>
           </div>
           <hr
-            class="MuiDivider-root MuiDivider-fullWidth emotion-18"
+            class="MuiDivider-root MuiDivider-fullWidth emotion-19"
           />
           <div
-            class="emotion-11"
+            class="emotion-12"
           >
             <div>
               <p
@@ -1447,7 +1456,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium icon emotion-20"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium icon emotion-21"
                     data-testid="CloudUploadOutlinedIcon"
                     focusable="false"
                     style="height: 24px; width: 24px; vertical-align: middle; margin-top: -2px;"
@@ -1478,35 +1487,35 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
               </b>
             </p>
             <div
-              class="emotion-21"
+              class="emotion-22"
             >
               <div
-                class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-22"
+                class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-23"
               >
                 <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd emotion-23"
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd emotion-24"
                 >
                   <input
                     aria-invalid="false"
-                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-24"
+                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-25"
                     id="_r_r_"
                     placeholder="Example: /opt/installed-by-single-file"
                     type="text"
                     value=""
                   />
                   <div
-                    class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-25"
+                    class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-26"
                   >
                     <button
                       aria-label="Paste"
-                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-26"
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-27"
                       data-mui-internal-clone-element="true"
                       tabindex="0"
                       type="button"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-20"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-21"
                         data-testid="FileCopyIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -1519,10 +1528,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                   </div>
                   <fieldset
                     aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline emotion-28"
+                    class="MuiOutlinedInput-notchedOutline emotion-29"
                   >
                     <legend
-                      class="emotion-29"
+                      class="emotion-30"
                     >
                       <span
                         aria-hidden="true"
@@ -1535,7 +1544,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-24:focus::-ms-input-
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-7"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-8"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -1703,10 +1712,10 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
     class="margin-bottom "
   >
     <div
-      class="flexbox space-between center-aligned"
+      class="flexbox space-between align-items-center"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <h4>
           Troubleshooting
@@ -1735,7 +1744,7 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
             </svg>
           </a>
           <a
-            class="flexbox center-aligned margin-left"
+            class="flexbox align-items-center margin-left"
             data-discover="true"
             href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           >

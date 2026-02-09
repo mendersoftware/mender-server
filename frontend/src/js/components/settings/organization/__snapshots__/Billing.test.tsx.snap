@@ -552,7 +552,7 @@ exports[`Billing Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="flexbox center-aligned margin-top-x-small emotion-1"
+            class="flexbox align-items-center margin-top-x-small emotion-1"
           >
             <a
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-23"

@@ -1,7 +1,15 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`CompletedDeployments Component > renders correctly 1`] = `
+.emotion-0 {
+  margin-top: -10px;
+}
+
 <body>
-  <div />
+  <div>
+    <div
+      class="emotion-0"
+    />
+  </div>
 </body>
 `;

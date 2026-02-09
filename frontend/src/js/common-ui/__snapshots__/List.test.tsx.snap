@@ -656,12 +656,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
           class="columnHeader flexbox space-between relative"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned emotion-4"
+            class="MuiTypography-root MuiTypography-body1 flexbox align-items-center emotion-4"
           >
             Name
           </p>
           <div
-            class="flexbox center-aligned full-height"
+            class="flexbox align-items-center full-height"
           >
             <div
               class="emotion-5 full-height"
@@ -676,12 +676,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
           class="columnHeader flexbox space-between relative"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned emotion-4"
+            class="MuiTypography-root MuiTypography-body1 flexbox align-items-center emotion-4"
           >
             Devices
           </p>
           <div
-            class="flexbox center-aligned full-height"
+            class="flexbox align-items-center full-height"
           >
             <div
               class="emotion-5 full-height"
@@ -696,12 +696,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
           class="columnHeader flexbox space-between relative"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned emotion-4"
+            class="MuiTypography-root MuiTypography-body1 flexbox align-items-center emotion-4"
           >
             Delta updates enabled 
           </p>
           <div
-            class="flexbox center-aligned full-height"
+            class="flexbox align-items-center full-height"
           >
             <div
               class="emotion-5 full-height"
@@ -716,24 +716,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
           class="columnHeader flexbox space-between relative"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned emotion-4"
+            class="MuiTypography-root MuiTypography-body1 flexbox align-items-center emotion-4"
           >
             Created
           </p>
           <div
-            class="flexbox center-aligned full-height"
+            class="flexbox align-items-center full-height"
           />
         </div>
         <div
           class="columnHeader flexbox space-between relative"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned emotion-4"
+            class="MuiTypography-root MuiTypography-body1 flexbox align-items-center emotion-4"
           >
             More details
           </p>
           <div
-            class="flexbox center-aligned full-height"
+            class="flexbox align-items-center full-height"
           />
         </div>
       </div>
@@ -754,7 +754,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
           </div>
         </div>
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           0
           /

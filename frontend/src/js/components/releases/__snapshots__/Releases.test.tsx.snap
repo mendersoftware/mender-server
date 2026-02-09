@@ -8,7 +8,7 @@ exports[`Releases Component > renders correctly 1`] = `
     <div>
       <div>
         <div
-          class="flexbox space-between center-aligned"
+          class="flexbox space-between align-items-center"
         >
           <div
             class="MuiTabs-root css-kbht63-MuiTabs-root-tabContainer"
@@ -38,7 +38,7 @@ exports[`Releases Component > renders correctly 1`] = `
                   type="button"
                 >
                   <div
-                    class="flexbox center-aligned"
+                    class="flexbox align-items-center"
                   >
                     <div>
                       Delta Artifacts generation
@@ -69,7 +69,7 @@ exports[`Releases Component > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="flexbox center-aligned"
+            class="flexbox align-items-center"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-1ju8gut-MuiButtonBase-root-MuiButton-root-uploadButton"
@@ -116,59 +116,28 @@ exports[`Releases Component > renders correctly 1`] = `
           </div>
         </div>
         <form
-          class="margin-bottom relative margin-top css-1weim70-filters css-w31fxx-container"
+          class="margin-bottom margin-top flexbox space-between css-13s9o75-container css-w31fxx-container"
           novalidate=""
         >
           <div
-            class="filter-item"
+            class="css-hwg5pa-filters"
           >
-            <h5
-              class="margin-top-small margin-bottom-small muted"
-            >
-              Release name
-            </h5>
             <div
-              class="MuiFormControl-root MuiTextField-root css-1euskws-MuiFormControl-root-MuiTextField-root-nameSearch-textFieldRoot"
+              class="filter-item"
             >
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small css-1x0mq5c-MuiTypography-root"
+              >
+                Release name
+              </h6>
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart css-4bojcr-MuiInputBase-root-MuiOutlinedInput-root"
+                class="MuiFormControl-root MuiTextField-root css-1euskws-MuiFormControl-root-MuiTextField-root-nameSearch-textFieldRoot"
               >
                 <div
-                  class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeSmall css-1nowbqt-MuiInputAdornment-root"
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart css-4bojcr-MuiInputBase-root-MuiOutlinedInput-root"
                 >
-                  <span
-                    aria-hidden="true"
-                    class="notranslate"
-                  >
-                    ​
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeSmall css-up4zqc-MuiSvgIcon-root"
-                    data-testid="SearchIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
-                    />
-                  </svg>
-                </div>
-                <input
-                  aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
-                  id="_r_4_"
-                  name="name"
-                  placeholder="Starts with"
-                  type="text"
-                  value=""
-                />
-                <fieldset
-                  aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
-                >
-                  <legend
-                    class="css-1nf2c5d-MuiNotchedOutlined-root"
+                  <div
+                    class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeSmall css-1nowbqt-MuiInputAdornment-root"
                   >
                     <span
                       aria-hidden="true"
@@ -176,40 +145,24 @@ exports[`Releases Component > renders correctly 1`] = `
                     >
                       ​
                     </span>
-                  </legend>
-                </fieldset>
-              </div>
-            </div>
-          </div>
-          <div
-            class="filter-item"
-          >
-            <h5
-              class="margin-top-small margin-bottom-small muted"
-            >
-              Tags
-            </h5>
-            <div
-              class="MuiAutocomplete-root css-o5oj2-MuiAutocomplete-root"
-              name="tags"
-            >
-              <div
-                class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
-              >
-                <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
-                >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeSmall css-up4zqc-MuiSvgIcon-root"
+                      data-testid="SearchIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                      />
+                    </svg>
+                  </div>
                   <input
-                    aria-autocomplete="list"
-                    aria-expanded="false"
                     aria-invalid="false"
-                    autocapitalize="none"
-                    autocomplete="off"
-                    class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-                    id="tags-chip-select"
-                    placeholder="Select tags"
-                    role="combobox"
-                    spellcheck="false"
+                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
+                    id="_r_4_"
+                    name="name"
+                    placeholder="Starts with"
                     type="text"
                     value=""
                   />
@@ -231,77 +184,128 @@ exports[`Releases Component > renders correctly 1`] = `
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="filter-item"
-          >
-            <h5
-              class="margin-top-small margin-bottom-small muted"
-            >
-              Contains Artifact type
-            </h5>
             <div
-              class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon css-1tlcqt-MuiAutocomplete-root"
-              name="type"
+              class="filter-item"
             >
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small css-1x0mq5c-MuiTypography-root"
+              >
+                Tags
+              </h6>
               <div
-                class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
+                class="MuiAutocomplete-root css-o5oj2-MuiAutocomplete-root"
+                name="tags"
               >
                 <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
+                  class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
                 >
-                  <input
-                    aria-autocomplete="list"
-                    aria-expanded="false"
-                    aria-invalid="false"
-                    autocapitalize="none"
-                    autocomplete="off"
-                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-                    id="_r_7_"
-                    placeholder="Any"
-                    role="combobox"
-                    spellcheck="false"
-                    type="text"
-                    value=""
-                  />
                   <div
-                    class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
                   >
-                    <button
-                      aria-label="Clear"
-                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-1x7n7v0-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
-                      tabindex="-1"
-                      title="Clear"
-                      type="button"
+                    <input
+                      aria-autocomplete="list"
+                      aria-expanded="false"
+                      aria-invalid="false"
+                      autocapitalize="none"
+                      autocomplete="off"
+                      class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                      id="tags-chip-select"
+                      placeholder="Select tags"
+                      role="combobox"
+                      spellcheck="false"
+                      type="text"
+                      value=""
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                     >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-                        data-testid="CloseIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
+                      <legend
+                        class="css-1nf2c5d-MuiNotchedOutlined-root"
                       >
-                        <path
-                          d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                        />
-                      </svg>
-                    </button>
+                        <span
+                          aria-hidden="true"
+                          class="notranslate"
+                        >
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
                   </div>
-                  <fieldset
-                    aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+                </div>
+              </div>
+            </div>
+            <div
+              class="filter-item"
+            >
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small css-1x0mq5c-MuiTypography-root"
+              >
+                Contains Artifact type
+              </h6>
+              <div
+                class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon css-1tlcqt-MuiAutocomplete-root"
+                name="type"
+              >
+                <div
+                  class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
+                >
+                  <div
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
                   >
-                    <legend
-                      class="css-1nf2c5d-MuiNotchedOutlined-root"
+                    <input
+                      aria-autocomplete="list"
+                      aria-expanded="false"
+                      aria-invalid="false"
+                      autocapitalize="none"
+                      autocomplete="off"
+                      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+                      id="_r_7_"
+                      placeholder="Any"
+                      role="combobox"
+                      spellcheck="false"
+                      type="text"
+                      value=""
+                    />
+                    <div
+                      class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
                     >
-                      <span
-                        aria-hidden="true"
-                        class="notranslate"
+                      <button
+                        aria-label="Clear"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-1x7n7v0-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
+                        tabindex="-1"
+                        title="Clear"
+                        type="button"
                       >
-                        ​
-                      </span>
-                    </legend>
-                  </fieldset>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                          data-testid="CloseIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+                    >
+                      <legend
+                        class="css-1nf2c5d-MuiNotchedOutlined-root"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="notranslate"
+                        >
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
                 </div>
               </div>
             </div>
@@ -455,17 +459,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -513,17 +514,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -571,17 +569,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -629,17 +624,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -687,17 +679,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -745,17 +734,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -803,17 +789,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -861,17 +844,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -919,17 +899,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -977,17 +954,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -1035,17 +1009,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -1093,17 +1064,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -1151,17 +1119,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -1209,17 +1174,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -1267,17 +1229,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -1325,17 +1284,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -1383,17 +1339,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -1441,17 +1394,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -1499,17 +1449,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
             <tr
@@ -1557,17 +1504,14 @@ exports[`Releases Component > renders correctly 1`] = `
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <span
+                <time
                   aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"
-                  class=""
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   data-mui-internal-clone-element="true"
+                  datetime="2020-09-10T12:16:22.667Z"
                 >
-                  <time
-                    datetime="1599740182667"
-                  >
-                    in 2 years
-                  </time>
-                </span>
+                  in 2 years
+                </time>
               </td>
             </tr>
           </tbody>

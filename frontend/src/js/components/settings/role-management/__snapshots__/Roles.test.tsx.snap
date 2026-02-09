@@ -883,7 +883,7 @@ exports[`Roles Component > renders correctly 1`] = `
 
 <div>
   <div
-    class="flexbox center-aligned"
+    class="flexbox align-items-center"
   >
     <h2
       style="margin-left: 20px;"
@@ -891,7 +891,7 @@ exports[`Roles Component > renders correctly 1`] = `
       Roles
     </h2>
     <div
-      class="flexbox center-aligned margin-left-small emotion-0"
+      class="flexbox align-items-center margin-left-small emotion-0"
     >
       <div
         class=""

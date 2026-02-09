@@ -619,7 +619,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       />
     </div>
   </div>

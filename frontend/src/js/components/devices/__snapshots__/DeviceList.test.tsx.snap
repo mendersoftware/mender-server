@@ -16,10 +16,10 @@ exports[`DeviceList Component > renders correctly 1`] = `
           class="columnHeader flexbox space-between relative"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 flexbox align-items-center css-rizt0-MuiTypography-root"
           />
           <div
-            class="flexbox center-aligned full-height"
+            class="flexbox align-items-center full-height"
           >
             <div
               class="css-3n0vsr-resizer full-height"
@@ -34,10 +34,10 @@ exports[`DeviceList Component > renders correctly 1`] = `
           class="columnHeader flexbox space-between relative"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 flexbox align-items-center css-rizt0-MuiTypography-root"
           />
           <div
-            class="flexbox center-aligned full-height"
+            class="flexbox align-items-center full-height"
           >
             <div
               class="css-3n0vsr-resizer full-height"
@@ -52,20 +52,20 @@ exports[`DeviceList Component > renders correctly 1`] = `
           class="columnHeader flexbox space-between relative"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 flexbox align-items-center css-rizt0-MuiTypography-root"
           />
           <div
-            class="flexbox center-aligned full-height"
+            class="flexbox align-items-center full-height"
           />
         </div>
         <div
           class="columnHeader flexbox space-between relative"
         >
           <p
-            class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-body1 flexbox align-items-center css-rizt0-MuiTypography-root"
           />
           <div
-            class="flexbox center-aligned full-height"
+            class="flexbox align-items-center full-height"
           />
         </div>
       </div>

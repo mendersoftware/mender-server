@@ -45,7 +45,7 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
     uiPasswordRequired
   </h6>
   <div
-    class="flexbox center-aligned  emotion-2"
+    class="flexbox align-items-center  emotion-2"
   >
     <div
       class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -58,7 +58,7 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
     foo
   </h6>
   <div
-    class="flexbox center-aligned  emotion-2"
+    class="flexbox align-items-center  emotion-2"
   >
     <div
       class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -74,7 +74,7 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
     timezone
   </h6>
   <div
-    class="flexbox center-aligned  emotion-2"
+    class="flexbox align-items-center  emotion-2"
   >
     <div
       class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -236,7 +236,7 @@ exports[`TwoColumnData Component > renders with chipLikeKey prop 1`] = `
     </span>
   </div>
   <div
-    class="flexbox center-aligned  emotion-3"
+    class="flexbox align-items-center  emotion-3"
   >
     <div
       class="MuiTypography-root MuiTypography-body2 emotion-4"
@@ -256,7 +256,7 @@ exports[`TwoColumnData Component > renders with chipLikeKey prop 1`] = `
     </span>
   </div>
   <div
-    class="flexbox center-aligned  emotion-3"
+    class="flexbox align-items-center  emotion-3"
   >
     <div
       class="MuiTypography-root MuiTypography-body2 emotion-4"

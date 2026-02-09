@@ -442,7 +442,7 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
         id="_r_d_"
       >
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-5"

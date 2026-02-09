@@ -98,7 +98,7 @@ exports[`OrganizationPaymentSettings Component > renders correctly 1`] = `
 
 <div>
   <div
-    class="flexbox center-aligned margin-top"
+    class="flexbox align-items-center margin-top"
   >
     <h5
       class="margin-top-none margin-bottom-none margin-right-small"

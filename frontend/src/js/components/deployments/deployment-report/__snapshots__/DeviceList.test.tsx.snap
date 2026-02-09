@@ -2,7 +2,7 @@
 
 exports[`ProgressDeviceList Component > renders correctly 1`] = `
 "<div
-  class="flexbox space-between center-aligned margin-top"
+  class="flexbox space-between align-items-center margin-top"
 >
   <div
     class="flexbox"
@@ -135,7 +135,7 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
       Total download size
     </h6>
     <div
-      class="flexbox center-aligned  css-1gqhfda-copyIconOverride"
+      class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"

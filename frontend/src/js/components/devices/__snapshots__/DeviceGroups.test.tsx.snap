@@ -3,7 +3,7 @@
 exports[`DeviceGroups Component > renders correctly 1`] = `
 "<div>
   <div
-    class="flexbox center-aligned tab-container with-sub-panels margin-bottom css-rkxl3u-container"
+    class="flexbox align-items-center tab-container with-sub-panels margin-bottom css-rkxl3u-container"
   >
     <h5
       class="MuiTypography-root MuiTypography-h5 css-16xl4zq-MuiTypography-root"
@@ -180,7 +180,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
         class="margin-left-small"
       >
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 margin-right css-1miy0lu-MuiTypography-root"
@@ -188,14 +188,14 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
             testGroup
           </h6>
           <div
-            class="flexbox space-between center-aligned"
+            class="flexbox space-between align-items-center"
             style="flex-grow: 1;"
           >
             <div
-              class="flexbox center-aligned"
+              class="flexbox align-items-center"
             >
               <div
-                class="flexbox center-aligned"
+                class="flexbox align-items-center"
               >
                 Status:
                 <div
@@ -246,7 +246,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 </div>
               </div>
               <h6
-                class="MuiTypography-root MuiTypography-subtitle1 margin-left flexbox center-aligned css-1i3tsf3-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-subtitle1 margin-left flexbox align-items-center css-1i3tsf3-MuiTypography-root"
               >
                 Static 
                 <svg
@@ -287,7 +287,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="flexbox center-aligned space-between margin-top margin-bottom-x-small"
+          class="flexbox align-items-center space-between margin-top margin-bottom-x-small"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-text MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-color MuiButton-root MuiButton-text MuiButton-text MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-color flexbox css-1ibakg3-MuiButtonBase-root-MuiButton-root"
@@ -394,7 +394,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 class="columnHeader flexbox space-between relative"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 flexbox align-items-center css-rizt0-MuiTypography-root"
                 >
                   Device ID
                   <svg
@@ -411,7 +411,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   </svg>
                 </p>
                 <div
-                  class="flexbox center-aligned full-height"
+                  class="flexbox align-items-center full-height"
                 >
                   <svg
                     aria-hidden="true"
@@ -438,7 +438,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 class="columnHeader flexbox space-between relative"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 flexbox align-items-center css-rizt0-MuiTypography-root"
                 >
                   Device type
                   <svg
@@ -455,7 +455,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   </svg>
                 </p>
                 <div
-                  class="flexbox center-aligned full-height"
+                  class="flexbox align-items-center full-height"
                 >
                   <div
                     class="css-3n0vsr-resizer full-height"
@@ -470,7 +470,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 class="columnHeader flexbox space-between relative"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 flexbox align-items-center css-rizt0-MuiTypography-root"
                 >
                   Current software
                   <svg
@@ -487,7 +487,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   </svg>
                 </p>
                 <div
-                  class="flexbox center-aligned full-height"
+                  class="flexbox align-items-center full-height"
                 >
                   <div
                     class="css-3n0vsr-resizer full-height"
@@ -502,7 +502,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 class="columnHeader flexbox space-between relative"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 flexbox align-items-center css-rizt0-MuiTypography-root"
                 >
                   Latest activity
                   <svg
@@ -519,14 +519,14 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   </svg>
                 </p>
                 <div
-                  class="flexbox center-aligned full-height"
+                  class="flexbox align-items-center full-height"
                 />
               </div>
               <div
                 class="columnHeader flexbox space-between relative"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 flexbox center-aligned css-rizt0-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 flexbox align-items-center css-rizt0-MuiTypography-root"
                 >
                   Status
                   <svg
@@ -543,7 +543,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   </svg>
                 </p>
                 <div
-                  class="flexbox center-aligned full-height"
+                  class="flexbox align-items-center full-height"
                 />
               </div>
             </div>
@@ -604,6 +604,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               </div>
               <div>
                 <time
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   datetime="2019-01-01"
                 >
                   12 days ago
@@ -670,6 +671,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               </div>
               <div>
                 <time
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   datetime="2019-01-01"
                 >
                   12 days ago

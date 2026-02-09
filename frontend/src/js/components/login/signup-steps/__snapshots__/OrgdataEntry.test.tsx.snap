@@ -1008,7 +1008,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
         Hosting region
       </h6>
       <div
-        class="flexbox center-aligned slightly-smaller margin-bottom-x-small"
+        class="flexbox align-items-center slightly-smaller margin-bottom-x-small"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 margin-bottom-none margin-top-none margin-right-x-small emotion-16"

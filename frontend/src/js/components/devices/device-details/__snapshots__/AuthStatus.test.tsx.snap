@@ -522,16 +522,16 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   class="margin-bottom "
 >
   <div
-    class="flexbox space-between center-aligned"
+    class="flexbox space-between align-items-center"
   >
     <div
-      class="flexbox center-aligned"
+      class="flexbox align-items-center"
     >
       <h4>
         Authentication status
       </h4>
       <div
-        class="flexbox center-aligned margin-left margin-right"
+        class="flexbox align-items-center margin-left margin-right"
       >
         <div
           class="capitalized"
@@ -796,7 +796,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox emotion-29"
+      class="flexbox relative emotion-29"
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-30"

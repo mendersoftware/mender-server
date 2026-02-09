@@ -157,7 +157,7 @@ NodeList [
       mmc0
     </h6>
     <div
-      class="flexbox center-aligned copy-to-clipboard emotion-2"
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -186,7 +186,7 @@ NodeList [
       on
     </h6>
     <div
-      class="flexbox center-aligned copy-to-clipboard emotion-2"
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -215,7 +215,7 @@ NodeList [
       off
     </h6>
     <div
-      class="flexbox center-aligned copy-to-clipboard emotion-2"
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -244,7 +244,7 @@ NodeList [
       heartbeat
     </h6>
     <div
-      class="flexbox center-aligned copy-to-clipboard emotion-2"
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"

@@ -42,7 +42,7 @@ exports[`DeploymentPhaseNotification Component > renders correctly 1`] = `
 
 <div>
   <div
-    class="emotion-0 flexbox center-aligned margin-bottom clickable "
+    class="emotion-0 flexbox align-items-center margin-bottom clickable "
     style="padding: 15px;"
   >
     <svg
@@ -256,7 +256,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
         Update attempts per device
       </h6>
       <div
-        class="flexbox center-aligned  emotion-3"
+        class="flexbox align-items-center  emotion-3"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-4"
@@ -272,7 +272,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
         Maximum number of devices
       </h6>
       <div
-        class="flexbox center-aligned  emotion-3"
+        class="flexbox align-items-center  emotion-3"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-4"

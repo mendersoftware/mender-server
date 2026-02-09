@@ -28,7 +28,7 @@ exports[`InfoHint Component > renders correctly 1`] = `
 }
 
 <p
-  class="emotion-0 icon flexbox center-aligned emotion-1 test-class"
+  class="emotion-0 icon flexbox align-items-center emotion-1 test-class"
 >
   <svg
     aria-hidden="true"

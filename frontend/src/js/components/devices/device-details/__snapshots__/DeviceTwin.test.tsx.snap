@@ -257,10 +257,10 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   class="margin-bottom "
 >
   <div
-    class="flexbox space-between center-aligned"
+    class="flexbox space-between align-items-center"
   >
     <div
-      class="flexbox center-aligned space-between emotion-0"
+      class="flexbox align-items-center space-between emotion-0"
     >
       <div
         class="flexbox emotion-1"
@@ -450,7 +450,7 @@ exports[`DeviceTwin Component > renders sub component Title correctly 1`] = `
 }
 
 <div
-  class="flexbox center-aligned space-between emotion-0"
+  class="flexbox align-items-center space-between emotion-0"
 >
   <div
     class="flexbox emotion-1"
@@ -511,7 +511,7 @@ exports[`DeviceTwin Component > renders sub component TwinError correctly 1`] = 
 }
 
 <p
-  class="emotion-0 icon flexbox center-aligned emotion-1 "
+  class="emotion-0 icon flexbox align-items-center emotion-1 "
 >
   <svg
     aria-hidden="true"
@@ -661,7 +661,7 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 3
 }
 
 <p
-  class="emotion-0 icon flexbox center-aligned emotion-1 "
+  class="emotion-0 icon flexbox align-items-center emotion-1 "
 >
   <svg
     aria-hidden="true"

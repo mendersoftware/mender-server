@@ -242,7 +242,7 @@ exports[`CardSection Component > renders correctly 1`] = `
     Billing will be scheduled monthly, starting from today. You can cancel at any time.
   </p>
   <div
-    class="flexbox center-aligned margin-top-small"
+    class="flexbox align-items-center margin-top-small"
   >
     <button
       class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"

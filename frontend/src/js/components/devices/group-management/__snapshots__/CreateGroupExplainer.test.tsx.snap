@@ -510,7 +510,7 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
               class="margin-right-large"
             >
               <div
-                class="flexbox center-aligned margin-bottom"
+                class="flexbox align-items-center margin-bottom"
               >
                 <h6
                   class="MuiTypography-root MuiTypography-subtitle1 emotion-7"
@@ -547,10 +547,10 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
               class="margin-right-large"
             >
               <div
-                class="flexbox center-aligned space-between margin-bottom"
+                class="flexbox align-items-center space-between margin-bottom"
               >
                 <h6
-                  class="MuiTypography-root MuiTypography-subtitle1 flexbox center-aligned emotion-7"
+                  class="MuiTypography-root MuiTypography-subtitle1 flexbox align-items-center emotion-7"
                 >
                   Dynamic group
                   <svg
@@ -566,7 +566,7 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
                   </svg>
                 </h6>
                 <div
-                  class="flexbox center-aligned margin-left-small emotion-14"
+                  class="flexbox align-items-center margin-left-small emotion-14"
                 >
                   <div
                     class=""

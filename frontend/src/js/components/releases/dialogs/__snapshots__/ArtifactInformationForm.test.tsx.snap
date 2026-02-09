@@ -1087,7 +1087,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
       >
         Release name
         <div
-          class="flexbox center-aligned margin-left-small emotion-9"
+          class="flexbox align-items-center margin-left-small emotion-9"
         >
           <div
             class="relative flexbox emotion-10  "

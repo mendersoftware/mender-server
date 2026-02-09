@@ -201,7 +201,7 @@ exports[`SamlConfig Component > renders correctly 1`] = `
 
 <div>
   <div
-    class="flexbox center-aligned emotion-0 has-sso"
+    class="flexbox align-items-center emotion-0 has-sso"
   >
     <a>
       View metadata in the text editor

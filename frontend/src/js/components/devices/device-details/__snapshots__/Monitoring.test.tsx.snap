@@ -5,10 +5,10 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
   class="margin-bottom "
 >
   <div
-    class="flexbox space-between center-aligned"
+    class="flexbox space-between align-items-center"
   >
     <div
-      class="flexbox center-aligned"
+      class="flexbox align-items-center"
     >
       <h4
         class="margin-bottom-small margin-right"
