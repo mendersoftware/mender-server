@@ -16,7 +16,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
-import { Button, Tab, Tabs } from '@mui/material';
+import { Button, Tab, Tabs, Typography } from '@mui/material';
 
 import storeActions from '@northern.tech/store/actions';
 import { ALL_DEVICES, DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, listDefaultsByState, onboardingSteps } from '@northern.tech/store/constants';
@@ -223,19 +223,20 @@ export const Deployments = () => {
   const ComponentToShow = routes[state].component;
   return (
     <>
-      <div className="margin-left-small margin-top" style={{ maxWidth: '80vw' }}>
-        <div className="flexbox space-between">
-          <Tabs value={state} onChange={changeTab} ref={tabsRef}>
-            {Object.values(routes).map(route => (
-              <Tab component={Link} key={route.route} label={route.title} to={route.route} value={route.key} />
-            ))}
-          </Tabs>
+      <div className="margin-left-small margin-right">
+        <div className="flexbox space-between center-aligned margin-bottom">
+          <Typography variant="h5">Deployments</Typography>
           {canDeploy && canReadReleases && (
             <Button variant="contained" onClick={onCreationShow} style={{ height: '100%' }}>
               Create a deployment
             </Button>
           )}
         </div>
+        <Tabs value={state} onChange={changeTab} ref={tabsRef}>
+          {Object.values(routes).map(route => (
+            <Tab component={Link} key={route.route} label={route.title} to={route.route} value={route.key} />
+          ))}
+        </Tabs>
         <ComponentToShow abort={onAbortDeployment} createClick={onCreationShow} openReport={showReport} isShowingDetails={reportDialog} />
       </div>
       <Report open={!!reportDialog} abort={onAbortDeployment} onClose={closeReport} retry={retryDeployment} type={reportType} />

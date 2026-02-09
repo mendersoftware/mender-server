@@ -42,17 +42,17 @@ import utc from 'dayjs/plugin/utc';
 import historyImage from '../../../assets/img/history.png';
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import { DeploymentSize, DeploymentStatus } from './DeploymentItem';
-import DeploymentsList, { defaultHeaders } from './DeploymentsList';
+import DeploymentsList, { ColumnHeader, defaultHeaders } from './DeploymentsList';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './constants';
 
 dayjs.extend(utc);
 
 const { setSnackbar } = storeActions;
 
-const headers = [
+const headers: ColumnHeader[] = [
   ...defaultHeaders.slice(0, defaultHeaders.length - 1),
   { title: 'Status', renderer: DeploymentStatus },
-  { title: 'Data downloaded', renderer: DeploymentSize }
+  { title: 'Data downloaded', class: 'align-right', renderer: DeploymentSize }
 ];
 
 const type = DEPLOYMENT_STATES.finished;
@@ -63,7 +63,7 @@ export const Past = props => {
   const size = useWindowSize();
   const [tonight] = useState(getISOStringBoundaries(new Date()).end);
   const [loading, setLoading] = useState(false);
-  const deploymentsRef = useRef();
+  const deploymentsRef = useRef<HTMLElement>();
   const timer = useRef();
 
   const dispatch = useAppDispatch();
@@ -172,7 +172,7 @@ export const Past = props => {
 
   let onboardingComponent = null;
   if (deploymentsRef.current) {
-    const detailsButtons = deploymentsRef.current.getElementsByClassName('MuiButton-contained');
+    const detailsButtons = deploymentsRef.current.getElementsByClassName('MuiButton-outlined');
     const left = detailsButtons.length
       ? deploymentsRef.current.offsetLeft + detailsButtons[0].offsetLeft + detailsButtons[0].offsetWidth / 2 + 15
       : deploymentsRef.current.offsetWidth;
@@ -197,7 +197,7 @@ export const Past = props => {
 
   const autoCompleteProps = { autoHighlight: true, autoSelect: true, filterSelectedOptions: true, freeSolo: true, handleHomeEndKeys: true };
   return (
-    <div className="fadeIn margin-left margin-top-large">
+    <div className="fadeIn">
       <Filters
         initialValues={{ startDate, endDate, group: deviceGroup, type: deploymentType }}
         defaultValues={{ startDate: '', endDate: tonight, group: '', type: '' }}
