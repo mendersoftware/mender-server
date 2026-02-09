@@ -13,9 +13,11 @@
 //    limitations under the License.
 import { useEffect, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 import { InfoOutlined } from '@mui/icons-material';
 import {
+  Alert,
   Checkbox,
   Collapse,
   DialogActions,
@@ -38,6 +40,7 @@ import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { BENEFITS, rolesById, rolesByName, uiPermissionsById } from '@northern.tech/store/constants';
+import { getIsEnterprise } from '@northern.tech/store/selectors';
 import pluralize from 'pluralize';
 import validator from 'validator';
 
@@ -48,6 +51,7 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }) => {
+  const isEnterprise = useSelector(getIsEnterprise);
   const relevantRolesById = useMemo(
     () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
     [roles]
@@ -96,37 +100,44 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
   }, [JSON.stringify(relevantRolesById), selectedRoleIds]);
 
   return (
-    <div className="flexbox margin-top-small" style={{ alignItems: 'flex-end' }}>
-      <FormControl id="roles-form" style={{ maxWidth: 400 }}>
-        <InputLabel id="roles-selection-label">Roles</InputLabel>
-        <Select
-          label="Roles"
-          labelId="roles-selection-label"
-          id={`roles-selector-${selectedRoleIds.length}`}
-          disabled={disabled}
-          multiple
-          value={selectedRoleIds}
-          required
-          onChange={onInputChange}
-          renderValue={selected => selected.map(role => relevantRolesById[role].name).join(', ')}
-        >
-          {editableRoles.map(role => (
-            <MenuItem id={role.value} key={role.value} value={role.value}>
-              <Checkbox id={`${role.value}-checkbox`} checked={role.enabled} />
-              <ListItemText id={`${role.value}-text`} primary={role.name} />
-            </MenuItem>
-          ))}
-        </Select>
-        {showRoleUsageNotification && (
-          <FormHelperText className="info">
-            The selected {pluralize('role', selectedRoleIds.length)} may prevent {currentUser.email === user.email ? 'you' : <i>{user.email}</i>} from using the
-            Mender UI.
-            <br />
-            Consider adding the <i>{rolesById[rolesByName.readOnly].name}</i> role as well.
-          </FormHelperText>
-        )}
-      </FormControl>
-      <EnterpriseNotification className="margin-left-small" id={BENEFITS.rbac.id} />
+    <div className="flexbox column">
+      <div className="flexbox margin-top-small" style={{ alignItems: 'flex-end' }}>
+        <FormControl id="roles-form" style={{ maxWidth: 400 }}>
+          <InputLabel id="roles-selection-label">Roles</InputLabel>
+          <Select
+            label="Roles"
+            labelId="roles-selection-label"
+            id={`roles-selector-${selectedRoleIds.length}`}
+            disabled={disabled}
+            multiple
+            value={selectedRoleIds}
+            required
+            onChange={onInputChange}
+            renderValue={selected => selected.map(role => relevantRolesById[role].name).join(', ')}
+          >
+            {editableRoles.map(role => (
+              <MenuItem id={role.value} key={role.value} value={role.value}>
+                <Checkbox id={`${role.value}-checkbox`} checked={role.enabled} />
+                <ListItemText id={`${role.value}-text`} primary={role.name} />
+              </MenuItem>
+            ))}
+          </Select>
+          {showRoleUsageNotification && (
+            <FormHelperText className="info">
+              The selected {pluralize('role', selectedRoleIds.length)} may prevent {currentUser.email === user.email ? 'you' : <i>{user.email}</i>} from using
+              the Mender UI.
+              <br />
+              Consider adding the <i>{rolesById[rolesByName.readOnly].name}</i> role as well.
+            </FormHelperText>
+          )}
+        </FormControl>
+        <EnterpriseNotification className="margin-left-small" id={BENEFITS.rbac.id} />
+      </div>
+      {!isEnterprise && (
+        <Alert className="margin-top-small" severity="warning">
+          Role-based access control (RBAC) is not available in your current plan. All users will have full administrative access.
+        </Alert>
+      )}
     </div>
   );
 };
