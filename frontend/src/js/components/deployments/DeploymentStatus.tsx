@@ -11,23 +11,19 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Tooltip } from '@mui/material';
+import { Cancel as CancelIcon, Error as FailedIcon, Pending as PendingIcon, Timelapse as ProgressIcon, CheckCircle as SuccessIcon } from '@mui/icons-material';
+import { SvgIconOwnProps, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import type { Deployment } from '@northern.tech/store/deploymentsSlice';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
 
-import errorImage from '../../../assets/img/error_status.png';
-import pendingImage from '../../../assets/img/pending_status.png';
-import inprogressImage from '../../../assets/img/progress_status.png';
-import skippedImage from '../../../assets/img/skipped_status.png';
-import successImage from '../../../assets/img/success_status.png';
-
-const phases = {
-  skipped: { title: 'Skipped', image: skippedImage },
-  pending: { title: 'Pending', image: pendingImage },
-  inprogress: { title: 'In progress', image: inprogressImage },
-  successes: { title: 'Successful', image: successImage },
-  failures: { title: 'Failed', image: errorImage }
+const phases: Record<string, { color: SvgIconOwnProps['color']; icon: typeof CancelIcon; title: string }> = {
+  skipped: { title: 'Skipped', icon: CancelIcon, color: 'action' },
+  pending: { title: 'Pending', icon: PendingIcon, color: 'action' },
+  inprogress: { title: 'In progress', icon: ProgressIcon, color: 'action' },
+  successes: { title: 'Successful', icon: SuccessIcon, color: 'success' },
+  failures: { title: 'Failed', icon: FailedIcon, color: 'error' }
 };
 
 const useStyles = makeStyles()(theme => ({
@@ -37,23 +33,20 @@ const useStyles = makeStyles()(theme => ({
     gridTemplateColumns: 'repeat(auto-fit, 32px)',
     '> div': {
       columnGap: theme.spacing(0.5)
-    },
-    '.disabled': {
-      opacity: '0.1'
     }
   }
 }));
 
-export const DeploymentStats = ({ deployment = {} }) => {
+export const DeploymentStats = ({ deployment = {} as Deployment }: { deployment?: Deployment }) => {
   const { classes } = useStyles();
   const phaseStats = groupDeploymentStats(deployment, true);
   return (
-    <div className={`flexbox ${classes.resultsStatus} `}>
-      {Object.entries(phases).map(([key, phase]) => (
-        <Tooltip key={key} title={phase.title}>
-          <div className={`flexbox centered ${phaseStats[key] ? '' : 'disabled'}`}>
-            <img src={phase.image} />
-            <div className="status">{phaseStats[key]}</div>
+    <div className={`flexbox ${classes.resultsStatus}`}>
+      {Object.entries(phases).map(([key, { icon: Icon, color, title }]) => (
+        <Tooltip key={key} title={title}>
+          <div className="flexbox centered">
+            <Icon color={!phaseStats[key] ? 'disabled' : color} />
+            <Typography>{phaseStats[key]}</Typography>
           </div>
         </Tooltip>
       ))}
