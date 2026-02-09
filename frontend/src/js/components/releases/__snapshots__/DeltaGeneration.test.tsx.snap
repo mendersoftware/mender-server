@@ -139,11 +139,15 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           <td
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
-            <time
-              datetime="2022-07-11T20:49:00+00:00"
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
             >
-              2022-07-11 20:49
-            </time>
+              <time
+                datetime="2022-07-11T20:49:00+00:00"
+              >
+                2022-07-11 20:49
+              </time>
+            </p>
           </td>
           <td
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
@@ -202,11 +206,15 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           <td
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
           >
-            <time
-              datetime="2022-07-11T20:49:00+00:00"
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
             >
-              2022-07-11 20:49
-            </time>
+              <time
+                datetime="2022-07-11T20:49:00+00:00"
+              >
+                2022-07-11 20:49
+              </time>
+            </p>
           </td>
           <td
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
