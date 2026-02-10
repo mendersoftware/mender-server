@@ -17,8 +17,6 @@ export const testDirBase = 'integration';
 //    limitations under the License.
 const deviceListItem = '.deviceListItem';
 export const selectors = {
-  deploymentListItem: '.deployment-item',
-  deploymentListItemContent: '.deployment-item:not(.deployment-header-item)',
   deviceGroupSelect: '#deployment-device-group-selection',
   deviceListCheckbox: `${deviceListItem} input`,
   deviceListItem,

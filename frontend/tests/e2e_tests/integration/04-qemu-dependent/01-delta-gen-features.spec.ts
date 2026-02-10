@@ -108,7 +108,10 @@ test.describe('Devices', () => {
     await selectReleaseByName(page, 'snapshot-test');
     await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByText('finished').click();
-    await page.waitForSelector(selectors.deploymentListItemContent, { timeout: 10 * timeouts.sixtySeconds });
+    await page
+      .getByRole('listitem')
+      .first()
+      .waitFor({ timeout: 10 * timeouts.sixtySeconds });
   });
 
   test('allows shortcut device deployments 2', async ({ page }) => {
@@ -122,17 +125,19 @@ test.describe('Devices', () => {
     await page.getByRole('button', { name: /advanced options/i }).click();
     await page.getByRole('checkbox', { name: /delta artifacts/i }).click();
     await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
-    await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
+    await page.getByRole('listitem').first().waitFor({ timeout: timeouts.sixtySeconds });
   });
 
   test('shows delta generation', async ({ page }) => {
     await navbar.getByRole('link', { name: /deployments/i }).click();
-    await page.waitForSelector(selectors.deploymentListItemContent);
-    await page.getByRole('button', { name: /view details/i }).click();
+    const pageContent = page.locator('.rightFluid.container');
+    const listItem = pageContent.getByRole('listitem').first();
+    await listItem.waitFor({ timeout: timeouts.sixtySeconds });
+    await listItem.getByRole('button', { name: /view details/i }).click();
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('button', { name: /close/i }).click();
     await page.getByText('finished').click();
-    await page.waitForSelector(selectors.deploymentListItemContent);
+    await page.getByRole('listitem').first().waitFor({ timeout: timeouts.sixtySeconds });
     await navbar.getByRole('link', { name: /Releases/i }).click();
     await page.getByRole('tab', { name: /delta/i }).click();
     await page.getByText(/to version/i).waitFor({ timeout: timeouts.sixtySeconds });

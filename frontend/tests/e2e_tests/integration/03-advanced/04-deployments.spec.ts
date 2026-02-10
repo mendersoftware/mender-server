@@ -84,10 +84,12 @@ test.describe('Deployments', () => {
     await deviceGroupSelect.focus();
     await deviceGroupSelect.fill('All');
     await page.click(`#deployment-device-group-selection-listbox li:has-text('All devices')`);
-    await triggerDeploymentCreation(page, page.waitForSelector(selectors.deploymentListItem, { timeout: timeouts.tenSeconds }));
+    await triggerDeploymentCreation(page, page.getByRole('listitem').first().waitFor({ timeout: timeouts.tenSeconds }));
     await page.getByRole('tab', { name: /finished/i }).click();
-    await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
-    const datetime = await page.getAttribute(`${selectors.deploymentListItemContent} time`, 'datetime');
+    const pageContent = page.locator('.rightFluid.container');
+    const listItem = pageContent.getByRole('listitem').first();
+    await listItem.waitFor({ timeout: timeouts.sixtySeconds });
+    const datetime = await listItem.locator('time').last().getAttribute('datetime');
     const time = dayjs(datetime);
     const earlier = dayjs().subtract(5, 'minutes');
     const now = dayjs();
@@ -104,8 +106,10 @@ test.describe('Deployments', () => {
     await selectReleaseByName(page, 'mender-demo-artifact');
     await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByRole('tab', { name: /finished/i }).click();
-    await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
-    const datetime = await page.getAttribute(`${selectors.deploymentListItemContent} time`, 'datetime');
+    const pageContent = page.locator('.rightFluid.container');
+    const listItem = pageContent.getByRole('listitem').first();
+    await listItem.waitFor({ timeout: timeouts.sixtySeconds });
+    const datetime = await listItem.locator('time').last().getAttribute('datetime');
     const time = dayjs(datetime);
     const earlier = dayjs().subtract(5, 'minutes');
     const now = dayjs();
@@ -127,7 +131,7 @@ test.describe('Deployments', () => {
     await page.click(`#deployment-device-group-selection-listbox li:has-text('testgroup')`);
     await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByRole('tab', { name: /finished/i }).click();
-    await page.waitForSelector(selectors.deploymentListItemContent, { timeout: timeouts.sixtySeconds });
+    await page.getByRole('listitem').first().waitFor({ timeout: timeouts.sixtySeconds });
   });
   test('deployment pagination', async ({ baseUrl, page, request }) => {
     const token = await getTokenFromStorage(baseUrl);
