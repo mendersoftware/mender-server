@@ -39,7 +39,7 @@ test:frontend:license-headers:
     - git diff --exit-code frontend/tests
 
 test:frontend:licenses:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-1.46.3
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
   stage: test
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
@@ -57,7 +57,7 @@ test:frontend:licenses:
     - apt-get install -yq nodejs
     - npm ci
   script:
-    - deno run --allow-env --allow-read --allow-sys tests/licenses/licenseCheck.ts --rootDir $(pwd)
+    - deno task --cwd scripts dependencyLicenseCheck --rootDir $(pwd)
 
 test:frontend:unit:
   stage: test
@@ -178,7 +178,7 @@ build:frontend:docker:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
   before_script:
-    - curl -fsSL https://get.docker.com | sh -s -- --version 27.3.1
+    - curl -fsSL https://get.docker.com | sh -s -- --version ${DOCKER_VERSION}
     - !reference [.requires-docker]
     - !reference [.dind-login]
     # If branch is not protected, use upstream main

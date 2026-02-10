@@ -13,12 +13,12 @@
 //    limitations under the License.
 import { DiffTerm, diff } from 'https://deno.land/x/diff_kit@v2.0.4/mod.ts';
 import { parseArgs } from 'jsr:@std/cli/parse-args';
-import { dirname, fromFileUrl, join, resolve as resolvePath } from 'jsr:@std/path';
-// import { dirname, fromFileUrl, resolve as resolvePath } from 'jsr:@std/path/mod.ts';
+import { join, resolve as resolvePath } from 'jsr:@std/path';
 import { asCSV, asSummary, init } from 'npm:license-checker-rseidelsohn@4.2.10';
 
 const licenseFile = 'directDependencies.csv';
-const licenseFileLocation = resolvePath(dirname(fromFileUrl(Deno.mainModule)), licenseFile);
+const frontendRoot = resolvePath(import.meta.dirname!, '..');
+const licenseFileLocation = resolvePath(frontendRoot, licenseFile);
 
 const knownOptions = [
   { key: 'update', description: 'to update the current license file (needs "--allow-write")' },
@@ -31,7 +31,8 @@ const usageMessage = [
   ''
 ].join('\n');
 
-const collectUsedLicenses = () => new Promise((resolve, reject) => init({ direct: 0, start: '.' }, (err, packages) => (err ? reject(err) : resolve(packages))));
+const collectUsedLicenses = () =>
+  new Promise((resolve, reject) => init({ direct: 0, start: frontendRoot }, (err, packages) => (err ? reject(err) : resolve(packages))));
 
 const createPackageData = packageData => ({ licenses: packageData.licenses ?? 'unknown', repository: packageData.repository || packageData.url || '' });
 
