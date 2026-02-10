@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
-import { PLANS, TIMEOUTS } from '@northern.tech/store/constants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { Elements } from '@stripe/react-stripe-js';
@@ -22,7 +22,7 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { SubscriptionDrawer } from './SubscriptionDrawer';
-import { microDeviceTier, standardDeviceTier } from './SubscriptionPage';
+import { microDeviceTier, standardDeviceTier } from './SubscriptionPage.test';
 
 vi.mock('@northern.tech/store/thunks', { spy: true });
 
@@ -32,7 +32,7 @@ const createBillingProfileReq = {
       city: 'Oslo',
       country: 'PL',
       line1: 'Blindernveien',
-      postal_code: '5678',
+      postal_code: '5678'
     },
     email: 'a@b.com',
     name: 'test'
@@ -50,7 +50,7 @@ const preloadedState = {
           country: 'NO',
           city: 'test City',
           line1: 'Test address',
-          postal_code: '1234',
+          postal_code: '1234'
         },
         shipping: {
           name: 'Test account',
@@ -58,7 +58,7 @@ const preloadedState = {
             country: 'NO',
             city: 'test City',
             line1: 'Test address',
-            postal_code: '1234',
+            postal_code: '1234'
           }
         }
       },
@@ -101,8 +101,9 @@ const preloadedState = {
     }
   }
 };
+const { plans: PLANS } = defaultState.organization.products;
 
-describe('Subscription Summary component', () => {
+describe('Subscription Drawer component', () => {
   it('renders correctly', async () => {
     const stripe = loadStripe();
 
@@ -115,6 +116,7 @@ describe('Subscription Summary component', () => {
           plan={PLANS.os}
           addons={[]}
           isTrial={true}
+          currentPlan={PLANS.os}
         />
       </Elements>
     );
@@ -137,6 +139,7 @@ describe('Subscription Summary component', () => {
           plan={PLANS.os}
           addons={[]}
           isTrial={true}
+          currentPlan={PLANS.os}
         />
       </Elements>
     );
@@ -193,7 +196,7 @@ describe('Subscription Summary component', () => {
           order={newOrder}
           addons={[]}
           isTrial={false}
-          currentPlanId={PLANS.os.id}
+          currentPlan={PLANS.os}
         />
       </Elements>
     );

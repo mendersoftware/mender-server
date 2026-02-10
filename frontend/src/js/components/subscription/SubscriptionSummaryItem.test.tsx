@@ -1,4 +1,4 @@
-// Copyright 2025 Northern.tech AS
+// Copyright 2026 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -11,32 +11,36 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { render } from '@/testUtils';
-import { PLANS } from '@northern.tech/store/constants';
+import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
-import { vi } from 'vitest';
 
-import { microDeviceTier, standardDeviceTier } from './SubscriptionPage.test';
-import { SubscriptionSummary } from './SubscriptionSummary';
+import { SubscriptionSummaryItem } from './SubscriptionSummaryItem';
 
-describe('Subscription Summary component', () => {
+describe('Subscription Summary item component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(
-      <SubscriptionSummary
-        addons={['configure']}
-        deviceLimit={50}
-        deviceTypes={{ ...microDeviceTier, ...standardDeviceTier }}
-        isEnabled
+      <SubscriptionSummaryItem
+        addons={['configure', 'monitor', 'troubleshoot']}
         isPreviewLoading={false}
-        onAction={vi.fn}
-        plan={PLANS.os}
-        previewPrice={{
-          items: { standard: { quantity: 50, price: 3200, addons: { configure: 1000 } }, micro: { quantity: 100, price: 3200, addons: {} } },
-          total: 7400
+        previewPriceItem={{
+          addons: { configure: 1000, monitor: 1000, troubleshoot: 2000 },
+          price: 2000,
+          quantity: 50
         }}
-        readOnly={false}
-        title={'your subscription '}
-      />
+        summaryLabel="Micro Devices"
+      />,
+      {
+        preloadedState: {
+          ...defaultState,
+          app: {
+            ...defaultState.app,
+            features: {
+              ...defaultState.app.features,
+              isHosted: true
+            }
+          }
+        }
+      }
     );
     const view = baseElement.lastElementChild;
     expect(view).toMatchSnapshot();

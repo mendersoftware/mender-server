@@ -19,8 +19,9 @@ import { Alert, AlertTitle, Button, DialogContent, IconButton, Typography } from
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { cleanUp } from '@northern.tech/store/auth';
-import { ADDONS, AvailableAddon, Plan } from '@northern.tech/store/constants';
+import { AvailableAddon, Plan } from '@northern.tech/store/constants';
 import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
+import { getProducts } from '@northern.tech/store/selectors';
 
 import { DeviceTypes } from './SubscriptionPage';
 import { formatPrice } from './utils';
@@ -37,9 +38,11 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
   const { plan, products, price, orderedAddons, deviceTypes, willLogout } = props;
   const { plan: currentPlan } = useSelector(getOrganization);
 
-  const [addonList] = useState(orderedAddons.map(addon => addon.name));
   const productsList = products.map(({ id, quantity }) => `${quantity} ${deviceTypes[id].summaryLabel}`).join(', ');
   const [count, setCount] = useState<number>(60);
+  const backendProducts = useSelector(getProducts);
+  const { addons: ADDONS } = backendProducts!;
+
   const logOut = () => {
     cleanUp();
     window.location.replace('/ui/');
@@ -86,7 +89,7 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
           <Typography variant="subtitle1"> Subscription details: </Typography>
           <Typography> Plan: {plan.name} </Typography>
           <Typography> Devices: {productsList}</Typography>
-          {addonList.length > 0 && <Typography>Add-ons: {addonList.map(addon => ADDONS[addon].title).join(', ')}</Typography>}
+          {orderedAddons.length > 0 && <Typography>Add-ons: {orderedAddons.map(addon => ADDONS[addon.name].title).join(', ')}</Typography>}
           <Typography>Monthly cost: {formatPrice(price)}</Typography>
         </div>
         {willLogout ? (
@@ -94,7 +97,7 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
             <AlertTitle textAlign="center">Automatic logout in {count} seconds</AlertTitle>
             <div className="flexbox column centered">
               <Typography className="margin-bottom-x-small" textAlign="center" variant="body2">
-                You will be logged out automatically, for your new subscription to take effect. <br/>
+                You will be logged out automatically, for your new subscription to take effect. <br />
                 If you are using Personal Access Tokens, remember to generate and deploy new tokens when you log in again.
               </Typography>
               <Button variant="contained" onClick={logOut}>
