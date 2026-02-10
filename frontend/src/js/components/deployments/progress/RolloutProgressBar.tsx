@@ -144,9 +144,8 @@ export const SimpleProgress = ({ deployment }: { deployment: Deployment }) => {
   const { failures } = groupDeploymentStats(deployment, false);
   const status = getDeploymentState(deployment);
   const phaseFailures = phases.reduce((accu, phase) => {
-    const { failures = 0, failureWidth = 0 } = phase as { failures?: number; failureWidth?: number };
-    accu += failures + failureWidth;
-    return accu;
+    const { failures = 0 } = phase as { failures?: number };
+    return accu + failures;
   }, 0);
   const variantProps = determinateStates[status] ?? determinateStates.default;
   return <LinearProgress color={failures || phaseFailures ? 'secondary' : 'primary'} {...variantProps} />;
