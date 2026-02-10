@@ -50,6 +50,7 @@ test.describe('Webhooks Functionality', () => {
     await page.getByRole('button', { name: 'Confirm' }).click();
     await page.reload();
     await page.getByText('Accept', { exact: true }).click();
+    await page.getByText(/updated successfully/i).waitFor({ timeout: timeouts.default });
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
     await page
