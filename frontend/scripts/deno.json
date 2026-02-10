@@ -1,6 +1,7 @@
 {
   "nodeModulesDir": "auto",
   "tasks": {
+    "dependencyLicenseCheck": "deno run --allow-env --allow-read --allow-sys dependencyLicenseCheck.ts",
     "licenseCheck": "deno run --allow-read --allow-write --allow-run addLicense.js",
     "licenseFormatting": "deno run --allow-read --allow-write --allow-net formatLicenses.ts",
     "typeGeneration": "deno run --allow-env --allow-net --allow-read --allow-write typeGeneration/convert.js"
