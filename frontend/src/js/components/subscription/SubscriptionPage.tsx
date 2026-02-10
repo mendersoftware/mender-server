@@ -38,7 +38,14 @@ import {
   getStripeKey
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { getBillingPreview, getCurrentCard, getUserBilling, getUserSubscription, requestPlanChange } from '@northern.tech/store/thunks';
+import {
+  getBillingPreview,
+  getCurrentCard,
+  getProducts as getProductsThunk,
+  getUserBilling,
+  getUserSubscription,
+  requestPlanChange
+} from '@northern.tech/store/thunks';
 import type { DeviceTierLimits } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { Elements } from '@stripe/react-stripe-js';
@@ -709,10 +716,19 @@ export const SubscriptionPageContent = () => {
     </div>
   );
 };
+
 export const SubscriptionPage = () => {
   const products = useSelector(getProducts);
+  const dispatch = useAppDispatch();
 
   const isLoaded = products && typeof products === 'object';
+
+  useEffect(() => {
+    if (isLoaded) {
+      return;
+    }
+    dispatch(getProductsThunk());
+  }, [dispatch, isLoaded]);
 
   if (!isLoaded) {
     return (
