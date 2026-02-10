@@ -76,8 +76,9 @@ func doMain(args []string) error {
 			Usage: "Create user",
 			Flags: []cli.Flag{
 				cli.StringFlag{
-					Name:  "username",
-					Usage: "Name of created user, must be an email address",
+					Name:     "username",
+					Usage:    "Name of created user, must be an email address",
+					Required: true,
 				},
 				cli.StringFlag{
 					Name:  "password",
@@ -99,8 +100,9 @@ func doMain(args []string) error {
 			Usage: "Set password",
 			Flags: []cli.Flag{
 				cli.StringFlag{
-					Name:  "username",
-					Usage: "Name of created user, must be an email address",
+					Name:     "username",
+					Usage:    "Name of created user, must be an email address",
+					Required: true,
 				},
 				cli.StringFlag{
 					Name:  "password",
