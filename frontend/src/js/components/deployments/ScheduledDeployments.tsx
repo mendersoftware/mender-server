@@ -14,10 +14,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { CalendarToday as CalendarTodayIcon, List as ListIcon, Refresh as RefreshIcon } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseNotification';
@@ -32,7 +32,9 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
+import { isDarkMode } from '@northern.tech/store/utils';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
 import dayjs from 'dayjs';
 
@@ -42,11 +44,71 @@ import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './c
 
 const { setSnackbar } = storeActions;
 
-const useStyles = makeStyles()(theme => ({
-  inactive: { color: theme.palette.text.disabled },
-  refreshIcon: { fill: theme.palette.grey[400], width: 111, height: 111 },
-  tabSelect: { textTransform: 'none' }
-}));
+const useStyles = makeStyles()(theme => {
+  const greyShade = isDarkMode(theme.palette.mode) ? theme.palette.grey[300] : theme.palette.grey[500];
+  const defaultBg = isDarkMode(theme.palette.mode) ? alpha(theme.palette.grey[300], theme.palette.action.selectedOpacity) : theme.palette.grey[50];
+  return {
+    refreshIcon: { fill: theme.palette.grey[400], width: 111, height: 111 },
+    tabSelect: { textTransform: 'none' },
+    toggleButtonGroup: { display: 'flex', alignContent: 'flex-end' },
+    calendarContainer: {
+      '& .rbc-toolbar': {
+        '& button': {
+          background: defaultBg,
+          color: theme.palette.info.contrastText,
+          borderColor: alpha(greyShade, 0.5),
+
+          '&:hover, &:focus, &:active': {
+            background: alpha(greyShade, 0.16),
+            color: theme.palette.info.contrastText
+          },
+
+          '&.rbc-active': {
+            '&, &:hover, &:focus, &:active': {
+              background: alpha(greyShade, 0.3),
+              color: theme.palette.info.contrastText
+            }
+          }
+        }
+      },
+
+      '& .rbc-month-view, & .rbc-time-view': {
+        '& .rbc-time-content': { borderTopWidth: '1px' },
+        '& .rbc-time-slot': { borderTop: 'none' },
+        '& .rbc-off-range-bg': { background: defaultBg },
+        '& .rbc-today': { backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity) },
+
+        '& .rbc-event': {
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
+          '&.rbc-selected': {
+            backgroundColor: theme.palette.primary.dark
+          }
+        },
+
+        '& .rbc-show-more': {
+          color: theme.palette.primary.main,
+          fontWeight: 400,
+          background: 'inherit'
+        }
+      },
+
+      '& .rbc-month-view': {
+        '& .rbc-today': { backgroundColor: 'inherit' },
+        '& .rbc-now': {
+          paddingTop: '3px',
+          paddingRight: theme.spacing(1.5),
+          '& > .rbc-button-link': {
+            color: theme.palette.primary.contrastText,
+            backgroundColor: theme.palette.primary.main,
+            borderRadius: '100px',
+            padding: '3px 7px'
+          }
+        }
+      }
+    }
+  };
+});
 
 const localizer = dayjsLocalizer(dayjs);
 
@@ -62,7 +124,7 @@ const tabs = {
   list: {
     icon: <ListIcon />,
     index: 'list',
-    title: 'List view'
+    title: 'List'
   },
   calendar: {
     icon: <CalendarTodayIcon />,
@@ -87,7 +149,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   const { canDelta: isEnterprise } = useSelector(getTenantCapabilities);
   const { scheduled: scheduledState } = useSelector(getDeploymentsSelectionState);
   const items = useSelector(state => getMappedDeploymentSelection(state, type));
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
   const { classes } = useStyles();
 
@@ -154,7 +216,9 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
   }, [JSON.stringify(items), tabIndex]);
 
   const abortDeployment = id => abort(id).then(refreshDeployments);
-
+  const handleToggleChange = (_, newMode: string) => {
+    setTabIndex(newMode);
+  };
   const props = {
     ...remainder,
     canDeploy,
@@ -168,20 +232,17 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
     page
   };
   return (
-    <div className="fadeIn margin-left">
+    <div className={`fadeIn ${classes.calendarContainer}`}>
       {items.length ? (
         <>
-          <div className="margin-large margin-left-small">
-            {Object.entries(tabs).map(([currentIndex, tab]) => (
-              <Button
-                className={`${classes.tabSelect} ${currentIndex !== tabIndex ? classes.inactive : ''}`}
-                key={currentIndex}
-                startIcon={tab.icon}
-                onClick={() => setTabIndex(currentIndex)}
-              >
-                {tab.title}
-              </Button>
-            ))}
+          <div className="margin-top margin-bottom-medium margin-left-small">
+            <ToggleButtonGroup size="small" exclusive value={tabIndex} onChange={handleToggleChange} className={classes.toggleButtonGroup}>
+              {Object.entries(tabs).map(([currentIndex, tab]) => (
+                <ToggleButton size="small" className={classes.tabSelect} key={currentIndex} value={tab.index}>
+                  {tab.icon} <span className="margin-left-x-small">{tab.title}</span>
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
           </div>
           {tabIndex === tabs.list.index && (
             <DeploymentsList
@@ -196,7 +257,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
           {tabIndex === tabs.calendar.index && (
             <Calendar
               localizer={localizer}
-              className="margin-left margin-bottom"
+              className="margin-left-small margin-bottom"
               events={calendarEvents}
               startAccessor="start"
               endAccessor="end"

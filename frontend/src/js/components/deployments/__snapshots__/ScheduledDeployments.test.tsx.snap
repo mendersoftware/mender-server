@@ -1,7 +1,82 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ScheduledDeployments Component > renders correctly 1`] = `
-.emotion-0 {
+.emotion-0 .rbc-toolbar button {
+  background: #fafafa;
+  color: #fff;
+  border-color: rgba(158, 158, 158, 0.5);
+}
+
+.emotion-0 .rbc-toolbar button:hover,
+.emotion-0 .rbc-toolbar button:focus,
+.emotion-0 .rbc-toolbar button:active {
+  background: rgba(158, 158, 158, 0.16);
+  color: #fff;
+}
+
+.emotion-0 .rbc-toolbar button.rbc-active,
+.emotion-0 .rbc-toolbar button.rbc-active:hover,
+.emotion-0 .rbc-toolbar button.rbc-active:focus,
+.emotion-0 .rbc-toolbar button.rbc-active:active {
+  background: rgba(158, 158, 158, 0.3);
+  color: #fff;
+}
+
+.emotion-0 .rbc-month-view .rbc-time-content,
+.emotion-0 .rbc-time-view .rbc-time-content {
+  border-top-width: 1px;
+}
+
+.emotion-0 .rbc-month-view .rbc-time-slot,
+.emotion-0 .rbc-time-view .rbc-time-slot {
+  border-top: none;
+}
+
+.emotion-0 .rbc-month-view .rbc-off-range-bg,
+.emotion-0 .rbc-time-view .rbc-off-range-bg {
+  background: #fafafa;
+}
+
+.emotion-0 .rbc-month-view .rbc-today,
+.emotion-0 .rbc-time-view .rbc-today {
+  background-color: rgba(25, 118, 210, 0.08);
+}
+
+.emotion-0 .rbc-month-view .rbc-event,
+.emotion-0 .rbc-time-view .rbc-event {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+.emotion-0 .rbc-month-view .rbc-event.rbc-selected,
+.emotion-0 .rbc-time-view .rbc-event.rbc-selected {
+  background-color: #1565c0;
+}
+
+.emotion-0 .rbc-month-view .rbc-show-more,
+.emotion-0 .rbc-time-view .rbc-show-more {
+  color: #1976d2;
+  font-weight: 400;
+  background: inherit;
+}
+
+.emotion-0 .rbc-month-view .rbc-today {
+  background-color: inherit;
+}
+
+.emotion-0 .rbc-month-view .rbc-now {
+  padding-top: 3px;
+  padding-right: 12px;
+}
+
+.emotion-0 .rbc-month-view .rbc-now>.rbc-button-link {
+  color: #fff;
+  background-color: #1976d2;
+  border-radius: 100px;
+  padding: 3px 7px;
+}
+
+.emotion-1 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -22,7 +97,7 @@ exports[`ScheduledDeployments Component > renders correctly 1`] = `
 }
 
 <div
-  class="fadeIn margin-left"
+  class="fadeIn emotion-0"
 >
   <div
     class="dashboard-placeholder margin-top"
@@ -38,7 +113,7 @@ exports[`ScheduledDeployments Component > renders correctly 1`] = `
     </p>
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium flip-horizontal emotion-0"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium flip-horizontal emotion-1"
       data-testid="RefreshIcon"
       focusable="false"
       viewBox="0 0 24 24"
