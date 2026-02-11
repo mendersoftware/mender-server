@@ -1,7 +1,7 @@
 boto3==1.42.44
 certifi >= 14.05.14
 chardet >= 4.0.0
-cryptography==46.0.4
+cryptography==46.0.5
 docker==7.1.0
 flaky==3.8.1
 idna >= 2.10
