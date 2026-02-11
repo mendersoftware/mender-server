@@ -1411,9 +1411,6 @@ class TestDeviceFilteringEnterprise(DeviceFilteringTests):
 
 
 class TestDeviceStatisticsEnterprise:
-    @pytest.mark.skip(
-        reason="Tier information is not propagated to inventory yet (see MEN-9096)"
-    )
     def test_get_device_statistics(self, tenants_users):
         useradmm = ApiClient(useradm.URL_MGMT)
         devauthd = ApiClient(deviceauth.URL_DEVICES)
