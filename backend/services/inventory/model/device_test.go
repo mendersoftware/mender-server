@@ -17,6 +17,7 @@ import (
 	"encoding/json"
 	"testing"
 
+	"github.com/mendersoftware/mender-server/pkg/rules"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -267,14 +268,13 @@ func TestValidateDeviceAttributes(t *testing.T) {
 
 func TestValidateGroupName(t *testing.T) {
 	t.Parallel()
-	group1 := GroupName(make([]byte, 1025))
-	assert.EqualError(t, group1.Validate(), "Group name can at most have "+
-		"1024 characters")
+	group1 := GroupName(make([]byte, 257))
+	assert.EqualError(t, rules.DeviceGroupName(group1), "the length must be no more than 256")
 	group2 := GroupName("totally.legit")
-	assert.EqualError(t, group2.Validate(), "Group name can only contain: "+
+	assert.EqualError(t, rules.DeviceGroupName(group2), "group name can only contain: "+
 		"upper/lowercase alphanum, -(dash), _(underscore)")
 	group3 := GroupName("")
-	assert.EqualError(t, group3.Validate(), "Group name cannot be blank")
+	assert.EqualError(t, rules.DeviceGroupName(group3), "cannot be blank")
 	group4 := GroupName("test")
-	assert.NoError(t, group4.Validate())
+	assert.NoError(t, rules.DeviceGroupName(group4))
 }

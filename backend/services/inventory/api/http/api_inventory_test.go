@@ -1851,7 +1851,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("Group name cannot be blank"),
+				OutputBodyObject: RestError("group: cannot be blank."),
 			},
 			inventoryErr: nil,
 		},
@@ -1864,7 +1864,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("Group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)"),
+				OutputBodyObject: RestError("group: group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)."),
 			},
 			inventoryErr: nil,
 		},
@@ -1877,7 +1877,7 @@ func TestApiInventoryAddDeviceToGroup(t *testing.T) {
 			}),
 			JSONResponseParams: JSONResponseParams{
 				OutputStatus:     http.StatusBadRequest,
-				OutputBodyObject: RestError("Group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)"),
+				OutputBodyObject: RestError("group: group name can only contain: upper/lowercase alphanum, -(dash), _(underscore)."),
 			},
 			inventoryErr: nil,
 		},
@@ -2574,7 +2574,7 @@ func TestAPICDeleteGroup(t *testing.T) {
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusBadRequest,
 			OutputBodyObject: map[string]interface{}{
-				"error": "Group name can only contain: upper/lowercase " +
+				"error": "group name can only contain: upper/lowercase " +
 					"alphanum, -(dash), _(underscore)",
 				"request_id": "test",
 			},
@@ -2698,7 +2698,7 @@ func TestAPIClearDevicesGroup(t *testing.T) {
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusBadRequest,
 			OutputBodyObject: map[string]interface{}{
-				"error": "Group name can only contain: upper/lowercase " +
+				"error": "group name can only contain: upper/lowercase " +
 					"alphanum, -(dash), _(underscore)",
 				"request_id": "test",
 			},
@@ -2805,7 +2805,7 @@ func TestAPIPatchGroupDevices(t *testing.T) {
 		JSONResponseParams: JSONResponseParams{
 			OutputStatus: http.StatusBadRequest,
 			OutputBodyObject: map[string]interface{}{
-				"error": "Group name can only contain: " +
+				"error": "group name can only contain: " +
 					"upper/lowercase alphanum, " +
 					"-(dash), _(underscore)",
 				"request_id": "test",

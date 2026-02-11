@@ -17,7 +17,6 @@ package model
 import (
 	"encoding/json"
 	"reflect"
-	"regexp"
 	"strings"
 	"time"
 
@@ -57,8 +56,6 @@ const (
 	runeDollar = '\uFF04'
 	runeDot    = '\uFF0E'
 )
-
-var validGroupNameRegex = regexp.MustCompile("^[A-Za-z0-9_-]*$")
 
 type DeviceID string
 
@@ -226,24 +223,6 @@ func (did DeviceID) String() string {
 
 func (gn GroupName) String() string {
 	return string(gn)
-}
-
-func (gn GroupName) Validate() error {
-	if len(gn) > 1024 {
-		return errors.New(
-			"Group name can at most have 1024 characters",
-		)
-	} else if len(gn) == 0 {
-		return errors.New(
-			"Group name cannot be blank",
-		)
-	} else if !validGroupNameRegex.MatchString(string(gn)) {
-		return errors.New(
-			"Group name can only contain: upper/lowercase " +
-				"alphanum, -(dash), _(underscore)",
-		)
-	}
-	return nil
 }
 
 // wrapper for device attributes names and values
