@@ -27,8 +27,7 @@ from common import (
     migrate,
     make_auth,
 )
-import internal_v1
-import management_v1
+import mender_client
 import pytest
 
 
@@ -57,7 +56,7 @@ class TestManagementApiPostUsersBase:
 
         try:
             api_client_mgmt.create_user(new_user, auth)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 422
 
 
@@ -70,35 +69,35 @@ class TestManagementApiPostUsers(TestManagementApiPostUsersBase):
         new_user = {"foo": "bar"}
         try:
             api_client_mgmt.create_user(new_user)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 400
 
     def test_fail_no_password(self, api_client_mgmt):
         new_user = {"email": "foobar"}
         try:
             api_client_mgmt.create_user(new_user)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 400
 
     def test_fail_no_email(self, api_client_mgmt):
         new_user = {"password": "asdf1234zxcv"}
         try:
             api_client_mgmt.create_user(new_user)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 400
 
     def test_fail_not_an_email(self, api_client_mgmt):
         new_user = {"email": "foobar", "password": "asdf1234zxcv"}
         try:
             api_client_mgmt.create_user(new_user)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 400
 
     def test_fail_pwd_too_short(self, api_client_mgmt):
         new_user = {"email": "foo@bar.com", "password": "asdf"}
         try:
             api_client_mgmt.create_user(new_user)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 422
 
     def test_fail_duplicate_email(self, api_client_mgmt, init_users):
@@ -126,7 +125,7 @@ class TestManagementApiGetUserBase:
 
         try:
             not_found = api_client_mgmt.get_user("madeupid", auth)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 404
 
 
@@ -264,13 +263,13 @@ class TestManagementApiPutUserBase:
 
         try:
             r = api_client_mgmt.update_user("madeupid", update, auth)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 404
 
     def _do_test_fail_bad_update(self, api_client_mgmt, init_users, tenant_id=None):
         try:
             r = api_client_mgmt.update_user(init_users[0].id, {"foo": "bar"})
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 400
 
     def _do_test_fail_unprocessable_entity(
@@ -283,7 +282,7 @@ class TestManagementApiPutUserBase:
 
         try:
             r = api_client_mgmt.update_user(user_to_update.id, update, auth)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 422
 
 
@@ -377,7 +376,7 @@ class TestManagementApiPutUser(TestManagementApiPutUserBase):
         # verify tokens
         r = api_client_int.verify(token_one)
         assert r.status_code == 200
-        with pytest.raises(internal_v1.exceptions.ApiException) as excinfo:
+        with pytest.raises(mender_client.ApiException) as excinfo:
             r = api_client_int.verify(token_two)
             assert excinfo.value.status == 401
 
@@ -418,7 +417,7 @@ class TestManagementApiSettingsBase:
 
         try:
             r = api_client_mgmt.post_settings("asdf", auth)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 400
 
 

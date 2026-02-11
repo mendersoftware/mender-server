@@ -17,27 +17,20 @@ import socket
 import docker
 import requests
 
-import management_v1 as management_api
-import internal_v1 as internal_api
-from management_v1 import (
-    ManagementAPIClient as GenManagementAPIClient,
-    Configuration as mgmt_Configuration,
-    ApiClient as mgmt_ApiClient,
-)
-from internal_v1 import (
-    InternalAPIClient as GenInternalAPIClient,
-    Configuration as intrnl_Configuration,
-    ApiClient as intrnl_ApiClient,
+import mender_client
+from mender_client.api import (
+    IoTManagerManagementAPIApi,
+    IoTManagerInternalAPIApi,
 )
 from utils import generate_jwt
 
 
-class ManagementAPIClient(GenManagementAPIClient):
+class ManagementAPIClient(IoTManagerManagementAPIApi):
     def __init__(self, tenant_id, subject="tester"):
         jwt = generate_jwt(tenant_id, subject, is_user=True)
-        config = mgmt_Configuration.get_default_copy()
+        config = mender_client.Configuration.get_default_copy()
         config.access_token = jwt
-        client = mgmt_ApiClient(configuration=config)
+        client = mender_client.ApiClient(configuration=config)
         super().__init__(api_client=client)
 
     def list_integrations(self, **kwargs):
@@ -79,10 +72,10 @@ class ManagementAPIClient(GenManagementAPIClient):
         return self.io_t_manager_management_list_events(**kwargs)
 
 
-class InternalAPIClient(GenInternalAPIClient):
+class InternalAPIClient(IoTManagerInternalAPIApi):
     def __init__(self):
-        config = intrnl_Configuration.get_default_copy()
-        client = intrnl_ApiClient(configuration=config)
+        config = mender_client.Configuration.get_default_copy()
+        client = mender_client.ApiClient(configuration=config)
         super().__init__(api_client=client)
 
     def check_health(self, **kwargs):

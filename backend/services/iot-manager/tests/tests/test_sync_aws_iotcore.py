@@ -21,7 +21,7 @@ from os import path
 import docker
 
 from client import ManagementAPIClient
-from management_v1 import models
+import mender_client
 from utils import compare_expectations
 
 
@@ -1352,12 +1352,12 @@ class TestSyncAWSIoTCore:
         for tenant_id, devices in self.tenant_devices.items():
             client = ManagementAPIClient(tenant_id)
             rsp = client.register_integration_with_http_info(
-                models.Integration(
+                mender_client.Integration(
                     provider="iot-core",
-                    credentials=models.Credentials(
-                        models.AWSCredentials(
+                    credentials=mender_client.Credentials(
+                        mender_client.AWSCredentials(
                             type="aws",
-                            aws=models.AWSCredentialsAws(
+                            aws=mender_client.AWSCredentialsAws(
                                 access_key_id="access_key_id",
                                 secret_access_key="secret_access_key",
                                 device_policy_name="device-policy",

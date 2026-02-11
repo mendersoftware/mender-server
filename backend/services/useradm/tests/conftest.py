@@ -14,8 +14,7 @@
 #    limitations under the License.
 import logging
 
-import internal_v1
-import management_v1
+import mender_client
 
 
 def pytest_addoption(parser):
@@ -35,10 +34,7 @@ def pytest_configure(config):
 
     host = config.getoption("host")
 
-    # Configure generated API clients
-    internal_v1.Configuration.set_default(
-        internal_v1.Configuration(host="http://" + host)
-    )
-    management_v1.Configuration.set_default(
-        management_v1.Configuration(host="http://" + host)
+    # Configure generated API client
+    mender_client.Configuration.set_default(
+        mender_client.Configuration(host="http://" + host)
     )

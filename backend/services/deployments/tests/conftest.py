@@ -16,6 +16,8 @@ import logging
 import os
 import socket
 
+import mender_client
+
 from config import init
 
 
@@ -62,6 +64,11 @@ def pytest_configure(config):
     if config.getoption("verbose"):
         lvl = logging.DEBUG
     logging.basicConfig(level=lvl)
+
+    host = config.getoption("host")
+    mender_client.Configuration.set_default(
+        mender_client.Configuration(host="http://" + host)
+    )
 
     # capture global pytest cmdline config
     init(config)

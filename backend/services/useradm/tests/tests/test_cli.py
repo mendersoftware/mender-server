@@ -24,8 +24,7 @@ from common import (
     TENANT_ONE,
     TENANT_TWO,
 )
-import internal_v1
-import management_v1
+import mender_client
 import pytest
 import semver
 
@@ -98,7 +97,7 @@ class TestCli:
         status_code = 200
         try:
             r = api_client_mgmt.login(email, password)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 401
             status_code = 401
         assert status_code == 401

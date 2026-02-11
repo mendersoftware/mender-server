@@ -18,7 +18,7 @@ import time
 
 import msgpack
 
-import management_v1 as management_api
+import mender_client
 
 from common import Device, management_api_with_params, management_api_connect
 
@@ -42,7 +42,7 @@ class _TestConnect:
                 sec_websocket_key="dGhlIHNhbXBsZSBub25jZQ==",
                 sec_websocket_version=13,
             )
-        except management_api.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 404
             assert "device not found" in str(e.body)
         else:
@@ -56,7 +56,7 @@ class _TestConnect:
                 sec_websocket_key="dGhlIHNhbXBsZSBub25jZQ==",
                 sec_websocket_version=13,
             )
-        except management_api.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 404
             assert "device not connected" in str(e.body)
         else:
@@ -73,7 +73,7 @@ class _TestConnect:
 
             try:
                 api_mgmt.connect(dev.id)
-            except management_api.ApiException as e:
+            except mender_client.ApiException as e:
                 assert e.status == 400
                 assert "the client is not using the websocket protocol" in e.body
             else:
@@ -87,7 +87,7 @@ class _TestConnect:
                     sec_websocket_key="dGhlIHNhbXBsZSBub25jZQ==",
                     sec_websocket_version=13,
                 )
-            except management_api.ApiException as e:
+            except mender_client.ApiException as e:
                 assert e.status == 101
             else:
                 raise Exception("Expected status code 101")
@@ -161,7 +161,7 @@ class _TestConnect:
                 sec_websocket_key="dGhlIHNhbXBsZSBub25jZQ==",
                 sec_websocket_version=13,
             )
-        except management_api.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 404
         else:
             raise Exception("Expected status code 404")

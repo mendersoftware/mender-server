@@ -30,8 +30,7 @@ from common import (
     explode_jwt,
 )
 from mockserver import run_fake
-import internal_v1
-import management_v1
+import mender_client
 import pytest
 from base64 import urlsafe_b64encode
 
@@ -48,7 +47,7 @@ class TestAuthLogin:
     def test_bad_user(self, api_client_mgmt, init_users, email, password):
         try:
             r = api_client_mgmt.login(email, password)
-        except management_v1.exceptions.ApiException as herr:
+        except mender_client.ApiException as herr:
             assert herr.status == 401
 
     def test_ok(self, api_client_mgmt, init_users):
@@ -85,13 +84,13 @@ class TestAuthLogout:
         # token is not valid anymore
         try:
             r = api_client_int.verify(token)
-        except internal_v1.exceptions.ApiException as herr:
+        except mender_client.ApiException as herr:
             assert herr.status == 401
 
     def test_internal_error(self, api_client_mgmt, init_users):
         try:
             r = api_client_mgmt.logout()
-        except management_v1.exceptions.ApiException as herr:
+        except mender_client.ApiException as herr:
             assert herr.status == 500
 
 
@@ -102,7 +101,7 @@ class TestAuthVerify:
     def test_fail(self, api_client_int, init_users, token):
         try:
             r = api_client_int.verify(token)
-        except internal_v1.exceptions.ApiException as herr:
+        except mender_client.ApiException as herr:
             assert herr.status == 401
 
     def test_ok(self, api_client_int, init_users, user_tokens):
@@ -125,12 +124,12 @@ class TestAuthVerify:
             )
             try:
                 r = api_client_int.verify(tampered)
-            except internal_v1.exceptions.ApiException as herr:
+            except mender_client.ApiException as herr:
                 assert herr.status == 401
 
     def test_bad_x_original(self, api_client_int, init_users, user_tokens):
         user, token = init_users[0], user_tokens[0]
         try:
             r = api_client_int.verify(token, uri="/foobar")
-        except internal_v1.exceptions.ApiException as herr:
+        except mender_client.ApiException as herr:
             assert herr.status == 500

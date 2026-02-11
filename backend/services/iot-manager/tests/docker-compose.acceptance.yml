@@ -5,6 +5,7 @@ services:
     volumes:
       - ../services/iot-manager/tests:/testing
       - ../services/iot-manager/docs:/docs
+      - ./mender_client:/testing/mender_client
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
       TEST_HOST: "iot-manager:8080"

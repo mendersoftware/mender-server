@@ -30,8 +30,7 @@ from common import (
     make_auth,
     TENANTS,
 )
-import internal_v1
-import management_v1
+import mender_client
 import pytest
 
 
@@ -72,7 +71,7 @@ class TestManagementApiPostTokenBase:
         r = api_client_mgmt.list_tokens(auth)
         assert r.status_code == 200
         assert len(r.data) == 0
-        with pytest.raises(internal_v1.exceptions.ApiException) as e:
+        with pytest.raises(mender_client.ApiException) as e:
             r = api_client_int.verify(personal_access_token)
             assert e.status == 401
 
@@ -98,7 +97,7 @@ class TestManagementApiPostTokenBase:
             "name": f"personal_access_token_{''.join(sample(string.ascii_lowercase, 5))}",
             "expires_in": 3600,
         }
-        with pytest.raises(management_v1.exceptions.ApiException) as e:
+        with pytest.raises(mender_client.ApiException) as e:
             r = api_client_mgmt.create_token(token_request, auth)
         assert e.value.status == 422
 
@@ -117,7 +116,7 @@ class TestManagementApiPostTokenBase:
         r = api_client_mgmt.create_token(token_request, auth)
         assert r.status_code == 200
 
-        with pytest.raises(management_v1.exceptions.ApiException) as e:
+        with pytest.raises(mender_client.ApiException) as e:
             r = api_client_mgmt.create_token(token_request, auth)
         assert e.value.status == 409
 
@@ -137,7 +136,7 @@ class TestManagementApiPostTokenBase:
         assert r.status_code == 200
 
         # two names with same name for one user cannot exist
-        with pytest.raises(management_v1.exceptions.ApiException) as e:
+        with pytest.raises(mender_client.ApiException) as e:
             r = api_client_mgmt.create_token(token_request, auth)
         assert e.value.status == 409
 

@@ -20,7 +20,7 @@ from common import (
     clean_db,
     inventory_attributes,
 )
-import internal_v1
+import mender_client
 import pytest
 
 
@@ -45,7 +45,7 @@ class TestInternalApiTenantCreate:
     def test_create_empty(self, internal_client):
         try:
             r = internal_client.create_tenant("")
-        except internal_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 400
 
 

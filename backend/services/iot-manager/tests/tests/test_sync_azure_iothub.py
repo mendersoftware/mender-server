@@ -21,7 +21,7 @@ import docker
 import pytest
 
 from client import ManagementAPIClient
-from management_v1 import models
+import mender_client
 from utils import compare_expectations
 
 
@@ -368,10 +368,10 @@ class TestSyncAzureIoTHub:
             conn_str = f"HostName=mock.azure-devices.net:443;SharedAccessKeyName={tenant_id};SharedAccessKey=c2VjcmV0"
             client = ManagementAPIClient(tenant_id)
             rsp = client.register_integration_with_http_info(
-                models.Integration(
+                mender_client.Integration(
                     provider="iot-hub",
-                    credentials=models.Credentials(
-                        models.AzureSharedAccessSecret(
+                    credentials=mender_client.Credentials(
+                        mender_client.AzureSharedAccessSecret(
                             type="sas",
                             connection_string=conn_str,
                         )

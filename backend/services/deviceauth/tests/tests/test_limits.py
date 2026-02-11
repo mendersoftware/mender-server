@@ -12,8 +12,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import pytest
-import management_v2 as ma
-import internal_v1 as ia
+from mender_client import ApiException
 
 from common import (
     clean_db,
@@ -55,5 +54,5 @@ class TestLimits:
                 "foo", "1", client_side_validation=False
             )
             assert response.status == 400
-        except ia.ApiException as e:
+        except ApiException as e:
             assert e.status == 400

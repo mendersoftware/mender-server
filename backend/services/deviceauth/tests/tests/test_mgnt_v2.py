@@ -30,8 +30,7 @@ from common import (
 
 import orchestrator
 
-import management_v2 as ma
-import internal_v1 as ia
+from mender_client import ApiException
 
 
 class TestDeleteDevice:
@@ -47,20 +46,20 @@ class TestDeleteDevice:
                 management_api.decommission_device(
                     ourdev.id, x_men_request_id="delete_device",
                 )
-            except ma.ApiException as e:
+            except ApiException as e:
                 assert e.status == 204
 
         with orchestrator.run_fake_for_device_id(ourdev.id):
             try:
                 internal_api.delete_device(ourdev.id,)
-            except ia.ApiException as e:
+            except ApiException as e:
                 assert e.status == 204
 
         found = None
         status_code = None
         try:
             found = management_api.get_device(id=ourdev.id)
-        except ma.ApiException as e:
+        except ApiException as e:
             status_code = e.status
 
         assert status_code == 404
@@ -78,7 +77,7 @@ class TestDeleteDevice:
                 management_api.decommission_device(
                     ourdev.id, x_men_request_id="delete_device",
                 )
-            except ma.ApiException as e:
+            except ApiException as e:
                 assert e.status == 500
 
     def test_delete_device_nonexistent(self, management_api):
@@ -87,7 +86,7 @@ class TestDeleteDevice:
             management_api.decommission_device(
                 "some-devid-foo", x_men_request_id="delete_device",
             )
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 404
 
     def test_device_accept_reject_cycle(self, devices, device_api, management_api):
@@ -105,7 +104,7 @@ class TestDeleteDevice:
         with orchestrator.run_fake_for_device_id(devid) as server:
             try:
                 management_api.accept_device(devid, aid)
-            except ma.ApiException as e:
+            except ApiException as e:
                 assert e.status == 204
 
             # device is accepted, we should get a token now
@@ -119,7 +118,7 @@ class TestDeleteDevice:
             # reject it now
             try:
                 management_api.reject_device(devid, aid)
-            except ma.ApiException as e:
+            except ApiException as e:
                 assert e.status == 204
 
             # device is rejected, should get unauthorized
@@ -144,6 +143,6 @@ class TestDeleteDevice:
         try:
             with orchestrator.run_fake_for_device_id(devid, 500) as server:
                 management_api.accept_device(devid, aid)
-        except ma.ApiException as e:
+        except ApiException as e:
             status = e.status
         assert status == 500

@@ -4,6 +4,7 @@ services:
   acceptance-tester:
     volumes:
       - ../services/inventory/tests:/testing
+      - ./mender_client:/testing/mender_client
     depends_on:
       - inventory
     entrypoint:

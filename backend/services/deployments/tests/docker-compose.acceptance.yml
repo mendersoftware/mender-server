@@ -5,6 +5,7 @@ services:
     volumes:
       - ../services/deployments/tests:/testing
       - ../services/deployments/docs:/docs
+      - ./mender_client:/testing/mender_client
     entrypoint:
       - pytest
       - --host=deployments:8080

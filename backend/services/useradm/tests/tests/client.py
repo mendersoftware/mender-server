@@ -20,8 +20,11 @@ import socket
 import docker
 import requests
 
-import internal_v1
-import management_v1
+import mender_client
+from mender_client.api import (
+    UserAdministrationAndAuthenticationInternalAPIApi,
+    UserAdministrationManagementAPIApi,
+)
 import common
 
 
@@ -38,8 +41,8 @@ class InternalApiClient:
 
     def __init__(self, host):
         self.api_url = "http://%s/api/internal/v1/useradm/" % host
-        api_conf = internal_v1.Configuration.get_default_copy()
-        self.client = internal_v1.InternalAPIClient(internal_v1.ApiClient(api_conf))
+        api_conf = mender_client.Configuration.get_default_copy()
+        self.client = UserAdministrationAndAuthenticationInternalAPIApi(mender_client.ApiClient(api_conf))
 
     def make_api_url(self, path):
         return os.path.join(
@@ -57,7 +60,7 @@ class InternalApiClient:
         return Response(status_code=r.status_code, data=r.data)
 
     def create_tenant(self, tenant_id):
-        tenant = internal_v1.TenantNew(tenant_id=tenant_id)
+        tenant = mender_client.TenantNew(tenant_id=tenant_id)
         r = self.client.useradm_create_tenant_with_http_info(tenant_new=tenant)
         return Response(status_code=r.status_code, data=r.data)
 
@@ -74,14 +77,14 @@ class ManagementApiClient:
     def __init__(self, host, auth):
         self.api_url = "http://%s/api/management/v1/useradm/" % host
         self.auth = auth
-        api_conf = management_v1.Configuration.get_default_copy()
+        api_conf = mender_client.Configuration.get_default_copy()
         # Extract token from Bearer header if present
         if auth and "Authorization" in auth:
             token = auth["Authorization"]
             if token.startswith("Bearer "):
                 token = token[7:]
             api_conf.access_token = token
-        self.client = management_v1.ManagementAPIClient(management_v1.ApiClient(api_conf))
+        self.client = UserAdministrationManagementAPIApi(mender_client.ApiClient(api_conf))
 
     def make_api_url(self, path):
         return os.path.join(
@@ -126,7 +129,7 @@ class ManagementApiClient:
                 headers=headers
             )
             if rsp.status_code >= 400:
-                raise management_v1.exceptions.ApiException(status=rsp.status_code, reason=rsp.text)
+                raise mender_client.ApiException(status=rsp.status_code, reason=rsp.text)
             return Response(status_code=rsp.status_code, data=rsp.json() if rsp.text else None)
         # For UserNew objects, use the generated client
         if auth:
@@ -163,7 +166,7 @@ class ManagementApiClient:
         )
         # Raise exception for non-2xx responses
         if rsp.status_code >= 400:
-            raise management_v1.exceptions.ApiException(status=rsp.status_code, reason=rsp.text)
+            raise mender_client.ApiException(status=rsp.status_code, reason=rsp.text)
         return Response(status_code=rsp.status_code, text=rsp.text)
 
     def logout(self, auth=None):
@@ -198,7 +201,7 @@ class ManagementApiClient:
             headers=headers
         )
         if rsp.status_code >= 400:
-            raise management_v1.exceptions.ApiException(status=rsp.status_code, reason=rsp.text)
+            raise mender_client.ApiException(status=rsp.status_code, reason=rsp.text)
         return Response(status_code=rsp.status_code, text=rsp.text)
 
     def list_tokens(self, auth=None):
