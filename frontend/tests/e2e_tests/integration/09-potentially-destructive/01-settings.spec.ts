@@ -286,7 +286,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: 'Upgrade now' }).click();
       await page.waitForTimeout(timeouts.default);
 
-      await expect(page.getByRole('heading', { name: '$1154' })).toBeVisible();
+      await expect(page.getByRole('heading', { name: '$897' })).toBeVisible();
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
 
       await page.getByText(/Your device limit has been successfully updated/i).waitFor({ timeout: timeouts.fifteenSeconds });
