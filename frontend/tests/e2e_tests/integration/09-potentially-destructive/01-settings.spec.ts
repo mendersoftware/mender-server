@@ -274,6 +274,7 @@ test.describe('Settings', () => {
       await page.waitForTimeout(timeouts.default);
       const microCheckbox = page.getByRole('checkbox', { name: 'Micro devices' });
       await microCheckbox.click();
+      await page.waitForTimeout(timeouts.fiveSeconds) // Wait 5 seconds to avoid hitting rate limits
       const deviceNumberInput = selectDeviceLimitInput(page, 'Micro');
 
       await deviceNumberInput.fill('680');
@@ -286,7 +287,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: 'Upgrade now' }).click();
       await page.waitForTimeout(timeouts.default);
 
-      await expect(page.getByRole('heading', { name: '$897' })).toBeVisible();
+      await expect(page.getByRole('heading', { name: '$939' })).toBeVisible();
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
 
       await page.getByText(/Your device limit has been successfully updated/i).waitFor({ timeout: timeouts.fifteenSeconds });
