@@ -5,6 +5,7 @@ services:
     volumes:
       - ../services/deviceconfig/tests:/testing
       - ../services/deviceconfig/docs:/docs
+      - ./mender_client:/testing/mender_client
     entrypoint:
       - pytest
       - --host=deviceconfig:8080

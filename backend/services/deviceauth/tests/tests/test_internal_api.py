@@ -14,12 +14,12 @@
 import pytest
 
 from common import clean_db, mongo, internal_api
-import internal_v1 as ia
+from mender_client import ApiException
 
 
 class TestInternalApi:
     def test_create_tenant_ok(self, internal_api, clean_db):
         try:
             internal_api.create_tenant("foobar")
-        except ia.ApiException as e:
+        except ApiException as e:
             assert e.status == 201

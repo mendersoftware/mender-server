@@ -20,9 +20,7 @@ import signal
 import bson
 import pymongo
 
-import devices_v1
-import internal_v1
-import management_v1
+import mender_client
 
 
 def pytest_addoption(parser):
@@ -38,14 +36,8 @@ def pytest_addoption(parser):
 
 def pytest_configure(config):
     host = config.getoption("host")
-    devices_v1.Configuration.set_default(
-        devices_v1.Configuration(host="http://" + host)
-    )
-    internal_v1.Configuration.set_default(
-        internal_v1.Configuration(host="http://" + host)
-    )
-    management_v1.Configuration.set_default(
-        management_v1.Configuration(host="http://" + host)
+    mender_client.Configuration.set_default(
+        mender_client.Configuration(host="http://" + host)
     )
 
 

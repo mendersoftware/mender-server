@@ -27,10 +27,13 @@ from datetime import datetime, timedelta
 import hmac
 import uuid
 
-import devices_v1 as devices_api
-import internal_v1 as internal_api
-import management_v2 as management_api
-from management_v2 import models as management_models
+import mender_client
+from mender_client import models as management_models
+from mender_client.api import (
+    DeviceAuthenticationDeviceAPIApi,
+    DeviceAuthenticationInternalAPIApi,
+    DeviceAuthenticationManagementAPIApi,
+)
 
 
 def generate_jwt(tenant_id: str = "", subject: str = "", is_user: bool = True) -> str:
@@ -93,17 +96,17 @@ class SwaggerApiClient(BaseApiClient):
     log = logging.getLogger("client.SwaggerApiClient")
 
     def __init__(self, hostname):
-        api_conf = management_api.Configuration.get_default_copy()
+        api_conf = mender_client.Configuration.get_default_copy()
         device_id = str(uuid.uuid4())
         tenant_id = ""  # str(ObjectId())
         user_id = str(uuid.uuid4())
         api_conf.access_token = generate_jwt(tenant_id, user_id, is_user=True)
-        self.client = management_api.ManagementAPIClient(
-            management_api.ApiClient(configuration=api_conf)
+        self.client = DeviceAuthenticationManagementAPIApi(
+            mender_client.ApiClient(configuration=api_conf)
         )
-        api_conf = internal_api.Configuration.get_default_copy()
-        self.clientInternal = internal_api.InternalAPIClient(
-            internal_api.ApiClient(configuration=api_conf)
+        api_conf = mender_client.Configuration.get_default_copy()
+        self.clientInternal = DeviceAuthenticationInternalAPIApi(
+            mender_client.ApiClient(configuration=api_conf)
         )
         super().__init__(hostname)
 
@@ -122,7 +125,7 @@ class InternalClient(SwaggerApiClient):
 
     def put_max_devices_limit(self, tenant_id, limit, client_side_validation=True):
         if client_side_validation:
-            l = internal_api.Limit(limit=limit)
+            l = mender_client.Limit(limit=limit)
             return self.clientInternal.device_auth_internal_update_device_limit(
                 tenant_id=tenant_id, limit=l
             )

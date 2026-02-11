@@ -32,7 +32,7 @@ from common import (
 from config import pytest_config
 import json
 
-import management_v2 as mv2
+import mender_client
 from bson.objectid import ObjectId
 from base64 import b64encode
 from datetime import datetime, timedelta
@@ -99,7 +99,7 @@ class TestRelease:
                         jwt=self.d.get_jwt()
                     ).update_release_information(
                         release_name=release_name,
-                        release_update=mv2.ReleaseUpdate(notes=release_notes),
+                        release_update=mender_client.ReleaseUpdate(notes=release_notes),
                     )
                     release = management_v2_client(
                         jwt=self.d.get_jwt()

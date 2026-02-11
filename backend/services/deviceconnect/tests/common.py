@@ -21,9 +21,12 @@ from datetime import datetime, timedelta, timezone
 
 from websocket import create_connection
 
-import devices_v1 as devices_api
-import internal_v1 as internal_api
-import management_v1 as management_api
+import mender_client
+from mender_client.api import (
+    DeviceConnectDeviceAPIApi,
+    DeviceConnectInternalAPIApi,
+    DeviceConnectManagementAPIApi,
+)
 
 
 @contextmanager
@@ -43,16 +46,16 @@ class Device:
             tenant_id = ""
         self.plan = plan
 
-        client = internal_api.InternalAPIClient()
+        client = DeviceConnectInternalAPIApi()
         r = client.device_connect_internal_provision_device_with_http_info(
             tenant_id=tenant_id,
-            provision_device=internal_api.ProvisionDevice(device_id=device_id),
+            provision_device=mender_client.ProvisionDevice(device_id=device_id),
         )
         assert r.status_code == 201
 
     def connect(self):
         return ws_session(
-            devices_api.Configuration.get_default_copy().host.replace(
+            mender_client.Configuration.get_default_copy().host.replace(
                 "http://", "ws://"
             )
             + "/api/devices/v1/deviceconnect/connect",
@@ -88,9 +91,9 @@ class Device:
     @property
     def api(self):
         # Setup device api with token
-        api_conf = devices_api.Configuration.get_default_copy()
+        api_conf = mender_client.Configuration.get_default_copy()
         api_conf.access_token = self.jwt
-        return devices_api.DeviceAPIClient(devices_api.ApiClient(api_conf))
+        return DeviceConnectDeviceAPIApi(mender_client.ApiClient(api_conf))
 
 
 def make_user_token(user_id=None, plan=None, tenant_id=None):
@@ -147,9 +150,9 @@ class ManagementAPIClientWrapper:
 
 
 def management_api_with_params(user_id, plan=None, tenant_id=None):
-    api_conf = management_api.Configuration.get_default_copy()
+    api_conf = mender_client.Configuration.get_default_copy()
     api_conf.access_token = make_user_token(user_id, plan, tenant_id)
-    client = management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    client = DeviceConnectManagementAPIApi(mender_client.ApiClient(api_conf))
     return ManagementAPIClientWrapper(client)
 
 
@@ -158,11 +161,11 @@ def management_api_connect(
     user_id: str = None,
     tenant_id: str = None,
     plan: str = None,
-    api_conf: management_api.Configuration = None,
+    api_conf: mender_client.Configuration = None,
     **sess_args,
 ):
     if api_conf is None:
-        api_conf = management_api.Configuration.get_default_copy()
+        api_conf = mender_client.Configuration.get_default_copy()
     jwt = make_user_token(user_id=user_id, tenant_id=tenant_id, plan=plan)
     url = (
         re.sub(r"^http(s?://.+$)", r"ws\1", api_conf.host).rstrip("/")

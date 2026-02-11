@@ -30,8 +30,7 @@ from common import (
     explode_jwt,
 )
 from mockserver import run_fake
-import internal_v1
-import management_v1
+import mender_client
 import pytest
 import requests
 import uuid
@@ -41,7 +40,7 @@ from base64 import urlsafe_b64encode
 def verify_token(api_client_int, token, status_code):
     try:
         r = api_client_int.verify(token)
-    except internal_v1.exceptions.ApiException as herr:
+    except mender_client.ApiException as herr:
         assert herr.status == status_code
     else:
         assert r.status_code == status_code

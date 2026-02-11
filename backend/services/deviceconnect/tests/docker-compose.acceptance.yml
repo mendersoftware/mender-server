@@ -5,6 +5,7 @@ services:
     volumes:
       - ../services/deviceconnect/tests:/testing
       - ../services/deviceconnect/docs:/docs
+      - ./mender_client:/testing/mender_client
     entrypoint:
       - pytest
       - --host=deviceconnect:8080

@@ -17,9 +17,12 @@ import json
 import uuid
 from datetime import datetime, timedelta, timezone
 
-import devices_v1 as devices_api
-import internal_v1 as internal_api
-import management_v1 as management_api
+import mender_client
+from mender_client.api import (
+    DeviceConfigureDeviceAPIApi,
+    DeviceConfigureInternalAPIApi,
+    DeviceConfigureManagementAPIApi,
+)
 
 
 def make_user_token(user_id=None, plan=None, tenant_id=None):
@@ -145,7 +148,7 @@ class DeviceAPIClientWrapper:
 class InternalAPIClientWrapper:
     def __init__(self, client=None):
         if client is None:
-            client = internal_api.InternalAPIClient()
+            client = DeviceConfigureInternalAPIApi()
         self._client = client
 
     def provision_device_with_http_info(self, tenant_id, new_device, **kwargs):
@@ -163,24 +166,24 @@ InternalAPIClient = InternalAPIClientWrapper
 
 
 def management_api_with_params(user_id, plan=None, tenant_id=None):
-    api_conf = management_api.Configuration.get_default_copy()
+    api_conf = mender_client.Configuration.get_default_copy()
     api_conf.access_token = make_user_token(user_id, plan, tenant_id)
-    client = management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    client = DeviceConfigureManagementAPIApi(mender_client.ApiClient(api_conf))
     return ManagementAPIClientWrapper(client)
 
 
 def devices_api_with_params(device_id, plan=None, tenant_id=None):
-    api_conf = devices_api.Configuration.get_default_copy()
+    api_conf = mender_client.Configuration.get_default_copy()
     api_conf.access_token = make_device_token(device_id, plan, tenant_id)
-    client = devices_api.DeviceAPIClient(devices_api.ApiClient(api_conf))
+    client = DeviceConfigureDeviceAPIApi(mender_client.ApiClient(api_conf))
     return DeviceAPIClientWrapper(client)
 
 
 def management_api_set_config_raw(user_id, tenant_id, device_id, configuration):
     token = make_user_token(user_id, tenant_id=tenant_id)
-    api_conf = management_api.Configuration.get_default_copy()
+    api_conf = mender_client.Configuration.get_default_copy()
     api_conf.access_token = token
-    api_client = management_api.ManagementAPIClient(management_api.ApiClient(api_conf))
+    api_client = DeviceConfigureManagementAPIApi(mender_client.ApiClient(api_conf))
     url = f"{api_client.api_client.configuration.host}/api/management/v1/deviceconfig/configurations/device/{device_id}"
     return api_client.api_client.call_api(
         "PUT",
@@ -195,9 +198,9 @@ def management_api_set_config_raw(user_id, tenant_id, device_id, configuration):
 
 def devices_api_report_config_raw(device_id, tenant_id, configuration):
     token = make_device_token(device_id, tenant_id=tenant_id)
-    api_conf = devices_api.Configuration.get_default_copy()
+    api_conf = mender_client.Configuration.get_default_copy()
     api_conf.access_token = token
-    api_client = devices_api.DeviceAPIClient(devices_api.ApiClient(api_conf))
+    api_client = DeviceConfigureDeviceAPIApi(mender_client.ApiClient(api_conf))
     url = f"{api_client.api_client.configuration.host}/api/devices/v1/deviceconfig/configuration"
     return api_client.api_client.call_api(
         "PUT",

@@ -41,10 +41,13 @@ from base64 import b64encode
 from datetime import datetime, timedelta
 import hmac
 import uuid
-import management_v2 as mv2
-import management_v1 as mv1
-import devices_v1 as dv1
-import internal_v1 as iv1
+import mender_client
+from mender_client.api import (
+    DeploymentsDeviceAPIApi,
+    DeploymentsInternalAPIInternalAPIApi,
+    DeploymentsManagementAPIApi,
+    DeploymentsV2ManagementAPIApi,
+)
 
 DEPLOYMENTS_BASE_URL = "http://{}/api/{}/v1/deployments"
 
@@ -217,7 +220,7 @@ class ArtifactsClient(BaseApiClient):
     def delete_artifact(self, artid=""):
         try:
             management_v1_client(jwt=self._jwt).delete_artifact(id=artid)
-        except mv1.rest.ApiException as e:
+        except mender_client.ApiException as e:
             raise ArtifactsClientError("delete failed", e.status)
 
     def list_artifacts(self):
@@ -322,7 +325,7 @@ class DeploymentsClient(BaseApiClient):
         return self._jwt
 
     def make_new_deployment(self, *args, **kwargs):
-        return mv1.NewDeployment(*args, **kwargs)
+        return mender_client.NewDeployment(*args, **kwargs)
 
     def add_deployment(self, dep):
         """Posts new deployment `dep`"""
@@ -339,7 +342,7 @@ class DeploymentsClient(BaseApiClient):
         """Abort deployment with `ID `depid`"""
         management_v1_client(jwt=self.get_jwt()).abort_deployment_with_http_info(
             deployment_id=depid,
-            abort_deployment_request=mv1.AbortDeploymentRequest(status="aborted"),
+            abort_deployment_request=mender_client.AbortDeploymentRequest(status="aborted"),
         )
 
     @contextmanager
@@ -350,7 +353,7 @@ class DeploymentsClient(BaseApiClient):
         yield depid
         try:
             self.abort_deployment(depid)
-        except mv1.rest.ApiException:
+        except mender_client.ApiException:
             self.log.warning("deployment: %s already finished", depid)
 
     def verify_deployment_stats(self, depid, expected):
@@ -401,13 +404,13 @@ class DeviceClient(BaseApiClient):
     def report_status(self, token="", devdepid=None, status=None):
         """Report device deployment status"""
         res = devices_v1_client(jwt=token).update_deployment_status(
-            id=devdepid, deployment_status=dv1.DeploymentStatus(status=status)
+            id=devdepid, deployment_status=mender_client.DeploymentStatus(status=status)
         )
         return res
 
     def upload_logs(self, token="", devdepid=None, logs=[]):
         levels = ["info", "debug", "warn", "error", "other"]
-        dl = dv1.DeploymentLog(
+        dl = mender_client.DeploymentLog(
             messages=[
                 {
                     "timestamp": pytz.utc.localize(datetime.now()),
@@ -499,7 +502,7 @@ class InternalApiClient(BaseApiClient):
 
     def create_tenant(self, tenant_id):
         r = internal_v1_client().deployments_internal_create_tenant_with_http_info(
-            new_tenant=iv1.NewTenant(tenant_id=tenant_id)
+            new_tenant=mender_client.NewTenant(tenant_id=tenant_id)
         )
         return r.status_code
 
@@ -553,7 +556,7 @@ class InternalApiClient(BaseApiClient):
 
     def get_last_device_deployment_status(self, devices_ids, tenant_id):
         return internal_v1_client().get_last_device_deployment_status(
-            last_device_deployment_req=iv1.LastDeviceDeploymentReq(
+            last_device_deployment_req=mender_client.LastDeviceDeploymentReq(
                 device_ids=devices_ids
             ),
             tenant_id=tenant_id,
@@ -577,16 +580,15 @@ def generate_jwt(tenant_id: str = "", subject: str = "", is_user: bool = True) -
 
 
 def management_v2_client(tenant_id=None, user_id=None, host=None, jwt=None):
-    return management_client(mv2, "v2", tenant_id, user_id, host, jwt)
+    return management_client(DeploymentsV2ManagementAPIApi, tenant_id, user_id, host, jwt)
 
 
 def management_v1_client(tenant_id=None, user_id=None, host=None, jwt=None):
-    return management_client(mv1, "v1", tenant_id, user_id, host, jwt)
+    return management_client(DeploymentsManagementAPIApi, tenant_id, user_id, host, jwt)
 
 
-def management_client(spec, v, tenant_id=None, user_id=None, host=None, jwt=None):
-    api_conf = spec.configuration.Configuration()
-    # api_conf=spec.Configuration.get_default()
+def management_client(api_class, tenant_id=None, user_id=None, host=None, jwt=None):
+    api_conf = mender_client.Configuration.get_default_copy()
     if tenant_id is None:
         tenant_id = str(ObjectId())
     if not user_id:
@@ -598,15 +600,11 @@ def management_client(spec, v, tenant_id=None, user_id=None, host=None, jwt=None
     if not host:
         host = pytest_config.getoption("host")
     api_conf.host = "http://" + host
-    return spec.ManagementAPIClient(spec.ApiClient(configuration=api_conf))
+    return api_class(mender_client.ApiClient(configuration=api_conf))
 
 
 def devices_v1_client(tenant_id=None, device_id=None, host=None, jwt=None):
-    return device_client(dv1, "v1", tenant_id, device_id, host, jwt)
-
-
-def device_client(spec, v, tenant_id=None, device_id=None, host=None, jwt=None):
-    api_conf = spec.configuration.Configuration()
+    api_conf = mender_client.Configuration.get_default_copy()
     if tenant_id is None:
         tenant_id = str(ObjectId())
     if not device_id:
@@ -618,16 +616,12 @@ def device_client(spec, v, tenant_id=None, device_id=None, host=None, jwt=None):
     if not host:
         host = pytest_config.getoption("host")
     api_conf.host = "http://" + host
-    return spec.DeviceAPIClient(spec.ApiClient(configuration=api_conf))
+    return DeploymentsDeviceAPIApi(mender_client.ApiClient(configuration=api_conf))
 
 
 def internal_v1_client(host=None):
-    return internal_client(iv1, "v1", host)
-
-
-def internal_client(spec, v, host=None):
-    api_conf = spec.configuration.Configuration()
+    api_conf = mender_client.Configuration.get_default_copy()
     if not host:
         host = pytest_config.getoption("host")
     api_conf.host = "http://" + host
-    return spec.InternalAPIClient(spec.ApiClient(configuration=api_conf))
+    return DeploymentsInternalAPIInternalAPIApi(mender_client.ApiClient(configuration=api_conf))

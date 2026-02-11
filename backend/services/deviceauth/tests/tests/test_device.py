@@ -29,7 +29,7 @@ from common import (
     internal_api,
     device_api,
 )
-import management_v2 as ma
+from mender_client import ApiException
 
 from cryptutil import compare_keys
 
@@ -45,9 +45,9 @@ class TestDevice:
             with orchestrator.run_fake_for_device_id(1) as server:
                 try:
                     device_auth_req(device_api.auth_requests_url, da, d)
-                except ma.ApiException as e:
+                except ApiException as e:
                     assert e.status == 401
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 204
 
         devs = management_api.list_devices()
@@ -74,13 +74,13 @@ class TestDevice:
     def test_device_accept_nonexistent(self, management_api):
         try:
             management_api.accept_device("funnyid", "funnyid")
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 404
 
     def test_device_reject_nonexistent(self, management_api):
         try:
             management_api.reject_device("funnyid", "funnyid")
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 404
 
     def test_device_accept_reject_cycle(self, devices, device_api, management_api):
@@ -98,7 +98,7 @@ class TestDevice:
         try:
             with orchestrator.run_fake_for_device_id(devid) as server:
                 management_api.accept_device(devid, aid)
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 204
 
         # device is accepted, we should get a token now
@@ -114,13 +114,13 @@ class TestDevice:
                 # reject it now
                 try:
                     management_api.reject_device(devid, aid)
-                except ma.ApiException as e:
+                except ApiException as e:
                     assert e.status == 204
 
                 # device is rejected, should get unauthorized
                 rsp = device_auth_req(url, da, d)
                 assert rsp.status_code == 401
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 204
 
     @pytest.mark.parametrize("devices", ["50"], indirect=True)
@@ -147,7 +147,7 @@ class TestDevice:
     def test_get_single_device_none(self, management_api):
         try:
             management_api.get_device(id="some-devid-foo")
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 404
 
     def test_get_device_single(self, management_api, devices):
@@ -163,7 +163,7 @@ class TestDevice:
         # try delete a nonexistent device
         try:
             management_api.decommission_device("some-devid-foo")
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 404
 
     def test_delete_device(self, management_api, internal_api, devices):
@@ -179,7 +179,7 @@ class TestDevice:
                     ourdev.id,
                     x_men_request_id="delete_device",
                 )
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 204
 
         try:
@@ -191,7 +191,7 @@ class TestDevice:
                         "Authorization": "Bearer foobar",
                     },
                 )
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 204
 
         found = management_api.find_device_by_identity(dev.identity)
@@ -224,7 +224,7 @@ class TestDevice:
                         management_api.accept_device(devid, aid)
                     elif idx == 1:
                         management_api.reject_device(devid, aid)
-            except ma.ApiException as e:
+            except ApiException as e:
                 assert e.status == 204
 
         TestDevice.verify_device_count(management_api, "pending", 13)
@@ -320,7 +320,7 @@ class TestDeleteAuthsetBase:
         with orchestrator.run_fake_for_device_id(dev.id) as server:
             try:
                 management_api.delete_authset(dev.id, aid, **kwargs)
-            except ma.ApiException as e:
+            except ApiException as e:
                 assert e.status == 204
 
         found = management_api.get_device(id=dev.id, **kwargs)
@@ -333,7 +333,7 @@ class TestDeleteAuthsetBase:
     ):
         try:
             management_api.delete_authset("foo", "bar")
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 404
 
     def _test_delete_authset_error_authset_not_found(
@@ -350,7 +350,7 @@ class TestDeleteAuthsetBase:
 
         try:
             management_api.delete_authset(devid, "foobar")
-        except ma.ApiException as e:
+        except ApiException as e:
             assert e.status == 404
 
 

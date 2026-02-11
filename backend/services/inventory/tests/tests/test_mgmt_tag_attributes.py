@@ -19,7 +19,7 @@ from common import (
     mongo,
 )
 
-import management_v1
+import mender_client
 import pytest
 import requests
 
@@ -156,7 +156,7 @@ class TestTagAttributes:
         fake_etag = "241496e0-cbbb-4a83-90e9-70b4dd0e645a"
         try:
             management_client.updateTagAttributes(did, tags_body, eTag=fake_etag)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 412
         else:
             raise Exception("did not raise expected exception")
@@ -173,7 +173,7 @@ class TestTagAttributes:
         fake_etag = "241496e0-cbbb-4a83-90e9-70b4dd0e645a"
         try:
             management_client.setTagAttributes(did, tags_body, eTag=fake_etag)
-        except management_v1.exceptions.ApiException as e:
+        except mender_client.ApiException as e:
             assert e.status == 412
         else:
             raise Exception("did not raise expected exception")
@@ -186,7 +186,7 @@ class TestTagAttributes:
         tags_body = [
             {"name": "n_%d" % i, "value": "v_%d" % i} for i in range(LIMIT_TAGS + 1)
         ]
-        with pytest.raises(management_v1.exceptions.ApiException) as exc_info:
+        with pytest.raises(mender_client.ApiException) as exc_info:
             management_client.updateTagAttributes(did, tags_body)
         assert exc_info.value.status == 400
 

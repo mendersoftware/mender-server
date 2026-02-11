@@ -32,9 +32,8 @@ from common import (
 )
 
 from client import management_v1_client
-from management_v1.exceptions import ApiException
-import devices_v1
-import management_v1
+import mender_client
+from mender_client import ApiException
 
 
 class TestDeployment:
@@ -347,7 +346,7 @@ class TestDeployment:
                             artifact_name=artifact_name,
                             device_type=dev.device_type,
                         )
-                    except devices_v1.rest.ApiException as e:
+                    except ApiException as e:
                         assert e.status == 401
                     else:
                         raise AssertionError("expected to fail")
@@ -370,7 +369,7 @@ class TestDeployment:
                             artifact_name="different {}".format(artifact_name),
                             device_type="other {}".format(dev.device_type),
                         )
-                    except devices_v1.rest.ApiException as e:
+                    except ApiException as e:
                         assert e.status == 409
                     else:
                         raise AssertionError("expected to fail")

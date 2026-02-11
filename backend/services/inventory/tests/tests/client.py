@@ -21,9 +21,12 @@ import docker
 import pytest  # noqa
 import requests
 
-import internal_v1
-import management_v1
-import management_v2
+import mender_client
+from mender_client.api import (
+    DeviceInventoryInternalAPIApi,
+    DeviceInventoryManagementAPIApi,
+    DeviceInventoryFiltersAndSearchManagementAPIApi,
+)
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from requests.utils import parse_header_links
@@ -53,17 +56,17 @@ class ManagementClient:
     log = logging.getLogger("Client")
 
     def __init__(self):
-        api_conf = management_v1.Configuration.get_default_copy()
+        api_conf = mender_client.Configuration.get_default_copy()
         api_conf.access_token = DEFAULT_AUTH.replace("Bearer ", "")
-        self.client = management_v1.ManagementAPIClient(management_v1.ApiClient(api_conf))
+        self.client = DeviceInventoryManagementAPIApi(mender_client.ApiClient(api_conf))
 
-        self.group = management_v1.Group
-        self.inventoryAttributeTag = management_v1.Tag
+        self.group = mender_client.Group
+        self.inventoryAttributeTag = mender_client.Tag
 
     def inventoryAttribute(self, name, value, scope, description=None):
-        """Create an AttributeV1 with the value properly wrapped in AttributeV1Value."""
-        wrapped_value = management_v1.AttributeV1Value(value)
-        return management_v1.AttributeV1(name=name, value=wrapped_value, scope=scope, description=description)
+        """Create an AttributeV1 with the value properly wrapped in AttributeValue."""
+        wrapped_value = mender_client.AttributeValue(value)
+        return mender_client.AttributeV1(name=name, value=wrapped_value, scope=scope, description=description)
 
     def deleteAllGroups(self, **kwargs):
         if "Authorization" not in kwargs:
@@ -173,7 +176,7 @@ class ManagementClient:
             JWT = "Bearer " + JWT
         try:
             self.client.api_client.configuration.access_token = JWT.replace("Bearer ", "")
-            r = self.client.assign_group(group=management_v1.Group(group=group), id=device)
+            r = self.client.assign_group(group=mender_client.Group(group=group), id=device)
         except Exception:
             if expected_error:
                 return []
@@ -187,9 +190,9 @@ class ManagementClientV2:
     log = logging.getLogger("Client")
 
     def __init__(self):
-        api_conf = management_v2.Configuration.get_default_copy()
+        api_conf = mender_client.Configuration.get_default_copy()
         api_conf.access_token = DEFAULT_AUTH.replace("Bearer ", "")
-        self.client = management_v2.ManagementAPIClient(management_v2.ApiClient(api_conf))
+        self.client = DeviceInventoryFiltersAndSearchManagementAPIApi(mender_client.ApiClient(api_conf))
 
     def getFiltersAttributes(self, **kwargs):
         if "Authorization" not in kwargs:
@@ -235,11 +238,11 @@ class InternalApiClient:
     log = logging.getLogger("client.InternalClient")
 
     def __init__(self):
-        api_conf = internal_v1.Configuration.get_default_copy()
-        self.client = internal_v1.InternalAPIClient(internal_v1.ApiClient(api_conf))
+        api_conf = mender_client.Configuration.get_default_copy()
+        self.client = DeviceInventoryInternalAPIApi(mender_client.ApiClient(api_conf))
 
     def DeviceNew(self, **kwargs):
-        return internal_v1.DeviceNew(**kwargs)
+        return mender_client.DeviceNew(**kwargs)
 
     def Attribute(self, **kwargs):
         # Return a dict instead of the model to allow flexible value types
@@ -247,12 +250,12 @@ class InternalApiClient:
         return kwargs
 
     def create_tenant(self, tenant_id):
-        tenant = internal_v1.TenantNew(tenant_id=tenant_id)
+        tenant = mender_client.TenantNew(tenant_id=tenant_id)
         r = self.client.inventory_internal_create_tenant_with_http_info(tenant_new=tenant)
         return Response(status_code=r.status_code, data=r.data)
 
     def create_device(self, device_id, attributes, description="test device"):
-        # Convert attributes to the internal API format using internal_v1.Attribute
+        # Convert attributes to the internal API format using mender_client.Attribute
         # The internal Attribute model has: name, description, value (AttributeValue)
         # The management AttributeV1 has: name, scope, description, value (AttributeV1Value), timestamp
         converted_attrs = []
@@ -271,10 +274,10 @@ class InternalApiClient:
             name = attr.name if hasattr(attr, 'name') else attr.get("name") if isinstance(attr, dict) else None
             desc = attr.description if hasattr(attr, 'description') else attr.get("description") if isinstance(attr, dict) else None
 
-            # Create internal_v1.Attribute with proper AttributeValue wrapper
-            internal_attr = internal_v1.Attribute(
+            # Create mender_client.Attribute with proper AttributeValue wrapper
+            internal_attr = mender_client.Attribute(
                 name=name,
-                value=internal_v1.AttributeValue(raw_value),
+                value=mender_client.AttributeValue(raw_value),
                 description=desc
             )
             converted_attrs.append(internal_attr)

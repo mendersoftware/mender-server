@@ -17,7 +17,7 @@ import pytest
 
 from common import devices_api_with_params, devices_api_report_config_raw
 from common import management_api_with_params
-from devices_v1 import ApiException as DevicesApiException
+from mender_client import ApiException as DevicesApiException
 from common import InternalAPIClient
 
 

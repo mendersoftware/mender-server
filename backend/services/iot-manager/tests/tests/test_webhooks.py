@@ -18,13 +18,12 @@ import time
 
 import pytest
 
-import internal_v1.exceptions as intrnl_exceptions
+import mender_client
+from mender_client.exceptions import NotFoundException
 
 from pydantic import BaseModel
 
 from client import ManagementAPIClient, InternalAPIClient
-from management_v1 import models as mgmt_models
-from internal_v1 import models as intrnl_models
 from utils import compare_expectations
 
 TEST_TENANT_ID = "123456789012345678901234"
@@ -46,12 +45,12 @@ class TestWebhooks:
     def setup_test_case(self, clean_mongo, clean_mmock):
         mgmt = ManagementAPIClient(TEST_TENANT_ID)
         mgmt.register_integration(
-            mgmt_models.Integration(
+            mender_client.Integration(
                 provider="webhook",
-                credentials=mgmt_models.Credentials(
-                    mgmt_models.HTTP(
+                credentials=mender_client.Credentials(
+                    mender_client.HTTP(
                         type="http",
-                        http=mgmt_models.HTTPHttp(
+                        http=mender_client.HTTPHttp(
                             url="http://mmock:8080",
                             secret="deadbeef",
                         ),
@@ -68,14 +67,14 @@ class TestWebhooks:
         mmock = setup_test_case
         intrnl = InternalAPIClient()
         assert isinstance(
-            intrnl_models.NewDevice(id="00000000-0000-0000-0000-000000000123"),
+            mender_client.NewDevice(id="00000000-0000-0000-0000-000000000123"),
             BaseModel,
         )
-        dev = intrnl_models.NewDevice(
+        dev = mender_client.NewDevice(
             id=device_id,
             status="accepted",
             auth_sets=[
-                intrnl_models.AuthSet(
+                mender_client.AuthSet(
                     id=authset_id,
                     device_id=device_id,
                     pubkey=ED25519_PUBKEY,
@@ -136,7 +135,7 @@ class TestWebhooks:
         intrnl = InternalAPIClient()
         try:
             intrnl.decommission_device(TEST_TENANT_ID, device_id)
-        except intrnl_exceptions.NotFoundException:
+        except NotFoundException:
             pass
 
         # let the async processing complete
@@ -177,9 +176,9 @@ class TestWebhooks:
             intrnl.update_device_statuses(
                 TEST_TENANT_ID,
                 "rejected",
-                [intrnl_models.IoTManagerInternalUpdateDeviceStatusesRequestInner(id=device_id)],
+                [mender_client.IoTManagerInternalUpdateDeviceStatusesRequestInner(id=device_id)],
             )
-        except intrnl_exceptions.NotFoundException:
+        except NotFoundException:
             pass
 
         # let the async processing complete
