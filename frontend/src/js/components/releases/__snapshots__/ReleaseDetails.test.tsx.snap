@@ -1262,8 +1262,18 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
 }
 
 .emotion-197 {
-  margin-right: 16px;
-  margin-bottom: 32px;
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  background: #fff;
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-right: 8px;
+  margin-bottom: 24px;
 }
 
 .emotion-198 {
@@ -1280,7 +1290,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
   -webkit-flex-direction: column-reverse;
   -ms-flex-direction: column-reverse;
   flex-direction: column-reverse;
-  margin: 16px;
+  margin-bottom: 16px;
+  margin-right: 16px;
 }
 
 .emotion-198 .MuiSpeedDial-actions {
@@ -2929,11 +2940,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
   <div
     class="emotion-196"
   >
-    <div
-      class="emotion-197"
+    <p
+      class="MuiTypography-root MuiTypography-body1 emotion-197"
     >
       Release actions
-    </div>
+    </p>
     <div
       class="MuiSpeedDial-root MuiSpeedDial-directionUp emotion-198"
       role="presentation"
@@ -3013,7 +3024,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
             id="release-actions-action-1-label"
             style="transition-delay: 30ms;"
           >
-            Delete release
+            Delete Release
           </span>
           <button
             aria-labelledby="release-actions-action-1-label"

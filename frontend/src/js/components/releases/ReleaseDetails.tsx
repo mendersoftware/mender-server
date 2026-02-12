@@ -23,7 +23,21 @@ import {
   Replay as ReplayIcon,
   Sort as SortIcon
 } from '@mui/icons-material';
-import { Button, ClickAwayListener, DialogActions, DialogContent, Divider, Drawer, SpeedDial, SpeedDialAction, SpeedDialIcon, Tooltip } from '@mui/material';
+import {
+  Button,
+  ClickAwayListener,
+  DialogActions,
+  DialogContent,
+  Divider,
+  Drawer,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
+  Tooltip,
+  Typography,
+  alpha,
+  getOverlayAlpha
+} from '@mui/material';
 import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
@@ -40,6 +54,7 @@ import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getReleaseListState, getReleaseTags, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
 import { removeArtifact, removeRelease, selectRelease, setReleaseTags, updateReleaseInfo } from '@northern.tech/store/thunks';
+import { isDarkMode } from '@northern.tech/store/utils';
 import { customSort, formatTime, isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import copy from 'copy-to-clipboard';
@@ -119,7 +134,7 @@ const useStyles = makeStyles()(theme => ({
       minWidth: 'max-content'
     }
   },
-  fab: { margin: theme.spacing(2) },
+  fab: { marginBottom: theme.spacing(2), marginRight: theme.spacing(2) },
   releaseRepoItem: {
     paddingBottom: theme.spacing(2),
     '&.repo-header': {
@@ -137,8 +152,12 @@ const useStyles = makeStyles()(theme => ({
   },
   tagSelect: { marginRight: theme.spacing(2), maxWidth: 350 },
   label: {
-    marginRight: theme.spacing(2),
-    marginBottom: theme.spacing(4)
+    background: isDarkMode(theme.palette.mode) ? alpha('#fff', getOverlayAlpha(6)) : theme.palette.common.white,
+    boxShadow: isDarkMode(theme.palette.mode) ? 'none' : theme.shadows[6],
+    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+    borderRadius: theme.spacing(0.5),
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(3)
   }
 }));
 
@@ -165,14 +184,16 @@ export const ReleaseQuickActions = ({ actionCallbacks }) => {
 
   const handleClickAway = () => setShowActions(false);
 
-  const pluralized = pluralize('releases', selectedRelease ? 1 : selectedRows.length);
+  const pluralized = pluralize('Releases', !isEmpty(selectedRelease) ? 1 : selectedRows.length);
 
   if (!actions.length) {
     return null;
   }
   return (
     <div className={classes.container}>
-      <div className={classes.label}>{selectedRelease ? 'Release actions' : `${selectedRows.length} ${pluralized} selected`}</div>
+      <Typography variant="body1" className={classes.label}>
+        {!isEmpty(selectedRelease) ? 'Release actions' : `${selectedRows.length} ${pluralized} selected`}
+      </Typography>
       <ClickAwayListener onClickAway={handleClickAway}>
         <SpeedDial className={classes.fab} ariaLabel="release-actions" icon={<SpeedDialIcon />} onClick={handleShowActions} open={Boolean(showActions)}>
           {actions.map(action => (
@@ -180,8 +201,7 @@ export const ReleaseQuickActions = ({ actionCallbacks }) => {
               key={action.key}
               aria-label={action.key}
               icon={action.icon}
-              tooltipTitle={action.title(pluralized)}
-              tooltipOpen
+              slotProps={{ tooltip: { title: action.title(pluralized), open: true } }}
               onClick={() => action.action({ ...actionCallbacks, selection: selectedRows })}
             />
           ))}
