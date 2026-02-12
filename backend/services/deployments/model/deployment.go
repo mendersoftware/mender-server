@@ -358,6 +358,13 @@ type Query struct {
 
 	// disable the counting
 	DisableCount bool
+
+	// identity attribute for device lookup fallback
+	IdAttribute string
+	IdScope     string
+
+	// match deployments targeting specific devices (by name or device_list)
+	DeviceIDs []string
 }
 
 type DeploymentIDs struct {
