@@ -60,6 +60,8 @@ test.describe('SAML Login via sso/id/login', () => {
 
       const cleanedMetaData = metadata.replace(/(?:\r\n|\r|\n)/g, '');
       await page.getByTestId('monaco-editor').click();
+      const editorLoadingIndicator = page.locator('.loaderContainer');
+      await expect(editorLoadingIndicator).not.toBeVisible();
       await page.keyboard.insertText(cleanedMetaData);
       console.log('typing metadata done.');
       // The screenshot saves the view of the typed metadata
