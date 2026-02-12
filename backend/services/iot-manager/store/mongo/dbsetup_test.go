@@ -19,10 +19,11 @@ import (
 	"os"
 	"testing"
 
-	"go.mongodb.org/mongo-driver/mongo"
-	mgopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mgopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	mtesting "github.com/mendersoftware/mender-server/pkg/mongo/testing"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
+	mtesting "github.com/mendersoftware/mender-server/pkg/mongo/v2/testing"
 )
 
 var db mtesting.TestDBRunner
@@ -46,8 +47,7 @@ func TestMain(m *testing.M) {
 	var status int
 	if url := os.Getenv("MONGO_URL"); url != "" {
 		client, err := mongo.Connect(
-			context.Background(),
-			mgopts.Client().ApplyURI(url).SetRegistry(newRegistry()),
+			mgopts.Client().ApplyURI(url).SetRegistry(codec.NewRegistry()),
 		)
 		if err != nil {
 			panic(err)
@@ -66,7 +66,7 @@ func TestMain(m *testing.M) {
 			}()
 			return m.Run()
 		},
-			newRegistry(),
+			codec.NewRegistry(),
 		)
 	}
 	os.Exit(status)

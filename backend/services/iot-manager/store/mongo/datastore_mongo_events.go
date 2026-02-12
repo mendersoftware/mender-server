@@ -20,8 +20,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
