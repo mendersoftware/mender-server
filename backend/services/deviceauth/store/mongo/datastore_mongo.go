@@ -816,7 +816,8 @@ func (db *DataStoreMongo) UpdateAuthSetById(
 	mod model.AuthSetUpdate,
 ) error {
 	c := db.client.Database(DbName).Collection(DbAuthSetColl)
-	res, err := c.UpdateOne(ctx, mongostore.WithTenantID(ctx, bson.M{"_id": id}), bson.M{"$set": mod})
+	res, err := c.UpdateOne(ctx, mongostore.WithTenantID(ctx, bson.M{"_id": id}),
+		bson.M{"$set": mod})
 	if err != nil {
 		return errors.Wrap(err, "failed to update auth set")
 	}

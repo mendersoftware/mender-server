@@ -26,10 +26,12 @@ import (
 	"testing"
 	"time"
 
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
-	"golang.org/x/net/context"
+	"context"
 
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
@@ -175,10 +177,9 @@ func (db DBFromEnv) URL() string {
 
 func (db DBFromEnv) NewClient(ctx context.Context) *mongo.Client {
 	client, err := mongo.Connect(
-		ctx,
 		mopts.Client().
 			ApplyURI(string(db)).
-			SetRegistry(newRegistry()),
+			SetRegistry(codec.NewRegistry()),
 	)
 	if err != nil {
 		panic(err)
@@ -187,10 +188,9 @@ func (db DBFromEnv) NewClient(ctx context.Context) *mongo.Client {
 }
 func (db *MongoTestInstance) NewClient(ctx context.Context) *mongo.Client {
 	client, err := mongo.Connect(
-		ctx,
 		mopts.Client().
 			ApplyURI(db.URL()).
-			SetRegistry(newRegistry()),
+			SetRegistry(codec.NewRegistry()),
 	)
 	if err != nil {
 		panic(err)

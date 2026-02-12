@@ -18,13 +18,13 @@ import (
 	"context"
 	"testing"
 
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 )
 
 type index struct {
