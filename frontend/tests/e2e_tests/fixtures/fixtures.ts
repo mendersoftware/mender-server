@@ -103,6 +103,7 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
       const emailClient = new Smtp4devEmailClient({ baseUrl: 'http://smtp4dev' });
       await use(emailClient);
     }
+    await use(null);
   }
 });
 
