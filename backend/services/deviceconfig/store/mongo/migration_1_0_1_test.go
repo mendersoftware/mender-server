@@ -24,7 +24,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
 type index struct {

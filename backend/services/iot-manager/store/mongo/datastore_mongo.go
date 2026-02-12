@@ -30,7 +30,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	dconfig "github.com/mendersoftware/mender-server/services/iot-manager/config"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"

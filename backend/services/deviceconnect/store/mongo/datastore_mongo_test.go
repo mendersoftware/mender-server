@@ -36,7 +36,7 @@ import (
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
 )
@@ -323,9 +323,7 @@ func TestDeleteSession(t *testing.T) {
 			ds := DataStoreMongo{client: db.Client()}
 			defer ds.DropDatabase()
 
-			database := db.Client().Database(mstore.DbNameForTenant(
-				tc.Session.TenantID, DbName,
-			))
+			database := db.Client().Database(DbName)
 			collSess := database.Collection(SessionsCollectionName)
 			_, err := collSess.InsertOne(nil, tc.Session)
 			if err != nil {
@@ -419,9 +417,7 @@ func TestGetSession(t *testing.T) {
 			ds := &DataStoreMongo{client: db.Client()}
 			defer ds.DropDatabase()
 
-			database := db.Client().Database(mstore.DbNameForTenant(
-				tc.Session.TenantID, DbName,
-			))
+			database := db.Client().Database(DbName)
 			collSess := database.Collection(SessionsCollectionName)
 			ctx := context.Background()
 			_, err := collSess.InsertOne(nil, mstore.WithTenantID(ctx, tc.Session))

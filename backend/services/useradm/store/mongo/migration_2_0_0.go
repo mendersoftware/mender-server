@@ -24,7 +24,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
 const (

@@ -23,8 +23,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	mstorev1 "github.com/mendersoftware/mender-server/pkg/store"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
 const (
@@ -89,7 +88,7 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 		},
 	}
 
-	tenantID := mstorev1.TenantFromDbName(m.db, DbName)
+	tenantID := mstore.TenantFromDbName(m.db, DbName)
 	ctx = identity.WithContext(ctx, &identity.Identity{
 		Tenant: tenantID,
 	})

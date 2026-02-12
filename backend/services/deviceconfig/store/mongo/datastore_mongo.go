@@ -27,7 +27,7 @@ import (
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/store"

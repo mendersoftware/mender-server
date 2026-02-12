@@ -23,8 +23,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 
-	mstore_v1 "github.com/mendersoftware/mender-server/pkg/store"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
 const (
@@ -45,7 +44,7 @@ func (db *DataStoreMongo) MigrateTenant(ctx context.Context, version string, ten
 
 	m := migrate.SimpleMigrator{
 		Client:      db.client,
-		Db:          mstore_v1.DbFromContext(tenantCtx, DbName),
+		Db:          mstore.DbFromContext(tenantCtx, DbName),
 		Automigrate: db.automigrate,
 	}
 	migrations := []migrate.Migration{
@@ -63,16 +62,16 @@ func (db *DataStoreMongo) MigrateTenant(ctx context.Context, version string, ten
 		},
 		&migration_2_0_0{
 			ds:     db,
-			dbName: mstore_v1.DbFromContext(tenantCtx, DbName),
+			dbName: mstore.DbFromContext(tenantCtx, DbName),
 			ctx:    tenantCtx,
 		},
 		&migration_2_0_1{
 			ds:     db,
-			dbName: mstore_v1.DbFromContext(tenantCtx, DbName),
+			dbName: mstore.DbFromContext(tenantCtx, DbName),
 		},
 		&migration_2_0_3{
 			ds:     db,
-			dbName: mstore_v1.DbFromContext(tenantCtx, DbName),
+			dbName: mstore.DbFromContext(tenantCtx, DbName),
 		},
 	}
 

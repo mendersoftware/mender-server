@@ -23,7 +23,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 )
