@@ -11,12 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { getPeristentLoginInfo } from '../utils/commands.ts';
+import { timeouts } from '../utils/constants.ts';
+import { EmailClient, GmailEmailClient, Smtp4devEmailClient } from '../utils/email.ts';
 import { test as coveredTest, expect } from '@bgotink/playwright-coverage';
 import type { Page } from '@playwright/test';
 import { test as nonCoveredTest } from '@playwright/test';
-
-import { getPeristentLoginInfo } from '../utils/commands.ts';
-import { timeouts } from '../utils/constants.ts';
+import { google } from 'googleapis';
 
 export type TestEnvironment = 'enterprise' | 'staging' | 'os';
 
@@ -29,6 +30,7 @@ type TestFixtures = {
   password: string;
   spTenantUsername: string;
   username: string;
+  emailClient: EmailClient | null;
 };
 
 const urls = {
@@ -52,7 +54,7 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     await use(page);
   },
   // eslint-disable-next-line no-empty-pattern
-  environment: async ({}, use) => {
+  environment: async ({ }, use) => {
     const environment = (process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'os') as TestEnvironment;
     await use(environment);
   },
@@ -82,6 +84,19 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     await use(baseUrl);
   },
   demoDeviceName: defaultConfig.demoDeviceName,
+  emailClient: async ({ environment }, use) => {
+    if (environment == 'staging' && process.env['GOOGLE_APPLICATION_CREDENTIALS']) {
+      const auth = new google.auth.GoogleAuth({
+        scopes: ['https://www.googleapis.com/auth/gmail.readonly'],
+        keyFilename: process.env['GOOGLE_APPLICATION_CREDENTIALS']
+      });
+      const emailClient = new GmailEmailClient(auth);
+      await use(emailClient);
+    } else if (environment == 'enterprise') {
+      const emailClient = new Smtp4devEmailClient({ baseUrl: 'http://smtp4dev' });
+      await use(emailClient);
+    }
+  }
 });
 
 export { expect };
