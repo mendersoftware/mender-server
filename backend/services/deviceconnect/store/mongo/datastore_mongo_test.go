@@ -24,20 +24,19 @@ import (
 
 	"github.com/vmihailenco/msgpack/v5"
 
-	"github.com/mendersoftware/mender-server/pkg/ws"
-	"github.com/mendersoftware/mender-server/pkg/ws/shell"
-
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	"github.com/mendersoftware/mender-server/pkg/ws"
+	"github.com/mendersoftware/mender-server/pkg/ws/shell"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
