@@ -18,10 +18,10 @@ import (
 	"context"
 	"strings"
 
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mdoc "github.com/mendersoftware/mender-server/pkg/mongo/doc"
+	mdoc "github.com/mendersoftware/mender-server/pkg/mongo/v2/doc"
 	v1 "github.com/mendersoftware/mender-server/pkg/store"
 )
 
@@ -86,7 +86,13 @@ func ArrayWithTenantID(ctx context.Context, doc bson.A) bson.A {
 // DbFromContext generates database name using tenant field from identity extracted
 // from context and original database name
 func DbFromContext(ctx context.Context, origDbName string) string {
-	return origDbName
+	identity := identity.FromContext(ctx)
+	tenant := ""
+	if identity != nil {
+		tenant = identity.Tenant
+	}
+
+	return DbNameForTenant(tenant, origDbName)
 }
 
 // IsTenantDb returns a function of `TenantDbMatchFunc` that can be used for
@@ -110,5 +116,8 @@ func TenantFromDbName(dbName string, baseDb string) string {
 
 // DbNameForTenant composes tenant's db name.
 func DbNameForTenant(tenantId string, baseDb string) string {
-	return baseDb
+	if tenantId == "" {
+		return baseDb
+	}
+	return baseDb + "-" + tenantId
 }

@@ -19,7 +19,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 )
@@ -147,7 +147,7 @@ func TestDbFromContext(t *testing.T) {
 		Tenant:  "bar",
 	}
 	db := DbFromContext(identity.WithContext(ctx, &id), "foo")
-	assert.Equal(t, db, "foo")
+	assert.Equal(t, db, "foo-bar")
 }
 
 func TestIsTenantDb(t *testing.T) {
@@ -160,6 +160,7 @@ func TestIsTenantDb(t *testing.T) {
 }
 
 func TestTenantFromDbName(t *testing.T) {
+
 	assert.Equal(t, "tenant1", TenantFromDbName("ser-vice_dev-adm-tenant1", "ser-vice_dev-adm"))
 	assert.Equal(t, "", TenantFromDbName("-tenant1", "service_devadm"))
 	assert.Equal(t, "", TenantFromDbName("service_devadm", "service_devadm"))
@@ -168,6 +169,6 @@ func TestTenantFromDbName(t *testing.T) {
 }
 
 func TestDbNameForTenant(t *testing.T) {
-	assert.Equal(t, "basedb", DbNameForTenant("tenant1", "basedb"))
+	assert.Equal(t, "basedb-tenant1", DbNameForTenant("tenant1", "basedb"))
 	assert.Equal(t, "basedb", DbNameForTenant("", "basedb"))
 }
