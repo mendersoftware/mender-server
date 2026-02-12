@@ -180,8 +180,7 @@ export const ReleaseQuickActions = ({ actionCallbacks }) => {
               key={action.key}
               aria-label={action.key}
               icon={action.icon}
-              tooltipTitle={action.title(pluralized)}
-              tooltipOpen
+              slotProps={{ tooltip: { title: action.title(pluralized), open: true } }}
               onClick={() => action.action({ ...actionCallbacks, selection: selectedRows })}
             />
           ))}

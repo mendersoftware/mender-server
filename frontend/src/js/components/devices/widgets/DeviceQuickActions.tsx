@@ -212,10 +212,14 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
                   key={action.key}
                   aria-label={action.key}
                   icon={action.icon}
-                  tooltipTitle={
-                    <div ref={action.key === 'create-deployment' ? deploymentActionRef : undefined}>{action.title(pluralized, selectedDevices.length)}</div>
-                  }
-                  tooltipOpen
+                  slotProps={{
+                    tooltip: {
+                      title: (
+                        <div ref={action.key === 'create-deployment' ? deploymentActionRef : undefined}>{action.title(pluralized, selectedDevices.length)}</div>
+                      ),
+                      open: true
+                    }
+                  }}
                   onClick={() => action.action({ ...actionCallbacks, selection: selectedDevices })}
                 />
               ))}
