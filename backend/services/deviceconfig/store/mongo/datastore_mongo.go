@@ -22,12 +22,13 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
+	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
 	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/store"
@@ -72,7 +73,7 @@ func newClient(ctx context.Context, config MongoStoreConfig) (*mongo.Client, err
 		return nil, errors.New("mongo: missing URL")
 	}
 	clientOptions.ApplyURI(config.MongoURL.String()).
-		SetRegistry(newRegistry())
+		SetRegistry(codec.NewRegistry())
 
 	if config.Username != "" {
 		credentials := mopts.Credential{
@@ -89,7 +90,7 @@ func newClient(ctx context.Context, config MongoStoreConfig) (*mongo.Client, err
 		clientOptions.SetTLSConfig(config.TLSConfig)
 	}
 
-	client, err := mongo.Connect(ctx, clientOptions)
+	client, err := mongo.Connect(clientOptions)
 	if err != nil {
 		return nil, errors.Wrap(err, "mongo: failed to connect with server")
 	}
@@ -123,16 +124,14 @@ func NewMongoStore(ctx context.Context, config MongoStoreConfig) (*MongoStore, e
 	}, nil
 }
 
-func (db *MongoStore) Database(ctx context.Context, opt ...*mopts.DatabaseOptions) *mongo.Database {
-	return db.client.Database(mstore.DbFromContext(ctx, db.config.DbName), opt...)
+func (db *MongoStore) Database(ctx context.Context,
+	opt ...mopts.Lister[mopts.DatabaseOptions]) *mongo.Database {
+	return db.client.Database(db.config.DbName, opt...)
 }
 
 // Ping verifies the connection to the database
 func (db *MongoStore) Ping(ctx context.Context) error {
-	res := db.client.
-		Database(db.config.DbName).
-		RunCommand(ctx, bson.M{"ping": 1})
-	return res.Err()
+	return db.client.Ping(ctx, nil)
 }
 
 // Close disconnects the client
@@ -144,7 +143,7 @@ func (db *MongoStore) Close(ctx context.Context) error {
 //nolint:unused
 func (db *MongoStore) DropDatabase(ctx context.Context) error {
 	err := db.client.
-		Database(mstore.DbFromContext(ctx, db.config.DbName)).
+		Database(db.config.DbName).
 		Drop(ctx)
 	return err
 }
@@ -156,7 +155,7 @@ func (db *MongoStore) InsertDevice(ctx context.Context, dev model.Device) error 
 	collDevs := db.Database(ctx).Collection(CollDevices)
 
 	_, err := collDevs.InsertOne(ctx, mstore.WithTenantID(ctx, dev))
-	if IsDuplicateKeyErr(err) {
+	if mongo.IsDuplicateKeyError(err) {
 		return store.ErrDeviceAlreadyExists
 	}
 
@@ -186,11 +185,11 @@ func (db *MongoStore) ReplaceConfiguration(ctx context.Context, dev model.Device
 			},
 		},
 	}
-
+	mopts.UpdateOne()
 	_, err := collDevs.UpdateOne(ctx,
 		mstore.WithTenantID(ctx, fltr),
 		update,
-		mopts.Update().SetUpsert(true))
+		mopts.UpdateOne().SetUpsert(true))
 
 	return errors.Wrap(err, "mongo: failed to store device configuration")
 }
@@ -222,7 +221,7 @@ func (db *MongoStore) ReplaceReportedConfiguration(ctx context.Context, dev mode
 	_, err := collDevs.UpdateOne(ctx,
 		mstore.WithTenantID(ctx, fltr),
 		update,
-		mopts.Update().SetUpsert(true))
+		mopts.UpdateOne().SetUpsert(true))
 	return errors.Wrap(err, "mongo: failed to store device reported configuration")
 }
 
@@ -321,7 +320,7 @@ func (db *MongoStore) SetDeploymentID(ctx context.Context, devID string,
 		},
 	}
 
-	res, err := collDevs.UpdateOne(ctx, mstore.WithTenantID(ctx, fltr), update, mopts.Update())
+	res, err := collDevs.UpdateOne(ctx, mstore.WithTenantID(ctx, fltr), update, mopts.UpdateOne())
 	if err != nil {
 		return errors.Wrap(err, "mongo: failed to set the deployment ID")
 	} else if res.MatchedCount == 0 {
@@ -366,7 +365,7 @@ func (db *MongoStore) GetDevice(ctx context.Context, devID string) (model.Device
 
 func (db *MongoStore) DeleteTenant(ctx context.Context, tenant_id string) error {
 	database := db.Database(ctx)
-	collectionNames, err := database.ListCollectionNames(ctx, mopts.ListCollectionsOptions{})
+	collectionNames, err := database.ListCollectionNames(ctx, bson.D{})
 	if err != nil {
 		return err
 	}
