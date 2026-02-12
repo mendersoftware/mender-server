@@ -15,6 +15,7 @@
 package mongo
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
@@ -24,12 +25,13 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
+	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
@@ -151,7 +153,10 @@ func TestCreateIntegration(t *testing.T) {
 				assert.Equal(t, tenantID, actualTID)
 
 				var integration model.Integration
-				bson.UnmarshalWithRegistry(newRegistry(), doc, &integration)
+				vr := bson.NewDocumentReader(bytes.NewReader(doc))
+				dec := bson.NewDecoder(vr)
+				dec.SetRegistry(codec.NewRegistry())
+				dec.Decode(&integration)
 				assert.True(t, uuid.Validate(integration.ID.String()) == nil)
 				integration.ID = uuid.Nil
 				tc.Integration.ID = uuid.Nil
