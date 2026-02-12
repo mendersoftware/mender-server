@@ -11,11 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { ElementType, useEffect, useState } from 'react';
 
-import { Tooltip } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
 
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import pluralize from 'pluralize';
 
@@ -25,7 +25,26 @@ const defaultTimeFormat = `${defaultDateFormat} HH:mm`;
 // based on react-time - https://github.com/andreypopp/react-time - which unfortunately is no longer maintained
 dayjs.extend(relativeTime);
 
-export const Time = ({ value, relative, format = defaultTimeFormat, valueFormat, titleFormat = defaultTimeFormat, Component = 'time', ...remainingProps }) => {
+interface TimeProps {
+  [key: string]: unknown;
+  className?: string;
+  Component?: ElementType;
+  format?: string;
+  relative?: boolean;
+  titleFormat?: string;
+  value?: string | Date | Dayjs;
+  valueFormat?: string;
+}
+
+export const Time = ({
+  value,
+  relative,
+  format = defaultTimeFormat,
+  valueFormat,
+  titleFormat = defaultTimeFormat,
+  Component = 'time',
+  ...remainingProps
+}: TimeProps) => {
   if (!value) {
     value = dayjs();
   }
@@ -40,12 +59,21 @@ export const Time = ({ value, relative, format = defaultTimeFormat, valueFormat,
   );
 };
 
-export const MaybeTime = ({ className = '', value, ...remainingProps }) =>
-  value ? <Time value={value} {...remainingProps} /> : <div className={className}>-</div>;
+export const MaybeTime = ({ className = '', value, ...remainingProps }: Omit<TimeProps, 'Component'>) => (
+  <Typography variant="body2" className={className}>
+    {value ? <Time value={value} {...remainingProps} /> : '-'}
+  </Typography>
+);
+
+interface RelativeTimeProps {
+  className?: string;
+  shouldCount?: 'both' | 'up' | 'down' | 'none';
+  updateTime?: string | Date;
+}
 
 const cutoff = -5 * 60;
-export const RelativeTime = ({ className, shouldCount = 'both', updateTime }) => {
-  const [updatedTime, setUpdatedTime] = useState();
+export const RelativeTime = ({ className, shouldCount = 'both', updateTime }: RelativeTimeProps) => {
+  const [updatedTime, setUpdatedTime] = useState<Dayjs>();
 
   useEffect(() => {
     setUpdatedTime(updatedTime => (updateTime !== updatedTime ? dayjs(updateTime) : updatedTime));
@@ -59,21 +87,21 @@ export const RelativeTime = ({ className, shouldCount = 'both', updateTime }) =>
     (shouldCount === 'both' || (shouldCount === 'up' && diffSeconds > 0) || (shouldCount === 'down' && diffSeconds < 0))
   ) {
     timeDisplay = (
-      <time className={className} dateTime={updatedTime}>
+      <Typography className={className} variant="body2" component="time" dateTime={updatedTime.toISOString()}>
         {updatedTime.fromNow()}
-      </time>
+      </Typography>
     );
   }
   return (
     <Tooltip title={updatedTime ? updatedTime.toDate().toString().slice(0, 33) : ''} arrow enterDelay={500}>
-      <span>{timeDisplay}</span>
+      {timeDisplay}
     </Tooltip>
   );
 };
 
 const cutoffDays = 14;
-export const ApproximateRelativeDate = ({ className, updateTime }) => {
-  const [updatedTime, setUpdatedTime] = useState();
+export const ApproximateRelativeDate = ({ className, updateTime }: { className?: string; updateTime?: string | Date }) => {
+  const [updatedTime, setUpdatedTime] = useState<Dayjs>();
 
   useEffect(() => {
     setUpdatedTime(updatedTime => (updateTime !== updatedTime ? dayjs(updateTime) : updatedTime));
@@ -82,9 +110,9 @@ export const ApproximateRelativeDate = ({ className, updateTime }) => {
   const diff = updatedTime ? Math.abs(updatedTime.diff(dayjs(), 'days')) : 0;
   if (updatedTime && diff <= cutoffDays) {
     return (
-      <time className={className} dateTime={updatedTime.format(defaultDateFormat)}>
+      <Typography className={className} variant="body2" component="time" dateTime={updatedTime.format(defaultDateFormat)}>
         {diff !== 0 ? `${diff} ${pluralize('day', diff)} ago` : 'today'}
-      </time>
+      </Typography>
     );
   }
   return <MaybeTime className={className} value={updatedTime} format={defaultDateFormat} titleFormat={defaultDateFormat} />;

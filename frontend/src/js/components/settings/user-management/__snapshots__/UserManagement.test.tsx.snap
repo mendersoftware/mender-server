@@ -89,7 +89,16 @@ exports[`UserManagement Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-15 {
+.emotion-13 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-16 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -148,37 +157,37 @@ exports[`UserManagement Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-15::-moz-focus-inner {
+.emotion-16::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-16.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-15 {
+  .emotion-16 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-15:hover {
+.emotion-16:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-16.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-15.Mui-disabled {
+.emotion-16.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-15:hover {
+  .emotion-16:hover {
     --variant-containedBg: #01579b;
     --variant-textBg: rgba(2, 136, 209, 0.04);
     --variant-outlinedBorder: #0288d1;
@@ -186,11 +195,11 @@ exports[`UserManagement Component > renders correctly 1`] = `
   }
 }
 
-.emotion-15.MuiButton-loading {
+.emotion-16.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-18 {
+.emotion-19 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -227,12 +236,12 @@ exports[`UserManagement Component > renders correctly 1`] = `
   border: 1px solid #bdbdbd;
 }
 
-.emotion-18.Mui-disabled {
+.emotion-19.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-18 .MuiChip-avatar {
+.emotion-19 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -241,17 +250,17 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-18 .MuiChip-avatarColorPrimary {
+.emotion-19 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: #1565c0;
 }
 
-.emotion-18 .MuiChip-avatarColorSecondary {
+.emotion-19 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: #7b1fa2;
 }
 
-.emotion-18 .MuiChip-avatarSmall {
+.emotion-19 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -259,12 +268,12 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 0.625rem;
 }
 
-.emotion-18 .MuiChip-icon {
+.emotion-19 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-18 .MuiChip-deleteIcon {
+.emotion-19 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -272,59 +281,59 @@ exports[`UserManagement Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-18 .MuiChip-deleteIcon:hover {
+.emotion-19 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-18 .MuiChip-icon {
+.emotion-19 .MuiChip-icon {
   font-size: 18px;
   margin-left: 4px;
   margin-right: -4px;
 }
 
-.emotion-18 .MuiChip-deleteIcon {
+.emotion-19 .MuiChip-deleteIcon {
   font-size: 16px;
   margin-right: 4px;
   margin-left: -4px;
 }
 
-.emotion-18 .MuiChip-icon {
+.emotion-19 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-18.MuiChip-clickable:hover {
+.emotion-19.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-18.Mui-focusVisible {
+.emotion-19.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-18 .MuiChip-avatar {
+.emotion-19 .MuiChip-avatar {
   margin-left: 4px;
 }
 
-.emotion-18 .MuiChip-avatarSmall {
+.emotion-19 .MuiChip-avatarSmall {
   margin-left: 2px;
 }
 
-.emotion-18 .MuiChip-icon {
+.emotion-19 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-18 .MuiChip-iconSmall {
+.emotion-19 .MuiChip-iconSmall {
   margin-left: 2px;
 }
 
-.emotion-18 .MuiChip-deleteIcon {
+.emotion-19 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-18 .MuiChip-deleteIconSmall {
+.emotion-19 .MuiChip-deleteIconSmall {
   margin-right: 3px;
 }
 
-.emotion-19 {
+.emotion-20 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -341,7 +350,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 1.5rem;
 }
 
-.emotion-20 {
+.emotion-21 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -355,7 +364,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
   padding-right: 7px;
 }
 
-.emotion-26 {
+.emotion-28 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -429,28 +438,28 @@ exports[`UserManagement Component > renders correctly 1`] = `
   cursor: pointer;
 }
 
-.emotion-26::-moz-focus-inner {
+.emotion-28::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-26.Mui-disabled {
+.emotion-28.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-26 {
+  .emotion-28 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-26.Mui-disabled {
+.emotion-28.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-26 .MuiChip-avatar {
+.emotion-28 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -459,17 +468,17 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-26 .MuiChip-avatarColorPrimary {
+.emotion-28 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: #1565c0;
 }
 
-.emotion-26 .MuiChip-avatarColorSecondary {
+.emotion-28 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: #7b1fa2;
 }
 
-.emotion-26 .MuiChip-avatarSmall {
+.emotion-28 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -477,12 +486,12 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 0.625rem;
 }
 
-.emotion-26 .MuiChip-icon {
+.emotion-28 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-26 .MuiChip-deleteIcon {
+.emotion-28 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -490,45 +499,45 @@ exports[`UserManagement Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-26 .MuiChip-deleteIcon:hover {
+.emotion-28 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-26 .MuiChip-deleteIcon {
+.emotion-28 .MuiChip-deleteIcon {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.emotion-26 .MuiChip-deleteIcon:hover,
-.emotion-26 .MuiChip-deleteIcon:active {
+.emotion-28 .MuiChip-deleteIcon:hover,
+.emotion-28 .MuiChip-deleteIcon:active {
   color: #fff;
 }
 
-.emotion-26 .MuiChip-icon {
+.emotion-28 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-26 .MuiChip-icon {
+.emotion-28 .MuiChip-icon {
   color: inherit;
 }
 
-.emotion-26:hover {
+.emotion-28:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-26.Mui-focusVisible {
+.emotion-28.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-26:active {
+.emotion-28:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-26:hover,
-.emotion-26.Mui-focusVisible {
+.emotion-28:hover,
+.emotion-28.Mui-focusVisible {
   background-color: #1565c0;
 }
 
-.emotion-28 {
+.emotion-30 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -611,17 +620,11 @@ exports[`UserManagement Component > renders correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
         >
-          <span
-            aria-label=""
-            class=""
-            data-mui-internal-clone-element="true"
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-13"
           >
-            <div
-              class=""
-            >
-              -
-            </div>
-          </span>
+            -
+          </p>
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
@@ -632,7 +635,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap emotion-15"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap emotion-16"
             tabindex="0"
             type="button"
           >
@@ -650,10 +653,10 @@ exports[`UserManagement Component > renders correctly 1`] = `
             a2@b.com
           </span>
           <div
-            class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault MuiChip-outlinedDefault margin-left-small emotion-18"
+            class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault MuiChip-outlinedDefault margin-left-small emotion-19"
           >
             <svg
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconSmall MuiChip-iconColorDefault emotion-19"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconSmall MuiChip-iconColorDefault emotion-20"
               data-testid="CheckIcon"
               focusable="false"
               role="img"
@@ -667,7 +670,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
               </title>
             </svg>
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-20"
+              class="MuiChip-label MuiChip-labelSmall emotion-21"
             >
               2FA
             </span>
@@ -685,17 +688,11 @@ exports[`UserManagement Component > renders correctly 1`] = `
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
         >
-          <span
-            aria-label=""
-            class=""
-            data-mui-internal-clone-element="true"
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-13"
           >
-            <div
-              class=""
-            >
-              -
-            </div>
-          </span>
+            -
+          </p>
         </td>
         <td
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
@@ -706,7 +703,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap emotion-15"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap emotion-16"
             tabindex="0"
             type="button"
           >
@@ -717,13 +714,13 @@ exports[`UserManagement Component > renders correctly 1`] = `
     </tbody>
   </table>
   <div
-    class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-filledPrimary emotion-26"
+    class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-filledPrimary emotion-28"
     role="button"
     tabindex="0"
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconMedium MuiChip-iconColorPrimary emotion-19"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconMedium MuiChip-iconColorPrimary emotion-20"
       data-testid="AddIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -733,7 +730,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
       />
     </svg>
     <span
-      class="MuiChip-label MuiChip-labelMedium emotion-28"
+      class="MuiChip-label MuiChip-labelMedium emotion-30"
     >
       Add new user
     </span>

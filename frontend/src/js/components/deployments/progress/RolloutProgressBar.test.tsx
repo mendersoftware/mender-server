@@ -1,4 +1,4 @@
-// Copyright 2019 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -14,17 +14,23 @@
 import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 
-import ProgressChart from './ProgressChart';
+import { RolloutProgressBar } from './RolloutProgressBar';
 
-describe('ProgressChart Component', () => {
-  it('renders correctly', async () => {
-    const { baseElement } = render(<ProgressChart deployment={defaultState.deployments.byId.d2} />);
+describe('RolloutProgressBar Component', () => {
+  it('renders correctly with list variant', async () => {
+    const { baseElement } = render(<RolloutProgressBar deployment={defaultState.deployments.byId.d2} variant="list" />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
-  it('renders correctly for phases', async () => {
-    const { baseElement } = render(<ProgressChart deployment={defaultState.deployments.byId.d3} status="inprogress" />);
+  it('renders correctly with report variant', async () => {
+    const { baseElement } = render(<RolloutProgressBar deployment={defaultState.deployments.byId.d2} variant="report" />);
+    const view = baseElement.firstChild;
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+  it('renders correctly for phases with list variant', async () => {
+    const { baseElement } = render(<RolloutProgressBar deployment={defaultState.deployments.byId.d3} variant="list" />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

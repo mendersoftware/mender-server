@@ -16,8 +16,8 @@ import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useSelector } from 'react-redux';
 
-import { CalendarToday as CalendarTodayIcon, List as ListIcon, Refresh as RefreshIcon } from '@mui/icons-material';
-import { ToggleButton, ToggleButtonGroup, alpha } from '@mui/material';
+import { CalendarToday as CalendarTodayIcon, List as ListIcon } from '@mui/icons-material';
+import { ToggleButton, ToggleButtonGroup, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseNotification';
@@ -39,7 +39,7 @@ import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.t
 import dayjs from 'dayjs';
 
 import { DeploymentDeviceCount, DeploymentEndTime, DeploymentPhases, DeploymentStartTime } from './DeploymentItem';
-import DeploymentsList, { defaultHeaders } from './DeploymentsList';
+import DeploymentsList, { ColumnHeader, defaultHeaders } from './DeploymentsList';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './constants';
 
 const { setSnackbar } = storeActions;
@@ -112,12 +112,12 @@ const useStyles = makeStyles()(theme => {
 
 const localizer = dayjsLocalizer(dayjs);
 
-const headers = [
+const headers: ColumnHeader[] = [
   ...defaultHeaders.slice(0, 2),
-  { title: 'Start time', renderer: DeploymentStartTime, props: { direction: 'up' } },
-  { title: `End time`, renderer: DeploymentEndTime },
-  { title: '# devices', class: 'align-right column-defined', renderer: DeploymentDeviceCount },
-  { title: 'Phases', renderer: DeploymentPhases }
+  { title: 'Start time', class: 'align-right', renderer: DeploymentStartTime, props: { direction: 'up' } },
+  { title: `End time`, class: 'align-right', renderer: DeploymentEndTime },
+  { title: '# devices', class: 'align-right', renderer: DeploymentDeviceCount },
+  { title: 'Phases', class: 'align-right', renderer: DeploymentPhases }
 ];
 
 const tabs = {
@@ -267,22 +267,19 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
           )}
         </>
       ) : (
-        <div className="dashboard-placeholder margin-top">
+        <div className="flexbox column centered">
           {isEnterprise ? (
             <>
-              <p>Scheduled deployments will appear here. </p>
+              <Typography>Scheduled deployments will appear here.</Typography>
               {canDeploy && (
-                <p>
+                <Typography className="margin-top-small">
                   <a onClick={createClick}>Create a deployment</a> to get started
-                </p>
+                </Typography>
               )}
             </>
           ) : (
-            <div className="flexbox centered">
-              <DefaultUpgradeNotification />
-            </div>
+            <DefaultUpgradeNotification />
           )}
-          <RefreshIcon className={`flip-horizontal ${classes.refreshIcon}`} />
         </div>
       )}
     </div>
