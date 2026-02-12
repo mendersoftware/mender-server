@@ -32,11 +32,19 @@ exports[`DeviceQuickActions Component > renders correctly 1`] = `
 }
 
 .emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
   background: #fff;
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
   opacity: 0.97;
   border-radius: 4px;
   padding: 8px 16px;
   margin-bottom: 24px;
+  margin-right: 8px;
   cursor: pointer;
   pointer-events: auto;
 }
@@ -390,11 +398,11 @@ exports[`DeviceQuickActions Component > renders correctly 1`] = `
     <div
       class="emotion-1"
     >
-      <div
-        class="emotion-2"
+      <p
+        class="MuiTypography-root MuiTypography-body1 emotion-2"
       >
         1 device selected
-      </div>
+      </p>
       <div
         class="MuiSpeedDial-root MuiSpeedDial-directionUp emotion-3"
         role="presentation"
@@ -490,7 +498,7 @@ exports[`DeviceQuickActions Component > renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red emotion-6"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
                 data-testid="RemoveCircleOutlineIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
