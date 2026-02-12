@@ -20,9 +20,9 @@ import {
   HeightOutlined as HeightOutlinedIcon,
   HighlightOffOutlined as HighlightOffOutlinedIcon,
   RemoveCircleOutline as RemoveCircleOutlineIcon,
-  Replay as ReplayIcon
+  Cached as CachedIcon
 } from '@mui/icons-material';
-import { ClickAwayListener, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
+import { ClickAwayListener, SpeedDial, SpeedDialAction, SpeedDialIcon, Typography, alpha, getOverlayAlpha } from '@mui/material';
 import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
@@ -39,6 +39,7 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
+import { isDarkMode } from '@northern.tech/store/utils';
 import { stringToBoolean, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
@@ -55,7 +56,7 @@ const defaultActions = {
       canWriteDevices && [DEVICE_STATES.pending, DEVICE_STATES.rejected].includes(device.status)
   },
   dismiss: {
-    icon: <RemoveCircleOutlineIcon className="red" />,
+    icon: <RemoveCircleOutlineIcon />,
     key: 'dismiss',
     title: pluralized => `Dismiss ${pluralized}`,
     action: ({ onDeviceDismiss, selection }) => onDeviceDismiss(selection),
@@ -100,7 +101,7 @@ const defaultActions = {
       features.isHosted && isEnterprise && !stringToBoolean(device.attributes?.mender_is_gateway) && device.status === DEVICE_STATES.accepted
   },
   createDeployment: {
-    icon: <ReplayIcon />,
+    icon: <CachedIcon />,
     key: 'create-deployment',
     title: (pluralized, count) => `Create deployment for ${pluralize('this', count)} ${pluralized}`,
     action: ({ onCreateDeployment, selection }) => onCreateDeployment(selection),
@@ -128,11 +129,13 @@ const useStyles = makeStyles()(theme => ({
     justifyContent: 'flex-end'
   },
   label: {
-    background: theme.palette.background.default,
+    background: isDarkMode(theme.palette.mode) ? alpha('#fff', getOverlayAlpha(6)) : theme.palette.common.white,
+    boxShadow: isDarkMode(theme.palette.mode) ? 'none' : theme.shadows[6],
     opacity: 0.97,
     borderRadius: theme.spacing(0.5),
     padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
     marginBottom: theme.spacing(3),
+    marginRight: theme.spacing(1),
     cursor: 'pointer',
     pointerEvents: 'auto'
   }
@@ -202,9 +205,9 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
     <div className={classes.container}>
       <div className="relative">
         <div className={classes.innerContainer} ref={deviceActionRef}>
-          <div className={classes.label} onClick={handleShowActions}>
+          <Typography variant="body1" className={classes.label} onClick={handleShowActions}>
             {deviceId ? 'Device actions' : `${selectedDevices.length} ${pluralized} selected`}
-          </div>
+          </Typography>
           <ClickAwayListener onClickAway={handleClickAway}>
             <SpeedDial className={classes.fab} ariaLabel="device-actions" icon={<SpeedDialIcon />} onClick={handleShowActions} open={Boolean(showActions)}>
               {actions.map(action => (
