@@ -81,7 +81,7 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     const baseUrl = process.env.BASE_URL ?? urls[environment] ?? defaultConfig.baseUrl;
     await use(baseUrl);
   },
-  demoDeviceName: defaultConfig.demoDeviceName,
+  demoDeviceName: defaultConfig.demoDeviceName
 });
 
 export { expect };
