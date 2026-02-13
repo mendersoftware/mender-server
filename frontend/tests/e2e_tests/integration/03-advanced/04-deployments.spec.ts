@@ -145,11 +145,12 @@ test.describe('Deployments', () => {
     await page.getByText(/rows/i).scrollIntoViewIfNeeded();
     // 10 clicks as anything leading outside of the 50 + something releases present (considering the 10 item page size)
     for (let clickAttempt = 0; clickAttempt < 10; clickAttempt++) {
-      const paginationButton = page.getByRole('button', { name: 'next' });
-      if (await paginationButton.isDisabled()) {
+      try {
+        await page.getByRole('button', { name: 'next' }).click({ noWaitAfter: true, force: true });
+      } catch {
+        // the pagination component may re-render between clicks, momentarily hiding the button - just retry
         continue;
       }
-      await paginationButton.click({ noWaitAfter: true, force: true });
     }
     await expect(page.getByText(/-([5|6]\d) of \1/)).toBeVisible(); // depending on the deployment speed of other tests there might be slightly more than 50
     await expect(page.getByText(/queued to start/i).first()).toBeVisible();
