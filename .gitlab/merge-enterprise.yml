@@ -11,12 +11,11 @@ merge-to-enterprise:
       when: always
       allow_failure: true
     - when: never
-  image: "${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/alpine:${ALPINE_VERSION}"
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:base-alpine-master
   variables:
     GITHUB_REPOSITORY_ENTERPRISE: "mendersoftware/mender-server-enterprise"
     GITHUB_REPOSITORY_OPEN_SOURCE: "mendersoftware/mender-server"
   before_script:
-    - apk add git jq
     - GIT_REMOTE="https://mender-test-bot:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/$GITHUB_REPOSITORY_ENTERPRISE"
     - GITHUB_ORG="${GITHUB_REPOSITORY_ENTERPRISE%%/*}"
     - PR_BRANCH="${GITHUB_REPOSITORY_OPEN_SOURCE##*/}/$CI_COMMIT_BRANCH"
