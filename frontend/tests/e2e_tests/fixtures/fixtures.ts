@@ -98,11 +98,10 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
         scopes: ['https://www.googleapis.com/auth/gmail.readonly'],
         keyFilename: process.env['GOOGLE_APPLICATION_CREDENTIALS']
       });
-      const emailClient = new GmailEmailClient(auth);
-      await use(emailClient);
+      await use(new GmailEmailClient(auth));
     } else if (environment == 'enterprise') {
-      const emailClient = new Smtp4devEmailClient({ baseUrl: 'http://smtp4dev' });
-      await use(emailClient);
+      const emailUrl = process.env.SMTP4DEV_URL ? process.env.SMTP4DEV_URL : 'http://localhost:8025';
+      await use(new Smtp4devEmailClient({ baseUrl: emailUrl }));
     }
     await use(null);
   }
