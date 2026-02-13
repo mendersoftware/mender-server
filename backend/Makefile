@@ -20,6 +20,7 @@ DOCKER_ACCEPTANCE_TARGETS := $(addsuffix -docker-acceptance, $(SERVICES))
 DOCKER_PUBLISH_TARGETS := $(addsuffix -docker-publish, $(SERVICES))
 REDOCLY := npx @redocly/cli@2.2.2
 COMBINED_SPEC := docs/api/dist/openapi.yaml
+OAPI_CLIENT := backend/pkg/api/client
 SPEC_FILES := $(shell find docs/api -name '*.yaml' -and -not -path 'docs/api/dist/*')
 
 docs/api/dist/openapi.yaml: $(SPEC_FILES)
@@ -42,6 +43,13 @@ docs/api/dist/openapi.yaml: $(SPEC_FILES)
 
 .PHONY: generate-openapi-spec
 generate-openapi-spec: $(COMBINED_SPEC)
+
+.PHONY: generate-openapi-client
+generate-openapi-client: generate-openapi-spec
+	@echo "Regenerating OpenAPI client"
+	@rm -Rf "$(OAPI_CLIENT)"
+	@docker run -u $$(id -u):$$(id -g) --rm -v ${PWD}/backend:/backend openapitools/openapi-generator-cli generate -i /backend/"$(COMBINED_SPEC)" -g go -o /"$(OAPI_CLIENT)"
+	@echo "Generated $(OAPI_CLIENT)"
 
 tests/mender_client: $(COMBINED_SPEC)
 	[ -e $@ ] && rm -r $@; \
