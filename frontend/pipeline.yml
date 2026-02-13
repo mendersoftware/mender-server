@@ -85,6 +85,8 @@ test:frontend:unit:
     reports:
       junit: frontend/junit.xml
     when: always
+  tags:
+    - k8s
 
 test:frontend:docs-links:
   stage: test

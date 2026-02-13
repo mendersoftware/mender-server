@@ -114,7 +114,7 @@ stages:
 
 default:
   tags:
-    - k8s
+    - k8s-small
   retry:
     max: 2
     when:
@@ -153,6 +153,8 @@ default:
       - 2
       - 137
       - 192
+  tags:
+    - k8s
 
 .template:build:docker:
   stage: build
@@ -320,6 +322,8 @@ test:backend:unit:
     when: on_success
     paths:
       - ${GOCOVERDIR}/*-unit.cover
+  tags:
+    - k8s
 
 test:backend:acceptance:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
@@ -696,8 +700,6 @@ coveralls:done:
       fi
   script:
     - coveralls done -n
-  tags:
-    - hetzner-amd-beefy
 
 changelog:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
@@ -708,8 +710,6 @@ changelog:
 
     # TODO: Remove git cliff config override once 4.0.0 is released
     GIT_CLIFF__GIT__SKIP_TAGS: ""
-  tags:
-    - hetzner-amd-beefy
   rules:
     # Only run for protected branches (main and maintenance branches)
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
@@ -787,8 +787,6 @@ changelog:
 release:github:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   stage: .post
-  tags:
-    - hetzner-amd-beefy
   rules:
     # Only make available for protected branches (main and maintenance branches)
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
@@ -807,8 +805,6 @@ release:github:
 release:mender-docs-changelog:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   stage: .post
-  tags:
-    - hetzner-amd-beefy
   rules:
     # Only make available for stable branches
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
@@ -871,8 +867,6 @@ release:mender-docs-changelog:saas:
     - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
       when: never
   allow_failure: true
-  tags:
-    - hetzner-amd-beefy
   image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
   variables:
     HELM_PATCH_VERSION: ${CI_PIPELINE_ID}
