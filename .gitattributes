@@ -1,1 +1,2 @@
 backend/tests/mender_client/** linguist-generated=true
+backend/pkg/api/client/** linguist-generated=true
