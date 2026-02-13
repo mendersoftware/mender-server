@@ -11,13 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { getPeristentLoginInfo } from '../utils/commands.ts';
-import { timeouts } from '../utils/constants.ts';
-import { EmailClient, GmailEmailClient, Smtp4devEmailClient } from '../utils/email.ts';
 import { test as coveredTest, expect } from '@bgotink/playwright-coverage';
 import type { Page } from '@playwright/test';
 import { test as nonCoveredTest } from '@playwright/test';
 import { google } from 'googleapis';
+
+import { getPeristentLoginInfo } from '../utils/commands.ts';
+import { timeouts } from '../utils/constants.ts';
+import { EmailClient, GmailEmailClient, Smtp4devEmailClient } from '../utils/email.ts';
 
 type DemoArtifactVersionInfo = {
   artifactVersion: string;
@@ -31,12 +32,12 @@ type TestFixtures = {
   config: unknown;
   demoArtifactVersion: DemoArtifactVersionInfo;
   demoDeviceName: string;
+  emailClient: EmailClient | null;
   environment: TestEnvironment;
   page: Page;
   password: string;
   spTenantUsername: string;
   username: string;
-  emailClient: EmailClient | null;
 };
 
 const urls = {
