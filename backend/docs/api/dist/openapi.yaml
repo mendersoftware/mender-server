@@ -5691,7 +5691,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewDevice'
+              $ref: '#/components/schemas/NewDeviceInternalProvision'
         required: true
       responses:
         '202':
@@ -9737,7 +9737,7 @@ components:
           type: number
         system:
           type: number
-    NewDevice:
+    NewDeviceInternalProvision:
       type: object
       properties:
         id:
