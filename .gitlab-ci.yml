@@ -255,6 +255,17 @@ test:backend:api-spec:
     - git diff --exit-code backend/tests/mender_client
   allow_failure: false
 
+test:backend:api-client:
+  extends: .template:combine-api
+  rules:
+    - changes:
+        paths: ["backend/docs/api/*.yaml", "backend/docs/api/**/*.yaml"]
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
+  script:
+    - make -B -C backend generate-openapi-client
+    - git diff --exit-code backend/pkg/api/client
+
 test:backend:validate-open-api:
   stage: test
   needs: []
