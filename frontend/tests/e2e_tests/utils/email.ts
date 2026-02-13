@@ -15,17 +15,17 @@ import { GoogleAuth } from 'google-auth-library';
 import { gmail_v1, google } from 'googleapis';
 
 interface Email {
-  id: string;
-  from: string;
-  to: string[];
-  subject: string;
   body: string;
+  from: string;
+  id: string;
   receivedAt: Date;
+  subject: string;
+  to: string[];
 }
 
 interface SearchParams {
-  to?: string;
   from?: string;
+  to?: string;
   unread?: boolean; // filter only unread messages
 }
 
@@ -59,6 +59,20 @@ export class GmailEmailClient implements EmailClient {
     return emails;
   }
 
+  private extractBody(payload?: gmail_v1.Schema$MessagePart): string {
+    if (payload?.body?.data) {
+      return Buffer.from(payload.body.data, 'base64url').toString('utf-8');
+    }
+
+    const textPart = payload?.parts?.find(p => p.mimeType === 'text/plain');
+
+    if (textPart?.body?.data) {
+      return Buffer.from(textPart.body.data, 'base64url').toString('utf-8');
+    }
+
+    return '';
+  }
+
   private async fetchMessage(id: string): Promise<Email> {
     const res = await this.gmail.users.messages.get({
       userId: 'me',
@@ -80,20 +94,6 @@ export class GmailEmailClient implements EmailClient {
       receivedAt: new Date(Number(res.data.internalDate))
     };
   }
-
-  private extractBody(payload?: gmail_v1.Schema$MessagePart): string {
-    if (payload?.body?.data) {
-      return Buffer.from(payload.body.data, 'base64url').toString('utf-8');
-    }
-
-    const textPart = payload?.parts?.find(p => p.mimeType === 'text/plain');
-
-    if (textPart?.body?.data) {
-      return Buffer.from(textPart.body.data, 'base64url').toString('utf-8');
-    }
-
-    return '';
-  }
 }
 
 interface Smtp4devConfig {
@@ -103,24 +103,24 @@ interface Smtp4devConfig {
 }
 
 interface Smtp4devMessageSummary {
-  id: string;
-  from: string | null;
-  to: string[] | null;
-  subject: string | null;
-  receivedDate: string;
-  isUnread: boolean;
   attachmentCount: number;
-  isRelayed: boolean;
   deliveredTo: string | null;
+  from: string | null;
   hasWarnings: boolean;
+  id: string;
+  isRelayed: boolean;
+  isUnread: boolean;
+  receivedDate: string;
+  subject: string | null;
+  to: string[] | null;
 }
 
 interface Smtp4devPagedResult {
   currentPage: number;
   pageCount: number;
   pageSize: number;
-  rowCount: number;
   results: Smtp4devMessageSummary[] | null;
+  rowCount: number;
 }
 
 export class Smtp4devEmailClient implements EmailClient {
@@ -176,6 +176,12 @@ export class Smtp4devEmailClient implements EmailClient {
     return allUnread;
   }
 
+  private async fetchPlainText(id: string): Promise<string> {
+    const res = await fetch(`${this.baseUrl}/api/Messages/${id}/plaintext`);
+    if (!res.ok) return '';
+    return res.text();
+  }
+
   private async hydrate(summary: Smtp4devMessageSummary): Promise<Email> {
     const body = await this.fetchPlainText(summary.id);
 
@@ -187,11 +193,5 @@ export class Smtp4devEmailClient implements EmailClient {
       body,
       receivedAt: new Date(summary.receivedDate)
     };
-  }
-
-  private async fetchPlainText(id: string): Promise<string> {
-    const res = await fetch(`${this.baseUrl}/api/Messages/${id}/plaintext`);
-    if (!res.ok) return '';
-    return res.text();
   }
 }

@@ -127,7 +127,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /change email/i }).click();
       await expect(page.getByLabel(/current password/i)).toBeVisible();
     });
-    test('allows changing the password', async ({ browserName, page, username, password, emailClient, environment }) => {
+    test('allows changing the password', async ({ browserName, page, username, password, emailClient }) => {
       test.skip(browserName === 'webkit');
       await page.getByRole('button', { name: username }).click();
       await page.getByRole('menuitem', { name: 'My profile' }).click();
@@ -152,13 +152,9 @@ test.describe('Settings', () => {
       await page.screenshot({ path: './test-results/logout.png' });
       await page.getByRole('button', { name: /next/i }).waitFor({ timeout: timeouts.fiveSeconds });
       await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
-      if (!!emailClient) {
+      if (emailClient) {
         const emails = await emailClient.getEmails({ to: username, unread: true });
-        expect(
-          emails.find(email => {
-            return email.subject === 'Your password has changed';
-          })
-        ).toBeDefined();
+        expect(emails.find(email => email.subject === 'Your password has changed')).toBeDefined();
       }
     });
 
