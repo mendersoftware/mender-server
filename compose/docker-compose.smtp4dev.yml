@@ -1,0 +1,21 @@
+# Include this overlay to test SMTP features like email verifications.
+# smtp4dev acts like a web interface for all email addresses.
+# Any email sent by the backend (to any recipient) will end up in the smtp4dev inbox.
+# A web interface for the indbox can be accessed on port 8025 on your machine.
+services:
+  smtp4dev:
+    image: rnwood/smtp4dev:3.10.3
+    ports:
+      # Change the number before : to the port the web interface should be accessible on
+      # Add 127.0.0.1: prefix for localhost-only access (recommended for security)
+      - "8025:80"
+  workflows:
+    environment:
+      WORKFLOWS_SMTP_HOST: "smtp4dev:25"
+      WORKFLOWS_EMAIL_SENDER: "dev@localhost"
+      WORKFLOWS_MENDER_URL: "https://localhost"
+  workflows-worker:
+    environment:
+      WORKFLOWS_SMTP_HOST: "smtp4dev:25"
+      WORKFLOWS_EMAIL_SENDER: "dev@localhost"
+      WORKFLOWS_MENDER_URL: "https://localhost"

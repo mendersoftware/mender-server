@@ -14,9 +14,11 @@
 import { test as coveredTest, expect } from '@bgotink/playwright-coverage';
 import type { Page } from '@playwright/test';
 import { test as nonCoveredTest } from '@playwright/test';
+import { google } from 'googleapis';
 
 import { getPeristentLoginInfo } from '../utils/commands.ts';
 import { timeouts } from '../utils/constants.ts';
+import { EmailClient, GmailEmailClient, Smtp4devEmailClient } from '../utils/email.ts';
 
 type DemoArtifactVersionInfo = {
   artifactVersion: string;
@@ -30,6 +32,7 @@ type TestFixtures = {
   config: unknown;
   demoArtifactVersion: DemoArtifactVersionInfo;
   demoDeviceName: string;
+  emailClient: EmailClient | null;
   environment: TestEnvironment;
   page: Page;
   password: string;
@@ -88,7 +91,20 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     await use(baseUrl);
   },
   demoDeviceName: defaultConfig.demoDeviceName,
-  demoArtifactVersion: { artifactVersion: '3.8.3', updateVersion: '5.0.3' }
+  demoArtifactVersion: { artifactVersion: '3.8.3', updateVersion: '5.0.3' },
+  emailClient: async ({ environment }, use) => {
+    if (environment == 'staging' && process.env['GOOGLE_APPLICATION_CREDENTIALS']) {
+      const auth = new google.auth.GoogleAuth({
+        scopes: ['https://www.googleapis.com/auth/gmail.readonly'],
+        keyFilename: process.env['GOOGLE_APPLICATION_CREDENTIALS']
+      });
+      await use(new GmailEmailClient(auth));
+    } else if (environment == 'enterprise') {
+      const emailUrl = process.env.SMTP4DEV_URL ? process.env.SMTP4DEV_URL : 'http://localhost:8025';
+      await use(new Smtp4devEmailClient({ baseUrl: emailUrl }));
+    }
+    await use(null);
+  }
 });
 
 export { expect };
