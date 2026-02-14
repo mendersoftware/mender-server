@@ -21,7 +21,7 @@ import (
 	"os/exec"
 	"strings"
 
-	openapi "github.com/mendersoftware/mender-server/tests/runner/client"
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 )
 
 const (

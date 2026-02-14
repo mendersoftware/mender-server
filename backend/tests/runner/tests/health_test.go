@@ -20,7 +20,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	openapi "github.com/mendersoftware/mender-server/tests/runner/client"
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 )
 
 // HealthSuite tests the internal health check endpoints

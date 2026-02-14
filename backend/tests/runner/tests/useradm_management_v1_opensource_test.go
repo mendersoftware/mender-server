@@ -17,7 +17,7 @@ package tests
 import (
 	"context"
 
-	openapi "github.com/mendersoftware/mender-server/tests/runner/client"
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 )
 
 type UseradmManagementV1Suite struct {

@@ -29,7 +29,7 @@ import (
 	mongohelper "github.com/mendersoftware/mender-server/tests/runner/helpers/mongo"
 	"github.com/mendersoftware/mender-server/tests/runner/helpers/useradm"
 
-	openapi "github.com/mendersoftware/mender-server/tests/runner/client"
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 )
 
 var ServerURL string

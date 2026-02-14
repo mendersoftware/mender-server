@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"net/http"
 
-	openapi "github.com/mendersoftware/mender-server/tests/runner/client"
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 	testcrypto "github.com/mendersoftware/mender-server/tests/runner/helpers/crypto"
 )
 
