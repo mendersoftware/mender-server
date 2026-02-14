@@ -1,4 +1,4 @@
-// Copyright 2021 Northern.tech AS
+// Copyright 2026 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -12,10 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package mongo
+package codec
 
 import (
 	"bytes"
+	"encoding/binary"
+	"fmt"
 	"reflect"
 	"testing"
 
@@ -23,11 +25,42 @@ import (
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/bsoncodec"
-	"go.mongodb.org/mongo-driver/bson/bsonrw"
-	"go.mongodb.org/mongo-driver/bson/bsontype"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
+
+func createV2Reader(t *testing.T, valType bson.Type, rawVal []byte) bson.ValueReader {
+	// calculate total doc length: header(4) + type(1) + key(2) + value(len) + EOO(1)
+	docLen := 4 + 1 + 2 + len(rawVal) + 1
+	buf := make([]byte, docLen)
+
+	binary.LittleEndian.PutUint32(buf, uint32(docLen))
+
+	buf[4] = byte(valType)
+	buf[5] = 'x'
+	buf[6] = 0x00
+
+	copy(buf[7:], rawVal)
+
+	// write EOO
+	buf[docLen-1] = 0x00
+
+	vr := bson.NewDocumentReader(bytes.NewReader(buf))
+
+	dr, err := vr.ReadDocument()
+	if err != nil {
+		t.Fatalf("failed to read document: %v", err)
+	}
+
+	name, valReader, err := dr.ReadElement()
+	if err != nil {
+		t.Fatalf("failed to read element: %v", err)
+	}
+	if name != "x" {
+		t.Fatalf("expected key 'x', got '%s'", name)
+	}
+
+	return valReader
+}
 
 func TestUUIDEncodeDecode(t *testing.T) {
 	t.Parallel()
@@ -40,14 +73,14 @@ func TestUUIDEncodeDecode(t *testing.T) {
 	}{{
 		Name: "ok, in a struct",
 		Value: struct {
-			uuid.UUID
+			UUID uuid.UUID
 		}{
 			UUID: uuid.NewSHA1(uuid.NameSpaceOID, []byte("digest")),
 		},
 	}, {
 		Name: "ok, pointer in a struct",
 		Value: struct {
-			*uuid.UUID
+			UUID *uuid.UUID
 		}{
 			UUID: func() *uuid.UUID {
 				uid := uuid.NewSHA1(uuid.NameSpaceOID, []byte("digest"))
@@ -57,8 +90,13 @@ func TestUUIDEncodeDecode(t *testing.T) {
 	}, {
 		Name: "ok, in a struct",
 		Value: struct {
-			uuid.UUID `bson:",omitempty"`
+			UUID uuid.UUID `bson:",omitempty"`
 		}{},
+	}, {
+		Name: "ok, empty slice",
+		Value: struct {
+			UUIDS []uuid.UUID
+		}{UUIDS: []uuid.UUID{}},
 	}}
 	for i := range testCases {
 		tc := testCases[i]
@@ -103,7 +141,7 @@ func TestUUIDEncodeValue(t *testing.T) {
 		Name:  "error, bad type",
 		Value: "0c070528-236b-414b-b72b-42bfd10c3abc",
 		Error: errors.New(
-			"UUIDEncodeValue can only encode valid uuid.UUID, but got string",
+			"UUIDCodec can only encode valid uuid.UUID, but got string",
 		),
 	}}
 	for i := range testCases {
@@ -111,15 +149,14 @@ func TestUUIDEncodeValue(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			t.Parallel()
 			var buf bytes.Buffer
-			w, err := bsonrw.NewBSONValueWriter(&buf)
-			require.NoError(t, err)
+			w := bson.NewDocumentWriter(&buf)
 			dw, err := w.WriteDocument()
 			require.NoError(t, err)
 			ew, err := dw.WriteDocumentElement("test")
 			require.NoError(t, err)
 
-			eCtx := bsoncodec.EncodeContext{Registry: bson.DefaultRegistry}
-			err = uuidEncodeValue(eCtx, ew, reflect.ValueOf(tc.Value))
+			eCtx := bson.EncodeContext{Registry: bson.NewMgoRegistry()}
+			err = UUIDCodec{}.EncodeValue(eCtx, ew, reflect.ValueOf(tc.Value))
 			dw.WriteDocumentEnd()
 			if tc.Error != nil {
 				if assert.Error(t, err) {
@@ -149,16 +186,16 @@ func TestUUIDDecodeValue(t *testing.T) {
 	testCases := []struct {
 		Name string
 
-		InputType bsontype.Type
+		InputType bson.Type
 		RawInput  []byte
 		Value     interface{}
 		Error     error
 	}{{
 		Name: "ok",
 
-		InputType: bsontype.Binary,
+		InputType: bson.TypeBinary,
 		RawInput: []byte{
-			16, 0, 0, 0, bsontype.BinaryUUID, '0', '1', '2', '3', '4',
+			16, 0, 0, 0, bson.TypeBinaryUUID, '0', '1', '2', '3', '4',
 			'5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 		},
 
@@ -169,9 +206,9 @@ func TestUUIDDecodeValue(t *testing.T) {
 	}, {
 		Name: "ok, old uuid subtype",
 
-		InputType: bsontype.Binary,
+		InputType: bson.TypeBinary,
 		RawInput: []byte{
-			16, 0, 0, 0, bsontype.BinaryUUIDOld, '0', '1', '2', '3', '4',
+			16, 0, 0, 0, bson.TypeBinaryUUIDOld, '0', '1', '2', '3', '4',
 			'5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 		},
 
@@ -182,9 +219,9 @@ func TestUUIDDecodeValue(t *testing.T) {
 	}, {
 		Name: "ok, generic binary",
 
-		InputType: bsontype.Binary,
+		InputType: bson.TypeBinary,
 		RawInput: []byte{
-			16, 0, 0, 0, bsontype.BinaryGeneric, '0', '1', '2', '3', '4',
+			16, 0, 0, 0, bson.TypeBinaryGeneric, '0', '1', '2', '3', '4',
 			'5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 		},
 
@@ -195,9 +232,9 @@ func TestUUIDDecodeValue(t *testing.T) {
 	}, {
 		Name: "error, invalid length",
 
-		InputType: bsontype.Binary,
+		InputType: bson.TypeBinary,
 		RawInput: []byte{
-			8, 0, 0, 0, bsontype.BinaryGeneric,
+			8, 0, 0, 0, bson.TypeBinaryGeneric,
 			'D', 'E', 'A', 'D', 'B', 'E', 'E', 'F',
 		},
 
@@ -209,23 +246,23 @@ func TestUUIDDecodeValue(t *testing.T) {
 	}, {
 		Name: "error, invalid length",
 
-		InputType: bsontype.Binary,
+		InputType: bson.TypeBinary,
 		RawInput: []byte{
-			8, 0, 0, 0, bsontype.BinaryUserDefined,
+			8, 0, 0, 0, bson.TypeBinaryUserDefined,
 			'D', 'E', 'A', 'D', 'B', 'E', 'E', 'F',
 		},
 
 		Value: uuid.UUID{},
-		Error: errors.Errorf(
+		Error: fmt.Errorf(
 			`cannot decode \[68 69 65 68 66 69 69 70\] as a UUID: `+
-				`incorrect subtype 0x%02x`, bsontype.BinaryUserDefined,
+				`incorrect subtype 0x%02x`, bson.TypeBinaryUserDefined,
 		),
 	}, {
 		Name: "ok, undefined",
 
-		InputType: bsontype.Undefined,
+		InputType: bson.TypeUndefined,
 		RawInput: []byte{
-			8, 0, 0, 0, bsontype.BinaryUserDefined,
+			8, 0, 0, 0, bson.TypeBinaryUserDefined,
 			'D', 'E', 'A', 'D', 'B', 'E', 'E', 'F',
 		},
 
@@ -233,17 +270,17 @@ func TestUUIDDecodeValue(t *testing.T) {
 	}, {
 		Name: "ok, null",
 
-		InputType: bsontype.Null,
+		InputType: bson.TypeNull,
 		RawInput: []byte{
-			8, 0, 0, 0, bsontype.BinaryUserDefined,
+			8, 0, 0, 0, bson.TypeBinaryUserDefined,
 			'D', 'E', 'A', 'D', 'B', 'E', 'E', 'F',
 		},
 
 		Value: uuid.UUID{},
 	}, {
-		Name: "error, invalid bsontype",
+		Name: "error, invalid bson",
 
-		InputType: bsontype.Boolean,
+		InputType: bson.TypeBoolean,
 		RawInput:  []byte{'1'},
 
 		Value: uuid.UUID{},
@@ -251,22 +288,22 @@ func TestUUIDDecodeValue(t *testing.T) {
 	}, {
 		Name: "error, bad encoder args",
 
-		InputType: bsontype.Boolean,
+		InputType: bson.TypeBoolean,
 		RawInput:  []byte{'1'},
 
 		Value: "?",
 		Error: errors.New(
-			`UUIDDecodeValue can only decode valid and settable ` +
+			`UUIDCodec can only decode valid and settable ` +
 				`uuid\.UUID, but got string`),
 	}}
 	for i := range testCases {
 		tc := testCases[i]
 		t.Run(tc.Name, func(t *testing.T) {
 			t.Parallel()
-			r := bsonrw.NewBSONValueReader(tc.InputType, tc.RawInput)
-			dCtx := bsoncodec.DecodeContext{Registry: bson.DefaultRegistry}
+			r := createV2Reader(t, tc.InputType, tc.RawInput)
+			dCtx := bson.DecodeContext{Registry: bson.NewMgoRegistry()}
 			val := reflect.New(reflect.TypeOf(tc.Value))
-			err := uuidDecodeValue(dCtx, r, val.Elem())
+			err := UUIDCodec{}.DecodeValue(dCtx, r, val.Elem())
 			if tc.Error != nil {
 				if assert.Error(t, err) {
 					assert.Regexp(t, tc.Error.Error(), err.Error())

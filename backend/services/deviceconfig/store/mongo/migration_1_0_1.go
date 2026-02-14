@@ -17,14 +17,13 @@ package mongo
 import (
 	"context"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	mstorev1 "github.com/mendersoftware/mender-server/pkg/store"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
 const (
@@ -56,7 +55,7 @@ func (m *migration_1_0_1) Up(from migrate.Version) error {
 		},
 	}
 
-	tenantID := mstorev1.TenantFromDbName(m.db, DbName)
+	tenantID := mstore.TenantFromDbName(m.db, DbName)
 	ctx = identity.WithContext(ctx, &identity.Identity{
 		Tenant: tenantID,
 	})

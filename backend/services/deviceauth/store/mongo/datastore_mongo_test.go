@@ -36,7 +36,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
-	ctxstore2 "github.com/mendersoftware/mender-server/pkg/store/v2"
+	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 
@@ -258,7 +258,7 @@ func TestForEachTenant(t *testing.T) {
 				ctx := identity.WithContext(context.Background(), &identity.Identity{
 					Tenant: tenantId,
 				})
-				_, err := c.InsertOne(ctx, ctxstore2.WithTenantID(
+				_, err := c.InsertOne(ctx, ctxstore.WithTenantID(
 					ctx,
 					model.Device{
 						Id:              oid.NewUUIDv4().String(),
@@ -549,7 +549,7 @@ func TestStoreUpdateDevice(t *testing.T) {
 						Tenant: tc.forceDifferentTenant,
 					})
 				}
-				err := c.FindOne(ctx, ctxstore2.WithTenantID(ctx, bson.M{"_id": tc.id})).Decode(&found)
+				err := c.FindOne(ctx, ctxstore.WithTenantID(ctx, bson.M{"_id": tc.id})).Decode(&found)
 				assert.NoError(t, err, "failed to find device")
 
 				compareUpdateDev(t, *tc.old, found, tc.update)
@@ -1666,7 +1666,7 @@ func TestStoreDeleteDevice(t *testing.T) {
 			}
 			c.DeleteMany(dbCtx, bson.M{})
 			for _, d := range inputDevices {
-				_, err := c.InsertOne(dbCtx, ctxstore2.WithTenantID(ctx, d))
+				_, err := c.InsertOne(dbCtx, ctxstore.WithTenantID(ctx, d))
 				assert.NoError(t, err, "failed to setup input data")
 			}
 
@@ -1683,7 +1683,7 @@ func TestStoreDeleteDevice(t *testing.T) {
 				var found model.Device
 				err := coll.FindOne(
 					ctx,
-					ctxstore2.WithTenantID(
+					ctxstore.WithTenantID(
 						ctx,
 						bson.M{dbFieldID: tc.devId},
 					),
@@ -1993,17 +1993,17 @@ func TestDeleteLimit(t *testing.T) {
 	assert.NoError(t, err)
 
 	var lim model.Limit
-	assert.NoError(t, coll.FindOne(dbCtx, ctxstore2.WithTenantID(dbCtxOtherTenant, bson.M{dbFieldName: lim1.Name})).Decode(&lim))
+	assert.NoError(t, coll.FindOne(dbCtx, ctxstore.WithTenantID(dbCtxOtherTenant, bson.M{dbFieldName: lim1.Name})).Decode(&lim))
 
 	// delete the limit
 	err = db.DeleteLimit(dbCtx, lim.Name)
 	assert.NoError(t, err)
 
 	// limit not found
-	assert.Error(t, coll.FindOne(dbCtx, ctxstore2.WithTenantID(dbCtx, bson.M{dbFieldName: lim1.Name})).Decode(&lim))
+	assert.Error(t, coll.FindOne(dbCtx, ctxstore.WithTenantID(dbCtx, bson.M{dbFieldName: lim1.Name})).Decode(&lim))
 
 	// the other-tenant limit 'foo' was not modified
-	assert.NoError(t, collOtherTenant.FindOne(dbCtx, ctxstore2.WithTenantID(dbCtxOtherTenant, bson.M{dbFieldName: lim1.Name})).Decode(&lim))
+	assert.NoError(t, collOtherTenant.FindOne(dbCtx, ctxstore.WithTenantID(dbCtxOtherTenant, bson.M{dbFieldName: lim1.Name})).Decode(&lim))
 	lim.Id = ""
 	assert.EqualValues(t, lim1, lim)
 }
@@ -2424,7 +2424,7 @@ func TestStoreDeleteAuthSetForDevice(t *testing.T) {
 			}
 			coll.DeleteMany(ctx, bson.M{})
 			for _, a := range authSets {
-				_, err := coll.InsertOne(dbCtx, ctxstore2.WithTenantID(ctx, a))
+				_, err := coll.InsertOne(dbCtx, ctxstore.WithTenantID(ctx, a))
 				assert.NoError(t, err)
 			}
 
@@ -2823,7 +2823,7 @@ func TestStoreUpdateuthSetById(t *testing.T) {
 
 				var found model.AuthSet
 				coll := db.client.Database(DbName).Collection(DbAuthSetColl)
-				err := coll.FindOne(ctx, ctxstore2.WithTenantID(ctx, bson.M{"_id": tc.aid})).Decode(&found)
+				err := coll.FindOne(ctx, ctxstore.WithTenantID(ctx, bson.M{"_id": tc.aid})).Decode(&found)
 				assert.NoError(t, err)
 
 				compareAuthSet(tc.out, &found, t)

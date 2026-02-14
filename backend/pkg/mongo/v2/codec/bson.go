@@ -1,4 +1,4 @@
-// Copyright 2023 Northern.tech AS
+// Copyright 2026 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -12,34 +12,39 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package mongo
+package codec
 
 import (
+	"fmt"
 	"reflect"
 
 	"github.com/google/uuid"
-	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/bsoncodec"
-	"go.mongodb.org/mongo-driver/bson/bsonrw"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 var (
 	tUUID = reflect.TypeOf(uuid.UUID{})
 )
 
-func newRegistry() *bsoncodec.Registry {
+func NewRegistry() *bson.Registry {
 	reg := bson.NewRegistry()
 	// Add UUID encoder/decoder for github.com/google/uuid.UUID
-	reg.RegisterTypeEncoder(tUUID, bsoncodec.ValueEncoderFunc(uuidEncodeValue))
-	reg.RegisterTypeDecoder(tUUID, bsoncodec.ValueDecoderFunc(uuidDecodeValue))
+	uuidCodec := UUIDCodec{}
+	reg.RegisterTypeEncoder(tUUID, uuidCodec)
+	reg.RegisterTypeDecoder(tUUID, uuidCodec)
 	return reg
 }
 
-func uuidEncodeValue(ec bsoncodec.EncodeContext, w bsonrw.ValueWriter, val reflect.Value) error {
+type UUIDCodec struct{}
+
+func (UUIDCodec) EncodeValue(
+	ec bson.EncodeContext,
+	w bson.ValueWriter,
+	val reflect.Value,
+) error {
 	if !val.IsValid() || val.Type() != tUUID {
-		return bsoncodec.ValueEncoderError{
-			Name:     "UUIDEncodeValue",
+		return bson.ValueEncoderError{
+			Name:     "UUIDCodec",
 			Types:    []reflect.Type{tUUID},
 			Received: val,
 		}
@@ -48,10 +53,14 @@ func uuidEncodeValue(ec bsoncodec.EncodeContext, w bsonrw.ValueWriter, val refle
 	return w.WriteBinaryWithSubtype(uid[:], bson.TypeBinaryUUID)
 }
 
-func uuidDecodeValue(ec bsoncodec.DecodeContext, r bsonrw.ValueReader, val reflect.Value) error {
+func (UUIDCodec) DecodeValue(
+	ec bson.DecodeContext,
+	r bson.ValueReader,
+	val reflect.Value,
+) error {
 	if !val.CanSet() || val.Type() != tUUID {
-		return bsoncodec.ValueDecoderError{
-			Name:     "UUIDDecodeValue",
+		return bson.ValueDecoderError{
+			Name:     "UUIDCodec",
 			Types:    []reflect.Type{tUUID},
 			Received: val,
 		}
@@ -69,7 +78,7 @@ func uuidDecodeValue(ec bsoncodec.DecodeContext, r bsonrw.ValueReader, val refle
 		switch subtype {
 		case bson.TypeBinaryGeneric:
 			if len(data) != 16 {
-				return errors.Errorf(
+				return fmt.Errorf(
 					"cannot decode %v as a UUID: "+
 						"incorrect length: %d",
 					data, len(data),
@@ -77,11 +86,12 @@ func uuidDecodeValue(ec bsoncodec.DecodeContext, r bsonrw.ValueReader, val refle
 			}
 
 			fallthrough
-		case bson.TypeBinaryUUID, bson.TypeBinaryUUIDOld:
+		case bson.TypeBinaryUUID,
+			bson.TypeBinaryUUIDOld:
 			copy(uid[:], data)
 
 		default:
-			err = errors.Errorf(
+			err = fmt.Errorf(
 				"cannot decode %v as a UUID: "+
 					"incorrect subtype 0x%02x",
 				data, subtype,
@@ -95,7 +105,7 @@ func uuidDecodeValue(ec bsoncodec.DecodeContext, r bsonrw.ValueReader, val refle
 		err = r.ReadNull()
 
 	default:
-		err = errors.Errorf("cannot decode %v as a UUID", rType)
+		err = fmt.Errorf("cannot decode %v as a UUID", rType)
 	}
 
 	if err != nil {

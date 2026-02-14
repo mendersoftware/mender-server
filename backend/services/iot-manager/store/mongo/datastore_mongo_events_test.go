@@ -26,7 +26,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 )

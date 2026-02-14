@@ -35,7 +35,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/log"
 	mdoc "github.com/mendersoftware/mender-server/pkg/mongo/doc"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 	"github.com/mendersoftware/mender-server/pkg/ws"
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
 

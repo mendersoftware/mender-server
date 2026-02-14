@@ -27,7 +27,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 	"github.com/mendersoftware/mender-server/services/useradm/model"
@@ -171,7 +171,7 @@ func (db *DataStoreMongo) CreateUser(ctx context.Context, u *model.User) error {
 	u.UpdatedTs = &now
 
 	_, err := db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbUsersColl).
 		InsertOne(ctx, mstore.WithTenantID(ctx, u))
 
@@ -228,7 +228,7 @@ func (db *DataStoreMongo) UpdateUser(
 	u.UpdatedTs = &now
 
 	collUsers := db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbUsersColl)
 
 	f := bson.M{"_id": id}
@@ -264,7 +264,7 @@ func (db *DataStoreMongo) UpdateUser(
 
 func (db *DataStoreMongo) UpdateLoginTs(ctx context.Context, id string) error {
 	collUsrs := db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbUsersColl)
 
 	_, err := collUsrs.UpdateOne(ctx,
@@ -282,7 +282,7 @@ func (db *DataStoreMongo) GetUserByEmail(
 ) (*model.User, error) {
 	var user model.User
 
-	err := db.client.Database(mstore.DbFromContext(ctx, DbName)).
+	err := db.client.Database(DbName).
 		Collection(DbUsersColl).
 		FindOne(ctx, mstore.WithTenantID(ctx, bson.M{DbUserEmail: email})).
 		Decode(&user)
@@ -312,7 +312,7 @@ func (db *DataStoreMongo) GetUserAndPasswordById(
 ) (*model.User, error) {
 	var user model.User
 
-	err := db.client.Database(mstore.DbFromContext(ctx, DbName)).
+	err := db.client.Database(DbName).
 		Collection(DbUsersColl).
 		FindOne(ctx, mstore.WithTenantID(ctx, bson.M{"_id": id})).
 		Decode(&user)
@@ -331,7 +331,7 @@ func (db *DataStoreMongo) GetUserAndPasswordById(
 func (db *DataStoreMongo) GetTokenById(ctx context.Context, id oid.ObjectID) (*jwt.Token, error) {
 	var token jwt.Token
 
-	err := db.client.Database(mstore.DbFromContext(ctx, DbName)).
+	err := db.client.Database(DbName).
 		Collection(DbTokensColl).
 		FindOne(ctx, mstore.WithTenantID(ctx, bson.M{"_id": id})).
 		Decode(&token)
@@ -355,7 +355,7 @@ func (db *DataStoreMongo) GetUsers(
 		SetProjection(bson.M{DbUserPass: 0})
 
 	collUsers := db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbUsersColl)
 
 	var mgoFltr = bson.D{}
@@ -413,7 +413,7 @@ func (db *DataStoreMongo) GetUsers(
 }
 
 func (db *DataStoreMongo) DeleteUser(ctx context.Context, id string) error {
-	_, err := db.client.Database(mstore.DbFromContext(ctx, DbName)).
+	_, err := db.client.Database(DbName).
 		Collection(DbUsersColl).
 		DeleteOne(ctx, mstore.WithTenantID(ctx, bson.M{"_id": id}))
 
@@ -425,7 +425,7 @@ func (db *DataStoreMongo) DeleteUser(ctx context.Context, id string) error {
 }
 
 func (db *DataStoreMongo) SaveToken(ctx context.Context, token *jwt.Token) error {
-	_, err := db.client.Database(mstore.DbFromContext(ctx, DbName)).
+	_, err := db.client.Database(DbName).
 		Collection(DbTokensColl).
 		InsertOne(ctx, mstore.WithTenantID(ctx, token))
 
@@ -446,7 +446,7 @@ func (db *DataStoreMongo) EnsureSessionTokensLimit(ctx context.Context, userID o
 		DbTokenIssuedAtTime: -1,
 	})
 
-	cur, err := db.client.Database(mstore.DbFromContext(ctx, DbName)).
+	cur, err := db.client.Database(DbName).
 		Collection(DbTokensColl).
 		Find(ctx, mstore.WithTenantID(ctx, bson.M{
 			DbTokenSubject: userID,
@@ -465,7 +465,7 @@ func (db *DataStoreMongo) EnsureSessionTokensLimit(ctx context.Context, userID o
 	}
 
 	_, err = db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbTokensColl).
 		DeleteMany(ctx, mstore.WithTenantID(ctx, bson.M{
 			DbTokenSubject: userID,
@@ -500,7 +500,7 @@ func (db *DataStoreMongo) WithAutomigrate() *DataStoreMongo {
 
 func (db *DataStoreMongo) DeleteToken(ctx context.Context, userID, tokenID oid.ObjectID) error {
 	_, err := db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbTokensColl).
 		DeleteOne(ctx, mstore.WithTenantID(ctx, bson.M{DbID: tokenID, DbTokenSubject: userID}))
 	return err
@@ -509,7 +509,7 @@ func (db *DataStoreMongo) DeleteToken(ctx context.Context, userID, tokenID oid.O
 // deletes all tenant's tokens (identity in context)
 func (db *DataStoreMongo) DeleteTokens(ctx context.Context) error {
 	d, err := db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbTokensColl).
 		DeleteMany(ctx, mstore.WithTenantID(ctx, bson.M{}))
 
@@ -536,7 +536,7 @@ func (db *DataStoreMongo) DeleteTokensByUserIdExceptCurrentOne(
 	tokenID oid.ObjectID,
 ) error {
 	c := db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbTokensColl)
 
 	id := oid.FromString(userId)
@@ -559,7 +559,7 @@ func (db *DataStoreMongo) DeleteTokensByUserIdExceptCurrentOne(
 }
 
 func (db *DataStoreMongo) SaveSettings(ctx context.Context, s *model.Settings, etag string) error {
-	c := db.client.Database(mstore.DbFromContext(ctx, DbName)).
+	c := db.client.Database(DbName).
 		Collection(DbSettingsColl)
 
 	o := &mopts.ReplaceOptions{}
@@ -585,7 +585,7 @@ func (db *DataStoreMongo) SaveSettings(ctx context.Context, s *model.Settings, e
 
 func (db *DataStoreMongo) SaveUserSettings(ctx context.Context, userID string,
 	s *model.Settings, etag string) error {
-	c := db.client.Database(mstore.DbFromContext(ctx, DbName)).
+	c := db.client.Database(DbName).
 		Collection(DbUserSettingsColl)
 
 	o := &mopts.ReplaceOptions{}
@@ -617,7 +617,7 @@ func (db *DataStoreMongo) SaveUserSettings(ctx context.Context, userID string,
 }
 
 func (db *DataStoreMongo) GetSettings(ctx context.Context) (*model.Settings, error) {
-	c := db.client.Database(mstore.DbFromContext(ctx, DbName)).
+	c := db.client.Database(DbName).
 		Collection(DbSettingsColl)
 
 	var settings *model.Settings
@@ -635,7 +635,7 @@ func (db *DataStoreMongo) GetSettings(ctx context.Context) (*model.Settings, err
 
 func (db *DataStoreMongo) GetUserSettings(ctx context.Context,
 	userID string) (*model.Settings, error) {
-	c := db.client.Database(mstore.DbFromContext(ctx, DbName)).
+	c := db.client.Database(DbName).
 		Collection(DbUserSettingsColl)
 
 	filters := bson.M{
@@ -670,7 +670,7 @@ func (db *DataStoreMongo) GetPersonalAccessTokens(
 		)
 
 	collTokens := db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbTokensColl)
 
 	var mgoFltr = bson.M{
@@ -694,7 +694,7 @@ func (db *DataStoreMongo) GetPersonalAccessTokens(
 
 func (db *DataStoreMongo) UpdateTokenLastUsed(ctx context.Context, id oid.ObjectID) error {
 	collTokens := db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbTokensColl)
 
 	_, err := collTokens.UpdateOne(ctx,
@@ -712,7 +712,7 @@ func (db *DataStoreMongo) CountPersonalAccessTokens(
 	userID string,
 ) (int64, error) {
 	collTokens := db.client.
-		Database(mstore.DbFromContext(ctx, DbName)).
+		Database(DbName).
 		Collection(DbTokensColl)
 
 	var mgoFltr = bson.M{
