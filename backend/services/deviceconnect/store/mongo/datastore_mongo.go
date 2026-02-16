@@ -33,6 +33,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 	mdoc "github.com/mendersoftware/mender-server/pkg/mongo/doc"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
@@ -200,11 +201,11 @@ func (db *DataStoreMongo) ProvisionDevice(ctx context.Context, tenantID, deviceI
 
 	_, err := coll.InsertOne(ctx,
 		bson.M{
-			dbFieldID:            deviceID,
-			mstore.FieldTenantID: tenantID,
-			dbFieldStatus:        model.DeviceStatusDisconnected,
-			dbFieldCreatedTs:     &now,
-			dbFieldUpdatedTs:     &now,
+			dbFieldID:                deviceID,
+			mongostore.FieldTenantID: tenantID,
+			dbFieldStatus:            model.DeviceStatusDisconnected,
+			dbFieldCreatedTs:         &now,
+			dbFieldUpdatedTs:         &now,
 		},
 	)
 	if mongo.IsDuplicateKeyError(err) {
@@ -219,7 +220,7 @@ func (db *DataStoreMongo) ProvisionDevice(ctx context.Context, tenantID, deviceI
 func (db *DataStoreMongo) DeleteDevice(ctx context.Context, tenantID, deviceID string) error {
 	coll := db.client.Database(DbName).Collection(DevicesCollectionName)
 
-	_, err := coll.DeleteOne(ctx, bson.M{dbFieldID: deviceID, mstore.FieldTenantID: tenantID})
+	_, err := coll.DeleteOne(ctx, bson.M{dbFieldID: deviceID, mongostore.FieldTenantID: tenantID})
 	return err
 }
 
@@ -231,7 +232,7 @@ func (db *DataStoreMongo) GetDevice(
 ) (*model.Device, error) {
 	coll := db.client.Database(DbName).Collection(DevicesCollectionName)
 
-	cur := coll.FindOne(ctx, bson.M{dbFieldID: deviceID, mstore.FieldTenantID: tenantID})
+	cur := coll.FindOne(ctx, bson.M{dbFieldID: deviceID, mongostore.FieldTenantID: tenantID})
 
 	device := &model.Device{}
 	if err := cur.Decode(&device); err != nil {
@@ -262,7 +263,7 @@ func (db *DataStoreMongo) SetDeviceConnected(
 	}
 
 	err := coll.FindOneAndUpdate(ctx,
-		bson.M{dbFieldID: deviceID, mstore.FieldTenantID: tenantID},
+		bson.M{dbFieldID: deviceID, mongostore.FieldTenantID: tenantID},
 		bson.M{
 			"$set": bson.M{
 				dbFieldStatus:    model.DeviceStatusConnected,
@@ -270,8 +271,8 @@ func (db *DataStoreMongo) SetDeviceConnected(
 			},
 			"$inc": bson.M{"version": 1},
 			"$setOnInsert": bson.M{
-				dbFieldCreatedTs:     &now,
-				mstore.FieldTenantID: tenantID,
+				dbFieldCreatedTs:         &now,
+				mongostore.FieldTenantID: tenantID,
 			},
 		},
 		updateOpts,
@@ -290,9 +291,9 @@ func (db *DataStoreMongo) SetDeviceDisconnected(
 
 	_, err := coll.UpdateOne(ctx,
 		bson.M{
-			dbFieldID:            deviceID,
-			mstore.FieldTenantID: tenantID,
-			dbFieldVersion:       version,
+			dbFieldID:                deviceID,
+			mongostore.FieldTenantID: tenantID,
+			dbFieldVersion:           version,
 		},
 		bson.M{
 			"$set": bson.M{
@@ -300,8 +301,8 @@ func (db *DataStoreMongo) SetDeviceDisconnected(
 				dbFieldUpdatedTs: &now,
 			},
 			"$setOnInsert": bson.M{
-				dbFieldCreatedTs:     &now,
-				mstore.FieldTenantID: tenantID,
+				dbFieldCreatedTs:         &now,
+				mongostore.FieldTenantID: tenantID,
 			},
 		},
 	)
@@ -316,7 +317,7 @@ func (db *DataStoreMongo) AllocateSession(ctx context.Context, sess *model.Sessi
 	}
 
 	coll := db.client.Database(DbName).Collection(SessionsCollectionName)
-	tenantElem := bson.E{Key: mstore.FieldTenantID, Value: sess.TenantID}
+	tenantElem := bson.E{Key: mongostore.FieldTenantID, Value: sess.TenantID}
 	_, err := coll.InsertOne(ctx, mdoc.DocumentFromStruct(*sess, tenantElem))
 	if err != nil {
 		return errors.Wrap(err, "store: failed to allocate session")
@@ -334,7 +335,7 @@ func (db *DataStoreMongo) DeleteSession(
 
 	sess := new(model.Session)
 	err := collSess.FindOneAndDelete(
-		ctx, mstore.WithTenantID(ctx, bson.D{{Key: dbFieldID, Value: sessionID}}),
+		ctx, mongostore.WithTenantID(ctx, bson.D{{Key: dbFieldID, Value: sessionID}}),
 	).Decode(sess)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -360,7 +361,7 @@ func (db *DataStoreMongo) GetSession(
 
 	session := &model.Session{}
 	err := collSess.
-		FindOne(ctx, mstore.WithTenantID(ctx, bson.M{dbFieldID: sessionID})).
+		FindOne(ctx, mongostore.WithTenantID(ctx, bson.M{dbFieldID: sessionID})).
 		Decode(session)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -426,7 +427,7 @@ func (db *DataStoreMongo) WriteSessionRecords(ctx context.Context,
 	}
 	findOptions.SetSort(sortField)
 	recordingsCursor, err := collRecording.Find(ctx,
-		mstore.WithTenantID(ctx, bson.M{
+		mongostore.WithTenantID(ctx, bson.M{
 			dbFieldSessionID: sessionID,
 		}),
 		findOptions,
@@ -437,7 +438,7 @@ func (db *DataStoreMongo) WriteSessionRecords(ctx context.Context,
 	defer recordingsCursor.Close(ctx)
 
 	controlCursor, err := collControl.Find(ctx,
-		mstore.WithTenantID(ctx, bson.M{
+		mongostore.WithTenantID(ctx, bson.M{
 			dbFieldSessionID: sessionID,
 		}),
 		findOptions,
@@ -578,7 +579,7 @@ func (db *DataStoreMongo) InsertSessionRecording(ctx context.Context,
 		ExpireTs:  now.Add(db.recordingExpire),
 	}
 	_, err := coll.InsertOne(ctx,
-		mstore.WithTenantID(ctx, &recording),
+		mongostore.WithTenantID(ctx, &recording),
 	)
 	return err
 }
@@ -599,7 +600,7 @@ func (db *DataStoreMongo) InsertControlRecording(ctx context.Context,
 		ExpireTs:  now.Add(db.recordingExpire),
 	}
 	_, err := coll.InsertOne(ctx,
-		mstore.WithTenantID(ctx, &recording),
+		mongostore.WithTenantID(ctx, &recording),
 	)
 	return err
 }
@@ -627,7 +628,7 @@ func (db *DataStoreMongo) DeleteTenant(ctx context.Context, tenantID string) err
 	}
 	for _, collName := range collectionNames {
 		collection := database.Collection(collName)
-		_, e := collection.DeleteMany(ctx, mstore.WithTenantID(ctx, bson.D{}))
+		_, e := collection.DeleteMany(ctx, mongostore.WithTenantID(ctx, bson.D{}))
 		if e != nil {
 			return e
 		}

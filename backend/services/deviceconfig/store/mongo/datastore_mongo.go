@@ -27,6 +27,7 @@ import (
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
 	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
@@ -155,7 +156,7 @@ func (db *MongoStore) InsertDevice(ctx context.Context, dev model.Device) error 
 	}
 	collDevs := db.Database(ctx).Collection(CollDevices)
 
-	_, err := collDevs.InsertOne(ctx, mstore.WithTenantID(ctx, dev))
+	_, err := collDevs.InsertOne(ctx, mongostore.WithTenantID(ctx, dev))
 	if IsDuplicateKeyErr(err) {
 		return store.ErrDeviceAlreadyExists
 	}
@@ -188,7 +189,7 @@ func (db *MongoStore) ReplaceConfiguration(ctx context.Context, dev model.Device
 	}
 
 	_, err := collDevs.UpdateOne(ctx,
-		mstore.WithTenantID(ctx, fltr),
+		mongostore.WithTenantID(ctx, fltr),
 		update,
 		mopts.Update().SetUpsert(true))
 
@@ -220,7 +221,7 @@ func (db *MongoStore) ReplaceReportedConfiguration(ctx context.Context, dev mode
 	}
 
 	_, err := collDevs.UpdateOne(ctx,
-		mstore.WithTenantID(ctx, fltr),
+		mongostore.WithTenantID(ctx, fltr),
 		update,
 		mopts.Update().SetUpsert(true))
 	return errors.Wrap(err, "mongo: failed to store device reported configuration")
@@ -250,7 +251,7 @@ func (db *MongoStore) UpdateConfiguration(
 		Key:   fieldID,
 		Value: devID,
 	}, {
-		Key:   mstore.FieldTenantID,
+		Key:   mongostore.FieldTenantID,
 		Value: tenantID,
 	}, {
 		Key: fieldConfigured,
@@ -321,7 +322,7 @@ func (db *MongoStore) SetDeploymentID(ctx context.Context, devID string,
 		},
 	}
 
-	res, err := collDevs.UpdateOne(ctx, mstore.WithTenantID(ctx, fltr), update, mopts.Update())
+	res, err := collDevs.UpdateOne(ctx, mongostore.WithTenantID(ctx, fltr), update, mopts.Update())
 	if err != nil {
 		return errors.Wrap(err, "mongo: failed to set the deployment ID")
 	} else if res.MatchedCount == 0 {
@@ -337,7 +338,7 @@ func (db *MongoStore) DeleteDevice(ctx context.Context, devID string) error {
 		Key:   fieldID,
 		Value: devID,
 	}}
-	res, err := collDevs.DeleteOne(ctx, mstore.WithTenantID(ctx, fltr))
+	res, err := collDevs.DeleteOne(ctx, mongostore.WithTenantID(ctx, fltr))
 
 	if res != nil && res.DeletedCount == 0 {
 		return errors.Wrap(store.ErrDeviceNoExist, "mongo")
@@ -352,7 +353,7 @@ func (db *MongoStore) GetDevice(ctx context.Context, devID string) (model.Device
 		Key:   fieldID,
 		Value: devID,
 	}}
-	res := collDevs.FindOne(ctx, mstore.WithTenantID(ctx, fltr))
+	res := collDevs.FindOne(ctx, mongostore.WithTenantID(ctx, fltr))
 
 	var device model.Device
 

@@ -22,8 +22,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 )
 
 type migration_2_0_1 struct {
@@ -46,7 +46,7 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 			Indexes: []mongo.IndexModel{
 				{
 					Keys: bson.D{
-						{Key: mstore.FieldTenantID, Value: 1},
+						{Key: mongostore.FieldTenantID, Value: 1},
 						{Key: DbSettingsUserID, Value: 1},
 					},
 					Options: mopts.Index().
@@ -98,7 +98,7 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 					valueMap, ok := value.(map[string]interface{})
 					if ok {
 						valueMap[DbSettingsUserID] = key
-						valueMap[mstore.FieldTenantID] = item[mstore.FieldTenantID]
+						valueMap[mongostore.FieldTenantID] = item[mongostore.FieldTenantID]
 						_, err = usersColl.InsertOne(ctx, valueMap)
 						if err != nil {
 							return err

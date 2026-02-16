@@ -23,7 +23,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 )
@@ -72,7 +72,7 @@ func (db *DataStoreMongo) GetEvents(
 		)
 	}
 	cur, err := collEvents.Find(ctx,
-		mstore.WithTenantID(ctx, filter),
+		mongostore.WithTenantID(ctx, filter),
 		findOpts,
 	)
 	if err != nil {
@@ -100,7 +100,7 @@ func (db *DataStoreMongo) SaveEvent(
 	collEvents := db.Collection(CollNameLog)
 
 	_, err := collEvents.
-		InsertOne(ctx, mstore.WithTenantID(ctx, event))
+		InsertOne(ctx, mongostore.WithTenantID(ctx, event))
 	if err != nil {
 		return errors.Wrapf(err, "failed to store an event %v", event)
 	}

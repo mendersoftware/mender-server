@@ -30,7 +30,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 
 	dconfig "github.com/mendersoftware/mender-server/services/iot-manager/config"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
@@ -352,7 +352,7 @@ func (db *DataStoreMongo) CreateIntegration(
 	collIntegrations := db.Collection(CollNameIntegrations)
 	integration.ID = uuid.New()
 	_, err := collIntegrations.
-		InsertOne(ctx, mstore.WithTenantID(ctx, integration))
+		InsertOne(ctx, mongostore.WithTenantID(ctx, integration))
 	if err != nil {
 		if isDuplicateKeyError(err) {
 			return nil, store.ErrObjectExists
@@ -385,7 +385,7 @@ func (db *DataStoreMongo) SetIntegrationCredentials(
 	}
 
 	result, err := collIntegrations.UpdateOne(ctx,
-		mstore.WithTenantID(ctx, fltr),
+		mongostore.WithTenantID(ctx, fltr),
 		update,
 	)
 	if result.MatchedCount == 0 {
@@ -401,7 +401,7 @@ func (db *DataStoreMongo) RemoveIntegration(ctx context.Context, integrationId u
 		Key:   KeyID,
 		Value: integrationId,
 	}}
-	res, err := collIntegrations.DeleteOne(ctx, mstore.WithTenantID(ctx, fltr))
+	res, err := collIntegrations.DeleteOne(ctx, mongostore.WithTenantID(ctx, fltr))
 	if err != nil {
 		return err
 	} else if res.DeletedCount == 0 {
@@ -426,7 +426,7 @@ func (db *DataStoreMongo) DoDevicesExistByIntegrationID(
 			Key: KeyIntegrationIDs, Value: integrationID,
 		},
 	}
-	if err = collDevices.FindOne(ctx, mstore.WithTenantID(ctx, fltr)).Err(); err != nil {
+	if err = collDevices.FindOne(ctx, mongostore.WithTenantID(ctx, fltr)).Err(); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return false, nil
 		} else {

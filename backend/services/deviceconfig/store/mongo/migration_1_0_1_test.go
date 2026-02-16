@@ -23,8 +23,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 )
 
 type index struct {
@@ -75,7 +75,7 @@ func TestMigration_1_0_1(t *testing.T) {
 			continue
 		}
 		switch idx.Name {
-		case mstore.FieldTenantID + "_" + fieldID:
+		case mongostore.FieldTenantID + "_" + fieldID:
 			assert.Equal(t, map[string]int{
 				fieldID:     1,
 				KeyTenantID: 1,
@@ -87,7 +87,7 @@ func TestMigration_1_0_1(t *testing.T) {
 	}
 	assert.Equal(t, "1.0.1", m.Version().String())
 	actual, err := collDevs.CountDocuments(ctx, bson.D{
-		{Key: mstore.FieldTenantID, Value: bson.D{{Key: "$exists", Value: false}}},
+		{Key: mongostore.FieldTenantID, Value: bson.D{{Key: "$exists", Value: false}}},
 	})
 	require.NoError(t, err)
 	assert.Zerof(t, actual, "%d documents are not indexed by tenant_id", actual)
