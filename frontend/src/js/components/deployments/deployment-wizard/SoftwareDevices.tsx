@@ -48,10 +48,10 @@ const useStyles = makeStyles()(theme => ({
   releaseSelectText: { minWidth: 0, flexGrow: 1 }
 }));
 
-export const getDevicesLink = ({ devices, filters = [], group, name }) => {
+export const getDevicesLink = ({ devices, filters = [], group, name, groupId }) => {
   let devicesLink = '/devices';
   if (filters.length) {
-    return `${devicesLink}?${formatDeviceSearch({ pageState: {}, filters, selectedGroup: group })}`;
+    return `${devicesLink}?${formatDeviceSearch({ pageState: {}, filters, selectedGroup: group, groupId })}`;
   }
   // older deployments won't have the filter set so we have to try to guess their targets based on other information
   if (devices.length && (!name || isUUID(name))) {
@@ -61,7 +61,7 @@ export const getDevicesLink = ({ devices, filters = [], group, name }) => {
       devicesLink = `${devicesLink}${systemDeviceIds.map(id => `&id=${id}`).join('')}`;
     }
   } else if (group) {
-    devicesLink = `${devicesLink}?${formatDeviceSearch({ pageState: {}, filters, selectedGroup: group })}`;
+    devicesLink = `${devicesLink}?${formatDeviceSearch({ pageState: {}, filters, selectedGroup: group, groupId })}`;
   }
   return devicesLink;
 };
@@ -142,7 +142,7 @@ export const Devices = ({
   const dispatch = useAppDispatch();
 
   const { deploymentDeviceCount = 0, devices = [], filter, group = null } = deploymentObject;
-  const device = devices.length === 1 ? devices[0] : {};
+  const device = useMemo(() => (devices.length === 1 ? devices[0] : {}), [devices]);
 
   useEffect(() => {
     const { attributes = {} } = device;
@@ -163,7 +163,7 @@ export const Devices = ({
   };
 
   const { deviceText, devicesLink, targetDeviceCount, targetDevicesText } = useMemo(() => {
-    const devicesLink = getDevicesLink({ devices, group, hasFullFiltering, filters: filter?.filters });
+    const devicesLink = getDevicesLink({ devices, group, hasFullFiltering, filters: filter?.filters, groupId: filter?.id });
     let deviceText = getDeploymentTargetText({ deployment: deploymentObject, idAttribute });
     let targetDeviceCount = deploymentDeviceCount;
     let targetDevicesText = `${deploymentDeviceCount} ${pluralize('devices', deploymentDeviceCount)}`;

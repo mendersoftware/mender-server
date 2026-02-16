@@ -72,7 +72,8 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
     devices: Object.values(devices),
     filters: filter?.filters,
     group: group || filter?.name,
-    name
+    name,
+    groupId: filter?.id
   });
   const targetDevices = (
     <Link {...defaultLinkProps} to={devicesLink}>
