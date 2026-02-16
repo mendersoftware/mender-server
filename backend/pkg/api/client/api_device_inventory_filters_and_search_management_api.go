@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -19,12 +19,11 @@ import (
 	"net/url"
 )
 
-
 // DeviceInventoryFiltersAndSearchManagementAPIAPIService DeviceInventoryFiltersAndSearchManagementAPIAPI service
 type DeviceInventoryFiltersAndSearchManagementAPIAPIService service
 
 type ApiGetFilterableAttributesRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryFiltersAndSearchManagementAPIAPIService
 }
 
@@ -41,28 +40,30 @@ The list is sorted in descending order by the count of occurrences of the
 attribute in the inventory database, then in ascending order by scope and name.
 
 Limitations:
- * The API considers up to a sample of 5,000 devices when aggregating the number of attributes.
- * The API returns up to 500 unique attributes.
 
+  - The API considers up to a sample of 5,000 devices when aggregating the number of attributes.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetFilterableAttributesRequest
+  - The API returns up to 500 unique attributes.
+
+    @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+    @return ApiGetFilterableAttributesRequest
 */
 func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetFilterableAttributes(ctx context.Context) ApiGetFilterableAttributesRequest {
 	return ApiGetFilterableAttributesRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []FilterAttribute
+//
+//	@return []FilterAttribute
 func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetFilterableAttributesExecute(r ApiGetFilterableAttributesRequest) ([]FilterAttribute, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []FilterAttribute
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []FilterAttribute
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryFiltersAndSearchManagementAPIAPIService.GetFilterableAttributes")
@@ -122,8 +123,8 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetFilterableAt
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -141,7 +142,7 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetFilterableAt
 }
 
 type ApiGetStatisticsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryFiltersAndSearchManagementAPIAPIService
 }
 
@@ -155,25 +156,25 @@ GetStatistics Get inventory statistics
 The following statistics are currently supported:
 * Number of accepted and pending devices in each device tier
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetStatisticsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetStatisticsRequest
 */
 func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetStatistics(ctx context.Context) ApiGetStatisticsRequest {
 	return ApiGetStatisticsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return GetStatistics200Response
+//
+//	@return GetStatistics200Response
 func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetStatisticsExecute(r ApiGetStatisticsRequest) (*GetStatistics200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *GetStatistics200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GetStatistics200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryFiltersAndSearchManagementAPIAPIService.GetStatistics")
@@ -233,8 +234,8 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetStatisticsEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -252,8 +253,8 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetStatisticsEx
 }
 
 type ApiInventoryV2SearchDeviceInventoriesRequest struct {
-	ctx context.Context
-	ApiService *DeviceInventoryFiltersAndSearchManagementAPIAPIService
+	ctx                                       context.Context
+	ApiService                                *DeviceInventoryFiltersAndSearchManagementAPIAPIService
 	inventoryV2SearchDeviceInventoriesRequest *InventoryV2SearchDeviceInventoriesRequest
 }
 
@@ -275,25 +276,25 @@ Returns a paged collection of devices and their attributes.
 If multiple filter predicates are specified, the filters are
 combined using boolean `and` operator.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiInventoryV2SearchDeviceInventoriesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiInventoryV2SearchDeviceInventoriesRequest
 */
 func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) InventoryV2SearchDeviceInventories(ctx context.Context) ApiInventoryV2SearchDeviceInventoriesRequest {
 	return ApiInventoryV2SearchDeviceInventoriesRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []DeviceInventory
+//
+//	@return []DeviceInventory
 func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) InventoryV2SearchDeviceInventoriesExecute(r ApiInventoryV2SearchDeviceInventoriesRequest) ([]DeviceInventory, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []DeviceInventory
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []DeviceInventory
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryFiltersAndSearchManagementAPIAPIService.InventoryV2SearchDeviceInventories")
@@ -355,8 +356,8 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) InventoryV2Sear
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -366,8 +367,8 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) InventoryV2Sear
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

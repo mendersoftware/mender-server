@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -23,11 +23,11 @@ var _ MappedNullable = &DeploymentPhase{}
 type DeploymentPhase struct {
 	// Phase identifier.
 	Id *string `json:"id,omitempty"`
-	// Percentage of devices to update in the phase. 
+	// Percentage of devices to update in the phase.
 	BatchSize *int32 `json:"batch_size,omitempty"`
-	// Start date of a phase. May be undefined for the first phase of a deployment. 
+	// Start date of a phase. May be undefined for the first phase of a deployment.
 	StartTs *time.Time `json:"start_ts,omitempty"`
-	// Number of devices which already requested an update within this phase. 
+	// Number of devices which already requested an update within this phase.
 	DeviceCount *int32 `json:"device_count,omitempty"`
 }
 
@@ -177,7 +177,7 @@ func (o *DeploymentPhase) SetDeviceCount(v int32) {
 }
 
 func (o DeploymentPhase) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -236,5 +236,3 @@ func (v *NullableDeploymentPhase) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

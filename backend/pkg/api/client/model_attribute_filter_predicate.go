@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,8 +12,8 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -23,11 +23,11 @@ var _ MappedNullable = &AttributeFilterPredicate{}
 // AttributeFilterPredicate Attribute filter predicate
 type AttributeFilterPredicate struct {
 	Scope Scope `json:"scope"`
-	// Name of the attribute to be queried for filtering. 
+	// Name of the attribute to be queried for filtering.
 	Attribute string `json:"attribute"`
 	// Type or operator of the filter predicate.
 	Type string `json:"type"`
-	// The value of the attribute to be used in filtering. Attribute type is implicit, inferred from the JSON type. Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
+	// The value of the attribute to be used in filtering. Attribute type is implicit, inferred from the JSON type. Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed.
 	Value interface{} `json:"value"`
 }
 
@@ -153,7 +153,7 @@ func (o *AttributeFilterPredicate) SetValue(v interface{}) {
 }
 
 func (o AttributeFilterPredicate) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -187,10 +187,10 @@ func (o *AttributeFilterPredicate) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -246,5 +246,3 @@ func (v *NullableAttributeFilterPredicate) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

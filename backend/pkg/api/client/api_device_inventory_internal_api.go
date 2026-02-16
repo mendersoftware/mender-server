@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,15 +20,14 @@ import (
 	"strings"
 )
 
-
 // DeviceInventoryInternalAPIAPIService DeviceInventoryInternalAPIAPI service
 type DeviceInventoryInternalAPIAPIService service
 
 type ApiDeleteDeviceRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryInternalAPIAPIService
-	tenantId string
-	deviceId string
+	tenantId   string
+	deviceId   string
 }
 
 func (r ApiDeleteDeviceRequest) Execute() (*http.Response, error) {
@@ -38,26 +37,26 @@ func (r ApiDeleteDeviceRequest) Execute() (*http.Response, error) {
 /*
 DeleteDevice Remove a device from the inventory service
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of given tenant.
- @param deviceId ID of given device.
- @return ApiDeleteDeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@param deviceId ID of given device.
+	@return ApiDeleteDeviceRequest
 */
 func (a *DeviceInventoryInternalAPIAPIService) DeleteDevice(ctx context.Context, tenantId string, deviceId string) ApiDeleteDeviceRequest {
 	return ApiDeleteDeviceRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		deviceId: deviceId,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryInternalAPIAPIService) DeleteDeviceExecute(r ApiDeleteDeviceRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryInternalAPIAPIService.DeleteDevice")
@@ -119,8 +118,8 @@ func (a *DeviceInventoryInternalAPIAPIService) DeleteDeviceExecute(r ApiDeleteDe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -130,8 +129,8 @@ func (a *DeviceInventoryInternalAPIAPIService) DeleteDeviceExecute(r ApiDeleteDe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -140,10 +139,10 @@ func (a *DeviceInventoryInternalAPIAPIService) DeleteDeviceExecute(r ApiDeleteDe
 }
 
 type ApiGetDeviceGroupsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryInternalAPIAPIService
-	tenantId string
-	deviceId string
+	tenantId   string
+	deviceId   string
 }
 
 func (r ApiGetDeviceGroupsRequest) Execute() (*Groups, *http.Response, error) {
@@ -153,28 +152,29 @@ func (r ApiGetDeviceGroupsRequest) Execute() (*Groups, *http.Response, error) {
 /*
 GetDeviceGroups Get a list of groups the device belongs to
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of given tenant.
- @param deviceId Device identifier.
- @return ApiGetDeviceGroupsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@param deviceId Device identifier.
+	@return ApiGetDeviceGroupsRequest
 */
 func (a *DeviceInventoryInternalAPIAPIService) GetDeviceGroups(ctx context.Context, tenantId string, deviceId string) ApiGetDeviceGroupsRequest {
 	return ApiGetDeviceGroupsRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		deviceId: deviceId,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
-//  @return Groups
+//
+//	@return Groups
 func (a *DeviceInventoryInternalAPIAPIService) GetDeviceGroupsExecute(r ApiGetDeviceGroupsRequest) (*Groups, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Groups
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Groups
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryInternalAPIAPIService.GetDeviceGroups")
@@ -236,8 +236,8 @@ func (a *DeviceInventoryInternalAPIAPIService) GetDeviceGroupsExecute(r ApiGetDe
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -247,8 +247,8 @@ func (a *DeviceInventoryInternalAPIAPIService) GetDeviceGroupsExecute(r ApiGetDe
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -258,8 +258,8 @@ func (a *DeviceInventoryInternalAPIAPIService) GetDeviceGroupsExecute(r ApiGetDe
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -277,10 +277,10 @@ func (a *DeviceInventoryInternalAPIAPIService) GetDeviceGroupsExecute(r ApiGetDe
 }
 
 type ApiInitializeDeviceRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryInternalAPIAPIService
-	tenantId string
-	deviceNew *DeviceNew
+	tenantId   string
+	deviceNew  *DeviceNew
 }
 
 func (r ApiInitializeDeviceRequest) DeviceNew(deviceNew DeviceNew) ApiInitializeDeviceRequest {
@@ -295,24 +295,24 @@ func (r ApiInitializeDeviceRequest) Execute() (*http.Response, error) {
 /*
 InitializeDevice Create a device resource with the supplied set of attributes
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of given tenant.
- @return ApiInitializeDeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@return ApiInitializeDeviceRequest
 */
 func (a *DeviceInventoryInternalAPIAPIService) InitializeDevice(ctx context.Context, tenantId string) ApiInitializeDeviceRequest {
 	return ApiInitializeDeviceRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
+		ctx:        ctx,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryInternalAPIAPIService) InitializeDeviceExecute(r ApiInitializeDeviceRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryInternalAPIAPIService.InitializeDevice")
@@ -378,8 +378,8 @@ func (a *DeviceInventoryInternalAPIAPIService) InitializeDeviceExecute(r ApiInit
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -389,8 +389,8 @@ func (a *DeviceInventoryInternalAPIAPIService) InitializeDeviceExecute(r ApiInit
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -399,7 +399,7 @@ func (a *DeviceInventoryInternalAPIAPIService) InitializeDeviceExecute(r ApiInit
 }
 
 type ApiInventoryInternalCheckHealthRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryInternalAPIAPIService
 }
 
@@ -410,22 +410,22 @@ func (r ApiInventoryInternalCheckHealthRequest) Execute() (*http.Response, error
 /*
 InventoryInternalCheckHealth Check the health of the service
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiInventoryInternalCheckHealthRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiInventoryInternalCheckHealthRequest
 */
 func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckHealth(ctx context.Context) ApiInventoryInternalCheckHealthRequest {
 	return ApiInventoryInternalCheckHealthRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckHealthExecute(r ApiInventoryInternalCheckHealthRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryInternalAPIAPIService.InventoryInternalCheckHealth")
@@ -485,8 +485,8 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckHealthExecu
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 503 {
@@ -496,8 +496,8 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckHealthExecu
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -506,7 +506,7 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckHealthExecu
 }
 
 type ApiInventoryInternalCheckLivelinessRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryInternalAPIAPIService
 }
 
@@ -515,24 +515,24 @@ func (r ApiInventoryInternalCheckLivelinessRequest) Execute() (*http.Response, e
 }
 
 /*
-InventoryInternalCheckLiveliness Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly. 
+InventoryInternalCheckLiveliness Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiInventoryInternalCheckLivelinessRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiInventoryInternalCheckLivelinessRequest
 */
 func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckLiveliness(ctx context.Context) ApiInventoryInternalCheckLivelinessRequest {
 	return ApiInventoryInternalCheckLivelinessRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckLivelinessExecute(r ApiInventoryInternalCheckLivelinessRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryInternalAPIAPIService.InventoryInternalCheckLiveliness")
@@ -592,8 +592,8 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckLivelinessE
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -602,9 +602,9 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckLivelinessE
 }
 
 type ApiInventoryInternalCreateTenantRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryInternalAPIAPIService
-	tenantNew *TenantNew
+	tenantNew  *TenantNew
 }
 
 func (r ApiInventoryInternalCreateTenantRequest) TenantNew(tenantNew TenantNew) ApiInventoryInternalCreateTenantRequest {
@@ -621,23 +621,22 @@ InventoryInternalCreateTenant Create tenant
 
 Create a tenant with provided configuration.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiInventoryInternalCreateTenantRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiInventoryInternalCreateTenantRequest
 */
 func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCreateTenant(ctx context.Context) ApiInventoryInternalCreateTenantRequest {
 	return ApiInventoryInternalCreateTenantRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCreateTenantExecute(r ApiInventoryInternalCreateTenantRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryInternalAPIAPIService.InventoryInternalCreateTenant")
@@ -702,8 +701,8 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCreateTenantExec
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -713,8 +712,8 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCreateTenantExec
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -723,11 +722,11 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCreateTenantExec
 }
 
 type ApiStartReIndexingRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryInternalAPIAPIService
-	deviceId string
-	tenantId string
-	service *string
+	deviceId   string
+	tenantId   string
+	service    *string
 }
 
 // The name of the calling service.
@@ -743,26 +742,26 @@ func (r ApiStartReIndexingRequest) Execute() (*http.Response, error) {
 /*
 StartReIndexing Start reindexing device attributes.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param deviceId ID of the device that needs reindexing.
- @param tenantId ID of tenant owning the device.
- @return ApiStartReIndexingRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId ID of the device that needs reindexing.
+	@param tenantId ID of tenant owning the device.
+	@return ApiStartReIndexingRequest
 */
 func (a *DeviceInventoryInternalAPIAPIService) StartReIndexing(ctx context.Context, deviceId string, tenantId string) ApiStartReIndexingRequest {
 	return ApiStartReIndexingRequest{
 		ApiService: a,
-		ctx: ctx,
-		deviceId: deviceId,
-		tenantId: tenantId,
+		ctx:        ctx,
+		deviceId:   deviceId,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryInternalAPIAPIService) StartReIndexingExecute(r ApiStartReIndexingRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryInternalAPIAPIService.StartReIndexing")
@@ -827,8 +826,8 @@ func (a *DeviceInventoryInternalAPIAPIService) StartReIndexingExecute(r ApiStart
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -838,8 +837,8 @@ func (a *DeviceInventoryInternalAPIAPIService) StartReIndexingExecute(r ApiStart
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -848,12 +847,12 @@ func (a *DeviceInventoryInternalAPIAPIService) StartReIndexingExecute(r ApiStart
 }
 
 type ApiUpdateInventoryForADeviceRequest struct {
-	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
-	tenantId string
-	deviceId string
-	scope string
-	attribute *[]Attribute
+	ctx               context.Context
+	ApiService        *DeviceInventoryInternalAPIAPIService
+	tenantId          string
+	deviceId          string
+	scope             string
+	attribute         *[]Attribute
 	ifUnmodifiedSince *string
 }
 
@@ -879,29 +878,28 @@ UpdateInventoryForADevice Update multiple inventory attributes in a single scope
 An API end-point that allows to  update the inventory attributes in
 a single scope for a device.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of given tenant.
- @param deviceId ID of given device.
- @param scope Scope of the inventory attributes.
- @return ApiUpdateInventoryForADeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@param deviceId ID of given device.
+	@param scope Scope of the inventory attributes.
+	@return ApiUpdateInventoryForADeviceRequest
 */
 func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADevice(ctx context.Context, tenantId string, deviceId string, scope string) ApiUpdateInventoryForADeviceRequest {
 	return ApiUpdateInventoryForADeviceRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		deviceId: deviceId,
-		scope: scope,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		deviceId:   deviceId,
+		scope:      scope,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceExecute(r ApiUpdateInventoryForADeviceRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPatch
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryInternalAPIAPIService.UpdateInventoryForADevice")
@@ -972,8 +970,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 412 {
@@ -983,8 +981,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -994,8 +992,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -1004,11 +1002,11 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceExecute(
 }
 
 type ApiUpdateInventoryForADeviceScopeWiseRequest struct {
-	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
-	tenantId string
-	deviceId string
-	attributeV2 *[]AttributeV2
+	ctx               context.Context
+	ApiService        *DeviceInventoryInternalAPIAPIService
+	tenantId          string
+	deviceId          string
+	attributeV2       *[]AttributeV2
 	ifUnmodifiedSince *string
 }
 
@@ -1035,27 +1033,26 @@ An API end-point that allows to update the inventory attributes for a device.
 It is operating in the same way as the /attribute/scope/{scope} endpoint, but
 does not override the scope of the attributes that you provide.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of given tenant.
- @param deviceId ID of given device.
- @return ApiUpdateInventoryForADeviceScopeWiseRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@param deviceId ID of given device.
+	@return ApiUpdateInventoryForADeviceScopeWiseRequest
 */
 func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceScopeWise(ctx context.Context, tenantId string, deviceId string) ApiUpdateInventoryForADeviceScopeWiseRequest {
 	return ApiUpdateInventoryForADeviceScopeWiseRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		deviceId: deviceId,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceScopeWiseExecute(r ApiUpdateInventoryForADeviceScopeWiseRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPatch
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryInternalAPIAPIService.UpdateInventoryForADeviceScopeWise")
@@ -1125,8 +1122,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceScopeWis
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 412 {
@@ -1136,8 +1133,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceScopeWis
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1147,8 +1144,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceScopeWis
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -1157,10 +1154,10 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceScopeWis
 }
 
 type ApiUpdateStatusOfDevicesRequest struct {
-	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
-	tenantId string
-	status string
+	ctx          context.Context
+	ApiService   *DeviceInventoryInternalAPIAPIService
+	tenantId     string
+	status       string
 	deviceUpdate *[]DeviceUpdate
 }
 
@@ -1180,27 +1177,26 @@ UpdateStatusOfDevices Update the status of a list of devices
 An API end-point that allows to bulk update the status of a list
 of devices.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of given tenant.
- @param status New status to set for the specified devices.
- @return ApiUpdateStatusOfDevicesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@param status New status to set for the specified devices.
+	@return ApiUpdateStatusOfDevicesRequest
 */
 func (a *DeviceInventoryInternalAPIAPIService) UpdateStatusOfDevices(ctx context.Context, tenantId string, status string) ApiUpdateStatusOfDevicesRequest {
 	return ApiUpdateStatusOfDevicesRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		status: status,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		status:     status,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryInternalAPIAPIService) UpdateStatusOfDevicesExecute(r ApiUpdateStatusOfDevicesRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryInternalAPIAPIService.UpdateStatusOfDevices")
@@ -1267,8 +1263,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateStatusOfDevicesExecute(r Ap
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -1278,8 +1274,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateStatusOfDevicesExecute(r Ap
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1289,8 +1285,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateStatusOfDevicesExecute(r Ap
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

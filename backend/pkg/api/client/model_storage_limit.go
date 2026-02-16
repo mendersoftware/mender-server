@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,8 +12,8 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -22,9 +22,9 @@ var _ MappedNullable = &StorageLimit{}
 
 // StorageLimit Tenant account storage limit and storage usage.
 type StorageLimit struct {
-	// Storage limit in bytes. If set to 0 - there is no limit for storage. 
+	// Storage limit in bytes. If set to 0 - there is no limit for storage.
 	Limit int32 `json:"limit"`
-	// Current storage usage in bytes. 
+	// Current storage usage in bytes.
 	Usage int32 `json:"usage"`
 }
 
@@ -98,7 +98,7 @@ func (o *StorageLimit) SetUsage(v int32) {
 }
 
 func (o StorageLimit) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -126,10 +126,10 @@ func (o *StorageLimit) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -185,5 +185,3 @@ func (v *NullableStorageLimit) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

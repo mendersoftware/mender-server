@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -16,16 +16,16 @@ import (
 	"fmt"
 )
 
-// Scope The scope of the attribute.  Scope is a string and acts as namespace for the attribute name.  * __inventory__: Attributes reported by the device. * __system__: Attributes populated by the mender-server. * __identity__: Device's identity attributes provided in the device's auth request. * __monitor__: Attributes populated by the monitoring add-on. * __tags__: User-defined attributes associated with the device. 
+// Scope The scope of the attribute.  Scope is a string and acts as namespace for the attribute name.  * __inventory__: Attributes reported by the device. * __system__: Attributes populated by the mender-server. * __identity__: Device's identity attributes provided in the device's auth request. * __monitor__: Attributes populated by the monitoring add-on. * __tags__: User-defined attributes associated with the device.
 type Scope string
 
 // List of Scope
 const (
-	SYSTEM Scope = "system"
-	IDENTITY Scope = "identity"
+	SYSTEM    Scope = "system"
+	IDENTITY  Scope = "identity"
 	INVENTORY Scope = "inventory"
-	MONITOR Scope = "monitor"
-	TAGS Scope = "tags"
+	MONITOR   Scope = "monitor"
+	TAGS      Scope = "tags"
 )
 
 // All allowed values of Scope enum
@@ -115,4 +115,3 @@ func (v *NullableScope) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

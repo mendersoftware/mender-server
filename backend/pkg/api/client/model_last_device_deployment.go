@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,9 +20,9 @@ var _ MappedNullable = &LastDeviceDeployment{}
 
 // LastDeviceDeployment struct for LastDeviceDeployment
 type LastDeviceDeployment struct {
-	DeviceId *string `json:"device_id,omitempty"`
-	DeploymentId *string `json:"deployment_id,omitempty"`
-	DeviceDeploymentId *string `json:"device_deployment_id,omitempty"`
+	DeviceId               *string `json:"device_id,omitempty"`
+	DeploymentId           *string `json:"deployment_id,omitempty"`
+	DeviceDeploymentId     *string `json:"device_deployment_id,omitempty"`
 	DeviceDeploymentStatus *string `json:"device_deployment_status,omitempty"`
 }
 
@@ -172,7 +172,7 @@ func (o *LastDeviceDeployment) SetDeviceDeploymentStatus(v string) {
 }
 
 func (o LastDeviceDeployment) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -231,5 +231,3 @@ func (v *NullableLastDeviceDeployment) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

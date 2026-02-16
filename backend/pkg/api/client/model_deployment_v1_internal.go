@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,10 +12,10 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
-	"time"
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"time"
 )
 
 // checks if the DeploymentV1Internal type satisfies the MappedNullable interface at compile time
@@ -23,16 +23,16 @@ var _ MappedNullable = &DeploymentV1Internal{}
 
 // DeploymentV1Internal struct for DeploymentV1Internal
 type DeploymentV1Internal struct {
-	Created time.Time `json:"created"`
-	Name string `json:"name"`
-	ArtifactName string `json:"artifact_name"`
-	Id string `json:"id"`
-	Finished *time.Time `json:"finished,omitempty"`
-	Status string `json:"status"`
-	DeviceCount *int32 `json:"device_count,omitempty"`
+	Created      time.Time  `json:"created"`
+	Name         string     `json:"name"`
+	ArtifactName string     `json:"artifact_name"`
+	Id           string     `json:"id"`
+	Finished     *time.Time `json:"finished,omitempty"`
+	Status       string     `json:"status"`
+	DeviceCount  *int32     `json:"device_count,omitempty"`
 	// An array of artifact's identifiers.
 	Artifacts []string `json:"artifacts,omitempty"`
-	Type *string `json:"type,omitempty"`
+	Type      *string  `json:"type,omitempty"`
 }
 
 type _DeploymentV1Internal DeploymentV1Internal
@@ -308,7 +308,7 @@ func (o *DeploymentV1Internal) SetType(v string) {
 }
 
 func (o DeploymentV1Internal) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -354,10 +354,10 @@ func (o *DeploymentV1Internal) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -413,5 +413,3 @@ func (v *NullableDeploymentV1Internal) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

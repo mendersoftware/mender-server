@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,14 +20,14 @@ var _ MappedNullable = &Features{}
 
 // Features Features descriptor.
 type Features struct {
-	Rbac *bool `json:"rbac,omitempty"`
-	AuditLogs *bool `json:"audit_logs,omitempty"`
+	Rbac          *bool `json:"rbac,omitempty"`
+	AuditLogs     *bool `json:"audit_logs,omitempty"`
 	DynamicGroups *bool `json:"dynamic_groups,omitempty"`
-	Terminal *bool `json:"terminal,omitempty"`
-	FileTransfer *bool `json:"file_transfer,omitempty"`
+	Terminal      *bool `json:"terminal,omitempty"`
+	FileTransfer  *bool `json:"file_transfer,omitempty"`
 	Configuration *bool `json:"configuration,omitempty"`
-	Monitoring *bool `json:"monitoring,omitempty"`
-	Reporting *bool `json:"reporting,omitempty"`
+	Monitoring    *bool `json:"monitoring,omitempty"`
+	Reporting     *bool `json:"reporting,omitempty"`
 }
 
 // NewFeatures instantiates a new Features object
@@ -304,7 +304,7 @@ func (o *Features) SetReporting(v bool) {
 }
 
 func (o Features) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -375,5 +375,3 @@ func (v *NullableFeatures) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,8 +12,8 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -22,11 +22,11 @@ var _ MappedNullable = &DeploymentInstructionsArtifact{}
 
 // DeploymentInstructionsArtifact struct for DeploymentInstructionsArtifact
 type DeploymentInstructionsArtifact struct {
-	Id *string `json:"id,omitempty"`
+	Id     *string                              `json:"id,omitempty"`
 	Source DeploymentInstructionsArtifactSource `json:"source"`
 	// Compatible device types
 	DeviceTypesCompatible []string `json:"device_types_compatible"`
-	ArtifactName string `json:"artifact_name"`
+	ArtifactName          string   `json:"artifact_name"`
 }
 
 type _DeploymentInstructionsArtifact DeploymentInstructionsArtifact
@@ -156,7 +156,7 @@ func (o *DeploymentInstructionsArtifact) SetArtifactName(v string) {
 }
 
 func (o DeploymentInstructionsArtifact) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -189,10 +189,10 @@ func (o *DeploymentInstructionsArtifact) UnmarshalJSON(data []byte) (err error) 
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -248,5 +248,3 @@ func (v *NullableDeploymentInstructionsArtifact) UnmarshalJSON(src []byte) error
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

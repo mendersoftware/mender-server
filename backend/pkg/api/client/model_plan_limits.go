@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,8 +20,8 @@ var _ MappedNullable = &PlanLimits{}
 
 // PlanLimits Plan limits descriptor.
 type PlanLimits struct {
-	Devices *int32 `json:"devices,omitempty"`
-	Users *int32 `json:"users,omitempty"`
+	Devices       *int32 `json:"devices,omitempty"`
+	Users         *int32 `json:"users,omitempty"`
 	AuditLogsDays *int32 `json:"audit_logs_days,omitempty"`
 }
 
@@ -139,7 +139,7 @@ func (o *PlanLimits) SetAuditLogsDays(v int32) {
 }
 
 func (o PlanLimits) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -195,5 +195,3 @@ func (v *NullablePlanLimits) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

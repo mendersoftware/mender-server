@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -17,18 +17,17 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"strings"
 	"os"
+	"strings"
 )
-
 
 // DeviceConnectManagementAPIAPIService DeviceConnectManagementAPIAPI service
 type DeviceConnectManagementAPIAPIService service
 
 type ApiDeviceConnectManagementCheckUpdateRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectManagementAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiDeviceConnectManagementCheckUpdateRequest) Execute() (*http.Response, error) {
@@ -38,24 +37,24 @@ func (r ApiDeviceConnectManagementCheckUpdateRequest) Execute() (*http.Response,
 /*
 DeviceConnectManagementCheckUpdate Trigger check-update for the Mender client running on the device
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id ID of the device.
- @return ApiDeviceConnectManagementCheckUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementCheckUpdateRequest
 */
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementCheckUpdate(ctx context.Context, id string) ApiDeviceConnectManagementCheckUpdateRequest {
 	return ApiDeviceConnectManagementCheckUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementCheckUpdateExecute(r ApiDeviceConnectManagementCheckUpdateRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectManagementAPIAPIService.DeviceConnectManagementCheckUpdate")
@@ -116,8 +115,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementCheckUpdat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -127,8 +126,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementCheckUpdat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -138,8 +137,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementCheckUpdat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -149,8 +148,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementCheckUpdat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -159,12 +158,12 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementCheckUpdat
 }
 
 type ApiDeviceConnectManagementConnectRequest struct {
-	ctx context.Context
-	ApiService *DeviceConnectManagementAPIAPIService
-	id string
-	connection *string
-	upgrade *string
-	secWebsocketKey *string
+	ctx                 context.Context
+	ApiService          *DeviceConnectManagementAPIAPIService
+	id                  string
+	connection          *string
+	upgrade             *string
+	secWebsocketKey     *string
 	secWebsocketVersion *int32
 }
 
@@ -199,24 +198,24 @@ func (r ApiDeviceConnectManagementConnectRequest) Execute() (*http.Response, err
 /*
 DeviceConnectManagementConnect Establish permanent connection with device
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id ID of the device.
- @return ApiDeviceConnectManagementConnectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementConnectRequest
 */
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementConnect(ctx context.Context, id string) ApiDeviceConnectManagementConnectRequest {
 	return ApiDeviceConnectManagementConnectRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementConnectExecute(r ApiDeviceConnectManagementConnectRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectManagementAPIAPIService.DeviceConnectManagementConnect")
@@ -289,8 +288,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementConnectExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -300,8 +299,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementConnectExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -311,8 +310,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementConnectExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -321,10 +320,10 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementConnectExe
 }
 
 type ApiDeviceConnectManagementDownloadRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectManagementAPIAPIService
-	id string
-	path *string
+	id         string
+	path       *string
 }
 
 // Path of the file on the device.
@@ -340,26 +339,27 @@ func (r ApiDeviceConnectManagementDownloadRequest) Execute() (*os.File, *http.Re
 /*
 DeviceConnectManagementDownload Download a file from the device
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id ID of the device.
- @return ApiDeviceConnectManagementDownloadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementDownloadRequest
 */
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementDownload(ctx context.Context, id string) ApiDeviceConnectManagementDownloadRequest {
 	return ApiDeviceConnectManagementDownloadRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return *os.File
+//
+//	@return *os.File
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementDownloadExecute(r ApiDeviceConnectManagementDownloadRequest) (*os.File, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *os.File
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *os.File
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectManagementAPIAPIService.DeviceConnectManagementDownload")
@@ -424,8 +424,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementDownloadEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -435,8 +435,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementDownloadEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -446,8 +446,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementDownloadEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -457,8 +457,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementDownloadEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -476,9 +476,9 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementDownloadEx
 }
 
 type ApiDeviceConnectManagementGetDeviceRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectManagementAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiDeviceConnectManagementGetDeviceRequest) Execute() (*ConnectionState, *http.Response, error) {
@@ -488,26 +488,27 @@ func (r ApiDeviceConnectManagementGetDeviceRequest) Execute() (*ConnectionState,
 /*
 DeviceConnectManagementGetDevice Fetch the state of a device.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id ID of the device.
- @return ApiDeviceConnectManagementGetDeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementGetDeviceRequest
 */
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementGetDevice(ctx context.Context, id string) ApiDeviceConnectManagementGetDeviceRequest {
 	return ApiDeviceConnectManagementGetDeviceRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return ConnectionState
+//
+//	@return ConnectionState
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementGetDeviceExecute(r ApiDeviceConnectManagementGetDeviceRequest) (*ConnectionState, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ConnectionState
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ConnectionState
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectManagementAPIAPIService.DeviceConnectManagementGetDevice")
@@ -568,8 +569,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementGetDeviceE
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -579,8 +580,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementGetDeviceE
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -590,8 +591,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementGetDeviceE
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -609,13 +610,13 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementGetDeviceE
 }
 
 type ApiDeviceConnectManagementPlaybackRequest struct {
-	ctx context.Context
-	ApiService *DeviceConnectManagementAPIAPIService
-	sessionId string
-	sleepMs *int32
-	connection *string
-	upgrade *string
-	secWebsocketKey *string
+	ctx                 context.Context
+	ApiService          *DeviceConnectManagementAPIAPIService
+	sessionId           string
+	sleepMs             *int32
+	connection          *string
+	upgrade             *string
+	secWebsocketKey     *string
 	secWebsocketVersion *int32
 }
 
@@ -656,24 +657,24 @@ func (r ApiDeviceConnectManagementPlaybackRequest) Execute() (*http.Response, er
 /*
 DeviceConnectManagementPlayback Establish a connection for playing back a session
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param sessionId ID for the session to play back.
- @return ApiDeviceConnectManagementPlaybackRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param sessionId ID for the session to play back.
+	@return ApiDeviceConnectManagementPlaybackRequest
 */
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementPlayback(ctx context.Context, sessionId string) ApiDeviceConnectManagementPlaybackRequest {
 	return ApiDeviceConnectManagementPlaybackRequest{
 		ApiService: a,
-		ctx: ctx,
-		sessionId: sessionId,
+		ctx:        ctx,
+		sessionId:  sessionId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementPlaybackExecute(r ApiDeviceConnectManagementPlaybackRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectManagementAPIAPIService.DeviceConnectManagementPlayback")
@@ -749,8 +750,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementPlaybackEx
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -760,8 +761,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementPlaybackEx
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -771,8 +772,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementPlaybackEx
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -781,9 +782,9 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementPlaybackEx
 }
 
 type ApiDeviceConnectManagementSendInventoryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectManagementAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiDeviceConnectManagementSendInventoryRequest) Execute() (*http.Response, error) {
@@ -793,24 +794,24 @@ func (r ApiDeviceConnectManagementSendInventoryRequest) Execute() (*http.Respons
 /*
 DeviceConnectManagementSendInventory Trigger send-inventory for the Mender client running on the device
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id ID of the device.
- @return ApiDeviceConnectManagementSendInventoryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementSendInventoryRequest
 */
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementSendInventory(ctx context.Context, id string) ApiDeviceConnectManagementSendInventoryRequest {
 	return ApiDeviceConnectManagementSendInventoryRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementSendInventoryExecute(r ApiDeviceConnectManagementSendInventoryRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectManagementAPIAPIService.DeviceConnectManagementSendInventory")
@@ -871,8 +872,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementSendInvent
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -882,8 +883,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementSendInvent
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -893,8 +894,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementSendInvent
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -904,8 +905,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementSendInvent
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -914,14 +915,14 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementSendInvent
 }
 
 type ApiDeviceConnectManagementUploadRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectManagementAPIAPIService
-	id string
-	path *string
-	uid *int32
-	gid *int32
-	mode *string
-	file *os.File
+	id         string
+	path       *string
+	uid        *int32
+	gid        *int32
+	mode       *string
+	file       *os.File
 }
 
 // The destination path on the device
@@ -960,24 +961,24 @@ func (r ApiDeviceConnectManagementUploadRequest) Execute() (*http.Response, erro
 /*
 DeviceConnectManagementUpload Upload a file to the device
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id ID of the device.
- @return ApiDeviceConnectManagementUploadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementUploadRequest
 */
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementUpload(ctx context.Context, id string) ApiDeviceConnectManagementUploadRequest {
 	return ApiDeviceConnectManagementUploadRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementUploadExecute(r ApiDeviceConnectManagementUploadRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectManagementAPIAPIService.DeviceConnectManagementUpload")
@@ -1023,8 +1024,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementUploadExec
 		parameterAddToHeaderOrQuery(localVarFormParams, "mode", r.mode, "", "")
 	}
 	var fileLocalVarFormFileName string
-	var fileLocalVarFileName     string
-	var fileLocalVarFileBytes    []byte
+	var fileLocalVarFileName string
+	var fileLocalVarFileBytes []byte
 
 	fileLocalVarFormFileName = "file"
 	fileLocalVarFile := r.file
@@ -1066,8 +1067,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementUploadExec
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -1077,8 +1078,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementUploadExec
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -1088,8 +1089,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementUploadExec
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1099,8 +1100,8 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementUploadExec
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

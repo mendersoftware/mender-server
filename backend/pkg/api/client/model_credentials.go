@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -19,9 +19,9 @@ import (
 
 // Credentials - struct for Credentials
 type Credentials struct {
-	AWSCredentials *AWSCredentials
+	AWSCredentials          *AWSCredentials
 	AzureSharedAccessSecret *AzureSharedAccessSecret
-	HTTP *HTTP
+	HTTP                    *HTTP
 }
 
 // AWSCredentialsAsCredentials is a convenience function that returns AWSCredentials wrapped in Credentials
@@ -44,7 +44,6 @@ func HTTPAsCredentials(v *HTTP) Credentials {
 		HTTP: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Credentials) UnmarshalJSON(data []byte) error {
@@ -133,7 +132,7 @@ func (src Credentials) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *Credentials) GetActualInstance() (interface{}) {
+func (obj *Credentials) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -154,7 +153,7 @@ func (obj *Credentials) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj Credentials) GetActualInstanceValue() (interface{}) {
+func (obj Credentials) GetActualInstanceValue() interface{} {
 	if obj.AWSCredentials != nil {
 		return *obj.AWSCredentials
 	}
@@ -206,5 +205,3 @@ func (v *NullableCredentials) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

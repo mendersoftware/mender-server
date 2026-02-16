@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -21,7 +21,7 @@ var _ MappedNullable = &DeploymentStatistics{}
 // DeploymentStatistics struct for DeploymentStatistics
 type DeploymentStatistics struct {
 	Status *Statistics `json:"status,omitempty"`
-	// Sum of sizes (in bytes) of all artifacts assigned to all device deployments, which are part of this deployment. If the same artifact is assigned to multiple device deployments, its size will be counted multiple times. 
+	// Sum of sizes (in bytes) of all artifacts assigned to all device deployments, which are part of this deployment. If the same artifact is assigned to multiple device deployments, its size will be counted multiple times.
 	TotalSize *int32 `json:"total_size,omitempty"`
 }
 
@@ -107,7 +107,7 @@ func (o *DeploymentStatistics) SetTotalSize(v int32) {
 }
 
 func (o DeploymentStatistics) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -160,5 +160,3 @@ func (v *NullableDeploymentStatistics) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,8 +12,8 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -23,8 +23,8 @@ var _ MappedNullable = &DeviceCountByTier{}
 // DeviceCountByTier Number of devices per tier
 type DeviceCountByTier struct {
 	Standard float32 `json:"standard"`
-	Micro float32 `json:"micro"`
-	System float32 `json:"system"`
+	Micro    float32 `json:"micro"`
+	System   float32 `json:"system"`
 }
 
 type _DeviceCountByTier DeviceCountByTier
@@ -122,7 +122,7 @@ func (o *DeviceCountByTier) SetSystem(v float32) {
 }
 
 func (o DeviceCountByTier) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -152,10 +152,10 @@ func (o *DeviceCountByTier) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -211,5 +211,3 @@ func (v *NullableDeviceCountByTier) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

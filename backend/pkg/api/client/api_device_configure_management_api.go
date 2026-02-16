@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-
 // DeviceConfigureManagementAPIAPIService DeviceConfigureManagementAPIAPI service
 type DeviceConfigureManagementAPIAPIService service
 
 type ApiDeviceConfigManagementDeployDeviceConfigurationRequest struct {
-	ctx context.Context
-	ApiService *DeviceConfigureManagementAPIAPIService
-	deviceId string
+	ctx                        context.Context
+	ApiService                 *DeviceConfigureManagementAPIAPIService
+	deviceId                   string
 	newConfigurationDeployment *NewConfigurationDeployment
 }
 
@@ -43,26 +42,27 @@ func (r ApiDeviceConfigManagementDeployDeviceConfigurationRequest) Execute() (*N
 /*
 DeviceConfigManagementDeployDeviceConfiguration Deploy the device's configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param deviceId ID of the device.
- @return ApiDeviceConfigManagementDeployDeviceConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId ID of the device.
+	@return ApiDeviceConfigManagementDeployDeviceConfigurationRequest
 */
 func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementDeployDeviceConfiguration(ctx context.Context, deviceId string) ApiDeviceConfigManagementDeployDeviceConfigurationRequest {
 	return ApiDeviceConfigManagementDeployDeviceConfigurationRequest{
 		ApiService: a,
-		ctx: ctx,
-		deviceId: deviceId,
+		ctx:        ctx,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
-//  @return NewConfigurationDeploymentResponse
+//
+//	@return NewConfigurationDeploymentResponse
 func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementDeployDeviceConfigurationExecute(r ApiDeviceConfigManagementDeployDeviceConfigurationRequest) (*NewConfigurationDeploymentResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *NewConfigurationDeploymentResponse
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *NewConfigurationDeploymentResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConfigureManagementAPIAPIService.DeviceConfigManagementDeployDeviceConfiguration")
@@ -128,8 +128,8 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementDeployDev
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -139,8 +139,8 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementDeployDev
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -150,8 +150,8 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementDeployDev
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -169,9 +169,9 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementDeployDev
 }
 
 type ApiDeviceConfigManagementGetDeviceConfigurationRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConfigureManagementAPIAPIService
-	deviceId string
+	deviceId   string
 }
 
 func (r ApiDeviceConfigManagementGetDeviceConfigurationRequest) Execute() (*DeviceConfiguration, *http.Response, error) {
@@ -181,26 +181,27 @@ func (r ApiDeviceConfigManagementGetDeviceConfigurationRequest) Execute() (*Devi
 /*
 DeviceConfigManagementGetDeviceConfiguration Get the device's configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param deviceId ID of the device to query.
- @return ApiDeviceConfigManagementGetDeviceConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId ID of the device to query.
+	@return ApiDeviceConfigManagementGetDeviceConfigurationRequest
 */
 func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementGetDeviceConfiguration(ctx context.Context, deviceId string) ApiDeviceConfigManagementGetDeviceConfigurationRequest {
 	return ApiDeviceConfigManagementGetDeviceConfigurationRequest{
 		ApiService: a,
-		ctx: ctx,
-		deviceId: deviceId,
+		ctx:        ctx,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
-//  @return DeviceConfiguration
+//
+//	@return DeviceConfiguration
 func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementGetDeviceConfigurationExecute(r ApiDeviceConfigManagementGetDeviceConfigurationRequest) (*DeviceConfiguration, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *DeviceConfiguration
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *DeviceConfiguration
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConfigureManagementAPIAPIService.DeviceConfigManagementGetDeviceConfiguration")
@@ -261,8 +262,8 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementGetDevice
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -272,8 +273,8 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementGetDevice
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -283,8 +284,8 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementGetDevice
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -302,9 +303,9 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementGetDevice
 }
 
 type ApiDeviceConfigManagementSetDeviceConfigurationRequest struct {
-	ctx context.Context
-	ApiService *DeviceConfigureManagementAPIAPIService
-	deviceId string
+	ctx         context.Context
+	ApiService  *DeviceConfigureManagementAPIAPIService
+	deviceId    string
 	requestBody *map[string]string
 }
 
@@ -320,24 +321,24 @@ func (r ApiDeviceConfigManagementSetDeviceConfigurationRequest) Execute() (*http
 /*
 DeviceConfigManagementSetDeviceConfiguration Set the device's configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param deviceId ID of the device to query.
- @return ApiDeviceConfigManagementSetDeviceConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId ID of the device to query.
+	@return ApiDeviceConfigManagementSetDeviceConfigurationRequest
 */
 func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementSetDeviceConfiguration(ctx context.Context, deviceId string) ApiDeviceConfigManagementSetDeviceConfigurationRequest {
 	return ApiDeviceConfigManagementSetDeviceConfigurationRequest{
 		ApiService: a,
-		ctx: ctx,
-		deviceId: deviceId,
+		ctx:        ctx,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementSetDeviceConfigurationExecute(r ApiDeviceConfigManagementSetDeviceConfigurationRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConfigureManagementAPIAPIService.DeviceConfigManagementSetDeviceConfiguration")
@@ -400,8 +401,8 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementSetDevice
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -411,8 +412,8 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementSetDevice
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

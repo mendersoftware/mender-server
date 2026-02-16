@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -17,17 +17,16 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"strings"
 	"os"
 	"reflect"
+	"strings"
 )
-
 
 // DeploymentsInternalAPIInternalAPIAPIService DeploymentsInternalAPIInternalAPIAPI service
 type DeploymentsInternalAPIInternalAPIAPIService service
 
 type ApiDeploymentsInternalCheckHealthRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsInternalAPIInternalAPIAPIService
 }
 
@@ -38,22 +37,22 @@ func (r ApiDeploymentsInternalCheckHealthRequest) Execute() (*http.Response, err
 /*
 DeploymentsInternalCheckHealth Check the health of the service
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeploymentsInternalCheckHealthRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsInternalCheckHealthRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckHealth(ctx context.Context) ApiDeploymentsInternalCheckHealthRequest {
 	return ApiDeploymentsInternalCheckHealthRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckHealthExecute(r ApiDeploymentsInternalCheckHealthRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.DeploymentsInternalCheckHealth")
@@ -113,8 +112,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckHe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 503 {
@@ -124,8 +123,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckHe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -134,7 +133,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckHe
 }
 
 type ApiDeploymentsInternalCheckLivelinessRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsInternalAPIInternalAPIAPIService
 }
 
@@ -143,24 +142,24 @@ func (r ApiDeploymentsInternalCheckLivelinessRequest) Execute() (*http.Response,
 }
 
 /*
-DeploymentsInternalCheckLiveliness Trivial endpoint that unconditionally returns an empty 204 response whenever the API handler is running correctly. 
+DeploymentsInternalCheckLiveliness Trivial endpoint that unconditionally returns an empty 204 response whenever the API handler is running correctly.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeploymentsInternalCheckLivelinessRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsInternalCheckLivelinessRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckLiveliness(ctx context.Context) ApiDeploymentsInternalCheckLivelinessRequest {
 	return ApiDeploymentsInternalCheckLivelinessRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckLivelinessExecute(r ApiDeploymentsInternalCheckLivelinessRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.DeploymentsInternalCheckLiveliness")
@@ -220,8 +219,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckLi
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -230,11 +229,11 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckLi
 }
 
 type ApiDeploymentsInternalCreateDeploymentRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	tenantId string
-	deviceId string
-	deploymentId string
+	ctx                            context.Context
+	ApiService                     *DeploymentsInternalAPIInternalAPIAPIService
+	tenantId                       string
+	deviceId                       string
+	deploymentId                   string
 	configurationDeploymentRequest *ConfigurationDeploymentRequest
 }
 
@@ -255,19 +254,18 @@ Deploy configuration to a specified device.
 The artifact will be auto-generated based on the configuration object
 provided with the deployment constructor.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId Tenant identifier.
- @param deviceId Device identifier.
- @param deploymentId Deployment identifier.
- @return ApiDeploymentsInternalCreateDeploymentRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant identifier.
+	@param deviceId Device identifier.
+	@param deploymentId Deployment identifier.
+	@return ApiDeploymentsInternalCreateDeploymentRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateDeployment(ctx context.Context, tenantId string, deviceId string, deploymentId string) ApiDeploymentsInternalCreateDeploymentRequest {
 	return ApiDeploymentsInternalCreateDeploymentRequest{
-		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		deviceId: deviceId,
+		ApiService:   a,
+		ctx:          ctx,
+		tenantId:     tenantId,
+		deviceId:     deviceId,
 		deploymentId: deploymentId,
 	}
 }
@@ -275,9 +273,9 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateD
 // Execute executes the request
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateDeploymentExecute(r ApiDeploymentsInternalCreateDeploymentRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.DeploymentsInternalCreateDeployment")
@@ -345,8 +343,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateD
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -356,8 +354,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateD
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -367,8 +365,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateD
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -377,9 +375,9 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateD
 }
 
 type ApiDeploymentsInternalCreateTenantRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	newTenant *NewTenant
+	newTenant  *NewTenant
 }
 
 // New tenant descriptor.
@@ -397,23 +395,22 @@ DeploymentsInternalCreateTenant Provision a new tenant
 
 Sets up all tenant-related infrastructure, e.g. a migrated tenant's database.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeploymentsInternalCreateTenantRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsInternalCreateTenantRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateTenant(ctx context.Context) ApiDeploymentsInternalCreateTenantRequest {
 	return ApiDeploymentsInternalCreateTenantRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateTenantExecute(r ApiDeploymentsInternalCreateTenantRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.DeploymentsInternalCreateTenant")
@@ -478,8 +475,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateT
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -489,8 +486,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateT
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -499,9 +496,9 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateT
 }
 
 type ApiDeploymentsInternalGetStorageUsageRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiDeploymentsInternalGetStorageUsageRequest) Execute() (*StorageUsage, *http.Response, error) {
@@ -514,27 +511,27 @@ DeploymentsInternalGetStorageUsage Get storage limit and current storage usage f
 Get storage limit and current storage usage for given tenant.
 If the limit value is 0 it means storage space is unlimited
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Tenant ID
- @return ApiDeploymentsInternalGetStorageUsageRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID
+	@return ApiDeploymentsInternalGetStorageUsageRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalGetStorageUsage(ctx context.Context, id string) ApiDeploymentsInternalGetStorageUsageRequest {
 	return ApiDeploymentsInternalGetStorageUsageRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return StorageUsage
+//
+//	@return StorageUsage
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalGetStorageUsageExecute(r ApiDeploymentsInternalGetStorageUsageRequest) (*StorageUsage, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *StorageUsage
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *StorageUsage
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.DeploymentsInternalGetStorageUsage")
@@ -595,8 +592,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalGetStor
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -614,13 +611,13 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalGetStor
 }
 
 type ApiDeploymentsInternalListDeploymentsForADeviceRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	tenantId string
-	id string
-	status *string
-	page *int32
-	perPage *int32
+	tenantId   string
+	id         string
+	status     *string
+	page       *int32
+	perPage    *int32
 }
 
 // Filter deployments by status for the given device.
@@ -650,29 +647,29 @@ DeploymentsInternalListDeploymentsForADevice Return the Deployments history for 
 
 Return the Deployments history for the specified Device, listing all its Deployments.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId Tenant ID
- @param id System wide device identifier
- @return ApiDeploymentsInternalListDeploymentsForADeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID
+	@param id System wide device identifier
+	@return ApiDeploymentsInternalListDeploymentsForADeviceRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalListDeploymentsForADevice(ctx context.Context, tenantId string, id string) ApiDeploymentsInternalListDeploymentsForADeviceRequest {
 	return ApiDeploymentsInternalListDeploymentsForADeviceRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		id: id,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return []DeviceDeployment
+//
+//	@return []DeviceDeployment
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalListDeploymentsForADeviceExecute(r ApiDeploymentsInternalListDeploymentsForADeviceRequest) ([]DeviceDeployment, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []DeviceDeployment
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []DeviceDeployment
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.DeploymentsInternalListDeploymentsForADevice")
@@ -751,8 +748,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalListDep
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -770,12 +767,12 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalListDep
 }
 
 type ApiDeploymentsInternalUploadArtifactRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	id string
-	artifact *os.File
-	artifactId *string
-	size *int32
+	ctx         context.Context
+	ApiService  *DeploymentsInternalAPIInternalAPIAPIService
+	id          string
+	artifact    *os.File
+	artifactId  *string
+	size        *int32
 	description *string
 }
 
@@ -812,25 +809,24 @@ DeploymentsInternalUploadArtifact Upload mender artifact
 Upload mender artifact to a specific tenant. Multipart request with meta and artifact.
 Supports artifact [versions v1, v2, v3](https://docs.mender.io/overview/artifact#versions).
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Tenant ID, or \"default\" if running in non-multitenant setup
- @return ApiDeploymentsInternalUploadArtifactRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID, or \"default\" if running in non-multitenant setup
+	@return ApiDeploymentsInternalUploadArtifactRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalUploadArtifact(ctx context.Context, id string) ApiDeploymentsInternalUploadArtifactRequest {
 	return ApiDeploymentsInternalUploadArtifactRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalUploadArtifactExecute(r ApiDeploymentsInternalUploadArtifactRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.DeploymentsInternalUploadArtifact")
@@ -875,8 +871,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalUploadA
 		parameterAddToHeaderOrQuery(localVarFormParams, "description", r.description, "", "")
 	}
 	var artifactLocalVarFormFileName string
-	var artifactLocalVarFileName     string
-	var artifactLocalVarFileBytes    []byte
+	var artifactLocalVarFileName string
+	var artifactLocalVarFileBytes []byte
 
 	artifactLocalVarFormFileName = "artifact"
 	artifactLocalVarFile := r.artifact
@@ -918,8 +914,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalUploadA
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -929,8 +925,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalUploadA
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -939,15 +935,15 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalUploadA
 }
 
 type ApiGetDeploymentsRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	id string
-	status *string
-	search *string
-	page *int32
+	ctx           context.Context
+	ApiService    *DeploymentsInternalAPIInternalAPIAPIService
+	id            string
+	status        *string
+	search        *string
+	page          *int32
 	createdBefore *int32
-	createdAfter *int32
-	sort *string
+	createdAfter  *int32
+	sort          *string
 }
 
 // Deployment status filter.
@@ -980,7 +976,7 @@ func (r ApiGetDeploymentsRequest) CreatedAfter(createdAfter int32) ApiGetDeploym
 	return r
 }
 
-// Supports sorting the deployments list by creation date. 
+// Supports sorting the deployments list by creation date.
 func (r ApiGetDeploymentsRequest) Sort(sort string) ApiGetDeploymentsRequest {
 	r.sort = &sort
 	return r
@@ -997,27 +993,27 @@ Returns a filtered collection of deployments in the system,
 including active and historical. If both 'status' and 'query' are
 not specified, all devices are listed.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Tenant ID
- @return ApiGetDeploymentsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID
+	@return ApiGetDeploymentsRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) GetDeployments(ctx context.Context, id string) ApiGetDeploymentsRequest {
 	return ApiGetDeploymentsRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return []DeploymentV1Internal
+//
+//	@return []DeploymentV1Internal
 func (a *DeploymentsInternalAPIInternalAPIAPIService) GetDeploymentsExecute(r ApiGetDeploymentsRequest) ([]DeploymentV1Internal, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []DeploymentV1Internal
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []DeploymentV1Internal
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.GetDeployments")
@@ -1100,8 +1096,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) GetDeploymentsExecute(r Ap
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1119,9 +1115,9 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) GetDeploymentsExecute(r Ap
 }
 
 type ApiGetLastDeviceDeploymentStatusRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	tenantId string
+	ctx                     context.Context
+	ApiService              *DeploymentsInternalAPIInternalAPIAPIService
+	tenantId                string
 	lastDeviceDeploymentReq *LastDeviceDeploymentReq
 }
 
@@ -1139,27 +1135,27 @@ GetLastDeviceDeploymentStatus Get status of the last device devployment
 
 Return the status of the last unsucessful device deployment.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId Tenant identifier.
- @return ApiGetLastDeviceDeploymentStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant identifier.
+	@return ApiGetLastDeviceDeploymentStatusRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) GetLastDeviceDeploymentStatus(ctx context.Context, tenantId string) ApiGetLastDeviceDeploymentStatusRequest {
 	return ApiGetLastDeviceDeploymentStatusRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
+		ctx:        ctx,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
-//  @return LastDeviceDeploymentsStatuses
+//
+//	@return LastDeviceDeploymentsStatuses
 func (a *DeploymentsInternalAPIInternalAPIAPIService) GetLastDeviceDeploymentStatusExecute(r ApiGetLastDeviceDeploymentStatusRequest) (*LastDeviceDeploymentsStatuses, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *LastDeviceDeploymentsStatuses
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *LastDeviceDeploymentsStatuses
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.GetLastDeviceDeploymentStatus")
@@ -1225,8 +1221,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) GetLastDeviceDeploymentSta
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1236,8 +1232,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) GetLastDeviceDeploymentSta
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1255,9 +1251,9 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) GetLastDeviceDeploymentSta
 }
 
 type ApiGetStorageSettingsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiGetStorageSettingsRequest) Execute() (*StorageSettings, *http.Response, error) {
@@ -1269,27 +1265,27 @@ GetStorageSettings Get storage setting for a given tenant
 
 Returns an object with per tenant storage layer specific settings.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Tenant ID
- @return ApiGetStorageSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID
+	@return ApiGetStorageSettingsRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) GetStorageSettings(ctx context.Context, id string) ApiGetStorageSettingsRequest {
 	return ApiGetStorageSettingsRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return StorageSettings
+//
+//	@return StorageSettings
 func (a *DeploymentsInternalAPIInternalAPIAPIService) GetStorageSettingsExecute(r ApiGetStorageSettingsRequest) (*StorageSettings, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *StorageSettings
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *StorageSettings
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.GetStorageSettings")
@@ -1350,8 +1346,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) GetStorageSettingsExecute(
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1369,10 +1365,10 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) GetStorageSettingsExecute(
 }
 
 type ApiListDeviceDeploymentsEntriesRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	tenantId string
-	id *[]string
+	tenantId   string
+	id         *[]string
 }
 
 // Deployment Device ID filter. Can be repeated to query a set of entries.
@@ -1388,29 +1384,29 @@ func (r ApiListDeviceDeploymentsEntriesRequest) Execute() ([]DeviceDeployment, *
 /*
 ListDeviceDeploymentsEntries Return the Deployments history entries for the specified IDs
 
-Return the Deployments history entries for the specified IDs
+# Return the Deployments history entries for the specified IDs
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId Tenant ID
- @return ApiListDeviceDeploymentsEntriesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID
+	@return ApiListDeviceDeploymentsEntriesRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) ListDeviceDeploymentsEntries(ctx context.Context, tenantId string) ApiListDeviceDeploymentsEntriesRequest {
 	return ApiListDeviceDeploymentsEntriesRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
+		ctx:        ctx,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
-//  @return []DeviceDeployment
+//
+//	@return []DeviceDeployment
 func (a *DeploymentsInternalAPIInternalAPIAPIService) ListDeviceDeploymentsEntriesExecute(r ApiListDeviceDeploymentsEntriesRequest) ([]DeviceDeployment, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []DeviceDeployment
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []DeviceDeployment
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.ListDeviceDeploymentsEntries")
@@ -1482,8 +1478,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) ListDeviceDeploymentsEntri
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1493,8 +1489,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) ListDeviceDeploymentsEntri
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1512,10 +1508,10 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) ListDeviceDeploymentsEntri
 }
 
 type ApiRemoveDeviceFromDeploymentsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	tenantId string
-	id string
+	tenantId   string
+	id         string
 }
 
 func (r ApiRemoveDeviceFromDeploymentsRequest) Execute() (*http.Response, error) {
@@ -1527,26 +1523,26 @@ RemoveDeviceFromDeployments Remove device from all deployments
 
 Set 'decommissioned' status to all pending device deployments for a given device
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId Tenant ID
- @param id System wide device identifier
- @return ApiRemoveDeviceFromDeploymentsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID
+	@param id System wide device identifier
+	@return ApiRemoveDeviceFromDeploymentsRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) RemoveDeviceFromDeployments(ctx context.Context, tenantId string, id string) ApiRemoveDeviceFromDeploymentsRequest {
 	return ApiRemoveDeviceFromDeploymentsRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		id: id,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeploymentsInternalAPIInternalAPIAPIService) RemoveDeviceFromDeploymentsExecute(r ApiRemoveDeviceFromDeploymentsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.RemoveDeviceFromDeployments")
@@ -1608,8 +1604,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) RemoveDeviceFromDeployment
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -1618,9 +1614,9 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) RemoveDeviceFromDeployment
 }
 
 type ApiSetStorageLimitRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	id string
+	ctx          context.Context
+	ApiService   *DeploymentsInternalAPIInternalAPIAPIService
+	id           string
 	storageLimit *StorageLimit
 }
 
@@ -1639,25 +1635,24 @@ SetStorageLimit Set storage limit for given tenant
 Set storage limit for given tenant.
 If the limit value is 0 it means storage space is unlimited
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Tenant ID
- @return ApiSetStorageLimitRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID
+	@return ApiSetStorageLimitRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) SetStorageLimit(ctx context.Context, id string) ApiSetStorageLimitRequest {
 	return ApiSetStorageLimitRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeploymentsInternalAPIInternalAPIAPIService) SetStorageLimitExecute(r ApiSetStorageLimitRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.SetStorageLimit")
@@ -1723,8 +1718,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) SetStorageLimitExecute(r A
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1734,8 +1729,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) SetStorageLimitExecute(r A
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -1744,9 +1739,9 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) SetStorageLimitExecute(r A
 }
 
 type ApiSetStorageSettingsRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
-	id string
+	ctx             context.Context
+	ApiService      *DeploymentsInternalAPIInternalAPIAPIService
+	id              string
 	storageSettings *StorageSettings
 }
 
@@ -1765,24 +1760,24 @@ SetStorageSettings Set storage settings for a given tenant
 
 Set the storage layer settings for a given tenant.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Tenant ID
- @return ApiSetStorageSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID
+	@return ApiSetStorageSettingsRequest
 */
 func (a *DeploymentsInternalAPIInternalAPIAPIService) SetStorageSettings(ctx context.Context, id string) ApiSetStorageSettingsRequest {
 	return ApiSetStorageSettingsRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeploymentsInternalAPIInternalAPIAPIService) SetStorageSettingsExecute(r ApiSetStorageSettingsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsInternalAPIInternalAPIAPIService.SetStorageSettings")
@@ -1845,8 +1840,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) SetStorageSettingsExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1856,8 +1851,8 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) SetStorageSettingsExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

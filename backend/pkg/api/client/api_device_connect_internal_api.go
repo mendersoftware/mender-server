@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-
 // DeviceConnectInternalAPIAPIService DeviceConnectInternalAPIAPI service
 type DeviceConnectInternalAPIAPIService service
 
 type ApiDeleteTenantRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectInternalAPIAPIService
-	tenantId string
+	tenantId   string
 }
 
 func (r ApiDeleteTenantRequest) Execute() (*http.Response, error) {
@@ -37,24 +36,24 @@ func (r ApiDeleteTenantRequest) Execute() (*http.Response, error) {
 /*
 DeleteTenant Delete all the data for given tenant.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of tenant.
- @return ApiDeleteTenantRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant.
+	@return ApiDeleteTenantRequest
 */
 func (a *DeviceConnectInternalAPIAPIService) DeleteTenant(ctx context.Context, tenantId string) ApiDeleteTenantRequest {
 	return ApiDeleteTenantRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
+		ctx:        ctx,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectInternalAPIAPIService) DeleteTenantExecute(r ApiDeleteTenantRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectInternalAPIAPIService.DeleteTenant")
@@ -115,8 +114,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeleteTenantExecute(r ApiDeleteTena
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -125,7 +124,7 @@ func (a *DeviceConnectInternalAPIAPIService) DeleteTenantExecute(r ApiDeleteTena
 }
 
 type ApiDeviceConnectInternalCheckHealthRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectInternalAPIAPIService
 }
 
@@ -136,22 +135,22 @@ func (r ApiDeviceConnectInternalCheckHealthRequest) Execute() (*http.Response, e
 /*
 DeviceConnectInternalCheckHealth Get health status of service
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeviceConnectInternalCheckHealthRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConnectInternalCheckHealthRequest
 */
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckHealth(ctx context.Context) ApiDeviceConnectInternalCheckHealthRequest {
 	return ApiDeviceConnectInternalCheckHealthRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckHealthExecute(r ApiDeviceConnectInternalCheckHealthRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectInternalAPIAPIService.DeviceConnectInternalCheckHealth")
@@ -211,8 +210,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckHealthExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -222,8 +221,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckHealthExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -232,7 +231,7 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckHealthExe
 }
 
 type ApiDeviceConnectInternalCheckLivelinessRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectInternalAPIAPIService
 }
 
@@ -243,22 +242,22 @@ func (r ApiDeviceConnectInternalCheckLivelinessRequest) Execute() (*http.Respons
 /*
 DeviceConnectInternalCheckLiveliness Get service liveliness status.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeviceConnectInternalCheckLivelinessRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConnectInternalCheckLivelinessRequest
 */
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckLiveliness(ctx context.Context) ApiDeviceConnectInternalCheckLivelinessRequest {
 	return ApiDeviceConnectInternalCheckLivelinessRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckLivelinessExecute(r ApiDeviceConnectInternalCheckLivelinessRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectInternalAPIAPIService.DeviceConnectInternalCheckLiveliness")
@@ -318,8 +317,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckLivelines
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -328,10 +327,10 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckLivelines
 }
 
 type ApiDeviceConnectInternalCheckUpdateRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectInternalAPIAPIService
-	tenantId string
-	deviceId string
+	tenantId   string
+	deviceId   string
 }
 
 func (r ApiDeviceConnectInternalCheckUpdateRequest) Execute() (*http.Response, error) {
@@ -341,26 +340,26 @@ func (r ApiDeviceConnectInternalCheckUpdateRequest) Execute() (*http.Response, e
 /*
 DeviceConnectInternalCheckUpdate Trigger check-update for the Mender client running on the device
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of tenant the device belongs to.
- @param deviceId ID for the target device.
- @return ApiDeviceConnectInternalCheckUpdateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param deviceId ID for the target device.
+	@return ApiDeviceConnectInternalCheckUpdateRequest
 */
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckUpdate(ctx context.Context, tenantId string, deviceId string) ApiDeviceConnectInternalCheckUpdateRequest {
 	return ApiDeviceConnectInternalCheckUpdateRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		deviceId: deviceId,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckUpdateExecute(r ApiDeviceConnectInternalCheckUpdateRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectInternalAPIAPIService.DeviceConnectInternalCheckUpdate")
@@ -422,8 +421,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckUpdateExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -433,8 +432,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckUpdateExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -444,8 +443,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckUpdateExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -455,8 +454,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckUpdateExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -465,10 +464,10 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckUpdateExe
 }
 
 type ApiDeviceConnectInternalDecomissionDeviceRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectInternalAPIAPIService
-	tenantId string
-	deviceId string
+	tenantId   string
+	deviceId   string
 }
 
 func (r ApiDeviceConnectInternalDecomissionDeviceRequest) Execute() (*http.Response, error) {
@@ -478,26 +477,26 @@ func (r ApiDeviceConnectInternalDecomissionDeviceRequest) Execute() (*http.Respo
 /*
 DeviceConnectInternalDecomissionDevice Remove a device from the deviceconnect service.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of tenant the device belongs to.
- @param deviceId ID of the target device.
- @return ApiDeviceConnectInternalDecomissionDeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param deviceId ID of the target device.
+	@return ApiDeviceConnectInternalDecomissionDeviceRequest
 */
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalDecomissionDevice(ctx context.Context, tenantId string, deviceId string) ApiDeviceConnectInternalDecomissionDeviceRequest {
 	return ApiDeviceConnectInternalDecomissionDeviceRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		deviceId: deviceId,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalDecomissionDeviceExecute(r ApiDeviceConnectInternalDecomissionDeviceRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectInternalAPIAPIService.DeviceConnectInternalDecomissionDevice")
@@ -559,8 +558,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalDecomissionDev
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -569,9 +568,9 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalDecomissionDev
 }
 
 type ApiDeviceConnectInternalProvisionDeviceRequest struct {
-	ctx context.Context
-	ApiService *DeviceConnectInternalAPIAPIService
-	tenantId string
+	ctx             context.Context
+	ApiService      *DeviceConnectInternalAPIAPIService
+	tenantId        string
 	provisionDevice *ProvisionDevice
 }
 
@@ -587,24 +586,24 @@ func (r ApiDeviceConnectInternalProvisionDeviceRequest) Execute() (*http.Respons
 /*
 DeviceConnectInternalProvisionDevice Register a new device with the deviceconnect service.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of tenant the device belongs to.
- @return ApiDeviceConnectInternalProvisionDeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@return ApiDeviceConnectInternalProvisionDeviceRequest
 */
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalProvisionDevice(ctx context.Context, tenantId string) ApiDeviceConnectInternalProvisionDeviceRequest {
 	return ApiDeviceConnectInternalProvisionDeviceRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
+		ctx:        ctx,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalProvisionDeviceExecute(r ApiDeviceConnectInternalProvisionDeviceRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectInternalAPIAPIService.DeviceConnectInternalProvisionDevice")
@@ -667,8 +666,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalProvisionDevic
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -678,8 +677,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalProvisionDevic
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -688,10 +687,10 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalProvisionDevic
 }
 
 type ApiDeviceConnectInternalSendInventoryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectInternalAPIAPIService
-	tenantId string
-	deviceId string
+	tenantId   string
+	deviceId   string
 }
 
 func (r ApiDeviceConnectInternalSendInventoryRequest) Execute() (*http.Response, error) {
@@ -701,26 +700,26 @@ func (r ApiDeviceConnectInternalSendInventoryRequest) Execute() (*http.Response,
 /*
 DeviceConnectInternalSendInventory Trigger send-inventory for the Mender client running on the device
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of tenant the device belongs to.
- @param deviceId ID for the target device.
- @return ApiDeviceConnectInternalSendInventoryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param deviceId ID for the target device.
+	@return ApiDeviceConnectInternalSendInventoryRequest
 */
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalSendInventory(ctx context.Context, tenantId string, deviceId string) ApiDeviceConnectInternalSendInventoryRequest {
 	return ApiDeviceConnectInternalSendInventoryRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		deviceId: deviceId,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalSendInventoryExecute(r ApiDeviceConnectInternalSendInventoryRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectInternalAPIAPIService.DeviceConnectInternalSendInventory")
@@ -782,8 +781,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalSendInventoryE
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -793,8 +792,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalSendInventoryE
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -804,8 +803,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalSendInventoryE
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -815,8 +814,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalSendInventoryE
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -825,7 +824,7 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalSendInventoryE
 }
 
 type ApiDeviceConnectInternalShutdownRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConnectInternalAPIAPIService
 }
 
@@ -836,22 +835,22 @@ func (r ApiDeviceConnectInternalShutdownRequest) Execute() (*http.Response, erro
 /*
 DeviceConnectInternalShutdown Shutdown the service.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeviceConnectInternalShutdownRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConnectInternalShutdownRequest
 */
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalShutdown(ctx context.Context) ApiDeviceConnectInternalShutdownRequest {
 	return ApiDeviceConnectInternalShutdownRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalShutdownExecute(r ApiDeviceConnectInternalShutdownRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectInternalAPIAPIService.DeviceConnectInternalShutdown")
@@ -911,8 +910,8 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalShutdownExecut
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

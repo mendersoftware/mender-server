@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,10 +12,10 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
-	"time"
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"time"
 )
 
 // checks if the User type satisfies the MappedNullable interface at compile time
@@ -27,9 +27,9 @@ type User struct {
 	Email string `json:"email"`
 	// User Id.
 	Id string `json:"id"`
-	// Server-side timestamp of the user creation. 
+	// Server-side timestamp of the user creation.
 	CreatedTs *time.Time `json:"created_ts,omitempty"`
-	// Server-side timestamp of the last user information update. 
+	// Server-side timestamp of the last user information update.
 	UpdatedTs *time.Time `json:"updated_ts,omitempty"`
 	// Timestamp of last successful login.
 	LoginTs *time.Time `json:"login_ts,omitempty"`
@@ -201,7 +201,7 @@ func (o *User) SetLoginTs(v time.Time) {
 }
 
 func (o User) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -238,10 +238,10 @@ func (o *User) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -297,5 +297,3 @@ func (v *NullableUser) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

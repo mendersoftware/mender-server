@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-
 // DeviceInventoryManagementAPIAPIService DeviceInventoryManagementAPIAPI service
 type DeviceInventoryManagementAPIAPIService service
 
 type ApiAddDevicesToGroupRequest struct {
-	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
-	name string
+	ctx         context.Context
+	ApiService  *DeviceInventoryManagementAPIAPIService
+	name        string
 	requestBody *[]string
 }
 
@@ -47,27 +46,27 @@ AddDevicesToGroup Add devices to group
 Appends the list of devices in the request body to the given group.
 For devices already present in the group the operation has no effect.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param name Group name.
- @return ApiAddDevicesToGroupRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Group name.
+	@return ApiAddDevicesToGroupRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) AddDevicesToGroup(ctx context.Context, name string) ApiAddDevicesToGroupRequest {
 	return ApiAddDevicesToGroupRequest{
 		ApiService: a,
-		ctx: ctx,
-		name: name,
+		ctx:        ctx,
+		name:       name,
 	}
 }
 
 // Execute executes the request
-//  @return AddDevicesToGroup200Response
+//
+//	@return AddDevicesToGroup200Response
 func (a *DeviceInventoryManagementAPIAPIService) AddDevicesToGroupExecute(r ApiAddDevicesToGroupRequest) (*AddDevicesToGroup200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AddDevicesToGroup200Response
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *AddDevicesToGroup200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.AddDevicesToGroup")
@@ -133,8 +132,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AddDevicesToGroupExecute(r ApiA
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -144,8 +143,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AddDevicesToGroupExecute(r ApiA
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -155,8 +154,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AddDevicesToGroupExecute(r ApiA
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -174,11 +173,11 @@ func (a *DeviceInventoryManagementAPIAPIService) AddDevicesToGroupExecute(r ApiA
 }
 
 type ApiAddTagsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	id string
-	tag *[]Tag
-	ifMatch *string
+	id         string
+	tag        *[]Tag
+	ifMatch    *string
 }
 
 // A list of tag descriptors.
@@ -206,25 +205,24 @@ This method has upsert semantic:
 * it overwrites the values of existing attributes
 * it creates attributes assigned for the first time
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Device identifier.
- @return ApiAddTagsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiAddTagsRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) AddTags(ctx context.Context, id string) ApiAddTagsRequest {
 	return ApiAddTagsRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryManagementAPIAPIService) AddTagsExecute(r ApiAddTagsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPatch
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.AddTags")
@@ -293,8 +291,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AddTagsExecute(r ApiAddTagsRequ
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -304,8 +302,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AddTagsExecute(r ApiAddTagsRequ
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -315,8 +313,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AddTagsExecute(r ApiAddTagsRequ
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -325,10 +323,10 @@ func (a *DeviceInventoryManagementAPIAPIService) AddTagsExecute(r ApiAddTagsRequ
 }
 
 type ApiAssignGroupRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	id string
-	group *Group
+	id         string
+	group      *Group
 }
 
 // Group descriptor.
@@ -350,25 +348,24 @@ Note that a given device can belong to at most one group.
 If a device already belongs to some group, it will be moved
 to the selected one.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Device identifier.
- @return ApiAssignGroupRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiAssignGroupRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) AssignGroup(ctx context.Context, id string) ApiAssignGroupRequest {
 	return ApiAssignGroupRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryManagementAPIAPIService) AssignGroupExecute(r ApiAssignGroupRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.AssignGroup")
@@ -434,8 +431,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AssignGroupExecute(r ApiAssignG
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -445,8 +442,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AssignGroupExecute(r ApiAssignG
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -456,8 +453,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AssignGroupExecute(r ApiAssignG
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -466,11 +463,11 @@ func (a *DeviceInventoryManagementAPIAPIService) AssignGroupExecute(r ApiAssignG
 }
 
 type ApiAssignTagsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	id string
-	tag *[]Tag
-	ifMatch *string
+	id         string
+	tag        *[]Tag
+	ifMatch    *string
 }
 
 // A list of tags descriptors.
@@ -499,25 +496,24 @@ This method replaces all the tags with the new set:
 * it overwrites the values of existing attributes
 * it creates attributes assigned for the first time
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Device identifier.
- @return ApiAssignTagsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiAssignTagsRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) AssignTags(ctx context.Context, id string) ApiAssignTagsRequest {
 	return ApiAssignTagsRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryManagementAPIAPIService) AssignTagsExecute(r ApiAssignTagsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.AssignTags")
@@ -586,8 +582,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AssignTagsExecute(r ApiAssignTa
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -597,8 +593,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AssignTagsExecute(r ApiAssignTa
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -608,8 +604,8 @@ func (a *DeviceInventoryManagementAPIAPIService) AssignTagsExecute(r ApiAssignTa
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -618,10 +614,10 @@ func (a *DeviceInventoryManagementAPIAPIService) AssignTagsExecute(r ApiAssignTa
 }
 
 type ApiClearGroupRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	id string
-	name string
+	id         string
+	name       string
 }
 
 func (r ApiClearGroupRequest) Execute() (*http.Response, error) {
@@ -633,27 +629,26 @@ ClearGroup Remove a device from a group
 
 Removes the device with identifier 'id' from the group 'group'.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Device identifier.
- @param name Group name.
- @return ApiClearGroupRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@param name Group name.
+	@return ApiClearGroupRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) ClearGroup(ctx context.Context, id string, name string) ApiClearGroupRequest {
 	return ApiClearGroupRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
-		name: name,
+		ctx:        ctx,
+		id:         id,
+		name:       name,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryManagementAPIAPIService) ClearGroupExecute(r ApiClearGroupRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.ClearGroup")
@@ -715,8 +710,8 @@ func (a *DeviceInventoryManagementAPIAPIService) ClearGroupExecute(r ApiClearGro
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -726,8 +721,8 @@ func (a *DeviceInventoryManagementAPIAPIService) ClearGroupExecute(r ApiClearGro
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -736,9 +731,9 @@ func (a *DeviceInventoryManagementAPIAPIService) ClearGroupExecute(r ApiClearGro
 }
 
 type ApiDeleteDeviceInventoryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiDeleteDeviceInventoryRequest) Execute() (*http.Response, error) {
@@ -748,24 +743,24 @@ func (r ApiDeleteDeviceInventoryRequest) Execute() (*http.Response, error) {
 /*
 DeleteDeviceInventory Remove selected device's inventory
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Device identifier.
- @return ApiDeleteDeviceInventoryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiDeleteDeviceInventoryRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) DeleteDeviceInventory(ctx context.Context, id string) ApiDeleteDeviceInventoryRequest {
 	return ApiDeleteDeviceInventoryRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryManagementAPIAPIService) DeleteDeviceInventoryExecute(r ApiDeleteDeviceInventoryRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.DeleteDeviceInventory")
@@ -826,8 +821,8 @@ func (a *DeviceInventoryManagementAPIAPIService) DeleteDeviceInventoryExecute(r 
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -836,9 +831,9 @@ func (a *DeviceInventoryManagementAPIAPIService) DeleteDeviceInventoryExecute(r 
 }
 
 type ApiGetDeviceGroupRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiGetDeviceGroupRequest) Execute() (*Group, *http.Response, error) {
@@ -848,26 +843,27 @@ func (r ApiGetDeviceGroupRequest) Execute() (*Group, *http.Response, error) {
 /*
 GetDeviceGroup Get a selected device's group
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Device identifier.
- @return ApiGetDeviceGroupRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiGetDeviceGroupRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) GetDeviceGroup(ctx context.Context, id string) ApiGetDeviceGroupRequest {
 	return ApiGetDeviceGroupRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return Group
+//
+//	@return Group
 func (a *DeviceInventoryManagementAPIAPIService) GetDeviceGroupExecute(r ApiGetDeviceGroupRequest) (*Group, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Group
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Group
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.GetDeviceGroup")
@@ -928,8 +924,8 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDeviceGroupExecute(r ApiGetD
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -939,8 +935,8 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDeviceGroupExecute(r ApiGetD
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -950,8 +946,8 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDeviceGroupExecute(r ApiGetD
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -969,9 +965,9 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDeviceGroupExecute(r ApiGetD
 }
 
 type ApiGetDeviceInventoryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiGetDeviceInventoryRequest) Execute() (*DeviceInventoryV1, *http.Response, error) {
@@ -981,26 +977,27 @@ func (r ApiGetDeviceInventoryRequest) Execute() (*DeviceInventoryV1, *http.Respo
 /*
 GetDeviceInventory Get a selected device's inventory
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Device identifier.
- @return ApiGetDeviceInventoryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiGetDeviceInventoryRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) GetDeviceInventory(ctx context.Context, id string) ApiGetDeviceInventoryRequest {
 	return ApiGetDeviceInventoryRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return DeviceInventoryV1
+//
+//	@return DeviceInventoryV1
 func (a *DeviceInventoryManagementAPIAPIService) GetDeviceInventoryExecute(r ApiGetDeviceInventoryRequest) (*DeviceInventoryV1, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *DeviceInventoryV1
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *DeviceInventoryV1
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.GetDeviceInventory")
@@ -1061,8 +1058,8 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDeviceInventoryExecute(r Api
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1072,8 +1069,8 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDeviceInventoryExecute(r Api
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1091,11 +1088,11 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDeviceInventoryExecute(r Api
 }
 
 type ApiGetDevicesInGroupRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	name string
-	page *int32
-	perPage *int32
+	name       string
+	page       *int32
+	perPage    *int32
 }
 
 // Starting page.
@@ -1117,26 +1114,27 @@ func (r ApiGetDevicesInGroupRequest) Execute() ([]string, *http.Response, error)
 /*
 GetDevicesInGroup List the devices belonging to a given group
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param name Group name.
- @return ApiGetDevicesInGroupRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Group name.
+	@return ApiGetDevicesInGroupRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) GetDevicesInGroup(ctx context.Context, name string) ApiGetDevicesInGroupRequest {
 	return ApiGetDevicesInGroupRequest{
 		ApiService: a,
-		ctx: ctx,
-		name: name,
+		ctx:        ctx,
+		name:       name,
 	}
 }
 
 // Execute executes the request
-//  @return []string
+//
+//	@return []string
 func (a *DeviceInventoryManagementAPIAPIService) GetDevicesInGroupExecute(r ApiGetDevicesInGroupRequest) ([]string, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []string
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.GetDevicesInGroup")
@@ -1211,8 +1209,8 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDevicesInGroupExecute(r ApiG
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -1222,8 +1220,8 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDevicesInGroupExecute(r ApiG
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1233,8 +1231,8 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDevicesInGroupExecute(r ApiG
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1252,13 +1250,13 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDevicesInGroupExecute(r ApiG
 }
 
 type ApiListDeviceInventoriesRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	page *int32
-	perPage *int32
-	sort *string
-	hasGroup *bool
-	group *string
+	page       *int32
+	perPage    *int32
+	sort       *string
+	hasGroup   *bool
+	group      *string
 }
 
 // Starting page.
@@ -1273,7 +1271,7 @@ func (r ApiListDeviceInventoriesRequest) PerPage(perPage int32) ApiListDeviceInv
 	return r
 }
 
-// Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (&#x60;ord&#x60;) must be either &#x60;asc&#x60; or &#x60;desc&#x60; for ascending and descending respectively. Defaults to &#x60;desc&#x60; if not specified.  For example: &#x60;?sort&#x3D;attr1:asc,attr2:desc&#x60; will sort by &#39;attr1&#39; ascending, and then by &#39;attr2&#39; descending. 
+// Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (&#x60;ord&#x60;) must be either &#x60;asc&#x60; or &#x60;desc&#x60; for ascending and descending respectively. Defaults to &#x60;desc&#x60; if not specified.  For example: &#x60;?sort&#x3D;attr1:asc,attr2:desc&#x60; will sort by &#39;attr1&#39; ascending, and then by &#39;attr2&#39; descending.
 func (r ApiListDeviceInventoriesRequest) Sort(sort string) ApiListDeviceInventoriesRequest {
 	r.sort = &sort
 	return r
@@ -1306,11 +1304,11 @@ Searching by attributes values is accomplished by appending attribute
 filters in the form `{scope}/{name}={value}` to the query string.
 
 Supported values for scope are:
-  * __inventory__: Attributes reported by the device.
-  * __system__: Attributes populated by the mender-server.
-  * __identity__: Device's identity attributes provided in the device's auth request.
-  * __monitor__: Attributes populated by the monitoring add-on.
-  * __tags__: User-defined attributes associated with the device.
+  - __inventory__: Attributes reported by the device.
+  - __system__: Attributes populated by the mender-server.
+  - __identity__: Device's identity attributes provided in the device's auth request.
+  - __monitor__: Attributes populated by the monitoring add-on.
+  - __tags__: User-defined attributes associated with the device.
 
 Using an unsupported value for __scope__ will produce no results from this API except
 when no scope is present, in which case scope defaults to inventory.
@@ -1324,25 +1322,25 @@ GET /devices?inventory/attr_name_1=foo&tags/attr_name_2=100
 GET /devices?attr_name_1=foo
 ```
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListDeviceInventoriesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListDeviceInventoriesRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) ListDeviceInventories(ctx context.Context) ApiListDeviceInventoriesRequest {
 	return ApiListDeviceInventoriesRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []DeviceInventoryV1
+//
+//	@return []DeviceInventoryV1
 func (a *DeviceInventoryManagementAPIAPIService) ListDeviceInventoriesExecute(r ApiListDeviceInventoriesRequest) ([]DeviceInventoryV1, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []DeviceInventoryV1
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []DeviceInventoryV1
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.ListDeviceInventories")
@@ -1425,8 +1423,8 @@ func (a *DeviceInventoryManagementAPIAPIService) ListDeviceInventoriesExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1436,8 +1434,8 @@ func (a *DeviceInventoryManagementAPIAPIService) ListDeviceInventoriesExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1455,9 +1453,9 @@ func (a *DeviceInventoryManagementAPIAPIService) ListDeviceInventoriesExecute(r 
 }
 
 type ApiListGroupsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	status *string
+	status     *string
 }
 
 // Show groups for devices with the given auth set status.
@@ -1473,24 +1471,25 @@ func (r ApiListGroupsRequest) Execute() ([]string, *http.Response, error) {
 /*
 ListGroups List all groups existing device groups
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListGroupsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListGroupsRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) ListGroups(ctx context.Context) ApiListGroupsRequest {
 	return ApiListGroupsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []string
+//
+//	@return []string
 func (a *DeviceInventoryManagementAPIAPIService) ListGroupsExecute(r ApiListGroupsRequest) ([]string, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []string
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.ListGroups")
@@ -1553,8 +1552,8 @@ func (a *DeviceInventoryManagementAPIAPIService) ListGroupsExecute(r ApiListGrou
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1572,9 +1571,9 @@ func (a *DeviceInventoryManagementAPIAPIService) ListGroupsExecute(r ApiListGrou
 }
 
 type ApiRemoveAGroupRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryManagementAPIAPIService
-	name string
+	name       string
 }
 
 func (r ApiRemoveAGroupRequest) Execute() (*RemoveAGroup200Response, *http.Response, error) {
@@ -1587,27 +1586,27 @@ RemoveAGroup Remove a device group
 Removes a device group. This API provides a bulk alternative to
 DELETE /devices/{id}/group/{name} for managing device groups.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param name Group name.
- @return ApiRemoveAGroupRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Group name.
+	@return ApiRemoveAGroupRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) RemoveAGroup(ctx context.Context, name string) ApiRemoveAGroupRequest {
 	return ApiRemoveAGroupRequest{
 		ApiService: a,
-		ctx: ctx,
-		name: name,
+		ctx:        ctx,
+		name:       name,
 	}
 }
 
 // Execute executes the request
-//  @return RemoveAGroup200Response
+//
+//	@return RemoveAGroup200Response
 func (a *DeviceInventoryManagementAPIAPIService) RemoveAGroupExecute(r ApiRemoveAGroupRequest) (*RemoveAGroup200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *RemoveAGroup200Response
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *RemoveAGroup200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.RemoveAGroup")
@@ -1668,8 +1667,8 @@ func (a *DeviceInventoryManagementAPIAPIService) RemoveAGroupExecute(r ApiRemove
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -1679,8 +1678,8 @@ func (a *DeviceInventoryManagementAPIAPIService) RemoveAGroupExecute(r ApiRemove
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1690,8 +1689,8 @@ func (a *DeviceInventoryManagementAPIAPIService) RemoveAGroupExecute(r ApiRemove
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1709,9 +1708,9 @@ func (a *DeviceInventoryManagementAPIAPIService) RemoveAGroupExecute(r ApiRemove
 }
 
 type ApiRemoveDevicesFromGroupRequest struct {
-	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
-	name string
+	ctx         context.Context
+	ApiService  *DeviceInventoryManagementAPIAPIService
+	name        string
 	requestBody *[]string
 }
 
@@ -1730,27 +1729,27 @@ RemoveDevicesFromGroup Clear devices' group
 
 Removes a list of devices from the specified group.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param name Group name.
- @return ApiRemoveDevicesFromGroupRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Group name.
+	@return ApiRemoveDevicesFromGroupRequest
 */
 func (a *DeviceInventoryManagementAPIAPIService) RemoveDevicesFromGroup(ctx context.Context, name string) ApiRemoveDevicesFromGroupRequest {
 	return ApiRemoveDevicesFromGroupRequest{
 		ApiService: a,
-		ctx: ctx,
-		name: name,
+		ctx:        ctx,
+		name:       name,
 	}
 }
 
 // Execute executes the request
-//  @return RemoveAGroup200Response
+//
+//	@return RemoveAGroup200Response
 func (a *DeviceInventoryManagementAPIAPIService) RemoveDevicesFromGroupExecute(r ApiRemoveDevicesFromGroupRequest) (*RemoveAGroup200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *RemoveAGroup200Response
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *RemoveAGroup200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.RemoveDevicesFromGroup")
@@ -1816,8 +1815,8 @@ func (a *DeviceInventoryManagementAPIAPIService) RemoveDevicesFromGroupExecute(r
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -1827,8 +1826,8 @@ func (a *DeviceInventoryManagementAPIAPIService) RemoveDevicesFromGroupExecute(r
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1838,8 +1837,8 @@ func (a *DeviceInventoryManagementAPIAPIService) RemoveDevicesFromGroupExecute(r
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

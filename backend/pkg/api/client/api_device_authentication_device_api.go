@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -19,18 +19,17 @@ import (
 	"net/url"
 )
 
-
 // DeviceAuthenticationDeviceAPIAPIService DeviceAuthenticationDeviceAPIAPI service
 type DeviceAuthenticationDeviceAPIAPIService service
 
 type ApiDeviceAuthAuthenticateDeviceRequest struct {
-	ctx context.Context
-	ApiService *DeviceAuthenticationDeviceAPIAPIService
+	ctx           context.Context
+	ApiService    *DeviceAuthenticationDeviceAPIAPIService
 	xMENSignature *string
-	authRequest *AuthRequest
+	authRequest   *AuthRequest
 }
 
-// Request signature. The request signature depends on the public key submitted in the AuthRequest. A summary of signature algorithms and format follows: | Type       | Digest              | Format                   | Algorithm    | |------------|---------------------|--------------------------|--------------| | RSA        | SHA256(AuthRequest) | Base64(Signature)        | [RFC2313]    | | ECDSA      | SHA256(AuthRequest) | Base64(ASN.1(SEQ{R, S})) | [ANSI x9.62] | | Ed25519    | AuthRequest         | Base64(Signature)        | [RFC8032]    | *Remark:* For ECDSA, the signature constitutes two integers (R and S) in which case the binary signature is taken as the ASN.1 sequence of the two numbers in the given order. 
+// Request signature. The request signature depends on the public key submitted in the AuthRequest. A summary of signature algorithms and format follows: | Type       | Digest              | Format                   | Algorithm    | |------------|---------------------|--------------------------|--------------| | RSA        | SHA256(AuthRequest) | Base64(Signature)        | [RFC2313]    | | ECDSA      | SHA256(AuthRequest) | Base64(ASN.1(SEQ{R, S})) | [ANSI x9.62] | | Ed25519    | AuthRequest         | Base64(Signature)        | [RFC8032]    | *Remark:* For ECDSA, the signature constitutes two integers (R and S) in which case the binary signature is taken as the ASN.1 sequence of the two numbers in the given order.
 func (r ApiDeviceAuthAuthenticateDeviceRequest) XMENSignature(xMENSignature string) ApiDeviceAuthAuthenticateDeviceRequest {
 	r.xMENSignature = &xMENSignature
 	return r
@@ -58,25 +57,25 @@ A subsequent authentication request will reflect this decision.
 
 Note that when the JWT expires, the device must renew the JWT by sending a new authentication request.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeviceAuthAuthenticateDeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthAuthenticateDeviceRequest
 */
 func (a *DeviceAuthenticationDeviceAPIAPIService) DeviceAuthAuthenticateDevice(ctx context.Context) ApiDeviceAuthAuthenticateDeviceRequest {
 	return ApiDeviceAuthAuthenticateDeviceRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return string
+//
+//	@return string
 func (a *DeviceAuthenticationDeviceAPIAPIService) DeviceAuthAuthenticateDeviceExecute(r ApiDeviceAuthAuthenticateDeviceRequest) (string, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  string
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceAuthenticationDeviceAPIAPIService.DeviceAuthAuthenticateDevice")
@@ -145,8 +144,8 @@ func (a *DeviceAuthenticationDeviceAPIAPIService) DeviceAuthAuthenticateDeviceEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -156,8 +155,8 @@ func (a *DeviceAuthenticationDeviceAPIAPIService) DeviceAuthAuthenticateDeviceEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -167,8 +166,8 @@ func (a *DeviceAuthenticationDeviceAPIAPIService) DeviceAuthAuthenticateDeviceEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 503 {
@@ -178,8 +177,8 @@ func (a *DeviceAuthenticationDeviceAPIAPIService) DeviceAuthAuthenticateDeviceEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

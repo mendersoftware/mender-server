@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-
 // WorkflowsOtherAPIService WorkflowsOtherAPI service
 type WorkflowsOtherAPIService service
 
 type ApiJobStructureRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *WorkflowsOtherAPIService
-	id string
+	id         string
 }
 
 func (r ApiJobStructureRequest) Execute() (*JobObject, *http.Response, error) {
@@ -39,27 +38,27 @@ JobStructure Gets the job for the given id.
 
 Gets the job object for the given job id.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Job identifier
- @return ApiJobStructureRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Job identifier
+	@return ApiJobStructureRequest
 */
 func (a *WorkflowsOtherAPIService) JobStructure(ctx context.Context, id string) ApiJobStructureRequest {
 	return ApiJobStructureRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return JobObject
+//
+//	@return JobObject
 func (a *WorkflowsOtherAPIService) JobStructureExecute(r ApiJobStructureRequest) (*JobObject, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *JobObject
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *JobObject
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsOtherAPIService.JobStructure")
@@ -120,8 +119,8 @@ func (a *WorkflowsOtherAPIService) JobStructureExecute(r ApiJobStructureRequest)
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -139,7 +138,7 @@ func (a *WorkflowsOtherAPIService) JobStructureExecute(r ApiJobStructureRequest)
 }
 
 type ApiListWorkflowsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *WorkflowsOtherAPIService
 }
 
@@ -150,24 +149,25 @@ func (r ApiListWorkflowsRequest) Execute() ([]Workflow, *http.Response, error) {
 /*
 ListWorkflows Get all workflow definitions
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListWorkflowsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListWorkflowsRequest
 */
 func (a *WorkflowsOtherAPIService) ListWorkflows(ctx context.Context) ApiListWorkflowsRequest {
 	return ApiListWorkflowsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []Workflow
+//
+//	@return []Workflow
 func (a *WorkflowsOtherAPIService) ListWorkflowsExecute(r ApiListWorkflowsRequest) ([]Workflow, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []Workflow
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []Workflow
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsOtherAPIService.ListWorkflows")
@@ -236,9 +236,9 @@ func (a *WorkflowsOtherAPIService) ListWorkflowsExecute(r ApiListWorkflowsReques
 }
 
 type ApiRegisterWorkflowRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *WorkflowsOtherAPIService
-	workflow *Workflow
+	workflow   *Workflow
 }
 
 // Workflow definition.
@@ -254,22 +254,22 @@ func (r ApiRegisterWorkflowRequest) Execute() (*http.Response, error) {
 /*
 RegisterWorkflow Register a new workflow
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRegisterWorkflowRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRegisterWorkflowRequest
 */
 func (a *WorkflowsOtherAPIService) RegisterWorkflow(ctx context.Context) ApiRegisterWorkflowRequest {
 	return ApiRegisterWorkflowRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *WorkflowsOtherAPIService) RegisterWorkflowExecute(r ApiRegisterWorkflowRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsOtherAPIService.RegisterWorkflow")
@@ -334,8 +334,8 @@ func (a *WorkflowsOtherAPIService) RegisterWorkflowExecute(r ApiRegisterWorkflow
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -345,8 +345,8 @@ func (a *WorkflowsOtherAPIService) RegisterWorkflowExecute(r ApiRegisterWorkflow
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -355,9 +355,9 @@ func (a *WorkflowsOtherAPIService) RegisterWorkflowExecute(r ApiRegisterWorkflow
 }
 
 type ApiStartBatchWorkflowsRequest struct {
-	ctx context.Context
-	ApiService *WorkflowsOtherAPIService
-	name string
+	ctx            context.Context
+	ApiService     *WorkflowsOtherAPIService
+	name           string
 	inputParameter *[][]InputParameter
 }
 
@@ -376,27 +376,27 @@ StartBatchWorkflows Start a batch of workflows
 
 Starts a new workflow given by the name path-parameter.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param name Workflow identifier.
- @return ApiStartBatchWorkflowsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Workflow identifier.
+	@return ApiStartBatchWorkflowsRequest
 */
 func (a *WorkflowsOtherAPIService) StartBatchWorkflows(ctx context.Context, name string) ApiStartBatchWorkflowsRequest {
 	return ApiStartBatchWorkflowsRequest{
 		ApiService: a,
-		ctx: ctx,
-		name: name,
+		ctx:        ctx,
+		name:       name,
 	}
 }
 
 // Execute executes the request
-//  @return []StartBatchWorkflows201ResponseInner
+//
+//	@return []StartBatchWorkflows201ResponseInner
 func (a *WorkflowsOtherAPIService) StartBatchWorkflowsExecute(r ApiStartBatchWorkflowsRequest) ([]StartBatchWorkflows201ResponseInner, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []StartBatchWorkflows201ResponseInner
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []StartBatchWorkflows201ResponseInner
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsOtherAPIService.StartBatchWorkflows")
@@ -462,8 +462,8 @@ func (a *WorkflowsOtherAPIService) StartBatchWorkflowsExecute(r ApiStartBatchWor
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -473,8 +473,8 @@ func (a *WorkflowsOtherAPIService) StartBatchWorkflowsExecute(r ApiStartBatchWor
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -492,9 +492,9 @@ func (a *WorkflowsOtherAPIService) StartBatchWorkflowsExecute(r ApiStartBatchWor
 }
 
 type ApiStartWorkflowRequest struct {
-	ctx context.Context
-	ApiService *WorkflowsOtherAPIService
-	name string
+	ctx            context.Context
+	ApiService     *WorkflowsOtherAPIService
+	name           string
 	inputParameter *[]InputParameter
 }
 
@@ -513,27 +513,27 @@ StartWorkflow Start a new workflow
 
 Starts a new workflow given by the name path-parameter.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param name Workflow identifier.
- @return ApiStartWorkflowRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Workflow identifier.
+	@return ApiStartWorkflowRequest
 */
 func (a *WorkflowsOtherAPIService) StartWorkflow(ctx context.Context, name string) ApiStartWorkflowRequest {
 	return ApiStartWorkflowRequest{
 		ApiService: a,
-		ctx: ctx,
-		name: name,
+		ctx:        ctx,
+		name:       name,
 	}
 }
 
 // Execute executes the request
-//  @return WorkflowsCheckLiveliness200Response
+//
+//	@return WorkflowsCheckLiveliness200Response
 func (a *WorkflowsOtherAPIService) StartWorkflowExecute(r ApiStartWorkflowRequest) (*WorkflowsCheckLiveliness200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *WorkflowsCheckLiveliness200Response
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *WorkflowsCheckLiveliness200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsOtherAPIService.StartWorkflow")
@@ -599,8 +599,8 @@ func (a *WorkflowsOtherAPIService) StartWorkflowExecute(r ApiStartWorkflowReques
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -610,8 +610,8 @@ func (a *WorkflowsOtherAPIService) StartWorkflowExecute(r ApiStartWorkflowReques
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -629,10 +629,10 @@ func (a *WorkflowsOtherAPIService) StartWorkflowExecute(r ApiStartWorkflowReques
 }
 
 type ApiWorkflowStatusRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *WorkflowsOtherAPIService
-	name string
-	id string
+	name       string
+	id         string
 }
 
 func (r ApiWorkflowStatusRequest) Execute() (*JobStatus, *http.Response, error) {
@@ -645,29 +645,29 @@ WorkflowStatus Gets the workflow status for the given id.
 Gets the workflow status for the given workflow name and id provided
 by the path parameters.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param name Workflow identifier.
- @param id Job identifier
- @return ApiWorkflowStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Workflow identifier.
+	@param id Job identifier
+	@return ApiWorkflowStatusRequest
 */
 func (a *WorkflowsOtherAPIService) WorkflowStatus(ctx context.Context, name string, id string) ApiWorkflowStatusRequest {
 	return ApiWorkflowStatusRequest{
 		ApiService: a,
-		ctx: ctx,
-		name: name,
-		id: id,
+		ctx:        ctx,
+		name:       name,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return JobStatus
+//
+//	@return JobStatus
 func (a *WorkflowsOtherAPIService) WorkflowStatusExecute(r ApiWorkflowStatusRequest) (*JobStatus, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *JobStatus
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *JobStatus
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsOtherAPIService.WorkflowStatus")
@@ -729,8 +729,8 @@ func (a *WorkflowsOtherAPIService) WorkflowStatusExecute(r ApiWorkflowStatusRequ
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -748,7 +748,7 @@ func (a *WorkflowsOtherAPIService) WorkflowStatusExecute(r ApiWorkflowStatusRequ
 }
 
 type ApiWorkflowsCheckHealthRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *WorkflowsOtherAPIService
 }
 
@@ -759,22 +759,22 @@ func (r ApiWorkflowsCheckHealthRequest) Execute() (*http.Response, error) {
 /*
 WorkflowsCheckHealth Check if service and all operational dependencies are healthy.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiWorkflowsCheckHealthRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiWorkflowsCheckHealthRequest
 */
 func (a *WorkflowsOtherAPIService) WorkflowsCheckHealth(ctx context.Context) ApiWorkflowsCheckHealthRequest {
 	return ApiWorkflowsCheckHealthRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *WorkflowsOtherAPIService) WorkflowsCheckHealthExecute(r ApiWorkflowsCheckHealthRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsOtherAPIService.WorkflowsCheckHealth")
@@ -834,8 +834,8 @@ func (a *WorkflowsOtherAPIService) WorkflowsCheckHealthExecute(r ApiWorkflowsChe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 502 {
@@ -845,8 +845,8 @@ func (a *WorkflowsOtherAPIService) WorkflowsCheckHealthExecute(r ApiWorkflowsChe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -855,7 +855,7 @@ func (a *WorkflowsOtherAPIService) WorkflowsCheckHealthExecute(r ApiWorkflowsChe
 }
 
 type ApiWorkflowsCheckLivelinessRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *WorkflowsOtherAPIService
 }
 
@@ -866,24 +866,25 @@ func (r ApiWorkflowsCheckLivelinessRequest) Execute() (*WorkflowsCheckLiveliness
 /*
 WorkflowsCheckLiveliness Check if service API is alive and serving requests
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiWorkflowsCheckLivelinessRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiWorkflowsCheckLivelinessRequest
 */
 func (a *WorkflowsOtherAPIService) WorkflowsCheckLiveliness(ctx context.Context) ApiWorkflowsCheckLivelinessRequest {
 	return ApiWorkflowsCheckLivelinessRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return WorkflowsCheckLiveliness200Response
+//
+//	@return WorkflowsCheckLiveliness200Response
 func (a *WorkflowsOtherAPIService) WorkflowsCheckLivelinessExecute(r ApiWorkflowsCheckLivelinessRequest) (*WorkflowsCheckLiveliness200Response, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *WorkflowsCheckLiveliness200Response
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *WorkflowsCheckLiveliness200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsOtherAPIService.WorkflowsCheckLiveliness")
@@ -943,8 +944,8 @@ func (a *WorkflowsOtherAPIService) WorkflowsCheckLivelinessExecute(r ApiWorkflow
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

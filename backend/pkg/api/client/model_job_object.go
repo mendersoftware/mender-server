@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -21,13 +21,13 @@ var _ MappedNullable = &JobObject{}
 
 // JobObject struct for JobObject
 type JobObject struct {
-	Id *string `json:"id,omitempty"`
-	WorkflowName *string `json:"workflowName,omitempty"`
+	Id              *string          `json:"id,omitempty"`
+	WorkflowName    *string          `json:"workflowName,omitempty"`
 	InputParameters []InputParameter `json:"inputParameters,omitempty"`
-	Status *string `json:"status,omitempty"`
-	Results []TaskResult `json:"results,omitempty"`
-	InsertTime *time.Time `json:"insert_time,omitempty"`
-	Version *string `json:"version,omitempty"`
+	Status          *string          `json:"status,omitempty"`
+	Results         []TaskResult     `json:"results,omitempty"`
+	InsertTime      *time.Time       `json:"insert_time,omitempty"`
+	Version         *string          `json:"version,omitempty"`
 }
 
 // NewJobObject instantiates a new JobObject object
@@ -272,7 +272,7 @@ func (o *JobObject) SetVersion(v string) {
 }
 
 func (o JobObject) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -340,5 +340,3 @@ func (v *NullableJobObject) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

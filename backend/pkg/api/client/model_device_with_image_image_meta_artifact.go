@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -22,14 +22,14 @@ var _ MappedNullable = &DeviceWithImageImageMetaArtifact{}
 type DeviceWithImageImageMetaArtifact struct {
 	Name *string `json:"name,omitempty"`
 	// An array of compatible device types.
-	DeviceTypesCompatible []string `json:"device_types_compatible,omitempty"`
-	Info *ArtifactInfo `json:"info,omitempty"`
+	DeviceTypesCompatible []string      `json:"device_types_compatible,omitempty"`
+	Info                  *ArtifactInfo `json:"info,omitempty"`
 	// Idicates if artifact is signed or not.
-	Signed *bool `json:"signed,omitempty"`
+	Signed  *bool    `json:"signed,omitempty"`
 	Updates []Update `json:"updates,omitempty"`
-	// List of Artifact provides.  Map of key/value pairs, where both keys and values are strings. 
+	// List of Artifact provides.  Map of key/value pairs, where both keys and values are strings.
 	ArtifactProvides *map[string]string `json:"artifact_provides,omitempty"`
-	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are lists of strings. 
+	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are lists of strings.
 	ArtifactDepends *map[string][]string `json:"artifact_depends,omitempty"`
 	// List of Clear Artifact provides.
 	ClearsArtifactProvides []string `json:"clears_artifact_provides,omitempty"`
@@ -309,7 +309,7 @@ func (o *DeviceWithImageImageMetaArtifact) SetClearsArtifactProvides(v []string)
 }
 
 func (o DeviceWithImageImageMetaArtifact) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -380,5 +380,3 @@ func (v *NullableDeviceWithImageImageMetaArtifact) UnmarshalJSON(src []byte) err
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -22,7 +22,7 @@ var _ MappedNullable = &NewConfigurationDeployment{}
 type NewConfigurationDeployment struct {
 	// The number of times a device can retry the deployment in case of failure, defaults to 0
 	Retries *int32 `json:"retries,omitempty"`
-	// A valid JSON object defining the update control map. *NOTE*: Available only in the Enterprise plan. 
+	// A valid JSON object defining the update control map. *NOTE*: Available only in the Enterprise plan.
 	UpdateControlMap map[string]interface{} `json:"update_control_map,omitempty"`
 }
 
@@ -112,7 +112,7 @@ func (o *NewConfigurationDeployment) SetUpdateControlMap(v map[string]interface{
 }
 
 func (o NewConfigurationDeployment) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -165,5 +165,3 @@ func (v *NullableNewConfigurationDeployment) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
