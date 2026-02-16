@@ -221,6 +221,18 @@ exports[`LeftNav Component > renders correctly 1`] = `
     >
       <a
         class="emotion-20"
+        href="https://docs.mender.io/release-information/supported-releases#mender-client"
+        rel="noopener"
+        target="_blank"
+      >
+        Supported Mender client releases
+      </a>
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 emotion-18"
+    >
+      <a
+        class="emotion-20"
         href="https://docs.mender.io/release-information/open-source-licenses"
         rel="noopener"
         target="_blank"
