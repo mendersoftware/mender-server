@@ -167,7 +167,8 @@ export const Authorized = ({
   openSettingsDialog,
   removeDevicesFromGroup,
   showsDialog,
-  changeLocation
+  changeLocation,
+  groupRemovedName
 }) => {
   const limitMaxed = useSelector(getLimitMaxed);
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
@@ -447,7 +448,7 @@ export const Authorized = ({
                 </Typography>
               )}
             </div>
-            {canManageDevices && selectedGroup && !isUngroupedGroup && (
+            {canManageDevices && selectedGroup && !isUngroupedGroup && !groupRemovedName && (
               <Button onClick={onGroupRemoval} startIcon={<DeleteIcon />}>
                 Remove group
               </Button>
