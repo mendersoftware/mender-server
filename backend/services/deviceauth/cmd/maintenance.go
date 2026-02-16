@@ -66,45 +66,57 @@ func MaintenanceSyncDeviceInventory(
 	rateLimit *rate.Limiter,
 ) error {
 	var totalCount int64
-	startTS := time.Now().Add(-time.Second)
 	logger := log.FromContext(ctx)
-	for dev, err := range db.ListAllDevices(ctx,
-		"tenant_id",
-		model.DevKeyId,
-		model.DevKeyIdDataStruct,
-		model.DevKeyStatus,
-	) {
-		if err != nil {
-			return fmt.Errorf("error listing all devices: %w", err)
-		}
-		if rateLimit != nil {
-			err = rateLimit.Wait(ctx)
+	var (
+		dev     *model.Device
+		err     error
+		startID *string
+	)
+	for {
+		startTS := time.Now().Add(-time.Second)
+		for dev, err = range db.ListAllDevices(ctx,
+			startID,
+			1000,
+			"tenant_id",
+			model.DevKeyId,
+			model.DevKeyIdDataStruct,
+			model.DevKeyStatus,
+		) {
 			if err != nil {
-				return err
+				return fmt.Errorf("error listing all devices: %w", err)
+			}
+			if rateLimit != nil {
+				err = rateLimit.Wait(ctx)
+				if err != nil {
+					return err
+				}
+			}
+			if dev.IdDataStruct == nil {
+				dev.IdDataStruct = map[string]any{
+					"status": dev.Status,
+				}
+			} else {
+				dev.IdDataStruct["status"] = dev.Status
+			}
+			fixupIDData2InventoryData(dev.IdDataStruct)
+			err := inv.SetDeviceIdentityIfUnmodifiedSince(
+				ctx, dev.TenantID,
+				dev.Id, dev.IdDataStruct,
+				startTS,
+			)
+			if errors.Is(err, inventory.ErrPreconditionsFailed) {
+				err = nil
+			}
+			if err != nil {
+				return fmt.Errorf("error updating inventory data: %w", err)
+			}
+			totalCount++
+			if totalCount%1000 == 0 {
+				logger.Infof("processed %d devices", totalCount)
 			}
 		}
-		if dev.IdDataStruct == nil {
-			dev.IdDataStruct = map[string]any{
-				"status": dev.Status,
-			}
-		} else {
-			dev.IdDataStruct["status"] = dev.Status
-		}
-		fixupIDData2InventoryData(dev.IdDataStruct)
-		err := inv.SetDeviceIdentityIfUnmodifiedSince(
-			ctx, dev.TenantID,
-			dev.Id, dev.IdDataStruct,
-			startTS,
-		)
-		if errors.Is(err, inventory.ErrPreconditionsFailed) {
-			err = nil
-		}
-		if err != nil {
-			return fmt.Errorf("error updating inventory data: %w", err)
-		}
-		totalCount++
-		if totalCount%1000 == 0 {
-			logger.Infof("processed %d devices", totalCount)
+		if dev == nil {
+			break
 		}
 	}
 	logger.Infof("finished processing %d devices", totalCount)
