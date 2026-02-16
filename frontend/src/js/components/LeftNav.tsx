@@ -68,7 +68,6 @@ const useStyles = makeStyles()(theme => ({
 
 const linkables = {
   'Integration': 'integration',
-  'Mender-Client': 'mender',
   'Mender-Artifact': 'mender-artifact',
   'Server': 'mender-server'
 };
@@ -190,6 +189,13 @@ export const LeftNav = () => {
             className={classes.licenseLink}
             path={`release-information/release-notes-changelog/${getDocsLocation({ isEnterprise, isHosted })}`}
             title="Release information"
+          />
+        </Typography>
+        <Typography variant="body2">
+          <DocsLink
+            className={classes.licenseLink}
+            path="release-information/supported-releases#mender-client"
+            title="Supported Mender client releases"
           />
         </Typography>
         <Typography variant="body2">
