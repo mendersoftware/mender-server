@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -19,16 +19,15 @@ import (
 	"net/url"
 )
 
-
 // DeviceConnectDeviceAPIAPIService DeviceConnectDeviceAPIAPI service
 type DeviceConnectDeviceAPIAPIService service
 
 type ApiDeviceConnectConnectRequest struct {
-	ctx context.Context
-	ApiService *DeviceConnectDeviceAPIAPIService
-	connection *string
-	upgrade *string
-	secWebsocketKey *string
+	ctx                 context.Context
+	ApiService          *DeviceConnectDeviceAPIAPIService
+	connection          *string
+	upgrade             *string
+	secWebsocketKey     *string
 	secWebsocketVersion *int32
 }
 
@@ -65,22 +64,22 @@ DeviceConnectConnect Connect the device and make it available to the server.
 
 Calling /connect will upgrade the connection to a persistent websocket connection and make the device available to the management API. The device must provide DeviceJWT identity either as Authorization (Bearer) header or as a cookie named 'JWT'.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeviceConnectConnectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConnectConnectRequest
 */
 func (a *DeviceConnectDeviceAPIAPIService) DeviceConnectConnect(ctx context.Context) ApiDeviceConnectConnectRequest {
 	return ApiDeviceConnectConnectRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConnectDeviceAPIAPIService) DeviceConnectConnectExecute(r ApiDeviceConnectConnectRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConnectDeviceAPIAPIService.DeviceConnectConnect")
@@ -152,8 +151,8 @@ func (a *DeviceConnectDeviceAPIAPIService) DeviceConnectConnectExecute(r ApiDevi
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -163,8 +162,8 @@ func (a *DeviceConnectDeviceAPIAPIService) DeviceConnectConnectExecute(r ApiDevi
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

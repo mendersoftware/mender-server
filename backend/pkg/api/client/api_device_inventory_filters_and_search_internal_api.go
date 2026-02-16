@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-
 // DeviceInventoryFiltersAndSearchInternalAPIAPIService DeviceInventoryFiltersAndSearchInternalAPIAPI service
 type DeviceInventoryFiltersAndSearchInternalAPIAPIService service
 
 type ApiInventoryInternalV2SearchDeviceInventoriesRequest struct {
-	ctx context.Context
-	ApiService *DeviceInventoryFiltersAndSearchInternalAPIAPIService
-	tenantId string
+	ctx                                               context.Context
+	ApiService                                        *DeviceInventoryFiltersAndSearchInternalAPIAPIService
+	tenantId                                          string
 	inventoryInternalV2SearchDeviceInventoriesRequest *InventoryInternalV2SearchDeviceInventoriesRequest
 }
 
@@ -48,27 +47,27 @@ Returns a paged collection of devices and their attributes.
 
 It accepts optional filters and sort parameters as body parameters.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId Tenant ID.
- @return ApiInventoryInternalV2SearchDeviceInventoriesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@return ApiInventoryInternalV2SearchDeviceInventoriesRequest
 */
 func (a *DeviceInventoryFiltersAndSearchInternalAPIAPIService) InventoryInternalV2SearchDeviceInventories(ctx context.Context, tenantId string) ApiInventoryInternalV2SearchDeviceInventoriesRequest {
 	return ApiInventoryInternalV2SearchDeviceInventoriesRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
+		ctx:        ctx,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
-//  @return []DeviceInventory
+//
+//	@return []DeviceInventory
 func (a *DeviceInventoryFiltersAndSearchInternalAPIAPIService) InventoryInternalV2SearchDeviceInventoriesExecute(r ApiInventoryInternalV2SearchDeviceInventoriesRequest) ([]DeviceInventory, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []DeviceInventory
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []DeviceInventory
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryFiltersAndSearchInternalAPIAPIService.InventoryInternalV2SearchDeviceInventories")
@@ -131,8 +130,8 @@ func (a *DeviceInventoryFiltersAndSearchInternalAPIAPIService) InventoryInternal
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -142,8 +141,8 @@ func (a *DeviceInventoryFiltersAndSearchInternalAPIAPIService) InventoryInternal
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

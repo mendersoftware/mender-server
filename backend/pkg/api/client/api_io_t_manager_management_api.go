@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-
 // IoTManagerManagementAPIAPIService IoTManagerManagementAPIAPI service
 type IoTManagerManagementAPIAPIService service
 
 type ApiIoTManagerManagementGetDeviceStateRequest struct {
-	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
-	deviceId string
+	ctx           context.Context
+	ApiService    *IoTManagerManagementAPIAPIService
+	deviceId      string
 	integrationId string
 }
 
@@ -38,28 +37,29 @@ func (r ApiIoTManagerManagementGetDeviceStateRequest) Execute() (*DeviceState, *
 /*
 IoTManagerManagementGetDeviceState Gets the desired and reported state of a device from an integration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param deviceId The unique ID of the device.
- @param integrationId The unique ID of the integration.
- @return ApiIoTManagerManagementGetDeviceStateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId The unique ID of the device.
+	@param integrationId The unique ID of the integration.
+	@return ApiIoTManagerManagementGetDeviceStateRequest
 */
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceState(ctx context.Context, deviceId string, integrationId string) ApiIoTManagerManagementGetDeviceStateRequest {
 	return ApiIoTManagerManagementGetDeviceStateRequest{
-		ApiService: a,
-		ctx: ctx,
-		deviceId: deviceId,
+		ApiService:    a,
+		ctx:           ctx,
+		deviceId:      deviceId,
 		integrationId: integrationId,
 	}
 }
 
 // Execute executes the request
-//  @return DeviceState
+//
+//	@return DeviceState
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStateExecute(r ApiIoTManagerManagementGetDeviceStateRequest) (*DeviceState, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *DeviceState
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *DeviceState
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerManagementAPIAPIService.IoTManagerManagementGetDeviceState")
@@ -121,8 +121,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStateEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
@@ -132,8 +132,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStateEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -143,8 +143,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStateEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -154,8 +154,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStateEx
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -173,9 +173,9 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStateEx
 }
 
 type ApiIoTManagerManagementGetDeviceStatesRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *IoTManagerManagementAPIAPIService
-	deviceId string
+	deviceId   string
 }
 
 func (r ApiIoTManagerManagementGetDeviceStatesRequest) Execute() (*map[string]DeviceState, *http.Response, error) {
@@ -185,26 +185,27 @@ func (r ApiIoTManagerManagementGetDeviceStatesRequest) Execute() (*map[string]De
 /*
 IoTManagerManagementGetDeviceStates Gets the desired and reported state of a device
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param deviceId The unique ID of the device.
- @return ApiIoTManagerManagementGetDeviceStatesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId The unique ID of the device.
+	@return ApiIoTManagerManagementGetDeviceStatesRequest
 */
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStates(ctx context.Context, deviceId string) ApiIoTManagerManagementGetDeviceStatesRequest {
 	return ApiIoTManagerManagementGetDeviceStatesRequest{
 		ApiService: a,
-		ctx: ctx,
-		deviceId: deviceId,
+		ctx:        ctx,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
-//  @return map[string]DeviceState
+//
+//	@return map[string]DeviceState
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStatesExecute(r ApiIoTManagerManagementGetDeviceStatesRequest) (*map[string]DeviceState, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *map[string]DeviceState
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *map[string]DeviceState
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerManagementAPIAPIService.IoTManagerManagementGetDeviceStates")
@@ -265,8 +266,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStatesE
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
@@ -276,8 +277,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStatesE
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -287,8 +288,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStatesE
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -298,8 +299,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStatesE
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -317,10 +318,10 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStatesE
 }
 
 type ApiIoTManagerManagementListEventsRequest struct {
-	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
-	page *int32
-	perPage *int32
+	ctx           context.Context
+	ApiService    *IoTManagerManagementAPIAPIService
+	page          *int32
+	perPage       *int32
 	integrationId *string
 }
 
@@ -349,24 +350,25 @@ func (r ApiIoTManagerManagementListEventsRequest) Execute() ([]Event, *http.Resp
 /*
 IoTManagerManagementListEvents List all stored events
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiIoTManagerManagementListEventsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIoTManagerManagementListEventsRequest
 */
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListEvents(ctx context.Context) ApiIoTManagerManagementListEventsRequest {
 	return ApiIoTManagerManagementListEventsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []Event
+//
+//	@return []Event
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListEventsExecute(r ApiIoTManagerManagementListEventsRequest) ([]Event, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []Event
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []Event
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerManagementAPIAPIService.IoTManagerManagementListEvents")
@@ -443,8 +445,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListEventsExecut
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -454,8 +456,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListEventsExecut
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
@@ -465,8 +467,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListEventsExecut
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -476,8 +478,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListEventsExecut
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -495,10 +497,10 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListEventsExecut
 }
 
 type ApiIoTManagerManagementListIntegrationsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *IoTManagerManagementAPIAPIService
-	page *int32
-	perPage *int32
+	page       *int32
+	perPage    *int32
 }
 
 // Page number.
@@ -520,24 +522,25 @@ func (r ApiIoTManagerManagementListIntegrationsRequest) Execute() ([]Integration
 /*
 IoTManagerManagementListIntegrations List all configured integrations
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiIoTManagerManagementListIntegrationsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIoTManagerManagementListIntegrationsRequest
 */
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListIntegrations(ctx context.Context) ApiIoTManagerManagementListIntegrationsRequest {
 	return ApiIoTManagerManagementListIntegrationsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []Integration
+//
+//	@return []Integration
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListIntegrationsExecute(r ApiIoTManagerManagementListIntegrationsRequest) ([]Integration, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []Integration
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []Integration
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerManagementAPIAPIService.IoTManagerManagementListIntegrations")
@@ -611,8 +614,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListIntegrations
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -622,8 +625,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListIntegrations
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
@@ -633,8 +636,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListIntegrations
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -644,8 +647,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListIntegrations
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -663,8 +666,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListIntegrations
 }
 
 type ApiIoTManagerManagementRegisterIntegrationRequest struct {
-	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
+	ctx         context.Context
+	ApiService  *IoTManagerManagementAPIAPIService
 	integration *Integration
 }
 
@@ -680,22 +683,22 @@ func (r ApiIoTManagerManagementRegisterIntegrationRequest) Execute() (*http.Resp
 /*
 IoTManagerManagementRegisterIntegration Register a new cloud integration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiIoTManagerManagementRegisterIntegrationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIoTManagerManagementRegisterIntegrationRequest
 */
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRegisterIntegration(ctx context.Context) ApiIoTManagerManagementRegisterIntegrationRequest {
 	return ApiIoTManagerManagementRegisterIntegrationRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRegisterIntegrationExecute(r ApiIoTManagerManagementRegisterIntegrationRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerManagementAPIAPIService.IoTManagerManagementRegisterIntegration")
@@ -760,8 +763,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRegisterIntegrat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -771,8 +774,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRegisterIntegrat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
@@ -782,8 +785,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRegisterIntegrat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -793,8 +796,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRegisterIntegrat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -803,9 +806,9 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRegisterIntegrat
 }
 
 type ApiIoTManagerManagementRemoveIntegrationRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *IoTManagerManagementAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiIoTManagerManagementRemoveIntegrationRequest) Execute() (*http.Response, error) {
@@ -815,24 +818,24 @@ func (r ApiIoTManagerManagementRemoveIntegrationRequest) Execute() (*http.Respon
 /*
 IoTManagerManagementRemoveIntegration Remove a cloud integration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Integration identifier.
- @return ApiIoTManagerManagementRemoveIntegrationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Integration identifier.
+	@return ApiIoTManagerManagementRemoveIntegrationRequest
 */
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRemoveIntegration(ctx context.Context, id string) ApiIoTManagerManagementRemoveIntegrationRequest {
 	return ApiIoTManagerManagementRemoveIntegrationRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRemoveIntegrationExecute(r ApiIoTManagerManagementRemoveIntegrationRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerManagementAPIAPIService.IoTManagerManagementRemoveIntegration")
@@ -893,8 +896,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRemoveIntegratio
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -904,8 +907,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRemoveIntegratio
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
@@ -915,8 +918,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRemoveIntegratio
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -926,8 +929,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRemoveIntegratio
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -936,11 +939,11 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRemoveIntegratio
 }
 
 type ApiIoTManagerManagementReplaceStateRequest struct {
-	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
-	deviceId string
+	ctx           context.Context
+	ApiService    *IoTManagerManagementAPIAPIService
+	deviceId      string
 	integrationId string
-	deviceState *DeviceState
+	deviceState   *DeviceState
 }
 
 func (r ApiIoTManagerManagementReplaceStateRequest) DeviceState(deviceState DeviceState) ApiIoTManagerManagementReplaceStateRequest {
@@ -955,28 +958,29 @@ func (r ApiIoTManagerManagementReplaceStateRequest) Execute() (*DeviceState, *ht
 /*
 IoTManagerManagementReplaceState Replaces the (desired) cloud state of the device for the given integration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param deviceId The unique ID of the device.
- @param integrationId The unique ID of the integration.
- @return ApiIoTManagerManagementReplaceStateRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId The unique ID of the device.
+	@param integrationId The unique ID of the integration.
+	@return ApiIoTManagerManagementReplaceStateRequest
 */
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementReplaceState(ctx context.Context, deviceId string, integrationId string) ApiIoTManagerManagementReplaceStateRequest {
 	return ApiIoTManagerManagementReplaceStateRequest{
-		ApiService: a,
-		ctx: ctx,
-		deviceId: deviceId,
+		ApiService:    a,
+		ctx:           ctx,
+		deviceId:      deviceId,
 		integrationId: integrationId,
 	}
 }
 
 // Execute executes the request
-//  @return DeviceState
+//
+//	@return DeviceState
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementReplaceStateExecute(r ApiIoTManagerManagementReplaceStateRequest) (*DeviceState, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *DeviceState
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *DeviceState
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerManagementAPIAPIService.IoTManagerManagementReplaceState")
@@ -1043,8 +1047,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementReplaceStateExec
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -1054,8 +1058,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementReplaceStateExec
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
@@ -1065,8 +1069,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementReplaceStateExec
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -1076,8 +1080,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementReplaceStateExec
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1087,8 +1091,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementReplaceStateExec
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1106,9 +1110,9 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementReplaceStateExec
 }
 
 type ApiIoTManagerManagementSetIntegrationCredentialsRequest struct {
-	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
-	id string
+	ctx         context.Context
+	ApiService  *IoTManagerManagementAPIAPIService
+	id          string
 	credentials *Credentials
 }
 
@@ -1124,24 +1128,24 @@ func (r ApiIoTManagerManagementSetIntegrationCredentialsRequest) Execute() (*htt
 /*
 IoTManagerManagementSetIntegrationCredentials Replace the credentials associated with the integration.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Integration identifier.
- @return ApiIoTManagerManagementSetIntegrationCredentialsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Integration identifier.
+	@return ApiIoTManagerManagementSetIntegrationCredentialsRequest
 */
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementSetIntegrationCredentials(ctx context.Context, id string) ApiIoTManagerManagementSetIntegrationCredentialsRequest {
 	return ApiIoTManagerManagementSetIntegrationCredentialsRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementSetIntegrationCredentialsExecute(r ApiIoTManagerManagementSetIntegrationCredentialsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerManagementAPIAPIService.IoTManagerManagementSetIntegrationCredentials")
@@ -1207,8 +1211,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementSetIntegrationCr
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -1218,8 +1222,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementSetIntegrationCr
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
@@ -1229,8 +1233,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementSetIntegrationCr
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -1240,8 +1244,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementSetIntegrationCr
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1251,8 +1255,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementSetIntegrationCr
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -1261,9 +1265,9 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementSetIntegrationCr
 }
 
 type ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *IoTManagerManagementAPIAPIService
-	deviceId string
+	deviceId   string
 }
 
 func (r ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest) Execute() (*DeviceState, *http.Response, error) {
@@ -1275,26 +1279,27 @@ IoTManagerManagementUnregisterDeviceIntegrations Removes all associated cloud in
 
 Removes all associated cloud integrations for the device, but does not clean up any external state.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param deviceId The unique ID of the device.
- @return ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId The unique ID of the device.
+	@return ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest
 */
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementUnregisterDeviceIntegrations(ctx context.Context, deviceId string) ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest {
 	return ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest{
 		ApiService: a,
-		ctx: ctx,
-		deviceId: deviceId,
+		ctx:        ctx,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
-//  @return DeviceState
+//
+//	@return DeviceState
 func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementUnregisterDeviceIntegrationsExecute(r ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest) (*DeviceState, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *DeviceState
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *DeviceState
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerManagementAPIAPIService.IoTManagerManagementUnregisterDeviceIntegrations")
@@ -1355,8 +1360,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementUnregisterDevice
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
@@ -1366,8 +1371,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementUnregisterDevice
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -1377,8 +1382,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementUnregisterDevice
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1388,8 +1393,8 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementUnregisterDevice
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

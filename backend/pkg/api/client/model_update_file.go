@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -19,12 +19,12 @@ import (
 // checks if the UpdateFile type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UpdateFile{}
 
-// UpdateFile Information about particular update file. 
+// UpdateFile Information about particular update file.
 type UpdateFile struct {
-	Name *string `json:"name,omitempty"`
-	Checksum *string `json:"checksum,omitempty"`
-	Size *int32 `json:"size,omitempty"`
-	Date *time.Time `json:"date,omitempty"`
+	Name     *string    `json:"name,omitempty"`
+	Checksum *string    `json:"checksum,omitempty"`
+	Size     *int32     `json:"size,omitempty"`
+	Date     *time.Time `json:"date,omitempty"`
 }
 
 // NewUpdateFile instantiates a new UpdateFile object
@@ -173,7 +173,7 @@ func (o *UpdateFile) SetDate(v time.Time) {
 }
 
 func (o UpdateFile) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -232,5 +232,3 @@ func (v *NullableUpdateFile) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

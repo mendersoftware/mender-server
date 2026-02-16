@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,8 +12,8 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -22,12 +22,12 @@ var _ MappedNullable = &AttributeV2{}
 
 // AttributeV2 Attribute descriptor with scope (v2 APIs).
 type AttributeV2 struct {
-	// A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. 
-	Name string `json:"name"`
-	Scope Scope `json:"scope"`
+	// A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
+	Name  string `json:"name"`
+	Scope Scope  `json:"scope"`
 	// Attribute description.
-	Description *string `json:"description,omitempty"`
-	Value AttributeV2Value `json:"value"`
+	Description *string          `json:"description,omitempty"`
+	Value       AttributeV2Value `json:"value"`
 }
 
 type _AttributeV2 AttributeV2
@@ -157,7 +157,7 @@ func (o *AttributeV2) SetValue(v AttributeV2Value) {
 }
 
 func (o AttributeV2) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -190,10 +190,10 @@ func (o *AttributeV2) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -249,5 +249,3 @@ func (v *NullableAttributeV2) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

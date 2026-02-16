@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,19 +12,19 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the AddDevicesToGroup200Response type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &AddDevicesToGroup200Response{}
 
-// AddDevicesToGroup200Response JSON object listing how many devices were updated. 
+// AddDevicesToGroup200Response JSON object listing how many devices were updated.
 type AddDevicesToGroup200Response struct {
-	// Number of devices listed that changed group. 
+	// Number of devices listed that changed group.
 	UpdatedCount int32 `json:"updated_count"`
-	// Number of devices listed that matched a valid device id internally. 
+	// Number of devices listed that matched a valid device id internally.
 	MatchedCount int32 `json:"matched_count"`
 }
 
@@ -98,7 +98,7 @@ func (o *AddDevicesToGroup200Response) SetMatchedCount(v int32) {
 }
 
 func (o AddDevicesToGroup200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -126,10 +126,10 @@ func (o *AddDevicesToGroup200Response) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -185,5 +185,3 @@ func (v *NullableAddDevicesToGroup200Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

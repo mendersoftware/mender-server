@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,10 +12,10 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
-	"time"
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"time"
 )
 
 // checks if the DeviceWithImage type satisfies the MappedNullable interface at compile time
@@ -24,20 +24,20 @@ var _ MappedNullable = &DeviceWithImage{}
 // DeviceWithImage struct for DeviceWithImage
 type DeviceWithImage struct {
 	// Device identifier.
-	Id string `json:"id"`
-	Status DeviceStatus `json:"status"`
-	Created *time.Time `json:"created,omitempty"`
-	Started *time.Time `json:"started,omitempty"`
-	Finished *time.Time `json:"finished,omitempty"`
-	Deleted *time.Time `json:"deleted,omitempty"`
-	DeviceType *string `json:"device_type,omitempty"`
+	Id         string       `json:"id"`
+	Status     DeviceStatus `json:"status"`
+	Created    *time.Time   `json:"created,omitempty"`
+	Started    *time.Time   `json:"started,omitempty"`
+	Finished   *time.Time   `json:"finished,omitempty"`
+	Deleted    *time.Time   `json:"deleted,omitempty"`
+	DeviceType *string      `json:"device_type,omitempty"`
 	// Availability of the device's deployment log.
 	Log bool `json:"log"`
 	// State reported by device
 	State *string `json:"state,omitempty"`
 	// Additional state information
-	Substate *string `json:"substate,omitempty"`
-	Image *DeviceWithImageImage `json:"image,omitempty"`
+	Substate *string               `json:"substate,omitempty"`
+	Image    *DeviceWithImageImage `json:"image,omitempty"`
 }
 
 type _DeviceWithImage DeviceWithImage
@@ -391,7 +391,7 @@ func (o *DeviceWithImage) SetImage(v DeviceWithImageImage) {
 }
 
 func (o DeviceWithImage) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -445,10 +445,10 @@ func (o *DeviceWithImage) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -504,5 +504,3 @@ func (v *NullableDeviceWithImage) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

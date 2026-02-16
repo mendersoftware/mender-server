@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -17,17 +17,16 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"strings"
 	"reflect"
+	"strings"
 )
-
 
 // DeploymentsV2ManagementAPIAPIService DeploymentsV2ManagementAPIAPI service
 type DeploymentsV2ManagementAPIAPIService service
 
 type ApiAssignReleaseTagsRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ctx         context.Context
+	ApiService  *DeploymentsV2ManagementAPIAPIService
 	releaseName string
 	requestBody *[]string
 }
@@ -42,24 +41,25 @@ func (r ApiAssignReleaseTagsRequest) Execute() (*http.Response, error) {
 }
 
 /*
-AssignReleaseTags Update and replace the tags of a release. 
+AssignReleaseTags Update and replace the tags of a release.
 
 Assigns tags to a release. The tags associated with the release will be
 replaced with the ones defined in the request body.
 
 LIMITATIONS:
-  * Max 20 tags can be assigned to a single release.
-  * There can be no more than 100 unique tag keys in total.
 
+  - Max 20 tags can be assigned to a single release.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param releaseName Name of the release
- @return ApiAssignReleaseTagsRequest
+  - There can be no more than 100 unique tag keys in total.
+
+    @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+    @param releaseName Name of the release
+    @return ApiAssignReleaseTagsRequest
 */
 func (a *DeploymentsV2ManagementAPIAPIService) AssignReleaseTags(ctx context.Context, releaseName string) ApiAssignReleaseTagsRequest {
 	return ApiAssignReleaseTagsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		releaseName: releaseName,
 	}
 }
@@ -67,9 +67,9 @@ func (a *DeploymentsV2ManagementAPIAPIService) AssignReleaseTags(ctx context.Con
 // Execute executes the request
 func (a *DeploymentsV2ManagementAPIAPIService) AssignReleaseTagsExecute(r ApiAssignReleaseTagsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsV2ManagementAPIAPIService.AssignReleaseTags")
@@ -132,8 +132,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) AssignReleaseTagsExecute(r ApiAss
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -143,8 +143,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) AssignReleaseTagsExecute(r ApiAss
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -154,8 +154,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) AssignReleaseTagsExecute(r ApiAss
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -165,8 +165,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) AssignReleaseTagsExecute(r ApiAss
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -175,9 +175,9 @@ func (a *DeploymentsV2ManagementAPIAPIService) AssignReleaseTagsExecute(r ApiAss
 }
 
 type ApiDeleteReleasesRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsV2ManagementAPIAPIService
-	name *string
+	name       *string
 }
 
 // Name of the release to be deleted
@@ -197,23 +197,22 @@ Deletes releases with names provided in the message body.
 Releases used by deployments in progress can not be deleted
 until deployment finishes.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeleteReleasesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeleteReleasesRequest
 */
 func (a *DeploymentsV2ManagementAPIAPIService) DeleteReleases(ctx context.Context) ApiDeleteReleasesRequest {
 	return ApiDeleteReleasesRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeploymentsV2ManagementAPIAPIService) DeleteReleasesExecute(r ApiDeleteReleasesRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsV2ManagementAPIAPIService.DeleteReleases")
@@ -277,8 +276,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeleteReleasesExecute(r ApiDelete
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -288,8 +287,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeleteReleasesExecute(r ApiDelete
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -299,8 +298,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeleteReleasesExecute(r ApiDelete
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -310,8 +309,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeleteReleasesExecute(r ApiDelete
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -320,28 +319,28 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeleteReleasesExecute(r ApiDelete
 }
 
 type ApiDeploymentsV2ListArtifactsWithPaginationRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
-	name *[]string
+	ctx         context.Context
+	ApiService  *DeploymentsV2ManagementAPIAPIService
+	name        *[]string
 	description *string
-	deviceType *string
-	page *int32
-	perPage *int32
+	deviceType  *string
+	page        *int32
+	perPage     *int32
 }
 
-// Artifact(s) name(s) filter. Multiple names can be provided (e.g., &#x60;?name&#x3D;foo&amp;name&#x3D;bar&#x60;). Supports exact matching or prefix matching by adding &#x60;*&#x60; to the end (e.g., &#x60;foo*&#x60;). Note: when using prefix matching you may pass only a single value and you cannot combine prefix matching and exact matching in the same request. 
+// Artifact(s) name(s) filter. Multiple names can be provided (e.g., &#x60;?name&#x3D;foo&amp;name&#x3D;bar&#x60;). Supports exact matching or prefix matching by adding &#x60;*&#x60; to the end (e.g., &#x60;foo*&#x60;). Note: when using prefix matching you may pass only a single value and you cannot combine prefix matching and exact matching in the same request.
 func (r ApiDeploymentsV2ListArtifactsWithPaginationRequest) Name(name []string) ApiDeploymentsV2ListArtifactsWithPaginationRequest {
 	r.name = &name
 	return r
 }
 
-// Artifact description filter. Supports exact matching or prefix matching by adding &#x60;*&#x60; to the end (e.g., &#x60;foo*&#x60;). 
+// Artifact description filter. Supports exact matching or prefix matching by adding &#x60;*&#x60; to the end (e.g., &#x60;foo*&#x60;).
 func (r ApiDeploymentsV2ListArtifactsWithPaginationRequest) Description(description string) ApiDeploymentsV2ListArtifactsWithPaginationRequest {
 	r.description = &description
 	return r
 }
 
-// Artifact device type filter. Supports exact matching or prefix matching by adding &#x60;*&#x60; to the end (e.g., &#x60;foo*&#x60;). 
+// Artifact device type filter. Supports exact matching or prefix matching by adding &#x60;*&#x60; to the end (e.g., &#x60;foo*&#x60;).
 func (r ApiDeploymentsV2ListArtifactsWithPaginationRequest) DeviceType(deviceType string) ApiDeploymentsV2ListArtifactsWithPaginationRequest {
 	r.deviceType = &deviceType
 	return r
@@ -364,29 +363,29 @@ func (r ApiDeploymentsV2ListArtifactsWithPaginationRequest) Execute() ([]Artifac
 }
 
 /*
-DeploymentsV2ListArtifactsWithPagination Lists known artifacts. 
+DeploymentsV2ListArtifactsWithPagination Lists known artifacts.
 
 Returns a collection of all artifacts sorted by name.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeploymentsV2ListArtifactsWithPaginationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsV2ListArtifactsWithPaginationRequest
 */
 func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListArtifactsWithPagination(ctx context.Context) ApiDeploymentsV2ListArtifactsWithPaginationRequest {
 	return ApiDeploymentsV2ListArtifactsWithPaginationRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []ArtifactV2
+//
+//	@return []ArtifactV2
 func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListArtifactsWithPaginationExecute(r ApiDeploymentsV2ListArtifactsWithPaginationRequest) ([]ArtifactV2, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []ArtifactV2
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []ArtifactV2
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsV2ManagementAPIAPIService.DeploymentsV2ListArtifactsWithPagination")
@@ -477,8 +476,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListArtifactsWithPag
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -488,8 +487,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListArtifactsWithPag
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -507,26 +506,26 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListArtifactsWithPag
 }
 
 type ApiDeploymentsV2ListDeploymentsRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
-	id *string
-	name *string
-	status *string
-	type_ *string
-	page *int32
-	perPage *int32
+	ctx           context.Context
+	ApiService    *DeploymentsV2ManagementAPIAPIService
+	id            *string
+	name          *string
+	status        *string
+	type_         *string
+	page          *int32
+	perPage       *int32
 	createdBefore *int32
-	createdAfter *int32
-	sort *string
+	createdAfter  *int32
+	sort          *string
 }
 
-// Deployment identifier. You can provide it multiple times to query a set of deployments. 
+// Deployment identifier. You can provide it multiple times to query a set of deployments.
 func (r ApiDeploymentsV2ListDeploymentsRequest) Id(id string) ApiDeploymentsV2ListDeploymentsRequest {
 	r.id = &id
 	return r
 }
 
-// Deployment name. You can provide it multiple times to query a set of deployments. 
+// Deployment name. You can provide it multiple times to query a set of deployments.
 func (r ApiDeploymentsV2ListDeploymentsRequest) Name(name string) ApiDeploymentsV2ListDeploymentsRequest {
 	r.name = &name
 	return r
@@ -538,7 +537,7 @@ func (r ApiDeploymentsV2ListDeploymentsRequest) Status(status string) ApiDeploym
 	return r
 }
 
-// Deployment type filter. 
+// Deployment type filter.
 func (r ApiDeploymentsV2ListDeploymentsRequest) Type_(type_ string) ApiDeploymentsV2ListDeploymentsRequest {
 	r.type_ = &type_
 	return r
@@ -568,7 +567,7 @@ func (r ApiDeploymentsV2ListDeploymentsRequest) CreatedAfter(createdAfter int32)
 	return r
 }
 
-// Supports sorting the deployments list by creation date. 
+// Supports sorting the deployments list by creation date.
 func (r ApiDeploymentsV2ListDeploymentsRequest) Sort(sort string) ApiDeploymentsV2ListDeploymentsRequest {
 	r.sort = &sort
 	return r
@@ -586,25 +585,25 @@ deployment identifiers, and multiple names to get the multiple deployments you c
 the ids and names in a one query expecting to get deployments that match both names or ids.
 The endpoint will return the deployments that match the ids and the name, if combined.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeploymentsV2ListDeploymentsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsV2ListDeploymentsRequest
 */
 func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListDeployments(ctx context.Context) ApiDeploymentsV2ListDeploymentsRequest {
 	return ApiDeploymentsV2ListDeploymentsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []DeploymentV2
+//
+//	@return []DeploymentV2
 func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListDeploymentsExecute(r ApiDeploymentsV2ListDeploymentsRequest) ([]DeploymentV2, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []DeploymentV2
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []DeploymentV2
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsV2ManagementAPIAPIService.DeploymentsV2ListDeployments")
@@ -699,8 +698,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListDeploymentsExecu
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -710,8 +709,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListDeploymentsExecu
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -721,8 +720,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListDeploymentsExecu
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -740,14 +739,14 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListDeploymentsExecu
 }
 
 type ApiDeploymentsV2ListReleasesWithPaginationRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsV2ManagementAPIAPIService
-	name *string
-	tag *[]string
+	name       *string
+	tag        *[]string
 	updateType *string
-	page *int32
-	perPage *int32
-	sort *string
+	page       *int32
+	perPage    *int32
+	sort       *string
 }
 
 // Release name filter.
@@ -780,7 +779,7 @@ func (r ApiDeploymentsV2ListReleasesWithPaginationRequest) PerPage(perPage int32
 	return r
 }
 
-// Sort the release list by the specified field and direction. 
+// Sort the release list by the specified field and direction.
 func (r ApiDeploymentsV2ListReleasesWithPaginationRequest) Sort(sort string) ApiDeploymentsV2ListReleasesWithPaginationRequest {
 	r.sort = &sort
 	return r
@@ -791,30 +790,30 @@ func (r ApiDeploymentsV2ListReleasesWithPaginationRequest) Execute() ([]ReleaseV
 }
 
 /*
-DeploymentsV2ListReleasesWithPagination List releases 
+DeploymentsV2ListReleasesWithPagination List releases
 
 Returns a collection of releases, allows filtering by release name and sorting
 by name or last modification date.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeploymentsV2ListReleasesWithPaginationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsV2ListReleasesWithPaginationRequest
 */
 func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListReleasesWithPagination(ctx context.Context) ApiDeploymentsV2ListReleasesWithPaginationRequest {
 	return ApiDeploymentsV2ListReleasesWithPaginationRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []ReleaseV2
+//
+//	@return []ReleaseV2
 func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListReleasesWithPaginationExecute(r ApiDeploymentsV2ListReleasesWithPaginationRequest) ([]ReleaseV2, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []ReleaseV2
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []ReleaseV2
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsV2ManagementAPIAPIService.DeploymentsV2ListReleasesWithPagination")
@@ -912,8 +911,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListReleasesWithPagi
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -923,8 +922,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListReleasesWithPagi
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -942,8 +941,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListReleasesWithPagi
 }
 
 type ApiGetReleaseWithGivenNameRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ctx         context.Context
+	ApiService  *DeploymentsV2ManagementAPIAPIService
 	releaseName string
 }
 
@@ -952,31 +951,31 @@ func (r ApiGetReleaseWithGivenNameRequest) Execute() (*ReleaseV2, *http.Response
 }
 
 /*
-GetReleaseWithGivenName Get release 
+GetReleaseWithGivenName Get release
 
 Returns the release with given name.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param releaseName Name of the release
- @return ApiGetReleaseWithGivenNameRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param releaseName Name of the release
+	@return ApiGetReleaseWithGivenNameRequest
 */
 func (a *DeploymentsV2ManagementAPIAPIService) GetReleaseWithGivenName(ctx context.Context, releaseName string) ApiGetReleaseWithGivenNameRequest {
 	return ApiGetReleaseWithGivenNameRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		releaseName: releaseName,
 	}
 }
 
 // Execute executes the request
-//  @return ReleaseV2
+//
+//	@return ReleaseV2
 func (a *DeploymentsV2ManagementAPIAPIService) GetReleaseWithGivenNameExecute(r ApiGetReleaseWithGivenNameRequest) (*ReleaseV2, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ReleaseV2
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ReleaseV2
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsV2ManagementAPIAPIService.GetReleaseWithGivenName")
@@ -1037,8 +1036,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) GetReleaseWithGivenNameExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -1048,8 +1047,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) GetReleaseWithGivenNameExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1059,8 +1058,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) GetReleaseWithGivenNameExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1078,7 +1077,7 @@ func (a *DeploymentsV2ManagementAPIAPIService) GetReleaseWithGivenNameExecute(r 
 }
 
 type ApiListReleaseTagsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsV2ManagementAPIAPIService
 }
 
@@ -1087,26 +1086,27 @@ func (r ApiListReleaseTagsRequest) Execute() ([]string, *http.Response, error) {
 }
 
 /*
-ListReleaseTags Lists all available tags for releases. 
+ListReleaseTags Lists all available tags for releases.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListReleaseTagsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListReleaseTagsRequest
 */
 func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTags(ctx context.Context) ApiListReleaseTagsRequest {
 	return ApiListReleaseTagsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []string
+//
+//	@return []string
 func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTagsExecute(r ApiListReleaseTagsRequest) ([]string, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []string
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsV2ManagementAPIAPIService.ListReleaseTags")
@@ -1166,8 +1166,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTagsExecute(r ApiListR
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -1177,8 +1177,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTagsExecute(r ApiListR
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -1188,8 +1188,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTagsExecute(r ApiListR
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1199,8 +1199,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTagsExecute(r ApiListR
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1218,7 +1218,7 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTagsExecute(r ApiListR
 }
 
 type ApiListReleaseTypesRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeploymentsV2ManagementAPIAPIService
 }
 
@@ -1227,26 +1227,27 @@ func (r ApiListReleaseTypesRequest) Execute() ([]string, *http.Response, error) 
 }
 
 /*
-ListReleaseTypes Lists all release update types. 
+ListReleaseTypes Lists all release update types.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListReleaseTypesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListReleaseTypesRequest
 */
 func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTypes(ctx context.Context) ApiListReleaseTypesRequest {
 	return ApiListReleaseTypesRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []string
+//
+//	@return []string
 func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTypesExecute(r ApiListReleaseTypesRequest) ([]string, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []string
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsV2ManagementAPIAPIService.ListReleaseTypes")
@@ -1306,8 +1307,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTypesExecute(r ApiList
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -1317,8 +1318,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTypesExecute(r ApiList
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1328,8 +1329,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTypesExecute(r ApiList
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1347,9 +1348,9 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTypesExecute(r ApiList
 }
 
 type ApiUpdateReleaseInformationRequest struct {
-	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
-	releaseName string
+	ctx           context.Context
+	ApiService    *DeploymentsV2ManagementAPIAPIService
+	releaseName   string
 	releaseUpdate *ReleaseUpdate
 }
 
@@ -1363,19 +1364,18 @@ func (r ApiUpdateReleaseInformationRequest) Execute() (*http.Response, error) {
 }
 
 /*
-UpdateReleaseInformation Update selected fields of the Release object. 
+UpdateReleaseInformation Update selected fields of the Release object.
 
 Updates the Release object.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param releaseName Name of the release
- @return ApiUpdateReleaseInformationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param releaseName Name of the release
+	@return ApiUpdateReleaseInformationRequest
 */
 func (a *DeploymentsV2ManagementAPIAPIService) UpdateReleaseInformation(ctx context.Context, releaseName string) ApiUpdateReleaseInformationRequest {
 	return ApiUpdateReleaseInformationRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		releaseName: releaseName,
 	}
 }
@@ -1383,9 +1383,9 @@ func (a *DeploymentsV2ManagementAPIAPIService) UpdateReleaseInformation(ctx cont
 // Execute executes the request
 func (a *DeploymentsV2ManagementAPIAPIService) UpdateReleaseInformationExecute(r ApiUpdateReleaseInformationRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPatch
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeploymentsV2ManagementAPIAPIService.UpdateReleaseInformation")
@@ -1448,8 +1448,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) UpdateReleaseInformationExecute(r
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -1459,8 +1459,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) UpdateReleaseInformationExecute(r
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1470,8 +1470,8 @@ func (a *DeploymentsV2ManagementAPIAPIService) UpdateReleaseInformationExecute(r
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

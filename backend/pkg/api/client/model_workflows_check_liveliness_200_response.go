@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,7 +20,7 @@ var _ MappedNullable = &WorkflowsCheckLiveliness200Response{}
 
 // WorkflowsCheckLiveliness200Response struct for WorkflowsCheckLiveliness200Response
 type WorkflowsCheckLiveliness200Response struct {
-	Id *string `json:"id,omitempty"`
+	Id   *string `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
 }
 
@@ -106,7 +106,7 @@ func (o *WorkflowsCheckLiveliness200Response) SetName(v string) {
 }
 
 func (o WorkflowsCheckLiveliness200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -159,5 +159,3 @@ func (v *NullableWorkflowsCheckLiveliness200Response) UnmarshalJSON(src []byte) 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

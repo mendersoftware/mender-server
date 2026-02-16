@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,10 +12,10 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
-	"time"
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"time"
 )
 
 // checks if the AttributeV1 type satisfies the MappedNullable interface at compile time
@@ -23,14 +23,14 @@ var _ MappedNullable = &AttributeV1{}
 
 // AttributeV1 Attribute descriptor.
 type AttributeV1 struct {
-	// A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. 
+	// A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
 	Name string `json:"name"`
-	// The scope of the attribute.  Scope is a string and acts as namespace for the attribute name. 
+	// The scope of the attribute.  Scope is a string and acts as namespace for the attribute name.
 	Scope string `json:"scope"`
 	// Attribute description.
-	Description *string `json:"description,omitempty"`
-	Value AttributeValue `json:"value"`
-	// The date and time of last tag update in RFC3339 format. 
+	Description *string        `json:"description,omitempty"`
+	Value       AttributeValue `json:"value"`
+	// The date and time of last tag update in RFC3339 format.
 	Timestamp *time.Time `json:"timestamp,omitempty"`
 }
 
@@ -193,7 +193,7 @@ func (o *AttributeV1) SetTimestamp(v time.Time) {
 }
 
 func (o AttributeV1) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -229,10 +229,10 @@ func (o *AttributeV1) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -288,5 +288,3 @@ func (v *NullableAttributeV1) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

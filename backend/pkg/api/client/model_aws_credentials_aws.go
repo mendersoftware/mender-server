@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,8 +12,8 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -22,9 +22,9 @@ var _ MappedNullable = &AWSCredentialsAws{}
 
 // AWSCredentialsAws struct for AWSCredentialsAws
 type AWSCredentialsAws struct {
-	AccessKeyId string `json:"access_key_id"`
-	SecretAccessKey string `json:"secret_access_key"`
-	Region string `json:"region"`
+	AccessKeyId      string `json:"access_key_id"`
+	SecretAccessKey  string `json:"secret_access_key"`
+	Region           string `json:"region"`
 	DevicePolicyName string `json:"device_policy_name"`
 }
 
@@ -148,7 +148,7 @@ func (o *AWSCredentialsAws) SetDevicePolicyName(v string) {
 }
 
 func (o AWSCredentialsAws) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -180,10 +180,10 @@ func (o *AWSCredentialsAws) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -239,5 +239,3 @@ func (v *NullableAWSCredentialsAws) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

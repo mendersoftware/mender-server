@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,10 +12,10 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
-	"time"
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"time"
 )
 
 // checks if the DeploymentV1 type satisfies the MappedNullable interface at compile time
@@ -39,13 +39,13 @@ type DeploymentV1 struct {
 	DeviceCount int32 `json:"device_count"`
 	// An array of artifact's identifiers.
 	Artifacts []string `json:"artifacts,omitempty"`
-	// An array of groups the devices targeted by the deployment belong to. Available only if the user created the deployment for a group or a single device (if the device was in a static group). 
+	// An array of groups the devices targeted by the deployment belong to. Available only if the user created the deployment for a group or a single device (if the device was in a static group).
 	Groups []string `json:"groups,omitempty"`
-	Type *string `json:"type,omitempty"`
-	// A string containing a configuration object provided with the deployment constructor. 
-	Configuration *string `json:"configuration,omitempty"`
-	Statistics *DeploymentStatistics `json:"statistics,omitempty"`
-	Filter *FilterV1 `json:"filter,omitempty"`
+	Type   *string  `json:"type,omitempty"`
+	// A string containing a configuration object provided with the deployment constructor.
+	Configuration *string               `json:"configuration,omitempty"`
+	Statistics    *DeploymentStatistics `json:"statistics,omitempty"`
+	Filter        *FilterV1             `json:"filter,omitempty"`
 }
 
 type _DeploymentV1 DeploymentV1
@@ -442,7 +442,7 @@ func (o *DeploymentV1) SetFilter(v FilterV1) {
 }
 
 func (o DeploymentV1) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -499,10 +499,10 @@ func (o *DeploymentV1) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -558,5 +558,3 @@ func (v *NullableDeploymentV1) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

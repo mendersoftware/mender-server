@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -21,9 +21,9 @@ var _ MappedNullable = &ReleaseV1{}
 
 // ReleaseV1 Groups artifacts with the same release name into a single resource.
 type ReleaseV1 struct {
-	// release name. 
+	// release name.
 	Name *string `json:"Name,omitempty"`
-	// Last modification time for the release. 
+	// Last modification time for the release.
 	Modified *time.Time `json:"modified,omitempty"`
 	// List of artifacts for this release.
 	Artifacts []ArtifactV1 `json:"Artifacts,omitempty"`
@@ -31,7 +31,7 @@ type ReleaseV1 struct {
 	ArtifactsCount *int32 `json:"ArtifactsCount,omitempty"`
 	// Tags assigned to the release used for filtering releases. Each tag must be valid a ASCII string and contain only lowercase and uppercase letters, digits, underscores, periods and hyphens.
 	Tags []string `json:"tags,omitempty"`
-	// Additional information describing a Release limited to 1024 characters. Please use the v2 API to set this field. 
+	// Additional information describing a Release limited to 1024 characters. Please use the v2 API to set this field.
 	Notes *string `json:"notes,omitempty"`
 }
 
@@ -245,7 +245,7 @@ func (o *ReleaseV1) SetNotes(v string) {
 }
 
 func (o ReleaseV1) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -310,5 +310,3 @@ func (v *NullableReleaseV1) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -19,14 +19,13 @@ import (
 	"net/url"
 )
 
-
 // DeviceInventoryDeviceAPIAPIService DeviceInventoryDeviceAPIAPI service
 type DeviceInventoryDeviceAPIAPIService service
 
 type ApiAssignAttributesRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryDeviceAPIAPIService
-	attribute *[]Attribute
+	attribute  *[]Attribute
 }
 
 // A list of attribute descriptors.
@@ -51,23 +50,22 @@ This method has upsert semantics:
 
 * attributes assigned for the first time are automatically created
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAssignAttributesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAssignAttributesRequest
 */
 func (a *DeviceInventoryDeviceAPIAPIService) AssignAttributes(ctx context.Context) ApiAssignAttributesRequest {
 	return ApiAssignAttributesRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryDeviceAPIAPIService) AssignAttributesExecute(r ApiAssignAttributesRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPatch
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryDeviceAPIAPIService.AssignAttributes")
@@ -132,8 +130,8 @@ func (a *DeviceInventoryDeviceAPIAPIService) AssignAttributesExecute(r ApiAssign
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -143,8 +141,8 @@ func (a *DeviceInventoryDeviceAPIAPIService) AssignAttributesExecute(r ApiAssign
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -154,8 +152,8 @@ func (a *DeviceInventoryDeviceAPIAPIService) AssignAttributesExecute(r ApiAssign
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -164,9 +162,9 @@ func (a *DeviceInventoryDeviceAPIAPIService) AssignAttributesExecute(r ApiAssign
 }
 
 type ApiReplaceAttributesRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceInventoryDeviceAPIAPIService
-	attribute *[]Attribute
+	attribute  *[]Attribute
 }
 
 // A list of attribute descriptors.
@@ -193,23 +191,22 @@ This method replaces all the attributes with the new set:
 
 * attributes assigned for the first time are automatically created
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiReplaceAttributesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiReplaceAttributesRequest
 */
 func (a *DeviceInventoryDeviceAPIAPIService) ReplaceAttributes(ctx context.Context) ApiReplaceAttributesRequest {
 	return ApiReplaceAttributesRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceInventoryDeviceAPIAPIService) ReplaceAttributesExecute(r ApiReplaceAttributesRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryDeviceAPIAPIService.ReplaceAttributes")
@@ -274,8 +271,8 @@ func (a *DeviceInventoryDeviceAPIAPIService) ReplaceAttributesExecute(r ApiRepla
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -285,8 +282,8 @@ func (a *DeviceInventoryDeviceAPIAPIService) ReplaceAttributesExecute(r ApiRepla
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -296,8 +293,8 @@ func (a *DeviceInventoryDeviceAPIAPIService) ReplaceAttributesExecute(r ApiRepla
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

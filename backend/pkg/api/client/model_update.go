@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -18,13 +18,13 @@ import (
 // checks if the Update type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Update{}
 
-// Update Single updated to be applied. 
+// Update Single updated to be applied.
 type Update struct {
 	TypeInfo *ArtifactTypeInfo `json:"type_info,omitempty"`
-	Files []UpdateFile `json:"files,omitempty"`
+	Files    []UpdateFile      `json:"files,omitempty"`
 	// metadata is an object of unknown structure as this is dependent of update type (also custom defined by user)
 	Metadata *map[string]string `json:"metadata,omitempty"`
-	// Deprecated: Please use `metadata` instead. A list of objects of unknown structure as this is dependent of update type (also custom defined by user) 
+	// Deprecated: Please use `metadata` instead. A list of objects of unknown structure as this is dependent of update type (also custom defined by user)
 	// Deprecated
 	MetaData []map[string]interface{} `json:"meta_data,omitempty"`
 }
@@ -178,7 +178,7 @@ func (o *Update) SetMetaData(v []map[string]interface{}) {
 }
 
 func (o Update) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -237,5 +237,3 @@ func (v *NullableUpdate) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

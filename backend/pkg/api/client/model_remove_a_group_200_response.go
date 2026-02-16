@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,17 +12,17 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
 // checks if the RemoveAGroup200Response type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &RemoveAGroup200Response{}
 
-// RemoveAGroup200Response JSON object listing how many devices were updated. 
+// RemoveAGroup200Response JSON object listing how many devices were updated.
 type RemoveAGroup200Response struct {
-	// Number of devices for which the group was cleared sucessfully. 
+	// Number of devices for which the group was cleared sucessfully.
 	UpdatedCount int32 `json:"updated_count"`
 }
 
@@ -71,7 +71,7 @@ func (o *RemoveAGroup200Response) SetUpdatedCount(v int32) {
 }
 
 func (o RemoveAGroup200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -97,10 +97,10 @@ func (o *RemoveAGroup200Response) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -156,5 +156,3 @@ func (v *NullableRemoveAGroup200Response) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

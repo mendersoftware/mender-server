@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,8 +12,8 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -24,7 +24,7 @@ var _ MappedNullable = &PersonalAccessTokenRequest{}
 type PersonalAccessTokenRequest struct {
 	// Name of a token.
 	Name string `json:"name"`
-	// Expiration time in seconds (maximum one year - 31536000s). If you omit it or set it to zero, the Personal Access Token will never expire. 
+	// Expiration time in seconds (maximum one year - 31536000s). If you omit it or set it to zero, the Personal Access Token will never expire.
 	ExpiresIn *int32 `json:"expires_in,omitempty"`
 }
 
@@ -105,7 +105,7 @@ func (o *PersonalAccessTokenRequest) SetExpiresIn(v int32) {
 }
 
 func (o PersonalAccessTokenRequest) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -134,10 +134,10 @@ func (o *PersonalAccessTokenRequest) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -193,5 +193,3 @@ func (v *NullablePersonalAccessTokenRequest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

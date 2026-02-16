@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,8 +20,8 @@ var _ MappedNullable = &CLIParams{}
 
 // CLIParams CLI parameters
 type CLIParams struct {
-	Command []string `json:"command,omitempty"`
-	ExecutionTimeOut *int32 `json:"executionTimeOut,omitempty"`
+	Command          []string `json:"command,omitempty"`
+	ExecutionTimeOut *int32   `json:"executionTimeOut,omitempty"`
 }
 
 // NewCLIParams instantiates a new CLIParams object
@@ -106,7 +106,7 @@ func (o *CLIParams) SetExecutionTimeOut(v int32) {
 }
 
 func (o CLIParams) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -159,5 +159,3 @@ func (v *NullableCLIParams) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

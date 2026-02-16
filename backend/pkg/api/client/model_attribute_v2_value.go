@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -17,12 +17,12 @@ import (
 	"gopkg.in/validator.v2"
 )
 
-// AttributeV2Value - The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
+// AttributeV2Value - The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed.
 type AttributeV2Value struct {
 	ArrayOfFloat32 *[]float32
-	ArrayOfString *[]string
-	Float32 *float32
-	String *string
+	ArrayOfString  *[]string
+	Float32        *float32
+	String         *string
 }
 
 // []float32AsAttributeV2Value is a convenience function that returns []float32 wrapped in AttributeV2Value
@@ -52,7 +52,6 @@ func StringAsAttributeV2Value(v *string) AttributeV2Value {
 		String: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *AttributeV2Value) UnmarshalJSON(data []byte) error {
@@ -163,7 +162,7 @@ func (src AttributeV2Value) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *AttributeV2Value) GetActualInstance() (interface{}) {
+func (obj *AttributeV2Value) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -188,7 +187,7 @@ func (obj *AttributeV2Value) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj AttributeV2Value) GetActualInstanceValue() (interface{}) {
+func (obj AttributeV2Value) GetActualInstanceValue() interface{} {
 	if obj.ArrayOfFloat32 != nil {
 		return *obj.ArrayOfFloat32
 	}
@@ -244,5 +243,3 @@ func (v *NullableAttributeV2Value) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

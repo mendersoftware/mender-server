@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,12 +20,11 @@ import (
 	"strings"
 )
 
-
 // IoTManagerInternalAPIAPIService IoTManagerInternalAPIAPI service
 type IoTManagerInternalAPIAPIService service
 
 type ApiIoTManagerInternalCheckHealthRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *IoTManagerInternalAPIAPIService
 }
 
@@ -36,22 +35,22 @@ func (r ApiIoTManagerInternalCheckHealthRequest) Execute() (*http.Response, erro
 /*
 IoTManagerInternalCheckHealth Get health status of service
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiIoTManagerInternalCheckHealthRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIoTManagerInternalCheckHealthRequest
 */
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckHealth(ctx context.Context) ApiIoTManagerInternalCheckHealthRequest {
 	return ApiIoTManagerInternalCheckHealthRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckHealthExecute(r ApiIoTManagerInternalCheckHealthRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerInternalAPIAPIService.IoTManagerInternalCheckHealth")
@@ -111,8 +110,8 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckHealthExecute(r
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -122,8 +121,8 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckHealthExecute(r
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -132,7 +131,7 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckHealthExecute(r
 }
 
 type ApiIoTManagerInternalCheckLivelinessRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *IoTManagerInternalAPIAPIService
 }
 
@@ -143,22 +142,22 @@ func (r ApiIoTManagerInternalCheckLivelinessRequest) Execute() (*http.Response, 
 /*
 IoTManagerInternalCheckLiveliness Get service liveliness status.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiIoTManagerInternalCheckLivelinessRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIoTManagerInternalCheckLivelinessRequest
 */
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckLiveliness(ctx context.Context) ApiIoTManagerInternalCheckLivelinessRequest {
 	return ApiIoTManagerInternalCheckLivelinessRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckLivelinessExecute(r ApiIoTManagerInternalCheckLivelinessRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerInternalAPIAPIService.IoTManagerInternalCheckLiveliness")
@@ -218,8 +217,8 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckLivelinessExecu
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -228,10 +227,10 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckLivelinessExecu
 }
 
 type ApiIoTManagerInternalDecommissionDeviceRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *IoTManagerInternalAPIAPIService
-	tenantId string
-	deviceId string
+	tenantId   string
+	deviceId   string
 }
 
 func (r ApiIoTManagerInternalDecommissionDeviceRequest) Execute() (*http.Response, error) {
@@ -241,26 +240,26 @@ func (r ApiIoTManagerInternalDecommissionDeviceRequest) Execute() (*http.Respons
 /*
 IoTManagerInternalDecommissionDevice Remove a device from Iot Hub.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of tenant the device belongs to.
- @param deviceId ID of the target device.
- @return ApiIoTManagerInternalDecommissionDeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param deviceId ID of the target device.
+	@return ApiIoTManagerInternalDecommissionDeviceRequest
 */
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDecommissionDevice(ctx context.Context, tenantId string, deviceId string) ApiIoTManagerInternalDecommissionDeviceRequest {
 	return ApiIoTManagerInternalDecommissionDeviceRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		deviceId: deviceId,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		deviceId:   deviceId,
 	}
 }
 
 // Execute executes the request
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDecommissionDeviceExecute(r ApiIoTManagerInternalDecommissionDeviceRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerInternalAPIAPIService.IoTManagerInternalDecommissionDevice")
@@ -322,8 +321,8 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDecommissionDeviceEx
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -332,9 +331,9 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDecommissionDeviceEx
 }
 
 type ApiIoTManagerInternalDeleteTenantRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *IoTManagerInternalAPIAPIService
-	tenantId string
+	tenantId   string
 }
 
 func (r ApiIoTManagerInternalDeleteTenantRequest) Execute() (*http.Response, error) {
@@ -344,24 +343,24 @@ func (r ApiIoTManagerInternalDeleteTenantRequest) Execute() (*http.Response, err
 /*
 IoTManagerInternalDeleteTenant Delete all data belonging to a given tenant.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of tenant to remove.
- @return ApiIoTManagerInternalDeleteTenantRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant to remove.
+	@return ApiIoTManagerInternalDeleteTenantRequest
 */
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDeleteTenant(ctx context.Context, tenantId string) ApiIoTManagerInternalDeleteTenantRequest {
 	return ApiIoTManagerInternalDeleteTenantRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
+		ctx:        ctx,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDeleteTenantExecute(r ApiIoTManagerInternalDeleteTenantRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerInternalAPIAPIService.IoTManagerInternalDeleteTenant")
@@ -422,8 +421,8 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDeleteTenantExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -432,9 +431,9 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDeleteTenantExecute(
 }
 
 type ApiIoTManagerInternalProvisionDeviceRequest struct {
-	ctx context.Context
-	ApiService *IoTManagerInternalAPIAPIService
-	tenantId string
+	ctx                        context.Context
+	ApiService                 *IoTManagerInternalAPIAPIService
+	tenantId                   string
 	newDeviceInternalProvision *NewDeviceInternalProvision
 }
 
@@ -450,24 +449,24 @@ func (r ApiIoTManagerInternalProvisionDeviceRequest) Execute() (*http.Response, 
 /*
 IoTManagerInternalProvisionDevice Register a new device with the deviceconfig service.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of tenant the device belongs to.
- @return ApiIoTManagerInternalProvisionDeviceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@return ApiIoTManagerInternalProvisionDeviceRequest
 */
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalProvisionDevice(ctx context.Context, tenantId string) ApiIoTManagerInternalProvisionDeviceRequest {
 	return ApiIoTManagerInternalProvisionDeviceRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
+		ctx:        ctx,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalProvisionDeviceExecute(r ApiIoTManagerInternalProvisionDeviceRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerInternalAPIAPIService.IoTManagerInternalProvisionDevice")
@@ -533,8 +532,8 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalProvisionDeviceExecu
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -544,8 +543,8 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalProvisionDeviceExecu
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -555,8 +554,8 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalProvisionDeviceExecu
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -565,10 +564,10 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalProvisionDeviceExecu
 }
 
 type ApiIoTManagerInternalUpdateDeviceStatusesRequest struct {
-	ctx context.Context
-	ApiService *IoTManagerInternalAPIAPIService
-	tenantId string
-	status string
+	ctx                                                context.Context
+	ApiService                                         *IoTManagerInternalAPIAPIService
+	tenantId                                           string
+	status                                             string
 	ioTManagerInternalUpdateDeviceStatusesRequestInner *[]IoTManagerInternalUpdateDeviceStatusesRequestInner
 }
 
@@ -584,26 +583,26 @@ func (r ApiIoTManagerInternalUpdateDeviceStatusesRequest) Execute() (*http.Respo
 /*
 IoTManagerInternalUpdateDeviceStatuses Update device statuses in bulk.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId ID of tenant the device belongs to.
- @param status The status of the device
- @return ApiIoTManagerInternalUpdateDeviceStatusesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param status The status of the device
+	@return ApiIoTManagerInternalUpdateDeviceStatusesRequest
 */
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalUpdateDeviceStatuses(ctx context.Context, tenantId string, status string) ApiIoTManagerInternalUpdateDeviceStatusesRequest {
 	return ApiIoTManagerInternalUpdateDeviceStatusesRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		status: status,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		status:     status,
 	}
 }
 
 // Execute executes the request
 func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalUpdateDeviceStatusesExecute(r ApiIoTManagerInternalUpdateDeviceStatusesRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IoTManagerInternalAPIAPIService.IoTManagerInternalUpdateDeviceStatuses")
@@ -670,8 +669,8 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalUpdateDeviceStatuses
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -681,8 +680,8 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalUpdateDeviceStatuses
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,13 +20,12 @@ import (
 	"strings"
 )
 
-
 // UserAdministrationManagementAPIAPIService UserAdministrationManagementAPIAPI service
 type UserAdministrationManagementAPIAPIService service
 
 type ApiCreatePersonalAccessTokenRequest struct {
-	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ctx                        context.Context
+	ApiService                 *UserAdministrationManagementAPIAPIService
 	personalAccessTokenRequest *PersonalAccessTokenRequest
 }
 
@@ -45,25 +44,25 @@ CreatePersonalAccessToken Create new Personal Access Token
 
 Create new Personal Access Token with given name and expiration.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreatePersonalAccessTokenRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreatePersonalAccessTokenRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) CreatePersonalAccessToken(ctx context.Context) ApiCreatePersonalAccessTokenRequest {
 	return ApiCreatePersonalAccessTokenRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return string
+//
+//	@return string
 func (a *UserAdministrationManagementAPIAPIService) CreatePersonalAccessTokenExecute(r ApiCreatePersonalAccessTokenRequest) (string, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  string
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.CreatePersonalAccessToken")
@@ -128,8 +127,8 @@ func (a *UserAdministrationManagementAPIAPIService) CreatePersonalAccessTokenExe
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -139,8 +138,8 @@ func (a *UserAdministrationManagementAPIAPIService) CreatePersonalAccessTokenExe
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
@@ -150,8 +149,8 @@ func (a *UserAdministrationManagementAPIAPIService) CreatePersonalAccessTokenExe
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 422 {
@@ -161,8 +160,8 @@ func (a *UserAdministrationManagementAPIAPIService) CreatePersonalAccessTokenExe
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -172,8 +171,8 @@ func (a *UserAdministrationManagementAPIAPIService) CreatePersonalAccessTokenExe
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -191,9 +190,9 @@ func (a *UserAdministrationManagementAPIAPIService) CreatePersonalAccessTokenExe
 }
 
 type ApiCreateUserManagementRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
-	userNew *UserNew
+	userNew    *UserNew
 }
 
 // New user data.
@@ -207,24 +206,24 @@ func (r ApiCreateUserManagementRequest) Execute() (*http.Response, error) {
 }
 
 /*
-CreateUserManagement Create a new user under the tenant owning the JWT. 
+CreateUserManagement Create a new user under the tenant owning the JWT.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateUserManagementRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateUserManagementRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) CreateUserManagement(ctx context.Context) ApiCreateUserManagementRequest {
 	return ApiCreateUserManagementRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationManagementAPIAPIService) CreateUserManagementExecute(r ApiCreateUserManagementRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.CreateUserManagement")
@@ -289,8 +288,8 @@ func (a *UserAdministrationManagementAPIAPIService) CreateUserManagementExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -300,8 +299,8 @@ func (a *UserAdministrationManagementAPIAPIService) CreateUserManagementExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 422 {
@@ -311,8 +310,8 @@ func (a *UserAdministrationManagementAPIAPIService) CreateUserManagementExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -322,8 +321,8 @@ func (a *UserAdministrationManagementAPIAPIService) CreateUserManagementExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -332,10 +331,10 @@ func (a *UserAdministrationManagementAPIAPIService) CreateUserManagementExecute(
 }
 
 type ApiListPlansRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
-	page *int32
-	perPage *int32
+	page       *int32
+	perPage    *int32
 }
 
 // Starting page.
@@ -357,24 +356,25 @@ func (r ApiListPlansRequest) Execute() ([]Plan, *http.Response, error) {
 /*
 ListPlans Get list of available plans
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListPlansRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListPlansRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) ListPlans(ctx context.Context) ApiListPlansRequest {
 	return ApiListPlansRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []Plan
+//
+//	@return []Plan
 func (a *UserAdministrationManagementAPIAPIService) ListPlansExecute(r ApiListPlansRequest) ([]Plan, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []Plan
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []Plan
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.ListPlans")
@@ -448,8 +448,8 @@ func (a *UserAdministrationManagementAPIAPIService) ListPlansExecute(r ApiListPl
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -459,8 +459,8 @@ func (a *UserAdministrationManagementAPIAPIService) ListPlansExecute(r ApiListPl
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -478,7 +478,7 @@ func (a *UserAdministrationManagementAPIAPIService) ListPlansExecute(r ApiListPl
 }
 
 type ApiListUserPersonalAccessTokensRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
 }
 
@@ -489,24 +489,25 @@ func (r ApiListUserPersonalAccessTokensRequest) Execute() ([]PersonalAccessToken
 /*
 ListUserPersonalAccessTokens Get user Personal Access Tokens
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListUserPersonalAccessTokensRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListUserPersonalAccessTokensRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) ListUserPersonalAccessTokens(ctx context.Context) ApiListUserPersonalAccessTokensRequest {
 	return ApiListUserPersonalAccessTokensRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []PersonalAccessToken
+//
+//	@return []PersonalAccessToken
 func (a *UserAdministrationManagementAPIAPIService) ListUserPersonalAccessTokensExecute(r ApiListUserPersonalAccessTokensRequest) ([]PersonalAccessToken, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []PersonalAccessToken
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []PersonalAccessToken
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.ListUserPersonalAccessTokens")
@@ -566,8 +567,8 @@ func (a *UserAdministrationManagementAPIAPIService) ListUserPersonalAccessTokens
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -577,8 +578,8 @@ func (a *UserAdministrationManagementAPIAPIService) ListUserPersonalAccessTokens
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -596,47 +597,47 @@ func (a *UserAdministrationManagementAPIAPIService) ListUserPersonalAccessTokens
 }
 
 type ApiListUsersManagementRequest struct {
-	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
-	id *string
-	email *string
-	createdAfter *int32
+	ctx           context.Context
+	ApiService    *UserAdministrationManagementAPIAPIService
+	id            *string
+	email         *string
+	createdAfter  *int32
 	createdBefore *int32
-	updatedAfter *int32
+	updatedAfter  *int32
 	updatedBefore *int32
 }
 
-// Limit result by user ID, can be repeated to include multiple users in the query. 
+// Limit result by user ID, can be repeated to include multiple users in the query.
 func (r ApiListUsersManagementRequest) Id(id string) ApiListUsersManagementRequest {
 	r.id = &id
 	return r
 }
 
-// Limit result by user email, can be repeated to include multiple users in the query. 
+// Limit result by user email, can be repeated to include multiple users in the query.
 func (r ApiListUsersManagementRequest) Email(email string) ApiListUsersManagementRequest {
 	r.email = &email
 	return r
 }
 
-// Filter users created after timestamp (UNIX timestamp). 
+// Filter users created after timestamp (UNIX timestamp).
 func (r ApiListUsersManagementRequest) CreatedAfter(createdAfter int32) ApiListUsersManagementRequest {
 	r.createdAfter = &createdAfter
 	return r
 }
 
-// Filter users created before timestamp (UNIX timestamp). 
+// Filter users created before timestamp (UNIX timestamp).
 func (r ApiListUsersManagementRequest) CreatedBefore(createdBefore int32) ApiListUsersManagementRequest {
 	r.createdBefore = &createdBefore
 	return r
 }
 
-// Filter users updated after timestamp (UNIX timestamp). 
+// Filter users updated after timestamp (UNIX timestamp).
 func (r ApiListUsersManagementRequest) UpdatedAfter(updatedAfter int32) ApiListUsersManagementRequest {
 	r.updatedAfter = &updatedAfter
 	return r
 }
 
-// Filter users updated before timestamp (UNIX timestamp). 
+// Filter users updated before timestamp (UNIX timestamp).
 func (r ApiListUsersManagementRequest) UpdatedBefore(updatedBefore int32) ApiListUsersManagementRequest {
 	r.updatedBefore = &updatedBefore
 	return r
@@ -647,26 +648,27 @@ func (r ApiListUsersManagementRequest) Execute() ([]User, *http.Response, error)
 }
 
 /*
-ListUsersManagement List all users registered under the tenant owning the JWT. 
+ListUsersManagement List all users registered under the tenant owning the JWT.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListUsersManagementRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListUsersManagementRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) ListUsersManagement(ctx context.Context) ApiListUsersManagementRequest {
 	return ApiListUsersManagementRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []User
+//
+//	@return []User
 func (a *UserAdministrationManagementAPIAPIService) ListUsersManagementExecute(r ApiListUsersManagementRequest) ([]User, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []User
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []User
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.ListUsersManagement")
@@ -744,8 +746,8 @@ func (a *UserAdministrationManagementAPIAPIService) ListUsersManagementExecute(r
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -755,8 +757,8 @@ func (a *UserAdministrationManagementAPIAPIService) ListUsersManagementExecute(r
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -774,8 +776,8 @@ func (a *UserAdministrationManagementAPIAPIService) ListUsersManagementExecute(r
 }
 
 type ApiLoginRequest struct {
-	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ctx          context.Context
+	ApiService   *UserAdministrationManagementAPIAPIService
 	loginOptions *LoginOptions
 }
 
@@ -795,25 +797,25 @@ Login Log in to Mender
 Accepts user credentials via standard Basic Auth, and returns a
 JWT token to be used for authentication in subsequent requests.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiLoginRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLoginRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) Login(ctx context.Context) ApiLoginRequest {
 	return ApiLoginRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return string
+//
+//	@return string
 func (a *UserAdministrationManagementAPIAPIService) LoginExecute(r ApiLoginRequest) (string, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  string
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.Login")
@@ -875,8 +877,8 @@ func (a *UserAdministrationManagementAPIAPIService) LoginExecute(r ApiLoginReque
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -886,8 +888,8 @@ func (a *UserAdministrationManagementAPIAPIService) LoginExecute(r ApiLoginReque
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -897,8 +899,8 @@ func (a *UserAdministrationManagementAPIAPIService) LoginExecute(r ApiLoginReque
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 503 {
@@ -908,8 +910,8 @@ func (a *UserAdministrationManagementAPIAPIService) LoginExecute(r ApiLoginReque
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -927,7 +929,7 @@ func (a *UserAdministrationManagementAPIAPIService) LoginExecute(r ApiLoginReque
 }
 
 type ApiLogoutRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
 }
 
@@ -940,23 +942,22 @@ Logout Log out from Mender
 
 Invalidates the JWT token of the current user.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiLogoutRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLogoutRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) Logout(ctx context.Context) ApiLogoutRequest {
 	return ApiLogoutRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationManagementAPIAPIService) LogoutExecute(r ApiLogoutRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.Logout")
@@ -1016,8 +1017,8 @@ func (a *UserAdministrationManagementAPIAPIService) LogoutExecute(r ApiLogoutReq
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -1027,8 +1028,8 @@ func (a *UserAdministrationManagementAPIAPIService) LogoutExecute(r ApiLogoutReq
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1038,8 +1039,8 @@ func (a *UserAdministrationManagementAPIAPIService) LogoutExecute(r ApiLogoutReq
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -1048,9 +1049,9 @@ func (a *UserAdministrationManagementAPIAPIService) LogoutExecute(r ApiLogoutReq
 }
 
 type ApiRemoveUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiRemoveUserRequest) Execute() (*http.Response, error) {
@@ -1060,24 +1061,24 @@ func (r ApiRemoveUserRequest) Execute() (*http.Response, error) {
 /*
 RemoveUser Remove user from the system
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id User id.
- @return ApiRemoveUserRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id User id.
+	@return ApiRemoveUserRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) RemoveUser(ctx context.Context, id string) ApiRemoveUserRequest {
 	return ApiRemoveUserRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationManagementAPIAPIService) RemoveUserExecute(r ApiRemoveUserRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.RemoveUser")
@@ -1138,8 +1139,8 @@ func (a *UserAdministrationManagementAPIAPIService) RemoveUserExecute(r ApiRemov
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1149,8 +1150,8 @@ func (a *UserAdministrationManagementAPIAPIService) RemoveUserExecute(r ApiRemov
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -1159,9 +1160,9 @@ func (a *UserAdministrationManagementAPIAPIService) RemoveUserExecute(r ApiRemov
 }
 
 type ApiRevokePersonalAccessTokenRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiRevokePersonalAccessTokenRequest) Execute() (*http.Response, error) {
@@ -1171,24 +1172,24 @@ func (r ApiRevokePersonalAccessTokenRequest) Execute() (*http.Response, error) {
 /*
 RevokePersonalAccessToken Revoke Personal Access Token
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id Token identifier.
- @return ApiRevokePersonalAccessTokenRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Token identifier.
+	@return ApiRevokePersonalAccessTokenRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) RevokePersonalAccessToken(ctx context.Context, id string) ApiRevokePersonalAccessTokenRequest {
 	return ApiRevokePersonalAccessTokenRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationManagementAPIAPIService) RevokePersonalAccessTokenExecute(r ApiRevokePersonalAccessTokenRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.RevokePersonalAccessToken")
@@ -1249,8 +1250,8 @@ func (a *UserAdministrationManagementAPIAPIService) RevokePersonalAccessTokenExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1260,8 +1261,8 @@ func (a *UserAdministrationManagementAPIAPIService) RevokePersonalAccessTokenExe
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -1270,7 +1271,7 @@ func (a *UserAdministrationManagementAPIAPIService) RevokePersonalAccessTokenExe
 }
 
 type ApiShowMyUserSettingsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
 }
 
@@ -1281,24 +1282,25 @@ func (r ApiShowMyUserSettingsRequest) Execute() (map[string]interface{}, *http.R
 /*
 ShowMyUserSettings Get user settings for the current user
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiShowMyUserSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiShowMyUserSettingsRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) ShowMyUserSettings(ctx context.Context) ApiShowMyUserSettingsRequest {
 	return ApiShowMyUserSettingsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return map[string]interface{}
+//
+//	@return map[string]interface{}
 func (a *UserAdministrationManagementAPIAPIService) ShowMyUserSettingsExecute(r ApiShowMyUserSettingsRequest) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  map[string]interface{}
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.ShowMyUserSettings")
@@ -1358,8 +1360,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowMyUserSettingsExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1369,8 +1371,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowMyUserSettingsExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1388,7 +1390,7 @@ func (a *UserAdministrationManagementAPIAPIService) ShowMyUserSettingsExecute(r 
 }
 
 type ApiShowOwnUserDataRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
 }
 
@@ -1399,24 +1401,25 @@ func (r ApiShowOwnUserDataRequest) Execute() (*User, *http.Response, error) {
 /*
 ShowOwnUserData Get user information
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiShowOwnUserDataRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiShowOwnUserDataRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) ShowOwnUserData(ctx context.Context) ApiShowOwnUserDataRequest {
 	return ApiShowOwnUserDataRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return User
+//
+//	@return User
 func (a *UserAdministrationManagementAPIAPIService) ShowOwnUserDataExecute(r ApiShowOwnUserDataRequest) (*User, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *User
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *User
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.ShowOwnUserData")
@@ -1476,8 +1479,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowOwnUserDataExecute(r Api
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -1487,8 +1490,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowOwnUserDataExecute(r Api
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1498,8 +1501,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowOwnUserDataExecute(r Api
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1517,7 +1520,7 @@ func (a *UserAdministrationManagementAPIAPIService) ShowOwnUserDataExecute(r Api
 }
 
 type ApiShowPlanAndLimitsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
 }
 
@@ -1528,24 +1531,25 @@ func (r ApiShowPlanAndLimitsRequest) Execute() (*PlanBindingDetails, *http.Respo
 /*
 ShowPlanAndLimits Get plan and limits information for current tenant
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiShowPlanAndLimitsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiShowPlanAndLimitsRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) ShowPlanAndLimits(ctx context.Context) ApiShowPlanAndLimitsRequest {
 	return ApiShowPlanAndLimitsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return PlanBindingDetails
+//
+//	@return PlanBindingDetails
 func (a *UserAdministrationManagementAPIAPIService) ShowPlanAndLimitsExecute(r ApiShowPlanAndLimitsRequest) (*PlanBindingDetails, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *PlanBindingDetails
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PlanBindingDetails
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.ShowPlanAndLimits")
@@ -1605,8 +1609,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowPlanAndLimitsExecute(r A
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1616,8 +1620,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowPlanAndLimitsExecute(r A
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1635,9 +1639,9 @@ func (a *UserAdministrationManagementAPIAPIService) ShowPlanAndLimitsExecute(r A
 }
 
 type ApiShowUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
-	id string
+	id         string
 }
 
 func (r ApiShowUserRequest) Execute() (*User, *http.Response, error) {
@@ -1647,26 +1651,27 @@ func (r ApiShowUserRequest) Execute() (*User, *http.Response, error) {
 /*
 ShowUser Get user information
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id User id.
- @return ApiShowUserRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id User id.
+	@return ApiShowUserRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) ShowUser(ctx context.Context, id string) ApiShowUserRequest {
 	return ApiShowUserRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
-//  @return User
+//
+//	@return User
 func (a *UserAdministrationManagementAPIAPIService) ShowUserExecute(r ApiShowUserRequest) (*User, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *User
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *User
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.ShowUser")
@@ -1727,8 +1732,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserExecute(r ApiShowUse
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -1738,8 +1743,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserExecute(r ApiShowUse
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1749,8 +1754,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserExecute(r ApiShowUse
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1768,7 +1773,7 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserExecute(r ApiShowUse
 }
 
 type ApiShowUserSettingsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
 }
 
@@ -1779,24 +1784,25 @@ func (r ApiShowUserSettingsRequest) Execute() (map[string]interface{}, *http.Res
 /*
 ShowUserSettings Get global user settings
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiShowUserSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiShowUserSettingsRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) ShowUserSettings(ctx context.Context) ApiShowUserSettingsRequest {
 	return ApiShowUserSettingsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return map[string]interface{}
+//
+//	@return map[string]interface{}
 func (a *UserAdministrationManagementAPIAPIService) ShowUserSettingsExecute(r ApiShowUserSettingsRequest) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  map[string]interface{}
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.ShowUserSettings")
@@ -1856,8 +1862,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserSettingsExecute(r Ap
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1867,8 +1873,8 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserSettingsExecute(r Ap
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1886,10 +1892,10 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserSettingsExecute(r Ap
 }
 
 type ApiUpdateMyUserSettingsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
-	body *map[string]interface{}
-	ifMatch *string
+	body       *map[string]interface{}
+	ifMatch    *string
 }
 
 // New user settings.
@@ -1913,23 +1919,22 @@ UpdateMyUserSettings Set user settings for the current user
 
 Create current user settings or replace existing settings with provided object.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUpdateMyUserSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateMyUserSettingsRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) UpdateMyUserSettings(ctx context.Context) ApiUpdateMyUserSettingsRequest {
 	return ApiUpdateMyUserSettingsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationManagementAPIAPIService) UpdateMyUserSettingsExecute(r ApiUpdateMyUserSettingsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.UpdateMyUserSettings")
@@ -1997,8 +2002,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateMyUserSettingsExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -2008,8 +2013,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateMyUserSettingsExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -2019,8 +2024,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateMyUserSettingsExecute(
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -2029,7 +2034,7 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateMyUserSettingsExecute(
 }
 
 type ApiUpdateOwnUserDataRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
 	userUpdate *UserUpdate
 }
@@ -2047,22 +2052,22 @@ func (r ApiUpdateOwnUserDataRequest) Execute() (*http.Response, error) {
 /*
 UpdateOwnUserData Update own user information
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUpdateOwnUserDataRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateOwnUserDataRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) UpdateOwnUserData(ctx context.Context) ApiUpdateOwnUserDataRequest {
 	return ApiUpdateOwnUserDataRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationManagementAPIAPIService) UpdateOwnUserDataExecute(r ApiUpdateOwnUserDataRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.UpdateOwnUserData")
@@ -2127,8 +2132,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateOwnUserDataExecute(r A
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -2138,8 +2143,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateOwnUserDataExecute(r A
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -2149,8 +2154,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateOwnUserDataExecute(r A
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 422 {
@@ -2160,8 +2165,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateOwnUserDataExecute(r A
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -2171,8 +2176,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateOwnUserDataExecute(r A
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -2181,9 +2186,9 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateOwnUserDataExecute(r A
 }
 
 type ApiUpdateUserRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
-	id string
+	id         string
 	userUpdate *UserUpdate
 }
 
@@ -2200,24 +2205,24 @@ func (r ApiUpdateUserRequest) Execute() (*http.Response, error) {
 /*
 UpdateUser Update user information
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id User id.
- @return ApiUpdateUserRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id User id.
+	@return ApiUpdateUserRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) UpdateUser(ctx context.Context, id string) ApiUpdateUserRequest {
 	return ApiUpdateUserRequest{
 		ApiService: a,
-		ctx: ctx,
-		id: id,
+		ctx:        ctx,
+		id:         id,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationManagementAPIAPIService) UpdateUserExecute(r ApiUpdateUserRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.UpdateUser")
@@ -2283,8 +2288,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserExecute(r ApiUpdat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -2294,8 +2299,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserExecute(r ApiUpdat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -2305,8 +2310,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserExecute(r ApiUpdat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 422 {
@@ -2316,8 +2321,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserExecute(r ApiUpdat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -2327,8 +2332,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserExecute(r ApiUpdat
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -2337,10 +2342,10 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserExecute(r ApiUpdat
 }
 
 type ApiUpdateUserSettingsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationManagementAPIAPIService
-	body *map[string]interface{}
-	ifMatch *string
+	body       *map[string]interface{}
+	ifMatch    *string
 }
 
 // New user settings.
@@ -2364,23 +2369,22 @@ UpdateUserSettings Set global user settings
 
 Create global user settings or replace existing settings with provided object.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUpdateUserSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateUserSettingsRequest
 */
 func (a *UserAdministrationManagementAPIAPIService) UpdateUserSettings(ctx context.Context) ApiUpdateUserSettingsRequest {
 	return ApiUpdateUserSettingsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationManagementAPIAPIService) UpdateUserSettingsExecute(r ApiUpdateUserSettingsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationManagementAPIAPIService.UpdateUserSettings")
@@ -2448,8 +2452,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserSettingsExecute(r 
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -2459,8 +2463,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserSettingsExecute(r 
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -2470,8 +2474,8 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserSettingsExecute(r 
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

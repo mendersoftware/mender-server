@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -21,19 +21,19 @@ type DeviceStatus string
 
 // List of DeviceStatus
 const (
-	FAILURE DeviceStatus = "failure"
-	ABORTED DeviceStatus = "aborted"
+	FAILURE                 DeviceStatus = "failure"
+	ABORTED                 DeviceStatus = "aborted"
 	PAUSE_BEFORE_INSTALLING DeviceStatus = "pause_before_installing"
 	PAUSE_BEFORE_COMMITTING DeviceStatus = "pause_before_committing"
-	PAUSE_BEFORE_REBOOTING DeviceStatus = "pause_before_rebooting"
-	DOWNLOADING DeviceStatus = "downloading"
-	INSTALLING DeviceStatus = "installing"
-	REBOOTING DeviceStatus = "rebooting"
-	PENDING DeviceStatus = "pending"
-	SUCCESS DeviceStatus = "success"
-	NOARTIFACT DeviceStatus = "noartifact"
-	ALREADY_INSTALLED DeviceStatus = "already-installed"
-	DECOMMISSIONED DeviceStatus = "decommissioned"
+	PAUSE_BEFORE_REBOOTING  DeviceStatus = "pause_before_rebooting"
+	DOWNLOADING             DeviceStatus = "downloading"
+	INSTALLING              DeviceStatus = "installing"
+	REBOOTING               DeviceStatus = "rebooting"
+	PENDING                 DeviceStatus = "pending"
+	SUCCESS                 DeviceStatus = "success"
+	NOARTIFACT              DeviceStatus = "noartifact"
+	ALREADY_INSTALLED       DeviceStatus = "already-installed"
+	DECOMMISSIONED          DeviceStatus = "decommissioned"
 )
 
 // All allowed values of DeviceStatus enum
@@ -131,4 +131,3 @@ func (v *NullableDeviceStatus) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

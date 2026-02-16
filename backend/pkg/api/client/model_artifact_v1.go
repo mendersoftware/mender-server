@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,10 +12,10 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
-	"time"
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"time"
 )
 
 // checks if the ArtifactV1 type satisfies the MappedNullable interface at compile time
@@ -23,24 +23,24 @@ var _ MappedNullable = &ArtifactV1{}
 
 // ArtifactV1 Detailed artifact.
 type ArtifactV1 struct {
-	Id string `json:"id"`
-	Name string `json:"name"`
+	Id          string  `json:"id"`
+	Name        string  `json:"name"`
 	Description *string `json:"description,omitempty"`
 	// An array of compatible device types.
-	DeviceTypesCompatible []string `json:"device_types_compatible"`
-	Info *ArtifactInfo `json:"info,omitempty"`
+	DeviceTypesCompatible []string      `json:"device_types_compatible"`
+	Info                  *ArtifactInfo `json:"info,omitempty"`
 	// Idicates if artifact is signed or not.
-	Signed *bool `json:"signed,omitempty"`
+	Signed  *bool    `json:"signed,omitempty"`
 	Updates []Update `json:"updates,omitempty"`
-	// List of Artifact provides.  Map of key/value pairs, where both keys and values are strings. 
+	// List of Artifact provides.  Map of key/value pairs, where both keys and values are strings.
 	ArtifactProvides *map[string]string `json:"artifact_provides,omitempty"`
-	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are lists of strings. 
+	// List of Artifact depends.  Map of key/value pairs, where keys are strings and values are lists of strings.
 	ArtifactDepends *map[string][]string `json:"artifact_depends,omitempty"`
 	// List of Clear Artifact provides.
 	ClearsArtifactProvides []string `json:"clears_artifact_provides,omitempty"`
-	// Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed). 
+	// Artifact total size in bytes - the size of the actual file that will be transferred to the device (compressed).
 	Size *int32 `json:"size,omitempty"`
-	// Represents creation / last edition of any of the artifact properties. 
+	// Represents creation / last edition of any of the artifact properties.
 	Modified time.Time `json:"modified"`
 }
 
@@ -420,7 +420,7 @@ func (o *ArtifactV1) SetModified(v time.Time) {
 }
 
 func (o ArtifactV1) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -476,10 +476,10 @@ func (o *ArtifactV1) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -535,5 +535,3 @@ func (v *NullableArtifactV1) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

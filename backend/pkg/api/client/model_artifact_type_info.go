@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -18,7 +18,7 @@ import (
 // checks if the ArtifactTypeInfo type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ArtifactTypeInfo{}
 
-// ArtifactTypeInfo Information about update type. 
+// ArtifactTypeInfo Information about update type.
 type ArtifactTypeInfo struct {
 	// Note that for emtpy Artifacts, the type is 'null'
 	Type *string `json:"type,omitempty"`
@@ -74,7 +74,7 @@ func (o *ArtifactTypeInfo) SetType(v string) {
 }
 
 func (o ArtifactTypeInfo) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -124,5 +124,3 @@ func (v *NullableArtifactTypeInfo) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

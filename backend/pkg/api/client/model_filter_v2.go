@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -12,8 +12,8 @@ Contact: support@mender.io
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -22,10 +22,10 @@ var _ MappedNullable = &FilterV2{}
 
 // FilterV2 Inventory filter assigned to the deployment
 type FilterV2 struct {
-	// Unique identifier of the saved filter. 
+	// Unique identifier of the saved filter.
 	Id string `json:"id"`
-	// Name of the saved filter. 
-	Name string `json:"name"`
+	// Name of the saved filter.
+	Name  string                     `json:"name"`
 	Terms []AttributeFilterPredicate `json:"terms,omitempty"`
 }
 
@@ -131,7 +131,7 @@ func (o *FilterV2) SetTerms(v []AttributeFilterPredicate) {
 }
 
 func (o FilterV2) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -162,10 +162,10 @@ func (o *FilterV2) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -221,5 +221,3 @@ func (v *NullableFilterV2) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

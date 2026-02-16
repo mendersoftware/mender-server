@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -22,8 +22,8 @@ var _ MappedNullable = &DeviceWithImageImage{}
 // DeviceWithImageImage struct for DeviceWithImageImage
 type DeviceWithImageImage struct {
 	// Image ID
-	Id *string `json:"id,omitempty"`
-	Meta *DeviceWithImageImageMeta `json:"meta,omitempty"`
+	Id           *string                           `json:"id,omitempty"`
+	Meta         *DeviceWithImageImageMeta         `json:"meta,omitempty"`
 	MetaArtifact *DeviceWithImageImageMetaArtifact `json:"meta_artifact,omitempty"`
 	// Image size in bytes
 	Size *int32 `json:"size,omitempty"`
@@ -209,7 +209,7 @@ func (o *DeviceWithImageImage) SetModified(v time.Time) {
 }
 
 func (o DeviceWithImageImage) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -271,5 +271,3 @@ func (v *NullableDeviceWithImageImage) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

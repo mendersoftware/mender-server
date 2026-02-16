@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,14 +20,13 @@ import (
 	"strings"
 )
 
-
 // UserAdministrationAndAuthenticationInternalAPIAPIService UserAdministrationAndAuthenticationInternalAPIAPI service
 type UserAdministrationAndAuthenticationInternalAPIAPIService service
 
 type ApiCreateUserInternalRequest struct {
-	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
-	tenantId string
+	ctx             context.Context
+	ApiService      *UserAdministrationAndAuthenticationInternalAPIAPIService
+	tenantId        string
 	userNewInternal *UserNewInternal
 }
 
@@ -44,24 +43,24 @@ func (r ApiCreateUserInternalRequest) Execute() (*http.Response, error) {
 /*
 CreateUserInternal Create user
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId Tenant ID.
- @return ApiCreateUserInternalRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@return ApiCreateUserInternalRequest
 */
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInternal(ctx context.Context, tenantId string) ApiCreateUserInternalRequest {
 	return ApiCreateUserInternalRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
+		ctx:        ctx,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInternalExecute(r ApiCreateUserInternalRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationAndAuthenticationInternalAPIAPIService.CreateUserInternal")
@@ -127,8 +126,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInt
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -138,8 +137,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInt
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 422 {
@@ -149,8 +148,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInt
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -160,8 +159,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInt
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -170,10 +169,10 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInt
 }
 
 type ApiDeleteUserInternalRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
-	tenantId string
-	userId string
+	tenantId   string
+	userId     string
 }
 
 func (r ApiDeleteUserInternalRequest) Execute() (*http.Response, error) {
@@ -185,27 +184,26 @@ DeleteUserInternal Delete a user
 
 Remove a user from the tenant.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId Tenant ID.
- @param userId User ID.
- @return ApiDeleteUserInternalRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@param userId User ID.
+	@return ApiDeleteUserInternalRequest
 */
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInternal(ctx context.Context, tenantId string, userId string) ApiDeleteUserInternalRequest {
 	return ApiDeleteUserInternalRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		userId: userId,
+		ctx:        ctx,
+		tenantId:   tenantId,
+		userId:     userId,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInternalExecute(r ApiDeleteUserInternalRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationAndAuthenticationInternalAPIAPIService.DeleteUserInternal")
@@ -267,8 +265,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInt
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -278,8 +276,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInt
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -288,48 +286,48 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInt
 }
 
 type ApiListUsersInternalRequest struct {
-	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
-	tenantId string
-	id *string
-	email *string
-	createdAfter *int32
+	ctx           context.Context
+	ApiService    *UserAdministrationAndAuthenticationInternalAPIAPIService
+	tenantId      string
+	id            *string
+	email         *string
+	createdAfter  *int32
 	createdBefore *int32
-	updatedAfter *int32
+	updatedAfter  *int32
 	updatedBefore *int32
 }
 
-// Limit result by user ID, can be repeated to include multiple users in the query. 
+// Limit result by user ID, can be repeated to include multiple users in the query.
 func (r ApiListUsersInternalRequest) Id(id string) ApiListUsersInternalRequest {
 	r.id = &id
 	return r
 }
 
-// Limit result by user email, can be repeated to include multiple users in the query. 
+// Limit result by user email, can be repeated to include multiple users in the query.
 func (r ApiListUsersInternalRequest) Email(email string) ApiListUsersInternalRequest {
 	r.email = &email
 	return r
 }
 
-// Filter users created after timestamp (UNIX timestamp). 
+// Filter users created after timestamp (UNIX timestamp).
 func (r ApiListUsersInternalRequest) CreatedAfter(createdAfter int32) ApiListUsersInternalRequest {
 	r.createdAfter = &createdAfter
 	return r
 }
 
-// Filter users created before timestamp (UNIX timestamp). 
+// Filter users created before timestamp (UNIX timestamp).
 func (r ApiListUsersInternalRequest) CreatedBefore(createdBefore int32) ApiListUsersInternalRequest {
 	r.createdBefore = &createdBefore
 	return r
 }
 
-// Filter users updated after timestamp (UNIX timestamp). 
+// Filter users updated after timestamp (UNIX timestamp).
 func (r ApiListUsersInternalRequest) UpdatedAfter(updatedAfter int32) ApiListUsersInternalRequest {
 	r.updatedAfter = &updatedAfter
 	return r
 }
 
-// Filter users updated before timestamp (UNIX timestamp). 
+// Filter users updated before timestamp (UNIX timestamp).
 func (r ApiListUsersInternalRequest) UpdatedBefore(updatedBefore int32) ApiListUsersInternalRequest {
 	r.updatedBefore = &updatedBefore
 	return r
@@ -340,28 +338,29 @@ func (r ApiListUsersInternalRequest) Execute() ([]User, *http.Response, error) {
 }
 
 /*
-ListUsersInternal List all users registered under the tenant owning the JWT. 
+ListUsersInternal List all users registered under the tenant owning the JWT.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId Tenant ID.
- @return ApiListUsersInternalRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@return ApiListUsersInternalRequest
 */
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) ListUsersInternal(ctx context.Context, tenantId string) ApiListUsersInternalRequest {
 	return ApiListUsersInternalRequest{
 		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
+		ctx:        ctx,
+		tenantId:   tenantId,
 	}
 }
 
 // Execute executes the request
-//  @return []User
+//
+//	@return []User
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) ListUsersInternalExecute(r ApiListUsersInternalRequest) ([]User, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []User
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []User
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationAndAuthenticationInternalAPIAPIService.ListUsersInternal")
@@ -440,8 +439,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) ListUsersInte
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -451,8 +450,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) ListUsersInte
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -470,10 +469,10 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) ListUsersInte
 }
 
 type ApiRevokeUserTokensRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
-	tenantId *string
-	userId *string
+	tenantId   *string
+	userId     *string
 }
 
 // Tenant ID.
@@ -500,23 +499,22 @@ When only tenant_id parameter is set, tokens for all tenant users will be remove
 It is also possible to remove tokens for user with given user_id by setting
 optional user_id parameter.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRevokeUserTokensRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRevokeUserTokensRequest
 */
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) RevokeUserTokens(ctx context.Context) ApiRevokeUserTokensRequest {
 	return ApiRevokeUserTokensRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) RevokeUserTokensExecute(r ApiRevokeUserTokensRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationAndAuthenticationInternalAPIAPIService.RevokeUserTokens")
@@ -583,8 +581,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) RevokeUserTok
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -594,8 +592,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) RevokeUserTok
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 503 {
@@ -605,8 +603,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) RevokeUserTok
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -615,7 +613,7 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) RevokeUserTok
 }
 
 type ApiUseradmCheckHealthRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
 }
 
@@ -626,22 +624,22 @@ func (r ApiUseradmCheckHealthRequest) Execute() (*http.Response, error) {
 /*
 UseradmCheckHealth Check the health of the service
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUseradmCheckHealthRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUseradmCheckHealthRequest
 */
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckHealth(ctx context.Context) ApiUseradmCheckHealthRequest {
 	return ApiUseradmCheckHealthRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckHealthExecute(r ApiUseradmCheckHealthRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationAndAuthenticationInternalAPIAPIService.UseradmCheckHealth")
@@ -701,8 +699,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckH
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 503 {
@@ -712,8 +710,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckH
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -722,7 +720,7 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckH
 }
 
 type ApiUseradmCheckLivelinessRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
 }
 
@@ -731,24 +729,24 @@ func (r ApiUseradmCheckLivelinessRequest) Execute() (*http.Response, error) {
 }
 
 /*
-UseradmCheckLiveliness Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly. 
+UseradmCheckLiveliness Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUseradmCheckLivelinessRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUseradmCheckLivelinessRequest
 */
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckLiveliness(ctx context.Context) ApiUseradmCheckLivelinessRequest {
 	return ApiUseradmCheckLivelinessRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckLivelinessExecute(r ApiUseradmCheckLivelinessRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodGet
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationAndAuthenticationInternalAPIAPIService.UseradmCheckLiveliness")
@@ -808,8 +806,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckL
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -818,9 +816,9 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckL
 }
 
 type ApiUseradmCreateTenantRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
-	tenantNew *TenantNew
+	tenantNew  *TenantNew
 }
 
 func (r ApiUseradmCreateTenantRequest) TenantNew(tenantNew TenantNew) ApiUseradmCreateTenantRequest {
@@ -835,22 +833,22 @@ func (r ApiUseradmCreateTenantRequest) Execute() (*http.Response, error) {
 /*
 UseradmCreateTenant Create a tenant with provided configuration.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUseradmCreateTenantRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUseradmCreateTenantRequest
 */
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCreateTenant(ctx context.Context) ApiUseradmCreateTenantRequest {
 	return ApiUseradmCreateTenantRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCreateTenantExecute(r ApiUseradmCreateTenantRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationAndAuthenticationInternalAPIAPIService.UseradmCreateTenant")
@@ -915,8 +913,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCreate
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -926,8 +924,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCreate
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
@@ -936,10 +934,10 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCreate
 }
 
 type ApiVerifyJWTRequest struct {
-	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
-	authorization *string
-	xForwardedUri *string
+	ctx              context.Context
+	ApiService       *UserAdministrationAndAuthenticationInternalAPIAPIService
+	authorization    *string
+	xForwardedUri    *string
 	xForwardedMethod *string
 }
 
@@ -949,7 +947,7 @@ func (r ApiVerifyJWTRequest) Authorization(authorization string) ApiVerifyJWTReq
 	return r
 }
 
-// URI the original request was sent to, the URI is expected to have at least 4 components, eg. /api/management/1.0/foo/bar 
+// URI the original request was sent to, the URI is expected to have at least 4 components, eg. /api/management/1.0/foo/bar
 func (r ApiVerifyJWTRequest) XForwardedUri(xForwardedUri string) ApiVerifyJWTRequest {
 	r.xForwardedUri = &xForwardedUri
 	return r
@@ -971,23 +969,22 @@ VerifyJWT Check the validity of a token
 Besides the basic validity check, checks the token expiration time and user-initiated token revocation.
 Services which intend to use it should be correctly set up in the gateway's configuration.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiVerifyJWTRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiVerifyJWTRequest
 */
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) VerifyJWT(ctx context.Context) ApiVerifyJWTRequest {
 	return ApiVerifyJWTRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) VerifyJWTExecute(r ApiVerifyJWTRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAdministrationAndAuthenticationInternalAPIAPIService.VerifyJWT")
@@ -1059,8 +1056,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) VerifyJWTExec
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -1070,8 +1067,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) VerifyJWTExec
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
@@ -1081,8 +1078,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) VerifyJWTExec
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -1092,8 +1089,8 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) VerifyJWTExec
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}

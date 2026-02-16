@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -20,10 +20,10 @@ var _ MappedNullable = &TaskResultCLI{}
 
 // TaskResultCLI struct for TaskResultCLI
 type TaskResultCLI struct {
-	Command []string `json:"command,omitempty"`
-	Output *string `json:"output,omitempty"`
-	Error *string `json:"error,omitempty"`
-	ExitCode *int32 `json:"exitCode,omitempty"`
+	Command  []string `json:"command,omitempty"`
+	Output   *string  `json:"output,omitempty"`
+	Error    *string  `json:"error,omitempty"`
+	ExitCode *int32   `json:"exitCode,omitempty"`
 }
 
 // NewTaskResultCLI instantiates a new TaskResultCLI object
@@ -172,7 +172,7 @@ func (o *TaskResultCLI) SetExitCode(v int32) {
 }
 
 func (o TaskResultCLI) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -231,5 +231,3 @@ func (v *NullableTaskResultCLI) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

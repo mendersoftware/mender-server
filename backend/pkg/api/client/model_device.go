@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -22,16 +22,16 @@ var _ MappedNullable = &Device{}
 // Device struct for Device
 type Device struct {
 	// Mender assigned Device ID.
-	Id *string `json:"id,omitempty"`
+	Id           *string       `json:"id,omitempty"`
 	IdentityData *IdentityData `json:"identity_data,omitempty"`
-	Status *string `json:"status,omitempty"`
+	Status       *string       `json:"status,omitempty"`
 	// Created timestamp
 	CreatedTs *time.Time `json:"created_ts,omitempty"`
 	// Updated timestamp
 	UpdatedTs *time.Time `json:"updated_ts,omitempty"`
 	// Time when accepted device contacted server for the last time.
 	CheckInTime *time.Time `json:"check_in_time,omitempty"`
-	AuthSets []AuthSet `json:"auth_sets,omitempty"`
+	AuthSets    []AuthSet  `json:"auth_sets,omitempty"`
 	// Devices that are part of ongoing decomissioning process will return True
 	Decommissioning *bool `json:"decommissioning,omitempty"`
 }
@@ -310,7 +310,7 @@ func (o *Device) SetDecommissioning(v bool) {
 }
 
 func (o Device) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -381,5 +381,3 @@ func (v *NullableDevice) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

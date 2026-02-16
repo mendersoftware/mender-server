@@ -1,7 +1,7 @@
 /*
 Mender API
 
-Combined API specification for the features of the different Mender backend services, suitable for code generation applications 
+Combined API specification for the features of the different Mender backend services, suitable for code generation applications
 
 API version: 1
 Contact: support@mender.io
@@ -19,12 +19,11 @@ import (
 	"net/url"
 )
 
-
 // DeviceConfigureDeviceAPIAPIService DeviceConfigureDeviceAPIAPI service
 type DeviceConfigureDeviceAPIAPIService service
 
 type ApiDeviceConfigGetDeviceConfigurationRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService *DeviceConfigureDeviceAPIAPIService
 }
 
@@ -35,24 +34,25 @@ func (r ApiDeviceConfigGetDeviceConfigurationRequest) Execute() (map[string]stri
 /*
 DeviceConfigGetDeviceConfiguration Query the configuration store; retrieve all key-value pairs
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeviceConfigGetDeviceConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConfigGetDeviceConfigurationRequest
 */
 func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigGetDeviceConfiguration(ctx context.Context) ApiDeviceConfigGetDeviceConfigurationRequest {
 	return ApiDeviceConfigGetDeviceConfigurationRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return map[string]string
+//
+//	@return map[string]string
 func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigGetDeviceConfigurationExecute(r ApiDeviceConfigGetDeviceConfigurationRequest) (map[string]string, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  map[string]string
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue map[string]string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConfigureDeviceAPIAPIService.DeviceConfigGetDeviceConfiguration")
@@ -112,8 +112,8 @@ func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigGetDeviceConfigurationE
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
@@ -123,8 +123,8 @@ func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigGetDeviceConfigurationE
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -134,8 +134,8 @@ func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigGetDeviceConfigurationE
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -153,8 +153,8 @@ func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigGetDeviceConfigurationE
 }
 
 type ApiDeviceConfigReportDeviceConfigurationRequest struct {
-	ctx context.Context
-	ApiService *DeviceConfigureDeviceAPIAPIService
+	ctx         context.Context
+	ApiService  *DeviceConfigureDeviceAPIAPIService
 	requestBody *map[string]string
 }
 
@@ -170,22 +170,22 @@ func (r ApiDeviceConfigReportDeviceConfigurationRequest) Execute() (*http.Respon
 /*
 DeviceConfigReportDeviceConfiguration Set a key-value pair store, updating if existing, removing if empty
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeviceConfigReportDeviceConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConfigReportDeviceConfigurationRequest
 */
 func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigReportDeviceConfiguration(ctx context.Context) ApiDeviceConfigReportDeviceConfigurationRequest {
 	return ApiDeviceConfigReportDeviceConfigurationRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
 func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigReportDeviceConfigurationExecute(r ApiDeviceConfigReportDeviceConfigurationRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPut
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceConfigureDeviceAPIAPIService.DeviceConfigReportDeviceConfiguration")
@@ -247,8 +247,8 @@ func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigReportDeviceConfigurati
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -258,8 +258,8 @@ func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigReportDeviceConfigurati
 				newErr.error = err.Error()
 				return localVarHTTPResponse, newErr
 			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+			newErr.model = v
 		}
 		return localVarHTTPResponse, newErr
 	}
