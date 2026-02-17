@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { GoogleAuth } from 'google-auth-library';
+import { OAuth2Client } from 'google-auth-library';
 import { gmail_v1, google } from 'googleapis';
 
 interface Email {
@@ -35,9 +35,18 @@ export interface EmailClient {
 
 export class GmailEmailClient implements EmailClient {
   private gmail: gmail_v1.Gmail;
+  private userId: string;
 
-  constructor(auth: GoogleAuth) {
-    this.gmail = google.gmail({ version: 'v1', auth });
+  constructor(clientId: string, clientSecret: string, refreshToken: string, userId?: string) {
+    const auth = new OAuth2Client({
+      clientId: clientId,
+      clientSecret: clientSecret,
+      credentials: {
+        refresh_token: refreshToken
+      }
+    });
+    this.gmail = google.gmail({ auth, version: 'v1' });
+    this.userId = userId ? userId : 'me';
   }
 
   async getEmails(params?: SearchParams): Promise<Email[]> {
@@ -48,7 +57,7 @@ export class GmailEmailClient implements EmailClient {
     if (params?.from) queryParts.push(`from:${params.from}`);
 
     const listRes = await this.gmail.users.messages.list({
-      userId: 'me',
+      userId: this.userId,
       q: queryParts.join(' ')
     });
 
