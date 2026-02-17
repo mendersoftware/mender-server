@@ -10,7 +10,8 @@
     "script": "node run.js",
     "test": "npx playwright test",
     "test-visual": "PWDEBUG=1 npx playwright test",
-    "test-visual-new": "npx playwright test --ui"
+    "test-visual-new": "npx playwright test --ui",
+    "oauth2credentials": "node scripts/oauth2authorize.ts"
   },
   "author": "Northern.tech AS",
   "license": "Apache-2.0",
@@ -34,6 +35,7 @@
     "jsqr": "1.4.0",
     "jwt-decode": "^4.0.0",
     "md5": "^2.3.0",
+    "open": "^11.0.0",
     "ora": "^9.3.0",
     "otplib": "^13.4.0",
     "pixelmatch": "^7.1.0",
