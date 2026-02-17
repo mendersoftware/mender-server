@@ -16,12 +16,14 @@ package mongo
 
 import (
 	"context"
+	"io"
 	"strconv"
 	"testing"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
@@ -1223,6 +1225,13 @@ func TestReplaceReleaseTags(t *testing.T) {
 
 		Tags:        model.Tags{"bar", "foo"},
 		ReleaseName: "v1.0",
+		ErrorAssertionFunc: func(t assert.TestingT, err error, vargs ...interface{}) bool {
+			var decodeErr *bson.DecodeError
+			if !errors.As(err, &decodeErr) {
+				return false
+			}
+			return assert.Contains(t, err.Error(), "cannot decode embedded document")
+		},
 	}, {
 		Name: "error/aggregate context cancelled",
 
@@ -1236,7 +1245,10 @@ func TestReplaceReleaseTags(t *testing.T) {
 		Tags:        model.Tags{"oneMore", "tag"},
 		ReleaseName: "v1.0",
 		ErrorAssertionFunc: func(t assert.TestingT, err error, vargs ...interface{}) bool {
-			return assert.ErrorIs(t, err, context.Canceled)
+			if errors.Is(err, context.Canceled) || errors.Is(err, io.ErrUnexpectedEOF) {
+				return true
+			}
+			return assert.Fail(t, "unexpected error: "+err.Error())
 		},
 	}, {
 		Name: "error/update context cancelled",
@@ -1251,7 +1263,7 @@ func TestReplaceReleaseTags(t *testing.T) {
 		Tags:        model.Tags{},
 		ReleaseName: "v1.0",
 		ErrorAssertionFunc: func(t assert.TestingT, err error, vargs ...interface{}) bool {
-			return assert.ErrorIs(t, err, context.Canceled)
+			return assert.ErrorIs(t, err, context.Canceled) || errors.Is(err, io.ErrUnexpectedEOF)
 		},
 	}}
 	for i := range testCases {

@@ -19,12 +19,12 @@ import (
 	"reflect"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -53,7 +53,7 @@ func (m *migration_1_2_4) Up(from migrate.Version) error {
 
 	// recalculate stats for all the non-finished deployments
 	// we'll be iterating and modifying - sort by _id to ensure every doc is handled exactly once
-	fopts := options.FindOptions{}
+	fopts := options.Find()
 	fopts.SetSort(bson.M{"_id": 1})
 	fopts.SetNoCursorTimeout(true)
 
@@ -61,7 +61,7 @@ func (m *migration_1_2_4) Up(from migrate.Version) error {
 		StorageKeyDeploymentFinished: bson.M{
 			"$eq": nil,
 		},
-	}, &fopts)
+	}, fopts)
 	if err != nil {
 		return errors.Wrap(err, "failed to get deployments")
 	}

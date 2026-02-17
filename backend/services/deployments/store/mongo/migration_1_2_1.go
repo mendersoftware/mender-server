@@ -16,9 +16,9 @@ package mongo
 import (
 	"context"
 
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 )
 
 var (
@@ -37,7 +37,7 @@ func (m *migration_1_2_1) Up(from migrate.Version) error {
 	collDpl := m.client.Database(m.db).Collection(CollectionDeployments)
 	indexView := collDpl.Indexes()
 
-	_, err := indexView.DropOne(ctx, IndexDeploymentArtifactName_0_0_0)
+	err := indexView.DropOne(ctx, IndexDeploymentArtifactName_0_0_0)
 	if err != nil {
 		// Supress NamespaceNotFound and IndexNotFound errors
 		// - index is missing

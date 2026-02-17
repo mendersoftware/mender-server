@@ -20,10 +20,9 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -433,7 +432,7 @@ func TestMigration_1_2_4(t *testing.T) {
 		assert.NoError(t, err)
 
 		// setup test deployments
-		_, err = collDeps.InsertOne(context.TODO(), tc.deployment, &options.InsertOneOptions{})
+		_, err = collDeps.InsertOne(context.TODO(), tc.deployment)
 		assert.NoError(t, err)
 
 		_, err = collDevDeps.InsertMany(context.TODO(), tc.devices, nil)
@@ -452,7 +451,7 @@ func TestMigration_1_2_4(t *testing.T) {
 
 		// verify statuses
 		var out model.Deployment
-		cur := collDeps.FindOne(ctx, bson.M{"_id": tc.id}, &options.FindOneOptions{})
+		cur := collDeps.FindOne(ctx, bson.M{"_id": tc.id})
 
 		err = cur.Decode(&out)
 		assert.NoError(t, err)
