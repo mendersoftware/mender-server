@@ -1,5 +1,7 @@
 services:
   gui-tests-runner:
+    environment:
+      SMTP4DEV_URL: "http://smtp4dev"
     depends_on:
       - auditlogs
       - client

@@ -10,7 +10,8 @@
     "script": "node run.js",
     "test": "npx playwright test",
     "test-visual": "PWDEBUG=1 npx playwright test",
-    "test-visual-new": "npx playwright test --ui"
+    "test-visual-new": "npx playwright test --ui",
+    "oauth2credentials": "node scripts/oauth2authorize.ts"
   },
   "author": "Northern.tech AS",
   "license": "Apache-2.0",
@@ -39,5 +40,10 @@
     "uuid": "^13.0.0",
     "validator": "^13.15.26",
     "yaml": "^2.8.2"
+  },
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
+    "google-auth-library": "^10.5.0",
+    "googleapis": "^105.0.0"
   }
 }

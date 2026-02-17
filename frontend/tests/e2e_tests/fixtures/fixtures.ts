@@ -17,6 +17,7 @@ import { test as nonCoveredTest } from '@playwright/test';
 
 import { getPeristentLoginInfo } from '../utils/commands.ts';
 import { timeouts } from '../utils/constants.ts';
+import { EmailClient, GmailEmailClient, Smtp4devEmailClient } from '../utils/email.ts';
 
 type DemoArtifactVersionInfo = {
   artifactVersion: string;
@@ -30,6 +31,7 @@ type TestFixtures = {
   config: unknown;
   demoArtifactVersion: DemoArtifactVersionInfo;
   demoDeviceName: string;
+  emailClient: EmailClient | null;
   environment: TestEnvironment;
   page: Page;
   password: string;
@@ -88,7 +90,20 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     await use(baseUrl);
   },
   demoDeviceName: defaultConfig.demoDeviceName,
-  demoArtifactVersion: { artifactVersion: '3.8.3', updateVersion: '5.0.3' }
+  demoArtifactVersion: { artifactVersion: '3.8.3', updateVersion: '5.0.3' },
+  emailClient: async ({ environment, username }, use) => {
+    if (environment == 'staging' && process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_REFRESH_TOKEN) {
+      // strip off opaque string in username: `username+opaque@domain.com`
+      const userId = username.replace(/(^[^+]+)(\+[^@]+)?(@.*)$/, '$1$3');
+      const gmail = new GmailEmailClient(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REFRESH_TOKEN, userId);
+      await use(gmail);
+    } else if (environment == 'enterprise') {
+      const emailUrl = process.env.SMTP4DEV_URL ? process.env.SMTP4DEV_URL : 'http://localhost:8025';
+      await use(new Smtp4devEmailClient({ baseUrl: emailUrl }));
+    } else {
+      await use(null);
+    }
+  }
 });
 
 export { expect };

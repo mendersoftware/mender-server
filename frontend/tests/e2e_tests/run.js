@@ -106,6 +106,7 @@ const createConfig = (options = {}) => {
   if (baseConfig.environment === environments.enterprise) {
     composeFiles.push(join(baseConfig.serverRoot, 'compose/docker-compose.enterprise.yml'));
     composeFiles.push(join(baseConfig.guiRepository, 'tests/e2e_tests/docker-compose.e2e-tests.enterprise.yml'));
+    composeFiles.push(join(baseConfig.serverRoot, 'compose/docker-compose.smtp4dev.yml'));
   }
   if (baseConfig.variant === testSuiteVariants.qemu) {
     composeFiles.push(join(baseConfig.guiRepository, 'tests/e2e_tests/docker-compose.e2e-tests.rofs.yml'));
