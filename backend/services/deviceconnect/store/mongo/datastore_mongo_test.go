@@ -36,7 +36,9 @@ import (
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
 )
@@ -424,7 +426,7 @@ func TestGetSession(t *testing.T) {
 			))
 			collSess := database.Collection(SessionsCollectionName)
 			ctx := context.Background()
-			_, err := collSess.InsertOne(nil, mstore.WithTenantID(ctx, tc.Session))
+			_, err := collSess.InsertOne(nil, mongostore.WithTenantID(ctx, tc.Session))
 			if err != nil {
 				panic(errors.Wrap(err,
 					"[TEST ERR] Failed to prepare test case",
@@ -515,7 +517,7 @@ func TestGetSessionRecording(t *testing.T) {
 			if len(tc.ControlData) > 0 {
 				ctrl, err := base64.StdEncoding.DecodeString(tc.ControlData)
 				assert.NoError(t, err)
-				_, err = collControl.InsertOne(nil, mstore.WithTenantID(tc.Ctx, &model.ControlData{
+				_, err = collControl.InsertOne(nil, mongostore.WithTenantID(tc.Ctx, &model.ControlData{
 					ID:        uuid.New(),
 					SessionID: tc.SessionID,
 					Control:   ctrl,
@@ -525,7 +527,7 @@ func TestGetSessionRecording(t *testing.T) {
 				assert.NoError(t, err)
 			}
 
-			_, err = collRecordings.InsertOne(nil, mstore.WithTenantID(tc.Ctx, &model.Recording{
+			_, err = collRecordings.InsertOne(nil, mongostore.WithTenantID(tc.Ctx, &model.Recording{
 				ID:        uuid.New(),
 				SessionID: tc.SessionID,
 				Recording: rec,
@@ -685,7 +687,7 @@ func TestSetSessionRecording(t *testing.T) {
 				defer ticker.Stop()
 				for {
 					err := collSess.FindOne(ctx,
-						mstore.WithTenantID(tc.Ctx, bson.M{
+						mongostore.WithTenantID(tc.Ctx, bson.M{
 							dbFieldSessionID: tc.SessionID,
 						}),
 					).Decode(&r)
@@ -703,7 +705,7 @@ func TestSetSessionRecording(t *testing.T) {
 				}
 			} else {
 				err := collSess.FindOne(ctx,
-					mstore.WithTenantID(tc.Ctx, bson.M{
+					mongostore.WithTenantID(tc.Ctx, bson.M{
 						dbFieldSessionID: tc.SessionID,
 					}),
 				).Decode(&r)

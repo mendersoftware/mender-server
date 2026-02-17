@@ -22,7 +22,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/bson"
 
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 )
 
 type index struct {
@@ -93,21 +93,21 @@ func TestMigration_2_0_1(t *testing.T) {
 					{Key: "expire_ts", Value: int32(1)},
 				}, keys)
 
-			case mstore.FieldTenantID + "_" + dbFieldSessionID:
+			case mongostore.FieldTenantID + "_" + dbFieldSessionID:
 				var keys bson.D
 				err := bson.Unmarshal(idx.KeysDocument, &keys)
 				require.NoError(t, err)
 				assert.Equal(t, bson.D{
-					{Key: mstore.FieldTenantID, Value: int32(1)},
+					{Key: mongostore.FieldTenantID, Value: int32(1)},
 					{Key: dbFieldSessionID, Value: int32(1)},
 				}, keys)
 
-			case mstore.FieldTenantID + "_" + dbFieldDeviceID:
+			case mongostore.FieldTenantID + "_" + dbFieldDeviceID:
 				var keys bson.D
 				err := bson.Unmarshal(idx.KeysDocument, &keys)
 				require.NoError(t, err)
 				assert.Equal(t, bson.D{
-					{Key: mstore.FieldTenantID, Value: int32(1)},
+					{Key: mongostore.FieldTenantID, Value: int32(1)},
 					{Key: dbFieldDeviceID, Value: int32(1)},
 				}, keys)
 
@@ -118,7 +118,7 @@ func TestMigration_2_0_1(t *testing.T) {
 	}
 
 	actual, err := collDevs.CountDocuments(ctx, bson.D{
-		{Key: mstore.FieldTenantID, Value: bson.D{{Key: "$exists", Value: false}}},
+		{Key: mongostore.FieldTenantID, Value: bson.D{{Key: "$exists", Value: false}}},
 	})
 	require.NoError(t, err)
 	assert.Zerof(t, actual, "%d documents are not indexed by tenant_id", actual)

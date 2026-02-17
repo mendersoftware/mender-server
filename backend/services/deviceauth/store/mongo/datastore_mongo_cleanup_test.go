@@ -23,7 +23,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 )
@@ -326,13 +326,13 @@ func TestGetBrokenAuthSets(t *testing.T) {
 			coll := db.client.Database(DbName).Collection(DbAuthSetColl)
 			var err error
 			for _, a := range tc.inAuthSets {
-				_, err = coll.InsertOne(ctx, ctxstore.WithTenantID(ctx, a))
+				_, err = coll.InsertOne(ctx, mongostore.WithTenantID(ctx, a))
 				assert.NoError(t, err)
 			}
 
 			coll = db.client.Database(DbName).Collection(DbDevicesColl)
 			for _, d := range tc.inDevices {
-				_, err = coll.InsertOne(ctx, ctxstore.WithTenantID(ctx, d))
+				_, err = coll.InsertOne(ctx, mongostore.WithTenantID(ctx, d))
 				assert.NoError(t, err)
 			}
 

@@ -23,10 +23,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
-	ctxstore2 "github.com/mendersoftware/mender-server/pkg/store/v2"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 )
@@ -94,7 +94,7 @@ func TestMigration_2_0_0(t *testing.T) {
 	for i := 0; i < len(tenantIds); i++ {
 		count, err := devicesCollection.CountDocuments(
 			ctxs[i],
-			ctxstore2.WithTenantID(
+			mongostore.WithTenantID(
 				ctxs[i],
 				bson.M{
 					"status": "accepted",

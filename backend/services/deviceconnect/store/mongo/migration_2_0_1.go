@@ -22,9 +22,9 @@ import (
 	mopts "go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	mstorev1 "github.com/mendersoftware/mender-server/pkg/store"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 )
 
 const (
@@ -48,11 +48,11 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 			Indexes: []mongo.IndexModel{
 				{
 					Keys: bson.D{
-						{Key: mstore.FieldTenantID, Value: 1},
+						{Key: mongostore.FieldTenantID, Value: 1},
 						{Key: dbFieldDeviceID, Value: 1},
 					},
 					Options: mopts.Index().
-						SetName(mstore.FieldTenantID + "_" + dbFieldDeviceID),
+						SetName(mongostore.FieldTenantID + "_" + dbFieldDeviceID),
 				},
 			},
 		},
@@ -60,11 +60,11 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 			Indexes: []mongo.IndexModel{
 				{
 					Keys: bson.D{
-						{Key: mstore.FieldTenantID, Value: 1},
+						{Key: mongostore.FieldTenantID, Value: 1},
 						{Key: dbFieldSessionID, Value: 1},
 					},
 					Options: mopts.Index().
-						SetName(mstore.FieldTenantID + "_" + dbFieldSessionID),
+						SetName(mongostore.FieldTenantID + "_" + dbFieldSessionID),
 				},
 				{
 					// Index for expiring old events
@@ -79,11 +79,11 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 			Indexes: []mongo.IndexModel{
 				{
 					Keys: bson.D{
-						{Key: mstore.FieldTenantID, Value: 1},
+						{Key: mongostore.FieldTenantID, Value: 1},
 						{Key: dbFieldSessionID, Value: 1},
 					},
 					Options: mopts.Index().
-						SetName(mstore.FieldTenantID + "_" + dbFieldSessionID),
+						SetName(mongostore.FieldTenantID + "_" + dbFieldSessionID),
 				},
 			},
 		},
@@ -109,11 +109,11 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 				}
 			}
 			_, err := collOut.UpdateMany(ctx, bson.D{
-				{Key: mstore.FieldTenantID, Value: bson.D{
+				{Key: mongostore.FieldTenantID, Value: bson.D{
 					{Key: "$exists", Value: false},
 				}},
 			}, bson.D{{Key: "$set", Value: bson.D{
-				{Key: mstore.FieldTenantID, Value: ""},
+				{Key: mongostore.FieldTenantID, Value: ""},
 			}}},
 			)
 			if err != nil {
@@ -141,7 +141,7 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 				NewReplaceOneModel().
 				SetFilter(bson.D{{Key: dbFieldID, Value: id}}).
 				SetUpsert(true).
-				SetReplacement(mstore.WithTenantID(ctx, item)))
+				SetReplacement(mongostore.WithTenantID(ctx, item)))
 			if len(writes) == findBatchSize {
 				_, err = collOut.BulkWrite(ctx, writes)
 				if err != nil {

@@ -25,9 +25,9 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	mstorev1 "github.com/mendersoftware/mender-server/pkg/store"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 )
 
 const (
@@ -42,13 +42,13 @@ type migration_2_0_0 struct {
 var DbDevicesCollectionIndices = []mongo.IndexModel{
 	{
 		Keys: bson.D{
-			{Key: mstore.FieldTenantID, Value: 1},
+			{Key: mongostore.FieldTenantID, Value: 1},
 			{Key: dbFieldIDDataSha, Value: 1},
 		},
 		//nolint:staticcheck // SA1019
 		Options: mopts.Index().
 			SetName(strings.Join([]string{
-				mstore.FieldTenantID,
+				mongostore.FieldTenantID,
 				dbFieldIDDataSha,
 			}, "_")).
 			SetUnique(true).
@@ -56,14 +56,14 @@ var DbDevicesCollectionIndices = []mongo.IndexModel{
 	},
 	{
 		Keys: bson.D{
-			{Key: mstore.FieldTenantID, Value: 1},
+			{Key: mongostore.FieldTenantID, Value: 1},
 			{Key: dbFieldStatus, Value: 1},
 			{Key: dbFieldID, Value: 1},
 		},
 		//nolint:staticcheck // SA1019
 		Options: mopts.Index().
 			SetName(strings.Join([]string{
-				mstore.FieldTenantID,
+				mongostore.FieldTenantID,
 				dbFieldStatus,
 				dbFieldID,
 			}, "_")).
@@ -74,13 +74,13 @@ var DbDevicesCollectionIndices = []mongo.IndexModel{
 var DbAuthSetsCollectionIndices = []mongo.IndexModel{
 	{
 		Keys: bson.D{
-			{Key: mstore.FieldTenantID, Value: 1},
+			{Key: mongostore.FieldTenantID, Value: 1},
 			{Key: dbFieldIDDataSha, Value: 1},
 			{Key: dbFieldPubKey, Value: 1},
 		},
 		Options: mopts.Index().
 			SetName(strings.Join([]string{
-				mstore.FieldTenantID,
+				mongostore.FieldTenantID,
 				dbFieldIDDataSha,
 				dbFieldPubKey,
 			}, "_")).
@@ -88,12 +88,12 @@ var DbAuthSetsCollectionIndices = []mongo.IndexModel{
 	},
 	{
 		Keys: bson.D{
-			{Key: mstore.FieldTenantID, Value: 1},
+			{Key: mongostore.FieldTenantID, Value: 1},
 			{Key: dbFieldDeviceID, Value: 1},
 		},
 		Options: mopts.Index().
 			SetName(strings.Join([]string{
-				mstore.FieldTenantID,
+				mongostore.FieldTenantID,
 				dbFieldDeviceID,
 			}, "_")),
 	},
@@ -102,12 +102,12 @@ var DbAuthSetsCollectionIndices = []mongo.IndexModel{
 var DbLimitsCollectionIndices = []mongo.IndexModel{
 	{
 		Keys: bson.D{
-			{Key: mstore.FieldTenantID, Value: 1},
+			{Key: mongostore.FieldTenantID, Value: 1},
 			{Key: dbFieldName, Value: 1},
 		},
 		Options: mopts.Index().
 			SetName(strings.Join([]string{
-				mstore.FieldTenantID,
+				mongostore.FieldTenantID,
 				dbFieldName,
 			},
 				"_",
@@ -201,11 +201,11 @@ func (m *migration_2_0_0) Up(from migrate.Version) error {
 				continue
 			}
 			_, err := collOut.UpdateMany(ctx, bson.D{
-				{Key: mstore.FieldTenantID, Value: bson.D{
+				{Key: mongostore.FieldTenantID, Value: bson.D{
 					{Key: "$exists", Value: false},
 				}},
 			}, bson.D{{Key: "$set", Value: bson.D{
-				{Key: mstore.FieldTenantID, Value: ""},
+				{Key: mongostore.FieldTenantID, Value: ""},
 			}}},
 			)
 			if err != nil {
@@ -268,7 +268,7 @@ func (m *migration_2_0_0) Up(from migrate.Version) error {
 					NewReplaceOneModel().
 					SetFilter(bson.D{{Key: dbFieldID, Value: id}}).
 					SetUpsert(true).
-					SetReplacement(mstore.WithTenantID(ctx, item)))
+					SetReplacement(mongostore.WithTenantID(ctx, item)))
 				if len(writes) == findBatchSize {
 					_, err = collOut.BulkWrite(ctx, writes)
 					if err != nil {

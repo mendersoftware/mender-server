@@ -29,7 +29,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
@@ -188,7 +188,7 @@ func TestGetIntegrations(t *testing.T) {
 				coll *mongo.Collection,
 			) {
 				docFace := castInterfaceSlice(self.Integrations)
-				docs := mstore.ArrayWithTenantID(self.CTX, docFace)
+				docs := mongostore.ArrayWithTenantID(self.CTX, docFace)
 				_, err := coll.InsertMany(context.Background(), docs)
 				if err != nil {
 					panic(err)
@@ -244,7 +244,7 @@ func TestGetIntegrations(t *testing.T) {
 						},
 					},
 				))
-				docs := mstore.ArrayWithTenantID(self.CTX, docFace)
+				docs := mongostore.ArrayWithTenantID(self.CTX, docFace)
 				_, err := coll.InsertMany(context.Background(), docs)
 				if err != nil {
 					panic(err)
@@ -318,7 +318,7 @@ func TestGetIntegrations(t *testing.T) {
 						},
 					},
 				))
-				docs := mstore.ArrayWithTenantID(self.CTX, docFace)
+				docs := mongostore.ArrayWithTenantID(self.CTX, docFace)
 				_, err := coll.InsertMany(context.Background(), docs)
 				if err != nil {
 					panic(err)
@@ -371,7 +371,7 @@ func TestGetIntegrations(t *testing.T) {
 				self *testCase,
 				coll *mongo.Collection,
 			) {
-				doc := mstore.WithTenantID(self.CTX, map[string]interface{}{
+				doc := mongostore.WithTenantID(self.CTX, map[string]interface{}{
 					"_id":         "1234567890",
 					"credentials": "correcthorsebatterystaple",
 				})
@@ -480,7 +480,7 @@ func TestGetDevice(t *testing.T) {
 
 			if tc.Device != nil {
 				_, err := collDevices.InsertMany(ctx, []interface{}{
-					mstore.WithTenantID(ctx, tc.Device),
+					mongostore.WithTenantID(ctx, tc.Device),
 				})
 				assert.NoError(t, err)
 			}
@@ -560,7 +560,7 @@ func TestGetIntegrationById(t *testing.T) {
 
 			if tc.Integration != nil {
 				_, err := collIntegrations.InsertMany(ctx, []interface{}{
-					mstore.WithTenantID(ctx, tc.Integration),
+					mongostore.WithTenantID(ctx, tc.Integration),
 				})
 				assert.NoError(t, err)
 			}
@@ -644,7 +644,7 @@ func TestSetIntegrationCredentials(t *testing.T) {
 
 			if tc.Credentials != nil {
 				_, err := collIntegrations.InsertMany(ctx, []interface{}{
-					mstore.WithTenantID(ctx, model.Integration{
+					mongostore.WithTenantID(ctx, model.Integration{
 						ID: integrationID,
 						Credentials: model.Credentials{
 							Type: model.CredentialTypeSAS,
@@ -718,7 +718,7 @@ func TestRemoveIntegration(t *testing.T) {
 			})
 
 			_, err := collIntegrations.InsertMany(ctx, []interface{}{
-				mstore.WithTenantID(ctx, model.Integration{
+				mongostore.WithTenantID(ctx, model.Integration{
 					ID:          integrationID,
 					Provider:    model.ProviderIoTHub,
 					Credentials: model.Credentials{},
@@ -800,14 +800,14 @@ func TestDoDevicesExistByIntegrationID(t *testing.T) {
 
 			if tc.Integration != nil {
 				_, err := collIntegrations.InsertMany(ctx, []interface{}{
-					mstore.WithTenantID(ctx, tc.Integration),
+					mongostore.WithTenantID(ctx, tc.Integration),
 				})
 				assert.NoError(t, err)
 			}
 
 			if tc.Devices != nil {
 				_, err := collDevices.InsertMany(ctx, []interface{}{
-					mstore.WithTenantID(ctx, model.Device{
+					mongostore.WithTenantID(ctx, model.Device{
 						ID:             uuid.NewString(),
 						IntegrationIDs: []uuid.UUID{tc.IntegrationID},
 					}),
@@ -882,7 +882,7 @@ func testSetDevices() []model.Device {
 func insertDevices(ctx context.Context, db *mongo.Database, devices []model.Device) {
 	collDevices := db.Collection(CollNameDevices)
 	for _, device := range devices {
-		_, err := collDevices.InsertOne(ctx, mstore.WithTenantID(ctx, device))
+		_, err := collDevices.InsertOne(ctx, mongostore.WithTenantID(ctx, device))
 		if err != nil {
 			panic(err)
 		}
@@ -1072,7 +1072,7 @@ func TestUpsertDeviceIntegrations(t *testing.T) {
 			&identity.Identity{Tenant: "123456789012345678901234"},
 		),
 		InitDatabase: func(self *testCase, coll *mongo.Collection) {
-			doc := mstore.WithTenantID(self.CTX, model.Device{
+			doc := mongostore.WithTenantID(self.CTX, model.Device{
 				ID: uuid.Nil.String(),
 				IntegrationIDs: []uuid.UUID{
 					uuid.NewSHA1(uuid.NameSpaceOID, []byte{'1'}),
@@ -1104,7 +1104,7 @@ func TestUpsertDeviceIntegrations(t *testing.T) {
 			&identity.Identity{Tenant: "123456789012345678901234"},
 		),
 		InitDatabase: func(self *testCase, coll *mongo.Collection) {
-			doc := mstore.WithTenantID(self.CTX, model.Device{
+			doc := mongostore.WithTenantID(self.CTX, model.Device{
 				ID: uuid.Nil.String(),
 				IntegrationIDs: []uuid.UUID{
 					uuid.NewSHA1(uuid.NameSpaceOID, []byte{'1'}),

@@ -26,7 +26,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 )
@@ -62,7 +62,7 @@ func TestGetEvents(t *testing.T) {
 				coll *mongo.Collection,
 			) {
 				docFace := castInterfaceSlice(self.InEvents)
-				docs := mstore.ArrayWithTenantID(self.CTX, docFace)
+				docs := mongostore.ArrayWithTenantID(self.CTX, docFace)
 				_, err := coll.InsertMany(context.Background(), docs)
 				if err != nil {
 					panic(err)
@@ -103,7 +103,7 @@ func TestGetEvents(t *testing.T) {
 				coll *mongo.Collection,
 			) {
 				docFace := castInterfaceSlice(self.InEvents)
-				docs := mstore.ArrayWithTenantID(self.CTX, docFace)
+				docs := mongostore.ArrayWithTenantID(self.CTX, docFace)
 				_, err := coll.InsertMany(context.Background(), docs)
 				if err != nil {
 					panic(err)
@@ -178,7 +178,7 @@ func TestGetEvents(t *testing.T) {
 				coll *mongo.Collection,
 			) {
 				docFace := castInterfaceSlice(self.InEvents)
-				docs := mstore.ArrayWithTenantID(self.CTX, docFace)
+				docs := mongostore.ArrayWithTenantID(self.CTX, docFace)
 				_, err := coll.InsertMany(context.Background(), docs)
 				if err != nil {
 					panic(err)
@@ -254,7 +254,7 @@ func TestGetEvents(t *testing.T) {
 				coll *mongo.Collection,
 			) {
 				docFace := castInterfaceSlice(self.InEvents)
-				docs := mstore.ArrayWithTenantID(self.CTX, docFace)
+				docs := mongostore.ArrayWithTenantID(self.CTX, docFace)
 				_, err := coll.InsertMany(context.Background(), docs)
 				if err != nil {
 					panic(err)
@@ -459,7 +459,7 @@ func TestSaveEvent(t *testing.T) {
 			}
 			if tc.Error != nil {
 				cur, err := collEvents.Find(tc.CTX,
-					mstore.WithTenantID(tc.CTX, bson.D{}),
+					mongostore.WithTenantID(tc.CTX, bson.D{}),
 				)
 				assert.NoError(t, err)
 				events := []model.Event{}

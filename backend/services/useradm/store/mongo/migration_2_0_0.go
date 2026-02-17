@@ -23,6 +23,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
 	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 )
@@ -58,7 +59,7 @@ func (m *migration_2_0_0) Up(from migrate.Version) error {
 			Indexes: []mongo.IndexModel{
 				{
 					Keys: bson.D{
-						{Key: mstore.FieldTenantID, Value: 1},
+						{Key: mongostore.FieldTenantID, Value: 1},
 						{Key: DbTokenSubject, Value: 1},
 						{Key: DbTokenName, Value: 1},
 					},
@@ -72,7 +73,7 @@ func (m *migration_2_0_0) Up(from migrate.Version) error {
 				},
 				{
 					Keys: bson.D{
-						{Key: mstore.FieldTenantID, Value: 1},
+						{Key: mongostore.FieldTenantID, Value: 1},
 						{Key: DbTokenSubject, Value: 1},
 					},
 					Options: mopts.Index().
@@ -84,7 +85,7 @@ func (m *migration_2_0_0) Up(from migrate.Version) error {
 			Indexes: []mongo.IndexModel{
 				{
 					Keys: bson.D{
-						{Key: mstore.FieldTenantID, Value: 1},
+						{Key: mongostore.FieldTenantID, Value: 1},
 					},
 					Options: mopts.Index().
 						SetUnique(true).
@@ -126,8 +127,8 @@ func (m *migration_2_0_0) Up(from migrate.Version) error {
 			// if any documents already exist in "useradm" ds,
 			// add empty "tenant_id": "" key-value pair
 			tenantIdFilter := bson.D{
-				{Key: mstore.FieldTenantID, Value: bson.D{{Key: "$exists", Value: false}}}}
-			update := bson.M{"$set": bson.M{mstore.FieldTenantID: ""}}
+				{Key: mongostore.FieldTenantID, Value: bson.D{{Key: "$exists", Value: false}}}}
+			update := bson.M{"$set": bson.M{mongostore.FieldTenantID: ""}}
 			result, err := collOut.UpdateMany(ctx, tenantIdFilter, update)
 			logger.Debugf("Modified documents in main useradm database count: %d",
 				result.ModifiedCount)
@@ -153,7 +154,7 @@ func (m *migration_2_0_0) Up(from migrate.Version) error {
 					return err
 				}
 
-				item = mstore.WithTenantID(ctx, item)
+				item = mongostore.WithTenantID(ctx, item)
 				writes = append(writes, mongo.NewInsertOneModel().SetDocument(item))
 
 				if len(writes) == findBatchSize {
