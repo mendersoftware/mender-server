@@ -14,6 +14,7 @@
 import test, { expect } from '../../fixtures/fixtures';
 import { isEnterpriseOrStaging, prepareNewPage } from '../../utils/commands';
 import { releaseTag, selectors, timeouts } from '../../utils/constants';
+import { v4 as uuid } from 'uuid';
 
 const releaseRoles = [
   { name: 'test-releases-role', permissions: ['Read'], tag: undefined },
@@ -84,6 +85,42 @@ test.describe('RBAC functionality', () => {
       }
     });
   });
+    test('TEMP: user creation timeout stress probe', async ({ environment, page, password, username }) => {
+      // This temporary test attempts to reproduce the recurring hang in the user creation endpoint.
+      test.setTimeout(3 * timeouts.sixtySeconds)
+      for (let i = 0; i < 10; i++) {
+        const usernamePrefixed = `${uuid()}-${username}`
+
+        const userCreations = [
+          { user: `limited-${usernamePrefixed}`, role: 'test-groups-role' },
+          { user: `lim-ro-rel-${usernamePrefixed}`, role: releaseRoles[0].name },
+          { user: `lim-man-${releaseTag}-${usernamePrefixed}`, role: releaseRoles[1].name },
+          { user: `lim-ro-${releaseTag}-${usernamePrefixed}`, role: releaseRoles[2].name }
+        ];
+        for (const { user, role } of userCreations) {
+          await page.getByRole('button', { name: /new user/i }).click();
+          await page.getByPlaceholder(/email/i).click();
+          await page.getByPlaceholder(/email/i).fill(user);
+          await page.getByPlaceholder(/Password/i).click();
+          await page.getByPlaceholder(/Password/i).fill(password);
+          if (isEnterpriseOrStaging(environment)) {
+            await page.getByRole('combobox', { name: /admin/i }).click();
+            // first we need to deselect the default admin role
+            await page.getByRole('option', { name: 'Admin' }).click();
+            await page.getByRole('option', { name: role }).scrollIntoViewIfNeeded();
+            await page.getByRole('option', { name: role }).click();
+            await page.press('body', 'Escape');
+          }
+          await page.getByText(/Create user/i).click();
+          await page.getByText('The user was created successfully.').waitFor();
+        }
+        for (let j = 0; j < userCreations.length; j++) {
+          await page.getByRole('button', { name: /view details/i}).nth(2).click();
+          await page.getByRole('button', { name: /delete user/i}).click();
+          await page.getByRole('button', { name: /delete user/i}).click();
+        }
+      }
+    })
   test('allows user creation', async ({ environment, page, password, username }) => {
     const userCreations = [
       { user: `limited-${username}`, role: 'test-groups-role' },
