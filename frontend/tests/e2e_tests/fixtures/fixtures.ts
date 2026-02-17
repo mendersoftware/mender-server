@@ -14,7 +14,6 @@
 import { test as coveredTest, expect } from '@bgotink/playwright-coverage';
 import type { Page } from '@playwright/test';
 import { test as nonCoveredTest } from '@playwright/test';
-import { google } from 'googleapis';
 
 import { getPeristentLoginInfo } from '../utils/commands.ts';
 import { timeouts } from '../utils/constants.ts';
@@ -92,18 +91,18 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
   },
   demoDeviceName: defaultConfig.demoDeviceName,
   demoArtifactVersion: { artifactVersion: '3.8.3', updateVersion: '5.0.3' },
-  emailClient: async ({ environment }, use) => {
-    if (environment == 'staging' && process.env['GOOGLE_APPLICATION_CREDENTIALS']) {
-      const auth = new google.auth.GoogleAuth({
-        scopes: ['https://www.googleapis.com/auth/gmail.readonly'],
-        keyFilename: process.env['GOOGLE_APPLICATION_CREDENTIALS']
-      });
-      await use(new GmailEmailClient(auth));
+  emailClient: async ({ environment, username }, use) => {
+    if (environment == 'staging' && process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_REFRESH_TOKEN) {
+      // strip off opaque string in username: `username+opaque@domain.com`
+      const userId = username.replace(/(^[^+]+)(\+[^@]+)?(@.*)$/, '$1$3');
+      const gmail = new GmailEmailClient(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REFRESH_TOKEN, userId);
+      await use(gmail);
     } else if (environment == 'enterprise') {
       const emailUrl = process.env.SMTP4DEV_URL ? process.env.SMTP4DEV_URL : 'http://localhost:8025';
       await use(new Smtp4devEmailClient({ baseUrl: emailUrl }));
+    } else {
+      await use(null);
     }
-    await use(null);
   }
 });
 
