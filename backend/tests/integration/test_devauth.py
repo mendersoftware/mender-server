@@ -43,7 +43,6 @@ from testutils.common import (
     retry,
 )
 
-
 @pytest.fixture(scope="function")
 def clean_migrated_mongo(clean_mongo):
     deviceauth_cli = CliDeviceauth()
@@ -53,7 +52,6 @@ def clean_migrated_mongo(clean_mongo):
     useradm_cli.migrate()
 
     yield clean_mongo
-
 
 @pytest.fixture(scope="function")
 def clean_migrated_mongo_mt(clean_mongo):
@@ -65,11 +63,9 @@ def clean_migrated_mongo_mt(clean_mongo):
 
     yield clean_mongo
 
-
 @pytest.fixture(scope="function")
 def user(clean_migrated_mongo):
     yield create_user("user-foo@acme.com", "correcthorse")
-
 
 @pytest.fixture(scope="function")
 def devices(clean_migrated_mongo, user):
@@ -90,7 +86,6 @@ def devices(clean_migrated_mongo, user):
 
     yield devices
 
-
 @pytest.fixture(scope="function")
 def tenants_users(clean_migrated_mongo_mt):
     tenants = []
@@ -104,28 +99,6 @@ def tenants_users(clean_migrated_mongo_mt):
         tenants.append(create_org(tenant, username, password))
 
     yield tenants
-
-
-@pytest.fixture(scope="function")
-def tenants_users_devices(clean_migrated_mongo_mt, tenants_users):
-    useradm_mgmt_v1 = ApiClient(useradm.URL_MGMT)
-    devauthm = ApiClient(deviceauth.URL_MGMT)
-    devauthd = ApiClient(deviceauth.URL_DEVICES)
-
-    for t in tenants_users:
-        user = t.users[0]
-        r = useradm_mgmt_v1.call("POST", useradm.URL_LOGIN, auth=(user.name, user.pwd))
-        assert r.status_code == 200
-        utoken = r.text
-
-        for _ in range(5):
-            aset = create_random_authset(devauthd, devauthm, utoken, t.tenant_token)
-            dev = Device(aset.did, aset.id_data, aset.pubkey, t.tenant_token)
-            dev.status = aset.status
-            t.devices.append(dev)
-
-    yield tenants_users
-
 
 class TestPreauthBase:
     def do_test_ok(self, user, tenant_token=""):
@@ -307,7 +280,6 @@ class TestPreauthBase:
             assert crypto.compare_keys(aset["pubkey"], devices[0].pubkey)
             assert aset["status"] == "pending"
 
-
 class TestPreauth(TestPreauthBase):
     def test_ok(self, user):
         self.do_test_ok(user)
@@ -337,52 +309,6 @@ class TestPreauth(TestPreauthBase):
         body = deviceauth.preauth_req(id_data, "not a public key")
         r = devauthm.with_auth(utoken).call("POST", deviceauth.URL_MGMT_DEVICES, body)
         assert r.status_code == 400
-
-
-class TestPreauthEnterprise(TestPreauthBase):
-    def test_ok(self, tenants_users_devices):
-        user = tenants_users_devices[0].users[0]
-
-        self.do_test_ok(user, tenants_users_devices[0].tenant_token)
-
-        # check other tenant's devices unmodified
-        user1 = tenants_users_devices[1].users[0]
-        devs1 = tenants_users_devices[1].devices
-        self.verify_devices_unmodified(user1, devs1)
-
-    def test_fail_duplicate(self, tenants_users_devices):
-        user = tenants_users_devices[0].users[0]
-        devices = tenants_users_devices[0].devices
-
-        self.do_test_fail_duplicate(user, devices)
-
-        # check other tenant's devices unmodified
-        user1 = tenants_users_devices[1].users[0]
-        devs1 = tenants_users_devices[1].devices
-        self.verify_devices_unmodified(user1, devs1)
-
-    def verify_devices_unmodified(self, user, in_devices):
-        devauthm = ApiClient(deviceauth.URL_MGMT)
-        useradmm = ApiClient(useradm.URL_MGMT)
-
-        r = useradmm.call("POST", useradm.URL_LOGIN, auth=(user.name, user.pwd))
-        assert r.status_code == 200
-
-        utoken = r.text
-
-        r = devauthm.with_auth(utoken).call("GET", deviceauth.URL_MGMT_DEVICES)
-        assert r.status_code == 200
-        api_devs = r.json()
-
-        for dev in in_devices:
-            api_dev = [d for d in api_devs if dev.id_data == d["identity_data"]]
-            assert len(api_dev) == 1
-            api_dev = api_dev[0]
-            assert dev.status == api_dev["status"]
-            assert len(api_dev["auth_sets"]) == 1
-            aset = api_dev["auth_sets"][0]
-            assert crypto.compare_keys(aset["pubkey"], dev.pubkey)
-
 
 def make_devs_with_authsets(user, tenant_token=""):
     """ create a good number of devices, some with >1 authsets, with different statuses.
@@ -509,27 +435,15 @@ def make_devs_with_authsets(user, tenant_token=""):
     devices.sort(key=lambda dev: dev.status)
     return devices
 
-
 @pytest.fixture(scope="function")
 def devs_authsets(user):
     yield make_devs_with_authsets(user)
-
-
-@pytest.fixture(scope="function")
-def tenants_devs_authsets(tenants_users):
-    for t in tenants_users:
-        devs = make_devs_with_authsets(t.users[0], t.tenant_token)
-        t.devices = devs
-
-    yield tenants_users
-
 
 def rand_id_data():
     mac = ":".join(["{:02x}".format(random.randint(0x00, 0xFF), "x") for i in range(6)])
     sn = "".join(["{}".format(random.randint(0x00, 0xFF)) for i in range(6)])
 
     return {"mac": mac, "sn": sn}
-
 
 def make_pending_device(utoken, keygen, num_auth_sets=1, tenant_token=""):
     devauthm = ApiClient(deviceauth.URL_MGMT)
@@ -553,7 +467,6 @@ def make_pending_device(utoken, keygen, num_auth_sets=1, tenant_token=""):
 
     return dev
 
-
 def make_accepted_device_with_multiple_authsets(
     utoken, keygen, num_auth_sets=1, num_accepted=1, tenant_token=""
 ):
@@ -571,7 +484,6 @@ def make_accepted_device_with_multiple_authsets(
 
     return dev
 
-
 def make_rejected_device(utoken, keygen, num_auth_sets=1, tenant_token=""):
     devauthm = ApiClient(deviceauth.URL_MGMT)
 
@@ -586,7 +498,6 @@ def make_rejected_device(utoken, keygen, num_auth_sets=1, tenant_token=""):
     dev.status = "rejected"
 
     return dev
-
 
 def make_preauthd_device(utoken, keygen):
     devauthm = ApiClient(deviceauth.URL_MGMT)
@@ -611,7 +522,6 @@ def make_preauthd_device(utoken, keygen):
 
     return dev
 
-
 def make_preauthd_device_with_pending(utoken, keygen, num_pending=1, tenant_token=""):
     devauthm = ApiClient(deviceauth.URL_MGMT)
     devauthd = ApiClient(deviceauth.URL_DEVICES)
@@ -634,7 +544,6 @@ def make_preauthd_device_with_pending(utoken, keygen, num_pending=1, tenant_toke
         )
 
     return dev
-
 
 class TestDeviceMgmtBase:
     def do_test_ok_get_devices(self, devs_authsets, user):
@@ -883,7 +792,6 @@ class TestDeviceMgmtBase:
 
         return devs[lo:hi]
 
-
 class TestDeviceMgmt(TestDeviceMgmtBase):
     def test_ok_get_devices(self, devs_authsets, user):
         self.do_test_ok_get_devices(devs_authsets, user)
@@ -899,107 +807,6 @@ class TestDeviceMgmt(TestDeviceMgmtBase):
 
     def test_device_count(self, devs_authsets, user):
         self.do_test_device_count(devs_authsets, user)
-
-
-class TestDeviceMgmtEnterprise(TestDeviceMgmtBase):
-    @pytest.mark.skipif(
-        useExistingTenant(), reason="not feasible to test with existing tenant",
-    )
-    def test_ok_get_devices(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_ok_get_devices(t.devices, t.users[0])
-
-    def test_get_device(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_get_device(t.devices, t.users[0])
-
-    def test_delete_device_ok(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_delete_device_ok(
-                t.devices, t.users[0], tenant_token=t.tenant_token
-            )
-
-    def test_delete_device_not_found(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_delete_device_not_found(t.devices, t.users[0])
-
-    @pytest.mark.skipif(
-        useExistingTenant(), reason="not feasible to test with existing tenant",
-    )
-    def test_device_count(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_device_count(t.devices, t.users[0])
-
-    def test_limits_max_devices(self, tenants_devs_authsets):
-        devauthi = ApiClient(
-            deviceauth.URL_INTERNAL, host=deviceauth.HOST, schema="http://"
-        )
-        devauthm = ApiClient(deviceauth.URL_MGMT)
-        devauthd = ApiClient(deviceauth.URL_DEVICES)
-        useradmm = ApiClient(useradm.URL_MGMT)
-
-        for t in tenants_devs_authsets:
-            # get num currently accepted devices
-            num_acc = len(filter_and_page_devs(t.devices, status="accepted"))
-
-            # set limit to that
-            r = devauthi.call(
-                "PUT",
-                deviceauth.URL_INTERNAL_LIMITS_MAX_DEVICES,
-                {"limit": num_acc},
-                path_params={"tid": t.id},
-            )
-            assert r.status_code == 204
-
-            # get limit via internal api
-            r = devauthi.call(
-                "GET",
-                deviceauth.URL_INTERNAL_LIMITS_MAX_DEVICES,
-                path_params={"tid": t.id},
-            )
-            assert r.status_code == 200
-
-            assert r.json()["limit"] == num_acc
-
-            # get limit via mgmt api
-            r = useradmm.call(
-                "POST", useradm.URL_LOGIN, auth=(t.users[0].name, t.users[0].pwd)
-            )
-            assert r.status_code == 200
-
-            utoken = r.text
-
-            r = devauthm.with_auth(utoken).call(
-                "GET", deviceauth.URL_LIMITS_MAX_DEVICES
-            )
-            assert r.status_code == 200
-
-            assert r.json()["limit"] == num_acc
-
-            # try accept a device manually
-            pending = filter_and_page_devs(t.devices, status="pending")[0]
-
-            r = devauthm.with_auth(utoken).call(
-                "PUT",
-                deviceauth.URL_AUTHSET_STATUS,
-                deviceauth.req_status("accepted"),
-                path_params={"did": pending.id, "aid": pending.authsets[0].id},
-            )
-            assert r.status_code == 422
-
-            # try exceed the limit via preauth'd device
-            preauthd = filter_and_page_devs(t.devices, status="preauthorized")[0]
-
-            body, sighdr = deviceauth.auth_req(
-                preauthd.id_data,
-                preauthd.authsets[0].pubkey,
-                preauthd.authsets[0].privkey,
-                t.tenant_token,
-            )
-
-            r = devauthd.call("POST", deviceauth.URL_AUTH_REQS, body, headers=sighdr)
-            assert r.status_code == 401
-
 
 class TestAuthsetMgmtBase:
     def do_test_get_authset_status(self, devs_authsets, user):
@@ -1394,7 +1201,6 @@ class TestAuthsetMgmtBase:
         else:
             raise TimeoutError("timeout waiting for device to get provisioned")
 
-
 class TestAuthsetMgmt(TestAuthsetMgmtBase):
     def test_get_authset_status(self, devs_authsets, user):
         self.do_test_get_authset_status(devs_authsets, user)
@@ -1414,33 +1220,6 @@ class TestAuthsetMgmt(TestAuthsetMgmtBase):
     def test_delete_status_failed(self, devs_authsets, user):
         self.do_test_delete_status_failed(devs_authsets, user)
 
-
-class TestAuthsetMgmtEnterprise(TestAuthsetMgmtBase):
-    def test_get_authset_status(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_get_authset_status(t.devices, t.users[0])
-
-    def test_put_status_accept(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_put_status_accept(t.devices, t.users[0], t.tenant_token)
-
-    def test_put_status_reject(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_put_status_reject(t.devices, t.users[0], t.tenant_token)
-
-    def test_put_status_failed(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_put_status_failed(t.devices, t.users[0])
-
-    def test_delete_status(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_delete_status(t.devices, t.users[0], t.tenant_token)
-
-    def test_delete_status_failed(self, tenants_devs_authsets):
-        for t in tenants_devs_authsets:
-            self.do_test_delete_status_failed(t.devices, t.users[0])
-
-
 def filter_and_page_devs(devs, page=None, per_page=None, status=None):
     if status is not None:
         devs = [d for d in devs if d.status == status]
@@ -1456,240 +1235,11 @@ def filter_and_page_devs(devs, page=None, per_page=None, status=None):
 
     return devs[lo:hi]
 
-
 def compare_aset(authset, api_authset):
     assert authset.id == api_authset["id"]
     assert authset.id_data == api_authset["identity_data"]
     assert crypto.compare_keys(authset.pubkey, api_authset["pubkey"])
     assert authset.status == api_authset["status"]
-
-
-@pytest.mark.skipif(
-    isK8S(), reason="not testable in a staging or production environment"
-)
-class TestDefaultTenantTokenEnterprise:
-
-    useradm_mgmt_v1 = ApiClient(useradm.URL_MGMT)
-    devauthd = ApiClient(deviceauth.URL_DEVICES)
-    devauthm = ApiClient(deviceauth.URL_MGMT)
-
-    def test_default_tenant_token(self, clean_mongo):
-        """Connect with a device without a tenant-token, and make sure it shows up in the default tenant account"""
-
-        uuidv4 = str(uuid.uuid4())
-        tenant, username, password = (
-            "test.mender.io-" + uuidv4,
-            "some.user+" + uuidv4 + "@example.com",
-            "secretsecret",
-        )
-        default_tenant = create_org(tenant, username, password)
-        default_tenant_user = default_tenant.users[0]
-
-        # Restart the deviceauth service with the new token belonging to `default-tenant`
-        deviceauth_cli = CliDeviceauth()
-        with deviceauth_cli.add_default_tenant_token(default_tenant.tenant_token):
-
-            wait_until_healthy("backend-tests")
-
-            # Retrieve user token for management API
-            r = self.useradm_mgmt_v1.call(
-                "POST",
-                useradm.URL_LOGIN,
-                auth=(default_tenant_user.name, default_tenant_user.pwd),
-            )
-            assert r.status_code == 200
-            default_utoken = r.text
-
-            # Create a device with an empty tenant token, and try to authorize
-            aset = create_random_authset(
-                self.devauthd, self.devauthm, default_utoken, ""
-            )  # Emty tenant token
-
-            # Device must show up in the default tenant's account
-            r = self.devauthm.with_auth(default_utoken).call(
-                "GET", deviceauth.URL_MGMT_DEVICES + "?id=" + aset.did
-            )
-            assert r.status_code == 200
-            api_devs = r.json()
-            assert len(api_devs) == 1
-            api_dev = api_devs[0]
-            assert api_dev["status"] == "pending"
-
-        # Wait for containers to become healthy before leaving the test
-        wait_until_healthy("backend-tests")
-
-    def test_valid_tenant_not_duplicated_for_default_tenant(self, clean_mongo):
-        """Verify that a valid tenant-token login does not show up in the default tenant's account"""
-
-        uuidv4 = str(uuid.uuid4())
-        tenant, username, password = (
-            "test.mender.io-" + uuidv4,
-            "some.user+" + uuidv4 + "@example.com",
-            "secretsecret",
-        )
-        default_tenant = create_org(tenant, username, password)
-        default_tenant_user = default_tenant.users[0]
-
-        # Restart the deviceauth service with the new token belonging to `default-tenant`
-        deviceauth_cli = CliDeviceauth()
-        with deviceauth_cli.add_default_tenant_token(default_tenant.tenant_token):
-
-            wait_until_healthy("backend-tests")
-
-            # Get default user token for management api
-            r = self.useradm_mgmt_v1.call(
-                "POST",
-                useradm.URL_LOGIN,
-                auth=(default_tenant_user.name, default_tenant_user.pwd),
-            )
-            assert r.status_code == 200
-            default_utoken = r.text
-
-            # Create a second user, which has it's own tenant token
-            tenant1 = create_org("tenant1", "foo@bar.com", "foobarbaz")
-            tenant1_user = tenant1.users[0]
-
-            r = self.useradm_mgmt_v1.call(
-                "POST", useradm.URL_LOGIN, auth=(tenant1_user.name, tenant1_user.pwd)
-            )
-            assert r.status_code == 200
-            tenant1_utoken = r.text
-
-            # Create a device, and try to authorize
-            aset = create_random_authset(
-                self.devauthd, self.devauthm, tenant1_utoken, tenant1.tenant_token
-            )
-
-            # Device should show up in the 'tenant1's account
-            r = self.devauthm.with_auth(tenant1_utoken).call(
-                "GET", deviceauth.URL_MGMT_DEVICES + "?id=" + aset.did
-            )
-            assert r.status_code == 200
-            api_devs = r.json()
-            assert len(api_devs) == 1
-            api_dev = api_devs[0]
-            assert api_dev["status"] == "pending"
-
-            # Device must not show up in the default tenant's account
-            r = self.devauthm.with_auth(default_utoken).call(
-                "GET", deviceauth.URL_MGMT_DEVICES + "?id=" + aset.did
-            )
-            assert r.status_code == 200
-            api_devs = r.json()
-            assert len(api_devs) == 0
-
-        # Wait for containers to become healthy before leaving the test
-        wait_until_healthy("backend-tests")
-
-    def test_invalid_tenant_token_added_to_default_account(self, clean_mongo):
-        """Verify that an invalid tenant token does show up in the default tenant account"""
-
-        uuidv4 = str(uuid.uuid4())
-        tenant, username, password = (
-            "test.mender.io-" + uuidv4,
-            "some.user+" + uuidv4 + "@example.com",
-            "secretsecret",
-        )
-        default_tenant = create_org(tenant, username, password)
-        default_tenant_user = default_tenant.users[0]
-
-        # Restart the deviceauth service with the new token belonging to `default-tenant`
-        deviceauth_cli = CliDeviceauth()
-        with deviceauth_cli.add_default_tenant_token(default_tenant.tenant_token):
-
-            wait_until_healthy("backend-tests")
-
-            # Get default user auth token for management api
-            r = self.useradm_mgmt_v1.call(
-                "POST",
-                useradm.URL_LOGIN,
-                auth=(default_tenant_user.name, default_tenant_user.pwd),
-            )
-            assert r.status_code == 200
-            default_utoken = r.text
-
-            # Create a second user, which has it's own tenant token
-            uuidv4 = str(uuid.uuid4())
-            tenant, username, password = (
-                "test.mender.io-" + uuidv4,
-                "some.user+" + uuidv4 + "@example.com",
-                "secretsecret",
-            )
-            tenant1 = create_org(tenant, username, password)
-            tenant1_user = tenant1.users[0]
-            r = self.useradm_mgmt_v1.call(
-                "POST", useradm.URL_LOGIN, auth=(tenant1_user.name, tenant1_user.pwd)
-            )
-            assert r.status_code == 200
-            tenant1_utoken = r.text
-
-            r = self.devauthm.with_auth(tenant1_utoken).call(
-                "GET", deviceauth.URL_DEVICES_COUNT
-            )
-            assert r.status_code == 200
-            tenant1.dev_count = r.json()["count"]
-
-            r = self.devauthm.with_auth(default_utoken).call(
-                "GET", deviceauth.URL_DEVICES_COUNT
-            )
-            assert r.status_code == 200
-            default_tenant.dev_count = r.json()["count"]
-
-            # Device must not show up in the 'tenant1's account, so the authset will not be pending
-            with pytest.raises(AssertionError) as e:
-                aset = create_random_authset(
-                    self.devauthd, self.devauthm, tenant1_utoken, "mumbojumbotoken"
-                )
-
-            # Double check that it is not added to tenant1
-            r = self.devauthm.with_auth(tenant1_utoken).call(
-                "GET", deviceauth.URL_DEVICES_COUNT
-            )
-            assert r.status_code == 200
-            r.json()["count"] == tenant1.dev_count
-
-            # Device must show up in the default tenant's account
-            r = self.devauthm.with_auth(default_utoken).call(
-                "GET", deviceauth.URL_DEVICES_COUNT
-            )
-            assert r.status_code == 200
-            assert r.json()["count"] == default_tenant.dev_count + 1
-
-        # Wait for containers to become healthy before leaving the test
-        wait_until_healthy("backend-tests")
-
-
-@pytest.fixture(scope="function")
-def tenants_with_plans(clean_mongo):
-    uuidv4 = str(uuid.uuid4())
-    tenant, username, password = (
-        "test.mender.io-" + uuidv4,
-        "some.user+" + uuidv4 + "@example.com",
-        "secretsecret",
-    )
-    tos = create_org(tenant, username, password, plan="os")
-    tos.plan = "os"
-    #
-    uuidv4 = str(uuid.uuid4())
-    tenant, username, password = (
-        "test.mender.io-" + uuidv4,
-        "some.user+" + uuidv4 + "@example.com",
-        "secretsecret",
-    )
-    tpro = create_org(tenant, username, password, plan="professional")
-    tpro.plan = "professional"
-    #
-    uuidv4 = str(uuid.uuid4())
-    tenant, username, password = (
-        "test.mender.io-" + uuidv4,
-        "some.user+" + uuidv4 + "@example.com",
-        "secretsecret",
-    )
-    tent = create_org(tenant, username, password, plan="enterprise")
-    tent.plan = "enterprise"
-
-    return [tos, tpro, tent]
-
 
 class TestAuthReqBase:
     def do_test_submit_accept(self, user, tenant=None):
@@ -1784,21 +1334,9 @@ class TestAuthReqBase:
                 assert payload["mender.plan"] == tenant.plan
                 assert payload["mender.tenant"] == tenant.id
 
-
 class TestAuthReq(TestAuthReqBase):
     def test_submit_accept(self, user):
         self.do_test_submit_accept(user)
-
-
-class TestAuthReqEnterprise(TestAuthReqBase):
-    @pytest.mark.skipif(
-        useExistingTenant(), reason="not feasible to test with existing tenant",
-    )
-    def test_submit_accept(self, tenants_with_plans):
-        for tenant in tenants_with_plans:
-            user = tenant.users[0]
-            self.do_test_submit_accept(user, tenant)
-
 
 class TestDevAuthCliBase:
     def do_test_propagate_statuses(self, user, tenant=None):
@@ -1836,14 +1374,7 @@ class TestDevAuthCliBase:
         deviceauth_cli = CliDeviceauth()
         deviceauth_cli.propagate_inventory_statuses()
 
-
 class TestDevAuthCli(TestDevAuthCliBase):
     def test_propagate_statuses(self, user):
         self.do_test_propagate_statuses(user)
 
-
-class TestDevAuthCliEnterprise(TestDevAuthCliBase):
-    def test_propagate_statuses(self, tenants_with_plans):
-        for tenant in tenants_with_plans:
-            user = tenant.users[0]
-            self.do_test_propagate_statuses(user, tenant)

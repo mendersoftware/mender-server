@@ -14,7 +14,6 @@
 
 from mender_client import ApiClient, Configuration, api
 
-
 class TestHealthCheck:
     def test_health_check(self):
         configuration = Configuration.get_default()
@@ -37,7 +36,6 @@ class TestHealthCheck:
         api.DeviceConfigureInternalAPIApi(
             api_client_deviceconfig
         ).device_config_internal_check_health()
-
 
         configuration.host = "http://deviceconnect:8080"
         api_client_deviceconnect = ApiClient(configuration)
@@ -68,35 +66,3 @@ class TestHealthCheck:
         api.WorkflowsOtherApi(api_client_workflows).workflows_check_health()
         configuration.host = host
 
-
-class TestHealthCheckEnterprise(TestHealthCheck):
-    def test_health_check(self):
-        super().test_health_check()
-        # FIXME: enterprise API specs are private
-        configuration = Configuration.get_default()
-        host = configuration.host
-        configuration.debug = True
-        configuration.host = "http://auditlogs:8080"
-        api_client_auditlogs = ApiClient(configuration)
-        api_client_auditlogs.call_api(
-            *api_client_auditlogs.param_serialize(
-                "GET", "/api/internal/v1/auditlogs/health"
-            )
-        )
-
-        configuration.host = "http://devicemonitor:8080"
-        api_client_devicemonitor = ApiClient(configuration)
-        api_client_devicemonitor.call_api(
-            *api_client_devicemonitor.param_serialize(
-                "GET", "/api/internal/v1/devicemonitor/health"
-            )
-        )
-
-        configuration.host = "http://tenantadm:8080"
-        api_client_tenantadm = ApiClient(configuration)
-        api_client_tenantadm.call_api(
-            *api_client_tenantadm.param_serialize(
-                "GET", "/api/internal/v1/tenantadm/health"
-            )
-        )
-        configuration.host = host

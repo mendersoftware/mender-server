@@ -23,7 +23,6 @@ from testutils.api.client import ApiClient
 from testutils.api import deployments, useradm
 from testutils.common import create_org, create_user
 
-
 class TestCreateArtifactBase:
     def run_create_artifact_test(self, username, password):
         r = ApiClient(useradm.URL_MGMT).call(
@@ -95,19 +94,6 @@ class TestCreateArtifactBase:
         assert artifact["size"] > 0
         assert artifact["id"] is not None
         assert artifact["modified"] is not None
-
-
-class TestCreateArtifactEnterprise(TestCreateArtifactBase):
-    def test_create_artifact(self, mongo, clean_mongo):
-        uuidv4 = str(uuid.uuid4())
-        tenant, username, password = (
-            "test.mender.io-" + uuidv4,
-            "some.user+" + uuidv4 + "@example.com",
-            "secretsecret",
-        )
-        create_org(tenant, username, password)
-        self.run_create_artifact_test(username, password)
-
 
 class TestCreateArtifactOpenSource(TestCreateArtifactBase):
     def test_create_artifact(self, mongo, clean_mongo):
