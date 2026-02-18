@@ -27,7 +27,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 	mjwt "github.com/mendersoftware/mender-server/services/useradm/jwt/mocks"

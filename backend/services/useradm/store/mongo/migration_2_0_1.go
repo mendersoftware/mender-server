@@ -18,12 +18,12 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 )
 
 type migration_2_0_1 struct {
@@ -62,7 +62,7 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 		for collection, indexModel := range collectionsIndexes {
 			coll := m.ds.client.Database(m.dbName).Collection(collection)
 			// drop all the existing indexes, ignoring the errors
-			_, _ = coll.Indexes().DropAll(ctx)
+			_ = coll.Indexes().DropAll(ctx)
 
 			// create the new indexes
 			if len(indexModel.Indexes) != 0 {
@@ -75,7 +75,7 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 
 		// migrate user settings to the dedicated collection
 		coll := m.ds.client.Database(m.dbName).Collection(DbSettingsColl)
-		opts := &mopts.FindOptions{}
+		opts := mopts.Find()
 		opts.SetSort(bson.D{{Key: "_id", Value: 1}})
 		cur, err := coll.Find(ctx, bson.M{}, opts)
 		if err != nil {
@@ -95,14 +95,27 @@ func (m *migration_2_0_1) Up(from migrate.Version) error {
 			}
 			for key, value := range item {
 				if isValidUUID(key) {
-					valueMap, ok := value.(map[string]interface{})
-					if ok {
-						valueMap[DbSettingsUserID] = key
-						valueMap[mongostore.FieldTenantID] = item[mongostore.FieldTenantID]
-						_, err = usersColl.InsertOne(ctx, valueMap)
-						if err != nil {
-							return err
+					var valueMap map[string]interface{}
+
+					switch v := value.(type) {
+					case bson.D:
+						valueMap = make(map[string]interface{})
+						for _, e := range v {
+							valueMap[e.Key] = e.Value
 						}
+					case map[string]interface{}:
+						valueMap = v
+					case bson.M:
+						valueMap = v
+					default:
+						continue
+					}
+
+					valueMap[DbSettingsUserID] = key
+					valueMap[mongostore.FieldTenantID] = item[mongostore.FieldTenantID]
+					_, err = usersColl.InsertOne(ctx, valueMap)
+					if err != nil {
+						return err
 					}
 				}
 			}

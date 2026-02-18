@@ -17,14 +17,14 @@ package mongo
 import (
 	"context"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 )
 
@@ -100,7 +100,7 @@ func (m *migration_2_0_0) Up(from migrate.Version) error {
 		for collection, indexModel := range collectionsIndexes {
 			coll := m.ds.client.Database(m.dbName).Collection(collection)
 			// drop all the existing indexes, ignoring the errors
-			_, _ = coll.Indexes().DropAll(ctx)
+			_ = coll.Indexes().DropAll(ctx)
 
 			// create the new indexes
 			if len(indexModel.Indexes) != 0 {
