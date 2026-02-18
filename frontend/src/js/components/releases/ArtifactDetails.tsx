@@ -82,7 +82,7 @@ const DevicesLink = ({ artifact: { installCount }, softwareItem: { key, name, ve
   const attribute = `${key}${name ? `.${name}` : ''}.version`;
   return (
     <a
-      className="flexbox center-aligned"
+      className="flexbox align-items-center"
       href={`${window.location.origin}/ui/devices/accepted?inventory=${attribute}:eq:${version}`}
       target="_blank"
       rel="noreferrer"
@@ -163,12 +163,12 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
         data={{
           'Description': <EditableLongText fullWidth original={artifact.description} onChange={onDescriptionChanged} />,
           'Signed': artifact.signed ? (
-            <div className="flexbox center-aligned">
+            <div className="flexbox align-items-center">
               <SignedIcon className="green margin-right-x-small" />
               <Typography variant="body2">Signed</Typography>
             </div>
           ) : (
-            <div className="flexbox center-aligned">
+            <div className="flexbox align-items-center">
               <UnsignedIcon className="red margin-right-x-small" />
               <Typography variant="body2">Unsigned</Typography>
             </div>
@@ -188,7 +188,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
       )}
       <ArtifactMetadataList metaInfo={softwareInformation} />
       <Accordion square expanded={showPayloads} onChange={() => setShowPayloads(toggle)} className={classes.accordPanel1}>
-        <AccordionSummary className="flexbox center-aligned">
+        <AccordionSummary className="flexbox align-items-center">
           <Typography>Artifact contents</Typography>
           <div style={{ marginLeft: 'auto' }}>{showPayloads ? <ExpandLess /> : <ExpandMore />}</div>
         </AccordionSummary>
@@ -200,7 +200,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
       </Accordion>
       {hasMetaInfo && (
         <Accordion square expanded={showProvidesDepends} onChange={() => setShowProvidesDepends(!showProvidesDepends)} className={classes.accordPanel1}>
-          <AccordionSummary className="flexbox center-aligned">
+          <AccordionSummary className="flexbox align-items-center">
             <Typography>Provides and Depends</Typography>
             <div style={{ marginLeft: 'auto' }}>{showProvidesDepends ? <ExpandLess /> : <ExpandMore />}</div>
           </AccordionSummary>

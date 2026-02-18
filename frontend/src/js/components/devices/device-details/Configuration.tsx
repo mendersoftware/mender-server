@@ -364,11 +364,11 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
       isAddOn
       title={
         <div className="two-columns">
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             <h4 className="margin-right">Device configuration</h4>
             {hasDeviceConfig && !(isEditingConfig || isUpdatingConfig) && <EditButton onClick={onStartEdit} />}
           </div>
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             {isEditingConfig ? (
               <Button onClick={onStartImportClick} disabled={isUpdatingConfig} startIcon={<SaveAltIcon />} style={{ justifySelf: 'left' }}>
                 Import configuration
@@ -395,7 +395,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
         ) : (
           hasDeviceConfig && <TwoColumnData chipLikeKey data={reported} setSnackbar={onSetSnackbar} />
         )}
-        {hasDeviceConfig && <div className="flexbox center-aligned margin-bottom margin-top">{footer}</div>}
+        {hasDeviceConfig && <div className="flexbox align-items-center margin-bottom margin-top">{footer}</div>}
         {showLog && <LogDialog logData={updateLog} onClose={() => setShowLog(false)} type="configUpdateLog" />}
         {showConfigImport && <ConfigImportDialog onCancel={() => setShowConfigImport(false)} onSubmit={onConfigImport} />}
       </div>

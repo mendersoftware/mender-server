@@ -61,7 +61,7 @@ interface AiLogAnalysisProps {
 }
 
 const Header = () => (
-  <div className="flexbox center-aligned margin-bottom-small">
+  <div className="flexbox align-items-center margin-bottom-small">
     <AutoAwesomeIcon className="margin-right-small" />
     <Typography variant="h6">AI summary (experimental)</Typography>
   </div>
@@ -76,7 +76,7 @@ const FeedbackSection = ({ deploymentId, deviceId }) => {
   };
 
   return (
-    <div className="flexbox center-aligned">
+    <div className="flexbox align-items-center">
       {feedbackSubmitted ? (
         <Typography variant="body2" color="text.secondary">
           Thank you for your feedback!
@@ -150,7 +150,7 @@ export const AiLogAnalysis = ({ deployment, deviceId }: AiLogAnalysisProps) => {
   return (
     <div className="padding-top-small padding-bottom-small">
       <Header />
-      <div className="flexbox center-aligned">
+      <div className="flexbox align-items-center">
         <Button className="margin-right-small" disabled={!isAiEnabled || isAnalyzing} onClick={onGenerateAnalysisClick} variant="contained">
           {isAnalyzing ? 'Generating summary...' : 'Generate summary'}
         </Button>
@@ -176,8 +176,8 @@ export const AiLogAnalysis = ({ deployment, deviceId }: AiLogAnalysisProps) => {
             ) : (
               <>
                 <>
-                  <div className="flexbox space-between center-aligned">
-                    <div className="flexbox center-aligned">
+                  <div className="flexbox space-between align-items-center">
+                    <div className="flexbox align-items-center">
                       <AutoAwesomeIcon className="margin-right-small" />
                       Summary of Deployment Failure:
                     </div>
@@ -189,7 +189,7 @@ export const AiLogAnalysis = ({ deployment, deviceId }: AiLogAnalysisProps) => {
                     <MuiMarkdown overrides={markDownStyleOverrides}>{analysisResult}</MuiMarkdown>
                   </div>
                 </>
-                <div className="flexbox center-aligned space-between">
+                <div className="flexbox align-items-center space-between">
                   <FeedbackSection deploymentId={deployment.id} deviceId={deviceId} />
                   <Typography variant="body2" color="text.secondary">
                     AI-generated information can be inaccurate, so always verify it before taking action.

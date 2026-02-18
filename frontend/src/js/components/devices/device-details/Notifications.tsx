@@ -30,7 +30,7 @@ const useStyles = makeStyles()(theme => ({
 
 export const BaseNotification = ({ children, severity, onClick }) => (
   <Alert severity={severity} onClick={onClick} className={onClick ? 'clickable' : ''}>
-    <div className="flexbox center-aligned">{children}</div>
+    <div className="flexbox align-items-center">{children}</div>
   </Alert>
 );
 

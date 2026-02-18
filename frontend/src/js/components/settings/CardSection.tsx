@@ -127,7 +127,7 @@ export const CardSection = ({ disabled, isSignUp, onClose, organization, onSubmi
       )}
 
       {summary}
-      <div className="flexbox center-aligned margin-top-small">
+      <div className="flexbox align-items-center margin-top-small">
         <Button type="reset" disabled={loading} style={{ marginRight: 15 }} onClick={onCancel}>
           Cancel
         </Button>

@@ -204,11 +204,11 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
     );
     return Boolean(
       disableEdit ||
-        !name ||
-        hasPartiallyDefinedAreas ||
-        !(auditlog.length || hasAreaPermissions || userManagement.length || tenantManagement.length) ||
-        (Object.entries({ description, name }).every(([key, value]) => selectedRole[key] === value) &&
-          uiPermissionCompare(selectedRole.uiPermissions, changedPermissions))
+      !name ||
+      hasPartiallyDefinedAreas ||
+      !(auditlog.length || hasAreaPermissions || userManagement.length || tenantManagement.length) ||
+      (Object.entries({ description, name }).every(([key, value]) => selectedRole[key] === value) &&
+        uiPermissionCompare(selectedRole.uiPermissions, changedPermissions))
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auditlog, description, name, userManagement, JSON.stringify(groups), JSON.stringify(releases), tenantManagement, disableEdit, selectedRole]);
@@ -344,7 +344,7 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
           editing &&
           !rolesById[selectedRole.value] && (
             <Button
-              className={`flexbox center-aligned ${classes.roleDeletion}`}
+              className={`flexbox align-items-center ${classes.roleDeletion}`}
               color="secondary"
               disabled={!!rolesById[selectedRole.value]}
               onClick={onToggleRemoveDialog}

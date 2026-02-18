@@ -81,7 +81,7 @@ export const DeviceSystem = ({ columnSelection, device, onConnectToGatewayClick,
     <>
       <DeviceDataCollapse
         title={
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             <h4>Mender Gateway</h4>
             <EnterpriseNotification className="margin-left-small" id={BENEFITS.gateway.id} />
           </div>

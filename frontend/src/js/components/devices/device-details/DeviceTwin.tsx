@@ -100,7 +100,7 @@ export const TwinSyncStatus = ({ diffCount, providerTitle, twinError, updateTime
 export const Title = ({ providerTitle, twinTitle, updateTime }) => {
   const { classes } = useStyles();
   return (
-    <div className={`flexbox center-aligned space-between ${classes.titleContainer}`}>
+    <div className={`flexbox align-items-center space-between ${classes.titleContainer}`}>
       <div className={`flexbox ${classes.title}`}>
         <h4 className="margin-right">
           {providerTitle} {twinTitle}

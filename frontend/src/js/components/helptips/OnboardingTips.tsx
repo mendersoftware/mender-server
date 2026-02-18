@@ -44,7 +44,7 @@ export const GetStartedTip = props => {
         <b>Welcome to Mender!</b>
       </p>
       We can help you get started with connecting your first device and deploying an update to it.
-      <div className="flexbox center-aligned margin-top-small space-between">
+      <div className="flexbox align-items-center margin-top-small space-between">
         <span className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))} style={{ textDecoration: 'underline' }}>
           Skip the tour
         </span>
@@ -108,7 +108,7 @@ export const DevicesAcceptedOnboarding = props => {
             <p>Your device is now authenticated and has connected to the server! It&apos;s ready to receive updates, report its data and more.</p>
             Would you like to learn how to deploy your first update?
           </div>
-          <div className="flexbox center-aligned margin-top-small space-between">
+          <div className="flexbox align-items-center margin-top-small space-between">
             <b className="clickable slightly-smaller" onClick={() => dispatch(setShowDismissOnboardingTipsDialog(true))}>
               Dismiss the tutorial
             </b>

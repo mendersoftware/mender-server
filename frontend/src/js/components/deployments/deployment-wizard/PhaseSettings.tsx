@@ -187,7 +187,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
           <Chip size="small" label={`Phase ${index + 1}`} />
         </TableCell>
         <TableCell>
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             {phase.batch_size && phase.batch_size < 100 ? (
               <OutlinedInput
                 value={phase.batch_size}
@@ -336,7 +336,7 @@ export const RolloutPatternSelection = props => {
       <FormControlLabel
         control={<Checkbox color="primary" checked={usesPattern} disabled={!isEnterprise} onChange={onUsesPatternClick} size="small" />}
         label={
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             <b className="margin-right-small">Select a rollout pattern</b> (optional)
             <InfoHintContainer>
               <EnterpriseNotification id={BENEFITS.phasedDeployments.id} />

@@ -102,7 +102,7 @@ export const RoleManagement = () => {
 
   return (
     <div>
-      <div className="flexbox center-aligned">
+      <div className="flexbox align-items-center">
         <h2 style={{ marginLeft: 20 }}>Roles</h2>
         <InfoHintContainer>
           <EnterpriseNotification id={BENEFITS.rbac.id} />

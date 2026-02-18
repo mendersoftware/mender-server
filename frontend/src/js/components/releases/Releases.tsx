@@ -52,7 +52,7 @@ const { setSelectedJob } = storeActions;
 const refreshArtifactsLength = 60000;
 
 const DeltaTitle = () => (
-  <div className="flexbox center-aligned">
+  <div className="flexbox align-items-center">
     <div>Delta Artifacts generation</div>
     <EnterpriseNotification className="margin-left-small" id={BENEFITS.deltaGeneration.id} />
   </div>
@@ -90,14 +90,14 @@ const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadCl
 
   return (
     <div>
-      <div className="flexbox space-between center-aligned">
+      <div className="flexbox space-between align-items-center">
         <Tabs className={classes.tabContainer} value={tab} onChange={onTabChanged} textColor="primary">
           {tabs.map(({ key, Title }) => (
             <Tab key={key} label={<Title />} value={key} />
           ))}
         </Tabs>
         {canUpload && tab !== 'delta' && (
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} variant="contained">
               Upload
             </Button>

@@ -242,7 +242,7 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, user
 
   return (
     <div className="margin-bottom margin-top" style={{ maxWidth: 500 }}>
-      <div className="flexbox center-aligned">
+      <div className="flexbox align-items-center">
         <h4 className="margin-right">Tags</h4>
         {!isEditing && canManageReleases && <EditButton onClick={onToggleEdit} />}
       </div>

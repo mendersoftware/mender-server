@@ -62,7 +62,7 @@ const UrlInput = props => {
 
 const WebhookEventsSelector = ({ canSelectEvents }: { canSelectEvents: boolean }) => (
   <>
-    <div className="flexbox center-aligned margin-top">
+    <div className="flexbox align-items-center margin-top">
       <h4 className="margin-none margin-right-small">Webhook Events</h4>
       <InfoHintContainer>
         <EnterpriseNotification id={BENEFITS.webhookEvents.id} />

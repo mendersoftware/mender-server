@@ -51,7 +51,7 @@ const ResultTitle = ({ onClick, term, total }) => {
     style = { width: `calc(100% - ${leftNavOffset}px)` };
   }
   return (
-    <div className={`flexbox ${total ? 'center-aligned' : 'centered'}`} style={style}>
+    <div className={`flexbox ${total ? 'align-items-center' : 'centered'}`} style={style}>
       <Typography variant="body2" {...props}>
         {content}
       </Typography>
@@ -132,7 +132,7 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
         PaperProps={{ className: `${classes.drawerOffset} ${classes.paper}` }}
         SlideProps={{ direction: 'left' }}
       >
-        <div className="flexbox center-aligned margin-bottom-small space-between">
+        <div className="flexbox align-items-center margin-bottom-small space-between">
           <ResultTitle onClick={onClearClick} term={searchTerm} total={searchTotal} />
           <IconButton onClick={onToggleSearchResult} aria-label="close" size="large">
             <CloseIcon />

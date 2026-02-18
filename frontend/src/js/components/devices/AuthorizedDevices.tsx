@@ -418,12 +418,12 @@ export const Authorized = ({
   return (
     <>
       <div className="margin-left-small">
-        <div className="flexbox center-aligned">
+        <div className="flexbox align-items-center">
           <Typography className="margin-right" variant="h6">
             {isUngroupedGroup ? UNGROUPED_GROUP.name : groupLabel}
           </Typography>
-          <div className="flexbox space-between center-aligned" style={{ flexGrow: 1 }}>
-            <div className="flexbox center-aligned">
+          <div className="flexbox space-between align-items-center" style={{ flexGrow: 1 }}>
+            <div className="flexbox align-items-center">
               <DeviceStateSelection className={classes.selection} onStateChange={onDeviceStateSelectionChange} selectedState={selectedState} states={states} />
               {!!issueOptions.length && (
                 <DeviceIssuesSelection
@@ -434,7 +434,7 @@ export const Authorized = ({
                 />
               )}
               {selectedGroup && !isUngroupedGroup && (
-                <Typography variant="subtitle1" className="margin-left flexbox center-aligned">
+                <Typography variant="subtitle1" className="margin-left flexbox align-items-center">
                   {!groupFilters.length ? (
                     <>
                       Static <Lock className="margin-left-x-small" fontSize="small" />
@@ -454,7 +454,7 @@ export const Authorized = ({
             )}
           </div>
         </div>
-        <div className="flexbox center-aligned space-between margin-top margin-bottom-x-small">
+        <div className="flexbox align-items-center space-between margin-top margin-bottom-x-small">
           {!isUngroupedGroup && (
             <Button
               className="flexbox"

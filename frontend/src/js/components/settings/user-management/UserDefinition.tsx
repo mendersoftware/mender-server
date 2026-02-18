@@ -65,7 +65,7 @@ export const UserId = ({ className = '', userId }) => {
   return (
     <div className={`flexbox space-between ${classes.userIdWrapper} ${className}`}>
       <TextField label="User ID" key={userId} disabled defaultValue={userId} />
-      <div className="flexbox center-aligned copy-button">
+      <div className="flexbox align-items-center copy-button">
         <CopyTextToClipboard token={userId} />
       </div>
     </div>
@@ -152,7 +152,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         onClose={onCancel}
         preCloser={
           currentUser.id !== id && (
-            <Button className={`flexbox center-aligned ${classes.leftButton}`} color="secondary" onClick={onRemoveClick}>
+            <Button className={`flexbox align-items-center ${classes.leftButton}`} color="secondary" onClick={onRemoveClick}>
               delete user
             </Button>
           )

@@ -41,7 +41,7 @@ export const CreateGroupExplainer = ({ onClose }) => {
         <div className="flexbox column">
           <div className={`two-columns margin-bottom ${classes.groupType}`}>
             <div className="margin-right-large">
-              <div className="flexbox center-aligned margin-bottom">
+              <div className="flexbox align-items-center margin-bottom">
                 <Typography variant="subtitle1">Static group</Typography>
                 <Lock className={classes.icon} fontSize="small" />
               </div>
@@ -54,8 +54,8 @@ export const CreateGroupExplainer = ({ onClose }) => {
           </div>
           <div className={`two-columns ${classes.groupType}`}>
             <div className="margin-right-large">
-              <div className="flexbox center-aligned space-between margin-bottom">
-                <Typography variant="subtitle1" className="flexbox center-aligned">
+              <div className="flexbox align-items-center space-between margin-bottom">
+                <Typography variant="subtitle1" className="flexbox align-items-center">
                   Dynamic group
                   <SyncOutlined className={`${classes.icon} margin-right`} fontSize="small" />
                 </Typography>

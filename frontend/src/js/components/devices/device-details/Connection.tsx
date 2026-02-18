@@ -197,13 +197,13 @@ export const DeviceConnection = ({ className = '', device }) => {
     <DeviceDataCollapse
       isAddOn
       title={
-        <div className="flexbox center-aligned">
+        <div className="flexbox align-items-center">
           <h4>Troubleshooting</h4>
           <div className={`flexbox ${className}`}>
             {hasDeviceConnect && connectionStatus !== DEVICE_CONNECT_STATES.unknown && canTroubleshoot && <PortForwardLink />}
             {hasDeviceConnect && canAuditlog && hasAuditlogs && (
               <Link
-                className="flexbox center-aligned margin-left"
+                className="flexbox align-items-center margin-left"
                 to={`/auditlog?${formatAuditlogs({ pageState: { type: deviceAuditlogType, detail: device.id, startDate: BEGINNING_OF_TIME } }, {})}`}
               >
                 List all log entries for this device

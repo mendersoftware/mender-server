@@ -102,7 +102,7 @@ export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
           Filter and browse all available Releases. Use the filters below to narrow down your search.
         </Typography>
         <div className="flexbox space-between">
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             <Typography variant="body1">Filters</Typography>
             <Button
               size="small"
@@ -162,7 +162,7 @@ export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
               <ReleaseItem key={item.name + item.modified} selected={selectedRelease === item.name} release={item} onClick={onSelectRelease} />
             ))
           ) : (
-            <div className="flexbox column center-aligned margin-top-small">
+            <div className="flexbox column align-items-center margin-top-small">
               <Typography>No Releases were found.</Typography>
               <Typography className="margin-top-small">
                 Try adjusting the filters, or{' '}

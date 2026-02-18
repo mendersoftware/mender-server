@@ -31,7 +31,7 @@ export const statusMap = {
 
 export const DeploymentStatusNotification = ({ status }: { status: string }) =>
   statusMap[status] ? (
-    <Typography variant="body2" className="flexbox center-aligned">
+    <Typography variant="body2" className="flexbox align-items-center">
       {statusMap[status].icon}
       <span className="margin-left-small">{statusMap[status].description()}</span>
     </Typography>

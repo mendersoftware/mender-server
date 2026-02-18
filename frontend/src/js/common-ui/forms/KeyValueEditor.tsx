@@ -157,7 +157,7 @@ const KeyValueFields = ({ disabled, errortext, initialValues, inputHelpTipsMap, 
             <ContentAddIcon />
           </Fab>
         </div>
-        <div className={`flexbox center-aligned full-width ${classes.formReset}`}>
+        <div className={`flexbox align-items-center full-width ${classes.formReset}`}>
           {inputs.length > 1 ? (
             <Button className="align-self-end" variant="text" onClick={onClearClick}>
               Clear all

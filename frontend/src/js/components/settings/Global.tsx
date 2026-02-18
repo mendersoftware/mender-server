@@ -228,7 +228,7 @@ export const GlobalSettingsDialog = ({
         )}
         {canManageReleases && (
           <div>
-            <div className="flexbox center-aligned">
+            <div className="flexbox align-items-center">
               <Typography variant="subtitle1">Delta Artifacts generation</Typography>
               <EnterpriseNotification className="margin-left-small" id={BENEFITS.deltaGeneration.id} />
             </div>
@@ -290,7 +290,7 @@ export const GlobalSettingsDialog = ({
               value={isAiEnabled}
               onClick={() => onToggleAiClick(isAiEnabled)}
               title={
-                <div className="flexbox center-aligned">
+                <div className="flexbox align-items-center">
                   <AutoAwesomeIcon className="margin-right-x-small" fontSize="small" color={isAiEnabled ? 'secondary' : 'inherit'} />
                   <Typography variant="subtitle1">AI features (experimental)</Typography>
                 </div>

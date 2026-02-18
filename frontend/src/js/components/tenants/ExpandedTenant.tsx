@@ -107,12 +107,12 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
             </Link>
           </>
         )}
-        <div className={`flexbox ${newLimitForm ? '' : 'center-aligned'} margin-top-small`}>
+        <div className={`flexbox ${newLimitForm ? '' : 'align-items-center'} margin-top-small`}>
           <DeviceCount current={device_count} max={device_limit} variant="detailed" />
           <div className="margin-left">
             {newLimitForm ? (
               <FormControl className={classes.formWrapper}>
-                <div className="flexbox center-aligned">
+                <div className="flexbox align-items-center">
                   <TextField
                     className={classes.devLimitInput}
                     label="Set device limit"

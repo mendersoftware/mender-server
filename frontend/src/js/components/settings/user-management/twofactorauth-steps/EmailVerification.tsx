@@ -43,7 +43,7 @@ export const EmailVerification = ({ verifyEmailStart, email }) => {
     <div className="margin-top-x-small">
       Please verify your email address first, to enable Two Factor Authentication.
       {confirmationShown && <EmailVerificationConfirmation onClose={() => setConfirmationShown(false)} email={email} />}
-      <div className="flexbox center-aligned">
+      <div className="flexbox align-items-center">
         <Button className="margin-top-x-small" variant="contained" color="primary" onClick={startVerification}>
           Verify
         </Button>

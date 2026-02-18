@@ -301,7 +301,7 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
       <div className="margin-bottom-small">
         <div className="flexbox space-between margin-bottom-small">
           <Header chartType={chartType} />
-          <div className="flexbox center-aligned" style={{ zIndex: 1 }}>
+          <div className="flexbox align-items-center" style={{ zIndex: 1 }}>
             <IconButton onClick={onToggleEditClick} size="small">
               <Settings fontSize="small" />
             </IconButton>

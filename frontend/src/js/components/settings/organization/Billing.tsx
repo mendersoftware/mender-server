@@ -182,7 +182,7 @@ const UpgradeNote = ({ isTrial }) => {
             : 'Upgrade to access more features, increase your device limit, and enhance your subscription with Add-ons.'
         }
       />
-      <div className={`flexbox center-aligned margin-top-x-small ${classes.wrapper}`}>
+      <div className={`flexbox align-items-center margin-top-x-small ${classes.wrapper}`}>
         <Button component={Link} to="https://mender.io/pricing/plans" target="_blank" rel="noopener noreferrer" size="small">
           Compare all plans
         </Button>

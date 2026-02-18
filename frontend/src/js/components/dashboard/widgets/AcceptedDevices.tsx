@@ -69,7 +69,7 @@ export const AcceptedDevices = props => {
   return (
     <BaseWidget
       {...props}
-      header={<div className="flexbox center-aligned">Accepted devices {!!devicesCount && <CheckIcon className="margin-left-small green" />}</div>}
+      header={<div className="flexbox align-items-center">Accepted devices {!!devicesCount && <CheckIcon className="margin-left-small green" />}</div>}
       main={main}
       onClick={onWidgetClick}
     />

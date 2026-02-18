@@ -71,7 +71,7 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
       open
       maxWidth="xs"
       title={
-        <div className="flexbox center-aligned">
+        <div className="flexbox align-items-center">
           <IconButton size="large">
             <TaskAltIcon selected className="green" />
           </IconButton>

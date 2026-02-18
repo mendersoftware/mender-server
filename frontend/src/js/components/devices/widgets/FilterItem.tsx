@@ -123,7 +123,7 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave
 
   return (
     <>
-      <div className="flexbox center-aligned margin-top-small margin-bottom-small relative">
+      <div className="flexbox align-items-center margin-top-small margin-bottom-small relative">
         {filterNotifications[key]}
         <div className={`flexbox margin-right-small ${classes.filter}`}>
           <AttributeAutoComplete

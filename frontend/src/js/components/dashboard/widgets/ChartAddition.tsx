@@ -74,7 +74,7 @@ export const Header = ({ chartType }) => {
   const { classes } = useStyles();
   const { Icon } = chartTypes[chartType];
   return (
-    <div className={`flexbox center-aligned ${classes.header}`}>
+    <div className={`flexbox align-items-center ${classes.header}`}>
       Software distribution
       <Icon />
     </div>

@@ -184,7 +184,7 @@ const AccountMenu = ({ className }) => {
   return (
     <>
       <Button
-        className={`flexbox center-aligned ${className} ${classes.dropDown}`}
+        className={`flexbox align-items-center ${className} ${classes.dropDown}`}
         onClick={e => setAnchorEl(e.currentTarget)}
         startIcon={<AccountCircleIcon />}
         variant="text"
@@ -367,7 +367,7 @@ export const Header = ({ isDarkMode }) => {
       )}
       {showOffer && <OfferHeader onHide={setHideOffer} />}
       <div className="flexbox space-between">
-        <div className="flexbox center-aligned">
+        <div className="flexbox align-items-center">
           <Link to="/">
             <img id="logo" src={headerLogo} />
           </Link>
@@ -382,7 +382,7 @@ export const Header = ({ isDarkMode }) => {
         {isSp ? (
           <>
             {tenantDeviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={tenantDeviceLimit} variant="common" />}
-            <div className="flexbox center-aligned">
+            <div className="flexbox align-items-center">
               <Chip className="bold muted uppercased" label="Service Provider" />
               <AccountMenu />
             </div>
@@ -390,7 +390,7 @@ export const Header = ({ isDarkMode }) => {
         ) : (
           <>
             <Search className={classes.search} isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
-            <div className="flexbox center-aligned">
+            <div className="flexbox align-items-center">
               <DeviceNotifications pending={pendingDevices} total={acceptedDevices} />
               <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
               <DeploymentNotifications className={classes.headerSection} inprogress={inProgress} />

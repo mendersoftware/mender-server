@@ -92,7 +92,7 @@ const Footer = ({ currentPhaseIndex, duration, nextPhaseStart, phasesCount }: Fo
 );
 
 const Side = ({ totalFailureCount }: { totalFailureCount: number }) => (
-  <Typography variant="body2" className={`flexbox center-aligned ${totalFailureCount ? 'warning' : ''}`} style={{ justifyContent: 'flex-end' }}>
+  <Typography variant="body2" className={`flexbox align-items-center ${totalFailureCount ? 'warning' : ''}`} style={{ justifyContent: 'flex-end' }}>
     {!!totalFailureCount && <WarningIcon style={{ fontSize: 16, marginRight: 10 }} />}
     {`${totalFailureCount} ${pluralize('failure', totalFailureCount)}`}
   </Typography>

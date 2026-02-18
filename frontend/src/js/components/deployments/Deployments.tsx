@@ -224,7 +224,7 @@ export const Deployments = () => {
   return (
     <>
       <div className="margin-left-small margin-right">
-        <div className="flexbox space-between center-aligned margin-bottom">
+        <div className="flexbox space-between align-items-center margin-bottom">
           <Typography variant="h5">Deployments</Typography>
           {canDeploy && canReadReleases && (
             <Button variant="contained" onClick={onCreationShow} style={{ height: '100%' }}>

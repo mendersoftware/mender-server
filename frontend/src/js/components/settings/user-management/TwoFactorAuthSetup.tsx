@@ -94,7 +94,7 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
 
   return (
     <div className="margin-top">
-      <div className="flexbox center-aligned">
+      <div className="flexbox align-items-center">
         <p className="help-content">Two Factor authentication</p>
         <Chip
           size="small"

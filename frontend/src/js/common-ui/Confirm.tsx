@@ -84,7 +84,7 @@ export const Confirm = ({ action, cancel, classes = '', message = '', style = {}
     notification = loading ? confirmationType[type].loading : confirmationType[type].message;
   }
   return (
-    <div className={`flexbox center-aligned padding-right-small absolute full-width ${className} ${localClasses.wrapper} ${classes}`} style={style}>
+    <div className={`flexbox align-items-center padding-right-small absolute full-width ${className} ${localClasses.wrapper} ${classes}`} style={style}>
       <Typography className="margin-right-small" variant="subtitle2">
         {notification}
       </Typography>

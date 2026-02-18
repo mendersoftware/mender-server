@@ -98,7 +98,7 @@ const UserInputs = (props: UserInputsProps) => {
 
   return (
     <>
-      <div className="flexbox center-aligned">
+      <div className="flexbox align-items-center">
         <TextInput validations="isEmail,trim" required id="email" label="Admin user" />
         <MenderHelpTooltip className="required" id={HELPTOOLTIPS.tenantAdmin.id} />
       </div>
@@ -191,7 +191,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
         )}
         <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Name" />
         <UserInputs adminExists={adminExists} checkEmailExists={onCheckEmailExists} />
-        <div className="flexbox center-aligned">
+        <div className="flexbox align-items-center">
           <TextInput
             required
             id="device_limit"
@@ -204,15 +204,15 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
           />
           <MenderHelpTooltip className="required" id={HELPTOOLTIPS.subTenantDeviceLimit.id} />
         </div>
-        <div className="flexbox center-aligned">
+        <div className="flexbox align-items-center">
           <FormCheckbox id="binary_delta" label="Enable Delta Artifact generation" />
           <MenderHelpTooltip id={HELPTOOLTIPS.subTenantDeltaArtifactGeneration.id} />
         </div>
         {!!ssoConfig && (
           <>
-            <div className="flexbox center-aligned">
+            <div className="flexbox align-items-center">
               <FormCheckbox id="sso" label="Restrict to Service Provider’s Single Sign-On settings" />
-              <MenderHelpTooltip className="flexbox center-aligned" id={HELPTOOLTIPS.subTenantSSO.id} />
+              <MenderHelpTooltip className="flexbox align-items-center" id={HELPTOOLTIPS.subTenantSSO.id} />
             </div>
             <div className="margin-top-x-small margin-bottom">
               <Link to="/settings/organization">View Single Sign-On settings</Link>

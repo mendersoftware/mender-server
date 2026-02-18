@@ -57,7 +57,7 @@ const TextContent = ({ onCopy, textClasses = '', value }: TextContentProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className={`flexbox center-aligned copy-to-clipboard ${classes.copyIconOverride}`}>
+    <div className={`flexbox align-items-center copy-to-clipboard ${classes.copyIconOverride}`}>
       <Typography
         variant="body2"
         className={`${classes.cellText} ${textClasses}`}

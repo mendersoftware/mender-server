@@ -79,7 +79,7 @@ const stateInfoMap: Record<string, StateInfoEntry> = {
 const undefinedStates = [deploymentSubstates.pending, deploymentSubstates.decommissioned, deploymentSubstates.alreadyInstalled];
 
 const defaultLinkProps = {
-  className: 'flexbox center-aligned',
+  className: 'flexbox align-items-center',
   style: { fontWeight: '500' },
   target: '_blank',
   rel: 'noopener noreferrer'
@@ -199,7 +199,7 @@ const deviceListColumns = [
       );
       return (
         <>
-          <div className="flexbox center-aligned margin-bottom-x-small">
+          <div className="flexbox align-items-center margin-bottom-x-small">
             <Icon className="margin-right-x-small" color={progressColor} />
             {statusTitle}
           </div>
@@ -260,7 +260,7 @@ export const DeploymentDeviceList = ({ canAi, deployment, getDeploymentDevices, 
   return (
     <>
       <DetailsTable className={classes.table} columns={columns} items={items} />
-      <div className="flexbox space-between center-aligned margin-top">
+      <div className="flexbox space-between align-items-center margin-top">
         <div className="flexbox">
           <Pagination
             className="margin-top-none"
