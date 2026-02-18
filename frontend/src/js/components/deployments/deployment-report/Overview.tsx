@@ -19,12 +19,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import Time from '@northern.tech/common-ui/Time';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
-import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
-import { groupDeploymentStats } from '@northern.tech/store/utils';
-import pluralize from 'pluralize';
+import { DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
 
-import failImage from '../../../../assets/img/largeFail.png';
-import successImage from '../../../../assets/img/largeSuccess.png';
 import { getDeploymentTargetText, getDevicesLink } from '../deployment-wizard/SoftwareDevices';
 
 const useStyles = makeStyles()(theme => ({
@@ -58,12 +54,9 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
     filter,
     group,
     name = '',
-    status,
-    totalDeviceCount,
+
     type = DEPLOYMENT_TYPES.software
   } = deployment;
-  const { failures, successes } = groupDeploymentStats(deployment);
-  const finished = deployment.finished || status === DEPLOYMENT_STATES.finished;
   const isSoftwareDeployment = type === DEPLOYMENT_TYPES.software;
 
   const deploymentRelease = isSoftwareDeployment ? (
@@ -106,33 +99,6 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
           See schedule details
         </Button>
       </div>
-
-      {finished && (
-        <>
-          <div />
-          <div className="statusLarge flexbox center-aligned">
-            <img src={successes ? successImage : failImage} />
-            <div className={`statusWrapper flexbox centered ${classes.statusWrapper}`}>
-              <div className="statusWrapperMessage">
-                {(!!successes || !failures) && (
-                  <>
-                    <b className={successes ? 'green' : 'red'}>
-                      {successes === totalDeviceCount && totalDeviceCount > 1 && <>All </>}
-                      {successes}
-                    </b>{' '}
-                    {pluralize('devices', successes)} updated successfully
-                  </>
-                )}
-                {!!failures && (
-                  <>
-                    <b className="red">{failures}</b> {pluralize('devices', failures)} failed to update
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </>
-      )}
     </div>
   );
 };

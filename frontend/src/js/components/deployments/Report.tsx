@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
 import { Block as BlockIcon, CheckCircleOutline as CheckCircleOutlineIcon, Refresh as RefreshIcon } from '@mui/icons-material';
-import { Button, Divider, Drawer, Tooltip } from '@mui/material';
+import { Alert, Button, Divider, Drawer, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
@@ -37,9 +37,10 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { getAuditLogs, getDeploymentDevices, getDeviceLog, getRelease, getSingleDeployment, updateDeploymentControlMap } from '@northern.tech/store/thunks';
-import { statCollector } from '@northern.tech/store/utils';
+import { getDeploymentState, groupDeploymentStats, statCollector } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
+import pluralize from 'pluralize';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import DeploymentStatus, { DeploymentPhaseNotification } from './deployment-report/DeploymentStatus';
@@ -76,6 +77,28 @@ export const DeploymentAbortButton = ({ abort, deployment }) => {
         {deployment.filters?.length ? 'Stop' : 'Abort'} deployment
       </Button>
     </Tooltip>
+  );
+};
+
+const DeploymentStateNotification = ({ deployment }) => {
+  const { totalDeviceCount } = deployment;
+  const finished = deployment.finished || deployment.status === DEPLOYMENT_STATES.finished;
+  const { failures, successes } = groupDeploymentStats(deployment);
+  const deploymentState = getDeploymentState(deployment);
+  let content = deploymentState;
+  let color = 'info';
+  if (finished) {
+    if (!!successes || !failures) {
+      content = successes === totalDeviceCount && totalDeviceCount > 1 ? 'All ' : '';
+      content = `${content}${successes} ${pluralize('devices', successes)} updated successfully`;
+    }
+    content = failures ? `${failures} ${pluralize('devices', failures)} failed to update` : content;
+    color = failures ? 'error' : 'success';
+  }
+  return (
+    <Alert className="margin-bottom-small" severity={color} color={color}>
+      {content}
+    </Alert>
   );
 };
 
@@ -262,6 +285,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
         }
         onClose={onClose}
       />
+      <DeploymentStateNotification deployment={deployment} />
       <Divider />
       <div>
         <ColumnWidthProvider>
