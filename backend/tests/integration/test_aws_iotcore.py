@@ -42,24 +42,20 @@ from testutils.common import (
     make_accepted_device,
 )
 
-
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_IOTCORE_SECRET_ACCESS_KEY")
 AWS_REGION = os.environ.get("AWS_IOTCORE_REGION")
 AWS_DEVICE_POLICY_NAME = os.environ.get("AWS_IOTCORE_DEVICE_POLICY_NAME")
-
 
 @dataclass
 class Device:
     thing_name: str
     status: str
 
-
 @dataclass
 class DeviceShadow:
     thing_name: str
     shadow: Dict
-
 
 def get_boto3_client(service: str):
     return boto3.client(
@@ -68,7 +64,6 @@ def get_boto3_client(service: str):
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
         region_name=AWS_REGION,
     )
-
 
 def get_device(device_id: str):
     iot = get_boto3_client("iot")
@@ -82,14 +77,12 @@ def get_device(device_id: str):
         break
     return Device(thing_name=device_id, status=status)
 
-
 def get_device_shadow(device_id: str):
     iot_data = get_boto3_client("iot-data")
     response = iot_data.get_thing_shadow(thingName=device_id)
     payload = response["payload"].read()
     shadow = json.loads(payload)["state"]
     return DeviceShadow(thing_name=device_id, shadow=shadow)
-
 
 def delete_device(device_id: str):
     iot = get_boto3_client("iot")
@@ -107,7 +100,6 @@ def delete_device(device_id: str):
         response = iot.delete_certificate(certificateId=certificate_id,)
     iot.delete_thing(thingName=device_id)
     iot.delete_policy(policyName=device_id + "-policy",)
-
 
 class _TestAWSIoTCoreBase:
     aws_api = ApiClient(base_url=iot.URL_MGMT, host=iot.HOST, schema="http://")
@@ -164,7 +156,6 @@ class _TestAWSIoTCoreBase:
             == AWS_DEVICE_POLICY_NAME
         )
 
-
 @pytest.mark.skipif(
     not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),
     reason="AWS_IOTCORE_ACCESS_KEY_ID not provided",
@@ -198,43 +189,6 @@ class TestAWSIoTCoreIntegrations(_TestAWSIoTCoreBase):
         self.logger.info("creating user in OS mode")
         user = create_user_test_setup()
         self.check_integrations(user, expected_integration)
-
-
-@pytest.mark.skipif(
-    not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),
-    reason="AWS_IOTCORE_ACCESS_KEY_ID not provided",
-)
-class TestAWSIoTCoreIntegrationsEnterprise(_TestAWSIoTCoreBase):
-    @pytest.mark.skipif(
-        not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),
-        reason="AWS_IOTCORE_ACCESS_KEY_ID not provided",
-    )
-    @pytest.mark.parametrize(
-        "expected_integration",
-        [
-            {
-                "provider": "iot-core",
-                "credentials": {
-                    "type": "aws",
-                    "aws": {
-                        "access_key_id": AWS_ACCESS_KEY_ID,
-                        "secret_access_key": AWS_SECRET_ACCESS_KEY,
-                        "region": AWS_REGION,
-                        "device_policy_name": AWS_DEVICE_POLICY_NAME,
-                    },
-                },
-            },
-        ],
-    )
-    def test_get_and_set(self, clean_mongo, expected_integration):
-        """
-        Check that we can set and get integrations
-        """
-        self.logger.info("creating tenant and user in enterprise mode")
-        tenant = create_tenant_test_setup()
-        user = tenant.users[0]
-        self.check_integrations(user, expected_integration)
-
 
 @pytest.fixture(scope="function")
 def user(clean_mongo) -> Optional[User]:
@@ -278,7 +232,6 @@ def user(clean_mongo) -> Optional[User]:
     )
     assert rsp.status_code == 201
     yield user
-
 
 class _TestAWSIoTCoreDeviceLifecycleBase:
     """Test device lifecycle in real AWS IoT Core."""
@@ -440,18 +393,9 @@ class _TestAWSIoTCoreDeviceLifecycleBase:
         assert "reported" in states[integration_id]
         assert state["desired"]["key"] == "value"
 
-
 @pytest.mark.skipif(
     not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),
     reason="AWS_IOTCORE_ACCESS_KEY_ID not provided",
 )
 class TestAWSIoTCoreDeviceLifecycle(_TestAWSIoTCoreDeviceLifecycleBase):
-    pass
-
-
-@pytest.mark.skipif(
-    not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),
-    reason="AWS_IOTCORE_ACCESS_KEY_ID not provided",
-)
-class TestAWSIoTCoreDeviceLifecycleEnterprise(_TestAWSIoTCoreDeviceLifecycleBase):
     pass

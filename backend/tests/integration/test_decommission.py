@@ -37,7 +37,6 @@ logging.basicConfig(format="%(asctime)s %(message)s")
 logger = logging.getLogger("test_decomission")
 logger.setLevel(logging.INFO)
 
-
 @pytest.fixture(scope="function")
 def clean_migrated_mongo(clean_mongo):
     deviceauth_cli = CliDeviceauth()
@@ -48,24 +47,9 @@ def clean_migrated_mongo(clean_mongo):
 
     yield clean_mongo
 
-
-@pytest.fixture(scope="function")
-def clean_migrated_mongo_mt(clean_mongo):
-    deviceauth_cli = CliDeviceauth()
-    useradm_cli = CliUseradm()
-    tenantadm_cli = CliTenantadm()
-    for t in ["tenant1", "tenant2"]:
-        deviceauth_cli.migrate(t)
-        useradm_cli.migrate(t)
-        tenantadm_cli.migrate()
-
-    yield clean_mongo
-
-
 @pytest.fixture(scope="function")
 def user(clean_migrated_mongo):
     yield create_user("user-foo@acme.com", "correcthorse")
-
 
 @pytest.fixture(scope="function")
 def devices(clean_migrated_mongo, user):
@@ -86,43 +70,6 @@ def devices(clean_migrated_mongo, user):
         devices.append(dev)
 
     yield devices
-
-
-@pytest.fixture(scope="function")
-def tenants(clean_migrated_mongo_mt):
-    tenants = []
-
-    for n in range(2):
-        uuidv4 = str(uuid.uuid4())
-        tenant, username, password = (
-            "test.mender.io-" + uuidv4,
-            "some.user+" + uuidv4 + "@example.com",
-            "secretsecret",
-        )
-        tenants.append(create_org(tenant, username, password))
-
-    yield tenants
-
-
-@pytest.fixture(scope="function")
-def tenants_users_devices(tenants, clean_migrated_mongo_mt):
-    useradmm = ApiClient(useradm.URL_MGMT)
-    devauthm = ApiClient(deviceauth.URL_MGMT)
-    devauthd = ApiClient(deviceauth.URL_DEVICES)
-    for t in tenants:
-        user = t.users[0]
-        r = useradmm.call("POST", useradm.URL_LOGIN, auth=(user.name, user.pwd))
-        assert r.status_code == 200
-        utoken = r.text
-
-        for _ in range(2):
-            aset = create_random_authset(devauthd, devauthm, utoken, t.tenant_token)
-            dev = Device(aset.did, aset.id_data, aset.pubkey, t.tenant_token)
-            dev.authsets.append(aset)
-            t.devices.append(dev)
-
-    yield tenants
-
 
 class TestDeviceDecomissioningBase:
     def do_test_ok(self, user, device, tenant_token=None):
@@ -202,39 +149,6 @@ class TestDeviceDecomissioningBase:
         else:
             assert False, "device not removed from the deviceauth"
 
-
 class TestDeviceDecomissioning(TestDeviceDecomissioningBase):
     def test_ok(self, user, devices):
         self.do_test_ok(user, devices[0])
-
-
-@pytest.mark.skipif(
-    useExistingTenant(), reason="not feasible to test with existing tenant",
-)
-class TestDeviceDecomissioningEnterprise(TestDeviceDecomissioningBase):
-    def test_ok(self, tenants_users_devices):
-        t = tenants_users_devices[0]
-        self.do_test_ok(
-            user=t.users[0], device=t.devices[0], tenant_token=t.tenant_token
-        )
-
-        if not useExistingTenant():
-            t1 = tenants_users_devices[1]
-            self.verify_devices_unmodified(t1.users[0], t1.devices)
-
-    def verify_devices_unmodified(self, user, in_devices):
-        devauthm = ApiClient(deviceauth.URL_MGMT)
-        useradmm = ApiClient(useradm.URL_MGMT)
-
-        r = useradmm.call("POST", useradm.URL_LOGIN, auth=(user.name, user.pwd))
-        assert r.status_code == 200
-
-        utoken = r.text
-
-        r = devauthm.with_auth(utoken).call("GET", deviceauth.URL_MGMT_DEVICES)
-        assert r.status_code == 200
-        api_devs = r.json()
-
-        assert len(api_devs) == len(in_devices)
-        for ad in api_devs:
-            assert ad["status"] == "pending"

@@ -45,20 +45,16 @@ from testutils.common import (
     make_accepted_device,
 )
 
-
 HTTPServer.DEFAULT_LISTEN_PORT = get_free_tcp_port()
 HTTPServer.DEFAULT_LISTEN_HOST = "integration-tester"  # name of the compose service
-
 
 @pytest.fixture(scope="session")
 def ca():
     return trustme.CA()
 
-
 @pytest.fixture(scope="session")
 def localhost_cert(ca):
     return ca.issue_cert(HTTPServer.DEFAULT_LISTEN_HOST)
-
 
 @pytest.fixture(scope="session")
 def httpserver_ssl_context(localhost_cert) -> ssl.SSLContext:
@@ -70,7 +66,6 @@ def httpserver_ssl_context(localhost_cert) -> ssl.SSLContext:
         context.load_cert_chain(crt_file, key_file)
 
     return context
-
 
 class _TestAzureIoTHubBase:
     azure_api = ApiClient(base_url=iot.URL_MGMT, host=iot.HOST, schema="http://")
@@ -128,7 +123,6 @@ class _TestAzureIoTHubBase:
                 part = part[:20]
             assert part in actual
 
-
 class TestAzureIoTHubIntegrations(_TestAzureIoTHubBase):
     @pytest.mark.parametrize(
         "expected_integration",
@@ -157,37 +151,6 @@ class TestAzureIoTHubIntegrations(_TestAzureIoTHubBase):
         user = create_user_test_setup()
         self.check_integrations(user, expected_integration)
 
-
-class TestAzureIoTHubIntegrationsEnterprise(_TestAzureIoTHubBase):
-    @pytest.mark.parametrize(
-        "expected_integration",
-        [
-            {
-                "provider": "iot-hub",
-                "credentials": {
-                    "connection_string": "HostName=mender-test-hub.azure-devices.net;SharedAccessKey=thisIsBase64;SharedAccessKeyName=OldKey",
-                    "type": "sas",
-                },
-            },
-            {
-                "provider": "iot-hub",
-                "credentials": {
-                    "connection_string": "HostName=mender-test-hub.azure-devices.net;SharedAccessKey=thisIsBase64;SharedAccessKeyName=NewKey",
-                    "type": "sas",
-                },
-            },
-        ],
-    )
-    def test_get_and_set(self, clean_mongo, expected_integration):
-        """
-        Check that we can set and get integrations
-        """
-        self.logger.info("creating tenant and user in enterprise mode")
-        tenant = create_tenant_test_setup()
-        user = tenant.users[0]
-        self.check_integrations(user, expected_integration)
-
-
 def get_connection_string():
     """Determine whether AZURE_IOTHUB_CONNECTIONSTRING or AZURE_IOTHUB_CONNECTIONSTRING_B64
     environment variable is set.
@@ -207,7 +170,6 @@ def get_connection_string():
             )
         connection_string = b64decode(cs_b64).decode("utf-8")
     return connection_string
-
 
 @pytest.fixture(scope="function")
 def azure_user(clean_mongo) -> Optional[User]:
@@ -245,7 +207,6 @@ def azure_user(clean_mongo) -> Optional[User]:
     assert rsp.status_code == 201
     yield user
 
-
 def get_azure_client():
     connection_string = get_connection_string()
     azure_iot_hub_mock = os.environ.get("AZURE_IOTHUB_MOCK")
@@ -258,7 +219,6 @@ def get_azure_client():
         client.protocol.config.connection.verify = False
         return client
     return IoTHubRegistryManager.from_connection_string(connection_string)
-
 
 class _TestAzureIoTHubDeviceLifecycleBase:
     """Test device lifecycle in real or mocked Azure IoT Hub. Real Azure is used by default in CI.
@@ -581,18 +541,9 @@ class _TestAzureIoTHubDeviceLifecycleBase:
         assert "reported" in states[integration_id]
         assert state["desired"]["key"] == "value"
 
-
 @pytest.mark.skipif(
     not bool(os.environ.get("AZURE_IOTHUB_CONNECTIONSTRING_B64")),
     reason="AZURE_IOTHUB_CONNECTIONSTRING_B64 not provided",
 )
 class TestAzureIoTHubDeviceLifecycle(_TestAzureIoTHubDeviceLifecycleBase):
-    pass
-
-
-@pytest.mark.skipif(
-    not bool(os.environ.get("AZURE_IOTHUB_CONNECTIONSTRING_B64")),
-    reason="AZURE_IOTHUB_CONNECTIONSTRING_B64 not provided",
-)
-class TestAzureIoTHubDeviceLifecycleEnterprise(_TestAzureIoTHubDeviceLifecycleBase):
     pass

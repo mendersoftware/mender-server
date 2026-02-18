@@ -19,7 +19,6 @@ import uuid
 from testutils.api import workflows
 from testutils.api.client import ApiClient
 
-
 class _TestWorkflowsBase:
     workflows_workflow = ApiClient(
         base_url=workflows.URL_WORKFLOW, host=workflows.HOST, schema="http://"
@@ -94,14 +93,8 @@ class _TestWorkflowsBase:
             "not started: %s/v%s" % (workflow_name, str(workflow_version + 1))
         )
 
-
 class TestWorkflowMinVersion(_TestWorkflowsBase):
     @property
     def logger(self):
         return logging.getLogger(self.__class__.__name__)
 
-
-class TestWorkflowMinVersionEnterprise(_TestWorkflowsBase):
-    @property
-    def logger(self):
-        return logging.getLogger(self.__class__.__name__)

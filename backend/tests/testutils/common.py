@@ -323,27 +323,6 @@ def make_accepted_devices(devauthd, devauthm, utoken, tenant_token="", num_devic
     return devices
 
 
-def set_device_limit_for_tier(tenant, tier, limit):
-    url = ""
-    if tier == "micro":
-        url = deviceauth.URL_INTERNAL_LIMITS_MAX_MICRO_DEVICES
-    elif tier == "system":
-        url = deviceauth.URL_INTERNAL_LIMITS_MAX_SYSTEM_DEVICES
-    else:
-        url = deviceauth.URL_INTERNAL_LIMITS_MAX_STANDARD_DEVICES
-
-    devauthi = ApiClient(
-        deviceauth.URL_INTERNAL, host=deviceauth.HOST, schema="http://"
-    )
-    r = devauthi.call(
-        "PUT",
-        url,
-        {"limit": limit},
-        path_params={"tid": tenant.id},
-    )
-    assert r.status_code == 204
-
-
 def make_device_with_inventory(attributes, utoken, tenant_token):
     devauthm = ApiClient(deviceauth.URL_MGMT)
     devauthd = ApiClient(deviceauth.URL_DEVICES)
@@ -581,48 +560,6 @@ def create_user_test_setup() -> User:
 
 def useExistingTenant() -> bool:
     return bool(os.environ.get("USE_EXISTING_TENANT"))
-
-
-def setup_tenant_devices(tenant, device_groups):
-    """
-    setup_user_devices authenticates the user and creates devices
-    attached to (static) groups given by the proportion map from
-    the groups parameter.
-    :param users:     Users to setup devices for (list).
-    :param n_devices: Number of accepted devices created for each
-                      user (int).
-    :param groups:    Map of group names to device proportions, the
-                      sum of proportion must be less than or equal
-                      to 1 (dict[str] = float)
-    :return: Dict mapping group_name -> list(devices)
-    """
-    devauth_DEV = ApiClient(deviceauth.URL_DEVICES)
-    devauth_MGMT = ApiClient(deviceauth.URL_MGMT)
-    invtry_MGMT = ApiClient(inventory.URL_MGMT)
-    user = tenant.users[0]
-    grouped_devices = {}
-    group = None
-
-    tenant.devices = []
-    for group, dev_cnt in device_groups.items():
-        grouped_devices[group] = []
-        for i in range(dev_cnt):
-            device = make_accepted_device(
-                devauth_DEV, devauth_MGMT, user.token, tenant.tenant_token
-            )
-            if group is not None:
-                rsp = invtry_MGMT.with_auth(user.token).call(
-                    "PUT",
-                    inventory.URL_DEVICE_GROUP.format(id=device.id),
-                    body={"group": group},
-                )
-                assert rsp.status_code == 204
-
-            device.group = group
-            grouped_devices[group].append(device)
-            tenant.devices.append(device)
-
-    return grouped_devices
 
 
 # to check that it was called at least once:

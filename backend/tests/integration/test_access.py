@@ -34,7 +34,6 @@ import testutils.integration.stripe as stripeutils
 
 logger = logging.getLogger("testAccess")
 
-
 def device_connect_insert_device(mongo, device_id, tenant_id, status="connected"):
     devices_collection = mongo.client["deviceconnect"]["devices"]
     devices_collection.delete_one(
@@ -50,7 +49,6 @@ def device_connect_insert_device(mongo, device_id, tenant_id, status="connected"
         }
     )
 
-
 def device_config_insert_device(mongo, device_id, tenant_id, status="connected"):
     devices_collection = mongo.client["deviceconfig"]["devices"]
     devices_collection.delete_one(
@@ -65,7 +63,6 @@ def device_config_insert_device(mongo, device_id, tenant_id, status="connected")
             "reported": [{"key": "timezone", "value": "UTC"}],
         }
     )
-
 
 class _TestAccessBase:
     """Access checking functions.
@@ -153,7 +150,6 @@ class _TestAccessBase:
         else:
             assert res.status_code == 200
 
-
 class TestAccess(_TestAccessBase):
     """Onprem OS.
 
@@ -179,280 +175,3 @@ class TestAccess(_TestAccessBase):
         self.check_access_file_transfer(auth, devid)
         self.check_access_sessionlogs(auth)
         self.check_access_deviceconfig(auth, devid)
-
-
-class TestAccessEnterprise(_TestAccessBase):
-    """ Full enterprise setup, with HAVE_ADDONS and MT."""
-
-    @property
-    def logger(self):
-        return logging.getLogger(self.__class__.__name__)
-
-    @pytest.fixture(scope="class")
-    def mt_env(self):
-        """Prepare 4 tenants across all plans (trial...enterprise) + a device each."""
-        env = {"tenants": {}}
-
-        for p in ["os", "professional", "enterprise"]:
-            t = _make_tenant(p)
-            env["tenants"][p] = t
-
-        t = _make_trial_tenant()
-        env["tenants"]["trial"] = t
-
-        yield env
-
-    def test_initial_restrictions(self, mongo, mt_env):
-        """ Test that existing users are in fact under new addon restrictions, to incentivize addon upgrades. """
-
-        for plan in ["os", "professional", "enterprise"]:
-            tenant = mt_env["tenants"][plan]
-            device_connect_insert_device(mongo, tenant.device_id, tenant_id=tenant.id)
-            device_config_insert_device(mongo, tenant.device_id, tenant_id=tenant.id)
-            self.check_access_remote_term(tenant.auth, tenant.device_id, forbid=True)
-            self.check_access_file_transfer(tenant.auth, tenant.device_id, forbid=True)
-            self.check_access_deviceconfig(tenant.auth, tenant.device_id, forbid=True)
-
-            if plan == "enterprise":
-                self.check_access_rbac(tenant.auth)
-                self.check_access_auditlogs(tenant.auth, forbid=False)
-                self.check_access_sessionlogs(tenant.auth)
-            else:
-                self.check_access_auditlogs(tenant.auth, forbid=True)
-                self.check_access_sessionlogs(tenant.auth, forbid=True)
-
-        for plan in ["trial"]:
-            tenant = mt_env["tenants"][plan]
-            # to actually access any RT/FT - wait for device
-            device_connect_insert_device(mongo, tenant.device_id, tenant.id)
-            device_config_insert_device(mongo, tenant.device_id, tenant.id)
-
-            self.check_access_remote_term(tenant.auth, tenant.device_id)
-            self.check_access_file_transfer(tenant.auth, tenant.device_id)
-            self.check_access_auditlogs(tenant.auth)
-            self.check_access_sessionlogs(tenant.auth)
-            self.check_access_deviceconfig(tenant.auth, tenant.device_id)
-            self.check_access_rbac(tenant.auth)
-
-    @pytest.mark.skipif(
-        not bool(os.environ.get("TENANTADM_STRIPE_API_KEY")),
-        reason="TENANTADM_STRIPE_API_KEY not provided",
-    )
-    def test_upgrades(self, mongo, mt_env):
-        """Test that plan/addon upgrades take effect on feature availability.
-        Special case is the trial tenant upgrade to a paid plan.
-        """
-        tenant = mt_env["tenants"]["os"]
-
-        # add troubleshoot
-        update_tenant(
-            tenant.id, addons=["troubleshoot"],
-        )
-
-        device_connect_insert_device(mongo, tenant.device_id, tenant_id=tenant.id)
-        device_config_insert_device(mongo, tenant.device_id, tenant_id=tenant.id)
-
-        r = ApiClient(useradm.URL_MGMT).call(
-            "POST",
-            useradm.URL_LOGIN,
-            auth=(
-                mt_env["tenants"]["os"].users[0].name,
-                mt_env["tenants"]["os"].users[0].pwd,
-            ),
-        )
-        assert r.status_code == 200
-
-        tenant.auth = r.text
-        self.check_access_remote_term(tenant.auth, tenant.device_id)
-        self.check_access_file_transfer(tenant.auth, tenant.device_id)
-        self.check_access_auditlogs(tenant.auth, forbid=True)
-        self.check_access_sessionlogs(tenant.auth, forbid=True)
-        self.check_access_deviceconfig(
-            tenant.auth, tenant.device_id, forbid=True,
-        )
-
-        # add configure
-        update_tenant(
-            tenant.id, addons=["troubleshoot", "configure"],
-        )
-
-        r = ApiClient(useradm.URL_MGMT).call(
-            "POST",
-            useradm.URL_LOGIN,
-            auth=(
-                mt_env["tenants"]["os"].users[0].name,
-                mt_env["tenants"]["os"].users[0].pwd,
-            ),
-        )
-        assert r.status_code == 200
-        tenant.auth = r.text
-
-        self.check_access_remote_term(tenant.auth, tenant.device_id)
-        self.check_access_file_transfer(tenant.auth, tenant.device_id)
-        self.check_access_deviceconfig(tenant.auth, tenant.device_id)
-        self.check_access_auditlogs(tenant.auth, forbid=True)
-        self.check_access_sessionlogs(tenant.auth, forbid=True)
-
-        # upgrade to "enterprise" - makes audit, session logs and rbac available
-        update_tenant(
-            tenant.id, plan="enterprise",
-        )
-        r = ApiClient(useradm.URL_MGMT).call(
-            "POST",
-            useradm.URL_LOGIN,
-            auth=(
-                mt_env["tenants"]["os"].users[0].name,
-                mt_env["tenants"]["os"].users[0].pwd,
-            ),
-        )
-        assert r.status_code == 200
-        tenant.auth = r.text
-
-        self.check_access_remote_term(tenant.auth, tenant.device_id)
-        self.check_access_file_transfer(tenant.auth, tenant.device_id)
-        self.check_access_deviceconfig(tenant.auth, tenant.device_id)
-        self.check_access_auditlogs(tenant.auth)
-        self.check_access_sessionlogs(tenant.auth)
-        self.check_access_rbac(tenant.auth)
-
-        # upgrade trial tenant - straight to enterprise
-        tenant = mt_env["tenants"]["trial"]
-        device_connect_insert_device(mongo, tenant.device_id, tenant_id=tenant.id)
-        device_config_insert_device(mongo, tenant.device_id, tenant_id=tenant.id)
-
-        tadmm = ApiClient(tenantadm_v2.URL_MGMT)
-
-        res = tadmm.with_auth(tenant.auth).call(
-            "POST",
-            tenantadm_v2.URL_TENANT_UPGRADE_START,
-            path_params={"id": tenant.id},
-        )
-
-        assert res.status_code == 200
-        res = res.json()
-
-        stripeutils.confirm("pm_card_visa", res["intent_id"])
-
-        body = {
-            "plan": "enterprise",
-        }
-
-        res = tadmm.with_auth(tenant.auth).call(
-            "POST",
-            tenantadm_v2.URL_TENANT_UPGRADE_COMPLETE,
-            path_params={"id": tenant.id},
-            body=body,
-        )
-        assert res.status_code == 202
-
-        update_tenant(
-            tenant.id, addons=["troubleshoot", "configure"],
-        )
-        r = ApiClient(useradm.URL_MGMT).call(
-            "POST",
-            useradm.URL_LOGIN,
-            auth=(
-                mt_env["tenants"]["trial"].users[0].name,
-                mt_env["tenants"]["trial"].users[0].pwd,
-            ),
-        )
-        assert r.status_code == 200
-        tenant.auth = r.text
-
-        self.check_access_remote_term(tenant.auth, tenant.device_id)
-        self.check_access_file_transfer(tenant.auth, tenant.device_id)
-        self.check_access_deviceconfig(tenant.auth, tenant.device_id)
-        self.check_access_auditlogs(tenant.auth)
-        self.check_access_sessionlogs(tenant.auth)
-        self.check_access_rbac(tenant.auth)
-
-
-def _make_tenant(plan):
-    uuidv4 = str(uuid.uuid4())
-    tenant, username, password = (
-        "test.mender.io-" + uuidv4,
-        "ci.email.tests+" + uuidv4 + "@mender.io",
-        "secretsecret",
-    )
-
-    # Create tenant with two users
-    tenant = create_org(tenant, username, password, plan=plan)
-    uuidv4 = str(uuid.uuid4())
-    username, password = (
-        "ci.email.tests+" + uuidv4 + "@mender.io",
-        "secretsecret",
-    )
-    tenant.users.append(create_user(username, password, tenant.id))
-    update_tenant(
-        tenant.id, addons=[],
-    )
-    r = ApiClient(useradm.URL_MGMT).call(
-        "POST", useradm.URL_LOGIN, auth=(username, password),
-    )
-    assert r.status_code == 200
-    tenant.auth = r.text
-    tenant.device_id = str(uuid.uuid4())
-    return tenant
-
-
-def _make_trial_tenant():
-    uuidv4 = str(uuid.uuid4())
-    tname = "test.mender.io-{}-{}".format(uuidv4, "trial")
-    email = "some.user+{}@example.com".format(uuidv4)
-    password = "correcthorse"
-
-    tadmm = ApiClient(tenantadm_v2.URL_MGMT)
-
-    args = {
-        "organization": tname,
-        "email": email,
-        "password": password,
-        "name": "foo",
-        "g-recaptcha-response": "dummy",
-        "plan": "enterprise",
-    }
-
-    res = tadmm.call("POST", tenantadm_v2.URL_CREATE_ORG_TRIAL, body=args,)
-
-    assert res.status_code == 202
-
-    tadmi = ApiClient(tenantadm.URL_INTERNAL, host=tenantadm.HOST, schema="http://")
-
-    res = tadmi.call(
-        "GET",
-        tenantadm.URL_INTERNAL_TENANTS,
-        qs_params={"q": tname},  # urllib.parse.quote(email)}
-    )
-
-    assert res.status_code == 200
-    assert len(res.json()) == 1
-
-    api_tenant = res.json()[0]
-    cli = CliTenantadm()
-    tenant = cli.get_tenant(api_tenant["id"])
-    tenant = json.loads(tenant)
-    tenant_token = tenant["tenant_token"]
-
-    propagate_wait_s = 2
-    max_tries = 150
-    for i in redo.retrier(attempts=max_tries, sleeptime=propagate_wait_s):
-        r = ApiClient(useradm.URL_MGMT).call(
-            "POST", useradm.URL_LOGIN, auth=(email, password)
-        )
-        if r.status_code == 200:
-            logger.info(
-                "_make_trial_tenant: it took %d tries to login"
-                % (i)
-            )
-            break
-
-    assert r.status_code == 200
-
-    tenant = Tenant(tname, api_tenant["id"], tenant_token)
-    u = User("", email, password)
-
-    tenant.users.append(u)
-    tenant.auth = r.text
-    tenant.device_id = str(uuid.uuid4())
-
-    return tenant
