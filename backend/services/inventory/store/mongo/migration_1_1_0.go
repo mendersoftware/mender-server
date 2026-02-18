@@ -17,11 +17,11 @@ package mongo
 import (
 	"context"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/inventory/model"
@@ -41,14 +41,13 @@ func (m *migration_1_1_0) Up(from migrate.Version) error {
 		{Key: DbDevAttributesText, Value: "text"},
 	}
 	name := DbDevAttributesText
-	_, err := indexView.CreateOne(m.ctx, mongo.IndexModel{Keys: keys, Options: &mopts.IndexOptions{
-		Name: &name,
-	}})
+	_, err := indexView.CreateOne(m.ctx, mongo.IndexModel{Keys: keys,
+		Options: mopts.Index().SetName(name)})
 	if err != nil {
 		return err
 	}
-	//
-	opts := &mopts.FindOptions{}
+
+	opts := mopts.Find()
 	opts.SetSort(bson.M{DbDevId: 1})
 	c, err := coll.Find(m.ctx, bson.M{}, opts)
 	if err != nil {
