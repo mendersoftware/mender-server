@@ -17,11 +17,11 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
@@ -34,7 +34,6 @@ type migration_1_10_0 struct {
 
 // Up creates an index on status and id in the devices collection
 func (m *migration_1_10_0) Up(from migrate.Version) error {
-	_false := false
 
 	// create device index on status and id
 	devStatusIndex := mongo.IndexModel{
@@ -42,11 +41,9 @@ func (m *migration_1_10_0) Up(from migrate.Version) error {
 			{Key: model.DevKeyStatus, Value: 1},
 			{Key: model.DevKeyId, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &indexDevices_Status,
-			Unique:     &_false,
-		},
+		Options: mopts.Index().
+			SetName(indexDevices_Status).
+			SetUnique(false),
 	}
 
 	cDevs := m.ds.client.Database(ctxstore.DbFromContext(m.ctx, DbName)).Collection(DbDevicesColl)

@@ -18,6 +18,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"io"
 	"math/rand"
 	"sort"
 	"strconv"
@@ -30,13 +31,14 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 
@@ -218,9 +220,7 @@ func TestForEachTenant(t *testing.T) {
 				return nil
 			},
 
-			Error: errors.Wrap(context.Canceled,
-				`store: database operations stopped prematurely`,
-			),
+			Error: io.ErrUnexpectedEOF,
 		},
 		{
 			Name: "error, context timeout",
@@ -890,25 +890,28 @@ func verifyIndexes(t *testing.T, coll *mongo.Collection, expected []mongo.IndexM
 
 	assert.Len(t, idxs, 1+len(expected))
 	for _, expectedIdx := range expected {
+		expectedOpts := &options.IndexOptions{}
+
+		if expectedIdx.Options != nil {
+			for _, setter := range expectedIdx.Options.List() {
+				err := setter(expectedOpts)
+				assert.NoError(t, err, "failed to apply index option")
+			}
+		}
+
 		t.Logf("looking for: %+v", expectedIdx)
 		found := false
 		for _, idx := range idxs {
 			t.Logf("index: %+v", idx)
-			if idx["name"] == *expectedIdx.Options.Name {
+			if idx["name"] == *expectedOpts.Name {
 				t.Logf("found same index, comparing")
 				found = true
 				var fieldPresent bool
-				_, fieldPresent = idx["background"]
-				if expectedIdx.Options.Background == nil {
-					assert.False(t, fieldPresent)
-				} else {
-					assert.Equal(t, *expectedIdx.Options.Background, idx["background"])
-				}
 				_, fieldPresent = idx["unique"]
-				if expectedIdx.Options.Unique == nil {
+				if expectedOpts.Unique == nil {
 					assert.False(t, fieldPresent)
 				} else {
-					assert.Equal(t, *expectedIdx.Options.Unique, idx["unique"])
+					assert.Equal(t, *expectedOpts.Unique, idx["unique"])
 				}
 				break
 			}
@@ -1914,7 +1917,7 @@ func TestPutLimit(t *testing.T) {
 	err = db.PutLimit(dbCtx, model.Limit{Name: "foo", Value: 999})
 	assert.NoError(t, err)
 	assert.NoError(t, coll.FindOne(dbCtx, bson.M{dbFieldName: "foo"}).Decode(&lim))
-	lim.Id = ""
+	lim.Id = oid.ObjectID{}
 	id = identity.FromContext(dbCtx)
 	tenantId := id.Tenant
 	assert.EqualValues(t, model.Limit{Name: "foo", Value: 999, TenantID: tenantId}, lim)
@@ -1925,7 +1928,7 @@ func TestPutLimit(t *testing.T) {
 	assert.NoError(t, coll.FindOne(dbCtx, bson.M{dbFieldName: "baz"}).Decode(&lim))
 	id = identity.FromContext(dbCtx)
 	tenantId = id.Tenant
-	lim.Id = ""
+	lim.Id = oid.ObjectID{}
 	assert.EqualValues(t, model.Limit{Name: "baz", Value: 9809899990, TenantID: tenantId}, lim)
 
 	// switch tenants
@@ -1934,7 +1937,7 @@ func TestPutLimit(t *testing.T) {
 	id = identity.FromContext(dbCtxOtherTenant)
 	tenantId = id.Tenant
 	assert.NoError(t, collOtherTenant.FindOne(dbCtx, bson.M{dbFieldName: "foo", dbFieldTenantID: tenantId}).Decode(&lim))
-	lim.Id = ""
+	lim.Id = oid.ObjectID{}
 	assert.EqualValues(t, lim1, lim)
 
 	// update
@@ -1943,15 +1946,15 @@ func TestPutLimit(t *testing.T) {
 	id = identity.FromContext(dbCtxOtherTenant)
 	tenantId = id.Tenant
 	assert.NoError(t, collOtherTenant.FindOne(dbCtx, bson.M{dbFieldName: "bar", dbFieldTenantID: tenantId}).Decode(&lim))
-	lim.Id = ""
+	lim.Id = oid.ObjectID{}
 	assert.EqualValues(t, model.Limit{Name: "bar", Value: 1234, TenantID: tenantId}, lim)
 	// original tenant is unmodified
 	id = identity.FromContext(dbCtx)
 	tenantId = id.Tenant
 	lim2.TenantID = id.Tenant // we are reusing those, we originally inserted with this tenant
-	lim2.Id = ""              // let's not compare the ids, since we have not supplied them
+	lim2.Id = oid.ObjectID{}  // let's not compare the ids, since we have not supplied them
 	assert.NoError(t, coll.FindOne(dbCtx, bson.M{dbFieldName: "bar", dbFieldTenantID: tenantId}).Decode(&lim))
-	lim.Id = ""
+	lim.Id = oid.ObjectID{}
 	assert.EqualValues(t, lim2, lim)
 }
 
@@ -2004,7 +2007,7 @@ func TestDeleteLimit(t *testing.T) {
 
 	// the other-tenant limit 'foo' was not modified
 	assert.NoError(t, collOtherTenant.FindOne(dbCtx, mongostore.WithTenantID(dbCtxOtherTenant, bson.M{dbFieldName: lim1.Name})).Decode(&lim))
-	lim.Id = ""
+	lim.Id = oid.ObjectID{}
 	assert.EqualValues(t, lim1, lim)
 }
 
@@ -2014,19 +2017,19 @@ func TestGetLimit(t *testing.T) {
 	}
 
 	lim1 := model.Limit{
-		Id:       oid.NewUUIDv4().String(),
+		Id:       oid.NewUUIDv4(),
 		Name:     "foo",
 		Value:    123,
 		TenantID: tenant,
 	}
 	lim2 := model.Limit{
-		Id:       oid.NewUUIDv4().String(),
+		Id:       oid.NewUUIDv4(),
 		Name:     "bar",
 		Value:    456,
 		TenantID: tenant,
 	}
 	lim3OtherTenant := model.Limit{
-		Id:       oid.NewUUIDv4().String(),
+		Id:       oid.NewUUIDv4(),
 		Name:     "bar",
 		Value:    920,
 		TenantID: tenant,

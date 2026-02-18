@@ -26,7 +26,7 @@ import (
 	ctxhttpheader "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 	"github.com/mendersoftware/mender-server/pkg/plan"
 	mredis "github.com/mendersoftware/mender-server/pkg/redis"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
