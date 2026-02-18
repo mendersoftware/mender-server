@@ -23,10 +23,9 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -115,7 +114,7 @@ func NewClient(_ context.Context, c config.Reader) (*mongo.Client, error) {
 	// Set 10s timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, clientOptions)
+	client, err := mongo.Connect(clientOptions)
 	if err != nil {
 		return nil, errors.Wrap(err, "Failed to connect to mongo server")
 	}
@@ -217,10 +216,8 @@ func (db *DataStoreMongo) InsertWorkflows(
 			return i + 1, store.ErrWorkflowAlreadyExists
 		}
 		if workflowDb == nil || workflowDb.Version < workflow.Version {
-			upsert := true
-			opt := &mopts.UpdateOptions{
-				Upsert: &upsert,
-			}
+			opt := mopts.UpdateOne()
+			opt.SetUpsert(true)
 			query := bson.M{"_id": workflow.Name}
 			update := bson.M{"$set": workflow}
 			if _, err := collWflows.UpdateOne(ctx, query, update, opt); err != nil {
@@ -285,7 +282,7 @@ func (db *DataStoreMongo) GetWorkflows(ctx context.Context) []model.Workflow {
 func (db *DataStoreMongo) UpsertJob(
 	ctx context.Context, job *model.Job) (*model.Job, error) {
 	if job.ID == "" {
-		job.ID = primitive.NewObjectID().Hex()
+		job.ID = bson.NewObjectID().Hex()
 	}
 	query := bson.M{
 		"_id": job.ID,
@@ -293,7 +290,7 @@ func (db *DataStoreMongo) UpsertJob(
 	update := bson.M{
 		"$set": job,
 	}
-	findUpdateOptions := &mopts.FindOneAndUpdateOptions{}
+	findUpdateOptions := mopts.FindOneAndUpdate()
 	findUpdateOptions.SetReturnDocument(mopts.After)
 	findUpdateOptions.SetUpsert(true)
 
@@ -311,7 +308,7 @@ func (db *DataStoreMongo) UpsertJob(
 // UpdateJobAddResult add a task execution result to a job status
 func (db *DataStoreMongo) UpdateJobAddResult(ctx context.Context,
 	job *model.Job, result *model.TaskResult) error {
-	options := &mopts.UpdateOptions{}
+	options := mopts.UpdateOne()
 	options.SetUpsert(true)
 
 	update := bson.M{
@@ -344,7 +341,7 @@ func (db *DataStoreMongo) UpdateJobStatus(
 		return model.ErrInvalidStatus
 	}
 
-	options := &mopts.UpdateOptions{}
+	options := mopts.UpdateOne()
 	options.SetUpsert(true)
 
 	collection := db.client.Database(db.dbName).
@@ -414,7 +411,7 @@ func (db *DataStoreMongo) GetAllJobs(
 	ctx context.Context, page int64, perPage int64) ([]model.Job, int64, error) {
 	collection := db.client.Database(db.dbName).
 		Collection(JobsCollectionName)
-	findOptions := &mopts.FindOptions{}
+	findOptions := mopts.Find()
 	findOptions.SetSkip(int64((page - 1) * perPage))
 	findOptions.SetLimit(int64(perPage))
 	sortField := bson.M{}
