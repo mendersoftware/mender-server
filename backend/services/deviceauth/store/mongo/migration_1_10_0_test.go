@@ -18,12 +18,12 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
@@ -47,9 +47,6 @@ func TestMigration_1_10_0(t *testing.T) {
 	err := mig1100.Up(migrate.MakeVersion(1, 10, 0))
 	assert.NoError(t, err)
 
-	_false := false
-	_true := true
-
 	dbName := ctxstore.DbFromContext(ctx, DbName)
 	verifyIndexes(t, db.client.Database(dbName).Collection(DbDevicesColl),
 		[]mongo.IndexModel{
@@ -57,21 +54,17 @@ func TestMigration_1_10_0(t *testing.T) {
 				Keys: bson.D{
 					{Key: model.DevKeyIdDataSha256, Value: 1},
 				},
-				Options: &options.IndexOptions{
-					Background: &_false,
-					Name:       &indexDevices_IdentityDataSha256,
-					Unique:     &_true,
-				},
+				Options: options.Index().
+					SetName(indexDevices_IdentityDataSha256).
+					SetUnique(true),
 			},
 			{
 				Keys: bson.D{
 					{Key: model.DevKeyStatus, Value: 1},
 					{Key: model.DevKeyId, Value: 1},
 				},
-				Options: &options.IndexOptions{
-					Background: &_false,
-					Name:       &indexDevices_Status,
-				},
+				Options: options.Index().
+					SetName(indexDevices_Status),
 			},
 		},
 	)

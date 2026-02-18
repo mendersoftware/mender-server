@@ -17,17 +17,16 @@ import (
 	"context"
 	"time"
 
-	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
-	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
-
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
+	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
+	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 )
 
@@ -46,9 +45,9 @@ func (m *migration_1_7_0) updateDevicesStatus(ctx context.Context, status string
 	c := cinv.NewClient(inv, true)
 	collectionDevices := m.ms.client.Database(ctxstore.DbFromContext(m.ctx, DbName)).
 		Collection(DbDevicesColl)
-	opts := options.FindOptions{}
+	opts := options.Find()
 	opts.SetNoCursorTimeout(true)
-	cur, err := collectionDevices.Find(ctx, bson.M{"status": status}, &opts)
+	cur, err := collectionDevices.Find(ctx, bson.M{"status": status}, opts)
 	if err != nil {
 		return err
 	}

@@ -19,7 +19,7 @@ import (
 	"time"
 
 	"github.com/mendersoftware/mender-server/pkg/addons"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 )
 
 type Claims struct {

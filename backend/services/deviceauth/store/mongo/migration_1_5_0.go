@@ -20,11 +20,11 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
@@ -85,19 +85,15 @@ func (m *migration_1_5_0) Up(from migrate.Version) error {
 		return errors.Wrap(err, "failed to close DB iterator")
 	}
 
-	_false := false
-	_true := true
 	index := mongo.IndexModel{
 		Keys: bson.D{
 			{Key: model.AuthSetKeyDeviceId, Value: 1},
 			{Key: model.AuthSetKeyIdDataSha256, Value: 1},
 			{Key: model.AuthSetKeyPubKey, Value: 1},
 		},
-		Options: &options.IndexOptions{
-			Background: &_false,
-			Name:       &indexAuthSet_DeviceId_IdentityDataSha256_PubKey,
-			Unique:     &_true,
-		},
+		Options: options.Index().
+			SetName(indexAuthSet_DeviceId_IdentityDataSha256_PubKey).
+			SetUnique(true),
 	}
 
 	asIndexes := asColl.Indexes()

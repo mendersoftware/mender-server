@@ -108,6 +108,9 @@ func marshalBSONUUID(u uuid.UUID) (bson.Type, []byte, error) {
 
 // MarshalBSONValue provides the bson.ValueMarshaler interface.
 func (oid ObjectID) MarshalBSONValue() (byte, []byte, error) {
+	if oid.id == nil {
+		return byte(bson.TypeNull), nil, nil
+	}
 	switch objectID := oid.id.(type) {
 	case uuid.UUID:
 		t, b, err := marshalBSONUUID(objectID)
@@ -166,6 +169,9 @@ func (oid *ObjectID) UnmarshalBSONValue(t byte, b []byte) error {
 		copy(buf, b[4:])
 		oid.id = string(buf)
 		return nil
+	case bson.TypeNull:
+		oid.id = nil
+		return nil
 	default:
 		return errors.Errorf(
 			"illegal bson-type %s, expected ObjectID", bson.Type(t),
@@ -211,4 +217,8 @@ func (oid ObjectID) Type() Type {
 	default:
 		return TypeNil
 	}
+}
+
+func (oid ObjectID) IsZero() bool {
+	return oid.id == nil
 }

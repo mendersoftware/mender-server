@@ -26,8 +26,8 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	minv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory/mocks"

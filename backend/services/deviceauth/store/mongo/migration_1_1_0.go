@@ -18,11 +18,11 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
@@ -118,18 +118,14 @@ func (m *migration_1_1_0) Version() migrate.Version {
 }
 
 func (m *migration_1_1_0) ensureIndexes(ctx context.Context) error {
-	_false := false
-	_true := true
 
 	devIdDataUniqueIndex := mongo.IndexModel{
 		Keys: bson.D{
 			{Key: model.DevKeyIdData, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &indexDevices_IdentityData,
-			Unique:     &_true,
-		},
+		Options: mopts.Index().
+			SetName(indexDevices_IdentityData).
+			SetUnique(true),
 	}
 
 	authSetUniqueIndex := mongo.IndexModel{
@@ -138,11 +134,9 @@ func (m *migration_1_1_0) ensureIndexes(ctx context.Context) error {
 			{Key: model.AuthSetKeyIdData, Value: 1},
 			{Key: model.AuthSetKeyPubKey, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &indexAuthSet_DeviceId_IdentityData_PubKey,
-			Unique:     &_true,
-		},
+		Options: mopts.Index().
+			SetName(indexAuthSet_DeviceId_IdentityData_PubKey).
+			SetUnique(true),
 	}
 
 	cDevs := m.ms.client.Database(ctxstore.DbFromContext(ctx, DbName)).Collection(DbDevicesColl)

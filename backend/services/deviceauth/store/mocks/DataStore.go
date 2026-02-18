@@ -19,14 +19,14 @@ package mocks
 import (
 	context "context"
 
-	migrate "github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	migrate "github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	jwt "github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 
 	mock "github.com/stretchr/testify/mock"
 
 	model "github.com/mendersoftware/mender-server/services/deviceauth/model"
 
-	oid "github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	oid "github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 
 	store "github.com/mendersoftware/mender-server/services/deviceauth/store"
 )

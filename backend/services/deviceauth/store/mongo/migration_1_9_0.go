@@ -17,11 +17,11 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
@@ -35,19 +35,15 @@ type migration_1_9_0 struct {
 // Up removes device and authset indexes which include raw id data
 // and creates device index on id data sha256
 func (m *migration_1_9_0) Up(from migrate.Version) error {
-	_false := false
-	_true := true
 
 	// create device index on id data sha
 	devIdDataSha256UniqueIndex := mongo.IndexModel{
 		Keys: bson.D{
 			{Key: model.DevKeyIdDataSha256, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &indexDevices_IdentityDataSha256,
-			Unique:     &_true,
-		},
+		Options: mopts.Index().
+			SetName(indexDevices_IdentityDataSha256).
+			SetUnique(true),
 	}
 
 	cDevs := m.ds.client.Database(ctxstore.DbFromContext(m.ctx, DbName)).Collection(DbDevicesColl)
@@ -58,7 +54,7 @@ func (m *migration_1_9_0) Up(from migrate.Version) error {
 	}
 
 	// drop device index on raw identity data, if exists
-	_, err = devIndexes.DropOne(m.ctx, indexDevices_IdentityData)
+	err = devIndexes.DropOne(m.ctx, indexDevices_IdentityData)
 	if err != nil && !isIndexNotFound(err) {
 		return errors.Wrap(err, "failed to drop index devices:IdentityData")
 	}
@@ -67,7 +63,7 @@ func (m *migration_1_9_0) Up(from migrate.Version) error {
 	cAuthsets := m.ds.client.Database(ctxstore.DbFromContext(m.ctx, DbName)).
 		Collection(DbAuthSetColl)
 	asetIndexes := cAuthsets.Indexes()
-	_, err = asetIndexes.DropOne(m.ctx, indexAuthSet_DeviceId_IdentityData_PubKey)
+	err = asetIndexes.DropOne(m.ctx, indexAuthSet_DeviceId_IdentityData_PubKey)
 	if err != nil && !isIndexNotFound(err) {
 		return errors.Wrap(err, "failed to drop index auth_sets:DeviceId:IdData:PubKey")
 	}

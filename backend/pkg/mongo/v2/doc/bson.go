@@ -58,6 +58,12 @@ func DocumentFromStruct(
 		return nil
 	}
 
+	// If a field already exists, don't append a duplicate field but override it
+	overrides := make(map[string]bool)
+	for _, e := range appendElements {
+		overrides[e.Key] = true
+	}
+
 	numAppends := len(appendElements)
 	numFields := s.NumField()
 	doc = make(bson.D, 0, numFields+numAppends)
@@ -67,7 +73,16 @@ func DocumentFromStruct(
 		value := s.Field(i)
 		key, valFace, set := valueFromStructField(field, value)
 		if key == "inline" {
-			doc = append(doc, DocumentFromStruct(valFace)...)
+			inlineDoc := DocumentFromStruct(valFace)
+			for _, elem := range inlineDoc {
+				if !overrides[elem.Key] {
+					doc = append(doc, elem)
+				}
+			}
+			continue
+		}
+		// Skip the struct field if it is in the overrides list
+		if overrides[key] {
 			continue
 		}
 		if set {
