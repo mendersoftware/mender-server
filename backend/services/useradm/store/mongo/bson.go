@@ -4,24 +4,23 @@ import (
 	"reflect"
 	"strings"
 
-	"go.mongodb.org/mongo-driver/bson/bsoncodec"
-	"go.mongodb.org/mongo-driver/bson/bsonrw"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/codec"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
 	"github.com/mendersoftware/mender-server/services/useradm/model"
 )
 
-func newRegistry() *bsoncodec.Registry {
+func newRegistry() *bson.Registry {
 	registry := codec.NewRegistry()
-	registry.RegisterTypeEncoder(tEmail, bsoncodec.ValueEncoderFunc(encodeEmail))
+	registry.RegisterTypeEncoder(tEmail, bson.ValueEncoderFunc(encodeEmail))
 	return registry
 }
 
 var tEmail = reflect.TypeOf(model.Email(""))
 
-func encodeEmail(ec bsoncodec.EncodeContext, w bsonrw.ValueWriter, val reflect.Value) error {
+func encodeEmail(ec bson.EncodeContext, w bson.ValueWriter, val reflect.Value) error {
 	if !val.IsValid() || val.Type() != tEmail {
-		return bsoncodec.ValueEncoderError{
+		return bson.ValueEncoderError{
 			Name:     "EmailCodec",
 			Types:    []reflect.Type{tEmail},
 			Received: val,

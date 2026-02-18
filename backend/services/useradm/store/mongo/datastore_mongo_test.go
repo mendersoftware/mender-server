@@ -22,15 +22,14 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
@@ -2567,7 +2566,7 @@ func TestMongoSaveUserSettings(t *testing.T) {
 
 			if tc.settingsExisting != nil {
 				doc := mongostore.WithTenantID(ctx, tc.settingsExisting)
-				doc = append(doc, primitive.E{
+				doc = append(doc, bson.E{
 					Key:   DbSettingsUserID,
 					Value: userID,
 				})
