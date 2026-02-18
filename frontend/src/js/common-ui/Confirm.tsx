@@ -17,11 +17,13 @@ import { Cancel as CancelIcon, CheckCircle as CheckCircleIcon, Check as CheckIco
 import { Button, IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { isDarkMode } from '@northern.tech/store/utils';
+
 const useStyles = makeStyles()(theme => ({
   nudgeInward: { marginRight: 6 },
   wrapper: {
     zIndex: 1,
-    background: theme.palette.info.light,
+    background: isDarkMode(theme.palette.mode) ? theme.palette.info.dark : theme.palette.info.light,
     opacity: 1,
     height: '100%',
     justifyContent: 'flex-end'

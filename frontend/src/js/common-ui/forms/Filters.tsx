@@ -14,15 +14,16 @@
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import { isDarkMode } from '@northern.tech/store/utils';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 const useStyles = makeStyles()(theme => ({
   container: {
-    backgroundColor: theme.palette.grey[50],
+    backgroundColor: isDarkMode(theme.palette.mode) ? theme.palette.info.main : alpha(theme.palette.info.main, theme.palette.action.selectedOpacity),
     padding: `10px ${theme.spacing(3)} ${theme.spacing(3)}`
   },
   filters: {
