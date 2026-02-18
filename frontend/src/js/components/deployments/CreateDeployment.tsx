@@ -299,7 +299,7 @@ export const CreateDeployment = props => {
           </AccordionDetails>
         </Accordion>
       </FormGroup>
-      <div className="margin-top">
+      <div className="margin-top relative">
         {isChecking && (
           <Confirm
             classes="confirmation-overlay"

@@ -395,7 +395,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
         ) : (
           hasDeviceConfig && <TwoColumnData chipLikeKey data={reported} setSnackbar={onSetSnackbar} />
         )}
-        {hasDeviceConfig && <div className="flexbox align-items-center margin-bottom margin-top">{footer}</div>}
+        {hasDeviceConfig && <div className="flexbox align-items-center margin-bottom margin-top relative">{footer}</div>}
         {showLog && <LogDialog logData={updateLog} onClose={() => setShowLog(false)} type="configUpdateLog" />}
         {showConfigImport && <ConfigImportDialog onCancel={() => setShowConfigImport(false)} onSubmit={onConfigImport} />}
       </div>

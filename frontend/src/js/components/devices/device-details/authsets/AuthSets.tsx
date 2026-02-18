@@ -77,9 +77,9 @@ export const Authsets = ({ decommission, device, listRef }) => {
       />
       {limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedDevices} deviceLimit={deviceLimit} hasContactInfo />}
       {![DEVICE_STATES.preauth, DEVICE_STATES.pending].includes(device.status) && canManageDevices && (
-        <div className={`flexbox ${classes.decommission}`}>
+        <div className={`flexbox relative ${classes.decommission}`}>
           {confirmDecommission ? (
-            <Confirm action={() => decommission(device.id)} cancel={() => setConfirmDecomission(false)} type="decommissioning" />
+            <Confirm action={() => decommission(device.id)} cancel={() => setConfirmDecomission(false)} classes="margin-top-small" type="decommissioning" />
           ) : (
             <Button color="secondary" onClick={setConfirmDecomission}>
               Decommission device

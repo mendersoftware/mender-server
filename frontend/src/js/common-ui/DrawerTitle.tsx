@@ -37,7 +37,7 @@ export const DrawerTitle: FunctionComponent<DrawerTitleProps> = ({ onClose, onLi
       )}
       {postTitle}
     </div>
-    <div className="flexbox align-items-center">
+    <div className="flexbox align-items-center relative">
       {preCloser}
       <IconButton onClick={onClose} aria-label="close" size="large">
         <CloseIcon />
