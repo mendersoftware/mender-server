@@ -13,6 +13,8 @@
 //	limitations under the License.
 package model
 
+import "github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
+
 const (
 	LimitMaxDeviceCount = "max_devices"
 )
@@ -22,10 +24,10 @@ var (
 )
 
 type Limit struct {
-	Id       string `json:"-" bson:"_id,omitempty"`
-	Name     string `json:"name" bson:"name"`
-	Value    uint64 `json:"value" bson:"value"`
-	TenantID string `json:"-" bson:"tenant_id"`
+	Id       oid.ObjectID `json:"-" bson:"_id,omitempty"`
+	Name     string       `json:"name" bson:"name"`
+	Value    uint64       `json:"value" bson:"value"`
+	TenantID string       `json:"-" bson:"tenant_id"`
 }
 
 func (l Limit) IsLess(what uint64) bool {
