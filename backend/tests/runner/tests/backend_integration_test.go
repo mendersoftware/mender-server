@@ -8,9 +8,8 @@ import (
 	"strings"
 	"testing"
 
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/stretchr/testify/suite"
-
-	openapi "github.com/mendersoftware/mender-server/tests/runner/client"
 )
 
 type TestSettings struct {
