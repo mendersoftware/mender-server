@@ -59,8 +59,10 @@ export const DeploymentDeviceGroup = ({ deployment, devicesById, idAttribute, wr
 export const DeploymentEndTime = ({ className, deployment }: Pick<ColumnComponentProps, 'className' | 'deployment'>) => (
   <RelativeTime className={className} key="DeploymentEndTime" updateTime={deployment.finished} shouldCount="none" />
 );
-export const DeploymentPhases = ({ deployment }: Pick<ColumnComponentProps, 'deployment'>) => (
-  <div key="DeploymentPhases">{deployment.phases ? deployment.phases.length : '-'}</div>
+export const DeploymentPhases = ({ className, deployment }: Pick<ColumnComponentProps, 'className' | 'deployment'>) => (
+  <Typography variant="body2" className={className} key="DeploymentPhases">
+    {deployment.phases ? deployment.phases.length : '-'}
+  </Typography>
 );
 export const DeploymentStatus = ({ deployment }: Pick<ColumnComponentProps, 'deployment'>) => (
   <DeploymentStats key="DeploymentStatus" deployment={deployment} />
