@@ -15,6 +15,7 @@
 package mongo
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
@@ -24,12 +25,12 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
@@ -151,7 +152,10 @@ func TestCreateIntegration(t *testing.T) {
 				assert.Equal(t, tenantID, actualTID)
 
 				var integration model.Integration
-				bson.UnmarshalWithRegistry(newRegistry(), doc, &integration)
+				vr := bson.NewDocumentReader(bytes.NewReader(doc))
+				dec := bson.NewDecoder(vr)
+				dec.SetRegistry(codec.NewRegistry())
+				dec.Decode(&integration)
 				assert.True(t, uuid.Validate(integration.ID.String()) == nil)
 				integration.ID = uuid.Nil
 				tc.Integration.ID = uuid.Nil
@@ -1185,17 +1189,17 @@ func TestDeleteTenantData(t *testing.T) {
 		{
 			Name: "ok",
 
-			TenantToDelete:  primitive.NewObjectID().Hex(),
-			SomeOtherTenant: primitive.NewObjectID().Hex(),
+			TenantToDelete:  bson.NewObjectID().Hex(),
+			SomeOtherTenant: bson.NewObjectID().Hex(),
 		},
 		{
 			Name:            "no id",
-			SomeOtherTenant: primitive.NewObjectID().Hex(),
+			SomeOtherTenant: bson.NewObjectID().Hex(),
 		},
 		{
 			Name:            "no tenant id in id",
 			TenantToDelete:  "-",
-			SomeOtherTenant: primitive.NewObjectID().Hex(),
+			SomeOtherTenant: bson.NewObjectID().Hex(),
 		},
 	}
 	for i := range testCases {

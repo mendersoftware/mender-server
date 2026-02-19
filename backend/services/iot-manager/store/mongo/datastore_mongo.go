@@ -24,13 +24,14 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
 
 	dconfig "github.com/mendersoftware/mender-server/services/iot-manager/config"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
@@ -130,7 +131,7 @@ func NewClient(ctx context.Context, c config.Reader) (*mongo.Client, error) {
 		return nil, errors.Errorf("Invalid mongoURL %q: missing schema.",
 			mongoURL)
 	}
-	clientOptions.ApplyURI(mongoURL).SetRegistry(newRegistry())
+	clientOptions.ApplyURI(mongoURL).SetRegistry(codec.NewRegistry())
 
 	username := c.GetString(dconfig.SettingDbUsername)
 	if username != "" {
@@ -157,7 +158,7 @@ func NewClient(ctx context.Context, c config.Reader) (*mongo.Client, error) {
 		ctx, cancel = context.WithTimeout(ctx, ConnectTimeoutSeconds*time.Second)
 		defer cancel()
 	}
-	client, err := mongo.Connect(ctx, clientOptions)
+	client, err := mongo.Connect(clientOptions)
 	if err != nil {
 		return nil, errors.Wrap(err, "Failed to connect to mongo server")
 	}
@@ -204,7 +205,7 @@ func (db *DataStoreMongo) Close() error {
 
 func (db *DataStoreMongo) Collection(
 	name string,
-	opts ...*mopts.CollectionOptions,
+	opts ...mopts.Lister[mopts.CollectionOptions],
 ) *mongo.Collection {
 	return db.client.Database(*db.DbName).Collection(name, opts...)
 }
@@ -212,7 +213,7 @@ func (db *DataStoreMongo) Collection(
 func (db *DataStoreMongo) ListCollectionNames(
 	ctx context.Context,
 ) ([]string, error) {
-	return db.client.Database(*db.DbName).ListCollectionNames(ctx, mopts.ListCollectionsOptions{})
+	return db.client.Database(*db.DbName).ListCollectionNames(ctx, bson.D{})
 }
 
 func (db *DataStoreMongo) getIntegrations(
@@ -354,7 +355,7 @@ func (db *DataStoreMongo) CreateIntegration(
 	_, err := collIntegrations.
 		InsertOne(ctx, mongostore.WithTenantID(ctx, integration))
 	if err != nil {
-		if isDuplicateKeyError(err) {
+		if mongo.IsDuplicateKeyError(err) {
 			return nil, store.ErrObjectExists
 		}
 		return nil, errors.Wrapf(err, "failed to store integration %v", integration)

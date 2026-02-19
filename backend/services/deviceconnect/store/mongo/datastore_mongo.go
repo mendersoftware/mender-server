@@ -25,17 +25,18 @@ import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/vmihailenco/msgpack/v5"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/writeconcern"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo/writeconcern"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
-	mdoc "github.com/mendersoftware/mender-server/pkg/mongo/doc"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
+	mdoc "github.com/mendersoftware/mender-server/pkg/mongo/v2/doc"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 	"github.com/mendersoftware/mender-server/pkg/ws"
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
@@ -121,7 +122,7 @@ func NewClient(ctx context.Context, c config.Reader) (*mongo.Client, error) {
 		return nil, errors.Errorf("Invalid mongoURL %q: missing schema.",
 			mongoURL)
 	}
-	clientOptions.ApplyURI(mongoURL).SetRegistry(newRegistry())
+	clientOptions.ApplyURI(mongoURL).SetRegistry(codec.NewRegistry())
 
 	username := c.GetString(dconfig.SettingDbUsername)
 	if username != "" {
@@ -158,7 +159,7 @@ func NewClient(ctx context.Context, c config.Reader) (*mongo.Client, error) {
 		ctx, cancel = context.WithTimeout(ctx, 10*time.Second)
 		defer cancel()
 	}
-	client, err := mongo.Connect(ctx, clientOptions)
+	client, err := mongo.Connect(clientOptions)
 	if err != nil {
 		return nil, errors.Wrap(err, "Failed to connect to mongo server")
 	}
@@ -622,7 +623,7 @@ func (db *DataStoreMongo) DropDatabase() error {
 
 func (db *DataStoreMongo) DeleteTenant(ctx context.Context, tenantID string) error {
 	database := db.client.Database(DbName)
-	collectionNames, err := database.ListCollectionNames(ctx, mopts.ListCollectionsOptions{})
+	collectionNames, err := database.ListCollectionNames(ctx, bson.D{})
 	if err != nil {
 		return err
 	}

@@ -19,10 +19,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-
-	"go.mongodb.org/mongo-driver/bson"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )

@@ -22,11 +22,11 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 )
@@ -85,9 +85,9 @@ func TestGetEvents(t *testing.T) {
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceStatusChanged,
-						Data: bson.M{
-							"id":     "foo",
-							"status": "bar",
+						Data: bson.D{
+							{Key: "id", Value: "foo"},
+							{Key: "status", Value: "bar"},
 						},
 					},
 				},
@@ -144,25 +144,25 @@ func TestGetEvents(t *testing.T) {
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceStatusChanged,
-						Data: bson.M{
-							"id":     "foo",
-							"status": "bar",
+						Data: bson.D{
+							{Key: "id", Value: "foo"},
+							{Key: "status", Value: "bar"},
 						},
 					},
 				},
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceDecommissioned,
-						Data: bson.M{
-							"id": "bar",
+						Data: bson.D{
+							{Key: "id", Value: "bar"},
 						},
 					},
 				},
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceProvisioned,
-						Data: bson.M{
-							"id": "baz",
+						Data: bson.D{
+							{Key: "id", Value: "baz"},
 						},
 					},
 				},
@@ -237,8 +237,8 @@ func TestGetEvents(t *testing.T) {
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceProvisioned,
-						Data: bson.M{
-							"id": "baz",
+						Data: bson.D{
+							{Key: "id", Value: "baz"},
 						},
 					},
 				},
@@ -319,8 +319,8 @@ func TestGetEvents(t *testing.T) {
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceDecommissioned,
-						Data: bson.M{
-							"id": "bar-" + uuid.MustParse(integrationId).String(),
+						Data: bson.D{
+							{Key: "id", Value: "bar-" + uuid.MustParse(integrationId).String()},
 						},
 					},
 					DeliveryStatus: []model.DeliveryStatus{

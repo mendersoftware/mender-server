@@ -23,11 +23,10 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/bsontype"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/doc"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/doc"
 )
 
 const (
@@ -140,7 +139,7 @@ func (am ArtifactMeta) MarshalBSON() ([]byte, error) {
 
 // MarshalBSONValue transparently creates depends_idx field on bson.MarshalValue
 // which is called if ArtifactMeta is marshaled as an embedded document.
-func (am ArtifactMeta) MarshalBSONValue() (bsontype.Type, []byte, error) {
+func (am ArtifactMeta) MarshalBSONValue() (bson.Type, []byte, error) {
 	if err := am.Validate(); err != nil {
 		return bson.TypeNull, nil, err
 	}
@@ -198,7 +197,7 @@ func (img Image) MarshalBSON() (b []byte, err error) {
 	return bson.Marshal(doc.DocumentFromStruct(img))
 }
 
-func (img Image) MarshalBSONValue() (bsontype.Type, []byte, error) {
+func (img Image) MarshalBSONValue() (bson.Type, []byte, error) {
 	return bson.MarshalValue(doc.DocumentFromStruct(img))
 }
 
@@ -292,7 +291,7 @@ type provideInternal struct {
 	Value string
 }
 
-func (p ProvidesIdx) MarshalBSONValue() (bsontype.Type, []byte, error) {
+func (p ProvidesIdx) MarshalBSONValue() (bson.Type, []byte, error) {
 	attrs := make([]provideInternal, len(p))
 	i := 0
 	for k, v := range p {
@@ -303,7 +302,7 @@ func (p ProvidesIdx) MarshalBSONValue() (bsontype.Type, []byte, error) {
 	return bson.MarshalValue(attrs)
 }
 
-func (p *ProvidesIdx) UnmarshalBSONValue(t bsontype.Type, b []byte) error {
+func (p *ProvidesIdx) UnmarshalBSONValue(t bson.Type, b []byte) error {
 	raw := bson.Raw(b)
 	elems, err := raw.Elements()
 	if err != nil {

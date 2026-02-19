@@ -22,10 +22,9 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -101,7 +100,7 @@ func TestDeploymentStorageInsert(t *testing.T) {
 			} else {
 				assert.NoError(t, err)
 
-				collDep := client.Database(ctxstore.
+				collDep := client.Database(mstore.
 					DbFromContext(ctx, DatabaseName)).
 					Collection(CollectionDeployments)
 				count, err := collDep.CountDocuments(
@@ -192,7 +191,7 @@ func TestDeploymentStorageDelete(t *testing.T) {
 				ctx = context.Background()
 			}
 
-			collDep := client.Database(ctxstore.
+			collDep := client.Database(mstore.
 				DbFromContext(ctx, DatabaseName)).
 				Collection(CollectionDeployments)
 			if testCase.InputDeploymentsCollection != nil {
@@ -383,7 +382,7 @@ func TestDeploymentStorageFindByID(t *testing.T) {
 				ctx = context.Background()
 			}
 
-			collDep := client.Database(ctxstore.
+			collDep := client.Database(mstore.
 				DbFromContext(ctx, DatabaseName)).
 				Collection(CollectionDeployments)
 			if testCase.InputDeploymentsCollection != nil {
@@ -604,7 +603,7 @@ func TestDeploymentStorageFindUnfinishedByID(t *testing.T) {
 				ctx = context.Background()
 			}
 
-			collDep := client.Database(ctxstore.
+			collDep := client.Database(mstore.
 				DbFromContext(ctx, DatabaseName)).
 				Collection(CollectionDeployments)
 
@@ -851,7 +850,7 @@ func TestDeploymentStorageUpdateStatsInc(t *testing.T) {
 				// is a deployment to input, if there's one
 				// we'll add it to tenant's DB
 				if tc.InputTenant != "" {
-					collDep := client.Database(ctxstore.
+					collDep := client.Database(mstore.
 						DbFromContext(ctx,
 							DatabaseName)).
 						Collection(CollectionDeployments)
@@ -975,7 +974,7 @@ func TestDeploymentStorageUpdateStats(t *testing.T) {
 				})
 			}
 
-			collDep := client.Database(ctxstore.
+			collDep := client.Database(mstore.
 				DbFromContext(ctx, DatabaseName)).
 				Collection(CollectionDeployments)
 			if tc.dep != nil {
@@ -1594,7 +1593,7 @@ func TestDeviceDeploymentCounting(t *testing.T) {
 			store := NewDataStoreMongoWithClient(client)
 			ctx := context.Background()
 
-			collDep := client.Database(ctxstore.
+			collDep := client.Database(mstore.
 				DbFromContext(ctx, DatabaseName)).
 				Collection(CollectionDevices)
 			for _, d := range tc.InputDeviceDeployment {
@@ -1639,13 +1638,15 @@ func TestDeploymentSetStatus(t *testing.T) {
 			status: model.DeploymentStatusFinished,
 		},
 	}
+
+	db.Wipe()
+	client := db.Client()
+	store := NewDataStoreMongoWithClient(client)
+
 	for testCaseName, tc := range testCases {
 		t.Run(fmt.Sprintf("test case %s", testCaseName), func(t *testing.T) {
 
 			db.Wipe()
-
-			client := db.Client()
-			store := NewDataStoreMongoWithClient(client)
 
 			ctx := context.Background()
 			if tc.tenant != "" {
@@ -1654,7 +1655,7 @@ func TestDeploymentSetStatus(t *testing.T) {
 				})
 			}
 
-			collDep := client.Database(ctxstore.
+			collDep := client.Database(mstore.
 				DbFromContext(ctx, DatabaseName)).
 				Collection(CollectionDeployments)
 
@@ -1665,7 +1666,7 @@ func TestDeploymentSetStatus(t *testing.T) {
 
 			var deployment *model.Deployment
 			err = collDep.FindOne(ctx,
-				bson.M{"_id": id}).
+				bson.D{{Key: "_id", Value: id}}).
 				Decode(&deployment)
 			assert.NoError(t, err)
 

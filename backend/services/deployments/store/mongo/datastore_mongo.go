@@ -23,15 +23,14 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
@@ -110,8 +109,6 @@ var (
 	// Indexes 1.2.17
 	IndexNameDeploymentName = "deployment_name"
 
-	_false         = false
-	_true          = true
 	StorageIndexes = mongo.IndexModel{
 		// NOTE: Keys should be bson.D as element
 		//       order matters!
@@ -121,10 +118,8 @@ var (
 			{Key: StorageKeyDeploymentArtifactName,
 				Value: "text"},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexDeploymentArtifactName,
-		},
+		Options: mopts.Index().
+			SetName(IndexDeploymentArtifactName),
 	}
 	StatusIndexes = mongo.IndexModel{
 		Keys: bson.D{
@@ -135,30 +130,24 @@ var (
 			{Key: StorageKeyDeploymentStatsCreated,
 				Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexDeploymentDeviceStatusesName,
-		},
+		Options: mopts.Index().
+			SetName(IndexDeploymentDeviceStatusesName),
 	}
 	DeploymentStatusIndex = mongo.IndexModel{
 		Keys: bson.D{
 			{Key: StorageKeyDeviceDeploymentStatus,
 				Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexDeploymentStatus,
-		},
+		Options: mopts.Index().
+			SetName(IndexDeploymentStatus),
 	}
 	DeviceIDStatusIndexes = mongo.IndexModel{
 		Keys: bson.D{
 			{Key: StorageKeyDeviceDeploymentDeviceId, Value: 1},
 			{Key: StorageKeyDeviceDeploymentStatus, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexDeploymentDeviceIdStatusName,
-		},
+		Options: mopts.Index().
+			SetName(IndexDeploymentDeviceIdStatusName),
 	}
 	DeviceIDCreatedStatusIndex = mongo.IndexModel{
 		Keys: bson.D{
@@ -166,20 +155,16 @@ var (
 			{Key: StorageKeyDeploymentStatsCreated, Value: 1},
 			{Key: StorageKeyDeviceDeploymentStatus, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexDeploymentDeviceCreatedStatusName,
-		},
+		Options: mopts.Index().
+			SetName(IndexDeploymentDeviceCreatedStatusName),
 	}
 	DeploymentIdIndexes = mongo.IndexModel{
 		Keys: bson.D{
 			{Key: StorageKeyDeviceDeploymentDeploymentID, Value: 1},
 			{Key: StorageKeyDeviceDeploymentDeviceId, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexDeploymentDeviceDeploymentIdName,
-		},
+		Options: mopts.Index().
+			SetName(IndexDeploymentDeviceDeploymentIdName),
 	}
 	DeviceDeploymentIdStatus = mongo.IndexModel{
 		Keys: bson.D{
@@ -194,19 +179,15 @@ var (
 		Keys: bson.D{
 			{Key: "created", Value: -1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexDeploymentCreatedName,
-		},
+		Options: mopts.Index().
+			SetName(IndexDeploymentCreatedName),
 	}
 	DeploymentDeviceStatusFinishedIndex = mongo.IndexModel{
 		Keys: bson.D{
 			{Key: "finished", Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexDeploymentDeviceStatusFinishedName,
-		},
+		Options: mopts.Index().
+			SetName(IndexDeploymentDeviceStatusFinishedName),
 	}
 	UniqueNameVersionIndex = mongo.IndexModel{
 		Keys: bson.D{
@@ -215,11 +196,9 @@ var (
 			{Key: StorageKeyImageDeviceTypes,
 				Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexUniqueNameAndDeviceTypeName,
-			Unique:     &_true,
-		},
+		Options: mopts.Index().
+			SetName(IndexUniqueNameAndDeviceTypeName).
+			SetUnique(true),
 	}
 
 	// 1.2.3
@@ -230,11 +209,9 @@ var (
 			{Key: StorageKeyImageDependsIdx,
 				Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexArtifactNameDependsName,
-			Unique:     &_true,
-		},
+		Options: mopts.Index().
+			SetName(IndexArtifactNameDependsName).
+			SetUnique(true),
 	}
 
 	// Indexes 1.2.7
@@ -243,10 +220,8 @@ var (
 		Keys: bson.D{
 			{Key: StorageKeyImageDescription, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexImageMetaDescription,
-		},
+		Options: mopts.Index().
+			SetName(IndexImageMetaDescription),
 	}
 
 	IndexImageMetaArtifactDeviceTypeCompatible      = "image_meta_artifact_device_type_compatible"
@@ -254,10 +229,8 @@ var (
 		Keys: bson.D{
 			{Key: StorageKeyImageDeviceTypes, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexImageMetaArtifactDeviceTypeCompatible,
-		},
+		Options: mopts.Index().
+			SetName(IndexImageMetaArtifactDeviceTypeCompatible),
 	}
 
 	// Indexes 1.2.8
@@ -266,13 +239,11 @@ var (
 		Keys: bson.D{
 			{Key: StorageKeyDeploymentCreated, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Name:       &IndexDeploymentsActiveCreated,
-			PartialFilterExpression: bson.M{
+		Options: mopts.Index().
+			SetName(IndexDeploymentsActiveCreated).
+			SetPartialFilterExpression(bson.M{
 				StorageKeyDeploymentActive: true,
-			},
-		},
+			}),
 	}
 
 	// Index 1.2.9
@@ -306,11 +277,9 @@ var (
 			{Key: model.StorageKeyImageProvidesIdxValue,
 				Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_false,
-			Sparse:     &_true,
-			Name:       &IndexArtifactProvidesName,
-		},
+		Options: mopts.Index().
+			SetName(IndexArtifactProvidesName).
+			SetSparse(true),
 	}
 
 	// 1.2.17
@@ -319,10 +288,8 @@ var (
 			{Key: StorageKeyDeploymentName, Value: 1},
 			{Key: StorageKeyDeploymentCreated, Value: 1},
 		},
-		Options: &mopts.IndexOptions{
-			Background: &_true,
-			Name:       &IndexNameDeploymentName,
-		},
+		Options: mopts.Index().
+			SetName(IndexNameDeploymentName),
 	}
 )
 
@@ -487,7 +454,7 @@ func NewMongoClient(ctx context.Context, c config.Reader) (*mongo.Client, error)
 	// Set 10s timeout
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, clientOptions)
+	client, err := mongo.Connect(clientOptions)
 	if err != nil {
 		return nil, errors.Wrap(err, "Failed to connect to mongo server")
 	}
@@ -572,7 +539,7 @@ func (db *DataStoreMongo) getReleases_1_2_14(
 		pipe = append(pipe, bson.D{
 			{Key: "$match", Value: bson.M{
 				StorageKeyImageName: bson.M{
-					"$regex": primitive.Regex{
+					"$regex": bson.Regex{
 						Pattern: ".*" + regexp.QuoteMeta(filt.Name) + ".*",
 						Options: "i",
 					},
@@ -605,7 +572,7 @@ func (db *DataStoreMongo) getReleases_1_2_14(
 		pipe = append(pipe, bson.D{
 			{Key: "$match", Value: bson.M{
 				"artifacts." + StorageKeyImageDescription: bson.M{
-					"$regex": primitive.Regex{
+					"$regex": bson.Regex{
 						Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
 						Options: "i",
 					},
@@ -617,7 +584,7 @@ func (db *DataStoreMongo) getReleases_1_2_14(
 		pipe = append(pipe, bson.D{
 			{Key: "$match", Value: bson.M{
 				"artifacts." + StorageKeyImageDeviceTypes: bson.M{
-					"$regex": primitive.Regex{
+					"$regex": bson.Regex{
 						Pattern: ".*" + regexp.QuoteMeta(filt.DeviceType) + ".*",
 						Options: "i",
 					},
@@ -709,7 +676,7 @@ func (db *DataStoreMongo) getReleases_1_2_15(
 		}
 	}
 
-	opts := &mopts.FindOptions{}
+	opts := mopts.Find()
 	opts.SetSort(bson.D{{Key: sortField, Value: sortOrder}})
 	opts.SetSkip(int64((page - 1) * perPage))
 	opts.SetLimit(int64(perPage))
@@ -725,7 +692,7 @@ func (db *DataStoreMongo) getReleases_1_2_15(
 	filter := bson.M{}
 	if filt != nil {
 		if filt.Name != "" {
-			filter[StorageKeyReleaseName] = bson.M{"$regex": primitive.Regex{
+			filter[StorageKeyReleaseName] = bson.M{"$regex": bson.Regex{
 				Pattern: regexp.QuoteMeta(filt.Name) + ".*",
 				Options: "i",
 			}}
@@ -734,7 +701,7 @@ func (db *DataStoreMongo) getReleases_1_2_15(
 			filter[StorageKeyReleaseTags] = bson.M{"$in": filt.Tags}
 		}
 		if filt.Description != "" {
-			filter[StorageKeyReleaseArtifactsDescription] = bson.M{"$regex": primitive.Regex{
+			filter[StorageKeyReleaseArtifactsDescription] = bson.M{"$regex": bson.Regex{
 				Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
 				Options: "i",
 			}}
@@ -1214,7 +1181,7 @@ func (db *DataStoreMongo) ListImages(
 	if filt != nil {
 		if filt.Name != "" {
 			filters[StorageKeyImageName] = bson.M{
-				"$regex": primitive.Regex{
+				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.Name) + ".*",
 					Options: "i",
 				},
@@ -1222,7 +1189,7 @@ func (db *DataStoreMongo) ListImages(
 		}
 		if filt.Description != "" {
 			filters[StorageKeyImageDescription] = bson.M{
-				"$regex": primitive.Regex{
+				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.Description) + ".*",
 					Options: "i",
 				},
@@ -1230,7 +1197,7 @@ func (db *DataStoreMongo) ListImages(
 		}
 		if filt.DeviceType != "" {
 			filters[StorageKeyImageDeviceTypes] = bson.M{
-				"$regex": primitive.Regex{
+				"$regex": bson.Regex{
 					Pattern: ".*" + regexp.QuoteMeta(filt.DeviceType) + ".*",
 					Options: "i",
 				},
@@ -1243,7 +1210,7 @@ func (db *DataStoreMongo) ListImages(
 		StorageKeyImageDependsIdx:  0,
 		StorageKeyImageProvidesIdx: 0,
 	}
-	findOptions := &mopts.FindOptions{}
+	findOptions := mopts.Find()
 	findOptions.SetProjection(projection)
 	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
 		findOptions.SetSkip(int64((filt.Page - 1) * filt.PerPage))
@@ -1322,7 +1289,7 @@ func (db *DataStoreMongo) ListImagesV2(
 		} else if len(filt.NamePrefixes) == 1 {
 			name := filt.NamePrefixes[0]
 			filters[StorageKeyImageName] = bson.M{
-				"$regex": primitive.Regex{
+				"$regex": bson.Regex{
 					Pattern: "^" + regexp.QuoteMeta(name) + ".*",
 					Options: "i",
 				},
@@ -1337,7 +1304,7 @@ func (db *DataStoreMongo) ListImagesV2(
 			} else if strings.HasSuffix(filt.Description, "*") {
 				description := strings.TrimSuffix(filt.Description, "*")
 				filters[StorageKeyImageDescription] = bson.M{
-					"$regex": primitive.Regex{
+					"$regex": bson.Regex{
 						Pattern: "^" + regexp.QuoteMeta(description) + ".*",
 						Options: "i",
 					},
@@ -1355,7 +1322,7 @@ func (db *DataStoreMongo) ListImagesV2(
 			} else if strings.HasSuffix(filt.DeviceType, "*") {
 				deviceType := strings.TrimSuffix(filt.DeviceType, "*")
 				filters[StorageKeyImageDeviceTypes] = bson.M{
-					"$regex": primitive.Regex{
+					"$regex": bson.Regex{
 						Pattern: "^" + regexp.QuoteMeta(deviceType) + ".*",
 						Options: "i",
 					},
@@ -1370,7 +1337,7 @@ func (db *DataStoreMongo) ListImagesV2(
 		StorageKeyImageDependsIdx:  0,
 		StorageKeyImageProvidesIdx: 0,
 	}
-	findOptions := &mopts.FindOptions{}
+	findOptions := mopts.Find()
 	findOptions.SetProjection(projection)
 	if filt != nil && filt.Page > 0 && filt.PerPage > 0 {
 		findOptions.SetSkip(int64((filt.Page - 1) * filt.PerPage))
@@ -1449,7 +1416,7 @@ func (db *DataStoreMongo) SaveDeviceDeploymentLog(ctx context.Context,
 			StorageKeyDeviceDeploymentLogMessages: log.Messages,
 		}},
 	}
-	updateOptions := mopts.Update()
+	updateOptions := mopts.UpdateOne()
 	updateOptions.SetUpsert(true)
 	if _, err := collLogs.UpdateOne(
 		ctx, query, update, updateOptions); err != nil {
@@ -2086,9 +2053,8 @@ func (db *DataStoreMongo) GetDeviceDeploymentsForDevice(ctx context.Context,
 	}
 
 	maxCount := maxCountDocuments
-	countOptions := &mopts.CountOptions{
-		Limit: &maxCount,
-	}
+	countOptions := mopts.Count()
+	countOptions.SetLimit(maxCount)
 	count, err := collDevs.CountDocuments(ctx, query, countOptions)
 	if err != nil {
 		return nil, -1, ErrDevicesCountFailed
@@ -2234,7 +2200,7 @@ func (db *DataStoreMongo) GetDeviceDeployment(ctx context.Context, deploymentID 
 		}
 	}
 
-	opts := &mopts.FindOneOptions{}
+	opts := mopts.FindOne()
 	opts.SetSort(bson.D{{Key: "created", Value: -1}})
 
 	var dd model.DeviceDeployment
@@ -2273,7 +2239,7 @@ func (db *DataStoreMongo) GetDeviceDeployments(
 		filter[StorageKeyDeviceDeploymentActive] = *active
 	}
 
-	opts := &mopts.FindOptions{}
+	opts := mopts.Find()
 	opts.SetSort(bson.D{{Key: "created", Value: -1}})
 	if skip > 0 {
 		opts.SetSkip(int64(skip))
@@ -2326,16 +2292,28 @@ func (db *DataStoreMongo) hasIndexing(ctx context.Context, client *mongo.Client)
 		if err = cursor.Decode(&idx); err != nil {
 			continue
 		}
-		if _, ok := idx["weights"]; ok {
-			// text index
-			for k := range idx["weights"].(bson.M) {
-				has[k] = true
+		if rawWeights, ok := idx["weights"]; ok {
+			if weightsD, ok := rawWeights.(bson.D); ok {
+				for _, elem := range weightsD {
+					has[elem.Key] = true
+				}
+			} else if weightsMap, ok := rawWeights.(bson.M); ok {
+				for k := range weightsMap {
+					has[k] = true
+				}
 			}
 		} else {
-			for i := range idx["key"].(bson.M) {
-				has[i] = true
+			if rawKey, ok := idx["key"]; ok {
+				if keyD, ok := rawKey.(bson.D); ok {
+					for _, elem := range keyD {
+						has[elem.Key] = true
+					}
+				} else if keyM, ok := rawKey.(bson.M); ok {
+					for k := range keyM {
+						has[k] = true
+					}
+				}
 			}
-
 		}
 	}
 	if err != nil {
@@ -2443,9 +2421,8 @@ func (db *DataStoreMongo) FindDeploymentStatsByIDs(
 			"$in": ids,
 		},
 	}
-	statsProjection := &mopts.FindOptions{
-		Projection: bson.M{"stats": 1},
-	}
+	statsProjection := mopts.Find()
+	statsProjection.SetProjection(bson.M{"stats": 1})
 
 	results, err := collDpl.Find(
 		ctx,
@@ -2824,8 +2801,8 @@ func (db *DataStoreMongo) buildDeploymentsQuery(
 	return query, nil
 }
 
-func (db *DataStoreMongo) findOptions(match model.Query) *mopts.FindOptions {
-	options := &mopts.FindOptions{}
+func (db *DataStoreMongo) findOptions(match model.Query) *mopts.FindOptionsBuilder {
+	options := mopts.Find()
 	if match.Sort == model.SortDirectionAscending {
 		options.SetSort(bson.D{{Key: "created", Value: 1}})
 	} else {
@@ -2858,7 +2835,7 @@ func (db *DataStoreMongo) FindNewerActiveDeployments(ctx context.Context,
 	findQuery := bson.M{}
 	findQuery["$and"] = queryFilters
 
-	findOptions := &mopts.FindOptions{}
+	findOptions := mopts.Find()
 	findOptions.SetSkip(int64(skip))
 	findOptions.SetLimit(int64(limit))
 

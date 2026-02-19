@@ -16,9 +16,9 @@ package mongo
 import (
 	"context"
 
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 )
 
 type migration_1_2_5 struct {
@@ -32,7 +32,7 @@ func (m *migration_1_2_5) Up(from migrate.Version) error {
 	coll := m.client.Database(m.db).Collection(CollectionDevices)
 	// Drop IndexDeploymentDeviceStatusesName and
 	// IndexDeploymentDeviceDeploymentIdName if they exist.
-	_, err := coll.Indexes().DropOne(ctx, IndexDeploymentDeviceStatusesName)
+	err := coll.Indexes().DropOne(ctx, IndexDeploymentDeviceStatusesName)
 	if err != nil {
 		if except, ok := err.(mongo.CommandError); ok {
 			if except.Code != errorCodeNamespaceNotFound &&
@@ -44,7 +44,7 @@ func (m *migration_1_2_5) Up(from migrate.Version) error {
 			return err
 		}
 	}
-	_, err = coll.Indexes().DropOne(ctx, IndexDeploymentDeviceDeploymentIdName)
+	err = coll.Indexes().DropOne(ctx, IndexDeploymentDeviceDeploymentIdName)
 	if err != nil {
 		if except, ok := err.(mongo.CommandError); ok {
 			if except.Code != errorCodeNamespaceNotFound &&

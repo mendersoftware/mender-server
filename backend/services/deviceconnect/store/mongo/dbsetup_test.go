@@ -17,7 +17,8 @@ import (
 	"os"
 	"testing"
 
-	mtesting "github.com/mendersoftware/mender-server/pkg/mongo/testing"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
+	mtesting "github.com/mendersoftware/mender-server/pkg/mongo/v2/testing"
 )
 
 var db mtesting.TestDBRunner
@@ -33,7 +34,7 @@ func TestMain(m *testing.M) {
 			}
 		}()
 		return m.Run()
-	}, newRegistry())
+	}, codec.NewRegistry())
 
 	os.Exit(status)
 }
