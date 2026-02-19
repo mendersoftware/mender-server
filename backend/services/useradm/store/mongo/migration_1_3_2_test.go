@@ -19,11 +19,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
@@ -41,7 +40,7 @@ func TestMigration_1_3_2(t *testing.T) {
 		},
 		{
 			Name:   "Successful migration, MT expire token",
-			Tenant: primitive.NewObjectID().Hex(),
+			Tenant: bson.NewObjectID().Hex(),
 		},
 	}
 

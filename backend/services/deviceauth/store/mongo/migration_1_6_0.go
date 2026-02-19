@@ -17,11 +17,11 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
@@ -33,18 +33,14 @@ type migration_1_6_0 struct {
 }
 
 func (m *migration_1_6_0) Up(from migrate.Version) error {
-	_false := false
-	_true := true
 	authSetUniqueIndex := mongo.IndexModel{
 		Keys: bson.D{
 			{Key: model.AuthSetKeyIdDataSha256, Value: 1},
 			{Key: model.AuthSetKeyPubKey, Value: 1},
 		},
-		Options: &options.IndexOptions{
-			Background: &_false,
-			Name:       &indexAuthSet_IdentityDataSha256_PubKey,
-			Unique:     &_true,
-		},
+		Options: options.Index().
+			SetName(indexAuthSet_IdentityDataSha256_PubKey).
+			SetUnique(true),
 	}
 	cAuthSets := m.ms.client.Database(ctxstore.DbFromContext(m.ctx, DbName)).
 		Collection(DbAuthSetColl)

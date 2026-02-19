@@ -19,10 +19,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
@@ -86,9 +86,9 @@ func TestMigration_1_0_1(t *testing.T) {
 				for _, idx := range idxs {
 					if idx["name"] == attributeToIndex {
 						found = true
-						keys := bson.M{
-							indexAttrName(attrIdentityStatus): int32(1),
-							indexAttrName(attributeToIndex):   int32(1),
+						keys := bson.D{
+							{Key: indexAttrName(attrIdentityStatus), Value: int32(1)},
+							{Key: indexAttrName(attributeToIndex), Value: int32(1)},
 						}
 						assert.Equal(t, keys, idx["key"])
 						break

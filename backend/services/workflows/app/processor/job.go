@@ -19,8 +19,7 @@ import (
 
 	"github.com/thedevsaddam/gojsonq"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/executor"
 
@@ -107,7 +106,7 @@ func (j JobProcessor) ProcessJSON(
 			}
 		}
 		return ps.ProcessJobString(value)
-	case primitive.D:
+	case bson.D:
 		result := make(map[string]interface{})
 		var mapValue bson.M
 		bsonValue, err := bson.Marshal(value)
@@ -122,7 +121,7 @@ func (j JobProcessor) ProcessJSON(
 			result[key] = j.ProcessJSON(item, ps)
 		}
 		return result
-	case []primitive.D:
+	case []bson.D:
 		result := make([]interface{}, len(value))
 		for i, item := range value {
 			result[i] = j.ProcessJSON(item, ps)

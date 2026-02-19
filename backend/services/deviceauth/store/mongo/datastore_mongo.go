@@ -22,16 +22,17 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo/readpref"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
@@ -99,7 +100,9 @@ func NewDataStoreMongo(config DataStoreMongoConfig) (*DataStoreMongo, error) {
 	if !strings.Contains(config.ConnectionString, "://") {
 		config.ConnectionString = "mongodb://" + config.ConnectionString
 	}
-	clientOptions := mopts.Client().ApplyURI(config.ConnectionString)
+	clientOptions := mopts.Client().
+		ApplyURI(config.ConnectionString).
+		SetRegistry(codec.NewRegistry())
 
 	if config.Username != "" {
 		clientOptions.SetAuth(mopts.Credential{
@@ -116,7 +119,7 @@ func NewDataStoreMongo(config DataStoreMongoConfig) (*DataStoreMongo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	client, err := mongo.Connect(ctx, clientOptions)
+	client, err := mongo.Connect(clientOptions)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create mongo client")
 	}
@@ -378,7 +381,7 @@ func (db *DataStoreMongo) AddToken(ctx context.Context, t *jwt.Token) error {
 
 	filter := bson.M{"_id": t.Claims.ID}
 	update := bson.M{"$set": t}
-	updateOpts := mopts.Update()
+	updateOpts := mopts.UpdateOne()
 	updateOpts.SetUpsert(true)
 
 	if _, err := collTokens.UpdateOne(
@@ -635,7 +638,7 @@ func (db *DataStoreMongo) UpsertAuthSetStatus(ctx context.Context, authSet *mode
 			{Key: dbFieldStatus, Value: authSet.Status},
 		}},
 	}
-	_, err := c.UpdateOne(ctx, fltr, update, mopts.Update().SetUpsert(true))
+	_, err := c.UpdateOne(ctx, fltr, update, mopts.UpdateOne().SetUpsert(true))
 	if err != nil {
 		if mongo.IsDuplicateKeyError(err) {
 			return store.ErrObjectExists
@@ -903,7 +906,7 @@ func (db *DataStoreMongo) PutLimit(ctx context.Context, lim model.Limit) error {
 	lim.TenantID = tenantId
 	query := mongostore.WithTenantID(ctx, bson.M{dbFieldName: lim.Name})
 
-	updateOptions := mopts.Update()
+	updateOptions := mopts.UpdateOne()
 	updateOptions.SetUpsert(true)
 	if _, err := c.UpdateOne(
 		ctx, query, bson.M{"$set": lim}, updateOptions); err != nil {
@@ -1067,19 +1070,17 @@ func (db *DataStoreMongo) ListTenantsIds(
 	collDevs := db.client.
 		Database(DbName).
 		Collection(DbDevicesColl)
+	var results []string
 
-	results, err := collDevs.Distinct(ctx, dbFieldTenantID, bson.D{})
-	if err != nil {
-		return []string{}, nil
+	res := collDevs.Distinct(ctx, dbFieldTenantID, bson.D{})
+	if err := res.Decode(&results); err != nil {
+		return []string{}, err
 	}
 	if len(results) < 1 {
 		return []string{}, mongo.ErrNoDocuments
 	}
-	ids := make([]string, len(results))
-	for i, id := range results {
-		ids[i] = id.(string)
-	}
-	return ids, nil
+
+	return results, nil
 }
 
 func (db *DataStoreMongo) ListAllDevices(
