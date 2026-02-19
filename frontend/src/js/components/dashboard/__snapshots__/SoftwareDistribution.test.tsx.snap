@@ -146,8 +146,8 @@ exports[`Devices Component > renders correctly 1`] = `
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
-  background-color: #337a87;
+.emotion-6 .barchart .color-1d8faf .MuiLinearProgress-barColorPrimary {
+  background-color: #1d8faf;
 }
 
 .emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
@@ -387,7 +387,7 @@ exports[`Devices Component > renders correctly 1`] = `
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="0"
-              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-337a87 emotion-8"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-1d8faf emotion-8"
               role="progressbar"
               style="height: 8px;"
             >
@@ -1116,8 +1116,8 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
-  background-color: #337a87;
+.emotion-6 .barchart .color-1d8faf .MuiLinearProgress-barColorPrimary {
+  background-color: #1d8faf;
 }
 
 .emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
@@ -1357,7 +1357,7 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
               aria-valuemax="100"
               aria-valuemin="0"
               aria-valuenow="100"
-              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-337a87 emotion-8"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate color-1d8faf emotion-8"
               role="progressbar"
               style="height: 8px;"
             >
