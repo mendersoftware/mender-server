@@ -32,6 +32,7 @@ test:frontend:license-headers:
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
   needs: []
   before_script:
+    - !reference [.qa-common-network-apt-retry, before_script]
     - apt update && apt install git -yq
   script:
     - deno task --cwd frontend/scripts licenseCheck --rootDir $(pwd)
@@ -51,6 +52,7 @@ test:frontend:licenses:
     - job: build:frontend:docker
       artifacts: true
   before_script:
+    - !reference [.qa-common-network-apt-retry, before_script]
     - cd frontend
     - apt-get update && apt-get install -yq curl
     - curl -fsSL https://deb.nodesource.com/setup_24.x | bash

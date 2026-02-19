@@ -16,6 +16,7 @@ merge-to-enterprise:
     GITHUB_REPOSITORY_ENTERPRISE: "mendersoftware/mender-server-enterprise"
     GITHUB_REPOSITORY_OPEN_SOURCE: "mendersoftware/mender-server"
   before_script:
+    - !reference [.qa-common-network-git-clone-retry, before_script]
     - GIT_REMOTE="https://mender-test-bot:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/$GITHUB_REPOSITORY_ENTERPRISE"
     - GITHUB_ORG="${GITHUB_REPOSITORY_ENTERPRISE%%/*}"
     - PR_BRANCH="${GITHUB_REPOSITORY_OPEN_SOURCE##*/}/$CI_COMMIT_BRANCH"
