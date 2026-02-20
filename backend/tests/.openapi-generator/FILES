@@ -119,7 +119,7 @@ mender_client/models/new_configuration_deployment.py
 mender_client/models/new_configuration_deployment_response.py
 mender_client/models/new_deployment.py
 mender_client/models/new_deployment_for_group.py
-mender_client/models/new_device.py
+mender_client/models/new_device_internal_provision.py
 mender_client/models/new_tenant.py
 mender_client/models/personal_access_token.py
 mender_client/models/personal_access_token_request.py

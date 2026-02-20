@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Mender API
 
@@ -11,6 +9,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
@@ -626,7 +625,7 @@ class IoTManagerManagementAPIApi:
         :param per_page: Number of results per page.
         :type per_page: int
         :param integration_id: The unique ID of the integration to get the events from.
-        :type integration_id: str
+        :type integration_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -704,7 +703,7 @@ class IoTManagerManagementAPIApi:
         :param per_page: Number of results per page.
         :type per_page: int
         :param integration_id: The unique ID of the integration to get the events from.
-        :type integration_id: str
+        :type integration_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -782,7 +781,7 @@ class IoTManagerManagementAPIApi:
         :param per_page: Number of results per page.
         :type per_page: int
         :param integration_id: The unique ID of the integration to get the events from.
-        :type integration_id: str
+        :type integration_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

@@ -226,7 +226,7 @@ Name | Type | Description  | Notes
 
 ## DeploymentsV2ListDeployments
 
-> []DeploymentV2 DeploymentsV2ListDeployments(ctx).Id(id).Name(name).Status(status).Type_(type_).Page(page).PerPage(perPage).CreatedBefore(createdBefore).CreatedAfter(createdAfter).Sort(sort).Execute()
+> []DeploymentV2 DeploymentsV2ListDeployments(ctx).Id(id).Name(name).Status(status).Type_(type_).Page(page).PerPage(perPage).CreatedBefore(createdBefore).CreatedAfter(createdAfter).Sort(sort).IdAttribute(idAttribute).IdScope(idScope).Execute()
 
 List all the deployments matching the specified filter parameters
 
@@ -254,10 +254,12 @@ func main() {
 	createdBefore := int32(56) // int32 | List only deployments created before and equal to Unix timestamp (UTC) (optional)
 	createdAfter := int32(56) // int32 | List only deployments created after and equal to Unix timestamp (UTC) (optional)
 	sort := "sort_example" // string | Supports sorting the deployments list by creation date.  (optional)
+	idAttribute := "idAttribute_example" // string | Device identity or inventory attribute name to use for a fallback device lookup when no deployments match the given name filter. When set, the server resolves the first name value against the device inventory/identity and returns deployments targeting the matched device.  (optional)
+	idScope := "idScope_example" // string | Scope for the id_attribute parameter. Defaults to \"identity\", unless id_attribute is \"name\" in which case it defaults to \"inventory\".  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DeploymentsV2ManagementAPIAPI.DeploymentsV2ListDeployments(context.Background()).Id(id).Name(name).Status(status).Type_(type_).Page(page).PerPage(perPage).CreatedBefore(createdBefore).CreatedAfter(createdAfter).Sort(sort).Execute()
+	resp, r, err := apiClient.DeploymentsV2ManagementAPIAPI.DeploymentsV2ListDeployments(context.Background()).Id(id).Name(name).Status(status).Type_(type_).Page(page).PerPage(perPage).CreatedBefore(createdBefore).CreatedAfter(createdAfter).Sort(sort).IdAttribute(idAttribute).IdScope(idScope).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DeploymentsV2ManagementAPIAPI.DeploymentsV2ListDeployments``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -287,6 +289,8 @@ Name | Type | Description  | Notes
  **createdBefore** | **int32** | List only deployments created before and equal to Unix timestamp (UTC) | 
  **createdAfter** | **int32** | List only deployments created after and equal to Unix timestamp (UTC) | 
  **sort** | **string** | Supports sorting the deployments list by creation date.  | 
+ **idAttribute** | **string** | Device identity or inventory attribute name to use for a fallback device lookup when no deployments match the given name filter. When set, the server resolves the first name value against the device inventory/identity and returns deployments targeting the matched device.  | 
+ **idScope** | **string** | Scope for the id_attribute parameter. Defaults to \&quot;identity\&quot;, unless id_attribute is \&quot;name\&quot; in which case it defaults to \&quot;inventory\&quot;.  | 
 
 ### Return type
 
