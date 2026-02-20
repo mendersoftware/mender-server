@@ -192,11 +192,7 @@ export const LeftNav = () => {
           />
         </Typography>
         <Typography variant="body2">
-          <DocsLink
-            className={classes.licenseLink}
-            path="release-information/supported-releases#mender-client"
-            title="Supported Mender client releases"
-          />
+          <DocsLink className={classes.licenseLink} path="release-information/supported-releases#mender-client" title="Supported Mender client releases" />
         </Typography>
         <Typography variant="body2">
           <DocsLink className={classes.licenseLink} path="release-information/open-source-licenses" title="License information" />
