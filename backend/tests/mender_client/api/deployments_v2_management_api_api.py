@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Mender API
 
@@ -11,6 +9,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
@@ -970,6 +969,8 @@ class DeploymentsV2ManagementAPIApi:
         created_before: Annotated[Optional[StrictInt], Field(description="List only deployments created before and equal to Unix timestamp (UTC)")] = None,
         created_after: Annotated[Optional[StrictInt], Field(description="List only deployments created after and equal to Unix timestamp (UTC)")] = None,
         sort: Annotated[Optional[StrictStr], Field(description="Supports sorting the deployments list by creation date. ")] = None,
+        id_attribute: Annotated[Optional[StrictStr], Field(description="Device identity or inventory attribute name to use for a fallback device lookup when no deployments match the given name filter. When set, the server resolves the first name value against the device inventory/identity and returns deployments targeting the matched device. ")] = None,
+        id_scope: Annotated[Optional[StrictStr], Field(description="Scope for the id_attribute parameter. Defaults to \"identity\", unless id_attribute is \"name\" in which case it defaults to \"inventory\". ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1005,6 +1006,10 @@ class DeploymentsV2ManagementAPIApi:
         :type created_after: int
         :param sort: Supports sorting the deployments list by creation date. 
         :type sort: str
+        :param id_attribute: Device identity or inventory attribute name to use for a fallback device lookup when no deployments match the given name filter. When set, the server resolves the first name value against the device inventory/identity and returns deployments targeting the matched device. 
+        :type id_attribute: str
+        :param id_scope: Scope for the id_attribute parameter. Defaults to \"identity\", unless id_attribute is \"name\" in which case it defaults to \"inventory\". 
+        :type id_scope: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1037,6 +1042,8 @@ class DeploymentsV2ManagementAPIApi:
             created_before=created_before,
             created_after=created_after,
             sort=sort,
+            id_attribute=id_attribute,
+            id_scope=id_scope,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1072,6 +1079,8 @@ class DeploymentsV2ManagementAPIApi:
         created_before: Annotated[Optional[StrictInt], Field(description="List only deployments created before and equal to Unix timestamp (UTC)")] = None,
         created_after: Annotated[Optional[StrictInt], Field(description="List only deployments created after and equal to Unix timestamp (UTC)")] = None,
         sort: Annotated[Optional[StrictStr], Field(description="Supports sorting the deployments list by creation date. ")] = None,
+        id_attribute: Annotated[Optional[StrictStr], Field(description="Device identity or inventory attribute name to use for a fallback device lookup when no deployments match the given name filter. When set, the server resolves the first name value against the device inventory/identity and returns deployments targeting the matched device. ")] = None,
+        id_scope: Annotated[Optional[StrictStr], Field(description="Scope for the id_attribute parameter. Defaults to \"identity\", unless id_attribute is \"name\" in which case it defaults to \"inventory\". ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1107,6 +1116,10 @@ class DeploymentsV2ManagementAPIApi:
         :type created_after: int
         :param sort: Supports sorting the deployments list by creation date. 
         :type sort: str
+        :param id_attribute: Device identity or inventory attribute name to use for a fallback device lookup when no deployments match the given name filter. When set, the server resolves the first name value against the device inventory/identity and returns deployments targeting the matched device. 
+        :type id_attribute: str
+        :param id_scope: Scope for the id_attribute parameter. Defaults to \"identity\", unless id_attribute is \"name\" in which case it defaults to \"inventory\". 
+        :type id_scope: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1139,6 +1152,8 @@ class DeploymentsV2ManagementAPIApi:
             created_before=created_before,
             created_after=created_after,
             sort=sort,
+            id_attribute=id_attribute,
+            id_scope=id_scope,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1174,6 +1189,8 @@ class DeploymentsV2ManagementAPIApi:
         created_before: Annotated[Optional[StrictInt], Field(description="List only deployments created before and equal to Unix timestamp (UTC)")] = None,
         created_after: Annotated[Optional[StrictInt], Field(description="List only deployments created after and equal to Unix timestamp (UTC)")] = None,
         sort: Annotated[Optional[StrictStr], Field(description="Supports sorting the deployments list by creation date. ")] = None,
+        id_attribute: Annotated[Optional[StrictStr], Field(description="Device identity or inventory attribute name to use for a fallback device lookup when no deployments match the given name filter. When set, the server resolves the first name value against the device inventory/identity and returns deployments targeting the matched device. ")] = None,
+        id_scope: Annotated[Optional[StrictStr], Field(description="Scope for the id_attribute parameter. Defaults to \"identity\", unless id_attribute is \"name\" in which case it defaults to \"inventory\". ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1209,6 +1226,10 @@ class DeploymentsV2ManagementAPIApi:
         :type created_after: int
         :param sort: Supports sorting the deployments list by creation date. 
         :type sort: str
+        :param id_attribute: Device identity or inventory attribute name to use for a fallback device lookup when no deployments match the given name filter. When set, the server resolves the first name value against the device inventory/identity and returns deployments targeting the matched device. 
+        :type id_attribute: str
+        :param id_scope: Scope for the id_attribute parameter. Defaults to \"identity\", unless id_attribute is \"name\" in which case it defaults to \"inventory\". 
+        :type id_scope: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1241,6 +1262,8 @@ class DeploymentsV2ManagementAPIApi:
             created_before=created_before,
             created_after=created_after,
             sort=sort,
+            id_attribute=id_attribute,
+            id_scope=id_scope,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1271,6 +1294,8 @@ class DeploymentsV2ManagementAPIApi:
         created_before,
         created_after,
         sort,
+        id_attribute,
+        id_scope,
         _request_auth,
         _content_type,
         _headers,
@@ -1328,6 +1353,14 @@ class DeploymentsV2ManagementAPIApi:
         if sort is not None:
             
             _query_params.append(('sort', sort))
+            
+        if id_attribute is not None:
+            
+            _query_params.append(('id_attribute', id_attribute))
+            
+        if id_scope is not None:
+            
+            _query_params.append(('id_scope', id_scope))
             
         # process the header parameters
         # process the form parameters

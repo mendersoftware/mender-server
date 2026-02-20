@@ -518,6 +518,8 @@ type ApiDeploymentsV2ListDeploymentsRequest struct {
 	createdBefore *int32
 	createdAfter *int32
 	sort *string
+	idAttribute *string
+	idScope *string
 }
 
 // Deployment identifier. You can provide it multiple times to query a set of deployments. 
@@ -571,6 +573,18 @@ func (r ApiDeploymentsV2ListDeploymentsRequest) CreatedAfter(createdAfter int32)
 // Supports sorting the deployments list by creation date. 
 func (r ApiDeploymentsV2ListDeploymentsRequest) Sort(sort string) ApiDeploymentsV2ListDeploymentsRequest {
 	r.sort = &sort
+	return r
+}
+
+// Device identity or inventory attribute name to use for a fallback device lookup when no deployments match the given name filter. When set, the server resolves the first name value against the device inventory/identity and returns deployments targeting the matched device. 
+func (r ApiDeploymentsV2ListDeploymentsRequest) IdAttribute(idAttribute string) ApiDeploymentsV2ListDeploymentsRequest {
+	r.idAttribute = &idAttribute
+	return r
+}
+
+// Scope for the id_attribute parameter. Defaults to \&quot;identity\&quot;, unless id_attribute is \&quot;name\&quot; in which case it defaults to \&quot;inventory\&quot;. 
+func (r ApiDeploymentsV2ListDeploymentsRequest) IdScope(idScope string) ApiDeploymentsV2ListDeploymentsRequest {
+	r.idScope = &idScope
 	return r
 }
 
@@ -652,6 +666,12 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListDeploymentsExecu
 	}
 	if r.sort != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "sort", r.sort, "form", "")
+	}
+	if r.idAttribute != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "id_attribute", r.idAttribute, "form", "")
+	}
+	if r.idScope != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "id_scope", r.idScope, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

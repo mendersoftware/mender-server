@@ -105,7 +105,7 @@ from mender_client.models.new_configuration_deployment import NewConfigurationDe
 from mender_client.models.new_configuration_deployment_response import NewConfigurationDeploymentResponse
 from mender_client.models.new_deployment import NewDeployment
 from mender_client.models.new_deployment_for_group import NewDeploymentForGroup
-from mender_client.models.new_device import NewDevice
+from mender_client.models.new_device_internal_provision import NewDeviceInternalProvision
 from mender_client.models.new_tenant import NewTenant
 from mender_client.models.personal_access_token import PersonalAccessToken
 from mender_client.models.personal_access_token_request import PersonalAccessTokenRequest
