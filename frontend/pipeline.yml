@@ -20,7 +20,6 @@ test:frontend:lint:
   script:
     - cd frontend
     - npm ci --cache .npm --prefer-offline
-    - cd tests/e2e_tests && npm ci && cd ../..
     - npm run lint
 
 test:frontend:license-headers:
