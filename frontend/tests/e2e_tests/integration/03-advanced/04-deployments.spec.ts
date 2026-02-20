@@ -38,7 +38,7 @@ test.describe('Deployments', () => {
     navbar = page.locator('.leftFixed.leftNav');
     await navbar.getByRole('link', { name: /devices/i }).click();
     await page.waitForTimeout(timeouts.default);
-    await navbar.getByRole('link', { name: /releases/i }).click();
+    await navbar.getByRole('link', { name: 'Releases', exact: true }).click();
     await page.waitForTimeout(timeouts.default);
   });
   test('check time filters before deployment', async ({ page }) => {

@@ -46,14 +46,14 @@ test.describe('Overall layout and structure', () => {
   test('shows the left navigation', async () => {
     await expect(navbar.getByRole('link', { name: /Dashboard/i })).toBeVisible();
     await expect(navbar.getByRole('link', { name: /Devices/i })).toBeVisible();
-    await expect(navbar.getByRole('link', { name: /Releases/i })).toBeVisible();
+    await expect(navbar.getByRole('link', { name: 'Releases', exact: true })).toBeVisible();
     await expect(navbar.getByRole('link', { name: /Deployments/i })).toBeVisible();
   });
   test('has clickable header buttons', async () => {
     await expect(navbar.getByRole('link', { name: /Dashboard/i })).toBeVisible();
     await navbar.getByRole('link', { name: /Dashboard/i }).click();
     await navbar.getByRole('link', { name: /Devices/i }).click();
-    await navbar.getByRole('link', { name: /Releases/i }).click();
+    await navbar.getByRole('link', { name: 'Releases', exact: true }).click();
     await navbar.getByRole('link', { name: /Deployments/i }).click();
   });
 });
