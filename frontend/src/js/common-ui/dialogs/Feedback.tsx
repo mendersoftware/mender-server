@@ -153,7 +153,7 @@ export const FeedbackDialog = () => {
   const onSubmit = () => {
     setProgress(progress + 1);
     // score should be in range [1..5]
-    dispatch(submitUserFeedback({ formId: 'product', feedback: { score: satisfaction + 1, message: feedback }}))
+    dispatch(submitUserFeedback({ formId: 'product', feedback: { score: satisfaction + 1, message: feedback } }));
   };
 
   const Component = progressionLevels[progress];

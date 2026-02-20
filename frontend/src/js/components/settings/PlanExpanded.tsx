@@ -82,7 +82,7 @@ export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
   };
   const initialValues = isEdit
     ? { ...(props.currentBillingProfile.address || emptyAddress), name: props.currentBillingProfile.name, email: props.currentBillingProfile.email }
-    : { email, name: organization?.name || '', line1: '',  city: '', postal_code: '', country: '' };
+    : { email, name: organization?.name || '', line1: '', city: '', postal_code: '', country: '' };
   const handleSubmit = async values => {
     const { email, name, city, line1, postal_code } = values;
     const code: string = values.country.code ? values.country.code : values.country;
