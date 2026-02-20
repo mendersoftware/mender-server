@@ -15,6 +15,74 @@ exports[`App Component > is embedded in working providers 1`] = `
   }
 }
 
+@keyframes animation-1 {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+
+@keyframes animation-2 {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+
+@keyframes animation-2 {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -1281,107 +1349,85 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 }
 
 .emotion-68 {
+  margin: 0;
+  font-weight: 500;
+  font-family: Red Hat Text;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.emotion-70 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background-color: #bbbbbc;
+  background-color: rgba(0, 0, 0, 0.12);
   border-radius: 8px;
   -webkit-column-gap: 16px;
   column-gap: 16px;
   display: grid;
   grid-template-columns: 200px 1fr;
   max-width: 500px;
-  padding: 8px;
+  padding: 24px;
+  padding-left: 12px;
 }
 
-.emotion-68>div:last-child {
+.emotion-70>div:last-child {
   width: 100%;
 }
 
-.emotion-69 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: inherit;
+.emotion-73 {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: 4px;
+  z-index: 0;
+  background-color: rgb(169, 212, 224);
+}
+
+@media print {
+  .emotion-73 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-74 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+  background-color: #1d8faf;
+  width: auto;
+  -webkit-animation: animation-1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+  animation: animation-1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 }
 
 .emotion-75 {
-  background-color: #bbbbbc;
-  padding: 10px 20px;
-  border-radius: 4px;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  min-height: 70px;
-}
-
-.emotion-75 .chart-container {
-  min-height: 70px;
-}
-
-.emotion-75 .progress-chart {
-  min-height: 45px;
-}
-
-.emotion-75 .compact .progress-step,
-.emotion-75 .detailed .progress-step {
-  min-height: 45px;
-}
-
-.emotion-75 .progress-step,
-.emotion-75 .detailed .progress-step-total {
+  width: 100%;
   position: absolute;
-  border-right-style: none;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+  --LinearProgressBar2-barColor: #1d8faf;
+  background-color: var(--LinearProgressBar2-barColor, currentColor);
+  width: auto;
+  -webkit-animation: animation-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+  animation: animation-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
 }
 
-.emotion-75 .progress-step-total .progress-bar {
-  background-color: #fafafb;
+.emotion-106 {
+  margin-top: -10px;
 }
 
-.emotion-75 .progress-step-number {
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: flex-start;
-  align-self: flex-start;
-  margin-top: -4px;
-}
-
-.emotion-75.minimal {
-  padding: initial;
-}
-
-.emotion-75.no-background {
-  background: none;
-}
-
-.emotion-75.stepped-progress .progress-step-total {
-  margin-left: -0.25%;
-  width: 100.5%;
-}
-
-.emotion-75.stepped-progress .progress-step-total .progress-bar {
-  background-color: #fff;
-  border: 1px solid #404041;
-  border-radius: 2px;
-  height: 12px;
-}
-
-.emotion-75.stepped-progress .detailed .progress-step {
-  min-height: 20px;
-}
-
-.emotion-80 {
+.emotion-107 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1392,36 +1438,26 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   max-width: 500px;
 }
 
-.emotion-80>time {
+.emotion-107>time {
   -webkit-align-self: flex-end;
   -ms-flex-item-align: flex-end;
   align-self: flex-end;
-  margin-right: 6px;
 }
 
-.emotion-82 {
+.emotion-111 {
   background: #fff;
   border-radius: 4px;
   padding: 4px;
 }
 
-.emotion-83 {
-  -webkit-column-gap: 8px;
-  column-gap: 8px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 32px);
+.emotion-111>.flexbox {
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+  justify-content: space-evenly;
 }
 
-.emotion-83>div {
-  -webkit-column-gap: 4px;
-  column-gap: 4px;
-}
-
-.emotion-83 .disabled {
-  opacity: 0.1;
-}
-
-.emotion-92 {
+.emotion-130 {
   position: fixed;
   display: grid;
   bottom: 0;
@@ -1480,7 +1516,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
         class="flexbox space-between"
       >
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <a
             data-discover="true"
@@ -1526,7 +1562,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               <input
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-9"
-                id="_r_1o_"
+                id="_r_q_"
                 name="search"
                 placeholder="Search devices"
                 type="text"
@@ -1555,7 +1591,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
           />
         </form>
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <div
             class=""
@@ -1569,7 +1605,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 class="MuiBadge-root emotion-12"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned false emotion-13"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-13"
                   tabindex="0"
                   type="button"
                 >
@@ -1619,7 +1655,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
             role="separator"
           />
           <a
-            class="flexbox center-aligned emotion-20 emotion-21"
+            class="flexbox align-items-center emotion-20 emotion-21"
             data-discover="true"
             href="/deployments/active"
           >
@@ -1646,7 +1682,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
             role="separator"
           />
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned emotion-25"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-25"
             tabindex="0"
             type="button"
           >
@@ -1824,7 +1860,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                 class="flexbox widgetHeader"
               >
                 <div
-                  class="flexbox center-aligned"
+                  class="flexbox align-items-center"
                 >
                   Accepted devices 
                   <svg
@@ -1925,7 +1961,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
               class="widget"
             >
               <div
-                class="flexbox center-aligned  emotion-58"
+                class="flexbox align-items-center  emotion-58"
                 style="align-items: end;"
               >
                 <div
@@ -1994,629 +2030,404 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
             class="dashboard flexbox column"
             style="grid-template-columns: 1fr; row-gap: 10px;"
           >
-            <h4
-              class="margin-bottom-none margin-left-small"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle1 margin-bottom-none margin-left-small emotion-68"
             >
               Recent deployments
-            </h4>
-            <h5
-              class="margin-bottom-none"
+            </h6>
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-23"
             >
               Pending
-            </h5>
+            </h6>
             <div
-              class="clickable emotion-68"
+              class="clickable emotion-70"
             >
               <div>
-                <div />
-                <div
-                  class=""
+                <p
+                  class="MuiTypography-root MuiTypography-body1 emotion-32"
+                />
+                <p
+                  class="MuiTypography-root MuiTypography-body2 emotion-46"
                   title="Test"
                 >
                   Test
-                </div>
+                </p>
               </div>
               <div
-                class="flexbox center-aligned"
+                class=""
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-69"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,10.5A1.5,1.5 0 0,1 13.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,12A1.5,1.5 0 0,1 12,10.5M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5A1.5,1.5 0 0,1 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5Z"
-                  />
-                </svg>
                 <span
-                  class="margin-left-small"
+                  class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-73"
+                  role="progressbar"
                 >
-                  Queued to start
+                  <span
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-74"
+                  />
+                  <span
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-75"
+                  />
                 </span>
               </div>
             </div>
             <div
-              class="clickable emotion-68"
+              class="clickable emotion-70"
             >
               <div>
-                <div />
-                <div
-                  class=""
+                <p
+                  class="MuiTypography-root MuiTypography-body1 emotion-32"
+                />
+                <p
+                  class="MuiTypography-root MuiTypography-body2 emotion-46"
                   title="test deployment"
                 >
                   test deployment
-                </div>
+                </p>
               </div>
               <div
-                class="flexbox center-aligned"
+                class=""
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-69"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,10.5A1.5,1.5 0 0,1 13.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,12A1.5,1.5 0 0,1 12,10.5M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5A1.5,1.5 0 0,1 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5Z"
-                  />
-                </svg>
                 <span
-                  class="margin-left-small"
+                  class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-73"
+                  role="progressbar"
                 >
-                  Queued to start
+                  <span
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-74"
+                  />
+                  <span
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-75"
+                  />
                 </span>
               </div>
             </div>
             <div
-              class="clickable emotion-68"
+              class="clickable emotion-70"
             >
               <div>
-                <div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 emotion-32"
+                >
                   r1
-                </div>
-                <div
-                  class=""
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 emotion-46"
                   title="test deployment 2"
                 >
                   test deployment 2
-                </div>
+                </p>
               </div>
               <div
-                class="flexbox center-aligned"
+                class=""
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-69"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <p
+                  class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-46"
                 >
-                  <path
-                    d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,10.5A1.5,1.5 0 0,1 13.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,12A1.5,1.5 0 0,1 12,10.5M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5A1.5,1.5 0 0,1 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5Z"
-                  />
-                </svg>
-                <span
-                  class="margin-left-small"
-                >
-                  Queued to start
-                </span>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
+                    data-testid="PendingOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+                    />
+                    <circle
+                      cx="7"
+                      cy="12"
+                      r="1.5"
+                    />
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="1.5"
+                    />
+                    <circle
+                      cx="17"
+                      cy="12"
+                      r="1.5"
+                    />
+                  </svg>
+                  <span
+                    class="margin-left-small"
+                  >
+                    Queued to start
+                  </span>
+                </p>
               </div>
             </div>
-            <h5
-              class="margin-bottom-none"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-23"
             >
               In Progress
-            </h5>
+            </h6>
             <div
-              class="clickable emotion-68"
+              class="clickable emotion-70"
             >
               <div>
-                <div />
-                <div
-                  class=""
+                <p
+                  class="MuiTypography-root MuiTypography-body1 emotion-32"
+                />
+                <p
+                  class="MuiTypography-root MuiTypography-body2 emotion-46"
                   title="Test"
                 >
                   Test
-                </div>
+                </p>
               </div>
               <div
-                class="relative emotion-75 minimal "
+                class=""
               >
-                <div
-                  class="chart-container"
-                >
-                  <div
-                    class="progress-chart relative detailed"
-                  >
-                    <div
-                      class="progress-step"
-                      style="left: 0%; width: 2%;"
-                    >
-                      <div
-                        style="display: contents;"
-                      >
-                        <div
-                          class="progress-bar green"
-                          style="width: 0%;"
-                        />
-                        <div
-                          class="progress-bar warning"
-                          style="left: 0%; width: 0%;"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="progress-step"
-                      style="left: 2%; width: 3%;"
-                    >
-                      <div
-                        style="display: contents;"
-                      >
-                        <div
-                          class="progress-bar green"
-                          style="width: 0%;"
-                        />
-                        <div
-                          class="progress-bar warning"
-                          style="left: 0%; width: 0%;"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="progress-step"
-                      style="left: 5%; width: 5%;"
-                    >
-                      <div
-                        style="display: contents;"
-                      >
-                        <div
-                          class="progress-bar green"
-                          style="width: 0%;"
-                        />
-                        <div
-                          class="progress-bar warning"
-                          style="left: 0%; width: 0%;"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="progress-step"
-                      style="left: 10%; width: 5%;"
-                    >
-                      <div
-                        style="display: contents;"
-                      >
-                        <div
-                          class="progress-bar green"
-                          style="width: 0%;"
-                        />
-                        <div
-                          class="progress-bar warning"
-                          style="left: 0%; width: 0%;"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="progress-step"
-                      style="left: 15%; width: 85%;"
-                    >
-                      <div
-                        style="display: contents;"
-                      >
-                        <div
-                          class="progress-bar green"
-                          style="width: 0%;"
-                        />
-                        <div
-                          class="progress-bar warning"
-                          style="left: 0%; width: 0%;"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="progress-step relative flexbox progress-step-total"
-                    >
-                      <div
-                        class="progress-bar"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="clickable emotion-68"
-            >
-              <div>
-                <div />
-                <div
-                  class=""
-                  title="test deployment"
-                >
-                  test deployment
-                </div>
-              </div>
-              <div
-                class="relative emotion-75 minimal "
-              >
-                <div
-                  class="chart-container"
-                >
-                  <div
-                    class="progress-chart relative detailed"
-                  >
-                    <div
-                      class="progress-step"
-                      style="left: 0%; width: 100%;"
-                    >
-                      <div
-                        class="progress-bar"
-                        style="width: 1%; background-color: rgb(170, 170, 170);"
-                      />
-                      <div
-                        style="display: contents;"
-                      >
-                        <div
-                          class="progress-bar green"
-                          style="width: 0%;"
-                        />
-                        <div
-                          class="progress-bar warning"
-                          style="left: 0%; width: 0%;"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="progress-step relative flexbox progress-step-total"
-                    >
-                      <div
-                        class="progress-bar"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="clickable emotion-68"
-            >
-              <div>
-                <div>
-                  r1
-                </div>
-                <div
-                  class=""
-                  title="test deployment 2"
-                >
-                  test deployment 2
-                </div>
-              </div>
-              <div
-                class="flexbox center-aligned"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-69"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,10.5A1.5,1.5 0 0,1 13.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,12A1.5,1.5 0 0,1 12,10.5M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5A1.5,1.5 0 0,1 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5Z"
-                  />
-                </svg>
                 <span
-                  class="margin-left-small"
+                  class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-73"
+                  role="progressbar"
                 >
-                  Queued to start
+                  <span
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-74"
+                  />
+                  <span
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-75"
+                  />
                 </span>
               </div>
             </div>
-            <h5
-              class="margin-bottom-none"
+            <div
+              class="clickable emotion-70"
+            >
+              <div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 emotion-32"
+                />
+                <p
+                  class="MuiTypography-root MuiTypography-body2 emotion-46"
+                  title="test deployment"
+                >
+                  test deployment
+                </p>
+              </div>
+              <div
+                class=""
+              >
+                <span
+                  class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-73"
+                  role="progressbar"
+                >
+                  <span
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-74"
+                  />
+                  <span
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-75"
+                  />
+                </span>
+              </div>
+            </div>
+            <div
+              class="clickable emotion-70"
+            >
+              <div>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 emotion-32"
+                >
+                  r1
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 emotion-46"
+                  title="test deployment 2"
+                >
+                  test deployment 2
+                </p>
+              </div>
+              <div
+                class=""
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-46"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
+                    data-testid="PendingOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+                    />
+                    <circle
+                      cx="7"
+                      cy="12"
+                      r="1.5"
+                    />
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="1.5"
+                    />
+                    <circle
+                      cx="17"
+                      cy="12"
+                      r="1.5"
+                    />
+                  </svg>
+                  <span
+                    class="margin-left-small"
+                  >
+                    Queued to start
+                  </span>
+                </p>
+              </div>
+            </div>
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-23"
             >
               Finished
-            </h5>
+            </h6>
             <div
-              class="emotion-80"
+              class="emotion-106"
             >
-              <time
-                class="muted slightly-smaller"
-                datetime="2019-01-13T13:00:00+00:00"
-              >
-                2019-01-13 13:00
-              </time>
               <div
-                class="clickable emotion-68"
+                class="emotion-107 margin-bottom-x-small"
               >
-                <div>
-                  <div />
-                  <div
-                    class=""
-                    title="Test"
-                  >
-                    Test
-                  </div>
-                </div>
-                <div
-                  class="emotion-82"
+                <time
+                  class="muted slightly-smaller"
+                  datetime="2019-01-13T13:00:00+00:00"
                 >
-                  <div
-                    class="flexbox emotion-83 "
-                  >
-                    <div
-                      aria-label="Skipped"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/skipped_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                    <div
-                      aria-label="Pending"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/pending_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                    <div
-                      aria-label="In progress"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/progress_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                    <div
-                      aria-label="Successful"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/success_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                    <div
-                      aria-label="Failed"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/error_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="emotion-80"
-            >
-              <time
-                class="muted slightly-smaller"
-                datetime="2019-01-13T13:00:00+00:00"
-              >
-                2019-01-13 13:00
-              </time>
-              <div
-                class="clickable emotion-68"
-              >
-                <div>
-                  <div />
-                  <div
-                    class=""
-                    title="test deployment"
-                  >
-                    test deployment
-                  </div>
-                </div>
+                  2019-01-13 13:00
+                </time>
                 <div
-                  class="emotion-82"
+                  class="clickable emotion-70"
                 >
-                  <div
-                    class="flexbox emotion-83 "
-                  >
-                    <div
-                      aria-label="Skipped"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/skipped_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                    <div
-                      aria-label="Pending"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/pending_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                    <div
-                      aria-label="In progress"
-                      class="flexbox centered "
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/progress_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        1
-                      </div>
-                    </div>
-                    <div
-                      aria-label="Successful"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/success_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                    <div
-                      aria-label="Failed"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/error_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="emotion-80"
-            >
-              <time
-                class="muted slightly-smaller"
-                datetime="2019-01-13T13:00:00+00:00"
-              >
-                2019-01-13 13:00
-              </time>
-              <div
-                class="clickable emotion-68"
-              >
-                <div>
                   <div>
-                    r1
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 emotion-32"
+                    />
+                    <p
+                      class="MuiTypography-root MuiTypography-body2 emotion-46"
+                      title="Test"
+                    >
+                      Test
+                    </p>
                   </div>
                   <div
-                    class=""
-                    title="test deployment 2"
+                    class="emotion-111"
                   >
-                    test deployment 2
+                    <span
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-73"
+                      role="progressbar"
+                    >
+                      <span
+                        class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-74"
+                      />
+                      <span
+                        class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-75"
+                      />
+                    </span>
                   </div>
                 </div>
-                <div
-                  class="emotion-82"
+              </div>
+              <div
+                class="emotion-107 margin-bottom-x-small"
+              >
+                <time
+                  class="muted slightly-smaller"
+                  datetime="2019-01-13T13:00:00+00:00"
                 >
+                  2019-01-13 13:00
+                </time>
+                <div
+                  class="clickable emotion-70"
+                >
+                  <div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 emotion-32"
+                    />
+                    <p
+                      class="MuiTypography-root MuiTypography-body2 emotion-46"
+                      title="test deployment"
+                    >
+                      test deployment
+                    </p>
+                  </div>
                   <div
-                    class="flexbox emotion-83 "
+                    class="emotion-111"
                   >
-                    <div
-                      aria-label="Skipped"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
+                    <span
+                      class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-73"
+                      role="progressbar"
                     >
-                      <img
-                        src="/src/assets/img/skipped_status.png"
+                      <span
+                        class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-74"
                       />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                    <div
-                      aria-label="Pending"
-                      class="flexbox centered "
-                      data-mui-internal-clone-element="true"
+                      <span
+                        class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-75"
+                      />
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="emotion-107 margin-bottom-x-small"
+              >
+                <time
+                  class="muted slightly-smaller"
+                  datetime="2019-01-13T13:00:00+00:00"
+                >
+                  2019-01-13 13:00
+                </time>
+                <div
+                  class="clickable emotion-70"
+                >
+                  <div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 emotion-32"
                     >
-                      <img
-                        src="/src/assets/img/pending_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        1
-                      </div>
-                    </div>
-                    <div
-                      aria-label="In progress"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
+                      r1
+                    </p>
+                    <p
+                      class="MuiTypography-root MuiTypography-body2 emotion-46"
+                      title="test deployment 2"
                     >
-                      <img
-                        src="/src/assets/img/progress_status.png"
-                      />
-                      <div
-                        class="status"
-                      >
-                        0
-                      </div>
-                    </div>
-                    <div
-                      aria-label="Successful"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
+                      test deployment 2
+                    </p>
+                  </div>
+                  <div
+                    class="emotion-111"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-46"
                     >
-                      <img
-                        src="/src/assets/img/success_status.png"
-                      />
-                      <div
-                        class="status"
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
+                        data-testid="PendingOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
                       >
-                        0
-                      </div>
-                    </div>
-                    <div
-                      aria-label="Failed"
-                      class="flexbox centered disabled"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <img
-                        src="/src/assets/img/error_status.png"
-                      />
-                      <div
-                        class="status"
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+                        />
+                        <circle
+                          cx="7"
+                          cy="12"
+                          r="1.5"
+                        />
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="1.5"
+                        />
+                        <circle
+                          cx="17"
+                          cy="12"
+                          r="1.5"
+                        />
+                      </svg>
+                      <span
+                        class="margin-left-small"
                       >
-                        0
-                      </div>
-                    </div>
+                        Queued to start
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -2634,7 +2445,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
     </div>
   </div>
   <div
-    class="emotion-92"
+    class="emotion-130"
   />
 </div>
 `;
@@ -3888,6 +3699,18 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   }
 }
 
+.emotion-69 {
+  margin: 0;
+  font-weight: 500;
+  font-family: Red Hat Text;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.emotion-73 {
+  margin-top: -10px;
+}
+
 <div
   id="app"
 >
@@ -3899,7 +3722,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
       class="flexbox space-between"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <a
           data-discover="true"
@@ -3974,7 +3797,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
         />
       </form>
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <div
           class=""
@@ -3988,7 +3811,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
               class="MuiBadge-root emotion-9"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned false emotion-10"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -4038,7 +3861,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           role="separator"
         />
         <a
-          class="flexbox center-aligned emotion-17 emotion-18"
+          class="flexbox align-items-center emotion-17 emotion-18"
           data-discover="true"
           href="/deployments/active"
         >
@@ -4065,7 +3888,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           role="separator"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox center-aligned emotion-22"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-22"
           tabindex="0"
           type="button"
         >
@@ -4242,7 +4065,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
               class="flexbox widgetHeader"
             >
               <div
-                class="flexbox center-aligned"
+                class="flexbox align-items-center"
               >
                 Accepted devices 
                 <svg
@@ -4384,7 +4207,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             class="widget"
           >
             <div
-              class="flexbox center-aligned  emotion-59"
+              class="flexbox align-items-center  emotion-59"
               style="align-items: end;"
             >
               <div
@@ -4453,26 +4276,29 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           class="dashboard flexbox column"
           style="grid-template-columns: 1fr; row-gap: 10px;"
         >
-          <h4
-            class="margin-bottom-none margin-left-small"
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 margin-bottom-none margin-left-small emotion-69"
           >
             Recent deployments
-          </h4>
-          <h5
-            class="margin-bottom-none"
+          </h6>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-20"
           >
             Pending
-          </h5>
-          <h5
-            class="margin-bottom-none"
+          </h6>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-20"
           >
             In Progress
-          </h5>
-          <h5
-            class="margin-bottom-none"
+          </h6>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-20"
           >
             Finished
-          </h5>
+          </h6>
+          <div
+            class="emotion-73"
+          />
           <a
             class="margin-top margin-bottom-large"
             data-discover="true"

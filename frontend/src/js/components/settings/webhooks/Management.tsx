@@ -62,7 +62,7 @@ const DeliveryStatus = ({ entry, webhook = {}, classes }) => {
   }, [JSON.stringify(delivery_statuses), webhook.id]);
 
   return (
-    <div className="flexbox center-aligned">
+    <div className="flexbox align-items-center">
       <CircleIcon className={`${status.signal} ${classes.statusIcon}`} />
       <div className={status.code >= 400 ? 'muted' : ''}>{status.code}</div>
     </div>

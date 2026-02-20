@@ -65,7 +65,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
       custom-key
     </h6>
     <div
-      class="flexbox center-aligned  emotion-4"
+      class="flexbox align-items-center  emotion-4"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-5"

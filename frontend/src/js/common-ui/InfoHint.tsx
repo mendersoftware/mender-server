@@ -24,7 +24,7 @@ const useStyles = makeStyles()(theme => ({
 export const InfoHint = ({ className = '', content, ...props }) => {
   const { classes } = useStyles();
   return (
-    <InfoText className={`icon flexbox center-aligned ${classes.default} ${className}`} {...props}>
+    <InfoText className={`icon flexbox align-items-center ${classes.default} ${className}`} {...props}>
       <InfoOutlinedIcon fontSize="small" />
       {content}
     </InfoText>
@@ -34,7 +34,7 @@ export const InfoHint = ({ className = '', content, ...props }) => {
 export const InfoHintContainer = ({ children, className = 'margin-left-small', ...props }) => {
   const { classes } = useStyles();
   return (
-    <div className={`flexbox center-aligned ${className} ${classes.container}`} {...props}>
+    <div className={`flexbox align-items-center ${className} ${classes.container}`} {...props}>
       {children}
     </div>
   );

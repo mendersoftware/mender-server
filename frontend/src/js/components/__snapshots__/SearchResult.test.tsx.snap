@@ -218,7 +218,7 @@ exports[`SearchResult Component > renders correctly 1`] = `
       tabindex="-1"
     >
       <div
-        class="flexbox center-aligned margin-bottom-small space-between"
+        class="flexbox align-items-center margin-bottom-small space-between"
       >
         <div
           class="flexbox centered"

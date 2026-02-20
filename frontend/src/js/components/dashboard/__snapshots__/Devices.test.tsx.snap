@@ -290,7 +290,7 @@ exports[`Devices Component > renders correctly 1`] = `
       class="flexbox widgetHeader"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         Accepted devices 
         <svg
@@ -382,7 +382,7 @@ exports[`Devices Component > renders correctly 1`] = `
       class="widgetMainContent"
     >
       <a
-        class="flexbox center-aligned column emotion-8 green"
+        class="flexbox align-items-center column emotion-8 green"
         data-discover="true"
         href="/devices?issues=offline"
       >

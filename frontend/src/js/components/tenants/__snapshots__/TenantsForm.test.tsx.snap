@@ -1281,16 +1281,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
         class="flexbox margin-bottom-small space-between"
       >
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <h3
-            class="capitalized-start flexbox center-aligned"
+            class="capitalized-start flexbox align-items-center"
           >
             Add a tenant
           </h3>
         </div>
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center relative"
         >
           <button
             aria-label="close"
@@ -1361,7 +1361,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
           />
         </div>
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <div
             class="MuiFormControl-root required emotion-7"
@@ -1438,7 +1438,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
                 for="password"
               >
                 <div
-                  class="flexbox center-aligned"
+                  class="flexbox align-items-center"
                 >
                   Optional
                   <svg
@@ -1497,7 +1497,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
                   >
                     <span>
                       <div
-                        class="flexbox center-aligned"
+                        class="flexbox align-items-center"
                       >
                         Optional
                         <svg
@@ -1580,7 +1580,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
         </label>
         <div />
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <div
             class="MuiFormControl-root required emotion-42"
@@ -1645,7 +1645,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
           </div>
         </div>
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <label
             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-37"

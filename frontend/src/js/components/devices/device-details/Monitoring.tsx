@@ -119,7 +119,7 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
       }
       isAddOn
       title={
-        <div className="flexbox center-aligned">
+        <div className="flexbox align-items-center">
           <h4 className="margin-bottom-small margin-right">Monitoring</h4>
           {!!monitors.length && <Time className="muted" value={updated_ts} />}
           <EnterpriseNotification className="margin-left-small" id={BENEFITS.deviceMonitor.id} />

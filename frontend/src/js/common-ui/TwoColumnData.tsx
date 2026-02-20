@@ -69,7 +69,7 @@ const ValueColumn = ({ setSnackbar, value = '' }: { setSnackbar?: (message: stri
   };
 
   return (
-    <div className={`flexbox center-aligned ${setSnackbar ? 'copy-to-clipboard' : ''} ${classes.copyIconOverride}`}>
+    <div className={`flexbox align-items-center ${setSnackbar ? 'copy-to-clipboard' : ''} ${classes.copyIconOverride}`}>
       <Typography
         className={`${classes.textContent} ${setSnackbar ? 'clickable' : ''}`}
         component="div"

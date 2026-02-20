@@ -14,10 +14,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Refresh as RefreshIcon } from '@mui/icons-material';
-import { makeStyles } from 'tss-react/mui';
+import { Paper, Typography } from '@mui/material';
 
-import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import Loader from '@northern.tech/common-ui/Loader';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_STATES, onboardingSteps } from '@northern.tech/store/constants';
@@ -42,21 +40,6 @@ import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './c
 const { setSnackbar } = storeActions;
 
 export const minimalRefreshDeploymentsLength = 2000;
-
-const useStyles = makeStyles()(theme => ({
-  deploymentsPending: {
-    borderColor: 'rgba(0, 0, 0, 0.06)',
-    backgroundColor: theme.palette.background.light,
-    color: theme.palette.text.primary,
-    ['.dashboard-header span']: {
-      backgroundColor: theme.palette.background.light,
-      color: theme.palette.text.primary
-    },
-    ['.MuiButtonBase-root']: {
-      color: theme.palette.text.primary
-    }
-  }
-}));
 
 export const Progress = ({ abort, createClick, ...remainder }) => {
   const { canConfigure, canDeploy } = useSelector(getUserCapabilities);
@@ -83,10 +66,8 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
   const size = useWindowSize();
 
   const currentRefreshDeploymentLength = useRef(refreshDeploymentsLength);
-  const inprogressRef = useRef();
-  const dynamicTimer = useRef();
-
-  const { classes } = useStyles();
+  const inprogressRef = useRef<HTMLElement>();
+  const dynamicTimer = useRef<HTMLElement>();
 
   // deploymentStatus = <inprogress|pending>
   const refreshDeployments = useCallback(
@@ -173,14 +154,15 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
   return doneLoading ? (
     <div className="fadeIn">
       {!!progress.length && (
-        <div className="margin-left">
-          <LinedHeader className="margin-top-large  margin-right" heading="In progress now" />
+        <div className="margin-top margin-bottom-large">
+          <Typography className="margin-bottom" variant="subtitle1">
+            In progress now
+          </Typography>
           <DeploymentsList
             {...props}
             abort={abortDeployment}
             count={progressCount}
             items={progress}
-            listClass="margin-right-small"
             page={progressPage}
             pageSize={progressPerPage}
             rootRef={inprogressRef}
@@ -192,12 +174,11 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
       )}
       {!!onboardingComponent && onboardingComponent}
       {!!pending.length && (
-        <div className={`deployments-pending margin-top margin-bottom-large ${classes.deploymentsPending}`}>
-          <LinedHeader className="margin-small margin-top" heading="Pending" />
+        <Paper variant="outlined" className="margin-top margin-bottom-large padding">
+          <Typography variant="subtitle1">Pending</Typography>
           <DeploymentsList
             {...props}
             abort={abortDeployment}
-            componentClass="margin-left-small"
             count={pendingCount}
             items={pending}
             page={pendingPage}
@@ -206,17 +187,16 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
             onChangePage={onChangePage(DEPLOYMENT_STATES.pending)}
             type={DEPLOYMENT_STATES.pending}
           />
-        </div>
+        </Paper>
       )}
       {!(progressCount || pendingCount) && (
         <div className="dashboard-placeholder">
-          <p>Pending and ongoing deployments will appear here. </p>
+          <Typography>Pending and ongoing deployments will appear here.</Typography>
           {canDeploy && (
-            <p>
+            <Typography>
               <a onClick={createClick}>Create a deployment</a> to get started
-            </p>
+            </Typography>
           )}
-          <RefreshIcon className="flip-horizontal" style={{ fill: '#e3e3e3', width: 111, height: 111 }} />
         </div>
       )}
     </div>

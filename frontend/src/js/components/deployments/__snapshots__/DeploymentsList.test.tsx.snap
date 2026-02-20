@@ -1,86 +1,234 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`DeploymentsList Component > renders correctly 1`] = `
+@keyframes animation-0 {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+
 .emotion-0 {
-  background-color: #bdbdbd;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.emotion-0:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.emotion-1 {
+  display: grid;
+  grid-column-gap: 24px;
+  min-width: 1300px;
+}
+
+.emotion-1.inprogress-item {
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 4fr 1.5fr 48px;
+}
+
+.emotion-1.pending-item {
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 2fr 1.5fr 48px;
+}
+
+.emotion-1.scheduled-item {
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 1fr 1.5fr 48px;
+}
+
+.emotion-1.finished-item {
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 1fr 2.25fr 1fr 1.25fr;
+}
+
+.emotion-2 {
+  font-weight: 700;
+}
+
+.emotion-2:hover {
+  background-color: initial;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-11 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-16 {
+  background-color: #fff;
   padding: 10px 20px;
   border-radius: 4px;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
   min-height: 70px;
 }
 
-.emotion-0 .chart-container {
+.emotion-16 .progress-bar {
+  height: 4px;
+}
+
+.emotion-16 .chart-container {
   min-height: 70px;
 }
 
-.emotion-0 .progress-chart {
+.emotion-16 .progress-chart {
   min-height: 45px;
 }
 
-.emotion-0 .compact .progress-step,
-.emotion-0 .detailed .progress-step {
+.emotion-16 .progress-step {
   min-height: 45px;
 }
 
-.emotion-0 .progress-step,
-.emotion-0 .detailed .progress-step-total {
+.emotion-16 .progress-step,
+.emotion-16 .progress-step-total {
   position: absolute;
   border-right-style: none;
 }
 
-.emotion-0 .progress-step-total .progress-bar {
+.emotion-16 .progress-step-total .progress-bar {
   background-color: #fafafa;
 }
 
-.emotion-0 .progress-step-number {
+.emotion-16 .progress-step-number {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
   margin-top: -4px;
 }
 
-.emotion-0.minimal {
-  padding: initial;
-}
-
-.emotion-0.no-background {
+.emotion-16.no-background {
   background: none;
 }
 
-.emotion-0.stepped-progress .progress-step-total {
+.emotion-16.stepped-progress .progress-step-total {
   margin-left: -0.25%;
   width: 100.5%;
 }
 
-.emotion-0.stepped-progress .progress-step-total .progress-bar {
+.emotion-16.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
   border: 1px solid #424242;
   border-radius: 2px;
-  height: 12px;
+  height: 8px;
 }
 
-.emotion-0.stepped-progress .detailed .progress-step {
+.emotion-16.stepped-progress .progress-step {
   min-height: 20px;
 }
 
-.emotion-1 {
+.emotion-17 {
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-column-gap: 16px;
-}
-
-.emotion-1 .progress-chart.detailed {
-  min-height: 20px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
 }
 
-.emotion-2 {
+.emotion-17 .progress-chart.detailed {
+  min-height: 20px;
+}
+
+.emotion-18 {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: 4px;
+  z-index: 0;
+  background-color: rgb(167, 202, 237);
+}
+
+@media print {
+  .emotion-18 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-19 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+  background-color: #1976d2;
+  width: auto;
+  -webkit-animation: animation-0 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+  animation: animation-0 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+
+.emotion-20 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+  --LinearProgressBar2-barColor: #1976d2;
+  background-color: var(--LinearProgressBar2-barColor, currentColor);
+  width: auto;
+  -webkit-animation: animation-1 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+  animation: animation-1 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+}
+
+.emotion-22 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+}
+
+.emotion-24 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -125,9 +273,11 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
   border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  color: var(--variant-containedColor);
-  background-color: var(--variant-containedBg);
-  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  padding: 5px 15px;
+  border: 1px solid currentColor;
+  border-color: var(--variant-outlinedBorder, currentColor);
+  background-color: var(--variant-outlinedBg);
+  color: var(--variant-outlinedColor);
   --variant-textColor: #1976d2;
   --variant-outlinedColor: #1976d2;
   --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
@@ -135,63 +285,41 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
   --variant-containedBg: #1976d2;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  background-color: transparent;
-  color: rgba(0, 0, 0, 0.87);
-  justify-self: center;
-  text-transform: none;
+  display: grid;
+  place-self: center;
 }
 
-.emotion-2::-moz-focus-inner {
+.emotion-24::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-2.Mui-disabled {
+.emotion-24.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-2 {
+  .emotion-24 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-2:hover {
+.emotion-24:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-2.Mui-disabled {
+.emotion-24.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-2:hover {
-  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
-}
-
-@media (hover: none) {
-  .emotion-2:hover {
-    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
-  }
-}
-
-.emotion-2:active {
-  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
-}
-
-.emotion-2.Mui-focusVisible {
-  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-2.Mui-disabled {
-  color: rgba(0, 0, 0, 0.26);
-  box-shadow: none;
-  background-color: rgba(0, 0, 0, 0.12);
+.emotion-24.Mui-disabled {
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-2:hover {
+  .emotion-24:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -199,16 +327,11 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
   }
 }
 
-.emotion-2.MuiButton-loading {
+.emotion-24.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-2:hover {
-  background-color: transparent;
-  color: rgba(0, 0, 0, 0.87);
-}
-
-.emotion-3 {
+.emotion-33 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -222,531 +345,401 @@ exports[`DeploymentsList Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: inherit;
+  font-size: 1.5rem;
+}
+
+.emotion-44 {
+  border-right: 1px dashed;
+  z-index: 10;
 }
 
 <div
-  class="fadeIn deploy-table-contain "
+  class="fadeIn"
 >
   <div
-    class="deployment-item deployment-header-item muted pending-item"
+    class="padding-small emotion-0 emotion-1 emotion-2 pending-item"
   >
-    <div
-      class=""
+    <p
+      class="MuiTypography-root MuiTypography-body1 emotion-3"
     >
       Release
-    </div>
-    <div
-      class=""
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 text-overflow emotion-3"
     >
       Target device(s)
-    </div>
-    <div
-      class=""
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 align-right emotion-3"
     >
       Start time
-    </div>
-    <div
-      class=""
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 align-right emotion-3"
     >
       End time
-    </div>
-    <div
-      class="align-right column-defined"
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 align-right emotion-3"
     >
       # devices
-    </div>
-    <div
-      class=""
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body1 emotion-3"
     >
       Status
-    </div>
+    </p>
   </div>
   <div
-    class=""
+    class="padding-small relative emotion-0 emotion-1 pending-item"
+    role="listitem"
   >
-    <div
-      class="deployment-item pending-item"
+    <p
+      class="MuiTypography-root MuiTypography-body2 text-overflow emotion-11"
+      title="r1"
     >
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          Release
-        </span>
-        <div
-          class="text-overflow "
-          title="r1"
-        >
-          r1
-        </div>
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          Target device(s)
-        </span>
-        <div
-          class="text-overflow "
-          title="test deployment"
-        >
-          test deployment
-        </div>
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          Start time
-        </span>
-        <span
-          aria-label="Tue Jan 01 2019 12:30:00 GMT+0000"
-          class=""
-          data-mui-internal-clone-element="true"
-        >
-          <time
-            datetime="2019-01-01T12:30:00+00:00"
-          >
-            2019-01-01 12:30
-          </time>
-        </span>
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          End time
-        </span>
-        <span
-          aria-label=""
-          class=""
-          data-mui-internal-clone-element="true"
-        >
-          <div
-            class=""
-          >
-            -
-          </div>
-        </span>
-      </div>
-      <div
-        class="align-right column-defined"
-      >
-        <span
-          class="deployment-item-title muted"
-        >
-          # devices
-        </span>
-        <div
-          class="align-right column-defined"
-        >
-          1
-        </div>
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          Status
-        </span>
-        <div
-          class="relative emotion-0  "
-        >
-          <div
-            class="emotion-1"
-          >
-            <div
-              class="progress-chart relative detailed"
-            >
-              <div
-                class="progress-step"
-                style="left: 0%; width: 100%;"
-              >
-                <div
-                  class="progress-bar"
-                  style="width: 100%; background-color: rgb(170, 170, 170);"
-                />
-                <div
-                  style="display: contents;"
-                >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="progress-step relative flexbox progress-step-total"
-              >
-                <div
-                  class="progress-bar"
-                />
-              </div>
-            </div>
-            <div
-              class="flexbox center-aligned muted"
-              style="justify-content: flex-end;"
-            >
-              0 failures
-            </div>
-          </div>
-          <div
-            class="flexbox space-between muted"
-          >
-            <div>
-              Devices in progress
-            </div>
-            <div>
-              Current phase: 1 of 1
-            </div>
-          </div>
-        </div>
-      </div>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-2"
-        tabindex="0"
-        type="button"
-      >
-        View details
-      </button>
-    </div>
-    <div
-      class="deployment-item pending-item"
+      r1
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 text-overflow emotion-11"
+      title="test deployment"
     >
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          Release
-        </span>
-        <div
-          class="text-overflow "
-          title="r1"
-        >
-          r1
-        </div>
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          Target device(s)
-        </span>
-        <div
-          class="text-overflow "
-          title="test deployment 2"
-        >
-          test deployment 2
-        </div>
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          Start time
-        </span>
-        <span
-          aria-label="Tue Jan 01 2019 12:25:00 GMT+0000"
-          class=""
-          data-mui-internal-clone-element="true"
-        >
-          <time
-            datetime="2019-01-01T12:25:00+00:00"
-          >
-            2019-01-01 12:25
-          </time>
-        </span>
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          End time
-        </span>
-        <span
-          aria-label=""
-          class=""
-          data-mui-internal-clone-element="true"
-        >
-          <div
-            class=""
-          >
-            -
-          </div>
-        </span>
-      </div>
+      test deployment
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 align-right emotion-11"
+    >
+      <time
+        aria-label="Tue Jan 01 2019 12:30:00 GMT+0000"
+        data-mui-internal-clone-element="true"
+        datetime="2019-01-01T12:30:00+00:00"
+      >
+        2019-01-01 12:30
+      </time>
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 align-right emotion-11"
+    >
+      -
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 align-right emotion-11"
+    >
+      1
+    </p>
+    <div
+      class="relative flexbox column emotion-16 "
+    >
       <div
-        class="align-right column-defined"
+        class="emotion-17"
       >
         <span
-          class="deployment-item-title muted"
+          class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-18"
+          role="progressbar"
         >
-          # devices
-        </span>
-        <div
-          class="align-right column-defined"
-        >
-          1
-        </div>
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          Status
-        </span>
-        <div
-          class="flexbox center-aligned"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-3"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,10.5A1.5,1.5 0 0,1 13.5,12A1.5,1.5 0 0,1 12,13.5A1.5,1.5 0 0,1 10.5,12A1.5,1.5 0 0,1 12,10.5M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5A1.5,1.5 0 0,1 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5Z"
-            />
-          </svg>
           <span
-            class="margin-left-small"
-          >
-            Queued to start
-          </span>
-        </div>
-      </div>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-2"
-        tabindex="0"
-        type="button"
-      >
-        View details
-      </button>
-    </div>
-    <div
-      class="deployment-item pending-item"
-    >
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          Release
+            class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-19"
+          />
+          <span
+            class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-20"
+          />
         </span>
-        <div
-          class="text-overflow "
-        />
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
+        <p
+          class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-11"
+          style="justify-content: flex-end;"
         >
-          Target device(s)
-        </span>
-        <div
-          class="text-overflow "
-          title="Test"
-        >
-          Test
-        </div>
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          Start time
-        </span>
-        <span
-          aria-label="Thu Jan 31 2019 12:59:30 GMT+0000"
-          class=""
-          data-mui-internal-clone-element="true"
-        >
-          <time
-            datetime="1548939570020"
-          >
-            in 18 days
-          </time>
-        </span>
-      </div>
-      <div>
-        <span
-          class="deployment-item-title muted"
-        >
-          End time
-        </span>
-        <span
-          aria-label=""
-          class=""
-          data-mui-internal-clone-element="true"
-        >
-          <div
-            class=""
-          >
-            -
-          </div>
-        </span>
+          0 failures
+        </p>
       </div>
       <div
-        class="align-right column-defined"
+        class="flexbox space-between"
       >
         <span
-          class="deployment-item-title muted"
+          class="MuiTypography-root MuiTypography-caption emotion-22"
         >
-          # devices
+          Devices in progress
         </span>
-        <div
-          class="align-right column-defined"
-        >
-          100
-        </div>
-      </div>
-      <div>
         <span
-          class="deployment-item-title muted"
+          class="MuiTypography-root MuiTypography-caption emotion-22"
         >
-          Status
+          Current phase: 1 of 1
         </span>
-        <div
-          class="relative emotion-0  "
-        >
-          <div
-            class="emotion-1"
-          >
-            <div
-              class="progress-chart relative detailed"
-            >
-              <div
-                class="progress-step"
-                style="left: 0%; width: 2%;"
-              >
-                <div
-                  style="display: contents;"
-                >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="progress-step"
-                style="left: 2%; width: 3%;"
-              >
-                <div
-                  style="display: contents;"
-                >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="progress-step"
-                style="left: 5%; width: 5%;"
-              >
-                <div
-                  style="display: contents;"
-                >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="progress-step"
-                style="left: 10%; width: 5%;"
-              >
-                <div
-                  style="display: contents;"
-                >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="progress-step"
-                style="left: 15%; width: 85%;"
-              >
-                <div
-                  style="display: contents;"
-                >
-                  <div
-                    class="progress-bar green"
-                    style="width: 0%;"
-                  />
-                  <div
-                    class="progress-bar warning"
-                    style="left: 0%; width: 0%;"
-                  />
-                </div>
-              </div>
-              <div
-                class="progress-step relative flexbox progress-step-total"
-              >
-                <div
-                  class="progress-bar"
-                />
-              </div>
-            </div>
-            <div
-              class="flexbox center-aligned muted"
-              style="justify-content: flex-end;"
-            >
-              0 failures
-            </div>
-          </div>
-          <div
-            class="flexbox space-between muted"
-          >
-            <div>
-              Devices in progress
-            </div>
-            <div>
-              <span>
-                Time until next phase: 
-              </span>
-              <span
-                class=""
-                data-mui-internal-clone-element="true"
-              >
-                21 days 22 h 45 m 09 s
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-2"
-        tabindex="0"
-        type="button"
-      >
-        View details
-      </button>
     </div>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary nowrap emotion-24"
+      tabindex="0"
+      type="button"
+    >
+      View details
+    </button>
+  </div>
+  <div
+    class="padding-small relative emotion-0 emotion-1 pending-item"
+    role="listitem"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2 text-overflow emotion-11"
+      title="r1"
+    >
+      r1
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 text-overflow emotion-11"
+      title="test deployment 2"
+    >
+      test deployment 2
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 align-right emotion-11"
+    >
+      <time
+        aria-label="Tue Jan 01 2019 12:25:00 GMT+0000"
+        data-mui-internal-clone-element="true"
+        datetime="2019-01-01T12:25:00+00:00"
+      >
+        2019-01-01 12:25
+      </time>
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 align-right emotion-11"
+    >
+      -
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 align-right emotion-11"
+    >
+      1
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-11"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
+        data-testid="PendingOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+        />
+        <circle
+          cx="7"
+          cy="12"
+          r="1.5"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="1.5"
+        />
+        <circle
+          cx="17"
+          cy="12"
+          r="1.5"
+        />
+      </svg>
+      <span
+        class="margin-left-small"
+      >
+        Queued to start
+      </span>
+    </p>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary nowrap emotion-24"
+      tabindex="0"
+      type="button"
+    >
+      View details
+    </button>
+  </div>
+  <div
+    class="padding-small relative emotion-0 emotion-1 pending-item"
+    role="listitem"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2 text-overflow emotion-11"
+    />
+    <p
+      class="MuiTypography-root MuiTypography-body2 text-overflow emotion-11"
+      title="Test"
+    >
+      Test
+    </p>
+    <time
+      aria-label="Thu Jan 31 2019 12:59:30 GMT+0000"
+      class="MuiTypography-root MuiTypography-body2 align-right emotion-11"
+      data-mui-internal-clone-element="true"
+      datetime="2019-01-31T12:59:30.020Z"
+    >
+      in 18 days
+    </time>
+    <p
+      class="MuiTypography-root MuiTypography-body2 align-right emotion-11"
+    >
+      -
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 align-right emotion-11"
+    >
+      100
+    </p>
+    <div
+      class="relative flexbox column emotion-16 "
+    >
+      <div
+        class="emotion-17"
+      >
+        <div
+          class="progress-chart relative detailed"
+        >
+          <div
+            class="progress-step"
+            style="left: 0%; width: 2%;"
+          >
+            <div
+              style="display: contents;"
+            >
+              <div
+                class="progress-bar green"
+                style="width: 0%;"
+              />
+              <div
+                class="progress-bar warning"
+                style="left: 0%; width: 0%;"
+              />
+            </div>
+          </div>
+          <div
+            class="absolute emotion-44"
+            style="left: 0%;"
+          />
+          <div
+            class="progress-step"
+            style="left: 2%; width: 3%;"
+          >
+            <div
+              style="display: contents;"
+            >
+              <div
+                class="progress-bar green"
+                style="width: 0%;"
+              />
+              <div
+                class="progress-bar warning"
+                style="left: 0%; width: 0%;"
+              />
+            </div>
+          </div>
+          <div
+            class="absolute emotion-44"
+            style="left: 2%;"
+          />
+          <div
+            class="progress-step"
+            style="left: 5%; width: 5%;"
+          >
+            <div
+              style="display: contents;"
+            >
+              <div
+                class="progress-bar green"
+                style="width: 0%;"
+              />
+              <div
+                class="progress-bar warning"
+                style="left: 0%; width: 0%;"
+              />
+            </div>
+          </div>
+          <div
+            class="absolute emotion-44"
+            style="left: 5%;"
+          />
+          <div
+            class="progress-step"
+            style="left: 10%; width: 5%;"
+          >
+            <div
+              style="display: contents;"
+            >
+              <div
+                class="progress-bar green"
+                style="width: 0%;"
+              />
+              <div
+                class="progress-bar warning"
+                style="left: 0%; width: 0%;"
+              />
+            </div>
+          </div>
+          <div
+            class="absolute emotion-44"
+            style="left: 10%;"
+          />
+          <div
+            class="progress-step"
+            style="left: 15%; width: 85%;"
+          >
+            <div
+              style="display: contents;"
+            >
+              <div
+                class="progress-bar green"
+                style="width: 0%;"
+              />
+              <div
+                class="progress-bar warning"
+                style="left: 0%; width: 0%;"
+              />
+            </div>
+          </div>
+          <div
+            class="progress-step relative flexbox progress-step-total"
+          >
+            <div
+              class="progress-bar"
+            />
+          </div>
+        </div>
+        <p
+          class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-11"
+          style="justify-content: flex-end;"
+        >
+          0 failures
+        </p>
+      </div>
+      <div
+        class="flexbox space-between"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-caption emotion-22"
+        >
+          Devices in progress
+        </span>
+        <span
+          class="MuiTypography-root MuiTypography-caption emotion-22"
+        >
+          <span>
+            Time until next phase: 
+          </span>
+          <span
+            class=""
+            data-mui-internal-clone-element="true"
+          >
+            21 days 22 h 45 m 09 s
+          </span>
+        </span>
+      </div>
+    </div>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary nowrap emotion-24"
+      tabindex="0"
+      type="button"
+    >
+      View details
+    </button>
   </div>
   <div
     class="flexbox"

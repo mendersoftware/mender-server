@@ -1458,16 +1458,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-49:focus::-ms-input-
       class="flexbox margin-bottom-small space-between"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <h3
-          class="capitalized-start flexbox center-aligned"
+          class="capitalized-start flexbox align-items-center"
         >
           Subscribe to Mender Basic
         </h3>
       </div>
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center relative"
       >
         <button
           aria-label="close"
@@ -1830,7 +1830,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-49:focus::-ms-input-
           style="width: 60px; height: 12px; background-color: rgba(0, 0, 0, 0.04);"
         />
         <div
-          class="flexbox center-aligned margin-top-small"
+          class="flexbox align-items-center margin-top-small"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-61"

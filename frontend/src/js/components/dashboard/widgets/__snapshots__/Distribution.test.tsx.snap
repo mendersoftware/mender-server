@@ -219,7 +219,7 @@ exports[`Distribution Component > renders correctly 1`] = `
           class="flexbox space-between margin-bottom-small"
         >
           <div
-            class="flexbox center-aligned emotion-0"
+            class="flexbox align-items-center emotion-0"
           >
             Software distribution
             <svg
@@ -235,7 +235,7 @@ exports[`Distribution Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="flexbox center-aligned"
+            class="flexbox align-items-center"
             style="z-index: 1;"
           >
             <button

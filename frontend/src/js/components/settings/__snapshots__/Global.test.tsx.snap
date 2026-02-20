@@ -1233,7 +1233,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
     </div>
     <div>
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <h6
           class="MuiTypography-root MuiTypography-subtitle1 emotion-22"
@@ -1358,7 +1358,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
               class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label capitalized-start emotion-20"
             >
               <div
-                class="flexbox center-aligned"
+                class="flexbox align-items-center"
               >
                 <svg
                   aria-hidden="true"

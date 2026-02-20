@@ -27,10 +27,10 @@ export const DeviceStatusNotification = ({ deviceCount, onClick, state }) => {
   const pluralized = pluralize('device', deviceCount);
   return (
     <Alert
-      className="flexbox center-aligned margin-left-large margin-right"
+      className="flexbox align-items-center margin-left-large margin-right"
       onClick={() => onClick(state)}
       severity="info"
-      slotProps={{ message: { className: 'flexbox center-aligned space-between full-width' } }}
+      slotProps={{ message: { className: 'flexbox align-items-center space-between full-width' } }}
     >
       <div>
         {deviceCount} {pluralized} {pluralize('is', deviceCount)} {stateActionMap[state]}

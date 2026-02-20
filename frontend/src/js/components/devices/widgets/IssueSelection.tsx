@@ -107,7 +107,7 @@ const DeviceIssuesSelection = ({ className = '', onChange, options, selection })
   );
 
   return (
-    <div className="flexbox center-aligned margin-left">
+    <div className="flexbox align-items-center margin-left">
       <div>Show:</div>
       <Select
         className={`capitalized ${className}`}

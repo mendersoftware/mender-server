@@ -26,8 +26,8 @@ interface DrawerTitleProps {
 
 export const DrawerTitle: FunctionComponent<DrawerTitleProps> = ({ onClose, onLinkCopy, postTitle, preCloser, title }) => (
   <div className="flexbox margin-bottom-small space-between">
-    <div className="flexbox center-aligned">
-      <h3 className="capitalized-start flexbox center-aligned">{title}</h3>
+    <div className="flexbox align-items-center">
+      <h3 className="capitalized-start flexbox align-items-center">{title}</h3>
       {onLinkCopy && (
         <Tooltip title="Copy link">
           <IconButton onClick={onLinkCopy} size="large">
@@ -37,7 +37,7 @@ export const DrawerTitle: FunctionComponent<DrawerTitleProps> = ({ onClose, onLi
       )}
       {postTitle}
     </div>
-    <div className="flexbox center-aligned">
+    <div className="flexbox align-items-center relative">
       {preCloser}
       <IconButton onClick={onClose} aria-label="close" size="large">
         <CloseIcon />

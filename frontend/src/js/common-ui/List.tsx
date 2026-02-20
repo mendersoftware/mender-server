@@ -406,7 +406,7 @@ const HeaderItem = <T extends wID>(props: HeaderItemProps<T>) => {
   resizeHandleClassName = resizeRef.current ? 'resizing' : resizeHandleClassName;
   const header = (
     <div className="columnHeader flexbox space-between relative" style={column.style} onMouseEnter={onMouseOver} onMouseLeave={onMouseOut} ref={ref}>
-      <Typography className="flexbox center-aligned" onClick={() => onSort(column.attribute ? column.attribute : {})}>
+      <Typography className="flexbox align-items-center" onClick={() => onSort(column.attribute ? column.attribute : {})}>
         {column.title}
         {column.sortable && (
           <SortIcon
@@ -415,7 +415,7 @@ const HeaderItem = <T extends wID>(props: HeaderItemProps<T>) => {
           />
         )}
       </Typography>
-      <div className="flexbox center-aligned full-height">
+      <div className="flexbox align-items-center full-height">
         {column.customize && <SettingsIcon onClick={column.customize} style={{ fontSize: 16 }} />}
         {index < columnCount - 2 && resizable && (
           <div onMouseDown={mouseDown} className={`${classes.resizer} full-height`}>

@@ -156,7 +156,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
       <Divider className="margin-top-large margin-bottom" light />
       <div>
         {hasSSOConfig && !isEditing ? (
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             <Button onClick={onEditClick}>Edit</Button>
             <Button onClick={onDownloadClick}>Download file</Button>
             <Button onClick={onCopyClick} startIcon={<CopyPasteIcon />}>

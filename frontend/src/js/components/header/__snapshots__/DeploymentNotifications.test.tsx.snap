@@ -32,7 +32,7 @@ exports[`DeploymentNotifications Component > renders correctly 1`] = `
 }
 
 <a
-  class="flexbox center-aligned emotion-0 "
+  class="flexbox align-items-center emotion-0 "
   data-discover="true"
   href="/deployments/active"
 >

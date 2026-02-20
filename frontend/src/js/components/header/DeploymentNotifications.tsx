@@ -29,7 +29,7 @@ const useStyles = makeStyles()(theme => ({
 const DeploymentNotifications = ({ className = '', inprogress }) => {
   const { classes } = useStyles();
   return (
-    <Link to={DEPLOYMENT_ROUTES.active.route} className={`flexbox center-aligned ${classes.root} ${className}`}>
+    <Link to={DEPLOYMENT_ROUTES.active.route} className={`flexbox align-items-center ${classes.root} ${className}`}>
       <RefreshIcon className="flip-horizontal margin-right-x-small" fontSize="small" />
       <Typography variant="subtitle2">{inprogress}</Typography>
     </Link>

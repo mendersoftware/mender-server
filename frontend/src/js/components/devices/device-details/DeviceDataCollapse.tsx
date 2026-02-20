@@ -23,7 +23,7 @@ export const DeviceDataCollapse = ({ children, className = '', header, isAddOn =
 
   return (
     <div className={`margin-bottom ${className}`}>
-      <div className="flexbox space-between center-aligned">
+      <div className="flexbox space-between align-items-center">
         {typeof title === 'string' ? <h4 className="margin-bottom-small">{title}</h4> : title}
         <div className="flexbox centered">{isAddOn && <Chip className={classes.addOnPill} label="Add-on" />}</div>
       </div>

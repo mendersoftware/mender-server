@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { Alert } from '@mui/material';
 
 export const EmailVerificationWarning = ({ action, className = '' }: { action: string; className: string }) => (
-  <Alert className={`flexbox center-aligned margin-bottom-small ${className}`} severity="warning">
+  <Alert className={`flexbox align-items-center margin-bottom-small ${className}`} severity="warning">
     Email verification is required to {action}. Update your settings in{' '}
     <Link to="/settings/my-profile" color="inherit">
       My Profile

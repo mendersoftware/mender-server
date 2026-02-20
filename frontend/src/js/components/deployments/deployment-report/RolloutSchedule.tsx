@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { ArrowForward } from '@mui/icons-material';
-import { Chip } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
@@ -25,14 +25,15 @@ import durationDayJs from 'dayjs/plugin/duration';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import pluralize from 'pluralize';
 
-import { ProgressChartComponent, getDeploymentPhasesInfo, getDisplayablePhases } from '../ProgressChart';
 import { getPhaseDeviceCount, getPhaseStartTime, getRemainderPercent } from '../deployment-wizard/PhaseSettings';
-import PhaseProgress from './PhaseProgress';
+import { RolloutProgressBar } from '../progress/RolloutProgressBar';
+import { SubstateProgressBar } from '../progress/SubstateProgressBar';
+import { getDeploymentPhasesInfo } from '../progress/usePhaseProgress';
 
 const useStyles = makeStyles()(theme => ({
-  currentPhaseInfo: { backgroundColor: theme.palette.grey[400] },
+  currentPhaseInfo: { backgroundColor: theme.palette.info.light },
   phaseInfo: { maxWidth: maxPhaseWidth, borderRadius: 5, paddingTop: theme.spacing(), paddingBottom: theme.spacing(3) },
-  phaseIndex: { alignSelf: 'flex-start', margin: theme.spacing(2), marginLeft: theme.spacing(2.5) },
+  phaseIndex: { alignSelf: 'flex-start', marginBottom: theme.spacing(2), marginTop: theme.spacing(2) },
   phaseOverview: { alignItems: 'baseline' },
   phasesOverviewArrow: { marginLeft: theme.spacing(4), marginRight: theme.spacing(4) }
 }));
@@ -42,14 +43,12 @@ dayjs.extend(isSameOrAfter);
 
 const maxPhaseWidth = 270;
 
-const PhaseLabel = ({ index }) => <div className="capitalized progress-step-number muted">Phase {index + 1}</div>;
-
 export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, onUpdateControlChange }) => {
   const { classes } = useStyles();
   const now = dayjs();
   const { created: creationTime = now.toISOString(), filter, finished, status, update_control_map } = deployment;
 
-  const { phases, reversedPhases, totalDeviceCount, ...remainder } = getDeploymentPhasesInfo(deployment);
+  const { phases, reversedPhases, totalDeviceCount } = getDeploymentPhasesInfo(deployment);
 
   const start_time = phases[0].start_ts || creationTime;
   const currentPhase = reversedPhases.find(phase => now.isAfter(phase.start_ts)) || phases[0];
@@ -61,7 +60,6 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
   }
   const endTime = finished ? <Time value={formatTime(finished)} /> : filter ? 'N/A' : '-';
 
-  const displayablePhases = getDisplayablePhases({ currentPhase, phases, totalDeviceCount, ...remainder });
   return (
     <>
       <LinedHeader className={`margin-top-large ${headerClass}`} heading="Schedule details" innerRef={innerRef} />
@@ -77,10 +75,10 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
             <ArrowForward className={classes.phasesOverviewArrow} />
             <SynchronizedTwoColumnData className={classes.phaseOverview} data={{ 'End time': endTime }} />
           </div>
-          <ProgressChartComponent className="margin-top no-background" phases={displayablePhases} PhaseLabel={PhaseLabel} />
+          <RolloutProgressBar className="margin-top no-background" deployment={deployment} variant="report" />
         </>
       ) : (
-        <PhaseProgress deployment={deployment} onAbort={onAbort} onUpdateControlChange={onUpdateControlChange} />
+        <SubstateProgressBar deployment={deployment} onAbort={onAbort} onUpdateControlChange={onUpdateControlChange} />
       )}
       <div className="deployment-phases-report margin-top margin-bottom" style={{ gridTemplateColumns: `repeat(auto-fit, ${maxPhaseWidth}px)` }}>
         {phases.map((phase, index) => {
@@ -90,19 +88,19 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
           const startTime = phase.start_ts ?? getPhaseStartTime(phases, index, start_time);
           const phaseObject = {
             'Phase start time': <Time value={startTime} />,
-            'Batch size': <div className="muted">{`${batchSize}%${deviceCountText}`}</div>
+            'Batch size': `${batchSize}%${deviceCountText}`
           };
-          let phaseTitle = status !== DEPLOYMENT_STATES.scheduled ? <div className="muted">Complete</div> : null;
+          let phaseTitle = status !== DEPLOYMENT_STATES.scheduled ? <Typography variant="caption">Complete</Typography> : null;
           let isCurrentPhase = false;
           if (now.isBefore(startTime)) {
             const duration = dayjs.duration(dayjs(startTime).diff(now));
             phaseTitle = <div>{`Begins in ${duration.format('DD [days] HH [h] mm [m]')}`}</div>;
           } else if (status === DEPLOYMENT_STATES.inprogress && phase.id === currentPhase.id) {
-            phaseTitle = <div className="muted">Current phase</div>;
+            phaseTitle = <Typography variant="caption">Current phase</Typography>;
             isCurrentPhase = true;
           }
           return (
-            <div className={`flexbox column centered ${classes.phaseInfo} ${isCurrentPhase ? classes.currentPhaseInfo : ''}`} key={startTime}>
+            <div className={`flexbox column padding-small ${classes.phaseInfo} ${isCurrentPhase ? classes.currentPhaseInfo : ''}`} key={startTime}>
               {phaseTitle}
               <Chip className={classes.phaseIndex} size="small" label={`Phase ${index + 1}`} />
               <TwoColumnData data={phaseObject} />

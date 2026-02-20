@@ -772,13 +772,13 @@ exports[`Configuration Component > renders correctly 1`] = `
   class="margin-bottom "
 >
   <div
-    class="flexbox space-between center-aligned"
+    class="flexbox space-between align-items-center"
   >
     <div
       class="two-columns"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <h4
           class="margin-right"
@@ -810,10 +810,10 @@ exports[`Configuration Component > renders correctly 1`] = `
         </button>
       </div>
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <div
-          class="flexbox center-aligned margin-left-small emotion-3"
+          class="flexbox align-items-center margin-left-small emotion-3"
         >
           <div
             class="relative flexbox emotion-4  "
@@ -917,7 +917,7 @@ exports[`Configuration Component > renders correctly 1`] = `
         </span>
       </div>
       <div
-        class="flexbox center-aligned copy-to-clipboard emotion-19"
+        class="flexbox align-items-center copy-to-clipboard emotion-19"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
@@ -947,7 +947,7 @@ exports[`Configuration Component > renders correctly 1`] = `
         </span>
       </div>
       <div
-        class="flexbox center-aligned copy-to-clipboard emotion-19"
+        class="flexbox align-items-center copy-to-clipboard emotion-19"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
@@ -980,7 +980,7 @@ exports[`Configuration Component > renders correctly 1`] = `
         </span>
       </div>
       <div
-        class="flexbox center-aligned copy-to-clipboard emotion-19"
+        class="flexbox align-items-center copy-to-clipboard emotion-19"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
@@ -1004,7 +1004,7 @@ exports[`Configuration Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox center-aligned margin-bottom margin-top"
+      class="flexbox align-items-center margin-bottom margin-top relative"
     >
       <div
         class="flexbox margin-small"

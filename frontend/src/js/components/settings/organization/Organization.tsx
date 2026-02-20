@@ -184,7 +184,7 @@ export const Organization = () => {
         </div>
       )}
 
-      <div className="flexbox center-aligned">
+      <div className="flexbox align-items-center">
         {isResettingSSO && !isConfiguringSSO && (
           <>
             <Button onClick={onCancelSSOSettings}>Cancel</Button>

@@ -1289,7 +1289,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
           class="margin-left-small filter-list"
         />
         <div
-          class="flexbox center-aligned margin-left-small emotion-4"
+          class="flexbox align-items-center margin-left-small emotion-4"
         >
           <div
             class=""
@@ -1313,7 +1313,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         class="flexbox column"
       >
         <div
-          class="flexbox center-aligned margin-top-small margin-bottom-small relative"
+          class="flexbox align-items-center margin-top-small margin-bottom-small relative"
         >
           <div
             class="flexbox margin-right-small emotion-7"

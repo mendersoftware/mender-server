@@ -18,12 +18,12 @@ import Loader from '@northern.tech/common-ui/Loader';
 
 export const AuditlogsView = ({ total, csvLoading, createCsvDownload, infoHintComponent = null, auditLogsFilter, children }) => (
   <div className="fadeIn margin-left flexbox column" style={{ marginRight: '5%' }}>
-    <div className="flexbox center-aligned">
+    <div className="flexbox align-items-center">
       <h3 className="margin-right-small">Audit log</h3>
       <InfoHintContainer>{infoHintComponent}</InfoHintContainer>
     </div>
     {auditLogsFilter}
-    <div className="flexbox center-aligned" style={{ justifyContent: 'flex-end' }}>
+    <div className="flexbox align-items-center" style={{ justifyContent: 'flex-end' }}>
       <Loader show={csvLoading} />
       <Button variant="contained" disabled={csvLoading || !total} onClick={createCsvDownload} style={{ marginLeft: 15 }}>
         Download results as CSV

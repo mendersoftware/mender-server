@@ -22,7 +22,7 @@ export const DeviceStateSelection = ({ className = '', onStateChange, selectedSt
   const availableStates = useMemo(() => Object.values(states).filter(duplicateFilter), [states]);
 
   return (
-    <div className="flexbox center-aligned">
+    <div className="flexbox align-items-center">
       Status:
       <Select className={`capitalized ${className}`} onChange={e => onStateChange(e.target.value)} value={selectedState}>
         {availableStates.map(state => (

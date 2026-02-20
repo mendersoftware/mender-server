@@ -87,7 +87,7 @@ export const StartupNotificationDialog = () => {
         }
       }}
       title={
-        <div className="flexbox center-aligned">
+        <div className="flexbox align-items-center">
           <img src={headerLogo} style={{ maxHeight: 75 }} />
           <div className="margin-left-small">Welcome back!</div>
         </div>

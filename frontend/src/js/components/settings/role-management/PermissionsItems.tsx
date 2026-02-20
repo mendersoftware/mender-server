@@ -40,7 +40,7 @@ export type ItemScope = {
 export const emptyItemSelection: ItemSelectionType = { item: '', uiPermissions: [], disableEdit: false, notFound: false };
 
 const PermissionsAreaTitle: FunctionComponent<{ className?: string; explanation: string; title: string }> = ({ className = '', explanation, title }) => (
-  <div className={`flexbox center-aligned ${className}`}>
+  <div className={`flexbox align-items-center ${className}`}>
     {title}
     <Tooltip arrow placement="bottom" title={explanation}>
       <InfoOutlinedIcon className="margin-left-small muted" fontSize="small" />
@@ -55,7 +55,7 @@ interface IPermissionsItem extends PermissionsSelectionBaseProps {
 const formWidth = 500;
 
 export const PermissionsItem: FunctionComponent<IPermissionsItem> = ({ area, disabled }) => (
-  <div className="two-columns center-aligned margin-left-small" style={{ maxWidth: formWidth }}>
+  <div className="two-columns align-items-center margin-left-small" style={{ maxWidth: formWidth }}>
     <PermissionsAreaTitle title={area.title} explanation={area.explanation} />
     <PermissionsSelect disabled={disabled} options={area.uiPermissions} permissionsArea={area} unscoped />
   </div>
@@ -112,7 +112,7 @@ const ScopeSelect: FunctionComponent<IScopedPermissionSelect> = ({ disabled, per
           >
             {options.map(option => (
               <MenuItem disabled={option.notFound} key={option.title} value={option.title}>
-                <div title={option.notFound ? 'This item was removed' : ''} className="flexbox center-aligned">
+                <div title={option.notFound ? 'This item was removed' : ''} className="flexbox align-items-center">
                   {option.notFound && <WarningIcon style={{ marginRight: 4 }} />}
                   {option.title}
                 </div>
@@ -150,7 +150,7 @@ const ScopedPermissionsItem: FunctionComponent<Omit<IScopedPermissionSelect, 'na
   const disabled = disableEdit || itemSelection.disableEdit;
   return (
     <div className={`margin-left-small ${classes.scopedPermissionItem}`}>
-      <div className="two-columns center-aligned" style={{ maxWidth: formWidth }}>
+      <div className="two-columns align-items-center" style={{ maxWidth: formWidth }}>
         <ScopeSelect
           disabled={disabled}
           permissionsArea={permissionsArea}

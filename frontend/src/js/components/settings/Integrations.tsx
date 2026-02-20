@@ -37,6 +37,7 @@ const useStyles = makeStyles()(theme => ({
   select: { minWidth: 300 },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2) },
   textInput: { minWidth: 500, wordBreak: 'break-all' },
+  confirmationWrapper: { height: 50 }, // roughly larger than even a large sized "delete" button
   widthLimit: { maxWidth }
 }));
 
@@ -182,7 +183,11 @@ export const IntegrationConfiguration = ({ integration, isLast, onCancel, onDele
             </>
           )}
         </div>
-        {isDeleting && <Confirm type="integrationRemoval" classes="confirmation-overlay" action={onDeleteConfirm} cancel={() => setIsDeleting(false)} />}
+        {isDeleting && (
+          <div className={`absolute full-width ${classes.confirmationWrapper}`}>
+            <Confirm type="integrationRemoval" action={onDeleteConfirm} cancel={() => setIsDeleting(false)} />
+          </div>
+        )}
       </div>
       <InfoHint className={`margin-bottom ${classes.widthLimit}`} content={configHint} />
       {!isLast && <Divider className={`margin-bottom ${classes.widthLimit}`} />}

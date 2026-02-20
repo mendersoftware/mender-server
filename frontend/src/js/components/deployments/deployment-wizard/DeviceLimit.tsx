@@ -100,7 +100,7 @@ export const DeviceLimit = ({
       <FormControlLabel
         control={<Checkbox color="primary" checked={shouldLimit} disabled={!filter} onChange={onToggleLimit} size="small" />}
         label={
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             <b className="margin-right-small">Limit deployment to a maximum number of devices</b> (optional)
             <InfoHintContainer>
               <DocsTooltip id={DOCSTIPS.limitedDeployments.id} />

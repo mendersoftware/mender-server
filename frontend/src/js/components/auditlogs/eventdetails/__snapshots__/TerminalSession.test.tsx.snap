@@ -524,13 +524,13 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Device ID
         </h6>
         <div
-          class="flexbox center-aligned  emotion-12"
+          class="flexbox align-items-center  emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
           >
             <a
-              class="flexbox center-aligned emotion-14"
+              class="flexbox align-items-center emotion-14"
               data-discover="true"
               href="/devices?id=a1"
             >
@@ -563,7 +563,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Device type
         </h6>
         <div
-          class="flexbox center-aligned  emotion-12"
+          class="flexbox align-items-center  emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -579,7 +579,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Operating system version
         </h6>
         <div
-          class="flexbox center-aligned  emotion-12"
+          class="flexbox align-items-center  emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -595,7 +595,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
            
         </h6>
         <div
-          class="flexbox center-aligned  emotion-12"
+          class="flexbox align-items-center  emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -629,7 +629,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Session ID
         </h6>
         <div
-          class="flexbox center-aligned  emotion-12"
+          class="flexbox align-items-center  emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -645,7 +645,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Start time
         </h6>
         <div
-          class="flexbox center-aligned  emotion-12"
+          class="flexbox align-items-center  emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -665,7 +665,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           End time
         </h6>
         <div
-          class="flexbox center-aligned  emotion-12"
+          class="flexbox align-items-center  emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -685,7 +685,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Duration
         </h6>
         <div
-          class="flexbox center-aligned  emotion-12"
+          class="flexbox align-items-center  emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -701,7 +701,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           User
         </h6>
         <div
-          class="flexbox center-aligned  emotion-12"
+          class="flexbox align-items-center  emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"

@@ -257,7 +257,7 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
       class="widget"
     >
       <div
-        class="flexbox center-aligned  emotion-0"
+        class="flexbox align-items-center  emotion-0"
         style="align-items: end;"
       >
         <div

@@ -160,7 +160,7 @@ exports[`DeviceStatusNotification Component > renders correctly 1`] = `
 }
 
 <div
-  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard flexbox center-aligned margin-left-large margin-right emotion-0"
+  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard flexbox align-items-center margin-left-large margin-right emotion-0"
   role="alert"
   style="--Paper-shadow: none;"
 >
@@ -180,7 +180,7 @@ exports[`DeviceStatusNotification Component > renders correctly 1`] = `
     </svg>
   </div>
   <div
-    class="MuiAlert-message flexbox center-aligned space-between full-width emotion-3"
+    class="MuiAlert-message flexbox align-items-center space-between full-width emotion-3"
   >
     <div>
       1

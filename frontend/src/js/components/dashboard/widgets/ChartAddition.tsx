@@ -74,7 +74,7 @@ export const Header = ({ chartType }) => {
   const { classes } = useStyles();
   const { Icon } = chartTypes[chartType];
   return (
-    <div className={`flexbox center-aligned ${classes.header}`}>
+    <div className={`flexbox align-items-center ${classes.header}`}>
       Software distribution
       <Icon />
     </div>
@@ -200,7 +200,7 @@ export const ChartEditWidget = ({ groups, onSave, onCancel, selection: selection
 };
 
 export const RemovalWidget = ({ onCancel, onClick }) => (
-  <div className="widget chart-widget">
+  <div className="widget chart-widget relative">
     <Confirm classes="flexbox centered confirmation-overlay" cancel={onCancel} action={onClick} style={{ justifyContent: 'center' }} type="chartRemoval" />
   </div>
 );

@@ -1071,7 +1071,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       </div>
     </div>
     <div
-      class="flexbox center-aligned copy-button"
+      class="flexbox align-items-center copy-button"
     >
       <div>
         <button
@@ -1106,7 +1106,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     class="flexbox space-between margin-bottom-small"
   >
     <div
-      class="flexbox center-aligned"
+      class="flexbox align-items-center"
     >
       <div
         class="MuiFormControl-root MuiTextField-root emotion-12"
@@ -1258,7 +1258,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       </div>
     </div>
     <div
-      class="flexbox center-aligned"
+      class="flexbox align-items-center"
     >
       <div>
         <button

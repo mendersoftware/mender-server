@@ -32,7 +32,7 @@ const FilterOption = ({ key, ...props }, option) => {
   let content = getOptionLabel(option);
   if (option.category === 'recently used') {
     content = (
-      <div className="flexbox center-aligned space-between full-width">
+      <div className="flexbox align-items-center space-between full-width">
         <div>{content}</div>
         <div className="muted slightly-smaller">({option.scope})</div>
       </div>

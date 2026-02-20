@@ -91,7 +91,7 @@ const DeviceUpdateTitle = ({ loading, title }) => {
     return <div>{title}</div>;
   }
   return (
-    <div className="flexbox center-aligned">
+    <div className="flexbox align-items-center">
       <div className="margin-right-x-small">{title}</div>
       <Loader show small table style={{ top: -20 }} />
     </div>

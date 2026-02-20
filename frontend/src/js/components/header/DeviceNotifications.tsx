@@ -26,7 +26,7 @@ import {
 import { Alert, Badge, Button, Divider, LinearProgress, Popover, Tooltip, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { getUserRoles, getDeviceLimitStats } from '@northern.tech/store/selectors';
+import { getDeviceLimitStats, getUserRoles } from '@northern.tech/store/selectors';
 import pluralize from 'pluralize';
 
 const useStyles = makeStyles()(theme => ({
@@ -153,7 +153,6 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
     navigate('/devices/pending');
   };
 
-
   const severityMap = { 0: 'primary', 1: 'warning', 2: 'error' };
 
   const maxSeverityIndex = mappedLimits.reduce((maxIndex, { limit, total }) => {
@@ -187,7 +186,7 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
             <Button
               startIcon={<DeveloperBoardIcon className="margin-right-x-small margin-left-x-small" fontSize="small" />}
               endIcon={<ArrowDropDownIcon fontSize="small" className={classes.endIcon} />}
-              className={`flexbox center-aligned ${classes[severity]} ${!!anchorEl && classes.pressed}`}
+              className={`flexbox align-items-center ${classes[severity]} ${!!anchorEl && classes.pressed}`}
               onClick={handleOpen}
             >
               {total.toLocaleString(numberLocale)}
@@ -210,9 +209,9 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
             {!!pending && (
               <Alert
                 severity="info"
-                className="flexbox center-aligned margin-bottom-small"
+                className="flexbox align-items-center margin-bottom-small"
                 onClick={() => viewPendingClick()}
-                slotProps={{ message: { className: 'flexbox center-aligned space-between full-width' } }}
+                slotProps={{ message: { className: 'flexbox align-items-center space-between full-width' } }}
               >
                 <Typography variant="body2">
                   {pending} {pluralize('device', pending)} pending

@@ -72,7 +72,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
     <DeviceDataCollapse
       title={
         <div className="two-columns">
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             <h4 className="margin-right">Tags</h4>
             {!isEditing && canWriteDevices && <EditButton onClick={onStartEdit} />}
           </div>
@@ -89,7 +89,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
               inputHelpTipsMap={configHelpTipsMap}
               onInputChange={setChangedTags}
             />
-            <div className="flexbox center-aligned margin-bottom-small margin-top">
+            <div className="flexbox align-items-center margin-bottom-small margin-top">
               <Button className="margin-right-small" disabled={!isFullyDefined} onClick={onSubmit} variant="contained">
                 Save
               </Button>

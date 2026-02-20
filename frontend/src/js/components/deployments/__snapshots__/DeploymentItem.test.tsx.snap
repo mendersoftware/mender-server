@@ -1,17 +1,19 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`DeploymentItem Component > renders correctly 1`] = `
-<div>
-  <span
-    class="deployment-item-title muted"
-  >
-    Release
-  </span>
-  <div
-    class="text-overflow "
-    title="test"
-  >
-    test
-  </div>
-</div>
+.emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+<p
+  class="MuiTypography-root MuiTypography-body2 text-overflow emotion-0"
+  title="test"
+>
+  test
+</p>
 `;

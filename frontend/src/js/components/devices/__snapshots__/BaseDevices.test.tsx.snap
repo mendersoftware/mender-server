@@ -111,8 +111,18 @@ exports[`smaller components > renders RejectedEmptyState correctly 1`] = `
 `;
 
 exports[`smaller components > renders RelativeDeviceTime correctly 1`] = `
+.emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
 <div>
   <time
+    class="MuiTypography-root MuiTypography-body2 emotion-0"
     datetime="2019-01-01"
   >
     12 days ago

@@ -1737,7 +1737,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                         for="password"
                       >
                         <div
-                          class="flexbox center-aligned"
+                          class="flexbox align-items-center"
                         >
                           Optional
                           <svg
@@ -1797,7 +1797,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                           >
                             <span>
                               <div
-                                class="flexbox center-aligned"
+                                class="flexbox align-items-center"
                               >
                                 Optional
                                 <svg
@@ -3764,7 +3764,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                         for="password"
                       >
                         <div
-                          class="flexbox center-aligned"
+                          class="flexbox align-items-center"
                         >
                           Optional
                           <svg
@@ -3824,7 +3824,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                           >
                             <span>
                               <div
-                                class="flexbox center-aligned"
+                                class="flexbox align-items-center"
                               >
                                 Optional
                                 <svg

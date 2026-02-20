@@ -165,10 +165,10 @@ exports[`EventDetailsDrawer Component > renders correctly 1`] = `
     class="flexbox margin-bottom-small space-between"
   >
     <div
-      class="flexbox center-aligned"
+      class="flexbox align-items-center"
     >
       <h3
-        class="capitalized-start flexbox center-aligned"
+        class="capitalized-start flexbox align-items-center"
       >
         <div
           class="capitalized-start"
@@ -178,7 +178,7 @@ exports[`EventDetailsDrawer Component > renders correctly 1`] = `
       </h3>
     </div>
     <div
-      class="flexbox center-aligned"
+      class="flexbox align-items-center relative"
     >
       <button
         aria-label="close"

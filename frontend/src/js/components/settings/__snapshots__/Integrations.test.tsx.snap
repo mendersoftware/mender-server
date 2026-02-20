@@ -683,7 +683,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     </div>
   </div>
   <p
-    class="emotion-11 icon flexbox center-aligned emotion-12 margin-bottom emotion-0"
+    class="emotion-11 icon flexbox align-items-center emotion-12 margin-bottom emotion-0"
   >
     <svg
       aria-hidden="true"
@@ -912,7 +912,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     </div>
   </div>
   <p
-    class="emotion-11 icon flexbox center-aligned emotion-12 margin-bottom emotion-0"
+    class="emotion-11 icon flexbox align-items-center emotion-12 margin-bottom emotion-0"
   >
     <svg
       aria-hidden="true"
@@ -928,7 +928,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     For help finding your AWS IoT Core connection string, check the AWS IoT documentation.
   </p>
   <p
-    class="emotion-11 icon flexbox center-aligned emotion-12 "
+    class="emotion-11 icon flexbox align-items-center emotion-12 "
   >
     <svg
       aria-hidden="true"

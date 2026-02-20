@@ -1193,7 +1193,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-
           Already have an account?
         </div>
         <a
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
           data-discover="true"
           href="/login"
         >

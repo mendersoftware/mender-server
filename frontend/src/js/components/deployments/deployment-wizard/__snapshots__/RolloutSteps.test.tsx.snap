@@ -405,7 +405,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
           </span>
         </div>
         <div
-          class="flexbox column center-aligned emotion-2"
+          class="flexbox column align-items-center emotion-2"
         >
           <div
             class="flexbox centered emotion-3"
@@ -462,7 +462,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
           </span>
         </div>
         <div
-          class="flexbox column center-aligned emotion-2"
+          class="flexbox column align-items-center emotion-2"
         >
           <div
             class="flexbox centered emotion-3"
@@ -520,7 +520,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
           </span>
         </div>
         <div
-          class="flexbox column center-aligned emotion-2"
+          class="flexbox column align-items-center emotion-2"
         >
           <div
             class="flexbox centered emotion-3"
@@ -1003,7 +1003,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
           </span>
         </div>
         <div
-          class="flexbox column center-aligned emotion-2"
+          class="flexbox column align-items-center emotion-2"
         >
           <div
             class="flexbox centered emotion-3"
@@ -1060,7 +1060,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
           </span>
         </div>
         <div
-          class="flexbox column center-aligned emotion-2"
+          class="flexbox column align-items-center emotion-2"
         >
           <div
             class="flexbox centered emotion-3"
@@ -1118,7 +1118,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
           </span>
         </div>
         <div
-          class="flexbox column center-aligned emotion-2"
+          class="flexbox column align-items-center emotion-2"
         >
           <div
             class="flexbox centered emotion-3"

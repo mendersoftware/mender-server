@@ -45,7 +45,7 @@ const TrialNotification = ({ sectionClassName, expiration }) => {
   const daysLeft = Math.floor(duration.asDays());
   return (
     <div className={`flexbox centered ${sectionClassName}`}>
-      <MenderTooltipClickable className="flexbox center-aligned margin-right-small" disableHoverListener={false} title={<TrialInformation />}>
+      <MenderTooltipClickable className="flexbox align-items-center margin-right-small" disableHoverListener={false} title={<TrialInformation />}>
         <Chip className="clickable" component={Link} label="Trial plan" size="small" to="/subscription" variant="outlined" />
       </MenderTooltipClickable>
 

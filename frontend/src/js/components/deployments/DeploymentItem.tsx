@@ -14,138 +14,262 @@
 import { useState } from 'react';
 
 // material ui
-import { CancelOutlined as CancelOutlinedIcon } from '@mui/icons-material';
-import { Button, IconButton, Tooltip } from '@mui/material';
+import { Cancel as CancelIcon } from '@mui/icons-material';
+import { Button, IconButton, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_STATES, DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
+import type { IdAttribute } from '@northern.tech/store/constants';
+import type { Deployment } from '@northern.tech/store/deploymentsSlice';
+import type { Device } from '@northern.tech/store/devicesSlice';
 import { useDeploymentDevice } from '@northern.tech/store/useDeploymentDevice';
-import { getDeploymentState } from '@northern.tech/store/utils';
 
 import DeploymentStats from './DeploymentStatus';
-import ProgressDisplay, { DeploymentStatusNotification } from './ProgressChart';
-import { PhaseProgressDisplay } from './deployment-report/PhaseProgress';
+import type { ColumnHeader } from './DeploymentsList';
 import { getDeploymentTargetText } from './deployment-wizard/SoftwareDevices';
+import { DeploymentProgress } from './progress/DeploymentProgress';
 
-export const deploymentTypeClasses = {
-  [DEPLOYMENT_STATES.finished]: 'past-item',
-  [DEPLOYMENT_STATES.pending]: 'pending-item',
-  [DEPLOYMENT_STATES.inprogress]: 'progress-item',
-  [DEPLOYMENT_STATES.scheduled]: 'scheduled-item'
-};
+interface ColumnComponentProps {
+  className: string;
+  deployment: Deployment;
+  devicesById: Record<string, unknown>;
+  direction: string;
+  idAttribute: IdAttribute | string;
+  started: string;
+  wrappingClass: string;
+}
 
-export const DeploymentDeviceCount = ({ className, deployment }) => (
-  <div className={className} key="DeploymentDeviceCount">
+export const DeploymentDeviceCount = ({ className, deployment }: Pick<ColumnComponentProps, 'className' | 'deployment'>) => (
+  <Typography variant="body2" className={className} key="DeploymentDeviceCount">
     {Math.max(deployment.device_count || 0, deployment.max_devices || 0)}
-  </div>
+  </Typography>
 );
-export const DeploymentDeviceGroup = ({ deployment, devicesById, idAttribute, wrappingClass }) => {
+export const DeploymentDeviceGroup = ({ deployment, devicesById, idAttribute, wrappingClass }: Partial<ColumnComponentProps>) => {
   const deploymentName = getDeploymentTargetText({ deployment, devicesById, idAttribute });
   return (
-    <div className={wrappingClass} key="DeploymentDeviceGroup" title={deploymentName}>
+    <Typography variant="body2" className={wrappingClass} key="DeploymentDeviceGroup" title={deploymentName}>
       {deploymentName}
-    </div>
+    </Typography>
   );
 };
-export const DeploymentEndTime = ({ deployment }) => <RelativeTime key="DeploymentEndTime" updateTime={deployment.finished} shouldCount="none" />;
-export const DeploymentPhases = ({ deployment }) => <div key="DeploymentPhases">{deployment.phases ? deployment.phases.length : '-'}</div>;
-export const DeploymentProgress = ({ deployment, minimal = false }) => {
-  const { phases = [], update_control_map } = deployment;
-  const status = getDeploymentState(deployment);
-  if (status === 'queued') {
-    return <DeploymentStatusNotification status={status} />;
-  } else if (phases.length > 1 || !update_control_map) {
-    return <ProgressDisplay key="DeploymentProgress" deployment={deployment} status={status} minimal={minimal} />;
-  }
-  return <PhaseProgressDisplay key="DeploymentProgress" deployment={deployment} status={status} minimal={minimal} />;
-};
-export const DeploymentRelease = ({ deployment: { artifact_name, type = DEPLOYMENT_TYPES.software }, wrappingClass }) => {
+export const DeploymentEndTime = ({ className, deployment }: Pick<ColumnComponentProps, 'className' | 'deployment'>) => (
+  <RelativeTime className={className} key="DeploymentEndTime" updateTime={deployment.finished} shouldCount="none" />
+);
+export const DeploymentPhases = ({ className, deployment }: Pick<ColumnComponentProps, 'className' | 'deployment'>) => (
+  <Typography variant="body2" className={className} key="DeploymentPhases">
+    {deployment.phases ? deployment.phases.length : '-'}
+  </Typography>
+);
+export const DeploymentStatus = ({ deployment }: Pick<ColumnComponentProps, 'deployment'>) => (
+  <DeploymentStats key="DeploymentStatus" deployment={deployment} />
+);
+export const DeploymentRelease = ({
+  deployment: { artifact_name, type = DEPLOYMENT_TYPES.software },
+  wrappingClass
+}: Pick<ColumnComponentProps, 'deployment' | 'wrappingClass'>) => {
   const deploymentRelease = type === DEPLOYMENT_TYPES.configuration ? type : artifact_name;
   return (
-    <div className={wrappingClass} key="DeploymentRelease" title={deploymentRelease}>
+    <Typography variant="body2" className={wrappingClass} key="DeploymentRelease" title={deploymentRelease}>
       {deploymentRelease}
-    </div>
+    </Typography>
   );
 };
-export const DeploymentStartTime = ({ direction = 'both', started }) => <RelativeTime key="DeploymentStartTime" updateTime={started} shouldCount={direction} />;
+export const DeploymentStartTime = ({ className, direction = 'both', started }: Pick<ColumnComponentProps, 'className' | 'direction' | 'started'>) => (
+  <RelativeTime className={className} key="DeploymentStartTime" updateTime={started} shouldCount={direction} />
+);
 
-export const DeploymentStatus = ({ deployment }) => <DeploymentStats key="DeploymentStatus" deployment={deployment} />;
-
-export const DeploymentSize = ({ deployment: { statistics } }) => (
-  <div className="align-right">{statistics.total_size ? <FileSize fileSize={statistics.total_size} /> : '-'}</div>
+export const DeploymentSize = ({ deployment: { statistics } }: Pick<ColumnComponentProps, 'deployment'>) => (
+  <Typography variant="body2" className="align-right" component="div">
+    {statistics.total_size ? <FileSize fileSize={statistics.total_size} /> : '-'}
+  </Typography>
 );
 
 const useStyles = makeStyles()(theme => ({
-  detailsButton: {
-    backgroundColor: 'transparent',
-    color: theme.palette.text.primary,
-    justifySelf: 'center',
-    textTransform: 'none',
-    [`&:hover`]: {
-      backgroundColor: 'transparent',
-      color: theme.palette.text.primary
-    }
-  },
+  centered: { display: 'grid', placeSelf: 'center' },
+  compactConfirm: { marginTop: theme.spacing(-2), marginLeft: theme.spacing(-2) },
+  compactProgress: { minWidth: 270 },
   textWrapping: { whiteSpace: 'initial' }
 }));
+
+interface DeploymentItemCommonProps {
+  canConfigure?: boolean;
+  canDeploy?: boolean;
+  className?: string;
+  columnHeaders: ColumnHeader[];
+  deployment: Deployment;
+  devices: Record<string, Device>;
+  idAttribute?: IdAttribute | string;
+  openReport: (type: string, id: string) => void;
+  type: string;
+}
+
+export interface DeploymentItemProps extends DeploymentItemCommonProps {
+  abort?: (id: string) => void;
+  isCompact?: boolean;
+  isEnterprise?: boolean;
+}
+
+interface DeploymentItemCompactProps extends DeploymentItemCommonProps {
+  abort: string | null;
+  abortDeployment: (id: string) => void;
+  started: string;
+  toggleConfirm: (id: string) => void;
+  wrappingClass: string;
+}
+
+export const DeploymentItemCompact = ({
+  abortDeployment,
+  abort,
+  canConfigure,
+  canDeploy,
+  className = '',
+  columnHeaders,
+  deployment,
+  devices,
+  idAttribute,
+  openReport,
+  started,
+  toggleConfirm,
+  type,
+  wrappingClass
+}: DeploymentItemCompactProps) => {
+  useDeploymentDevice(deployment.name);
+
+  const { classes } = useStyles();
+
+  const { id } = deployment;
+
+  let confirmation;
+  if (abort === id) {
+    confirmation = <Confirm classes={classes.compactConfirm} cancel={() => toggleConfirm(id)} action={() => abortDeployment(id)} type="abort" />;
+  }
+
+  // Find the progress column to render it separately
+  const { renderer: ProgressColumn, props: progressProps, title: progressTitle } = columnHeaders.find(col => col.renderer === DeploymentProgress) || {};
+  const otherColumns = columnHeaders.filter(col => col.renderer !== DeploymentProgress);
+
+  const deploymentInfo = otherColumns.reduce((accu, column) => {
+    const ColumnComponent = column.renderer;
+    accu[column.title] = (
+      <ColumnComponent
+        className={column.class || ''}
+        idAttribute={idAttribute}
+        deployment={deployment}
+        devicesById={devices}
+        started={started}
+        wrappingClass={wrappingClass}
+        {...column.props}
+      />
+    );
+    return accu;
+  }, {});
+  if (ProgressColumn) {
+    deploymentInfo[progressTitle] = (
+      <div className={classes.compactProgress}>
+        <ProgressColumn deployment={deployment} {...progressProps} />
+      </div>
+    );
+  }
+  deploymentInfo[''] = (
+    <Button onClick={() => openReport(type, deployment.id)} variant="outlined" size="small">
+      View details
+    </Button>
+  );
+  if ((canDeploy || (canConfigure && deployment.type === DEPLOYMENT_TYPES.configuration)) && type !== DEPLOYMENT_STATES.finished) {
+    deploymentInfo[' '] = (
+      <Tooltip title="Abort" placement="top-start">
+        <IconButton onClick={() => toggleConfirm(id)} size="small">
+          <CancelIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+    );
+  }
+
+  return (
+    <div className={`padding-small relative ${className}`} role="listitem">
+      {!!confirmation && confirmation}
+      <TwoColumnData data={deploymentInfo} />
+    </div>
+  );
+};
 
 export const DeploymentItem = ({
   abort: abortDeployment,
   canConfigure,
   canDeploy,
+  className = '',
   columnHeaders,
   deployment,
   devices,
   idAttribute,
+  isCompact,
   isEnterprise,
   openReport,
   type
-}) => {
+}: DeploymentItemProps) => {
   const [abort, setAbort] = useState(null);
   useDeploymentDevice(deployment.name);
 
   const { classes } = useStyles();
 
-  const toggleConfirm = id => setTimeout(() => setAbort(abort ? null : id), 150);
+  const toggleConfirm = id => setTimeout(() => setAbort(current => (current ? null : id)), 150);
 
   const { created, id, phases } = deployment;
 
   let confirmation;
   if (abort === id) {
-    confirmation = <Confirm classes="flexbox centered confirmation-overlay" cancel={() => toggleConfirm(id)} action={() => abortDeployment(id)} type="abort" />;
+    confirmation = <Confirm cancel={() => toggleConfirm(id)} action={() => abortDeployment(id)} type="abort" />;
   }
   const started = isEnterprise && phases?.length >= 1 ? phases[0].start_ts || created : created;
   const wrappingClass = `text-overflow ${type === DEPLOYMENT_STATES.inprogress ? classes.textWrapping : ''}`;
+
+  if (isCompact) {
+    return (
+      <DeploymentItemCompact
+        abort={abort}
+        abortDeployment={abortDeployment}
+        canConfigure={canConfigure}
+        canDeploy={canDeploy}
+        className={className}
+        columnHeaders={columnHeaders}
+        deployment={deployment}
+        devices={devices}
+        key={deployment.id}
+        idAttribute={idAttribute}
+        openReport={openReport}
+        started={started}
+        toggleConfirm={toggleConfirm}
+        type={type}
+        wrappingClass={wrappingClass}
+      />
+    );
+  }
   return (
-    <div className={`deployment-item ${deploymentTypeClasses[type]}`}>
+    <div className={`padding-small relative ${className}`} role="listitem">
       {!!confirmation && confirmation}
-      {columnHeaders.map((column, i) => {
-        const ColumnComponent = column.renderer;
-        return (
-          <div className={column.class} key={`deploy-item-${i}`}>
-            {column.title && <span className="deployment-item-title muted">{column.title}</span>}
-            <ColumnComponent
-              className={column.class || ''}
-              idAttribute={idAttribute}
-              deployment={deployment}
-              devicesById={devices}
-              started={started}
-              wrappingClass={wrappingClass}
-              {...column.props}
-            />
-          </div>
-        );
-      })}
-      <Button className={classes.detailsButton} variant="contained" onClick={() => openReport(type, deployment.id)}>
+      {columnHeaders.map(({ renderer: ColumnComponent, class: columnClass = '', props }, i) => (
+        <ColumnComponent
+          key={`deploy-item-${i}`}
+          className={columnClass}
+          idAttribute={idAttribute}
+          deployment={deployment}
+          devicesById={devices}
+          started={started}
+          wrappingClass={wrappingClass}
+          {...props}
+        />
+      ))}
+      <Button className={`nowrap ${classes.centered}`} onClick={() => openReport(type, deployment.id)} variant="outlined">
         View details
       </Button>
       {(canDeploy || (canConfigure && deployment.type === DEPLOYMENT_TYPES.configuration)) && type !== DEPLOYMENT_STATES.finished && (
-        <Tooltip className="columnHeader" title="Abort" placement="top-start">
-          <IconButton onClick={() => toggleConfirm(id)} size="large">
-            <CancelOutlinedIcon className="cancelButton muted" />
+        <Tooltip title="Abort" placement="top-start">
+          <IconButton className={classes.centered} onClick={() => toggleConfirm(id)} size="small">
+            <CancelIcon fontSize="small" />
           </IconButton>
         </Tooltip>
       )}

@@ -121,7 +121,7 @@ export const SelfUserManagement = () => {
         </Alert>
       )}
       {!needsVerification && showNotice && (
-        <Alert className="flexbox center-aligned margin-bottom-small" severity="success" onClose={() => setShowNotice('')}>
+        <Alert className="flexbox align-items-center margin-bottom-small" severity="success" onClose={() => setShowNotice('')}>
           <Typography>{showNotice}</Typography>
         </Alert>
       )}
@@ -130,7 +130,7 @@ export const SelfUserManagement = () => {
       {!editEmail && email ? (
         <>
           <div className="flexbox space-between margin-bottom-small">
-            <div className="flexbox center-aligned">
+            <div className="flexbox align-items-center">
               <TextField className={classes.formField} label="Email" key={email} disabled defaultValue={email} />
               <Chip
                 size="small"
@@ -218,7 +218,7 @@ export const SelfUserManagement = () => {
             textClasses={{ secondary: 'inventory-text tenant-token-text' }}
           />
         </div>
-        <div className="flexbox center-aligned">
+        <div className="flexbox align-items-center">
           <CopyTextToClipboard token={token} />
         </div>
       </div>

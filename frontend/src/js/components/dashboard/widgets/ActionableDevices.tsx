@@ -129,7 +129,7 @@ export const ActionableDevices = props => {
         const length = `${value}`.length;
         const counterStyle = length > 2 ? { fontSize: `calc(5vh / ${Math.max(1, length - 1)}.25)` } : {};
         return (
-          <Link key={type.key} className={`flexbox center-aligned column ${classes.issueType} ${value ? 'red' : 'green'}`} to={type.target}>
+          <Link key={type.key} className={`flexbox align-items-center column ${classes.issueType} ${value ? 'red' : 'green'}`} to={type.target}>
             <div className={`relative ${classes.issueContainer}`}>
               <div className={classes.issueCounter} style={counterStyle}>
                 {value}

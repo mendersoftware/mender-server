@@ -1,4 +1,4 @@
-// Copyright 2021 Northern.tech AS
+// Copyright 2025 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -13,26 +13,19 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { vi } from 'vitest';
 
-import { PhaseProgress, PhaseProgressDisplay } from './PhaseProgress';
+import { SubstateProgressBar } from './SubstateProgressBar';
 
-describe('PhaseProgress Component', () => {
+describe('SubstateProgressBar Component', () => {
   const deployment = defaultState.deployments.byId.d1;
+  const onAbort = vi.fn();
+  const onUpdateControlChange = vi.fn();
 
   it('renders correctly', async () => {
-    const { baseElement } = render(<PhaseProgress deployment={deployment} />);
-    const view = baseElement.firstChild;
-    expect(view).toMatchSnapshot();
-    expect(view).toEqual(expect.not.stringMatching(undefineds));
-  });
-  it('renders correctly for list usage', async () => {
-    const { baseElement } = render(<PhaseProgressDisplay deployment={deployment} status="inprogress" />);
-    const view = baseElement.firstChild;
-    expect(view).toMatchSnapshot();
-    expect(view).toEqual(expect.not.stringMatching(undefineds));
-  });
-  it('renders correctly for phased usage', async () => {
-    const { baseElement } = render(<PhaseProgressDisplay deployment={defaultState.deployments.byId.d3} status="inprogress" />);
+    const { baseElement } = render(
+      <SubstateProgressBar deployment={deployment} onAbort={onAbort} onUpdateControlChange={onUpdateControlChange} />
+    );
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

@@ -483,7 +483,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
       class="margin-left-small"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <h6
           class="MuiTypography-root MuiTypography-h6 margin-right emotion-0"
@@ -491,14 +491,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
           All devices
         </h6>
         <div
-          class="flexbox space-between center-aligned"
+          class="flexbox space-between align-items-center"
           style="flex-grow: 1;"
         >
           <div
-            class="flexbox center-aligned"
+            class="flexbox align-items-center"
           >
             <div
-              class="flexbox center-aligned"
+              class="flexbox align-items-center"
             >
               Status:
               <div
@@ -552,7 +552,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
         </div>
       </div>
       <div
-        class="flexbox center-aligned space-between margin-top margin-bottom-x-small"
+        class="flexbox align-items-center space-between margin-top margin-bottom-x-small"
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-text MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-color MuiButton-root MuiButton-text MuiButton-text MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-color flexbox emotion-7"

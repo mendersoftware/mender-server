@@ -74,7 +74,7 @@ const OrgDataContent = ({
       {!emailVerified && <TextInput hint="Email *" label="Email *" id="email" required validations="isLength:1,isEmail,trim" />}
       <div className={classes.locationSelect}>
         <Typography variant="subtitle1">Hosting region</Typography>
-        <div className="flexbox center-aligned slightly-smaller margin-bottom-x-small">
+        <div className="flexbox align-items-center slightly-smaller margin-bottom-x-small">
           <Typography variant="body2" className="margin-bottom-none margin-top-none margin-right-x-small">
             Choose a hosting region for your account.{' '}
             <DocsLink
@@ -95,7 +95,7 @@ const OrgDataContent = ({
               renderValue={selected => {
                 const { icon: Icon, title } = locationMap[selected];
                 return (
-                  <div className="flexbox center-aligned">
+                  <div className="flexbox align-items-center">
                     {title} <Icon className={classes.locationIcon} />
                   </div>
                 );

@@ -86,13 +86,13 @@ exports[`FileTransfer Component > renders correctly 1`] = `
         Device ID
       </h6>
       <div
-        class="flexbox center-aligned  emotion-2"
+        class="flexbox align-items-center  emotion-2"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-3"
         >
           <a
-            class="flexbox center-aligned emotion-4"
+            class="flexbox align-items-center emotion-4"
             data-discover="true"
             href="/devices?id=a1"
           >
@@ -125,7 +125,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
         Device type
       </h6>
       <div
-        class="flexbox center-aligned  emotion-2"
+        class="flexbox align-items-center  emotion-2"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -141,7 +141,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
         Operating system version
       </h6>
       <div
-        class="flexbox center-aligned  emotion-2"
+        class="flexbox align-items-center  emotion-2"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -157,7 +157,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
          
       </h6>
       <div
-        class="flexbox center-aligned  emotion-2"
+        class="flexbox align-items-center  emotion-2"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -191,7 +191,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
         Path
       </h6>
       <div
-        class="flexbox center-aligned  emotion-2"
+        class="flexbox align-items-center  emotion-2"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -207,7 +207,7 @@ exports[`FileTransfer Component > renders correctly 1`] = `
         User
       </h6>
       <div
-        class="flexbox center-aligned  emotion-2"
+        class="flexbox align-items-center  emotion-2"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-3"

@@ -153,7 +153,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   class="flexbox centered "
 >
   <div
-    class="flexbox center-aligned margin-right-small"
+    class="flexbox align-items-center margin-right-small"
     data-mui-internal-clone-element="true"
   >
     <a
@@ -324,7 +324,7 @@ exports[`DeviceNotifications Component > renders correctly with an expiration da
   class="flexbox centered "
 >
   <div
-    class="flexbox center-aligned margin-right-small"
+    class="flexbox align-items-center margin-right-small"
     data-mui-internal-clone-element="true"
   >
     <a

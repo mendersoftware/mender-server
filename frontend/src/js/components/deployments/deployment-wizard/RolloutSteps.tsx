@@ -112,7 +112,7 @@ export const RolloutStepConnector = ({ disabled, step, onStepChange, release = {
     );
 
   return (
-    <div className={`flexbox column center-aligned ${classes.connectorWrapper}`}>
+    <div className={`flexbox column align-items-center ${classes.connectorWrapper}`}>
       <div className={`flexbox centered ${classes.connectorArrowWrapper}`}>
         <div className={classes.connector} />
         <ArrowRightIcon fontSize="small" />

@@ -112,7 +112,7 @@ export const SSOConfig = ({ ssoItem, config, onCancel, onSave, setSnackbar, toke
 
   return (
     <>
-      <div className={`flexbox center-aligned ${classes.wrapper} ${hasSSOConfig ? 'has-sso' : ''}`}>
+      <div className={`flexbox align-items-center ${classes.wrapper} ${hasSSOConfig ? 'has-sso' : ''}`}>
         {hasSSOConfig ? (
           <a onClick={onOpenEditorClick}>View metadata in the text editor</a>
         ) : (

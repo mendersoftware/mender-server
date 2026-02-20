@@ -116,7 +116,7 @@ export const getDeploymentTargetText = ({ deployment, devicesById, idAttribute }
 };
 
 export const ReleasesWarning = ({ lacksReleases }) => (
-  <div className="flexbox center-aligned">
+  <div className="flexbox align-items-center">
     <ErrorOutlineIcon fontSize="small" style={{ marginRight: 4, top: 4, color: 'rgb(171, 16, 0)' }} />
     <InfoText>
       There are no {lacksReleases ? 'compatible ' : ''}artifacts available.{lacksReleases ? <br /> : ' '}

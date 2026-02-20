@@ -270,10 +270,6 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   font-size: 20px;
 }
 
-.emotion-20:after {
-  border-right: 20px solid;
-}
-
 <div
   class="report-container margin-top-large margin-bottom-large"
 >
@@ -288,7 +284,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
         Release
       </h6>
       <div
-        class="flexbox center-aligned  emotion-2"
+        class="flexbox align-items-center  emotion-2"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -323,7 +319,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
         Target device(s)
       </h6>
       <div
-        class="flexbox center-aligned  emotion-2"
+        class="flexbox align-items-center  emotion-2"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -367,7 +363,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
         Category
       </h6>
       <div
-        class="flexbox center-aligned  emotion-2"
+        class="flexbox align-items-center  emotion-2"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -383,7 +379,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
         Created at
       </h6>
       <div
-        class="flexbox center-aligned  emotion-2"
+        class="flexbox align-items-center  emotion-2"
       >
         <div
           class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -419,30 +415,6 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
         </svg>
       </span>
     </button>
-  </div>
-  <div />
-  <div
-    class="statusLarge flexbox center-aligned"
-  >
-    <img
-      src="/src/assets/img/largeFail.png"
-    />
-    <div
-      class="statusWrapper flexbox centered emotion-20"
-    >
-      <div
-        class="statusWrapperMessage"
-      >
-        <b
-          class="red"
-        >
-          0
-        </b>
-         
-        devices
-         updated successfully
-      </div>
-    </div>
   </div>
 </div>
 `;

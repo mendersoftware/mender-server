@@ -110,7 +110,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
       class="MuiAlert-message emotion-3"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         1
          
@@ -230,7 +230,7 @@ exports[`tiny components > renders DeviceOfflineHeaderNotification correctly 1`]
       class="MuiAlert-message emotion-3"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <div
           class="key muted margin-right-small"
@@ -342,7 +342,7 @@ exports[`tiny components > renders LastConnection correctly 1`] = `
       class="MuiAlert-message emotion-3"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         Device has not connected to the server since 
         <time
@@ -444,7 +444,7 @@ exports[`tiny components > renders NoAlertsHeaderNotification correctly 1`] = `
       class="MuiAlert-message emotion-3"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         No reported issues
       </div>
@@ -563,7 +563,7 @@ exports[`tiny components > renders ServiceNotification correctly 1`] = `
       class="MuiAlert-message emotion-3"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         2
          

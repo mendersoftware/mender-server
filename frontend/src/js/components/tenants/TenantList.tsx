@@ -40,7 +40,7 @@ export const DeviceLimitRender = (props: RendererProp<Tenant>) => {
   const attributeValue = item?.[column.attribute.name] ?? 0;
   const deviceCount = item?.device_count ?? 0;
   return (
-    <div className="flexbox center-aligned">
+    <div className="flexbox align-items-center">
       {deviceCount}/{attributeValue}
       {Number(deviceCount) / Number(attributeValue) > LIMIT_THRESHOLD && <WarningIcon className="margin-left-small" fontSize="small" />}
     </div>

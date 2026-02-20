@@ -48,7 +48,7 @@ export const ForceDeploy = ({ deploymentObject, setDeploymentSettings }) => {
         className={classes.heading}
         control={<Checkbox color="primary" checked={forceDeploy} onChange={() => setForceDeploy(toggle)} size="small" />}
         label={
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             <b className="margin-right-small">Force update</b> (optional)
             <MenderHelpTooltip
               id={HELPTOOLTIPS.forceDeployment.id}
@@ -84,7 +84,7 @@ export const RolloutOptions = ({ deploymentObject, isEnterprise, setDeploymentSe
         className={classes.heading}
         control={<Checkbox color="primary" checked={isPaused} disabled={!isEnterprise} onChange={onIsPausedClick} size="small" />}
         label={
-          <div className="flexbox center-aligned">
+          <div className="flexbox align-items-center">
             <b className="margin-right-small">Add pauses between update steps</b> (optional)
             <InfoHintContainer>
               <EnterpriseNotification id={BENEFITS.pausedDeployments.id} />
@@ -137,7 +137,7 @@ export const Retries = ({
 
   return (
     <>
-      <div className="flexbox center-aligned margin-top-small margin-bottom-small">
+      <div className="flexbox align-items-center margin-top-small margin-bottom-small">
         <b className={canRetry ? '' : commonClasses.disabled}>Select the number of times each device will attempt to apply the update</b>
         <InfoHintContainer>
           <EnterpriseNotification id={BENEFITS.retryDeployments.id} />

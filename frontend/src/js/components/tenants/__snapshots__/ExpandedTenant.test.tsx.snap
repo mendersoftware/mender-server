@@ -547,10 +547,10 @@ exports[`ExpandedTenant > renders correctly 1`] = `
         class="flexbox margin-bottom-small space-between"
       >
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <h3
-            class="capitalized-start flexbox center-aligned"
+            class="capitalized-start flexbox align-items-center"
           >
             Tenant Information for child2
           </h3>
@@ -575,7 +575,7 @@ exports[`ExpandedTenant > renders correctly 1`] = `
           </button>
         </div>
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center relative"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-5"
@@ -620,7 +620,7 @@ exports[`ExpandedTenant > renders correctly 1`] = `
             name
           </h6>
           <div
-            class="flexbox center-aligned copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-12"
           >
             <div
               class="MuiTypography-root MuiTypography-body2 clickable emotion-13"
@@ -649,7 +649,7 @@ exports[`ExpandedTenant > renders correctly 1`] = `
             ID
           </h6>
           <div
-            class="flexbox center-aligned copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-12"
           >
             <div
               class="MuiTypography-root MuiTypography-body2 clickable emotion-13"
@@ -706,7 +706,7 @@ exports[`ExpandedTenant > renders correctly 1`] = `
           </span>
         </label>
         <div
-          class="flexbox center-aligned margin-top-small"
+          class="flexbox align-items-center margin-top-small"
         >
           <div
             class="emotion-24"

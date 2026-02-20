@@ -159,7 +159,7 @@ type EnhancedJobDetailsItem = DeltaJobDetailsItem &
 
 const PageLink = ({ area, target }) =>
   target ? (
-    <Link className="flexbox center-aligned" to={`/${area}/${encodeURIComponent(target)}`} target="_blank">
+    <Link className="flexbox align-items-center" to={`/${area}/${encodeURIComponent(target)}`} target="_blank">
       {target}
       <LaunchIcon className="margin-left-small link-color" fontSize="small" />
     </Link>

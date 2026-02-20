@@ -49,7 +49,7 @@ export const OrganizationPaymentSettings = (props: OrganizationPaymentSettingsPr
   return (
     <div className={className}>
       {!omitHeader && (
-        <div className="flexbox center-aligned margin-top">
+        <div className="flexbox align-items-center margin-top">
           <h5 className="margin-top-none margin-bottom-none margin-right-small">{updatingCard ? 'Edit payment card' : 'Payment card'}</h5>
           <Button onClick={() => setUpdatingCard(!updatingCard)}>{updatingCard ? 'cancel' : 'edit'}</Button>
         </div>

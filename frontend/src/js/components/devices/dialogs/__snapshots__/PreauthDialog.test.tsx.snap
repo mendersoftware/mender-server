@@ -993,7 +993,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
                 </button>
               </div>
               <div
-                class="flexbox center-aligned full-width emotion-21"
+                class="flexbox align-items-center full-width emotion-21"
               >
                 <div />
               </div>

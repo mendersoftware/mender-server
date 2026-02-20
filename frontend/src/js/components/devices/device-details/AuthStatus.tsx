@@ -78,9 +78,9 @@ export const AuthStatus = ({ decommission, device }) => {
   return (
     <DeviceDataCollapse
       title={
-        <div className="flexbox center-aligned">
+        <div className="flexbox align-items-center">
           <h4>Authentication status</h4>
-          <div className="flexbox center-aligned margin-left margin-right" ref={statusRef}>
+          <div className="flexbox align-items-center margin-left margin-right" ref={statusRef}>
             <div className="capitalized">{status}</div>
             {statusIcon}
           </div>

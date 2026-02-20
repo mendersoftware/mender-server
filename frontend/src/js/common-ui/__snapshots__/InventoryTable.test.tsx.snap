@@ -333,7 +333,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
         class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold emotion-11"
       >
         <div
-          class="flexbox center-aligned copy-to-clipboard emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 bold emotion-13"
@@ -360,7 +360,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
         class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-15"
       >
         <div
-          class="flexbox center-aligned copy-to-clipboard emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -391,7 +391,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
         class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold emotion-11"
       >
         <div
-          class="flexbox center-aligned copy-to-clipboard emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 bold emotion-13"
@@ -418,7 +418,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
         class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-15"
       >
         <div
-          class="flexbox center-aligned copy-to-clipboard emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -449,7 +449,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
         class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold emotion-11"
       >
         <div
-          class="flexbox center-aligned copy-to-clipboard emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 bold emotion-13"
@@ -476,7 +476,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
         class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-15"
       >
         <div
-          class="flexbox center-aligned copy-to-clipboard emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"

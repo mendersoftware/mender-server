@@ -279,7 +279,7 @@ export const DeviceGroups = () => {
   }
   return (
     <>
-      <div className={`flexbox center-aligned tab-container with-sub-panels margin-bottom ${classes.container}`}>
+      <div className={`flexbox align-items-center tab-container with-sub-panels margin-bottom ${classes.container}`}>
         <Typography variant="h5">Devices</Typography>
         <span className={`margin-right ${classes.header}`}>
           {!!pendingCount && !selectedGroup && selectedState !== DEVICE_STATES.pending ? (

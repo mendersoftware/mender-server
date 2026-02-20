@@ -641,7 +641,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       Description
     </h6>
     <div
-      class="flexbox center-aligned  emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -709,13 +709,13 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       Signed
     </h6>
     <div
-      class="flexbox center-aligned  emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <svg
             aria-hidden="true"
@@ -755,7 +755,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       Software filesystem
     </h6>
     <div
-      class="flexbox center-aligned  emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -771,7 +771,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       Software name
     </h6>
     <div
-      class="flexbox center-aligned  emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -787,7 +787,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       Software version
     </h6>
     <div
-      class="flexbox center-aligned  emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -806,7 +806,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <button
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox center-aligned emotion-32"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox align-items-center emotion-32"
         tabindex="0"
         type="button"
       >
@@ -867,7 +867,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <button
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox center-aligned emotion-32"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox align-items-center emotion-32"
         tabindex="0"
         type="button"
       >
@@ -933,7 +933,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                     artifact_name
                   </h6>
                   <div
-                    class="flexbox center-aligned  emotion-2"
+                    class="flexbox align-items-center  emotion-2"
                   >
                     <div
                       class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -949,7 +949,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                     data-partition.myapp.version
                   </h6>
                   <div
-                    class="flexbox center-aligned  emotion-2"
+                    class="flexbox align-items-center  emotion-2"
                   >
                     <div
                       class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -965,7 +965,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                     list_of_fancy
                   </h6>
                   <div
-                    class="flexbox center-aligned  emotion-2"
+                    class="flexbox align-items-center  emotion-2"
                   >
                     <div
                       class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -1685,7 +1685,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       Description
     </h6>
     <div
-      class="flexbox center-aligned  emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -1753,13 +1753,13 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       Signed
     </h6>
     <div
-      class="flexbox center-aligned  emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
         <div
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
         >
           <svg
             aria-hidden="true"
@@ -1790,7 +1790,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     >
       <button
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox center-aligned emotion-20"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters flexbox align-items-center emotion-20"
         tabindex="0"
         type="button"
       >
@@ -1851,7 +1851,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     >
       <button
         aria-expanded="true"
-        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters flexbox center-aligned emotion-20"
+        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters flexbox align-items-center emotion-20"
         tabindex="0"
         type="button"
       >
@@ -1917,7 +1917,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
                     list_of_fancy
                   </h6>
                   <div
-                    class="flexbox center-aligned  emotion-2"
+                    class="flexbox align-items-center  emotion-2"
                   >
                     <div
                       class="MuiTypography-root MuiTypography-body2 emotion-3"

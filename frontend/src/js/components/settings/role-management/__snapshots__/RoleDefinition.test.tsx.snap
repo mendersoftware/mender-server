@@ -1208,16 +1208,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
       class="flexbox margin-bottom-small space-between"
     >
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center"
       >
         <h3
-          class="capitalized-start flexbox center-aligned"
+          class="capitalized-start flexbox align-items-center"
         >
           Add a role
         </h3>
       </div>
       <div
-        class="flexbox center-aligned"
+        class="flexbox align-items-center relative"
       >
         <button
           aria-label="close"
@@ -1339,11 +1339,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         Permissions
       </label>
       <div
-        class="two-columns center-aligned margin-left-small"
+        class="two-columns align-items-center margin-left-small"
         style="max-width: 500px;"
       >
         <div
-          class="flexbox center-aligned "
+          class="flexbox align-items-center "
         >
           User Management
           <svg
@@ -1420,11 +1420,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         </div>
       </div>
       <div
-        class="two-columns center-aligned margin-left-small"
+        class="two-columns align-items-center margin-left-small"
         style="max-width: 500px;"
       >
         <div
-          class="flexbox center-aligned "
+          class="flexbox align-items-center "
         >
           System Audit Log
           <svg
@@ -1501,7 +1501,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         </div>
       </div>
       <div
-        class="flexbox center-aligned margin-left-small margin-top-small"
+        class="flexbox align-items-center margin-left-small margin-top-small"
       >
         Release Management
         <svg
@@ -1522,7 +1522,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         class="margin-left-small emotion-42"
       >
         <div
-          class="two-columns center-aligned"
+          class="two-columns align-items-center"
           style="max-width: 500px;"
         >
           <div
@@ -1652,7 +1652,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         </div>
       </div>
       <div
-        class="flexbox center-aligned margin-left-small margin-top-small"
+        class="flexbox align-items-center margin-left-small margin-top-small"
       >
         Group Management
         <svg
@@ -1673,7 +1673,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         class="margin-left-small emotion-42"
       >
         <div
-          class="two-columns center-aligned"
+          class="two-columns align-items-center"
           style="max-width: 500px;"
         >
           <div

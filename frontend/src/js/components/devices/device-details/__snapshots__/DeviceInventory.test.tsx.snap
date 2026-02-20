@@ -270,7 +270,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   class="margin-bottom "
 >
   <div
-    class="flexbox space-between center-aligned"
+    class="flexbox space-between align-items-center"
   >
     <div
       class="flexbox"
@@ -365,7 +365,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-11"
         >
           <div
-            class="flexbox center-aligned copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-12"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 bold emotion-13"
@@ -392,7 +392,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-15"
         >
           <div
-            class="flexbox center-aligned copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-12"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -423,7 +423,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-11"
         >
           <div
-            class="flexbox center-aligned copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-12"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 bold emotion-13"
@@ -450,7 +450,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-15"
         >
           <div
-            class="flexbox center-aligned copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-12"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -481,7 +481,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-11"
         >
           <div
-            class="flexbox center-aligned copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-12"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 bold emotion-13"
@@ -508,7 +508,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-15"
         >
           <div
-            class="flexbox center-aligned copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-12"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 emotion-13"

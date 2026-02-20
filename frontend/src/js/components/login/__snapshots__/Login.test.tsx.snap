@@ -1290,7 +1290,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
       .
     </div>
     <a
-      class="flexbox center-aligned margin-left-small"
+      class="flexbox align-items-center margin-left-small"
       href="https://eu.hosted.mender.io/ui/"
     >
       Change to 
@@ -1666,7 +1666,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
           Don't have an account?
         </div>
         <a
-          class="flexbox center-aligned"
+          class="flexbox align-items-center"
           data-discover="true"
           href="/signup"
         >

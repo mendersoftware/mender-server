@@ -90,7 +90,7 @@ const entryText = {
 export const EntryLink = ({ className = '', target = 'signup' }) => (
   <div className={`margin-top margin-bottom flexbox centered ${className}`}>
     <div className="muted margin-right">{entryText[target].question}</div>
-    <Link className="flexbox center-aligned" to={entryText[target].target}>
+    <Link className="flexbox align-items-center" to={entryText[target].target}>
       {entryText[target].linkText} <ChevronRight fontSize="small" />
     </Link>
   </div>
@@ -108,7 +108,7 @@ export const LocationWarning = () => {
       <div className="margin-left-small">
         You are logging into the <b style={{ marginLeft: 4 }}>{title} server</b>.
       </div>
-      <a className="flexbox center-aligned margin-left-small" href={`https://${fallback.location}/ui/`}>
+      <a className="flexbox align-items-center margin-left-small" href={`https://${fallback.location}/ui/`}>
         Change to {fallback.title} <ChevronRight fontSize="small" />
       </a>
     </div>

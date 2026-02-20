@@ -353,7 +353,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   class="margin-bottom "
 >
   <div
-    class="flexbox space-between center-aligned"
+    class="flexbox space-between align-items-center"
   >
     <h4
       class="margin-bottom-small"
@@ -375,7 +375,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       Name
     </h6>
     <div
-      class="flexbox center-aligned copy-to-clipboard emotion-2"
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -450,7 +450,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       ID
     </h6>
     <div
-      class="flexbox center-aligned copy-to-clipboard emotion-2"
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -479,7 +479,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       mac
     </h6>
     <div
-      class="flexbox center-aligned copy-to-clipboard emotion-2"
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -508,7 +508,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       First request
     </h6>
     <div
-      class="flexbox center-aligned copy-to-clipboard emotion-2"
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -891,7 +891,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   class="margin-bottom "
 >
   <div
-    class="flexbox space-between center-aligned"
+    class="flexbox space-between align-items-center"
   >
     <h4
       class="margin-bottom-small"
@@ -913,7 +913,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       Name
     </h6>
     <div
-      class="flexbox center-aligned copy-to-clipboard emotion-2"
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -988,7 +988,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       ID
     </h6>
     <div
-      class="flexbox center-aligned copy-to-clipboard emotion-2"
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
