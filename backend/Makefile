@@ -22,6 +22,7 @@ REDOCLY := npx @redocly/cli@2.2.2
 COMBINED_SPEC := docs/api/dist/openapi.yaml
 OAPI_CLIENT := backend/pkg/api/client
 SPEC_FILES := $(shell find docs/api -name '*.yaml' -and -not -path 'docs/api/dist/*')
+OPENAPI_GENERATOR_VERSION := v7.20.0
 
 docs/api/dist/openapi.yaml: $(SPEC_FILES)
 	@echo "Regenerating combined OpenAPI spec..."
@@ -48,7 +49,7 @@ generate-openapi-spec: $(COMBINED_SPEC)
 generate-openapi-client: generate-openapi-spec
 	@echo "Regenerating OpenAPI client"
 	@rm -Rf "$(OAPI_CLIENT)"
-	@docker run -u $$(id -u):$$(id -g) --rm -v ${PWD}/backend:/backend openapitools/openapi-generator-cli:v7.20.0 generate -i /backend/"$(COMBINED_SPEC)" -g go -o /"$(OAPI_CLIENT)" --additional-properties=withGoMod=false --additional-properties=withTests=false --global-property=apiTests=false --global-property=modelTests=false
+	@docker run -u $$(id -u):$$(id -g) --rm -v ${PWD}/backend:/backend openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} generate -i /backend/"$(COMBINED_SPEC)" -g go -o /"$(OAPI_CLIENT)" --additional-properties=withGoMod=false --additional-properties=withTests=false --global-property=apiTests=false --global-property=modelTests=false
 	@echo "Generated $(OAPI_CLIENT)"
 
 tests/mender_client: $(COMBINED_SPEC)
@@ -56,7 +57,7 @@ tests/mender_client: $(COMBINED_SPEC)
 	docker run --rm -t -v $(MAKEDIR):/work -w /work \
 		--ulimit nofile=65536:65536 \
 		-u $(shell id -u):$(shell id -g) \
-		openapitools/openapi-generator-cli:v7.19.0 generate \
+		openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} generate \
 		-g python -i $< \
 		-c $(dir $@).openapi-generator.yaml \
 		-o $(dir $@)
