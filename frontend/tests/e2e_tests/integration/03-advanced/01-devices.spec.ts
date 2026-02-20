@@ -111,7 +111,7 @@ test.describe('Devices', () => {
     await expect(page.getByText(/Authorization sets/i)).toBeVisible();
     await page.click('[aria-label="close"]');
     await expect(page.getByText(/table options/i)).toBeVisible();
-    await page.getByText(/releases/i).click();
+    await page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Releases', exact: true }).click();
     await searchField.press('Enter');
     await expect(page.getByText(/device found/i)).toBeVisible();
   });

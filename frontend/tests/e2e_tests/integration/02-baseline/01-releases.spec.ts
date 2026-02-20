@@ -37,7 +37,7 @@ test.describe('Files', () => {
   });
   test.beforeEach(async ({ browserName, page }) => {
     navbar = page.locator('.leftFixed.leftNav');
-    await navbar.getByRole('link', { name: /Releases/i }).click({ force: browserName === 'webkit' });
+    await navbar.getByRole('link', { name: 'Releases', exact: true }).click({ force: browserName === 'webkit' });
   });
 
   test('allows file removal', async ({ page, environment }) => {
@@ -119,7 +119,7 @@ test.describe('Files', () => {
     await page.waitForTimeout(timeouts.oneSecond); // some extra time for the release to be tagged in the backend
     await page.keyboard.press('Escape');
     await page.reload();
-    await navbar.getByRole('link', { name: /Releases/i }).click({ force: browserName === 'webkit' });
+    await navbar.getByRole('link', { name: 'Releases', exact: true }).click({ force: browserName === 'webkit' });
     await expect(page.getByText(/customRelease/i)).toBeVisible();
   });
 

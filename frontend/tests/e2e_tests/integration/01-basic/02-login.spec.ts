@@ -90,7 +90,7 @@ test.describe('Login', () => {
     // confirm we have logged in successfully
     await isLoggedIn(page);
     await expect(page.getByText('Welcome back')).not.toBeVisible();
-    await page.getByText(/Releases/i).click();
+    await page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Releases', exact: true }).click();
     await context.storageState({ path: `storage/restart-test-storage.json` });
     let differentContext = await browser.newContext({ storageState: `storage/restart-test-storage.json` });
     differentContext = await prepareCookies(differentContext, domain, '');

@@ -14,7 +14,6 @@
 export const helpProps = {
   docsVersion: undefined,
   isHosted: false,
-  menderVersion: 'master',
   isEnterprise: true,
   tenantCapabilities: {
     hasDeviceConfig: true,
@@ -23,7 +22,6 @@ export const helpProps = {
   tokens: [],
   versions: {
     repos: {
-      mender: '3.3.0',
       'mender-artifact': '3.8.0',
       'mender-binary-delta': '1.3.1',
       'mender-cli': '1.8.0',

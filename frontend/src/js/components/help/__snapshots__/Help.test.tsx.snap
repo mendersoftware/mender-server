@@ -1055,7 +1055,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bdebian%2Bbookworm_armhf.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bdebian%2Bbookworm_armhf.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1089,7 +1089,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bdebian%2Bbookworm_arm64.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bdebian%2Bbookworm_arm64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1123,7 +1123,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bdebian%2Bbookworm_amd64.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bdebian%2Bbookworm_amd64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1157,7 +1157,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bdebian%2Btrixie_armhf.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bdebian%2Btrixie_armhf.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1191,7 +1191,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bdebian%2Btrixie_arm64.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bdebian%2Btrixie_arm64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1225,7 +1225,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bdebian%2Btrixie_amd64.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bdebian%2Btrixie_amd64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1259,7 +1259,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bubuntu%2Bjammy_armhf.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bubuntu%2Bjammy_armhf.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1293,7 +1293,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bubuntu%2Bjammy_arm64.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bubuntu%2Bjammy_arm64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1327,7 +1327,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bubuntu%2Bjammy_amd64.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bubuntu%2Bjammy_amd64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1361,7 +1361,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bubuntu%2Bnoble_armhf.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bubuntu%2Bnoble_armhf.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1395,7 +1395,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bubuntu%2Bnoble_arm64.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bubuntu%2Bnoble_arm64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1429,7 +1429,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_3.3.0-1%2Bubuntu%2Bnoble_amd64.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client_master-1%2Bubuntu%2Bnoble_amd64.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1468,7 +1468,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client-dev_3.3.0-1%2Bdebian%2Bbookworm_all.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client-dev_master-1%2Bdebian%2Bbookworm_all.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1502,7 +1502,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client-dev_3.3.0-1%2Bdebian%2Btrixie_all.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client-dev_master-1%2Bdebian%2Btrixie_all.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1536,7 +1536,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client-dev_3.3.0-1%2Bubuntu%2Bjammy_all.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client-dev_master-1%2Bubuntu%2Bjammy_all.deb"
                     viewBox="0 0 24 24"
                   >
                     <path
@@ -1570,7 +1570,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorDefault MuiChip-deleteIconOutlinedColorDefault emotion-7"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
-                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client-dev_3.3.0-1%2Bubuntu%2Bnoble_all.deb"
+                    value="https://downloads.mender.io/repos/debian/pool/main/m/mender-client/mender-client-dev_master-1%2Bubuntu%2Bnoble_all.deb"
                     viewBox="0 0 24 24"
                   >
                     <path

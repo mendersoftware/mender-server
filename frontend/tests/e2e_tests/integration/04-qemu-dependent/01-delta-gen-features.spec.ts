@@ -73,7 +73,7 @@ test.describe('Devices', () => {
     expect(fs.existsSync(extractedArtifactPath)).toBeTruthy();
     expect(fs.existsSync(modifiedArtifactPath)).toBeTruthy();
 
-    await navbar.getByRole('link', { name: /Releases/i }).click();
+    await navbar.getByRole('link', { name: 'Releases', exact: true }).click();
     const uploadButton = await page.getByRole('button', { name: /upload/i });
     await uploadButton.click();
     const drawer = page.locator(`.MuiDialog-paper`);
