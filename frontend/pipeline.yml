@@ -20,8 +20,22 @@ test:frontend:lint:
   script:
     - cd frontend
     - npm ci --cache .npm --prefer-offline
-    - cd tests/e2e_tests && npm ci && cd ../..
     - npm run lint
+
+test:frontend:prettier:
+  stage: test
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
+      when: never
+    - changes:
+        paths: [ 'frontend/**/*' ]
+        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
+  needs: [ ]
+  script:
+    - cd frontend
+    - npm ci --cache .npm --prefer-offline
+    - npm run format:check
 
 test:frontend:license-headers:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2

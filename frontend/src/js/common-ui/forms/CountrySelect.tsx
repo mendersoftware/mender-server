@@ -40,9 +40,7 @@ export const CountrySelect = (props: CountrySelectProps) => {
       options={countries}
       className={classes.autocomplete}
       autoHighlight
-      renderInput={params => (
-        <TextField {...params} error={error} helperText={helperText} label="Country or region" id={id || 'country'} />
-      )}
+      renderInput={params => <TextField {...params} error={error} helperText={helperText} label="Country or region" id={id || 'country'} />}
       onChange={(e, data) => onChange(data)}
       {...restProps}
       defaultValue={countries.find(country => country.code === defaultValue)}

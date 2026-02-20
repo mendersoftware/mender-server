@@ -26,7 +26,7 @@ import {
 import { Alert, Badge, Button, Divider, LinearProgress, Popover, Tooltip, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { getUserRoles, getDeviceLimitStats } from '@northern.tech/store/selectors';
+import { getDeviceLimitStats, getUserRoles } from '@northern.tech/store/selectors';
 import pluralize from 'pluralize';
 
 const useStyles = makeStyles()(theme => ({
@@ -152,7 +152,6 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
     handleClose();
     navigate('/devices/pending');
   };
-
 
   const severityMap = { 0: 'primary', 1: 'warning', 2: 'error' };
 
