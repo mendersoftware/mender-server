@@ -90,6 +90,10 @@ variables:
     value: "302.Release-information/03.Open-source-licenses/01.Mender-Server/docs.md"
 
 include:
+  - project: Northern.tech/Mender/mendertesting
+    file:
+      - qa-common/runner.yml
+      - qa-common/retry.yml
   - component: "gitlab.com/Northern.tech/Mender/mendertesting/commit-lint@master"
   - project: "Northern.tech/Mender/mendertesting"
     file:
@@ -113,13 +117,8 @@ stages:
   - deploy-staging
 
 default:
-  tags:
-    - k8s-small
-  retry:
-    max: 2
-    when:
-      - runner_system_failure
-      - stuck_or_timeout_failure
+  tags: !reference [.qa-common-default-runner, tags]
+  retry: !reference [.qa-common-default-retry, retry]
 
 .requires-docker: &requires-docker
   - DOCKER_RETRY_SLEEP_S=10 # wait longer for k8s workers
@@ -646,6 +645,7 @@ publish:backend:licenses:
   variables:
     GOFLAGS: -tags=nopkcs11
   before_script:
+    - !reference [.qa-common-network-go-retry, before_script]
     - go install github.com/google/go-licenses@v1.6.0
   script:
     - cd backend
@@ -676,6 +676,7 @@ publish:licenses:docs-site:
     - job: publish:frontend:licenses
       artifacts: true
   before_script:
+    - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
@@ -821,6 +822,7 @@ release:mender-docs-changelog:
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       allow_failure: true
   before_script:
+    - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
@@ -852,6 +854,7 @@ release:mender-docs-changelog:saas:
     - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
       when: never
   before_script:
+    - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
@@ -882,6 +885,7 @@ release:mender-docs-changelog:saas:
   variables:
     HELM_PATCH_VERSION: ${CI_PIPELINE_ID}
   before_script:
+    - !reference [.qa-common-network-git-clone-retry, before_script]
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
     - export DIGESTS_FOLDER=$(pwd)/.digests
