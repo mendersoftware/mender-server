@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
-import { DialogContent, Typography } from '@mui/material';
+import { Alert, DialogContent, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
@@ -40,6 +40,7 @@ import {
 import {
   addDynamicGroup,
   addStaticGroup,
+  getDynamicGroup,
   removeDevicesFromGroup,
   removeDynamicGroup,
   removeStaticGroup,
@@ -87,6 +88,7 @@ export const DeviceGroups = () => {
   const [openPreauth, setOpenPreauth] = useState(false);
   const [showMakeGateway, setShowMakeGateway] = useState(false);
   const [removeGroup, setRemoveGroup] = useState(false);
+  const [groupRemoved, setGroupRemoved] = useState('');
   const [tmpDevices, setTmpDevices] = useState([]);
   const deviceConnectionRef = useRef();
   const { status: statusParam } = useParams();
@@ -146,6 +148,21 @@ export const DeviceGroups = () => {
       isInitialized.current = false;
     }
   }, [shouldInitializeFromUrl, location.key]);
+
+  useEffect(() => {
+    if (!locationParams.groupId) {
+      return;
+    }
+    dispatch(getDynamicGroup(locationParams.groupId))
+      .unwrap()
+      .catch(error => {
+        if (error.message && error.message.includes('404')) {
+          // Remove group selection in case group is removed / modified
+          dispatch(selectGroup({ group: locationParams.groupId }));
+          setGroupRemoved(locationParams.groupName);
+        }
+      });
+  }, [locationParams.groupId, dispatch, locationParams.groupName]);
 
   useEffect(() => {
     if (!location.state?.internal && (isInitialized.current || !shouldInitializeFromUrl)) {
@@ -251,6 +268,7 @@ export const DeviceGroups = () => {
   };
 
   const onGroupSelect = groupName => {
+    setGroupRemoved('');
     dispatch(selectGroup({ group: groupName }));
     dispatch(setDeviceListState({ page: 1, refreshTrigger: !refreshTrigger, selection: [] }));
   };
@@ -282,8 +300,12 @@ export const DeviceGroups = () => {
       <div className={`flexbox align-items-center tab-container with-sub-panels margin-bottom ${classes.container}`}>
         <Typography variant="h5">Devices</Typography>
         <span className={`margin-right ${classes.header}`}>
-          {!!pendingCount && !selectedGroup && selectedState !== DEVICE_STATES.pending ? (
+          {!!pendingCount && !selectedGroup && selectedState !== DEVICE_STATES.pending && !groupRemoved ? (
             <DeviceStatusNotification deviceCount={pendingCount} state={DEVICE_STATES.pending} onClick={onShowDeviceStateClick} />
+          ) : groupRemoved ? (
+            <Alert severity="warning" className="margin-left-medium margin-right-medium">
+              Group <i>{groupRemoved}</i> was removed or changed
+            </Alert>
           ) : (
             <div />
           )}
@@ -312,6 +334,7 @@ export const DeviceGroups = () => {
         <div className="rightFluid relative" style={{ paddingTop: 0 }}>
           {limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedCount} deviceLimit={deviceLimit} />}
           <AuthorizedDevices
+            groupRemovedName={groupRemoved}
             changeLocation={changeLocation}
             addDevicesToGroup={addDevicesToGroup}
             onGroupClick={onGroupClick}
