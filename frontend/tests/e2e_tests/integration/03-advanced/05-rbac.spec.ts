@@ -152,10 +152,6 @@ test.describe('RBAC functionality', () => {
     }
   });
   test.describe('has working RBAC limitations for', () => {
-    let navbar;
-    test.beforeEach(async ({ page }) => {
-      navbar = page.locator('.leftFixed.leftNav');
-    });
     test('device groups', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-${username}` });
       const navigationButton = page.getByRole('link', { name: /devices/i });
@@ -169,7 +165,7 @@ test.describe('RBAC functionality', () => {
     });
     test('read-only all releases', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-ro-releases-${username}` });
-      const navigationButton = navbar.getByRole('link', { name: 'Releases', exact: true });
+      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Releases', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
       // there should be multiple releases present
@@ -182,7 +178,7 @@ test.describe('RBAC functionality', () => {
     });
     test('read-only tagged releases', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-ro-${releaseTag}-${username}` });
-      const navigationButton = navbar.getByRole('link', { name: 'Releases', exact: true });
+      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Releases', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
       // there should be only one release tagged with the releaseTag
@@ -193,7 +189,7 @@ test.describe('RBAC functionality', () => {
     });
     test('manage tagged releases', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-manage-${releaseTag}-${username}` });
-      const navigationButton = navbar.getByRole('link', { name: 'Releases', exact: true });
+      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Releases', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
       // there should be only one release tagged with the releaseTag
