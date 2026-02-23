@@ -193,7 +193,7 @@ test.describe('RBAC functionality', () => {
     });
     test('manage tagged releases', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-manage-${releaseTag}-${username}` });
-      const navigationButton = navbar('link', { name: 'Releases', exact: true });
+      const navigationButton = navbar.getByRole('link', { name: 'Releases', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
       // there should be only one release tagged with the releaseTag
