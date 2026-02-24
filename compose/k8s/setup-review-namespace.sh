@@ -174,6 +174,7 @@ helm repo update
 
 helm upgrade --install seaweedfs seaweedfs/seaweedfs \
     -n "${NAMESPACE}" \
+    --set nameOverride="seaweedfs-${NAMESPACE}" \
     --set master.replicas=1 \
     --set volume.replicas=1 \
     --set filer.enabled=true \
