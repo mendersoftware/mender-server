@@ -33,7 +33,7 @@ type RouteConfigs = Record<string, RouteConfig>;
 
 export const routeConfigs: RouteConfigs = {
   auditlog: { path: 'auditlog', element: <AuditLogs />, title: 'Audit log' },
-  dashboard: { path: '', element: <Dashboard />, title: 'Dashboard' },
+  dashboard: { path: '', element: <Dashboard />, title: 'Home Dashboard Demo' },
   deployments: { path: 'deployments', element: <Deployments />, title: 'Deployments' },
   devices: { path: 'devices', element: <Devices />, title: 'Devices' },
   help: { path: 'help', element: <Help />, title: 'Help & support' },
