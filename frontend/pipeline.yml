@@ -135,6 +135,8 @@ build:frontend:docker:
       when: always
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
+    - if: '$CI_COMMIT_REF_PROTECTED != "true" && $CI_PIPELINE_SOURCE == "push"'
+      when: always
   script:
     - cd frontend
     - if test -z "${DOCKER_PLATFORM}"; then

@@ -191,6 +191,8 @@ build:backend:docker:
       when: always
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: always
+    - if: '$CI_COMMIT_REF_PROTECTED != "true" && $CI_PIPELINE_SOURCE == "push"'
+      when: always
   script:
     # FIXME: Only exporting deployments build stage to run unit tests
     #        We're assuming the images have consistent GOTOOLCHAIN.
@@ -226,8 +228,9 @@ review:deploy:
       artifacts: false
   rules:
     # Only deploy review apps for non-protected branches (feature branches)
-    - if: '$CI_COMMIT_REF_PROTECTED != "true" && $CI_PIPELINE_SOURCE == "push"'
-      when: on_success
+    - if: '$CI_COMMIT_REF_PROTECTED != "true"'
+      when: manual
+      allow_failure: true
   id_tokens:
     GITLAB_OIDC_TOKEN:
       aud: https://gitlab.com
