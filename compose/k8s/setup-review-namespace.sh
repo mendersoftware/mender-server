@@ -110,10 +110,10 @@ fi
 log_info "Deploying SeaweedFS for artifact storage..."
 
 # Generate random access keys for SeaweedFS (like Vagrantfile does)
-ADMIN_KEY=$(pwgen -s 32 1)
-ADMIN_SECRET=$(pwgen -s 64 1)
-READ_KEY=$(pwgen -s 32 1)
-READ_SECRET=$(pwgen -s 64 1)
+ADMIN_KEY=$(openssl rand -hex 16)
+ADMIN_SECRET=$(openssl rand -hex 32)
+READ_KEY=$(openssl rand -hex 16)
+READ_SECRET=$(openssl rand -hex 32)
 
 # Create SeaweedFS S3 configuration
 SEAWEEDFS_CONFIG=$(cat <<EOF
