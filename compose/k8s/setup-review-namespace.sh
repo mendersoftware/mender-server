@@ -109,11 +109,17 @@ fi
 # Deploy SeaweedFS for S3-compatible artifact storage
 log_info "Deploying SeaweedFS for artifact storage..."
 
+# Derive the SeaweedFS S3 service hostname from the nameOverride used in the Helm chart.
+# The chart fullname template produces: {release}-{nameOverride} = seaweedfs-seaweedfs-{NAMESPACE}
+# The S3 service is then: {fullname}-s3.{NAMESPACE}.svc.cluster.local
+SEAWEEDFS_NAME_OVERRIDE="seaweedfs-${NAMESPACE}"
+SEAWEEDFS_S3_HOST="seaweedfs-${SEAWEEDFS_NAME_OVERRIDE}-s3.${NAMESPACE}.svc.cluster.local"
+
 # Generate random access keys for SeaweedFS (like Vagrantfile does)
-ADMIN_KEY=$(pwgen -s 32 1)
-ADMIN_SECRET=$(pwgen -s 64 1)
-READ_KEY=$(pwgen -s 32 1)
-READ_SECRET=$(pwgen -s 64 1)
+ADMIN_KEY=$(openssl rand -hex 16)
+ADMIN_SECRET=$(openssl rand -hex 32)
+READ_KEY=$(openssl rand -hex 16)
+READ_SECRET=$(openssl rand -hex 32)
 
 # Create SeaweedFS S3 configuration
 SEAWEEDFS_CONFIG=$(cat <<EOF
@@ -162,7 +168,7 @@ kubectl create secret generic mender-s3-artifacts \
     --from-literal=AWS_AUTH_SECRET="$ADMIN_SECRET" \
     --from-literal=AWS_BUCKET="mender-artifacts-storage-seaweedfs" \
     --from-literal=AWS_FORCE_PATH_STYLE="true" \
-    --from-literal=AWS_URI="http://seaweedfs-s3.${NAMESPACE}.svc.cluster.local:8333" \
+    --from-literal=AWS_URI="http://${SEAWEEDFS_S3_HOST}:8333" \
     --from-literal=AWS_REGION="us-east-1" \
     -n "${NAMESPACE}" \
     --dry-run=client -o yaml | kubectl apply -f -
@@ -174,6 +180,7 @@ helm repo update
 
 helm upgrade --install seaweedfs seaweedfs/seaweedfs \
     -n "${NAMESPACE}" \
+    --set nameOverride="${SEAWEEDFS_NAME_OVERRIDE}" \
     --set master.replicas=1 \
     --set volume.replicas=1 \
     --set filer.enabled=true \
