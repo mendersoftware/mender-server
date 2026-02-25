@@ -28,6 +28,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+	"github.com/mendersoftware/mender-server/pkg/rules"
 	inventory "github.com/mendersoftware/mender-server/services/inventory/inv"
 	"github.com/mendersoftware/mender-server/services/inventory/model"
 	"github.com/mendersoftware/mender-server/services/inventory/store"
@@ -99,7 +100,10 @@ type InventoryApiGroup struct {
 }
 
 func (g InventoryApiGroup) Validate() error {
-	return g.Group.Validate()
+	return validation.ValidateStruct(&g,
+		validation.Field(&g.Group,
+			validation.By(rules.DeviceGroupName)),
+	)
 }
 
 func (i *InternalAPI) LivelinessHandler(c *gin.Context) {
@@ -677,7 +681,7 @@ func (i *ManagementAPI) AppendDevicesToGroup(c *gin.Context) {
 	var deviceIDs []model.DeviceID
 	ctx := c.Request.Context()
 	groupName := model.GroupName(c.Param("name"))
-	if err := groupName.Validate(); err != nil {
+	if err := rules.DeviceGroupName(groupName); err != nil {
 		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
@@ -709,7 +713,7 @@ func (i *ManagementAPI) DeleteGroupHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	groupName := model.GroupName(c.Param("name"))
-	if err := groupName.Validate(); err != nil {
+	if err := rules.LegacyDeviceGroupName(groupName); err != nil {
 		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}
@@ -727,7 +731,7 @@ func (i *ManagementAPI) ClearDevicesGroupHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	groupName := model.GroupName(c.Param("name"))
-	if err := groupName.Validate(); err != nil {
+	if err := rules.LegacyDeviceGroupName(groupName); err != nil {
 		rest.RenderError(c, http.StatusBadRequest, err)
 		return
 	}

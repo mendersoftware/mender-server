@@ -18,6 +18,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -162,7 +163,7 @@ func TestHealthCheck(t *testing.T) {
 }
 
 func TestDeploymentModelCreateDeployment(t *testing.T) {
-
+	longStr := strings.Repeat("a", 257)
 	t.Parallel()
 
 	testCases := map[string]struct {
@@ -274,6 +275,15 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 			},
 
 			OutputError: ErrNoDevices,
+		},
+		"ko, name too long": {
+			InputConstructor: &model.DeploymentConstructor{
+				Name:         longStr,
+				ArtifactName: "App 123",
+				Devices:      []string{"b532b01a-9313-404f-8d19-e7fcbe5cc347"},
+			},
+
+			OutputError: errors.New("Validating deployment: name: the length must be no more than 256."),
 		},
 		"ko, with group, error while searching": {
 			InputConstructor: &model.DeploymentConstructor{
