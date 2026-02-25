@@ -124,7 +124,6 @@ func NewMongoTestInstance(path string) *MongoTestInstance {
 		"--dbpath", path,
 		"--bind_ip", "127.0.0.1",
 		"--port", strconv.Itoa(addr.Port),
-		"--nojournal",
 	}
 	var stdout, stderr bytes.Buffer
 	db.Process = exec.Command("mongod", args...)
