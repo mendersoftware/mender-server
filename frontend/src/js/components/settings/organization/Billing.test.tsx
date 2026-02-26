@@ -35,7 +35,7 @@ const preloadedState = {
           country: 'NO',
           city: 'test City',
           line1: 'Test address',
-          postal_code: '1234',
+          postal_code: '1234'
         },
         shipping: {
           name: 'Test account',
@@ -43,7 +43,7 @@ const preloadedState = {
             country: 'NO',
             city: 'test City',
             line1: 'Test address',
-            postal_code: '1234',
+            postal_code: '1234'
           }
         }
       }
@@ -62,7 +62,7 @@ const editProfileActionParams = {
       city: 'Oslo',
       country: 'PL',
       line1: 'Blindernveien',
-      postal_code: '5678',
+      postal_code: '5678'
     },
     email: 'ok@ok.ok',
     name: 'Test account'

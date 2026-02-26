@@ -23,9 +23,7 @@ describe('SubstateProgressBar Component', () => {
   const onUpdateControlChange = vi.fn();
 
   it('renders correctly', async () => {
-    const { baseElement } = render(
-      <SubstateProgressBar deployment={deployment} onAbort={onAbort} onUpdateControlChange={onUpdateControlChange} />
-    );
+    const { baseElement } = render(<SubstateProgressBar deployment={deployment} onAbort={onAbort} onUpdateControlChange={onUpdateControlChange} />);
     const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

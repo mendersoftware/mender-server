@@ -5,12 +5,13 @@ const globalsConfig = {
   ...globals.commonjs,
   ...globals.node,
   ...globals.vitest,
+  ...globals.denoBuiltin,
   mender_environment: 'readonly'
 };
 
 export default [
   ...reactConfig,
-  { ignores: ['node_modules/', 'dist/', 'tests/licenses', '.yalc/'] },
+  { ignores: ['node_modules/', 'dist/', '.yalc/'] },
   {
     languageOptions: { globals: globalsConfig },
     rules: {

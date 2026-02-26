@@ -77,6 +77,7 @@ const checkGeneratedLicenses = async (root: string = '.') => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { '_': _catcher, rootDir: passedRoot, ...flags } = parseArgs(Deno.args, { boolean: knownOptions.map(({ key }) => key), string: ['rootDir'] });
 
 await checkGeneratedLicenses(passedRoot);
