@@ -19,10 +19,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -65,8 +65,9 @@ func TestMigration_1_2_13(t *testing.T) {
 	assert.NoError(t, err)
 
 	query := bson.M{
-		model.StorageKeyImageProvidesIdxKey:   "rootfs-image.checksum",
-		model.StorageKeyImageProvidesIdxValue: "bar",
+		"meta_artifact.provides_idx": bson.M{
+			"rootfs-image.checksum": "bar",
+		},
 	}
 	// get old image using new query
 	// there should be no documents in the result

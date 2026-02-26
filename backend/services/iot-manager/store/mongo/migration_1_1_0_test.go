@@ -20,9 +20,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 )
 
 type index_1_1_0 struct {

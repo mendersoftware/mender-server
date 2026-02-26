@@ -20,11 +20,11 @@ import (
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 )
 
 type migration_1_2_10 struct {
@@ -88,7 +88,7 @@ func (m *migration_1_2_10) Up(from migrate.Version) (err error) {
 			IndexDeploymentsActiveCreatedV2)
 	}
 	// MEN-5695: This index is no longer needed.
-	_, err = idxDpl.DropOne(ctx, IndexDeploymentsActiveCreated)
+	err = idxDpl.DropOne(ctx, IndexDeploymentsActiveCreated)
 	var srvErr mongo.ServerError
 	if errors.As(err, &srvErr) {
 		if srvErr.HasErrorCode(errorCodeIndexNotFound) {

@@ -20,13 +20,11 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/bsoncodec"
-	"go.mongodb.org/mongo-driver/bson/bsonrw"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	"github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -34,22 +32,23 @@ import (
 
 var (
 	tDeviceDeploymentStatus = reflect.TypeOf(model.DeviceDeploymentStatus(0))
-
-	oldBSONReg = bson.NewRegistryBuilder().
-			RegisterTypeEncoder(tDeviceDeploymentStatus, oldStatusCodec{}).
-			RegisterTypeDecoder(tDeviceDeploymentStatus, oldStatusCodec{}).
-			Build()
+	oldBSONReg              = func() *bson.Registry {
+		r := bson.NewRegistry()
+		r.RegisterTypeEncoder(tDeviceDeploymentStatus, oldStatusCodec{})
+		r.RegisterTypeDecoder(tDeviceDeploymentStatus, oldStatusCodec{})
+		return r
+	}()
 )
 
 type oldStatusCodec struct{}
 
 func (_ oldStatusCodec) EncodeValue(
-	ec bsoncodec.EncodeContext,
-	vw bsonrw.ValueWriter,
+	ec bson.EncodeContext,
+	vw bson.ValueWriter,
 	val reflect.Value,
 ) error {
 	if !val.IsValid() || val.Type() != tDeviceDeploymentStatus {
-		return bsoncodec.ValueEncoderError{
+		return bson.ValueEncoderError{
 			Name:     "oldStatusCodec",
 			Types:    []reflect.Type{tDeviceDeploymentStatus},
 			Received: val,
@@ -60,12 +59,12 @@ func (_ oldStatusCodec) EncodeValue(
 }
 
 func (_ oldStatusCodec) DecodeValue(
-	dc bsoncodec.DecodeContext,
-	vr bsonrw.ValueReader,
+	dc bson.DecodeContext,
+	vr bson.ValueReader,
 	val reflect.Value,
 ) error {
 	if !val.IsValid() || val.Type() != tDeviceDeploymentStatus {
-		return bsoncodec.ValueEncoderError{
+		return bson.ValueEncoderError{
 			Name:     "oldStatusCodec",
 			Types:    []reflect.Type{tDeviceDeploymentStatus},
 			Received: val,

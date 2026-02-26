@@ -19,11 +19,11 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/doc"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/doc"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -42,7 +42,7 @@ func (m *migration_1_2_3) Up(from migrate.Version) error {
 	c := m.client.Database(m.db).Collection(CollectionImages)
 
 	// drop old device type + name index
-	_, err := c.Indexes().DropOne(ctx, IndexUniqueNameAndDeviceTypeName)
+	err := c.Indexes().DropOne(ctx, IndexUniqueNameAndDeviceTypeName)
 
 	// the index might not be there - was created only on image inserts (not upfront)
 	if err != nil {

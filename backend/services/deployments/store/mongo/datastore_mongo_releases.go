@@ -18,12 +18,11 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/log"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -68,7 +67,7 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
 	collReleases := database.Collection(CollectionReleases)
 
-	opt := &mopts.UpdateOptions{}
+	opt := mopts.UpdateOne()
 	update := bson.M{
 		"$set": bson.M{
 			StorageKeyReleaseName:     releaseName,
@@ -84,8 +83,7 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 		}
 	}
 	if artifactToAdd != nil {
-		upsert := true
-		opt.Upsert = &upsert
+		opt.SetUpsert(true)
 		update["$push"] = bson.M{StorageKeyReleaseArtifacts: artifactToAdd}
 		update["$inc"] = bson.M{
 			StorageKeyReleaseArtifactsCount: 1,
@@ -116,26 +114,21 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 }
 
 func (db *DataStoreMongo) ListReleaseTags(ctx context.Context) (model.Tags, error) {
-	l := log.FromContext(ctx)
-	tagKeys, err := db.client.
+	res := db.client.
 		Database(mstore.DbFromContext(ctx, DatabaseName)).
 		Collection(CollectionReleases).
 		Distinct(ctx, StorageKeyReleaseTags, bson.D{})
-	if err != nil {
-		return nil, errors.WithMessage(err,
-			"mongo: failed to retrieve distinct tags")
+
+	var tagKeys []string
+	if err := res.Decode(&tagKeys); err != nil {
+		return nil, err
 	}
 	ret := make([]model.Tag, 0, len(tagKeys))
 	for _, elem := range tagKeys {
-		if key, ok := elem.(string); ok {
-			ret = append(ret, model.Tag(key))
-		} else {
-			l.Warnf("unexpected data type (%T) received from distinct call: "+
-				"ignoring result", elem)
-		}
+		ret = append(ret, model.Tag(elem))
 	}
 
-	return ret, err
+	return ret, nil
 }
 
 func (db *DataStoreMongo) ReplaceReleaseTags(
@@ -241,7 +234,7 @@ func (db *DataStoreMongo) SaveUpdateTypes(ctx context.Context, updateTypes []str
 	if id := identity.FromContext(ctx); id != nil {
 		tenantId = id.Tenant
 	}
-	options := mopts.UpdateOptions{}
+	options := mopts.UpdateOne()
 	options.SetUpsert(true)
 	_, err := c.UpdateOne(
 		ctx,
@@ -255,7 +248,7 @@ func (db *DataStoreMongo) SaveUpdateTypes(ctx context.Context, updateTypes []str
 				},
 			},
 		},
-		&options,
+		options,
 	)
 	return err
 }

@@ -20,9 +20,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 )
 
 func TestMigration_1_2_0(t *testing.T) {
@@ -45,9 +45,6 @@ func TestMigration_1_2_0(t *testing.T) {
 	}
 	var foundIndex bool
 	for _, spec := range specs {
-		if spec == nil {
-			continue
-		}
 		if spec.Name == IndexNameOneIntegration {
 			foundIndex = true
 			assert.True(

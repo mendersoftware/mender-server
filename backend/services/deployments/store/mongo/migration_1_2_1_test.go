@@ -18,11 +18,11 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
@@ -160,7 +160,6 @@ func insertDeployment(
 	indexes := collection.Indexes()
 
 	indexOptions := mopts.Index()
-	indexOptions.SetBackground(false)
 	indexOptions.SetName(IndexDeploymentArtifactName_0_0_0)
 	indexModel := mongo.IndexModel{
 		Keys:    StorageIndexes.Keys,
