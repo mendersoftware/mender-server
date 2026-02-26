@@ -11,46 +11,23 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Dropzone from 'react-dropzone';
 
 // material ui
 import { CloudUpload, FileCopyOutlined as CopyPasteIcon } from '@mui/icons-material';
 import { Button, Divider, Drawer } from '@mui/material';
 
-import Editor, { loader } from '@monaco-editor/react';
+import { CodeEditor } from '@northern.tech/common-ui/CodeEditor';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
-import Loader from '@northern.tech/common-ui/Loader';
 import { JSON_METADATA_FORMAT, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
 import { createFileDownload } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
-loader.config({ paths: { vs: '/ui/vs' } });
-
-const editorProps = {
-  height: 700,
-  loading: <Loader show />,
-  options: {
-    autoClosingOvertype: 'auto',
-    codeLens: false,
-    contextmenu: false,
-    enableSplitViewResizing: false,
-    formatOnPaste: true,
-    lightbulb: { enabled: false },
-    lineNumbers: 'off',
-    minimap: { enabled: false },
-    quickSuggestions: false,
-    readOnly: true,
-    renderOverviewRuler: false,
-    scrollBeyondLastLine: false,
-    wordWrap: 'on'
-  }
-};
-
 export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, onCancel, onClose, onSave, setFileContent, token }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isMetadataValid, setIsMetadataValid] = useState(false);
-  const editorRef = useRef();
+  const isReadOnly = hasSSOConfig && !isEditing;
 
   useEffect(() => {
     if (!fileContent) {
@@ -118,11 +95,16 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
 
   const handleEditorDidMount = (editor, monaco) => {
     monaco.languages.html.registerHTMLLanguageService(ssoItem.metadataFormat, {}, { documentFormattingEdits: true });
-    editorRef.current = { editor, monaco, modifiedEditor: editor };
   };
 
   return (
-    <Drawer className={`${open ? 'fadeIn' : 'fadeOut'}`} anchor="right" open={open} onClose={onClose} PaperProps={{ style: { minWidth: '75vw' } }}>
+    <Drawer
+      className={`${open ? 'fadeIn' : 'fadeOut'}`}
+      anchor="right"
+      open={open}
+      onClose={onClose}
+      PaperProps={{ style: { minWidth: '75vw', display: 'flex', flexDirection: 'column' } }}
+    >
       <DrawerTitle
         title={`${ssoItem.title} metadata`}
         preCloser={
@@ -138,16 +120,10 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
         onClose={onClose}
       />
       <Divider light />
-      <Editor
-        {...editorProps}
+      <CodeEditor
+        className="full-height"
         language={ssoItem.editorLanguage}
-        defaultLanguage={ssoItem.editorLanguage}
-        options={{
-          ...editorProps.options,
-          readOnly: hasSSOConfig && !isEditing
-        }}
-        className="editor modified"
-        wrapperProps={{ 'data-testid': 'monaco-editor' }}
+        readOnly={isReadOnly}
         onChange={setFileContent}
         onMount={handleEditorDidMount}
         value={fileContent}
