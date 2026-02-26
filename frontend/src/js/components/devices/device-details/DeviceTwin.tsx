@@ -55,7 +55,7 @@ export const LastSyncNote = ({ updateTime }) => (
 const NoDiffStatus = () => {
   const { classes } = useStyles();
   return (
-    <div className={['padding', classes.diffStatus]}>
+    <div className={`padding-small ${classes.diffStatus}`}>
       <CheckCircleOutlined className="green" />
       <div>No difference between desired and reported configuration</div>
     </div>
@@ -76,14 +76,14 @@ export const TwinError = ({ providerTitle, twinError }) => (
 );
 
 export const TwinSyncStatus = ({ diffCount, providerTitle, twinError, updateTime }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   if (twinError) {
     return <TwinError providerTitle={providerTitle} twinError={twinError} />;
   }
   return !diffCount ? (
     <NoDiffStatus />
   ) : (
-    <div className={['padding', classes.diffStatus]}>
+    <div className={`padding-small ${classes.diffStatus}`}>
       <CloudUpload />
       <div>
         <b>
