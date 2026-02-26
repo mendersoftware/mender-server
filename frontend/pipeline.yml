@@ -142,15 +142,7 @@ test:frontend:docs-links:hosted:
 
 build:frontend:docker:
   extends: .template:build:docker
-  rules:
-    - changes:
-        paths: ['frontend/**/*', 'compose/**/*', 'docker-compose.yml']
-        compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
-      when: always
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: always
-    - if: '$CI_COMMIT_REF_PROTECTED != "true" && $CI_PIPELINE_SOURCE == "push"'
-      when: always
+  # no rules as the job have to build every time for the review jobs
   script:
     - cd frontend
     - if test -z "${DOCKER_PLATFORM}"; then
