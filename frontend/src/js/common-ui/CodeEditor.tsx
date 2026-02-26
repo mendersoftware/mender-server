@@ -48,6 +48,8 @@ const useStyles = makeStyles()(theme => {
   };
 });
 
+export const useEditorStyles = useStyles;
+
 export const defaultEditorOptions: EditorProps['options'] = {
   autoClosingOvertype: 'auto',
   codeLens: false,

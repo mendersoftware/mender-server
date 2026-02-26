@@ -20,7 +20,7 @@ import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DiffEditor } from '@monaco-editor/react';
-import { CodeEditor, defaultEditorOptions, useEditorTheme } from '@northern.tech/common-ui/CodeEditor';
+import { CodeEditor, defaultEditorOptions, useEditorStyles, useEditorTheme } from '@northern.tech/common-ui/CodeEditor';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
@@ -129,6 +129,7 @@ export const DeviceTwin = ({ device, integration }) => {
   const [isSync, setIsSync] = useState(true);
   const editorRef = useRef(null);
   const { classes } = useStyles();
+  const { classes: editorClasses } = useEditorStyles();
   const dispatch = useDispatch();
   const { editorThemeName, defineEditorTheme } = useEditorTheme(!isEditing);
   const externalProvider = EXTERNAL_PROVIDER[integration.provider];
@@ -226,21 +227,23 @@ export const DeviceTwin = ({ device, integration }) => {
                 <h4>Desired configuration</h4>
                 <h4>Reported configuration</h4>
               </div>
-              <DiffEditor
-                height={500}
-                language="json"
-                loading={<Loader show />}
-                original={reported}
-                modified={configured}
-                beforeMount={defineEditorTheme}
-                theme={editorThemeName}
-                onMount={handleDiffEditorDidMount}
-                options={{
-                  ...defaultEditorOptions,
-                  lineNumbersMinChars: 3,
-                  readOnly: !isEditing
-                }}
-              />
+              <div className={editorClasses.wrapper}>
+                <DiffEditor
+                  height={500}
+                  language="json"
+                  loading={<Loader show />}
+                  original={reported}
+                  modified={configured}
+                  beforeMount={defineEditorTheme}
+                  theme={editorThemeName}
+                  onMount={handleDiffEditorDidMount}
+                  options={{
+                    ...defaultEditorOptions,
+                    lineNumbersMinChars: 3,
+                    readOnly: !isEditing
+                  }}
+                />
+              </div>
             </>
           ) : (
             <>
