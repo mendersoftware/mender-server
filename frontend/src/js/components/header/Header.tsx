@@ -92,9 +92,9 @@ const { setShowFeedbackDialog } = storeActions;
 
 // Change this when a new feature/offer is introduced
 const currentOffer = {
-  name: 'add-ons',
-  expires: '2021-12-30',
-  trial: true,
+  name: 'ai-feature',
+  expires: '2026-03-31',
+  trial: false,
   os: true,
   professional: true,
   enterprise: true
@@ -113,7 +113,6 @@ const useStyles = makeStyles()(theme => ({
       border: 'none'
     }
   },
-  banner: { gridTemplateRows: `1fr ${theme.mixins.toolbar.minHeight}px` },
   demoAnnouncementIcon: {
     height: 16,
     '&.MuiButton-textPrimary': {
@@ -355,7 +354,7 @@ export const Header = ({ isDarkMode }) => {
   const headerLogo = isDarkMode ? (isEnterprise ? whiteEnterpriseLogo : whiteLogo) : isEnterprise ? enterpriseLogo : logo;
 
   return (
-    <Toolbar id="fixedHeader" className={showOffer ? `${classes.header} ${classes.banner}` : classes.header}>
+    <div id="fixedHeader">
       {!!announcement && (
         <Announcement
           announcement={announcement}
@@ -366,41 +365,43 @@ export const Header = ({ isDarkMode }) => {
         />
       )}
       {showOffer && <OfferHeader onHide={setHideOffer} />}
-      <div className="flexbox space-between">
-        <div className="flexbox align-items-center">
-          <Link to="/">
-            <img id="logo" src={headerLogo} />
-          </Link>
-          {organization.trial && (
-            <TrialNotification
-              expiration={organization.trial_expiration}
-              iconClassName={classes.demoAnnouncementIcon}
-              sectionClassName={classes.demoTrialAnnouncement}
-            />
+      <Toolbar className={classes.header}>
+        <div className="flexbox space-between">
+          <div className="flexbox align-items-center">
+            <Link to="/">
+              <img id="logo" src={headerLogo} />
+            </Link>
+            {organization.trial && (
+              <TrialNotification
+                expiration={organization.trial_expiration}
+                iconClassName={classes.demoAnnouncementIcon}
+                sectionClassName={classes.demoTrialAnnouncement}
+              />
+            )}
+          </div>
+          {isSp ? (
+            <>
+              {tenantDeviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={tenantDeviceLimit} variant="common" />}
+              <div className="flexbox align-items-center">
+                <Chip className="bold muted uppercased" label="Service Provider" />
+                <AccountMenu />
+              </div>
+            </>
+          ) : (
+            <>
+              <Search className={classes.search} isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
+              <div className="flexbox align-items-center">
+                <DeviceNotifications pending={pendingDevices} total={acceptedDevices} />
+                <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
+                <DeploymentNotifications className={classes.headerSection} inprogress={inProgress} />
+                <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
+                <AccountMenu className={classes.headerSection} />
+              </div>
+            </>
           )}
         </div>
-        {isSp ? (
-          <>
-            {tenantDeviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={tenantDeviceLimit} variant="common" />}
-            <div className="flexbox align-items-center">
-              <Chip className="bold muted uppercased" label="Service Provider" />
-              <AccountMenu />
-            </div>
-          </>
-        ) : (
-          <>
-            <Search className={classes.search} isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
-            <div className="flexbox align-items-center">
-              <DeviceNotifications pending={pendingDevices} total={acceptedDevices} />
-              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
-              <DeploymentNotifications className={classes.headerSection} inprogress={inProgress} />
-              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
-              <AccountMenu className={classes.headerSection} />
-            </div>
-          </>
-        )}
-      </div>
-    </Toolbar>
+      </Toolbar>
+    </div>
   );
 };
 

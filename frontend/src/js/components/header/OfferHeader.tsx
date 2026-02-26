@@ -11,25 +11,52 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Announcement as AnnouncmentIcon, Close as CloseIcon } from '@mui/icons-material';
+import { AutoAwesomeOutlined, Close } from '@mui/icons-material';
+import { IconButton, Link, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
-import DocsLink from '@northern.tech/common-ui/DocsLink';
+const useStyles = makeStyles()(theme => ({
+  container: {
+    height: theme.mixins.toolbar.minHeight,
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText
+  },
+  link: {
+    color: 'inherit',
+    textDecoration: 'underline'
+  },
+  note: { gap: theme.spacing() },
+  closeButton: {
+    color: 'inherit',
+    marginRight: theme.spacing(3)
+  }
+}));
 
-const OfferHeader = ({ onHide }) => (
-  <div id="offerHeader" className="offerBox">
-    <AnnouncmentIcon style={{ marginRight: '2px', height: '16px', verticalAlign: 'bottom' }} />
-    <span>
-      Learn more about Mender&apos;s new add-ons at&nbsp;
-      {/* eslint-disable-next-line react/jsx-no-target-blank */}
-      <a href="https://mender.io/plans/pricing" target="_blank">
-        mender.io/plans/pricing
-      </a>
-      .&nbsp;
-      <DocsLink path="add-ons" title="Visit our documentation" />
-      &nbsp;to learn how to enable add-on features
-    </span>
-    <CloseIcon style={{ marginLeft: '4px', height: '16px', cursor: 'pointer' }} onClick={onHide} />
-  </div>
-);
+const OfferHeader = ({ onHide }) => {
+  const { classes } = useStyles();
+
+  return (
+    <div className={`flexbox align-items-center ${classes.container}`}>
+      <div className={`flexbox centered full-width ${classes.note}`}>
+        <AutoAwesomeOutlined fontSize="small" />
+        <Typography variant="body2">Try out the new AI feature to diagnose deployment failures in seconds.</Typography>
+        <Link
+          href="https://mender.io/blog/new-mender-experimental-ai-enabled-feature"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={onHide}
+          className={classes.link}
+          variant="body2"
+        >
+          Learn more
+        </Link>
+      </div>
+
+      <IconButton size="small" onClick={onHide} className={classes.closeButton}>
+        <Close fontSize="small" />
+      </IconButton>
+    </div>
+  );
+};
 
 export default OfferHeader;

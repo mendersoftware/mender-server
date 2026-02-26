@@ -84,6 +84,51 @@ exports[`App Component > is embedded in working providers 1`] = `
 }
 
 .emotion-0 {
+  font-size: 14px;
+  height: auto;
+}
+
+.emotion-1 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.25rem;
+  color: #c62828;
+}
+
+.emotion-2 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+  height: 16px;
+}
+
+.emotion-2.MuiButton-textPrimary {
+  height: inherit;
+}
+
+.emotion-3 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -102,7 +147,7 @@ exports[`App Component > is embedded in working providers 1`] = `
 }
 
 @media (min-width:600px) {
-  .emotion-0 {
+  .emotion-3 {
     padding-left: 24px;
     padding-right: 24px;
   }
@@ -110,67 +155,22 @@ exports[`App Component > is embedded in working providers 1`] = `
 
 @media (min-width:0px) {
   @media (orientation: landscape) {
-    .emotion-0 {
+    .emotion-3 {
       min-height: 48px;
     }
   }
 }
 
 @media (min-width:600px) {
-  .emotion-0 {
+  .emotion-3 {
     min-height: 64px;
   }
 }
 
-.emotion-0 #logo {
+.emotion-3 #logo {
   min-width: 142px;
   height: 48px;
   margin-right: 25px;
-}
-
-.emotion-1 {
-  font-size: 14px;
-  height: auto;
-}
-
-.emotion-2 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.25rem;
-  color: #c62828;
-}
-
-.emotion-3 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.5rem;
-  height: 16px;
-}
-
-.emotion-3.MuiButton-textPrimary {
-  height: inherit;
 }
 
 .emotion-4 {
@@ -1478,15 +1478,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
     id="app"
   >
     <div
-      class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular emotion-0"
       id="fixedHeader"
     >
       <div
-        class="flexbox centered fadeInSlow emotion-1"
+        class="flexbox centered fadeInSlow emotion-0"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-2"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-1"
           data-testid="AnnouncementIcon"
           focusable="false"
           style="margin-right: 4px; min-width: 24px;"
@@ -1501,7 +1500,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
         />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-2"
           data-testid="CloseIcon"
           focusable="false"
           style="margin-left: 4px; cursor: pointer;"
@@ -1513,67 +1512,36 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
         </svg>
       </div>
       <div
-        class="flexbox space-between"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular emotion-3"
       >
         <div
-          class="flexbox align-items-center"
-        >
-          <a
-            data-discover="true"
-            href="/"
-          >
-            <img
-              id="logo"
-              src="/src/assets/img/headerlogo.png"
-            />
-          </a>
-        </div>
-        <form
-          class="emotion-4"
-          novalidate=""
+          class="flexbox space-between"
         >
           <div
-            class="MuiFormControl-root MuiTextField-root emotion-5"
+            class="flexbox align-items-center"
+          >
+            <a
+              data-discover="true"
+              href="/"
+            >
+              <img
+                id="logo"
+                src="/src/assets/img/headerlogo.png"
+              />
+            </a>
+          </div>
+          <form
+            class="emotion-4"
+            novalidate=""
           >
             <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart emotion-6"
+              class="MuiFormControl-root MuiTextField-root emotion-5"
             >
               <div
-                class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-7"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart emotion-6"
               >
-                <span
-                  aria-hidden="true"
-                  class="notranslate"
-                >
-                  ​
-                </span>
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeSmall emotion-8"
-                  data-testid="SearchIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
-                  />
-                </svg>
-              </div>
-              <input
-                aria-invalid="false"
-                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-9"
-                id="_r_q_"
-                name="search"
-                placeholder="Search devices"
-                type="text"
-                value=""
-              />
-              <fieldset
-                aria-hidden="true"
-                class="MuiOutlinedInput-notchedOutline emotion-10"
-              >
-                <legend
-                  class="emotion-11"
+                <div
+                  class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-7"
                 >
                   <span
                     aria-hidden="true"
@@ -1581,128 +1549,163 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
                   >
                     ​
                   </span>
-                </legend>
-              </fieldset>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeSmall emotion-8"
+                    data-testid="SearchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                    />
+                  </svg>
+                </div>
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-9"
+                  id="_r_s_"
+                  name="search"
+                  placeholder="Search devices"
+                  type="text"
+                  value=""
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline emotion-10"
+                >
+                  <legend
+                    class="emotion-11"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="notranslate"
+                    >
+                      ​
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
             </div>
-          </div>
-          <input
-            class="hidden"
-            type="submit"
-          />
-        </form>
-        <div
-          class="flexbox align-items-center"
-        >
+            <input
+              class="hidden"
+              type="submit"
+            />
+          </form>
           <div
-            class=""
+            class="flexbox align-items-center"
           >
             <div
-              aria-label="View device limits"
               class=""
-              data-mui-internal-clone-element="true"
             >
-              <span
-                class="MuiBadge-root emotion-12"
+              <div
+                aria-label="View device limits"
+                class=""
+                data-mui-internal-clone-element="true"
               >
-                <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-13"
-                  tabindex="0"
-                  type="button"
-                >
-                  <span
-                    class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-14"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small margin-left-x-small emotion-15"
-                      data-testid="DeveloperBoardIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
-                      />
-                    </svg>
-                  </span>
-                  2
-                  <span
-                    class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-16"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
-                      data-testid="ArrowDropDownIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="m7 10 5 5 5-5z"
-                      />
-                    </svg>
-                  </span>
-                </button>
                 <span
-                  class="MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopLeft MuiBadge-anchorOriginTopLeftRectangular MuiBadge-overlapRectangular MuiBadge-colorPrimary emotion-18"
+                  class="MuiBadge-root emotion-12"
                 >
-                  1
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-13"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-14"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small margin-left-x-small emotion-15"
+                        data-testid="DeveloperBoardIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
+                        />
+                      </svg>
+                    </span>
+                    2
+                    <span
+                      class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-16"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
+                        data-testid="ArrowDropDownIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="m7 10 5 5 5-5z"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                  <span
+                    class="MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopLeft MuiBadge-anchorOriginTopLeftRectangular MuiBadge-overlapRectangular MuiBadge-colorPrimary emotion-18"
+                  >
+                    1
+                  </span>
                 </span>
-              </span>
+              </div>
             </div>
-          </div>
-          <div
-            aria-orientation="vertical"
-            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-19"
-            role="separator"
-          />
-          <a
-            class="flexbox align-items-center emotion-20 emotion-21"
-            data-discover="true"
-            href="/deployments/active"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall flip-horizontal margin-right-x-small emotion-15"
-              data-testid="SyncIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z"
-              />
-            </svg>
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 emotion-23"
-            >
-              3
-            </h6>
-          </a>
-          <div
-            aria-orientation="vertical"
-            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-19"
-            role="separator"
-          />
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-25"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-14"
+            <div
+              aria-orientation="vertical"
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-19"
+              role="separator"
+            />
+            <a
+              class="flexbox align-items-center emotion-20 emotion-21"
+              data-discover="true"
+              href="/deployments/active"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
-                data-testid="AccountCircleIcon"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall flip-horizontal margin-right-x-small emotion-15"
+                data-testid="SyncIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6m0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20"
+                  d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z"
                 />
               </svg>
-            </span>
-            a2@b.com
-          </button>
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 emotion-23"
+              >
+                3
+              </h6>
+            </a>
+            <div
+              aria-orientation="vertical"
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-19"
+              role="separator"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-25"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-14"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
+                  data-testid="AccountCircleIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6m0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20"
+                  />
+                </svg>
+              </span>
+              a2@b.com
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -3727,71 +3730,39 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   id="app"
 >
   <div
-    class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular emotion-0"
     id="fixedHeader"
   >
     <div
-      class="flexbox space-between"
+      class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular emotion-0"
     >
       <div
-        class="flexbox align-items-center"
-      >
-        <a
-          data-discover="true"
-          href="/"
-        >
-          <img
-            id="logo"
-            src="/src/assets/img/headerlogo.png"
-          />
-        </a>
-      </div>
-      <form
-        class="emotion-1"
-        novalidate=""
+        class="flexbox space-between"
       >
         <div
-          class="MuiFormControl-root MuiTextField-root emotion-2"
+          class="flexbox align-items-center"
+        >
+          <a
+            data-discover="true"
+            href="/"
+          >
+            <img
+              id="logo"
+              src="/src/assets/img/headerlogo.png"
+            />
+          </a>
+        </div>
+        <form
+          class="emotion-1"
+          novalidate=""
         >
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart emotion-3"
+            class="MuiFormControl-root MuiTextField-root emotion-2"
           >
             <div
-              class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-4"
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart emotion-3"
             >
-              <span
-                aria-hidden="true"
-                class="notranslate"
-              >
-                ​
-              </span>
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeSmall emotion-5"
-                data-testid="SearchIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
-                />
-              </svg>
-            </div>
-            <input
-              aria-invalid="false"
-              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-6"
-              id="_r_2_"
-              name="search"
-              placeholder="Search devices"
-              type="text"
-              value=""
-            />
-            <fieldset
-              aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline emotion-7"
-            >
-              <legend
-                class="emotion-8"
+              <div
+                class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-4"
               >
                 <span
                   aria-hidden="true"
@@ -3799,128 +3770,163 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 >
                   ​
                 </span>
-              </legend>
-            </fieldset>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeSmall emotion-5"
+                  data-testid="SearchIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                  />
+                </svg>
+              </div>
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-6"
+                id="_r_3_"
+                name="search"
+                placeholder="Search devices"
+                type="text"
+                value=""
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-7"
+              >
+                <legend
+                  class="emotion-8"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="notranslate"
+                  >
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
           </div>
-        </div>
-        <input
-          class="hidden"
-          type="submit"
-        />
-      </form>
-      <div
-        class="flexbox align-items-center"
-      >
+          <input
+            class="hidden"
+            type="submit"
+          />
+        </form>
         <div
-          class=""
+          class="flexbox align-items-center"
         >
           <div
-            aria-label="View device limits"
             class=""
-            data-mui-internal-clone-element="true"
           >
-            <span
-              class="MuiBadge-root emotion-9"
+            <div
+              aria-label="View device limits"
+              class=""
+              data-mui-internal-clone-element="true"
             >
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-10"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small margin-left-x-small emotion-12"
-                    data-testid="DeveloperBoardIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
-                    />
-                  </svg>
-                </span>
-                2
-                <span
-                  class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-13"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-14"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m7 10 5 5 5-5z"
-                    />
-                  </svg>
-                </span>
-              </button>
               <span
-                class="MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopLeft MuiBadge-anchorOriginTopLeftRectangular MuiBadge-overlapRectangular MuiBadge-colorPrimary emotion-15"
+                class="MuiBadge-root emotion-9"
               >
-                1
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-10"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small margin-left-x-small emotion-12"
+                      data-testid="DeveloperBoardIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9zm-4 10H4V5h14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
+                      />
+                    </svg>
+                  </span>
+                  2
+                  <span
+                    class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-13"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-14"
+                      data-testid="ArrowDropDownIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="m7 10 5 5 5-5z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+                <span
+                  class="MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopLeft MuiBadge-anchorOriginTopLeftRectangular MuiBadge-overlapRectangular MuiBadge-colorPrimary emotion-15"
+                >
+                  1
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
-        <div
-          aria-orientation="vertical"
-          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-16"
-          role="separator"
-        />
-        <a
-          class="flexbox align-items-center emotion-17 emotion-18"
-          data-discover="true"
-          href="/deployments/active"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall flip-horizontal margin-right-x-small emotion-12"
-            data-testid="SyncIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z"
-            />
-          </svg>
-          <h6
-            class="MuiTypography-root MuiTypography-subtitle2 emotion-20"
-          >
-            0
-          </h6>
-        </a>
-        <div
-          aria-orientation="vertical"
-          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-16"
-          role="separator"
-        />
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-22"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
+          <div
+            aria-orientation="vertical"
+            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-16"
+            role="separator"
+          />
+          <a
+            class="flexbox align-items-center emotion-17 emotion-18"
+            data-discover="true"
+            href="/deployments/active"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-24"
-              data-testid="AccountCircleIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall flip-horizontal margin-right-x-small emotion-12"
+              data-testid="SyncIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6m0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20"
+                d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8m0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4z"
               />
             </svg>
-          </span>
-          a@b.com
-        </button>
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 emotion-20"
+            >
+              0
+            </h6>
+          </a>
+          <div
+            aria-orientation="vertical"
+            class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical margin-left-small margin-right-small emotion-16"
+            role="separator"
+          />
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-22"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-24"
+                data-testid="AccountCircleIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6m0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20"
+                />
+              </svg>
+            </span>
+            a@b.com
+          </button>
+        </div>
       </div>
     </div>
   </div>
