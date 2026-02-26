@@ -171,7 +171,7 @@ export const DeviceTwin = ({ device, integration }) => {
   };
 
   const onDidUpdateDiff = () => {
-    const changes = editorRef.current.editor.getLineChanges();
+    const changes = editorRef.current.editor.getLineChanges() ?? '';
     setDiffCount(changes.length);
     setInitialized(true);
   };
