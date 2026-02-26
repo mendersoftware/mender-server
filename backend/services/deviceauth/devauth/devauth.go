@@ -64,10 +64,6 @@ func IsErrDevAuthUnauthorized(e error) bool {
 	return strings.HasPrefix(e.Error(), MsgErrDevAuthUnauthorized)
 }
 
-func MakeErrDevAuthUnauthorized(e error) error {
-	return errors.Wrap(e, MsgErrDevAuthUnauthorized)
-}
-
 func IsErrDevAuthBadRequest(e error) bool {
 	return strings.HasPrefix(e.Error(), MsgErrDevAuthBadRequest)
 }

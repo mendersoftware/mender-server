@@ -13,28 +13,6 @@
 //	limitations under the License.
 package model
 
-import (
-	"encoding/json"
-	"io"
-
-	"github.com/pkg/errors"
-)
-
 type NewTenant struct {
 	TenantId string `json:"tenant_id"`
-}
-
-func ParseNewTenant(source io.Reader) (*NewTenant, error) {
-	jd := json.NewDecoder(source)
-
-	var t NewTenant
-	if err := jd.Decode(&t); err != nil {
-		return nil, err
-	}
-
-	if t.TenantId == "" {
-		return nil, errors.New("tenant_id must be provided")
-	}
-
-	return &t, nil
 }
