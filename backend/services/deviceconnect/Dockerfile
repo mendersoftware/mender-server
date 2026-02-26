@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM golang:1.25.8 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.25.7 AS builder
 ARG TARGETOS
 ARG TARGETARCH
 ARG LDFLAGS="-s -w"
@@ -26,3 +26,4 @@ COPY --chown=$USER  backend/services/deviceconnect/config.yaml /etc/deviceconnec
 COPY --from=builder --chown=$USER /build/deviceconnect /usr/bin/deviceconnect
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 ENTRYPOINT ["/usr/bin/deviceconnect", "--config", "/etc/deviceconnect/config.yaml"]
+# test
