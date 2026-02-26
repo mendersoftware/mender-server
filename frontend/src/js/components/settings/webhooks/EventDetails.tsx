@@ -60,7 +60,6 @@ const WebhookEventDetails = ({ classes, columns, entry = {}, onClickBack, setSna
       <TwoColumnData className="margin-top margin-bottom" data={content} setSnackbar={setSnackbar} />
       <h4>Payload</h4>
       {data && <CodeEditor language="json" readOnly value={JSON.stringify(data, null, '\t')} />}
-      <Divider className={classes.divider} />
       <CopyTextToClipboard token={data} />
     </>
   );

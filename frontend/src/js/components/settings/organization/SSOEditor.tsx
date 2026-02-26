@@ -16,7 +16,7 @@ import Dropzone from 'react-dropzone';
 
 // material ui
 import { CloudUpload, FileCopyOutlined as CopyPasteIcon } from '@mui/icons-material';
-import { Button, Divider, Drawer } from '@mui/material';
+import { Button, Divider, Drawer, Typography } from '@mui/material';
 
 import { CodeEditor } from '@northern.tech/common-ui/CodeEditor';
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
@@ -119,7 +119,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
         }
         onClose={onClose}
       />
-      <Divider light />
+      <Divider />
       <CodeEditor
         className="full-height"
         language={ssoItem.editorLanguage}
@@ -128,8 +128,11 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
         onMount={handleEditorDidMount}
         value={fileContent}
       />
-      {!isMetadataValid && fileContent.length > 4 && <div className="error">There was an error parsing the metadata.</div>}
-      <Divider className="margin-top-large margin-bottom" light />
+      {!isMetadataValid && fileContent.length > 4 && (
+        <Typography variant="body2" className="red">
+          There was an error parsing the metadata.
+        </Typography>
+      )}
       <div>
         {hasSSOConfig && !isEditing ? (
           <div className="flexbox align-items-center">
