@@ -11,15 +11,6 @@ exports[`DeviceAdditionWidget Component renders correctly 1`] = `
 
 .emotion-0 .MuiButtonGroup-grouped {
   min-width: 40px;
-  box-shadow: none;
-}
-
-.emotion-0 .MuiButtonGroup-grouped props {
-  variant: contained;
-}
-
-.emotion-0 .MuiButtonGroup-grouped style:hover {
-  box-shadow: none;
 }
 
 .emotion-0 .MuiButtonGroup-firstButton,
