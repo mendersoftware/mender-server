@@ -19,7 +19,8 @@ import { CheckCircleOutlined, CloudUploadOutlined as CloudUpload, Refresh as Ref
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import Editor, { DiffEditor, loader } from '@monaco-editor/react';
+import { DiffEditor } from '@monaco-editor/react';
+import { CodeEditor, defaultEditorOptions, useEditorStyles, useEditorTheme } from '@northern.tech/common-ui/CodeEditor';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
@@ -29,8 +30,6 @@ import { deepCompare, isEmpty } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
 import DeviceDataCollapse from './DeviceDataCollapse';
-
-loader.config({ paths: { vs: '/ui/vs' } });
 
 const useStyles = makeStyles()(theme => ({
   buttonSpacer: { marginLeft: theme.spacing(2) },
@@ -56,7 +55,7 @@ export const LastSyncNote = ({ updateTime }) => (
 const NoDiffStatus = () => {
   const { classes } = useStyles();
   return (
-    <div className={['padding', classes.diffStatus]}>
+    <div className={`padding-small ${classes.diffStatus}`}>
       <CheckCircleOutlined className="green" />
       <div>No difference between desired and reported configuration</div>
     </div>
@@ -77,14 +76,14 @@ export const TwinError = ({ providerTitle, twinError }) => (
 );
 
 export const TwinSyncStatus = ({ diffCount, providerTitle, twinError, updateTime }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   if (twinError) {
     return <TwinError providerTitle={providerTitle} twinError={twinError} />;
   }
   return !diffCount ? (
     <NoDiffStatus />
   ) : (
-    <div className={['padding', classes.diffStatus]}>
+    <div className={`padding-small ${classes.diffStatus}`}>
       <CloudUpload />
       <div>
         <b>
@@ -112,26 +111,6 @@ export const Title = ({ providerTitle, twinTitle, updateTime }) => {
   );
 };
 
-const editorProps = {
-  height: 500,
-  defaultLanguage: 'json',
-  language: 'json',
-  loading: <Loader show />,
-  options: {
-    autoClosingOvertype: 'auto',
-    codeLens: false,
-    contextmenu: false,
-    enableSplitViewResizing: false,
-    formatOnPaste: true,
-    lightbulb: { enabled: false },
-    minimap: { enabled: false },
-    lineNumbersMinChars: 3,
-    quickSuggestions: false,
-    renderOverviewRuler: false,
-    scrollBeyondLastLine: false,
-    readOnly: true
-  }
-};
 const maxWidth = 800;
 
 const indentation = 4; // number of spaces, tab based indentation won't show in the editor, but be converted to 4 spaces
@@ -150,8 +129,9 @@ export const DeviceTwin = ({ device, integration }) => {
   const [isSync, setIsSync] = useState(true);
   const editorRef = useRef(null);
   const { classes } = useStyles();
+  const { classes: editorClasses } = useEditorStyles();
   const dispatch = useDispatch();
-
+  const { editorThemeName, defineEditorTheme } = useEditorTheme(!isEditing);
   const externalProvider = EXTERNAL_PROVIDER[integration.provider];
   const { [integration.id]: deviceTwin = {} } = device.twinsByIntegration ?? {};
   const { desired: configuredTwin = {}, reported: reportedTwin = {}, twinError, updated_ts: updateTime = device.created_ts } = deviceTwin;
@@ -183,6 +163,7 @@ export const DeviceTwin = ({ device, integration }) => {
   };
 
   const handleDiffEditorDidMount = (editor, monaco) => {
+    defineEditorTheme(monaco);
     const modifiedEditor = editor.getModifiedEditor();
     modifiedEditor.onDidChangeModelContent(() => setUpdated(modifiedEditor.getValue()));
     editor.onDidUpdateDiff(onDidUpdateDiff);
@@ -190,7 +171,7 @@ export const DeviceTwin = ({ device, integration }) => {
   };
 
   const onDidUpdateDiff = () => {
-    const changes = editorRef.current.editor.getLineChanges();
+    const changes = editorRef.current.editor.getLineChanges() ?? '';
     setDiffCount(changes.length);
     setInitialized(true);
   };
@@ -238,7 +219,7 @@ export const DeviceTwin = ({ device, integration }) => {
       }
       title={<Title providerTitle={externalProvider.title} twinTitle={externalProvider.twinTitle} updateTime={updateTime} />}
     >
-      <div className={`flexbox column ${isEditing ? 'twin-editing' : ''}`}>
+      <div className="flexbox column">
         <div style={widthStyle}>
           {!initialized || (!(isEmpty(reported) && isEmpty(configured)) && !isSync) ? (
             <>
@@ -246,31 +227,28 @@ export const DeviceTwin = ({ device, integration }) => {
                 <h4>Desired configuration</h4>
                 <h4>Reported configuration</h4>
               </div>
-              <DiffEditor
-                {...editorProps}
-                original={reported}
-                modified={configured}
-                onMount={handleDiffEditorDidMount}
-                options={{
-                  ...editorProps.options,
-                  readOnly: !isEditing
-                }}
-              />
+              <div className={editorClasses.wrapper}>
+                <DiffEditor
+                  height={500}
+                  language="json"
+                  loading={<Loader show />}
+                  original={reported}
+                  modified={configured}
+                  beforeMount={defineEditorTheme}
+                  theme={editorThemeName}
+                  onMount={handleDiffEditorDidMount}
+                  options={{
+                    ...defaultEditorOptions,
+                    lineNumbersMinChars: 3,
+                    readOnly: !isEditing
+                  }}
+                />
+              </div>
             </>
           ) : (
             <>
               <h4>{!deviceTwin.reported || isEditing ? 'Desired' : 'Reported'} configuration</h4>
-              <Editor
-                {...editorProps}
-                options={{
-                  ...editorProps.options,
-                  readOnly: !isEditing
-                }}
-                className="editor modified"
-                onMount={handleEditorDidMount}
-                value={reported || configured}
-                onChange={setUpdated}
-              />
+              <CodeEditor language="json" readOnly={!isEditing} onMount={handleEditorDidMount} value={reported || configured} onChange={setUpdated} />
             </>
           )}
           {!!errorMessage && <p className="warning">{errorMessage}</p>}
