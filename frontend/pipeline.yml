@@ -1,6 +1,6 @@
 variables:
   NODE_IMAGE:
-    value: 'node:23-alpine'
+    value: 'node:24-alpine'
     description: 'Node version to use for building and testing'
   FRONTEND_REPOSITORY: mendersoftware/gui
   DOCS_VERSION: development

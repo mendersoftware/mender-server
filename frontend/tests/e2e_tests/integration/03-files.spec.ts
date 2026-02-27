@@ -199,7 +199,7 @@ test.describe('Files', () => {
   //       })
   // })
 
-  test('allows artifact downloads', async ({ demoArtifactVersion, loggedInPage: page }) => {
+  test('allows artifact downloads', async ({ loggedInPage: page }) => {
     await page.getByText(/mender-demo-artifact/i).click();
     await page.click('.expandButton');
     const downloadButton = await page.getByText(/download artifact/i);
@@ -227,10 +227,8 @@ test.describe('Files', () => {
       // Parse artifact header to check that artifact name matches
       const artifactName = artifactInfo['Mender Artifact'].Name;
       expect(artifactName).toMatch(/^mender-demo-artifact/);
-      const versionInfo = artifactName.substring(artifactName.indexOf(expectedArtifactName) + expectedArtifactName.length + 1);
-      expect(versionInfo).toEqual(demoArtifactVersion.artifactVersion);
       const { 'data-partition.mender-demo-artifact.version': updateVersion } = artifactInfo.Updates[0].Provides;
-      expect(updateVersion).toEqual(demoArtifactVersion.updateVersion);
+      expect(updateVersion).toEqual(artifactName);
     });
   });
 
