@@ -30,7 +30,7 @@ import { startServer } from './webhookListener';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const getPeristentLoginInfo = () => {
+export const getPersistentLoginInfo = () => {
   let loginInfo;
   try {
     const content = fs.readFileSync('loginInfo.json', 'utf8');

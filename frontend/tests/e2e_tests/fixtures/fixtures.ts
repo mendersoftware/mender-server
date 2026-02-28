@@ -15,7 +15,7 @@ import { test as coveredTest, expect } from '@bgotink/playwright-coverage';
 import type { Page } from '@playwright/test';
 import { test as nonCoveredTest } from '@playwright/test';
 
-import { getPeristentLoginInfo } from '../utils/commands.ts';
+import { getPersistentLoginInfo } from '../utils/commands.ts';
 import { timeouts } from '../utils/constants.ts';
 
 export type TestEnvironment = 'enterprise' | 'staging' | 'os';
@@ -59,21 +59,21 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
   spTenantUsername: async ({ environment }, use) => {
     let spTenantUsername = defaultConfig.spTenantUsername;
     if (environment === 'staging') {
-      spTenantUsername = getPeristentLoginInfo().tenantUsername;
+      spTenantUsername = getPersistentLoginInfo().tenantUsername;
     }
     await use(spTenantUsername);
   },
   username: async ({ environment }, use) => {
     let username = defaultConfig.username;
     if (environment === 'staging') {
-      username = getPeristentLoginInfo().username;
+      username = getPersistentLoginInfo().username;
     }
     await use(username);
   },
   password: async ({ environment }, use) => {
     let password = defaultConfig.password;
     if (environment === 'staging') {
-      password = getPeristentLoginInfo().password;
+      password = getPersistentLoginInfo().password;
     }
     await use(password);
   },
