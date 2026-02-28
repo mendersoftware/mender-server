@@ -15,7 +15,7 @@ import { expect } from '@playwright/test';
 import * as fs from 'fs';
 
 import test from '../fixtures/fixtures';
-import { isEnterpriseOrStaging, isLoggedIn, login, prepareNewPage, startDockerClient, stopDockerClient, tenantTokenRetrieval } from '../utils/commands';
+import { isEnterpriseOrStaging, isLoggedIn, login, prepareNewPage, startDockerClient, tenantTokenRetrieval } from '../utils/commands';
 import { emptyStorageState, selectors, spStoragePath, storageFolder, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants';
 
 const pollDeployment = async ({
@@ -50,12 +50,6 @@ test.describe('Test setup', () => {
   test.beforeAll(async () => {
     if (!fs.existsSync(storageFolder)) {
       fs.mkdirSync(storageFolder, { recursive: true });
-    }
-    try {
-      fs.unlinkSync('loginInfo.json');
-      await stopDockerClient();
-    } catch {
-      // ...continue
     }
   });
   test('allows account creation', async ({ baseUrl, context, environment, page, password, request, username }) => {
