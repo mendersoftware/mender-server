@@ -85,9 +85,9 @@ func TestGetEvents(t *testing.T) {
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceStatusChanged,
-						Data: bson.D{
-							{Key: "id", Value: "foo"},
-							{Key: "status", Value: "bar"},
+						Data: bson.M{
+							"id":     "foo",
+							"status": "bar",
 						},
 					},
 				},
@@ -144,25 +144,25 @@ func TestGetEvents(t *testing.T) {
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceStatusChanged,
-						Data: bson.D{
-							{Key: "id", Value: "foo"},
-							{Key: "status", Value: "bar"},
+						Data: bson.M{
+							"id":     "foo",
+							"status": "bar",
 						},
 					},
 				},
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceDecommissioned,
-						Data: bson.D{
-							{Key: "id", Value: "bar"},
+						Data: bson.M{
+							"id": "bar",
 						},
 					},
 				},
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceProvisioned,
-						Data: bson.D{
-							{Key: "id", Value: "baz"},
+						Data: bson.M{
+							"id": "baz",
 						},
 					},
 				},
@@ -237,8 +237,8 @@ func TestGetEvents(t *testing.T) {
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceProvisioned,
-						Data: bson.D{
-							{Key: "id", Value: "baz"},
+						Data: bson.M{
+							"id": "baz",
 						},
 					},
 				},
@@ -319,8 +319,8 @@ func TestGetEvents(t *testing.T) {
 				{
 					WebhookEvent: model.WebhookEvent{
 						Type: model.EventTypeDeviceDecommissioned,
-						Data: bson.D{
-							{Key: "id", Value: "bar-" + uuid.MustParse(integrationId).String()},
+						Data: bson.M{
+							"id": "bar-" + uuid.MustParse(integrationId).String(),
 						},
 					},
 					DeliveryStatus: []model.DeliveryStatus{

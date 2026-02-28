@@ -1666,7 +1666,7 @@ func TestDeploymentSetStatus(t *testing.T) {
 
 			var deployment *model.Deployment
 			err = collDep.FindOne(ctx,
-				bson.D{{Key: "_id", Value: id}}).
+				bson.M{"_id": id}).
 				Decode(&deployment)
 			assert.NoError(t, err)
 
