@@ -116,13 +116,13 @@ func doMigrations(ctx context.Context, client *mongo.Client,
 // NewClient returns a mongo client
 func NewClient(ctx context.Context, c config.Reader) (*mongo.Client, error) {
 
-	clientOptions := mopts.Client()
 	mongoURL := c.GetString(dconfig.SettingMongo)
 	if !strings.Contains(mongoURL, "://") {
 		return nil, errors.Errorf("Invalid mongoURL %q: missing schema.",
 			mongoURL)
 	}
-	clientOptions.ApplyURI(mongoURL).SetRegistry(codec.NewRegistry())
+	clientOptions := mongostore.BaseClientOptions(mongoURL)
+	clientOptions.SetRegistry(codec.NewRegistry())
 
 	username := c.GetString(dconfig.SettingDbUsername)
 	if username != "" {

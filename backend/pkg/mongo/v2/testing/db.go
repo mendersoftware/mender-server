@@ -20,8 +20,8 @@ import (
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
-	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/dbtest"
 )
 
@@ -40,8 +40,7 @@ type TestDBRunner interface {
 func WithDB(f func(dbtest TestDBRunner) int, reg *bson.Registry) int {
 	var runner TestDBRunner
 	if url, ok := os.LookupEnv("TEST_MONGO_URL"); ok {
-		clientOpts := options.Client().
-			ApplyURI(url)
+		clientOpts := mongostore.BaseClientOptions(url)
 		if reg != nil {
 			clientOpts.SetRegistry(reg)
 		}
