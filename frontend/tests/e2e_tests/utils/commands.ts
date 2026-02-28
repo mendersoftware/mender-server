@@ -215,18 +215,22 @@ export const startDockerClient = async (baseUrl, token) => {
   return Promise.resolve();
 };
 
-export const stopDockerClient = async () => {
-  console.log('stopping: docker');
-  const child = spawn('docker stop connect-client && docker rm connect-client', {
-    shell: true
+export const stopDockerClient = (): Promise<void> =>
+  new Promise(resolve => {
+    console.log('stopping: docker');
+    const child = spawn('docker stop connect-client && docker rm connect-client', {
+      shell: true
+    });
+    child.stderr.on('data', data => console.error(`stderr docker: ${data}`));
+    child.on('close', code => {
+      console.log(`child process exited with code ${code}`);
+      resolve();
+    });
+    child.on('error', err => {
+      console.error(`${err}`);
+      resolve();
+    });
   });
-  child.on('error', err => console.error(`${err}`));
-  child.on('message', err => console.error(`${err}`));
-  child.on('spawn', err => console.error(`${err}`));
-  child.stderr.on('data', data => console.error(`stderr docker: ${data}`));
-  child.on('close', code => console.log(`child process exited with code ${code}`));
-  return Promise.resolve();
-};
 
 export const login = async (username: string, password: string, baseUrl: string, request: APIRequestContext) => {
   const response = await request.post(`${baseUrl}api/management/v1/useradm/auth/login`, {
