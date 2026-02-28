@@ -2,6 +2,16 @@
 
 exports[`DeviceNotifications Component > renders correctly 1`] = `
 .emotion-0 {
+  height: 56px;
+  background-color: #1976d2;
+  color: #fff;
+}
+
+.emotion-1 {
+  gap: 8px;
+}
+
+.emotion-2 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -15,55 +25,171 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
+  font-size: 1.25rem;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-4 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+  color: inherit;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-4:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
   font-size: 1.5rem;
+  padding: 8px;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.54);
+  -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  --IconButton-hoverBg: rgba(0, 0, 0, 0.04);
+  padding: 5px;
+  font-size: 1.125rem;
+  color: inherit;
+  margin-right: 24px;
+}
+
+.emotion-5::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-5.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-5 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-5:hover {
+  background-color: var(--IconButton-hoverBg);
+}
+
+@media (hover: none) {
+  .emotion-5:hover {
+    background-color: transparent;
+  }
+}
+
+.emotion-5.Mui-disabled {
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-5.MuiIconButton-loading {
+  color: transparent;
 }
 
 <div
-  class="offerBox"
-  id="offerHeader"
+  class="flexbox align-items-center emotion-0"
 >
-  <svg
-    aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-0"
-    data-testid="AnnouncementIcon"
-    focusable="false"
-    style="margin-right: 2px; height: 16px; vertical-align: bottom;"
-    viewBox="0 0 24 24"
+  <div
+    class="flexbox centered full-width emotion-1"
   >
-    <path
-      d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-7 9h-2V5h2zm0 4h-2v-2h2z"
-    />
-  </svg>
-  <span>
-    Learn more about Mender's new add-ons at 
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-2"
+      data-testid="AutoAwesomeOutlinedIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="m19 9 1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm0 6-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25zm-7.5-5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12zm-1.51 3.49L9 15.17l-.99-2.18L5.83 12l2.18-.99L9 8.83l.99 2.18 2.18.99z"
+      />
+    </svg>
+    <p
+      class="MuiTypography-root MuiTypography-body2 emotion-3"
+    >
+      Try out the new AI feature to diagnose deployment failures in seconds.
+    </p>
     <a
-      href="https://mender.io/plans/pricing"
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-4"
+      href="https://mender.io/blog/new-mender-experimental-ai-enabled-feature"
+      rel="noopener noreferrer"
       target="_blank"
     >
-      mender.io/plans/pricing
+      Learn more
     </a>
-    . 
-    <a
-      class=""
-      href="https://docs.mender.io/add-ons"
-      rel="noopener"
-      target="_blank"
-    >
-      Visit our documentation
-    </a>
-     to learn how to enable add-on features
-  </span>
-  <svg
-    aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-0"
-    data-testid="CloseIcon"
-    focusable="false"
-    style="margin-left: 4px; height: 16px; cursor: pointer;"
-    viewBox="0 0 24 24"
+  </div>
+  <button
+    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-5"
+    tabindex="0"
+    type="button"
   >
-    <path
-      d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-    />
-  </svg>
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-2"
+      data-testid="CloseIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+      />
+    </svg>
+  </button>
 </div>
 `;
