@@ -20,7 +20,7 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 
@@ -312,9 +312,9 @@ func (i *inventory) needsUpsert(
 					attribute.Name != deviceAttribute.Name {
 					continue
 				}
-				if _, ok := deviceAttribute.Value.(primitive.A); ok {
+				if _, ok := deviceAttribute.Value.(bson.A); ok {
 					attributeChanged = !reflect.DeepEqual(attribute.Value,
-						[]interface{}(deviceAttribute.Value.(primitive.A)))
+						[]interface{}(deviceAttribute.Value.(bson.A)))
 				} else {
 					attributeChanged = !reflect.DeepEqual(attribute.Value, deviceAttribute.Value)
 				}

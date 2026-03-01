@@ -17,8 +17,7 @@ package mongo
 import (
 	"reflect"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/bsoncodec"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 var (
@@ -27,7 +26,7 @@ var (
 	tMap     = reflect.TypeOf(map[string]interface{}{})
 )
 
-func newRegistry() *bsoncodec.Registry {
+func newRegistry() *bson.Registry {
 	// Use JSON defaults for decoding embedded documents and arrays
 	reg := bson.NewRegistry()
 	reg.RegisterTypeMapEntry(bson.TypeArray, tArrFace)

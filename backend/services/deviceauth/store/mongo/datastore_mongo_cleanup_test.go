@@ -20,10 +20,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 )

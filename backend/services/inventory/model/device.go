@@ -22,9 +22,7 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/bsontype"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 const (
@@ -59,7 +57,7 @@ const (
 
 type DeviceID string
 
-var NilDeviceID DeviceID //TODO: how to make it NilDeviceID:=DeviceID(primitive.NilObjectID)
+var NilDeviceID DeviceID //TODO: how to make it NilDeviceID:=DeviceID(bson.NilObjectID)
 
 type GroupName string
 
@@ -181,13 +179,13 @@ func (d *Device) UnmarshalBSON(b []byte) error {
 				d.Group = GroupName(group)
 			case AttrNameUpdated:
 				if attr.Value != nil {
-					dateTime := attr.Value.(primitive.DateTime).Time()
+					dateTime := attr.Value.(bson.DateTime).Time()
 					d.UpdatedTs = &dateTime
 				} else {
 					d.UpdatedTs = nil
 				}
 			case AttrNameCreated:
-				dateTime := attr.Value.(primitive.DateTime)
+				dateTime := attr.Value.(bson.DateTime)
 				d.CreatedTs = dateTime.Time()
 			}
 		}
@@ -228,6 +226,18 @@ func (gn GroupName) String() string {
 // wrapper for device attributes names and values
 type DeviceAttributes []DeviceAttribute
 
+// ToMap converts the slice of attributes into a map keyed by "scope-name".
+func (da DeviceAttributes) ToMap() map[string]DeviceAttribute {
+	// Create map with capacity equal to slice length
+	m := make(map[string]DeviceAttribute, len(da))
+	for _, attr := range da {
+		// Construct the unique key: <scope>-<name>
+		key := attr.Scope + "-" + attr.Name
+		m[key] = attr
+	}
+	return m
+}
+
 func (d *DeviceAttributes) UnmarshalJSON(b []byte) error {
 	err := json.Unmarshal(b, (*[]DeviceAttribute)(d))
 	if err != nil {
@@ -264,43 +274,49 @@ func GetDeviceAttributeNameReplacer() *strings.Replacer {
 	return strings.NewReplacer(".", string(runeDot), "$", string(runeDollar))
 }
 
-// UnmarshalBSONValue correctly unmarshals DeviceAttributes from Device
-// documents stored in the DB.
-func (d *DeviceAttributes) UnmarshalBSONValue(t bsontype.Type, b []byte) error {
-	raw := bson.Raw(b)
-	elems, err := raw.Elements()
-	if err != nil {
+// UnmarshalBSON implements the bson.Unmarshaler interface
+func (da *DeviceAttributes) UnmarshalBSON(data []byte) error {
+	// The DB has: { "scope-name": { Value: ... } }
+	// We want slice of DeviceAttribute
+	var tempMap map[string]DeviceAttribute
+	if err := bson.Unmarshal(data, &tempMap); err != nil {
 		return err
 	}
-	*d = make(DeviceAttributes, len(elems))
-	for i, elem := range elems {
-		err = elem.Value().Unmarshal(&(*d)[i])
-		if err != nil {
-			return err
-		}
+
+	*da = make(DeviceAttributes, 0, len(tempMap))
+
+	// Convert map -> slice
+	for _, attr := range tempMap {
+		*da = append(*da, attr)
 	}
 
 	return nil
 }
 
-// MarshalBSONValue marshals the DeviceAttributes to a mongo-compatible
+// MarshalBSON marshals the DeviceAttributes to a mongo-compatible
 // document. That is, each attribute is given a unique field consisting of
 // "<scope>-<name>".
-func (d DeviceAttributes) MarshalBSONValue() (bsontype.Type, []byte, error) {
-	attrs := make(bson.D, len(d))
+func (da DeviceAttributes) MarshalBSON() ([]byte, error) {
+	// We have slice of DeviceAttribute
+	// The DB wants: { "scope-name": { Value: ... } }
+	output := make(bson.M, len(da))
+
 	replacer := GetDeviceAttributeNameReplacer()
-	for i := range d {
-		attr := DeviceAttribute{
-			Name:        d[i].Name,
-			Description: d[i].Description,
-			Value:       d[i].Value,
-			Scope:       d[i].Scope,
-			Timestamp:   d[i].Timestamp,
+
+	// Convert slice -> map
+	for k, attr := range da {
+		key := attr.Scope + "-" + replacer.Replace(attr.Name)
+		a := DeviceAttribute{
+			Name:        da[k].Name,
+			Description: da[k].Description,
+			Value:       da[k].Value,
+			Scope:       da[k].Scope,
+			Timestamp:   da[k].Timestamp,
 		}
-		attrs[i].Key = attr.Scope + "-" + replacer.Replace(d[i].Name)
-		attrs[i].Value = &attr
+		output[key] = a
 	}
-	return bson.MarshalValue(attrs)
+
+	return bson.Marshal(output)
 }
 
 type DeviceUpdate struct {

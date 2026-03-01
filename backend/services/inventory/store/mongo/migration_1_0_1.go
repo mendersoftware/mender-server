@@ -17,7 +17,7 @@ package mongo
 import (
 	"context"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 )
 
 type migration_1_0_1 struct {

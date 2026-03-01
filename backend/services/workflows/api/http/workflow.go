@@ -24,7 +24,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 
@@ -158,7 +158,7 @@ func (h WorkflowController) startWorkflowGetJob(
 		}
 	}
 
-	jobID := primitive.NewObjectID().Hex()
+	jobID := bson.NewObjectID().Hex()
 	job := &model.Job{
 		ID:              jobID,
 		InsertTime:      time.Now(),

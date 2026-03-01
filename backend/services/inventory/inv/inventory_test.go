@@ -26,7 +26,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	mdm "github.com/mendersoftware/mender-server/services/inventory/client/devicemonitor/mocks"
 	mworkflows "github.com/mendersoftware/mender-server/services/inventory/client/workflows/mocks"
@@ -426,7 +426,7 @@ func TestInventoryUpsertAttributesWithUpdated(t *testing.T) {
 				Attributes: model.DeviceAttributes{
 					model.DeviceAttribute{
 						Name:  "name",
-						Value: primitive.A{"foo", "bar"},
+						Value: bson.A{"foo", "bar"},
 						Scope: model.AttrScopeInventory,
 					},
 				},

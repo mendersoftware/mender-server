@@ -23,15 +23,15 @@ import (
 	"sync"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 	"github.com/mendersoftware/mender-server/pkg/tiers"
 
@@ -111,7 +111,9 @@ func NewDataStoreMongo(config DataStoreMongoConfig) (store.DataStore, error) {
 		if !strings.Contains(config.ConnectionString, "://") {
 			config.ConnectionString = "mongodb://" + config.ConnectionString
 		}
-		clientOptions := mopts.Client().ApplyURI(config.ConnectionString)
+		clientOptions := mopts.Client().
+			ApplyURI(config.ConnectionString).
+			SetRegistry(codec.NewRegistry())
 
 		if config.Username != "" {
 			clientOptions.SetAuth(mopts.Credential{
@@ -128,7 +130,7 @@ func NewDataStoreMongo(config DataStoreMongoConfig) (store.DataStore, error) {
 
 		ctx := context.Background()
 		l := log.FromContext(ctx)
-		clientGlobal, err = mongo.Connect(ctx, clientOptions)
+		clientGlobal, err = mongo.Connect(clientOptions)
 		if err != nil {
 			l.Errorf("mongo: error connecting to mongo '%s'", err.Error())
 			return
@@ -830,10 +832,10 @@ func (db *DataStoreMongo) DeleteGroup(
 
 	const batchMaxSize = 100
 	batchSize := int32(batchMaxSize)
-	findOptions := &mopts.FindOptions{
-		Projection: bson.M{DbDevId: 1},
-		BatchSize:  &batchSize,
-	}
+	findOptions := mopts.Find().
+		SetProjection(bson.M{DbDevId: 1}).
+		SetBatchSize(batchSize)
+
 	cursor, err := collDevs.Find(ctx, filter, findOptions)
 	if err != nil {
 		return nil, err
@@ -953,17 +955,14 @@ func (db *DataStoreMongo) ListGroups(
 			fltr = append(fltr, q...)
 		}
 	}
-	results, err := c.Distinct(
+	var groups []model.GroupName
+	results := c.Distinct(
 		ctx, DbDevAttributesGroupValue, fltr,
 	)
-	if err != nil {
+	if err := results.Decode(&groups); err != nil {
 		return nil, err
 	}
 
-	groups := make([]model.GroupName, len(results))
-	for i, d := range results {
-		groups[i] = model.GroupName(d.(string))
-	}
 	return groups, nil
 }
 
@@ -1100,7 +1099,7 @@ func (db *DataStoreMongo) GetAllAttributeNames(ctx context.Context) ([]string, e
 	if err != nil {
 		return make([]string, 0), nil
 	}
-	results := mapValue["allkeys"].(primitive.A)
+	results := mapValue["allkeys"].(bson.A)
 	attributeNames := make([]string, len(results))
 	for i, d := range results {
 		attributeNames[i] = d.(string)
@@ -1315,9 +1314,8 @@ func indexAttr(s *mongo.Client, ctx context.Context, attr string) error {
 		{Key: indexAttrName(attrIdentityStatus), Value: 1},
 		{Key: indexAttrName(attr), Value: 1},
 	}
-	_, err := indexView.CreateOne(ctx, mongo.IndexModel{Keys: keys, Options: &mopts.IndexOptions{
-		Name: &attr,
-	}})
+	opts := mopts.Index().SetName(attr)
+	_, err := indexView.CreateOne(ctx, mongo.IndexModel{Keys: keys, Options: opts})
 
 	if err != nil {
 		if isTooManyIndexes(err) {

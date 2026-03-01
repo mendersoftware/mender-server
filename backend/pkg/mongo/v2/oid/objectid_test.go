@@ -164,6 +164,9 @@ func TestString(t *testing.T) {
 func TestNull(t *testing.T) {
 	null := ObjectID{}
 	assert.Equal(t, null.String(), "")
-	_, _, err := null.MarshalBSONValue()
-	assert.Error(t, err)
+	bsonType, data, err := null.MarshalBSONValue()
+
+	assert.NoError(t, err)
+	assert.Equal(t, byte(bson.TypeNull), bsonType)
+	assert.Nil(t, data)
 }

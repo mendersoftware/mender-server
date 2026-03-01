@@ -18,11 +18,11 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 )
 
@@ -57,7 +57,7 @@ func (m *migration_1_1_4) Up(from migrate.Version) error {
 	if err != nil {
 		if mgoErr, ok := err.(mongo.CommandError); ok {
 			if mgoErr.Code == ErrCodeIndexOptionsError {
-				_, e := idxUsers.DropOne(m.ctx, OldDbUniqueEmailIndexName)
+				e := idxUsers.DropOne(m.ctx, OldDbUniqueEmailIndexName)
 				if e != nil {
 					return errors.Wrap(err, e.Error())
 				}
