@@ -156,7 +156,7 @@ export const Organization = () => {
           notification={
             showTokenWarning && (
               <Alert severity="warning">
-                Do not share your organization token with others. Treat this token like a password, as it can be used to request authorization for new devices.
+                Do not share your organization token with others. If leaked, unauthorized devices can send authorization requests, making it difficult to identify and manage your own devices.
               </Alert>
             )
           }
