@@ -319,7 +319,7 @@ services:
       default:
         aliases: [mender-workflows]
   traefik:
-    image: traefik:3.6.7
+    image: traefik:3.6.9
     command:
       - --api=true
       - --api.insecure=true
@@ -360,7 +360,7 @@ services:
           - s3.docker.mender.io
 
   mongo:
-    image: mongo:7.0
+    image: mongo:8.2
     healthcheck:
       test: ["CMD", "mongosh", "mongodb://localhost:27017/test", "--quiet", "--eval",  "db.runCommand('ping').ok"]
       interval: 10s
