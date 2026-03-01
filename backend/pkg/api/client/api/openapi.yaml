@@ -2988,6 +2988,31 @@ paths:
           - desc
           type: string
         style: form
+      - description: |
+          Device identity or inventory attribute name to use for a fallback device lookup
+          when no deployments match the given name filter. When set, the server resolves the
+          first name value against the device inventory/identity and returns deployments
+          targeting the matched device.
+        explode: true
+        in: query
+        name: id_attribute
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: |
+          Scope for the id_attribute parameter. Defaults to "identity", unless id_attribute
+          is "name" in which case it defaults to "inventory".
+        explode: true
+        in: query
+        name: id_scope
+        required: false
+        schema:
+          enum:
+          - identity
+          - inventory
+          type: string
+        style: form
       responses:
         "200":
           content:

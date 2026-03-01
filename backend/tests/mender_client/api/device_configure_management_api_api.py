@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Mender API
 
@@ -11,6 +9,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
@@ -359,7 +358,7 @@ class DeviceConfigureManagementAPIApi:
 
 
         :param device_id: ID of the device to query. (required)
-        :type device_id: str
+        :type device_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -428,7 +427,7 @@ class DeviceConfigureManagementAPIApi:
 
 
         :param device_id: ID of the device to query. (required)
-        :type device_id: str
+        :type device_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -497,7 +496,7 @@ class DeviceConfigureManagementAPIApi:
 
 
         :param device_id: ID of the device to query. (required)
-        :type device_id: str
+        :type device_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

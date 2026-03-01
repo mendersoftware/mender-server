@@ -55,6 +55,7 @@ const (
 	PerPageInventoryDevices          = 500
 	InventoryGroupScope              = "system"
 	InventoryIdentityScope           = "identity"
+	InventoryInventoryScope          = "inventory"
 	InventoryGroupAttributeName      = "group"
 	InventoryStatusAttributeName     = "status"
 	InventoryIdAttributeName         = "id"
@@ -1903,6 +1904,56 @@ func (d *Deployments) LookupDeployment(ctx context.Context,
 
 	if err != nil {
 		return nil, 0, errors.Wrap(err, "searching for deployments")
+	}
+
+	// Fallback: if name search returned no results and device identity
+	// lookup params are provided, resolve the device UUID via inventory
+	// and search deployments targeting that device.
+	if len(list) == 0 &&
+		len(query.Names) > 0 &&
+		query.IdAttribute != "" &&
+		query.IdScope != "" {
+
+		id := identity.FromContext(ctx)
+		if id == nil {
+			return make([]*model.Deployment, 0), 0, nil
+		}
+
+		devices, _, err := d.search(ctx, id.Tenant, model.SearchParams{
+			Page:    1,
+			PerPage: 1,
+			Filters: []model.FilterPredicate{{
+				Scope:     query.IdScope,
+				Attribute: query.IdAttribute,
+				Type:      "$eq",
+				Value:     query.Names[0],
+			}},
+		})
+		if err != nil {
+			return nil, 0, errors.Wrap(err,
+				"searching inventory for device")
+		}
+		if len(devices) > 0 {
+			deviceID := devices[0].ID
+			fallbackQuery := model.Query{
+				DeviceIDs:     []string{deviceID},
+				Status:        query.Status,
+				Type:          query.Type,
+				Limit:         query.Limit,
+				Skip:          query.Skip,
+				CreatedAfter:  query.CreatedAfter,
+				CreatedBefore: query.CreatedBefore,
+				Sort:          query.Sort,
+				DisableCount:  query.DisableCount,
+			}
+			list, totalCount, err = d.db.FindDeployments(
+				ctx, fallbackQuery,
+			)
+			if err != nil {
+				return nil, 0, errors.Wrap(err,
+					"searching deployments by device ID")
+			}
+		}
 	}
 
 	if list == nil {

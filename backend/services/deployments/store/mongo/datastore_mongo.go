@@ -2731,6 +2731,17 @@ func (db *DataStoreMongo) buildDeploymentsQuery(
 		andq = append(andq, tq)
 	}
 
+	// filter by device IDs (matches single-device deployments by name
+	// and multi-device deployments by device_list)
+	if match.DeviceIDs != nil {
+		andq = append(andq, bson.M{
+			"$or": []bson.M{
+				{StorageKeyDeploymentName: bson.M{"$in": match.DeviceIDs}},
+				{StorageKeyDeploymentDeviceList: bson.M{"$in": match.DeviceIDs}},
+			},
+		})
+	}
+
 	// build deployment by name part of the query
 	if match.SearchText != "" {
 		// we must have indexing for text search

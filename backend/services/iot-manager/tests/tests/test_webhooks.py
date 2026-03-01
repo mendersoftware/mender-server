@@ -67,10 +67,10 @@ class TestWebhooks:
         mmock = setup_test_case
         intrnl = InternalAPIClient()
         assert isinstance(
-            mender_client.NewDevice(id="00000000-0000-0000-0000-000000000123"),
+            mender_client.NewDeviceInternalProvision(id="00000000-0000-0000-0000-000000000123"),
             BaseModel,
         )
-        dev = mender_client.NewDevice(
+        dev = mender_client.NewDeviceInternalProvision(
             id=device_id,
             status="accepted",
             auth_sets=[
