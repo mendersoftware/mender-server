@@ -24,7 +24,7 @@ configs:
 
 services:
   s3-master:
-    image: chrislusf/seaweedfs:4.09
+    image: chrislusf/seaweedfs:4.13
     command:
       - master
       - -mdir=/data
@@ -37,7 +37,7 @@ services:
       - s3:/data
 
   s3-volume:
-    image: chrislusf/seaweedfs:4.09
+    image: chrislusf/seaweedfs:4.13
     command:
       - volume
       - -mserver=s3-master:9333
@@ -51,7 +51,7 @@ services:
       - s3:/data
 
   s3-filer:
-    image: chrislusf/seaweedfs:4.09
+    image: chrislusf/seaweedfs:4.13
     command:
       - filer
       - -master=s3-master:9333
@@ -63,7 +63,7 @@ services:
       - s3:/data
 
   s3:
-    image: chrislusf/seaweedfs:4.09
+    image: chrislusf/seaweedfs:4.13
     command:
       - s3
       - -port=8080
