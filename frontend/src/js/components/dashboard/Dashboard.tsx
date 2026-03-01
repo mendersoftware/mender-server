@@ -97,7 +97,7 @@ export const Dashboard = () => {
           </>
         </Alert>
       )}
-      <h4 className="margin-left-small">Dashboard</h4>
+      <h4 className="margin-left-small">Home Dashboard Demo</h4>
       {currentUser ? (
         <div className={classes.board}>
           <div className={classes.left}>
