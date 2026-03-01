@@ -114,9 +114,24 @@ $(TEST_ACCEPTANCE_TARGETS):
 test-integration:
 	./tests/run-integration.bash $(args)
 
+COMPOSE_FILES_OPEN = -f tests/docker-compose.yml -f tests/docker/docker-compose.backend-tests.yml
+GO_TEST_FLAGS ?=
+GO_TEST_RUN ?=
+
 .PHONY: test-integration-ng
 test-integration-ng:
-	./tests/runner/scripts/run.sh $(args)
+	@mkdir -p tests/logs
+	docker compose -p backend-tests $(COMPOSE_FILES_OPEN) up -d --remove-orphans
+	docker compose -p backend-tests $(COMPOSE_FILES_OPEN) run --use-aliases \
+		-w /backend/tests/runner --entrypoint=sh integration-tester \
+		-c 'go test -c -o /tmp/integration.test $(GO_TEST_FLAGS) ./tests/... && \
+		    /tmp/integration.test -test.v $(GO_TEST_RUN) -server-url=traefik'; \
+	rc=$$?; \
+	if [ $$rc -ne 0 ]; then \
+		docker compose -p backend-tests $(COMPOSE_FILES_OPEN) logs > tests/logs/integration-ng.log 2>&1; \
+	fi; \
+	docker compose -p backend-tests $(COMPOSE_FILES_OPEN) down --remove-orphans -v; \
+	exit $$rc
 
 .PHONY: build-acceptance
 build-acceptance: $(BUILD_ACCEPTANCE_TARGETS)
