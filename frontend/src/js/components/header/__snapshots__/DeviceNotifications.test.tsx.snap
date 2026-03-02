@@ -788,20 +788,24 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #1976d2;
   color: #fff;
+  --Badge-translateX: -50%;
+  --Badge-translateY: -50%;
   top: 0;
+  bottom: initial;
+  right: initial;
   left: 0;
-  -webkit-transform: scale(1) translate(-50%, -50%);
-  -moz-transform: scale(1) translate(-50%, -50%);
-  -ms-transform: scale(1) translate(-50%, -50%);
-  transform: scale(1) translate(-50%, -50%);
+  -webkit-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
   transform-origin: 0% 0%;
 }
 
 .emotion-6.MuiBadge-invisible {
-  -webkit-transform: scale(0) translate(-50%, -50%);
-  -moz-transform: scale(0) translate(-50%, -50%);
-  -ms-transform: scale(0) translate(-50%, -50%);
-  transform: scale(0) translate(-50%, -50%);
+  -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
 }
 
 <div
@@ -1069,20 +1073,24 @@ exports[`DeviceNotifications Component > renders correctly at limit 1`] = `
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #d32f2f;
   color: #fff;
+  --Badge-translateX: -50%;
+  --Badge-translateY: -50%;
   top: 0;
+  bottom: initial;
+  right: initial;
   left: 0;
-  -webkit-transform: scale(1) translate(-50%, -50%);
-  -moz-transform: scale(1) translate(-50%, -50%);
-  -ms-transform: scale(1) translate(-50%, -50%);
-  transform: scale(1) translate(-50%, -50%);
+  -webkit-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
   transform-origin: 0% 0%;
 }
 
 .emotion-6.MuiBadge-invisible {
-  -webkit-transform: scale(0) translate(-50%, -50%);
-  -moz-transform: scale(0) translate(-50%, -50%);
-  -ms-transform: scale(0) translate(-50%, -50%);
-  transform: scale(0) translate(-50%, -50%);
+  -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
 }
 
 <div
@@ -1350,20 +1358,24 @@ exports[`DeviceNotifications Component > renders correctly close to limits 1`] =
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #ed6c02;
   color: #fff;
+  --Badge-translateX: -50%;
+  --Badge-translateY: -50%;
   top: 0;
+  bottom: initial;
+  right: initial;
   left: 0;
-  -webkit-transform: scale(1) translate(-50%, -50%);
-  -moz-transform: scale(1) translate(-50%, -50%);
-  -ms-transform: scale(1) translate(-50%, -50%);
-  transform: scale(1) translate(-50%, -50%);
+  -webkit-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
   transform-origin: 0% 0%;
 }
 
 .emotion-6.MuiBadge-invisible {
-  -webkit-transform: scale(0) translate(-50%, -50%);
-  -moz-transform: scale(0) translate(-50%, -50%);
-  -ms-transform: scale(0) translate(-50%, -50%);
-  transform: scale(0) translate(-50%, -50%);
+  -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
 }
 
 <div
@@ -1627,20 +1639,24 @@ exports[`DeviceNotifications Component > renders correctly with limits 1`] = `
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #1976d2;
   color: #fff;
+  --Badge-translateX: -50%;
+  --Badge-translateY: -50%;
   top: 0;
+  bottom: initial;
+  right: initial;
   left: 0;
-  -webkit-transform: scale(1) translate(-50%, -50%);
-  -moz-transform: scale(1) translate(-50%, -50%);
-  -ms-transform: scale(1) translate(-50%, -50%);
-  transform: scale(1) translate(-50%, -50%);
+  -webkit-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
   transform-origin: 0% 0%;
 }
 
 .emotion-6.MuiBadge-invisible {
-  -webkit-transform: scale(0) translate(-50%, -50%);
-  -moz-transform: scale(0) translate(-50%, -50%);
-  -ms-transform: scale(0) translate(-50%, -50%);
-  transform: scale(0) translate(-50%, -50%);
+  -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
 }
 
 <div
@@ -1904,20 +1920,24 @@ exports[`DeviceNotifications Component > renders correctly without limits 1`] = 
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #1976d2;
   color: #fff;
+  --Badge-translateX: -50%;
+  --Badge-translateY: -50%;
   top: 0;
+  bottom: initial;
+  right: initial;
   left: 0;
-  -webkit-transform: scale(1) translate(-50%, -50%);
-  -moz-transform: scale(1) translate(-50%, -50%);
-  -ms-transform: scale(1) translate(-50%, -50%);
-  transform: scale(1) translate(-50%, -50%);
+  -webkit-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
   transform-origin: 0% 0%;
 }
 
 .emotion-6.MuiBadge-invisible {
-  -webkit-transform: scale(0) translate(-50%, -50%);
-  -moz-transform: scale(0) translate(-50%, -50%);
-  -ms-transform: scale(0) translate(-50%, -50%);
-  transform: scale(0) translate(-50%, -50%);
+  -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
 }
 
 <div
