@@ -629,20 +629,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #1d8faf;
   color: #fff;
+  --Badge-translateX: -50%;
+  --Badge-translateY: -50%;
   top: 0;
+  bottom: initial;
+  right: initial;
   left: 0;
-  -webkit-transform: scale(1) translate(-50%, -50%);
-  -moz-transform: scale(1) translate(-50%, -50%);
-  -ms-transform: scale(1) translate(-50%, -50%);
-  transform: scale(1) translate(-50%, -50%);
+  -webkit-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
   transform-origin: 0% 0%;
 }
 
 .emotion-18.MuiBadge-invisible {
-  -webkit-transform: scale(0) translate(-50%, -50%);
-  -moz-transform: scale(0) translate(-50%, -50%);
-  -ms-transform: scale(0) translate(-50%, -50%);
-  transform: scale(0) translate(-50%, -50%);
+  -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
 }
 
 .emotion-18 .MuiBadge-colorInfo {
@@ -2967,20 +2971,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #1d8faf;
   color: #fff;
+  --Badge-translateX: -50%;
+  --Badge-translateY: -50%;
   top: 0;
+  bottom: initial;
+  right: initial;
   left: 0;
-  -webkit-transform: scale(1) translate(-50%, -50%);
-  -moz-transform: scale(1) translate(-50%, -50%);
-  -ms-transform: scale(1) translate(-50%, -50%);
-  transform: scale(1) translate(-50%, -50%);
+  -webkit-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(1) translate(var(--Badge-translateX), var(--Badge-translateY));
   transform-origin: 0% 0%;
 }
 
 .emotion-15.MuiBadge-invisible {
-  -webkit-transform: scale(0) translate(-50%, -50%);
-  -moz-transform: scale(0) translate(-50%, -50%);
-  -ms-transform: scale(0) translate(-50%, -50%);
-  transform: scale(0) translate(-50%, -50%);
+  -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  -ms-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
+  transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
 }
 
 .emotion-15 .MuiBadge-colorInfo {
