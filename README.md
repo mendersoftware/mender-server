@@ -103,3 +103,5 @@ export MENDER_IMAGE_REPOSITORY=northern.tech/mender/mender-server
 export MENDER_IMAGE_TAG=build-$COMMIT_SHA
 export MENDER_IMAGE_TAG_TEST=test-$COMMIT_SHA
 ```
+
+Fake change - dont merge
