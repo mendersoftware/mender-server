@@ -30,6 +30,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
@@ -424,13 +425,12 @@ func NewDataStoreMongoWithClient(client *mongo.Client) *DataStoreMongo {
 
 func NewMongoClient(ctx context.Context, c config.Reader) (*mongo.Client, error) {
 
-	clientOptions := mopts.Client()
 	mongoURL := c.GetString(dconfig.SettingMongo)
 	if !strings.Contains(mongoURL, "://") {
 		return nil, errors.Errorf("Invalid mongoURL %q: missing schema.",
 			mongoURL)
 	}
-	clientOptions.ApplyURI(mongoURL)
+	clientOptions := mongostore.BaseClientOptions(mongoURL)
 
 	username := c.GetString(dconfig.SettingDbUsername)
 	if username != "" {

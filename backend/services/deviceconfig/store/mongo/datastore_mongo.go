@@ -68,12 +68,11 @@ type MongoStoreConfig struct {
 // newClient returns a mongo client
 func newClient(ctx context.Context, config MongoStoreConfig) (*mongo.Client, error) {
 
-	clientOptions := mopts.Client()
 	if config.MongoURL == nil {
 		return nil, errors.New("mongo: missing URL")
 	}
-	clientOptions.ApplyURI(config.MongoURL.String()).
-		SetRegistry(codec.NewRegistry())
+	clientOptions := mongostore.BaseClientOptions(config.MongoURL.String())
+	clientOptions.SetRegistry(codec.NewRegistry())
 
 	if config.Username != "" {
 		credentials := mopts.Credential{
