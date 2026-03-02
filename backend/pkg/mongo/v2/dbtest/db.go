@@ -55,9 +55,10 @@ import (
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
-	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"gopkg.in/tomb.v2"
+
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 )
 
 // DBServer controls a MongoDB server process to be used within test suites.
@@ -204,7 +205,7 @@ func (dbs *DBServer) Client() *mongo.Client {
 		if dbs.timeout == 0 {
 			dbs.timeout = 8
 		}
-		clientOptions := options.Client().ApplyURI("mongodb://" + dbs.host + "/test")
+		clientOptions := mongostore.BaseClientOptions("mongodb://" + dbs.host + "/test")
 		if dbs.registry != nil {
 			clientOptions.SetRegistry(dbs.registry)
 		}

@@ -29,8 +29,8 @@ import (
 	"context"
 
 	"go.mongodb.org/mongo-driver/v2/mongo"
-	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 )
@@ -176,8 +176,7 @@ func (db DBFromEnv) URL() string {
 
 func (db DBFromEnv) NewClient(ctx context.Context) *mongo.Client {
 	client, err := mongo.Connect(
-		mopts.Client().
-			ApplyURI(string(db)).
+		mongostore.BaseClientOptions(string(db)).
 			SetRegistry(codec.NewRegistry()),
 	)
 	if err != nil {
@@ -187,8 +186,7 @@ func (db DBFromEnv) NewClient(ctx context.Context) *mongo.Client {
 }
 func (db *MongoTestInstance) NewClient(ctx context.Context) *mongo.Client {
 	client, err := mongo.Connect(
-		mopts.Client().
-			ApplyURI(db.URL()).
+		mongostore.BaseClientOptions(db.URL()).
 			SetRegistry(codec.NewRegistry()),
 	)
 	if err != nil {
