@@ -424,8 +424,7 @@ func TestGetSession(t *testing.T) {
 				tc.Session.TenantID, DbName,
 			))
 			collSess := database.Collection(SessionsCollectionName)
-			ctx := context.Background()
-			_, err := collSess.InsertOne(nil, mongostore.WithTenantID(ctx, tc.Session))
+			_, err := collSess.InsertOne(nil, mongostore.WithTenantID(tc.CTX, tc.Session))
 			if err != nil {
 				panic(errors.Wrap(err,
 					"[TEST ERR] Failed to prepare test case",
