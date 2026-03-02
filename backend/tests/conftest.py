@@ -42,7 +42,7 @@ def pytest_addoption(parser):
 def pytest_configure(config: pytest.Config):
     mender_url = config.getoption("mender_url")
     client_config = Configuration(host=mender_url)
-    client_config.debug = True
+    client_config.debug = False
     client_config.verify_ssl = False
     Configuration.set_default(client_config)
     ApiClient.set_default(ApiClient(client_config))
