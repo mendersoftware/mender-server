@@ -269,6 +269,13 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
 }
 
 .emotion-13 {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
   width: calc(100% + 12px);
   margin-left: -6px;
   border-radius: 4px;
@@ -281,6 +288,17 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
   font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0.00714em;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.emotion-15 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-16 {
@@ -518,7 +536,8 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
         class="margin-bottom-small"
       >
         <div
-          class="flexbox column padding-x-small emotion-13  "
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 flexbox column padding-x-small emotion-13"
+          style="--Paper-shadow: none;"
         >
           <div
             class="flexbox full-width space-between"
@@ -533,7 +552,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
               </h6>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-7"
+              class="MuiTypography-root MuiTypography-body2 emotion-15"
               data-testid="device-limit-standard"
             >
               100
@@ -557,14 +576,19 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
             </span>
           </div>
           <div
-            class="flexbox margin-top-x-small"
+            class="flexbox margin-top-x-small space-between"
           >
-            <span
-              class="MuiTypography-root MuiTypography-caption emotion-18"
+            <div
+              class="flexbox"
             >
-              40
-              % used
-            </span>
+              <span
+                class="MuiTypography-root MuiTypography-caption emotion-18"
+              >
+                40
+                % 
+                used
+              </span>
+            </div>
           </div>
         </div>
       </div>

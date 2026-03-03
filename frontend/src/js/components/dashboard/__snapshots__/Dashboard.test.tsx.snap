@@ -102,6 +102,13 @@ exports[`Dashboard Component > renders correctly 1`] = `
 }
 
 .emotion-4 {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
   width: calc(100% + 12px);
   margin-left: -6px;
   border-radius: 4px;
@@ -114,6 +121,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0.00714em;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-6 {
@@ -123,6 +131,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-7 {
@@ -539,6 +548,15 @@ exports[`Dashboard Component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
+.emotion-22 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+}
+
 .emotion-23 {
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -566,6 +584,15 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;
+}
+
+.emotion-25 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 .emotion-27 {
@@ -691,7 +718,8 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <div
-                    class="flexbox column padding-x-small emotion-4  "
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 flexbox column padding-x-small emotion-4"
+                    style="--Paper-shadow: none;"
                   >
                     <div
                       class="flexbox full-width space-between"
@@ -873,7 +901,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           Recent deployments
         </h6>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-5"
+          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-22"
         >
           Pending
         </h6>
@@ -885,7 +913,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               class="MuiTypography-root MuiTypography-body1 emotion-24"
             />
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-6"
+              class="MuiTypography-root MuiTypography-body2 emotion-25"
               title="Test"
             >
               Test
@@ -917,7 +945,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-6"
+              class="MuiTypography-root MuiTypography-body2 emotion-25"
               title="test deployment"
             >
               test deployment
@@ -949,7 +977,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-6"
+              class="MuiTypography-root MuiTypography-body2 emotion-25"
               title="test deployment 2"
             >
               test deployment 2
@@ -959,7 +987,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             class=""
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-6"
+              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-25"
             >
               <svg
                 aria-hidden="true"
@@ -996,7 +1024,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-5"
+          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-22"
         >
           In Progress
         </h6>
@@ -1008,7 +1036,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               class="MuiTypography-root MuiTypography-body1 emotion-24"
             />
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-6"
+              class="MuiTypography-root MuiTypography-body2 emotion-25"
               title="Test"
             >
               Test
@@ -1040,7 +1068,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-6"
+              class="MuiTypography-root MuiTypography-body2 emotion-25"
               title="test deployment"
             >
               test deployment
@@ -1072,7 +1100,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-6"
+              class="MuiTypography-root MuiTypography-body2 emotion-25"
               title="test deployment 2"
             >
               test deployment 2
@@ -1082,7 +1110,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             class=""
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-6"
+              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-25"
             >
               <svg
                 aria-hidden="true"
@@ -1119,7 +1147,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-5"
+          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-22"
         >
           Finished
         </h6>
@@ -1143,7 +1171,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   class="MuiTypography-root MuiTypography-body1 emotion-24"
                 />
                 <p
-                  class="MuiTypography-root MuiTypography-body2 emotion-6"
+                  class="MuiTypography-root MuiTypography-body2 emotion-25"
                   title="Test"
                 >
                   Test
@@ -1185,7 +1213,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   r1
                 </p>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 emotion-6"
+                  class="MuiTypography-root MuiTypography-body2 emotion-25"
                   title="test deployment"
                 >
                   test deployment
@@ -1227,7 +1255,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   r1
                 </p>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 emotion-6"
+                  class="MuiTypography-root MuiTypography-body2 emotion-25"
                   title="test deployment 2"
                 >
                   test deployment 2
@@ -1237,7 +1265,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                 class="emotion-64"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-6"
+                  class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-25"
                 >
                   <svg
                     aria-hidden="true"
