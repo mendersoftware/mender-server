@@ -13,7 +13,7 @@ ENV SENTRY_URL=$SENTRY_URL
 RUN --mount=type=secret,id=sentryAuthToken export SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentryAuthToken) && npm run build
 RUN gzip -r -k dist/*
 
-FROM nginxinc/nginx-unprivileged:1.29.2-alpine3.22-slim AS unprivileged
+FROM nginxinc/nginx-unprivileged:1.29.3-alpine3.22-slim AS unprivileged
 EXPOSE 8090
 WORKDIR /var/www/mender-gui/dist
 ARG GIT_COMMIT_TAG
