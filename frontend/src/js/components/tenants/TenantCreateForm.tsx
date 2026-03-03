@@ -17,51 +17,56 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
-import { Alert, Divider, Drawer, formControlLabelClasses } from '@mui/material';
+import { Alert, Checkbox, Divider, Drawer, FormControlLabel, FormHelperText, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
+import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
-import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { TIMEOUTS, rolesByName } from '@northern.tech/store/constants';
-import { getOrganization, getSsoConfig } from '@northern.tech/store/selectors';
+import { getSpLimits, getSsoConfig } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { addTenant, checkEmailExists, getSsoConfigs } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../helptips/MenderTooltip';
-import { PasswordLabel } from '../settings/user-management/UserForm';
-
-interface TenantCreateFormProps {
-  onCloseClick: () => void;
-  open: boolean;
-}
 
 const useStyles = makeStyles()(theme => ({
   buttonWrapper: {
     '&.button-wrapper': {
-      justifyContent: 'start'
+      justifyContent: 'start',
+      marginTop: 0
     }
   },
   formWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(2),
-    [`.${formControlLabelClasses.root}`]: { marginTop: 0 },
-    '.required .relative': { marginLeft: theme.spacing(10) }
+    gap: theme.spacing(5),
+    maxWidth: '726px'
   },
-  devLimitInput: { marginTop: 10, maxWidth: 150, minWidth: 130 }
+  limitsContainer: {
+    marginBottom: theme.spacing(2),
+    maxWidth: '550px'
+  }
 }));
 
 interface UserInputsProps {
   adminExists: boolean;
   checkEmailExists: (email: string) => Promise<void>;
 }
-
+export const convertToBackendLimits = (limits, spLimits) =>
+  Object.fromEntries(
+    Object.entries(limits)
+      .filter(([key]) => !!spLimits[key])
+      .map(([key, limit]) => {
+        const { backendId } = spLimits[key];
+        return [backendId, { Name: backendId, value: Number(limit) || 0 }];
+      })
+  );
 const userExistsInfo =
   'This user already has a Mender account, and will be assigned as admin to the new tenant. If you want to create a brand new user, try a different email address.';
 const newUserInfo = 'This will create a new user as admin of the new tenant.';
@@ -70,7 +75,7 @@ const UserInputs = (props: UserInputsProps) => {
   const { checkEmailExists, adminExists } = props;
   const [emailInfoText, setEmailInfoText] = useState<string>('');
 
-  const { watch, getFieldState, setValue } = useFormContext();
+  const { watch, getFieldState } = useFormContext();
 
   const enteredEmail = watch('email');
   const debouncedEmail = useDebounce(enteredEmail, TIMEOUTS.debounceDefault);
@@ -90,54 +95,123 @@ const UserInputs = (props: UserInputsProps) => {
     }
     if (adminExists) {
       setEmailInfoText(userExistsInfo);
-      setValue('password', '');
       return;
     }
     setEmailInfoText(newUserInfo);
-  }, [debouncedEmail, getFieldState, setValue, adminExists]);
+  }, [debouncedEmail, getFieldState, adminExists]);
 
   return (
     <>
-      <div className="flexbox align-items-center">
-        <TextInput validations="isEmail,trim" required id="email" label="Admin user" />
-        <MenderHelpTooltip className="required" id={HELPTOOLTIPS.tenantAdmin.id} />
-      </div>
-      {!adminExists && (
-        <>
-          <PasswordInput
-            className="margin-bottom-small"
-            label={<PasswordLabel />}
-            id="password"
-            InputLabelProps={{ shrink: true }}
-            validations={`isLength:8,isNot:${enteredEmail}`}
-            placeholder="Password"
-            create
-            generate
-          />
-          <FormCheckbox id="send_reset_password" label="Send an email to the user containing a link to reset the password" />
-        </>
-      )}
+      <TextInput
+        validations="isEmail,trim"
+        required
+        requiredRendered={false}
+        id="email"
+        label="Admin user"
+        width={430}
+        helperText="This user will have the admin role for this tenant. It can be an existing Mender account, or a brand new user."
+      />
       {emailInfoText ? <InfoHint content={emailInfoText} /> : <div />}
     </>
   );
 };
 
-const tenantAdminDefaults = { email: '', name: '', password: '', sso: false, binary_delta: false, device_limit: undefined, send_reset_password: false };
+export const DeviceLimitsInput = props => {
+  const { spLimits, currentLimits, isEdit = false } = props;
+
+  const [deviceTierEnabled, setDeviceTierEnabled] = useState(Object.fromEntries(Object.keys(spLimits).map(limit => [limit, isEdit])));
+  const { classes } = useStyles();
+  const { setFocus, resetField } = useFormContext();
+
+  const inputProps = Object.values(spLimits).map(limit => {
+    const unlimited = limit.limit === -1;
+    const quotaLeft = limit.quotaLeft + currentLimits[limit.id];
+    const numericValidations = unlimited
+      ? {}
+      : {
+          min: { value: 0, message: 'The limit must be 0 or more' },
+          max: { value: quotaLeft, message: `The device limit must be ${quotaLeft} or fewer` }
+        };
+    return {
+      ...limit,
+      numericValidations,
+      maxPlaceholder: unlimited ? 'Device limit' : `Maximum: ${(quotaLeft || 0).toLocaleString()}`
+    };
+  });
+
+  const onToggleDeviceTier = (id: string) => {
+    const isEnabled = !deviceTierEnabled[id];
+    if (isEnabled) {
+      setTimeout(() => setFocus(id), 0);
+    } else {
+      resetField(id);
+    }
+    setDeviceTierEnabled(tiersEnabled => ({ ...tiersEnabled, [id]: !tiersEnabled[id] }));
+  };
+  return (
+    <div>
+      {inputProps.map(limit => (
+        <div key={limit.id} className={classes.limitsContainer}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                className="margin-left-x-small"
+                disabled={limit.limit !== -1 && limit.current >= limit.limit && !isEdit}
+                checked={deviceTierEnabled[limit.id]}
+                onChange={() => onToggleDeviceTier(limit.id)}
+              />
+            }
+            label={
+              <div className="flexbox">
+                <Typography color="textPrimary" className="capitalized-start">
+                  {limit.name} device
+                </Typography>
+                <MenderHelpTooltip id={HELPTOOLTIPS[`${limit.id}Device`].id} className="margin-left-small" />
+              </div>
+            }
+          />
+          <TextInput
+            className="margin-top-x-small"
+            label="Device limit"
+            disabled={!deviceTierEnabled[limit.id]}
+            id={limit.id}
+            required={deviceTierEnabled[limit.id]}
+            requiredRendered={false}
+            type="number"
+            InputProps={{ inputProps: { min: 0, max: limit.quotaLeft }, size: 'small' }}
+            numericValidations={limit.numericValidations}
+            helperText={deviceTierEnabled[limit.id] ? limit.maxPlaceholder : ''}
+            width="550px"
+          />
+          {limit.limitReached && !isEdit && (
+            <FormHelperText className="margin-left-small">You have already allocated your overall limit of standard devices.</FormHelperText>
+          )}
+        </div>
+      ))}
+      <Typography variant="body2">
+        To increase your overall device limits{inputProps.length === 1 ? ' or add more device tiers,' : ','} <SupportLink variant="us" />
+      </Typography>
+    </div>
+  );
+};
+const tenantAdminDefaults = { email: '', name: '', sso: false };
+
+interface TenantCreateFormProps {
+  onCloseClick: () => void;
+  open: boolean;
+}
 export const TenantCreateForm = (props: TenantCreateFormProps) => {
   const { onCloseClick, open } = props;
-  const { device_count: spDeviceUtilization = 0, device_limit: spDeviceLimit = 0 } = useSelector(getOrganization);
+  const [adminExists, setAdminExists] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
   const ssoConfig = useSelector(getSsoConfig);
+  const spLimits = useSelector(getSpLimits);
   const dispatch = useAppDispatch();
 
   const { classes } = useStyles();
-  const [adminExists, setAdminExists] = useState<boolean>(false);
-  const [hasError, setHasError] = useState<boolean>(false);
+  const tenantLimitsDefaults = Object.fromEntries(Object.keys(spLimits).map(limit => [limit, 0]));
 
-  const quota = spDeviceLimit - spDeviceUtilization || 0;
-  const numericValidation = {
-    min: { value: 1, message: 'The limit must be 1 or more' },
-    max: { value: quota, message: `The device limit must be ${quota} or fewer` }
-  };
+  const formInitialValues = { ...tenantAdminDefaults, ...tenantLimitsDefaults };
 
   useEffect(() => {
     dispatch(getSsoConfigs());
@@ -153,12 +227,18 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
 
   const submitNewTenant = useCallback(
     async data => {
-      const { email, password, device_limit, send_reset_password, sso, ...remainder } = data;
-      let selectionState = { device_limit: Number(device_limit), restrict_sso_to_parent: sso, sso, ...remainder };
+      const { email, sso, name, ...deviceLimits } = data;
+      let selectionState = {
+        deviceLimits: deviceLimits,
+        restrict_sso_to_parent: sso,
+        sso,
+        name,
+        binary_delta: true
+      };
       if (adminExists) {
         selectionState = { users: [{ role: rolesByName.admin, email }], ...selectionState };
       } else {
-        selectionState = { admin: { password, email, send_reset_password }, ...selectionState };
+        selectionState = { admin: { email, send_reset_password: true }, ...selectionState };
       }
       try {
         await dispatch(addTenant(selectionState)).unwrap(); // only awaiting the thunk resolution to not get rejected
@@ -172,15 +252,17 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
 
   return (
     <Drawer open={open} onClose={onCloseClick} anchor="right" PaperProps={{ style: { minWidth: '67vw' } }}>
-      <DrawerTitle title="Add a tenant" onClose={onCloseClick} />
+      <DrawerTitle title="Create a tenant" onClose={onCloseClick} />
       <Divider className="margin-bottom-large" />
       <Form
-        initialValues={tenantAdminDefaults}
+        initialValues={formInitialValues}
         classes={classes}
         className={classes.formWrapper}
         handleCancel={() => onCloseClick()}
         showButtons
+        buttonColor="secondary"
         onSubmit={submitNewTenant}
+        validationMode="onSubmit"
         submitLabel="Create tenant"
         autocomplete="off"
       >
@@ -189,35 +271,36 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
             There was an error while creating the tenant. Please try again, or contact support.
           </Alert>
         )}
-        <TextInput required validations="isLength:3,trim" id="name" hint="Name" label="Name" />
-        <UserInputs adminExists={adminExists} checkEmailExists={onCheckEmailExists} />
-        <div className="flexbox align-items-center">
-          <TextInput
-            required
-            id="device_limit"
-            hint={`${quota}`}
-            type="number"
-            label="Set device limit"
-            className={classes.devLimitInput}
-            InputProps={{ inputProps: { min: 1, max: quota } }}
-            numericValidations={numericValidation}
-          />
-          <MenderHelpTooltip className="required" id={HELPTOOLTIPS.subTenantDeviceLimit.id} />
+        <div>
+          <Typography className="margin-bottom-x-small" variant="subtitle1">
+            Tenant name
+          </Typography>
+          <TextInput validations="isLength:3,trim" required requiredRendered={false} id="name" hint="Name" label="Name" width={430} />
         </div>
-        <div className="flexbox align-items-center">
-          <FormCheckbox id="binary_delta" label="Enable Delta Artifact generation" />
-          <MenderHelpTooltip id={HELPTOOLTIPS.subTenantDeltaArtifactGeneration.id} />
+        <div>
+          <Typography className="margin-bottom-x-small" variant="subtitle1">
+            Admin user email
+          </Typography>
+          <UserInputs adminExists={adminExists} checkEmailExists={onCheckEmailExists} />
+        </div>
+        <div>
+          <Typography className="margin-bottom-x-small" variant="subtitle1">
+            Device limits
+          </Typography>
+          <DeviceLimitsInput spLimits={spLimits} currentLimits={tenantLimitsDefaults} />
         </div>
         {!!ssoConfig && (
-          <>
-            <div className="flexbox align-items-center">
-              <FormCheckbox id="sso" label="Restrict to Service Provider’s Single Sign-On settings" />
-              <MenderHelpTooltip className="flexbox align-items-center" id={HELPTOOLTIPS.subTenantSSO.id} />
-            </div>
-            <div className="margin-top-x-small margin-bottom">
-              <Link to="/settings/organization">View Single Sign-On settings</Link>
-            </div>
-          </>
+          <div>
+            <Typography variant="subtitle1">Single Sign On</Typography>
+            <Typography className="margin-top-x-small" variant="body2">
+              Inherit the Single Sign On (SSO) configuration from the Service Provider. The created tenant’s admin user will not be able to change these
+              settings later.{' '}
+            </Typography>
+            <Link target="_blank" to="/settings/organization" color="inherit">
+              View your SSO settings{' '}
+            </Link>
+            <FormCheckbox className="margin-top-x-small margin-left-small" id="sso" label="Use Service Provider's SSO settings" />
+          </div>
         )}
       </Form>
     </Drawer>
