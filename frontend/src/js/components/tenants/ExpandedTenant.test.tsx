@@ -12,11 +12,11 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
-import { Tenant } from '@northern.tech/store/api/types';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
+import { getTenantListWithLimits } from '@northern.tech/store/selectors';
 import * as StoreThunks from '@northern.tech/store/thunks';
-import { undefineds } from '@northern.tech/testing/mockData';
+import { spTenantLimits, tenants, undefineds } from '@northern.tech/testing/mockData';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -31,39 +31,17 @@ const state = {
     ...defaultState.organization,
     tenantList: {
       ...initialOrganizationState.tenantList,
-      tenants: [
-        {
-          id: '671a0f1dd58c813118fe8622',
-          parent_tenant_id: '6718de64b42e08dea2a2065d',
-          name: 'child2',
-          tenant_token: 'mQDYRCr-tGbDuJhPp7fArbfTA5htVTWE9G204AzhDUM',
-          status: 'active',
-          additional_info: {
-            marketing: false,
-            campaign: ''
-          },
-          plan: 'enterprise',
-          trial: false,
-          trial_expiration: null,
-          service_provider: false,
-          created_at: '2024-10-24T09:10:53.281Z',
-          cancelled_at: null,
-          children_tenants: null,
-          max_child_tenants: 0,
-          device_count: 0,
-          device_limit: 100,
-          binary_delta: true
-        }
-      ]
+      tenants
     },
     organization: {
       ...defaultState.organization.organization,
       device_count: 20,
-      device_limit: 200
+      device_limit: 200,
+      device_limits: spTenantLimits
     }
   }
 };
-const tenant: Tenant = state.organization.tenantList.tenants[0];
+const tenant = getTenantListWithLimits(state).tenants[0];
 
 describe('ExpandedTenant', () => {
   it('renders correctly', () => {
@@ -76,18 +54,29 @@ describe('ExpandedTenant', () => {
   });
   it('works as intended', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const { editTenantDeviceLimit: editDeviceLimit } = StoreThunks;
+    const { editTenant: editDeviceLimit } = StoreThunks;
 
-    const newLimit = '5';
+    const newLimits = ['50', '20', '0'];
     render(<ExpandedTenant onCloseClick={vi.fn} tenant={tenant} />, {
       preloadedState: { ...state, users: { ...defaultState.users, currentSession: getSessionInfo() } }
     });
     expect(screen.queryByText(`Tenant Information for ${tenant.name}`));
-    await user.click(screen.getByRole('button', { name: /edit device limit/i }));
-    const limitInput = screen.getByLabelText(/set device limit/i);
-    await user.clear(limitInput);
-    await user.type(limitInput, newLimit);
+    await user.click(screen.getByRole('button', { name: /Manage device limits/i }));
+    const limitInputs = screen.getAllByLabelText(/device limit/i);
+    for (const input of limitInputs) {
+      const i = limitInputs.indexOf(input);
+      await user.clear(input);
+      await user.type(input, newLimits[i]);
+    }
     await user.click(screen.getByRole('button', { name: /save/i }));
-    expect(editDeviceLimit).toHaveBeenCalledWith({ newLimit: Number(newLimit), name: tenant.name, id: tenant.id });
+    expect(editDeviceLimit).toHaveBeenCalledWith({
+      deviceLimits: {
+        micro: '50',
+        standard: '20',
+        system: '0'
+      },
+      name: tenant.name,
+      id: tenant.id
+    });
   });
 });
