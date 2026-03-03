@@ -45,4 +45,6 @@ const customRender = (ui, options = {}) => {
 
 export * from '@northern.tech/testing/setupTests';
 
+export { mockAbortController } from './setupTests';
+
 export { customRender as render };
