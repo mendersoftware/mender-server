@@ -40,9 +40,17 @@ Object.defineProperty(window, 'matchMedia', {
   })
 });
 
+export const mockAbortController: { abort: () => void; signal: { addEventListener: () => void; removeEventListener: () => void } } = {
+  abort: vi.fn(),
+  signal: { addEventListener: () => {}, removeEventListener: () => {} }
+};
+
 beforeAll(async () => {
   await server.listen({ onUnhandledRequest: 'error' });
   await ntBeforeAll({ expect, vi });
+  global.AbortController = vi.fn().mockImplementation(function () {
+    return mockAbortController;
+  });
 });
 
 beforeEach(async () => {
