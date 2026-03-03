@@ -23,7 +23,7 @@ import {
   ErrorOutline as ErrorOutlineIcon,
   WarningAmber as WarningAmberIcon
 } from '@mui/icons-material';
-import { Alert, Badge, Button, Divider, LinearProgress, Popover, Tooltip, Typography, alpha } from '@mui/material';
+import { Alert, Badge, Button, Divider, LinearProgress, Paper, Popover, Tooltip, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { getDeviceLimitStats, getUserRoles } from '@northern.tech/store/selectors';
@@ -64,33 +64,45 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 interface DeviceLimitProps {
+  className?: string;
   compact?: boolean;
+  disabled?: boolean;
+  disablePadding?: boolean;
   limit: number;
+  serviceProvider?: boolean;
   total: number;
   type: string;
 }
 
 const numberLocale = 'en-US';
-
-export const DeviceLimit = (props: DeviceLimitProps) => {
-  const { type, limit, total, compact = false } = props;
+export const getLimitStatus = (total: number, limit: number) => {
   const unlimited = limit === -1;
-  const warning = total / limit > 0.8 && total < limit && !unlimited;
-  const error = total >= limit && !unlimited;
+  const percentageUsed = unlimited || limit === 0 ? 0 : Math.floor((total / limit) * 100);
+  const warning = !unlimited && percentageUsed > 80 && total < limit;
+  const error = !unlimited && total >= limit && total !== 0;
   const color = error ? 'error' : warning ? 'warning' : 'primary';
+  return { unlimited, percentageUsed, error, warning, color };
+};
+export const DeviceLimit = (props: DeviceLimitProps) => {
+  const { className = '', type, limit, total, compact = false, serviceProvider = false, disabled = false, disablePadding = true } = props;
+  const { warning, error, percentageUsed, color, unlimited } = getLimitStatus(total, limit);
   const { classes } = useStyles();
-
+  const textColor = disabled ? 'text.disabled' : 'text.primary';
   return (
-    <div className={`flexbox column padding-x-small ${classes.limitContainer} ${warning ? classes.warningBg : ''} ${error ? classes.errorBg : ''}`}>
+    <Paper
+      variant={disablePadding ? 'elevation' : 'outlined'}
+      elevation={disablePadding ? 0 : 1}
+      className={`flexbox column ${disablePadding ? 'padding-x-small' : 'padding-small'} ${disabled ? 'disabled' : ''} ${classes.limitContainer} ${warning ? classes.warningBg : ''} ${error ? classes.errorBg : ''} ${className}`}
+    >
       <div className="flexbox full-width space-between">
         <div className="flexbox">
-          <Typography variant="subtitle2" className="capitalized-start">
+          <Typography color={textColor} variant="subtitle2" className="capitalized-start">
             {type}
           </Typography>
           {warning && <WarningAmberIcon fontSize="small" color="warning" className="margin-left-x-small" />}
           {error && <ErrorOutlineIcon fontSize="small" color="error" className="margin-left-x-small" />}
         </div>
-        <Typography variant="body2" data-testid={`device-limit-${type}`}>
+        <Typography color={textColor} variant="body2" data-testid={`device-limit-${type}`}>
           {total.toLocaleString(numberLocale)}
           {!unlimited && `/${limit.toLocaleString(numberLocale)}`}
         </Typography>
@@ -98,37 +110,38 @@ export const DeviceLimit = (props: DeviceLimitProps) => {
       {!unlimited && (
         <>
           <div className="margin-top-x-small">
-            <LinearProgress color={color} variant="determinate" value={Math.floor((total / limit) * 100)} />
+            <LinearProgress color={disabled ? 'inherit' : color} variant="determinate" value={percentageUsed} />
           </div>
 
           {!compact && (
-            <div className="flexbox margin-top-x-small">
-              <Typography variant="caption">{Math.floor((total / limit) * 100)}% used</Typography>
-              {warning && (
-                <>
-                  <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
-                    •
-                  </Typography>{' '}
-                  <Typography variant="caption" color="warning">
-                    Near limit
+            <div className="flexbox margin-top-x-small space-between">
+              <div className="flexbox">
+                {disabled ? (
+                  <Typography variant="caption" color={textColor}>
+                    Not enabled for this tenant
                   </Typography>
-                </>
-              )}
-              {error && (
-                <>
-                  <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
-                    •
-                  </Typography>{' '}
-                  <Typography variant="caption" color="error">
-                    Limit reached
+                ) : (
+                  <Typography variant="caption">
+                    {percentageUsed}% {serviceProvider ? 'allocated' : 'used'}
                   </Typography>
-                </>
-              )}
+                )}
+                {(warning || error) && (
+                  <>
+                    <Typography variant="caption" className="margin-left-x-small margin-right-x-small">
+                      •
+                    </Typography>{' '}
+                    <Typography variant="caption" color={color}>
+                      {warning ? 'Near limit' : 'Limit reached'}
+                    </Typography>
+                  </>
+                )}
+              </div>
+              {serviceProvider && <Typography variant="caption">{limit - total} remaining</Typography>}
             </div>
           )}
         </>
       )}
-    </div>
+    </Paper>
   );
 };
 
