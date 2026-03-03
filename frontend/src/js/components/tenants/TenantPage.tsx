@@ -12,16 +12,18 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { Add as AddIcon } from '@mui/icons-material';
-import { Chip } from '@mui/material';
+import { Button, Paper, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
-import { getTenantsList } from '@northern.tech/store/organizationSlice/selectors';
-import { getTenants } from '@northern.tech/store/organizationSlice/thunks';
-import { AppDispatch } from '@northern.tech/store/store';
-import { toggle } from '@northern.tech/utils/helpers';
+import { getSpLimits, getTenantListWithLimits } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { getTenants } from '@northern.tech/store/thunks';
+import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 
+import { DeviceLimit } from '../header/DeviceNotifications';
 import { TenantCreateForm } from './TenantCreateForm';
 import { TenantList } from './TenantList';
 
@@ -30,7 +32,7 @@ interface TenantsEmptyStateProps {
 }
 const TenantsEmptyState = (props: TenantsEmptyStateProps) => {
   const { openModal } = props;
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getTenants());
   }, [dispatch]);
@@ -43,16 +45,63 @@ const TenantsEmptyState = (props: TenantsEmptyStateProps) => {
     </div>
   );
 };
+
+const useStyles = makeStyles()(theme => ({
+  limit: {
+    maxWidth: '726px'
+  },
+  link: {
+    color: theme.palette.secondary.main
+  }
+}));
+
 export const TenantPage = () => {
   const [showCreate, setShowCreate] = useState<boolean>(false);
-  const { tenants } = useSelector(getTenantsList);
+  const { classes } = useStyles();
+
+  const { tenants } = useSelector(getTenantListWithLimits);
+  const spLimits = useSelector(getSpLimits);
 
   const onToggleCreation = useCallback(() => setShowCreate(toggle), []);
   return (
-    <div>
-      <h2>Tenants</h2>
+    <div className="padding-right">
+      <Typography variant="h5">Tenant management</Typography>
+      <Typography variant="subtitle1" className="margin-top-small">
+        Device allocation
+      </Typography>
+      <div className={`full-width flexbox`}>
+        {Object.values(spLimits).map(limit => (
+          <div key={limit.id} className={`full-width margin-right ${classes.limit}`}>
+            {limit.limit === -1 ? (
+              <Paper variant="outlined" className="padding-small">
+                <div className="flexbox space-between">
+                  <Typography variant="subtitle2" className="capitalized-start">
+                    {limit.name}
+                  </Typography>
+                  <Typography variant="body2">{limit.current}</Typography>
+                </div>
+              </Paper>
+            ) : (
+              <DeviceLimit serviceProvider total={limit.current} limit={limit.limit} type={limit.name} padded />
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="margin-top-small margin-bottom-medium">
+        <Button color="secondary" component={Link} to="/subscription" variant="text">
+          Request changes to device limits
+        </Button>
+      </div>
+
+      <div className="flexbox full-width space-between">
+        <Typography variant="subtitle1" className="margin-top-small">
+          Tenants
+        </Typography>
+        <Button className="margin-top-small" variant="contained" onClick={onToggleCreation} disabled={isEmpty(spLimits)}>
+          Create a tenant
+        </Button>
+      </div>
       {tenants.length ? <TenantList /> : <TenantsEmptyState openModal={onToggleCreation} />}
-      <Chip className="margin-top-small" color="primary" icon={<AddIcon />} label="Add tenant" onClick={onToggleCreation} />
       {showCreate && <TenantCreateForm open={showCreate} onCloseClick={onToggleCreation} />}
     </div>
   );
