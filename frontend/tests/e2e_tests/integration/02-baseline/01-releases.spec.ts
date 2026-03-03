@@ -71,22 +71,15 @@ test.describe('Files', () => {
     test('allows artifact downloads', async ({ page, request }) => {
       await page.getByText(/mender-demo-artifact/i).click();
       await page.click('.expandButton');
-      const downloadButton = await page.getByText(/download artifact/i);
+      const downloadButton = page.getByText(/download artifact/i);
       await expect(downloadButton).toBeVisible();
-      const downloadPromise = page.waitForEvent('download');
-      await downloadButton.click();
-      const download = await downloadPromise;
-      let downloadTargetPath;
-      const downloadError = await download.failure();
-      if (downloadError) {
-        const downloadUrl = download.url();
-        const response = await request.get(downloadUrl);
-        const fileData = await response.body();
-        downloadTargetPath = `./${download.suggestedFilename()}`;
-        fs.writeFileSync(downloadTargetPath, fileData);
-      } else {
-        downloadTargetPath = await download.path();
-      }
+      const href = await downloadButton.getAttribute('href');
+      expect(href).toBeTruthy();
+      const suggestedFilename = (await downloadButton.getAttribute('download')) || fileName;
+      const response = await request.get(href);
+      expect(response.ok()).toBeTruthy();
+      const downloadTargetPath = `./${suggestedFilename}`;
+      fs.writeFileSync(downloadTargetPath, await response.body());
       const stdout = execSync(`mender-artifact read --no-progress ${downloadTargetPath}`);
       const artifactInfo = parse(stdout.toString());
       // Parse artifact header to check that artifact name matches
