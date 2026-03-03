@@ -16,7 +16,8 @@ const variants = {
   email: 'support@mender.io',
   ourTeam: 'contact our team',
   support: 'contact support',
-  salesTeam: 'contact our sales team'
+  salesTeam: 'contact our sales team',
+  us: 'contact us'
 };
 
 export const SupportLink = ({ className = '', variant }: { className?: string; variant: keyof typeof variants | string }) => (
