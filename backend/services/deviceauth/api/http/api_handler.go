@@ -31,23 +31,7 @@ type InternalAPI struct {
 	Db  store.DataStore
 }
 
-// NewInternalHandler returns a new InternalAPI
-func NewInternalHandler(DevAuth devauth.App, db store.DataStore) *InternalAPI {
-	return &InternalAPI{
-		App: DevAuth,
-		Db:  db,
-	}
-}
-
 type ManagementAPI struct {
 	App devauth.App
 	Db  store.DataStore
-}
-
-// NewManagementHandler returns a new ManagementAPI
-func NewManagementHandler(DevAuth devauth.App, db store.DataStore) *ManagementAPI {
-	return &ManagementAPI{
-		App: DevAuth,
-		Db:  db,
-	}
 }
