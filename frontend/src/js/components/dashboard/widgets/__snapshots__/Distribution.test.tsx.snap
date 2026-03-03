@@ -146,8 +146,8 @@ exports[`Distribution Component > renders correctly 1`] = `
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-337a87 .MuiLinearProgress-barColorPrimary {
-  background-color: #337a87;
+.emotion-6 .barchart .color-1d8faf .MuiLinearProgress-barColorPrimary {
+  background-color: #1d8faf;
 }
 
 .emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
@@ -300,7 +300,7 @@ exports[`Distribution Component > renders correctly 1`] = `
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
               data-testid="SquareIcon"
               focusable="false"
-              style="fill: #337a87;"
+              style="fill: #1d8faf;"
               viewBox="0 0 24 24"
             >
               <path
@@ -333,7 +333,7 @@ exports[`Distribution Component > renders correctly 1`] = `
                 d="M1.1787225441793275e-14,-192.5A192.5,192.5,0,1,1,-1.1787225441793275e-14,192.5A192.5,192.5,0,1,1,1.1787225441793275e-14,-192.5Z"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill: #337a87; padding: 10px; stroke: transparent; stroke-width: 1;"
+                style="fill: #1d8faf; padding: 10px; stroke: transparent; stroke-width: 1;"
                 transform="translate(200, 192.5)"
               />
             </g>

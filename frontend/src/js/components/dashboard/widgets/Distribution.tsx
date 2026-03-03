@@ -24,7 +24,7 @@ import { ALL_DEVICES, TIMEOUTS, chartTypes, rootfsImageVersion, softwareIndicato
 import { getDeviceReports, getGroupsById } from '@northern.tech/store/selectors';
 import { getReportDataWithoutBackendSupport, updateReportData } from '@northern.tech/store/thunks';
 import { ensureVersionString } from '@northern.tech/store/utils';
-import { chartColorPalette } from '@northern.tech/themes/MenderNext';
+import { chartColorPalette } from '@northern.tech/themes/Mender';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { VictoryBar, VictoryContainer, VictoryPie, VictoryStack } from 'victory';
 

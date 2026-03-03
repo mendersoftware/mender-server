@@ -35,7 +35,6 @@ import {
   getCommit,
   getCurrentSession,
   getCurrentUser,
-  getFeatures,
   getIsDarkMode,
   getIsServiceProvider,
   getOrganization,
@@ -46,8 +45,8 @@ import {
 import { store } from '@northern.tech/store/store';
 import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
-import { dark as oldDarkTheme, light as oldLightTheme } from '@northern.tech/themes/Mender';
-import { dark as darkTheme, light as lightTheme } from '@northern.tech/themes/MenderNext';
+import { dark as darkTheme, light as lightTheme } from '@northern.tech/themes/Mender';
+import '@northern.tech/themes/Mender/styles/main.css';
 import { toggle } from '@northern.tech/utils/helpers';
 import { browserTracingIntegration, replayIntegration, setUser } from '@sentry/react';
 import Cookies from 'universal-cookie';
@@ -124,15 +123,9 @@ const initSentry = async ({ commit, location, replaysSessionSampleRate, tracesSa
   });
 };
 
-const THEMES = {
-  default: {
-    [LIGHT_MODE]: lightTheme,
-    [DARK_MODE]: darkTheme
-  },
-  old: {
-    [LIGHT_MODE]: oldLightTheme,
-    [DARK_MODE]: oldDarkTheme
-  }
+const THEME = {
+  [LIGHT_MODE]: lightTheme,
+  [DARK_MODE]: darkTheme
 };
 
 export const AppRoot = () => {
@@ -154,18 +147,6 @@ export const AppRoot = () => {
   const { token: storedToken } = getSessionInfo();
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);
   const { id: tenantId } = useSelector(getOrganization);
-  const { hasOldTheme } = useSelector(getFeatures);
-
-  useEffect(() => {
-    const loadThemeStyles = async () => {
-      if (hasOldTheme) {
-        await import('@northern.tech/themes/Mender/styles/main.css');
-      } else {
-        await import('@northern.tech/themes/MenderNext/styles/main.css');
-      }
-    };
-    loadThemeStyles();
-  }, [hasOldTheme]);
 
   const trackLocationChange = useCallback(
     pathname => {
@@ -251,7 +232,7 @@ export const AppRoot = () => {
 
   const onToggleSearchResult = () => setShowSearchResult(toggle);
 
-  const theme = createTheme(THEMES[hasOldTheme ? 'old' : 'default'][isDarkMode ? DARK_MODE : LIGHT_MODE] || THEMES.default.light);
+  const theme = createTheme(THEME[isDarkMode ? DARK_MODE : LIGHT_MODE] || THEME.light);
 
   const { classes } = useStyles();
   const globalCssVars = cssVariables({ theme })['@global'];
