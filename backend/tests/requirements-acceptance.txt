@@ -1,4 +1,4 @@
-boto3==1.42.44
+boto3==1.42.59
 certifi >= 14.05.14
 chardet >= 4.0.0
 cryptography==46.0.5
@@ -14,11 +14,11 @@ pytz
 pytest-ordering==0.6
 pytest==9.0.2
 PyYAML==6.0.3
-redis==7.1.0
+redis==7.2.1
 redo==3.0.0
 requests==2.32.5
 semver==3.0.4
-stripe==14.3.0
+stripe==14.4.0
 tornado==6.5.4
 urllib3==2.6.3
 websocket_client >= 0.57
