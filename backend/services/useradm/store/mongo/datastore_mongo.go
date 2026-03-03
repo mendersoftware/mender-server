@@ -21,13 +21,13 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 	"golang.org/x/crypto/bcrypt"
 
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
-	"github.com/mendersoftware/mender-server/pkg/mongo/oid"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
 
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
@@ -112,15 +112,14 @@ func NewDataStoreMongoWithClient(client *mongo.Client) (*DataStoreMongo, error) 
 func NewDataStoreMongo(config DataStoreMongoConfig) (*DataStoreMongo, error) {
 	var err error
 	var mongoURL string
-	clientOptions := mopts.Client().
-		SetRegistry(newRegistry())
 	if !strings.Contains(config.ConnectionString, "://") {
 		mongoURL = "mongodb://" + config.ConnectionString
 	} else {
 		mongoURL = config.ConnectionString
 
 	}
-	clientOptions.ApplyURI(mongoURL)
+	clientOptions := mongostore.BaseClientOptions(mongoURL).
+		SetRegistry(newRegistry())
 
 	if config.Username != "" {
 		credentials := mopts.Credential{
@@ -142,7 +141,7 @@ func NewDataStoreMongo(config DataStoreMongoConfig) (*DataStoreMongo, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	c, err := mongo.Connect(ctx, clientOptions)
+	c, err := mongo.Connect(clientOptions)
 	if err != nil {
 		return nil, err
 	}
@@ -440,7 +439,7 @@ func (db *DataStoreMongo) SaveToken(ctx context.Context, token *jwt.Token) error
 
 func (db *DataStoreMongo) EnsureSessionTokensLimit(ctx context.Context, userID oid.ObjectID,
 	tokensLimit int) error {
-	opts := &mopts.FindOptions{}
+	opts := mopts.Find()
 	opts.SetLimit(int64(tokensLimit))
 	opts.SetSkip(int64(tokensLimit) - 1)
 	opts.SetSort(bson.M{
@@ -563,7 +562,7 @@ func (db *DataStoreMongo) SaveSettings(ctx context.Context, s *model.Settings, e
 	c := db.client.Database(mstore.DbFromContext(ctx, DbName)).
 		Collection(DbSettingsColl)
 
-	o := &mopts.ReplaceOptions{}
+	o := mopts.Replace()
 	o.SetUpsert(true)
 
 	filters := bson.M{}
@@ -589,7 +588,7 @@ func (db *DataStoreMongo) SaveUserSettings(ctx context.Context, userID string,
 	c := db.client.Database(mstore.DbFromContext(ctx, DbName)).
 		Collection(DbUserSettingsColl)
 
-	o := &mopts.ReplaceOptions{}
+	o := mopts.Replace()
 	o.SetUpsert(true)
 
 	filters := bson.M{

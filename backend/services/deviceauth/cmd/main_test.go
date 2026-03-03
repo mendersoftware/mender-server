@@ -18,7 +18,7 @@ import (
 	"os"
 	"testing"
 
-	mtesting "github.com/mendersoftware/mender-server/pkg/mongo/testing"
+	mtesting "github.com/mendersoftware/mender-server/pkg/mongo/v2/testing"
 )
 
 var db mtesting.TestDBRunner

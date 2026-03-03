@@ -18,15 +18,13 @@ import (
 	"fmt"
 	"strings"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
-
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	mongostore "github.com/mendersoftware/mender-server/pkg/mongo"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstorev1 "github.com/mendersoftware/mender-server/pkg/store"
 )
 
@@ -51,8 +49,7 @@ var DbDevicesCollectionIndices = []mongo.IndexModel{
 				mongostore.FieldTenantID,
 				dbFieldIDDataSha,
 			}, "_")).
-			SetUnique(true).
-			SetBackground(false),
+			SetUnique(true),
 	},
 	{
 		Keys: bson.D{
@@ -66,8 +63,7 @@ var DbDevicesCollectionIndices = []mongo.IndexModel{
 				mongostore.FieldTenantID,
 				dbFieldStatus,
 				dbFieldID,
-			}, "_")).
-			SetBackground(false),
+			}, "_")),
 	},
 }
 
@@ -189,7 +185,7 @@ func (m *migration_2_0_0) Up(from migrate.Version) error {
 		collOut := client.Database(DbName).Collection(collection)
 		if databaseName == DbName {
 			indices := collOut.Indexes()
-			_, _ = indices.DropAll(ctx)
+			_ = indices.DropAll(ctx)
 
 			if len(idxes.Indexes) > 0 {
 				_, err := collOut.Indexes().CreateMany(ctx, collections[collection].Indexes)
@@ -240,7 +236,7 @@ func (m *migration_2_0_0) Up(from migrate.Version) error {
 				}
 				item[dbFieldName] = id
 				item[dbFieldTenantID] = tenantID
-				item[dbFieldID] = primitive.NewObjectID()
+				item[dbFieldID] = bson.NewObjectID()
 				writes = append(writes, mongo.
 					NewReplaceOneModel().
 					SetFilter(bson.D{

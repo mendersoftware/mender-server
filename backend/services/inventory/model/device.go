@@ -22,9 +22,7 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/bsontype"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 const (
@@ -59,7 +57,7 @@ const (
 
 type DeviceID string
 
-var NilDeviceID DeviceID //TODO: how to make it NilDeviceID:=DeviceID(primitive.NilObjectID)
+var NilDeviceID DeviceID //TODO: how to make it NilDeviceID:=DeviceID(bson.NilObjectID)
 
 type GroupName string
 
@@ -181,13 +179,13 @@ func (d *Device) UnmarshalBSON(b []byte) error {
 				d.Group = GroupName(group)
 			case AttrNameUpdated:
 				if attr.Value != nil {
-					dateTime := attr.Value.(primitive.DateTime).Time()
+					dateTime := attr.Value.(bson.DateTime).Time()
 					d.UpdatedTs = &dateTime
 				} else {
 					d.UpdatedTs = nil
 				}
 			case AttrNameCreated:
-				dateTime := attr.Value.(primitive.DateTime)
+				dateTime := attr.Value.(bson.DateTime)
 				d.CreatedTs = dateTime.Time()
 			}
 		}
@@ -266,7 +264,7 @@ func GetDeviceAttributeNameReplacer() *strings.Replacer {
 
 // UnmarshalBSONValue correctly unmarshals DeviceAttributes from Device
 // documents stored in the DB.
-func (d *DeviceAttributes) UnmarshalBSONValue(t bsontype.Type, b []byte) error {
+func (d *DeviceAttributes) UnmarshalBSONValue(t byte, b []byte) error {
 	raw := bson.Raw(b)
 	elems, err := raw.Elements()
 	if err != nil {
@@ -286,7 +284,7 @@ func (d *DeviceAttributes) UnmarshalBSONValue(t bsontype.Type, b []byte) error {
 // MarshalBSONValue marshals the DeviceAttributes to a mongo-compatible
 // document. That is, each attribute is given a unique field consisting of
 // "<scope>-<name>".
-func (d DeviceAttributes) MarshalBSONValue() (bsontype.Type, []byte, error) {
+func (d DeviceAttributes) MarshalBSONValue() (byte, []byte, error) {
 	attrs := make(bson.D, len(d))
 	replacer := GetDeviceAttributeNameReplacer()
 	for i := range d {
@@ -300,7 +298,8 @@ func (d DeviceAttributes) MarshalBSONValue() (bsontype.Type, []byte, error) {
 		attrs[i].Key = attr.Scope + "-" + replacer.Replace(d[i].Name)
 		attrs[i].Value = &attr
 	}
-	return bson.MarshalValue(attrs)
+	typ, data, err := bson.MarshalValue(attrs)
+	return byte(typ), data, err
 }
 
 type DeviceUpdate struct {

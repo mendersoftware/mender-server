@@ -19,12 +19,12 @@ import (
 	"errors"
 	"fmt"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	mopts "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/mongo/migrate"
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 )
 
 const IndexNameTokenExpire = "exp_time"
@@ -54,8 +54,8 @@ func (m *migration_2_0_3) Up(from migrate.Version) error {
 		iw := m.ds.client.Database(DbName).
 			Collection(DbTokensColl).
 			Indexes()
-		// drop existing bad TTL index (if it exists)
-		_, err = iw.DropOne(ctx, brokenDbTokenExpirationIndexName)
+			// drop existing bad TTL index (if it exists)
+		err = iw.DropOne(ctx, brokenDbTokenExpirationIndexName)
 		if err != nil {
 			var srvErr mongo.ServerError
 			if !errors.As(err, &srvErr) || !srvErr.HasErrorCode(errCodeIndexNotFound) {
