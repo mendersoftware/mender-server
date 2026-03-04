@@ -17,6 +17,7 @@ package processor
 import (
 	"context"
 	"net/http"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -28,11 +29,23 @@ import (
 )
 
 var (
-	executorMock = executor.New([]string{
-		"/usr/bin/echo",
-		"/usr/bin/bash",
-	})
+	echo         string
+	bash         string
+	executorMock executor.BinaryExecutor
 )
+
+func init() {
+	switch os.Getenv("GOOS") {
+	case "darwin":
+		// The `echo` and `bash` binaries are located in `/bin` on MacOS
+		echo = "/bin/echo"
+		bash = "/bin/bash"
+	default:
+		echo = "/usr/bin/echo"
+		bash = "/usr/bin/bash"
+	}
+	executorMock = executor.New([]string{echo, bash})
+}
 
 func TestProcessJobCLI(t *testing.T) {
 	ctx := context.Background()
@@ -47,7 +60,7 @@ func TestProcessJobCLI(t *testing.T) {
 				Type: model.TaskTypeCLI,
 				CLI: &model.CLITask{
 					Command: []string{
-						"/usr/bin/echo",
+						echo,
 						"TEST",
 					},
 				},
@@ -123,7 +136,7 @@ func TestProcessJobCLIWrongExitCode(t *testing.T) {
 				Type: model.TaskTypeCLI,
 				CLI: &model.CLITask{
 					Command: []string{
-						"/usr/bin/bash",
+						bash,
 						"-c",
 						"exit 10",
 					},
@@ -214,7 +227,7 @@ func TestProcessJobCLTimeOut(t *testing.T) {
 				Type: model.TaskTypeCLI,
 				CLI: &model.CLITask{
 					Command: []string{
-						"/usr/bin/bash",
+						bash,
 						"-c",
 						"sleep 10",
 					},
