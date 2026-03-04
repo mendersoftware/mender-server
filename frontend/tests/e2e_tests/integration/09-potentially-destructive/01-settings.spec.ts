@@ -274,7 +274,7 @@ test.describe('Settings', () => {
       await page.waitForTimeout(timeouts.default);
       const microCheckbox = page.getByRole('checkbox', { name: 'Micro devices' });
       await microCheckbox.click();
-      await page.waitForTimeout(timeouts.fiveSeconds) // Wait 5 seconds to avoid hitting rate limits
+      await page.waitForTimeout(timeouts.fiveSeconds); // Wait 5 seconds to avoid hitting rate limits
       const deviceNumberInput = selectDeviceLimitInput(page, 'Micro');
 
       await deviceNumberInput.fill('680');
@@ -311,6 +311,7 @@ test.describe('Settings', () => {
       await stripeFrame.fill('[name="exp-date"]', '0134');
       await stripeFrame.fill('[name="cvc"]', '333');
       await stripeFrame.fill('[name="postal"]', '02040');
+      await page.waitForTimeout(timeouts.fiveSeconds); // Wait 5 seconds to avoid hitting rate limits
       await page.getByRole('button', { name: /save/i }).click();
       await expect(page.getByText('Gaustadalleen 12')).toBeVisible();
       await page.context().close();
