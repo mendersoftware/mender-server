@@ -65,16 +65,16 @@ test.describe('Device details', () => {
       // as the resizing option on `allowSizeMismatch` only pads the screenshot with transparent pixels until
       // the larger size is met (when diffing screenshots of multiple sizes) and does not scale to fit!
       const elementHandle = await page.locator(selectors.terminalElement);
+      const deviceActionsDialMasks = { mask: [page.getByRole('button', { name: 'device-actions' }), page.getByText('Device actions')], maskColor: 'black' };
       expect(elementHandle).toBeTruthy();
       if (['chromium', 'webkit'].includes(browserName)) {
         // this should ensure a repeatable position across test runners
         await page.locator('.MuiDrawer-paper').hover();
         await page.mouse.wheel(0, -100);
         await elementHandle.scrollIntoViewIfNeeded();
-
-        const screenShotPath = path.join(__dirname, '..', 'test-results', 'diffs', 'terminalContent-actual.png');
-        await elementHandle.screenshot({ path: screenShotPath });
-
+        const screenshotBasePath = path.join(__dirname, '..', '..', 'test-results');
+        const screenShotPath = path.join(screenshotBasePath, 'diffs', 'terminalContent-actual.png');
+        await elementHandle.screenshot({ path: screenShotPath, ...deviceActionsDialMasks });
         const expectedPath = path.join(__dirname, '..', '..', 'fixtures', terminalReferenceFileMap[browserName] ?? terminalReferenceFileMap.default);
         const { pass } = compareImages(expectedPath, screenShotPath);
         expect(pass).toBeTruthy();
@@ -84,7 +84,7 @@ test.describe('Device details', () => {
         await terminalTextInput.press('Enter');
         await page.waitForTimeout(timeouts.default);
 
-        await elementHandle.screenshot({ path: screenShotPath });
+        await elementHandle.screenshot({ path: screenShotPath, ...deviceActionsDialMasks });
         const { pass: pass2 } = compareImages(expectedPath, screenShotPath);
         expect(pass2).not.toBeTruthy();
         await terminalTextInput.press('q');
