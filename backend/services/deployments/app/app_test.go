@@ -29,6 +29,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	inventory_mocks "github.com/mendersoftware/mender-server/services/deployments/client/inventory/mocks"
 	reporting_mocks "github.com/mendersoftware/mender-server/services/deployments/client/reporting/mocks"
@@ -1934,6 +1935,83 @@ func TestGetDeploymentFilter(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			filter := getDeploymentFilter(tc.inConstructor)
 			assert.Equal(t, tc.outFilter, filter)
+		})
+	}
+}
+
+func TestDeployments_GetDeployment(t *testing.T) {
+	tests := []struct {
+		name string // description of this test case
+		// Named input parameters for receiver constructor.
+		storage func(t *testing.T) store.DataStore
+		// Named input parameters for target function.
+		deploymentID string
+		want         *model.Deployment
+		wantErr      bool
+	}{{
+		name:         "ok",
+		deploymentID: "5a91276f-70ca-480c-ac13-0a7764b2c3e3",
+		storage: func(t *testing.T) store.DataStore {
+			ds := mocks.NewDataStore(t)
+			ds.On("FindDeploymentByID",
+				mock.MatchedBy(func(context.Context) bool { return true }),
+				"5a91276f-70ca-480c-ac13-0a7764b2c3e3",
+			).Return(&model.Deployment{DeviceCount: types.Pointer(123)}, nil)
+			return ds
+		},
+		want: &model.Deployment{DeviceCount: types.Pointer(123)},
+	}, {
+		name:         "not found",
+		deploymentID: "5a91276f-70ca-480c-ac13-0a7764b2c3e3",
+		storage: func(t *testing.T) store.DataStore {
+			ds := mocks.NewDataStore(t)
+			ds.On("FindDeploymentByID",
+				mock.MatchedBy(func(context.Context) bool { return true }),
+				"5a91276f-70ca-480c-ac13-0a7764b2c3e3",
+			).Return(nil, nil)
+			return ds
+		},
+		want: nil,
+	}, {
+		name:         "ok/update device count",
+		deploymentID: "5a91276f-70ca-480c-ac13-0a7764b2c3e3",
+		storage: func(t *testing.T) store.DataStore {
+			ds := mocks.NewDataStore(t)
+			ds.On("FindDeploymentByID",
+				mock.MatchedBy(func(context.Context) bool { return true }),
+				"5a91276f-70ca-480c-ac13-0a7764b2c3e3",
+			).Return(&model.Deployment{Id: "5a91276f-70ca-480c-ac13-0a7764b2c3e3"}, nil).
+				On("DeviceCountByDeployment",
+					mock.MatchedBy(func(context.Context) bool { return true }),
+					"5a91276f-70ca-480c-ac13-0a7764b2c3e3",
+				).Return(123, nil).
+				On("SetDeploymentDeviceCount",
+					mock.MatchedBy(func(context.Context) bool { return true }),
+					"5a91276f-70ca-480c-ac13-0a7764b2c3e3",
+					123,
+				).Return(nil)
+			return ds
+		},
+		want: &model.Deployment{
+			Id:          "5a91276f-70ca-480c-ac13-0a7764b2c3e3",
+			DeviceCount: types.Pointer(123),
+		},
+	}}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := NewDeployments(tt.storage(t), nil, 100, true)
+			got, gotErr := d.GetDeployment(context.Background(), tt.deploymentID)
+			if gotErr != nil {
+				if !tt.wantErr {
+					t.Errorf("GetDeployment() failed: %v", gotErr)
+				}
+				return
+			}
+			if tt.wantErr {
+				t.Fatal("GetDeployment() succeeded unexpectedly")
+			} else {
+				assert.EqualValues(t, tt.want, got)
+			}
 		})
 	}
 }
