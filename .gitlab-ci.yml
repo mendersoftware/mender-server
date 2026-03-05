@@ -531,8 +531,6 @@ test:backend:integration:
       artifacts: false
     - job: build:backend:docker-acceptance
       artifacts: false
-  variables:
-    MANTRA_PROJECT_NAME: "backend_integration_open_source"
   before_script:
     - *requires-docker
     - apk add make bash git curl jq
@@ -544,6 +542,7 @@ test:backend:integration:
       GOCOVERDIR=${GOCOVERDIR}/integration
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
   after_script:
+    - export MANTRA_PROJECT_NAME="backend_integration_open_source"
     - !reference [.mantra-push-results]
   artifacts:
     expire_in: 1w
@@ -579,8 +578,6 @@ test:backend:integration:ng:
       artifacts: false
     - job: build:backend:docker-acceptance
       artifacts: false
-  variables:
-    MANTRA_PROJECT_NAME: "backend_integration_ng_open_source"
   before_script:
     - *requires-docker
     - apk add make bash git curl jq
@@ -592,6 +589,7 @@ test:backend:integration:ng:
       GOCOVERDIR=${GOCOVERDIR}/integration-ng
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
   after_script:
+    - export MANTRA_PROJECT_NAME="backend_integration_ng_open_source"
     - !reference [.mantra-push-results]
   artifacts:
     expire_in: 1w
