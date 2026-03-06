@@ -17,7 +17,6 @@ import { test as nonCoveredTest } from '@playwright/test';
 
 import { getPeristentLoginInfo } from '../utils/commands.ts';
 import { timeouts } from '../utils/constants.ts';
-import { EmailClient, GmailEmailClient, Smtp4devEmailClient } from '../utils/email.ts';
 
 export type TestEnvironment = 'enterprise' | 'staging' | 'os';
 
@@ -25,7 +24,6 @@ type TestFixtures = {
   baseUrl: string;
   config: unknown;
   demoDeviceName: string;
-  emailClient: EmailClient | null;
   environment: TestEnvironment;
   page: Page;
   password: string;
@@ -54,7 +52,7 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     await use(page);
   },
   // eslint-disable-next-line no-empty-pattern
-  environment: async ({ }, use) => {
+  environment: async ({}, use) => {
     const environment = (process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'os') as TestEnvironment;
     await use(environment);
   },
@@ -83,20 +81,7 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     const baseUrl = process.env.BASE_URL ?? urls[environment] ?? defaultConfig.baseUrl;
     await use(baseUrl);
   },
-  demoDeviceName: defaultConfig.demoDeviceName,
-  emailClient: async ({ environment, username }, use) => {
-    if (environment == 'staging' && process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_REFRESH_TOKEN) {
-      // strip off opaque string in username: `username+opaque@domain.com`
-      const userId = username.replace(/(^[^+]+)(\+[^@]+)?(@.*)$/, '$1$3');
-      const gmail = new GmailEmailClient(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REFRESH_TOKEN, userId);
-      await use(gmail);
-    } else if (environment == 'enterprise') {
-      const emailUrl = process.env.SMTP4DEV_URL ? process.env.SMTP4DEV_URL : 'http://localhost:8025';
-      await use(new Smtp4devEmailClient({ baseUrl: emailUrl }));
-    } else {
-      await use(null);
-    }
-  }
+  demoDeviceName: defaultConfig.demoDeviceName
 });
 
 export { expect };

@@ -204,3 +204,16 @@ export class Smtp4devEmailClient implements EmailClient {
     };
   }
 }
+
+export const setupEmailClient = (username: string, environment: string): EmailClient | null => {
+  if (environment == 'staging' && process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_REFRESH_TOKEN) {
+    // strip off opaque string in username: `username+opaque@domain.com`
+    const userId = username.replace(/(^[^+]+)(\+[^@]+)?(@.*)$/, '$1$3');
+    return new GmailEmailClient(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REFRESH_TOKEN, userId);
+  } else if (environment == 'enterprise') {
+    const emailUrl = process.env.SMTP4DEV_URL ? process.env.SMTP4DEV_URL : 'http://localhost:8025';
+    return new Smtp4devEmailClient({ baseUrl: emailUrl });
+  } else {
+    return null;
+  }
+};
