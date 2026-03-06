@@ -84,7 +84,7 @@ export class GmailEmailClient implements EmailClient {
 
   private async fetchMessage(id: string): Promise<Email> {
     const res = await this.gmail.users.messages.get({
-      userId: 'me',
+      userId: this.userId,
       id,
       format: 'full'
     });
