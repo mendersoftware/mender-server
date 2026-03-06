@@ -2,158 +2,15 @@
 
 exports[`Devices Component > renders correctly 1`] = `
 .emotion-0 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.5rem;
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-1 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 1.5rem;
-  line-height: 1.334;
-  letter-spacing: 0em;
-}
-
-.emotion-2 {
-  width: calc(100% + 12px);
-  margin-left: -6px;
-  border-radius: 4px;
-}
-
-.emotion-3 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.57;
-  letter-spacing: 0.00714em;
-}
-
-.emotion-4 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
-}
-
-.emotion-5 {
-  position: relative;
-  overflow: hidden;
-  display: block;
-  height: 4px;
-  z-index: 0;
-  background-color: rgb(167, 202, 237);
-}
-
-@media print {
-  .emotion-5 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-6 {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  top: 0;
-  -webkit-transition: -webkit-transform 0.2s linear;
-  transition: transform 0.2s linear;
-  transform-origin: left;
-  background-color: #1976d2;
-  -webkit-transition: -webkit-transform .4s linear;
-  transition: transform .4s linear;
-}
-
-.emotion-7.widget {
-  max-width: initial!important;
-}
-
-.emotion-7 .widgetMainContent {
-  -webkit-column-gap: 16px;
-  column-gap: 16px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: space-evenly;
-  -ms-flex-pack: space-evenly;
-  -webkit-justify-content: space-evenly;
-  justify-content: space-evenly;
-}
-
-.emotion-8 {
-  max-width: 6vh;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-8.red {
-  color: #9c27b0;
-}
-
-.emotion-8.green {
-  color: #1976d2;
-}
-
-.emotion-9 {
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  font-size: 2rem;
-  height: 5vh;
-  width: 5vh;
-  max-width: 3em;
-  max-height: 3em;
-}
-
-.emotion-10 {
-  display: grid;
-  place-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.emotion-11 {
-  bottom: -8px;
-  height: 20px;
-  width: 100%;
-}
-
-.emotion-11>div {
-  display: grid;
-  place-items: center;
-  height: 100%;
-  width: 100%;
-}
-
-.emotion-11>div>div {
-  background: currentColor;
-  border-radius: 6px;
-  height: 100%;
-  width: 24px;
-}
-
-.emotion-11 svg {
-  fill: #fff;
-}
-
-.emotion-12 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -170,7 +27,138 @@ exports[`Devices Component > renders correctly 1`] = `
   font-size: 1.25rem;
 }
 
+.emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
+}
+
+.emotion-3 {
+  width: calc(100% + 12px);
+  margin-left: -6px;
+  border-radius: 4px;
+}
+
+.emotion-4 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+}
+
+.emotion-5 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-6 {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: 4px;
+  z-index: 0;
+  background-color: rgb(167, 202, 237);
+}
+
+@media print {
+  .emotion-6 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-7 {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  -webkit-transition: -webkit-transform 0.2s linear;
+  transition: transform 0.2s linear;
+  transform-origin: left;
+  background-color: #1976d2;
+  -webkit-transition: -webkit-transform .4s linear;
+  transition: transform .4s linear;
+}
+
+.emotion-8.widget {
+  max-width: initial!important;
+}
+
+.emotion-10 {
+  -webkit-column-gap: 16px;
+  column-gap: 16px;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+  justify-content: space-evenly;
+}
+
+.emotion-11 {
+  max-width: 6vh;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-11.red {
+  color: #9c27b0;
+}
+
+.emotion-11.green {
+  color: #1976d2;
+}
+
+.emotion-12 {
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 2rem;
+  height: 5vh;
+  width: 5vh;
+  max-width: 3em;
+  max-height: 3em;
+}
+
 .emotion-13 {
+  display: grid;
+  place-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.emotion-14 {
+  bottom: -8px;
+  height: 20px;
+  width: 100%;
+}
+
+.emotion-14>div {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.emotion-14>div>div {
+  background: currentColor;
+  border-radius: 6px;
+  height: 100%;
+  width: 24px;
+}
+
+.emotion-14 svg {
+  fill: #fff;
+}
+
+.emotion-19 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -209,75 +197,171 @@ exports[`Devices Component > renders correctly 1`] = `
   line-height: 1.75;
   letter-spacing: 0.02857em;
   text-transform: uppercase;
-  min-height: 36px;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #1976d2;
+  padding: 4px 5px;
+  font-size: 0.8125rem;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 50%;
-  padding: 0;
-  min-width: 0;
-  width: 56px;
-  height: 56px;
-  z-index: 1050;
-  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
-  color: rgba(0, 0, 0, 0.87);
-  background-color: #e0e0e0;
-  color: #fff;
-  background-color: #1976d2;
-  top: -28px;
-  right: 16px;
-  z-index: 1;
 }
 
-.emotion-13::-moz-focus-inner {
+.emotion-19::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-19.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-13 {
+  .emotion-19 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-13:active {
-  box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12);
-}
-
-.emotion-13:hover {
-  background-color: #f5f5f5;
+.emotion-19:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-@media (hover: none) {
-  .emotion-13:hover {
-    background-color: #e0e0e0;
-  }
-}
-
-.emotion-13.Mui-focusVisible {
-  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-13:hover {
-  background-color: #1565c0;
-}
-
-@media (hover: none) {
-  .emotion-13:hover {
-    background-color: #1976d2;
-  }
-}
-
-.emotion-13.Mui-disabled {
+.emotion-19.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
-  box-shadow: none;
-  background-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) {
+  .emotion-19:hover {
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
+  }
+}
+
+.emotion-19.MuiButton-loading {
+  color: transparent;
+}
+
+.emotion-20 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  color: inherit;
+  border-color: currentColor;
+  --variant-containedBg: #e0e0e0;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-20::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-20.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-20 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-20:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-20.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+@media (hover: hover) {
+  .emotion-20:hover {
+    --variant-containedBg: #f5f5f5;
+    --variant-textBg: rgba(0, 0, 0, 0.04);
+    --variant-outlinedBg: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.emotion-20.MuiButton-loading {
+  color: transparent;
+}
+
+.emotion-21 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
 }
 
 <div
@@ -286,39 +370,35 @@ exports[`Devices Component > renders correctly 1`] = `
   <div
     class="widget "
   >
-    <div
-      class="flexbox widgetHeader"
+    <p
+      class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader align-items-center emotion-0"
     >
-      <div
-        class="flexbox align-items-center"
+      Accepted devices 
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small green emotion-1"
+        data-testid="CheckCircleIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
       >
-        Accepted devices 
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-left-small green emotion-0"
-          data-testid="CheckCircleIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8z"
-          />
-        </svg>
-      </div>
-    </div>
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8z"
+        />
+      </svg>
+    </p>
     <div
-      class="widgetMainContent"
+      class="flexbox margin-top-x-small"
     >
       <div
         class="full-width"
       >
         <h5
-          class="MuiTypography-root MuiTypography-h5 emotion-1"
+          class="MuiTypography-root MuiTypography-h5 emotion-2"
         >
           2
         </h5>
         <div
-          class="flexbox column full-width margin-top-small"
+          class="flexbox column full-width margin-top-x-small"
         >
           <div
             aria-label="0% used. To increase limits, go to Settings > Billing"
@@ -326,7 +406,7 @@ exports[`Devices Component > renders correctly 1`] = `
             data-mui-internal-clone-element="true"
           >
             <div
-              class="flexbox column padding-x-small emotion-2  "
+              class="flexbox column padding-x-small emotion-3  "
             >
               <div
                 class="flexbox full-width space-between"
@@ -335,13 +415,13 @@ exports[`Devices Component > renders correctly 1`] = `
                   class="flexbox"
                 >
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-3"
+                    class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-4"
                   >
                     standard
                   </h6>
                 </div>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 emotion-4"
+                  class="MuiTypography-root MuiTypography-body2 emotion-5"
                   data-testid="device-limit-standard"
                 >
                   2
@@ -355,11 +435,11 @@ exports[`Devices Component > renders correctly 1`] = `
                   aria-valuemax="100"
                   aria-valuemin="0"
                   aria-valuenow="0"
-                  class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-5"
+                  class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-6"
                   role="progressbar"
                 >
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-6"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-7"
                     style="transform: translateX(-100%);"
                   />
                 </span>
@@ -371,72 +451,131 @@ exports[`Devices Component > renders correctly 1`] = `
     </div>
   </div>
   <div
-    class="widget emotion-7"
+    class="widget emotion-8"
   >
-    <div
-      class="flexbox widgetHeader"
+    <p
+      class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader align-items-center emotion-0"
     >
       Devices with issues
-    </div>
+    </p>
     <div
-      class="widgetMainContent"
+      class="flexbox margin-top-x-small"
     >
-      <a
-        class="flexbox align-items-center column emotion-8 green"
-        data-discover="true"
-        href="/devices?issues=offline"
+      <div
+        class="flexbox align-self-center full-width emotion-10"
       >
-        <div
-          class="relative emotion-9"
+        <a
+          class="flexbox align-items-center column emotion-11 green"
+          data-discover="true"
+          href="/devices?issues=offline"
         >
           <div
-            class="emotion-10"
-          >
-            0
-          </div>
-          <div
-            class="absolute emotion-11"
+            class="relative emotion-12"
           >
             <div
-              class="relative"
+              class="emotion-13"
+            >
+              0
+            </div>
+            <div
+              class="absolute emotion-14"
             >
               <div
-                class="absolute"
-              />
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall absolute emotion-12"
-                data-testid="WifiOffIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+                class="relative"
               >
-                <path
-                  d="M22.99 9C19.15 5.16 13.8 3.76 8.84 4.78l2.52 2.52c3.47-.17 6.99 1.05 9.63 3.7zm-4 4c-1.29-1.29-2.84-2.13-4.49-2.56l3.53 3.53zM2 3.05 5.07 6.1C3.6 6.82 2.22 7.78 1 9l1.99 2c1.24-1.24 2.67-2.16 4.2-2.77l2.24 2.24C7.81 10.89 6.27 11.73 5 13v.01L6.99 15c1.36-1.36 3.14-2.04 4.92-2.06L18.98 20l1.27-1.26L3.29 1.79zM9 17l3 3 3-3c-1.65-1.66-4.34-1.66-6 0"
+                <div
+                  class="absolute"
                 />
-              </svg>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall absolute emotion-1"
+                  data-testid="WifiOffIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M22.99 9C19.15 5.16 13.8 3.76 8.84 4.78l2.52 2.52c3.47-.17 6.99 1.05 9.63 3.7zm-4 4c-1.29-1.29-2.84-2.13-4.49-2.56l3.53 3.53zM2 3.05 5.07 6.1C3.6 6.82 2.22 7.78 1 9l1.99 2c1.24-1.24 2.67-2.16 4.2-2.77l2.24 2.24C7.81 10.89 6.27 11.73 5 13v.01L6.99 15c1.36-1.36 3.14-2.04 4.92-2.06L18.98 20l1.27-1.26L3.29 1.79zM9 17l3 3 3-3c-1.65-1.66-4.34-1.66-6 0"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
-        </div>
-        <p
-          class="align-center slightly-smaller"
-        >
-          Offline
-        </p>
-      </a>
+          <p
+            class="align-center slightly-smaller"
+          >
+            Offline
+          </p>
+        </a>
+      </div>
     </div>
   </div>
   <div
-    class="relative"
+    class="widget "
   >
-    <a
-      class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-13"
-      data-discover="true"
-      href="/devices/pending"
+    <p
+      class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader align-items-center emotion-0"
+    >
+      Pending devices
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-1"
+        data-testid="PendingOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+        />
+        <circle
+          cx="7"
+          cy="12"
+          r="1.5"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="1.5"
+        />
+        <circle
+          cx="17"
+          cy="12"
+          r="1.5"
+        />
+      </svg>
+    </p>
+    <div
+      class="flexbox margin-top-x-small"
+    >
+      <div
+        class="flexbox column full-width"
+      >
+        <h5
+          class="MuiTypography-root MuiTypography-h5 emotion-2"
+        >
+          1
+        </h5>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-19"
+          tabindex="0"
+          type="button"
+        >
+          View devices
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget flexbox centered"
+  >
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-20"
+      style="max-width: 200px;"
       tabindex="0"
+      type="button"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-0"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-right-x-small emotion-21"
         data-testid="AddIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -445,40 +584,8 @@ exports[`Devices Component > renders correctly 1`] = `
           d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
         />
       </svg>
-    </a>
-    <div
-      class="widget "
-    >
-      <div
-        class="flexbox widgetHeader"
-      >
-        Pending devices
-      </div>
-      <div
-        class="flexbox column widgetMainContent"
-      >
-        <div
-          class="counter"
-        >
-          1
-        </div>
-        <span
-          class="link"
-        >
-          View details
-        </span>
-      </div>
-    </div>
-  </div>
-  <div
-    class="widget flexbox centered"
-  >
-    <p
-      class="muted"
-      style="max-width: 200px;"
-    >
-      + connect more devices
-    </p>
+       Connect more devices
+    </button>
   </div>
 </div>
 `;
