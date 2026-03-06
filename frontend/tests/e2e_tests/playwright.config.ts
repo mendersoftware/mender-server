@@ -68,6 +68,7 @@ const options: PlaywrightTestConfig = {
       testDir: `${testDirBase}/09-potentially-destructive`,
       use: projectParamsByBrowser.chrome,
       dependencies: ['advanced-chromium'],
+      teardown: 'teardown',
       workers: 1
     },
     {
@@ -75,9 +76,18 @@ const options: PlaywrightTestConfig = {
       testDir: `${testDirBase}/09-potentially-destructive`,
       use: projectParamsByBrowser.firefox,
       dependencies: ['advanced-firefox'],
+      teardown: 'teardown',
       workers: 1
     },
-    { name: 'webkit', testDir: `${testDirBase}/09-potentially-destructive`, use: projectParamsByBrowser.webkit, dependencies: ['advanced-webkit'], workers: 1 }
+    {
+      name: 'webkit',
+      testDir: `${testDirBase}/09-potentially-destructive`,
+      use: projectParamsByBrowser.webkit,
+      dependencies: ['advanced-webkit'],
+      teardown: 'teardown',
+      workers: 1
+    },
+    { name: 'teardown', testMatch: /.*\.teardown\.ts/ }
   ],
   reporter: process.env.CI
     ? [
