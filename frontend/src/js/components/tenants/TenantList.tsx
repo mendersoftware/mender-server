@@ -15,46 +15,101 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import { Check as CheckIcon, Warning as WarningIcon } from '@mui/icons-material';
+import { Alert, Tooltip, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import { ColumnHeader, CommonList, ListItemComponentProps, RendererProp } from '@northern.tech/common-ui/List';
 import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
-import { getTenantsList } from '@northern.tech/store/selectors';
+import { getDisabledTiers, getTenantListWithLimits } from '@northern.tech/store/selectors';
 import { AppDispatch } from '@northern.tech/store/store';
 import { setTenantsListState } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 
-import { LIMIT_THRESHOLD } from '../header/DeviceCount';
+import { getLimitStatus } from '../header/DeviceNotifications';
 import { ExpandedTenant } from './ExpandedTenant';
 import { Tenant } from './types';
 
+const useStyles = makeStyles()(theme => ({
+  container: {
+    borderRadius: theme.spacing(0.5),
+    padding: theme.spacing(0.5)
+  },
+  error: {
+    color: theme.palette.error.light
+  },
+  warning: {
+    color: theme.palette.warning.main
+  },
+  alertIcon: {
+    padding: 0,
+    fontSize: theme.spacing(2),
+    marginRight: theme.spacing(0.5)
+  },
+  alert: {
+    display: 'flex',
+    alignItems: 'center',
+    height: theme.spacing(4),
+    padding: theme.spacing(0.75)
+  },
+  primary: {}
+}));
 export const defaultTextRender = (props: RendererProp<Tenant>) => {
   const { column, item } = props;
   const attributeValue = item?.[column.attribute.name];
   return typeof attributeValue === 'object' ? JSON.stringify(attributeValue) : attributeValue;
 };
-export const DeviceLimitRender = (props: RendererProp<Tenant>) => {
-  const { column, item } = props;
-  const attributeValue = item?.[column.attribute.name] ?? 0;
-  const deviceCount = item?.device_count ?? 0;
+
+const DeviceLimitNumbers = (props: { limit: number; total: number }) => {
+  const { limit, total } = props;
+  const { warning, error, percentageUsed, color } = getLimitStatus(total, limit);
+  const { classes } = useStyles();
+  if (limit === 0 && total === 0) {
+    return (
+      <Typography variant="body2" className="padding-left-small">
+        -
+      </Typography>
+    );
+  }
   return (
-    <div className="flexbox align-items-center">
-      {deviceCount}/{attributeValue}
-      {Number(deviceCount) / Number(attributeValue) > LIMIT_THRESHOLD && <WarningIcon className="margin-left-small" fontSize="small" />}
+    <div className={`${classes.container} flexbox align-items-center`}>
+      {warning || error ? (
+        <Tooltip title={`${percentageUsed}% used${error ? ' - limit reached' : ''}`}>
+          <Alert severity={color} classes={{ root: classes.alert, message: `${classes[color]} padding-none`, icon: classes.alertIcon }}>
+            {total}/{limit}
+          </Alert>
+        </Tooltip>
+      ) : (
+        <Typography variant="body2" className="padding-left-x-small">
+          {total}/{limit}
+        </Typography>
+      )}
     </div>
   );
 };
-export const BoolRender = (props: RendererProp<Tenant>) => {
+
+export const DeviceLimitRender = (props: RendererProp<Tenant>) => {
   const { column, item } = props;
-  return <div>{item?.[column.attribute.name] ? <CheckIcon /> : <div>-</div>}</div>;
+  if (!item?.device_limits[column.attribute.name]) {
+    return null;
+  }
+  const attributeValue = item?.device_limits[column.attribute.name].limit ?? 0;
+  const deviceCount = item?.device_limits[column.attribute.name].current ?? 0;
+  return <DeviceLimitNumbers limit={Number(attributeValue)} total={Number(deviceCount)} />;
 };
+
 const AttributeRenderer = ({ content, textContent }) => (
   <div title={typeof textContent === 'string' ? textContent : ''}>
     <div className="text-overflow">{content}</div>
   </div>
 );
+const DetailsButtonRenderer = props => (
+  <div className="padding-bottom-small padding-top-small">
+    <DetailsIndicator {...props} />
+  </div>
+);
+
 const DateRender = (props: RendererProp<Tenant>) => {
   const { column, item } = props;
   const attributeValue = dayjs(item?.[column.attribute.name]).format('YYYY-MM-DD HH:mm');
@@ -72,22 +127,31 @@ export const columnHeaders: ColumnHeader<Tenant>[] = [
     textRender: defaultTextRender
   },
   {
-    title: 'Devices',
+    title: 'Micro',
     attribute: {
-      name: 'device_limit',
+      name: 'micro',
       scope: ''
     },
     sortable: false,
     component: DeviceLimitRender
   },
   {
-    title: 'Delta updates enabled ',
+    title: 'Standard',
     attribute: {
-      name: 'binary_delta',
+      name: 'standard',
       scope: ''
     },
     sortable: false,
-    component: BoolRender
+    component: DeviceLimitRender
+  },
+  {
+    title: 'System',
+    attribute: {
+      name: 'system',
+      scope: ''
+    },
+    sortable: false,
+    component: DeviceLimitRender
   },
   {
     title: 'Created',
@@ -99,13 +163,13 @@ export const columnHeaders: ColumnHeader<Tenant>[] = [
     component: DateRender
   },
   {
-    title: 'More details',
+    title: '',
     attribute: {
       name: '',
       scope: ''
     },
     sortable: false,
-    component: DetailsIndicator
+    component: DetailsButtonRenderer
   }
 ];
 
@@ -117,7 +181,7 @@ export const TenantListItem = (props: ListItemComponentProps<Tenant>) => {
   }, [listItem.id, onClick]);
 
   return (
-    <div onClick={handleOnClick} className={`deviceListRow deviceListItem clickable`}>
+    <div onClick={handleOnClick} className="deviceListRow deviceListItem clickable">
       {columnHeaders.map((column: ColumnHeader<Tenant>) => {
         const { classes = {}, component: Component, textRender } = column;
         if (textRender) {
@@ -129,7 +193,8 @@ export const TenantListItem = (props: ListItemComponentProps<Tenant>) => {
   );
 };
 export const TenantList = () => {
-  const tenantListState = useSelector(getTenantsList);
+  const disabledTiers: string[] = useSelector(getDisabledTiers);
+  const tenantListState = useSelector(getTenantListWithLimits);
   const { tenants, perPage, selectedTenant, sort = {} } = tenantListState;
   const dispatch: AppDispatch = useDispatch();
   const isInitialized = useRef(false);
@@ -142,7 +207,7 @@ export const TenantList = () => {
       sort: {}
     }
   });
-
+  const enabledHeaders = columnHeaders.filter(column => !disabledTiers.includes(column.attribute.name));
   useEffect(() => {
     if (shouldInitializeFromUrl) {
       isInitialized.current = false;
@@ -187,9 +252,9 @@ export const TenantList = () => {
 
   const tenant = selectedTenant && tenants.find((tenant: Tenant) => selectedTenant === tenant.id);
   return (
-    <div>
+    <div className="margin-top-small">
       <CommonList
-        columnHeaders={columnHeaders}
+        columnHeaders={enabledHeaders}
         listItems={tenants}
         listState={tenantListState}
         onChangeRowsPerPage={newPerPage => onChangePagination(1, newPerPage)}

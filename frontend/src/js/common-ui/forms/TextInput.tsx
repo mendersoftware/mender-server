@@ -34,7 +34,8 @@ export const TextInput = ({
   numericValidations = {},
   value: passedValue = '',
   requiredRendered = true,
-  width = 400
+  width = 400,
+  helperText = ''
 }) => {
   const {
     clearErrors,
@@ -96,7 +97,7 @@ export const TextInput = ({
               type={type}
               {...restInputProps}
             />
-            <FormHelperText>{(errors[errorKey] || error)?.message}</FormHelperText>
+            <FormHelperText>{(errors[errorKey] || error)?.message || helperText}</FormHelperText>
           </FormControl>
         );
       }}

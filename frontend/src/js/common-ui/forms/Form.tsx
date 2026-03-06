@@ -129,6 +129,7 @@ export const Form = ({
   id,
   initialValues = {},
   onSubmit,
+  resetOnSubmit = false,
   showButtons,
   submitLabel,
   submitRef,
@@ -139,6 +140,7 @@ export const Form = ({
   const {
     handleSubmit,
     formState: { isValid },
+    reset,
     setValue
   } = methods;
 
@@ -151,10 +153,15 @@ export const Form = ({
     Object.entries(initialValues).forEach(([key, value]) => setValue(key, value));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(initialValues), setValue]);
-
+  const handleFormSubmit = async data => {
+    await onSubmit(data);
+    if (resetOnSubmit) {
+      reset();
+    }
+  };
   return (
     <FormProvider {...methods}>
-      <form autoComplete={autocomplete} className={className} id={id} noValidate onSubmit={handleSubmit(onSubmit)}>
+      <form autoComplete={autocomplete} className={className} id={id} noValidate onSubmit={handleSubmit(handleFormSubmit)}>
         {children}
         {!!showButtons && (
           <div className={`button-wrapper ${internalClasses.buttonWrapper} ${classes.buttonWrapper}`}>

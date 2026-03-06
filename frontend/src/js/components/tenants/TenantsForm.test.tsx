@@ -15,7 +15,7 @@ import { defaultState } from '@/testUtils';
 import { render } from '@/testUtils';
 import { TIMEOUTS, rolesByName } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
-import { undefineds } from '@northern.tech/testing/mockData';
+import { spTenantLimits, undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, vi } from 'vitest';
@@ -37,36 +37,35 @@ describe('TenantsForm', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { addTenant: submitTenantSpy, checkEmailExists: checkEmailExistsSpy } = StoreThunks;
 
-    const newChildTenant = { name: 'ChildTenant', email: 'child+123@example.com', password: 'MySecurePassword2025', dev: '2' };
+    const newChildTenant = { name: 'ChildTenant', email: 'child+123@example.com', password: 'MySecurePassword2025', limit: '2' };
     const preloadedState = {
       ...defaultState,
       organization: {
         ...defaultState.organization,
         organization: {
           ...defaultState.organization.organization,
-          device_limit: 200
+          device_limits: spTenantLimits
         }
       }
     };
-
     render(<TenantPage />, { preloadedState });
-
     expect(screen.queryByText('You are not currently managing any tenants'));
-    await user.click(screen.getByRole('button', { name: /Add tenant/i }));
+    await user.click(screen.getByRole('button', { name: /create a tenant/i }));
     await user.type(screen.getByPlaceholderText('Name'), newChildTenant.name);
     const emailInput = screen.getByLabelText(/admin user/i);
     await user.type(emailInput, `bad-${newChildTenant.email}`);
-    await user.type(screen.getByPlaceholderText('Password'), newChildTenant.password);
-    await user.type(screen.getByLabelText('Set device limit'), newChildTenant.dev);
-    await user.click(screen.getByText(/enable delta artifact generation/i));
-    await user.click(screen.getByText(/reset the password/i));
+    const micro = screen.getByLabelText(/micro device/i);
+    await user.click(micro);
+    await user.type(screen.getAllByLabelText(/device limit/i)[0], newChildTenant.limit);
     await act(async () => vi.runOnlyPendingTimers());
     const submitButton = screen.getByRole('button', { name: /Create Tenant/i });
-    await waitFor(() => expect(submitButton).toBeEnabled());
+
     await act(async () => await user.click(submitButton));
     expect(emailInput).toBeVisible();
     await user.clear(emailInput);
     await user.type(emailInput, newChildTenant.email);
+    await act(async () => vi.runOnlyPendingTimers());
+
     await waitFor(() => expect(checkEmailExistsSpy).toHaveBeenCalledWith(newChildTenant.email));
     await act(async () => await user.click(submitButton));
 
@@ -74,7 +73,11 @@ describe('TenantsForm', () => {
       expect(submitTenantSpy).toHaveBeenCalledWith({
         users: [{ email: newChildTenant.email, role: rolesByName.admin }],
         name: newChildTenant.name,
-        device_limit: Number(newChildTenant.dev),
+        deviceLimits: {
+          micro: '2',
+          standard: 0,
+          system: 0
+        },
         binary_delta: true,
         restrict_sso_to_parent: false,
         sso: false

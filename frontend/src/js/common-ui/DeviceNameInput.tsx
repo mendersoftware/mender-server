@@ -11,86 +11,21 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-
-// material ui
-import { InputAdornment, OutlinedInput } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
 
 import { setDeviceTags } from '@northern.tech/store/thunks';
 
-import { ConfirmationButtons, EditButton } from './Confirm';
-
-const useStyles = makeStyles()(theme => ({
-  icon: {
-    fontSize: '1.25rem'
-  },
-  input: {
-    color: theme.palette.text.primary,
-    fontSize: '0.8125rem'
-  }
-}));
+import { EditableNameInput } from './EditableNameInput';
 
 export const DeviceNameInput = ({ device, isHovered }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [value, setValue] = useState('');
-  const { classes } = useStyles();
-  const inputRef = useRef();
-
   const dispatch = useDispatch();
 
   const { id = '', tags = {} } = device;
   const { name = '' } = tags;
 
-  useEffect(() => {
-    if (!isEditing && name !== value) {
-      setValue(name);
-    }
-  }, [device, isEditing, name, value]);
+  const onSave = (value: string) => dispatch(setDeviceTags({ deviceId: id, tags: { ...tags, name: value } }));
 
-  useEffect(() => {
-    if (!isEditing || !inputRef.current) {
-      return;
-    }
-    inputRef.current.focus();
-  }, [isEditing]);
-
-  const onSubmit = () => dispatch(setDeviceTags({ deviceId: id, tags: { ...tags, name: value } })).then(() => setIsEditing(false));
-
-  const onCancel = () => {
-    setValue(name);
-    setIsEditing(false);
-  };
-
-  const onStartEdit = e => {
-    e.stopPropagation();
-    setIsEditing(true);
-  };
-
-  const onInputClick = e => e.stopPropagation();
-
-  return (
-    <OutlinedInput
-      id={`${device.id}-id-input`}
-      className={classes.input}
-      disabled={!isEditing}
-      inputRef={inputRef}
-      value={value}
-      placeholder={`${id.substring(0, 6)}...`}
-      onClick={onInputClick}
-      onChange={({ target: { value } }) => setValue(value)}
-      type="text"
-      size="small"
-      endAdornment={
-        (isHovered || isEditing) && (
-          <InputAdornment position="end">
-            {isEditing ? <ConfirmationButtons onCancel={onCancel} onConfirm={onSubmit} /> : <EditButton label="" onClick={onStartEdit} />}
-          </InputAdornment>
-        )
-      }
-    />
-  );
+  return <EditableNameInput id={`${device.id}-id-input`} name={name} placeholder={`${id.substring(0, 6)}...`} isHovered={isHovered} onSave={onSave} />;
 };
 
 export default DeviceNameInput;

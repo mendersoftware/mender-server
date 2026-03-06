@@ -472,13 +472,9 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components > renders SubTenantDeltaArtifactGeneration correctly 1`] = `This option will enable the server-side generation of Delta Artifacts for the created tenant when turned on`;
-
-exports[`Helptooltips Components > renders SubTenantDeviceLimit correctly 1`] = `Set the maximum number of accepted devices this tenant can have connected to the server at any time. You can adjust this later. Each tenants’ amount of accepted devices will count towards your total device limit.`;
-
 exports[`Helptooltips Components > renders SubTenantSSO correctly 1`] = `The created tenant will inherit the same Single Sign-On configuration as this Service Provider tenant. The created tenant’s admin user will not be able to change the SSO settings later.`;
 
-exports[`Helptooltips Components > renders TenantAdmin correctly 1`] = `Set the user who will have the admin role when this tenant is created. This can be a user who already has a Mender account, or a brand new user. The tenant admin will be able to change which user(s) have this role once they begin using the tenant.`;
+exports[`Helptooltips Components > renders SystemDevice correctly 1`] = `A Component that runs Mender Orchestrator and communicates with the Mender Server.`;
 
 exports[`Helptooltips Components > renders TenantInitialAdmin correctly 1`] = `The user that was assigned as admin for this tenant when it was created. There is a chance the admin user will have changed or this user no longer exists in this tenant.`;
 

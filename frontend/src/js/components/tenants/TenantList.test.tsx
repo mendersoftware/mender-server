@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
 import { initialState as initialOrganizationState } from '@northern.tech/store/organizationSlice';
-import { undefineds } from '@northern.tech/testing/mockData';
+import { spTenantLimits, tenants, undefineds } from '@northern.tech/testing/mockData';
 
 import { TenantList } from './TenantList';
 
@@ -43,7 +43,7 @@ const state = {
           children_tenants: null,
           max_child_tenants: 0,
           device_count: 0,
-          device_limit: 100,
+          device_limit: tenants[0].devicelimits,
           binary_delta: true
         },
         {
@@ -66,6 +66,7 @@ const state = {
           max_child_tenants: 0,
           device_count: 0,
           device_limit: 20,
+          device_limits: tenants[0].devicelimits,
           binary_delta: true
         }
       ]
@@ -73,7 +74,8 @@ const state = {
     organization: {
       ...defaultState.organization.organization,
       device_count: 20,
-      device_limit: 200
+      device_limit: 200,
+      device_limits: spTenantLimits
     }
   }
 };

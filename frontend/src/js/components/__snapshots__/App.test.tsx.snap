@@ -3310,9 +3310,34 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 }
 
 .emotion-54 {
+  background-color: #fff;
+  color: #1f1f20;
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
   width: calc(100% + 12px);
   margin-left: -6px;
   border-radius: 4px;
+}
+
+.emotion-55 {
+  margin: 0;
+  font-family: Red Hat Text;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  color: #1f1f20;
+}
+
+.emotion-56 {
+  margin: 0;
+  font-family: Red Hat Text;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  color: #1f1f20;
 }
 
 .emotion-57 {
@@ -4139,7 +4164,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                     data-mui-internal-clone-element="true"
                   >
                     <div
-                      class="flexbox column padding-x-small emotion-54  "
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 flexbox column padding-x-small emotion-54"
+                      style="--Paper-shadow: none;"
                     >
                       <div
                         class="flexbox full-width space-between"
@@ -4148,13 +4174,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                           class="flexbox"
                         >
                           <h6
-                            class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-20"
+                            class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-55"
                           >
                             standard
                           </h6>
                         </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body2 emotion-43"
+                          class="MuiTypography-root MuiTypography-body2 emotion-56"
                           data-testid="device-limit-standard"
                         >
                           2/500

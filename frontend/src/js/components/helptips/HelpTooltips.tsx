@@ -234,22 +234,6 @@ const ReleaseName = () => (
   </>
 );
 
-const TenantAdmin = () => (
-  <>
-    Set the user who will have the admin role when this tenant is created. This can be a user who already has a Mender account, or a brand new user. The tenant
-    admin will be able to change which user(s) have this role once they begin using the tenant.
-  </>
-);
-
-const SubTenantDeviceLimit = () => (
-  <>
-    Set the maximum number of accepted devices this tenant can have connected to the server at any time. You can adjust this later. Each tenants’ amount of
-    accepted devices will count towards your total device limit.
-  </>
-);
-
-const SubTenantDeltaArtifactGeneration = () => <>This option will enable the server-side generation of Delta Artifacts for the created tenant when turned on</>;
-
 const SubTenantSSO = () => (
   <>
     The created tenant will inherit the same Single Sign-On configuration as this Service Provider tenant. The created tenant’s admin user will not be able to
@@ -294,6 +278,9 @@ const StandardDevice = () => (
     <DocsLink path="/overview/limits" title="Learn more about limits" />
   </>
 );
+
+//TODO: taken from docs, update with better alternative?
+const SystemDevice = () => <>A Component that runs Mender Orchestrator and communicates with the Mender Server.</>;
 
 export type HelpTooltipComponent = {
   Component?: FC;
@@ -347,10 +334,8 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   scheduleDeployment: { id: 'scheduleDeployment', Component: ScheduleDeployment },
   singleFileUpload: { id: 'singleFileUpload', Component: SingleFileUpload },
   standardDevice: { id: 'standardDevice', Component: StandardDevice },
-  subTenantDeltaArtifactGeneration: { id: 'subTenantDeltaArtifactGeneration', Component: SubTenantDeltaArtifactGeneration },
-  subTenantDeviceLimit: { id: 'subTenantDeviceLimit', Component: SubTenantDeviceLimit },
   subTenantSSO: { id: 'subTenantSSO', Component: SubTenantSSO },
-  tenantAdmin: { id: 'tenantAdmin', Component: TenantAdmin },
+  systemDevice: { id: 'systemDevice', Component: SystemDevice },
   tenantInitialAdmin: { id: 'tenantInitialAdmin', Component: TenantInitialAdmin },
   twoFactorNote: { id: 'twoFactorNote', Component: TwoFactorNote },
   webhookEvents: { id: 'webhookEvents', Component: WebhookEvents },
