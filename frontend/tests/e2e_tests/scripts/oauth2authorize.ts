@@ -1,7 +1,19 @@
+// Copyright 2026 Northern.tech AS
+//
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+//        http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
 import { OAuth2Client } from 'google-auth-library';
 import http from 'http';
 import open from 'open';
-import destroyer from 'server-destroy';
 import url from 'url';
 
 /**
@@ -41,33 +53,34 @@ function getAuthenticatedClient() {
     const server = http
       .createServer(async (req, res) => {
         try {
-          if (req.url.indexOf('/oauth2callback') > -1) {
-            // acquire the code from the querystring, and close the web server.
-            const qs = new url.URL(req.url, 'http://localhost:3000').searchParams;
-            const code = qs.get('code');
-            res.end('Authentication successful! Please return to the console.');
-            server.destroy();
-
-            // Now that we have the code, use that to acquire tokens.
-            const r = await oAuth2Client.getToken(code);
-            // Make sure to set the credentials on the OAuth2 client.
-            oAuth2Client.setCredentials(r.tokens);
-            console.info(`Tokens acquired: ${JSON.stringify(r.tokens, null, 2)}`);
-            console.info(`To use gmail with the end-to-end tests, set the following environment variable:`);
-            console.info('```sh');
-            console.info(`export GOOGLE_REFRESH_TOKEN=${r.tokens.refresh_token}`);
-            console.info('```');
-            resolve(oAuth2Client);
+          if (req.url.indexOf('/oauth2callback') <= -1) {
+            return;
           }
+          // acquire the code from the querystring, and close the web server.
+          const params = new url.URL(req.url, 'http://localhost:3000').searchParams;
+          const code = params.get('code');
+          res.end('Authentication successful! Please return to the console.');
+
+          // Now that we have the code, use that to acquire tokens.
+          const response = await oAuth2Client.getToken(code);
+          // Make sure to set the credentials on the OAuth2 client.
+          oAuth2Client.setCredentials(response.tokens);
+          console.info(`Tokens acquired: ${JSON.stringify(response.tokens, null, 2)}`);
+          console.info(`To use gmail with the end-to-end tests, set the following environment variable:`);
+          console.info(`export GOOGLE_REFRESH_TOKEN=${response.tokens.refresh_token}`);
+          resolve(oAuth2Client);
         } catch (e) {
           reject(e);
         }
       })
       .listen(3000, () => {
         // open the browser to the authorize url to start the workflow
-        open(authorizeUrl, { wait: false, app: 'firefox' }).then(cp => cp.unref());
+        open(authorizeUrl).then(cp => cp.unref());
       });
-    destroyer(server);
+    setTimeout(() => {
+      server.close();
+      server.closeAllConnections();
+    }, 10000);
   });
 }
 
