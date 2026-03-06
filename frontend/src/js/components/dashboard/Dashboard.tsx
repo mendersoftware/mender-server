@@ -14,7 +14,7 @@
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Alert } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
@@ -97,7 +97,9 @@ export const Dashboard = () => {
           </>
         </Alert>
       )}
-      <h4 className="margin-left-small">Dashboard</h4>
+      <Typography className="margin-bottom-small" variant="h5">
+        Dashboard
+      </Typography>
       {currentUser ? (
         <div className={classes.board}>
           <div className={classes.left}>
