@@ -11,26 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Link } from 'react-router-dom';
-
-// material ui
-import { Add as ContentAddIcon } from '@mui/icons-material';
-import { Fab } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
-
-import pluralize from 'pluralize';
+import { PendingOutlined } from '@mui/icons-material';
+import { Button, Typography } from '@mui/material';
 
 import { onboardingSteps } from '../../../utils/onboardingManager';
 import { BaseWidget } from './BaseWidget';
 
-const useStyles = makeStyles()(theme => ({
-  fab: { top: '-28px', right: theme.spacing(2), zIndex: 1 }
-}));
-
 export const PendingDevices = props => {
-  const { advanceOnboarding, isActive: hasPending, innerRef, onboardingState, onClick, pendingDevicesCount } = props;
-
-  const { classes } = useStyles();
+  const { advanceOnboarding, innerRef, onboardingState, onClick, pendingDevicesCount } = props;
 
   const onWidgetClick = () => {
     if (!onboardingState.complete) {
@@ -39,21 +27,23 @@ export const PendingDevices = props => {
     onClick({ route: '/devices/pending' });
   };
 
-  const pendingNotification = `Pending ${pluralize('devices', hasPending)}`;
+  const header = (
+    <>
+      Pending devices
+      <PendingOutlined fontSize="small" className="margin-left-small" />
+    </>
+  );
 
-  const widgetMain = {
-    counter: pendingDevicesCount,
-    targetLabel: 'View details'
-  };
-
-  return (
-    <div className="relative" ref={ref => (innerRef ? (innerRef.current = ref) : null)}>
-      <Fab className={`absolute ${classes.fab}`} color="primary" component={Link} to="/devices/pending">
-        <ContentAddIcon />
-      </Fab>
-      <BaseWidget {...props} header={pendingNotification} main={widgetMain} onClick={onWidgetClick} />
+  const main = (
+    <div className="flexbox column full-width" ref={ref => (innerRef ? (innerRef.current = ref) : null)}>
+      <Typography variant="h5">{(pendingDevicesCount || 0).toLocaleString('en-US')}</Typography>
+      <Button className="align-self-start margin-top-x-small" color="primary" size="small" variant="text">
+        View devices
+      </Button>
     </div>
   );
+
+  return <BaseWidget {...props} header={header} main={main} onClick={onWidgetClick} />;
 };
 
 export default PendingDevices;
