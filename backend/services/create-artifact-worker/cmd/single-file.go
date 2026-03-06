@@ -41,6 +41,7 @@ const (
 	argDelArtifactUri = "delete-artifact-uri"
 	argTenantId       = "tenant-id"
 	argArgs           = "args"
+	maxInputLength    = 256
 )
 
 type args struct {
@@ -219,6 +220,19 @@ func (c *SingleFileCmd) init(cmd *cobra.Command) error {
 	return nil
 }
 
+func validateSafeString(name, value string, maxLen int) error {
+	if len(value) > maxLen {
+		return fmt.Errorf("%s exceeds maximum length of %d", name, maxLen)
+	}
+	if strings.HasPrefix(value, "-") {
+		return fmt.Errorf("%s must not start with '-'", name)
+	}
+	if strings.ContainsAny(value, "\n\r\x00") {
+		return fmt.Errorf("%s must not contain control characters", name)
+	}
+	return nil
+}
+
 func (c *SingleFileCmd) Validate() error {
 	if err := config.ValidAbsPath(c.Workdir); err != nil {
 		return errors.Wrap(err, "invalid workdir")
@@ -231,14 +245,64 @@ func (c *SingleFileCmd) Validate() error {
 		return errors.Wrap(err, "can't parse 'args'")
 	}
 
-	c.FileName = args.Filename
+	// Sanitize filename: strip directory components to prevent path traversal
+	c.FileName = filepath.Base(args.Filename)
+	if c.FileName == "." || c.FileName == ".." {
+		return errors.New("invalid filename")
+	}
+
 	c.DestDir = args.DestDir
 	c.SoftwareFilesystem = args.SoftwareFilesystem
 	c.SoftwareName = args.SoftwareName
 	c.SoftwareVersion = args.SoftwareVersion
 
-	if c.FileName == "" {
-		return errors.New("destination filename can't be empty")
+	// Validate required fields
+	requiredFields := []struct {
+		name   string
+		value  string
+		maxLen int
+	}{
+		{"filename", c.FileName, maxInputLength},
+		{"artifact-name", c.ArtifactName, 4 * maxInputLength},
+	}
+	for _, f := range requiredFields {
+		if f.value == "" {
+			return fmt.Errorf("%s can't be empty", f.name)
+		}
+		if err := validateSafeString(f.name, f.value, f.maxLen); err != nil {
+			return err
+		}
+	}
+
+	if len(c.DeviceTypes) == 0 {
+		return errors.New("device type can't be empty")
+	}
+	for _, dt := range c.DeviceTypes {
+		if dt == "" {
+			return errors.New("device type can't be empty")
+		}
+		if err := validateSafeString("device-type", dt, maxInputLength); err != nil {
+			return err
+		}
+	}
+
+	// Validate optional fields
+	optionalFields := []struct {
+		name   string
+		value  string
+		maxLen int
+	}{
+		{"software_filesystem", c.SoftwareFilesystem, maxInputLength},
+		{"software_name", c.SoftwareName, maxInputLength},
+		{"software_version", c.SoftwareVersion, maxInputLength},
+		{"description", c.Description, 4096},
+	}
+	for _, f := range optionalFields {
+		if f.value != "" {
+			if err := validateSafeString(f.name, f.value, f.maxLen); err != nil {
+				return err
+			}
+		}
 	}
 
 	if err := config.ValidAbsPath(c.DestDir); err != nil {
