@@ -62,14 +62,14 @@ export const AcceptedDevices = props => {
   const main = (
     <div className="full-width">
       <Typography variant="h5">{devicesCount.toLocaleString(numberLocale)}</Typography>
-      <div className="flexbox column full-width margin-top-small">{limits.length > 0 ? limits : <LoadingSkeleton />}</div>
+      <div className="flexbox column full-width margin-top-x-small">{limits.length > 0 ? limits : <LoadingSkeleton />}</div>
     </div>
   );
 
   return (
     <BaseWidget
       {...props}
-      header={<div className="flexbox align-items-center">Accepted devices {!!devicesCount && <CheckIcon className="margin-left-small green" />}</div>}
+      header={<>Accepted devices {!!devicesCount && <CheckIcon className="margin-left-small green" fontSize="small" />}</>}
       main={main}
       onClick={onWidgetClick}
     />
