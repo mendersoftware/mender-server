@@ -100,7 +100,7 @@ export const Deployments = ({ className = '', clickHandle }) => {
         <Loader show={loading} fade={true} />
       ) : (
         <div className="dashboard flexbox column" ref={deploymentsRef} style={{ gridTemplateColumns: '1fr', rowGap: 10 }}>
-          <Typography variant="subtitle1" className={`${deploymentsCount ? 'margin-bottom-none' : 'margin-top-none'} margin-left-small`}>
+          <Typography variant="subtitle1" className={deploymentsCount ? 'margin-bottom-none' : 'margin-top-none'}>
             {deploymentsCount ? 'Recent deployments' : 'Deployments'}
           </Typography>
           {deploymentsCount ? (
