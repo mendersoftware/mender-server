@@ -16,6 +16,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Add as AddIcon } from '@mui/icons-material';
 import {
+  Button,
   FormControl,
   IconButton,
   InputLabel,
@@ -42,7 +43,6 @@ import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 const fontSize = 'smaller';
 
 const useStyles = makeStyles()(theme => ({
-  additionButton: { fontSize: '1rem', cursor: 'pointer' },
   button: { marginLeft: theme.spacing(2), padding: '6px 8px', fontSize },
   buttonWrapper: { display: 'flex', justifyContent: 'flex-end', alignContent: 'center' },
   header: { minHeight: 30, [`.${svgIconClasses.root}`]: { marginLeft: theme.spacing() } },
@@ -207,7 +207,6 @@ export const RemovalWidget = ({ onCancel, onClick }) => (
 
 export const WidgetAdditionWidget = ({ onAdditionClick, ...remainder }) => {
   const [adding, setAdding] = useState(false);
-  const { classes } = useStyles();
 
   const addCurrentSelection = selection => {
     onAdditionClick(selection);
@@ -224,9 +223,10 @@ export const WidgetAdditionWidget = ({ onAdditionClick, ...remainder }) => {
         <EnterpriseNotification id={BENEFITS.dashboard.id} />
         <MenderHelpTooltip id={HELPTOOLTIPS.dashboardWidget.id} />
       </InfoHintContainer>
-      <div className={`flexbox centered muted ${classes.additionButton}`} onClick={() => setAdding(true)}>
-        <AddIcon />
-        <span className={classes.additionButton}>add a widget</span>
+      <div className="flexbox centered" onClick={() => setAdding(true)}>
+        <Button color="inherit" startIcon={<AddIcon />} variant="text">
+          Add a widget
+        </Button>
       </div>
     </div>
   );
