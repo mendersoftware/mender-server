@@ -15,6 +15,8 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { Add as AddIcon } from '@mui/icons-material';
+
 import storeActions from '@northern.tech/store/actions';
 import { onboardingSteps } from '@northern.tech/store/constants';
 import {
@@ -102,7 +104,18 @@ export const Devices = ({ clickHandle }) => {
           />
         )}
         {canManageDevices && (
-          <RedirectionWidget content={acceptedDevicesCount || pendingDevicesCount ? '+ connect more devices' : 'Connect a device'} onClick={onConnectClick} />
+          <RedirectionWidget
+            content={
+              acceptedDevicesCount || pendingDevicesCount ? (
+                <>
+                  <AddIcon className="margin-right-x-small" /> Connect more devices
+                </>
+              ) : (
+                'Connect a device'
+              )
+            }
+            onClick={onConnectClick}
+          />
         )}
       </div>
       {onboardingComponent}
