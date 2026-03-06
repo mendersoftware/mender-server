@@ -2,6 +2,41 @@
 
 exports[`PendingDevices Component > renders correctly 1`] = `
 .emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-1 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.25rem;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.334;
+  letter-spacing: 0em;
+}
+
+.emotion-3 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -40,136 +75,118 @@ exports[`PendingDevices Component > renders correctly 1`] = `
   line-height: 1.75;
   letter-spacing: 0.02857em;
   text-transform: uppercase;
-  min-height: 36px;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  padding: 6px 8px;
+  color: var(--variant-textColor);
+  background-color: var(--variant-textBg);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #1976d2;
+  padding: 4px 5px;
+  font-size: 0.8125rem;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 50%;
-  padding: 0;
-  min-width: 0;
-  width: 56px;
-  height: 56px;
-  z-index: 1050;
-  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
-  color: rgba(0, 0, 0, 0.87);
-  background-color: #e0e0e0;
-  color: #fff;
-  background-color: #1976d2;
-  top: -28px;
-  right: 16px;
-  z-index: 1;
 }
 
-.emotion-0::-moz-focus-inner {
+.emotion-3::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-0.Mui-disabled {
+.emotion-3.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-0 {
+  .emotion-3 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-0:active {
-  box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12);
-}
-
-.emotion-0:hover {
-  background-color: #f5f5f5;
+.emotion-3:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-@media (hover: none) {
-  .emotion-0:hover {
-    background-color: #e0e0e0;
-  }
-}
-
-.emotion-0.Mui-focusVisible {
-  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-0:hover {
-  background-color: #1565c0;
-}
-
-@media (hover: none) {
-  .emotion-0:hover {
-    background-color: #1976d2;
-  }
-}
-
-.emotion-0.Mui-disabled {
+.emotion-3.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
-  box-shadow: none;
-  background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-1 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.5rem;
+@media (hover: hover) {
+  .emotion-3:hover {
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
+  }
+}
+
+.emotion-3.MuiButton-loading {
+  color: transparent;
 }
 
 <body>
   <div>
     <div
-      class="relative"
+      class="widget "
     >
-      <a
-        class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-0"
-        data-discover="true"
-        href="/devices/pending"
-        tabindex="0"
+      <p
+        class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader align-items-center emotion-0"
       >
+        Pending devices
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
-          data-testid="AddIcon"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-1"
+          data-testid="PendingOutlinedIcon"
           focusable="false"
           viewBox="0 0 24 24"
         >
           <path
-            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+          />
+          <circle
+            cx="7"
+            cy="12"
+            r="1.5"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="1.5"
+          />
+          <circle
+            cx="17"
+            cy="12"
+            r="1.5"
           />
         </svg>
-      </a>
+      </p>
       <div
-        class="widget "
+        class="flexbox margin-top-x-small"
       >
         <div
-          class="flexbox widgetHeader"
+          class="flexbox column full-width"
         >
-          Pending devices
-        </div>
-        <div
-          class="flexbox column widgetMainContent"
-        >
-          <div
-            class="counter"
-          />
-          <span
-            class="link"
+          <h5
+            class="MuiTypography-root MuiTypography-h5 emotion-2"
           >
-            View details
-          </span>
+            0
+          </h5>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-3"
+            tabindex="0"
+            type="button"
+          >
+            View devices
+          </button>
         </div>
       </div>
     </div>
