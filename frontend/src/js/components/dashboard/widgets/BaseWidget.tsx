@@ -11,11 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React from 'react';
+import { Typography } from '@mui/material';
 
 export const BaseWidget = ({ className = '', header, innerRef, main, onClick }) => (
   <div className={`widget ${className}`} onClick={onClick} ref={ref => (innerRef ? (innerRef.current = ref) : null)}>
-    {!!header && <div className="flexbox widgetHeader">{header}</div>}
+    {!!header && (
+      <Typography className="flexbox widgetHeader align-items-center" variant="body1">
+        {header}
+      </Typography>
+    )}
     <div className="flexbox margin-top-x-small">{main}</div>
   </div>
 );

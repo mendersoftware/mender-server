@@ -95,13 +95,10 @@ const useStyles = makeStyles()(theme => ({
       fill: theme.palette.background.paper
     }
   },
-  widget: {
-    '&.widget': { maxWidth: 'initial !important' },
-    '.widgetMainContent': {
-      columnGap: theme.spacing(2),
-      display: 'flex',
-      justifyContent: 'space-evenly'
-    }
+  widget: { '&.widget': { maxWidth: 'initial !important' } },
+  widgetMain: {
+    columnGap: theme.spacing(2),
+    justifyContent: 'space-evenly'
   }
 }));
 
@@ -122,7 +119,7 @@ export const ActionableDevices = props => {
   );
 
   const widgetMain = (
-    <>
+    <div className={`flexbox align-self-center full-width ${classes.widgetMain}`}>
       {relevantIssues.map(type => {
         const value = type.count;
         const Icon = type.icon;
@@ -145,7 +142,7 @@ export const ActionableDevices = props => {
           </Link>
         );
       })}
-    </>
+    </div>
   );
   return <BaseWidget {...props} className={classes.widget} header="Devices with issues" main={widgetMain} />;
 };
