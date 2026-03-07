@@ -142,7 +142,7 @@ __all__ = [
     "NewConfigurationDeploymentResponse",
     "NewDeployment",
     "NewDeploymentForGroup",
-    "NewDevice",
+    "NewDeviceInternalProvision",
     "NewTenant",
     "PersonalAccessToken",
     "PersonalAccessTokenRequest",
@@ -310,7 +310,7 @@ from mender_client.models.new_configuration_deployment import NewConfigurationDe
 from mender_client.models.new_configuration_deployment_response import NewConfigurationDeploymentResponse as NewConfigurationDeploymentResponse
 from mender_client.models.new_deployment import NewDeployment as NewDeployment
 from mender_client.models.new_deployment_for_group import NewDeploymentForGroup as NewDeploymentForGroup
-from mender_client.models.new_device import NewDevice as NewDevice
+from mender_client.models.new_device_internal_provision import NewDeviceInternalProvision as NewDeviceInternalProvision
 from mender_client.models.new_tenant import NewTenant as NewTenant
 from mender_client.models.personal_access_token import PersonalAccessToken as PersonalAccessToken
 from mender_client.models.personal_access_token_request import PersonalAccessTokenRequest as PersonalAccessTokenRequest

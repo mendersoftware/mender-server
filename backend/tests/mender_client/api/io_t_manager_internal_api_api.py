@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Mender API
 
@@ -12,6 +10,7 @@
     Do not edit the class manually.
 """  # noqa: E501
 
+
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -21,7 +20,7 @@ from pydantic import Field, StrictStr, field_validator
 from typing import List
 from typing_extensions import Annotated
 from mender_client.models.io_t_manager_internal_update_device_statuses_request_inner import IoTManagerInternalUpdateDeviceStatusesRequestInner
-from mender_client.models.new_device import NewDevice
+from mender_client.models.new_device_internal_provision import NewDeviceInternalProvision
 
 from mender_client.api_client import ApiClient, RequestSerialized
 from mender_client.api_response import ApiResponse
@@ -1073,7 +1072,7 @@ class IoTManagerInternalAPIApi:
     def io_t_manager_internal_provision_device(
         self,
         tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
-        new_device: NewDevice,
+        new_device_internal_provision: NewDeviceInternalProvision,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1092,8 +1091,8 @@ class IoTManagerInternalAPIApi:
 
         :param tenant_id: ID of tenant the device belongs to. (required)
         :type tenant_id: str
-        :param new_device: (required)
-        :type new_device: NewDevice
+        :param new_device_internal_provision: (required)
+        :type new_device_internal_provision: NewDeviceInternalProvision
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1118,7 +1117,7 @@ class IoTManagerInternalAPIApi:
 
         _param = self._io_t_manager_internal_provision_device_serialize(
             tenant_id=tenant_id,
-            new_device=new_device,
+            new_device_internal_provision=new_device_internal_provision,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1146,7 +1145,7 @@ class IoTManagerInternalAPIApi:
     def io_t_manager_internal_provision_device_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
-        new_device: NewDevice,
+        new_device_internal_provision: NewDeviceInternalProvision,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1165,8 +1164,8 @@ class IoTManagerInternalAPIApi:
 
         :param tenant_id: ID of tenant the device belongs to. (required)
         :type tenant_id: str
-        :param new_device: (required)
-        :type new_device: NewDevice
+        :param new_device_internal_provision: (required)
+        :type new_device_internal_provision: NewDeviceInternalProvision
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1191,7 +1190,7 @@ class IoTManagerInternalAPIApi:
 
         _param = self._io_t_manager_internal_provision_device_serialize(
             tenant_id=tenant_id,
-            new_device=new_device,
+            new_device_internal_provision=new_device_internal_provision,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1219,7 +1218,7 @@ class IoTManagerInternalAPIApi:
     def io_t_manager_internal_provision_device_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="ID of tenant the device belongs to.")],
-        new_device: NewDevice,
+        new_device_internal_provision: NewDeviceInternalProvision,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1238,8 +1237,8 @@ class IoTManagerInternalAPIApi:
 
         :param tenant_id: ID of tenant the device belongs to. (required)
         :type tenant_id: str
-        :param new_device: (required)
-        :type new_device: NewDevice
+        :param new_device_internal_provision: (required)
+        :type new_device_internal_provision: NewDeviceInternalProvision
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1264,7 +1263,7 @@ class IoTManagerInternalAPIApi:
 
         _param = self._io_t_manager_internal_provision_device_serialize(
             tenant_id=tenant_id,
-            new_device=new_device,
+            new_device_internal_provision=new_device_internal_provision,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1287,7 +1286,7 @@ class IoTManagerInternalAPIApi:
     def _io_t_manager_internal_provision_device_serialize(
         self,
         tenant_id,
-        new_device,
+        new_device_internal_provision,
         _request_auth,
         _content_type,
         _headers,
@@ -1315,8 +1314,8 @@ class IoTManagerInternalAPIApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if new_device is not None:
-            _body_params = new_device
+        if new_device_internal_provision is not None:
+            _body_params = new_device_internal_provision
 
 
         # set the HTTP header `Accept`
