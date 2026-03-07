@@ -90,13 +90,22 @@ test.describe('Devices', () => {
     await page.getByText(/Upload successful/i).waitFor({ timeout: timeouts.fiveSeconds });
     await page.getByRole('tab', { name: /download/i }).click();
     await page.getByPlaceholder(/\/home\/mender/i).fill(`/tmp/${fileName}`);
-    const downloadPromise = page.waitForEvent('download');
-    await page.click('button:text("Download"):below(:text("file on the device"))');
-    const download = await downloadPromise;
-    const downloadTargetPath = await download.path();
-    const newFile = await fs.readFileSync(downloadTargetPath);
-    const testFile = await fs.readFileSync(`fixtures/${fileName}`);
-    expect(md5(newFile)).toEqual(md5(testFile));
+    await expect(async () => {
+      const downloadPromise = page.waitForEvent('download');
+      await page.click('button:text("Download"):below(:text("file on the device"))');
+      const download = await downloadPromise;
+      const failure = await download.failure();
+      if (failure) {
+        throw new Error(`Download failed: ${failure}`);
+      }
+      const downloadTargetPath = await download.path();
+      const newFile = fs.readFileSync(downloadTargetPath);
+      const testFile = fs.readFileSync(`fixtures/${fileName}`);
+      expect(md5(newFile)).toEqual(md5(testFile));
+    }).toPass({
+      intervals: [timeouts.oneSecond, timeouts.fiveSeconds, timeouts.tenSeconds],
+      timeout: timeouts.sixtySeconds
+    });
   });
 
   test('can be found', async ({ demoDeviceName, page }) => {
