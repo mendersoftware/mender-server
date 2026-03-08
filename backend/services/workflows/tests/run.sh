@@ -12,4 +12,4 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-py.test -s --tb=short -vv /testing/tests "$@"
+py.test -s --tb=short --verbose --verbose --junitxml=results.xml /testing/tests "$@"
