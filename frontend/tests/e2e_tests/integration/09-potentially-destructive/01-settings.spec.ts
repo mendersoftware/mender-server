@@ -19,6 +19,7 @@ import test, { expect } from '../../fixtures/fixtures';
 import {
   baseUrlToDomain,
   generateOtp,
+  isEnterpriseOrStaging,
   isLoggedIn,
   login,
   prepareCookies,
@@ -28,6 +29,7 @@ import {
   tenantTokenRetrieval
 } from '../../utils/commands';
 import { emptyStorageState, selectors, storagePath, timeouts } from '../../utils/constants';
+import { setupEmailClient } from '../../utils/email.ts';
 import { selectDeviceLimitInput } from '../../utils/utils.ts';
 
 test.describe('Settings', () => {
@@ -152,6 +154,15 @@ test.describe('Settings', () => {
       await page.screenshot({ path: './test-results/logout.png' });
       await page.getByRole('button', { name: /next/i }).waitFor({ timeout: timeouts.fiveSeconds });
       await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
+    });
+
+    test('password change triggers email notification', async ({ username, environment }) => {
+      test.skip(!isEnterpriseOrStaging(environment), 'test requires enterprise or staging environment');
+      const emailClient = setupEmailClient(username, environment);
+      if (emailClient) {
+        const emails = await emailClient.getEmails({ to: username, unread: true });
+        expect(emails.find(email => email.subject === 'Your password has changed')).toBeDefined();
+      }
     });
 
     test('allows changing the password back', async ({ baseUrl, browserName, browser, password, request, username }) => {
