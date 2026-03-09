@@ -81,7 +81,6 @@ import whiteLogo from '../../../assets/img/whiteheaderlogo.png';
 import Tracking from '../../tracking';
 import Announcement from './Announcement';
 import DeploymentNotifications from './DeploymentNotifications';
-import { DeviceCount } from './DeviceCount';
 import DeviceNotifications from './DeviceNotifications';
 import OfferHeader from './OfferHeader';
 import TrialNotification from './TrialNotification';
@@ -290,7 +289,6 @@ export const Header = ({ isDarkMode }) => {
   const { token } = useSelector(getCurrentSession);
   const userId = useDebounce(user.id, TIMEOUTS.debounceDefault);
   const isSp = useSelector(getIsServiceProvider);
-  const { device_count: spDeviceUtilization, device_limit: tenantDeviceLimit, service_provider } = useSelector(getOrganization);
   const dispatch = useDispatch();
   const deviceTimer = useRef();
   const feedbackTimer = useRef();
@@ -318,14 +316,14 @@ export const Header = ({ isDarkMode }) => {
     const showOfferCookie = cookies.get('offer') === currentOffer.name;
     setHasOfferCookie(showOfferCookie);
     clearInterval(deviceTimer.current);
-    if (!service_provider) {
+    if (!isSp) {
       deviceTimer.current = setInterval(() => dispatch(getAllDeviceCounts()), TIMEOUTS.refreshDefault);
     }
     return () => {
       clearInterval(deviceTimer.current);
       clearTimeout(feedbackTimer.current);
     };
-  }, [dispatch, service_provider]);
+  }, [dispatch, isSp]);
 
   useEffect(() => {
     const today = dayjs();
@@ -381,10 +379,10 @@ export const Header = ({ isDarkMode }) => {
           </div>
           {isSp ? (
             <>
-              {tenantDeviceLimit > 0 && <DeviceCount current={spDeviceUtilization} max={tenantDeviceLimit} variant="common" />}
               <div className="flexbox align-items-center">
-                <Chip className="bold muted uppercased" label="Service Provider" />
-                <AccountMenu />
+                <Chip label="Service Provider" />
+                <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
+                <AccountMenu className={classes.headerSection} />
               </div>
             </>
           ) : (

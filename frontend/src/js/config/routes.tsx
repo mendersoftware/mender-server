@@ -26,6 +26,7 @@ import Signup from '../components/login/Signup';
 import Releases from '../components/releases/Releases';
 import Settings from '../components/settings/Settings';
 import { SubscriptionPage } from '../components/subscription/SubscriptionPage';
+import { LimitChangeRequestForm } from '../components/tenants/LimitChangeRequestForm';
 import { TenantPage } from '../components/tenants/TenantPage';
 
 type RouteConfig = { element: ReactElement; isPublic?: boolean; path: string; title: string };
@@ -97,6 +98,7 @@ export const PrivateSPRoutes = () => (
       <Route path={routeConfigs.tenants.path} element={routeConfigs.tenants.element}>
         <Route path=":tenantId" element={null} />
       </Route>
+      <Route path={routeConfigs.subscription.path} element={<LimitChangeRequestForm />} />
       <Route path="*" element={<Navigate to={routeConfigs.tenants.path} replace />} />
     </Route>
   </Routes>
