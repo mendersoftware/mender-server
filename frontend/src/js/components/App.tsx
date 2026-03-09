@@ -239,7 +239,7 @@ export const AppRoot = () => {
       <WrappedBaseline enableColorScheme />
       <GlobalStyles styles={globalCssVars} />
       <>
-        {token ? (
+        {token && !pathname.startsWith(activationPath) ? (
           <div id="app">
             <Header isDarkMode={isDarkMode} />
             <LeftNav />
