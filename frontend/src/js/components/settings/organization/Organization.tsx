@@ -19,6 +19,7 @@ import { Alert, Button, Collapse, DialogActions, DialogContent, MenuItem, Select
 import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
+import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
@@ -28,7 +29,6 @@ import { changeSsoConfig, deleteSsoConfig, downloadLicenseReport, getSsoConfigs,
 import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 
-import OrganizationSettingsItem from './OrganizationSettingsItem';
 import { SSOConfig } from './SSOConfig';
 
 const { setSnackbar } = storeActions;
@@ -145,9 +145,9 @@ export const Organization = () => {
     <div style={{ maxWidth: 750 }}>
       <Typography variant="h6">My organization</Typography>
       <div className={`flexbox column ${classes.orgInfo}`}>
-        <OrganizationSettingsItem title="Organization ID" secondary={tenantId} sideBarContent={<CopyTextToClipboard notify={false} token={tenantId} />} />
-        <OrganizationSettingsItem title="Organization name" secondary={orgName} sideBarContent={<CopyTextToClipboard notify={false} token={orgName} />} />
-        <OrganizationSettingsItem
+        <SettingsItem title="Organization ID" secondary={tenantId} sideBarContent={<CopyTextToClipboard notify={false} token={tenantId} />} />
+        <SettingsItem title="Organization name" secondary={orgName} sideBarContent={<CopyTextToClipboard notify={false} token={orgName} />} />
+        <SettingsItem
           classes={{ base: '', content: '', main: classes.tenantToken }}
           title="Organization token"
           description="The token is unique for your organization and ensures that only devices that you own are able to connect to your account."

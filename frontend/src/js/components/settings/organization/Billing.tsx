@@ -20,6 +20,7 @@ import { Error as ErrorIcon } from '@mui/icons-material';
 import { Alert, Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
 import { getBillingProfile, getCard, getDeviceLimits, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
@@ -34,7 +35,6 @@ import pluralize from 'pluralize';
 import { PlanExpanded } from '../PlanExpanded';
 import CancelRequestDialog from '../dialogs/CancelRequest';
 import { BillingDetails } from './BillingDetails';
-import OrganizationSettingsItem from './OrganizationSettingsItem';
 
 dayjs.extend(relativeTime);
 
@@ -173,7 +173,7 @@ const UpgradeNote = ({ isTrial }) => {
   const { classes } = useStyles();
   return (
     <div className={classes.upgradeSection}>
-      <OrganizationSettingsItem
+      <SettingsItem
         classes={{ main: classes.fullWidthUpgrade }}
         title="Upgrade now"
         secondary={
@@ -237,11 +237,11 @@ export const Billing = () => {
     <div style={{ maxWidth: 750 }}>
       <Typography variant="h6">Billing</Typography>
       <div className={`flexbox column ${classes.wrapper}`}>
-        <OrganizationSettingsItem
+        <SettingsItem
           title="Current plan"
           secondary={<PlanDescriptor plan={planName} isTrial={isTrial} trialExpiration={trial_expiration} deviceLimits={deviceLimits} />}
         />
-        <OrganizationSettingsItem title="Current Add-ons" secondary={<AddOnDescriptor addOns={enabledAddOns} isTrial={isTrial} />} />
+        <SettingsItem title="Current Add-ons" secondary={<AddOnDescriptor addOns={enabledAddOns} isTrial={isTrial} />} />
         {!isEnterprise && <UpgradeNote isTrial={isTrial} />}
         <Typography className="margin-top-small" variant="subtitle1">
           Billing details
