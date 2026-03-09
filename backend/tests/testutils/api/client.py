@@ -23,7 +23,7 @@ import time
 
 from urllib3.exceptions import InsecureRequestWarning
 
-from testutils.infra.container_manager.kubernetes_manager import isK8S
+from ..infra.container_manager.kubernetes_manager import isK8S
 
 GATEWAY_HOSTNAME = os.environ.get("GATEWAY_HOSTNAME") or "traefik"
 
