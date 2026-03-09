@@ -12,13 +12,15 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import { Mail as MailIcon } from '@mui/icons-material';
 import { Button, CircularProgress, IconButton, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { getSessionInfo } from '@northern.tech/store/auth';
+import { getCurrentSession } from '@northern.tech/store/selectors';
 import { verifyEmailComplete } from '@northern.tech/store/thunks';
 
 import { PasswordScreenContainer } from './Password';
@@ -40,13 +42,43 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
+const errorsByStatus: Record<number, string> = {
+  410: 'This link has expired',
+  400: 'This link is invalid'
+};
+
+const getErrorForStatus = (status: number, data?: { error?: string }) => {
+  const error = errorsByStatus[status] ?? 'Unknown error verifying email';
+  const details = errorsByStatus[status] ? '' : `Error code: ${status} details: ${data?.error}`;
+  return { error, details };
+};
+
+const ActivateError = ({ errorDetails, isLoggedIn }: { errorDetails: string; isLoggedIn?: string }) => (
+  <>
+    {errorDetails && <Typography>{errorDetails}</Typography>}
+    <Typography>
+      go to <Link to={isLoggedIn ? '/settings' : '/login'}>{isLoggedIn ? 'Settings ' : 'Login '}page</Link>
+    </Typography>
+  </>
+);
+
+const ActivateSuccess = ({ isLoggedIn }: { isLoggedIn?: string }) => (
+  <>
+    <Typography>Your new email address has been successfully confirmed.</Typography>
+    <Button className="margin-top-small" variant="contained" component={Link} to={isLoggedIn ? '/dashboard' : '/login'}>
+      Continue to {isLoggedIn ? 'dashboard' : 'login'}
+    </Button>
+  </>
+);
+
 export const Activate = () => {
   const [isVerifying, setIsVerifying] = useState(true);
   const [error, setError] = useState('');
   const [errorDetails, setErrorDetails] = useState('');
   const { code } = useParams();
   const dispatch = useDispatch();
-
+  const { token: storedToken } = getSessionInfo();
+  const { token: isLoggedIn = storedToken } = useSelector(getCurrentSession);
   const { classes } = useStyles();
 
   useEffect(() => {
@@ -59,56 +91,41 @@ export const Activate = () => {
       .unwrap()
       .then(() => setIsVerifying(false))
       .catch(e => {
-        if (e.status === 410) {
-          setError('This link has expired');
-        } else if (e.status === 400) {
-          setError('This link is invalid');
-        } else {
-          setError('Unknown error verifying email');
-          setErrorDetails(`Error code: ${e.status} details: ${e.data?.error}`);
-        }
+        const { error: msg, details } = getErrorForStatus(e.status, e.data);
+        setError(msg);
+        setErrorDetails(details);
         setIsVerifying(false);
       });
   }, [code, dispatch]);
 
-  return (
-    <PasswordScreenContainer hasLocationWarning={false} hasReturn={false} title="">
-      {isVerifying ? (
+  if (isVerifying) {
+    return (
+      <PasswordScreenContainer hasLocationWarning={false} hasReturn={false} title="">
         <div className="flexbox centered">
           <CircularProgress />
           <Typography className="margin-left-small">Verifying your email address...</Typography>
         </div>
-      ) : (
-        <div className="flexbox column centered">
-          <IconButton
-            className="align-center"
-            size="large"
-            color={error ? 'error' : 'success'}
-            classes={{ root: `${classes.iconButton} ${error ? classes.iconButtonError : classes.iconButtonSuccess}` }}
-            disableRipple
-          >
-            <MailIcon className={classes.icon} />
-          </IconButton>
-          <Typography className="align-center margin-top-medium margin-bottom-medium" variant="h4">
-            {error ? error : 'Email verified'}
-          </Typography>
-          {error ? (
-            <>
-              {errorDetails && <Typography>{errorDetails}</Typography>}
-              <Typography>
-                Back to <Link to="/settings">Settings page</Link>{' '}
-              </Typography>
-            </>
-          ) : (
-            <>
-              <Typography>Your new email address has been successfully confirmed.</Typography>
-              <Button className="margin-top-small" variant="contained" component={Link} to="/dashboard">
-                Continue to dashboard
-              </Button>
-            </>
-          )}
-        </div>
-      )}
+      </PasswordScreenContainer>
+    );
+  }
+
+  return (
+    <PasswordScreenContainer hasLocationWarning={false} hasReturn={false} title="">
+      <div className="flexbox column centered">
+        <IconButton
+          className="align-center"
+          size="large"
+          color={error ? 'error' : 'success'}
+          classes={{ root: `${classes.iconButton} ${error ? classes.iconButtonError : classes.iconButtonSuccess}` }}
+          disableRipple
+        >
+          <MailIcon className={classes.icon} />
+        </IconButton>
+        <Typography className="align-center margin-top-medium margin-bottom-medium" variant="h4">
+          {error || 'Email verified'}
+        </Typography>
+        {error ? <ActivateError errorDetails={errorDetails} isLoggedIn={isLoggedIn} /> : <ActivateSuccess isLoggedIn={isLoggedIn} />}
+      </div>
     </PasswordScreenContainer>
   );
 };
