@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Mender API
 
@@ -11,6 +9,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
@@ -62,7 +61,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -132,7 +131,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -202,7 +201,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -336,7 +335,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param connection: Standard websocket request header.
         :type connection: str
         :param upgrade: Standard websocket request header.
@@ -421,7 +420,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param connection: Standard websocket request header.
         :type connection: str
         :param upgrade: Standard websocket request header.
@@ -506,7 +505,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param connection: Standard websocket request header.
         :type connection: str
         :param upgrade: Standard websocket request header.
@@ -660,7 +659,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param path: Path of the file on the device. (required)
         :type path: str
         :param _request_timeout: timeout setting for this request. If one
@@ -734,7 +733,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param path: Path of the file on the device. (required)
         :type path: str
         :param _request_timeout: timeout setting for this request. If one
@@ -808,7 +807,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param path: Path of the file on the device. (required)
         :type path: str
         :param _request_timeout: timeout setting for this request. If one
@@ -947,7 +946,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1016,7 +1015,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1085,7 +1084,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1558,7 +1557,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1628,7 +1627,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1698,7 +1697,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1833,7 +1832,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param path: The destination path on the device (required)
         :type path: str
         :param uid: The numerical UID of the file on the device
@@ -1923,7 +1922,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param path: The destination path on the device (required)
         :type path: str
         :param uid: The numerical UID of the file on the device
@@ -2013,7 +2012,7 @@ class DeviceConnectManagementAPIApi:
 
 
         :param id: ID of the device. (required)
-        :type id: str
+        :type id: UUID
         :param path: The destination path on the device (required)
         :type path: str
         :param uid: The numerical UID of the file on the device

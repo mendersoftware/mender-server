@@ -2264,6 +2264,25 @@ paths:
               - asc
               - desc
             type: string
+        - description: |
+            Device identity or inventory attribute name to use for a fallback device lookup
+            when no deployments match the given name filter. When set, the server resolves the
+            first name value against the device inventory/identity and returns deployments
+            targeting the matched device.
+          in: query
+          name: id_attribute
+          schema:
+            type: string
+        - description: |
+            Scope for the id_attribute parameter. Defaults to "identity", unless id_attribute
+            is "name" in which case it defaults to "inventory".
+          in: query
+          name: id_scope
+          schema:
+            enum:
+              - identity
+              - inventory
+            type: string
       responses:
         '200':
           content:
