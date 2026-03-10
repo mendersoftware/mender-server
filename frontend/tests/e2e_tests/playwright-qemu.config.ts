@@ -22,7 +22,8 @@ const options: PlaywrightTestConfig = {
   projects: [
     { name: 'setup-chromium', testMatch: /.*\.setup\.ts/, use: { ...devices['Desktop Chrome'], viewport, permissions: ['clipboard-read'] } },
     { name: 'basic-qemu', testDir: `${testDirBase}/01-basic`, use: projectParamsByBrowser.chrome, dependencies: ['setup-chromium'], workers: 4 },
-    { name: 'qemu-tests', testDir: `${testDirBase}/04-qemu-dependent`, use: projectParamsByBrowser.chrome, dependencies: ['setup-chromium'], workers: 1 }
+    { name: 'qemu-tests', testDir: `${testDirBase}/04-qemu-dependent`, use: projectParamsByBrowser.chrome, dependencies: ['setup-chromium'], teardown: 'teardown', workers: 1 },
+    { name: 'teardown', testMatch: /.*\.teardown\.ts/ }
   ],
   reporter: process.env.CI ? [['line'], ['junit', { outputFile: 'junit/results.xml' }]] : 'line',
   retries: 0,
