@@ -164,7 +164,7 @@ export const DeviceLimitsInput = props => {
             label={
               <div className="flexbox">
                 <Typography color="textPrimary" className="capitalized-start">
-                  {limit.name} device
+                  {limit.name} devices
                 </Typography>
                 <MenderHelpTooltip id={HELPTOOLTIPS[`${limit.id}Device`].id} className="margin-left-small" />
               </div>
