@@ -57,8 +57,8 @@ test.describe('Tenant Functionality', () => {
     await page.getByText('View details').click();
     await page.getByRole('button', { name: /manage device limit/i }).click();
 
-    const microDeviceInput = selectDeviceLimitInput(page, 'Micro');
-    await microDeviceInput.clear();
+    const microDeviceCheckbox = page.getByRole('checkbox', { name: 'micro device' });
+    await microDeviceCheckbox.click();
     const standardDeviceInput = selectDeviceLimitInput(page, 'Standard');
     await standardDeviceInput.fill('50');
     await page.getByRole('button', { name: /save/i }).click();
