@@ -27,7 +27,7 @@ variables:
     value: "v1.16.1"
     description: "Version of skopeo to use for publishing images"
   GOLANG_VERSION:
-    value: "1.24.2"
+    value: "1.26.1"
     description: "Version of Golang to use in jobs"
   MONGO_VERSION:
     value: "8.0"
