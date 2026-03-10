@@ -58,7 +58,12 @@ const createServiceProviderTenant = async (credentials, config) =>
   await withSpinner(
     '📝 Creating SP tenant...',
     async () => {
-      const spTenantId = await createTenant({ ...credentials, name: 'secondary', username: credentials.spTenant }, config, [], '--device-limit 100');
+      const spTenantId = await createTenant(
+        { ...credentials, name: 'secondary', username: credentials.spTenant },
+        config,
+        [],
+        '--device-limit 100 --micro-device-limit=200'
+      );
       // updateOne with $set is already idempotent
       await composeExec('mongo', 'mongosh --eval "db.getSiblingDB("tenantadm").tenants.updateOne({},{$set:{max_child_tenants:100}})"', config);
       await createTenant({ ...credentials, name: 'secondary', username: credentials.username2 }, config);
