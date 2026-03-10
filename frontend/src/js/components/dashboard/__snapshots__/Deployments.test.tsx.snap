@@ -197,7 +197,7 @@ exports[`Deployments Component > renders correctly 1`] = `
     style="grid-template-columns: 1fr; row-gap: 10px;"
   >
     <h6
-      class="MuiTypography-root MuiTypography-subtitle1 margin-bottom-none margin-left-small emotion-0"
+      class="MuiTypography-root MuiTypography-subtitle1 margin-bottom-none emotion-0"
     >
       Recent deployments
     </h6>
