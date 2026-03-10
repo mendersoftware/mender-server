@@ -14,6 +14,7 @@
 import test, { expect } from '../../fixtures/fixtures';
 import { baseUrlToDomain, getTokenFromStorage, prepareCookies, prepareNewPage, processLoginForm } from '../../utils/commands';
 import { spStoragePath, switchTenantStoragePath, timeouts } from '../../utils/constants';
+import { selectDeviceLimitInput } from '../../utils/utils';
 
 const tenant = {
   name: 'Child Tenant',
@@ -35,16 +36,18 @@ test.describe('Tenant Functionality', () => {
       .click();
   });
   test('tenant creation', async ({ page }) => {
-    await expect(page.locator('h2:has-text("Tenants")')).toBeVisible();
-    await page.getByRole('button', { name: /add tenant/i }).click();
+    await expect(page.getByRole('link', { name: 'Tenants' })).toBeVisible();
+    await page.getByRole('button', { name: /create a tenant/i }).click();
     const nameInput = page.getByPlaceholder(/Name/i);
     await nameInput.fill(tenant.name);
     const adminInput = page.getByRole('textbox', { name: /admin user/i });
     await adminInput.fill(tenant.adminUser);
-    await page.getByRole('button', { name: /generate/i }).click();
-    const deviceLimitInput = page.getByLabel(/Set device limit/i);
-    await deviceLimitInput.fill(tenant.limit);
-    await page.getByText(/enable delta artifact generation/i).click();
+
+    const microDeviceCheckbox = page.getByRole('checkbox', { name: 'micro device' });
+    await microDeviceCheckbox.click();
+    const microDeviceInput = selectDeviceLimitInput(page, 'Micro');
+
+    await microDeviceInput.fill(tenant.limit);
     const submitButton = page.getByRole('button', { name: /Create Tenant/i });
     await submitButton.scrollIntoViewIfNeeded();
     await submitButton.click();
@@ -52,11 +55,15 @@ test.describe('Tenant Functionality', () => {
   });
   test('tenant edit', async ({ page }) => {
     await page.getByText('View details').click();
-    await page.getByRole('button', { name: /edit device limit/i }).click();
-    await page.getByLabel(/Set device limit/i).fill('12');
+    await page.getByRole('button', { name: /manage device limit/i }).click();
+
+    const microDeviceInput = selectDeviceLimitInput(page, 'Micro');
+    await microDeviceInput.clear();
+    const standardDeviceInput = selectDeviceLimitInput(page, 'Standard');
+    await standardDeviceInput.fill('50');
     await page.getByRole('button', { name: /save/i }).click();
     await page.getByLabel('close').click();
-    await expect(page.getByText('0/12')).toBeVisible();
+    await expect(page.getByText('0/50')).toBeVisible();
   });
   test('tenant removal', async ({ page }) => {
     await page.getByText('View details').click();
