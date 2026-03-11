@@ -1001,12 +1001,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-14"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-15"
               title="671a0f1dd58c813118fe8622"
             >
               671a0f1dd58c813118fe8622
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
@@ -1030,12 +1030,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-14"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-15"
               title="2024-10-24T09:10:53.281Z"
             >
               2024-10-24T09:10:53.281Z
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
@@ -1059,12 +1059,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-14"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-15"
               title="active"
             >
               active
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"

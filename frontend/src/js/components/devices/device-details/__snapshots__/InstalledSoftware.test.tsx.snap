@@ -214,12 +214,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-5"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
               title="stablev1-beta-final-v0"
             >
               stablev1-beta-final-v0
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
@@ -247,12 +247,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-5"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
               title="12341143"
             >
               12341143
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
@@ -310,12 +310,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   <div
                     class="flexbox align-items-center copy-to-clipboard emotion-5"
                   >
-                    <div
+                    <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
                       title="13"
                     >
                       13
-                    </div>
+                    </p>
                     <svg
                       aria-hidden="true"
                       aria-label="Copy to clipboard"
@@ -343,12 +343,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   <div
                     class="flexbox align-items-center copy-to-clipboard emotion-5"
                   >
-                    <div
+                    <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
                       title="single-file-multi"
                     >
                       single-file-multi
-                    </div>
+                    </p>
                     <svg
                       aria-hidden="true"
                       aria-label="Copy to clipboard"
@@ -393,12 +393,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   <div
                     class="flexbox align-items-center copy-to-clipboard emotion-5"
                   >
-                    <div
+                    <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
                       title="13"
                     >
                       13
-                    </div>
+                    </p>
                     <svg
                       aria-hidden="true"
                       aria-label="Copy to clipboard"
@@ -426,12 +426,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   <div
                     class="flexbox align-items-center copy-to-clipboard emotion-5"
                   >
-                    <div
+                    <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
                       title="custom-delta-updater"
                     >
                       custom-delta-updater
-                    </div>
+                    </p>
                     <svg
                       aria-hidden="true"
                       aria-label="Copy to clipboard"
@@ -478,12 +478,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               <div
                 class="flexbox align-items-center copy-to-clipboard emotion-5"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
                   title="mender-demo-artifact-3.4.0"
                 >
                   mender-demo-artifact-3.4.0
-                </div>
+                </p>
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
@@ -530,12 +530,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-5"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
               title="test-2"
             >
               test-2
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
@@ -580,12 +580,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-5"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
               title="test-3"
             >
               test-3
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
@@ -613,12 +613,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-5"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
               title="test-4"
             >
               test-4
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
@@ -663,12 +663,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-5"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
               title="test-5"
             >
               test-5
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
@@ -696,12 +696,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-5"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
               title="test-6"
             >
               test-6
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
@@ -757,12 +757,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               <div
                 class="flexbox align-items-center copy-to-clipboard emotion-5"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
                   title="4123rfsad"
                 >
                   4123rfsad
-                </div>
+                </p>
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
@@ -790,12 +790,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               <div
                 class="flexbox align-items-center copy-to-clipboard emotion-5"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
                   title="v5"
                 >
                   v5
-                </div>
+                </p>
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
@@ -840,12 +840,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               <div
                 class="flexbox align-items-center copy-to-clipboard emotion-5"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
                   title="1232415512"
                 >
                   1232415512
-                </div>
+                </p>
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
@@ -873,12 +873,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               <div
                 class="flexbox align-items-center copy-to-clipboard emotion-5"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
                   title="a2124"
                 >
                   a2124
-                </div>
+                </p>
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
@@ -906,12 +906,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               <div
                 class="flexbox align-items-center copy-to-clipboard emotion-5"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
                   title="v1"
                 >
                   v1
-                </div>
+                </p>
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
