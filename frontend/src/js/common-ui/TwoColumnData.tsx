@@ -84,6 +84,7 @@ const ValueColumn = ({ setSnackbar, value = '' }: { setSnackbar?: (message: stri
       {setSnackbar && (
         <Tooltip title="Copy to clipboard" placement="top">
           <CopyToClipboardIcon
+            aria-label="Copy to clipboard"
             color="action"
             fontSize="small"
             className={`margin-left-x-small ${tooltipVisible ? classes.copyIconVisible : ''}`}
