@@ -28,23 +28,38 @@ import VeryMuch from '../../../assets/img/verymuch.svg';
 import { LocationWarning } from './Login';
 
 const useStyles = makeStyles()(theme => ({
-  loginBox: { marginTop: 190, maxWidth: 400, '&#login-box': { alignSelf: 'start' } },
-  logo: { maxWidth: 215 },
+  loginBox: { marginTop: 190, maxWidth: 412, '&#login-box': { alignSelf: 'start' } },
+  logo: { width: 215 },
+  headerWrapper: {
+    display: 'grid',
+    gridTemplateColumns: '1fr auto 1fr',
+    alignItems: 'center'
+  },
   buttonWrapper: { [`.${buttonClasses.root}`]: { width: '100%' } },
   requiredReset: { '.required:after': { content: 'none' } },
   ntBrandingLeft: { bottom: `${theme.mixins.toolbar.minHeight}px`, left: '1vw', zIndex: 0 },
   ntBrandingRight: { right: '2vw', top: '-3vh', transform: 'rotate(90deg)', zIndex: 0 }
 }));
+interface PasswordScreenContainerProps {
+  children: ReactNode;
+  hasLocationWarning?: boolean;
+  hasReturn?: boolean;
+  title?: string;
+}
 
-export const PasswordScreenContainer = ({ children, hasReturn = true, title }: { children: ReactNode; hasReturn?: boolean; title: string }) => {
+export const PasswordScreenContainer = ({ children, hasReturn = true, hasLocationWarning = true, title = '' }: PasswordScreenContainerProps) => {
   const { classes } = useStyles();
   return (
     <>
-      <LocationWarning />
+      <div className={classes.headerWrapper}>
+        <div className="margin-top-large margin-left-large">
+          <a href="https://mender.io/" target="_blank" rel="noopener noreferrer">
+            <LoginLogo alt="mender-logo" className={classes.logo} />
+          </a>
+        </div>
+        {hasLocationWarning && <LocationWarning />}
+      </div>
       <div className={`flexbox column content ${classes.loginBox}`} id="login-box">
-        <a href="https://mender.io/" target="_blank" rel="noopener noreferrer">
-          <LoginLogo alt="mender-logo" className={`flexbox margin-bottom-large ${classes.logo}`} />
-        </a>
         <h1>{title}</h1>
         {children}
         {hasReturn && (

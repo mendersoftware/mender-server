@@ -61,7 +61,7 @@ import Uploads from './Uploads';
 import DeviceConnectionDialog from './devices/dialogs/DeviceConnectionDialog';
 import Header from './header/Header';
 
-const { receivedActivationCode, setShowConnectingDialog, setSnackbar } = storeActions;
+const { setShowConnectingDialog, setSnackbar } = storeActions;
 
 const cache = createCache({ key: 'mui', prepend: true });
 
@@ -148,25 +148,19 @@ export const AppRoot = () => {
   const { expiresAt, token = storedToken } = useSelector(getCurrentSession);
   const { id: tenantId } = useSelector(getOrganization);
 
-  const trackLocationChange = useCallback(
-    pathname => {
-      let page = pathname;
-      // if we're on page whose path might contain sensitive device/ group/ deployment names etc. we sanitize the sent information before submission
-      if (page.includes('=') && (page.startsWith('/devices') || page.startsWith('/deployments'))) {
-        const splitter = page.lastIndexOf('/');
-        const filters = page.slice(splitter + 1);
-        const keyOnlyFilters = filters.split('&').reduce((accu, item) => `${accu}:${item.split('=')[0]}&`, ''); // assume the keys to filter by are not as revealing as the values things are filtered by
-        page = `${page.substring(0, splitter)}?${keyOnlyFilters.substring(0, keyOnlyFilters.length - 1)}`; // cut off the last & of the reduced filters string
-      } else if (page.startsWith(activationPath)) {
-        dispatch(receivedActivationCode(page.substring(activationPath.length + 1)));
-        navigate('/settings/my-profile', { replace: true });
-      } else if (trackingBlacklist.some(item => !!page.match(item))) {
-        return;
-      }
-      Tracking.pageview(page);
-    },
-    [dispatch, navigate]
-  );
+  const trackLocationChange = useCallback(pathname => {
+    let page = pathname;
+    // if we're on page whose path might contain sensitive device/ group/ deployment names etc. we sanitize the sent information before submission
+    if (page.includes('=') && (page.startsWith('/devices') || page.startsWith('/deployments'))) {
+      const splitter = page.lastIndexOf('/');
+      const filters = page.slice(splitter + 1);
+      const keyOnlyFilters = filters.split('&').reduce((accu, item) => `${accu}:${item.split('=')[0]}&`, ''); // assume the keys to filter by are not as revealing as the values things are filtered by
+      page = `${page.substring(0, splitter)}?${keyOnlyFilters.substring(0, keyOnlyFilters.length - 1)}`; // cut off the last & of the reduced filters string
+    } else if (trackingBlacklist.some(item => !!page.match(item))) {
+      return;
+    }
+    Tracking.pageview(page);
+  }, []);
 
   useEffect(() => {
     dispatch(parseEnvironmentInfo());
@@ -245,7 +239,7 @@ export const AppRoot = () => {
       <WrappedBaseline enableColorScheme />
       <GlobalStyles styles={globalCssVars} />
       <>
-        {token ? (
+        {token && !pathname.startsWith(activationPath) ? (
           <div id="app">
             <Header isDarkMode={isDarkMode} />
             <LeftNav />
