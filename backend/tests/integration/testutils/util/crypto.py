@@ -24,10 +24,10 @@ from cryptography.hazmat.primitives.asymmetric import padding
 # NIST P-256 (FIPS 186 standard name) ==
 # golang's elliptic.P256 ==
 # hazmat's ec.SECP256R1
-EC_CURVE_224 = ec.SECP224R1
-EC_CURVE_256 = ec.SECP256R1
-EC_CURVE_384 = ec.SECP384R1
-EC_CURVE_521 = ec.SECP521R1
+EC_CURVE_224 = ec.SECP224R1()
+EC_CURVE_256 = ec.SECP256R1()
+EC_CURVE_384 = ec.SECP384R1()
+EC_CURVE_521 = ec.SECP521R1()
 
 
 def compare_keys(a, b):
