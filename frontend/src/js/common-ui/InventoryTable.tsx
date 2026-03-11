@@ -13,69 +13,23 @@
 //    limitations under the License.
 import { useMemo, useState } from 'react';
 
-import { FileCopyOutlined as CopyToClipboardIcon } from '@mui/icons-material';
-import { Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel, Tooltip, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { SortCriteria } from '@northern.tech/types/MenderTypes';
 import { SORTING_OPTIONS } from '@northern.tech/utils/constants';
 import copy from 'copy-to-clipboard';
 
-const useStyles = makeStyles()(theme => ({
+import { CopyableText } from './CopyableText';
+
+const useStyles = makeStyles()(() => ({
   attributeColumn: {
     width: '30%'
   },
   valueColumn: {
     width: '70%'
-  },
-  cellText: {
-    display: '-webkit-box',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    WebkitLineClamp: 5,
-    WebkitBoxOrient: 'vertical',
-    wordBreak: 'break-word'
-  },
-  copyIconOverride: {
-    '&.copy-to-clipboard svg': {
-      fill: theme.palette.action.active
-    }
-  },
-  copyIconVisible: {
-    opacity: 1
   }
 }));
-
-interface TextContentProps {
-  onCopy?: (message: string) => void;
-  textClasses?: string;
-  value: string;
-}
-
-const TextContent = ({ onCopy, textClasses = '', value }: TextContentProps) => {
-  const { classes } = useStyles();
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <div className={`flexbox align-items-center copy-to-clipboard ${classes.copyIconOverride}`}>
-      <Typography
-        variant="body2"
-        className={`${classes.cellText} ${textClasses}`}
-        title={value}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={() => (onCopy ? onCopy(value) : null)}
-      >
-        {value}
-      </Typography>
-      {onCopy && (
-        <Tooltip title="Copy to clipboard" placement="top">
-          <CopyToClipboardIcon color="action" fontSize="small" className={`margin-left-x-small ${isHovered ? classes.copyIconVisible : ''}`} />
-        </Tooltip>
-      )}
-    </div>
-  );
-};
 
 type SortColumn = 'attribute' | 'value';
 
@@ -143,10 +97,14 @@ export const InventoryTable = ({ config, setSnackbar }: InventoryTableProps) => 
         {sortedEntries.map(([attribute, value]) => (
           <TableRow key={attribute}>
             <TableCell className={`bold ${classes.attributeColumn} ${setSnackbar ? 'clickable' : ''}`}>
-              <TextContent onCopy={onCopy} textClasses="bold" value={attribute} />
+              <CopyableText onCopy={() => onCopy(attribute)} textClasses="bold" title={attribute}>
+                {attribute}
+              </CopyableText>
             </TableCell>
             <TableCell className={setSnackbar ? 'clickable' : ''}>
-              <TextContent onCopy={onCopy} value={value} />
+              <CopyableText onCopy={() => onCopy(value)} title={value}>
+                {value}
+              </CopyableText>
             </TableCell>
           </TableRow>
         ))}

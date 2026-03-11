@@ -14,11 +14,12 @@
 import React, { CSSProperties, Fragment, ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
 
 // material ui
-import { FileCopyOutlined as CopyToClipboardIcon } from '@mui/icons-material';
-import { Chip, Tooltip, Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import copy from 'copy-to-clipboard';
+
+import { CopyableText } from './CopyableText';
 
 const contentWidth = 650;
 
@@ -27,22 +28,6 @@ const getGridTemplateColumnSizing = (columnWidth: string): string => `${columnWi
 type DataValue = ReactNode | string;
 
 const useStyles = makeStyles()(theme => ({
-  textContent: {
-    display: '-webkit-box',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    WebkitLineClamp: 5,
-    WebkitBoxOrient: 'vertical',
-    wordBreak: 'break-word'
-  },
-  copyIconOverride: {
-    '&.copy-to-clipboard svg': {
-      fill: theme.palette.action.active
-    }
-  },
-  copyIconVisible: {
-    opacity: 1
-  },
   root: {
     '&.two-columns.column-data': {
       gridTemplateColumns: getGridTemplateColumnSizing('max-content'),
@@ -53,46 +38,19 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const ValueColumn = ({ setSnackbar, value = '' }: { setSnackbar?: (message: string) => void; value?: DataValue }) => {
-  const { classes } = useStyles();
-  const [tooltipVisible, setTooltipVisible] = useState(false);
-  const isComponent = React.isValidElement(value);
+  const copyableValue = React.isValidElement(value) ? value.props.value : value;
 
-  const onClick = () => {
+  const onCopy = () => {
     if (setSnackbar) {
-      let copyable = value;
-      if (isComponent) {
-        copyable = value.props.value;
-      }
-      copy(copyable);
+      copy(copyableValue);
       setSnackbar('Value copied to clipboard');
     }
   };
 
   return (
-    <div className={`flexbox align-items-center ${setSnackbar ? 'copy-to-clipboard' : ''} ${classes.copyIconOverride}`}>
-      <Typography
-        className={`${classes.textContent} ${setSnackbar ? 'clickable' : ''}`}
-        component="div"
-        onClick={onClick}
-        title={isComponent ? value.props.value : value}
-        onMouseEnter={() => setTooltipVisible(true)}
-        onMouseLeave={() => setTooltipVisible(false)}
-        variant="body2"
-      >
-        {value}
-      </Typography>
-      {setSnackbar && (
-        <Tooltip title="Copy to clipboard" placement="top">
-          <CopyToClipboardIcon
-            aria-label="Copy to clipboard"
-            color="action"
-            fontSize="small"
-            className={`margin-left-x-small ${tooltipVisible ? classes.copyIconVisible : ''}`}
-            onClick={onClick}
-          />
-        </Tooltip>
-      )}
-    </div>
+    <CopyableText onCopy={onCopy} textClasses={setSnackbar ? 'clickable' : ''} title={copyableValue}>
+      {value}
+    </CopyableText>
   );
 };
 
