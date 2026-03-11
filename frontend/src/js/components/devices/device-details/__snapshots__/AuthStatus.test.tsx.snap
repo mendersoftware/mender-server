@@ -209,15 +209,15 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 .emotion-7 .body .MuiAccordionSummary-content {
   display: grid;
   grid-column-gap: 16px;
-  grid-template-columns: 0.5fr 1fr 2fr 2fr 2fr;
+  grid-template-columns: 0.5fr 1fr 1.5fr 2fr 2fr 2fr;
 }
 
 .emotion-8 {
   padding: 16px;
 }
 
-.emotion-8.columns-4 {
-  grid-template-columns: 0.5fr 1fr 2fr 2fr;
+.emotion-8.columns-5 {
+  grid-template-columns: 0.5fr 1fr 1.5fr 2fr 2fr;
 }
 
 .emotion-9 {
@@ -282,8 +282,8 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   margin: auto;
 }
 
-.emotion-9 .columns-4 .MuiAccordionSummary-content {
-  grid-template-columns: 0.5fr 1fr 2fr 2fr;
+.emotion-9 .columns-5 .MuiAccordionSummary-content {
+  grid-template-columns: 0.5fr 1fr 1.5fr 2fr 2fr;
 }
 
 .emotion-9 .MuiAccordionDetails-root {
@@ -392,6 +392,12 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 }
 
 .emotion-15 {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.emotion-16 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -399,7 +405,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   visibility: hidden;
 }
 
-.emotion-16 {
+.emotion-17 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -407,15 +413,15 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-17 {
+.emotion-18 {
   width: 100%;
 }
 
-.emotion-19 {
+.emotion-20 {
   padding: 8px 16px 16px;
 }
 
-.emotion-29 {
+.emotion-31 {
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   -webkit-justify-content: flex-end;
@@ -423,7 +429,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   margin-top: 16px;
 }
 
-.emotion-30 {
+.emotion-32 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -480,33 +486,33 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-30::-moz-focus-inner {
+.emotion-32::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-30.Mui-disabled {
+.emotion-32.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-30 {
+  .emotion-32 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-30:hover {
+.emotion-32:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-30.Mui-disabled {
+.emotion-32.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-30:hover {
+  .emotion-32:hover {
     --variant-containedBg: #7b1fa2;
     --variant-textBg: rgba(156, 39, 176, 0.04);
     --variant-outlinedBorder: #9c27b0;
@@ -514,7 +520,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   }
 }
 
-.emotion-30.MuiButton-loading {
+.emotion-32.MuiButton-loading {
   color: transparent;
 }
 
@@ -597,7 +603,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
       class="authsets emotion-7"
     >
       <div
-        class="header columns-5 emotion-8"
+        class="header columns-6 emotion-8"
       >
         <div
           class="columnHeader"
@@ -606,6 +612,11 @@ exports[`AuthStatus Component > renders correctly 1`] = `
           class="columnHeader"
         >
           Status
+        </div>
+        <div
+          class="columnHeader"
+        >
+          Device tier
         </div>
         <div
           class="columnHeader"
@@ -635,7 +646,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
           >
             <button
               aria-expanded="false"
-              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-11"
+              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-11"
               tabindex="0"
               type="button"
             >
@@ -656,6 +667,12 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                   class="capitalized"
                 >
                   pending
+                </div>
+                <div
+                  class="capitalized clickable flexbox align-items-center emotion-15"
+                  data-mui-internal-clone-element="true"
+                >
+                  <div />
                 </div>
                 <a>
                   show key
@@ -682,21 +699,21 @@ exports[`AuthStatus Component > renders correctly 1`] = `
             </button>
           </h3>
           <div
-            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-16"
             style="min-height: 0px;"
           >
             <div
-              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
+              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-17"
             >
               <div
-                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-18"
               >
                 <div
-                  class="MuiAccordion-region emotion-18"
+                  class="MuiAccordion-region emotion-19"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-19"
+                    class="MuiAccordionDetails-root emotion-20"
                   >
                     <div
                       style="flex-grow: 1;"
@@ -721,7 +738,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
           >
             <button
               aria-expanded="false"
-              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-11"
+              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-11"
               tabindex="0"
               type="button"
             >
@@ -737,6 +754,12 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                   class="capitalized"
                 >
                   accepted
+                </div>
+                <div
+                  class="capitalized clickable flexbox align-items-center emotion-15"
+                  data-mui-internal-clone-element="true"
+                >
+                  <div />
                 </div>
                 <a>
                   show key
@@ -763,21 +786,21 @@ exports[`AuthStatus Component > renders correctly 1`] = `
             </button>
           </h3>
           <div
-            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-16"
             style="min-height: 0px;"
           >
             <div
-              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
+              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-17"
             >
               <div
-                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-18"
               >
                 <div
-                  class="MuiAccordion-region emotion-18"
+                  class="MuiAccordion-region emotion-19"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-19"
+                    class="MuiAccordionDetails-root emotion-20"
                   >
                     <div
                       style="flex-grow: 1;"
@@ -796,10 +819,10 @@ exports[`AuthStatus Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox relative emotion-29"
+      class="flexbox relative emotion-31"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-30"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-32"
         tabindex="0"
         type="button"
       >

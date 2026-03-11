@@ -11,15 +11,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
 .emotion-0 .body .MuiAccordionSummary-content {
   display: grid;
   grid-column-gap: 16px;
-  grid-template-columns: 0.5fr 1fr 2fr 2fr 2fr;
+  grid-template-columns: 0.5fr 1fr 1.5fr 2fr 2fr 2fr;
 }
 
 .emotion-1 {
   padding: 16px;
 }
 
-.emotion-1.columns-4 {
-  grid-template-columns: 0.5fr 1fr 2fr 2fr;
+.emotion-1.columns-5 {
+  grid-template-columns: 0.5fr 1fr 1.5fr 2fr 2fr;
 }
 
 .emotion-2 {
@@ -84,8 +84,8 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   margin: auto;
 }
 
-.emotion-2 .columns-4 .MuiAccordionSummary-content {
-  grid-template-columns: 0.5fr 1fr 2fr 2fr;
+.emotion-2 .columns-5 .MuiAccordionSummary-content {
+  grid-template-columns: 0.5fr 1fr 1.5fr 2fr 2fr;
 }
 
 .emotion-2 .MuiAccordionDetails-root {
@@ -319,6 +319,12 @@ exports[`AuthsetList Component > renders correctly 1`] = `
 }
 
 .emotion-8 {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.emotion-9 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -326,7 +332,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   visibility: hidden;
 }
 
-.emotion-9 {
+.emotion-10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -334,19 +340,36 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-10 {
+.emotion-11 {
   width: 100%;
 }
 
-.emotion-12 {
+.emotion-13 {
   padding: 8px 16px 16px;
+}
+
+.emotion-21 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.25rem;
 }
 
 <div
   class="authsets emotion-0"
 >
   <div
-    class="header columns-5 emotion-1"
+    class="header columns-6 emotion-1"
   >
     <div
       class="columnHeader"
@@ -355,6 +378,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       class="columnHeader"
     >
       Status
+    </div>
+    <div
+      class="columnHeader"
+    >
+      Device tier
     </div>
     <div
       class="columnHeader"
@@ -384,7 +412,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -405,6 +433,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               pending
+            </div>
+            <div
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <div>
+                standard
+              </div>
             </div>
             <a>
               show key
@@ -431,21 +467,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -470,7 +506,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -491,6 +527,26 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               pending
+            </div>
+            <div
+              aria-label="This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a micro device and contribute to your micro device tier limit."
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-21"
+                data-testid="InfoOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+                />
+              </svg>
+              <div>
+                micro
+              </div>
             </div>
             <a>
               show key
@@ -517,21 +573,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -556,7 +612,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -577,6 +633,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               pending
+            </div>
+            <div
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <div>
+                standard
+              </div>
             </div>
             <a>
               show key
@@ -603,21 +667,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -642,7 +706,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -658,6 +722,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               accepted
+            </div>
+            <div
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <div>
+                standard
+              </div>
             </div>
             <a>
               show key
@@ -684,21 +756,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -723,7 +795,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -739,6 +811,26 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               accepted
+            </div>
+            <div
+              aria-label="This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a micro device and contribute to your micro device tier limit."
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-21"
+                data-testid="InfoOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+                />
+              </svg>
+              <div>
+                micro
+              </div>
             </div>
             <a>
               show key
@@ -765,21 +857,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -804,7 +896,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -820,6 +912,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               accepted
+            </div>
+            <div
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <div>
+                standard
+              </div>
             </div>
             <a>
               show key
@@ -846,21 +946,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -885,7 +985,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -897,6 +997,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               rejected
+            </div>
+            <div
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <div>
+                standard
+              </div>
             </div>
             <a>
               show key
@@ -923,21 +1031,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -962,7 +1070,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -974,6 +1082,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               preauth
+            </div>
+            <div
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <div>
+                standard
+              </div>
             </div>
             <a>
               show key
@@ -1000,21 +1116,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1039,7 +1155,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -1051,6 +1167,26 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               rejected
+            </div>
+            <div
+              aria-label="This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a micro device and contribute to your micro device tier limit."
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-21"
+                data-testid="InfoOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+                />
+              </svg>
+              <div>
+                micro
+              </div>
             </div>
             <a>
               show key
@@ -1077,21 +1213,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1116,7 +1252,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -1128,6 +1264,26 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               preauth
+            </div>
+            <div
+              aria-label="This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a micro device and contribute to your micro device tier limit."
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-21"
+                data-testid="InfoOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+                />
+              </svg>
+              <div>
+                micro
+              </div>
             </div>
             <a>
               show key
@@ -1154,21 +1310,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1193,7 +1349,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -1205,6 +1361,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               rejected
+            </div>
+            <div
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <div>
+                standard
+              </div>
             </div>
             <a>
               show key
@@ -1231,21 +1395,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
@@ -1270,7 +1434,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       >
         <button
           aria-expanded="false"
-          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-5 emotion-4"
+          class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters columns-6 emotion-4"
           tabindex="0"
           type="button"
         >
@@ -1282,6 +1446,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="capitalized"
             >
               preauth
+            </div>
+            <div
+              class="capitalized clickable flexbox align-items-center emotion-8"
+              data-mui-internal-clone-element="true"
+            >
+              <div>
+                standard
+              </div>
             </div>
             <a>
               show key
@@ -1308,21 +1480,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </button>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-8"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-9"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-10"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-11"
           >
             <div
-              class="MuiAccordion-region emotion-11"
+              class="MuiAccordion-region emotion-12"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-12"
+                class="MuiAccordionDetails-root emotion-13"
               >
                 <div
                   style="flex-grow: 1;"
