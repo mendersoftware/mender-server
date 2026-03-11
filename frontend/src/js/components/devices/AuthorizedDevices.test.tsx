@@ -47,6 +47,13 @@ describe('AuthorizedDevices Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
+  it('clears device selection on unmount', async () => {
+    const { setDeviceListState: setListStateSpy } = StoreThunks;
+    const { unmount } = render(<Authorized states={routes} />, { preloadedState });
+    unmount();
+    expect(setListStateSpy).toHaveBeenCalledWith({ selection: [] });
+  });
+
   it('behaves as expected', { timeout: 3 * TIMEOUTS.fiveSeconds }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { saveUserSettings: setUserSettingsSpy, updateUserColumnSettings: setColumnsSpy, setDeviceListState: setListStateSpy } = StoreThunks;
