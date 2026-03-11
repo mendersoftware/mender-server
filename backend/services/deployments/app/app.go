@@ -1344,6 +1344,8 @@ func (d *Deployments) GetDeployment(ctx context.Context,
 	deployment, err := d.db.FindDeploymentByID(ctx, deploymentID)
 	if err != nil {
 		return nil, errors.Wrap(err, "Searching for deployment by ID")
+	} else if deployment == nil {
+		return nil, nil
 	}
 
 	if err := d.setDeploymentDeviceCountIfUnset(ctx, deployment); err != nil {
