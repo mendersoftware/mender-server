@@ -37,7 +37,8 @@ gnr0OSIDwEL31l+12DbAQ9+ANv6TLpWNfLpX0E6IStkZAgMBAAE=
 -----END PUBLIC KEY-----
 `,
       ts: '2020-09-21T12:42:34.571Z',
-      status: 'accepted'
+      status: 'accepted',
+      tier: 'standard'
     };
     const device = {
       id: 'a7503dcc-afb6-4926-897e-3b1346d1600f',
@@ -46,7 +47,8 @@ gnr0OSIDwEL31l+12DbAQ9+ANv6TLpWNfLpX0E6IStkZAgMBAAE=
       identity_data: { mac: '24:7d:30:90:21:a8', status: 'accepted' },
       status: 'accepted',
       created_ts: '2020-09-21T12:42:34.567Z',
-      auth_sets: [authset]
+      auth_sets: [authset],
+      tier: 'standard'
     };
 
     const { baseElement } = render(

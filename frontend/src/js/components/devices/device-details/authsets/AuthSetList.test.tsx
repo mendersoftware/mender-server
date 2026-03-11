@@ -30,9 +30,9 @@ MIIBoj
       status: 'accepted'
     };
     const authSets = Object.keys(DEVICE_STATES).reduce((accu, status, index) => {
-      accu.push({ ...authset, id: `${status}-${index}-1`, status, ts: `2020-09-21T12:${42 + index - 5}:34.571Z` });
-      accu.push({ ...authset, id: `${status}-${index}-2`, status, ts: `2020-09-21T12:${42 + index}:34.571Z` });
-      accu.push({ ...authset, id: `${status}-${index}-3`, status, ts: `2020-09-21T12:${42 + index + 5}:34.571Z` });
+      accu.push({ ...authset, id: `${status}-${index}-1`, status, ts: `2020-09-21T12:${42 + index - 5}:34.571Z`, tier: 'standard' });
+      accu.push({ ...authset, id: `${status}-${index}-2`, status, ts: `2020-09-21T12:${42 + index}:34.571Z`, tier: 'micro' });
+      accu.push({ ...authset, id: `${status}-${index}-3`, status, ts: `2020-09-21T12:${42 + index + 5}:34.571Z`, tier: 'standard' });
       return accu;
     }, []);
     const device = {
@@ -42,7 +42,8 @@ MIIBoj
       identity_data: { mac: '24:7d:30:90:21:a8', status: 'accepted' },
       status: 'accepted',
       created_ts: '2020-09-21T12:42:34.567Z',
-      auth_sets: authSets
+      auth_sets: authSets,
+      tier: 'standard'
     };
 
     const { baseElement } = render(<AuthsetList device={device} userCapabilities={adminUserCapabilities} />);
