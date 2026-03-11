@@ -14,6 +14,8 @@
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import { ColumnWidthProvider, SynchronizedTwoColumnData, TwoColumnData } from './TwoColumnData';
 
@@ -30,6 +32,15 @@ describe('TwoColumnData Component', () => {
     expect(view).toMatchSnapshot();
     expect(screen.getByText('attribute')).toBeInTheDocument();
     expect(screen.getByText('another')).toBeInTheDocument();
+  });
+  it('allows copying values by clicking content or copy icon', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const setSnackbar = vi.fn();
+    render(<TwoColumnData data={{ foo: 'bar' }} setSnackbar={setSnackbar} />);
+    await user.click(screen.getByText('bar'));
+    expect(setSnackbar).toHaveBeenCalledWith('Value copied to clipboard');
+    await user.click(screen.getByLabelText('Copy to clipboard'));
+    expect(setSnackbar).toHaveBeenCalledTimes(2);
   });
   it('synchronizes column width across multiple SynchronizedTwoColumnData components', async () => {
     const { container } = render(
