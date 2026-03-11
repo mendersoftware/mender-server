@@ -14,9 +14,9 @@
 import { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
+import { FileCopy as CopyPasteIcon, InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 // material ui
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Chip, Divider, IconButton } from '@mui/material';
+import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Chip, Divider, IconButton, Tooltip } from '@mui/material';
 
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
@@ -24,6 +24,9 @@ import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, TIMEOUTS } from '@northern.tech/
 import { formatTime } from '@northern.tech/utils/helpers';
 
 const padder = <div key="padder" style={{ flexGrow: 1 }} />;
+
+const tierChangeTooltip = (newTier: string) =>
+  `This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a ${newTier} device and contribute to your ${newTier} device tier limit.`;
 
 const getDismissalConfirmation = (device, authset) => {
   switch (authset.status) {
@@ -121,6 +124,9 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
   const [copied, setCopied] = useState(false);
   const [keyHash, setKeyHash] = useState('');
   const [endKey, setEndKey] = useState('');
+  const { tier } = device;
+
+  const newTier = authset.tier !== tier;
 
   useEffect(() => {
     if (!isExpanded) {
@@ -221,6 +227,12 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
       <AccordionSummary className={`columns-${columns.length}`}>
         <AuthSetStatus authset={authset} device={device} />
         <div className="capitalized">{authset.status}</div>
+        <Tooltip arrow title={newTier ? tierChangeTooltip(authset.tier) : undefined}>
+          <div className={`capitalized clickable flexbox align-items-center ${classes.fitContent}`}>
+            {newTier && <InfoOutlinedIcon className="margin-right-x-small muted" fontSize="small" />}
+            <div>{authset.tier}</div>
+          </div>
+        </Tooltip>
         {key}
         <Time value={formatTime(authset.ts)} />
         {loading === authset.id ? (

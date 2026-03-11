@@ -21,13 +21,14 @@ import DeviceDataCollapse from './DeviceDataCollapse';
 import DeviceTags from './DeviceTags';
 
 export const DeviceIdentity = ({ device, setSnackbar }) => {
-  const { created_ts, id, identity_data = {}, status = DEVICE_STATES.accepted } = device;
+  const { created_ts, tier, id, identity_data = {}, status = DEVICE_STATES.accepted } = device;
 
   const { mac, ...remainingIdentity } = identity_data;
 
   const content = {
     ID: id || '-',
     ...(mac ? { mac } : {}),
+    ...(tier ? { tier } : {}),
     ...remainingIdentity
   };
 

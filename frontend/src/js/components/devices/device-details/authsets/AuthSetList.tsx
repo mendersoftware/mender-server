@@ -21,7 +21,7 @@ import { customSort } from '@northern.tech/utils/helpers';
 
 import AuthsetListItem from './AuthSetListItem';
 
-const fourColumns = '0.5fr 1fr 2fr 2fr';
+const fiveColumns = '0.5fr 1fr 1.5fr 2fr 2fr';
 const useStyles = makeStyles()(theme => ({
   authsets: {
     [`.columnHeader, .${accordionSummaryClasses.root}, .${accordionSummaryClasses.content}`]: {
@@ -30,27 +30,29 @@ const useStyles = makeStyles()(theme => ({
     [`.header, .body .${accordionSummaryClasses.content}`]: {
       display: 'grid',
       gridColumnGap: theme.spacing(2),
-      gridTemplateColumns: '0.5fr 1fr 2fr 2fr 2fr'
+      gridTemplateColumns: '0.5fr 1fr 1.5fr 2fr 2fr 2fr'
     }
   },
   accordion: {
     '&:before': { display: 'none' },
     '&$expanded': { margin: 'auto' },
-    [`.columns-4 .${accordionSummaryClasses.content}`]: {
-      gridTemplateColumns: fourColumns
+    [`.columns-5 .${accordionSummaryClasses.content}`]: {
+      gridTemplateColumns: fiveColumns
     },
     [`.${accordionDetailsClasses.root}`]: { flexDirection: 'row' }
   },
   divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
+  fitContent: { width: 'fit-content' },
   header: {
     padding: theme.spacing(2),
-    '&.columns-4': { gridTemplateColumns: fourColumns }
+    '&.columns-5': { gridTemplateColumns: fiveColumns }
   }
 }));
 
 export const defaultColumns = [
   { title: '', canAccess },
   { title: 'Status', canAccess },
+  { title: 'Device tier', canAccess },
   { title: 'Public key', canAccess },
   { title: 'Time of request', canAccess },
   { title: 'Actions', canAccess: ({ userCapabilities: { canManageDevices } }) => canManageDevices }
