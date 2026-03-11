@@ -83,7 +83,12 @@ const ValueColumn = ({ setSnackbar, value = '' }: { setSnackbar?: (message: stri
       </Typography>
       {setSnackbar && (
         <Tooltip title="Copy to clipboard" placement="top">
-          <CopyToClipboardIcon color="action" fontSize="small" className={`margin-left-x-small ${tooltipVisible ? classes.copyIconVisible : ''}`} />
+          <CopyToClipboardIcon
+            color="action"
+            fontSize="small"
+            className={`margin-left-x-small ${tooltipVisible ? classes.copyIconVisible : ''}`}
+            onClick={onClick}
+          />
         </Tooltip>
       )}
     </div>
