@@ -73,6 +73,10 @@ services:
     extends:
       service: mender-client-2-0
     image: mendersoftware/mender-client-docker:client-5.0.0
+  mender-client-6.0.0:
+    extends:
+      service: mender-client-2-0
+    image: mendersoftware/mender-client-docker-addons:client-6.0.0
 
 
 configs:
