@@ -18,7 +18,7 @@ import Authsets from './AuthSets';
 
 describe('Authsets Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<Authsets device={{ id: 'a1', status: 'accepted', attributes: [], auth_sets: [] }} open={true} />);
+    const { baseElement } = render(<Authsets device={{ id: 'a1', status: 'accepted', attributes: [], auth_sets: [], tier: 'standard' }} open={true} />);
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

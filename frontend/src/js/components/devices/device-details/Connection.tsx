@@ -51,7 +51,8 @@ const useStyles = makeStyles()(theme => ({
   connectionIcon: { marginRight: theme.spacing() },
   content: { maxWidth: 1280 },
   title: { marginRight: theme.spacing(0.5) },
-  troubleshootButton: { marginRight: theme.spacing(2) }
+  troubleshootButton: { marginRight: theme.spacing(2) },
+  tierNotice: { maxWidth: 500 }
 }));
 
 export const PortForwardLink = () => (
@@ -142,8 +143,11 @@ export const DeviceConnection = ({ className = '', device }) => {
   const { hasAuditlogs, hasDeviceConnect } = useSelector(getTenantCapabilities);
   const { token } = useSelector(getCurrentSession);
   const { classes } = useStyles();
-  const { connect_status, connect_updated_ts, isOffline } = device;
+  const { connect_status, connect_updated_ts, isOffline, tier } = device;
   const [connectionStatus, setConnectionStatus] = useState(connect_status);
+
+  //TODO: move source of truth to store constants
+  const tierEligible = tier !== 'micro';
 
   const dispatch = useDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
@@ -200,7 +204,7 @@ export const DeviceConnection = ({ className = '', device }) => {
         <div className="flexbox align-items-center">
           <h4>Troubleshooting</h4>
           <div className={`flexbox ${className}`}>
-            {hasDeviceConnect && connectionStatus !== DEVICE_CONNECT_STATES.unknown && canTroubleshoot && <PortForwardLink />}
+            {hasDeviceConnect && connectionStatus !== DEVICE_CONNECT_STATES.unknown && canTroubleshoot && tierEligible && <PortForwardLink />}
             {hasDeviceConnect && canAuditlog && hasAuditlogs && (
               <Link
                 className="flexbox align-items-center margin-left"
@@ -214,37 +218,45 @@ export const DeviceConnection = ({ className = '', device }) => {
         </div>
       }
     >
-      {hasDeviceConnect && (
-        <div className={`flexbox column ${classes.content}`}>
-          {!connectionStatus && (
-            <div className="flexbox centered">
-              <Loader show />
-            </div>
-          )}
-          {connectionStatus === DEVICE_CONNECT_STATES.unknown && <DeviceConnectionMissingNote />}
-          {connectionStatus === DEVICE_CONNECT_STATES.disconnected && <DeviceDisconnectedNote lastConnectionTs={connect_updated_ts} />}
-          {availableTabs.map(({ Component, title, value }) => (
-            <div key={value}>
-              <h4 className="margin-top-large">{title}</h4>
-              <Component
-                device={device}
-                downloadPath={downloadPath}
-                file={file}
-                onDownload={onDownloadClick}
-                setDownloadPath={setDownloadPath}
-                setFile={setFile}
-                setSnackbar={dispatchedSetSnackbar}
-                setSocketClosed={setSocketClosed}
-                setSocketInitialized={setSocketInitialized}
-                setUploadPath={setUploadPath}
-                socketInitialized={socketInitialized}
-                uploadPath={uploadPath}
-                userCapabilities={userCapabilities}
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      {hasDeviceConnect &&
+        (tierEligible ? (
+          <div className={`flexbox column ${classes.content}`}>
+            {!connectionStatus && (
+              <div className="flexbox centered">
+                <Loader show />
+              </div>
+            )}
+            {connectionStatus === DEVICE_CONNECT_STATES.unknown && <DeviceConnectionMissingNote />}
+            {connectionStatus === DEVICE_CONNECT_STATES.disconnected && <DeviceDisconnectedNote lastConnectionTs={connect_updated_ts} />}
+            {availableTabs.map(({ Component, title, value }) => (
+              <div key={value}>
+                <h4 className="margin-top-large">{title}</h4>
+                <Component
+                  device={device}
+                  downloadPath={downloadPath}
+                  file={file}
+                  onDownload={onDownloadClick}
+                  setDownloadPath={setDownloadPath}
+                  setFile={setFile}
+                  setSnackbar={dispatchedSetSnackbar}
+                  setSocketClosed={setSocketClosed}
+                  setSocketInitialized={setSocketInitialized}
+                  setUploadPath={setUploadPath}
+                  socketInitialized={socketInitialized}
+                  uploadPath={uploadPath}
+                  userCapabilities={userCapabilities}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className={`margin-top flexbox centered align-center`}>
+            <Typography className={classes.tierNotice}>
+              The Troubleshoot Add-on cannot be used with a Micro tier device. Please <DocsLink path="overview/device-tiers" title="see the documentation" /> to
+              learn how to change a device to the Standard tier.
+            </Typography>
+          </div>
+        ))}
     </DeviceDataCollapse>
   );
 };

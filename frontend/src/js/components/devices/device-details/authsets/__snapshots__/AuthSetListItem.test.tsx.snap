@@ -422,7 +422,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   >
     <button
       aria-expanded="true"
-      class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters columns-5 emotion-2"
+      class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters columns-6 emotion-2"
       tabindex="0"
       type="button"
     >
@@ -438,6 +438,14 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
           class="capitalized"
         >
           accepted
+        </div>
+        <div
+          class="capitalized clickable flexbox align-items-center undefined"
+          data-mui-internal-clone-element="true"
+        >
+          <div>
+            standard
+          </div>
         </div>
         <a>
           show key
