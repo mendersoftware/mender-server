@@ -27,8 +27,8 @@ import { PasswordScreenContainer } from './Password';
 
 const useStyles = makeStyles()(theme => ({
   iconButton: {
-    width: theme.spacing(9),
-    height: theme.spacing(9),
+    width: theme.spacing(12),
+    height: theme.spacing(12),
     cursor: 'default'
   },
   iconButtonSuccess: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles()(theme => ({
     backgroundColor: alpha(theme.palette.error.main, 0.08)
   },
   icon: {
-    fontSize: '2rem'
+    fontSize: '3rem'
   }
 }));
 
@@ -57,7 +57,7 @@ const ActivateError = ({ errorDetails, isLoggedIn }: { errorDetails: string; isL
   <>
     {errorDetails && <Typography>{errorDetails}</Typography>}
     <Typography>
-      go to <Link to={isLoggedIn ? '/settings' : '/login'}>{isLoggedIn ? 'Settings ' : 'Login '}page</Link>
+      Go to <Link to={isLoggedIn ? '/settings' : '/login'}>{isLoggedIn ? 'Settings ' : 'Login '}page</Link>
     </Typography>
   </>
 );
