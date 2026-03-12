@@ -22,7 +22,7 @@ import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
-import { BENEFITS, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/constants';
+import { ALL_DEVICE_STATES, BENEFITS, DEVICE_LIST_DEFAULTS, DEVICE_STATES, SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { getCurrentSession, getDevicesById, getIdAttribute, getIsPreview, getOrganization } from '@northern.tech/store/selectors';
 import { getSystemDevices } from '@northern.tech/store/thunks';
 import { getDemoDeviceAddress, toggle } from '@northern.tech/utils/helpers';
@@ -75,7 +75,10 @@ export const DeviceSystem = ({ columnSelection, device, onConnectToGatewayClick,
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, device.id, device.attributes?.mender_is_gateway, page, perPage, sortOptions]);
 
-  const onDeviceClick = (device = {}) => navigate(`/devices/${device.status}?id=${device.id}&open=true&tab=identity`, { state: { internal: true } });
+  const onDeviceClick = (device = {}) => {
+    const deviceState = DEVICE_STATES[device.status] ?? ALL_DEVICE_STATES;
+    navigate(`/devices/${deviceState}?id=${device.id}&open=true&tab=identity`, { state: { internal: true } });
+  };
 
   return (
     <>
