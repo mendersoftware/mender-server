@@ -17,6 +17,7 @@ import (
 	"fmt"
 	"net/url"
 	"path/filepath"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
@@ -54,10 +55,16 @@ func ValidUrl(s string) error {
 }
 
 func ValidAbsPath(s string) error {
-	if !filepath.IsAbs(s) {
+	cleaned := filepath.Clean(s)
+	if !filepath.IsAbs(cleaned) {
 		return errors.New("need an absolute path")
 	}
-
+	// Check raw path for '..' components before Clean resolves them
+	for _, part := range strings.Split(s, string(filepath.Separator)) {
+		if part == ".." {
+			return errors.New("path must not contain '..' components")
+		}
+	}
 	return nil
 }
 
