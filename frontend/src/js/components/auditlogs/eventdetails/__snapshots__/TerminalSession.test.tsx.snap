@@ -204,6 +204,24 @@ exports[`TerminalSession Component > renders correctly 1`] = `
   font-size: 1.25rem;
 }
 
+.emotion-17 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.25rem;
+  color: rgba(0, 0, 0, 0.54);
+}
+
 <div
   class="flexbox"
   style="flex-wrap: wrap;"
@@ -524,7 +542,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Device ID
         </h6>
         <div
-          class="flexbox align-items-center  emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -555,6 +573,19 @@ exports[`TerminalSession Component > renders correctly 1`] = `
               </svg>
             </a>
           </div>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
@@ -563,14 +594,27 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Device type
         </h6>
         <div
-          class="flexbox align-items-center  emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
-          <div
+          <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
             title="raspberrypi4"
           >
             raspberrypi4
-          </div>
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
@@ -579,14 +623,27 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Operating system version
         </h6>
         <div
-          class="flexbox align-items-center  emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
-          <div
+          <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
             title="raspotifyInstaller"
           >
             raspotifyInstaller
-          </div>
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
@@ -595,7 +652,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
            
         </h6>
         <div
-          class="flexbox align-items-center  emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -607,6 +664,19 @@ exports[`TerminalSession Component > renders correctly 1`] = `
               List all log entries for this device
             </a>
           </div>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
         </div>
       </div>
     </div>
@@ -629,14 +699,27 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Session ID
         </h6>
         <div
-          class="flexbox align-items-center  emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
-          <div
+          <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
             title="abd313a8-ee88-48ab-9c99-fbcd80048e6e"
           >
             abd313a8-ee88-48ab-9c99-fbcd80048e6e
-          </div>
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
@@ -645,7 +728,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Start time
         </h6>
         <div
-          class="flexbox align-items-center  emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -657,6 +740,19 @@ exports[`TerminalSession Component > renders correctly 1`] = `
               2019-01-01 12:10
             </time>
           </div>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
@@ -665,7 +761,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           End time
         </h6>
         <div
-          class="flexbox align-items-center  emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
@@ -677,6 +773,19 @@ exports[`TerminalSession Component > renders correctly 1`] = `
               2019-01-01 12:16
             </time>
           </div>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
@@ -685,14 +794,27 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           Duration
         </h6>
         <div
-          class="flexbox align-items-center  emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
-          <div
+          <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
             title="00:05:59:998"
           >
             00:05:59:998
-          </div>
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
         </div>
         <h6
           class="MuiTypography-root MuiTypography-subtitle2 key emotion-11"
@@ -701,14 +823,27 @@ exports[`TerminalSession Component > renders correctly 1`] = `
           User
         </h6>
         <div
-          class="flexbox align-items-center  emotion-12"
+          class="flexbox align-items-center copy-to-clipboard emotion-12"
         >
-          <div
+          <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
             title="string@example.com"
           >
             string@example.com
-          </div>
+          </p>
+          <svg
+            aria-hidden="true"
+            aria-label="Copy to clipboard"
+            class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
+            data-mui-internal-clone-element="true"
+            data-testid="FileCopyOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+            />
+          </svg>
         </div>
       </div>
     </div>

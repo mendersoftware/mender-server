@@ -2045,12 +2045,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-27"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-28"
               title="a1"
             >
               a1
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
@@ -2074,12 +2074,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           <div
             class="flexbox align-items-center copy-to-clipboard emotion-27"
           >
-            <div
+            <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-28"
               title="dc:a6:32:12:ad:bf"
             >
               dc:a6:32:12:ad:bf
-            </div>
+            </p>
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"

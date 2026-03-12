@@ -965,7 +965,25 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   word-break: break-word;
 }
 
-.emotion-71 {
+.emotion-54 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.25rem;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.emotion-76 {
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -980,7 +998,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   margin-bottom: 30px;
 }
 
-.emotion-71::before {
+.emotion-76::before {
   position: absolute;
   left: 0;
   top: -1px;
@@ -993,39 +1011,39 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-71:first-of-type::before {
+.emotion-76:first-of-type::before {
   display: none;
 }
 
-.emotion-71.Mui-expanded::before {
+.emotion-76.Mui-expanded::before {
   opacity: 0;
 }
 
-.emotion-71.Mui-expanded:first-of-type {
+.emotion-76.Mui-expanded:first-of-type {
   margin-top: 0;
 }
 
-.emotion-71.Mui-expanded:last-of-type {
+.emotion-76.Mui-expanded:last-of-type {
   margin-bottom: 0;
 }
 
-.emotion-71.Mui-expanded+.emotion-71.Mui-expanded::before {
+.emotion-76.Mui-expanded+.emotion-76.Mui-expanded::before {
   display: none;
 }
 
-.emotion-71.Mui-disabled {
+.emotion-76.Mui-disabled {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-71.Mui-expanded {
+.emotion-76.Mui-expanded {
   margin: 16px 0;
 }
 
-.emotion-71.Mui-expanded {
+.emotion-76.Mui-expanded {
   margin-bottom: 30px;
 }
 
-.emotion-75 {
+.emotion-80 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -1034,7 +1052,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   letter-spacing: 0.00938em;
 }
 
-.emotion-108 {
+.emotion-117 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1088,50 +1106,50 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-108::-moz-focus-inner {
+.emotion-117::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-108.Mui-disabled {
+.emotion-117.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-108 {
+  .emotion-117 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-108:hover {
+.emotion-117:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-108.Mui-disabled {
+.emotion-117.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-108.Mui-disabled {
+.emotion-117.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.emotion-108.MuiButton-loading {
+.emotion-117.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-109 {
+.emotion-118 {
   display: inherit;
   margin-right: 8px;
   margin-left: -4px;
 }
 
-.emotion-109>*:nth-of-type(1) {
+.emotion-118>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-111 {
+.emotion-120 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1190,37 +1208,37 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-111::-moz-focus-inner {
+.emotion-120::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-111.Mui-disabled {
+.emotion-120.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-111 {
+  .emotion-120 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-111:hover {
+.emotion-120:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-111.Mui-disabled {
+.emotion-120.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-111.Mui-disabled {
+.emotion-120.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-111:hover {
+  .emotion-120:hover {
     --variant-containedBg: #c62828;
     --variant-textBg: rgba(211, 47, 47, 0.04);
     --variant-outlinedBorder: #d32f2f;
@@ -1228,11 +1246,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   }
 }
 
-.emotion-111.MuiButton-loading {
+.emotion-120.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-199 {
+.emotion-217 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1255,13 +1273,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   pointer-events: none;
 }
 
-.emotion-199 .MuiSpeedDialAction-staticTooltipLabel {
+.emotion-217 .MuiSpeedDialAction-staticTooltipLabel {
   min-width: -webkit-max-content;
   min-width: -moz-max-content;
   min-width: max-content;
 }
 
-.emotion-200 {
+.emotion-218 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -1276,7 +1294,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   margin-bottom: 24px;
 }
 
-.emotion-201 {
+.emotion-219 {
   z-index: 1050;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1294,7 +1312,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   margin-right: 16px;
 }
 
-.emotion-201 .MuiSpeedDial-actions {
+.emotion-219 .MuiSpeedDial-actions {
   -webkit-flex-direction: column-reverse;
   -ms-flex-direction: column-reverse;
   flex-direction: column-reverse;
@@ -1302,7 +1320,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   padding-bottom: 48px;
 }
 
-.emotion-202 {
+.emotion-220 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1358,68 +1376,68 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   pointer-events: auto;
 }
 
-.emotion-202::-moz-focus-inner {
+.emotion-220::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-202.Mui-disabled {
+.emotion-220.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-202 {
+  .emotion-220 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-202:active {
+.emotion-220:active {
   box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12);
 }
 
-.emotion-202:hover {
+.emotion-220:hover {
   background-color: #f5f5f5;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 @media (hover: none) {
-  .emotion-202:hover {
+  .emotion-220:hover {
     background-color: #e0e0e0;
   }
 }
 
-.emotion-202.Mui-focusVisible {
+.emotion-220.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-202:hover {
+.emotion-220:hover {
   background-color: #1565c0;
 }
 
 @media (hover: none) {
-  .emotion-202:hover {
+  .emotion-220:hover {
     background-color: #1976d2;
   }
 }
 
-.emotion-202.Mui-disabled {
+.emotion-220.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-203 {
+.emotion-221 {
   height: 24px;
 }
 
-.emotion-203 .MuiSpeedDialIcon-icon {
+.emotion-221 .MuiSpeedDialIcon-icon {
   -webkit-transition: -webkit-transform 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-203 .MuiSpeedDialIcon-openIcon {
+.emotion-221 .MuiSpeedDialIcon-openIcon {
   position: absolute;
   -webkit-transition: -webkit-transform 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -1430,7 +1448,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   transform: rotate(-45deg);
 }
 
-.emotion-205 {
+.emotion-223 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1441,7 +1459,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   pointer-events: none;
 }
 
-.emotion-206 {
+.emotion-224 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1453,13 +1471,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   align-items: center;
 }
 
-.emotion-206 .MuiSpeedDialAction-staticTooltipLabel {
+.emotion-224 .MuiSpeedDialAction-staticTooltipLabel {
   -webkit-transition: -webkit-transform 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   opacity: 1;
 }
 
-.emotion-206 .MuiSpeedDialAction-staticTooltipLabel {
+.emotion-224 .MuiSpeedDialAction-staticTooltipLabel {
   opacity: 0;
   -webkit-transform: scale(0.5);
   -moz-transform: scale(0.5);
@@ -1467,13 +1485,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   transform: scale(0.5);
 }
 
-.emotion-206 .MuiSpeedDialAction-staticTooltipLabel {
+.emotion-224 .MuiSpeedDialAction-staticTooltipLabel {
   transform-origin: 100% 50%;
   right: 100%;
   margin-right: 8px;
 }
 
-.emotion-207 {
+.emotion-225 {
   position: absolute;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -1488,7 +1506,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   word-break: keep-all;
 }
 
-.emotion-208 {
+.emotion-226 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1554,49 +1572,49 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
   transform: scale(0);
 }
 
-.emotion-208::-moz-focus-inner {
+.emotion-226::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-208.Mui-disabled {
+.emotion-226.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-208 {
+  .emotion-226 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-208:active {
+.emotion-226:active {
   box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12);
 }
 
-.emotion-208:hover {
+.emotion-226:hover {
   background-color: #f5f5f5;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 @media (hover: none) {
-  .emotion-208:hover {
+  .emotion-226:hover {
     background-color: #e0e0e0;
   }
 }
 
-.emotion-208.Mui-focusVisible {
+.emotion-226.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-208.Mui-disabled {
+.emotion-226.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-208:hover {
+.emotion-226:hover {
   background-color: rgb(216, 216, 216);
 }
 
@@ -2002,7 +2020,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Description
                       </h6>
                       <div
-                        class="flexbox align-items-center  emotion-43"
+                        class="flexbox align-items-center copy-to-clipboard emotion-43"
                       >
                         <div
                           class="MuiTypography-root MuiTypography-body2 emotion-44"
@@ -2062,6 +2080,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                             </button>
                           </div>
                         </div>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Copy to clipboard"
+                          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                          data-mui-internal-clone-element="true"
+                          data-testid="FileCopyOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                          />
+                        </svg>
                       </div>
                       <h6
                         class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2070,7 +2101,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Signed
                       </h6>
                       <div
-                        class="flexbox align-items-center  emotion-43"
+                        class="flexbox align-items-center copy-to-clipboard emotion-43"
                       >
                         <div
                           class="MuiTypography-root MuiTypography-body2 emotion-44"
@@ -2096,6 +2127,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                             </p>
                           </div>
                         </div>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Copy to clipboard"
+                          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                          data-mui-internal-clone-element="true"
+                          data-testid="FileCopyOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                          />
+                        </svg>
                       </div>
                     </div>
                     <h6
@@ -2116,14 +2160,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Software filesystem
                       </h6>
                       <div
-                        class="flexbox align-items-center  emotion-43"
+                        class="flexbox align-items-center copy-to-clipboard emotion-43"
                       >
-                        <div
+                        <p
                           class="MuiTypography-root MuiTypography-body2 emotion-44"
                           title="data-partition"
                         >
                           data-partition
-                        </div>
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Copy to clipboard"
+                          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                          data-mui-internal-clone-element="true"
+                          data-testid="FileCopyOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                          />
+                        </svg>
                       </div>
                       <h6
                         class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2132,14 +2189,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Software name
                       </h6>
                       <div
-                        class="flexbox align-items-center  emotion-43"
+                        class="flexbox align-items-center copy-to-clipboard emotion-43"
                       >
-                        <div
+                        <p
                           class="MuiTypography-root MuiTypography-body2 emotion-44"
                           title="myapp"
                         >
                           myapp
-                        </div>
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Copy to clipboard"
+                          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                          data-mui-internal-clone-element="true"
+                          data-testid="FileCopyOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                          />
+                        </svg>
                       </div>
                       <h6
                         class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2148,18 +2218,31 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Software version
                       </h6>
                       <div
-                        class="flexbox align-items-center  emotion-43"
+                        class="flexbox align-items-center copy-to-clipboard emotion-43"
                       >
-                        <div
+                        <p
                           class="MuiTypography-root MuiTypography-body2 emotion-44"
                           title="v2020.10"
                         >
                           v2020.10
-                        </div>
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Copy to clipboard"
+                          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                          data-mui-internal-clone-element="true"
+                          data-testid="FileCopyOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                          />
+                        </svg>
                       </div>
                     </div>
                     <div
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-71"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-76"
                       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
                     >
                       <h3
@@ -2175,7 +2258,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                             class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-33"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 emotion-75"
+                              class="MuiTypography-root MuiTypography-body1 emotion-80"
                             >
                               Artifact contents
                             </p>
@@ -2220,7 +2303,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                       </div>
                     </div>
                     <div
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-71"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-76"
                       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
                     >
                       <h3
@@ -2236,7 +2319,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                             class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-33"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 emotion-75"
+                              class="MuiTypography-root MuiTypography-body1 emotion-80"
                             >
                               Provides and Depends
                             </p>
@@ -2294,14 +2377,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                                       artifact_name
                                     </h6>
                                     <div
-                                      class="flexbox align-items-center  emotion-43"
+                                      class="flexbox align-items-center copy-to-clipboard emotion-43"
                                     >
-                                      <div
+                                      <p
                                         class="MuiTypography-root MuiTypography-body2 emotion-44"
                                         title="myapp"
                                       >
                                         myapp
-                                      </div>
+                                      </p>
+                                      <svg
+                                        aria-hidden="true"
+                                        aria-label="Copy to clipboard"
+                                        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                                        data-mui-internal-clone-element="true"
+                                        data-testid="FileCopyOutlinedIcon"
+                                        focusable="false"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                                        />
+                                      </svg>
                                     </div>
                                     <h6
                                       class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2310,14 +2406,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                                       data-partition.myapp.version
                                     </h6>
                                     <div
-                                      class="flexbox align-items-center  emotion-43"
+                                      class="flexbox align-items-center copy-to-clipboard emotion-43"
                                     >
-                                      <div
+                                      <p
                                         class="MuiTypography-root MuiTypography-body2 emotion-44"
                                         title="v2020.10"
                                       >
                                         v2020.10
-                                      </div>
+                                      </p>
+                                      <svg
+                                        aria-hidden="true"
+                                        aria-label="Copy to clipboard"
+                                        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                                        data-mui-internal-clone-element="true"
+                                        data-testid="FileCopyOutlinedIcon"
+                                        focusable="false"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                                        />
+                                      </svg>
                                     </div>
                                     <h6
                                       class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2326,14 +2435,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                                       list_of_fancy-1
                                     </h6>
                                     <div
-                                      class="flexbox align-items-center  emotion-43"
+                                      class="flexbox align-items-center copy-to-clipboard emotion-43"
                                     >
-                                      <div
+                                      <p
                                         class="MuiTypography-root MuiTypography-body2 emotion-44"
                                         title="qemux86-64"
                                       >
                                         qemux86-64
-                                      </div>
+                                      </p>
+                                      <svg
+                                        aria-hidden="true"
+                                        aria-label="Copy to clipboard"
+                                        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                                        data-mui-internal-clone-element="true"
+                                        data-testid="FileCopyOutlinedIcon"
+                                        focusable="false"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                                        />
+                                      </svg>
                                     </div>
                                     <h6
                                       class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2342,14 +2464,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                                       list_of_fancy-2
                                     </h6>
                                     <div
-                                      class="flexbox align-items-center  emotion-43"
+                                      class="flexbox align-items-center copy-to-clipboard emotion-43"
                                     >
-                                      <div
+                                      <p
                                         class="MuiTypography-root MuiTypography-body2 emotion-44"
                                         title="x172"
                                       >
                                         x172
-                                      </div>
+                                      </p>
+                                      <svg
+                                        aria-hidden="true"
+                                        aria-label="Copy to clipboard"
+                                        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                                        data-mui-internal-clone-element="true"
+                                        data-testid="FileCopyOutlinedIcon"
+                                        focusable="false"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                                        />
+                                      </svg>
                                     </div>
                                   </div>
                                 </div>
@@ -2364,7 +2499,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                       style="max-width: fit-content;"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-108"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-117"
                         disabled=""
                         download=""
                         tabindex="-1"
@@ -2372,7 +2507,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         type="button"
                       >
                         <span
-                          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-109"
+                          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-118"
                         >
                           <svg
                             aria-hidden="true"
@@ -2389,12 +2524,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Download Artifact
                       </button>
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-111"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-120"
                         tabindex="0"
                         type="button"
                       >
                         <span
-                          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-109"
+                          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-118"
                         >
                           <svg
                             aria-hidden="true"
@@ -2510,7 +2645,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Description
                       </h6>
                       <div
-                        class="flexbox align-items-center  emotion-43"
+                        class="flexbox align-items-center copy-to-clipboard emotion-43"
                       >
                         <div
                           class="MuiTypography-root MuiTypography-body2 emotion-44"
@@ -2570,6 +2705,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                             </button>
                           </div>
                         </div>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Copy to clipboard"
+                          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                          data-mui-internal-clone-element="true"
+                          data-testid="FileCopyOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                          />
+                        </svg>
                       </div>
                       <h6
                         class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2578,7 +2726,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Signed
                       </h6>
                       <div
-                        class="flexbox align-items-center  emotion-43"
+                        class="flexbox align-items-center copy-to-clipboard emotion-43"
                       >
                         <div
                           class="MuiTypography-root MuiTypography-body2 emotion-44"
@@ -2604,6 +2752,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                             </p>
                           </div>
                         </div>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Copy to clipboard"
+                          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                          data-mui-internal-clone-element="true"
+                          data-testid="FileCopyOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                          />
+                        </svg>
                       </div>
                     </div>
                     <h6
@@ -2624,14 +2785,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Software filesystem
                       </h6>
                       <div
-                        class="flexbox align-items-center  emotion-43"
+                        class="flexbox align-items-center copy-to-clipboard emotion-43"
                       >
-                        <div
+                        <p
                           class="MuiTypography-root MuiTypography-body2 emotion-44"
                           title="data-partition"
                         >
                           data-partition
-                        </div>
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Copy to clipboard"
+                          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                          data-mui-internal-clone-element="true"
+                          data-testid="FileCopyOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                          />
+                        </svg>
                       </div>
                       <h6
                         class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2640,14 +2814,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Software name
                       </h6>
                       <div
-                        class="flexbox align-items-center  emotion-43"
+                        class="flexbox align-items-center copy-to-clipboard emotion-43"
                       >
-                        <div
+                        <p
                           class="MuiTypography-root MuiTypography-body2 emotion-44"
                           title="myapp"
                         >
                           myapp
-                        </div>
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Copy to clipboard"
+                          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                          data-mui-internal-clone-element="true"
+                          data-testid="FileCopyOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                          />
+                        </svg>
                       </div>
                       <h6
                         class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2656,18 +2843,31 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Software version
                       </h6>
                       <div
-                        class="flexbox align-items-center  emotion-43"
+                        class="flexbox align-items-center copy-to-clipboard emotion-43"
                       >
-                        <div
+                        <p
                           class="MuiTypography-root MuiTypography-body2 emotion-44"
                           title="v2020.10"
                         >
                           v2020.10
-                        </div>
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          aria-label="Copy to clipboard"
+                          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                          data-mui-internal-clone-element="true"
+                          data-testid="FileCopyOutlinedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                          />
+                        </svg>
                       </div>
                     </div>
                     <div
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-71"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-76"
                       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
                     >
                       <h3
@@ -2683,7 +2883,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                             class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-33"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 emotion-75"
+                              class="MuiTypography-root MuiTypography-body1 emotion-80"
                             >
                               Artifact contents
                             </p>
@@ -2728,7 +2928,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                       </div>
                     </div>
                     <div
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-71"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-76"
                       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
                     >
                       <h3
@@ -2744,7 +2944,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                             class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-33"
                           >
                             <p
-                              class="MuiTypography-root MuiTypography-body1 emotion-75"
+                              class="MuiTypography-root MuiTypography-body1 emotion-80"
                             >
                               Provides and Depends
                             </p>
@@ -2802,14 +3002,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                                       artifact_name
                                     </h6>
                                     <div
-                                      class="flexbox align-items-center  emotion-43"
+                                      class="flexbox align-items-center copy-to-clipboard emotion-43"
                                     >
-                                      <div
+                                      <p
                                         class="MuiTypography-root MuiTypography-body2 emotion-44"
                                         title="myapp"
                                       >
                                         myapp
-                                      </div>
+                                      </p>
+                                      <svg
+                                        aria-hidden="true"
+                                        aria-label="Copy to clipboard"
+                                        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                                        data-mui-internal-clone-element="true"
+                                        data-testid="FileCopyOutlinedIcon"
+                                        focusable="false"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                                        />
+                                      </svg>
                                     </div>
                                     <h6
                                       class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2818,14 +3031,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                                       data-partition.myapp.version
                                     </h6>
                                     <div
-                                      class="flexbox align-items-center  emotion-43"
+                                      class="flexbox align-items-center copy-to-clipboard emotion-43"
                                     >
-                                      <div
+                                      <p
                                         class="MuiTypography-root MuiTypography-body2 emotion-44"
                                         title="v2020.10"
                                       >
                                         v2020.10
-                                      </div>
+                                      </p>
+                                      <svg
+                                        aria-hidden="true"
+                                        aria-label="Copy to clipboard"
+                                        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                                        data-mui-internal-clone-element="true"
+                                        data-testid="FileCopyOutlinedIcon"
+                                        focusable="false"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                                        />
+                                      </svg>
                                     </div>
                                     <h6
                                       class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2834,14 +3060,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                                       list_of_fancy-1
                                     </h6>
                                     <div
-                                      class="flexbox align-items-center  emotion-43"
+                                      class="flexbox align-items-center copy-to-clipboard emotion-43"
                                     >
-                                      <div
+                                      <p
                                         class="MuiTypography-root MuiTypography-body2 emotion-44"
                                         title="qemux86-64"
                                       >
                                         qemux86-64
-                                      </div>
+                                      </p>
+                                      <svg
+                                        aria-hidden="true"
+                                        aria-label="Copy to clipboard"
+                                        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                                        data-mui-internal-clone-element="true"
+                                        data-testid="FileCopyOutlinedIcon"
+                                        focusable="false"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                                        />
+                                      </svg>
                                     </div>
                                     <h6
                                       class="MuiTypography-root MuiTypography-subtitle2 key emotion-42"
@@ -2850,14 +3089,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                                       list_of_fancy-2
                                     </h6>
                                     <div
-                                      class="flexbox align-items-center  emotion-43"
+                                      class="flexbox align-items-center copy-to-clipboard emotion-43"
                                     >
-                                      <div
+                                      <p
                                         class="MuiTypography-root MuiTypography-body2 emotion-44"
                                         title="x172"
                                       >
                                         x172
-                                      </div>
+                                      </p>
+                                      <svg
+                                        aria-hidden="true"
+                                        aria-label="Copy to clipboard"
+                                        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-54"
+                                        data-mui-internal-clone-element="true"
+                                        data-testid="FileCopyOutlinedIcon"
+                                        focusable="false"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                                        />
+                                      </svg>
                                     </div>
                                   </div>
                                 </div>
@@ -2872,7 +3124,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                       style="max-width: fit-content;"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-108"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-117"
                         disabled=""
                         download=""
                         tabindex="-1"
@@ -2880,7 +3132,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         type="button"
                       >
                         <span
-                          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-109"
+                          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-118"
                         >
                           <svg
                             aria-hidden="true"
@@ -2897,12 +3149,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
                         Download Artifact
                       </button>
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-111"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-120"
                         tabindex="0"
                         type="button"
                       >
                         <span
-                          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-109"
+                          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-118"
                         >
                           <svg
                             aria-hidden="true"
@@ -2929,15 +3181,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
     </div>
   </div>
   <div
-    class="emotion-199"
+    class="emotion-217"
   >
     <p
-      class="MuiTypography-root MuiTypography-body1 emotion-200"
+      class="MuiTypography-root MuiTypography-body1 emotion-218"
     >
       Release actions
     </p>
     <div
-      class="MuiSpeedDial-root MuiSpeedDial-directionUp emotion-201"
+      class="MuiSpeedDial-root MuiSpeedDial-directionUp emotion-219"
       role="presentation"
     >
       <button
@@ -2945,13 +3197,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="release-actions"
-        class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiSpeedDial-fab emotion-202"
+        class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiSpeedDial-fab emotion-220"
         style="transform: none; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiSpeedDialIcon-root emotion-203"
+          class="MuiSpeedDialIcon-root emotion-221"
         >
           <svg
             aria-hidden="true"
@@ -2968,17 +3220,17 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
       </button>
       <div
         aria-orientation="vertical"
-        class="MuiSpeedDial-actions MuiSpeedDial-actionsClosed emotion-205"
+        class="MuiSpeedDial-actions MuiSpeedDial-actionsClosed emotion-223"
         id="release-actions-actions"
         role="menu"
       >
         <span
           aria-label="deploy"
-          class="MuiSpeedDialAction-staticTooltip MuiSpeedDialAction-tooltipPlacementLeft MuiSpeedDialAction-staticTooltipClosed emotion-206"
+          class="MuiSpeedDialAction-staticTooltip MuiSpeedDialAction-tooltipPlacementLeft MuiSpeedDialAction-staticTooltipClosed emotion-224"
           id="release-actions-action-0"
         >
           <span
-            class="MuiSpeedDialAction-staticTooltipLabel emotion-207"
+            class="MuiSpeedDialAction-staticTooltipLabel emotion-225"
             id="release-actions-action-0-label"
             style="transition-delay: 60ms;"
           >
@@ -2986,7 +3238,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
           </span>
           <button
             aria-labelledby="release-actions-action-0-label"
-            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiSpeedDialAction-fab MuiSpeedDialAction-fabClosed emotion-208"
+            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiSpeedDialAction-fab MuiSpeedDialAction-fabClosed emotion-226"
             role="menuitem"
             style="transition-delay: 60ms;"
             tabindex="-1"
@@ -3007,11 +3259,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
         </span>
         <span
           aria-label="delete"
-          class="MuiSpeedDialAction-staticTooltip MuiSpeedDialAction-tooltipPlacementLeft MuiSpeedDialAction-staticTooltipClosed emotion-206"
+          class="MuiSpeedDialAction-staticTooltip MuiSpeedDialAction-tooltipPlacementLeft MuiSpeedDialAction-staticTooltipClosed emotion-224"
           id="release-actions-action-1"
         >
           <span
-            class="MuiSpeedDialAction-staticTooltipLabel emotion-207"
+            class="MuiSpeedDialAction-staticTooltipLabel emotion-225"
             id="release-actions-action-1-label"
             style="transition-delay: 30ms;"
           >
@@ -3019,7 +3271,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-22:focus::-ms-input-
           </span>
           <button
             aria-labelledby="release-actions-action-1-label"
-            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiSpeedDialAction-fab MuiSpeedDialAction-fabClosed emotion-208"
+            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiSpeedDialAction-fab MuiSpeedDialAction-fabClosed emotion-226"
             role="menuitem"
             style="transition-delay: 30ms;"
             tabindex="-1"

@@ -135,7 +135,7 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
       Total download size
     </h6>
     <div
-      class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+      class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -145,6 +145,19 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
           1.21 KB
         </div>
       </div>
+      <svg
+        aria-hidden="true"
+        aria-label="Copy to clipboard"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+        data-mui-internal-clone-element="true"
+        data-testid="FileCopyOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+        />
+      </svg>
     </div>
   </div>
 </div>"

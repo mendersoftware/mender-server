@@ -163,7 +163,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Release
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -190,6 +190,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     </svg>
                   </a>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -198,7 +211,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Target device(s)
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -234,6 +247,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     </div>
                   </a>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -242,14 +268,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Category
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                   title="Software update"
                 >
                   Software update
-                </div>
+                </p>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -258,7 +297,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Created at
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -270,6 +309,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     2019-01-01 12:30
                   </time>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
             </div>
             <button
@@ -434,14 +486,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Update attempts per device
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
-              <div
+              <p
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="1"
               >
                 1
-              </div>
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
             <h6
               class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -450,14 +515,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Maximum number of devices
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
-              <div
+              <p
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="N/A"
               >
                 N/A
-              </div>
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
           </div>
         </div>
@@ -718,7 +796,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 />
                 <p
                   class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                  id="_r_9_"
+                  id="_r_f_"
                 >
                   Rows per page:
                 </p>
@@ -728,9 +806,9 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    aria-labelledby="_r_9_ _r_8_"
+                    aria-labelledby="_r_f_ _r_e_"
                     class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                    id="_r_8_"
+                    id="_r_e_"
                     role="combobox"
                     tabindex="0"
                   >
@@ -835,7 +913,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Total download size
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -845,6 +923,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   1.21 KB
                 </div>
               </div>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
           </div>
         </div>
@@ -870,7 +961,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Start time
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -882,6 +973,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   2019-01-01 12:30
                 </time>
               </div>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
             <h6
               class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -890,14 +994,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Current phase
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
-              <div
+              <p
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="1"
               >
                 1
-              </div>
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
           </div>
           <svg
@@ -921,14 +1038,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
               End time
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
-              <div
+              <p
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="-"
               >
                 -
-              </div>
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
           </div>
         </div>
@@ -988,7 +1118,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -1000,6 +1130,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     2019-01-01 12:30
                   </time>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -1008,14 +1151,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                   title="100% (1 device)"
                 >
                   100% (1 device)
-                </div>
+                </p>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -1196,7 +1352,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Release
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -1222,6 +1378,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     </svg>
                   </a>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -1230,7 +1399,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Target device(s)
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -1266,6 +1435,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     </div>
                   </a>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -1274,14 +1456,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Category
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                   title="Software update"
                 >
                   Software update
-                </div>
+                </p>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -1290,7 +1485,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Created at
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -1302,6 +1497,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     2019-01-31 12:59
                   </time>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
             </div>
             <button
@@ -1465,14 +1673,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Update attempts per device
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
-              <div
+              <p
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="0"
               >
                 0
-              </div>
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
             <h6
               class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -1481,14 +1702,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Maximum number of devices
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
-              <div
+              <p
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="N/A"
               >
                 N/A
-              </div>
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
           </div>
         </div>
@@ -1737,7 +1971,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 />
                 <p
                   class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                  id="_r_l_"
+                  id="_r_17_"
                 >
                   Rows per page:
                 </p>
@@ -1747,9 +1981,9 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    aria-labelledby="_r_l_ _r_k_"
+                    aria-labelledby="_r_17_ _r_16_"
                     class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                    id="_r_k_"
+                    id="_r_16_"
                     role="combobox"
                     tabindex="0"
                   >
@@ -1853,7 +2087,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Total download size
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -1863,6 +2097,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   1.21 KB
                 </div>
               </div>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
           </div>
         </div>
@@ -1888,7 +2135,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Start time
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -1900,6 +2147,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   2019-01-31 12:59
                 </time>
               </div>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
             <h6
               class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -1908,14 +2168,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Current phase
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
-              <div
+              <p
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="N/A"
               >
                 N/A
-              </div>
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
           </div>
           <svg
@@ -1939,14 +2212,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
               End time
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
-              <div
+              <p
                 class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                 title="-"
               >
                 -
-              </div>
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
           </div>
         </div>
@@ -2129,7 +2415,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -2141,6 +2427,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     2019-01-31 12:59
                   </time>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -2149,14 +2448,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                   title="2% (2 devices)"
                 >
                   2% (2 devices)
-                </div>
+                </p>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -2185,7 +2497,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -2197,6 +2509,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     2019-02-04 11:45
                   </time>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -2205,14 +2530,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                   title="3% (3 devices)"
                 >
                   3% (3 devices)
-                </div>
+                </p>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -2241,7 +2579,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -2253,6 +2591,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     2019-02-05 11:45
                   </time>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -2261,14 +2612,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                   title="5% (5 devices)"
                 >
                   5% (5 devices)
-                </div>
+                </p>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -2297,7 +2661,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -2309,6 +2673,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     2019-02-06 11:45
                   </time>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -2317,14 +2694,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                   title="5% (5 devices)"
                 >
                   5% (5 devices)
-                </div>
+                </p>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -2353,7 +2743,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
@@ -2365,6 +2755,19 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     2019-02-21 11:45
                   </time>
                 </div>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
               <h6
                 class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
@@ -2373,14 +2776,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
               >
-                <div
+                <p
                   class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
                   title="5% (5 devices)"
                 >
                   5% (5 devices)
-                </div>
+                </p>
+                <svg
+                  aria-hidden="true"
+                  aria-label="Copy to clipboard"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                  data-mui-internal-clone-element="true"
+                  data-testid="FileCopyOutlinedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                  />
+                </svg>
               </div>
             </div>
           </div>

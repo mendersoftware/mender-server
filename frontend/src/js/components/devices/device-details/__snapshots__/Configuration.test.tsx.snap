@@ -919,7 +919,7 @@ exports[`Configuration Component > renders correctly 1`] = `
       <div
         class="flexbox align-items-center copy-to-clipboard emotion-19"
       >
-        <div
+        <p
           class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
         />
         <svg
@@ -949,12 +949,12 @@ exports[`Configuration Component > renders correctly 1`] = `
       <div
         class="flexbox align-items-center copy-to-clipboard emotion-19"
       >
-        <div
+        <p
           class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
           title="bar"
         >
           bar
-        </div>
+        </p>
         <svg
           aria-hidden="true"
           aria-label="Copy to clipboard"
@@ -982,12 +982,12 @@ exports[`Configuration Component > renders correctly 1`] = `
       <div
         class="flexbox align-items-center copy-to-clipboard emotion-19"
       >
-        <div
+        <p
           class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
           title="GMT+2"
         >
           GMT+2
-        </div>
+        </p>
         <svg
           aria-hidden="true"
           aria-label="Copy to clipboard"

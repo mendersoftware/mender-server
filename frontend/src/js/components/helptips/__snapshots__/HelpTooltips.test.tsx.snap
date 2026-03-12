@@ -159,12 +159,12 @@ NodeList [
     <div
       class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
-      <div
+      <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="The default, which blinks the led on storage activity"
       >
         The default, which blinks the led on storage activity
-      </div>
+      </p>
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"
@@ -188,12 +188,12 @@ NodeList [
     <div
       class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
-      <div
+      <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="Turn on the light permanently"
       >
         Turn on the light permanently
-      </div>
+      </p>
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"
@@ -217,12 +217,12 @@ NodeList [
     <div
       class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
-      <div
+      <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="Turn off the light permanently"
       >
         Turn off the light permanently
-      </div>
+      </p>
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"
@@ -246,12 +246,12 @@ NodeList [
     <div
       class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
-      <div
+      <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="Enable heartbeat blinking"
       >
         Enable heartbeat blinking
-      </div>
+      </p>
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"

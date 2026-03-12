@@ -452,12 +452,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     <div
       class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
-      <div
+      <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="a1"
       >
         a1
-      </div>
+      </p>
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"
@@ -481,12 +481,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     <div
       class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
-      <div
+      <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="dc:a6:32:12:ad:bf"
       >
         dc:a6:32:12:ad:bf
-      </div>
+      </p>
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"
@@ -990,12 +990,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     <div
       class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
-      <div
+      <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
         title="c1"
       >
         c1
-      </div>
+      </p>
       <svg
         aria-hidden="true"
         aria-label="Copy to clipboard"
