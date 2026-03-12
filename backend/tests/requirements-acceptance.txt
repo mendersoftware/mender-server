@@ -19,7 +19,7 @@ redo==3.0.0
 requests==2.32.5
 semver==3.0.4
 stripe==14.4.0
-tornado==6.5.4
+tornado==6.5.5
 urllib3==2.6.3
 websocket_client >= 0.57
 pydantic==2.12.5
