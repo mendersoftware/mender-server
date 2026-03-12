@@ -23,11 +23,21 @@ import { makeStyles } from 'tss-react/mui';
 import { defaultTextRender, getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
 import Loader from '@northern.tech/common-ui/Loader';
 import storeActions from '@northern.tech/store/actions';
-import { ALL_DEVICES, DEVICE_ISSUE_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
+import {
+  ALL_DEVICES,
+  DEVICE_FILTERING_OPTIONS,
+  DEVICE_ISSUE_OPTIONS,
+  DEVICE_STATES,
+  SORTING_OPTIONS,
+  TIMEOUTS,
+  UNGROUPED_GROUP,
+  onboardingSteps
+} from '@northern.tech/store/constants';
 import {
   getAvailableIssueOptionsByType,
   getDeviceCountsByStatus,
   getDeviceFilters,
+  getEnabledTiers,
   getFilterAttributes,
   getIdAttribute,
   getLimitMaxed,
@@ -47,6 +57,7 @@ import {
   updateDevicesAuth,
   updateUserColumnSettings
 } from '@northern.tech/store/thunks';
+import { Scope } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
@@ -62,6 +73,7 @@ import { DeviceStateSelection } from './widgets/DeviceStateSelection';
 import Filters from './widgets/Filters';
 import DeviceIssuesSelection from './widgets/IssueSelection';
 import ListOptions from './widgets/ListOptions';
+import { TierSelection } from './widgets/TierSelection';
 
 const { setDeviceFilters, setSnackbar } = storeActions;
 
@@ -186,6 +198,7 @@ export const Authorized = ({
   const onboardingState = useSelector(getOnboardingState);
   const settingsInitialized = useSelector(getUserSettingsInitialized);
   const userCapabilities = useSelector(getUserCapabilities);
+  const enabledTiers = useSelector(getEnabledTiers);
   const dispatch = useDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
 
@@ -207,6 +220,7 @@ export const Authorized = ({
   const [devicesInitialized, setDevicesInitialized] = useState(!!devices.length);
   const [showFilters, setShowFilters] = useState(false);
   const [showCustomization, setShowCustomization] = useState(false);
+  const [selectedTier, setSelectedTier] = useState('');
   const deviceListRef = useRef();
   const timer = useRef();
   const navigate = useNavigate();
@@ -360,6 +374,23 @@ export const Authorized = ({
 
   const onDeviceIssuesSelectionChange = ({ target: { value: selectedIssues } }) =>
     dispatchDeviceListState({ selectedIssues, page: 1, refreshTrigger: !refreshTrigger });
+  useEffect(() => {
+    const tierFilter = filters.find(({ key, scope }) => key === 'tier' && scope === Scope.SYSTEM);
+    setSelectedTier(tierFilter?.value || '');
+  }, [filters]);
+
+  const onTierSelectionChange = useCallback(
+    tier => {
+      setSelectedTier(tier);
+      const updatedFilters = filters.filter(({ key, scope }) => !(key === 'tier' && scope === Scope.SYSTEM));
+      if (tier) {
+        updatedFilters.push({ key: 'tier', scope: 'system', operator: DEVICE_FILTERING_OPTIONS.$eq.key, value: tier });
+      }
+      dispatch(setDeviceFilters(updatedFilters));
+      dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true, fetchAuth: false }));
+    },
+    [dispatch, filters]
+  );
 
   const onSelectionChange = (selection = []) => {
     if (!onboardingState.complete && selection.length) {
@@ -426,6 +457,9 @@ export const Authorized = ({
           <div className="flexbox space-between align-items-center" style={{ flexGrow: 1 }}>
             <div className="flexbox align-items-center">
               <DeviceStateSelection className={classes.selection} onStateChange={onDeviceStateSelectionChange} selectedState={selectedState} states={states} />
+              {enabledTiers.length > 1 && (
+                <TierSelection className={classes.selection} onChange={onTierSelectionChange} selectedTier={selectedTier} enabledTiers={enabledTiers} />
+              )}
               {!!issueOptions.length && (
                 <DeviceIssuesSelection
                   className={classes.selection}
