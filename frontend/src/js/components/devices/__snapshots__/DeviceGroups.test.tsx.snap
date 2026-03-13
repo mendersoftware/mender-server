@@ -197,7 +197,11 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               <div
                 class="flexbox align-items-center"
               >
-                Status:
+                <p
+                  class="MuiTypography-root MuiTypography-body2 margin-right-x-small css-7ctihp-MuiTypography-root"
+                >
+                  Status:
+                </p>
                 <div
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary capitalized MuiSelect-root css-14w78cn-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root-selection"
                 >

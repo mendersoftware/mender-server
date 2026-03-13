@@ -11,11 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { MenuItem, Select } from '@mui/material';
+import { MenuItem, Select, Typography } from '@mui/material';
 
 export const TierSelection = ({ className = '', onChange, selectedTier = '', enabledTiers }) => (
   <div className="flexbox align-items-center margin-left">
-    Tier:
+    <Typography variant="body2" className="margin-right-x-small">
+      Tier:
+    </Typography>
     <Select className={`capitalized ${className}`} displayEmpty onChange={e => onChange(e.target.value)} value={selectedTier}>
       <MenuItem value="">Any</MenuItem>
       {enabledTiers.map(tier => (

@@ -14,7 +14,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 // material ui
-import { Checkbox, MenuItem, Select } from '@mui/material';
+import { Checkbox, MenuItem, Select, Typography } from '@mui/material';
 
 import { DEVICE_ISSUE_OPTIONS } from '@northern.tech/store/constants';
 
@@ -108,7 +108,9 @@ const DeviceIssuesSelection = ({ className = '', onChange, options, selection })
 
   return (
     <div className="flexbox align-items-center margin-left">
-      <div>Show:</div>
+      <Typography variant="body2" className="margin-right-x-small">
+        Show:
+      </Typography>
       <Select
         className={`capitalized ${className}`}
         displayEmpty
