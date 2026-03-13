@@ -14,7 +14,7 @@
 import { useMemo } from 'react';
 
 // material ui
-import { MenuItem, Select } from '@mui/material';
+import { MenuItem, Select, Typography } from '@mui/material';
 
 import { duplicateFilter } from '@northern.tech/utils/helpers';
 
@@ -23,7 +23,9 @@ export const DeviceStateSelection = ({ className = '', onStateChange, selectedSt
 
   return (
     <div className="flexbox align-items-center">
-      Status:
+      <Typography variant="body2" className="margin-right-x-small">
+        Status:
+      </Typography>
       <Select className={`capitalized ${className}`} onChange={e => onStateChange(e.target.value)} value={selectedState}>
         {availableStates.map(state => (
           <MenuItem className="capitalized" key={state.key} value={state.key}>
