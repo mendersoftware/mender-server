@@ -217,7 +217,12 @@ test:frontend:acceptance:enterprise:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
   script:
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
-    - export MENDER_IMAGE_TAG=main
+    - |
+      if echo "$CI_COMMIT_REF_NAME" | grep -qE '^[0-9]+\.[0-9]+\.x$'; then
+        export MENDER_IMAGE_TAG="v$(echo "$CI_COMMIT_REF_NAME" | sed 's/\.x$//')"
+      else
+        export MENDER_IMAGE_TAG=main
+      fi
     - docker login -u $REGISTRY_MENDER_IO_USERNAME -p $REGISTRY_MENDER_IO_PASSWORD registry.mender.io
     - GUI_REPOSITORY=$(pwd)/frontend SERVER_ROOT=$(pwd) ./frontend/tests/e2e_tests/run --enterprise
 
