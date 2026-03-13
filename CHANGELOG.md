@@ -1,4 +1,12 @@
 ---
+## [4.1.1](https://github.com/mendersoftware/mender-server/compare/v4.1.0...v4.1.1) (2026-03-13)
+
+
+### Bug Fixes
+
+* **create-artifact-worker:** hardened single file generation input validations ([dfb1523](https://github.com/mendersoftware/mender-server/commit/dfb15237b45876e01afe02e9ecef842454985015))
+* **deployments:** nil pointer dereference getting non-existing deployment ([8f3c672](https://github.com/mendersoftware/mender-server/commit/8f3c672cf62d63ccb2339615ecc7ed3073a9daf4))
+
 ## 4.1.0 - 2026-01-14
 
 
