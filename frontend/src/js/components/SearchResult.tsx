@@ -20,7 +20,7 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { ClickAwayListener, Drawer, IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import { ALL_DEVICE_STATES, DEVICE_STATES, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import { getIdAttribute, getMappedDevicesList, getSearchState, getUserSettings } from '@northern.tech/store/selectors';
 import { setDeviceListState, setSearchState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
@@ -97,9 +97,10 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
   }, [onToggleSearchResult, open, searchTerm]);
 
   const onDeviceSelect = device => {
-    dispatch(setDeviceListState({ selectedId: device.id, state: device.status }));
+    const deviceState = DEVICE_STATES[device.status] ?? ALL_DEVICE_STATES;
+    dispatch(setDeviceListState({ selectedId: device.id, state: deviceState }));
     onToggleSearchResult();
-    setTimeout(() => navigate(`/devices/${device.status}?id=${device.id}`, { state: { internal: true } }), TIMEOUTS.debounceShort);
+    setTimeout(() => navigate(`/devices/${deviceState}?id=${device.id}`, { state: { internal: true } }), TIMEOUTS.debounceShort);
   };
 
   const handlePageChange = page => {
