@@ -506,7 +506,7 @@ test:backend:acceptance:
     paths:
       - ${GOCOVERDIR}/*-acceptance
 
-test:backend:integration:
+.template:test:backend:integration:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
   stage: test
   extends: .build:base
@@ -531,15 +531,18 @@ test:backend:integration:
       artifacts: false
     - job: build:backend:docker-acceptance
       artifacts: false
-  variables:
-    MANTRA_PROJECT_NAME: "backend_integration_open_source"
   before_script:
     - *requires-docker
     - apk add make bash git curl jq
     - *dind-login
-    - mkdir -p ${GOCOVERDIR}/integration
     - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
+
+test:backend:integration:
+  extends: .template:test:backend:integration
+  variables:
+    MANTRA_PROJECT_NAME: "backend_integration_open_source"
   script:
+    - mkdir -p ${GOCOVERDIR}/integration
     - make -C backend test-integration
       GOCOVERDIR=${GOCOVERDIR}/integration
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
@@ -555,39 +558,11 @@ test:backend:integration:
       junit: backend/tests/logs/results_integration_*.xml
 
 test:backend:integration:ng:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
-  stage: test
-  extends: .build:base
-  rules:
-    - changes:
-        paths:
-          - "backend/**/*"
-          - ".gitlab-ci.yml"
-          - "docker-compose.yml"
-          - "compose/docker-compose.enterprise.yml"
-        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-      when: on_success
-    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
-      when: on_success
-  services:
-    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
-      alias: docker
-      variables:
-        HEALTHCHECK_TCP_PORT: "2376"
-  needs:
-    - job: build:backend:docker
-      artifacts: false
-    - job: build:backend:docker-acceptance
-      artifacts: false
+  extends: .template:test:backend:integration
   variables:
     MANTRA_PROJECT_NAME: "backend_integration_ng_open_source"
-  before_script:
-    - *requires-docker
-    - apk add make bash git curl jq
-    - *dind-login
-    - mkdir -p ${GOCOVERDIR}/integration-ng
-    - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
   script:
+    - mkdir -p ${GOCOVERDIR}/integration-ng
     - make -C backend test-integration-ng
       GOCOVERDIR=${GOCOVERDIR}/integration-ng
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
@@ -598,6 +573,16 @@ test:backend:integration:ng:
     when: always
     paths:
       - ${GOCOVERDIR}/integration-ng
+
+test:backend:integration:compat:
+  extends: .template:test:backend:integration
+  script:
+    - make -C backend test-integration args="-s compat" MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
+  artifacts:
+    expire_in: 1w
+    when: always
+    paths:
+      - backend/tests/logs/*
 
 test:integration:
   stage: test
