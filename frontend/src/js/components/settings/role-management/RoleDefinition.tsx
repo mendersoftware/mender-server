@@ -221,7 +221,7 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
         id="name"
         label="Name"
         required
-        validations="isAlphanumericLocator"
+        validations="isAlphanumericLocator,isLength:1:256"
         value={name}
       />
       <TextInput className="margin-top-none" disabled={disableEdit} label="Description" id="description" InputProps={{ multiline: true }} hint="-" />

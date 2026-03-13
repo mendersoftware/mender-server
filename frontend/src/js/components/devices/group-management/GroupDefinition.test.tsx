@@ -28,7 +28,7 @@ describe('GroupDefinition Component', () => {
 
   it('validates group names correctly', async () => {
     expect(validateGroupName('test', undefined, [{ ...selectedDevices[0], group: 'test' }], false)).toEqual({
-      errortext: 'test is the same group the selected devices are already in',
+      errorText: 'test is the same group the selected devices are already in',
       invalid: true,
       isModification: false,
       name: 'test'
@@ -37,5 +37,17 @@ describe('GroupDefinition Component', () => {
     expect(validateGroupName('false', undefined, selectedDevices, false).invalid).toBeFalsy();
     expect(validateGroupName('', undefined, selectedDevices, false).invalid).toBeTruthy();
     expect(validateGroupName('test', ['test'], [], true).invalid).toBeTruthy();
+  });
+
+  it('rejects group names longer than 256 characters', () => {
+    const longName = 'a'.repeat(257);
+    const result = validateGroupName(longName, undefined, selectedDevices, false);
+    expect(result.invalid).toBeTruthy();
+    expect(result.errorText).toBe('Name must be at most 256 characters long');
+  });
+
+  it('accepts group names with exactly 256 characters', () => {
+    const name256 = 'a'.repeat(256);
+    expect(validateGroupName(name256, undefined, selectedDevices, false).invalid).toBeFalsy();
   });
 });
