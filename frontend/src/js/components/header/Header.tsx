@@ -282,7 +282,7 @@ export const Header = ({ isDarkMode }) => {
   const { total: inProgress } = inprogressDeployments;
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasFeedbackEnabled, isHosted } = useSelector(getFeatures);
-  const { isSearching, searchTerm, refreshTrigger } = useSelector(getSearchState);
+  const { searchTerm, refreshTrigger } = useSelector(getSearchState);
   const { accepted: acceptedDevices, pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
   const userSettingInitialized = useSelector(getUserSettingsInitialized);
   const user = useSelector(getCurrentUser);
@@ -387,7 +387,7 @@ export const Header = ({ isDarkMode }) => {
             </>
           ) : (
             <>
-              <Search className={classes.search} isSearching={isSearching} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
+              <Search className={classes.search} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
               <div className="flexbox align-items-center">
                 <DeviceNotifications pending={pendingDevices} total={acceptedDevices} />
                 <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />

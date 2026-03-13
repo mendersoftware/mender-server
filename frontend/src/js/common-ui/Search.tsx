@@ -21,14 +21,6 @@ import { makeStyles } from 'tss-react/mui';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import Loader from './Loader';
-
-const endAdornment = (
-  <InputAdornment position="end">
-    <Loader show small style={{ marginTop: -10 }} />
-  </InputAdornment>
-);
-
 const startAdornment = (
   <InputAdornment position="start">
     <SearchIcon color="disabled" fontSize="small" />
@@ -55,7 +47,7 @@ const useStyles = makeStyles()(() => ({
 
 export const ControlledSearch = ({
   className = '',
-  isSearching,
+  showSearchIcon = true,
   asFormField = false,
   name = 'search',
   onSearch,
@@ -114,13 +106,13 @@ export const ControlledSearch = ({
 
   const resetSearchAdornment = searchValue ? (
     <InputAdornment position="end" className={clearButtonOnHover ? classes.adornment : ''}>
-      <IconButton onClick={() => resetField(name)}>
+      <IconButton size="small" onClick={() => resetField(name)}>
         <ClearIcon />
       </IconButton>
     </InputAdornment>
   ) : null;
 
-  const adornments = isSearching ? { startAdornment, endAdornment } : { startAdornment, endAdornment: resetSearchAdornment };
+  const adornments = { ...(showSearchIcon ? { startAdornment } : {}), endAdornment: resetSearchAdornment };
   return (
     <Controller
       name={name}
