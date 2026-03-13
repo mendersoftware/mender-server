@@ -1,4 +1,4 @@
-// Copyright 2020 Northern.tech AS
+// Copyright 2026 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -13,23 +13,25 @@
 //    limitations under the License.
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
-import OrganizationSettingsItem from './OrganizationSettingsItem';
+import { SettingsItem } from './SettingsItem';
 
-describe('OrganizationSettingsItem Component', () => {
-  it('renders correctly', async () => {
-    const { baseElement } = render(
-      <OrganizationSettingsItem
-        title="Current plan"
-        content={{
-          action: { title: 'Compare product plans', internal: false, target: 'https://mender.io/plans/pricing' },
-          description: 'Trial'
-        }}
-        notification="upgrade now!"
-      />
-    );
+describe('SettingsItem Component', () => {
+  it('renders correctly with string title', async () => {
+    const { baseElement } = render(<SettingsItem title="Current plan" secondary="Trial" notification="upgrade now!" />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+
+  it('calls onTitleClick when title is clicked', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const onClick = vi.fn();
+    render(<SettingsItem title="Clickable title" secondary="content" onTitleClick={onClick} />);
+    await user.click(screen.getByText('Clickable title'));
+    expect(onClick).toHaveBeenCalled();
   });
 });

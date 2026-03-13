@@ -1,4 +1,4 @@
-// Copyright 2020 Northern.tech AS
+// Copyright 2026 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -16,19 +16,20 @@ import type { ReactNode } from 'react';
 import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-type OrganizationSettingsItemClasses = {
+type SettingsItemClasses = {
   base: string;
   content: string;
   main: string;
 };
 
-interface OrganizationSettingsItemProps {
-  classes?: OrganizationSettingsItemClasses;
+export interface SettingsItemProps {
+  classes?: SettingsItemClasses;
   description?: string;
   notification?: ReactNode;
+  onTitleClick?: () => void;
   secondary: string | ReactNode;
   sideBarContent?: ReactNode;
-  title: string;
+  title: string | ReactNode;
 }
 
 export const maxWidth = 500;
@@ -41,20 +42,26 @@ const useStyles = makeStyles()(({ spacing }) => ({
   mainContent: {
     alignItems: 'baseline',
     display: 'grid',
-    gridTemplateColumns: '500px 1fr',
+    gridTemplateColumns: `${maxWidth}px 1fr`,
     gridColumnGap: spacing(2),
     maxWidth: 'initial'
   }
 }));
 
-const defaultClasses: OrganizationSettingsItemClasses = { base: '', content: '', main: '' };
+const defaultClasses: SettingsItemClasses = { base: '', content: '', main: '' };
 
-const OrganizationSettingsItem = ({ classes = defaultClasses, description, notification, secondary, sideBarContent, title }: OrganizationSettingsItemProps) => {
+export const SettingsItem = ({ classes = defaultClasses, description, notification, onTitleClick, secondary, sideBarContent, title }: SettingsItemProps) => {
   const { classes: localClasses } = useStyles();
   return (
     <div className={`flexbox column settings-item-base ${localClasses.base} margin-top-small ${classes.base ?? ''}`}>
       <div className={`flexbox column settings-item-content ${localClasses.base} ${localClasses.content} ${classes.content ?? ''}`}>
-        <Typography variant="subtitle1">{title}</Typography>
+        {typeof title === 'string' ? (
+          <Typography className={onTitleClick ? 'clickable' : ''} variant="subtitle1" onClick={onTitleClick}>
+            {title}
+          </Typography>
+        ) : (
+          title
+        )}
         {description && <Typography variant="body2">{description}</Typography>}
         <div className={`settings-item-main-content ${localClasses.mainContent} ${classes.main ?? ''}`}>
           <Typography variant="body2" component="div">
@@ -67,5 +74,3 @@ const OrganizationSettingsItem = ({ classes = defaultClasses, description, notif
     </div>
   );
 };
-
-export default OrganizationSettingsItem;

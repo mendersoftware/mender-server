@@ -1,0 +1,64 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SettingsItem Component > renders correctly with string title 1`] = `
+.emotion-0 {
+  gap: 8px;
+}
+
+.emotion-2>* {
+  max-width: 500px;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-4 {
+  -webkit-align-items: baseline;
+  -webkit-box-align: baseline;
+  -ms-flex-align: baseline;
+  align-items: baseline;
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  grid-column-gap: 16px;
+  max-width: initial;
+}
+
+.emotion-5 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+<div
+  class="flexbox column settings-item-base emotion-0 margin-top-small "
+>
+  <div
+    class="flexbox column settings-item-content emotion-0 emotion-2 "
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle1 emotion-3"
+    >
+      Current plan
+    </h6>
+    <div
+      class="settings-item-main-content emotion-4 "
+    >
+      <div
+        class="MuiTypography-root MuiTypography-body2 emotion-5"
+      >
+        Trial
+      </div>
+    </div>
+  </div>
+  upgrade now!
+</div>
+`;
