@@ -239,6 +239,7 @@ export const Authorized = ({
     return () => {
       clearInterval(timer.current);
       clearAllRetryTimers(dispatchedSetSnackbar);
+      dispatch(setDeviceListState({ selection: [] }));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, dispatchedSetSnackbar]);

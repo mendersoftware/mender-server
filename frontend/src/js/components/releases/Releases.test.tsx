@@ -42,6 +42,13 @@ describe('Releases Component', () => {
     });
   });
 
+  it('clears release selection on unmount', async () => {
+    const { setReleasesListState: setReleasesListStateSpy } = StoreThunks;
+    const { unmount } = render(<Releases />);
+    unmount();
+    expect(setReleasesListStateSpy).toHaveBeenCalledWith({ selection: [] });
+  });
+
   it('works as expected', { timeout: 2 * TIMEOUTS.refreshDefault }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const preloadedState = {
