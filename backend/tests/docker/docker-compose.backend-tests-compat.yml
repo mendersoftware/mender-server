@@ -1,7 +1,7 @@
 services:
   integration-tester:
     command:
-      - ./test_compat
+      - integration_compat
   mender-client-2-0:
     image: mendersoftware/mender-client-docker:2.0.1
     scale: 1

@@ -22,11 +22,7 @@ import testutils.api.useradm as useradm
 import testutils.api.deployments as deployments
 import testutils.api.inventory as inventory
 
-from testutils.common import (
-    clean_mongo,
-    create_user,
-    mongo,
-)
+from testutils.common import create_user
 
 
 @pytest.fixture(scope="function")
