@@ -11,11 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { forwardRef, useState } from 'react';
+import { ReactNode, forwardRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Description as DescriptionIcon, Launch as LaunchIcon } from '@mui/icons-material';
-import { Chip, Collapse, chipClasses } from '@mui/material';
+import { Chip, Collapse, Typography, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
@@ -119,6 +119,26 @@ export const DocsTooltip = ({ anchor = {}, id = '', ...props }) => {
 };
 
 export const InlineLaunchIcon = () => <LaunchIcon style={{ verticalAlign: 'sub' }} fontSize="small" />;
+
+interface DocsTextLinkProps {
+  [key: string]: unknown;
+  capitalizedStart?: boolean;
+  children?: ReactNode;
+  id: keyof typeof DOCSTIPS;
+}
+
+export const DocsTextLink = ({ capitalizedStart = true, children, id, ...props }: DocsTextLinkProps) => {
+  const { path } = DOCSTIPS[id] || {};
+  return (
+    <DocsLink path={path} {...props}>
+      {children ?? (
+        <Typography className={`inline ${capitalizedStart ? 'capitalized-start' : ''}`} color="primary">
+          learn more
+        </Typography>
+      )}
+    </DocsLink>
+  );
+};
 
 export const DocsLink = forwardRef(({ children, className = '', path, title = '', ...remainder }, ref) => {
   const docsVersion = useSelector(getDocsVersion);
