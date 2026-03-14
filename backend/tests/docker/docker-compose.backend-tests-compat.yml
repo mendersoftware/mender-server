@@ -77,9 +77,18 @@ services:
     extends:
       service: mender-client-2-0
     image: mendersoftware/mender-client-docker-addons:client-6.0.0
+    configs:
+      - source: server_cert
+        target: /etc/mender/server.crt
+      - source: client_json
+        target: /etc/mender/mender.conf
+      - source: device_type
+        target: /var/lib/mender/device_type
 
 
 configs:
+  device_type:
+    content: "device_type=docker-client"
   client_json:
     content: |
       {
