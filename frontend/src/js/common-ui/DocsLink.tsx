@@ -21,6 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getDocsVersion, getFeatures } from '@northern.tech/store/selectors';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { yes } from '@northern.tech/utils/helpers';
 
 import { MenderTooltipClickable } from './helptips/MenderTooltip';
 
@@ -71,17 +72,12 @@ export const DOCSTIPS = {
 export const DocsTooltip = ({ anchor = {}, id = '', ...props }) => {
   const [isHovering, setIsHovering] = useState(false);
   const debouncedHovering = useDebounce(isHovering, TIMEOUTS.debounceDefault);
-  const docsVersion = useSelector(getDocsVersion);
-  const { isHosted } = useSelector(getFeatures);
   const { classes } = useStyles();
-  const { content, path } = DOCSTIPS[id] || {};
-  const target = `https://docs.mender.io/${docsVersion}${path}`;
 
-  const onClick = () => {
-    const docsParams = { headers: { 'x-mender-docs': docsVersion } };
-    fetch(target, isHosted ? {} : docsParams);
-    window.open(target, '_blank');
-  };
+  if (!DOCSTIPS[id]) {
+    return null;
+  }
+  const { content, path } = DOCSTIPS[id];
 
   const hoverClass = debouncedHovering ? 'hovering' : 'not-hovering';
   return (
@@ -94,26 +90,27 @@ export const DocsTooltip = ({ anchor = {}, id = '', ...props }) => {
       title={content}
       {...props}
     >
-      <Chip
-        color="primary"
-        className={`${classes.chip} ${hoverClass}`}
-        label={
-          <Collapse in={debouncedHovering} orientation="horizontal">
-            Learn more
-          </Collapse>
-        }
-        deleteIcon={
-          <div className="relative">
-            <DescriptionIcon fontSize="small" />
-            <div className={`${classes.iconAura} ${hoverClass}`} />
-          </div>
-        }
-        onClick={onClick}
-        onDelete={onClick}
-        onMouseOver={() => setIsHovering(true)}
-        onMouseOut={() => setIsHovering(false)}
-        variant="outlined"
-      />
+      <DocsLink path={path}>
+        <Chip
+          color="primary"
+          className={`${classes.chip} ${hoverClass}`}
+          label={
+            <Collapse in={debouncedHovering} orientation="horizontal">
+              Learn more
+            </Collapse>
+          }
+          deleteIcon={
+            <div className="relative">
+              <DescriptionIcon fontSize="small" />
+              <div className={`${classes.iconAura} ${hoverClass}`} />
+            </div>
+          }
+          onDelete={yes}
+          onMouseOver={() => setIsHovering(true)}
+          onMouseOut={() => setIsHovering(false)}
+          variant="outlined"
+        />
+      </DocsLink>
     </MenderTooltipClickable>
   );
 };
