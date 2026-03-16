@@ -22,6 +22,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstore_v1 "github.com/mendersoftware/mender-server/pkg/store"
@@ -48,28 +49,36 @@ func TestMigration_2_0_0(t *testing.T) {
 				"foo": {
 					inUsers: []model.User{
 						{
-							ID:    "foo",
-							Email: "foo@bar.com",
+							User: user.User{
+								ID:    "foo",
+								Email: "foo@bar.com",
+							},
 						},
 					},
 					outUsers: []model.User{
 						{
-							ID:    "foo",
-							Email: "foo@bar.com",
+							User: user.User{
+								ID:    "foo",
+								Email: "foo@bar.com",
+							},
 						},
 					},
 				},
 				"bar": {
 					inUsers: []model.User{
 						{
-							ID:    "bar",
-							Email: "bar@bar.com",
+							User: user.User{
+								ID:    "bar",
+								Email: "bar@bar.com",
+							},
 						},
 					},
 					outUsers: []model.User{
 						{
-							ID:    "bar",
-							Email: "bar@bar.com",
+							User: user.User{
+								ID:    "bar",
+								Email: "bar@bar.com",
+							},
 						},
 					},
 				},
@@ -84,22 +93,28 @@ func TestMigration_2_0_0(t *testing.T) {
 				"bar": {
 					inUsers: []model.User{
 						{
-							ID:    "bar",
-							Email: "foo@bar.com",
+							User: user.User{
+								ID:    "bar",
+								Email: "foo@bar.com",
+							},
 						},
 					},
 					outUsers: []model.User{
 						{
-							ID:    "bar",
-							Email: "foo@bar.com",
+							User: user.User{
+								ID:    "bar",
+								Email: "foo@bar.com",
+							},
 						},
 					},
 				},
 				"foo": {
 					inUsers: []model.User{
 						{
-							ID:    "foo",
-							Email: "foo@bar.com",
+							User: user.User{
+								ID:    "foo",
+								Email: "foo@bar.com",
+							},
 						},
 					},
 					outUsers: []model.User{},

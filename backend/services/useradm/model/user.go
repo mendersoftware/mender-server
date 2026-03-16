@@ -17,16 +17,16 @@ package model
 import (
 	"encoding/binary"
 	"encoding/hex"
-	"encoding/json"
 	"net/url"
 	"strconv"
 	"strings"
 	"time"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
-	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/pkg/errors"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
+	"github.com/mendersoftware/mender-server/pkg/rules"
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 )
 
@@ -41,24 +41,6 @@ var (
 	)
 	ErrEmptyUpdate = errors.New("no update information provided")
 )
-
-type Email string
-
-func (email *Email) UnmarshalJSON(b []byte) error {
-	var raw string
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	*email = Email(strings.ToLower(raw))
-	return nil
-}
-
-func (email Email) Validate() error {
-	return validation.Validate(string(email),
-		lessThan4096,
-		is.ASCII, is.EmailFormat,
-	)
-}
 
 type ETag [12]byte
 
@@ -103,29 +85,15 @@ func (t ETag) String() string {
 }
 
 type User struct {
-	// system-generated user ID
-	ID string `json:"id" bson:"_id"`
+	user.User `bson:"inline"`
+	// user password
+	Password string `json:"password,omitempty" bson:"password"`
 
 	// ETag is the entity tag that together with ID uniquely identifies
 	// the User document.
 	// NOTE: The v1 API does not support ETags, so this is only used
 	// internally for checking pre-conditions before performing updates.
 	ETag *ETag `json:"-" bson:"etag,omitempty"`
-
-	// user email address
-	Email Email `json:"email" bson:"email"`
-
-	// user password
-	Password string `json:"password,omitempty" bson:"password"`
-
-	// timestamp of the user creation
-	CreatedTs *time.Time `json:"created_ts,omitempty" bson:"created_ts,omitempty"`
-
-	// timestamp of the last user information update
-	UpdatedTs *time.Time `json:"updated_ts,omitempty" bson:"updated_ts,omitempty"`
-
-	// LoginTs is the timestamp of the last login for this user.
-	LoginTs *time.Time `json:"login_ts,omitempty" bson:"login_ts,omitempty"`
 }
 
 func (u User) NextETag() (ret ETag) {
@@ -148,7 +116,7 @@ func (u User) NextETag() (ret ETag) {
 
 func (u User) Validate() error {
 	if err := validation.ValidateStruct(&u,
-		validation.Field(&u.Email, validation.Required),
+		validation.Field(&u.Email, validation.By(rules.Email), validation.Required),
 		validation.Field(&u.Password, validation.Required, lessThan4096),
 	); err != nil {
 		return err
@@ -189,7 +157,7 @@ type UserUpdate struct {
 	ETagUpdate *ETag `json:"-" bson:"etag,omitempty"`
 
 	// user email address
-	Email Email `json:"email,omitempty" bson:",omitempty" valid:"email"`
+	Email user.Email `json:"email,omitempty" bson:",omitempty" valid:"email"`
 
 	// user password
 	Password string `json:"password,omitempty" bson:"password,omitempty"`
@@ -227,8 +195,8 @@ func (u UserUpdate) Validate() error {
 }
 
 type UserFilter struct {
-	ID    []string `json:"id,omitempty"`
-	Email []Email  `json:"email,omitempty"`
+	ID    []string     `json:"id,omitempty"`
+	Email []user.Email `json:"email,omitempty"`
 
 	CreatedAfter  *time.Time `json:"created_after,omitempty"`
 	CreatedBefore *time.Time `json:"created_before,omitempty"`
@@ -242,9 +210,9 @@ func (fltr *UserFilter) ParseForm(form url.Values) error {
 		fltr.ID = ids
 	}
 	if emails, ok := form["email"]; ok {
-		fltr.Email = make([]Email, len(emails))
+		fltr.Email = make([]user.Email, len(emails))
 		for i := range emails {
-			fltr.Email[i] = Email(strings.ToLower(emails[i]))
+			fltr.Email[i] = user.Email(strings.ToLower(emails[i]))
 		}
 	}
 	if ca := form.Get("created_after"); ca != "" {

@@ -3,6 +3,7 @@ package utils
 import (
 	"testing"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/mendersoftware/mender-server/services/useradm/model"
 )
 
@@ -15,7 +16,9 @@ func TestSimilarChecker(t *testing.T) {
 	}{
 		"true": {
 			inUser: model.User{
-				Email: "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 			},
 			inUpdate: model.UserUpdate{
 				Password: "foo@bar",
@@ -24,7 +27,9 @@ func TestSimilarChecker(t *testing.T) {
 		},
 		"true, new passowrd and email is similar": {
 			inUser: model.User{
-				Email: "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 			},
 			inUpdate: model.UserUpdate{
 				Password: "correcthorsebatterystaple",
@@ -34,7 +39,9 @@ func TestSimilarChecker(t *testing.T) {
 		},
 		"true, new email similar to current password": {
 			inUser: model.User{
-				Email: "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 			},
 			inUpdate: model.UserUpdate{
 				Email:           "correcthorsebatterystaple@bar.com",
@@ -44,7 +51,9 @@ func TestSimilarChecker(t *testing.T) {
 		},
 		"false, passowrd diffrent from email": {
 			inUser: model.User{
-				Email: "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 			},
 			inUpdate: model.UserUpdate{
 				Password: "correcthorsebatterystaple",
@@ -53,7 +62,9 @@ func TestSimilarChecker(t *testing.T) {
 		},
 		"false, new email not similar to new password": {
 			inUser: model.User{
-				Email: "correcthorsebatterystaple@bar.com",
+				User: user.User{
+					Email: "correcthorsebatterystaple@bar.com",
+				},
 			},
 			inUpdate: model.UserUpdate{
 				Email:           "foo@bar.com",
@@ -63,7 +74,9 @@ func TestSimilarChecker(t *testing.T) {
 		},
 		"false, no new password or email": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "foobar",
 			},
 			inUpdate: model.UserUpdate{},

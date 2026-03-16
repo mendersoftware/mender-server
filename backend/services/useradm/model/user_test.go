@@ -21,6 +21,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -33,42 +34,53 @@ func TestValidateNew(t *testing.T) {
 	}{
 		"email ok, pass ok": {
 			inUser: User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			outErr: "",
 		},
 		"email invalid, pass ok": {
 			inUser: User{
-				Email:    "foobar",
+				User: user.User{
+					Email: "foobar",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			outErr: "email: must be a valid email address.",
 		},
 		"email ok (+), pass ok": {
 			inUser: User{
-				Email:    "foobar+org@org.com",
+				User: user.User{
+					Email: "foobar+org@org.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			outErr: "",
 		},
 		"email invalid(non-ascii), pass ok": {
 			inUser: User{
-				Email:    "ąę@org.com",
+				User: user.User{
+					Email: "ąę@org.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			outErr: "email: must contain ASCII characters only.",
 		},
 		"email ok, pass invalid (empty)": {
 			inUser: User{
-				Email:    "foo@bar.com",
-				Password: "",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 			},
 			outErr: "password: cannot be blank.",
 		},
 		"email ok, pass invalid (too short)": {
 			inUser: User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "asdf",
 			},
 			outErr: "password: must be minimum 8 characters long",
@@ -113,7 +125,7 @@ func TestUserFilterParseForm(t *testing.T) {
 		},
 		Result: UserFilter{
 			ID: []string{"1", "2", "3"},
-			Email: []Email{
+			Email: []user.Email{
 				"user1@acme.io",
 				"user2@acme.io",
 				"user3@acme.io",
@@ -190,7 +202,7 @@ func TestEmailType(t *testing.T) {
 		invalidEmailJSON = `"` + testEmail
 	)
 
-	var email Email
+	var email user.Email
 
 	assert.NoError(t, json.Unmarshal([]byte(validEmailJSON), &email))
 	assert.NoError(t, email.Validate())
@@ -229,8 +241,10 @@ func TestETag(t *testing.T) {
 
 	now := time.Now()
 	usr := User{
-		ID:        "5a7c5462-7cb0-4b6f-9b57-43814a62b7cc",
-		CreatedTs: &now,
+		User: user.User{
+			ID:        "5a7c5462-7cb0-4b6f-9b57-43814a62b7cc",
+			CreatedTs: &now,
+		},
 	}
 	eTag := usr.NextETag()
 

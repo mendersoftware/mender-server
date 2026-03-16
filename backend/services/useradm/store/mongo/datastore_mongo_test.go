@@ -26,6 +26,7 @@ import (
 	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
@@ -76,13 +77,17 @@ func TestMongoCreateUser(t *testing.T) {
 
 	exisitingUsers := []interface{}{
 		model.User{
-			ID:       "1",
-			Email:    "foo@bar.com",
+			User: user.User{
+				ID:    "1",
+				Email: "foo@bar.com",
+			},
 			Password: "pretenditsahash",
 		},
 		model.User{
-			ID:       "2",
-			Email:    "bar@bar.com",
+			User: user.User{
+				ID:    "2",
+				Email: "bar@bar.com",
+			},
 			Password: "pretenditsahash",
 		},
 	}
@@ -94,16 +99,20 @@ func TestMongoCreateUser(t *testing.T) {
 	}{
 		"ok": {
 			inUser: model.User{
-				ID:       "1234",
-				Email:    "baz@bar.com",
+				User: user.User{
+					ID:    "1234",
+					Email: "baz@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			outErr: "",
 		},
 		"ok with tenant": {
 			inUser: model.User{
-				ID:       "1234",
-				Email:    "baz@bar.com",
+				User: user.User{
+					ID:    "1234",
+					Email: "baz@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			tenant: "foo",
@@ -111,16 +120,20 @@ func TestMongoCreateUser(t *testing.T) {
 		},
 		"duplicate email error": {
 			inUser: model.User{
-				ID:       "1234",
-				Email:    "foo@bar.com",
+				User: user.User{
+					ID:    "1234",
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			outErr: "user with a given email already exists",
 		},
 		"duplicate email error with tenant": {
 			inUser: model.User{
-				ID:       "1234",
-				Email:    "foo@bar.com",
+				User: user.User{
+					ID:    "1234",
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			tenant: "foo",
@@ -180,18 +193,24 @@ func TestMongoUpdateUser(t *testing.T) {
 
 	exisitingUsers := []interface{}{
 		model.User{
-			ID:       "1",
-			Email:    "foo@bar.com",
+			User: user.User{
+				ID:    "1",
+				Email: "foo@bar.com",
+			},
 			Password: "pretenditsahash",
 		},
 		model.User{
-			ID:       "2",
-			Email:    "bar@bar.com",
+			User: user.User{
+				ID:    "2",
+				Email: "bar@bar.com",
+			},
 			Password: "pretenditsahash",
 		},
 		model.User{
-			ID:       "2bbde4d1-2a4c-47dc-9df4-f048285d2704",
-			Email:    "baz+mcetagface@bar.com",
+			User: user.User{
+				ID:    "2bbde4d1-2a4c-47dc-9df4-f048285d2704",
+				Email: "baz+mcetagface@bar.com",
+			},
 			Password: "pretenditsahash",
 			ETag:     &model.ETag{1},
 		},
@@ -334,9 +353,11 @@ func TestMongoUpdateLoginTs(t *testing.T) {
 		t.FailNow()
 	}
 	user := &model.User{
-		ID:       oid.NewUUIDv5("userid").String(),
+		User: user.User{
+			ID:    oid.NewUUIDv5("userid").String(),
+			Email: "foo@bar.bz",
+		},
 		Password: "123456",
-		Email:    "foo@bar.bz",
 	}
 	ctx := context.Background()
 	err = store.CreateUser(ctx, user)
@@ -366,51 +387,63 @@ func TestMongoGetUserByEmail(t *testing.T) {
 
 	existingUsers := []interface{}{
 		model.User{
-			ID:       "1",
-			Email:    "foo@bar.com",
+			User: user.User{
+				ID:    "1",
+				Email: "foo@bar.com",
+			},
 			Password: "passwordhash12345",
 		},
 		model.User{
-			ID:       "2",
-			Email:    "bar@bar.com",
+			User: user.User{
+				ID:    "2",
+				Email: "bar@bar.com",
+			},
 			Password: "passwordhashqwerty",
 		},
 	}
 
 	testCases := map[string]struct {
-		inEmail model.Email
+		inEmail user.Email
 		tenant  string
 		outUser *model.User
 	}{
 		"ok - found 1": {
 			inEmail: "foo@bar.com",
 			outUser: &model.User{
-				ID:       "1",
-				Email:    "foo@bar.com",
+				User: user.User{
+					ID:    "1",
+					Email: "foo@bar.com",
+				},
 				Password: "passwordhash12345",
 			},
 		},
 		"ok - case case insensitive": {
 			inEmail: "fOO@bAr.cOm",
 			outUser: &model.User{
-				ID:       "1",
-				Email:    "foo@bar.com",
+				User: user.User{
+					ID:    "1",
+					Email: "foo@bar.com",
+				},
 				Password: "passwordhash12345",
 			},
 		},
 		"ok - found 2": {
 			inEmail: "bar@bar.com",
 			outUser: &model.User{
-				ID:       "2",
-				Email:    "bar@bar.com",
+				User: user.User{
+					ID:    "2",
+					Email: "bar@bar.com",
+				},
 				Password: "passwordhashqwerty",
 			},
 		},
 		"ok - found 2 with tenant": {
 			inEmail: "bar@bar.com",
 			outUser: &model.User{
-				ID:       "2",
-				Email:    "bar@bar.com",
+				User: user.User{
+					ID:    "2",
+					Email: "bar@bar.com",
+				},
 				Password: "passwordhashqwerty",
 			},
 		},
@@ -465,13 +498,17 @@ func TestMongoGetUserById(t *testing.T) {
 
 	existingUsers := []interface{}{
 		model.User{
-			ID:       "1",
-			Email:    "foo@bar.com",
+			User: user.User{
+				ID:    "1",
+				Email: "foo@bar.com",
+			},
 			Password: "passwordhash12345",
 		},
 		model.User{
-			ID:       "2",
-			Email:    "bar@bar.com",
+			User: user.User{
+				ID:    "2",
+				Email: "bar@bar.com",
+			},
 			Password: "passwordhashqwerty",
 		},
 	}
@@ -484,23 +521,29 @@ func TestMongoGetUserById(t *testing.T) {
 		"ok - found 1": {
 			inId: "1",
 			outUser: &model.User{
-				ID:    "1",
-				Email: "foo@bar.com",
+				User: user.User{
+					ID:    "1",
+					Email: "foo@bar.com",
+				},
 			},
 		},
 		"ok - found 1 with context": {
 			inId:   "1",
 			tenant: "foo",
 			outUser: &model.User{
-				ID:    "1",
-				Email: "foo@bar.com",
+				User: user.User{
+					ID:    "1",
+					Email: "foo@bar.com",
+				},
 			},
 		},
 		"ok - found 2": {
 			inId: "2",
 			outUser: &model.User{
-				ID:    "2",
-				Email: "bar@bar.com",
+				User: user.User{
+					ID:    "2",
+					Email: "bar@bar.com",
+				},
 			},
 		},
 		"not found": {
@@ -671,37 +714,49 @@ func TestMongoGetUsers(t *testing.T) {
 			}(),
 			inUsers: []interface{}{
 				model.User{
-					ID:       "1",
-					Email:    "foo@bar.com",
+					User: user.User{
+						ID:    "1",
+						Email: "foo@bar.com",
+					},
 					Password: "passwordhash12345",
 				},
 				model.User{
-					ID:        "2",
-					Email:     "bar@bar.com",
-					Password:  "passwordhashqwerty",
-					CreatedTs: &ts,
+					User: user.User{
+						ID:        "2",
+						Email:     "bar@bar.com",
+						CreatedTs: &ts,
+					},
+					Password: "passwordhashqwerty",
 				},
 				model.User{
-					ID:        "3",
-					Email:     "baz@bar.com",
-					Password:  "passwordhash1sdf2345",
-					UpdatedTs: &ts,
+					User: user.User{
+						ID:        "3",
+						Email:     "baz@bar.com",
+						UpdatedTs: &ts,
+					},
+					Password: "passwordhash1sdf2345",
 				},
 			},
 			outUsers: []model.User{
 				{
-					ID:    "1",
-					Email: "foo@bar.com",
+					User: user.User{
+						ID:    "1",
+						Email: "foo@bar.com",
+					},
 				},
 				{
-					ID:        "2",
-					Email:     "bar@bar.com",
-					CreatedTs: &ts,
+					User: user.User{
+						ID:        "2",
+						Email:     "bar@bar.com",
+						CreatedTs: &ts,
+					},
 				},
 				{
-					ID:        "3",
-					Email:     "baz@bar.com",
-					UpdatedTs: &ts,
+					User: user.User{
+						ID:        "3",
+						Email:     "baz@bar.com",
+						UpdatedTs: &ts,
+					},
 				},
 			},
 		},
@@ -709,30 +764,36 @@ func TestMongoGetUsers(t *testing.T) {
 			ctx: context.Background(),
 			inUsers: []interface{}{
 				model.User{
-					ID:       "1",
-					Email:    "foo@bar.com",
+					User: user.User{
+						ID:    "1",
+						Email: "foo@bar.com",
+					},
 					Password: "passwordhash12345",
 				},
 				model.User{
-					ID:        "2",
-					Email:     "bar@bar.com",
-					Password:  "passwordhashqwerty",
-					CreatedTs: &ts,
-					UpdatedTs: func() *time.Time {
-						t := ts.Add(time.Minute)
-						return &t
-					}(),
+					User: user.User{
+						ID:        "2",
+						Email:     "bar@bar.com",
+						CreatedTs: &ts,
+						UpdatedTs: func() *time.Time {
+							t := ts.Add(time.Minute)
+							return &t
+						}(),
+					},
+					Password: "passwordhashqwerty",
 				},
 				model.User{
-					ID:        "3",
-					Email:     "baz@bar.com",
-					Password:  "passwordhash1sdf2345",
-					UpdatedTs: &ts,
+					User: user.User{
+						ID:        "3",
+						Email:     "baz@bar.com",
+						UpdatedTs: &ts,
+					},
+					Password: "passwordhash1sdf2345",
 				},
 			},
 			filter: model.UserFilter{
 				ID: []string{"1", "2"},
-				Email: []model.Email{
+				Email: []user.Email{
 					"foo@bar.com",
 					"bar@bar.com",
 					"baz@bar.com",
@@ -758,13 +819,15 @@ func TestMongoGetUsers(t *testing.T) {
 
 			outUsers: []model.User{
 				{
-					ID:        "2",
-					Email:     "bar@bar.com",
-					CreatedTs: &ts,
-					UpdatedTs: func() *time.Time {
-						t := ts.Add(time.Minute)
-						return &t
-					}(),
+					User: user.User{
+						ID:        "2",
+						Email:     "bar@bar.com",
+						CreatedTs: &ts,
+						UpdatedTs: func() *time.Time {
+							t := ts.Add(time.Minute)
+							return &t
+						}(),
+					},
 				},
 			},
 		},
@@ -783,8 +846,10 @@ func TestMongoGetUsers(t *testing.T) {
 			}(),
 			inUsers: []interface{}{
 				model.User{
-					ID:       "1",
-					Email:    "foo@bar.com",
+					User: user.User{
+						ID:    "1",
+						Email: "foo@bar.com",
+					},
 					Password: "passwordhash12345",
 				},
 			},
@@ -847,13 +912,17 @@ func TestMongoDeleteUser(t *testing.T) {
 
 	existingUsers := []interface{}{
 		model.User{
-			ID:       "1",
-			Email:    "foo@bar.com",
+			User: user.User{
+				ID:    "1",
+				Email: "foo@bar.com",
+			},
 			Password: "passwordhash12345",
 		},
 		model.User{
-			ID:       "2",
-			Email:    "bar@bar.com",
+			User: user.User{
+				ID:    "2",
+				Email: "bar@bar.com",
+			},
 			Password: "passwordhashqwerty",
 		},
 	}
@@ -867,8 +936,10 @@ func TestMongoDeleteUser(t *testing.T) {
 			inId: "1",
 			outUsers: []model.User{
 				{
-					ID:       "2",
-					Email:    "bar@bar.com",
+					User: user.User{
+						ID:    "2",
+						Email: "bar@bar.com",
+					},
 					Password: "passwordhashqwerty",
 				},
 			},
@@ -878,8 +949,10 @@ func TestMongoDeleteUser(t *testing.T) {
 			tenant: "foo",
 			outUsers: []model.User{
 				{
-					ID:       "2",
-					Email:    "bar@bar.com",
+					User: user.User{
+						ID:    "2",
+						Email: "bar@bar.com",
+					},
 					Password: "passwordhashqwerty",
 				},
 			},
@@ -888,13 +961,17 @@ func TestMongoDeleteUser(t *testing.T) {
 			inId: "3",
 			outUsers: []model.User{
 				{
-					ID:       "1",
-					Email:    "foo@bar.com",
+					User: user.User{
+						ID:    "1",
+						Email: "foo@bar.com",
+					},
 					Password: "passwordhash12345",
 				},
 				{
-					ID:       "2",
-					Email:    "bar@bar.com",
+					User: user.User{
+						ID:    "2",
+						Email: "bar@bar.com",
+					},
 					Password: "passwordhashqwerty",
 				},
 			},

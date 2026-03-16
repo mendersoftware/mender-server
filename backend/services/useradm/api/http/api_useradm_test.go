@@ -31,6 +31,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
@@ -244,7 +245,7 @@ func TestUserAdmApiLogin(t *testing.T) {
 			//make mock useradm
 			uadm := &museradm.App{}
 			uadm.On("Login", ctx,
-				mock.AnythingOfType("model.Email"),
+				mock.AnythingOfType("user.Email"),
 				mock.AnythingOfType("string"),
 				mock.AnythingOfType("*useradm.LoginOptions")).
 				Return(tc.uaToken, tc.uaError)
@@ -1005,14 +1006,18 @@ func TestUserAdmApiGetUsers(t *testing.T) {
 			queryString: "id=1&id=2",
 			uaUsers: []model.User{
 				{
-					ID:    "1",
-					Email: "foo@acme.com",
+					User: user.User{
+						ID:    "1",
+						Email: "foo@acme.com",
+					},
 				},
 				{
-					ID:        "2",
-					Email:     "bar@acme.com",
-					CreatedTs: &now,
-					UpdatedTs: &now,
+					User: user.User{
+						ID:        "2",
+						Email:     "bar@acme.com",
+						CreatedTs: &now,
+						UpdatedTs: &now,
+					},
 				},
 			},
 			uaError: nil,
@@ -1022,14 +1027,18 @@ func TestUserAdmApiGetUsers(t *testing.T) {
 				nil,
 				[]model.User{
 					{
-						ID:    "1",
-						Email: "foo@acme.com",
+						User: user.User{
+							ID:    "1",
+							Email: "foo@acme.com",
+						},
 					},
 					{
-						ID:        "2",
-						Email:     "bar@acme.com",
-						CreatedTs: &now,
-						UpdatedTs: &now,
+						User: user.User{
+							ID:        "2",
+							Email:     "bar@acme.com",
+							CreatedTs: &now,
+							UpdatedTs: &now,
+						},
 					},
 				},
 			),
@@ -1134,14 +1143,18 @@ func TestUserAdmApiTenantsGetUsers(t *testing.T) {
 			queryString: "id=1&id=2",
 			uaUsers: []model.User{
 				{
-					ID:    "1",
-					Email: "foo@acme.com",
+					User: user.User{
+						ID:    "1",
+						Email: "foo@acme.com",
+					},
 				},
 				{
-					ID:        "2",
-					Email:     "bar@acme.com",
-					CreatedTs: &now,
-					UpdatedTs: &now,
+					User: user.User{
+						ID:        "2",
+						Email:     "bar@acme.com",
+						CreatedTs: &now,
+						UpdatedTs: &now,
+					},
 				},
 			},
 			uaError: nil,
@@ -1151,14 +1164,18 @@ func TestUserAdmApiTenantsGetUsers(t *testing.T) {
 				nil,
 				[]model.User{
 					{
-						ID:    "1",
-						Email: "foo@acme.com",
+						User: user.User{
+							ID:    "1",
+							Email: "foo@acme.com",
+						},
 					},
 					{
-						ID:        "2",
-						Email:     "bar@acme.com",
-						CreatedTs: &now,
-						UpdatedTs: &now,
+						User: user.User{
+							ID:        "2",
+							Email:     "bar@acme.com",
+							CreatedTs: &now,
+							UpdatedTs: &now,
+						},
 					},
 				},
 			),
@@ -1277,10 +1294,12 @@ func TestUserAdmApiGetUser(t *testing.T) {
 	}{
 		"ok": {
 			uaUser: &model.User{
-				ID:        "1",
-				Email:     "foo@acme.com",
-				CreatedTs: &now,
-				UpdatedTs: &now,
+				User: user.User{
+					ID:        "1",
+					Email:     "foo@acme.com",
+					CreatedTs: &now,
+					UpdatedTs: &now,
+				},
 			},
 			uaError: nil,
 
@@ -1288,10 +1307,12 @@ func TestUserAdmApiGetUser(t *testing.T) {
 				http.StatusOK,
 				nil,
 				&model.User{
-					ID:        "1",
-					Email:     "foo@acme.com",
-					CreatedTs: &now,
-					UpdatedTs: &now,
+					User: user.User{
+						ID:        "1",
+						Email:     "foo@acme.com",
+						CreatedTs: &now,
+						UpdatedTs: &now,
+					},
 				},
 			),
 		},

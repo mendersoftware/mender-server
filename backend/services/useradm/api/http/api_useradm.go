@@ -23,6 +23,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
+	muser "github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	mredis "github.com/mendersoftware/mender-server/pkg/redis"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
@@ -169,7 +170,7 @@ func (u *UserAdmApiHandlers) AuthLoginHandler(c *gin.Context) {
 		rest.RenderError(c, http.StatusUnauthorized, ErrAuthHeader)
 		return
 	}
-	email := model.Email(strings.ToLower(user))
+	email := muser.Email(strings.ToLower(user))
 
 	options := &useradm.LoginOptions{}
 	err := c.ShouldBindJSON(options)

@@ -21,6 +21,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/term"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -51,7 +52,7 @@ func safeReadPassword() (string, error) {
 
 func commandCreateUser(
 	c config.Reader,
-	username model.Email,
+	username user.Email,
 	password, userId, tenantId string,
 ) error {
 	ctx := context.Background()
@@ -68,7 +69,9 @@ func commandCreateUser(
 
 	u := model.UserInternal{
 		User: model.User{
-			Email:    username,
+			User: user.User{
+				Email: username,
+			},
 			Password: password,
 		},
 	}
@@ -147,7 +150,7 @@ func commandMigrate(c config.Reader, tenantId string) error {
 
 func commandSetPassword(
 	c config.Reader,
-	username model.Email,
+	username user.Email,
 	password, tenantId string,
 ) error {
 	l := log.NewEmpty()
@@ -169,7 +172,9 @@ func commandSetPassword(
 	ua := useradm.NewUserAdm(nil, db, useradm.Config{})
 
 	u := model.User{
-		Email:    username,
+		User: user.User{
+			Email: username,
+		},
 		Password: password,
 	}
 

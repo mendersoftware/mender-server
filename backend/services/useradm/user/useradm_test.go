@@ -26,6 +26,7 @@ import (
 	"github.com/stretchr/testify/mock"
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 
@@ -117,7 +118,7 @@ func TestUserAdmLogin(t *testing.T) {
 	const sessionTokensLimit = 10
 
 	testCases := map[string]struct {
-		inEmail    model.Email
+		inEmail    user.Email
 		inPassword string
 		noExpiry   bool
 
@@ -138,8 +139,10 @@ func TestUserAdmLogin(t *testing.T) {
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser: &model.User{
-				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
+				User: user.User{
+					ID:    oid.NewUUIDv5("1234").String(),
+					Email: "foo@bar.com",
+				},
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			dbUserErr: nil,
@@ -179,8 +182,10 @@ func TestUserAdmLogin(t *testing.T) {
 			inPassword: "notcorrecthorsebatterystaple",
 
 			dbUser: &model.User{
-				ID:       "1234",
-				Email:    "foo@bar.com",
+				User: user.User{
+					ID:    "1234",
+					Email: "foo@bar.com",
+				},
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			dbUserErr: nil,
@@ -215,8 +220,10 @@ func TestUserAdmLogin(t *testing.T) {
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser: &model.User{
-				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
+				User: user.User{
+					ID:    oid.NewUUIDv5("1234").String(),
+					Email: "foo@bar.com",
+				},
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			dbUserErr: nil,
@@ -237,8 +244,10 @@ func TestUserAdmLogin(t *testing.T) {
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser: &model.User{
-				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
+				User: user.User{
+					ID:    oid.NewUUIDv5("1234").String(),
+					Email: "foo@bar.com",
+				},
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			dbUserErr: nil,
@@ -362,7 +371,9 @@ func TestUserAdmCreateUser(t *testing.T) {
 	}{
 		"ok": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			dbErr:  nil,
@@ -370,7 +381,9 @@ func TestUserAdmCreateUser(t *testing.T) {
 		},
 		"error, pass similar to email": {
 			inUser: model.User{
-				Email:    "correcthorsebatterystaple@bar.com",
+				User: user.User{
+					Email: "correcthorsebatterystaple@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			dbErr:  nil,
@@ -378,7 +391,9 @@ func TestUserAdmCreateUser(t *testing.T) {
 		},
 		"error, pass occurs in email": {
 			inUser: model.User{
-				Email:    "correcthorsebatterystaple@bar.com",
+				User: user.User{
+					Email: "correcthorsebatterystaple@bar.com",
+				},
 				Password: "correcthorseb",
 			},
 			dbErr:  nil,
@@ -426,7 +441,9 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 	}{
 		"ok": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			dbErr:  nil,
@@ -434,7 +451,9 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 		},
 		"db error: duplicate email": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			dbErr:  store.ErrDuplicateEmail,
@@ -442,7 +461,9 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 		},
 		"db error: general": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			dbErr: errors.New("no reachable servers"),
@@ -461,7 +482,7 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 				mock.AnythingOfType("*model.User")).
 				Return(tc.dbErr)
 
-			db.On("GetUserByEmail", ContextMatcher(), mock.AnythingOfType("model.Email")).
+			db.On("GetUserByEmail", ContextMatcher(), mock.AnythingOfType("user.Email")).
 				Return(tc.dbUser, tc.dbGetUserErr)
 
 			useradm := NewUserAdm(nil, db, Config{})
@@ -547,7 +568,9 @@ func TestUserAdmUpdateUser(t *testing.T) {
 				Token:           &jwt.Token{Claims: jwt.Claims{ID: oid.NewUUIDv5("token-1")}},
 			},
 			getUserById: &model.User{
-				Email:    "correcthorsebatterystaple@bar.com",
+				User: user.User{
+					Email: "correcthorsebatterystaple@bar.com",
+				},
 				Password: hashPassword("current"),
 			},
 
@@ -560,7 +583,9 @@ func TestUserAdmUpdateUser(t *testing.T) {
 				CurrentPassword: "current",
 			},
 			getUserById: &model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: hashPassword("current"),
 			},
 
@@ -619,7 +644,9 @@ func TestUserAdmUpdateUser(t *testing.T) {
 				Email: "foobar@bar.com",
 			},
 			getUserById: &model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: hashPassword("current"),
 			},
 
@@ -652,7 +679,9 @@ func TestUserAdmUpdateUser(t *testing.T) {
 					userID,
 					mock.AnythingOfType("*model.UserUpdate")).
 					Return(&model.User{
-						Email:    tc.inUserUpdate.Email,
+						User: user.User{
+							Email: tc.inUserUpdate.Email,
+						},
 						Password: tc.inUserUpdate.Password,
 					}, tc.dbErr)
 
@@ -707,7 +736,9 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		DataStore: func(t *testing.T, self *testCase) *mstore.DataStore {
 			ds := new(mstore.DataStore)
 			ds.On("GetUserAndPasswordById", self.CTX, self.ID).
-				Return(&model.User{ID: self.ID, ETag: &model.ETag{0}}, nil)
+				Return(&model.User{
+					User: user.User{ID: self.ID},
+					ETag: &model.ETag{0}}, nil)
 			return ds
 		},
 		Error: ErrCannotModifyPassword,
@@ -719,13 +750,15 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		}),
 		ID: "0db11a0e-afac-4d73-aa6b-ccd857019553",
 		UserUpdate: &model.UserUpdate{
-			Email: model.Email("test@mender.io"),
+			Email: user.Email("test@mender.io"),
 			ETag:  etagPtr(model.ETag{0}),
 		},
 		DataStore: func(t *testing.T, self *testCase) *mstore.DataStore {
 			ds := new(mstore.DataStore)
 			ds.On("GetUserAndPasswordById", self.CTX, self.ID).
-				Return(&model.User{ID: self.ID, ETag: &model.ETag{1}}, nil)
+				Return(&model.User{
+					User: user.User{ID: self.ID},
+					ETag: &model.ETag{1}}, nil)
 			return ds
 		},
 		Error: ErrETagMismatch,
@@ -737,13 +770,15 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		}),
 		ID: "0db11a0e-afac-4d73-aa6b-ccd857019553",
 		UserUpdate: &model.UserUpdate{
-			Email: model.Email("test@mender.io"),
+			Email: user.Email("test@mender.io"),
 			ETag:  etagPtr(model.ETag{0}),
 		},
 		DataStore: func(t *testing.T, self *testCase) *mstore.DataStore {
 			ds := new(mstore.DataStore)
 			ds.On("GetUserAndPasswordById", self.CTX, self.ID).
-				Return(&model.User{ID: self.ID, ETag: &model.ETag{0}}, nil).
+				Return(&model.User{
+					User: user.User{ID: self.ID},
+					ETag: &model.ETag{0}}, nil).
 				On("UpdateUser", self.CTX, self.ID, self.UserUpdate).
 				Return(nil, store.ErrUserNotFound)
 
@@ -800,7 +835,9 @@ func TestUserAdmVerify(t *testing.T) {
 				},
 			},
 			dbUser: &model.User{
-				ID: oid.NewUUIDv5("1234").String(),
+				User: user.User{
+					ID: oid.NewUUIDv5("1234").String(),
+				},
 			},
 			dbToken: &jwt.Token{
 				Claims: jwt.Claims{
@@ -853,7 +890,9 @@ func TestUserAdmVerify(t *testing.T) {
 				},
 			},
 			dbUser: &model.User{
-				ID: oid.NewUUIDv5("1234").String(),
+				User: user.User{
+					ID: oid.NewUUIDv5("1234").String(),
+				},
 			},
 
 			dbToken:    nil,
@@ -884,7 +923,9 @@ func TestUserAdmVerify(t *testing.T) {
 				},
 			},
 			dbUser: &model.User{
-				ID: "1234",
+				User: user.User{
+					ID: "1234",
+				},
 			},
 
 			dbToken:    nil,
@@ -933,14 +974,18 @@ func TestUserAdmGetUsers(t *testing.T) {
 		"ok: some users": {
 			dbUsers: []model.User{
 				{
-					ID:        "1",
-					Email:     "foo",
-					CreatedTs: &ts,
+					User: user.User{
+						ID:        "1",
+						Email:     "foo",
+						CreatedTs: &ts,
+					},
 				},
 				{
-					ID:        "2",
-					Email:     "bar",
-					UpdatedTs: &ts,
+					User: user.User{
+						ID:        "2",
+						Email:     "bar",
+						UpdatedTs: &ts,
+					},
 				},
 			},
 			dbErr: nil,
@@ -996,10 +1041,12 @@ func TestUserAdmGetUser(t *testing.T) {
 	}{
 		"ok 1": {
 			dbUser: &model.User{
-				ID:        "1",
-				Email:     "foo",
-				UpdatedTs: &ts,
-				CreatedTs: &ts,
+				User: user.User{
+					ID:        "1",
+					Email:     "foo",
+					UpdatedTs: &ts,
+					CreatedTs: &ts,
+				},
 			},
 			dbErr: nil,
 			err:   nil,
@@ -1126,28 +1173,34 @@ func TestUserAdmSetPassword(t *testing.T) {
 	}{
 		"ok": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			dbGetErr:  nil,
 			outErr:    nil,
-			foundUser: &model.User{ID: "test_id"},
+			foundUser: &model.User{User: user.User{ID: "test_id"}},
 		},
 
 		"ok with current token": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			currentToken: &jwt.Token{Claims: jwt.Claims{ID: oid.NewUUIDv5("token-1")}},
 			dbGetErr:     nil,
 			outErr:       nil,
-			foundUser:    &model.User{ID: "test_id"},
+			foundUser:    &model.User{User: user.User{ID: "test_id"}},
 		},
 
 		"error, user not found": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 
@@ -1157,16 +1210,20 @@ func TestUserAdmSetPassword(t *testing.T) {
 		},
 		"error, pass similar to email": {
 			inUser: model.User{
-				Email:    "new-password@bar.com",
+				User: user.User{
+					Email: "new-password@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 			dbGetErr:  nil,
 			outErr:    ErrPassAndMailTooSimilar,
-			foundUser: &model.User{ID: "test_id"},
+			foundUser: &model.User{User: user.User{ID: "test_id"}},
 		},
 		"error, get from db": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 
@@ -1176,13 +1233,15 @@ func TestUserAdmSetPassword(t *testing.T) {
 		},
 		"error, update db": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				User: user.User{
+					Email: "foo@bar.com",
+				},
 				Password: "correcthorsebatterystaple",
 			},
 
 			dbUpdateErr: errors.New("db failed"),
 			outErr:      errors.New("useradm: failed to update user information: db failed"),
-			foundUser:   &model.User{ID: "test_id"},
+			foundUser:   &model.User{User: user.User{ID: "test_id"}},
 		},
 	}
 	for name, tc := range testCases {
@@ -1703,7 +1762,7 @@ var (
 
 func TestUserAdmMultipleKeys(t *testing.T) {
 	testCases := map[string]struct {
-		inEmail      model.Email
+		inEmail      user.Email
 		inPassword   string
 		dbUser       *model.User
 		keyIds       []int
@@ -1714,8 +1773,10 @@ func TestUserAdmMultipleKeys(t *testing.T) {
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser: &model.User{
-				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
+				User: user.User{
+					ID:    oid.NewUUIDv5("1234").String(),
+					Email: "foo@bar.com",
+				},
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			keyIds:       []int{21172},
@@ -1726,8 +1787,10 @@ func TestUserAdmMultipleKeys(t *testing.T) {
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser: &model.User{
-				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
+				User: user.User{
+					ID:    oid.NewUUIDv5("1234").String(),
+					Email: "foo@bar.com",
+				},
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			keyIds: []int{

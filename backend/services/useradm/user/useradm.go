@@ -22,6 +22,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
@@ -64,7 +65,7 @@ const (
 type App interface {
 	HealthCheck(ctx context.Context) error
 	// Login accepts email/password, returns JWT
-	Login(ctx context.Context, email model.Email, pass string,
+	Login(ctx context.Context, email user.Email, pass string,
 		options *LoginOptions) (*jwt.Token, error)
 	Logout(ctx context.Context, token *jwt.Token) error
 	CreateUser(ctx context.Context, u *model.User) error
@@ -139,7 +140,7 @@ func (u *UserAdm) HealthCheck(ctx context.Context) error {
 	return nil
 }
 
-func (u *UserAdm) Login(ctx context.Context, email model.Email, pass string,
+func (u *UserAdm) Login(ctx context.Context, email user.Email, pass string,
 	options *LoginOptions) (*jwt.Token, error) {
 	var ident identity.Identity
 	l := log.FromContext(ctx)

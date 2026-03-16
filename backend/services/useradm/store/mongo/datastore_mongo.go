@@ -26,6 +26,7 @@ import (
 	mopts "go.mongodb.org/mongo-driver/v2/mongo/options"
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 	mstore "github.com/mendersoftware/mender-server/pkg/store/v2"
@@ -278,7 +279,7 @@ func (db *DataStoreMongo) UpdateLoginTs(ctx context.Context, id string) error {
 
 func (db *DataStoreMongo) GetUserByEmail(
 	ctx context.Context,
-	email model.Email,
+	email user.Email,
 ) (*model.User, error) {
 	var user model.User
 

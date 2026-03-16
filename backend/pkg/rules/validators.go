@@ -5,6 +5,7 @@ import (
 	"reflect"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/go-ozzo/ozzo-validation/v4/is"
 )
 
 func HasUnderlyingType(input interface{}, kind reflect.Kind) bool {
@@ -49,5 +50,15 @@ func DeploymentName(value interface{}) error {
 	return validation.Validate(value,
 		validation.Required,
 		deploymentNameSize,
+	)
+}
+
+func Email(value interface{}) error {
+	if !HasUnderlyingType(value, reflect.String) {
+		return fmt.Errorf("invalid type %T for email", value)
+	}
+	return validation.Validate(value,
+		emailSize,
+		is.ASCII, is.EmailFormat,
 	)
 }

@@ -22,6 +22,7 @@ import (
 
 	"github.com/urfave/cli"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/version"
@@ -225,7 +226,7 @@ func runServer(args *cli.Context) error {
 }
 
 func runCreateUser(args *cli.Context) error {
-	email := model.Email(strings.ToLower(args.String("username")))
+	email := user.Email(strings.ToLower(args.String("username")))
 	err := commandCreateUser(
 		config.Config,
 		email,
@@ -248,7 +249,7 @@ func runMigrate(args *cli.Context) error {
 }
 
 func runSetPassword(args *cli.Context) error {
-	email := model.Email(strings.ToLower(args.String("username")))
+	email := user.Email(strings.ToLower(args.String("username")))
 	err := commandSetPassword(
 		config.Config, email,
 		args.String("password"), args.String("tenant-id"),

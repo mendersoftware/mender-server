@@ -6,8 +6,8 @@ import (
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 
+	"github.com/mendersoftware/mender-server/pkg/common/user"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/codec"
-	"github.com/mendersoftware/mender-server/services/useradm/model"
 )
 
 func newRegistry() *bson.Registry {
@@ -16,7 +16,7 @@ func newRegistry() *bson.Registry {
 	return registry
 }
 
-var tEmail = reflect.TypeOf(model.Email(""))
+var tEmail = reflect.TypeOf(user.Email(""))
 
 func encodeEmail(ec bson.EncodeContext, w bson.ValueWriter, val reflect.Value) error {
 	if !val.IsValid() || val.Type() != tEmail {
@@ -26,6 +26,6 @@ func encodeEmail(ec bson.EncodeContext, w bson.ValueWriter, val reflect.Value) e
 			Received: val,
 		}
 	}
-	value := val.Interface().(model.Email)
+	value := val.Interface().(user.Email)
 	return w.WriteString(strings.ToLower(string(value)))
 }

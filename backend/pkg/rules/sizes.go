@@ -9,4 +9,6 @@ var (
 	deviceGroupNameSize       = validation.Length(0, 256)
 
 	deploymentNameSize = validation.Length(0, 256)
+
+	emailSize = validation.Length(0, 4096)
 )
