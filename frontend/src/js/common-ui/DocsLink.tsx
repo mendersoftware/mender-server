@@ -128,10 +128,13 @@ interface DocsTextLinkProps {
 }
 
 export const DocsTextLink = ({ capitalizedStart = true, children, id, ...props }: DocsTextLinkProps) => {
-  const { path } = DOCSTIPS[id] || {};
+  if (!DOCSTIPS[id]) {
+    return null;
+  }
+  const { path } = DOCSTIPS[id];
   return (
     <DocsLink path={path} {...props}>
-      {children ?? (
+      {children || (
         <Typography className={`inline ${capitalizedStart ? 'capitalized-start' : ''}`} color="primary">
           learn more
         </Typography>
@@ -140,7 +143,7 @@ export const DocsTextLink = ({ capitalizedStart = true, children, id, ...props }
   );
 };
 
-export const DocsLink = forwardRef(({ children, className = '', path, title = '', ...remainder }, ref) => {
+export const DocsLink = forwardRef(({ children, className = '', path = '', title = '', ...remainder }, ref) => {
   const docsVersion = useSelector(getDocsVersion);
   const { isHosted } = useSelector(getFeatures);
   const target = `https://docs.mender.io/${path}`;
