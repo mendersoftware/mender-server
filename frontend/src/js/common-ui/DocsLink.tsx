@@ -11,16 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { forwardRef, useState } from 'react';
+import { ReactNode, forwardRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Description as DescriptionIcon, Launch as LaunchIcon } from '@mui/icons-material';
-import { Chip, Collapse, chipClasses } from '@mui/material';
+import { Chip, Collapse, Typography, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getDocsVersion, getFeatures } from '@northern.tech/store/selectors';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { yes } from '@northern.tech/utils/helpers';
 
 import { MenderTooltipClickable } from './helptips/MenderTooltip';
 
@@ -71,17 +72,12 @@ export const DOCSTIPS = {
 export const DocsTooltip = ({ anchor = {}, id = '', ...props }) => {
   const [isHovering, setIsHovering] = useState(false);
   const debouncedHovering = useDebounce(isHovering, TIMEOUTS.debounceDefault);
-  const docsVersion = useSelector(getDocsVersion);
-  const { isHosted } = useSelector(getFeatures);
   const { classes } = useStyles();
-  const { content, path } = DOCSTIPS[id] || {};
-  const target = `https://docs.mender.io/${docsVersion}${path}`;
 
-  const onClick = () => {
-    const docsParams = { headers: { 'x-mender-docs': docsVersion } };
-    fetch(target, isHosted ? {} : docsParams);
-    window.open(target, '_blank');
-  };
+  if (!DOCSTIPS[id]) {
+    return null;
+  }
+  const { content, path } = DOCSTIPS[id];
 
   const hoverClass = debouncedHovering ? 'hovering' : 'not-hovering';
   return (
@@ -94,33 +90,57 @@ export const DocsTooltip = ({ anchor = {}, id = '', ...props }) => {
       title={content}
       {...props}
     >
-      <Chip
-        color="primary"
-        className={`${classes.chip} ${hoverClass}`}
-        label={
-          <Collapse in={debouncedHovering} orientation="horizontal">
-            Learn more
-          </Collapse>
-        }
-        deleteIcon={
-          <div className="relative">
-            <DescriptionIcon fontSize="small" />
-            <div className={`${classes.iconAura} ${hoverClass}`} />
-          </div>
-        }
-        onClick={onClick}
-        onDelete={onClick}
-        onMouseOver={() => setIsHovering(true)}
-        onMouseOut={() => setIsHovering(false)}
-        variant="outlined"
-      />
+      <DocsLink path={path}>
+        <Chip
+          color="primary"
+          className={`${classes.chip} ${hoverClass}`}
+          label={
+            <Collapse in={debouncedHovering} orientation="horizontal">
+              Learn more
+            </Collapse>
+          }
+          deleteIcon={
+            <div className="relative">
+              <DescriptionIcon fontSize="small" />
+              <div className={`${classes.iconAura} ${hoverClass}`} />
+            </div>
+          }
+          onDelete={yes}
+          onMouseOver={() => setIsHovering(true)}
+          onMouseOut={() => setIsHovering(false)}
+          variant="outlined"
+        />
+      </DocsLink>
     </MenderTooltipClickable>
   );
 };
 
 export const InlineLaunchIcon = () => <LaunchIcon style={{ verticalAlign: 'sub' }} fontSize="small" />;
 
-export const DocsLink = forwardRef(({ children, className = '', path, title = '', ...remainder }, ref) => {
+interface DocsTextLinkProps {
+  [key: string]: unknown;
+  capitalizedStart?: boolean;
+  children?: ReactNode;
+  id: keyof typeof DOCSTIPS;
+}
+
+export const DocsTextLink = ({ capitalizedStart = true, children, id, ...props }: DocsTextLinkProps) => {
+  if (!DOCSTIPS[id]) {
+    return null;
+  }
+  const { path } = DOCSTIPS[id];
+  return (
+    <DocsLink path={path} {...props}>
+      {children || (
+        <Typography className={`inline ${capitalizedStart ? 'capitalized-start' : ''}`} color="primary">
+          learn more
+        </Typography>
+      )}
+    </DocsLink>
+  );
+};
+
+export const DocsLink = forwardRef(({ children, className = '', path = '', title = '', ...remainder }, ref) => {
   const docsVersion = useSelector(getDocsVersion);
   const { isHosted } = useSelector(getFeatures);
   const target = `https://docs.mender.io/${path}`;

@@ -209,12 +209,6 @@ exports[`CreateDeployment Component > smaller components > renders DeviceLimit c
   box-sizing: border-box;
   background-color: #1976d2;
   color: #fff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
   background-color: transparent;
   border: 1px solid #bdbdbd;
   color: #1976d2;
@@ -310,23 +304,6 @@ exports[`CreateDeployment Component > smaller components > renders DeviceLimit c
 
 .emotion-6.Mui-focusVisible {
   background: #1565c0;
-}
-
-.emotion-6:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-6.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-6:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-6:hover,
-.emotion-6.Mui-focusVisible {
-  background-color: #1565c0;
 }
 
 .emotion-6.MuiChip-clickable:hover {
@@ -747,48 +724,55 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
             class=""
             data-mui-internal-clone-element="true"
           >
-            <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-6"
-              role="button"
-              tabindex="0"
+            <a
+              class=""
+              href="https://docs.mender.io/overview/deployment#deployment-to-dynamic-groups"
+              rel=""
+              target="_blank"
             >
-              <span
-                class="MuiChip-label MuiChip-labelMedium emotion-7"
+              <div
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-6"
+                role="button"
+                tabindex="0"
               >
-                <div
-                  class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-8"
-                  style="min-width: 0px;"
+                <span
+                  class="MuiChip-label MuiChip-labelMedium emotion-7"
                 >
                   <div
-                    class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-9"
+                    class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-8"
+                    style="min-width: 0px;"
                   >
                     <div
-                      class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-10"
+                      class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-9"
                     >
-                      Learn more
+                      <div
+                        class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-10"
+                      >
+                        Learn more
+                      </div>
                     </div>
                   </div>
-                </div>
-              </span>
-              <div
-                class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
-                  data-testid="DescriptionIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
-                  />
-                </svg>
+                </span>
                 <div
-                  class="emotion-12 not-hovering"
-                />
+                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                    data-testid="DescriptionIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
+                    />
+                  </svg>
+                  <div
+                    class="emotion-12 not-hovering"
+                  />
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -1056,12 +1040,6 @@ exports[`CreateDeployment Component > smaller components > renders DeviceLimit c
   box-sizing: border-box;
   background-color: #1976d2;
   color: #fff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
   background-color: transparent;
   border: 1px solid #bdbdbd;
   color: #1976d2;
@@ -1157,23 +1135,6 @@ exports[`CreateDeployment Component > smaller components > renders DeviceLimit c
 
 .emotion-6.Mui-focusVisible {
   background: #1565c0;
-}
-
-.emotion-6:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-6.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-6:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-6:hover,
-.emotion-6.Mui-focusVisible {
-  background-color: #1565c0;
 }
 
 .emotion-6.MuiChip-clickable:hover {
@@ -1594,48 +1555,55 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
             class=""
             data-mui-internal-clone-element="true"
           >
-            <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-6"
-              role="button"
-              tabindex="0"
+            <a
+              class=""
+              href="https://docs.mender.io/overview/deployment#deployment-to-dynamic-groups"
+              rel=""
+              target="_blank"
             >
-              <span
-                class="MuiChip-label MuiChip-labelMedium emotion-7"
+              <div
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-6"
+                role="button"
+                tabindex="0"
               >
-                <div
-                  class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-8"
-                  style="min-width: 0px;"
+                <span
+                  class="MuiChip-label MuiChip-labelMedium emotion-7"
                 >
                   <div
-                    class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-9"
+                    class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-8"
+                    style="min-width: 0px;"
                   >
                     <div
-                      class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-10"
+                      class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-9"
                     >
-                      Learn more
+                      <div
+                        class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-10"
+                      >
+                        Learn more
+                      </div>
                     </div>
                   </div>
-                </div>
-              </span>
-              <div
-                class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
-                  data-testid="DescriptionIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
-                  />
-                </svg>
+                </span>
                 <div
-                  class="emotion-12 not-hovering"
-                />
+                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                    data-testid="DescriptionIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
+                    />
+                  </svg>
+                  <div
+                    class="emotion-12 not-hovering"
+                  />
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -3612,12 +3580,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   box-sizing: border-box;
   background-color: #1976d2;
   color: #fff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
   background-color: transparent;
   border: 1px solid #bdbdbd;
   color: #1976d2;
@@ -3713,23 +3675,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
 
 .emotion-3.Mui-focusVisible {
   background: #1565c0;
-}
-
-.emotion-3:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-3.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-3:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-3:hover,
-.emotion-3.Mui-focusVisible {
-  background-color: #1565c0;
 }
 
 .emotion-3.MuiChip-clickable:hover {
@@ -4403,48 +4348,55 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
         class=""
         data-mui-internal-clone-element="true"
       >
-        <div
-          class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-3"
-          role="button"
-          tabindex="0"
+        <a
+          class=""
+          href="https://docs.mender.io/overview/customize-the-update-process"
+          rel=""
+          target="_blank"
         >
-          <span
-            class="MuiChip-label MuiChip-labelMedium emotion-4"
+          <div
+            class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-3"
+            role="button"
+            tabindex="0"
           >
-            <div
-              class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-5"
-              style="min-width: 0px;"
+            <span
+              class="MuiChip-label MuiChip-labelMedium emotion-4"
             >
               <div
-                class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-6"
+                class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-5"
+                style="min-width: 0px;"
               >
                 <div
-                  class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-7"
+                  class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-6"
                 >
-                  Learn more
+                  <div
+                    class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-7"
+                  >
+                    Learn more
+                  </div>
                 </div>
               </div>
-            </div>
-          </span>
-          <div
-            class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
-              data-testid="DescriptionIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
-              />
-            </svg>
+            </span>
             <div
-              class="emotion-9 not-hovering"
-            />
+              class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
+                data-testid="DescriptionIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
+                />
+              </svg>
+              <div
+                class="emotion-9 not-hovering"
+              />
+            </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
@@ -4776,12 +4728,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   box-sizing: border-box;
   background-color: #1976d2;
   color: #fff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
   background-color: transparent;
   border: 1px solid #bdbdbd;
   color: #1976d2;
@@ -4877,23 +4823,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
 
 .emotion-3.Mui-focusVisible {
   background: #1565c0;
-}
-
-.emotion-3:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-3.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-3:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-3:hover,
-.emotion-3.Mui-focusVisible {
-  background-color: #1565c0;
 }
 
 .emotion-3.MuiChip-clickable:hover {
@@ -5567,48 +5496,55 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
         class=""
         data-mui-internal-clone-element="true"
       >
-        <div
-          class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-3"
-          role="button"
-          tabindex="0"
+        <a
+          class=""
+          href="https://docs.mender.io/overview/customize-the-update-process"
+          rel=""
+          target="_blank"
         >
-          <span
-            class="MuiChip-label MuiChip-labelMedium emotion-4"
+          <div
+            class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-3"
+            role="button"
+            tabindex="0"
           >
-            <div
-              class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-5"
-              style="min-width: 0px;"
+            <span
+              class="MuiChip-label MuiChip-labelMedium emotion-4"
             >
               <div
-                class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-6"
+                class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-5"
+                style="min-width: 0px;"
               >
                 <div
-                  class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-7"
+                  class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-6"
                 >
-                  Learn more
+                  <div
+                    class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-7"
+                  >
+                    Learn more
+                  </div>
                 </div>
               </div>
-            </div>
-          </span>
-          <div
-            class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
-              data-testid="DescriptionIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
-              />
-            </svg>
+            </span>
             <div
-              class="emotion-9 not-hovering"
-            />
+              class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
+                data-testid="DescriptionIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
+                />
+              </svg>
+              <div
+                class="emotion-9 not-hovering"
+              />
+            </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
@@ -6077,12 +6013,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   box-sizing: border-box;
   background-color: #1976d2;
   color: #fff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
   background-color: transparent;
   border: 1px solid #bdbdbd;
   color: #1976d2;
@@ -6178,23 +6108,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
 
 .emotion-8.Mui-focusVisible {
   background: #1565c0;
-}
-
-.emotion-8:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-8.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-8:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-8:hover,
-.emotion-8.Mui-focusVisible {
-  background-color: #1565c0;
 }
 
 .emotion-8.MuiChip-clickable:hover {
@@ -6589,48 +6502,55 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
             class=""
             data-mui-internal-clone-element="true"
           >
-            <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
-              role="button"
-              tabindex="0"
+            <a
+              class=""
+              href="https://docs.mender.io/overview/customize-the-update-process#synchronized-updates"
+              rel=""
+              target="_blank"
             >
-              <span
-                class="MuiChip-label MuiChip-labelMedium emotion-9"
+              <div
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
+                role="button"
+                tabindex="0"
               >
-                <div
-                  class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
-                  style="min-width: 0px;"
+                <span
+                  class="MuiChip-label MuiChip-labelMedium emotion-9"
                 >
                   <div
-                    class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-11"
+                    class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
+                    style="min-width: 0px;"
                   >
                     <div
-                      class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-12"
+                      class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-11"
                     >
-                      Learn more
+                      <div
+                        class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-12"
+                      >
+                        Learn more
+                      </div>
                     </div>
                   </div>
-                </div>
-              </span>
-              <div
-                class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
-                  data-testid="DescriptionIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
-                  />
-                </svg>
+                </span>
                 <div
-                  class="emotion-14 not-hovering"
-                />
+                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                    data-testid="DescriptionIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
+                    />
+                  </svg>
+                  <div
+                    class="emotion-14 not-hovering"
+                  />
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -7180,12 +7100,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   box-sizing: border-box;
   background-color: #1976d2;
   color: #fff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
   background-color: transparent;
   border: 1px solid #bdbdbd;
   color: #1976d2;
@@ -7281,23 +7195,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
 
 .emotion-8.Mui-focusVisible {
   background: #1565c0;
-}
-
-.emotion-8:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-8.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-8:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-8:hover,
-.emotion-8.Mui-focusVisible {
-  background-color: #1565c0;
 }
 
 .emotion-8.MuiChip-clickable:hover {
@@ -7846,48 +7743,55 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
             class=""
             data-mui-internal-clone-element="true"
           >
-            <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
-              role="button"
-              tabindex="0"
+            <a
+              class=""
+              href="https://docs.mender.io/overview/customize-the-update-process#synchronized-updates"
+              rel=""
+              target="_blank"
             >
-              <span
-                class="MuiChip-label MuiChip-labelMedium emotion-9"
+              <div
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
+                role="button"
+                tabindex="0"
               >
-                <div
-                  class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
-                  style="min-width: 0px;"
+                <span
+                  class="MuiChip-label MuiChip-labelMedium emotion-9"
                 >
                   <div
-                    class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-11"
+                    class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
+                    style="min-width: 0px;"
                   >
                     <div
-                      class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-12"
+                      class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-11"
                     >
-                      Learn more
+                      <div
+                        class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-12"
+                      >
+                        Learn more
+                      </div>
                     </div>
                   </div>
-                </div>
-              </span>
-              <div
-                class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
-                  data-testid="DescriptionIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
-                  />
-                </svg>
+                </span>
                 <div
-                  class="emotion-14 not-hovering"
-                />
+                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                    data-testid="DescriptionIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
+                    />
+                  </svg>
+                  <div
+                    class="emotion-14 not-hovering"
+                  />
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -8502,12 +8406,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   box-sizing: border-box;
   background-color: #1976d2;
   color: #fff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
   background-color: transparent;
   border: 1px solid #bdbdbd;
   color: #1976d2;
@@ -8603,23 +8501,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
 
 .emotion-8.Mui-focusVisible {
   background: #1565c0;
-}
-
-.emotion-8:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-8.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-8:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-8:hover,
-.emotion-8.Mui-focusVisible {
-  background-color: #1565c0;
 }
 
 .emotion-8.MuiChip-clickable:hover {
@@ -9099,48 +8980,55 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
             class=""
             data-mui-internal-clone-element="true"
           >
-            <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
-              role="button"
-              tabindex="0"
+            <a
+              class=""
+              href="https://docs.mender.io/overview/customize-the-update-process"
+              rel=""
+              target="_blank"
             >
-              <span
-                class="MuiChip-label MuiChip-labelMedium emotion-9"
+              <div
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
+                role="button"
+                tabindex="0"
               >
-                <div
-                  class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
-                  style="min-width: 0px;"
+                <span
+                  class="MuiChip-label MuiChip-labelMedium emotion-9"
                 >
                   <div
-                    class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-11"
+                    class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
+                    style="min-width: 0px;"
                   >
                     <div
-                      class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-12"
+                      class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-11"
                     >
-                      Learn more
+                      <div
+                        class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-12"
+                      >
+                        Learn more
+                      </div>
                     </div>
                   </div>
-                </div>
-              </span>
-              <div
-                class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
-                  data-testid="DescriptionIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
-                  />
-                </svg>
+                </span>
                 <div
-                  class="emotion-14 not-hovering"
-                />
+                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                    data-testid="DescriptionIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
+                    />
+                  </svg>
+                  <div
+                    class="emotion-14 not-hovering"
+                  />
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -9595,12 +9483,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   box-sizing: border-box;
   background-color: #1976d2;
   color: #fff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
   background-color: transparent;
   border: 1px solid #bdbdbd;
   color: #1976d2;
@@ -9696,23 +9578,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
 
 .emotion-8.Mui-focusVisible {
   background: #1565c0;
-}
-
-.emotion-8:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-8.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-8:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-8:hover,
-.emotion-8.Mui-focusVisible {
-  background-color: #1565c0;
 }
 
 .emotion-8.MuiChip-clickable:hover {
@@ -10191,48 +10056,55 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
             class=""
             data-mui-internal-clone-element="true"
           >
-            <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
-              role="button"
-              tabindex="0"
+            <a
+              class=""
+              href="https://docs.mender.io/overview/customize-the-update-process"
+              rel=""
+              target="_blank"
             >
-              <span
-                class="MuiChip-label MuiChip-labelMedium emotion-9"
+              <div
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
+                role="button"
+                tabindex="0"
               >
-                <div
-                  class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
-                  style="min-width: 0px;"
+                <span
+                  class="MuiChip-label MuiChip-labelMedium emotion-9"
                 >
                   <div
-                    class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-11"
+                    class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
+                    style="min-width: 0px;"
                   >
                     <div
-                      class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-12"
+                      class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-11"
                     >
-                      Learn more
+                      <div
+                        class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-12"
+                      >
+                        Learn more
+                      </div>
                     </div>
                   </div>
-                </div>
-              </span>
-              <div
-                class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
-                  data-testid="DescriptionIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
-                  />
-                </svg>
+                </span>
                 <div
-                  class="emotion-14 not-hovering"
-                />
+                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
+                    data-testid="DescriptionIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"
+                    />
+                  </svg>
+                  <div
+                    class="emotion-14 not-hovering"
+                  />
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>

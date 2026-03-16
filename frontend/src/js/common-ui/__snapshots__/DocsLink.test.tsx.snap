@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DocsTextLink Component > renders correctly 1`] = `
+.emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  color: #1976d2;
+}
+
+<a
+  class=""
+  href="https://docs.mender.io/overview/artifact"
+  rel="noopener"
+  target="_blank"
+>
+  <p
+    class="MuiTypography-root MuiTypography-body1 inline capitalized-start emotion-0"
+  >
+    learn more
+  </p>
+</a>
+`;
