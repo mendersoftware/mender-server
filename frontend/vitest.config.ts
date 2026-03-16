@@ -47,12 +47,15 @@ export default defineConfig(() => {
       },
       env: {
         BABEL_ENV: 'test',
+        LANG: 'en_US.UTF-8',
+        LC_ALL: 'en_US.UTF-8',
         NODE_ENV: 'test',
         PUBLIC_URL: '',
         TZ: 'UTC'
       },
       environment: 'jsdom',
       globals: true,
+      locale: 'en-US',
       setupFiles: path.resolve(__dirname, 'tests', 'setupTests.ts'),
       fakeTimers: {
         toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date', 'requestAnimationFrame', 'cancelAnimationFrame']
