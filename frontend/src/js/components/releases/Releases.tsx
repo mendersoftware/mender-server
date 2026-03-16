@@ -232,6 +232,9 @@ export const Releases = () => {
     dispatch(getReleases({ searchTerm: '', searchOnly: true, page: 1, perPage: 1, selectedTags: [], type: '' }));
     dispatch(getExistingReleaseTags());
     dispatch(getUpdateTypes());
+    return () => {
+      dispatch(setReleasesListState({ selection: [] }));
+    };
   }, [dispatch]);
 
   const onUploadClick = () => setShowAddArtifactDialog(true);
