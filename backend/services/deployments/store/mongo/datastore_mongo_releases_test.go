@@ -137,7 +137,9 @@ func TestGetReleases_1_2_14(t *testing.T) {
 		"ok, all": {
 			releases: []model.Release{
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -145,7 +147,9 @@ func TestGetReleases_1_2_14(t *testing.T) {
 					},
 				},
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -159,7 +163,9 @@ func TestGetReleases_1_2_14(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -167,7 +173,9 @@ func TestGetReleases_1_2_14(t *testing.T) {
 					},
 				},
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -181,7 +189,9 @@ func TestGetReleases_1_2_14(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -195,7 +205,9 @@ func TestGetReleases_1_2_14(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -203,7 +215,9 @@ func TestGetReleases_1_2_14(t *testing.T) {
 					},
 				},
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -217,14 +231,18 @@ func TestGetReleases_1_2_14(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
 					},
 				},
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -241,7 +259,9 @@ func TestGetReleases_1_2_14(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -256,7 +276,9 @@ func TestGetReleases_1_2_14(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -429,7 +451,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 		"ok, all": {
 			releases: []model.Release{
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -438,7 +462,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 					ArtifactsCount: 3,
 				},
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -446,7 +472,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 					ArtifactsCount: 2,
 				},
 				{
-					Name: "App4 v2.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App4 v2.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
 					},
@@ -460,7 +488,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -469,7 +499,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 					ArtifactsCount: 3,
 				},
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -477,7 +509,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 					ArtifactsCount: 2,
 				},
 				{
-					Name: "App4 v2.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App4 v2.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
 					},
@@ -491,7 +525,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -506,13 +542,15 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+						Tags: releaseNameToTags["App2 v0.1"],
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
 					},
 					ArtifactsCount: 2,
-					Tags:           releaseNameToTags["App2 v0.1"],
 				},
 			},
 		},
@@ -522,22 +560,26 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+						Tags: releaseNameToTags["App1 v1.0"],
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
 						*inputImgs[3],
 					},
 					ArtifactsCount: 3,
-					Tags:           releaseNameToTags["App1 v1.0"],
 				},
 				{
-					Name: "App4 v2.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App4 v2.0",
+						Tags: releaseNameToTags["App4 v2.0"],
+					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
 					},
 					ArtifactsCount: 1,
-					Tags:           releaseNameToTags["App4 v2.0"],
 				},
 			},
 		},
@@ -547,7 +589,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -556,7 +600,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 					ArtifactsCount: 3,
 				},
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -564,7 +610,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 					ArtifactsCount: 2,
 				},
 				{
-					Name: "App4 v2.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App4 v2.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
 					},
@@ -578,14 +626,18 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App4 v2.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App4 v2.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
 					},
 					ArtifactsCount: 1,
 				},
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -593,7 +645,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 					ArtifactsCount: 2,
 				},
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -609,14 +663,18 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App4 v2.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App4 v2.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
 					},
 					ArtifactsCount: 1,
 				},
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -624,7 +682,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 					ArtifactsCount: 2,
 				},
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -640,7 +700,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -649,7 +711,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 					ArtifactsCount: 3,
 				},
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -657,7 +721,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 					ArtifactsCount: 2,
 				},
 				{
-					Name: "App4 v2.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App4 v2.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
 					},
@@ -671,31 +737,37 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App4 v2.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App4 v2.0",
+						Tags: releaseNameToTags["App4 v2.0"],
+					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
 					},
 					ArtifactsCount: 1,
-					Tags:           releaseNameToTags["App4 v2.0"],
 				},
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+						Tags: releaseNameToTags["App1 v1.0"],
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
 						*inputImgs[3],
 					},
 					ArtifactsCount: 3,
-					Tags:           releaseNameToTags["App1 v1.0"],
 				},
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+						Tags: releaseNameToTags["App2 v0.1"],
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
 					},
 					ArtifactsCount: 2,
-					Tags:           releaseNameToTags["App2 v0.1"],
 				},
 			},
 		},
@@ -705,31 +777,37 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+						Tags: releaseNameToTags["App2 v0.1"],
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
 					},
 					ArtifactsCount: 2,
-					Tags:           releaseNameToTags["App2 v0.1"],
 				},
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+						Tags: releaseNameToTags["App1 v1.0"],
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
 						*inputImgs[3],
 					},
 					ArtifactsCount: 3,
-					Tags:           releaseNameToTags["App1 v1.0"],
 				},
 				{
-					Name: "App4 v2.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App4 v2.0",
+						Tags: releaseNameToTags["App4 v2.0"],
+					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
 					},
 					ArtifactsCount: 1,
-					Tags:           releaseNameToTags["App4 v2.0"],
 				},
 			},
 		},
@@ -739,7 +817,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App1 v1.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App1 v1.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[0],
 						*inputImgs[2],
@@ -757,7 +837,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -772,7 +854,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App2 v0.1",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App2 v0.1",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[1],
 						*inputImgs[4],
@@ -787,7 +871,9 @@ func TestGetReleases_1_2_15(t *testing.T) {
 			},
 			releases: []model.Release{
 				{
-					Name: "App4 v2.0",
+					ReleaseBase: model.ReleaseBase{
+						Name: "App4 v2.0",
+					},
 					Artifacts: []model.Image{
 						*inputImgs[5],
 					},
@@ -991,7 +1077,9 @@ func TestGetRelease(t *testing.T) {
 		"ok, by name": {
 			releaseName: "App2 v0.1",
 			release: &model.Release{
-				Name: "App2 v0.1",
+				ReleaseBase: model.ReleaseBase{
+					Name: "App2 v0.1",
+				},
 				Artifacts: []model.Image{
 					*inputImgs[1],
 					*inputImgs[4],
@@ -1052,11 +1140,15 @@ func TestReplaceReleaseTags(t *testing.T) {
 			_, err := client.Database(DbName).
 				Collection(CollectionReleases).
 				InsertMany(ctx, []interface{}{model.Release{
-					Name: self.ReleaseName,
-					Tags: model.Tags{"bar", "foo"},
+					ReleaseBase: model.ReleaseBase{
+						Name: self.ReleaseName,
+						Tags: model.Tags{"bar", "foo"},
+					},
 				}, model.Release{
-					Name: "v100.2.3",
-					Tags: model.Tags{"bar", "baz"},
+					ReleaseBase: model.ReleaseBase{
+						Name: "v100.2.3",
+						Tags: model.Tags{"bar", "baz"},
+					},
 				}})
 			if err != nil {
 				t.Errorf("failed to initialize dataset: %s", err)
@@ -1086,19 +1178,23 @@ func TestReplaceReleaseTags(t *testing.T) {
 				Collection(CollectionReleases).
 				InsertMany(self,
 					[]interface{}{model.Release{
-						Name: self.ReleaseName,
-						Tags: func() model.Tags {
-							newTags := make(model.Tags, model.TagsMaxUnique)
-							for i := range newTags {
-								newTags[i] = model.Tag(
-									"field" + strconv.Itoa(i),
-								)
-							}
-							return newTags
-						}(),
+						ReleaseBase: model.ReleaseBase{
+							Name: self.ReleaseName,
+							Tags: func() model.Tags {
+								newTags := make(model.Tags, model.TagsMaxUnique)
+								for i := range newTags {
+									newTags[i] = model.Tag(
+										"field" + strconv.Itoa(i),
+									)
+								}
+								return newTags
+							}(),
+						},
 					}, model.Release{
-						Name: "v1.2.3-beta",
-						Tags: model.Tags{"bar", "foo"},
+						ReleaseBase: model.ReleaseBase{
+							Name: "v1.2.3-beta",
+							Tags: model.Tags{"bar", "foo"},
+						},
 					}})
 			if err != nil {
 				t.Errorf("failed to initialize dataset: %s", err)
@@ -1122,19 +1218,23 @@ func TestReplaceReleaseTags(t *testing.T) {
 				Collection(CollectionReleases).
 				InsertMany(self,
 					[]interface{}{model.Release{
-						Name: self.ReleaseName,
-						Tags: func() model.Tags {
-							newTags := make(model.Tags, model.TagsMaxUnique)
-							for i := range newTags {
-								newTags[i] = model.Tag(
-									"field" + strconv.Itoa(i),
-								)
-							}
-							return newTags
-						}(),
+						ReleaseBase: model.ReleaseBase{
+							Name: self.ReleaseName,
+							Tags: func() model.Tags {
+								newTags := make(model.Tags, model.TagsMaxUnique)
+								for i := range newTags {
+									newTags[i] = model.Tag(
+										"field" + strconv.Itoa(i),
+									)
+								}
+								return newTags
+							}(),
+						},
 					}, model.Release{
-						Name: "v1.2.3-beta",
-						Tags: model.Tags{"bar", "foo"},
+						ReleaseBase: model.ReleaseBase{
+							Name: "v1.2.3-beta",
+							Tags: model.Tags{"bar", "foo"},
+						},
 					}})
 			if err != nil {
 				t.Errorf("failed to initialize dataset: %s", err)
@@ -1161,11 +1261,15 @@ func TestReplaceReleaseTags(t *testing.T) {
 				Collection(CollectionReleases).
 				InsertMany(self,
 					[]interface{}{model.Release{
-						Name: self.ReleaseName,
-						Tags: model.Tags{},
+						ReleaseBase: model.ReleaseBase{
+							Name: self.ReleaseName,
+							Tags: model.Tags{},
+						},
 					}, model.Release{
-						Name: "v1.2.3-beta",
-						Tags: model.Tags{"bar", "foo"},
+						ReleaseBase: model.ReleaseBase{
+							Name: "v1.2.3-beta",
+							Tags: model.Tags{"bar", "foo"},
+						},
 					}})
 			if err != nil {
 				t.Errorf("failed to initialize dataset: %s", err)
@@ -1208,8 +1312,10 @@ func TestReplaceReleaseTags(t *testing.T) {
 				Collection(CollectionReleases).
 				InsertMany(self,
 					[]interface{}{model.Release{
-						Name: self.ReleaseName,
-						Tags: model.Tags{},
+						ReleaseBase: model.ReleaseBase{
+							Name: self.ReleaseName,
+							Tags: model.Tags{},
+						},
 					}, map[string]interface{}{
 						StorageKeyReleaseName: "v1.2.3-beta",
 						StorageKeyReleaseTags: []map[string]interface{}{{
@@ -1341,11 +1447,15 @@ func TestUpdateRelease(t *testing.T) {
 				_, err := client.Database(DbName).
 					Collection(CollectionReleases).
 					InsertMany(ctx, []interface{}{model.Release{
-						Name: self.ReleaseName,
-						Tags: model.Tags{"bar", "foo"},
+						ReleaseBase: model.ReleaseBase{
+							Name: self.ReleaseName,
+							Tags: model.Tags{"bar", "foo"},
+						},
 					}, model.Release{
-						Name: "v100.2.3",
-						Tags: model.Tags{"bar", "baz"},
+						ReleaseBase: model.ReleaseBase{
+							Name: "v100.2.3",
+							Tags: model.Tags{"bar", "baz"},
+						},
 					}})
 				if err != nil {
 					t.Errorf("failed to initialize dataset: %s", err)
@@ -1370,11 +1480,15 @@ func TestUpdateRelease(t *testing.T) {
 				_, err := client.Database(DbName).
 					Collection(CollectionReleases).
 					InsertMany(ctx, []interface{}{model.Release{
-						Name: self.ReleaseName,
-						Tags: model.Tags{"bar", "foo"},
+						ReleaseBase: model.ReleaseBase{
+							Name: self.ReleaseName,
+							Tags: model.Tags{"bar", "foo"},
+						},
 					}, model.Release{
-						Name: "v100.2.4",
-						Tags: model.Tags{"bar", "baz"},
+						ReleaseBase: model.ReleaseBase{
+							Name: "v100.2.4",
+							Tags: model.Tags{"bar", "baz"},
+						},
 					}})
 				if err != nil {
 					t.Errorf("failed to initialize dataset: %s", err)
@@ -1404,19 +1518,23 @@ func TestUpdateRelease(t *testing.T) {
 					Collection(CollectionReleases).
 					InsertMany(self,
 						[]interface{}{model.Release{
-							Name: self.ReleaseName,
-							Tags: func() model.Tags {
-								newTags := make(model.Tags, model.TagsMaxUnique)
-								for i := range newTags {
-									newTags[i] = model.Tag(
-										"field" + strconv.Itoa(i),
-									)
-								}
-								return newTags
-							}(),
+							ReleaseBase: model.ReleaseBase{
+								Name: self.ReleaseName,
+								Tags: func() model.Tags {
+									newTags := make(model.Tags, model.TagsMaxUnique)
+									for i := range newTags {
+										newTags[i] = model.Tag(
+											"field" + strconv.Itoa(i),
+										)
+									}
+									return newTags
+								}(),
+							},
 						}, model.Release{
-							Name: "v1.2.3-beta",
-							Tags: model.Tags{"bar", "foo"},
+							ReleaseBase: model.ReleaseBase{
+								Name: "v1.2.3-beta",
+								Tags: model.Tags{"bar", "foo"},
+							},
 						}})
 				if err != nil {
 					t.Errorf("failed to initialize dataset: %s", err)
@@ -1498,19 +1616,27 @@ func TestDeleteReleasesByNames(t *testing.T) {
 		"ok": {
 			inputReleases: []interface{}{
 				&model.Release{
-					Name: "foo",
+					ReleaseBase: model.ReleaseBase{
+						Name: "foo",
+					},
 				},
 				&model.Release{
-					Name: "bar",
+					ReleaseBase: model.ReleaseBase{
+						Name: "bar",
+					},
 				},
 				&model.Release{
-					Name: "baz",
+					ReleaseBase: model.ReleaseBase{
+						Name: "baz",
+					},
 				},
 			},
 			names: []string{"foo", "bar"},
 			outputReleases: []model.Release{
 				{
-					Name: "baz",
+					ReleaseBase: model.ReleaseBase{
+						Name: "baz",
+					},
 				},
 			},
 		},

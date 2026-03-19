@@ -166,7 +166,9 @@ func TestGetRelease(t *testing.T) {
 		"ok": {
 			releaseName: "foo",
 			appRelease: &dmodel.Release{
-				Name: "foo",
+				ReleaseBase: dmodel.ReleaseBase{
+					Name: "foo",
+				},
 				Artifacts: []model.Image{
 					{
 						Id: "1",
@@ -186,7 +188,9 @@ func TestGetRelease(t *testing.T) {
 				http.StatusOK,
 				nil,
 				&dmodel.Release{
-					Name: "foo",
+					ReleaseBase: dmodel.ReleaseBase{
+						Name: "foo",
+					},
 					Artifacts: []model.Image{
 						{
 							Id: "1",

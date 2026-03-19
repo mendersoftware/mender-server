@@ -88,15 +88,17 @@ func TestConvertReleasesToV1(t *testing.T) {
 	now := time.Now()
 	releases := []Release{
 		{
-			Name:     "r1",
-			Modified: &now,
+			ReleaseBase: ReleaseBase{
+				Name:     "r1",
+				Modified: &now,
+				Tags:     Tags{"t1", "t2"},
+			},
 			Artifacts: []Image{
 				{
 					Id: "i1",
 				},
 			},
 			ArtifactsCount: 1,
-			Tags:           Tags{"t1", "t2"},
 		},
 	}
 	expected := []ReleaseV1{
