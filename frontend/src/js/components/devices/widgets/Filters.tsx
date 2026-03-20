@@ -156,7 +156,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
           <Button
             className="align-self-start margin-bottom-small"
             color="info"
-            disabled={!(isFilterDefined && hasFullFiltering)}
+            disabled={!isFilterDefined}
             onClick={onAddClick}
             startIcon={<AddIcon />}
             variant="outlined"
