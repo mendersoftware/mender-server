@@ -91,6 +91,9 @@ func TestSettingsMarshalBSON(t *testing.T) {
 		Values: map[string]interface{}{
 			"key":       "value",
 			"tenant_id": "this is reserved",
+			"complex": map[string]any{
+				"nested": "setting",
+			},
 		},
 	}
 
@@ -106,6 +109,9 @@ func TestSettingsMarshalBSON(t *testing.T) {
 		ETag: "etag",
 		Values: map[string]interface{}{
 			"key": "value",
+			"complex": map[string]any{
+				"nested": "setting",
+			},
 		},
 	}
 	assert.Equal(t, expected, unmarshalled)

@@ -15,6 +15,7 @@
 package model
 
 import (
+	"bytes"
 	"encoding/json"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
@@ -63,8 +64,10 @@ func (s Settings) MarshalBSON() ([]byte, error) {
 }
 
 func (s *Settings) UnmarshalBSON(b []byte) error {
-	value := map[string]interface{}{}
-	err := bson.Unmarshal(b, &value)
+	value := map[string]any{}
+	decoder := bson.NewDecoder(bson.NewDocumentReader(bytes.NewReader(b)))
+	decoder.DefaultDocumentMap()
+	err := decoder.Decode(&value)
 	if val, ok := value[settingsID]; ok {
 		if valString, ok := val.(string); ok {
 			s.ID = valString
