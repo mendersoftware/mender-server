@@ -281,7 +281,7 @@ export const Header = ({ isDarkMode }) => {
   const { inprogress: inprogressDeployments } = useSelector(getDeploymentsByStatus);
   const { total: inProgress } = inprogressDeployments;
   const isEnterprise = useSelector(getIsEnterprise);
-  const { hasFeedbackEnabled, isHosted } = useSelector(getFeatures);
+  const { hasAiEnabled, hasFeedbackEnabled, isHosted } = useSelector(getFeatures);
   const { searchTerm, refreshTrigger } = useSelector(getSearchState);
   const { accepted: acceptedDevices, pending: pendingDevices } = useSelector(getDeviceCountsByStatus);
   const userSettingInitialized = useSelector(getUserSettingsInitialized);
@@ -347,7 +347,11 @@ export const Header = ({ isDarkMode }) => {
   };
 
   const showOffer =
-    isHosted && dayjs().isBefore(currentOffer.expires) && (organization.trial ? currentOffer.trial : currentOffer[organization.plan]) && !hasOfferCookie;
+    hasAiEnabled &&
+    isHosted &&
+    dayjs().isBefore(currentOffer.expires) &&
+    (organization.trial ? currentOffer.trial : currentOffer[organization.plan]) &&
+    !hasOfferCookie;
 
   const headerLogo = isDarkMode ? (isEnterprise ? whiteEnterpriseLogo : whiteLogo) : isEnterprise ? enterpriseLogo : logo;
 
