@@ -41,6 +41,7 @@ import {
   deploymentSubstates,
   rootfsImageVersion as rootfsImageVersionAttribute
 } from '@northern.tech/store/constants';
+import { generateReleasesPath } from '@northern.tech/store/locationutils';
 import { formatTime } from '@northern.tech/utils/helpers';
 
 import DeltaIcon from '../../../../assets/img/deltaicon.svg';
@@ -113,12 +114,10 @@ const deviceListColumns = [
     key: 'current-artifact',
     title: 'Current artifact',
     render: ({ device: { attributes = {} }, userCapabilities: { canReadReleases } }) => {
-      const { artifact_name } = attributes;
-      const softwareName = artifact_name;
-      const encodedArtifactName = encodeURIComponent(softwareName);
+      const { artifact_name: softwareName } = attributes;
       return softwareName ? (
         canReadReleases ? (
-          <Link {...defaultLinkProps} to={`/releases/${encodedArtifactName}`}>
+          <Link {...defaultLinkProps} to={generateReleasesPath({ pageState: { selectedRelease: softwareName } })}>
             {softwareName}
             <LaunchIcon className="margin-left-x-small" fontSize="small" />
           </Link>
@@ -137,10 +136,9 @@ const deviceListColumns = [
     render: ({ device: { attributes = {} }, userCapabilities: { canReadReleases } }) => {
       const { [rootfsImageVersionAttribute]: rootfsImageVersion } = attributes;
       const softwareName = rootfsImageVersion;
-      const encodedArtifactName = encodeURIComponent(softwareName);
       return softwareName ? (
         canReadReleases ? (
-          <a style={{ fontWeight: 'initial' }} href={`/releases/${encodedArtifactName}`}>
+          <a style={{ fontWeight: 'initial' }} href={generateReleasesPath({ pageState: { selectedRelease: softwareName } })}>
             {softwareName}
           </a>
         ) : (

@@ -24,6 +24,7 @@ import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { getToken } from '@northern.tech/store/auth';
 import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates } from '@northern.tech/store/constants';
+import { generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getDeploymentById as getDeploymentByIdSelector, getFeatures, getIsPreview } from '@northern.tech/store/selectors';
 import { getDeviceDeployments, getDeviceLog, getSingleDeployment, resetDeviceDeployments } from '@northern.tech/store/thunks';
 
@@ -63,7 +64,11 @@ const EmptyState = ({ isFiltered }) => (
 );
 
 const columns = [
-  { content: 'Release', key: 'release', Component: ({ deviceDeployment: { release } }) => <Link to={`/releases/${release}`}>{release}</Link> },
+  {
+    content: 'Release',
+    key: 'release',
+    Component: ({ deviceDeployment: { release } }) => <Link to={generateReleasesPath({ pageState: { selectedRelease: release } })}>{release}</Link>
+  },
   { content: 'Started', key: 'created', Component: ({ deviceDeployment: { created } }) => <MaybeTime value={created} /> },
   { content: 'Finished', key: 'finished', Component: ({ deviceDeployment: { finished } }) => <MaybeTime value={finished} /> },
   { content: 'Device status', key: 'status', Component: ({ deviceDeployment: { status } }) => status },

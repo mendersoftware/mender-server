@@ -353,8 +353,7 @@ export const ReleaseDetails = () => {
   const onRemoveArtifact = artifact => dispatch(removeArtifact(artifact.id)).finally(() => setShowRemoveArtifactDialog(false));
 
   const copyLinkToClipboard = () => {
-    const location = window.location.href.substring(0, window.location.href.indexOf('/releases'));
-    copy(`${location}${generateReleasesPath({ pageState: { selectedRelease: releaseName } })}`);
+    copy(`${window.location.origin}/ui${generateReleasesPath({ pageState: { selectedRelease: releaseName } })}`);
     dispatch(setSnackbar('Link copied to clipboard'));
   };
 

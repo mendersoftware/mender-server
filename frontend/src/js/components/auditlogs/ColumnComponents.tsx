@@ -16,8 +16,9 @@ import { Link } from 'react-router-dom';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import Time from '@northern.tech/common-ui/Time';
 import { DEPLOYMENT_ROUTES, auditlogTypes, canAccess } from '@northern.tech/store/constants';
+import { generateReleasesPath } from '@northern.tech/store/locationutils';
 
-const ArtifactLink = ({ item }) => <Link to={`/releases/${item.object.artifact.name}`}>View artifact</Link>;
+const ArtifactLink = ({ item }) => <Link to={generateReleasesPath({ pageState: { selectedRelease: item.object.artifact.name } })}>View artifact</Link>;
 const DeploymentLink = ({ item }) => <Link to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</Link>;
 const DeviceLink = ({ item }) => <Link to={`/devices?id=${item.object.id}`}>View device</Link>;
 const DeviceRejectedLink = ({ item }) => <Link to={`/devices/rejected?id=${item.object.id}`}>View device</Link>;
