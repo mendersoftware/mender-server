@@ -93,13 +93,11 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
   };
 
   return (
-    <div className="report-container margin-top-large margin-bottom-large">
-      <div>
-        <SynchronizedTwoColumnData data={deploymentInfo} />
-        <Button endIcon={<ScrollDownIcon fontSize="small" />} className="margin-top" onClick={onScheduleClick} variant="text">
-          See schedule details
-        </Button>
-      </div>
+    <div className="margin-top-large margin-bottom-large">
+      <SynchronizedTwoColumnData data={deploymentInfo} />
+      <Button endIcon={<ScrollDownIcon fontSize="small" />} className="margin-top" onClick={onScheduleClick} variant="text">
+        See schedule details
+      </Button>
     </div>
   );
 };
