@@ -24,36 +24,41 @@ import validator from 'validator';
 
 const filter = createFilterOptions();
 
+const NAME_LENGTH_LIMIT = 256;
+
 export const validateGroupName = (encodedName: string, groups = [], selectedDevices = [], isCreationDynamic) => {
   const name = fullyDecodeURI(encodedName);
   let invalid = false;
-  let errortext = null;
+  let errorText = '';
   const isModification = name.length && groups.some(group => decodeURIComponent(group) === name);
   if (!name && !isModification) {
     invalid = true;
   } else if (!validator.isWhitelisted(name, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.')) {
     invalid = true;
-    errortext = 'Valid characters are a-z, A-Z, 0-9, ., _ and -';
+    errorText = 'Valid characters are a-z, A-Z, 0-9, ., _ and -';
+  } else if (name.length > NAME_LENGTH_LIMIT) {
+    invalid = true;
+    errorText = `Name must be at most ${NAME_LENGTH_LIMIT} characters long`;
   } else if (selectedDevices.length && selectedDevices.every(({ group }) => group === name)) {
     invalid = true;
-    errortext = `${name} is the same group the selected devices are already in`;
+    errorText = `${name} is the same group the selected devices are already in`;
   } else if (isModification && isCreationDynamic) {
     invalid = true;
-    errortext = 'A group with the same name already exists';
+    errorText = 'A group with the same name already exists';
   } else if (name === UNGROUPED_GROUP.name) {
     invalid = true;
-    errortext = `A group with the name ${name} is created automatically`;
+    errorText = `A group with the name ${name} is created automatically`;
   }
-  return { errortext, invalid, isModification, name };
+  return { errorText: errorText, invalid, isModification, name };
 };
 
 const GroupOption = (props, option) => <li {...props}>{option.title}</li>;
 
 export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputChange, selectedDevices, selectedGroup }) => {
-  const [errortext, setErrorText] = useState('');
+  const [errorText, setErrorText] = useState('');
 
   const validateName = (encodedName: string) => {
-    const { errortext: error, invalid, isModification, name } = validateGroupName(encodedName, groups, selectedDevices, isCreationDynamic);
+    const { errorText: error, invalid, isModification, name } = validateGroupName(encodedName, groups, selectedDevices, isCreationDynamic);
     setErrorText(error);
     onInputChange(invalid, name, isModification);
   };
@@ -102,7 +107,7 @@ export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputCh
         renderInput={params => <TextField {...params} label="Select a group, or type to create new" InputProps={{ ...params.InputProps }} />}
         renderOption={GroupOption}
       />
-      <FormHelperText>{errortext}</FormHelperText>
+      <FormHelperText>{errorText}</FormHelperText>
       {isCreationDynamic && (
         <InfoText>
           Note: individual devices can&apos;t be added to dynamic groups.

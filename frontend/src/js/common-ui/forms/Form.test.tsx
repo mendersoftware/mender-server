@@ -17,7 +17,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import Form from './Form';
+import Form, { runValidations } from './Form';
 import FormCheckbox from './FormCheckbox';
 import PasswordInput from './PasswordInput';
 import TextInput from './TextInput';
@@ -50,5 +50,26 @@ describe('Form Component', () => {
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.getByRole('button', { name: /submit/i })).not.toBeDisabled());
     window.prompt.mockClear();
+  });
+
+  describe('runValidations', () => {
+    it('validates maxLength correctly', () => {
+      const longValue = 'a'.repeat(257);
+      const result = runValidations({
+        required: false,
+        value: longValue,
+        id: 'name',
+        validations: 'isAlphanumericLocator,isLength:1:256',
+        wasMaybeTouched: true
+      });
+      expect(result.isValid).toBeFalsy();
+      expect(result.errortext).toBe('Must be between 1 and 256 characters long');
+    });
+
+    it('accepts values within maxLength', () => {
+      const value = 'a'.repeat(256);
+      const result = runValidations({ required: false, value, id: 'name', validations: 'isAlphanumericLocator,isLength:1:256', wasMaybeTouched: true });
+      expect(result.isValid).toBeTruthy();
+    });
   });
 });

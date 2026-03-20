@@ -35,7 +35,9 @@ const getErrorMsg = (validateMethod, args) => {
   }
   switch (validateMethod) {
     case 'isLength':
-      if (Number(args[0]) === 1) {
+      if (args[1]) {
+        return `Must be between ${args[0]} and ${args[1]} characters long`;
+      } else if (Number(args[0]) === 1) {
         return 'This field is required';
       } else if (args[0] > 1) {
         return `Must be at least ${args[0]} characters long`;
