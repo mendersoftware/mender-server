@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Pause as PauseIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-material';
+import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -20,8 +21,8 @@ import { groupDeploymentStats } from '@northern.tech/store/utils';
 
 const useStyles = makeStyles()(theme => ({
   progressStatus: {
-    backgroundColor: theme.palette.background.light,
-    padding: `${theme.spacing(2)} ${theme.spacing(8)} ${theme.spacing(2)}`
+    backgroundColor: theme.palette.info.light,
+    borderRadius: theme.spacing(0.5)
   },
   scrollDown: { marginLeft: theme.spacing() }
 }));
@@ -78,29 +79,31 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
   const { failure, finished: finishedDeployment, scheduled, success, ...phasesWithStats } = deploymentDisplayStates;
 
   return (
-    <div className={`${classes.progressStatus} flexbox space-between centered margin-bottom ${className}`}>
-      <div className="flexbox column">
-        <div className="muted">Status</div>
-        <h4 className="margin-bottom-none muted">{statusDescription}</h4>
-      </div>
-      <div className="flexbox space-between align-right" style={{ minWidth: '40%' }}>
+    <>
+      <div className={`${classes.progressStatus} flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium ${className}`}>
         <div className="flexbox column">
-          <div className="muted margin-bottom-small"># devices</div>
-          <div>{statsBasedDeviceCount}</div>
+          <Typography className="margin-bottom-small">Status</Typography>
+          <Typography variant="body2">{statusDescription}</Typography>
         </div>
-        {Object.entries(phasesWithStats).map(([key, phase]) => (
-          <div key={key} className="flexbox column">
-            <div className="muted margin-bottom-small">{phase}</div>
-            <div className="status">{phaseStats[key].toLocaleString()}</div>
+        <div className="flexbox space-between align-right">
+          <div className="flexbox column">
+            <Typography className="margin-bottom-small nowrap"># devices</Typography>
+            <Typography variant="body2">{statsBasedDeviceCount}</Typography>
           </div>
-        ))}
+          {Object.entries(phasesWithStats).map(([key, phase]) => (
+            <div key={key} className="flexbox column margin-left-medium">
+              <Typography className="margin-bottom-small nowrap">{phase}</Typography>
+              <Typography variant="body2">{phaseStats[key].toLocaleString()}</Typography>
+            </div>
+          ))}
+        </div>
       </div>
       <SynchronizedTwoColumnData
-        className="margin-left"
+        className="margin-bottom"
         data={{ 'Update attempts per device': retries, 'Maximum number of devices': max_devices || 'N/A' }}
         style={{ gridTemplateColumns: 'max-content 1fr' }}
       />
-    </div>
+    </>
   );
 };
 
