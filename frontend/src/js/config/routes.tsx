@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { ReactElement } from 'react';
-import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import AuditLogs from '../components/auditlogs/AuditLogs';
 import Dashboard from '../components/dashboard/Dashboard';
@@ -33,6 +33,15 @@ import { TenantPage } from '../components/tenants/TenantPage';
 type RouteConfig = { element: ReactElement; isPublic?: boolean; path: string; title: string };
 type RouteConfigs = Record<string, RouteConfig>;
 
+const ReleaseFallback = () => {
+  const { search } = useLocation();
+  const { selectedRelease } = useParams();
+  const navigate = useNavigate();
+
+  navigate(`/software/${selectedRelease}${search}`);
+  return null;
+};
+
 export const routeConfigs: RouteConfigs = {
   activate: { path: 'activate/:code', element: <Activate />, title: 'Email verification' },
   auditlog: { path: 'auditlog', element: <AuditLogs />, title: 'Audit log' },
@@ -43,7 +52,8 @@ export const routeConfigs: RouteConfigs = {
   login: { path: 'login', element: <Login />, title: 'Tenants', isPublic: true },
   password: { path: 'password', element: <Password />, title: 'Tenants', isPublic: true },
   passwordReset: { path: 'password/:secretHash', element: <PasswordReset />, title: 'Tenants' },
-  releases: { path: 'releases', element: <Releases />, title: 'Releases' },
+  releases: { path: 'software', element: <Releases />, title: 'Software' },
+  releasesFallback: { path: 'releases', element: <ReleaseFallback />, title: 'Software' },
   settings: { path: 'settings', element: <Settings />, title: 'Settings' },
   signup: { path: 'signup', element: <Signup />, title: 'Tenants', isPublic: true },
   subscription: { path: 'subscription', element: <SubscriptionPage />, title: 'Upgrade your subscription' },
@@ -71,6 +81,9 @@ export const PrivateRoutes = () => (
       </Route>
       <Route path={routeConfigs.releases.path} element={routeConfigs.releases.element}>
         <Route path=":artifactVersion" element={null} />
+      </Route>
+      <Route path={routeConfigs.releasesFallback.path} element={routeConfigs.releasesFallback.element}>
+        <Route path=":selectedRelease" element={null} />
       </Route>
       <Route path={routeConfigs.deployments.path} element={routeConfigs.deployments.element}>
         <Route path=":tab" element={null} />
