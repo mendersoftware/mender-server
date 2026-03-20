@@ -3267,7 +3267,7 @@ exports[`CreateDeployment Component > smaller components > renders ReleasesWarni
        
       <a
         data-discover="true"
-        href="/releases"
+        href="/software"
       >
         Upload one to the repository
       </a>
@@ -3324,7 +3324,7 @@ exports[`CreateDeployment Component > smaller components > renders ReleasesWarni
        
       <a
         data-discover="true"
-        href="/releases"
+        href="/software"
       >
         Upload one to the repository
       </a>

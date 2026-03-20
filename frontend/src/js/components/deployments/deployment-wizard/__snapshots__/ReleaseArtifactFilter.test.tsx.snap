@@ -728,7 +728,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 <a
                   color="inherit"
                   data-discover="true"
-                  href="/releases"
+                  href="/software"
                 >
                   Upload a new Release
                 </a>

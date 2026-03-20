@@ -1092,7 +1092,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
           >
             <a
               data-discover="true"
-              href="/releases/some-release"
+              href="/software/some-release"
             >
               some-release
             </a>
