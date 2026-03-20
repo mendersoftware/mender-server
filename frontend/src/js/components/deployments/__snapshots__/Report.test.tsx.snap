@@ -150,203 +150,201 @@ Devices that are in the middle of the deployment at the time of abort will finis
       />
       <div>
         <div
-          class="report-container margin-top-large margin-bottom-large"
+          class="margin-top-large margin-bottom-large"
         >
-          <div>
+          <div
+            class="break-all two-columns css-7gpf1z-root column-data "
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="white-space: nowrap;"
+            >
+              Release
+            </h6>
             <div
-              class="break-all two-columns css-7gpf1z-root column-data "
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Release
-              </h6>
               <div
-                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
               >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                <a
+                  class="flexbox centered"
+                  data-discover="true"
+                  href="/releases/r1"
+                  rel="noopener noreferrer"
+                  style="font-weight: 500;"
+                  target="_blank"
                 >
-                  <a
-                    class="flexbox centered"
-                    data-discover="true"
-                    href="/releases/r1"
-                    rel="noopener noreferrer"
-                    style="font-weight: 500;"
-                    target="_blank"
+                  r1
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
+                    data-testid="LaunchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    r1
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                      data-testid="LaunchIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                      />
-                    </svg>
-                  </a>
-                </div>
-                <svg
-                  aria-hidden="true"
-                  aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                  data-mui-internal-clone-element="true"
-                  data-testid="FileCopyOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                  />
-                </svg>
+                    <path
+                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+                    />
+                  </svg>
+                </a>
               </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                Target device(s)
-              </h6>
-              <div
-                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
-              >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
-                >
-                  <a
-                    class="flexbox centered"
-                    data-discover="true"
-                    href="/devices"
-                    rel="noopener noreferrer"
-                    style="font-weight: 500;"
-                    target="_blank"
-                  >
-                    test deployment
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                      data-testid="LaunchIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                      />
-                    </svg>
-                    <div
-                      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-1xm4ydy-MuiChip-root-chip"
-                    >
-                      <span
-                        class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
-                      >
-                        static
-                      </span>
-                    </div>
-                  </a>
-                </div>
-                <svg
-                  aria-hidden="true"
-                  aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                  data-mui-internal-clone-element="true"
-                  data-testid="FileCopyOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                  />
-                </svg>
-              </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Category
-              </h6>
-              <div
-                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
-                  title="Software update"
-                >
-                  Software update
-                </p>
-                <svg
-                  aria-hidden="true"
-                  aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                  data-mui-internal-clone-element="true"
-                  data-testid="FileCopyOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                  />
-                </svg>
-              </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Created at
-              </h6>
-              <div
-                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
-              >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
-                  title="2019-01-01T12:30:00.000Z"
-                >
-                  <time
-                    datetime="2019-01-01T12:30:00+00:00"
-                  >
-                    2019-01-01 12:30
-                  </time>
-                </div>
-                <svg
-                  aria-hidden="true"
-                  aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                  data-mui-internal-clone-element="true"
-                  data-testid="FileCopyOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                  />
-                </svg>
-              </div>
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="white-space: nowrap;"
             >
-              See schedule details
-              <span
-                class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium css-1gulhci-MuiButton-endIcon"
+              Target device(s)
+            </h6>
+            <div
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-                  data-testid="ArrowDropDownCircleOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <a
+                  class="flexbox centered"
+                  data-discover="true"
+                  href="/devices"
+                  rel="noopener noreferrer"
+                  style="font-weight: 500;"
+                  target="_blank"
                 >
-                  <path
-                    d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
-                  />
-                </svg>
-              </span>
-            </button>
+                  test deployment
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
+                    data-testid="LaunchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+                    />
+                  </svg>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-1xm4ydy-MuiChip-root-chip"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                    >
+                      static
+                    </span>
+                  </div>
+                </a>
+              </div>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
+            </div>
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="white-space: nowrap;"
+            >
+              Category
+            </h6>
+            <div
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                title="Software update"
+              >
+                Software update
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
+            </div>
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="white-space: nowrap;"
+            >
+              Created at
+            </h6>
+            <div
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                title="2019-01-01T12:30:00.000Z"
+              >
+                <time
+                  datetime="2019-01-01T12:30:00+00:00"
+                >
+                  2019-01-01 12:30
+                </time>
+              </div>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
+            </div>
           </div>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            See schedule details
+            <span
+              class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium css-1gulhci-MuiButton-endIcon"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                data-testid="ArrowDropDownCircleOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
+                />
+              </svg>
+            </span>
+          </button>
         </div>
         <div
           class="dashboard-header css-ww9esm-border css-zr8z23-header"
@@ -358,185 +356,186 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </span>
         </div>
         <div
-          class="css-qfhcfv-progressStatus flexbox space-between centered margin-bottom "
+          class="css-t9z1pl-progressStatus flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium "
         >
           <div
             class="flexbox column"
           >
-            <div
-              class="muted"
+            <p
+              class="MuiTypography-root MuiTypography-body1 margin-bottom-small css-rizt0-MuiTypography-root"
             >
               Status
-            </div>
-            <h4
-              class="margin-bottom-none muted"
+            </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
             >
               Pending
                (awaiting devices)
-            </h4>
+            </p>
           </div>
           <div
             class="flexbox space-between align-right"
-            style="min-width: 40%;"
           >
             <div
               class="flexbox column"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 # devices
-              </div>
-              <div>
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              >
                 1
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 Skipped
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 Paused
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 Pending
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 In Progress
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 1
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 Success
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 Fail
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
           </div>
-          <div
-            class="break-all two-columns css-7gpf1z-root column-data margin-left"
+        </div>
+        <div
+          class="break-all two-columns css-7gpf1z-root column-data margin-bottom"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+            style="white-space: nowrap;"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
+            Update attempts per device
+          </h6>
+          <div
+            class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+              title="1"
             >
-              Update attempts per device
-            </h6>
-            <div
-              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+              1
+            </p>
+            <svg
+              aria-hidden="true"
+              aria-label="Copy to clipboard"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+              data-mui-internal-clone-element="true"
+              data-testid="FileCopyOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
-                title="1"
-              >
-                1
-              </p>
-              <svg
-                aria-hidden="true"
-                aria-label="Copy to clipboard"
-                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                data-mui-internal-clone-element="true"
-                data-testid="FileCopyOutlinedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                />
-              </svg>
-            </div>
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
+              <path
+                d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+              />
+            </svg>
+          </div>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+            style="white-space: nowrap;"
+          >
+            Maximum number of devices
+          </h6>
+          <div
+            class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+              title="N/A"
             >
-              Maximum number of devices
-            </h6>
-            <div
-              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+              N/A
+            </p>
+            <svg
+              aria-hidden="true"
+              aria-label="Copy to clipboard"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+              data-mui-internal-clone-element="true"
+              data-testid="FileCopyOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
-                title="N/A"
-              >
-                N/A
-              </p>
-              <svg
-                aria-hidden="true"
-                aria-label="Copy to clipboard"
-                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                data-mui-internal-clone-element="true"
-                data-testid="FileCopyOutlinedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                />
-              </svg>
-            </div>
+              <path
+                d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+              />
+            </svg>
           </div>
         </div>
         <div
@@ -1339,202 +1338,200 @@ Devices that are in the middle of the deployment at the time of abort will finis
       />
       <div>
         <div
-          class="report-container margin-top-large margin-bottom-large"
+          class="margin-top-large margin-bottom-large"
         >
-          <div>
+          <div
+            class="break-all two-columns css-7gpf1z-root column-data "
+          >
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="white-space: nowrap;"
+            >
+              Release
+            </h6>
             <div
-              class="break-all two-columns css-7gpf1z-root column-data "
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
             >
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Release
-              </h6>
               <div
-                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
               >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                <a
+                  class="flexbox centered"
+                  data-discover="true"
+                  href="/releases/undefined"
+                  rel="noopener noreferrer"
+                  style="font-weight: 500;"
+                  target="_blank"
                 >
-                  <a
-                    class="flexbox centered"
-                    data-discover="true"
-                    href="/releases/undefined"
-                    rel="noopener noreferrer"
-                    style="font-weight: 500;"
-                    target="_blank"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
+                    data-testid="LaunchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                      data-testid="LaunchIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                      />
-                    </svg>
-                  </a>
-                </div>
-                <svg
-                  aria-hidden="true"
-                  aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                  data-mui-internal-clone-element="true"
-                  data-testid="FileCopyOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                  />
-                </svg>
+                    <path
+                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+                    />
+                  </svg>
+                </a>
               </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                Target device(s)
-              </h6>
-              <div
-                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
-              >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
-                >
-                  <a
-                    class="flexbox centered"
-                    data-discover="true"
-                    href="/devices"
-                    rel="noopener noreferrer"
-                    style="font-weight: 500;"
-                    target="_blank"
-                  >
-                    Test
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                      data-testid="LaunchIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                      />
-                    </svg>
-                    <div
-                      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-1xm4ydy-MuiChip-root-chip"
-                    >
-                      <span
-                        class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
-                      >
-                        static
-                      </span>
-                    </div>
-                  </a>
-                </div>
-                <svg
-                  aria-hidden="true"
-                  aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                  data-mui-internal-clone-element="true"
-                  data-testid="FileCopyOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                  />
-                </svg>
-              </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Category
-              </h6>
-              <div
-                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
-              >
-                <p
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
-                  title="Software update"
-                >
-                  Software update
-                </p>
-                <svg
-                  aria-hidden="true"
-                  aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                  data-mui-internal-clone-element="true"
-                  data-testid="FileCopyOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                  />
-                </svg>
-              </div>
-              <h6
-                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-                style="white-space: nowrap;"
-              >
-                Created at
-              </h6>
-              <div
-                class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
-              >
-                <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
-                  title="2019-01-31T12:59:30.020Z"
-                >
-                  <time
-                    datetime="2019-01-31T12:59:30+00:00"
-                  >
-                    2019-01-31 12:59
-                  </time>
-                </div>
-                <svg
-                  aria-hidden="true"
-                  aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                  data-mui-internal-clone-element="true"
-                  data-testid="FileCopyOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                  />
-                </svg>
-              </div>
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="white-space: nowrap;"
             >
-              See schedule details
-              <span
-                class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium css-1gulhci-MuiButton-endIcon"
+              Target device(s)
+            </h6>
+            <div
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-                  data-testid="ArrowDropDownCircleOutlinedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <a
+                  class="flexbox centered"
+                  data-discover="true"
+                  href="/devices"
+                  rel="noopener noreferrer"
+                  style="font-weight: 500;"
+                  target="_blank"
                 >
-                  <path
-                    d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
-                  />
-                </svg>
-              </span>
-            </button>
+                  Test
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
+                    data-testid="LaunchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+                    />
+                  </svg>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-1xm4ydy-MuiChip-root-chip"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                    >
+                      static
+                    </span>
+                  </div>
+                </a>
+              </div>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
+            </div>
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="white-space: nowrap;"
+            >
+              Category
+            </h6>
+            <div
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                title="Software update"
+              >
+                Software update
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
+            </div>
+            <h6
+              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+              style="white-space: nowrap;"
+            >
+              Created at
+            </h6>
+            <div
+              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                title="2019-01-31T12:59:30.020Z"
+              >
+                <time
+                  datetime="2019-01-31T12:59:30+00:00"
+                >
+                  2019-01-31 12:59
+                </time>
+              </div>
+              <svg
+                aria-hidden="true"
+                aria-label="Copy to clipboard"
+                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+                data-mui-internal-clone-element="true"
+                data-testid="FileCopyOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+                />
+              </svg>
+            </div>
           </div>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            See schedule details
+            <span
+              class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium css-1gulhci-MuiButton-endIcon"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                data-testid="ArrowDropDownCircleOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
+                />
+              </svg>
+            </span>
+          </button>
         </div>
         <div
           class="dashboard-header css-ww9esm-border css-zr8z23-header"
@@ -1546,184 +1543,185 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </span>
         </div>
         <div
-          class="css-qfhcfv-progressStatus flexbox space-between centered margin-bottom "
+          class="css-t9z1pl-progressStatus flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium "
         >
           <div
             class="flexbox column"
           >
-            <div
-              class="muted"
+            <p
+              class="MuiTypography-root MuiTypography-body1 margin-bottom-small css-rizt0-MuiTypography-root"
             >
               Status
-            </div>
-            <h4
-              class="margin-bottom-none muted"
+            </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
             >
               In Progress
-            </h4>
+            </p>
           </div>
           <div
             class="flexbox space-between align-right"
-            style="min-width: 40%;"
           >
             <div
               class="flexbox column"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 # devices
-              </div>
-              <div>
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              >
                 0
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 Skipped
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 Paused
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 Pending
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 In Progress
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 Success
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
             <div
-              class="flexbox column"
+              class="flexbox column margin-left-medium"
             >
-              <div
-                class="muted margin-bottom-small"
+              <p
+                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
               >
                 Fail
-              </div>
-              <div
-                class="status"
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
               >
                 0
-              </div>
+              </p>
             </div>
           </div>
-          <div
-            class="break-all two-columns css-7gpf1z-root column-data margin-left"
+        </div>
+        <div
+          class="break-all two-columns css-7gpf1z-root column-data margin-bottom"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+            style="white-space: nowrap;"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
+            Update attempts per device
+          </h6>
+          <div
+            class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+              title="0"
             >
-              Update attempts per device
-            </h6>
-            <div
-              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+              0
+            </p>
+            <svg
+              aria-hidden="true"
+              aria-label="Copy to clipboard"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+              data-mui-internal-clone-element="true"
+              data-testid="FileCopyOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
-                title="0"
-              >
-                0
-              </p>
-              <svg
-                aria-hidden="true"
-                aria-label="Copy to clipboard"
-                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                data-mui-internal-clone-element="true"
-                data-testid="FileCopyOutlinedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                />
-              </svg>
-            </div>
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
+              <path
+                d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+              />
+            </svg>
+          </div>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+            style="white-space: nowrap;"
+          >
+            Maximum number of devices
+          </h6>
+          <div
+            class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+              title="N/A"
             >
-              Maximum number of devices
-            </h6>
-            <div
-              class="flexbox align-items-center copy-to-clipboard css-1gqhfda-copyIconOverride"
+              N/A
+            </p>
+            <svg
+              aria-hidden="true"
+              aria-label="Copy to clipboard"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
+              data-mui-internal-clone-element="true"
+              data-testid="FileCopyOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
-                title="N/A"
-              >
-                N/A
-              </p>
-              <svg
-                aria-hidden="true"
-                aria-label="Copy to clipboard"
-                class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small css-97maqu-MuiSvgIcon-root"
-                data-mui-internal-clone-element="true"
-                data-testid="FileCopyOutlinedIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                />
-              </svg>
-            </div>
+              <path
+                d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+              />
+            </svg>
           </div>
         </div>
         <div

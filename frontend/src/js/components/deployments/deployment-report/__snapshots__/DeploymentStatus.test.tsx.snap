@@ -2,7 +2,8 @@
 
 exports[`DeploymentPhaseNotification Component > renders correctly 1`] = `
 .emotion-0 {
-  padding: 16px 64px 16px;
+  background-color: #03a9f4;
+  border-radius: 4px;
 }
 
 .emotion-1 {
@@ -89,16 +90,35 @@ exports[`DeploymentPhaseNotification Component > renders correctly 1`] = `
 
 exports[`DeploymentStatus Component > renders correctly 1`] = `
 .emotion-0 {
-  padding: 16px 64px 16px;
+  background-color: #03a9f4;
+  border-radius: 4px;
 }
 
-.emotion-1.two-columns.column-data {
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-17.two-columns.column-data {
   grid-template-columns: max-content minmax(auto, 650px);
   max-width: initial;
   row-gap: 8px;
 }
 
-.emotion-2 {
+.emotion-18 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
@@ -107,11 +127,11 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
   letter-spacing: 0.00714em;
 }
 
-.emotion-3.copy-to-clipboard svg {
+.emotion-19.copy-to-clipboard svg {
   fill: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-4 {
+.emotion-20 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -126,7 +146,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
   word-break: break-word;
 }
 
-.emotion-5 {
+.emotion-21 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -146,185 +166,186 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
 
 <div>
   <div
-    class="emotion-0 flexbox space-between centered margin-bottom "
+    class="emotion-0 flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium "
   >
     <div
       class="flexbox column"
     >
-      <div
-        class="muted"
+      <p
+        class="MuiTypography-root MuiTypography-body1 margin-bottom-small emotion-1"
       >
         Status
-      </div>
-      <h4
-        class="margin-bottom-none muted"
+      </p>
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-2"
       >
         Pending
          (awaiting devices)
-      </h4>
+      </p>
     </div>
     <div
       class="flexbox space-between align-right"
-      style="min-width: 40%;"
     >
       <div
         class="flexbox column"
       >
-        <div
-          class="muted margin-bottom-small"
+        <p
+          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
         >
           # devices
-        </div>
-        <div>
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-2"
+        >
           1
-        </div>
+        </p>
       </div>
       <div
-        class="flexbox column"
+        class="flexbox column margin-left-medium"
       >
-        <div
-          class="muted margin-bottom-small"
+        <p
+          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
         >
           Skipped
-        </div>
-        <div
-          class="status"
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-2"
         >
           0
-        </div>
+        </p>
       </div>
       <div
-        class="flexbox column"
+        class="flexbox column margin-left-medium"
       >
-        <div
-          class="muted margin-bottom-small"
+        <p
+          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
         >
           Paused
-        </div>
-        <div
-          class="status"
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-2"
         >
           0
-        </div>
+        </p>
       </div>
       <div
-        class="flexbox column"
+        class="flexbox column margin-left-medium"
       >
-        <div
-          class="muted margin-bottom-small"
+        <p
+          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
         >
           Pending
-        </div>
-        <div
-          class="status"
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-2"
         >
           1
-        </div>
+        </p>
       </div>
       <div
-        class="flexbox column"
+        class="flexbox column margin-left-medium"
       >
-        <div
-          class="muted margin-bottom-small"
+        <p
+          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
         >
           In Progress
-        </div>
-        <div
-          class="status"
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-2"
         >
           0
-        </div>
+        </p>
       </div>
       <div
-        class="flexbox column"
+        class="flexbox column margin-left-medium"
       >
-        <div
-          class="muted margin-bottom-small"
+        <p
+          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
         >
           Success
-        </div>
-        <div
-          class="status"
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-2"
         >
           0
-        </div>
+        </p>
       </div>
       <div
-        class="flexbox column"
+        class="flexbox column margin-left-medium"
       >
-        <div
-          class="muted margin-bottom-small"
+        <p
+          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
         >
           Fail
-        </div>
-        <div
-          class="status"
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-2"
         >
           0
-        </div>
+        </p>
       </div>
     </div>
-    <div
-      class="break-all two-columns emotion-1 column-data margin-left"
+  </div>
+  <div
+    class="break-all two-columns emotion-17 column-data margin-bottom"
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-18"
+      style="white-space: nowrap;"
     >
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-2"
-        style="white-space: nowrap;"
+      Update attempts per device
+    </h6>
+    <div
+      class="flexbox align-items-center copy-to-clipboard emotion-19"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-20"
+        title="1"
       >
-        Update attempts per device
-      </h6>
-      <div
-        class="flexbox align-items-center copy-to-clipboard emotion-3"
+        1
+      </p>
+      <svg
+        aria-hidden="true"
+        aria-label="Copy to clipboard"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-21"
+        data-mui-internal-clone-element="true"
+        data-testid="FileCopyOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-4"
-          title="1"
-        >
-          1
-        </p>
-        <svg
-          aria-hidden="true"
-          aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
-          data-mui-internal-clone-element="true"
-          data-testid="FileCopyOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-          />
-        </svg>
-      </div>
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-2"
-        style="white-space: nowrap;"
+        <path
+          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+        />
+      </svg>
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-18"
+      style="white-space: nowrap;"
+    >
+      Maximum number of devices
+    </h6>
+    <div
+      class="flexbox align-items-center copy-to-clipboard emotion-19"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-20"
+        title="N/A"
       >
-        Maximum number of devices
-      </h6>
-      <div
-        class="flexbox align-items-center copy-to-clipboard emotion-3"
+        N/A
+      </p>
+      <svg
+        aria-hidden="true"
+        aria-label="Copy to clipboard"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-21"
+        data-mui-internal-clone-element="true"
+        data-testid="FileCopyOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-4"
-          title="N/A"
-        >
-          N/A
-        </p>
-        <svg
-          aria-hidden="true"
-          aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
-          data-mui-internal-clone-element="true"
-          data-testid="FileCopyOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-          />
-        </svg>
-      </div>
+        <path
+          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+        />
+      </svg>
     </div>
   </div>
 </div>
