@@ -242,12 +242,6 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
 }
 
 .emotion-15::-moz-focus-inner {
@@ -329,14 +323,6 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
 
 .emotion-15:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-15:hover {
-  font-weight: bold;
-}
-
-.emotion-15:hover {
-  font-weight: bold;
 }
 
 .emotion-16 {

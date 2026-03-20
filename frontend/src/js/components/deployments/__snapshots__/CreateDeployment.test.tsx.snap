@@ -3409,12 +3409,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
 }
 
 .emotion-1::-moz-focus-inner {
@@ -3496,14 +3490,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
 
 .emotion-1:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-1:hover {
-  font-weight: bold;
-}
-
-.emotion-1:hover {
-  font-weight: bold;
 }
 
 .emotion-2 {
@@ -4557,12 +4543,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
 }
 
 .emotion-1::-moz-focus-inner {
@@ -4644,14 +4624,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
 
 .emotion-1:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-1:hover {
-  font-weight: bold;
-}
-
-.emotion-1:hover {
-  font-weight: bold;
 }
 
 .emotion-2 {
@@ -5842,12 +5814,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
 }
 
 .emotion-6::-moz-focus-inner {
@@ -5929,14 +5895,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
 
 .emotion-6:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-6:hover {
-  font-weight: bold;
-}
-
-.emotion-6:hover {
-  font-weight: bold;
 }
 
 .emotion-7 {
@@ -6929,12 +6887,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
 }
 
 .emotion-6::-moz-focus-inner {
@@ -7016,14 +6968,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
 
 .emotion-6:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-6:hover {
-  font-weight: bold;
-}
-
-.emotion-6:hover {
-  font-weight: bold;
 }
 
 .emotion-7 {
@@ -8235,12 +8179,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
 }
 
 .emotion-6::-moz-focus-inner {
@@ -8322,14 +8260,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
 
 .emotion-6:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-6:hover {
-  font-weight: bold;
-}
-
-.emotion-6:hover {
-  font-weight: bold;
 }
 
 .emotion-7 {
@@ -9312,12 +9242,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
-  background-color: #f7fafb;
-  color: rgba(0, 0, 0, 0.38);
-  text-transform: uppercase;
 }
 
 .emotion-6::-moz-focus-inner {
@@ -9399,14 +9323,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
 
 .emotion-6:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-6:hover {
-  font-weight: bold;
-}
-
-.emotion-6:hover {
-  font-weight: bold;
 }
 
 .emotion-7 {
