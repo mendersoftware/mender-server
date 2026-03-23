@@ -584,6 +584,9 @@ test:backend:integration:
 
 test:backend:integration:ng:
   extends: .template:test:backend:integration
+  before_script:
+    - !reference [.template:test:backend:integration, before_script]
+    - apk add go
   script:
     - mkdir -p ${GOCOVERDIR}/integration-ng
     - make -C backend test-integration-ng

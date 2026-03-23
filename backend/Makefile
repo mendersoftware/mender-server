@@ -116,7 +116,7 @@ test-integration:
 
 .PHONY: test-integration-ng
 test-integration-ng:
-	./tests/runner/scripts/run.sh $(args)
+	go test -count=1 -v github.com/mendersoftware/mender-server/tests/runner/tests
 
 .PHONY: build-acceptance
 build-acceptance: $(BUILD_ACCEPTANCE_TARGETS)
