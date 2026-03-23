@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TextOverflowMultiline Component > renders correctly with short text 1`] = `
+.emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+<p
+  class="MuiTypography-root MuiTypography-body1 emotion-0"
+  style="display: -webkit-box; -webkit-line-clamp: 2; overflow: hidden; word-break: break-word;"
+>
+  Short text
+</p>
+`;
+
+exports[`TextOverflowMultiline Component > renders with custom lines and component 1`] = `
+.emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+<div
+  class="MuiTypography-root MuiTypography-body1 emotion-0"
+  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word;"
+>
+  Content
+</div>
+`;

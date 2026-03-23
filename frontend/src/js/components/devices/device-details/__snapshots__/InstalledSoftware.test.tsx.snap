@@ -142,12 +142,6 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
 }
 
 .emotion-7 {
@@ -216,6 +210,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="stablev1-beta-final-v0"
             >
               stablev1-beta-final-v0
@@ -249,6 +244,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="12341143"
             >
               12341143
@@ -312,6 +308,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+                      style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="13"
                     >
                       13
@@ -345,6 +342,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+                      style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="single-file-multi"
                     >
                       single-file-multi
@@ -395,6 +393,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+                      style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="13"
                     >
                       13
@@ -428,6 +427,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+                      style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="custom-delta-updater"
                     >
                       custom-delta-updater
@@ -480,6 +480,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="mender-demo-artifact-3.4.0"
                 >
                   mender-demo-artifact-3.4.0
@@ -532,6 +533,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="test-2"
             >
               test-2
@@ -582,6 +584,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="test-3"
             >
               test-3
@@ -615,6 +618,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="test-4"
             >
               test-4
@@ -665,6 +669,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="test-5"
             >
               test-5
@@ -698,6 +703,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="test-6"
             >
               test-6
@@ -759,6 +765,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="4123rfsad"
                 >
                   4123rfsad
@@ -792,6 +799,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="v5"
                 >
                   v5
@@ -842,6 +850,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="1232415512"
                 >
                   1232415512
@@ -875,6 +884,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="a2124"
                 >
                   a2124
@@ -908,6 +918,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-6"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="v1"
                 >
                   v1
