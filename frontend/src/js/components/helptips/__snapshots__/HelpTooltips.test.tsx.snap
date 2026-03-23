@@ -142,12 +142,6 @@ NodeList [
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
 }
 
 .emotion-4 {
@@ -182,6 +176,7 @@ NodeList [
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="The default, which blinks the led on storage activity"
       >
         The default, which blinks the led on storage activity
@@ -211,6 +206,7 @@ NodeList [
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="Turn on the light permanently"
       >
         Turn on the light permanently
@@ -240,6 +236,7 @@ NodeList [
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="Turn off the light permanently"
       >
         Turn off the light permanently
@@ -269,6 +266,7 @@ NodeList [
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="Enable heartbeat blinking"
       >
         Enable heartbeat blinking

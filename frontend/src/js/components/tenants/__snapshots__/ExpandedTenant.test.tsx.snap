@@ -351,12 +351,6 @@ exports[`ExpandedTenant > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
 }
 
 .emotion-17 {
@@ -670,15 +664,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
   border-radius: 4px;
 }
 
-.emotion-40 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
-}
-
 .emotion-41 {
   position: relative;
   overflow: hidden;
@@ -935,6 +920,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           >
             <div
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             >
               <div
                 class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-17"
@@ -1010,6 +996,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="671a0f1dd58c813118fe8622"
             >
               671a0f1dd58c813118fe8622
@@ -1039,6 +1026,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="2024-10-24T09:10:53.281Z"
             >
               2024-10-24T09:10:53.281Z
@@ -1068,6 +1056,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="active"
             >
               active
@@ -1110,7 +1099,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 </h6>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body2 emotion-40"
+                class="MuiTypography-root MuiTypography-body2 emotion-16"
                 data-testid="device-limit-micro"
               >
                 0
@@ -1166,7 +1155,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 </h6>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body2 emotion-40"
+                class="MuiTypography-root MuiTypography-body2 emotion-16"
                 data-testid="device-limit-standard"
               >
                 0
@@ -1222,7 +1211,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 </h6>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body2 emotion-40"
+                class="MuiTypography-root MuiTypography-body2 emotion-16"
                 data-testid="device-limit-system"
               >
                 0

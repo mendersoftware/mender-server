@@ -27,12 +27,6 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
 }
 
 .emotion-4 {
@@ -277,6 +271,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <a
           class="flexbox centered"
@@ -312,6 +307,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <a
           class="flexbox centered"
@@ -356,6 +352,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="Software update"
       >
         Software update
@@ -372,6 +369,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="2019-01-01"
       >
         <time
