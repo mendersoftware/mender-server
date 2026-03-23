@@ -499,7 +499,7 @@ export const Authorized = ({
               startIcon={<FilterListIcon />}
               variant={showFilters ? 'contained' : 'text'}
             >
-              Filters
+              {filters.length > 0 ? `Filters (${filters.length})` : 'Filters'}
             </Button>
           )}
           <ListOptions options={listOptionHandlers} title="Table options" />
