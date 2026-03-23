@@ -789,7 +789,7 @@ release:mender-docs-changelog:
     - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
     - cd ${GITHUB_CHANGELOG_REPO_URL#*/}
     - git checkout -b changelog-${CI_JOB_ID}
-    - cat ../.docs_header.md "../CHANGELOG${CHANGELOG_SUFFIX}.md" | grep -v -E '^---$' > "${CHANGELOG_REMOTE_FILE}"
+    - cat ../.docs_header.md > "${CHANGELOG_REMOTE_FILE}"; grep -v -E '^---$' "../CHANGELOG${CHANGELOG_SUFFIX}.md" >> "${CHANGELOG_REMOTE_FILE}"
     - git add ${CHANGELOG_REMOTE_FILE}
     - 'git commit -s -m "chore: add $CI_PROJECT_NAME changelog"'
     - git push origin changelog-${CI_JOB_ID}
