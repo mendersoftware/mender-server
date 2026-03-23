@@ -32,7 +32,7 @@ import {
 import { Elements } from '@stripe/react-stripe-js';
 
 import { SubscriptionPage } from '../subscription/SubscriptionPage';
-import Global from './Global';
+import { GlobalSettings } from './Global';
 import Integrations from './Integrations';
 import Billing from './organization/Billing';
 import Organization from './organization/Organization';
@@ -44,7 +44,7 @@ let stripePromise = null;
 
 const sectionMap = {
   'global-settings': {
-    component: Global,
+    component: GlobalSettings,
     text: () => 'Global settings',
     canAccess: ({ organization: { service_provider }, userCapabilities: { canManageUsers } }) => !service_provider && canManageUsers
   },

@@ -14,7 +14,7 @@
 import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 
-import Global from './Global';
+import { GlobalSettings } from './Global';
 
 const preloadedState = {
   ...defaultState,
@@ -43,7 +43,7 @@ const preloadedState = {
 
 describe('GlobalSettings Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<Global />, { preloadedState });
+    const { baseElement } = render(<GlobalSettings />, { preloadedState });
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
