@@ -15,10 +15,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 
-import { Alert, DialogContent, Typography } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_FILTERING_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
@@ -53,10 +52,10 @@ import { ATTRIBUTE_SCOPES } from '@northern.tech/utils/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
-import Global from '../settings/Global';
 import AuthorizedDevices from './AuthorizedDevices';
 import DeviceStatusNotification from './DeviceStatusNotification';
 import Groups from './Groups';
+import { DeviceIdentityDialog } from './dialogs/DeviceIdentityDialog';
 import MakeGatewayDialog from './dialogs/MakeGatewayDialog';
 import PreauthDialog, { DeviceLimitWarning } from './dialogs/PreauthDialog';
 import CreateGroup from './group-management/CreateGroup';
@@ -357,13 +356,7 @@ export const DeviceGroups = () => {
           />
         )}
         {createGroupExplanation && <CreateGroupExplainer isEnterprise={isEnterprise} onClose={() => setCreateGroupExplanation(false)} />}
-        {openIdDialog && (
-          <BaseDialog open title="Default device identity attribute" onClose={openSettingsDialog}>
-            <DialogContent style={{ overflow: 'hidden' }}>
-              <Global dialog closeDialog={openSettingsDialog} />
-            </DialogContent>
-          </BaseDialog>
-        )}
+        <DeviceIdentityDialog open={openIdDialog} onClose={openSettingsDialog} />
         {openPreauth && (
           <PreauthDialog
             acceptedDevices={acceptedCount}

@@ -59,6 +59,7 @@ const useStyles = makeStyles()(theme => ({
 
 export const DOCSTIPS = {
   deviceConfig: { id: 'deviceConfig', path: 'add-ons/configure' },
+  deviceIdentity: { id: 'deviceIdentity', path: 'client-installation/identity' },
   dynamicGroups: { id: 'dynamicGroups', path: 'overview/device-group#dynamic-group' },
   limitedDeployments: { id: 'limitedDeployments', path: 'overview/deployment#deployment-to-dynamic-groups' },
   phasedDeployments: { id: 'phasedDeployments', path: 'overview/customize-the-update-process' },
