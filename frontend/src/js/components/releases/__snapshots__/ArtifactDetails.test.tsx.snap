@@ -27,12 +27,6 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
 }
 
 .emotion-5 {
@@ -78,15 +72,6 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
 
 .MuiTypography-root:where(.emotion-6 .MuiListItemText-secondary) {
   display: block;
-}
-
-.emotion-7 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
 }
 
 .emotion-8 {
@@ -642,6 +627,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <div
           class="flexbox"
@@ -657,7 +643,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                 class="MuiListItemText-root MuiListItemText-dense emotion-6"
               >
                 <span
-                  class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary emotion-7"
+                  class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary emotion-3"
                 />
                 <div
                   class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-8"
@@ -710,6 +696,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <div
           class="flexbox align-items-center"
@@ -726,7 +713,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
             />
           </svg>
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-7"
+            class="MuiTypography-root MuiTypography-body2 emotion-3"
           >
             Unsigned
           </p>
@@ -756,6 +743,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="data-partition"
       >
         data-partition
@@ -772,6 +760,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="myapp"
       >
         myapp
@@ -788,6 +777,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="v2020.10"
       >
         v2020.10
@@ -934,6 +924,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 emotion-3"
+                      style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="myapp"
                     >
                       myapp
@@ -950,6 +941,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 emotion-3"
+                      style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="v2020.10"
                     >
                       v2020.10
@@ -966,6 +958,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 emotion-3"
+                      style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="x172"
                     >
                       x172
@@ -1058,12 +1051,6 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
 }
 
 .emotion-5 {
@@ -1109,15 +1096,6 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
 
 .MuiTypography-root:where(.emotion-6 .MuiListItemText-secondary) {
   display: block;
-}
-
-.emotion-7 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
 }
 
 .emotion-8 {
@@ -1680,6 +1658,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <div
           class="flexbox"
@@ -1695,7 +1674,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
                 class="MuiListItemText-root MuiListItemText-dense emotion-6"
               >
                 <span
-                  class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary emotion-7"
+                  class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary emotion-3"
                 />
                 <div
                   class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-8"
@@ -1748,6 +1727,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <div
           class="flexbox align-items-center"
@@ -1764,7 +1744,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
             />
           </svg>
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-7"
+            class="MuiTypography-root MuiTypography-body2 emotion-3"
           >
             Unsigned
           </p>
@@ -1912,6 +1892,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 emotion-3"
+                      style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="x172"
                     >
                       x172
