@@ -340,6 +340,7 @@ const (
 
 	// releases
 	StorageKeyReleaseName                      = "_id"
+	StorageKeyReleaseKind                      = "kind"
 	StorageKeyReleaseModified                  = "modified"
 	StorageKeyReleaseTags                      = "tags"
 	StorageKeyReleaseNotes                     = "notes"
@@ -689,7 +690,9 @@ func (db *DataStoreMongo) getReleases_1_2_15(
 	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
 	collReleases := database.Collection(CollectionReleases)
 
-	filter := bson.M{}
+	filter := bson.M{
+		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
+	}
 	if filt != nil {
 		if filt.Name != "" {
 			filter[StorageKeyReleaseName] = bson.M{"$regex": bson.Regex{
