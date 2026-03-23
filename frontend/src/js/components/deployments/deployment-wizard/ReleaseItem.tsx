@@ -14,6 +14,7 @@
 import { Chip, Paper, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import TextOverflowMultiline from '@northern.tech/common-ui/TextOverflowMultiline';
 import Time from '@northern.tech/common-ui/Time';
 import { Release } from '@northern.tech/store/releasesSlice';
 
@@ -34,12 +35,6 @@ const useStyles = makeStyles()(theme => ({
   selectedPaper: {
     backgroundColor: alpha(theme.palette.primary.light, 0.08),
     border: `1px solid ${theme.palette.primary.main}`
-  },
-  linesOverflow: {
-    display: '-webkit-box',
-    WebkitBoxOrient: 'vertical',
-    WebkitLineClamp: '2',
-    overflow: 'hidden'
   }
 }));
 
@@ -54,13 +49,13 @@ export const ReleaseItem = (props: ReleaseItemProps) => {
       className={`margin-top-small padding-small ${classes.hoverPaper} ${selected ? classes.selectedPaper : ''}`}
       onClick={() => onClick(release)}
     >
-      <Typography variant="subtitle2" className={`margin-bottom-x-small ${classes.linesOverflow}`}>
+      <TextOverflowMultiline variant="subtitle2" className="margin-bottom-x-small" lines={2}>
         {name}
-      </Typography>
+      </TextOverflowMultiline>
       {notes && (
-        <Typography variant="body2" className={`margin-bottom-x-small ${classes.linesOverflow}`}>
+        <TextOverflowMultiline variant="body2" className="margin-bottom-x-small" lines={2}>
           {notes}
-        </Typography>
+        </TextOverflowMultiline>
       )}
       <div className="margin-top-x-small">
         {tags?.map(tag => (
