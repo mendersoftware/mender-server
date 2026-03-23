@@ -22,6 +22,8 @@ import (
 	"strings"
 	"time"
 	"unicode"
+
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
 
 const (
@@ -179,13 +181,83 @@ func (n Notes) Validate() error {
 	return nil
 }
 
+type ReleaseKind string
+
+const (
+	ReleaseKindRelease  = "release"
+	ReleaseKindManifest = "manifest"
+)
+
+func (kind ReleaseKind) MarshalText() ([]byte, error) {
+	switch kind {
+	case "":
+		kind = ReleaseKindRelease
+		fallthrough
+	case ReleaseKindManifest, ReleaseKindRelease:
+		return []byte(kind), nil
+	}
+	return nil, fmt.Errorf("invalid release kind: %s", kind)
+}
+
+func (kind *ReleaseKind) UnmarshalText(b []byte) error {
+	if len(b) == 0 {
+		*kind = ReleaseKindRelease
+	}
+	switch ReleaseKind(b) {
+	case ReleaseKindRelease:
+		*kind = ReleaseKindRelease
+	case ReleaseKindManifest:
+		*kind = ReleaseKindManifest
+	default:
+		return fmt.Errorf("invalid release kind: %s", string(b))
+	}
+	return nil
+}
+
+type ReleaseBase struct {
+	Name     string      `json:"name" bson:"_id"`
+	Modified *time.Time  `json:"modified,omitempty" bson:"modified,omitempty"`
+	Tags     Tags        `json:"tags" bson:"tags,omitempty"`
+	Notes    Notes       `json:"notes" bson:"notes,omitempty"`
+	Kind     ReleaseKind `json:"kind" bson:"kind,omitempty"`
+}
+
+func (release ReleaseBase) Validate() error {
+	return validation.ValidateStruct(&release,
+		validation.Field(&release.Name, validation.Required),
+		validation.Field(&release.Tags),
+		validation.Field(&release.Notes),
+		validation.Field(&release.Kind, validation.By(func(any) error {
+			_, err := release.Kind.MarshalText()
+			return err
+		})),
+	)
+}
+
 type Release struct {
-	Name           string     `json:"name" bson:"_id"`
-	Modified       *time.Time `json:"modified,omitempty" bson:"modified,omitempty"`
-	Artifacts      []Image    `json:"artifacts" bson:"artifacts"`
-	ArtifactsCount int        `json:"artifacts_count" bson:"artifacts_count"`
-	Tags           Tags       `json:"tags" bson:"tags,omitempty"`
-	Notes          Notes      `json:"notes" bson:"notes,omitempty"`
+	ReleaseBase    `bson:"inline"`
+	Artifacts      []Image `json:"artifacts" bson:"artifacts"`
+	ArtifactsCount int     `json:"artifacts_count" bson:"artifacts_count"`
+}
+
+func (release Release) Validate() error {
+	return validation.ValidateStruct(&release,
+		validation.Field(&release.ReleaseBase),
+		validation.Field(&release.Artifacts, validation.Length(1, 0)),
+		validation.Field(&release.ArtifactsCount, validation.By(func(any) error {
+			if release.ArtifactsCount != len(release.Artifacts) {
+				return fmt.Errorf("invalid artifacts count: %d != %d",
+					release.ArtifactsCount, len(release.Artifacts))
+			}
+			return nil
+		})),
+		validation.Field(&release.Kind, validation.By(func(any) error {
+			if release.Kind != "" && release.Kind != ReleaseKindRelease {
+				return fmt.Errorf("kind must be \"release\"")
+			}
+			return nil
+		})),
+	)
 }
 
 type ReleaseV1 struct {
@@ -200,7 +272,14 @@ type ReleaseV1 struct {
 func ConvertReleasesToV1(releases []Release) []ReleaseV1 {
 	realesesV1 := make([]ReleaseV1, len(releases))
 	for i, release := range releases {
-		realesesV1[i] = ReleaseV1(release)
+		realesesV1[i] = ReleaseV1{
+			Name:           release.Name,
+			Modified:       release.Modified,
+			Artifacts:      release.Artifacts,
+			ArtifactsCount: release.ArtifactsCount,
+			Tags:           release.Tags,
+			Notes:          release.Notes,
+		}
 	}
 	return realesesV1
 }

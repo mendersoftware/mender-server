@@ -71,7 +71,9 @@ func TestMigration_1_2_15_createCollectionReleases(t *testing.T) {
 
 	outputReleases := []model.Release{
 		{
-			Name: "foo",
+			ReleaseBase: model.ReleaseBase{
+				Name: "foo",
+			},
 			Artifacts: []model.Image{
 				{
 					Id: "0cb87b3d-4f08-420b-b004-4347c07f70f6",
@@ -95,7 +97,9 @@ func TestMigration_1_2_15_createCollectionReleases(t *testing.T) {
 			ArtifactsCount: 2,
 		},
 		{
-			Name: "bar",
+			ReleaseBase: model.ReleaseBase{
+				Name: "bar",
+			},
 			Artifacts: []model.Image{
 				{
 					Id: "0cb87b3d-4f08-420b-b004-4347c07f70f8",
@@ -331,7 +335,9 @@ func TestMigration_1_2_15_indexReleaseArtifactsCount(t *testing.T) {
 	}
 	releases := []model.Release{
 		{
-			Name: "App1 v1.0",
+			ReleaseBase: model.ReleaseBase{
+				Name: "App1 v1.0",
+			},
 			Artifacts: []model.Image{
 				*inputImgs[0],
 				*inputImgs[2],
@@ -339,14 +345,18 @@ func TestMigration_1_2_15_indexReleaseArtifactsCount(t *testing.T) {
 			},
 		},
 		{
-			Name: "App2 v0.1",
+			ReleaseBase: model.ReleaseBase{
+				Name: "App2 v0.1",
+			},
 			Artifacts: []model.Image{
 				*inputImgs[1],
 				*inputImgs[4],
 			},
 		},
 		{
-			Name: "App4 v2.0",
+			ReleaseBase: model.ReleaseBase{
+				Name: "App4 v2.0",
+			},
 			Artifacts: []model.Image{
 				*inputImgs[5],
 			},

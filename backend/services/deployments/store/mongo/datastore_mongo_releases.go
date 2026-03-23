@@ -47,6 +47,7 @@ func (db *DataStoreMongo) UpdateReleaseArtifactDescription(
 	_, err := collReleases.UpdateOne(
 		ctx,
 		bson.M{
+			StorageKeyReleaseKind:        bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
 			StorageKeyReleaseName:        releaseName,
 			StorageKeyReleaseArtifactsId: artifactToEdit.Id,
 		},
@@ -91,7 +92,10 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 	}
 	_, err := collReleases.UpdateOne(
 		ctx,
-		bson.M{StorageKeyReleaseName: releaseName},
+		bson.M{
+			StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
+			StorageKeyReleaseName: releaseName,
+		},
 		update,
 		opt,
 	)
@@ -102,6 +106,7 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 		r := collReleases.FindOneAndDelete(
 			ctx,
 			bson.M{
+				StorageKeyReleaseKind:      bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
 				StorageKeyReleaseName:      releaseName,
 				StorageKeyReleaseArtifacts: bson.M{"$size": 0},
 			},
@@ -114,10 +119,13 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 }
 
 func (db *DataStoreMongo) ListReleaseTags(ctx context.Context) (model.Tags, error) {
+	filter := bson.M{
+		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
+	}
 	res := db.client.
 		Database(mstore.DbFromContext(ctx, DatabaseName)).
 		Collection(CollectionReleases).
-		Distinct(ctx, StorageKeyReleaseTags, bson.D{})
+		Distinct(ctx, StorageKeyReleaseTags, filter)
 
 	var tagKeys []string
 	if err := res.Decode(&tagKeys); err != nil {
@@ -164,9 +172,10 @@ func (db *DataStoreMongo) ReplaceReleaseTags(
 	}
 
 	// Update release tags
-	res, err := collReleases.UpdateOne(ctx, bson.D{{
-		Key: StorageKeyReleaseName, Value: releaseName,
-	}}, bson.D{{
+	res, err := collReleases.UpdateOne(ctx, bson.D{
+		{Key: StorageKeyReleaseKind, Value: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}}},
+		{Key: StorageKeyReleaseName, Value: releaseName},
+	}, bson.D{{
 		Key:   mongoOpSet,
 		Value: bson.D{{Key: StorageKeyReleaseTags, Value: tags}},
 	}})
@@ -195,13 +204,13 @@ func (db *DataStoreMongo) UpdateRelease(
 	// Update release, at the moment we update only the notes,
 	// it is on purpose that we take only this field explicitly,
 	// once there is a need we can extend
+	filter := bson.M{
+		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
+		StorageKeyReleaseName: releaseName,
+	}
 	res, err := collReleases.UpdateOne(
 		ctx,
-		bson.D{
-			{
-				Key: StorageKeyReleaseName, Value: releaseName,
-			},
-		},
+		filter,
 		bson.D{
 			{
 				Key: mongoOpSet,
@@ -287,6 +296,7 @@ func (db *DataStoreMongo) DeleteReleasesByNames(ctx context.Context, names []str
 	database := db.client.Database(mstore.DbFromContext(ctx, DatabaseName))
 	collDevs := database.Collection(CollectionReleases)
 	query := bson.M{
+		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
 		StorageKeyReleaseName: bson.M{
 			"$in": names,
 		},
@@ -304,7 +314,10 @@ func (db *DataStoreMongo) GetRelease(
 	collReleases := database.Collection(CollectionReleases)
 
 	release := new(model.Release)
-	if err := collReleases.FindOne(ctx, bson.M{StorageKeyId: releaseName}).
+	if err := collReleases.FindOne(ctx, bson.M{
+		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
+		StorageKeyId:          releaseName,
+	}).
 		Decode(release); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, store.ErrNotFound
