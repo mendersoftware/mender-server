@@ -15,8 +15,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Chip } from '@mui/material';
-import { withStyles } from 'tss-react/mui';
+import { Button, Chip } from '@mui/material';
+import { makeStyles, withStyles } from 'tss-react/mui';
 
 import { ADDONS, BENEFITS, PLANS } from '@northern.tech/store/constants';
 import { getTenantCapabilities } from '@northern.tech/store/selectors';
@@ -24,24 +24,13 @@ import { yes } from '@northern.tech/utils/helpers';
 
 import MenderTooltip, { MenderTooltipClickable } from './helptips/MenderTooltip';
 
-const PlansTooltip = withStyles(MenderTooltip, ({ palette }) => ({
-  arrow: {
-    color: palette.tooltip?.tierTipBackground ?? palette.grey[100]
-  },
-  tooltip: {
-    backgroundColor: palette.tooltip?.tierTipBackground ?? palette.grey[100],
-    maxWidth: 300
-  }
+const useStyles = makeStyles()(({ palette }) => ({
+  link: { ['&:hover']: { color: palette.secondary.main } }
 }));
 
-const PlanChip = withStyles(Chip, ({ palette }) => ({
-  root: {
-    backgroundColor: palette.tooltip?.tierTipBackground ?? palette.grey[100],
-    color: palette.text.disabled,
-    textTransform: 'uppercase',
-    '&:hover': {
-      fontWeight: 'bold'
-    }
+const PlansTooltip = withStyles(MenderTooltip, () => ({
+  tooltip: {
+    maxWidth: 300
   }
 }));
 
@@ -57,6 +46,7 @@ const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id }) =>
   const { isEnterprise, plan: currentPlan } = tenantCapabilities;
   const { benefit, requiredAddon = '', requiredPlan = PLANS.os.id } = BENEFITS[id];
   const hasAddon = requiredAddon ? ADDONS[requiredAddon].needs.every(need => tenantCapabilities[need]) : false;
+  const { classes } = useStyles();
 
   const currentPlanIndex = Object.keys(PLANS).indexOf(currentPlan);
   const requiredPlanIndex = Object.keys(PLANS).indexOf(requiredPlan);
@@ -77,22 +67,25 @@ const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id }) =>
   );
   return (
     <MenderTooltipClickable
+      arrow={false}
       onOpenChange={setIsOpen}
       title={
-        <div>
+        <>
           {content}
           <div className="flexbox space-between margin-top-small">
-            <Link to="/subscription">Upgrade now</Link>
-            <span className="link" onClick={() => setIsOpen(false)}>
-              Close
-            </span>
+            <Button className={classes.link} color="secondary" component={Link} size="small" to="/subscription">
+              Upgrade now
+            </Button>
+            <Button color="inherit" onClick={() => setIsOpen(false)} size="small" variant="text">
+              Cancel
+            </Button>
           </div>
-        </div>
+        </>
       }
       tooltipComponent={PlansTooltip}
       visibility={isOpen}
     >
-      <PlanChip className={className} onClick={yes} label={PLANS[requiredPlan].name} />
+      <Chip className={className} onClick={yes} label={PLANS[requiredPlan].name} />
     </MenderTooltipClickable>
   );
 };

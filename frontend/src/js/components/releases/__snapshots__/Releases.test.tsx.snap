@@ -48,7 +48,7 @@ exports[`Releases Component > renders correctly 1`] = `
                       data-mui-internal-clone-element="true"
                     >
                       <div
-                        class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault margin-left-small css-1mlgcqo-MuiButtonBase-root-MuiChip-root-root-root"
+                        class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault margin-left-small css-lbitzw-MuiButtonBase-root-MuiChip-root"
                         role="button"
                         tabindex="0"
                       >

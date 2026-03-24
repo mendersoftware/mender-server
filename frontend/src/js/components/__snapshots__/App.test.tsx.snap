@@ -1254,12 +1254,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   box-shadow: none;
-  background-color: #f4f4f5;
-  color: #9c9c9d;
-  text-transform: uppercase;
-  background-color: #f4f4f5;
-  color: #9c9c9d;
-  text-transform: uppercase;
 }
 
 .emotion-67::-moz-focus-inner {
@@ -1341,14 +1335,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
 
 .emotion-67:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-67:hover {
-  font-weight: bold;
-}
-
-.emotion-67:hover {
-  font-weight: bold;
 }
 
 .emotion-68 {
@@ -3762,12 +3748,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   box-shadow: none;
-  background-color: #f4f4f5;
-  color: #9c9c9d;
-  text-transform: uppercase;
-  background-color: #f4f4f5;
-  color: #9c9c9d;
-  text-transform: uppercase;
 }
 
 .emotion-68::-moz-focus-inner {
@@ -3849,14 +3829,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 
 .emotion-68:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-68:hover {
-  font-weight: bold;
-}
-
-.emotion-68:hover {
-  font-weight: bold;
 }
 
 .emotion-69 {

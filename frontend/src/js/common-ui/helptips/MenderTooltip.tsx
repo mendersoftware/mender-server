@@ -15,9 +15,10 @@
 import { useEffect, useState } from 'react';
 
 import type { TooltipProps } from '@mui/material';
-import { ClickAwayListener, Tooltip } from '@mui/material';
+import { ClickAwayListener, Tooltip, getOverlayAlpha, lighten } from '@mui/material';
 import { withStyles } from 'tss-react/mui';
 
+import { isDarkMode } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
 import type { PositioningStrategy } from '@popperjs/core';
 
@@ -26,7 +27,7 @@ export const MenderTooltip = withStyles(Tooltip, ({ palette, shadows, spacing })
     color: palette.background.paper
   },
   tooltip: {
-    backgroundColor: palette.background.paper,
+    backgroundColor: isDarkMode(palette.mode) ? lighten(palette.background.paper, getOverlayAlpha(8)) : palette.background.paper,
     boxShadow: shadows[1],
     color: palette.text.primary,
     padding: spacing(2),
