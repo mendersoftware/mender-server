@@ -289,202 +289,200 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
 }
 
 <div
-  class="report-container margin-top-large margin-bottom-large"
+  class="margin-top-large margin-bottom-large"
 >
-  <div>
+  <div
+    class="break-all two-columns emotion-0 column-data "
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+      style="white-space: nowrap;"
+    >
+      Release
+    </h6>
     <div
-      class="break-all two-columns emotion-0 column-data "
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
     >
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="white-space: nowrap;"
-      >
-        Release
-      </h6>
       <div
-        class="flexbox align-items-center copy-to-clipboard emotion-2"
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
-        <div
-          class="MuiTypography-root MuiTypography-body2 emotion-3"
+        <a
+          class="flexbox centered"
+          data-discover="true"
+          href="/releases/test"
+          rel="noopener noreferrer"
+          style="font-weight: 500;"
+          target="_blank"
         >
-          <a
-            class="flexbox centered"
-            data-discover="true"
-            href="/releases/test"
-            rel="noopener noreferrer"
-            style="font-weight: 500;"
-            target="_blank"
+          test
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-4"
+            data-testid="LaunchIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            test
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-4"
-              data-testid="LaunchIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-              />
-            </svg>
-          </a>
-        </div>
-        <svg
-          aria-hidden="true"
-          aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
-          data-mui-internal-clone-element="true"
-          data-testid="FileCopyOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-          />
-        </svg>
+            <path
+              d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+            />
+          </svg>
+        </a>
       </div>
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="white-space: nowrap;"
+      <svg
+        aria-hidden="true"
+        aria-label="Copy to clipboard"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
+        data-mui-internal-clone-element="true"
+        data-testid="FileCopyOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
       >
-        Target device(s)
-      </h6>
-      <div
-        class="flexbox align-items-center copy-to-clipboard emotion-2"
-      >
-        <div
-          class="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          <a
-            class="flexbox centered"
-            data-discover="true"
-            href="/devices?inventory=group:eq:testGroup"
-            rel="noopener noreferrer"
-            style="font-weight: 500;"
-            target="_blank"
-          >
-            testGroup
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-4"
-              data-testid="LaunchIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-              />
-            </svg>
-            <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased emotion-10"
-            >
-              <span
-                class="MuiChip-label MuiChip-labelSmall emotion-11"
-              >
-                static
-              </span>
-            </div>
-          </a>
-        </div>
-        <svg
-          aria-hidden="true"
-          aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
-          data-mui-internal-clone-element="true"
-          data-testid="FileCopyOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-          />
-        </svg>
-      </div>
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="white-space: nowrap;"
-      >
-        Category
-      </h6>
-      <div
-        class="flexbox align-items-center copy-to-clipboard emotion-2"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-3"
-          title="Software update"
-        >
-          Software update
-        </p>
-        <svg
-          aria-hidden="true"
-          aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
-          data-mui-internal-clone-element="true"
-          data-testid="FileCopyOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-          />
-        </svg>
-      </div>
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
-        style="white-space: nowrap;"
-      >
-        Created at
-      </h6>
-      <div
-        class="flexbox align-items-center copy-to-clipboard emotion-2"
-      >
-        <div
-          class="MuiTypography-root MuiTypography-body2 emotion-3"
-          title="2019-01-01"
-        >
-          <time
-            datetime="2019-01-01T00:00:00+00:00"
-          >
-            2019-01-01 00:00
-          </time>
-        </div>
-        <svg
-          aria-hidden="true"
-          aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
-          data-mui-internal-clone-element="true"
-          data-testid="FileCopyOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-          />
-        </svg>
-      </div>
+        <path
+          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+        />
+      </svg>
     </div>
-    <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top emotion-21"
-      tabindex="0"
-      type="button"
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+      style="white-space: nowrap;"
     >
-      See schedule details
-      <span
-        class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-22"
+      Target device(s)
+    </h6>
+    <div
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
+    >
+      <div
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-4"
-          data-testid="ArrowDropDownCircleOutlinedIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
+        <a
+          class="flexbox centered"
+          data-discover="true"
+          href="/devices?inventory=group:eq:testGroup"
+          rel="noopener noreferrer"
+          style="font-weight: 500;"
+          target="_blank"
         >
-          <path
-            d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
-          />
-        </svg>
-      </span>
-    </button>
+          testGroup
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-4"
+            data-testid="LaunchIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
+            />
+          </svg>
+          <div
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased emotion-10"
+          >
+            <span
+              class="MuiChip-label MuiChip-labelSmall emotion-11"
+            >
+              static
+            </span>
+          </div>
+        </a>
+      </div>
+      <svg
+        aria-hidden="true"
+        aria-label="Copy to clipboard"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
+        data-mui-internal-clone-element="true"
+        data-testid="FileCopyOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+        />
+      </svg>
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+      style="white-space: nowrap;"
+    >
+      Category
+    </h6>
+    <div
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
+        title="Software update"
+      >
+        Software update
+      </p>
+      <svg
+        aria-hidden="true"
+        aria-label="Copy to clipboard"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
+        data-mui-internal-clone-element="true"
+        data-testid="FileCopyOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+        />
+      </svg>
+    </div>
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
+      style="white-space: nowrap;"
+    >
+      Created at
+    </h6>
+    <div
+      class="flexbox align-items-center copy-to-clipboard emotion-2"
+    >
+      <div
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
+        title="2019-01-01"
+      >
+        <time
+          datetime="2019-01-01T00:00:00+00:00"
+        >
+          2019-01-01 00:00
+        </time>
+      </div>
+      <svg
+        aria-hidden="true"
+        aria-label="Copy to clipboard"
+        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
+        data-mui-internal-clone-element="true"
+        data-testid="FileCopyOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
+        />
+      </svg>
+    </div>
   </div>
+  <button
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top emotion-21"
+    tabindex="0"
+    type="button"
+  >
+    See schedule details
+    <span
+      class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-22"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-4"
+        data-testid="ArrowDropDownCircleOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
+        />
+      </svg>
+    </span>
+  </button>
 </div>
 `;
