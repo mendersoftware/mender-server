@@ -27,12 +27,11 @@ import (
 
 	mock_nats "github.com/mendersoftware/mender-server/services/workflows/client/nats/mocks"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
-	"github.com/mendersoftware/mender-server/services/workflows/store/mock"
+	"github.com/mendersoftware/mender-server/services/workflows/store/mocks"
 )
 
 func TestGetJobByID(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",
@@ -70,8 +69,7 @@ func TestGetJobByID(t *testing.T) {
 }
 
 func TestGetJobByIDNotFound(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",

@@ -31,6 +31,8 @@ var (
 )
 
 // DataStore interface for DataStore services
+//
+//go:generate ../../../utils/mockgen.sh
 type DataStore interface {
 	Ping(ctx context.Context) error
 	InsertWorkflows(ctx context.Context, workflow ...model.Workflow) (int, error)

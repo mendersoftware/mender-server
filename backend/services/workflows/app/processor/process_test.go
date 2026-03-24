@@ -34,7 +34,7 @@ import (
 	natsmock "github.com/mendersoftware/mender-server/services/workflows/client/nats/mocks"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 	"github.com/mendersoftware/mender-server/services/workflows/store"
-	storemock "github.com/mendersoftware/mender-server/services/workflows/store/mock"
+	storemock "github.com/mendersoftware/mender-server/services/workflows/store/mocks"
 )
 
 func mockCommandExecutor(ctx context.Context, command []string) (*exec.Cmd, error) {
@@ -54,8 +54,7 @@ func mockJobProcessor(job *model.Job, store store.DataStore, client *natsmock.Cl
 
 func TestProcessJobFailedWorkflowDoesNotExist(t *testing.T) {
 	ctx := context.Background()
-	dataStore := storemock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := storemock.NewDataStore(t)
 
 	job := &model.Job{
 		ID:           "job",
@@ -81,8 +80,7 @@ func TestProcessJobFailedWorkflowDoesNotExist(t *testing.T) {
 
 func TestProcessJobFailedUpsert(t *testing.T) {
 	ctx := context.Background()
-	dataStore := storemock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := storemock.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",
@@ -324,8 +322,7 @@ func TestProcessTaskRetries(t *testing.T) {
 			}
 
 			ctx := context.Background()
-			dataStore := storemock.NewDataStore()
-			defer dataStore.AssertExpectations(t)
+			dataStore := storemock.NewDataStore(t)
 
 			dataStore.On("GetWorkflowByName",
 				ctx,
@@ -361,8 +358,7 @@ func TestProcessTaskRetries(t *testing.T) {
 
 func TestProcessJobUnrecognizedTaskType(t *testing.T) {
 	ctx := context.Background()
-	dataStore := storemock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := storemock.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",

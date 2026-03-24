@@ -25,7 +25,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/executor"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
-	"github.com/mendersoftware/mender-server/services/workflows/store/mock"
+	"github.com/mendersoftware/mender-server/services/workflows/store/mocks"
 )
 
 var (
@@ -49,8 +49,7 @@ func init() {
 
 func TestProcessJobCLI(t *testing.T) {
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",
@@ -125,8 +124,7 @@ func TestProcessJobCLI(t *testing.T) {
 
 func TestProcessJobCLIWrongExitCode(t *testing.T) {
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",
@@ -216,8 +214,7 @@ func TestProcessJobCLIWrongExitCode(t *testing.T) {
 
 func TestProcessJobCLTimeOut(t *testing.T) {
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",
@@ -293,8 +290,7 @@ func TestProcessJobCLTimeOut(t *testing.T) {
 
 func TestProcessJobCLIFailedIncompatibleDefinition(t *testing.T) {
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",
@@ -345,8 +341,7 @@ func TestProcessJobCLIFailedIncompatibleDefinition(t *testing.T) {
 
 func TestProcessJobCLINotAllowedCommand(t *testing.T) {
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",

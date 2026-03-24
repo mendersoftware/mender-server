@@ -24,7 +24,7 @@ import (
 
 	mock_nats "github.com/mendersoftware/mender-server/services/workflows/client/nats/mocks"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
-	"github.com/mendersoftware/mender-server/services/workflows/store/mock"
+	"github.com/mendersoftware/mender-server/services/workflows/store/mocks"
 )
 
 func TestProcessJobNATS(t *testing.T) {
@@ -39,8 +39,7 @@ func TestProcessJobNATS(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			ctx := context.Background()
-			dataStore := mock.NewDataStore()
-			defer dataStore.AssertExpectations(t)
+			dataStore := mocks.NewDataStore(t)
 
 			nats := &mock_nats.Client{}
 			defer nats.AssertExpectations(t)
