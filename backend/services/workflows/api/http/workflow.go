@@ -285,23 +285,3 @@ func (h WorkflowController) StartBatchWorkflows(c *gin.Context) {
 	c.JSON(http.StatusCreated, result)
 	l.Infof("StartWorkflow starting workflow %s : StatusCreated", name)
 }
-
-// GetWorkflowByNameAndID responds to GET /api/workflow/:name/:id
-func (h WorkflowController) GetWorkflowByNameAndID(c *gin.Context) {
-	var name string = c.Param("name")
-	var id string = c.Param("id")
-
-	job, err := h.dataStore.GetJobByNameAndID(c, name, id)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, err.Error())
-		return
-	} else if job == nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "not found",
-		})
-		return
-	}
-
-	job.PrepareForJSONMarshalling()
-	c.JSON(http.StatusOK, job)
-}

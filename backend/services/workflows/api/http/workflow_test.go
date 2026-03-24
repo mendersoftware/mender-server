@@ -241,12 +241,11 @@ func TestWorkflowFoundAndStartedWithParameters(t *testing.T) {
 		}),
 	).Return(nil)
 
-	dataStore.On("GetJobByNameAndID",
+	dataStore.On("GetJobByID",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		workflow.Name,
 		mocklib.AnythingOfType("string"),
 	).Return(mockedJob, nil)
 
@@ -272,7 +271,7 @@ func TestWorkflowFoundAndStartedWithParameters(t *testing.T) {
 	assert.True(t, ok)
 
 	w = httptest.NewRecorder()
-	url = strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflow.Name, 1), ":id", value, 1)
+	url = strings.Replace(APIURLJobsID, ":id", value, 1)
 	req, _ = http.NewRequest(http.MethodGet, url, nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -371,12 +370,11 @@ func TestWorkflowFoundAndStartedWithVersion(t *testing.T) {
 		}),
 	).Return(nil)
 
-	dataStore.On("GetJobByNameAndID",
+	dataStore.On("GetJobByID",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		workflow.Name,
 		mocklib.AnythingOfType("string"),
 	).Return(mockedJob, nil)
 
@@ -403,7 +401,7 @@ func TestWorkflowFoundAndStartedWithVersion(t *testing.T) {
 	assert.True(t, ok)
 
 	w = httptest.NewRecorder()
-	url = strings.Replace(strings.Replace(APIURLWorkflowID, ":name", mockedJob.WorkflowName, 1), ":id", value, 1)
+	url = strings.Replace(APIURLJobsID, ":id", value, 1)
 	req, _ = http.NewRequest(http.MethodGet, url, nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -457,12 +455,11 @@ func TestWorkflowFoundAndStartedWithNonStringParameter(t *testing.T) {
 		}),
 	).Return(nil)
 
-	dataStore.On("GetJobByNameAndID",
+	dataStore.On("GetJobByID",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		workflow.Name,
 		mocklib.AnythingOfType("string"),
 	).Return(mockedJob, nil)
 
@@ -488,7 +485,7 @@ func TestWorkflowFoundAndStartedWithNonStringParameter(t *testing.T) {
 	assert.True(t, ok)
 
 	w = httptest.NewRecorder()
-	url = strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflow.Name, 1), ":id", value, 1)
+	url = strings.Replace(APIURLJobsID, ":id", value, 1)
 	req, _ = http.NewRequest(http.MethodGet, url, nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -533,12 +530,11 @@ func TestWorkflowFoundAndStartedWithListOfStringsParameter(t *testing.T) {
 		}),
 	).Return(nil)
 
-	dataStore.On("GetJobByNameAndID",
+	dataStore.On("GetJobByID",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		workflow.Name,
 		mocklib.AnythingOfType("string"),
 	).Return(mockedJob, nil)
 
@@ -564,7 +560,7 @@ func TestWorkflowFoundAndStartedWithListOfStringsParameter(t *testing.T) {
 	assert.True(t, ok)
 
 	w = httptest.NewRecorder()
-	url = strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflow.Name, 1), ":id", value, 1)
+	url = strings.Replace(APIURLJobsID, ":id", value, 1)
 	req, _ = http.NewRequest(http.MethodGet, url, nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -713,12 +709,11 @@ func TestBatchWorkflowFoundAndStartedWithParameters(t *testing.T) {
 		}),
 	).Return(nil)
 
-	dataStore.On("GetJobByNameAndID",
+	dataStore.On("GetJobByID",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		workflow.Name,
 		mocklib.AnythingOfType("string"),
 	).Return(mockedJob, nil)
 
@@ -744,7 +739,7 @@ func TestBatchWorkflowFoundAndStartedWithParameters(t *testing.T) {
 	assert.True(t, ok)
 
 	w = httptest.NewRecorder()
-	url = strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflow.Name, 1), ":id", value, 1)
+	url = strings.Replace(APIURLJobsID, ":id", value, 1)
 	req, _ = http.NewRequest(http.MethodGet, url, nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -805,60 +800,6 @@ func TestBatchWorkflowFailToPublish(t *testing.T) {
 	assert.Nil(t, err)
 	value, _ := response[0]["error"]
 	assert.NotEmpty(t, value)
-}
-
-func TestWorkflowByNameAndIDNotFound(t *testing.T) {
-	dataStore := mocks.NewDataStore(t)
-
-	const (
-		workflowName = "test"
-		jobID        = "dummy"
-	)
-
-	dataStore.On("GetJobByNameAndID",
-		mocklib.MatchedBy(
-			func(_ context.Context) bool {
-				return true
-			}),
-		workflowName,
-		jobID,
-	).Return(nil, nil)
-
-	url := strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflowName, 1), ":id", jobID, 1)
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	assert.NoError(t, err)
-
-	w := httptest.NewRecorder()
-	router := NewRouter(dataStore, nil)
-	router.ServeHTTP(w, req)
-	assert.Equal(t, http.StatusNotFound, w.Code)
-}
-
-func TestWorkflowByNameAndIDError(t *testing.T) {
-	dataStore := mocks.NewDataStore(t)
-
-	const (
-		workflowName = "test"
-		jobID        = "dummy"
-	)
-
-	dataStore.On("GetJobByNameAndID",
-		mocklib.MatchedBy(
-			func(_ context.Context) bool {
-				return true
-			}),
-		workflowName,
-		jobID,
-	).Return(nil, errors.New("error"))
-
-	url := strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflowName, 1), ":id", jobID, 1)
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	assert.NoError(t, err)
-
-	w := httptest.NewRecorder()
-	router := NewRouter(dataStore, nil)
-	router.ServeHTTP(w, req)
-	assert.Equal(t, http.StatusInternalServerError, w.Code)
 }
 
 func TestRegisterWorkflowBadRequestIncompletePayload(t *testing.T) {

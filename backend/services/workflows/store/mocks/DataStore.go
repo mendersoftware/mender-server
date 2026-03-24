@@ -97,36 +97,6 @@ func (_m *DataStore) GetJobByID(ctx context.Context, ID string) (*model.Job, err
 	return r0, r1
 }
 
-// GetJobByNameAndID provides a mock function with given fields: ctx, name, ID
-func (_m *DataStore) GetJobByNameAndID(ctx context.Context, name string, ID string) (*model.Job, error) {
-	ret := _m.Called(ctx, name, ID)
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetJobByNameAndID")
-	}
-
-	var r0 *model.Job
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string) (*model.Job, error)); ok {
-		return rf(ctx, name, ID)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, string, string) *model.Job); ok {
-		r0 = rf(ctx, name, ID)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Job)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
-		r1 = rf(ctx, name, ID)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
 // GetWorkflowByName provides a mock function with given fields: ctx, workflowName, version
 func (_m *DataStore) GetWorkflowByName(ctx context.Context, workflowName string, version string) (*model.Workflow, error) {
 	ret := _m.Called(ctx, workflowName, version)

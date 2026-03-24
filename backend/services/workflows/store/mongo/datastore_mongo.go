@@ -367,27 +367,6 @@ func (db *DataStoreMongo) UpdateJobStatus(
 	return nil
 }
 
-// GetJobByNameAndID get the task execution status for a job
-// by workflow name and ID
-func (db *DataStoreMongo) GetJobByNameAndID(
-	ctx context.Context, name string, ID string) (*model.Job, error) {
-	collection := db.client.Database(db.dbName).
-		Collection(JobsCollectionName)
-	cur := collection.FindOne(ctx, bson.M{
-		"_id":           ID,
-		"workflow_name": name,
-	})
-	var job model.Job
-	err := cur.Decode(&job)
-	if err == mongo.ErrNoDocuments {
-		return nil, nil
-	} else if err != nil {
-		return nil, err
-	}
-
-	return &job, nil
-}
-
 // GetJobByID get the task execution status for a job by ID
 func (db *DataStoreMongo) GetJobByID(
 	ctx context.Context, ID string) (*model.Job, error) {

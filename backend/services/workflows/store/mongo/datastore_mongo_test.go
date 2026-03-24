@@ -300,7 +300,7 @@ func TestUpdateJobStatus(t *testing.T) {
 	err = testDataStore.UpdateJobStatus(ctx, inserted, model.StatusFailure)
 	assert.Nil(t, err)
 
-	jobFromDb, err := testDataStore.GetJobByNameAndID(ctx, workflow.Name, inserted.ID)
+	jobFromDb, err := testDataStore.GetJobByID(ctx, inserted.ID)
 	assert.Nil(t, err)
 	assert.Equal(t, model.StatusFailure, jobFromDb.Status)
 }
@@ -353,7 +353,7 @@ func TestUpdateJobStatusInvalid(t *testing.T) {
 	err = testDataStore.UpdateJobStatus(ctx, inserted, 99999)
 	assert.NotNil(t, err)
 
-	jobFromDb, err := testDataStore.GetJobByNameAndID(ctx, workflow.Name, inserted.ID)
+	jobFromDb, err := testDataStore.GetJobByID(ctx, inserted.ID)
 	assert.Nil(t, err)
 	assert.Equal(t, model.StatusPending, jobFromDb.Status)
 }
@@ -415,7 +415,7 @@ func TestUpdateJobAddResult(t *testing.T) {
 	err = testDataStore.UpdateJobAddResult(ctx, inserted, result)
 	assert.Nil(t, err)
 
-	jobFromDb, err := testDataStore.GetJobByNameAndID(ctx, workflow.Name, inserted.ID)
+	jobFromDb, err := testDataStore.GetJobByID(ctx, inserted.ID)
 	assert.Nil(t, err)
 	assert.Len(t, jobFromDb.Results, 1)
 	assert.NotNil(t, jobFromDb.Results[0].CLI)
