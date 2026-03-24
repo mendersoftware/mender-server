@@ -149,3 +149,37 @@ components:
         attribute: serial_no
         scope: inventory
         value: "123456789"
+    DeviceStatusStatistics:
+      type: object
+      description: Device statistics grouped by device status
+      required:
+        - accepted
+        - pending
+      properties:
+        accepted:
+          $ref: '#/components/schemas/DeviceCountByTier'
+        pending:
+          $ref: '#/components/schemas/DeviceCountByTier'
+      example:
+        accepted:
+          standard: 975
+          micro: 3546
+          system: 0
+        pending:
+          standard: 2
+          micro: 30
+          system: 1
+    DeviceCountByTier:
+      description: Number of devices per tier
+      type: object
+      required:
+        - standard
+        - micro
+        - system
+      properties:
+        standard:
+          type: number
+        micro:
+          type: number
+        system:
+          type: number

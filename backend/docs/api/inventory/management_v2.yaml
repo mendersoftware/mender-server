@@ -154,7 +154,7 @@ paths:
                   - devices_by_status
                 properties:
                   devices_by_status:
-                    $ref: '#/components/schemas/DeviceStatusStatistics'
+                    $ref: './schemas.yaml#/components/schemas/DeviceStatusStatistics'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
       security:
@@ -243,37 +243,3 @@ components:
         - inventory
         - monitor
         - tags
-    DeviceStatusStatistics:
-      type: object
-      description: Device statistics grouped by device status
-      required:
-        - accepted
-        - pending
-      properties:
-        accepted:
-          $ref: '#/components/schemas/DeviceCountByTier'
-        pending:
-          $ref: '#/components/schemas/DeviceCountByTier'
-      example:
-        accepted:
-          standard: 975
-          micro: 3546
-          system: 0
-        pending:
-          standard: 2
-          micro: 30
-          system: 1
-    DeviceCountByTier:
-      description: Number of devices per tier
-      type: object
-      required:
-        - standard
-        - micro
-        - system
-      properties:
-        standard:
-          type: number
-        micro:
-          type: number
-        system:
-          type: number
