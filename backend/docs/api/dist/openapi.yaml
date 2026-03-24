@@ -7131,37 +7131,6 @@ paths:
           $ref: '#/components/responses/NotFound'
       tags:
         - Workflows_other
-  /api/v1/workflow/{name}/{id}:
-    get:
-      summary: Gets the workflow status for the given id.
-      description: |
-        Gets the workflow status for the given workflow name and id provided
-        by the path parameters.
-      operationId: Workflow Status
-      parameters:
-        - name: name
-          in: path
-          description: Workflow identifier.
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          description: Job identifier
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful query
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/JobStatus'
-        '404':
-          $ref: '#/components/responses/NotFound'
-      tags:
-        - Workflows_other
   /api/v1/metadata/workflows:
     get:
       summary: Get all workflow definitions

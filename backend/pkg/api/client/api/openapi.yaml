@@ -9696,45 +9696,6 @@ paths:
       summary: Start a batch of workflows
       tags:
       - Workflows_other
-  /api/v1/workflow/{name}/{id}:
-    get:
-      description: |
-        Gets the workflow status for the given workflow name and id provided
-        by the path parameters.
-      operationId: Workflow Status
-      parameters:
-      - description: Workflow identifier.
-        explode: false
-        in: path
-        name: name
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: Job identifier
-        explode: false
-        in: path
-        name: id
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/JobStatus"
-          description: Successful query
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-          description: Not Found.
-      summary: Gets the workflow status for the given id.
-      tags:
-      - Workflows_other
   /api/v1/metadata/workflows:
     get:
       operationId: List Workflows
@@ -13183,52 +13144,6 @@ components:
           $ref: "#/components/schemas/TaskResultHTTPResponse"
       type: object
     JobStatus:
-      example:
-        workflowName: workflowName
-        id: id
-        inputParameters:
-        - name: key
-          value: parameter
-        - name: key
-          value: parameter
-        results:
-        - cli:
-            output: output
-            exitCode: 0
-            error: error
-            command:
-            - command
-            - command
-          request:
-            body: body
-            statusCode: 6
-          success: true
-          response:
-            headers:
-            - headers
-            - headers
-            method: method
-            body: body
-            uri: uri
-        - cli:
-            output: output
-            exitCode: 0
-            error: error
-            command:
-            - command
-            - command
-          request:
-            body: body
-            statusCode: 6
-          success: true
-          response:
-            headers:
-            - headers
-            - headers
-            method: method
-            body: body
-            uri: uri
-        status: status
       properties:
         id:
           type: string
