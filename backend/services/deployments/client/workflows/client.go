@@ -15,7 +15,6 @@
 package workflows
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"io"
@@ -26,9 +25,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
-	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
@@ -36,12 +33,9 @@ import (
 )
 
 const (
-	healthURL                          = "/api/v1/health"
-	generateArtifactURL                = "/api/v1/workflow/generate_artifact"
-	reindexReportingURL                = "/api/v1/workflow/reindex_reporting"
-	reindexReportingDeploymentURL      = "/api/v1/workflow/reindex_reporting_deployment"
-	reindexReportingDeploymentBatchURL = "/api/v1/workflow/reindex_reporting_deployment/batch"
-	defaultTimeout                     = 5 * time.Second
+	healthURL           = "/api/v1/health"
+	generateArtifactURL = "/api/v1/workflow/generate_artifact"
+	defaultTimeout      = 5 * time.Second
 )
 
 type DeviceDeploymentShortInfo struct {
@@ -59,9 +53,6 @@ type Client interface {
 		ctx context.Context,
 		multipartGenerateImageMsg *model.MultipartGenerateImageMsg,
 	) error
-	StartReindexReporting(c context.Context, device string) error
-	StartReindexReportingDeployment(c context.Context, device, deployment, id string) error
-	StartReindexReportingDeploymentBatch(c context.Context, info []DeviceDeploymentShortInfo) error
 }
 
 // NewClient returns a new workflows client
@@ -143,164 +134,4 @@ func (c *client) StartGenerateArtifact(
 		return errors.New("failed to start workflow: generate_artifact")
 	}
 	return nil
-}
-
-func (c *client) StartReindexReporting(ctx context.Context, device string) error {
-	if _, ok := ctx.Deadline(); !ok {
-		var cancel context.CancelFunc
-		ctx, cancel = context.WithTimeout(ctx, defaultTimeout)
-		defer cancel()
-	}
-	tenantID := ""
-	if ident := identity.FromContext(ctx); ident != nil {
-		tenantID = ident.Tenant
-	}
-	wflow := ReindexWorkflow{
-		RequestID: requestid.FromContext(ctx),
-		TenantID:  tenantID,
-		DeviceID:  device,
-		Service:   ServiceDeployments,
-	}
-	payload, _ := json.Marshal(wflow)
-	req, err := http.NewRequestWithContext(ctx,
-		"POST",
-		c.baseURL+reindexReportingURL,
-		bytes.NewReader(payload),
-	)
-	if err != nil {
-		return errors.Wrap(err, "workflows: error preparing HTTP request")
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-
-	rsp, err := c.httpClient.Do(req)
-	if err != nil {
-		return errors.Wrap(err, "workflows: failed to trigger reporting reindex")
-	}
-	defer rsp.Body.Close()
-
-	if rsp.StatusCode < 300 {
-		return nil
-	}
-
-	if rsp.StatusCode == http.StatusNotFound {
-		workflowURIparts := strings.Split(reindexReportingURL, "/")
-		workflowName := workflowURIparts[len(workflowURIparts)-1]
-		return errors.New(`workflows: workflow "` + workflowName + `" not defined`)
-	}
-
-	return errors.Errorf(
-		"workflows: unexpected HTTP status from workflows service: %s",
-		rsp.Status,
-	)
-}
-
-func (c *client) StartReindexReportingDeployment(ctx context.Context,
-	device, deployment, id string) error {
-	if _, ok := ctx.Deadline(); !ok {
-		var cancel context.CancelFunc
-		ctx, cancel = context.WithTimeout(ctx, defaultTimeout)
-		defer cancel()
-	}
-	tenantID := ""
-	if ident := identity.FromContext(ctx); ident != nil {
-		tenantID = ident.Tenant
-	}
-	wflow := ReindexDeploymentWorkflow{
-		RequestID:    requestid.FromContext(ctx),
-		TenantID:     tenantID,
-		DeviceID:     device,
-		DeploymentID: deployment,
-		ID:           id,
-		Service:      ServiceDeployments,
-	}
-	payload, _ := json.Marshal(wflow)
-	req, err := http.NewRequestWithContext(ctx,
-		"POST",
-		c.baseURL+reindexReportingDeploymentURL,
-		bytes.NewReader(payload),
-	)
-	if err != nil {
-		return errors.Wrap(err, "workflows: error preparing HTTP request")
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-
-	rsp, err := c.httpClient.Do(req)
-	if err != nil {
-		return errors.Wrap(err, "workflows: failed to trigger reporting reindex deployment")
-	}
-	defer rsp.Body.Close()
-
-	if rsp.StatusCode < 300 {
-		return nil
-	}
-
-	if rsp.StatusCode == http.StatusNotFound {
-		workflowURIparts := strings.Split(reindexReportingDeploymentURL, "/")
-		workflowName := workflowURIparts[len(workflowURIparts)-1]
-		return errors.New(`workflows: workflow "` + workflowName + `" not defined`)
-	}
-
-	return errors.Errorf(
-		"workflows: unexpected HTTP status from workflows service: %s",
-		rsp.Status,
-	)
-}
-
-func (c *client) StartReindexReportingDeploymentBatch(ctx context.Context,
-	info []DeviceDeploymentShortInfo) error {
-	if _, ok := ctx.Deadline(); !ok {
-		var cancel context.CancelFunc
-		ctx, cancel = context.WithTimeout(ctx, defaultTimeout)
-		defer cancel()
-	}
-	tenantID := ""
-	if ident := identity.FromContext(ctx); ident != nil {
-		tenantID = ident.Tenant
-	}
-	reqID := requestid.FromContext(ctx)
-	wflows := make([]ReindexDeploymentWorkflow, len(info))
-	for i, d := range info {
-		wflows[i] = ReindexDeploymentWorkflow{
-			RequestID:    reqID,
-			TenantID:     tenantID,
-			DeviceID:     d.DeviceID,
-			DeploymentID: d.DeploymentID,
-			ID:           d.ID,
-			Service:      ServiceDeployments,
-		}
-	}
-	payload, _ := json.Marshal(wflows)
-	req, err := http.NewRequestWithContext(ctx,
-		"POST",
-		c.baseURL+reindexReportingDeploymentBatchURL,
-		bytes.NewReader(payload),
-	)
-	if err != nil {
-		return errors.Wrap(err, "workflows: error preparing HTTP request")
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-
-	rsp, err := c.httpClient.Do(req)
-	if err != nil {
-		return errors.Wrap(err, "workflows: failed to trigger reporting reindex deployment")
-	}
-	defer rsp.Body.Close()
-
-	if rsp.StatusCode < 300 {
-		return nil
-	}
-
-	if rsp.StatusCode == http.StatusNotFound {
-		workflowURIparts := strings.Split(reindexReportingDeploymentURL, "/")
-		workflowName := workflowURIparts[len(workflowURIparts)-1]
-		return errors.New(`workflows: workflow "` + workflowName + `" not defined`)
-	}
-
-	return errors.Errorf(
-		"workflows: unexpected HTTP status from workflows service: %s",
-		rsp.Status,
-	)
 }

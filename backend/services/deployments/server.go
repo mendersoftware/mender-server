@@ -33,7 +33,6 @@ import (
 
 	api "github.com/mendersoftware/mender-server/services/deployments/api/http"
 	"github.com/mendersoftware/mender-server/services/deployments/app"
-	"github.com/mendersoftware/mender-server/services/deployments/client/reporting"
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
 	"github.com/mendersoftware/mender-server/services/deployments/storage/azblob"
@@ -196,11 +195,6 @@ func RunServer(ctx context.Context) error {
 	}
 
 	app := app.NewDeployments(ds, objStore, 0, false)
-	if addr := c.GetString(dconfig.SettingReportingAddr); addr != "" {
-		c := reporting.NewClient(addr)
-		app = app.WithReporting(c)
-	}
-
 	// Setup API Router configuration
 	base64Repl := strings.NewReplacer("-", "+", "_", "/", "=", "")
 	expire := c.GetDuration(dconfig.SettingPresignExpireSeconds)

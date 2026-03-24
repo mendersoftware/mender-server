@@ -114,9 +114,6 @@ const (
 	SettingInventoryAddr        = "inventory_addr"
 	SettingInventoryAddrDefault = "http://mender-inventory:8080"
 
-	SettingReportingAddr        = "reporting_addr"
-	SettingReportingAddrDefault = ""
-
 	SettingInventoryTimeout        = "inventory_timeout"
 	SettingInventoryTimeoutDefault = 10
 
@@ -312,7 +309,6 @@ var (
 		{Key: SettingWorkflows, Value: SettingWorkflowsDefault},
 		{Key: SettingsAwsTagArtifact, Value: SettingsAwsTagArtifactDefault},
 		{Key: SettingInventoryAddr, Value: SettingInventoryAddrDefault},
-		{Key: SettingReportingAddr, Value: SettingReportingAddrDefault},
 		{Key: SettingInventoryTimeout, Value: SettingInventoryTimeoutDefault},
 		{Key: SettingPresignAlgorithm, Value: SettingPresignAlgorithmDefault},
 		{Key: SettingPresignSecret, Value: SettingPresignSecretDefault},
