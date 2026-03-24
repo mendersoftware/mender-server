@@ -27,7 +27,6 @@ import (
 
 	api_http "github.com/mendersoftware/mender-server/services/inventory/api/http"
 	"github.com/mendersoftware/mender-server/services/inventory/client/devicemonitor"
-	"github.com/mendersoftware/mender-server/services/inventory/client/workflows"
 	"github.com/mendersoftware/mender-server/services/inventory/config"
 	inventory "github.com/mendersoftware/mender-server/services/inventory/inv"
 	"github.com/mendersoftware/mender-server/services/inventory/store/mongo"
@@ -51,10 +50,6 @@ func RunServer(c config.Reader) error {
 	if devicemonitorAddr != "" {
 		c := devicemonitor.NewClient(devicemonitorAddr)
 		inv = inv.WithDevicemonitor(c)
-	}
-
-	if inv, err = maybeWithInventory(inv, c); err != nil {
-		return err
 	}
 
 	options := []api_http.Option{
@@ -95,20 +90,4 @@ func RunServer(c config.Reader) error {
 		l.Error("error when shutting down the server ", err)
 	}
 	return nil
-}
-
-func maybeWithInventory(
-	inv inventory.InventoryApp,
-	c config.Reader,
-) (inventory.InventoryApp, error) {
-	if reporting := c.GetBool(SettingEnableReporting); reporting {
-		orchestrator := c.GetString(SettingOrchestratorAddr)
-		if orchestrator == "" {
-			return inv, errors.New("reporting integration needs orchestrator address")
-		}
-
-		c := workflows.NewClient(orchestrator)
-		inv = inv.WithReporting(c)
-	}
-	return inv, nil
 }

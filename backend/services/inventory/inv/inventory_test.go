@@ -29,7 +29,6 @@ import (
 	"go.mongodb.org/mongo-driver/v2/bson"
 
 	mdm "github.com/mendersoftware/mender-server/services/inventory/client/devicemonitor/mocks"
-	mworkflows "github.com/mendersoftware/mender-server/services/inventory/client/workflows/mocks"
 	"github.com/mendersoftware/mender-server/services/inventory/model"
 	"github.com/mendersoftware/mender-server/services/inventory/store"
 	mstore "github.com/mendersoftware/mender-server/services/inventory/store/mocks"
@@ -61,9 +60,6 @@ func TestHealthCheck(t *testing.T) {
 	}, {
 		Name:           "error, error reaching MongoDB",
 		DataStoreError: errors.New("connection refused"),
-	}, {
-		Name:           "error, error reaching workflows",
-		WorkflowsError: errors.New("connection refused"),
 	}}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
@@ -72,13 +68,7 @@ func TestHealthCheck(t *testing.T) {
 			defer db.AssertExpectations(t)
 			db.On("Ping", ctx).Return(tc.DataStoreError)
 
-			workflows := &mworkflows.Client{}
-			defer workflows.AssertExpectations(t)
-			if tc.DataStoreError == nil {
-				workflows.On("CheckHealth", ctx).Return(tc.WorkflowsError)
-			}
-
-			inv := NewInventory(db).WithReporting(workflows)
+			inv := NewInventory(db)
 			err := inv.HealthCheck(ctx)
 			if tc.DataStoreError != nil {
 				assert.EqualError(t, err,
@@ -1282,37 +1272,7 @@ func TestDeleteGroup(t *testing.T) {
 				).Return(devices, tc.err)
 			}
 
-			workflows := &mworkflows.Client{}
-			defer workflows.AssertExpectations(t)
-			if tc.err == nil {
-				if tc.count > 100 {
-					workflows.On("StartReindex",
-						ctx,
-						[]model.DeviceID{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-							"11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-							"21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
-							"31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
-							"41", "42", "43", "44", "45", "46", "47", "48", "49", "50",
-							"51", "52", "53", "54", "55", "56", "57", "58", "59", "60",
-							"61", "62", "63", "64", "65", "66", "67", "68", "69", "70",
-							"71", "72", "73", "74", "75", "76", "77", "78", "79", "80",
-							"81", "82", "83", "84", "85", "86", "87", "88", "89", "90",
-							"91", "92", "93", "94", "95", "96", "97", "98", "99", "100"},
-					).Return(nil).Once()
-
-					workflows.On("StartReindex",
-						ctx,
-						[]model.DeviceID{"101", "102"},
-					).Return(nil).Once()
-				} else {
-					workflows.On("StartReindex",
-						ctx,
-						[]model.DeviceID{"1", "2"},
-					).Return(nil).Once()
-				}
-			}
-
-			i := invForTest(db).WithReporting(workflows)
+			i := invForTest(db)
 			res, err := i.DeleteGroup(ctx, groupName)
 			if tc.err != nil {
 				assert.EqualError(t, tc.outErr, err.Error())
@@ -1699,20 +1659,12 @@ func TestInventoryDeleteDevices(t *testing.T) {
 		datastoreResult *model.UpdateResult
 		datastoreError  error
 		outError        error
-		workflowsError  error
 	}{
 		"ok": {
 			datastoreResult: &model.UpdateResult{
 				DeletedCount: 1,
 			},
 			outError: nil,
-		},
-		"ok, with workflows (swallowed) error": {
-			datastoreResult: &model.UpdateResult{
-				DeletedCount: 1,
-			},
-			workflowsError: errors.New("workflows error"),
-			outError:       nil,
 		},
 		"datastore error": {
 			datastoreError: errors.New("db connection failed"),
@@ -1730,16 +1682,7 @@ func TestInventoryDeleteDevices(t *testing.T) {
 				mock.AnythingOfType("[]model.DeviceID"),
 			).Return(tc.datastoreResult, tc.datastoreError)
 
-			workflows := &mworkflows.Client{}
-			defer workflows.AssertExpectations(t)
-			if tc.outError == nil {
-				workflows.On("StartReindex",
-					ctx,
-					mock.AnythingOfType("[]model.DeviceID"),
-				).Return(tc.workflowsError)
-			}
-
-			i := invForTest(db).WithReporting(workflows)
+			i := invForTest(db)
 
 			_, err := i.DeleteDevices(ctx, []model.DeviceID{"foo"})
 
@@ -1761,20 +1704,12 @@ func TestInventoryUpsertDevicesStatuses(t *testing.T) {
 		datastoreResult *model.UpdateResult
 		datastoreError  error
 		outError        error
-		workflowsError  error
 	}{
 		"ok": {
 			datastoreResult: &model.UpdateResult{
 				DeletedCount: 1,
 			},
 			outError: nil,
-		},
-		"ok, with workflows (swallowed) error": {
-			datastoreResult: &model.UpdateResult{
-				DeletedCount: 1,
-			},
-			workflowsError: errors.New("workflows error"),
-			outError:       nil,
 		},
 		"datastore error": {
 			datastoreError: errors.New("db connection failed"),
@@ -1793,16 +1728,7 @@ func TestInventoryUpsertDevicesStatuses(t *testing.T) {
 				mock.AnythingOfType("model.DeviceAttributes"),
 			).Return(tc.datastoreResult, tc.datastoreError)
 
-			workflows := &mworkflows.Client{}
-			defer workflows.AssertExpectations(t)
-			if tc.outError == nil {
-				workflows.On("StartReindex",
-					ctx,
-					mock.AnythingOfType("[]model.DeviceID"),
-				).Return(tc.workflowsError)
-			}
-
-			i := invForTest(db).WithReporting(workflows)
+			i := invForTest(db)
 
 			_, err := i.UpsertDevicesStatuses(ctx, []model.DeviceUpdate{{Id: "foo"}}, model.DeviceAttributes{})
 
