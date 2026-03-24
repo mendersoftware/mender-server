@@ -16,8 +16,8 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // material ui
-import { Error as ErrorIcon } from '@mui/icons-material';
-import { Alert, Button, Typography } from '@mui/material';
+import { Error as ErrorIcon, OpenInNew } from '@mui/icons-material';
+import { Alert, Button, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
@@ -26,6 +26,7 @@ import { ADDONS, PLANS } from '@northern.tech/store/constants';
 import { getBillingProfile, getCard, getDeviceLimits, getIsEnterprise, getOrganization, getUserRoles } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { cancelRequest, getCurrentCard, getUserBilling } from '@northern.tech/store/thunks';
+import { isDarkMode } from '@northern.tech/store/utils';
 import { DeviceTierLimits } from '@northern.tech/types/MenderTypes';
 import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
@@ -44,13 +45,11 @@ const useStyles = makeStyles()(theme => ({
       gridTemplateColumns: '1fr'
     }
   },
+  link: { ['&:hover']: { color: theme.palette.secondary.contrastText } },
   upgradeSection: {
-    backgroundColor: theme.palette.grey[100],
-    borderRadius: theme.spacing(0.5),
-    padding: theme.spacing(2),
-    paddingTop: 0
-  },
-  wrapper: { gap: theme.spacing(2) }
+    backgroundColor: isDarkMode(theme.palette.mode) ? alpha(theme.palette.info.light, theme.palette.action.selectedOpacity) : theme.palette.action.hover,
+    borderRadius: theme.spacing(0.5)
+  }
 }));
 
 const AddOnDescriptor = ({ addOns = [], isTrial }: { addOns: string[]; isTrial: boolean }) => {
@@ -172,7 +171,7 @@ export const CardDetails = props => {
 const UpgradeNote = ({ isTrial }) => {
   const { classes } = useStyles();
   return (
-    <div className={classes.upgradeSection}>
+    <div className={`padding-small padding-top-none margin-top margin-bottom ${classes.upgradeSection}`}>
       <SettingsItem
         classes={{ main: classes.fullWidthUpgrade }}
         title="Upgrade now"
@@ -182,11 +181,21 @@ const UpgradeNote = ({ isTrial }) => {
             : 'Upgrade to access more features, increase your device limit, and enhance your subscription with Add-ons.'
         }
       />
-      <div className={`flexbox align-items-center margin-top-x-small ${classes.wrapper}`}>
-        <Button component={Link} to="https://mender.io/pricing/plans" target="_blank" rel="noopener noreferrer" size="small">
+      <div className="flexbox align-items-center margin-top-x-small">
+        <Button
+          className="margin-right-small"
+          component={Link}
+          to="https://mender.io/pricing/plans"
+          target="_blank"
+          rel="noopener noreferrer"
+          size="small"
+          color="info"
+          variant="outlined"
+          endIcon={<OpenInNew />}
+        >
           Compare all plans
         </Button>
-        <Button color="primary" component={Link} to="/subscription" size="small" variant="contained">
+        <Button className={classes.link} color="secondary" component={Link} to="/subscription" size="small" variant="contained">
           Upgrade
         </Button>
       </div>
@@ -206,7 +215,6 @@ export const Billing = () => {
   const billing = useSelector(getBillingProfile);
   const { addons = [], plan: currentPlan = PLANS.os.id, trial: isTrial, trial_expiration } = organization;
   const dispatch = useAppDispatch();
-  const { classes } = useStyles();
 
   const planName = PLANS[currentPlan].name;
 
@@ -236,13 +244,13 @@ export const Billing = () => {
   return (
     <div style={{ maxWidth: 750 }}>
       <Typography variant="h6">Billing</Typography>
-      <div className={`flexbox column ${classes.wrapper}`}>
+      <div className="flexbox column">
         <SettingsItem
           title="Current plan"
           secondary={<PlanDescriptor plan={planName} isTrial={isTrial} trialExpiration={trial_expiration} deviceLimits={deviceLimits} />}
         />
         <SettingsItem title="Current Add-ons" secondary={<AddOnDescriptor addOns={enabledAddOns} isTrial={isTrial} />} />
-        {!isEnterprise && <UpgradeNote isTrial={isTrial} />}
+        {isEnterprise && <UpgradeNote isTrial={isTrial} />}
         <Typography className="margin-top-small" variant="subtitle1">
           Billing details
         </Typography>
