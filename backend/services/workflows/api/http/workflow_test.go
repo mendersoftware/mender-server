@@ -30,7 +30,7 @@ import (
 	mock_nats "github.com/mendersoftware/mender-server/services/workflows/client/nats/mocks"
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 	"github.com/mendersoftware/mender-server/services/workflows/store"
-	"github.com/mendersoftware/mender-server/services/workflows/store/mock"
+	"github.com/mendersoftware/mender-server/services/workflows/store/mocks"
 )
 
 func TestHealthCheck(t *testing.T) {
@@ -64,8 +64,7 @@ func TestHealthCheck(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			dataStore := mock.NewDataStore()
-			defer dataStore.AssertExpectations(t)
+			dataStore := mocks.NewDataStore(t)
 			dataStore.On("Ping", mocklib.Anything).
 				Return(tc.DataStoreErr)
 
@@ -102,8 +101,7 @@ func TestHealthCheck(t *testing.T) {
 func TestWorkflowNotFound(t *testing.T) {
 	const workflowName = "test"
 
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	dataStore.On("GetWorkflowByName",
 		mocklib.MatchedBy(
@@ -132,8 +130,7 @@ func TestWorkflowNotFound(t *testing.T) {
 func TestWorkflowFoundButMissingParameters(t *testing.T) {
 	const workflowName = "test"
 
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		InputParameters: []string{"param1", "param2", "param3"},
@@ -177,8 +174,7 @@ func TestWorkflowFoundButMissingParameters(t *testing.T) {
 }
 
 func TestWorkflowFoundAndStartedWithInvalidParameters(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	payload := ``
 
@@ -207,8 +203,7 @@ func TestWorkflowFoundAndStartedWithInvalidParameters(t *testing.T) {
 }
 
 func TestWorkflowFoundAndStartedWithParameters(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	nats := &mock_nats.Client{}
 	defer nats.AssertExpectations(t)
@@ -246,12 +241,11 @@ func TestWorkflowFoundAndStartedWithParameters(t *testing.T) {
 		}),
 	).Return(nil)
 
-	dataStore.On("GetJobByNameAndID",
+	dataStore.On("GetJobByID",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		workflow.Name,
 		mocklib.AnythingOfType("string"),
 	).Return(mockedJob, nil)
 
@@ -277,15 +271,14 @@ func TestWorkflowFoundAndStartedWithParameters(t *testing.T) {
 	assert.True(t, ok)
 
 	w = httptest.NewRecorder()
-	url = strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflow.Name, 1), ":id", value, 1)
+	url = strings.Replace(APIURLJobsID, ":id", value, 1)
 	req, _ = http.NewRequest(http.MethodGet, url, nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestWorkflowFailToPublish(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	nats := &mock_nats.Client{}
 	defer nats.AssertExpectations(t)
@@ -335,8 +328,7 @@ func TestWorkflowFailToPublish(t *testing.T) {
 }
 
 func TestWorkflowFoundAndStartedWithVersion(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	nats := &mock_nats.Client{}
 	defer nats.AssertExpectations(t)
@@ -378,12 +370,11 @@ func TestWorkflowFoundAndStartedWithVersion(t *testing.T) {
 		}),
 	).Return(nil)
 
-	dataStore.On("GetJobByNameAndID",
+	dataStore.On("GetJobByID",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		workflow.Name,
 		mocklib.AnythingOfType("string"),
 	).Return(mockedJob, nil)
 
@@ -410,7 +401,7 @@ func TestWorkflowFoundAndStartedWithVersion(t *testing.T) {
 	assert.True(t, ok)
 
 	w = httptest.NewRecorder()
-	url = strings.Replace(strings.Replace(APIURLWorkflowID, ":name", mockedJob.WorkflowName, 1), ":id", value, 1)
+	url = strings.Replace(APIURLJobsID, ":id", value, 1)
 	req, _ = http.NewRequest(http.MethodGet, url, nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -426,8 +417,7 @@ func TestWorkflowFoundAndStartedWithVersion(t *testing.T) {
 }
 
 func TestWorkflowFoundAndStartedWithNonStringParameter(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	nats := &mock_nats.Client{}
 	defer nats.AssertExpectations(t)
@@ -465,12 +455,11 @@ func TestWorkflowFoundAndStartedWithNonStringParameter(t *testing.T) {
 		}),
 	).Return(nil)
 
-	dataStore.On("GetJobByNameAndID",
+	dataStore.On("GetJobByID",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		workflow.Name,
 		mocklib.AnythingOfType("string"),
 	).Return(mockedJob, nil)
 
@@ -496,15 +485,14 @@ func TestWorkflowFoundAndStartedWithNonStringParameter(t *testing.T) {
 	assert.True(t, ok)
 
 	w = httptest.NewRecorder()
-	url = strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflow.Name, 1), ":id", value, 1)
+	url = strings.Replace(APIURLJobsID, ":id", value, 1)
 	req, _ = http.NewRequest(http.MethodGet, url, nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestWorkflowFoundAndStartedWithListOfStringsParameter(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	nats := &mock_nats.Client{}
 	defer nats.AssertExpectations(t)
@@ -542,12 +530,11 @@ func TestWorkflowFoundAndStartedWithListOfStringsParameter(t *testing.T) {
 		}),
 	).Return(nil)
 
-	dataStore.On("GetJobByNameAndID",
+	dataStore.On("GetJobByID",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		workflow.Name,
 		mocklib.AnythingOfType("string"),
 	).Return(mockedJob, nil)
 
@@ -573,7 +560,7 @@ func TestWorkflowFoundAndStartedWithListOfStringsParameter(t *testing.T) {
 	assert.True(t, ok)
 
 	w = httptest.NewRecorder()
-	url = strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflow.Name, 1), ":id", value, 1)
+	url = strings.Replace(APIURLJobsID, ":id", value, 1)
 	req, _ = http.NewRequest(http.MethodGet, url, nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -582,8 +569,7 @@ func TestWorkflowFoundAndStartedWithListOfStringsParameter(t *testing.T) {
 func TestBatchWorkflowNotFound(t *testing.T) {
 	const workflowName = "test"
 
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	dataStore.On("GetWorkflowByName",
 		mocklib.MatchedBy(
@@ -612,8 +598,7 @@ func TestBatchWorkflowNotFound(t *testing.T) {
 func TestBatchWorkflowFoundButMissingParameters(t *testing.T) {
 	const workflowName = "test"
 
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		InputParameters: []string{"param1", "param2", "param3"},
@@ -657,8 +642,7 @@ func TestBatchWorkflowFoundButMissingParameters(t *testing.T) {
 }
 
 func TestBatchWorkflowFoundAndStartedWithInvalidParameters(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	payload := ``
 
@@ -687,8 +671,7 @@ func TestBatchWorkflowFoundAndStartedWithInvalidParameters(t *testing.T) {
 }
 
 func TestBatchWorkflowFoundAndStartedWithParameters(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	nats := &mock_nats.Client{}
 	defer nats.AssertExpectations(t)
@@ -726,12 +709,11 @@ func TestBatchWorkflowFoundAndStartedWithParameters(t *testing.T) {
 		}),
 	).Return(nil)
 
-	dataStore.On("GetJobByNameAndID",
+	dataStore.On("GetJobByID",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		workflow.Name,
 		mocklib.AnythingOfType("string"),
 	).Return(mockedJob, nil)
 
@@ -757,15 +739,14 @@ func TestBatchWorkflowFoundAndStartedWithParameters(t *testing.T) {
 	assert.True(t, ok)
 
 	w = httptest.NewRecorder()
-	url = strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflow.Name, 1), ":id", value, 1)
+	url = strings.Replace(APIURLJobsID, ":id", value, 1)
 	req, _ = http.NewRequest(http.MethodGet, url, nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
 func TestBatchWorkflowFailToPublish(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	nats := &mock_nats.Client{}
 	defer nats.AssertExpectations(t)
@@ -821,65 +802,8 @@ func TestBatchWorkflowFailToPublish(t *testing.T) {
 	assert.NotEmpty(t, value)
 }
 
-func TestWorkflowByNameAndIDNotFound(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
-
-	const (
-		workflowName = "test"
-		jobID        = "dummy"
-	)
-
-	dataStore.On("GetJobByNameAndID",
-		mocklib.MatchedBy(
-			func(_ context.Context) bool {
-				return true
-			}),
-		workflowName,
-		jobID,
-	).Return(nil, nil)
-
-	url := strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflowName, 1), ":id", jobID, 1)
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	assert.NoError(t, err)
-
-	w := httptest.NewRecorder()
-	router := NewRouter(dataStore, nil)
-	router.ServeHTTP(w, req)
-	assert.Equal(t, http.StatusNotFound, w.Code)
-}
-
-func TestWorkflowByNameAndIDError(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
-
-	const (
-		workflowName = "test"
-		jobID        = "dummy"
-	)
-
-	dataStore.On("GetJobByNameAndID",
-		mocklib.MatchedBy(
-			func(_ context.Context) bool {
-				return true
-			}),
-		workflowName,
-		jobID,
-	).Return(nil, errors.New("error"))
-
-	url := strings.Replace(strings.Replace(APIURLWorkflowID, ":name", workflowName, 1), ":id", jobID, 1)
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	assert.NoError(t, err)
-
-	w := httptest.NewRecorder()
-	router := NewRouter(dataStore, nil)
-	router.ServeHTTP(w, req)
-	assert.Equal(t, http.StatusInternalServerError, w.Code)
-}
-
 func TestRegisterWorkflowBadRequestIncompletePayload(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	payload := ``
 	req, err := http.NewRequest(http.MethodPost, APIURLWorkflows, strings.NewReader(payload))
@@ -906,8 +830,7 @@ func TestRegisterWorkflowBadRequestIncompletePayload(t *testing.T) {
 }
 
 func TestRegisterWorkflowBadRequestMissingName(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	payload := `{}`
 	req, err := http.NewRequest(http.MethodPost, APIURLWorkflows, strings.NewReader(payload))
@@ -934,16 +857,15 @@ func TestRegisterWorkflowBadRequestMissingName(t *testing.T) {
 }
 
 func TestRegisterWorkflowAlreadyExists(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	dataStore.On("InsertWorkflows",
 		mocklib.MatchedBy(
 			func(_ context.Context) bool {
 				return true
 			}),
-		mocklib.AnythingOfType("[]model.Workflow"),
-	).Return(nil, store.ErrWorkflowAlreadyExists)
+		mocklib.AnythingOfType("model.Workflow"),
+	).Return(1, store.ErrWorkflowAlreadyExists)
 
 	payload := `{"name": "workflow"}`
 	req, err := http.NewRequest(http.MethodPost, APIURLWorkflows, strings.NewReader(payload))
@@ -970,8 +892,7 @@ func TestRegisterWorkflowAlreadyExists(t *testing.T) {
 }
 
 func TestRegisterWorkflow(t *testing.T) {
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	dataStore.On("InsertWorkflows",
 		mocklib.MatchedBy(
@@ -979,10 +900,8 @@ func TestRegisterWorkflow(t *testing.T) {
 				return true
 			}),
 		mocklib.MatchedBy(
-			func(workflows []model.Workflow) bool {
-				assert.Len(t, workflows, 1)
+			func(workflow model.Workflow) bool {
 
-				workflow := workflows[0]
 				assert.Equal(t, "test_workflow", workflow.Name)
 				assert.Equal(t, "Test workflow", workflow.Description)
 				assert.Equal(t, 4, workflow.Version)
@@ -1055,8 +974,7 @@ func TestGetWorkflows(t *testing.T) {
 		SchemaVersion: 1,
 	}
 
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	dataStore.On("GetWorkflows",
 		mocklib.MatchedBy(

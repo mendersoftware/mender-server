@@ -30,7 +30,7 @@ const (
 	APIURLHealth        = "/api/v1/health"
 	APIURLWorkflow      = "/api/v1/workflow/:name"
 	APIURLWorkflowBatch = "/api/v1/workflow/:name/batch"
-	APIURLWorkflowID    = "/api/v1/workflow/:name/:id"
+	APIURLWorkflowID    = "/api/v1/workflow/:name/:id" // TODO QA-1549
 	APIURLJobsID        = "/api/v1/jobs/:id"
 
 	APIURLWorkflows = "/api/v1/metadata/workflows"
@@ -49,7 +49,7 @@ func NewRouter(dataStore store.DataStore, nats nats.Client) *gin.Engine {
 
 	router.POST(APIURLWorkflow, workflow.StartWorkflow)
 	router.POST(APIURLWorkflowBatch, workflow.StartBatchWorkflows)
-	router.GET(APIURLWorkflowID, workflow.GetWorkflowByNameAndID)
+	router.GET(APIURLWorkflowID, workflow.GetJobByID)
 
 	router.POST(APIURLWorkflows, workflow.RegisterWorkflow)
 	router.GET(APIURLWorkflows, workflow.GetWorkflows)

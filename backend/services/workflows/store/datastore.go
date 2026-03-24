@@ -31,6 +31,8 @@ var (
 )
 
 // DataStore interface for DataStore services
+//
+//go:generate ../../../utils/mockgen.sh
 type DataStore interface {
 	Ping(ctx context.Context) error
 	InsertWorkflows(ctx context.Context, workflow ...model.Workflow) (int, error)
@@ -45,6 +47,5 @@ type DataStore interface {
 	GetAllJobs(ctx context.Context, page int64, perPage int64) ([]model.Job, int64, error)
 	UpdateJobAddResult(ctx context.Context, job *model.Job, result *model.TaskResult) error
 	UpdateJobStatus(ctx context.Context, job *model.Job, status int32) error
-	GetJobByNameAndID(ctx context.Context, name string, ID string) (*model.Job, error)
 	GetJobByID(ctx context.Context, ID string) (*model.Job, error)
 }

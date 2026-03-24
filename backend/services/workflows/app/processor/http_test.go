@@ -26,7 +26,7 @@ import (
 	mocklib "github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/services/workflows/model"
-	"github.com/mendersoftware/mender-server/services/workflows/store/mock"
+	"github.com/mendersoftware/mender-server/services/workflows/store/mocks"
 )
 
 func TestProcessJobHTTP(t *testing.T) {
@@ -118,8 +118,7 @@ func TestProcessJobHTTP(t *testing.T) {
 	for _, testCase := range testCases {
 		t.Run(testCase.Name, func(t *testing.T) {
 			ctx := context.Background()
-			dataStore := mock.NewDataStore()
-			defer dataStore.AssertExpectations(t)
+			dataStore := mocks.NewDataStore(t)
 
 			job := &model.Job{
 				WorkflowName:    testCase.Workflow.Name,
@@ -211,8 +210,7 @@ func TestProcessJobHTTP(t *testing.T) {
 
 func TestProcessJobHTTPValidStatusCode(t *testing.T) {
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",
@@ -305,8 +303,7 @@ func TestProcessJobHTTPValidStatusCode(t *testing.T) {
 
 func TestProcessJobHTTPWrongStatusCode(t *testing.T) {
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",
@@ -415,8 +412,7 @@ func TestProcessJobHTTPWrongStatusCode(t *testing.T) {
 
 func TestProcessJobHTTPFailedIncompatibleDefinition(t *testing.T) {
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",

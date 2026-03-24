@@ -262,7 +262,6 @@ Class | Method | HTTP request | Description
 *WorkflowsOtherAPI* | [**RegisterWorkflow**](docs/WorkflowsOtherAPI.md#registerworkflow) | **Post** /api/v1/metadata/workflows | Register a new workflow
 *WorkflowsOtherAPI* | [**StartBatchWorkflows**](docs/WorkflowsOtherAPI.md#startbatchworkflows) | **Post** /api/v1/workflow/{name}/batch | Start a batch of workflows
 *WorkflowsOtherAPI* | [**StartWorkflow**](docs/WorkflowsOtherAPI.md#startworkflow) | **Post** /api/v1/workflow/{name} | Start a new workflow
-*WorkflowsOtherAPI* | [**WorkflowStatus**](docs/WorkflowsOtherAPI.md#workflowstatus) | **Get** /api/v1/workflow/{name}/{id} | Gets the workflow status for the given id.
 *WorkflowsOtherAPI* | [**WorkflowsCheckHealth**](docs/WorkflowsOtherAPI.md#workflowscheckhealth) | **Get** /api/v1/health | Check if service and all operational dependencies are healthy.
 *WorkflowsOtherAPI* | [**WorkflowsCheckLiveliness**](docs/WorkflowsOtherAPI.md#workflowscheckliveliness) | **Get** /status | Check if service API is alive and serving requests
 

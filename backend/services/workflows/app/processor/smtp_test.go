@@ -27,7 +27,7 @@ import (
 	mocklib "github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/services/workflows/model"
-	"github.com/mendersoftware/mender-server/services/workflows/store/mock"
+	"github.com/mendersoftware/mender-server/services/workflows/store/mocks"
 )
 
 func TestProcessJobSMTP(t *testing.T) {
@@ -124,8 +124,7 @@ func TestProcessJobSMTP(t *testing.T) {
 			).Return(nil)
 
 			ctx := context.Background()
-			dataStore := mock.NewDataStore()
-			defer dataStore.AssertExpectations(t)
+			dataStore := mocks.NewDataStore(t)
 
 			workflow := &model.Workflow{
 				Name: "test",
@@ -253,8 +252,7 @@ func TestProcessJobSMTPLoadFromFile(t *testing.T) {
 	).Return(nil)
 
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	tmpFile, err := ioutil.TempFile("", "mail.body")
 	assert.Nil(t, err)
@@ -398,8 +396,7 @@ func TestProcessJobSMTPLoadFromFileFailed(t *testing.T) {
 			}
 
 			ctx := context.Background()
-			dataStore := mock.NewDataStore()
-			defer dataStore.AssertExpectations(t)
+			dataStore := mocks.NewDataStore(t)
 
 			dataStore.On("GetWorkflowByName",
 				mocklib.MatchedBy(
@@ -467,8 +464,7 @@ func TestProcessJobSMTPFailure(t *testing.T) {
 	).Return(smtpError)
 
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",
@@ -544,8 +540,7 @@ func TestProcessJobSMTPFailure(t *testing.T) {
 
 func TestProcessJobSMTPFailedIncompatibleDefinition(t *testing.T) {
 	ctx := context.Background()
-	dataStore := mock.NewDataStore()
-	defer dataStore.AssertExpectations(t)
+	dataStore := mocks.NewDataStore(t)
 
 	workflow := &model.Workflow{
 		Name: "test",
