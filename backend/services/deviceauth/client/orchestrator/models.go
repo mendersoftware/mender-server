@@ -105,10 +105,3 @@ type UpdateDeviceInventoryReq struct {
 	// Device inventory attributes
 	Attributes string `json:"attributes"`
 }
-
-type ReindexReportingWorkflow struct {
-	RequestID string `json:"request_id"`
-	TenantID  string `json:"tenant_id"`
-	DeviceID  string `json:"device_id"`
-	Service   string `json:"service"`
-}

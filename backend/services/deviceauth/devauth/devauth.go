@@ -135,8 +135,7 @@ type Config struct {
 	DefaultTenantToken string
 	InventoryAddr      string
 
-	EnableReporting bool
-	HaveAddons      bool
+	HaveAddons bool
 }
 
 func NewDevAuth(d store.DataStore, co orchestrator.ClientRunner,
@@ -205,11 +204,6 @@ func (d *DevAuth) setDeviceIdentity(ctx context.Context, dev *model.Device, tena
 			Attributes: string(attrJson),
 		}); err != nil {
 		return errors.Wrap(err, "failed to start device inventory update job")
-	}
-	if d.config.EnableReporting {
-		if err := d.cOrch.SubmitReindexReporting(ctx, string(dev.Id)); err != nil {
-			return errors.Wrap(err, "reindex reporting job error")
-		}
 	}
 	return nil
 }
@@ -507,12 +501,6 @@ func (d *DevAuth) updateDeviceStatus(
 		return errors.Wrap(err, "failed to update device status")
 	}
 
-	if d.config.EnableReporting {
-		if err := d.cOrch.SubmitReindexReporting(ctx, devId); err != nil {
-			return errors.Wrap(err, "reindex reporting job error")
-		}
-	}
-
 	return nil
 }
 
@@ -719,12 +707,6 @@ func (d *DevAuth) DeleteDevice(ctx context.Context, devID string) error {
 		return err
 	}
 
-	if d.config.EnableReporting {
-		if err := d.cOrch.SubmitReindexReporting(ctx, devID); err != nil {
-			return errors.Wrap(err, "reindex reporting job error")
-		}
-	}
-
 	return nil
 }
 
@@ -792,12 +774,6 @@ func (d *DevAuth) DeleteAuthSet(ctx context.Context, devID string, authId string
 		// delete device
 		if err := d.db.DeleteDevice(ctx, devID); err != nil {
 			return err
-		}
-
-		if d.config.EnableReporting {
-			if err := d.cOrch.SubmitReindexReporting(ctx, devID); err != nil {
-				return errors.Wrap(err, "reindex reporting job error")
-			}
 		}
 
 		return nil
@@ -1564,20 +1540,12 @@ func (d *DevAuth) updateCheckInTime(
 	if previous == nil ||
 		(previous != nil &&
 			!previous.Truncate(24*time.Hour).Equal(checkInTime.Truncate(24*time.Hour))) {
-		// trigger reindexing
-		if d.config.EnableReporting {
-			if err = d.cOrch.SubmitReindexReporting(ctx, deviceId); err != nil {
-				err = errors.Wrap(err, "reindex reporting job error")
-				return
-			}
-		} else {
-			// update check-in time in inventory
-			if err := d.syncCheckInTime(ctx, checkInTime, deviceId, tenantId); err != nil {
-				log.FromContext(ctx).Errorf(
-					"failed to synchronize device check-in time with inventory: device %s: %s",
-					deviceId, err.Error(),
-				)
-			}
+		// update check-in time in inventory
+		if err := d.syncCheckInTime(ctx, checkInTime, deviceId, tenantId); err != nil {
+			log.FromContext(ctx).Errorf(
+				"failed to synchronize device check-in time with inventory: device %s: %s",
+				deviceId, err.Error(),
+			)
 		}
 		// dump cached value to database
 		if d.cache != nil {

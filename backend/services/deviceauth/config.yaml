@@ -54,12 +54,6 @@
 
 # orchestrator_addr:  http://mender-workflows-server:8080
 
-# Enable the integration with the reporting service
-# Defaults to: false
-# Overwrite with environment variable: DEVICEAUTH_ENABLE_REPORTING
-
-# enable_reporting: false
-
 # Private key path - used for JWT signing
 # Defaults to: /etc/deviceauth/rsa/private.pem
 # Overwrite with environment variable: DEVICEAUTH_SERVER_PRIV_KEY_PATH
