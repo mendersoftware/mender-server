@@ -6642,6 +6642,37 @@ paths:
       summary: Start reindexing device attributes.
       tags:
       - Device_inventory_Internal API
+  /api/internal/v2/inventory/tenants/{tenant_id}/statistics:
+    get:
+      description: |
+        The following statistics are currently supported:
+        * Number of accepted and pending devices in each device tier
+      operationId: Get Statistics Internal
+      parameters:
+      - description: Tenant ID.
+        explode: false
+        in: path
+        name: tenant_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Get_Statistics_Internal_200_response"
+          description: Successful response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Internal Server Error.
+      summary: Get inventory statistics
+      tags:
+      - Device_inventory_filters_and_search_Internal API
   /api/internal/v2/inventory/tenants/{tenant_id}/filters/search:
     post:
       description: |
@@ -7622,7 +7653,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Get_Statistics_200_response"
+                $ref: "#/components/schemas/Get_Statistics_Internal_200_response"
           description: Successful response.
         "500":
           content:
@@ -12151,6 +12182,40 @@ components:
       - attribute
       - scope
       type: object
+    DeviceCountByTier:
+      description: Number of devices per tier
+      properties:
+        standard:
+          type: number
+        micro:
+          type: number
+        system:
+          type: number
+      required:
+      - micro
+      - standard
+      - system
+      type: object
+    DeviceStatusStatistics:
+      description: Device statistics grouped by device status
+      example:
+        accepted:
+          standard: 975
+          micro: 3546
+          system: 0
+        pending:
+          standard: 2
+          micro: 30
+          system: 1
+      properties:
+        accepted:
+          $ref: "#/components/schemas/DeviceCountByTier"
+        pending:
+          $ref: "#/components/schemas/DeviceCountByTier"
+      required:
+      - accepted
+      - pending
+      type: object
     FilterPredicate:
       description: Attribute filter predicate
       example:
@@ -12337,40 +12402,6 @@ components:
       - count
       - name
       - scope
-      type: object
-    DeviceStatusStatistics:
-      description: Device statistics grouped by device status
-      example:
-        accepted:
-          standard: 975
-          micro: 3546
-          system: 0
-        pending:
-          standard: 2
-          micro: 30
-          system: 1
-      properties:
-        accepted:
-          $ref: "#/components/schemas/DeviceCountByTier"
-        pending:
-          $ref: "#/components/schemas/DeviceCountByTier"
-      required:
-      - accepted
-      - pending
-      type: object
-    DeviceCountByTier:
-      description: Number of devices per tier
-      properties:
-        standard:
-          type: number
-        micro:
-          type: number
-        system:
-          type: number
-      required:
-      - micro
-      - standard
-      - system
       type: object
     NewDeviceInternalProvision:
       example:
@@ -13252,6 +13283,23 @@ components:
             type: string
           type: array
       type: object
+    Get_Statistics_Internal_200_response:
+      example:
+        devices_by_status:
+          accepted:
+            standard: 975
+            micro: 3546
+            system: 0
+          pending:
+            standard: 2
+            micro: 30
+            system: 1
+      properties:
+        devices_by_status:
+          $ref: "#/components/schemas/DeviceStatusStatistics"
+      required:
+      - devices_by_status
+      type: object
     Inventory_Internal_V2_Search_Device_Inventories_request:
       properties:
         page:
@@ -13347,23 +13395,6 @@ components:
           items:
             $ref: "#/components/schemas/SelectAttribute"
           type: array
-      type: object
-    Get_Statistics_200_response:
-      example:
-        devices_by_status:
-          accepted:
-            standard: 975
-            micro: 3546
-            system: 0
-          pending:
-            standard: 2
-            micro: 30
-            system: 1
-      properties:
-        devices_by_status:
-          $ref: "#/components/schemas/DeviceStatusStatistics"
-      required:
-      - devices_by_status
       type: object
     IoTManager_Internal_Update_device_statuses_request_inner:
       properties:

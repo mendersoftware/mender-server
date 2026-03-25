@@ -96,7 +96,7 @@ mender_client/models/filter_attribute.py
 mender_client/models/filter_predicate.py
 mender_client/models/filter_v1.py
 mender_client/models/filter_v2.py
-mender_client/models/get_statistics200_response.py
+mender_client/models/get_statistics_internal200_response.py
 mender_client/models/group.py
 mender_client/models/groups.py
 mender_client/models/http.py

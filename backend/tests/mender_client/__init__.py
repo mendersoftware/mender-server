@@ -119,7 +119,7 @@ __all__ = [
     "FilterPredicate",
     "FilterV1",
     "FilterV2",
-    "GetStatistics200Response",
+    "GetStatisticsInternal200Response",
     "Group",
     "Groups",
     "HTTP",
@@ -287,7 +287,7 @@ from mender_client.models.filter_attribute import FilterAttribute as FilterAttri
 from mender_client.models.filter_predicate import FilterPredicate as FilterPredicate
 from mender_client.models.filter_v1 import FilterV1 as FilterV1
 from mender_client.models.filter_v2 import FilterV2 as FilterV2
-from mender_client.models.get_statistics200_response import GetStatistics200Response as GetStatistics200Response
+from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response as GetStatisticsInternal200Response
 from mender_client.models.group import Group as Group
 from mender_client.models.groups import Groups as Groups
 from mender_client.models.http import HTTP as HTTP

@@ -21,7 +21,7 @@ from typing import List, Optional
 from typing_extensions import Annotated
 from mender_client.models.device_inventory import DeviceInventory
 from mender_client.models.filter_attribute import FilterAttribute
-from mender_client.models.get_statistics200_response import GetStatistics200Response
+from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response
 from mender_client.models.inventory_v2_search_device_inventories_request import InventoryV2SearchDeviceInventoriesRequest
 
 from mender_client.api_client import ApiClient, RequestSerialized
@@ -306,7 +306,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetStatistics200Response:
+    ) -> GetStatisticsInternal200Response:
         """Get inventory statistics
 
         The following statistics are currently supported: * Number of accepted and pending devices in each device tier 
@@ -341,7 +341,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetStatistics200Response",
+            '200': "GetStatisticsInternal200Response",
             '500': "Error",
         }
         response_data = self.api_client.call_api(
@@ -370,7 +370,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetStatistics200Response]:
+    ) -> ApiResponse[GetStatisticsInternal200Response]:
         """Get inventory statistics
 
         The following statistics are currently supported: * Number of accepted and pending devices in each device tier 
@@ -405,7 +405,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetStatistics200Response",
+            '200': "GetStatisticsInternal200Response",
             '500': "Error",
         }
         response_data = self.api_client.call_api(
@@ -469,7 +469,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetStatistics200Response",
+            '200': "GetStatisticsInternal200Response",
             '500': "Error",
         }
         response_data = self.api_client.call_api(
