@@ -4,8 +4,79 @@ All URIs are relative to *https://hosted.mender.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**GetStatisticsInternal**](DeviceInventoryFiltersAndSearchInternalAPIAPI.md#GetStatisticsInternal) | **Get** /api/internal/v2/inventory/tenants/{tenant_id}/statistics | Get inventory statistics
 [**InventoryInternalV2SearchDeviceInventories**](DeviceInventoryFiltersAndSearchInternalAPIAPI.md#InventoryInternalV2SearchDeviceInventories) | **Post** /api/internal/v2/inventory/tenants/{tenant_id}/filters/search | Search device inventories based on attributes
 
+
+
+## GetStatisticsInternal
+
+> GetStatisticsInternal200Response GetStatisticsInternal(ctx, tenantId).Execute()
+
+Get inventory statistics
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	tenantId := "tenantId_example" // string | Tenant ID.
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DeviceInventoryFiltersAndSearchInternalAPIAPI.GetStatisticsInternal(context.Background(), tenantId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DeviceInventoryFiltersAndSearchInternalAPIAPI.GetStatisticsInternal``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetStatisticsInternal`: GetStatisticsInternal200Response
+	fmt.Fprintf(os.Stdout, "Response from `DeviceInventoryFiltersAndSearchInternalAPIAPI.GetStatisticsInternal`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tenantId** | **string** | Tenant ID. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetStatisticsInternalRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**GetStatisticsInternal200Response**](GetStatisticsInternal200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## InventoryInternalV2SearchDeviceInventories

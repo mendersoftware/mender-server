@@ -190,6 +190,7 @@ func NewRouter(app inv.InventoryApp, options ...Option) http.Handler {
 
 	internalAPIV2 := router.Group(apiUrlInternalV2)
 	internalAPIV2.POST(urlInternalFiltersSearch, intrnlHandler.InternalFiltersSearchHandler)
+	internalAPIV2.GET(urlInternalStatistics, intrnlHandler.GetDeviceStatistics)
 
 	return router
 }

@@ -145,7 +145,7 @@ type ApiGetStatisticsRequest struct {
 	ApiService *DeviceInventoryFiltersAndSearchManagementAPIAPIService
 }
 
-func (r ApiGetStatisticsRequest) Execute() (*GetStatistics200Response, *http.Response, error) {
+func (r ApiGetStatisticsRequest) Execute() (*GetStatisticsInternal200Response, *http.Response, error) {
 	return r.ApiService.GetStatisticsExecute(r)
 }
 
@@ -167,13 +167,13 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetStatistics(c
 }
 
 // Execute executes the request
-//  @return GetStatistics200Response
-func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetStatisticsExecute(r ApiGetStatisticsRequest) (*GetStatistics200Response, *http.Response, error) {
+//  @return GetStatisticsInternal200Response
+func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetStatisticsExecute(r ApiGetStatisticsRequest) (*GetStatisticsInternal200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *GetStatistics200Response
+		localVarReturnValue  *GetStatisticsInternal200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryFiltersAndSearchManagementAPIAPIService.GetStatistics")

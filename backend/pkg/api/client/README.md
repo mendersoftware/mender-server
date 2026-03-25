@@ -189,6 +189,7 @@ Class | Method | HTTP request | Description
 *DeviceConnectManagementAPIAPI* | [**DeviceConnectManagementUpload**](docs/DeviceConnectManagementAPIAPI.md#deviceconnectmanagementupload) | **Put** /api/management/v1/deviceconnect/devices/{id}/upload | Upload a file to the device
 *DeviceInventoryDeviceAPIAPI* | [**AssignAttributes**](docs/DeviceInventoryDeviceAPIAPI.md#assignattributes) | **Patch** /api/devices/v1/inventory/device/attributes | Assign a set of attributes for a device
 *DeviceInventoryDeviceAPIAPI* | [**ReplaceAttributes**](docs/DeviceInventoryDeviceAPIAPI.md#replaceattributes) | **Put** /api/devices/v1/inventory/device/attributes | Replace the set of attributes for a device
+*DeviceInventoryFiltersAndSearchInternalAPIAPI* | [**GetStatisticsInternal**](docs/DeviceInventoryFiltersAndSearchInternalAPIAPI.md#getstatisticsinternal) | **Get** /api/internal/v2/inventory/tenants/{tenant_id}/statistics | Get inventory statistics
 *DeviceInventoryFiltersAndSearchInternalAPIAPI* | [**InventoryInternalV2SearchDeviceInventories**](docs/DeviceInventoryFiltersAndSearchInternalAPIAPI.md#inventoryinternalv2searchdeviceinventories) | **Post** /api/internal/v2/inventory/tenants/{tenant_id}/filters/search | Search device inventories based on attributes
 *DeviceInventoryFiltersAndSearchManagementAPIAPI* | [**GetFilterableAttributes**](docs/DeviceInventoryFiltersAndSearchManagementAPIAPI.md#getfilterableattributes) | **Get** /api/management/v2/inventory/filters/attributes | Get the list of filterable inventory attributes
 *DeviceInventoryFiltersAndSearchManagementAPIAPI* | [**GetStatistics**](docs/DeviceInventoryFiltersAndSearchManagementAPIAPI.md#getstatistics) | **Get** /api/management/v2/inventory/statistics | Get inventory statistics
@@ -336,7 +337,7 @@ Class | Method | HTTP request | Description
  - [FilterPredicate](docs/FilterPredicate.md)
  - [FilterV1](docs/FilterV1.md)
  - [FilterV2](docs/FilterV2.md)
- - [GetStatistics200Response](docs/GetStatistics200Response.md)
+ - [GetStatisticsInternal200Response](docs/GetStatisticsInternal200Response.md)
  - [Group](docs/Group.md)
  - [Groups](docs/Groups.md)
  - [HTTP](docs/HTTP.md)

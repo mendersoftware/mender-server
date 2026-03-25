@@ -8,6 +8,36 @@ info:
 tags:
   - name: Internal API
 paths:
+  /api/internal/v2/inventory/tenants/{tenant_id}/statistics:
+    get:
+      tags:
+        - Internal API
+      summary: Get inventory statistics
+      description: |
+        The following statistics are currently supported:
+        * Number of accepted and pending devices in each device tier
+      operationId: Get Statistics Internal
+      parameters:
+      - name: tenant_id
+        in: path
+        description: Tenant ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - devices_by_status
+                properties:
+                  devices_by_status:
+                    $ref: './schemas.yaml#/components/schemas/DeviceStatusStatistics'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
   /api/internal/v2/inventory/tenants/{tenant_id}/filters/search:
     post:
       tags:

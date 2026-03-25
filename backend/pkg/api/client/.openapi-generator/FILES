@@ -113,7 +113,7 @@ docs/FilterAttribute.md
 docs/FilterPredicate.md
 docs/FilterV1.md
 docs/FilterV2.md
-docs/GetStatistics200Response.md
+docs/GetStatisticsInternal200Response.md
 docs/Group.md
 docs/Groups.md
 docs/HTTP.md
@@ -248,7 +248,7 @@ model_filter_attribute.go
 model_filter_predicate.go
 model_filter_v1.go
 model_filter_v2.go
-model_get_statistics_200_response.go
+model_get_statistics_internal_200_response.go
 model_group.go
 model_groups.go
 model_http.go

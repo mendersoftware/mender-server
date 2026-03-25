@@ -69,6 +69,7 @@ const (
 
 	apiUrlInternalV2         = "/api/internal/v2/inventory"
 	urlInternalFiltersSearch = "/tenants/:tenant_id/filters/search"
+	urlInternalStatistics    = "/tenants/:tenant_id/statistics"
 
 	hdrTotalCount = "X-Total-Count"
 )
@@ -1162,12 +1163,27 @@ func parseSearchParams(c *gin.Context) (*model.SearchParams, error) {
 	return &searchParams, nil
 }
 
-func (i *ManagementAPI) GetDeviceStatistics(c *gin.Context) {
-	statistics, err := i.App.GetDeviceStatistics(c.Request.Context())
+func getDeviceStatistics(c *gin.Context, app inventory.InventoryApp) {
+	statistics, err := app.GetDeviceStatistics(c.Request.Context())
 	switch err {
 	case nil:
 		c.JSON(http.StatusOK, statistics)
 	default:
 		rest.RenderInternalError(c, err)
 	}
+}
+func (api *ManagementAPI) GetDeviceStatistics(c *gin.Context) {
+	getDeviceStatistics(c, api.App)
+}
+
+func (api *InternalAPI) GetDeviceStatistics(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	tenantID := c.Param("tenant_id")
+	ctx = identity.WithContext(ctx, &identity.Identity{
+		Tenant: tenantID,
+	})
+	c.Request = c.Request.WithContext(ctx)
+
+	getDeviceStatistics(c, api.App)
 }

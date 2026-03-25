@@ -73,7 +73,7 @@ Other parameters are passed through a pointer to a apiGetFilterableAttributesReq
 
 ## GetStatistics
 
-> GetStatistics200Response GetStatistics(ctx).Execute()
+> GetStatisticsInternal200Response GetStatistics(ctx).Execute()
 
 Get inventory statistics
 
@@ -100,7 +100,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `DeviceInventoryFiltersAndSearchManagementAPIAPI.GetStatistics``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetStatistics`: GetStatistics200Response
+	// response from `GetStatistics`: GetStatisticsInternal200Response
 	fmt.Fprintf(os.Stdout, "Response from `DeviceInventoryFiltersAndSearchManagementAPIAPI.GetStatistics`: %v\n", resp)
 }
 ```
@@ -116,7 +116,7 @@ Other parameters are passed through a pointer to a apiGetStatisticsRequest struc
 
 ### Return type
 
-[**GetStatistics200Response**](GetStatistics200Response.md)
+[**GetStatisticsInternal200Response**](GetStatisticsInternal200Response.md)
 
 ### Authorization
 
