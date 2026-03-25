@@ -12,6 +12,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import test, { expect } from '../../fixtures/fixtures';
+import { isEnterpriseOrStaging } from '../../utils/commands';
+import { timeouts } from '../../utils/constants';
+import { setupEmailClient } from '../../utils/email';
+import { poll } from '../../utils/utils';
 
 test.describe('Settings', () => {
   test.describe('access token feature', () => {
@@ -81,6 +85,34 @@ test.describe('Settings', () => {
       }
       await userCreationButton.waitFor();
     });
+
+    test('verify email address', async ({ baseUrl, environment, page, username }) => {
+      test.skip(!isEnterpriseOrStaging(environment));
+      const emailClient = setupEmailClient(username, environment);
+      test.skip(!emailClient, 'test requires configuring a mailbox');
+      await page.goto(`${baseUrl}ui/settings/my-profile`);
+
+      test.skip(!(await page.getByText('Not verified').isVisible()), 'email is already verified');
+
+      await page.getByRole('button', { name: /Verify/i }).click();
+
+      // Wait five seconds for the email to be sent
+      await page.waitForTimeout(timeouts.fiveSeconds);
+      const emails = await poll({
+        callback: () => emailClient.getEmails({ to: username, unread: true }),
+        condition: emails => emails.length > 0,
+        delay: timeouts.oneSecond / 2,
+        message: 'timeout waiting for verification email'
+      });
+      const match = emails[0].body.match(new RegExp(`${baseUrl.replace(/\/$/, '')}/ui/activate/[0-9a-f-]+`));
+      test.expect(match, 'found verification URL in email').not.toBeNull();
+      await page.goto(match[0]);
+
+      await page.getByText('Email verified').waitFor({ timeout: timeouts.default }); // Activate landing page (success)
+      await page.goto(`${baseUrl}ui/settings/my-profile`);
+      await page.getByText(/^Verified$/).waitFor({ timeout: timeouts.default }); // "Verified" chip next to email
+    });
+
     test('allows email changes', async ({ baseUrl, page }) => {
       await page.goto(`${baseUrl}ui/settings/my-profile`);
       await page.getByRole('button', { name: /change email/i }).click();
