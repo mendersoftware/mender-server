@@ -541,7 +541,7 @@ func (a *app) SyncDevices(
 	failEarly bool,
 ) error {
 	type DeviceWithTenantID struct {
-		model.Device `bson:",inline"`
+		model.Device `bson:"inline"`
 		TenantID     string `bson:"tenant_id"`
 	}
 	iter, err := a.store.GetAllDevices(ctx)
