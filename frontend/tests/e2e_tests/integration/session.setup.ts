@@ -17,34 +17,7 @@ import * as fs from 'fs';
 import test from '../fixtures/fixtures';
 import { isEnterpriseOrStaging, isLoggedIn, login, prepareNewPage, startDockerClient, tenantTokenRetrieval } from '../utils/commands';
 import { emptyStorageState, selectors, spStoragePath, storageFolder, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants';
-
-const pollDeployment = async ({
-  location,
-  attempt = 1,
-  maxAttempts = 5,
-  delay = timeouts.tenSeconds
-}: {
-  attempt: number;
-  delay: number;
-  location: string;
-  maxAttempts: number;
-}) => {
-  const response = await fetch(location);
-  const versionInfo = response.headers.get('x-mender-version')?.split('-') || [];
-  const pipelineId = versionInfo.length ? Number(versionInfo[1]) : 0;
-  const currentPipeline = Number(process.env.CI_PIPELINE_ID);
-  if (pipelineId === currentPipeline) {
-    return Promise.resolve();
-  } else if (pipelineId > currentPipeline) {
-    process.env.ALLOWED_TO_FAIL = '1';
-    return Promise.resolve();
-  }
-  if (attempt >= maxAttempts) {
-    throw new Error(`Couldn't get ${location} after ${maxAttempts} attempts`);
-  }
-  await new Promise(resolve => setTimeout(resolve, delay));
-  return pollDeployment({ location, attempt: attempt + 1, maxAttempts, delay });
-};
+import { poll } from '../utils/utils';
 
 test.describe('Test setup', () => {
   test.beforeAll(async () => {
@@ -55,7 +28,25 @@ test.describe('Test setup', () => {
   test('allows account creation', async ({ baseUrl, context, environment, page, password, request, username }) => {
     test.skip(environment !== 'staging');
     test.setTimeout(6 * timeouts.sixtySeconds);
-    await pollDeployment({ location: baseUrl, attempt: 1, maxAttempts: 6, delay: 3 * timeouts.tenSeconds }); // give max 6 * 30s to see a version update, same as current CI job delay
+    await poll({
+      callback: async (): Promise<boolean> => {
+        const response = await fetch(baseUrl);
+        const versionInfo = response.headers.get('x-mender-version')?.split('-') || [];
+        const pipelineId = versionInfo.length ? Number(versionInfo[1]) : 0;
+        const currentPipeline = Number(process.env.CI_PIPELINE_ID);
+        if (pipelineId === currentPipeline) {
+          return Promise.resolve(true);
+        } else if (pipelineId > currentPipeline) {
+          process.env.ALLOWED_TO_FAIL = '1';
+          return Promise.resolve(true);
+        }
+        return Promise.resolve(false);
+      },
+      message: `Couldn't get ${baseUrl} after 60 attempts`,
+      // give max 60 * 10s to see a version update, same as current CI job delay
+      delay: timeouts.tenSeconds,
+      maxAttempts: 60
+    });
     // wait a little extra to allow rollout to complete if we happen to poll the first replica in a deployment
     await new Promise(resolve => setTimeout(resolve, 3 * timeouts.tenSeconds));
     try {
