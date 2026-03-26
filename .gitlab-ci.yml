@@ -561,6 +561,10 @@ test:backend:integration:ng:
   extends: .template:test:backend:integration
   variables:
     MANTRA_PROJECT_NAME: "backend_integration_ng_open_source"
+  before_script:
+    - !reference [.template:test:backend:integration, before_script]
+    - apk add go
+
   script:
     - mkdir -p ${GOCOVERDIR}/integration-ng
     - make -C backend test-integration-ng

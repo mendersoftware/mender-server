@@ -3,77 +3,98 @@ package tests
 import (
 	"context"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/suite"
-
 	openapi "github.com/mendersoftware/mender-server/tests/runner/client"
+	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/suite"
 )
 
 type UseradmManagementV1Suite struct {
 	suite.Suite
-	settings *TestSettings
+	TestSettings
+
+	User User
+	JWT  string
+}
+
+func (i *BackendIntegrationSuite) TestUseradmManagementV1() {
+	// We should probably have a better way of picking users (and tenants)...
+	require := require.New(i.T())
+	require.GreaterOrEqual(len(i.settings.Tenants), 1, "tests needs at least one user")
+	require.GreaterOrEqual(len(i.settings.Tenants[0].Users), 1, "tests needs at least one user")
+
+	suite.Run(i.T(), &UseradmManagementV1Suite{
+		TestSettings: i.settings,
+		User:         i.settings.Tenants[0].Users[0]},
+	)
 }
 
 func (u *UseradmManagementV1Suite) SetupSuite() {
-	u.T().Logf("user adm management v1 open source suite init")
-	auth := openapi.BasicAuth{
-		UserName: u.settings.Username,
-		Password: u.settings.Password,
-	}
-	ctx := context.WithValue(context.Background(), openapi.ContextBasicAuth, auth)
-	token, r, err := u.settings.client.UserAdministrationManagementAPIAPI.Login(ctx).Execute()
-	assert.NoError(u.T(), err)
-	assert.NotNil(u.T(), r)
-	assert.NotZero(u.T(), len(token))
-	assert.Equal(u.T(), 200, r.StatusCode)
-	u.settings.jwt = token
+	require := require.New(u.T())
+	ctx := basicAuthContext(u.T().Context(), u.User)
+
+	token, r, err := u.APIClient.UserAdministrationManagementAPIAPI.Login(ctx).Execute()
+	require.NoError(err)
+	require.NotNil(r)
+	require.Equal(200, r.StatusCode)
+	require.NotZero(len(token))
+
+	u.JWT = token
 }
 
 func (u *UseradmManagementV1Suite) TestLogin() {
-	u.T().Logf("login test starting")
-	auth := openapi.BasicAuth{
-		UserName: u.settings.Username,
-		Password: u.settings.Password,
-	}
-	ctx := context.WithValue(context.Background(), openapi.ContextBasicAuth, auth)
-	token, r, err := u.settings.client.UserAdministrationManagementAPIAPI.Login(ctx).Execute()
-	assert.NoError(u.T(), err)
-	assert.NotNil(u.T(), r)
-	assert.NotZero(u.T(), len(token))
-	assert.Equal(u.T(), 200, r.StatusCode)
-	u.settings.jwt = token
-	u.T().Logf("test passed with %d jwt len=%d", r.StatusCode, len(token))
+	require := require.New(u.T())
+	ctx := basicAuthContext(u.T().Context(), u.User)
+
+	token, r, err := u.APIClient.UserAdministrationManagementAPIAPI.Login(ctx).Execute()
+	require.NoError(err)
+	require.NotNil(r)
+	require.Equal(200, r.StatusCode)
+	require.NotZero(len(token))
 }
 
 func (u *UseradmManagementV1Suite) TestMe() {
-	u.T().Logf("me test starting")
-	ctx := context.WithValue(context.Background(), openapi.ContextAccessToken, u.settings.jwt)
-	body, r, err := u.settings.client.UserAdministrationManagementAPIAPI.ShowMyUserSettings(ctx).Execute()
-	assert.NoError(u.T(), err)
-	assert.NotNil(u.T(), r)
-	assert.NotNil(u.T(), body)
-	assert.Equal(u.T(), 200, r.StatusCode)
-	u.T().Logf("test passed with data: %+v", body)
+	require := require.New(u.T())
+	ctx := jwtAuthContext(u.T().Context(), u.JWT)
+
+	body, r, err := u.APIClient.UserAdministrationManagementAPIAPI.ShowMyUserSettings(ctx).Execute()
+	require.NoError(err)
+	require.NotNil(r)
+	require.NotNil(body)
+	require.Equal(200, r.StatusCode)
 }
 
 func (u *UseradmManagementV1Suite) TestSelf() {
-	u.T().Logf("self test starting")
-	ctx := context.WithValue(context.Background(), openapi.ContextAccessToken, u.settings.jwt)
-	body, r, err := u.settings.client.UserAdministrationManagementAPIAPI.ShowOwnUserData(ctx).Execute()
-	assert.NoError(u.T(), err)
-	assert.NotNil(u.T(), r)
-	assert.Equal(u.T(), u.settings.Username, body.Email)
+	require := require.New(u.T())
+	ctx := jwtAuthContext(u.T().Context(), u.JWT)
+
+	body, r, err := u.APIClient.UserAdministrationManagementAPIAPI.ShowOwnUserData(ctx).Execute()
+	require.NoError(err)
+	require.NotNil(r)
+	require.Equal(u.User.Username, body.Email)
 }
 
 func (u *UseradmManagementV1Suite) TestRemoveUser() {
-	u.T().Logf("remove user test starting")
-	ctx := context.WithValue(context.Background(), openapi.ContextAccessToken, u.settings.jwt)
-	r, err := u.settings.client.UserAdministrationManagementAPIAPI.RemoveUser(ctx, "id").Execute()
-	assert.NoError(u.T(), err)
-	assert.NotNil(u.T(), r)
-	assert.Equal(u.T(), 204, r.StatusCode)
+	require := require.New(u.T())
+	ctx := jwtAuthContext(u.T().Context(), u.JWT)
+
+	r, err := u.APIClient.UserAdministrationManagementAPIAPI.RemoveUser(ctx, "id").Execute()
+	require.NoError(err)
+	require.NotNil(r)
+	require.Equal(204, r.StatusCode)
 }
 
-func (u *UseradmManagementV1Suite) TearDownSuite() {
-	u.T().Logf("user adm management v1 open source suite teardown")
+func basicAuthContext(ctx context.Context, user User) context.Context {
+	return context.WithValue(
+		ctx,
+		openapi.ContextBasicAuth,
+		openapi.BasicAuth{UserName: user.Username, Password: user.Password},
+	)
+}
+
+func jwtAuthContext(ctx context.Context, jwt string) context.Context {
+	return context.WithValue(
+		ctx,
+		openapi.ContextAccessToken,
+		jwt,
+	)
 }
