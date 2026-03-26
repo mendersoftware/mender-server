@@ -1,4 +1,27 @@
 ---
+## [4.0.2](https://github.com/mendersoftware/mender-server/compare/v4.0.1...v4.0.2) (2026-03-26)
+
+
+### Features
+
+* update traefik version ([65b91f3](https://github.com/mendersoftware/mender-server/commit/65b91f35f6f1ff06583d02b9bc936eb603bfde90))
+
+
+### Bug Fixes
+
+* **create-artifact-worker:** hardened single file generation input validations ([1090ac3](https://github.com/mendersoftware/mender-server/commit/1090ac3c89d523124e7edd596404526f391053c2))
+* **deployments:** nil pointer dereference getting non-existing deployment ([a690b40](https://github.com/mendersoftware/mender-server/commit/a690b40ac304cfc5e2821a41a709ef3f9d2437ce))
+* **deviceauth:** Use mongo's error code to check for record duplication in AddDevice ([3f91f6e](https://github.com/mendersoftware/mender-server/commit/3f91f6e7621d3d4ce01ba87357cd0be16933636f))
+* increase docker-compose restart ([5923299](https://github.com/mendersoftware/mender-server/commit/59232993063ab8a00679fe7811718054dbf60546))
+* introduce docker-compose healthcheck for mongo, nats and traefik ([d15626c](https://github.com/mendersoftware/mender-server/commit/d15626c63908fa4e70e67ef0d1db3dc031307498))
+* **useradm:** Always generate a unique user ID for newly created users ([f4f4a8d](https://github.com/mendersoftware/mender-server/commit/f4f4a8de2f99d8b55acd608728f89baaa405b443))
+* **useradm:** Always generate a unique user ID for newly created users ([aa30855](https://github.com/mendersoftware/mender-server/commit/aa308552935b4859f3afad93b9bb4b8be4dbe3fe))
+
+
+### Miscellaneous Chores
+
+* release 4.0.2 ([6512e74](https://github.com/mendersoftware/mender-server/commit/6512e745aef72da900274c3a93d9bcdff3a00d11))
+
 ## 4.0.1 - 2025-05-19
 
 
@@ -541,5 +564,3 @@ the same URL as deployments service.
 
 
   This was done by mistake when updating the Dockerfile for the monorepo.
-
-
