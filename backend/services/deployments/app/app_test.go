@@ -32,8 +32,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	inventory_mocks "github.com/mendersoftware/mender-server/services/deployments/client/inventory/mocks"
-	reporting_mocks "github.com/mendersoftware/mender-server/services/deployments/client/reporting/mocks"
-	"github.com/mendersoftware/mender-server/services/deployments/client/workflows"
 	workflows_mocks "github.com/mendersoftware/mender-server/services/deployments/client/workflows/mocks"
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
@@ -60,7 +58,6 @@ func TestHealthCheck(t *testing.T) {
 		FileStoreError error
 		WorkflowsError error
 		InventoryError error
-		ReportingError error
 	}{{
 		Name: "ok",
 	}, {
@@ -75,9 +72,6 @@ func TestHealthCheck(t *testing.T) {
 	}, {
 		Name:           "error: inventory",
 		InventoryError: errors.New("connection error"),
-	}, {
-		Name:           "error: reporting",
-		ReportingError: errors.New("connection error"),
 	}}
 
 	for _, tc := range testCases {
@@ -87,18 +81,14 @@ func TestHealthCheck(t *testing.T) {
 			mFStore := &fs_mocks.ObjectStorage{}
 			mWorkflows := &workflows_mocks.Client{}
 			mInventory := &inventory_mocks.Client{}
-			mReporting := &reporting_mocks.Client{}
 			dep := &Deployments{
 				db:              mDStore,
 				objectStorage:   mFStore,
 				workflowsClient: mWorkflows,
 				inventoryClient: mInventory,
 			}
-			dep = dep.WithReporting(mReporting)
 			switch {
 			default:
-				mReporting.On("CheckHealth", ctx).
-					Return(tc.ReportingError)
 				fallthrough
 			case tc.InventoryError != nil:
 				mInventory.On("CheckHealth", ctx).
@@ -151,11 +141,6 @@ func TestHealthCheck(t *testing.T) {
 						tc.InventoryError.Error(),
 				)
 
-			case tc.ReportingError != nil:
-				assert.EqualError(t, err,
-					"Reporting service unhealthy: "+
-						tc.ReportingError.Error(),
-				)
 			default:
 				assert.NoError(t, err)
 			}
@@ -182,8 +167,6 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 		CallGetDeviceGroups  bool
 		InventoryGroups      []string
 		GetDeviceGroupsError error
-
-		ReportingService bool
 
 		OutputError error
 		OutputBody  bool
@@ -247,24 +230,6 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 				},
 			},
 			TotalCount: 2,
-
-			OutputBody: true,
-		},
-		"ok with group, reeporting": {
-			InputConstructor: &model.DeploymentConstructor{
-				Name:         "group",
-				ArtifactName: "App 123",
-				Group:        "group",
-			},
-
-			InvDevices: []model.InvDevice{
-				{
-					ID: "b532b01a-9313-404f-8d19-e7fcbe5cc347",
-				},
-			},
-			TotalCount: 1,
-
-			ReportingService: true,
 
 			OutputBody: true,
 		},
@@ -350,35 +315,34 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 					Return(testCase.InventoryGroups, testCase.GetDeviceGroupsError)
 			}
 
-			mockReportingClient := &reporting_mocks.Client{}
 			if testCase.InputConstructor != nil && testCase.InputConstructor.Group != "" && len(testCase.InputConstructor.Devices) == 0 {
-				if testCase.ReportingService {
-					mockReportingClient.On("Search", ctx,
-						"tenant_id",
-						model.SearchParams{
-							Page:    1,
-							PerPage: PerPageInventoryDevices,
-							Filters: []model.FilterPredicate{
-								{
-									Scope:     InventoryIdentityScope,
-									Attribute: InventoryStatusAttributeName,
-									Type:      "$eq",
-									Value:     InventoryStatusAccepted,
-								},
-								{
-									Scope:     InventoryGroupScope,
-									Attribute: InventoryGroupAttributeName,
-									Type:      "$eq",
-									Value:     testCase.InputConstructor.Group,
-								},
+				mockInventoryClient.On("Search", ctx,
+					"tenant_id",
+					model.SearchParams{
+						Page:    1,
+						PerPage: PerPageInventoryDevices,
+						Filters: []model.FilterPredicate{
+							{
+								Scope:     InventoryIdentityScope,
+								Attribute: InventoryStatusAttributeName,
+								Type:      "$eq",
+								Value:     InventoryStatusAccepted,
+							},
+							{
+								Scope:     InventoryGroupScope,
+								Attribute: InventoryGroupAttributeName,
+								Type:      "$eq",
+								Value:     testCase.InputConstructor.Group,
 							},
 						},
-					).Return(testCase.InvDevices, testCase.TotalCount, testCase.SearchError)
-				} else {
+					},
+				).Return(testCase.InvDevices, testCase.TotalCount, testCase.SearchError)
+
+				if testCase.TotalCount > len(testCase.InvDevices) {
 					mockInventoryClient.On("Search", ctx,
 						"tenant_id",
 						model.SearchParams{
-							Page:    1,
+							Page:    2,
 							PerPage: PerPageInventoryDevices,
 							Filters: []model.FilterPredicate{
 								{
@@ -395,38 +359,11 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 								},
 							},
 						},
-					).Return(testCase.InvDevices, testCase.TotalCount, testCase.SearchError)
-
-					if testCase.TotalCount > len(testCase.InvDevices) {
-						mockInventoryClient.On("Search", ctx,
-							"tenant_id",
-							model.SearchParams{
-								Page:    2,
-								PerPage: PerPageInventoryDevices,
-								Filters: []model.FilterPredicate{
-									{
-										Scope:     InventoryIdentityScope,
-										Attribute: InventoryStatusAttributeName,
-										Type:      "$eq",
-										Value:     InventoryStatusAccepted,
-									},
-									{
-										Scope:     InventoryGroupScope,
-										Attribute: InventoryGroupAttributeName,
-										Type:      "$eq",
-										Value:     testCase.InputConstructor.Group,
-									},
-								},
-							},
-						).Return(testCase.InvDevicesPageTwo, testCase.TotalCount, testCase.SearchError)
-					}
+					).Return(testCase.InvDevicesPageTwo, testCase.TotalCount, testCase.SearchError)
 				}
 			}
 
 			ds.SetInventoryClient(mockInventoryClient)
-			if testCase.ReportingService {
-				ds.WithReporting(mockReportingClient)
-			}
 
 			out, err := ds.CreateDeployment(ctx, testCase.InputConstructor)
 			if testCase.OutputError != nil {
@@ -1253,17 +1190,6 @@ func TestDeleteDeviceDeploymentsHistory(t *testing.T) {
 			}(),
 			workflowsMock: func() *workflows_mocks.Client {
 				wf := new(workflows_mocks.Client)
-				wf.On(
-					"StartReindexReportingDeploymentBatch",
-					ctx,
-					[]workflows.DeviceDeploymentShortInfo{
-						{
-							ID:           "foo",
-							DeviceID:     "bar",
-							DeploymentID: "baz",
-						},
-					},
-				).Return(nil)
 				return wf
 			}(),
 		},
@@ -1306,14 +1232,11 @@ func TestDeleteDeviceDeploymentsHistory(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(fmt.Sprintf("test case %s", name), func(t *testing.T) {
 
-			rc := new(reporting_mocks.Client)
-			defer rc.AssertExpectations(t)
 			defer tc.workflowsMock.AssertExpectations(t)
 			defer tc.storeMock.AssertExpectations(t)
 			ds := &Deployments{
 				db:              tc.storeMock,
 				workflowsClient: tc.workflowsMock,
-				reportingClient: rc,
 			}
 
 			err := ds.DeleteDeviceDeploymentsHistory(ctx, deviceID)
@@ -1656,106 +1579,6 @@ func TestUpdateDeploymentsWithArtifactName(t *testing.T) {
 			}
 
 			err := app.UpdateDeploymentsWithArtifactName(context.Background(), tc.artifactName)
-			if tc.err != nil {
-				assert.EqualError(t, err, tc.err.Error())
-			} else {
-				assert.NoError(t, err)
-			}
-		})
-	}
-}
-
-func TestReindexDevice(t *testing.T) {
-	t.Parallel()
-
-	const deviceID = "deviceID"
-	ctx := context.Background()
-
-	testCases := []struct {
-		name          string
-		workflowsMock func() workflows.Client
-		err           error
-	}{
-		{
-			name: "ok",
-			workflowsMock: func() workflows.Client {
-				wf := &workflows_mocks.Client{}
-				wf.On("StartReindexReporting", ctx, deviceID).Return(nil)
-				return wf
-			},
-		},
-		{
-			name: "ko",
-			workflowsMock: func() workflows.Client {
-				wf := &workflows_mocks.Client{}
-				wf.On("StartReindexReporting", ctx, deviceID).Return(errors.New("error"))
-				return wf
-			},
-			err: errors.New("error"),
-		},
-	}
-	for i := range testCases {
-		tc := testCases[i]
-		t.Run(tc.name, func(t *testing.T) {
-			t.Parallel()
-
-			app := &Deployments{
-				workflowsClient: tc.workflowsMock(),
-				reportingClient: &reporting_mocks.Client{},
-			}
-
-			err := app.reindexDevice(ctx, deviceID)
-			if tc.err != nil {
-				assert.EqualError(t, err, tc.err.Error())
-			} else {
-				assert.NoError(t, err)
-			}
-		})
-	}
-}
-
-func TestReindexDeployment(t *testing.T) {
-	t.Parallel()
-
-	const deviceID = "deviceID"
-	const deploymentID = "deploymentID"
-	const ID = "ID"
-	ctx := context.Background()
-
-	testCases := []struct {
-		name          string
-		workflowsMock func() workflows.Client
-		err           error
-	}{
-		{
-			name: "ok",
-			workflowsMock: func() workflows.Client {
-				wf := &workflows_mocks.Client{}
-				wf.On("StartReindexReportingDeployment", ctx, deviceID, deploymentID, ID).Return(nil)
-				return wf
-			},
-		},
-		{
-			name: "ko",
-			workflowsMock: func() workflows.Client {
-				wf := &workflows_mocks.Client{}
-				wf.On("StartReindexReportingDeployment", ctx, deviceID, deploymentID, ID).Return(errors.New("error"))
-				return wf
-			},
-			err: errors.New("error"),
-		},
-	}
-	for i := range testCases {
-		tc := testCases[i]
-		t.Run(tc.name, func(t *testing.T) {
-			t.Parallel()
-
-			app := &Deployments{
-				workflowsClient: tc.workflowsMock(),
-				reportingClient: &reporting_mocks.Client{},
-			}
-
-			err := app.reindexDeployment(ctx, deviceID, deploymentID, ID)
 			if tc.err != nil {
 				assert.EqualError(t, err, tc.err.Error())
 			} else {

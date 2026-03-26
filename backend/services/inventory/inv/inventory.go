@@ -25,14 +25,11 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/inventory/client/devicemonitor"
-	"github.com/mendersoftware/mender-server/services/inventory/client/workflows"
 	"github.com/mendersoftware/mender-server/services/inventory/model"
 	"github.com/mendersoftware/mender-server/services/inventory/store"
 	"github.com/mendersoftware/mender-server/services/inventory/store/mongo"
 	"github.com/mendersoftware/mender-server/services/inventory/utils"
 )
-
-const reindexBatchSize = 100
 
 var (
 	ErrETagDoesntMatch   = errors.New("ETag does not match")
@@ -43,7 +40,6 @@ var (
 //
 //go:generate ../../../utils/mockgen.sh
 type InventoryApp interface {
-	WithReporting(c workflows.Client) InventoryApp
 	HealthCheck(ctx context.Context) error
 	ListDevices(ctx context.Context, q store.ListQuery) ([]model.Device, int, error)
 	GetDevice(ctx context.Context, id model.DeviceID) (*model.Device, error)
@@ -109,8 +105,6 @@ type inventory struct {
 	limitAttributes int
 	limitTags       int
 	dmClient        devicemonitor.Client
-	enableReporting bool
-	wfClient        workflows.Client
 }
 
 func NewInventory(d store.DataStore) InventoryApp {
@@ -128,23 +122,10 @@ func (i *inventory) WithLimits(limitAttributes, limitTags int) InventoryApp {
 	return i
 }
 
-func (i *inventory) WithReporting(client workflows.Client) InventoryApp {
-	i.enableReporting = true
-	i.wfClient = client
-	return i
-}
-
 func (i *inventory) HealthCheck(ctx context.Context) error {
 	err := i.db.Ping(ctx)
 	if err != nil {
 		return errors.Wrap(err, "error reaching MongoDB")
-	}
-
-	if i.enableReporting {
-		err := i.wfClient.CheckHealth(ctx)
-		if err != nil {
-			return errors.Wrap(err, "error reaching workflows")
-		}
 	}
 
 	return nil
@@ -181,8 +162,6 @@ func (i *inventory) AddDevice(ctx context.Context, dev *model.Device) error {
 		return errors.Wrap(err, "failed to add device")
 	}
 
-	i.maybeTriggerReindex(ctx, []model.DeviceID{dev.ID})
-
 	return nil
 }
 
@@ -195,12 +174,6 @@ func (i *inventory) DeleteDevices(
 		return nil, err
 	}
 
-	if i.enableReporting {
-		for _, d := range ids {
-			i.triggerReindex(ctx, []model.DeviceID{d})
-		}
-	}
-
 	return res, err
 }
 
@@ -211,7 +184,6 @@ func (i *inventory) DeleteDevice(ctx context.Context, id model.DeviceID) error {
 	} else if res.DeletedCount < 1 {
 		return store.ErrDevNotFound
 	}
-	i.maybeTriggerReindex(ctx, []model.DeviceID{id})
 
 	return nil
 }
@@ -230,7 +202,6 @@ func (i *inventory) UpsertAttributes(
 	}
 	if res != nil && res.MatchedCount > 0 {
 		i.reindexTextField(ctx, res.Devices)
-		i.maybeTriggerReindex(ctx, []model.DeviceID{id})
 	}
 	return nil
 }
@@ -373,7 +344,6 @@ func (i *inventory) UpsertAttributesWithUpdated(
 
 	if res != nil && res.MatchedCount > 0 {
 		i.reindexTextField(ctx, res.Devices)
-		i.maybeTriggerReindex(ctx, []model.DeviceID{id})
 	}
 	return nil
 }
@@ -442,7 +412,6 @@ func (i *inventory) ReplaceAttributes(
 	}
 	if res != nil && res.MatchedCount > 0 {
 		i.reindexTextField(ctx, res.Devices)
-		i.maybeTriggerReindex(ctx, []model.DeviceID{id})
 	}
 	return nil
 }
@@ -464,26 +433,10 @@ func (i *inventory) DeleteGroup(
 		return nil, errors.Wrap(err, "failed to delete group")
 	}
 
-	batchDeviceIDsLength := 0
-	batchDeviceIDs := make([]model.DeviceID, reindexBatchSize)
-
-	triggerReindex := func() {
-		i.maybeTriggerReindex(ctx, batchDeviceIDs[0:batchDeviceIDsLength])
-		batchDeviceIDsLength = 0
-	}
-
 	res := &model.UpdateResult{}
-	for deviceID := range deviceIDs {
-		batchDeviceIDs[batchDeviceIDsLength] = deviceID
-		batchDeviceIDsLength++
-		if batchDeviceIDsLength == reindexBatchSize {
-			triggerReindex()
-		}
+	for range deviceIDs {
 		res.MatchedCount += 1
 		res.UpdatedCount += 1
-	}
-	if batchDeviceIDsLength > 0 {
-		triggerReindex()
 	}
 
 	return res, err
@@ -499,14 +452,6 @@ func (i *inventory) UpsertDevicesStatuses(
 		return nil, err
 	}
 
-	if i.enableReporting {
-		deviceIDs := make([]model.DeviceID, len(devices))
-		for i, d := range devices {
-			deviceIDs[i] = d.Id
-		}
-		i.triggerReindex(ctx, deviceIDs)
-	}
-
 	return res, err
 }
 
@@ -518,10 +463,6 @@ func (i *inventory) UnsetDevicesGroup(
 	res, err := i.db.UnsetDevicesGroup(ctx, deviceIDs, groupName)
 	if err != nil {
 		return nil, err
-	}
-
-	if i.enableReporting {
-		i.triggerReindex(ctx, deviceIDs)
 	}
 
 	return res, nil
@@ -538,9 +479,6 @@ func (i *inventory) UnsetDeviceGroup(
 	} else if result.MatchedCount <= 0 {
 		return store.ErrDevNotFound
 	}
-
-	i.maybeTriggerReindex(ctx, []model.DeviceID{id})
-
 	return nil
 }
 
@@ -553,10 +491,6 @@ func (i *inventory) UpdateDevicesGroup(
 	res, err := i.db.UpdateDevicesGroup(ctx, deviceIDs, group)
 	if err != nil {
 		return nil, err
-	}
-
-	if i.enableReporting {
-		i.triggerReindex(ctx, deviceIDs)
 	}
 
 	return res, err
@@ -575,8 +509,6 @@ func (i *inventory) UpdateDeviceGroup(
 	} else if result.MatchedCount <= 0 {
 		return store.ErrDevNotFound
 	}
-
-	i.maybeTriggerReindex(ctx, []model.DeviceID{devid})
 
 	return nil
 }
@@ -653,22 +585,6 @@ func (i *inventory) SearchDevices(
 
 func (i *inventory) CheckAlerts(ctx context.Context, deviceId string) (int, error) {
 	return i.dmClient.CheckAlerts(ctx, deviceId)
-}
-
-// maybeTriggerReindex conditionally triggers the reindex_reporting workflow for a device
-func (i *inventory) maybeTriggerReindex(ctx context.Context, deviceIDs []model.DeviceID) {
-	if i.enableReporting {
-		i.triggerReindex(ctx, deviceIDs)
-	}
-}
-
-// triggerReindex triggers the reindex_reporting workflow for a device
-func (i *inventory) triggerReindex(ctx context.Context, deviceIDs []model.DeviceID) {
-	err := i.wfClient.StartReindex(ctx, deviceIDs)
-	if err != nil {
-		l := log.FromContext(ctx)
-		l.Errorf("failed to start reindex_reporting for devices %v, error: %v", deviceIDs, err)
-	}
 }
 
 // reindexTextField reindex the device's text field

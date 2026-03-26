@@ -16,7 +16,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/pkg/errors"
 
@@ -27,7 +26,6 @@ import (
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
 	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
@@ -232,44 +230,6 @@ func PropagateIdDataInventory(db store.DataStore, c cinv.Client, tenant string, 
 	return errReturned
 }
 
-func PropagateReporting(
-	db store.DataStore,
-	wflows orchestrator.ClientRunner,
-	tenant string,
-	requestPeriod time.Duration,
-	dryRun bool) error {
-	l := log.NewEmpty()
-
-	mapFunc := func(ctx context.Context) error {
-		id := identity.FromContext(ctx)
-		if id == nil || id.Tenant == "" {
-			// Not a tenant db - skip!
-			return nil
-		}
-		tenantId := id.Tenant
-		return tryPropagateReportingForTenant(db, wflows, tenantId, requestPeriod, dryRun)
-	}
-	if tenant != "" {
-		ctx := identity.WithContext(context.Background(),
-			&identity.Identity{
-				Tenant: tenant,
-			},
-		)
-		err := mapFunc(ctx)
-		if err != nil {
-			return errors.Wrap(err, "failed to propagate for given tenant")
-		}
-		l.Infof("tenant processed, exiting.")
-	} else {
-		err := db.ForEachTenant(context.Background(), mapFunc)
-		if err != nil {
-			return errors.Wrap(err, "failed to propagate for all tenant")
-		}
-		l.Info("all tenants processed, exiting.")
-	}
-	return nil
-}
-
 const (
 	devicesBatchSize = 512
 )
@@ -448,82 +408,4 @@ func tryPropagateIdDataInventoryForTenant(
 	}
 
 	return err
-}
-
-func tryPropagateReportingForTenant(
-	db store.DataStore,
-	wflows orchestrator.ClientRunner,
-	tenant string,
-	requestPeriod time.Duration,
-	dryRun bool,
-) error {
-	l := log.NewEmpty()
-
-	l.Infof("propagating device data to reporting for tenant %s", tenant)
-
-	ctx := context.Background()
-	if tenant != "" {
-		ctx = identity.WithContext(ctx, &identity.Identity{
-			Tenant: tenant,
-		})
-	} else {
-		return errors.New("you must provide a tenant id")
-	}
-
-	err := reindexDevicesReporting(ctx, requestPeriod, db, wflows, dryRun)
-	if err != nil {
-		l.Infof("Done with tenant %s, but there were errors: %s.", tenant, err.Error())
-	} else {
-		l.Infof("Done with tenant %s", tenant)
-	}
-
-	return err
-}
-
-func reindexDevicesReporting(
-	ctx context.Context,
-	requestPeriod time.Duration,
-	db store.DataStore,
-	wflows orchestrator.ClientRunner,
-	dryRun bool,
-) error {
-	var skip uint
-
-	skip = 0
-	done := ctx.Done()
-	rateLimit := time.NewTicker(requestPeriod)
-	defer rateLimit.Stop()
-	for {
-		devices, err := db.GetDevices(ctx, skip, devicesBatchSize, model.DeviceFilter{})
-		if err != nil {
-			return errors.Wrap(err, "failed to get devices")
-		}
-
-		if len(devices) < 1 {
-			break
-		}
-
-		if !dryRun {
-			deviceIDs := make([]string, len(devices))
-			for i, d := range devices {
-				deviceIDs[i] = d.Id
-			}
-			err := wflows.SubmitReindexReportingBatch(ctx, deviceIDs)
-			if err != nil {
-				return err
-			}
-		}
-
-		skip += devicesBatchSize
-		if len(devices) < devicesBatchSize {
-			break
-		}
-		select {
-		case <-rateLimit.C:
-
-		case <-done:
-			return ctx.Err()
-		}
-	}
-	return nil
 }

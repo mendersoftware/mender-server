@@ -113,7 +113,7 @@ storage:
     # Overwrite with environment variable: DEPLOYMENTS_STORAGE_MAX_IMAGE_SIZE
     # max_image_size: 10737418240
 
-    # storage.max_generate_data_size: Maximum data size for requests to 
+    # storage.max_generate_data_size: Maximum data size for requests to
     # generate artifacts.
     # Defaults to: 256MiB
     # Overwrite with environment variable: DEPLOYMENTS_STORAGE_MAX_GENERATE_DATA_SIZE
@@ -358,12 +358,6 @@ presign:
   # Defaults to: https
   # Overwrite with environment variable: DEPLOYMENTS_PRESIGN_URL_SCHEME
   url_scheme: "https"
-
-# mender-reporting addr
-# Defaults to: "" (disabled by default; searches go to inventory)
-# Overwrite with environment variable: DEPLOYMENTS_REPORTING_ADDR
-
-#reporting_addr: "http://mender-reporting:8080"
 
 # Maximum allowed size for HTTP request bodies (in bytes)
 # Does not apply for artifacts generation (defaults to storage.max_image_size and storage.max_generate_data_size).

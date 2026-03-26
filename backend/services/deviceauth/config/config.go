@@ -61,9 +61,6 @@ const (
 	SettingOrchestratorAddr        = "orchestrator_addr"
 	SettingOrchestratorAddrDefault = "http://mender-workflows-server:8080/"
 
-	SettingEnableReporting        = "enable_reporting"
-	SettingEnableReportingDefault = false
-
 	SettingServerPrivKeyPath        = "server_priv_key_path"
 	SettingServerPrivKeyPathDefault = "/etc/deviceauth/rsa/private.pem"
 
@@ -100,7 +97,6 @@ var (
 		{Key: SettingDb, Value: SettingDbDefault},
 		{Key: SettingInventoryAddr, Value: SettingInventoryAddrDefault},
 		{Key: SettingOrchestratorAddr, Value: SettingOrchestratorAddrDefault},
-		{Key: SettingEnableReporting, Value: SettingEnableReportingDefault},
 		{Key: SettingServerPrivKeyPath, Value: SettingServerPrivKeyPathDefault},
 		{Key: SettingServerFallbackPrivKeyPath, Value: SettingServerFallbackPrivKeyPathDefault},
 		{Key: SettingJWTIssuer, Value: SettingJWTIssuerDefault},

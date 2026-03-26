@@ -114,7 +114,6 @@ updates:
       - /backend/services/deviceconnect
       - /backend/services/inventory
       - /backend/services/iot-manager
-      - /backend/services/reporting
       - /backend/services/useradm
       - /backend/services/workflows
     package-ecosystem: docker
@@ -155,7 +154,6 @@ updates:
       - /backend/tests
       - /backend/services/deviceconnect/tests
       - /backend/services/iot-manager/tests
-      - /backend/services/reporting/tests
     package-ecosystem: pip
     schedule:
       interval: monthly
@@ -186,7 +184,6 @@ updates:
       - /backend/services/deviceconnect
       - /backend/services/inventory
       - /backend/services/iot-manager
-      - /backend/services/reporting
       - /backend/services/useradm
       - /backend/services/workflows
     package-ecosystem: docker
@@ -227,7 +224,6 @@ updates:
       - /backend/tests
       - /backend/services/deviceconnect/tests
       - /backend/services/iot-manager/tests
-      - /backend/services/reporting/tests
     package-ecosystem: pip
     schedule:
       interval: monthly
@@ -304,7 +300,6 @@ updates:
       - /backend/services/deviceconnect
       - /backend/services/inventory
       - /backend/services/iot-manager
-      - /backend/services/reporting
       - /backend/services/useradm
       - /backend/services/workflows
     package-ecosystem: docker
@@ -345,7 +340,6 @@ updates:
       - /backend/tests
       - /backend/services/deviceconnect/tests
       - /backend/services/iot-manager/tests
-      - /backend/services/reporting/tests
     package-ecosystem: pip
     schedule:
       interval: monthly

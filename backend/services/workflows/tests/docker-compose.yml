@@ -55,7 +55,6 @@ services:
           - mender-useradm
           - mender-deviceconnect
           - mender-deviceconfig
-          - mender-reporting
           - mender-iot-manager
           - mmock
 
@@ -86,7 +85,6 @@ services:
       USERADM_ADDR: "mender-useradm:8080"
       DEVICECONNECT_ADDR: "mender-deviceconnect:8080"
       DEVICECONFIG_ADDR: "mender-deviceconfig:8080"
-      REPORTING_ADDR: "mender-reporting:8080"
       IOT_MANAGER_ADDR: "mender-iot-manager:8080"
     restart: always
     depends_on:

@@ -885,13 +885,10 @@ func TestDevAuthPreauthorizeDevice(t *testing.T) {
 		desc string
 		req  *model.PreAuthReq
 
-		enableReporting bool
-
 		addDeviceErr  error
 		addAuthSetErr error
 		getDevByIdErr error
 		inventoryErr  error
-		reportingErr  error
 
 		updateDeviceStatus    bool
 		updateDeviceInventory bool
@@ -905,14 +902,6 @@ func TestDevAuthPreauthorizeDevice(t *testing.T) {
 			req:                   req,
 			updateDeviceStatus:    true,
 			updateDeviceInventory: true,
-			callDb:                true,
-		},
-		{
-			desc:                  "ok with reporting",
-			req:                   req,
-			updateDeviceStatus:    true,
-			updateDeviceInventory: true,
-			enableReporting:       true,
 			callDb:                true,
 		},
 		{
@@ -1008,12 +997,6 @@ func TestDevAuthPreauthorizeDevice(t *testing.T) {
 					mock.AnythingOfType("orchestrator.UpdateDeviceInventoryReq")).
 					Return(nil)
 			}
-			if tc.enableReporting {
-				co.On("SubmitReindexReporting",
-					ctxMatcher,
-					deviceID,
-				).Return(nil).Once()
-			}
 
 			if tc.err == ErrDeviceExists {
 				db.On("GetDeviceByIdentityDataHash",
@@ -1030,9 +1013,7 @@ func TestDevAuthPreauthorizeDevice(t *testing.T) {
 					},
 					tc.getDevByIdErr)
 			}
-			devauth := NewDevAuth(&db, &co, nil, Config{
-				EnableReporting: tc.enableReporting,
-			})
+			devauth := NewDevAuth(&db, &co, nil, Config{})
 			dev, err := devauth.PreauthorizeDevice(context.Background(), tc.req)
 
 			if tc.err != nil {
@@ -2793,10 +2774,9 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 		devId  string
 		authId string
 
-		tenant          string
-		withCache       bool
-		cacheDeleteErr  error
-		enableReporting bool
+		tenant         string
+		withCache      bool
+		cacheDeleteErr error
 
 		dbGetAuthSetByIdErr         error
 		dbDeleteTokenByDevIdErr     error
@@ -2807,8 +2787,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 		dbGetDeviceStatusErr        error
 		dbUpdateDeviceErr           error
 
-		orchestratorErr          error
-		orchestratorReportingErr error
+		orchestratorErr error
 
 		authSet *model.AuthSet
 
@@ -2897,29 +2876,6 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 			dbGetDeviceStatus: "accepted",
 		},
 		{
-			devId:             oid.NewUUIDv5("devId12").String(),
-			authId:            oid.NewUUIDv5("authId12").String(),
-			dbGetDeviceStatus: "accepted",
-			enableReporting:   true,
-		},
-		{
-			devId:                    oid.NewUUIDv5("devId8").String(),
-			authId:                   oid.NewUUIDv5("authId8").String(),
-			authSet:                  &model.AuthSet{Status: model.DevStatusPreauth},
-			dbGetDeviceStatus:        "decommissioned",
-			enableReporting:          true,
-			orchestratorReportingErr: errors.New("orchestrator error"),
-			outErr:                   "reindex reporting job error: orchestrator error",
-		},
-		{
-			devId:                    oid.NewUUIDv5("devId12").String(),
-			authId:                   oid.NewUUIDv5("authId12").String(),
-			dbGetDeviceStatus:        "accepted",
-			enableReporting:          true,
-			orchestratorReportingErr: errors.New("orchestrator error"),
-			outErr:                   "reindex reporting job error: orchestrator error",
-		},
-		{
 			devId:                oid.NewUUIDv5("devId12").String(),
 			authId:               oid.NewUUIDv5("authId12").String(),
 			dbGetDeviceStatusErr: store.ErrAuthSetNotFound,
@@ -2998,16 +2954,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 						}
 					})).Return(tc.orchestratorErr)
 
-			if tc.enableReporting {
-				co.On("SubmitReindexReporting",
-					ctx,
-					tc.devId,
-				).Return(tc.orchestratorReportingErr).Once()
-			}
-
-			devauth := NewDevAuth(&db, &co, nil, Config{
-				EnableReporting: tc.enableReporting,
-			})
+			devauth := NewDevAuth(&db, &co, nil, Config{})
 
 			c := &mcache.Cache{}
 			if tc.withCache {

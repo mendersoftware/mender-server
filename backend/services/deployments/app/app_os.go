@@ -19,8 +19,6 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/mendersoftware/mender-server/pkg/log"
-
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 )
 
@@ -45,7 +43,6 @@ func (d *Deployments) handleAlreadyInstalled(
 	ctx context.Context,
 	deviceDeployment *model.DeviceDeployment,
 ) error {
-	l := log.FromContext(ctx)
 	if err := d.updateDeviceDeploymentStatus(
 		ctx,
 		deviceDeployment,
@@ -53,13 +50,6 @@ func (d *Deployments) handleAlreadyInstalled(
 			Status: model.DeviceDeploymentStatusAlreadyInst,
 		}); err != nil {
 		return errors.Wrap(err, "Failed to update deployment status")
-	}
-	if err := d.reindexDevice(ctx, deviceDeployment.DeviceId); err != nil {
-		l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
-	}
-	if err := d.reindexDeployment(ctx, deviceDeployment.DeviceId,
-		deviceDeployment.DeploymentId, deviceDeployment.Id); err != nil {
-		l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
 	}
 
 	return nil
@@ -135,20 +125,11 @@ func (d *Deployments) assignNoArtifact(
 	ctx context.Context,
 	deviceDeployment *model.DeviceDeployment,
 ) error {
-	l := log.FromContext(ctx)
 	if err := d.updateDeviceDeploymentStatus(ctx, deviceDeployment,
 		model.DeviceDeploymentState{
 			Status: model.DeviceDeploymentStatusNoArtifact,
 		}); err != nil {
 		return errors.Wrap(err, "Failed to update deployment status")
-	}
-	if err := d.reindexDevice(ctx, deviceDeployment.DeviceId); err != nil {
-		l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
-	}
-	if err := d.reindexDeployment(ctx, deviceDeployment.DeviceId,
-		deviceDeployment.DeploymentId, deviceDeployment.Id); err != nil {
-		l := log.FromContext(ctx)
-		l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
 	}
 	return nil
 }

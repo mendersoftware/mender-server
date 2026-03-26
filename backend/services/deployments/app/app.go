@@ -36,7 +36,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/deployments/client/inventory"
-	"github.com/mendersoftware/mender-server/services/deployments/client/reporting"
 	"github.com/mendersoftware/mender-server/services/deployments/client/workflows"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
@@ -217,7 +216,6 @@ type Deployments struct {
 	objectStorage   storage.ObjectStorage
 	workflowsClient workflows.Client
 	inventoryClient inventory.Client
-	reportingClient reporting.Client
 }
 
 // Compile-time check
@@ -268,12 +266,6 @@ func (d *Deployments) HealthCheck(ctx context.Context) error {
 		return errors.Wrap(err, "Inventory service unhealthy")
 	}
 
-	if d.reportingClient != nil {
-		err = d.reportingClient.CheckHealth(ctx)
-		if err != nil {
-			return errors.Wrap(err, "Reporting service unhealthy")
-		}
-	}
 	return nil
 }
 
@@ -1487,19 +1479,6 @@ func (d *Deployments) createDeviceDeploymentWithStatus(
 		return nil, err
 	}
 
-	if !status.Active() {
-		err := d.reindexDevice(ctx, deviceID)
-		if err != nil {
-			l := log.FromContext(ctx)
-			l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
-		}
-		if err := d.reindexDeployment(ctx, deviceDeployment.DeviceId,
-			deviceDeployment.DeploymentId, deviceDeployment.Id); err != nil {
-			l := log.FromContext(ctx)
-			l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
-		}
-	}
-
 	return deviceDeployment, nil
 }
 
@@ -1635,14 +1614,6 @@ func (d *Deployments) saveDeviceDeploymentRequest(ctx context.Context, deviceID 
 				}); err != nil {
 				return errors.Wrap(err, "Failed to update deployment status")
 			}
-			if err := d.reindexDevice(ctx, deviceDeployment.DeviceId); err != nil {
-				l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
-			}
-			if err := d.reindexDeployment(ctx, deviceDeployment.DeviceId,
-				deviceDeployment.DeploymentId, deviceDeployment.Id); err != nil {
-				l := log.FromContext(ctx)
-				l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
-			}
 			return ErrConflictingRequestData
 		}
 	} else {
@@ -1750,12 +1721,6 @@ func (d *Deployments) updateDeviceDeploymentStatus(
 		}
 		if err := d.db.SaveLastDeviceDeploymentStatus(ctx, ldd); err != nil {
 			l.Error(errors.Wrap(err, "failed to save last device deployment status").Error())
-		}
-		if err := d.reindexDevice(ctx, dd.DeviceId); err != nil {
-			l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
-		}
-		if err := d.reindexDeployment(ctx, dd.DeviceId, dd.DeploymentId, dd.Id); err != nil {
-			l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
 		}
 	}
 
@@ -2088,23 +2053,11 @@ func (d *Deployments) updateDeviceDeploymentsStatus(
 		return errors.Wrap(err, "Failed to search for newer active deployments")
 	}
 	if deploy != nil {
-		deviceDeployment, err = d.createDeviceDeploymentWithStatus(ctx,
+		_, err = d.createDeviceDeploymentWithStatus(ctx,
 			deviceId, deploy, status)
 		if err != nil {
 			return err
 		}
-		if !status.Active() {
-			if err := d.reindexDeployment(ctx, deviceDeployment.DeviceId,
-				deviceDeployment.DeploymentId, deviceDeployment.Id); err != nil {
-				l := log.FromContext(ctx)
-				l.Warn(errors.Wrap(err, "failed to trigger a deployment reindex"))
-			}
-		}
-	}
-
-	if err := d.reindexDevice(ctx, deviceId); err != nil {
-		l := log.FromContext(ctx)
-		l.Warn(errors.Wrap(err, "failed to trigger a device reindex"))
 	}
 
 	return nil
@@ -2155,9 +2108,6 @@ func (d *Deployments) DeleteDeviceDeploymentsHistory(ctx context.Context, device
 		deviceDeployments[i].DeviceID = d.DeviceId
 		deviceDeployments[i].DeploymentID = d.DeploymentId
 	}
-	if d.reportingClient != nil {
-		err = d.workflowsClient.StartReindexReportingDeploymentBatch(ctx, deviceDeployments)
-	}
 	return err
 }
 
@@ -2190,25 +2140,12 @@ func (d *Deployments) SetStorageSettings(
 	return nil
 }
 
-func (d *Deployments) WithReporting(c reporting.Client) *Deployments {
-	d.reportingClient = c
-	return d
-}
-
-func (d *Deployments) haveReporting() bool {
-	return d.reportingClient != nil
-}
-
 func (d *Deployments) search(
 	ctx context.Context,
 	tid string,
 	parms model.SearchParams,
 ) ([]model.InvDevice, int, error) {
-	if d.haveReporting() {
-		return d.reportingClient.Search(ctx, tid, parms)
-	} else {
-		return d.inventoryClient.Search(ctx, tid, parms)
-	}
+	return d.inventoryClient.Search(ctx, tid, parms)
 }
 
 func (d *Deployments) UpdateDeploymentsWithArtifactName(
@@ -2235,19 +2172,4 @@ func (d *Deployments) UpdateDeploymentsWithArtifactName(
 	}
 	artifactIDs := getArtifactIDs(artifacts)
 	return d.db.UpdateDeploymentsWithArtifactName(ctx, artifactName, artifactIDs)
-}
-
-func (d *Deployments) reindexDevice(ctx context.Context, deviceID string) error {
-	if d.reportingClient != nil {
-		return d.workflowsClient.StartReindexReporting(ctx, deviceID)
-	}
-	return nil
-}
-
-func (d *Deployments) reindexDeployment(ctx context.Context,
-	deviceID, deploymentID, ID string) error {
-	if d.reportingClient != nil {
-		return d.workflowsClient.StartReindexReportingDeployment(ctx, deviceID, deploymentID, ID)
-	}
-	return nil
 }

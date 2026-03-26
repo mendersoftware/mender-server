@@ -83,8 +83,6 @@ func RunServer(c config.Reader) error {
 			Issuer:         c.GetString(dconfig.SettingJWTIssuer),
 			ExpirationTime: int64(c.GetInt(dconfig.SettingJWTExpirationTimeout)),
 			InventoryAddr:  config.Config.GetString(dconfig.SettingInventoryAddr),
-
-			EnableReporting: config.Config.GetBool(dconfig.SettingEnableReporting),
 		})
 
 	if jwtFallbackHandler != nil {
