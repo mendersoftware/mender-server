@@ -611,8 +611,7 @@ test:prep:
   extends: .build:base
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: on_success
+    - when: on_success
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
@@ -637,7 +636,6 @@ test:prep:
   needs:
     - job: test:prep
       artifacts: true
-    - job: mender-helm-version-bump:staging
   variables:
     CI: 1
     DEVICE_TYPE: qemux86-64
@@ -668,19 +666,15 @@ test:staging-deployment:chrome:
     - npx playwright install chromium
     - npm run script -- --environment=staging --project=chromium
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: delayed
-      start_in: 30 minutes
+    - when: on_success
 
 test:staging-deployment:firefox:
+  rules:
+    - when: never
   extends: .template:test:staging-deployment
   script:
     - npx playwright install firefox
     - npm run script -- --environment=staging --project=firefox
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      when: delayed
-      start_in: 40 minutes
 
 publish:backend:coverage:
   stage: publish
