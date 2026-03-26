@@ -13,9 +13,9 @@ services:
     environment:
       WORKFLOWS_SMTP_HOST: "smtp4dev:25"
       WORKFLOWS_EMAIL_SENDER: "dev@localhost"
-      WORKFLOWS_MENDER_URL: "https://localhost"
+      WORKFLOWS_MENDER_URL: "https://${MENDER_HOSTNAME:-docker.mender.io}"
   workflows-worker:
     environment:
       WORKFLOWS_SMTP_HOST: "smtp4dev:25"
       WORKFLOWS_EMAIL_SENDER: "dev@localhost"
-      WORKFLOWS_MENDER_URL: "https://localhost"
+      WORKFLOWS_MENDER_URL: "https://${MENDER_HOSTNAME:-docker.mender.io}"
