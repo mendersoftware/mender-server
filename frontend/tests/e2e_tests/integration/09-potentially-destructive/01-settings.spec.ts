@@ -35,7 +35,7 @@ import { selectDeviceLimitInput } from '../../utils/utils.ts';
 test.describe('Settings', () => {
   test.describe('2FA setup', () => {
     test('supports regular 2fa setup', async ({ baseUrl, environment, page }) => {
-      test.skip(environment !== 'staging');
+      test.skip(environment !== 'staging' && environment !== 'enterprise');
       let tfaSecret;
       try {
         tfaSecret = fs.readFileSync('secret.txt', 'utf8');
@@ -59,7 +59,7 @@ test.describe('Settings', () => {
       await page.waitForTimeout(timeouts.default);
     });
     test(`prevents from logging in without 2fa code`, async ({ baseUrl, browser, environment, password, username }) => {
-      test.skip(environment !== 'staging');
+      test.skip(environment !== 'staging' && environment !== 'enterprise');
       let context = await browser.newContext({ storageState: { ...emptyStorageState } });
       const domain = baseUrlToDomain(baseUrl);
       context = await prepareCookies(context, domain, '');
@@ -77,7 +77,7 @@ test.describe('Settings', () => {
       await context.close();
     });
     test('allows turning 2fa off again', async ({ baseUrl, browser, environment, password, username }) => {
-      test.skip(environment !== 'staging');
+      test.skip(environment !== 'staging' && environment !== 'enterprise');
       let context = await browser.newContext({ storageState: { ...emptyStorageState } });
       const domain = baseUrlToDomain(baseUrl);
       context = await prepareCookies(context, domain, '');
@@ -98,7 +98,7 @@ test.describe('Settings', () => {
       await context.close();
     });
     test('allows logging in without 2fa after deactivation', async ({ baseUrl, browser, environment, password, username }) => {
-      test.skip(environment !== 'staging');
+      test.skip(environment !== 'staging' && environment !== 'enterprise');
       let context = await browser.newContext({ storageState: { ...emptyStorageState } });
       const domain = baseUrlToDomain(baseUrl);
       context = await prepareCookies(context, domain, '');
