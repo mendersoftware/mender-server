@@ -49,7 +49,13 @@ generate-openapi-spec: $(COMBINED_SPEC)
 generate-openapi-client: generate-openapi-spec
 	@echo "Regenerating OpenAPI client"
 	@rm -Rf "$(OAPI_CLIENT)"
-	@docker run -u $$(id -u):$$(id -g) --rm -v ${MAKEDIR}:/backend openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} generate -i /backend/"$(COMBINED_SPEC)" -g go -o /"$(OAPI_CLIENT)" --additional-properties=withGoMod=false --additional-properties=withTests=false --global-property=apiTests=false --global-property=modelTests=false
+	@docker run -u $$(id -u):$$(id -g) --rm -v ${MAKEDIR}:/backend \
+		openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} \
+		generate \
+		-i /backend/"$(COMBINED_SPEC)" \
+		-g go \
+		-o /"$(OAPI_CLIENT)" \
+		-c /backend/pkg/api/.openapi-generator.yaml
 	@echo "Generated $(OAPI_CLIENT)"
 
 tests/mender_client: $(COMBINED_SPEC)
