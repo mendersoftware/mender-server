@@ -47,16 +47,7 @@ generate-openapi-spec: $(COMBINED_SPEC)
 
 .PHONY: generate-openapi-client
 generate-openapi-client: generate-openapi-spec
-	@echo "Regenerating OpenAPI client"
-	@rm -Rf "$(OAPI_CLIENT)"
-	@docker run -u $$(id -u):$$(id -g) --rm -v ${MAKEDIR}:/backend \
-		openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} \
-		generate \
-		-i /backend/"$(COMBINED_SPEC)" \
-		-g go \
-		-o /"$(OAPI_CLIENT)" \
-		-c /backend/pkg/api/.openapi-generator.yaml
-	@echo "Generated $(OAPI_CLIENT)"
+	@$(MAKE) -C pkg/api
 
 tests/mender_client: $(COMBINED_SPEC)
 	[ -e $@ ] && rm -r $@; \
