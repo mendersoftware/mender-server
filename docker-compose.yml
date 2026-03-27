@@ -341,7 +341,7 @@ services:
       default:
         aliases: [mender-workflows]
   traefik:
-    image: traefik:3.6.9
+    image: traefik:v3.6.12
     command:
       - --api=true
       - --api.insecure=true
