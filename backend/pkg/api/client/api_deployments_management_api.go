@@ -22,12 +22,477 @@ import (
 )
 
 
+type DeploymentsManagementAPIAPI interface {
+
+	/*
+	AbortDeployment Abort the deployment
+
+	Abort an ongoing deployment. For devices included in this deployment it means that:
+
+- Devices that have completed the deployment (i.e. reported final status) are not affected by the abort, and their original status is kept in the deployment report.
+
+- Devices that do not yet know about the deployment at time of abort will not start the deployment.
+
+- Devices that are in the middle of the deployment at time of abort will finish its deployment normally, but they will not be able to change its deployment status so they will perform rollback.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deploymentId Deployment identifier.
+	@return ApiAbortDeploymentRequest
+	*/
+	AbortDeployment(ctx context.Context, deploymentId string) ApiAbortDeploymentRequest
+
+	// AbortDeploymentExecute executes the request
+	AbortDeploymentExecute(r ApiAbortDeploymentRequest) (*http.Response, error)
+
+	/*
+	AbortDeploymentsForADevice Abort all the active and pending Deployments for a Device
+
+	Abort all the active and pending Deployments for the specified Device.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id System wide device identifier
+	@return ApiAbortDeploymentsForADeviceRequest
+	*/
+	AbortDeploymentsForADevice(ctx context.Context, id string) ApiAbortDeploymentsForADeviceRequest
+
+	// AbortDeploymentsForADeviceExecute executes the request
+	AbortDeploymentsForADeviceExecute(r ApiAbortDeploymentsForADeviceRequest) (*http.Response, error)
+
+	/*
+	CompleteDirectUpload Notify the server that the direct upload is completed to make it available in the artifacts API. Optionally you can provide files metadata which will be absent otherwise if skip-verify flag is present in the deployments service. This is an on-prem endpoint only, not available on Hosted Mender.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Artifact ID returned by \"Request Direct Upload\" API.
+	@return ApiCompleteDirectUploadRequest
+	*/
+	CompleteDirectUpload(ctx context.Context, id string) ApiCompleteDirectUploadRequest
+
+	// CompleteDirectUploadExecute executes the request
+	CompleteDirectUploadExecute(r ApiCompleteDirectUploadRequest) (*http.Response, error)
+
+	/*
+	CreateDeploymentForAGroupOfDevices Create a deployment for a group of devices
+
+	Deploy software to devices belonging to the specified group.
+
+Artifact is auto assigned to the device from all available artifacts based
+on artifact name and device type. Devices for which there are no compatible
+artifacts to be installed are considered finished successfully as well as
+receive status of `noartifact`. If there is no artifacts for the deployment,
+deployment will not be created and the 422 Unprocessable Entity status code
+will be returned.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Device group name.
+	@return ApiCreateDeploymentForAGroupOfDevicesRequest
+	*/
+	CreateDeploymentForAGroupOfDevices(ctx context.Context, name string) ApiCreateDeploymentForAGroupOfDevicesRequest
+
+	// CreateDeploymentForAGroupOfDevicesExecute executes the request
+	CreateDeploymentForAGroupOfDevicesExecute(r ApiCreateDeploymentForAGroupOfDevicesRequest) (*http.Response, error)
+
+	/*
+	DeleteArtifact Delete the artifact
+
+	Deletes the artifact from file and artifacts storage.
+Artifacts used by deployments in progress can not be deleted
+until deployment finishes.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Artifact identifier.
+	@return ApiDeleteArtifactRequest
+	*/
+	DeleteArtifact(ctx context.Context, id string) ApiDeleteArtifactRequest
+
+	// DeleteArtifactExecute executes the request
+	DeleteArtifactExecute(r ApiDeleteArtifactRequest) (*http.Response, error)
+
+	/*
+	DeploymentStatusStatistics Get status count for all devices in a deployment. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deploymentId Deployment identifier
+	@return ApiDeploymentStatusStatisticsRequest
+	*/
+	DeploymentStatusStatistics(ctx context.Context, deploymentId string) ApiDeploymentStatusStatisticsRequest
+
+	// DeploymentStatusStatisticsExecute executes the request
+	//  @return Statistics
+	DeploymentStatusStatisticsExecute(r ApiDeploymentStatusStatisticsRequest) (*Statistics, *http.Response, error)
+
+	/*
+	DeploymentStatusStatisticsList Get status count for all devices in the listed deployments (plural). 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentStatusStatisticsListRequest
+	*/
+	DeploymentStatusStatisticsList(ctx context.Context) ApiDeploymentStatusStatisticsListRequest
+
+	// DeploymentStatusStatisticsListExecute executes the request
+	//  @return []DeploymentStatusStatisticsList200ResponseInner
+	DeploymentStatusStatisticsListExecute(r ApiDeploymentStatusStatisticsListRequest) ([]DeploymentStatusStatisticsList200ResponseInner, *http.Response, error)
+
+	/*
+	DeploymentsCreateDeployment Create a deployment
+
+	Deploy software to specified devices. Artifact is auto assigned to the
+device from all available artifacts based on artifact name and device type.
+Devices for which there are no compatible artifacts to be installed are
+considered finished successfully as well as receive status of `noartifact`.
+If there is no artifacts for the deployment, deployment will not be created
+and the 422 Unprocessable Entity status code will be returned.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsCreateDeploymentRequest
+	*/
+	DeploymentsCreateDeployment(ctx context.Context) ApiDeploymentsCreateDeploymentRequest
+
+	// DeploymentsCreateDeploymentExecute executes the request
+	DeploymentsCreateDeploymentExecute(r ApiDeploymentsCreateDeploymentRequest) (*http.Response, error)
+
+	/*
+	DeploymentsGetStorageUsage Get storage limit and current storage usage
+
+	Get storage limit and current storage usage for currently logged in user.
+If the limit value is 0 it means there is no limit for storage for logged in user.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsGetStorageUsageRequest
+	*/
+	DeploymentsGetStorageUsage(ctx context.Context) ApiDeploymentsGetStorageUsageRequest
+
+	// DeploymentsGetStorageUsageExecute executes the request
+	//  @return StorageLimit
+	DeploymentsGetStorageUsageExecute(r ApiDeploymentsGetStorageUsageRequest) (*StorageLimit, *http.Response, error)
+
+	/*
+	DeploymentsListDeploymentsForADevice Return the Deployments history for a Device
+
+	Return the Deployments history for the specified Device, listing all its Deployments.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id System wide device identifier
+	@return ApiDeploymentsListDeploymentsForADeviceRequest
+	*/
+	DeploymentsListDeploymentsForADevice(ctx context.Context, id string) ApiDeploymentsListDeploymentsForADeviceRequest
+
+	// DeploymentsListDeploymentsForADeviceExecute executes the request
+	//  @return []DeviceDeploymentV1
+	DeploymentsListDeploymentsForADeviceExecute(r ApiDeploymentsListDeploymentsForADeviceRequest) ([]DeviceDeploymentV1, *http.Response, error)
+
+	/*
+	DeploymentsV1ListArtifactsWithPagination List known artifacts 
+
+	Returns a collection of all artifacts.
+
+DEPRECATED: _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues.
+Please use the v2 /artifacts endpoint instead.
+In the new endpoint, we support exact and prefix matching for the various fields
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsV1ListArtifactsWithPaginationRequest
+
+	Deprecated
+	*/
+	DeploymentsV1ListArtifactsWithPagination(ctx context.Context) ApiDeploymentsV1ListArtifactsWithPaginationRequest
+
+	// DeploymentsV1ListArtifactsWithPaginationExecute executes the request
+	//  @return []ArtifactV1
+	// Deprecated
+	DeploymentsV1ListArtifactsWithPaginationExecute(r ApiDeploymentsV1ListArtifactsWithPaginationRequest) ([]ArtifactV1, *http.Response, error)
+
+	/*
+	DeploymentsV1ListDeployments Find all deployments
+
+	Returns a filtered collection of deployments in the system,
+including active and historical. If both 'status' and 'query' are
+not specified, all devices are listed.
+
+DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the "search" query
+  behavior. Please use the v2 /deployments/deployments endpoint instead.
+  In the new endpoint, we replaced search parameter with the "id" and "name" parameters.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsV1ListDeploymentsRequest
+
+	Deprecated
+	*/
+	DeploymentsV1ListDeployments(ctx context.Context) ApiDeploymentsV1ListDeploymentsRequest
+
+	// DeploymentsV1ListDeploymentsExecute executes the request
+	//  @return []DeploymentV1
+	// Deprecated
+	DeploymentsV1ListDeploymentsExecute(r ApiDeploymentsV1ListDeploymentsRequest) ([]DeploymentV1, *http.Response, error)
+
+	/*
+	DeploymentsV1ListReleasesWithPagination List releases with pagination 
+
+	Returns a collection of releases, allows filtering by release name and sorting
+by name or last modification date.
+
+DEPRECATED: _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response
+body and lack of support for advanced filters and sorting, we have deprecated this
+endpoint. Please use the v2 /deployments/releases end-point instead.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsV1ListReleasesWithPaginationRequest
+
+	Deprecated
+	*/
+	DeploymentsV1ListReleasesWithPagination(ctx context.Context) ApiDeploymentsV1ListReleasesWithPaginationRequest
+
+	// DeploymentsV1ListReleasesWithPaginationExecute executes the request
+	//  @return []ReleaseV1
+	// Deprecated
+	DeploymentsV1ListReleasesWithPaginationExecute(r ApiDeploymentsV1ListReleasesWithPaginationRequest) ([]ReleaseV1, *http.Response, error)
+
+	/*
+	DownloadArtifact Get the download link of a selected artifact
+
+	Generates signed URL for downloading artifact file. URI can be used only
+with GET HTTP method. Link supports such HTTP headers: 'Range',
+'If-Modified-Since', 'If-Unmodified-Since' It is valid for specified
+period of time.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Artifact identifier.
+	@return ApiDownloadArtifactRequest
+	*/
+	DownloadArtifact(ctx context.Context, id string) ApiDownloadArtifactRequest
+
+	// DownloadArtifactExecute executes the request
+	//  @return ArtifactLink
+	DownloadArtifactExecute(r ApiDownloadArtifactRequest) (*ArtifactLink, *http.Response, error)
+
+	/*
+	GenerateArtifact Upload raw data to generate a new artifact
+
+	Generate a new Mender artifact from raw data and meta data. Multipart request with meta and raw file.
+Supports generating single-file updates only, using the Single File Update Module (https://hub.mender.io/t/single-file).
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGenerateArtifactRequest
+	*/
+	GenerateArtifact(ctx context.Context) ApiGenerateArtifactRequest
+
+	// GenerateArtifactExecute executes the request
+	GenerateArtifactExecute(r ApiGenerateArtifactRequest) (*http.Response, error)
+
+	/*
+	GetDeploymentLogForDevice Get the log of a selected device's deployment
+
+	The response body for this endpoint include the device's deployment logs
+in text/plain format.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deploymentId Deployment identifier.
+	@param deviceId Device identifier.
+	@return ApiGetDeploymentLogForDeviceRequest
+	*/
+	GetDeploymentLogForDevice(ctx context.Context, deploymentId string, deviceId string) ApiGetDeploymentLogForDeviceRequest
+
+	// GetDeploymentLogForDeviceExecute executes the request
+	//  @return string
+	GetDeploymentLogForDeviceExecute(r ApiGetDeploymentLogForDeviceRequest) (string, *http.Response, error)
+
+	/*
+	ListAllDevicesInDeployment DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /deployments/{deployment_id}/devices/list end-point instead. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deploymentId Deployment identifier.
+	@return ApiListAllDevicesInDeploymentRequest
+
+	Deprecated
+	*/
+	ListAllDevicesInDeployment(ctx context.Context, deploymentId string) ApiListAllDevicesInDeploymentRequest
+
+	// ListAllDevicesInDeploymentExecute executes the request
+	//  @return []DeviceWithImage
+	// Deprecated
+	ListAllDevicesInDeploymentExecute(r ApiListAllDevicesInDeploymentRequest) ([]DeviceWithImage, *http.Response, error)
+
+	/*
+	ListArtifacts List all the artifacts 
+
+	Returns a collection of all artifacts.
+
+DEPRECATED: _since Oct 18 2021_ this end-point is deprecated because it doesn't support
+pagination and will be removed in the future, please use the
+/artifacts/list end-point instead.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListArtifactsRequest
+
+	Deprecated
+	*/
+	ListArtifacts(ctx context.Context) ApiListArtifactsRequest
+
+	// ListArtifactsExecute executes the request
+	//  @return []ArtifactV1
+	// Deprecated
+	ListArtifactsExecute(r ApiListArtifactsRequest) ([]ArtifactV1, *http.Response, error)
+
+	/*
+	ListDeviceIDsInDeployment Get the list of device IDs being part of the deployment.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Deployment identifier.
+	@return ApiListDeviceIDsInDeploymentRequest
+	*/
+	ListDeviceIDsInDeployment(ctx context.Context, id string) ApiListDeviceIDsInDeploymentRequest
+
+	// ListDeviceIDsInDeploymentExecute executes the request
+	//  @return []string
+	ListDeviceIDsInDeploymentExecute(r ApiListDeviceIDsInDeploymentRequest) ([]string, *http.Response, error)
+
+	/*
+	ListDevicesInDeployment Get the list of devices and their respective status for the deployment with the given ID. The response includes devices as they get assigned to the deployment when checking for updates. Therefore, this endpoint will list all the devices only once each asks for updates and evaluates this deployment. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deploymentId Deployment identifier.
+	@return ApiListDevicesInDeploymentRequest
+	*/
+	ListDevicesInDeployment(ctx context.Context, deploymentId string) ApiListDevicesInDeploymentRequest
+
+	// ListDevicesInDeploymentExecute executes the request
+	//  @return []DeviceWithImage
+	ListDevicesInDeploymentExecute(r ApiListDevicesInDeploymentRequest) ([]DeviceWithImage, *http.Response, error)
+
+	/*
+	ListReleases List releases 
+
+	Returns a collection of releases, allows filtering by release name.
+
+DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support
+pagination and will be removed in the future, please use the
+/deployments/releases/list end-point instead.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListReleasesRequest
+
+	Deprecated
+	*/
+	ListReleases(ctx context.Context) ApiListReleasesRequest
+
+	// ListReleasesExecute executes the request
+	//  @return []ReleaseV1
+	// Deprecated
+	ListReleasesExecute(r ApiListReleasesRequest) ([]ReleaseV1, *http.Response, error)
+
+	/*
+	RequestDirectUpload Request link for uploading artifact directly to the storage backend. This is an on-prem endpoint only, not available on Hosted Mender.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRequestDirectUploadRequest
+	*/
+	RequestDirectUpload(ctx context.Context) ApiRequestDirectUploadRequest
+
+	// RequestDirectUploadExecute executes the request
+	//  @return ArtifactUploadLink
+	RequestDirectUploadExecute(r ApiRequestDirectUploadRequest) (*ArtifactUploadLink, *http.Response, error)
+
+	/*
+	ResetDeviceDeploymentsHistory Reset the Device Deployments history
+
+	Mark as logically deleted the completed Device Deployments records for the given device.
+This effectively resets the Device Deployments history and makes the
+device eligible (again) for all the active deployments.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id System wide device identifier
+	@return ApiResetDeviceDeploymentsHistoryRequest
+	*/
+	ResetDeviceDeploymentsHistory(ctx context.Context, id string) ApiResetDeviceDeploymentsHistoryRequest
+
+	// ResetDeviceDeploymentsHistoryExecute executes the request
+	ResetDeviceDeploymentsHistoryExecute(r ApiResetDeviceDeploymentsHistoryRequest) (*http.Response, error)
+
+	/*
+	ShowArtifact Get the details of a selected artifact
+
+	Returns the details of a selected artifact.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Artifact identifier.
+	@return ApiShowArtifactRequest
+	*/
+	ShowArtifact(ctx context.Context, id string) ApiShowArtifactRequest
+
+	// ShowArtifactExecute executes the request
+	//  @return ArtifactV1
+	ShowArtifactExecute(r ApiShowArtifactRequest) (*ArtifactV1, *http.Response, error)
+
+	/*
+	ShowDeployment Get the details of a selected deployment
+
+	Returns the details of a particular deployment.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Deployment identifier.
+	@return ApiShowDeploymentRequest
+	*/
+	ShowDeployment(ctx context.Context, id string) ApiShowDeploymentRequest
+
+	// ShowDeploymentExecute executes the request
+	//  @return DeploymentV1
+	ShowDeploymentExecute(r ApiShowDeploymentRequest) (*DeploymentV1, *http.Response, error)
+
+	/*
+	UpdateArtifactInfo Update description of a selected artifact
+
+	Edit description. Artifact is not allowed to be edited if it was used
+in any deployment.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Artifact identifier.
+	@return ApiUpdateArtifactInfoRequest
+	*/
+	UpdateArtifactInfo(ctx context.Context, id string) ApiUpdateArtifactInfoRequest
+
+	// UpdateArtifactInfoExecute executes the request
+	UpdateArtifactInfoExecute(r ApiUpdateArtifactInfoRequest) (*http.Response, error)
+
+	/*
+	UploadArtifact Upload mender artifact
+
+	Upload mender artifact. Multipart request with meta and artifact.
+Supports artifact [versions v1, v2, v3](https://docs.mender.io/overview/artifact#versions).
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUploadArtifactRequest
+	*/
+	UploadArtifact(ctx context.Context) ApiUploadArtifactRequest
+
+	// UploadArtifactExecute executes the request
+	UploadArtifactExecute(r ApiUploadArtifactRequest) (*http.Response, error)
+}
+
 // DeploymentsManagementAPIAPIService DeploymentsManagementAPIAPI service
 type DeploymentsManagementAPIAPIService service
 
 type ApiAbortDeploymentRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	deploymentId string
 	abortDeploymentRequest *AbortDeploymentRequest
 }
@@ -192,7 +657,7 @@ func (a *DeploymentsManagementAPIAPIService) AbortDeploymentExecute(r ApiAbortDe
 
 type ApiAbortDeploymentsForADeviceRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	id string
 }
 
@@ -306,7 +771,7 @@ func (a *DeploymentsManagementAPIAPIService) AbortDeploymentsForADeviceExecute(r
 
 type ApiCompleteDirectUploadRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	id string
 	directUploadMetadata *DirectUploadMetadata
 }
@@ -437,7 +902,7 @@ func (a *DeploymentsManagementAPIAPIService) CompleteDirectUploadExecute(r ApiCo
 
 type ApiCreateDeploymentForAGroupOfDevicesRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	name string
 	newDeploymentForGroup *NewDeploymentForGroup
 }
@@ -603,7 +1068,7 @@ func (a *DeploymentsManagementAPIAPIService) CreateDeploymentForAGroupOfDevicesE
 
 type ApiDeleteArtifactRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	id string
 }
 
@@ -741,7 +1206,7 @@ func (a *DeploymentsManagementAPIAPIService) DeleteArtifactExecute(r ApiDeleteAr
 
 type ApiDeploymentStatusStatisticsRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	deploymentId string
 }
 
@@ -874,7 +1339,7 @@ func (a *DeploymentsManagementAPIAPIService) DeploymentStatusStatisticsExecute(r
 
 type ApiDeploymentStatusStatisticsListRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	deploymentIdentifier *DeploymentIdentifier
 }
 
@@ -1025,7 +1490,7 @@ func (a *DeploymentsManagementAPIAPIService) DeploymentStatusStatisticsListExecu
 
 type ApiDeploymentsCreateDeploymentRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	newDeployment *NewDeployment
 }
 
@@ -1185,7 +1650,7 @@ func (a *DeploymentsManagementAPIAPIService) DeploymentsCreateDeploymentExecute(
 
 type ApiDeploymentsGetStorageUsageRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 }
 
 func (r ApiDeploymentsGetStorageUsageRequest) Execute() (*StorageLimit, *http.Response, error) {
@@ -1307,7 +1772,7 @@ func (a *DeploymentsManagementAPIAPIService) DeploymentsGetStorageUsageExecute(r
 
 type ApiDeploymentsListDeploymentsForADeviceRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	id string
 	status *string
 	page *int32
@@ -1470,7 +1935,7 @@ func (a *DeploymentsManagementAPIAPIService) DeploymentsListDeploymentsForADevic
 
 type ApiDeploymentsV1ListArtifactsWithPaginationRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	name *string
 	description *string
 	deviceType *string
@@ -1670,7 +2135,7 @@ func (a *DeploymentsManagementAPIAPIService) DeploymentsV1ListArtifactsWithPagin
 
 type ApiDeploymentsV1ListDeploymentsRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	status *string
 	type_ *string
 	search *string
@@ -1899,7 +2364,7 @@ func (a *DeploymentsManagementAPIAPIService) DeploymentsV1ListDeploymentsExecute
 
 type ApiDeploymentsV1ListReleasesWithPaginationRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	name *string
 	description *string
 	deviceType *string
@@ -2110,7 +2575,7 @@ func (a *DeploymentsManagementAPIAPIService) DeploymentsV1ListReleasesWithPagina
 
 type ApiDownloadArtifactRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	id string
 }
 
@@ -2260,7 +2725,7 @@ func (a *DeploymentsManagementAPIAPIService) DownloadArtifactExecute(r ApiDownlo
 
 type ApiGenerateArtifactRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	name *string
 	deviceTypesCompatible *[]string
 	type_ *string
@@ -2460,7 +2925,7 @@ func (a *DeploymentsManagementAPIAPIService) GenerateArtifactExecute(r ApiGenera
 
 type ApiGetDeploymentLogForDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	deploymentId string
 	deviceId string
 }
@@ -2601,7 +3066,7 @@ func (a *DeploymentsManagementAPIAPIService) GetDeploymentLogForDeviceExecute(r 
 
 type ApiListAllDevicesInDeploymentRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	deploymentId string
 }
 
@@ -2737,7 +3202,7 @@ func (a *DeploymentsManagementAPIAPIService) ListAllDevicesInDeploymentExecute(r
 
 type ApiListArtifactsRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	name *string
 	description *string
 	deviceType *string
@@ -2895,7 +3360,7 @@ func (a *DeploymentsManagementAPIAPIService) ListArtifactsExecute(r ApiListArtif
 
 type ApiListDeviceIDsInDeploymentRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	id string
 }
 
@@ -3039,7 +3504,7 @@ func (a *DeploymentsManagementAPIAPIService) ListDeviceIDsInDeploymentExecute(r 
 
 type ApiListDevicesInDeploymentRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	deploymentId string
 	status *string
 	page *int32
@@ -3210,7 +3675,7 @@ func (a *DeploymentsManagementAPIAPIService) ListDevicesInDeploymentExecute(r Ap
 
 type ApiListReleasesRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	name *string
 	description *string
 	deviceType *string
@@ -3378,7 +3843,7 @@ func (a *DeploymentsManagementAPIAPIService) ListReleasesExecute(r ApiListReleas
 
 type ApiRequestDirectUploadRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 }
 
 func (r ApiRequestDirectUploadRequest) Execute() (*ArtifactUploadLink, *http.Response, error) {
@@ -3496,7 +3961,7 @@ func (a *DeploymentsManagementAPIAPIService) RequestDirectUploadExecute(r ApiReq
 
 type ApiResetDeviceDeploymentsHistoryRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	id string
 }
 
@@ -3612,7 +4077,7 @@ func (a *DeploymentsManagementAPIAPIService) ResetDeviceDeploymentsHistoryExecut
 
 type ApiShowArtifactRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	id string
 }
 
@@ -3759,7 +4224,7 @@ func (a *DeploymentsManagementAPIAPIService) ShowArtifactExecute(r ApiShowArtifa
 
 type ApiShowDeploymentRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	id string
 }
 
@@ -3895,7 +4360,7 @@ func (a *DeploymentsManagementAPIAPIService) ShowDeploymentExecute(r ApiShowDepl
 
 type ApiUpdateArtifactInfoRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	id string
 	artifactUpdateV1 *ArtifactUpdateV1
 }
@@ -4051,7 +4516,7 @@ func (a *DeploymentsManagementAPIAPIService) UpdateArtifactInfoExecute(r ApiUpda
 
 type ApiUploadArtifactRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsManagementAPIAPIService
+	ApiService DeploymentsManagementAPIAPI
 	artifact *os.File
 	size *int32
 	description *string

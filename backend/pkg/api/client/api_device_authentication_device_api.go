@@ -20,12 +20,38 @@ import (
 )
 
 
+type DeviceAuthenticationDeviceAPIAPI interface {
+
+	/*
+	DeviceAuthAuthenticateDevice Submit an authentication request
+
+	The device presents its unique identity data and public key, and signs the request with its private key.
+If the request is valid and the device is known to the system, a valid JWT authentication token is issued.
+
+Unless the device is pre-authorized, the very first authentication request from a device will
+always result in a 'HTTP 401 Unauthorized' response. At the same time, the identity data is recorded for
+later inspection by the user, who can then explicitly accept or reject the device via the web GUI.
+A subsequent authentication request will reflect this decision.
+
+Note that when the JWT expires, the device must renew the JWT by sending a new authentication request.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthAuthenticateDeviceRequest
+	*/
+	DeviceAuthAuthenticateDevice(ctx context.Context) ApiDeviceAuthAuthenticateDeviceRequest
+
+	// DeviceAuthAuthenticateDeviceExecute executes the request
+	//  @return string
+	DeviceAuthAuthenticateDeviceExecute(r ApiDeviceAuthAuthenticateDeviceRequest) (string, *http.Response, error)
+}
+
 // DeviceAuthenticationDeviceAPIAPIService DeviceAuthenticationDeviceAPIAPI service
 type DeviceAuthenticationDeviceAPIAPIService service
 
 type ApiDeviceAuthAuthenticateDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationDeviceAPIAPIService
+	ApiService DeviceAuthenticationDeviceAPIAPI
 	xMENSignature *string
 	authRequest *AuthRequest
 }

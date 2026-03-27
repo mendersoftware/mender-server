@@ -21,12 +21,156 @@ import (
 )
 
 
+type DeviceInventoryInternalAPIAPI interface {
+
+	/*
+	DeleteDevice Remove a device from the inventory service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@param deviceId ID of given device.
+	@return ApiDeleteDeviceRequest
+	*/
+	DeleteDevice(ctx context.Context, tenantId string, deviceId string) ApiDeleteDeviceRequest
+
+	// DeleteDeviceExecute executes the request
+	DeleteDeviceExecute(r ApiDeleteDeviceRequest) (*http.Response, error)
+
+	/*
+	GetDeviceGroups Get a list of groups the device belongs to
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@param deviceId Device identifier.
+	@return ApiGetDeviceGroupsRequest
+	*/
+	GetDeviceGroups(ctx context.Context, tenantId string, deviceId string) ApiGetDeviceGroupsRequest
+
+	// GetDeviceGroupsExecute executes the request
+	//  @return Groups
+	GetDeviceGroupsExecute(r ApiGetDeviceGroupsRequest) (*Groups, *http.Response, error)
+
+	/*
+	InitializeDevice Create a device resource with the supplied set of attributes
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@return ApiInitializeDeviceRequest
+	*/
+	InitializeDevice(ctx context.Context, tenantId string) ApiInitializeDeviceRequest
+
+	// InitializeDeviceExecute executes the request
+	InitializeDeviceExecute(r ApiInitializeDeviceRequest) (*http.Response, error)
+
+	/*
+	InventoryInternalCheckHealth Check the health of the service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiInventoryInternalCheckHealthRequest
+	*/
+	InventoryInternalCheckHealth(ctx context.Context) ApiInventoryInternalCheckHealthRequest
+
+	// InventoryInternalCheckHealthExecute executes the request
+	InventoryInternalCheckHealthExecute(r ApiInventoryInternalCheckHealthRequest) (*http.Response, error)
+
+	/*
+	InventoryInternalCheckLiveliness Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiInventoryInternalCheckLivelinessRequest
+	*/
+	InventoryInternalCheckLiveliness(ctx context.Context) ApiInventoryInternalCheckLivelinessRequest
+
+	// InventoryInternalCheckLivelinessExecute executes the request
+	InventoryInternalCheckLivelinessExecute(r ApiInventoryInternalCheckLivelinessRequest) (*http.Response, error)
+
+	/*
+	InventoryInternalCreateTenant Create tenant
+
+	Create a tenant with provided configuration.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiInventoryInternalCreateTenantRequest
+	*/
+	InventoryInternalCreateTenant(ctx context.Context) ApiInventoryInternalCreateTenantRequest
+
+	// InventoryInternalCreateTenantExecute executes the request
+	InventoryInternalCreateTenantExecute(r ApiInventoryInternalCreateTenantRequest) (*http.Response, error)
+
+	/*
+	StartReIndexing Start reindexing device attributes.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId ID of the device that needs reindexing.
+	@param tenantId ID of tenant owning the device.
+	@return ApiStartReIndexingRequest
+	*/
+	StartReIndexing(ctx context.Context, deviceId string, tenantId string) ApiStartReIndexingRequest
+
+	// StartReIndexingExecute executes the request
+	StartReIndexingExecute(r ApiStartReIndexingRequest) (*http.Response, error)
+
+	/*
+	UpdateInventoryForADevice Update multiple inventory attributes in a single scope for a device
+
+	An API end-point that allows to  update the inventory attributes in
+a single scope for a device.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@param deviceId ID of given device.
+	@param scope Scope of the inventory attributes.
+	@return ApiUpdateInventoryForADeviceRequest
+	*/
+	UpdateInventoryForADevice(ctx context.Context, tenantId string, deviceId string, scope string) ApiUpdateInventoryForADeviceRequest
+
+	// UpdateInventoryForADeviceExecute executes the request
+	UpdateInventoryForADeviceExecute(r ApiUpdateInventoryForADeviceRequest) (*http.Response, error)
+
+	/*
+	UpdateInventoryForADeviceScopeWise Update multiple inventory attributes for a device
+
+	An API end-point that allows to update the inventory attributes for a device.
+It is operating in the same way as the /attribute/scope/{scope} endpoint, but
+does not override the scope of the attributes that you provide.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@param deviceId ID of given device.
+	@return ApiUpdateInventoryForADeviceScopeWiseRequest
+	*/
+	UpdateInventoryForADeviceScopeWise(ctx context.Context, tenantId string, deviceId string) ApiUpdateInventoryForADeviceScopeWiseRequest
+
+	// UpdateInventoryForADeviceScopeWiseExecute executes the request
+	UpdateInventoryForADeviceScopeWiseExecute(r ApiUpdateInventoryForADeviceScopeWiseRequest) (*http.Response, error)
+
+	/*
+	UpdateStatusOfDevices Update the status of a list of devices
+
+	An API end-point that allows to bulk update the status of a list
+of devices.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of given tenant.
+	@param status New status to set for the specified devices.
+	@return ApiUpdateStatusOfDevicesRequest
+	*/
+	UpdateStatusOfDevices(ctx context.Context, tenantId string, status string) ApiUpdateStatusOfDevicesRequest
+
+	// UpdateStatusOfDevicesExecute executes the request
+	UpdateStatusOfDevicesExecute(r ApiUpdateStatusOfDevicesRequest) (*http.Response, error)
+}
+
 // DeviceInventoryInternalAPIAPIService DeviceInventoryInternalAPIAPI service
 type DeviceInventoryInternalAPIAPIService service
 
 type ApiDeleteDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
+	ApiService DeviceInventoryInternalAPIAPI
 	tenantId string
 	deviceId string
 }
@@ -141,7 +285,7 @@ func (a *DeviceInventoryInternalAPIAPIService) DeleteDeviceExecute(r ApiDeleteDe
 
 type ApiGetDeviceGroupsRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
+	ApiService DeviceInventoryInternalAPIAPI
 	tenantId string
 	deviceId string
 }
@@ -278,7 +422,7 @@ func (a *DeviceInventoryInternalAPIAPIService) GetDeviceGroupsExecute(r ApiGetDe
 
 type ApiInitializeDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
+	ApiService DeviceInventoryInternalAPIAPI
 	tenantId string
 	deviceNew *DeviceNew
 }
@@ -400,7 +544,7 @@ func (a *DeviceInventoryInternalAPIAPIService) InitializeDeviceExecute(r ApiInit
 
 type ApiInventoryInternalCheckHealthRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
+	ApiService DeviceInventoryInternalAPIAPI
 }
 
 func (r ApiInventoryInternalCheckHealthRequest) Execute() (*http.Response, error) {
@@ -507,7 +651,7 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckHealthExecu
 
 type ApiInventoryInternalCheckLivelinessRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
+	ApiService DeviceInventoryInternalAPIAPI
 }
 
 func (r ApiInventoryInternalCheckLivelinessRequest) Execute() (*http.Response, error) {
@@ -603,7 +747,7 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCheckLivelinessE
 
 type ApiInventoryInternalCreateTenantRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
+	ApiService DeviceInventoryInternalAPIAPI
 	tenantNew *TenantNew
 }
 
@@ -724,7 +868,7 @@ func (a *DeviceInventoryInternalAPIAPIService) InventoryInternalCreateTenantExec
 
 type ApiStartReIndexingRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
+	ApiService DeviceInventoryInternalAPIAPI
 	deviceId string
 	tenantId string
 	service *string
@@ -849,7 +993,7 @@ func (a *DeviceInventoryInternalAPIAPIService) StartReIndexingExecute(r ApiStart
 
 type ApiUpdateInventoryForADeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
+	ApiService DeviceInventoryInternalAPIAPI
 	tenantId string
 	deviceId string
 	scope string
@@ -1005,7 +1149,7 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceExecute(
 
 type ApiUpdateInventoryForADeviceScopeWiseRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
+	ApiService DeviceInventoryInternalAPIAPI
 	tenantId string
 	deviceId string
 	attributeV2 *[]AttributeV2
@@ -1158,7 +1302,7 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceScopeWis
 
 type ApiUpdateStatusOfDevicesRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryInternalAPIAPIService
+	ApiService DeviceInventoryInternalAPIAPI
 	tenantId string
 	status string
 	deviceUpdate *[]DeviceUpdate

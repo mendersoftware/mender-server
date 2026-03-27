@@ -21,12 +21,241 @@ import (
 )
 
 
+type DeviceInventoryManagementAPIAPI interface {
+
+	/*
+	AddDevicesToGroup Add devices to group
+
+	Appends the list of devices in the request body to the given group.
+For devices already present in the group the operation has no effect.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Group name.
+	@return ApiAddDevicesToGroupRequest
+	*/
+	AddDevicesToGroup(ctx context.Context, name string) ApiAddDevicesToGroupRequest
+
+	// AddDevicesToGroupExecute executes the request
+	//  @return AddDevicesToGroup200Response
+	AddDevicesToGroupExecute(r ApiAddDevicesToGroupRequest) (*AddDevicesToGroup200Response, *http.Response, error)
+
+	/*
+	AddTags Adds a set of tags for a device
+
+	Saves the provided tags set for the authenticated device.
+
+This method has upsert semantic:
+* it overwrites the values of existing attributes
+* it creates attributes assigned for the first time
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiAddTagsRequest
+	*/
+	AddTags(ctx context.Context, id string) ApiAddTagsRequest
+
+	// AddTagsExecute executes the request
+	AddTagsExecute(r ApiAddTagsRequest) (*http.Response, error)
+
+	/*
+	AssignGroup Add a device to a group
+
+	Adds a device to a group.
+
+Note that a given device can belong to at most one group.
+If a device already belongs to some group, it will be moved
+to the selected one.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiAssignGroupRequest
+	*/
+	AssignGroup(ctx context.Context, id string) ApiAssignGroupRequest
+
+	// AssignGroupExecute executes the request
+	AssignGroupExecute(r ApiAssignGroupRequest) (*http.Response, error)
+
+	/*
+	AssignTags Replace the set of tags for a device
+
+	Replaces the tags associated to the device.
+
+This method replaces all the tags with the new set:
+* it removes from the db the attributes not provided
+* it overwrites the values of existing attributes
+* it creates attributes assigned for the first time
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiAssignTagsRequest
+	*/
+	AssignTags(ctx context.Context, id string) ApiAssignTagsRequest
+
+	// AssignTagsExecute executes the request
+	AssignTagsExecute(r ApiAssignTagsRequest) (*http.Response, error)
+
+	/*
+	ClearGroup Remove a device from a group
+
+	Removes the device with identifier 'id' from the group 'group'.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@param name Group name.
+	@return ApiClearGroupRequest
+	*/
+	ClearGroup(ctx context.Context, id string, name string) ApiClearGroupRequest
+
+	// ClearGroupExecute executes the request
+	ClearGroupExecute(r ApiClearGroupRequest) (*http.Response, error)
+
+	/*
+	DeleteDeviceInventory Remove selected device's inventory
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiDeleteDeviceInventoryRequest
+	*/
+	DeleteDeviceInventory(ctx context.Context, id string) ApiDeleteDeviceInventoryRequest
+
+	// DeleteDeviceInventoryExecute executes the request
+	DeleteDeviceInventoryExecute(r ApiDeleteDeviceInventoryRequest) (*http.Response, error)
+
+	/*
+	GetDeviceGroup Get a selected device's group
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiGetDeviceGroupRequest
+	*/
+	GetDeviceGroup(ctx context.Context, id string) ApiGetDeviceGroupRequest
+
+	// GetDeviceGroupExecute executes the request
+	//  @return Group
+	GetDeviceGroupExecute(r ApiGetDeviceGroupRequest) (*Group, *http.Response, error)
+
+	/*
+	GetDeviceInventory Get a selected device's inventory
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiGetDeviceInventoryRequest
+	*/
+	GetDeviceInventory(ctx context.Context, id string) ApiGetDeviceInventoryRequest
+
+	// GetDeviceInventoryExecute executes the request
+	//  @return DeviceInventoryV1
+	GetDeviceInventoryExecute(r ApiGetDeviceInventoryRequest) (*DeviceInventoryV1, *http.Response, error)
+
+	/*
+	GetDevicesInGroup List the devices belonging to a given group
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Group name.
+	@return ApiGetDevicesInGroupRequest
+	*/
+	GetDevicesInGroup(ctx context.Context, name string) ApiGetDevicesInGroupRequest
+
+	// GetDevicesInGroupExecute executes the request
+	//  @return []string
+	GetDevicesInGroupExecute(r ApiGetDevicesInGroupRequest) ([]string, *http.Response, error)
+
+	/*
+	ListDeviceInventories List devices inventories
+
+	Returns a paged collection of devices and their attributes.
+Accepts optional search and sort parameters.
+
+**Searching**<br/>
+Searching by attributes values is accomplished by appending attribute
+filters in the form `{scope}/{name}={value}` to the query string.
+
+Supported values for scope are:
+  * __inventory__: Attributes reported by the device.
+  * __system__: Attributes populated by the mender-server.
+  * __identity__: Device's identity attributes provided in the device's auth request.
+  * __monitor__: Attributes populated by the monitoring add-on.
+  * __tags__: User-defined attributes associated with the device.
+
+Using an unsupported value for __scope__ will produce no results from this API except
+when no scope is present, in which case scope defaults to inventory.
+
+Examples:
+```
+# Search for devices with inventory attribute `attr_name_1` and tag attribute `attr_name_2`
+GET /devices?inventory/attr_name_1=foo&tags/attr_name_2=100
+
+# Search devices by attribute without scope (inventory scope is used)
+GET /devices?attr_name_1=foo
+```
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListDeviceInventoriesRequest
+	*/
+	ListDeviceInventories(ctx context.Context) ApiListDeviceInventoriesRequest
+
+	// ListDeviceInventoriesExecute executes the request
+	//  @return []DeviceInventoryV1
+	ListDeviceInventoriesExecute(r ApiListDeviceInventoriesRequest) ([]DeviceInventoryV1, *http.Response, error)
+
+	/*
+	ListGroups List all groups existing device groups
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListGroupsRequest
+	*/
+	ListGroups(ctx context.Context) ApiListGroupsRequest
+
+	// ListGroupsExecute executes the request
+	//  @return []string
+	ListGroupsExecute(r ApiListGroupsRequest) ([]string, *http.Response, error)
+
+	/*
+	RemoveAGroup Remove a device group
+
+	Removes a device group. This API provides a bulk alternative to
+DELETE /devices/{id}/group/{name} for managing device groups.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Group name.
+	@return ApiRemoveAGroupRequest
+	*/
+	RemoveAGroup(ctx context.Context, name string) ApiRemoveAGroupRequest
+
+	// RemoveAGroupExecute executes the request
+	//  @return RemoveAGroup200Response
+	RemoveAGroupExecute(r ApiRemoveAGroupRequest) (*RemoveAGroup200Response, *http.Response, error)
+
+	/*
+	RemoveDevicesFromGroup Clear devices' group
+
+	Removes a list of devices from the specified group.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Group name.
+	@return ApiRemoveDevicesFromGroupRequest
+	*/
+	RemoveDevicesFromGroup(ctx context.Context, name string) ApiRemoveDevicesFromGroupRequest
+
+	// RemoveDevicesFromGroupExecute executes the request
+	//  @return RemoveAGroup200Response
+	RemoveDevicesFromGroupExecute(r ApiRemoveDevicesFromGroupRequest) (*RemoveAGroup200Response, *http.Response, error)
+}
+
 // DeviceInventoryManagementAPIAPIService DeviceInventoryManagementAPIAPI service
 type DeviceInventoryManagementAPIAPIService service
 
 type ApiAddDevicesToGroupRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	name string
 	requestBody *[]string
 }
@@ -175,7 +404,7 @@ func (a *DeviceInventoryManagementAPIAPIService) AddDevicesToGroupExecute(r ApiA
 
 type ApiAddTagsRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	id string
 	tag *[]Tag
 	ifMatch *string
@@ -326,7 +555,7 @@ func (a *DeviceInventoryManagementAPIAPIService) AddTagsExecute(r ApiAddTagsRequ
 
 type ApiAssignGroupRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	id string
 	group *Group
 }
@@ -467,7 +696,7 @@ func (a *DeviceInventoryManagementAPIAPIService) AssignGroupExecute(r ApiAssignG
 
 type ApiAssignTagsRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	id string
 	tag *[]Tag
 	ifMatch *string
@@ -619,7 +848,7 @@ func (a *DeviceInventoryManagementAPIAPIService) AssignTagsExecute(r ApiAssignTa
 
 type ApiClearGroupRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	id string
 	name string
 }
@@ -737,7 +966,7 @@ func (a *DeviceInventoryManagementAPIAPIService) ClearGroupExecute(r ApiClearGro
 
 type ApiDeleteDeviceInventoryRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	id string
 }
 
@@ -837,7 +1066,7 @@ func (a *DeviceInventoryManagementAPIAPIService) DeleteDeviceInventoryExecute(r 
 
 type ApiGetDeviceGroupRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	id string
 }
 
@@ -970,7 +1199,7 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDeviceGroupExecute(r ApiGetD
 
 type ApiGetDeviceInventoryRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	id string
 }
 
@@ -1092,7 +1321,7 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDeviceInventoryExecute(r Api
 
 type ApiGetDevicesInGroupRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	name string
 	page *int32
 	perPage *int32
@@ -1253,7 +1482,7 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDevicesInGroupExecute(r ApiG
 
 type ApiListDeviceInventoriesRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	page *int32
 	perPage *int32
 	sort *string
@@ -1456,7 +1685,7 @@ func (a *DeviceInventoryManagementAPIAPIService) ListDeviceInventoriesExecute(r 
 
 type ApiListGroupsRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	status *string
 }
 
@@ -1573,7 +1802,7 @@ func (a *DeviceInventoryManagementAPIAPIService) ListGroupsExecute(r ApiListGrou
 
 type ApiRemoveAGroupRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	name string
 }
 
@@ -1710,7 +1939,7 @@ func (a *DeviceInventoryManagementAPIAPIService) RemoveAGroupExecute(r ApiRemove
 
 type ApiRemoveDevicesFromGroupRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryManagementAPIAPIService
+	ApiService DeviceInventoryManagementAPIAPI
 	name string
 	requestBody *[]string
 }

@@ -22,12 +22,183 @@ import (
 )
 
 
+type DeviceAuthenticationInternalAPIAPI interface {
+
+	/*
+	DeviceAuthInternalCheckHealth Check the health of the service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthInternalCheckHealthRequest
+	*/
+	DeviceAuthInternalCheckHealth(ctx context.Context) ApiDeviceAuthInternalCheckHealthRequest
+
+	// DeviceAuthInternalCheckHealthExecute executes the request
+	DeviceAuthInternalCheckHealthExecute(r ApiDeviceAuthInternalCheckHealthRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthInternalCheckLiveliness Trivial endpoint that unconditionally returns an empty 204 response whenever the API handler is running correctly.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthInternalCheckLivelinessRequest
+	*/
+	DeviceAuthInternalCheckLiveliness(ctx context.Context) ApiDeviceAuthInternalCheckLivelinessRequest
+
+	// DeviceAuthInternalCheckLivelinessExecute executes the request
+	DeviceAuthInternalCheckLivelinessExecute(r ApiDeviceAuthInternalCheckLivelinessRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthInternalClearDeviceLimit Remove max device count limit
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@return ApiDeviceAuthInternalClearDeviceLimitRequest
+	*/
+	DeviceAuthInternalClearDeviceLimit(ctx context.Context, tenantId string) ApiDeviceAuthInternalClearDeviceLimitRequest
+
+	// DeviceAuthInternalClearDeviceLimitExecute executes the request
+	DeviceAuthInternalClearDeviceLimitExecute(r ApiDeviceAuthInternalClearDeviceLimitRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthInternalCountDevices Count number of devices, optionally filtered by status.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tid Tenant identifier.
+	@return ApiDeviceAuthInternalCountDevicesRequest
+	*/
+	DeviceAuthInternalCountDevices(ctx context.Context, tid string) ApiDeviceAuthInternalCountDevicesRequest
+
+	// DeviceAuthInternalCountDevicesExecute executes the request
+	//  @return Count
+	DeviceAuthInternalCountDevicesExecute(r ApiDeviceAuthInternalCountDevicesRequest) (*Count, *http.Response, error)
+
+	/*
+	DeviceAuthInternalCreateTenant Provision a new tenant
+
+	Sets up all tenant-related infrastructure, e.g. a migrated tenant's database.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthInternalCreateTenantRequest
+	*/
+	DeviceAuthInternalCreateTenant(ctx context.Context) ApiDeviceAuthInternalCreateTenantRequest
+
+	// DeviceAuthInternalCreateTenantExecute executes the request
+	DeviceAuthInternalCreateTenantExecute(r ApiDeviceAuthInternalCreateTenantRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthInternalDeleteDevice Delete a device from deviceauth service.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tid
+	@param did
+	@return ApiDeviceAuthInternalDeleteDeviceRequest
+	*/
+	DeviceAuthInternalDeleteDevice(ctx context.Context, tid string, did string) ApiDeviceAuthInternalDeleteDeviceRequest
+
+	// DeviceAuthInternalDeleteDeviceExecute executes the request
+	DeviceAuthInternalDeleteDeviceExecute(r ApiDeviceAuthInternalDeleteDeviceRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthInternalDeviceStatus Get the status of a tenant's device
+
+	Returns the overall status of the device, computed over the statuses of its various authsets.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tid Tenant identifier.
+	@param did Device identifier.
+	@return ApiDeviceAuthInternalDeviceStatusRequest
+	*/
+	DeviceAuthInternalDeviceStatus(ctx context.Context, tid string, did string) ApiDeviceAuthInternalDeviceStatusRequest
+
+	// DeviceAuthInternalDeviceStatusExecute executes the request
+	//  @return Status
+	DeviceAuthInternalDeviceStatusExecute(r ApiDeviceAuthInternalDeviceStatusRequest) (*Status, *http.Response, error)
+
+	/*
+	DeviceAuthInternalGetDeviceLimit Max device count limit
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@return ApiDeviceAuthInternalGetDeviceLimitRequest
+	*/
+	DeviceAuthInternalGetDeviceLimit(ctx context.Context, tenantId string) ApiDeviceAuthInternalGetDeviceLimitRequest
+
+	// DeviceAuthInternalGetDeviceLimitExecute executes the request
+	//  @return Limit
+	DeviceAuthInternalGetDeviceLimitExecute(r ApiDeviceAuthInternalGetDeviceLimitRequest) (*Limit, *http.Response, error)
+
+	/*
+	DeviceAuthInternalListDevices Get a list of tenant's devices.
+
+	Provides a list of tenant's devices, sorted by creation date, with optional device status filter.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tid Tenant identifier.
+	@return ApiDeviceAuthInternalListDevicesRequest
+	*/
+	DeviceAuthInternalListDevices(ctx context.Context, tid string) ApiDeviceAuthInternalListDevicesRequest
+
+	// DeviceAuthInternalListDevicesExecute executes the request
+	//  @return []Device
+	DeviceAuthInternalListDevicesExecute(r ApiDeviceAuthInternalListDevicesRequest) ([]Device, *http.Response, error)
+
+	/*
+	DeviceAuthInternalRevokeDeviceTokens Delete device tokens
+
+	This endpoint is designed to be used for device decommissioning and tenant account suspension purpose. For device decommissioning purpose both tenant_id and device_id parameters must be set. When both tenant_id and device_id parameters are set, all tokens will be deleted for device with given device_id. For tenant account suspension purpose only tenant_id parameter must be set. When device_id parameter is not set (only tenant_id parameter is set) all tokens for all tenant devices will be deleted.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthInternalRevokeDeviceTokensRequest
+	*/
+	DeviceAuthInternalRevokeDeviceTokens(ctx context.Context) ApiDeviceAuthInternalRevokeDeviceTokensRequest
+
+	// DeviceAuthInternalRevokeDeviceTokensExecute executes the request
+	DeviceAuthInternalRevokeDeviceTokensExecute(r ApiDeviceAuthInternalRevokeDeviceTokensRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthInternalSetExternalIdentity Replace the external identity of a device.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tid Tenant identifier.
+	@param did Device identifier.
+	@return ApiDeviceAuthInternalSetExternalIdentityRequest
+	*/
+	DeviceAuthInternalSetExternalIdentity(ctx context.Context, tid string, did string) ApiDeviceAuthInternalSetExternalIdentityRequest
+
+	// DeviceAuthInternalSetExternalIdentityExecute executes the request
+	DeviceAuthInternalSetExternalIdentityExecute(r ApiDeviceAuthInternalSetExternalIdentityRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthInternalUpdateDeviceLimit Update max device count limit
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@return ApiDeviceAuthInternalUpdateDeviceLimitRequest
+	*/
+	DeviceAuthInternalUpdateDeviceLimit(ctx context.Context, tenantId string) ApiDeviceAuthInternalUpdateDeviceLimitRequest
+
+	// DeviceAuthInternalUpdateDeviceLimitExecute executes the request
+	DeviceAuthInternalUpdateDeviceLimitExecute(r ApiDeviceAuthInternalUpdateDeviceLimitRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthInternalVerifyJWT Check the validity of a token
+
+	Besides the basic validity check, checks the token expiration time and user-initiated token revocation. Services which intend to use it should be correctly set up in the gateway's configuration.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthInternalVerifyJWTRequest
+	*/
+	DeviceAuthInternalVerifyJWT(ctx context.Context) ApiDeviceAuthInternalVerifyJWTRequest
+
+	// DeviceAuthInternalVerifyJWTExecute executes the request
+	DeviceAuthInternalVerifyJWTExecute(r ApiDeviceAuthInternalVerifyJWTRequest) (*http.Response, error)
+}
+
 // DeviceAuthenticationInternalAPIAPIService DeviceAuthenticationInternalAPIAPI service
 type DeviceAuthenticationInternalAPIAPIService service
 
 type ApiDeviceAuthInternalCheckHealthRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 }
 
 func (r ApiDeviceAuthInternalCheckHealthRequest) Execute() (*http.Response, error) {
@@ -134,7 +305,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalCheckHealt
 
 type ApiDeviceAuthInternalCheckLivelinessRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 }
 
 func (r ApiDeviceAuthInternalCheckLivelinessRequest) Execute() (*http.Response, error) {
@@ -230,7 +401,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalCheckLivel
 
 type ApiDeviceAuthInternalClearDeviceLimitRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	tenantId string
 }
 
@@ -330,7 +501,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalClearDevic
 
 type ApiDeviceAuthInternalCountDevicesRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	tid string
 	status *string
 }
@@ -462,7 +633,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalCountDevic
 
 type ApiDeviceAuthInternalCreateTenantRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	newTenant *NewTenant
 }
 
@@ -582,7 +753,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalCreateTena
 
 type ApiDeviceAuthInternalDeleteDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	tid string
 	did string
 }
@@ -708,7 +879,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalDeleteDevi
 
 type ApiDeviceAuthInternalDeviceStatusRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	tid string
 	did string
 }
@@ -847,7 +1018,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalDeviceStat
 
 type ApiDeviceAuthInternalGetDeviceLimitRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	tenantId string
 }
 
@@ -969,7 +1140,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalGetDeviceL
 
 type ApiDeviceAuthInternalListDevicesRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	tid string
 	status *string
 	id *[]string
@@ -1149,7 +1320,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalListDevice
 
 type ApiDeviceAuthInternalRevokeDeviceTokensRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	tenantId *string
 	deviceId *string
 }
@@ -1288,7 +1459,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalRevokeDevi
 
 type ApiDeviceAuthInternalSetExternalIdentityRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	tid string
 	did string
 	externalDevice *ExternalDevice
@@ -1414,7 +1585,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalSetExterna
 
 type ApiDeviceAuthInternalUpdateDeviceLimitRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	tenantId string
 	limit *Limit
 }
@@ -1536,7 +1707,7 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalUpdateDevi
 
 type ApiDeviceAuthInternalVerifyJWTRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationInternalAPIAPIService
+	ApiService DeviceAuthenticationInternalAPIAPI
 	authorization *string
 }
 

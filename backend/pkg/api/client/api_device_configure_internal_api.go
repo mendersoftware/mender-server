@@ -21,12 +21,99 @@ import (
 )
 
 
+type DeviceConfigureInternalAPIAPI interface {
+
+	/*
+	DeviceConfigInternalCheckHealth Get health status of service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConfigInternalCheckHealthRequest
+	*/
+	DeviceConfigInternalCheckHealth(ctx context.Context) ApiDeviceConfigInternalCheckHealthRequest
+
+	// DeviceConfigInternalCheckHealthExecute executes the request
+	DeviceConfigInternalCheckHealthExecute(r ApiDeviceConfigInternalCheckHealthRequest) (*http.Response, error)
+
+	/*
+	DeviceConfigInternalCheckLiveliness Get service liveliness status.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConfigInternalCheckLivelinessRequest
+	*/
+	DeviceConfigInternalCheckLiveliness(ctx context.Context) ApiDeviceConfigInternalCheckLivelinessRequest
+
+	// DeviceConfigInternalCheckLivelinessExecute executes the request
+	DeviceConfigInternalCheckLivelinessExecute(r ApiDeviceConfigInternalCheckLivelinessRequest) (*http.Response, error)
+
+	/*
+	DeviceConfigInternalDecommissionDevice Remove a device from the deviceconfig service.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param deviceId ID of the target device.
+	@return ApiDeviceConfigInternalDecommissionDeviceRequest
+	*/
+	DeviceConfigInternalDecommissionDevice(ctx context.Context, tenantId string, deviceId string) ApiDeviceConfigInternalDecommissionDeviceRequest
+
+	// DeviceConfigInternalDecommissionDeviceExecute executes the request
+	DeviceConfigInternalDecommissionDeviceExecute(r ApiDeviceConfigInternalDecommissionDeviceRequest) (*http.Response, error)
+
+	/*
+	DeviceConfigInternalDeleteTenant Delete all the data for given tenant.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant.
+	@return ApiDeviceConfigInternalDeleteTenantRequest
+	*/
+	DeviceConfigInternalDeleteTenant(ctx context.Context, tenantId string) ApiDeviceConfigInternalDeleteTenantRequest
+
+	// DeviceConfigInternalDeleteTenantExecute executes the request
+	DeviceConfigInternalDeleteTenantExecute(r ApiDeviceConfigInternalDeleteTenantRequest) (*http.Response, error)
+
+	/*
+	DeviceConfigInternalDeployDeviceConfiguration Deploy the device's configuration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId ID of the device.
+	@param tenantId ID of the tenant.
+	@return ApiDeviceConfigInternalDeployDeviceConfigurationRequest
+	*/
+	DeviceConfigInternalDeployDeviceConfiguration(ctx context.Context, deviceId string, tenantId string) ApiDeviceConfigInternalDeployDeviceConfigurationRequest
+
+	// DeviceConfigInternalDeployDeviceConfigurationExecute executes the request
+	//  @return NewConfigurationDeploymentResponse
+	DeviceConfigInternalDeployDeviceConfigurationExecute(r ApiDeviceConfigInternalDeployDeviceConfigurationRequest) (*NewConfigurationDeploymentResponse, *http.Response, error)
+
+	/*
+	DeviceConfigInternalProvisionDevice Register a new device with the deviceconfig service.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@return ApiDeviceConfigInternalProvisionDeviceRequest
+	*/
+	DeviceConfigInternalProvisionDevice(ctx context.Context, tenantId string) ApiDeviceConfigInternalProvisionDeviceRequest
+
+	// DeviceConfigInternalProvisionDeviceExecute executes the request
+	DeviceConfigInternalProvisionDeviceExecute(r ApiDeviceConfigInternalProvisionDeviceRequest) (*http.Response, error)
+
+	/*
+	DeviceConfigInternalProvisionTenant Initialize internal state for a new tenant
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConfigInternalProvisionTenantRequest
+	*/
+	DeviceConfigInternalProvisionTenant(ctx context.Context) ApiDeviceConfigInternalProvisionTenantRequest
+
+	// DeviceConfigInternalProvisionTenantExecute executes the request
+	DeviceConfigInternalProvisionTenantExecute(r ApiDeviceConfigInternalProvisionTenantRequest) (*http.Response, error)
+}
+
 // DeviceConfigureInternalAPIAPIService DeviceConfigureInternalAPIAPI service
 type DeviceConfigureInternalAPIAPIService service
 
 type ApiDeviceConfigInternalCheckHealthRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureInternalAPIAPIService
+	ApiService DeviceConfigureInternalAPIAPI
 }
 
 func (r ApiDeviceConfigInternalCheckHealthRequest) Execute() (*http.Response, error) {
@@ -133,7 +220,7 @@ func (a *DeviceConfigureInternalAPIAPIService) DeviceConfigInternalCheckHealthEx
 
 type ApiDeviceConfigInternalCheckLivelinessRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureInternalAPIAPIService
+	ApiService DeviceConfigureInternalAPIAPI
 }
 
 func (r ApiDeviceConfigInternalCheckLivelinessRequest) Execute() (*http.Response, error) {
@@ -229,7 +316,7 @@ func (a *DeviceConfigureInternalAPIAPIService) DeviceConfigInternalCheckLiveline
 
 type ApiDeviceConfigInternalDecommissionDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureInternalAPIAPIService
+	ApiService DeviceConfigureInternalAPIAPI
 	tenantId string
 	deviceId string
 }
@@ -333,7 +420,7 @@ func (a *DeviceConfigureInternalAPIAPIService) DeviceConfigInternalDecommissionD
 
 type ApiDeviceConfigInternalDeleteTenantRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureInternalAPIAPIService
+	ApiService DeviceConfigureInternalAPIAPI
 	tenantId string
 }
 
@@ -433,7 +520,7 @@ func (a *DeviceConfigureInternalAPIAPIService) DeviceConfigInternalDeleteTenantE
 
 type ApiDeviceConfigInternalDeployDeviceConfigurationRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureInternalAPIAPIService
+	ApiService DeviceConfigureInternalAPIAPI
 	deviceId string
 	tenantId string
 	newConfigurationDeployment *NewConfigurationDeployment
@@ -578,7 +665,7 @@ func (a *DeviceConfigureInternalAPIAPIService) DeviceConfigInternalDeployDeviceC
 
 type ApiDeviceConfigInternalProvisionDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureInternalAPIAPIService
+	ApiService DeviceConfigureInternalAPIAPI
 	tenantId string
 	provisionDevice *ProvisionDevice
 }
@@ -697,7 +784,7 @@ func (a *DeviceConfigureInternalAPIAPIService) DeviceConfigInternalProvisionDevi
 
 type ApiDeviceConfigInternalProvisionTenantRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureInternalAPIAPIService
+	ApiService DeviceConfigureInternalAPIAPI
 	newTenant *NewTenant
 }
 

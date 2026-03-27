@@ -23,12 +23,231 @@ import (
 )
 
 
+type DeploymentsInternalAPIInternalAPIAPI interface {
+
+	/*
+	DeploymentsInternalCheckHealth Check the health of the service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsInternalCheckHealthRequest
+	*/
+	DeploymentsInternalCheckHealth(ctx context.Context) ApiDeploymentsInternalCheckHealthRequest
+
+	// DeploymentsInternalCheckHealthExecute executes the request
+	DeploymentsInternalCheckHealthExecute(r ApiDeploymentsInternalCheckHealthRequest) (*http.Response, error)
+
+	/*
+	DeploymentsInternalCheckLiveliness Trivial endpoint that unconditionally returns an empty 204 response whenever the API handler is running correctly. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsInternalCheckLivelinessRequest
+	*/
+	DeploymentsInternalCheckLiveliness(ctx context.Context) ApiDeploymentsInternalCheckLivelinessRequest
+
+	// DeploymentsInternalCheckLivelinessExecute executes the request
+	DeploymentsInternalCheckLivelinessExecute(r ApiDeploymentsInternalCheckLivelinessRequest) (*http.Response, error)
+
+	/*
+	DeploymentsInternalCreateDeployment Create a configuration deployment
+
+	Deploy configuration to a specified device.
+The artifact will be auto-generated based on the configuration object
+provided with the deployment constructor.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant identifier.
+	@param deviceId Device identifier.
+	@param deploymentId Deployment identifier.
+	@return ApiDeploymentsInternalCreateDeploymentRequest
+	*/
+	DeploymentsInternalCreateDeployment(ctx context.Context, tenantId string, deviceId string, deploymentId string) ApiDeploymentsInternalCreateDeploymentRequest
+
+	// DeploymentsInternalCreateDeploymentExecute executes the request
+	DeploymentsInternalCreateDeploymentExecute(r ApiDeploymentsInternalCreateDeploymentRequest) (*http.Response, error)
+
+	/*
+	DeploymentsInternalCreateTenant Provision a new tenant
+
+	Sets up all tenant-related infrastructure, e.g. a migrated tenant's database.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsInternalCreateTenantRequest
+	*/
+	DeploymentsInternalCreateTenant(ctx context.Context) ApiDeploymentsInternalCreateTenantRequest
+
+	// DeploymentsInternalCreateTenantExecute executes the request
+	DeploymentsInternalCreateTenantExecute(r ApiDeploymentsInternalCreateTenantRequest) (*http.Response, error)
+
+	/*
+	DeploymentsInternalGetStorageUsage Get storage limit and current storage usage for given tenant
+
+	Get storage limit and current storage usage for given tenant.
+If the limit value is 0 it means storage space is unlimited
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID
+	@return ApiDeploymentsInternalGetStorageUsageRequest
+	*/
+	DeploymentsInternalGetStorageUsage(ctx context.Context, id string) ApiDeploymentsInternalGetStorageUsageRequest
+
+	// DeploymentsInternalGetStorageUsageExecute executes the request
+	//  @return StorageUsage
+	DeploymentsInternalGetStorageUsageExecute(r ApiDeploymentsInternalGetStorageUsageRequest) (*StorageUsage, *http.Response, error)
+
+	/*
+	DeploymentsInternalListDeploymentsForADevice Return the Deployments history for a Device
+
+	Return the Deployments history for the specified Device, listing all its Deployments.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID
+	@param id System wide device identifier
+	@return ApiDeploymentsInternalListDeploymentsForADeviceRequest
+	*/
+	DeploymentsInternalListDeploymentsForADevice(ctx context.Context, tenantId string, id string) ApiDeploymentsInternalListDeploymentsForADeviceRequest
+
+	// DeploymentsInternalListDeploymentsForADeviceExecute executes the request
+	//  @return []DeviceDeployment
+	DeploymentsInternalListDeploymentsForADeviceExecute(r ApiDeploymentsInternalListDeploymentsForADeviceRequest) ([]DeviceDeployment, *http.Response, error)
+
+	/*
+	DeploymentsInternalUploadArtifact Upload mender artifact
+
+	Upload mender artifact to a specific tenant. Multipart request with meta and artifact.
+Supports artifact [versions v1, v2, v3](https://docs.mender.io/overview/artifact#versions).
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID, or \"default\" if running in non-multitenant setup
+	@return ApiDeploymentsInternalUploadArtifactRequest
+	*/
+	DeploymentsInternalUploadArtifact(ctx context.Context, id string) ApiDeploymentsInternalUploadArtifactRequest
+
+	// DeploymentsInternalUploadArtifactExecute executes the request
+	DeploymentsInternalUploadArtifactExecute(r ApiDeploymentsInternalUploadArtifactRequest) (*http.Response, error)
+
+	/*
+	GetDeployments Get all deployments for specific tenant
+
+	Returns a filtered collection of deployments in the system,
+including active and historical. If both 'status' and 'query' are
+not specified, all devices are listed.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID
+	@return ApiGetDeploymentsRequest
+	*/
+	GetDeployments(ctx context.Context, id string) ApiGetDeploymentsRequest
+
+	// GetDeploymentsExecute executes the request
+	//  @return []DeploymentV1Internal
+	GetDeploymentsExecute(r ApiGetDeploymentsRequest) ([]DeploymentV1Internal, *http.Response, error)
+
+	/*
+	GetLastDeviceDeploymentStatus Get status of the last device devployment
+
+	Return the status of the last unsucessful device deployment.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant identifier.
+	@return ApiGetLastDeviceDeploymentStatusRequest
+	*/
+	GetLastDeviceDeploymentStatus(ctx context.Context, tenantId string) ApiGetLastDeviceDeploymentStatusRequest
+
+	// GetLastDeviceDeploymentStatusExecute executes the request
+	//  @return LastDeviceDeploymentsStatuses
+	GetLastDeviceDeploymentStatusExecute(r ApiGetLastDeviceDeploymentStatusRequest) (*LastDeviceDeploymentsStatuses, *http.Response, error)
+
+	/*
+	GetStorageSettings Get storage setting for a given tenant
+
+	Returns an object with per tenant storage layer specific settings.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID
+	@return ApiGetStorageSettingsRequest
+	*/
+	GetStorageSettings(ctx context.Context, id string) ApiGetStorageSettingsRequest
+
+	// GetStorageSettingsExecute executes the request
+	//  @return StorageSettings
+	GetStorageSettingsExecute(r ApiGetStorageSettingsRequest) (*StorageSettings, *http.Response, error)
+
+	/*
+	ListDeviceDeploymentsEntries Return the Deployments history entries for the specified IDs
+
+	Return the Deployments history entries for the specified IDs
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID
+	@return ApiListDeviceDeploymentsEntriesRequest
+	*/
+	ListDeviceDeploymentsEntries(ctx context.Context, tenantId string) ApiListDeviceDeploymentsEntriesRequest
+
+	// ListDeviceDeploymentsEntriesExecute executes the request
+	//  @return []DeviceDeployment
+	ListDeviceDeploymentsEntriesExecute(r ApiListDeviceDeploymentsEntriesRequest) ([]DeviceDeployment, *http.Response, error)
+
+	/*
+	RemoveDeviceFromDeployments Remove device from all deployments
+
+	Set 'decommissioned' status to all pending device deployments for a given device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID
+	@param id System wide device identifier
+	@return ApiRemoveDeviceFromDeploymentsRequest
+	*/
+	RemoveDeviceFromDeployments(ctx context.Context, tenantId string, id string) ApiRemoveDeviceFromDeploymentsRequest
+
+	// RemoveDeviceFromDeploymentsExecute executes the request
+	RemoveDeviceFromDeploymentsExecute(r ApiRemoveDeviceFromDeploymentsRequest) (*http.Response, error)
+
+	/*
+	SetStorageLimit Set storage limit for given tenant
+
+	Set storage limit for given tenant.
+If the limit value is 0 it means storage space is unlimited
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID
+	@return ApiSetStorageLimitRequest
+	*/
+	SetStorageLimit(ctx context.Context, id string) ApiSetStorageLimitRequest
+
+	// SetStorageLimitExecute executes the request
+	SetStorageLimitExecute(r ApiSetStorageLimitRequest) (*http.Response, error)
+
+	/*
+	SetStorageSettings Set storage settings for a given tenant
+
+	Set the storage layer settings for a given tenant.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Tenant ID
+	@return ApiSetStorageSettingsRequest
+	*/
+	SetStorageSettings(ctx context.Context, id string) ApiSetStorageSettingsRequest
+
+	// SetStorageSettingsExecute executes the request
+	SetStorageSettingsExecute(r ApiSetStorageSettingsRequest) (*http.Response, error)
+}
+
 // DeploymentsInternalAPIInternalAPIAPIService DeploymentsInternalAPIInternalAPIAPI service
 type DeploymentsInternalAPIInternalAPIAPIService service
 
 type ApiDeploymentsInternalCheckHealthRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 }
 
 func (r ApiDeploymentsInternalCheckHealthRequest) Execute() (*http.Response, error) {
@@ -135,7 +354,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckHe
 
 type ApiDeploymentsInternalCheckLivelinessRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 }
 
 func (r ApiDeploymentsInternalCheckLivelinessRequest) Execute() (*http.Response, error) {
@@ -231,7 +450,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCheckLi
 
 type ApiDeploymentsInternalCreateDeploymentRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	tenantId string
 	deviceId string
 	deploymentId string
@@ -378,7 +597,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateD
 
 type ApiDeploymentsInternalCreateTenantRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	newTenant *NewTenant
 }
 
@@ -500,7 +719,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalCreateT
 
 type ApiDeploymentsInternalGetStorageUsageRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	id string
 }
 
@@ -615,7 +834,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalGetStor
 
 type ApiDeploymentsInternalListDeploymentsForADeviceRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	tenantId string
 	id string
 	status *string
@@ -771,7 +990,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalListDep
 
 type ApiDeploymentsInternalUploadArtifactRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	id string
 	artifact *os.File
 	artifactId *string
@@ -940,7 +1159,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) DeploymentsInternalUploadA
 
 type ApiGetDeploymentsRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	id string
 	status *string
 	search *string
@@ -1120,7 +1339,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) GetDeploymentsExecute(r Ap
 
 type ApiGetLastDeviceDeploymentStatusRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	tenantId string
 	lastDeviceDeploymentReq *LastDeviceDeploymentReq
 }
@@ -1256,7 +1475,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) GetLastDeviceDeploymentSta
 
 type ApiGetStorageSettingsRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	id string
 }
 
@@ -1370,7 +1589,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) GetStorageSettingsExecute(
 
 type ApiListDeviceDeploymentsEntriesRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	tenantId string
 	id *[]string
 }
@@ -1513,7 +1732,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) ListDeviceDeploymentsEntri
 
 type ApiRemoveDeviceFromDeploymentsRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	tenantId string
 	id string
 }
@@ -1619,7 +1838,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) RemoveDeviceFromDeployment
 
 type ApiSetStorageLimitRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	id string
 	storageLimit *StorageLimit
 }
@@ -1745,7 +1964,7 @@ func (a *DeploymentsInternalAPIInternalAPIAPIService) SetStorageLimitExecute(r A
 
 type ApiSetStorageSettingsRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsInternalAPIInternalAPIAPIService
+	ApiService DeploymentsInternalAPIInternalAPIAPI
 	id string
 	storageSettings *StorageSettings
 }

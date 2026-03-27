@@ -21,12 +21,130 @@ import (
 )
 
 
+type IoTManagerManagementAPIAPI interface {
+
+	/*
+	IoTManagerManagementGetDeviceState Gets the desired and reported state of a device from an integration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId The unique ID of the device.
+	@param integrationId The unique ID of the integration.
+	@return ApiIoTManagerManagementGetDeviceStateRequest
+	*/
+	IoTManagerManagementGetDeviceState(ctx context.Context, deviceId string, integrationId string) ApiIoTManagerManagementGetDeviceStateRequest
+
+	// IoTManagerManagementGetDeviceStateExecute executes the request
+	//  @return DeviceState
+	IoTManagerManagementGetDeviceStateExecute(r ApiIoTManagerManagementGetDeviceStateRequest) (*DeviceState, *http.Response, error)
+
+	/*
+	IoTManagerManagementGetDeviceStates Gets the desired and reported state of a device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId The unique ID of the device.
+	@return ApiIoTManagerManagementGetDeviceStatesRequest
+	*/
+	IoTManagerManagementGetDeviceStates(ctx context.Context, deviceId string) ApiIoTManagerManagementGetDeviceStatesRequest
+
+	// IoTManagerManagementGetDeviceStatesExecute executes the request
+	//  @return map[string]DeviceState
+	IoTManagerManagementGetDeviceStatesExecute(r ApiIoTManagerManagementGetDeviceStatesRequest) (*map[string]DeviceState, *http.Response, error)
+
+	/*
+	IoTManagerManagementListEvents List all stored events
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIoTManagerManagementListEventsRequest
+	*/
+	IoTManagerManagementListEvents(ctx context.Context) ApiIoTManagerManagementListEventsRequest
+
+	// IoTManagerManagementListEventsExecute executes the request
+	//  @return []Event
+	IoTManagerManagementListEventsExecute(r ApiIoTManagerManagementListEventsRequest) ([]Event, *http.Response, error)
+
+	/*
+	IoTManagerManagementListIntegrations List all configured integrations
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIoTManagerManagementListIntegrationsRequest
+	*/
+	IoTManagerManagementListIntegrations(ctx context.Context) ApiIoTManagerManagementListIntegrationsRequest
+
+	// IoTManagerManagementListIntegrationsExecute executes the request
+	//  @return []Integration
+	IoTManagerManagementListIntegrationsExecute(r ApiIoTManagerManagementListIntegrationsRequest) ([]Integration, *http.Response, error)
+
+	/*
+	IoTManagerManagementRegisterIntegration Register a new cloud integration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIoTManagerManagementRegisterIntegrationRequest
+	*/
+	IoTManagerManagementRegisterIntegration(ctx context.Context) ApiIoTManagerManagementRegisterIntegrationRequest
+
+	// IoTManagerManagementRegisterIntegrationExecute executes the request
+	IoTManagerManagementRegisterIntegrationExecute(r ApiIoTManagerManagementRegisterIntegrationRequest) (*http.Response, error)
+
+	/*
+	IoTManagerManagementRemoveIntegration Remove a cloud integration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Integration identifier.
+	@return ApiIoTManagerManagementRemoveIntegrationRequest
+	*/
+	IoTManagerManagementRemoveIntegration(ctx context.Context, id string) ApiIoTManagerManagementRemoveIntegrationRequest
+
+	// IoTManagerManagementRemoveIntegrationExecute executes the request
+	IoTManagerManagementRemoveIntegrationExecute(r ApiIoTManagerManagementRemoveIntegrationRequest) (*http.Response, error)
+
+	/*
+	IoTManagerManagementReplaceState Replaces the (desired) cloud state of the device for the given integration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId The unique ID of the device.
+	@param integrationId The unique ID of the integration.
+	@return ApiIoTManagerManagementReplaceStateRequest
+	*/
+	IoTManagerManagementReplaceState(ctx context.Context, deviceId string, integrationId string) ApiIoTManagerManagementReplaceStateRequest
+
+	// IoTManagerManagementReplaceStateExecute executes the request
+	//  @return DeviceState
+	IoTManagerManagementReplaceStateExecute(r ApiIoTManagerManagementReplaceStateRequest) (*DeviceState, *http.Response, error)
+
+	/*
+	IoTManagerManagementSetIntegrationCredentials Replace the credentials associated with the integration.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Integration identifier.
+	@return ApiIoTManagerManagementSetIntegrationCredentialsRequest
+	*/
+	IoTManagerManagementSetIntegrationCredentials(ctx context.Context, id string) ApiIoTManagerManagementSetIntegrationCredentialsRequest
+
+	// IoTManagerManagementSetIntegrationCredentialsExecute executes the request
+	IoTManagerManagementSetIntegrationCredentialsExecute(r ApiIoTManagerManagementSetIntegrationCredentialsRequest) (*http.Response, error)
+
+	/*
+	IoTManagerManagementUnregisterDeviceIntegrations Removes all associated cloud integrations for the device.
+
+	Removes all associated cloud integrations for the device, but does not clean up any external state.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId The unique ID of the device.
+	@return ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest
+	*/
+	IoTManagerManagementUnregisterDeviceIntegrations(ctx context.Context, deviceId string) ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest
+
+	// IoTManagerManagementUnregisterDeviceIntegrationsExecute executes the request
+	//  @return DeviceState
+	IoTManagerManagementUnregisterDeviceIntegrationsExecute(r ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest) (*DeviceState, *http.Response, error)
+}
+
 // IoTManagerManagementAPIAPIService IoTManagerManagementAPIAPI service
 type IoTManagerManagementAPIAPIService service
 
 type ApiIoTManagerManagementGetDeviceStateRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
+	ApiService IoTManagerManagementAPIAPI
 	deviceId string
 	integrationId string
 }
@@ -174,7 +292,7 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStateEx
 
 type ApiIoTManagerManagementGetDeviceStatesRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
+	ApiService IoTManagerManagementAPIAPI
 	deviceId string
 }
 
@@ -318,7 +436,7 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementGetDeviceStatesE
 
 type ApiIoTManagerManagementListEventsRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
+	ApiService IoTManagerManagementAPIAPI
 	page *int32
 	perPage *int32
 	integrationId *string
@@ -496,7 +614,7 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListEventsExecut
 
 type ApiIoTManagerManagementListIntegrationsRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
+	ApiService IoTManagerManagementAPIAPI
 	page *int32
 	perPage *int32
 }
@@ -664,7 +782,7 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementListIntegrations
 
 type ApiIoTManagerManagementRegisterIntegrationRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
+	ApiService IoTManagerManagementAPIAPI
 	integration *Integration
 }
 
@@ -804,7 +922,7 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRegisterIntegrat
 
 type ApiIoTManagerManagementRemoveIntegrationRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
+	ApiService IoTManagerManagementAPIAPI
 	id string
 }
 
@@ -937,7 +1055,7 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementRemoveIntegratio
 
 type ApiIoTManagerManagementReplaceStateRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
+	ApiService IoTManagerManagementAPIAPI
 	deviceId string
 	integrationId string
 	deviceState *DeviceState
@@ -1107,7 +1225,7 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementReplaceStateExec
 
 type ApiIoTManagerManagementSetIntegrationCredentialsRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
+	ApiService IoTManagerManagementAPIAPI
 	id string
 	credentials *Credentials
 }
@@ -1262,7 +1380,7 @@ func (a *IoTManagerManagementAPIAPIService) IoTManagerManagementSetIntegrationCr
 
 type ApiIoTManagerManagementUnregisterDeviceIntegrationsRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerManagementAPIAPIService
+	ApiService IoTManagerManagementAPIAPI
 	deviceId string
 }
 

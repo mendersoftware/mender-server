@@ -7,6 +7,7 @@ additionalProperties:
   hideGenerationTimestamp: true
   packageName: "client"
   withGoMod: false
+  generateInterfaces: true
 
 globalProperties:
   apiDocs: false
