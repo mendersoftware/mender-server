@@ -414,25 +414,7 @@ exports[`Artifact Component > renders correctly 1`] = `
   font-size: 18px;
 }
 
-.emotion-25 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.25rem;
-  color: rgba(0, 0, 0, 0.54);
-}
-
-.emotion-33 {
+.emotion-31 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -443,7 +425,7 @@ exports[`Artifact Component > renders correctly 1`] = `
   border-bottom-width: thin;
 }
 
-.emotion-47 {
+.emotion-42 {
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -458,7 +440,7 @@ exports[`Artifact Component > renders correctly 1`] = `
   margin-bottom: 30px;
 }
 
-.emotion-47::before {
+.emotion-42::before {
   position: absolute;
   left: 0;
   top: -1px;
@@ -471,39 +453,39 @@ exports[`Artifact Component > renders correctly 1`] = `
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-47:first-of-type::before {
+.emotion-42:first-of-type::before {
   display: none;
 }
 
-.emotion-47.Mui-expanded::before {
+.emotion-42.Mui-expanded::before {
   opacity: 0;
 }
 
-.emotion-47.Mui-expanded:first-of-type {
+.emotion-42.Mui-expanded:first-of-type {
   margin-top: 0;
 }
 
-.emotion-47.Mui-expanded:last-of-type {
+.emotion-42.Mui-expanded:last-of-type {
   margin-bottom: 0;
 }
 
-.emotion-47.Mui-expanded+.emotion-47.Mui-expanded::before {
+.emotion-42.Mui-expanded+.emotion-42.Mui-expanded::before {
   display: none;
 }
 
-.emotion-47.Mui-disabled {
+.emotion-42.Mui-disabled {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-47.Mui-expanded {
+.emotion-42.Mui-expanded {
   margin: 16px 0;
 }
 
-.emotion-47.Mui-expanded {
+.emotion-42.Mui-expanded {
   margin-bottom: 30px;
 }
 
-.emotion-51 {
+.emotion-46 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -512,7 +494,7 @@ exports[`Artifact Component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
-.emotion-84 {
+.emotion-76 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -566,50 +548,50 @@ exports[`Artifact Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-84::-moz-focus-inner {
+.emotion-76::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-84.Mui-disabled {
+.emotion-76.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-84 {
+  .emotion-76 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-84:hover {
+.emotion-76:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-84.Mui-disabled {
+.emotion-76.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-84.Mui-disabled {
+.emotion-76.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.emotion-84.MuiButton-loading {
+.emotion-76.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-85 {
+.emotion-77 {
   display: inherit;
   margin-right: 8px;
   margin-left: -4px;
 }
 
-.emotion-85>*:nth-of-type(1) {
+.emotion-77>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-87 {
+.emotion-79 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -668,37 +650,37 @@ exports[`Artifact Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-87::-moz-focus-inner {
+.emotion-79::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-87.Mui-disabled {
+.emotion-79.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-87 {
+  .emotion-79 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-87:hover {
+.emotion-79:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-87.Mui-disabled {
+.emotion-79.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-87.Mui-disabled {
+.emotion-79.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-87:hover {
+  .emotion-79:hover {
     --variant-containedBg: #c62828;
     --variant-textBg: rgba(211, 47, 47, 0.04);
     --variant-outlinedBorder: #d32f2f;
@@ -706,7 +688,7 @@ exports[`Artifact Component > renders correctly 1`] = `
   }
 }
 
-.emotion-87.MuiButton-loading {
+.emotion-79.MuiButton-loading {
   color: transparent;
 }
 
@@ -802,7 +784,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                     Description
                   </h6>
                   <div
-                    class="flexbox align-items-center copy-to-clipboard emotion-14"
+                    class="flexbox align-items-center  emotion-14"
                   >
                     <div
                       class="MuiTypography-root MuiTypography-body2 emotion-15"
@@ -860,19 +842,6 @@ exports[`Artifact Component > renders correctly 1`] = `
                         </button>
                       </div>
                     </div>
-                    <svg
-                      aria-hidden="true"
-                      aria-label="Copy to clipboard"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-25"
-                      data-mui-internal-clone-element="true"
-                      data-testid="FileCopyOutlinedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                      />
-                    </svg>
                   </div>
                   <h6
                     class="MuiTypography-root MuiTypography-subtitle2 key emotion-13"
@@ -881,7 +850,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                     Signed
                   </h6>
                   <div
-                    class="flexbox align-items-center copy-to-clipboard emotion-14"
+                    class="flexbox align-items-center  emotion-14"
                   >
                     <div
                       class="MuiTypography-root MuiTypography-body2 emotion-15"
@@ -907,19 +876,6 @@ exports[`Artifact Component > renders correctly 1`] = `
                         </p>
                       </div>
                     </div>
-                    <svg
-                      aria-hidden="true"
-                      aria-label="Copy to clipboard"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-25"
-                      data-mui-internal-clone-element="true"
-                      data-testid="FileCopyOutlinedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                      />
-                    </svg>
                   </div>
                 </div>
                 <h6
@@ -928,7 +884,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                   Software versioning information
                 </h6>
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-33"
+                  class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-31"
                 />
                 <div
                   class="break-all two-columns emotion-12 column-data margin-bottom-small"
@@ -940,7 +896,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                     Software filesystem
                   </h6>
                   <div
-                    class="flexbox align-items-center copy-to-clipboard emotion-14"
+                    class="flexbox align-items-center  emotion-14"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 emotion-15"
@@ -948,19 +904,6 @@ exports[`Artifact Component > renders correctly 1`] = `
                     >
                       data-partition
                     </p>
-                    <svg
-                      aria-hidden="true"
-                      aria-label="Copy to clipboard"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-25"
-                      data-mui-internal-clone-element="true"
-                      data-testid="FileCopyOutlinedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                      />
-                    </svg>
                   </div>
                   <h6
                     class="MuiTypography-root MuiTypography-subtitle2 key emotion-13"
@@ -969,7 +912,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                     Software name
                   </h6>
                   <div
-                    class="flexbox align-items-center copy-to-clipboard emotion-14"
+                    class="flexbox align-items-center  emotion-14"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 emotion-15"
@@ -977,19 +920,6 @@ exports[`Artifact Component > renders correctly 1`] = `
                     >
                       myapp
                     </p>
-                    <svg
-                      aria-hidden="true"
-                      aria-label="Copy to clipboard"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-25"
-                      data-mui-internal-clone-element="true"
-                      data-testid="FileCopyOutlinedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                      />
-                    </svg>
                   </div>
                   <h6
                     class="MuiTypography-root MuiTypography-subtitle2 key emotion-13"
@@ -998,7 +928,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                     Software version
                   </h6>
                   <div
-                    class="flexbox align-items-center copy-to-clipboard emotion-14"
+                    class="flexbox align-items-center  emotion-14"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 emotion-15"
@@ -1006,23 +936,10 @@ exports[`Artifact Component > renders correctly 1`] = `
                     >
                       v2020.10
                     </p>
-                    <svg
-                      aria-hidden="true"
-                      aria-label="Copy to clipboard"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-25"
-                      data-mui-internal-clone-element="true"
-                      data-testid="FileCopyOutlinedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                      />
-                    </svg>
                   </div>
                 </div>
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-47"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-42"
                   style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
                 >
                   <h3
@@ -1038,7 +955,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                         class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-51"
+                          class="MuiTypography-root MuiTypography-body1 emotion-46"
                         >
                           Artifact contents
                         </p>
@@ -1083,7 +1000,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-47"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-42"
                   style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
                 >
                   <h3
@@ -1099,7 +1016,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                         class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-4"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-51"
+                          class="MuiTypography-root MuiTypography-body1 emotion-46"
                         >
                           Provides and Depends
                         </p>
@@ -1145,7 +1062,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                                 Provides
                               </h6>
                               <hr
-                                class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-33"
+                                class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-31"
                               />
                               <div
                                 class="break-all two-columns emotion-12 column-data "
@@ -1157,7 +1074,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                                   artifact_name
                                 </h6>
                                 <div
-                                  class="flexbox align-items-center copy-to-clipboard emotion-14"
+                                  class="flexbox align-items-center  emotion-14"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body2 emotion-15"
@@ -1165,19 +1082,6 @@ exports[`Artifact Component > renders correctly 1`] = `
                                   >
                                     myapp
                                   </p>
-                                  <svg
-                                    aria-hidden="true"
-                                    aria-label="Copy to clipboard"
-                                    class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-25"
-                                    data-mui-internal-clone-element="true"
-                                    data-testid="FileCopyOutlinedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                                    />
-                                  </svg>
                                 </div>
                                 <h6
                                   class="MuiTypography-root MuiTypography-subtitle2 key emotion-13"
@@ -1186,7 +1090,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                                   data-partition.myapp.version
                                 </h6>
                                 <div
-                                  class="flexbox align-items-center copy-to-clipboard emotion-14"
+                                  class="flexbox align-items-center  emotion-14"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body2 emotion-15"
@@ -1194,19 +1098,6 @@ exports[`Artifact Component > renders correctly 1`] = `
                                   >
                                     v2020.10
                                   </p>
-                                  <svg
-                                    aria-hidden="true"
-                                    aria-label="Copy to clipboard"
-                                    class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-25"
-                                    data-mui-internal-clone-element="true"
-                                    data-testid="FileCopyOutlinedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                                    />
-                                  </svg>
                                 </div>
                                 <h6
                                   class="MuiTypography-root MuiTypography-subtitle2 key emotion-13"
@@ -1215,7 +1106,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                                   list_of_fancy
                                 </h6>
                                 <div
-                                  class="flexbox align-items-center copy-to-clipboard emotion-14"
+                                  class="flexbox align-items-center  emotion-14"
                                 >
                                   <p
                                     class="MuiTypography-root MuiTypography-body2 emotion-15"
@@ -1223,19 +1114,6 @@ exports[`Artifact Component > renders correctly 1`] = `
                                   >
                                     x172
                                   </p>
-                                  <svg
-                                    aria-hidden="true"
-                                    aria-label="Copy to clipboard"
-                                    class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-25"
-                                    data-mui-internal-clone-element="true"
-                                    data-testid="FileCopyOutlinedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-                                    />
-                                  </svg>
                                 </div>
                               </div>
                             </div>
@@ -1250,7 +1128,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                   style="max-width: fit-content;"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-84"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-76"
                     disabled=""
                     download=""
                     tabindex="-1"
@@ -1258,7 +1136,7 @@ exports[`Artifact Component > renders correctly 1`] = `
                     type="button"
                   >
                     <span
-                      class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-85"
+                      class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-77"
                     >
                       <svg
                         aria-hidden="true"
@@ -1275,12 +1153,12 @@ exports[`Artifact Component > renders correctly 1`] = `
                     Download Artifact
                   </button>
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-87"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-79"
                     tabindex="0"
                     type="button"
                   >
                     <span
-                      class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-85"
+                      class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-77"
                     >
                       <svg
                         aria-hidden="true"
