@@ -15,7 +15,7 @@ import { ReactNode, forwardRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Description as DescriptionIcon, Launch as LaunchIcon } from '@mui/icons-material';
-import { Chip, Collapse, Typography, chipClasses } from '@mui/material';
+import { Chip, Collapse, Typography, TypographyProps, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
@@ -59,6 +59,7 @@ const useStyles = makeStyles()(theme => ({
 
 export const DOCSTIPS = {
   deviceConfig: { id: 'deviceConfig', path: 'add-ons/configure' },
+  deviceIdentity: { id: 'deviceIdentity', path: 'client-installation/identity' },
   dynamicGroups: { id: 'dynamicGroups', path: 'overview/device-group#dynamic-group' },
   limitedDeployments: { id: 'limitedDeployments', path: 'overview/deployment#deployment-to-dynamic-groups' },
   phasedDeployments: { id: 'phasedDeployments', path: 'overview/customize-the-update-process' },
@@ -122,20 +123,21 @@ interface DocsTextLinkProps {
   capitalizedStart?: boolean;
   children?: ReactNode;
   id: keyof typeof DOCSTIPS;
+  typographyProps: Partial<TypographyProps>;
 }
 
-export const DocsTextLink = ({ capitalizedStart = true, children, id, ...props }: DocsTextLinkProps) => {
+const textLinkDefaultProps: TypographyProps = { variant: 'body1' };
+
+export const DocsTextLink = ({ capitalizedStart = true, children, id, typographyProps = textLinkDefaultProps, ...props }: DocsTextLinkProps) => {
   if (!DOCSTIPS[id]) {
     return null;
   }
   const { path } = DOCSTIPS[id];
   return (
     <DocsLink path={path} {...props}>
-      {children || (
-        <Typography className={`inline ${capitalizedStart ? 'capitalized-start' : ''}`} color="primary">
-          learn more
-        </Typography>
-      )}
+      <Typography className={`inline ${capitalizedStart ? 'capitalized-start' : ''}`} color="primary" {...typographyProps}>
+        {children || 'learn more'}
+      </Typography>
     </DocsLink>
   );
 };

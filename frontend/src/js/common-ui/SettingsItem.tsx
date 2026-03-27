@@ -24,7 +24,7 @@ type SettingsItemClasses = {
 
 export interface SettingsItemProps {
   classes?: SettingsItemClasses;
-  description?: string;
+  description?: string | ReactNode;
   notification?: ReactNode;
   onTitleClick?: () => void;
   secondary: string | ReactNode;
