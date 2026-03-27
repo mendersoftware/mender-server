@@ -120,7 +120,7 @@ export const ReleasesWarning = ({ lacksReleases }) => (
     <ErrorOutlineIcon fontSize="small" style={{ marginRight: 4, top: 4, color: 'rgb(171, 16, 0)' }} />
     <InfoText>
       There are no {lacksReleases ? 'compatible ' : ''}artifacts available.{lacksReleases ? <br /> : ' '}
-      <Link to="/releases">Upload one to the repository</Link> to get started.
+      <Link to="/software">Upload one to the repository</Link> to get started.
     </InfoText>
   </div>
 );

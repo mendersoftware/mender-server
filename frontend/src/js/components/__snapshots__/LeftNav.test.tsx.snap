@@ -141,7 +141,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
     <a
       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2"
       data-discover="true"
-      href="/releases"
+      href="/software"
     >
       <div
         class="MuiListItemText-root emotion-3"
@@ -149,7 +149,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
         <span
           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-4"
         >
-          Releases
+          Software
         </span>
       </div>
     </a>

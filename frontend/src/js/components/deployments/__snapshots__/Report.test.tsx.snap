@@ -170,7 +170,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 <a
                   class="flexbox centered"
                   data-discover="true"
-                  href="/releases/r1"
+                  href="/software/r1"
                   rel="noopener noreferrer"
                   style="font-weight: 500;"
                   target="_blank"
@@ -1358,7 +1358,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 <a
                   class="flexbox centered"
                   data-discover="true"
-                  href="/releases/undefined"
+                  href="/software"
                   rel="noopener noreferrer"
                   style="font-weight: 500;"
                   target="_blank"

@@ -165,7 +165,7 @@ test.describe('RBAC functionality', () => {
     });
     test('read-only all releases', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-ro-releases-${username}` });
-      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Releases', exact: true });
+      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
       // there should be multiple releases present
@@ -178,7 +178,7 @@ test.describe('RBAC functionality', () => {
     });
     test('read-only tagged releases', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-ro-${releaseTag}-${username}` });
-      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Releases', exact: true });
+      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
       // there should be only one release tagged with the releaseTag
@@ -189,7 +189,7 @@ test.describe('RBAC functionality', () => {
     });
     test('manage tagged releases', async ({ baseUrl, browser, password, request, username }) => {
       const page = await prepareNewPage({ baseUrl, browser, password, request, username: `limited-manage-${releaseTag}-${username}` });
-      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Releases', exact: true });
+      const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
       // there should be only one release tagged with the releaseTag

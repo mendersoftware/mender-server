@@ -166,7 +166,7 @@ export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
               <Typography>No Releases were found.</Typography>
               <Typography className="margin-top-small">
                 Try adjusting the filters, or{' '}
-                <Link to="/releases" color="inherit">
+                <Link to="/software" color="inherit">
                   Upload a new Release
                 </Link>
               </Typography>

@@ -116,7 +116,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           >
             <a
               data-discover="true"
-              href="/releases/mender-demo-artifact-3.3.1"
+              href="/software/mender-demo-artifact-3.3.1"
             >
               mender-demo-artifact-3.3.1
             </a>
@@ -126,7 +126,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           >
             <a
               data-discover="true"
-              href="/releases/mender-demo-artifact-3.2.1"
+              href="/software/mender-demo-artifact-3.2.1"
             >
               mender-demo-artifact-3.2.1
             </a>
@@ -183,7 +183,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           >
             <a
               data-discover="true"
-              href="/releases/mender-demo-artifact-3.3.1"
+              href="/software/mender-demo-artifact-3.3.1"
             >
               mender-demo-artifact-3.3.1
             </a>
@@ -193,7 +193,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           >
             <a
               data-discover="true"
-              href="/releases/mender-demo-artifact-3.3.0"
+              href="/software/mender-demo-artifact-3.3.0"
             >
               mender-demo-artifact-3.3.0
             </a>

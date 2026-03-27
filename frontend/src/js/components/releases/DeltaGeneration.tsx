@@ -25,6 +25,7 @@ import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, SortOptions } from '@northern.tech/store/constants';
+import { generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getDeltaJobsById, getDeltaJobsListState, getIsEnterprise, getSelectedJob } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeltaGenerationJobs } from '@northern.tech/store/thunks';
@@ -48,14 +49,18 @@ const deltaJobColumns = [
     title: 'To version',
     sortable: true,
     cellProps: { style: { width: '20%' } },
-    render: ({ to_release, to_version }) => <Link to={`/releases/${to_release || to_version || '-'}`}>{to_release || to_version || '-'}</Link>
+    render: ({ to_release, to_version }) => (
+      <Link to={generateReleasesPath({ pageState: { selectedRelease: to_release || to_version || '-' } })}>{to_release || to_version || '-'}</Link>
+    )
   },
   {
     key: 'from_release',
     title: 'From version',
     sortable: true,
     cellProps: { style: { width: '20%' } },
-    render: ({ from_release, from_version }) => <Link to={`/releases/${from_release || from_version}`}>{from_release || from_version || '-'}</Link>
+    render: ({ from_release, from_version }) => (
+      <Link to={generateReleasesPath({ pageState: { selectedRelease: from_release || from_version } })}>{from_release || from_version || '-'}</Link>
+    )
   },
   {
     key: 'device_types_compatible',

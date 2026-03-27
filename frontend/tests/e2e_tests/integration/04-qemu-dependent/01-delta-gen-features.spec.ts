@@ -73,7 +73,7 @@ test.describe('Devices', () => {
     expect(fs.existsSync(extractedArtifactPath)).toBeTruthy();
     expect(fs.existsSync(modifiedArtifactPath)).toBeTruthy();
 
-    await navbar.getByRole('link', { name: 'Releases', exact: true }).click();
+    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
     const uploadButton = await page.getByRole('button', { name: /upload/i });
     await uploadButton.click();
     const drawer = page.locator(`.MuiDialog-paper`);
@@ -138,13 +138,13 @@ test.describe('Devices', () => {
     await page.getByRole('button', { name: /close/i }).click();
     await page.getByText('finished').click();
     await page.getByRole('listitem').first().waitFor({ timeout: timeouts.sixtySeconds });
-    await navbar.getByRole('link', { name: 'Releases', exact: true }).click();
+    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
     await page.getByRole('tab', { name: /delta/i }).click();
     await page.getByText(/to version/i).waitFor({ timeout: timeouts.sixtySeconds });
   });
 
   test('opens & closes delta generation details', async ({ page }) => {
-    await navbar.getByRole('link', { name: 'Releases', exact: true }).click();
+    await navbar.getByRole('link', { name: 'Software', exact: true }).click();
     await page.getByRole('tab', { name: /delta/i }).click();
     await page.getByText(qemuDeviceType).click();
     await expect(page.getByText('Delta Artifact information')).toBeVisible();

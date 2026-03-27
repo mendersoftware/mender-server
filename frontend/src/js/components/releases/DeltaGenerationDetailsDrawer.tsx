@@ -202,8 +202,9 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
   }, [deltaJob?.status, jobId, refreshJobDetails]);
 
   const copyLinkToClipboard = () => {
-    const location = window.location.href.substring(0, window.location.href.indexOf('/releases'));
-    copy(`${location}${generateReleasesPath({ pageState: { selectedRelease: '' } })}?${formatReleases({ pageState: { tab: 'delta', id: jobId } })}`);
+    copy(
+      `${window.location.origin}/ui${generateReleasesPath({ pageState: { selectedRelease: '' } })}?${formatReleases({ pageState: { tab: 'delta', id: jobId } })}`
+    );
     dispatch(setSnackbar('Link copied to clipboard'));
   };
 

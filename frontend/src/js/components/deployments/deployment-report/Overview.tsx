@@ -20,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 import Time from '@northern.tech/common-ui/Time';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_TYPES } from '@northern.tech/store/constants';
+import { generateReleasesPath } from '@northern.tech/store/locationutils';
 
 import { getDeploymentTargetText, getDevicesLink } from '../deployment-wizard/SoftwareDevices';
 
@@ -60,7 +61,7 @@ export const DeploymentOverview = ({ creator, deployment, devicesById, idAttribu
   const isSoftwareDeployment = type === DEPLOYMENT_TYPES.software;
 
   const deploymentRelease = isSoftwareDeployment ? (
-    <Link {...defaultLinkProps} to={`/releases/${encodeURIComponent(artifact_name)}`}>
+    <Link {...defaultLinkProps} to={generateReleasesPath({ pageState: { selectedRelease: artifact_name } })}>
       {artifact_name}
       <LaunchIcon className="margin-left-small" fontSize="small" />
     </Link>

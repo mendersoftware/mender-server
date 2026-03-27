@@ -309,7 +309,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
         <a
           class="flexbox centered"
           data-discover="true"
-          href="/releases/test"
+          href="/software/test"
           rel="noopener noreferrer"
           style="font-weight: 500;"
           target="_blank"
