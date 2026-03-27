@@ -10,3 +10,8 @@ services:
       - -o=client
       - -g=go
       - -c=.openapi-generator.yaml
+  generate-mocks:
+    image: vektra/mockery:v3.7.0
+    volumes:
+      - ../../:/backend
+    working_dir: /backend/pkg/api
