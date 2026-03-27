@@ -127,6 +127,7 @@ export const ReleasesWarning = ({ lacksReleases }) => (
 
 export const Devices = ({
   deploymentObject,
+  devicesById,
   groupRef,
   groupNames,
   hasDevices,
@@ -163,8 +164,8 @@ export const Devices = ({
   };
 
   const { deviceText, devicesLink, targetDeviceCount, targetDevicesText } = useMemo(() => {
-    const devicesLink = getDevicesLink({ devices, group, hasFullFiltering, filters: filter?.filters, groupId: filter?.id });
-    let deviceText = getDeploymentTargetText({ deployment: deploymentObject, idAttribute });
+    const devicesLink = getDevicesLink({ devices, group, filters: filter?.filters, groupId: filter?.id });
+    let deviceText = getDeploymentTargetText({ deployment: deploymentObject, devicesById, idAttribute });
     let targetDeviceCount = deploymentDeviceCount;
     let targetDevicesText = `${deploymentDeviceCount} ${pluralize('devices', deploymentDeviceCount)}`;
     if (device?.id) {

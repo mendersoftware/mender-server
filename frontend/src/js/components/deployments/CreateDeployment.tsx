@@ -273,7 +273,7 @@ export const CreateDeployment = props => {
           <ReleasesWarning />
         ) : (
           <>
-            <Devices {...sharedProps} groupRef={groupRef} />
+            <Devices {...sharedProps} devicesById={devicesById} groupRef={groupRef} />
             <Software {...sharedProps} releaseRef={releaseRef} />
           </>
         )}
