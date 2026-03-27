@@ -250,7 +250,7 @@ export const Billing = () => {
           secondary={<PlanDescriptor plan={planName} isTrial={isTrial} trialExpiration={trial_expiration} deviceLimits={deviceLimits} />}
         />
         <SettingsItem title="Current Add-ons" secondary={<AddOnDescriptor addOns={enabledAddOns} isTrial={isTrial} />} />
-        {isEnterprise && <UpgradeNote isTrial={isTrial} />}
+        {!isEnterprise && <UpgradeNote isTrial={isTrial} />}
         <Typography className="margin-top-small" variant="subtitle1">
           Billing details
         </Typography>
