@@ -49,17 +49,19 @@ class TestInventorySearching:
             internal_client.create_device(did, it)
 
         r = requests.get(
-            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices",
+            management_client.client.api_client.configuration.host
+            + "/api/management/v1/inventory/devices",
             params=({"users_logged_in": 100}),
             verify=False,
-            headers={"Authorization":DEFAULT_AUTH},
+            headers={"Authorization": DEFAULT_AUTH},
         )
         assert len(r.json()) == 1
 
         r = requests.get(
-            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices",
+            management_client.client.api_client.configuration.host
+            + "/api/management/v1/inventory/devices",
             params=({"open_connections": 1231}),
             verify=False,
-            headers={"Authorization":DEFAULT_AUTH},
+            headers={"Authorization": DEFAULT_AUTH},
         )
         assert len(r.json()) == 1

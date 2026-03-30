@@ -67,7 +67,9 @@ class TestWebhooks:
         mmock = setup_test_case
         intrnl = InternalAPIClient()
         assert isinstance(
-            mender_client.NewDeviceInternalProvision(id="00000000-0000-0000-0000-000000000123"),
+            mender_client.NewDeviceInternalProvision(
+                id="00000000-0000-0000-0000-000000000123"
+            ),
             BaseModel,
         )
         dev = mender_client.NewDeviceInternalProvision(
@@ -176,7 +178,11 @@ class TestWebhooks:
             intrnl.update_device_statuses(
                 TEST_TENANT_ID,
                 "rejected",
-                [mender_client.IoTManagerInternalUpdateDeviceStatusesRequestInner(id=device_id)],
+                [
+                    mender_client.IoTManagerInternalUpdateDeviceStatusesRequestInner(
+                        id=device_id
+                    )
+                ],
             )
         except NotFoundException:
             pass

@@ -31,7 +31,6 @@ from mender_client.api import (
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from requests.utils import parse_header_links
 
-
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 DEFAULT_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibWVuZGVyLnBsYW4iOiJlbnRlcnByaXNlIn0.s27fi93Qik81WyBmDB5APE0DfGko7Pq8BImbp33-gy4"
@@ -39,6 +38,7 @@ DEFAULT_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3
 
 class Response:
     """Simple response object compatible with requests.Response interface"""
+
     def __init__(self, status_code, text=None, data=None):
         self.status_code = status_code
         self.text = text if text is not None else ""
@@ -52,6 +52,8 @@ def default_auth(**kwargs):
     if not kwargs["Authorization"].startswith("Bearer "):
         kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
     return kwargs
+
+
 class ManagementClient:
     log = logging.getLogger("Client")
 
@@ -66,7 +68,9 @@ class ManagementClient:
     def inventoryAttribute(self, name, value, scope, description=None):
         """Create an AttributeV1 with the value properly wrapped in AttributeValue."""
         wrapped_value = mender_client.AttributeValue(value)
-        return mender_client.AttributeV1(name=name, value=wrapped_value, scope=scope, description=description)
+        return mender_client.AttributeV1(
+            name=name, value=wrapped_value, scope=scope, description=description
+        )
 
     def deleteAllGroups(self, **kwargs):
         if "Authorization" not in kwargs:
@@ -74,13 +78,17 @@ class ManagementClient:
         if not kwargs["Authorization"].startswith("Bearer "):
             kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
 
-        self.client.api_client.configuration.access_token = kwargs["Authorization"].replace("Bearer ", "")
+        self.client.api_client.configuration.access_token = kwargs[
+            "Authorization"
+        ].replace("Bearer ", "")
         groups = self.client.list_groups()
         for g in groups:
             for d in self.getGroupDevices(g):
                 self.deleteDeviceInGroup(g, d)
 
-    def getAllDevices(self, page=1, sort=None, has_group=None, JWT=DEFAULT_AUTH, per_page=500):
+    def getAllDevices(
+        self, page=1, sort=None, has_group=None, JWT=DEFAULT_AUTH, per_page=500
+    ):
         if not JWT.startswith("Bearer "):
             JWT = "Bearer " + JWT
 
@@ -105,7 +113,9 @@ class ManagementClient:
     def getDevice(self, device_id, Authorization=DEFAULT_AUTH):
         if not Authorization.startswith("Bearer "):
             Authorization = "Bearer " + Authorization
-        self.client.api_client.configuration.access_token = Authorization.replace("Bearer ", "")
+        self.client.api_client.configuration.access_token = Authorization.replace(
+            "Bearer ", ""
+        )
         r = self.client.get_device_inventory(id=device_id)
         return r
 
@@ -134,7 +144,9 @@ class ManagementClient:
             kwargs["Authorization"] = DEFAULT_AUTH
         if not kwargs["Authorization"].startswith("Bearer "):
             kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
-        self.client.api_client.configuration.access_token = kwargs["Authorization"].replace("Bearer ", "")
+        self.client.api_client.configuration.access_token = kwargs[
+            "Authorization"
+        ].replace("Bearer ", "")
         r = self.client.list_groups()
         return r
 
@@ -145,7 +157,9 @@ class ManagementClient:
             if not kwargs["Authorization"].startswith("Bearer "):
                 kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
 
-            self.client.api_client.configuration.access_token = kwargs["Authorization"].replace("Bearer ", "")
+            self.client.api_client.configuration.access_token = kwargs[
+                "Authorization"
+            ].replace("Bearer ", "")
             r = self.client.get_devices_in_group(name=group)
         except Exception as e:
             if expected_error:
@@ -161,7 +175,9 @@ class ManagementClient:
                 kwargs["Authorization"] = DEFAULT_AUTH
             if not kwargs["Authorization"].startswith("Bearer "):
                 kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
-            self.client.api_client.configuration.access_token = kwargs["Authorization"].replace("Bearer ", "")
+            self.client.api_client.configuration.access_token = kwargs[
+                "Authorization"
+            ].replace("Bearer ", "")
             r = self.client.clear_group(id=device, name=group)
         except Exception:
             if expected_error:
@@ -175,8 +191,12 @@ class ManagementClient:
         if not JWT.startswith("Bearer "):
             JWT = "Bearer " + JWT
         try:
-            self.client.api_client.configuration.access_token = JWT.replace("Bearer ", "")
-            r = self.client.assign_group(group=mender_client.Group(group=group), id=device)
+            self.client.api_client.configuration.access_token = JWT.replace(
+                "Bearer ", ""
+            )
+            r = self.client.assign_group(
+                group=mender_client.Group(group=group), id=device
+            )
         except Exception:
             if expected_error:
                 return []
@@ -192,14 +212,18 @@ class ManagementClientV2:
     def __init__(self):
         api_conf = mender_client.Configuration.get_default_copy()
         api_conf.access_token = DEFAULT_AUTH.replace("Bearer ", "")
-        self.client = DeviceInventoryFiltersAndSearchManagementAPIApi(mender_client.ApiClient(api_conf))
+        self.client = DeviceInventoryFiltersAndSearchManagementAPIApi(
+            mender_client.ApiClient(api_conf)
+        )
 
     def getFiltersAttributes(self, **kwargs):
         if "Authorization" not in kwargs:
             kwargs["Authorization"] = DEFAULT_AUTH
         if not kwargs["Authorization"].startswith("Bearer "):
             kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
-        self.client.api_client.configuration.access_token = kwargs["Authorization"].replace("Bearer ", "")
+        self.client.api_client.configuration.access_token = kwargs[
+            "Authorization"
+        ].replace("Bearer ", "")
         r = self.client.get_filterable_attributes()
         return r
 
@@ -251,7 +275,9 @@ class InternalApiClient:
 
     def create_tenant(self, tenant_id):
         tenant = mender_client.TenantNew(tenant_id=tenant_id)
-        r = self.client.inventory_internal_create_tenant_with_http_info(tenant_new=tenant)
+        r = self.client.inventory_internal_create_tenant_with_http_info(
+            tenant_new=tenant
+        )
         return Response(status_code=r.status_code, data=r.data)
 
     def create_device(self, device_id, attributes, description="test device"):
@@ -260,10 +286,10 @@ class InternalApiClient:
         # The management AttributeV1 has: name, scope, description, value (AttributeV1Value), timestamp
         converted_attrs = []
         for attr in attributes:
-            if hasattr(attr, 'value') and hasattr(attr.value, 'actual_instance'):
+            if hasattr(attr, "value") and hasattr(attr.value, "actual_instance"):
                 # This is an AttributeV1 with AttributeV1Value - extract the raw value
                 raw_value = attr.value.actual_instance
-            elif hasattr(attr, 'to_dict'):
+            elif hasattr(attr, "to_dict"):
                 attr_dict = attr.to_dict()
                 raw_value = attr_dict.get("value")
             elif isinstance(attr, dict):
@@ -271,19 +297,27 @@ class InternalApiClient:
             else:
                 raw_value = attr
 
-            name = attr.name if hasattr(attr, 'name') else attr.get("name") if isinstance(attr, dict) else None
-            desc = attr.description if hasattr(attr, 'description') else attr.get("description") if isinstance(attr, dict) else None
+            name = (
+                attr.name
+                if hasattr(attr, "name")
+                else attr.get("name") if isinstance(attr, dict) else None
+            )
+            desc = (
+                attr.description
+                if hasattr(attr, "description")
+                else attr.get("description") if isinstance(attr, dict) else None
+            )
 
             # Create mender_client.Attribute with proper AttributeValue wrapper
             internal_attr = mender_client.Attribute(
                 name=name,
                 value=mender_client.AttributeValue(raw_value),
-                description=desc
+                description=desc,
             )
             converted_attrs.append(internal_attr)
 
-        device = self.DeviceNew(
-            id=device_id, attributes=converted_attrs
+        device = self.DeviceNew(id=device_id, attributes=converted_attrs)
+        r = self.client.initialize_device_with_http_info(
+            tenant_id="", device_new=device
         )
-        r = self.client.initialize_device_with_http_info(tenant_id="", device_new=device)
         return Response(status_code=r.status_code, data=r.data)

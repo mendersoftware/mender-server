@@ -33,6 +33,7 @@ from testutils.common import (
     make_accepted_device,
 )
 
+
 @pytest.mark.storage_test
 class TestUploadArtifactBase:
     def get_auth_token(self, username, password):
@@ -202,6 +203,7 @@ class TestUploadArtifactBase:
         finally:
             os.unlink(f.name)
 
+
 class TestUploadArtifactOpenSource(TestUploadArtifactBase):
     def get_tenant_username_and_password(self, plan):
         _ = plan
@@ -289,7 +291,10 @@ class TestUploadArtifactOpenSource(TestUploadArtifactBase):
                 {
                     "artifact_name": "test",
                     "device_types": ["arm1"],
-                    "depends": ("foo:fooval", "bar:barval",),
+                    "depends": (
+                        "foo:fooval",
+                        "bar:barval",
+                    ),
                     "size": 1024,
                 },
             ),

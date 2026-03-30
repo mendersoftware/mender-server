@@ -47,7 +47,9 @@ class TestDeployment:
         )
 
     def test_deployments_get(self):
-        res = management_v1_client(jwt=self.d.get_jwt()).deployments_v1_list_deployments()
+        res = management_v1_client(
+            jwt=self.d.get_jwt()
+        ).deployments_v1_list_deployments()
         self.d.log.debug("result: %s", res)
 
         # try with bogus image ID
@@ -85,9 +87,9 @@ class TestDeployment:
         for newdep in baddeps:
             # try bogus image data
             try:
-                management_v1_client(jwt=self.d.get_jwt()).deployments_create_deployment(
-                    new_deployment=newdep
-                )
+                management_v1_client(
+                    jwt=self.d.get_jwt()
+                ).deployments_create_deployment(new_deployment=newdep)
             except ApiException as e:
                 assert e.status == 400
             else:
@@ -304,7 +306,9 @@ class TestDeployment:
             # check 2nd page
             devices_qty_on_second_page = devices_qty - default_per_page
             res = management_v1_client(jwt=ac.get_jwt()).list_devices_in_deployment(
-                deployment_id=dep_id, page=2, per_page=default_per_page,
+                deployment_id=dep_id,
+                page=2,
+                per_page=default_per_page,
             )
             assert len(res) == devices_qty_on_second_page
 

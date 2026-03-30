@@ -329,9 +329,9 @@ class DeploymentsClient(BaseApiClient):
 
     def add_deployment(self, dep):
         """Posts new deployment `dep`"""
-        r = management_v1_client(jwt=self.get_jwt()).deployments_create_deployment_with_http_info(
-            dep
-        )
+        r = management_v1_client(
+            jwt=self.get_jwt()
+        ).deployments_create_deployment_with_http_info(dep)
         loc = r.headers["Location"]
         depid = os.path.basename(loc)
 
@@ -342,7 +342,9 @@ class DeploymentsClient(BaseApiClient):
         """Abort deployment with `ID `depid`"""
         management_v1_client(jwt=self.get_jwt()).abort_deployment_with_http_info(
             deployment_id=depid,
-            abort_deployment_request=mender_client.AbortDeploymentRequest(status="aborted"),
+            abort_deployment_request=mender_client.AbortDeploymentRequest(
+                status="aborted"
+            ),
         )
 
     @contextmanager
@@ -580,7 +582,9 @@ def generate_jwt(tenant_id: str = "", subject: str = "", is_user: bool = True) -
 
 
 def management_v2_client(tenant_id=None, user_id=None, host=None, jwt=None):
-    return management_client(DeploymentsV2ManagementAPIApi, tenant_id, user_id, host, jwt)
+    return management_client(
+        DeploymentsV2ManagementAPIApi, tenant_id, user_id, host, jwt
+    )
 
 
 def management_v1_client(tenant_id=None, user_id=None, host=None, jwt=None):
@@ -624,4 +628,6 @@ def internal_v1_client(host=None):
     if not host:
         host = pytest_config.getoption("host")
     api_conf.host = "http://" + host
-    return DeploymentsInternalAPIInternalAPIApi(mender_client.ApiClient(configuration=api_conf))
+    return DeploymentsInternalAPIInternalAPIApi(
+        mender_client.ApiClient(configuration=api_conf)
+    )

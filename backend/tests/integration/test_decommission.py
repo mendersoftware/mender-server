@@ -37,6 +37,7 @@ logging.basicConfig(format="%(asctime)s %(message)s")
 logger = logging.getLogger("test_decomission")
 logger.setLevel(logging.INFO)
 
+
 @pytest.fixture(scope="function")
 def clean_migrated_mongo(clean_mongo):
     deviceauth_cli = CliDeviceauth()
@@ -47,9 +48,11 @@ def clean_migrated_mongo(clean_mongo):
 
     yield clean_mongo
 
+
 @pytest.fixture(scope="function")
 def user(clean_migrated_mongo):
     yield create_user("user-foo@acme.com", "correcthorse")
+
 
 @pytest.fixture(scope="function")
 def devices(clean_migrated_mongo, user):
@@ -70,6 +73,7 @@ def devices(clean_migrated_mongo, user):
         devices.append(dev)
 
     yield devices
+
 
 class TestDeviceDecomissioningBase:
     def do_test_ok(self, user, device, tenant_token=None):
@@ -148,6 +152,7 @@ class TestDeviceDecomissioningBase:
                 break
         else:
             assert False, "device not removed from the deviceauth"
+
 
 class TestDeviceDecomissioning(TestDeviceDecomissioningBase):
     def test_ok(self, user, devices):

@@ -33,16 +33,14 @@ class TestGroupRemoving:
 
         g1 = "group-test-3"
 
-        management_client.addDeviceToGroup(
-            device=d1, group=g1
-        )
+        management_client.addDeviceToGroup(device=d1, group=g1)
         assert len(management_client.getGroupDevices(g1)) == 1
 
         management_client.deleteDeviceInGroup(device=d1, group=g1, expected_error=False)
         assert len(management_client.getGroupDevices(g1, expected_error=True)) == 0
 
     def test_delete_device_non_existent_1(self, management_client):
-        """ Delete non-existent device from non-existent group """
+        """Delete non-existent device from non-existent group"""
         g1 = "group-test-3-non-existent"
         management_client.deleteDeviceInGroup(
             device="404 device", group=g1, expected_error=True
@@ -51,7 +49,7 @@ class TestGroupRemoving:
     def test_delete_device_non_existent_2(
         self, management_client, internal_client, inventory_attributes
     ):
-        """ Delete existent device from non-existent group """
+        """Delete existent device from non-existent group"""
         d1 = "".join([format(i, "02x") for i in os.urandom(128)])
         internal_client.create_device(d1, inventory_attributes)
 

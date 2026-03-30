@@ -156,9 +156,9 @@ class TestCliMaintenance:
         assert code == 0
         assert clean_db.inventory.devices.count_documents({}) == 50
         for device in clean_db.inventory.devices.find():
-            assert device.get("attributes", {}).get("identity-status") is not None, (
-                "Status property not propagated to inventory service"
-            )
-            assert device.get("attributes", {}).get("identity-mac") is not None, (
-                "Status property not propagated to inventory service"
-            )
+            assert (
+                device.get("attributes", {}).get("identity-status") is not None
+            ), "Status property not propagated to inventory service"
+            assert (
+                device.get("attributes", {}).get("identity-mac") is not None
+            ), "Status property not propagated to inventory service"

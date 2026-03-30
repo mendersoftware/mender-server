@@ -27,6 +27,7 @@ from testutils.api.client import get_free_tcp_port, wait_for_port
 
 original_deserialize = ApiClient.deserialize
 
+
 def _mongodump(node):
     with open(f"/tests/logs/{node.name}.bson.gz", "wb") as f:
         subprocess.run(

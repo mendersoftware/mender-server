@@ -47,15 +47,18 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_IOTCORE_SECRET_ACCESS_KEY")
 AWS_REGION = os.environ.get("AWS_IOTCORE_REGION")
 AWS_DEVICE_POLICY_NAME = os.environ.get("AWS_IOTCORE_DEVICE_POLICY_NAME")
 
+
 @dataclass
 class Device:
     thing_name: str
     status: str
 
+
 @dataclass
 class DeviceShadow:
     thing_name: str
     shadow: Dict
+
 
 def get_boto3_client(service: str):
     return boto3.client(
@@ -64,6 +67,7 @@ def get_boto3_client(service: str):
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
         region_name=AWS_REGION,
     )
+
 
 def get_device(device_id: str):
     iot = get_boto3_client("iot")
@@ -77,6 +81,7 @@ def get_device(device_id: str):
         break
     return Device(thing_name=device_id, status=status)
 
+
 def get_device_shadow(device_id: str):
     iot_data = get_boto3_client("iot-data")
     response = iot_data.get_thing_shadow(thingName=device_id)
@@ -84,22 +89,33 @@ def get_device_shadow(device_id: str):
     shadow = json.loads(payload)["state"]
     return DeviceShadow(thing_name=device_id, shadow=shadow)
 
+
 def delete_device(device_id: str):
     iot = get_boto3_client("iot")
     response = iot.list_thing_principals(thingName=device_id)
     for principal in response["principals"]:
-        response = iot.detach_thing_principal(thingName=device_id, principal=principal,)
+        response = iot.detach_thing_principal(
+            thingName=device_id,
+            principal=principal,
+        )
         #
         certificate_id = principal.rsplit("/", 1)[-1]
         iot.update_certificate(
-            certificateId=certificate_id, newStatus="INACTIVE",
+            certificateId=certificate_id,
+            newStatus="INACTIVE",
         )
         iot.detach_policy(
-            policyName=device_id + "-policy", target=principal,
+            policyName=device_id + "-policy",
+            target=principal,
         )
-        response = iot.delete_certificate(certificateId=certificate_id,)
+        response = iot.delete_certificate(
+            certificateId=certificate_id,
+        )
     iot.delete_thing(thingName=device_id)
-    iot.delete_policy(policyName=device_id + "-policy",)
+    iot.delete_policy(
+        policyName=device_id + "-policy",
+    )
+
 
 class _TestAWSIoTCoreBase:
     aws_api = ApiClient(base_url=iot.URL_MGMT, host=iot.HOST, schema="http://")
@@ -156,6 +172,7 @@ class _TestAWSIoTCoreBase:
             == AWS_DEVICE_POLICY_NAME
         )
 
+
 @pytest.mark.skipif(
     not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),
     reason="AWS_IOTCORE_ACCESS_KEY_ID not provided",
@@ -189,6 +206,7 @@ class TestAWSIoTCoreIntegrations(_TestAWSIoTCoreBase):
         self.logger.info("creating user in OS mode")
         user = create_user_test_setup()
         self.check_integrations(user, expected_integration)
+
 
 @pytest.fixture(scope="function")
 def user(clean_mongo) -> Optional[User]:
@@ -232,6 +250,7 @@ def user(clean_mongo) -> Optional[User]:
     )
     assert rsp.status_code == 201
     yield user
+
 
 class _TestAWSIoTCoreDeviceLifecycleBase:
     """Test device lifecycle in real AWS IoT Core."""
@@ -294,7 +313,9 @@ class _TestAWSIoTCoreDeviceLifecycleBase:
 
     @pytest.mark.parametrize("status", ["rejected", "noauth"])
     def test_device_accept_and_reject_or_dismiss(
-        self, status, user: User,
+        self,
+        status,
+        user: User,
     ):
         """Test how accepted-rejected and accepted-dismissed Mender flow affects AWS IoT Core devices."""
         dev = self._prepare_device(user)
@@ -325,7 +346,8 @@ class _TestAWSIoTCoreDeviceLifecycleBase:
         self._check_if_device_status_is_set_to_value(user, dev.id, "INACTIVE")
 
     def test_device_provision_and_decomission(
-        self, user: User,
+        self,
+        user: User,
     ):
         """Test how accepted-decommissioned Mender flow affects AWS IoT Core devices."""
         dev = self._prepare_device(user)
@@ -334,7 +356,8 @@ class _TestAWSIoTCoreDeviceLifecycleBase:
         def decommission_device():
             """Decommission the device in Mender, which in turn removes the device from IoT Core."""
             rsp = self.api_devauth_mgmt.with_auth(user.token).call(
-                "DELETE", deviceauth.URL_DEVICE.format(id=dev.id),
+                "DELETE",
+                deviceauth.URL_DEVICE.format(id=dev.id),
             )
             assert rsp.status_code == 204
 
@@ -354,7 +377,8 @@ class _TestAWSIoTCoreDeviceLifecycleBase:
         check_if_device_was_removed_from_aws()
 
     def test_device_shadow(
-        self, user: User,
+        self,
+        user: User,
     ):
         """Test device state synchronization with IoT Core Device Twin"""
         dev = self._prepare_device(user)
@@ -392,6 +416,7 @@ class _TestAWSIoTCoreDeviceLifecycleBase:
         assert "desired" in state
         assert "reported" in states[integration_id]
         assert state["desired"]["key"] == "value"
+
 
 @pytest.mark.skipif(
     not bool(os.environ.get("AWS_IOTCORE_ACCESS_KEY_ID")),

@@ -23,7 +23,6 @@ import pymongo
 import mender_client
 from mender_client.api import DeviceConfigureInternalAPIApi
 
-
 MMOCK_URI = "http://mmock:8082"
 
 
@@ -31,9 +30,9 @@ def pytest_addoption(parser):
     parser.addoption(
         "--host",
         action="store",
-        default=os.environ["TESTING_HOST"]
-        if "TESTING_HOST" in os.environ
-        else "localhost",
+        default=(
+            os.environ["TESTING_HOST"] if "TESTING_HOST" in os.environ else "localhost"
+        ),
         help="Address for host hosting deviceconfig API (env: TEST_HOST)",
     )
 
@@ -86,7 +85,9 @@ def tenant(tenant_id=None):
     if tenant_id is None:
         tenant_id = str(bson.objectid.ObjectId())
     client = DeviceConfigureInternalAPIApi()
-    client.device_config_internal_provision_tenant(new_tenant=mender_client.NewTenant(tenant_id=tenant_id))
+    client.device_config_internal_provision_tenant(
+        new_tenant=mender_client.NewTenant(tenant_id=tenant_id)
+    )
     yield tenant_id
 
 

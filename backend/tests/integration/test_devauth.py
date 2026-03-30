@@ -43,6 +43,7 @@ from testutils.common import (
     retry,
 )
 
+
 @pytest.fixture(scope="function")
 def clean_migrated_mongo(clean_mongo):
     deviceauth_cli = CliDeviceauth()
@@ -52,6 +53,7 @@ def clean_migrated_mongo(clean_mongo):
     useradm_cli.migrate()
 
     yield clean_mongo
+
 
 @pytest.fixture(scope="function")
 def clean_migrated_mongo_mt(clean_mongo):
@@ -63,9 +65,11 @@ def clean_migrated_mongo_mt(clean_mongo):
 
     yield clean_mongo
 
+
 @pytest.fixture(scope="function")
 def user(clean_migrated_mongo):
     yield create_user("user-foo@acme.com", "correcthorse")
+
 
 @pytest.fixture(scope="function")
 def devices(clean_migrated_mongo, user):
@@ -86,6 +90,7 @@ def devices(clean_migrated_mongo, user):
 
     yield devices
 
+
 @pytest.fixture(scope="function")
 def tenants_users(clean_migrated_mongo_mt):
     tenants = []
@@ -99,6 +104,7 @@ def tenants_users(clean_migrated_mongo_mt):
         tenants.append(create_org(tenant, username, password))
 
     yield tenants
+
 
 class TestPreauthBase:
     def do_test_ok(self, user, tenant_token=""):
@@ -152,7 +158,9 @@ class TestPreauthBase:
 
         # all devices appear in device list as 'preauthorized'
         r = devauthm.with_auth(utoken).call(
-            "GET", deviceauth.URL_DEVICES_COUNT, qs_params={"status": "preauthorized"},
+            "GET",
+            deviceauth.URL_DEVICES_COUNT,
+            qs_params={"status": "preauthorized"},
         )
         assert r.status_code == 200
         new_count = r.json()["count"]
@@ -280,6 +288,7 @@ class TestPreauthBase:
             assert crypto.compare_keys(aset["pubkey"], devices[0].pubkey)
             assert aset["status"] == "pending"
 
+
 class TestPreauth(TestPreauthBase):
     def test_ok(self, user):
         self.do_test_ok(user)
@@ -310,9 +319,10 @@ class TestPreauth(TestPreauthBase):
         r = devauthm.with_auth(utoken).call("POST", deviceauth.URL_MGMT_DEVICES, body)
         assert r.status_code == 400
 
+
 def make_devs_with_authsets(user, tenant_token=""):
-    """ create a good number of devices, some with >1 authsets, with different statuses.
-        returns DevWithAuthsets objects."""
+    """create a good number of devices, some with >1 authsets, with different statuses.
+    returns DevWithAuthsets objects."""
     useradmm = ApiClient(useradm.URL_MGMT)
 
     # log in user
@@ -435,15 +445,18 @@ def make_devs_with_authsets(user, tenant_token=""):
     devices.sort(key=lambda dev: dev.status)
     return devices
 
+
 @pytest.fixture(scope="function")
 def devs_authsets(user):
     yield make_devs_with_authsets(user)
+
 
 def rand_id_data():
     mac = ":".join(["{:02x}".format(random.randint(0x00, 0xFF), "x") for i in range(6)])
     sn = "".join(["{}".format(random.randint(0x00, 0xFF)) for i in range(6)])
 
     return {"mac": mac, "sn": sn}
+
 
 def make_pending_device(utoken, keygen, num_auth_sets=1, tenant_token=""):
     devauthm = ApiClient(deviceauth.URL_MGMT)
@@ -467,6 +480,7 @@ def make_pending_device(utoken, keygen, num_auth_sets=1, tenant_token=""):
 
     return dev
 
+
 def make_accepted_device_with_multiple_authsets(
     utoken, keygen, num_auth_sets=1, num_accepted=1, tenant_token=""
 ):
@@ -484,6 +498,7 @@ def make_accepted_device_with_multiple_authsets(
 
     return dev
 
+
 def make_rejected_device(utoken, keygen, num_auth_sets=1, tenant_token=""):
     devauthm = ApiClient(deviceauth.URL_MGMT)
 
@@ -498,6 +513,7 @@ def make_rejected_device(utoken, keygen, num_auth_sets=1, tenant_token=""):
     dev.status = "rejected"
 
     return dev
+
 
 def make_preauthd_device(utoken, keygen):
     devauthm = ApiClient(deviceauth.URL_MGMT)
@@ -522,6 +538,7 @@ def make_preauthd_device(utoken, keygen):
 
     return dev
 
+
 def make_preauthd_device_with_pending(utoken, keygen, num_pending=1, tenant_token=""):
     devauthm = ApiClient(deviceauth.URL_MGMT)
     devauthd = ApiClient(deviceauth.URL_DEVICES)
@@ -544,6 +561,7 @@ def make_preauthd_device_with_pending(utoken, keygen, num_pending=1, tenant_toke
         )
 
     return dev
+
 
 class TestDeviceMgmtBase:
     def do_test_ok_get_devices(self, devs_authsets, user):
@@ -792,6 +810,7 @@ class TestDeviceMgmtBase:
 
         return devs[lo:hi]
 
+
 class TestDeviceMgmt(TestDeviceMgmtBase):
     def test_ok_get_devices(self, devs_authsets, user):
         self.do_test_ok_get_devices(devs_authsets, user)
@@ -807,6 +826,7 @@ class TestDeviceMgmt(TestDeviceMgmtBase):
 
     def test_device_count(self, devs_authsets, user):
         self.do_test_device_count(devs_authsets, user)
+
 
 class TestAuthsetMgmtBase:
     def do_test_get_authset_status(self, devs_authsets, user):
@@ -1122,7 +1142,9 @@ class TestAuthsetMgmtBase:
 
         # not found: bogus device
         r = devauthm.with_auth(utoken).call(
-            "DELETE", deviceauth.URL_AUTHSET, path_params={"did": "foo", "aid": "bar"},
+            "DELETE",
+            deviceauth.URL_AUTHSET,
+            path_params={"did": "foo", "aid": "bar"},
         )
         assert r.status_code == 404
 
@@ -1201,6 +1223,7 @@ class TestAuthsetMgmtBase:
         else:
             raise TimeoutError("timeout waiting for device to get provisioned")
 
+
 class TestAuthsetMgmt(TestAuthsetMgmtBase):
     def test_get_authset_status(self, devs_authsets, user):
         self.do_test_get_authset_status(devs_authsets, user)
@@ -1220,6 +1243,7 @@ class TestAuthsetMgmt(TestAuthsetMgmtBase):
     def test_delete_status_failed(self, devs_authsets, user):
         self.do_test_delete_status_failed(devs_authsets, user)
 
+
 def filter_and_page_devs(devs, page=None, per_page=None, status=None):
     if status is not None:
         devs = [d for d in devs if d.status == status]
@@ -1235,11 +1259,13 @@ def filter_and_page_devs(devs, page=None, per_page=None, status=None):
 
     return devs[lo:hi]
 
+
 def compare_aset(authset, api_authset):
     assert authset.id == api_authset["id"]
     assert authset.id_data == api_authset["identity_data"]
     assert crypto.compare_keys(authset.pubkey, api_authset["pubkey"])
     assert authset.status == api_authset["status"]
+
 
 class TestAuthReqBase:
     def do_test_submit_accept(self, user, tenant=None):
@@ -1278,7 +1304,10 @@ class TestAuthReqBase:
 
         for d in devs:
             body, sighdr = deviceauth.auth_req(
-                d["id_data"], d["keypair"][1], d["keypair"][0], tenant_token,
+                d["id_data"],
+                d["keypair"][1],
+                d["keypair"][0],
+                tenant_token,
             )
 
             r = devauthd.call("POST", deviceauth.URL_AUTH_REQS, body, headers=sighdr)
@@ -1309,7 +1338,10 @@ class TestAuthReqBase:
             )
 
             body, sighdr = deviceauth.auth_req(
-                d["id_data"], d["keypair"][1], d["keypair"][0], tenant_token,
+                d["id_data"],
+                d["keypair"][1],
+                d["keypair"][0],
+                tenant_token,
             )
 
             r = devauthd.call("POST", deviceauth.URL_AUTH_REQS, body, headers=sighdr)
@@ -1334,9 +1366,11 @@ class TestAuthReqBase:
                 assert payload["mender.plan"] == tenant.plan
                 assert payload["mender.tenant"] == tenant.id
 
+
 class TestAuthReq(TestAuthReqBase):
     def test_submit_accept(self, user):
         self.do_test_submit_accept(user)
+
 
 class TestDevAuthCliBase:
     def do_test_propagate_statuses(self, user, tenant=None):
@@ -1360,7 +1394,10 @@ class TestDevAuthCliBase:
             dev = {"id_data": rand_id_data(), "keypair": crypto.get_keypair_rsa()}
 
             body, sighdr = deviceauth.auth_req(
-                dev["id_data"], dev["keypair"][1], dev["keypair"][0], tenant_token,
+                dev["id_data"],
+                dev["keypair"][1],
+                dev["keypair"][0],
+                tenant_token,
             )
 
             r = devauthd.call("POST", deviceauth.URL_AUTH_REQS, body, headers=sighdr)
@@ -1374,7 +1411,7 @@ class TestDevAuthCliBase:
         deviceauth_cli = CliDeviceauth()
         deviceauth_cli.propagate_inventory_statuses()
 
+
 class TestDevAuthCli(TestDevAuthCliBase):
     def test_propagate_statuses(self, user):
         self.do_test_propagate_statuses(user)
-

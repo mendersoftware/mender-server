@@ -30,6 +30,7 @@ import common
 
 class Response:
     """Simple response object compatible with requests.Response interface"""
+
     def __init__(self, status_code, text=None, data=None):
         self.status_code = status_code
         self.text = text if text is not None else ""
@@ -42,7 +43,9 @@ class InternalApiClient:
     def __init__(self, host):
         self.api_url = "http://%s/api/internal/v1/useradm/" % host
         api_conf = mender_client.Configuration.get_default_copy()
-        self.client = UserAdministrationAndAuthenticationInternalAPIApi(mender_client.ApiClient(api_conf))
+        self.client = UserAdministrationAndAuthenticationInternalAPIApi(
+            mender_client.ApiClient(api_conf)
+        )
 
     def make_api_url(self, path):
         return os.path.join(
@@ -84,7 +87,9 @@ class ManagementApiClient:
             if token.startswith("Bearer "):
                 token = token[7:]
             api_conf.access_token = token
-        self.client = UserAdministrationManagementAPIApi(mender_client.ApiClient(api_conf))
+        self.client = UserAdministrationManagementAPIApi(
+            mender_client.ApiClient(api_conf)
+        )
 
     def make_api_url(self, path):
         return os.path.join(
@@ -123,14 +128,14 @@ class ManagementApiClient:
             if auth is None:
                 auth = self.auth
             headers["Authorization"] = auth["Authorization"]
-            rsp = requests.post(
-                self.make_api_url("/users"),
-                json=user,
-                headers=headers
-            )
+            rsp = requests.post(self.make_api_url("/users"), json=user, headers=headers)
             if rsp.status_code >= 400:
-                raise mender_client.ApiException(status=rsp.status_code, reason=rsp.text)
-            return Response(status_code=rsp.status_code, data=rsp.json() if rsp.text else None)
+                raise mender_client.ApiException(
+                    status=rsp.status_code, reason=rsp.text
+                )
+            return Response(
+                status_code=rsp.status_code, data=rsp.json() if rsp.text else None
+            )
         # For UserNew objects, use the generated client
         if auth:
             token = headers.get("Authorization", "")
@@ -161,8 +166,7 @@ class ManagementApiClient:
         auth = common.make_basic_auth(username, password)
         # For login, we need to use requests directly since it requires Basic auth
         rsp = requests.post(
-            self.make_api_url("/auth/login"),
-            headers={"Authorization": auth}
+            self.make_api_url("/auth/login"), headers={"Authorization": auth}
         )
         # Raise exception for non-2xx responses
         if rsp.status_code >= 400:
@@ -193,12 +197,19 @@ class ManagementApiClient:
     def create_token(self, token_request, auth=None):
         if auth is None:
             auth = self.auth
-        headers = {"Authorization": auth["Authorization"], "Content-Type": "application/json"}
+        headers = {
+            "Authorization": auth["Authorization"],
+            "Content-Type": "application/json",
+        }
         # Use requests directly since the response has application/jwt content type
         rsp = requests.post(
             self.make_api_url("/settings/tokens"),
-            json=token_request.to_dict() if hasattr(token_request, 'to_dict') else token_request,
-            headers=headers
+            json=(
+                token_request.to_dict()
+                if hasattr(token_request, "to_dict")
+                else token_request
+            ),
+            headers=headers,
         )
         if rsp.status_code >= 400:
             raise mender_client.ApiException(status=rsp.status_code, reason=rsp.text)

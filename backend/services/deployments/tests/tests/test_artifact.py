@@ -55,7 +55,11 @@ class TestArtifact:
             try:
                 res = (
                     management_v1_client(jwt=self.ac.get_jwt())
-                    .upload_artifact(size=100, artifact="".encode(), description="bar",)
+                    .upload_artifact(
+                        size=100,
+                        artifact="".encode(),
+                        description="bar",
+                    )
                     .result()
                 )
             except ApiException as e:
@@ -71,7 +75,12 @@ class TestArtifact:
                     {
                         "description": "bar",
                         "size": str(art.size),
-                        "artifact": ("firmware", art, "application/octet-stream", {},),
+                        "artifact": (
+                            "firmware",
+                            art,
+                            "application/octet-stream",
+                            {},
+                        ),
                     }
                 )
 
@@ -145,7 +154,9 @@ class TestArtifact:
                         break
 
                 self.ac.log.info(
-                    "artifact checksum %s expecting %s", dig.hexdigest(), art.checksum,
+                    "artifact checksum %s expecting %s",
+                    dig.hexdigest(),
+                    art.checksum,
                 )
                 assert dig.hexdigest() == art.checksum
 
@@ -217,7 +228,9 @@ class TestArtifact:
                         break
 
                 self.ac.log.info(
-                    "artifact checksum %s expecting %s", dig.hexdigest(), art.checksum,
+                    "artifact checksum %s expecting %s",
+                    dig.hexdigest(),
+                    art.checksum,
                 )
                 assert dig.hexdigest() == art.checksum
 

@@ -34,10 +34,14 @@ import testutils.integration.stripe as stripeutils
 
 logger = logging.getLogger("testAccess")
 
+
 def device_connect_insert_device(mongo, device_id, tenant_id, status="connected"):
     devices_collection = mongo.client["deviceconnect"]["devices"]
     devices_collection.delete_one(
-        {"_id": device_id, "tenant_id": tenant_id,}
+        {
+            "_id": device_id,
+            "tenant_id": tenant_id,
+        }
     )
     devices_collection.insert_one(
         {
@@ -49,10 +53,14 @@ def device_connect_insert_device(mongo, device_id, tenant_id, status="connected"
         }
     )
 
+
 def device_config_insert_device(mongo, device_id, tenant_id, status="connected"):
     devices_collection = mongo.client["deviceconfig"]["devices"]
     devices_collection.delete_one(
-        {"_id": device_id, "tenant_id": tenant_id,}
+        {
+            "_id": device_id,
+            "tenant_id": tenant_id,
+        }
     )
     devices_collection.insert_one(
         {
@@ -63,6 +71,7 @@ def device_config_insert_device(mongo, device_id, tenant_id, status="connected")
             "reported": [{"key": "timezone", "value": "UTC"}],
         }
     )
+
 
 class _TestAccessBase:
     """Access checking functions.
@@ -82,28 +91,47 @@ class _TestAccessBase:
         logger.info(
             f"using {auth} to call {deviceconnect.URL_MGMT_DEVICE} with devid={devid}"
         )
-        rsp = devconn.device_connect_management_get_device_without_preload_content(devid)
+        rsp = devconn.device_connect_management_get_device_without_preload_content(
+            devid
+        )
 
         if forbid:
-            assert rsp.status == 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
+            assert (
+                rsp.status == 403
+            ), f"unexpected status code {rsp.status}, body follows: {rsp.data}"
         else:
-            assert rsp.status == 200, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
+            assert (
+                rsp.status == 200
+            ), f"unexpected status code {rsp.status}, body follows: {rsp.data}"
 
     def check_access_file_transfer(self, auth, devid, forbid=False):
         api_client = mender_client.ApiClient()
         api_client.configuration.access_token = auth
         devconn = mender_client.DeviceConnectManagementAPIApi(api_client=api_client)
-        rsp = devconn.device_connect_management_download_without_preload_content(devid, path="/etc/mender/mender.conf")
+        rsp = devconn.device_connect_management_download_without_preload_content(
+            devid, path="/etc/mender/mender.conf"
+        )
         if forbid:
-            assert rsp.status == 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
+            assert (
+                rsp.status == 403
+            ), f"unexpected status code {rsp.status}, body follows: {rsp.data}"
         else:
-            assert rsp.status in [404, 409], f"unexpected status code {rsp.status}, body follows: {rsp.data}"
+            assert rsp.status in [
+                404,
+                409,
+            ], f"unexpected status code {rsp.status}, body follows: {rsp.data}"
 
-        rsp = devconn.device_connect_management_upload_without_preload_content(devid, path="/etc/mender/mender.conf")
+        rsp = devconn.device_connect_management_upload_without_preload_content(
+            devid, path="/etc/mender/mender.conf"
+        )
         if forbid:
-            assert rsp.status == 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
+            assert (
+                rsp.status == 403
+            ), f"unexpected status code {rsp.status}, body follows: {rsp.data}"
         else:
-            assert rsp.status != 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
+            assert (
+                rsp.status != 403
+            ), f"unexpected status code {rsp.status}, body follows: {rsp.data}"
 
     def check_access_auditlogs(self, auth, forbid=False):
         # FIXME: Cannot use generated client due to auditlogs spec being closed source.
@@ -121,24 +149,36 @@ class _TestAccessBase:
         api_client.configuration.access_token = auth
         devconn = mender_client.DeviceConnectManagementAPIApi(api_client=api_client)
 
-        rsp = devconn.device_connect_management_playback_without_preload_content(session_id="foo")
+        rsp = devconn.device_connect_management_playback_without_preload_content(
+            session_id="foo"
+        )
 
         if forbid:
-            assert rsp.status == 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
+            assert (
+                rsp.status == 403
+            ), f"unexpected status code {rsp.status}, body follows: {rsp.data}"
         else:
-            assert rsp.status != 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
+            assert (
+                rsp.status != 403
+            ), f"unexpected status code {rsp.status}, body follows: {rsp.data}"
 
     # configure
     def check_access_deviceconfig(self, auth, devid, forbid=False):
         api_client = mender_client.ApiClient()
         api_client.configuration.access_token = auth
         devconf = mender_client.DeviceConfigureManagementAPIApi(api_client=api_client)
-        rsp = devconf.device_config_management_get_device_configuration_without_preload_content(device_id=devid)
+        rsp = devconf.device_config_management_get_device_configuration_without_preload_content(
+            device_id=devid
+        )
 
         if forbid:
-            assert rsp.status == 403, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
+            assert (
+                rsp.status == 403
+            ), f"unexpected status code {rsp.status}, body follows: {rsp.data}"
         else:
-            assert rsp.status == 200, f"unexpected status code {rsp.status}, body follows: {rsp.data}"
+            assert (
+                rsp.status == 200
+            ), f"unexpected status code {rsp.status}, body follows: {rsp.data}"
 
     # rbac (no addon)
     def check_access_rbac(self, auth, forbid=False):
@@ -149,6 +189,7 @@ class _TestAccessBase:
             assert res.status_code == 403
         else:
             assert res.status_code == 200
+
 
 class TestAccess(_TestAccessBase):
     """Onprem OS.
