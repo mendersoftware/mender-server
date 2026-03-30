@@ -379,6 +379,7 @@ Class | Method | HTTP request | Description
  - [SelectAttribute](docs/SelectAttribute.md)
  - [SortCriteria](docs/SortCriteria.md)
  - [StartBatchWorkflows201ResponseInner](docs/StartBatchWorkflows201ResponseInner.md)
+ - [StartWorkflow201Response](docs/StartWorkflow201Response.md)
  - [Statistics](docs/Statistics.md)
  - [Status](docs/Status.md)
  - [StorageLimit](docs/StorageLimit.md)

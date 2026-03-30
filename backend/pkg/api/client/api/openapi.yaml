@@ -9652,9 +9652,8 @@ paths:
         content:
           application/json:
             schema:
-              items:
-                $ref: "#/components/schemas/InputParameter"
-              type: array
+              additionalProperties: true
+              type: object
         description: Contains the definition of the job to be started.
         required: true
       responses:
@@ -9662,7 +9661,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Workflows_Check_Liveliness_200_response"
+                $ref: "#/components/schemas/Start_Workflow_201_response"
           description: Workflow created successfully
         "400":
           content:
@@ -13391,6 +13390,13 @@ components:
       - id
       type: object
     Workflows_Check_Liveliness_200_response:
+      example:
+        status: status
+      properties:
+        status:
+          type: string
+      type: object
+    Start_Workflow_201_response:
       example:
         name: name
         id: id

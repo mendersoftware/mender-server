@@ -20,8 +20,7 @@ var _ MappedNullable = &WorkflowsCheckLiveliness200Response{}
 
 // WorkflowsCheckLiveliness200Response struct for WorkflowsCheckLiveliness200Response
 type WorkflowsCheckLiveliness200Response struct {
-	Id *string `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 // NewWorkflowsCheckLiveliness200Response instantiates a new WorkflowsCheckLiveliness200Response object
@@ -41,68 +40,36 @@ func NewWorkflowsCheckLiveliness200ResponseWithDefaults() *WorkflowsCheckLivelin
 	return &this
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
-func (o *WorkflowsCheckLiveliness200Response) GetId() string {
-	if o == nil || IsNil(o.Id) {
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *WorkflowsCheckLiveliness200Response) GetStatus() string {
+	if o == nil || IsNil(o.Status) {
 		var ret string
 		return ret
 	}
-	return *o.Id
+	return *o.Status
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WorkflowsCheckLiveliness200Response) GetIdOk() (*string, bool) {
-	if o == nil || IsNil(o.Id) {
+func (o *WorkflowsCheckLiveliness200Response) GetStatusOk() (*string, bool) {
+	if o == nil || IsNil(o.Status) {
 		return nil, false
 	}
-	return o.Id, true
+	return o.Status, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *WorkflowsCheckLiveliness200Response) HasId() bool {
-	if o != nil && !IsNil(o.Id) {
+// HasStatus returns a boolean if a field has been set.
+func (o *WorkflowsCheckLiveliness200Response) HasStatus() bool {
+	if o != nil && !IsNil(o.Status) {
 		return true
 	}
 
 	return false
 }
 
-// SetId gets a reference to the given string and assigns it to the Id field.
-func (o *WorkflowsCheckLiveliness200Response) SetId(v string) {
-	o.Id = &v
-}
-
-// GetName returns the Name field value if set, zero value otherwise.
-func (o *WorkflowsCheckLiveliness200Response) GetName() string {
-	if o == nil || IsNil(o.Name) {
-		var ret string
-		return ret
-	}
-	return *o.Name
-}
-
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *WorkflowsCheckLiveliness200Response) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
-		return nil, false
-	}
-	return o.Name, true
-}
-
-// HasName returns a boolean if a field has been set.
-func (o *WorkflowsCheckLiveliness200Response) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
-func (o *WorkflowsCheckLiveliness200Response) SetName(v string) {
-	o.Name = &v
+// SetStatus gets a reference to the given string and assigns it to the Status field.
+func (o *WorkflowsCheckLiveliness200Response) SetStatus(v string) {
+	o.Status = &v
 }
 
 func (o WorkflowsCheckLiveliness200Response) MarshalJSON() ([]byte, error) {
@@ -115,11 +82,8 @@ func (o WorkflowsCheckLiveliness200Response) MarshalJSON() ([]byte, error) {
 
 func (o WorkflowsCheckLiveliness200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Id) {
-		toSerialize["id"] = o.Id
-	}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
+	if !IsNil(o.Status) {
+		toSerialize["status"] = o.Status
 	}
 	return toSerialize, nil
 }
