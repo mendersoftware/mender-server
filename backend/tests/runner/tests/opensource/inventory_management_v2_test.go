@@ -17,7 +17,7 @@ import (
 	"time"
 
 	"github.com/mendersoftware/mender-server/pkg/api/client"
-	oapiclient "github.com/mendersoftware/mender-server/pkg/api/client"
+	"github.com/mendersoftware/mender-server/pkg/utils/types"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	modelinventory "github.com/mendersoftware/mender-server/services/inventory/model"
 	"github.com/mendersoftware/mender-server/tests/runner/tests/common"
@@ -30,7 +30,7 @@ import (
 type InventoryManagementV2Suite struct {
 	suite.Suite
 
-	APIClient *oapiclient.APIClient
+	APIClient *client.APIClient
 	User      common.User
 	Tenant    common.Tenant
 
@@ -155,14 +155,15 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 					Scope:     client.IDENTITY,
 					Attribute: "mac",
 					Type:      "$eq",
-					Value:     client.StringAsFilterPredicateValue(&mac),
+					Value: client.AttributeValue{
+						String: types.Pointer(mac),
+					},
 				},
 			}
 
 			devices, _, err := inventorym.
 				InventoryV2SearchDeviceInventories(ctx).
-				InventoryV2SearchDeviceInventoriesRequest(
-					client.InventoryV2SearchDeviceInventoriesRequest{Filters: filter}).
+				SearchParams(client.SearchParams{Filters: filter}).
 				Execute()
 
 			if err != nil {

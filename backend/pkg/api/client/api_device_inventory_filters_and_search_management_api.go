@@ -313,12 +313,12 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetStatisticsEx
 type ApiInventoryV2SearchDeviceInventoriesRequest struct {
 	ctx context.Context
 	ApiService DeviceInventoryFiltersAndSearchManagementAPIAPI
-	inventoryV2SearchDeviceInventoriesRequest *InventoryV2SearchDeviceInventoriesRequest
+	searchParams *SearchParams
 }
 
 // The search and sort parameters of the filter
-func (r ApiInventoryV2SearchDeviceInventoriesRequest) InventoryV2SearchDeviceInventoriesRequest(inventoryV2SearchDeviceInventoriesRequest InventoryV2SearchDeviceInventoriesRequest) ApiInventoryV2SearchDeviceInventoriesRequest {
-	r.inventoryV2SearchDeviceInventoriesRequest = &inventoryV2SearchDeviceInventoriesRequest
+func (r ApiInventoryV2SearchDeviceInventoriesRequest) SearchParams(searchParams SearchParams) ApiInventoryV2SearchDeviceInventoriesRequest {
+	r.searchParams = &searchParams
 	return r
 }
 
@@ -384,7 +384,7 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) InventoryV2Sear
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.inventoryV2SearchDeviceInventoriesRequest
+	localVarPostBody = r.searchParams
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

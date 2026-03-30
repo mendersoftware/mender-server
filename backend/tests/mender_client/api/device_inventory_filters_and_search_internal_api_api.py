@@ -21,7 +21,7 @@ from typing import List, Optional
 from typing_extensions import Annotated
 from mender_client.models.device_inventory import DeviceInventory
 from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response
-from mender_client.models.inventory_internal_v2_search_device_inventories_request import InventoryInternalV2SearchDeviceInventoriesRequest
+from mender_client.models.search_params import SearchParams
 
 from mender_client.api_client import ApiClient, RequestSerialized
 from mender_client.api_response import ApiResponse
@@ -308,7 +308,7 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
     def inventory_internal_v2_search_device_inventories(
         self,
         tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
-        inventory_internal_v2_search_device_inventories_request: Annotated[Optional[InventoryInternalV2SearchDeviceInventoriesRequest], Field(description="The search and sort parameters of the filter")] = None,
+        search_params: Annotated[Optional[SearchParams], Field(description="The search and sort parameters of the filter")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -328,8 +328,8 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
 
         :param tenant_id: Tenant ID. (required)
         :type tenant_id: str
-        :param inventory_internal_v2_search_device_inventories_request: The search and sort parameters of the filter
-        :type inventory_internal_v2_search_device_inventories_request: InventoryInternalV2SearchDeviceInventoriesRequest
+        :param search_params: The search and sort parameters of the filter
+        :type search_params: SearchParams
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -354,7 +354,7 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
 
         _param = self._inventory_internal_v2_search_device_inventories_serialize(
             tenant_id=tenant_id,
-            inventory_internal_v2_search_device_inventories_request=inventory_internal_v2_search_device_inventories_request,
+            search_params=search_params,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -381,7 +381,7 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
     def inventory_internal_v2_search_device_inventories_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
-        inventory_internal_v2_search_device_inventories_request: Annotated[Optional[InventoryInternalV2SearchDeviceInventoriesRequest], Field(description="The search and sort parameters of the filter")] = None,
+        search_params: Annotated[Optional[SearchParams], Field(description="The search and sort parameters of the filter")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -401,8 +401,8 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
 
         :param tenant_id: Tenant ID. (required)
         :type tenant_id: str
-        :param inventory_internal_v2_search_device_inventories_request: The search and sort parameters of the filter
-        :type inventory_internal_v2_search_device_inventories_request: InventoryInternalV2SearchDeviceInventoriesRequest
+        :param search_params: The search and sort parameters of the filter
+        :type search_params: SearchParams
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -427,7 +427,7 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
 
         _param = self._inventory_internal_v2_search_device_inventories_serialize(
             tenant_id=tenant_id,
-            inventory_internal_v2_search_device_inventories_request=inventory_internal_v2_search_device_inventories_request,
+            search_params=search_params,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -454,7 +454,7 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
     def inventory_internal_v2_search_device_inventories_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="Tenant ID.")],
-        inventory_internal_v2_search_device_inventories_request: Annotated[Optional[InventoryInternalV2SearchDeviceInventoriesRequest], Field(description="The search and sort parameters of the filter")] = None,
+        search_params: Annotated[Optional[SearchParams], Field(description="The search and sort parameters of the filter")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -474,8 +474,8 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
 
         :param tenant_id: Tenant ID. (required)
         :type tenant_id: str
-        :param inventory_internal_v2_search_device_inventories_request: The search and sort parameters of the filter
-        :type inventory_internal_v2_search_device_inventories_request: InventoryInternalV2SearchDeviceInventoriesRequest
+        :param search_params: The search and sort parameters of the filter
+        :type search_params: SearchParams
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -500,7 +500,7 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
 
         _param = self._inventory_internal_v2_search_device_inventories_serialize(
             tenant_id=tenant_id,
-            inventory_internal_v2_search_device_inventories_request=inventory_internal_v2_search_device_inventories_request,
+            search_params=search_params,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -522,7 +522,7 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
     def _inventory_internal_v2_search_device_inventories_serialize(
         self,
         tenant_id,
-        inventory_internal_v2_search_device_inventories_request,
+        search_params,
         _request_auth,
         _content_type,
         _headers,
@@ -550,8 +550,8 @@ class DeviceInventoryFiltersAndSearchInternalAPIApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if inventory_internal_v2_search_device_inventories_request is not None:
-            _body_params = inventory_internal_v2_search_device_inventories_request
+        if search_params is not None:
+            _body_params = search_params
 
 
         # set the HTTP header `Accept`

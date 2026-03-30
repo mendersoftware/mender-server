@@ -181,12 +181,12 @@ type ApiInventoryInternalV2SearchDeviceInventoriesRequest struct {
 	ctx context.Context
 	ApiService DeviceInventoryFiltersAndSearchInternalAPIAPI
 	tenantId string
-	inventoryInternalV2SearchDeviceInventoriesRequest *InventoryInternalV2SearchDeviceInventoriesRequest
+	searchParams *SearchParams
 }
 
 // The search and sort parameters of the filter
-func (r ApiInventoryInternalV2SearchDeviceInventoriesRequest) InventoryInternalV2SearchDeviceInventoriesRequest(inventoryInternalV2SearchDeviceInventoriesRequest InventoryInternalV2SearchDeviceInventoriesRequest) ApiInventoryInternalV2SearchDeviceInventoriesRequest {
-	r.inventoryInternalV2SearchDeviceInventoriesRequest = &inventoryInternalV2SearchDeviceInventoriesRequest
+func (r ApiInventoryInternalV2SearchDeviceInventoriesRequest) SearchParams(searchParams SearchParams) ApiInventoryInternalV2SearchDeviceInventoriesRequest {
+	r.searchParams = &searchParams
 	return r
 }
 
@@ -254,7 +254,7 @@ func (a *DeviceInventoryFiltersAndSearchInternalAPIAPIService) InventoryInternal
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.inventoryInternalV2SearchDeviceInventoriesRequest
+	localVarPostBody = r.searchParams
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

@@ -27,7 +27,8 @@ type FilterPredicate struct {
 	Attribute string `json:"attribute"`
 	// Type or operator of the filter predicate.
 	Type string `json:"type"`
-	Value FilterPredicateValue `json:"value"`
+	// The value of the attribute to be used in filtering.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed.  The $exists operator expects a boolean value: true means the specified attribute exists, false means the specified attribute doesn't exist.  The $regex operator expects a string as a Perl compatible regular expression (PCRE), automatically anchored by ^. If the regular expression is not valid, the filter will produce no results. If you need to specify options and flags, you can provide the full regex in the format of /regex/flags, for example `/[a-z]+/i`. 
+	Value AttributeValue `json:"value"`
 }
 
 type _FilterPredicate FilterPredicate
@@ -36,7 +37,7 @@ type _FilterPredicate FilterPredicate
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFilterPredicate(scope Scope, attribute string, type_ string, value FilterPredicateValue) *FilterPredicate {
+func NewFilterPredicate(scope Scope, attribute string, type_ string, value AttributeValue) *FilterPredicate {
 	this := FilterPredicate{}
 	this.Scope = scope
 	this.Attribute = attribute
@@ -126,9 +127,9 @@ func (o *FilterPredicate) SetType(v string) {
 }
 
 // GetValue returns the Value field value
-func (o *FilterPredicate) GetValue() FilterPredicateValue {
+func (o *FilterPredicate) GetValue() AttributeValue {
 	if o == nil {
-		var ret FilterPredicateValue
+		var ret AttributeValue
 		return ret
 	}
 
@@ -137,7 +138,7 @@ func (o *FilterPredicate) GetValue() FilterPredicateValue {
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *FilterPredicate) GetValueOk() (*FilterPredicateValue, bool) {
+func (o *FilterPredicate) GetValueOk() (*AttributeValue, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -145,7 +146,7 @@ func (o *FilterPredicate) GetValueOk() (*FilterPredicateValue, bool) {
 }
 
 // SetValue sets field value
-func (o *FilterPredicate) SetValue(v FilterPredicateValue) {
+func (o *FilterPredicate) SetValue(v AttributeValue) {
 	o.Value = v
 }
 

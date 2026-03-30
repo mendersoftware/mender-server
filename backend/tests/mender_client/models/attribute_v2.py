@@ -20,7 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from mender_client.models.attribute_v2_value import AttributeV2Value
+from mender_client.models.attribute_value import AttributeValue
 from mender_client.models.scope import Scope
 from typing import Optional, Set
 from typing_extensions import Self
@@ -32,7 +32,7 @@ class AttributeV2(BaseModel):
     name: StrictStr = Field(description="A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. ")
     scope: Scope
     description: Optional[StrictStr] = Field(default=None, description="Attribute description.")
-    value: AttributeV2Value
+    value: AttributeValue
     __properties: ClassVar[List[str]] = ["name", "scope", "description", "value"]
 
     model_config = ConfigDict(
@@ -92,7 +92,7 @@ class AttributeV2(BaseModel):
             "name": obj.get("name"),
             "scope": obj.get("scope"),
             "description": obj.get("description"),
-            "value": AttributeV2Value.from_dict(obj["value"]) if obj.get("value") is not None else None
+            "value": AttributeValue.from_dict(obj["value"]) if obj.get("value") is not None else None
         })
         return _obj
 

@@ -26,9 +26,9 @@ from mender_client.models.sort_criteria import SortCriteria
 from typing import Optional, Set
 from typing_extensions import Self
 
-class InventoryInternalV2SearchDeviceInventoriesRequest(BaseModel):
+class SearchParams(BaseModel):
     """
-    InventoryInternalV2SearchDeviceInventoriesRequest
+    SearchParams
     """ # noqa: E501
     page: Optional[StrictInt] = Field(default=None, description="Starting page.")
     per_page: Optional[StrictInt] = Field(default=None, description="Number of results per page.")
@@ -57,7 +57,7 @@ class InventoryInternalV2SearchDeviceInventoriesRequest(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of InventoryInternalV2SearchDeviceInventoriesRequest from a JSON string"""
+        """Create an instance of SearchParams from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -103,7 +103,7 @@ class InventoryInternalV2SearchDeviceInventoriesRequest(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of InventoryInternalV2SearchDeviceInventoriesRequest from a dict"""
+        """Create an instance of SearchParams from a dict"""
         if obj is None:
             return None
 
