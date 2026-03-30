@@ -123,6 +123,7 @@ from mender_client.models.scope import Scope
 from mender_client.models.select_attribute import SelectAttribute
 from mender_client.models.sort_criteria import SortCriteria
 from mender_client.models.start_batch_workflows201_response_inner import StartBatchWorkflows201ResponseInner
+from mender_client.models.start_workflow201_response import StartWorkflow201Response
 from mender_client.models.statistics import Statistics
 from mender_client.models.status import Status
 from mender_client.models.storage_limit import StorageLimit

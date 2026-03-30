@@ -160,6 +160,7 @@ __all__ = [
     "SelectAttribute",
     "SortCriteria",
     "StartBatchWorkflows201ResponseInner",
+    "StartWorkflow201Response",
     "Statistics",
     "Status",
     "StorageLimit",
@@ -328,6 +329,7 @@ from mender_client.models.scope import Scope as Scope
 from mender_client.models.select_attribute import SelectAttribute as SelectAttribute
 from mender_client.models.sort_criteria import SortCriteria as SortCriteria
 from mender_client.models.start_batch_workflows201_response_inner import StartBatchWorkflows201ResponseInner as StartBatchWorkflows201ResponseInner
+from mender_client.models.start_workflow201_response import StartWorkflow201Response as StartWorkflow201Response
 from mender_client.models.statistics import Statistics as Statistics
 from mender_client.models.status import Status as Status
 from mender_client.models.storage_limit import StorageLimit as StorageLimit

@@ -137,6 +137,7 @@ mender_client/models/scope.py
 mender_client/models/select_attribute.py
 mender_client/models/sort_criteria.py
 mender_client/models/start_batch_workflows201_response_inner.py
+mender_client/models/start_workflow201_response.py
 mender_client/models/statistics.py
 mender_client/models/status.py
 mender_client/models/storage_limit.py

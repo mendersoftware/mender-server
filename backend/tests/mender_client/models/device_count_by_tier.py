@@ -18,7 +18,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,9 +27,9 @@ class DeviceCountByTier(BaseModel):
     """
     Number of devices per tier
     """ # noqa: E501
-    standard: int
-    micro: int
-    system: int
+    standard: StrictInt
+    micro: StrictInt
+    system: StrictInt
     __properties: ClassVar[List[str]] = ["standard", "micro", "system"]
 
     model_config = ConfigDict(
@@ -71,15 +71,6 @@ class DeviceCountByTier(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of standard
-        if self.standard:
-            _dict['standard'] = self.standard.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of micro
-        if self.micro:
-            _dict['micro'] = self.micro.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of system
-        if self.system:
-            _dict['system'] = self.system.to_dict()
         return _dict
 
     @classmethod
@@ -92,9 +83,9 @@ class DeviceCountByTier(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "standard": int.from_dict(obj["standard"]) if obj.get("standard") is not None else None,
-            "micro": int.from_dict(obj["micro"]) if obj.get("micro") is not None else None,
-            "system": int.from_dict(obj["system"]) if obj.get("system") is not None else None
+            "standard": obj.get("standard"),
+            "micro": obj.get("micro"),
+            "system": obj.get("system")
         })
         return _obj
 

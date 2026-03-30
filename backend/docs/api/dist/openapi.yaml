@@ -7047,9 +7047,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: string
-                  name:
+                  status:
                     type: string
               example:
                 status: ok
@@ -7093,9 +7091,8 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/InputParameter'
+              type: object
+              additionalProperties: true
         required: true
       responses:
         '201':

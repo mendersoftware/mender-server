@@ -23,12 +23,13 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class WorkflowsCheckLiveliness200Response(BaseModel):
+class StartWorkflow201Response(BaseModel):
     """
-    WorkflowsCheckLiveliness200Response
+    StartWorkflow201Response
     """ # noqa: E501
-    status: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["status"]
+    id: Optional[StrictStr] = None
+    name: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["id", "name"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +49,7 @@ class WorkflowsCheckLiveliness200Response(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of WorkflowsCheckLiveliness200Response from a JSON string"""
+        """Create an instance of StartWorkflow201Response from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +74,7 @@ class WorkflowsCheckLiveliness200Response(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of WorkflowsCheckLiveliness200Response from a dict"""
+        """Create an instance of StartWorkflow201Response from a dict"""
         if obj is None:
             return None
 
@@ -81,7 +82,8 @@ class WorkflowsCheckLiveliness200Response(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "status": obj.get("status")
+            "id": obj.get("id"),
+            "name": obj.get("name")
         })
         return _obj
 
