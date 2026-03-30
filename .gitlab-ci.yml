@@ -186,10 +186,10 @@ build:backend:docker:
     #        We're assuming the images have consistent GOTOOLCHAIN.
     #        Will be fixed once we optimize to template based pipeline.
     - |-
-      make -C backend/services/deployments docker \
+      make -j$(nproc) -C backend/services/deployments docker \
         DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --target builder" \
         MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_BUILDER}
-    - make -C backend docker
+    - make -j$(nproc) -C backend docker
 
 build:backend:docker-acceptance:
   extends: build:backend:docker
@@ -201,7 +201,7 @@ build:backend:docker-acceptance:
     - unset DOCKER_PLATFORM
   script:
     # NOTE: Only build for test platform (default) for the acceptance test images
-    - make -C backend docker-acceptance
+    - make -j$(nproc) -C backend docker-acceptance
 
 #
 # Review Apps
