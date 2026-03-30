@@ -42,7 +42,6 @@ model_attribute.go
 model_attribute_filter_predicate.go
 model_attribute_v1.go
 model_attribute_v2.go
-model_attribute_v2_value.go
 model_attribute_value.go
 model_auth_request.go
 model_auth_set.go
@@ -106,8 +105,6 @@ model_http_params.go
 model_identity_data.go
 model_input_parameter.go
 model_integration.go
-model_inventory_internal_v2_search_device_inventories_request.go
-model_inventory_v2_search_device_inventories_request.go
 model_io_t_manager_internal_update_device_statuses_request_inner.go
 model_job_object.go
 model_job_status.go
@@ -135,6 +132,7 @@ model_release_v2.go
 model_releases_delete_error.go
 model_remove_a_group_200_response.go
 model_scope.go
+model_search_params.go
 model_select_attribute.go
 model_sort_criteria.go
 model_start_batch_workflows_201_response_inner.go

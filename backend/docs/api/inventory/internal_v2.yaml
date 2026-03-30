@@ -60,39 +60,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                page:
-                  type: integer
-                  description: Starting page.
-                per_page:
-                  type: integer
-                  description: Number of results per page.
-                device_ids:
-                  type: array
-                  description: List of device IDs
-                  items:
-                    type: string
-                    description: Attribute filter predicate
-                text:
-                  type: string
-                  description: Free-text search query
-                filters:
-                  type: array
-                  description: "List of filter predicates, chained with boolean AND\
-                    \ operators to build the search condition definition."
-                  items:
-                    $ref: './schemas.yaml#/components/schemas/FilterPredicate'
-                sort:
-                  type: array
-                  description: List of ordered sort criterias
-                  items:
-                    $ref: './schemas.yaml#/components/schemas/SortCriteria'
-                attributes:
-                  type: array
-                  description: List of attributes to select and return
-                  items:
-                    $ref: '#/components/schemas/SelectAttribute'
+              $ref: './schemas.yaml#/components/schemas/SearchParams'
         required: false
       responses:
         "200":
@@ -109,7 +77,7 @@ paths:
                 title: ListOfDevices
                 type: array
                 items:
-                  $ref: '#/components/schemas/DeviceInventory'
+                  $ref: './schemas.yaml#/components/schemas/DeviceInventory'
               example:
               - id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
                 attributes:
@@ -135,32 +103,6 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
 components:
   schemas:
-    DeviceInventory:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Mender-assigned unique ID.
-        updated_ts:
-          type: string
-          description: Timestamp of the most recent attribute update.
-        attributes:
-          type: array
-          description: A list of attribute descriptors.
-          items:
-            $ref: './schemas.yaml#/components/schemas/AttributeV2'
-      example:
-        id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
-        attributes:
-        - name: ip_addr
-          scope: inventory
-          value: 1.2.3.4
-          description: IP address
-        - name: mac_addr
-          scope: inventory
-          value: 00.01:02:03:04:05
-          description: MAC address
-        updated_ts: 2016-10-03T16:58:51.639Z
     SelectAttribute:
       required:
       - attribute

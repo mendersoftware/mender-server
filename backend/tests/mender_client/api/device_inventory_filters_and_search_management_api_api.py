@@ -22,7 +22,7 @@ from typing_extensions import Annotated
 from mender_client.models.device_inventory import DeviceInventory
 from mender_client.models.filter_attribute import FilterAttribute
 from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response
-from mender_client.models.inventory_v2_search_device_inventories_request import InventoryV2SearchDeviceInventoriesRequest
+from mender_client.models.search_params import SearchParams
 
 from mender_client.api_client import ApiClient, RequestSerialized
 from mender_client.api_response import ApiResponse
@@ -543,7 +543,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
     @validate_call
     def inventory_v2_search_device_inventories(
         self,
-        inventory_v2_search_device_inventories_request: Annotated[Optional[InventoryV2SearchDeviceInventoriesRequest], Field(description="The search and sort parameters of the filter")] = None,
+        search_params: Annotated[Optional[SearchParams], Field(description="The search and sort parameters of the filter")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -561,8 +561,8 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
 
         Returns a paged collection of devices and their attributes.  If multiple filter predicates are specified, the filters are combined using boolean `and` operator. 
 
-        :param inventory_v2_search_device_inventories_request: The search and sort parameters of the filter
-        :type inventory_v2_search_device_inventories_request: InventoryV2SearchDeviceInventoriesRequest
+        :param search_params: The search and sort parameters of the filter
+        :type search_params: SearchParams
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -586,7 +586,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         """ # noqa: E501
 
         _param = self._inventory_v2_search_device_inventories_serialize(
-            inventory_v2_search_device_inventories_request=inventory_v2_search_device_inventories_request,
+            search_params=search_params,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -612,7 +612,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
     @validate_call
     def inventory_v2_search_device_inventories_with_http_info(
         self,
-        inventory_v2_search_device_inventories_request: Annotated[Optional[InventoryV2SearchDeviceInventoriesRequest], Field(description="The search and sort parameters of the filter")] = None,
+        search_params: Annotated[Optional[SearchParams], Field(description="The search and sort parameters of the filter")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -630,8 +630,8 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
 
         Returns a paged collection of devices and their attributes.  If multiple filter predicates are specified, the filters are combined using boolean `and` operator. 
 
-        :param inventory_v2_search_device_inventories_request: The search and sort parameters of the filter
-        :type inventory_v2_search_device_inventories_request: InventoryV2SearchDeviceInventoriesRequest
+        :param search_params: The search and sort parameters of the filter
+        :type search_params: SearchParams
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -655,7 +655,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         """ # noqa: E501
 
         _param = self._inventory_v2_search_device_inventories_serialize(
-            inventory_v2_search_device_inventories_request=inventory_v2_search_device_inventories_request,
+            search_params=search_params,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -681,7 +681,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
     @validate_call
     def inventory_v2_search_device_inventories_without_preload_content(
         self,
-        inventory_v2_search_device_inventories_request: Annotated[Optional[InventoryV2SearchDeviceInventoriesRequest], Field(description="The search and sort parameters of the filter")] = None,
+        search_params: Annotated[Optional[SearchParams], Field(description="The search and sort parameters of the filter")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -699,8 +699,8 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
 
         Returns a paged collection of devices and their attributes.  If multiple filter predicates are specified, the filters are combined using boolean `and` operator. 
 
-        :param inventory_v2_search_device_inventories_request: The search and sort parameters of the filter
-        :type inventory_v2_search_device_inventories_request: InventoryV2SearchDeviceInventoriesRequest
+        :param search_params: The search and sort parameters of the filter
+        :type search_params: SearchParams
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -724,7 +724,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         """ # noqa: E501
 
         _param = self._inventory_v2_search_device_inventories_serialize(
-            inventory_v2_search_device_inventories_request=inventory_v2_search_device_inventories_request,
+            search_params=search_params,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -745,7 +745,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
 
     def _inventory_v2_search_device_inventories_serialize(
         self,
-        inventory_v2_search_device_inventories_request,
+        search_params,
         _request_auth,
         _content_type,
         _headers,
@@ -771,8 +771,8 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if inventory_v2_search_device_inventories_request is not None:
-            _body_params = inventory_v2_search_device_inventories_request
+        if search_params is not None:
+            _body_params = search_params
 
 
         # set the HTTP header `Accept`
