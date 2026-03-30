@@ -362,7 +362,9 @@ class DeploymentsClient(SwaggerApiClient):
     def abort_deployment(self, depid):
         """Abort deployment with `ID `depid`"""
         self.client.Management_API.Abort_Deployment(
-            Authorization="foo", deployment_id=depid, Status={"status": "aborted"},
+            Authorization="foo",
+            deployment_id=depid,
+            Status={"status": "aborted"},
         ).result()
 
     @contextmanager
@@ -416,7 +418,9 @@ class DeviceClient(SwaggerApiClient):
         """Obtain next deployment"""
         auth = "Bearer " + token
         res = self.client.Device_API.Check_Update(
-            Authorization=auth, artifact_name=artifact_name, device_type=device_type,
+            Authorization=auth,
+            artifact_name=artifact_name,
+            device_type=device_type,
         ).result()
 
         return res[0]

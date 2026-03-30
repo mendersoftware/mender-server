@@ -35,7 +35,9 @@ def pytest_addoption(parser):
     parser.addoption("--spec", default="../docs/management_api.yml")
     parser.addoption("--device-spec", default="../docs/devices_api.yml")
     parser.addoption("--internal-spec", default="../docs/internal_api.yml")
-    parser.addoption("--mongo-url", default="mongodb://mongo", help="Mongo URL (Connection string)")
+    parser.addoption(
+        "--mongo-url", default="mongodb://mongo", help="Mongo URL (Connection string)"
+    )
     parser.addoption(
         "--s3-bucket",
         default=os.environ.get("AWS_S3_BUCKET_NAME", "mender-artifact-storage"),

@@ -108,7 +108,8 @@ class InternalClient(SwaggerApiClient):
         # fall back to 'requests'
         #   return self.client.devices.delete_devices_id(id=devid, **kwargs)
         rsp = requests.delete(
-            self.make_api_url("/tenants/{}/devices/{}".format(tenant_id, device_id)), headers=headers
+            self.make_api_url("/tenants/{}/devices/{}".format(tenant_id, device_id)),
+            headers=headers,
         )
         return rsp
 

@@ -64,7 +64,7 @@ class TestManagementSearch:
                         scope="inventory",
                     ),
                     management_api.models.DeviceAttribute(
-                        name="number", value=2 ** 47, scope="inventory"
+                        name="number", value=2**47, scope="inventory"
                     ),
                 ],
             ),
@@ -91,7 +91,9 @@ class TestManagementSearch:
                 id="ad707aab-916b-4ec9-a43f-0031b2bcf9ad",
                 attributes=[
                     management_api.models.DeviceAttribute(
-                        name="string", value="sed do eiusmod tempor", scope="inventory",
+                        name="string",
+                        value="sed do eiusmod tempor",
+                        scope="inventory",
                     ),
                 ],
             ),
@@ -102,7 +104,9 @@ class TestManagementSearch:
                 id="85388603-5852-437f-89c4-7549502893d5",
                 attributes=[
                     management_api.models.DeviceAttribute(
-                        name="string", value="incididunt ut labore", scope="inventory",
+                        name="string",
+                        value="incididunt ut labore",
+                        scope="inventory",
                     ),
                     management_api.models.DeviceAttribute(
                         name="number", value=0.0, scope="inventory"
@@ -116,7 +120,9 @@ class TestManagementSearch:
                 id="98efdb94-26c2-42eb-828d-12a5d6eb698c",
                 attributes=[
                     management_api.models.DeviceAttribute(
-                        name="string", value="sample text", scope="inventory",
+                        name="string",
+                        value="sample text",
+                        scope="inventory",
                     ),
                     management_api.models.DeviceAttribute(
                         name="number", value=1234, scope="inventory"
@@ -156,13 +162,16 @@ class TestManagementSearch:
                         other_count=0,
                         items=[
                             management_api.models.DeviceAggregationItem(
-                                key="consectetur adipiscing elit", count=1,
+                                key="consectetur adipiscing elit",
+                                count=1,
                             ),
                             management_api.models.DeviceAggregationItem(
-                                key="incididunt ut labore", count=1,
+                                key="incididunt ut labore",
+                                count=1,
                             ),
                             management_api.models.DeviceAggregationItem(
-                                key="sed do eiusmod tempor", count=1,
+                                key="sed do eiusmod tempor",
+                                count=1,
                             ),
                         ],
                     ),

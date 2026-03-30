@@ -59,9 +59,7 @@ class TestArtifact:
                     description="bar",
                 ).result()
             except bravado.exception.HTTPError as e:
-                assert (
-                    sum(1 for x in clean_minio.objects.all()) == 0
-                )
+                assert sum(1 for x in clean_minio.objects.all()) == 0
                 assert e.response.status_code == 400
             else:
                 raise AssertionError("expected to fail")
@@ -73,15 +71,18 @@ class TestArtifact:
                     {
                         "description": "bar",
                         "size": str(art.size),
-                        "artifact": ("firmware", art, "application/octet-stream", {},),
+                        "artifact": (
+                            "firmware",
+                            art,
+                            "application/octet-stream",
+                            {},
+                        ),
                     }
                 )
 
                 rsp = requests.post(self.ac.make_api_url("/artifacts"), files=files)
                 l.unlock()
-                assert (
-                    sum(1 for x in clean_minio.objects.all()) == 0
-                )
+                assert sum(1 for x in clean_minio.objects.all()) == 0
                 assert rsp.status_code == 400
 
     def test_artifacts_valid(self, clean_minio, clean_db):
@@ -133,9 +134,7 @@ class TestArtifact:
                 rsp = requests.get(res.uri, verify=False, stream=True)
 
                 assert rsp.status_code == 200
-                assert (
-                    sum(1 for x in clean_minio.objects.all()) == 1
-                )
+                assert sum(1 for x in clean_minio.objects.all()) == 1
 
                 # receive artifact and compare its checksum
                 dig = sha256()
@@ -147,7 +146,9 @@ class TestArtifact:
                         break
 
                 self.ac.log.info(
-                    "artifact checksum %s expecting %s", dig.hexdigest(), art.checksum,
+                    "artifact checksum %s expecting %s",
+                    dig.hexdigest(),
+                    art.checksum,
                 )
                 assert dig.hexdigest() == art.checksum
 
@@ -207,9 +208,7 @@ class TestArtifact:
                 rsp = requests.get(res.uri, verify=False, stream=True)
 
                 assert rsp.status_code == 200
-                assert (
-                    sum(1 for x in clean_minio.objects.all()) == 1
-                )
+                assert sum(1 for x in clean_minio.objects.all()) == 1
 
                 # receive artifact and compare its checksum
                 dig = sha256()
@@ -221,7 +220,9 @@ class TestArtifact:
                         break
 
                 self.ac.log.info(
-                    "artifact checksum %s expecting %s", dig.hexdigest(), art.checksum,
+                    "artifact checksum %s expecting %s",
+                    dig.hexdigest(),
+                    art.checksum,
                 )
                 assert dig.hexdigest() == art.checksum
 

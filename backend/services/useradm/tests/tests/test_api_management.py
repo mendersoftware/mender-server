@@ -390,7 +390,9 @@ class TestManagementApiSettingsBase:
 
         # nonempty
         self._set_and_verify(
-            {"foo": "foo-val", "bar": "bar-val"}, api_client_mgmt, auth,
+            {"foo": "foo-val", "bar": "bar-val"},
+            api_client_mgmt,
+            auth,
         )
 
         # empty

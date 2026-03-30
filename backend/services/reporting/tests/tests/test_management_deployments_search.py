@@ -164,7 +164,8 @@ class TestManagementSearch:
                     ],
                     sort=[
                         management_api.models.DeploymentSortTerm(
-                            attribute="id", order="asc",
+                            attribute="id",
+                            order="asc",
                         )
                     ],
                 ),
@@ -183,7 +184,8 @@ class TestManagementSearch:
                     ],
                     sort=[
                         management_api.models.DeploymentSortTerm(
-                            attribute="id", order="asc",
+                            attribute="id",
+                            order="asc",
                         )
                     ],
                 ),
@@ -202,7 +204,8 @@ class TestManagementSearch:
                     ],
                     sort=[
                         management_api.models.DeploymentSortTerm(
-                            attribute="id", order="asc",
+                            attribute="id",
+                            order="asc",
                         )
                     ],
                 ),
@@ -223,7 +226,8 @@ class TestManagementSearch:
                     ],
                     sort=[
                         management_api.models.DeploymentSortTerm(
-                            attribute="device_created", order="desc",
+                            attribute="device_created",
+                            order="desc",
                         )
                     ],
                 ),
@@ -242,7 +246,8 @@ class TestManagementSearch:
                     ],
                     sort=[
                         management_api.models.DeploymentSortTerm(
-                            attribute="device_created", order="asc",
+                            attribute="device_created",
+                            order="asc",
                         )
                     ],
                 ),
@@ -254,7 +259,9 @@ class TestManagementSearch:
                 search_terms=management_api.models.DeploymentSearchTerms(
                     filters=[
                         management_api.models.DeploymentFilterTerm(
-                            attribute="foo", value="bar", type="$eq",
+                            attribute="foo",
+                            value="bar",
+                            type="$eq",
                         )
                     ],
                 ),
@@ -265,7 +272,9 @@ class TestManagementSearch:
                 search_terms=management_api.models.DeploymentSearchTerms(
                     filters=[
                         management_api.models.DeploymentFilterTerm(
-                            attribute="foo", value="bar", type="$eq",
+                            attribute="foo",
+                            value="bar",
+                            type="$eq",
                         )
                     ],
                 ),

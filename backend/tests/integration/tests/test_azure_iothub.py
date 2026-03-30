@@ -47,7 +47,6 @@ from testutils.common import (
     mongo,
 )
 
-
 HTTPServer.DEFAULT_LISTEN_PORT = get_free_tcp_port()
 HTTPServer.DEFAULT_LISTEN_HOST = "integration-tester"  # name of the compose service
 

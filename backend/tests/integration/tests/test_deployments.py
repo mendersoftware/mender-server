@@ -45,7 +45,6 @@ from testutils.common import (
 )
 from testutils.infra.container_manager.kubernetes_manager import isK8S
 
-
 WAITING_MULTIPLIER = 8 if isK8S() else 1
 WAITING_TIME_K8S = 5.0
 logger = logging.getLogger("test_deployments")
@@ -1394,7 +1393,9 @@ class StatusVerifier:
 
         # Update device status upon successful request
         resp = self.deploymentsd.with_auth(device_token).call(
-            "PUT", deployments.URL_STATUS.format(id=deployment_id), body=body,
+            "PUT",
+            deployments.URL_STATUS.format(id=deployment_id),
+            body=body,
         )
         assert resp.status_code == status_update_error_code
 
@@ -1819,7 +1820,9 @@ def update_deployment_status(deployment_id, status, token):
     body = {"status": status}
 
     resp = api_dev_deploy.with_auth(token).call(
-        "PUT", deployments.URL_STATUS.format(id=deployment_id), body=body,
+        "PUT",
+        deployments.URL_STATUS.format(id=deployment_id),
+        body=body,
     )
     assert resp.status_code == 204
 
@@ -1842,7 +1845,9 @@ def set_status(depid, status, dtoken):
     api_dev_deploy = ApiClient(deployments.URL_DEVICES)
 
     res = api_dev_deploy.with_auth(dtoken).call(
-        "PUT", deployments.URL_STATUS.format(id=depid), body={"status": status},
+        "PUT",
+        deployments.URL_STATUS.format(id=depid),
+        body={"status": status},
     )
 
     assert res.status_code == 204
@@ -1852,7 +1857,8 @@ def get_stats(depid, token):
     api_dev_deploy = ApiClient(deployments.URL_MGMT)
 
     res = api_dev_deploy.with_auth(token).call(
-        "GET", deployments.URL_DEPLOYMENTS_STATISTICS.format(id=depid),
+        "GET",
+        deployments.URL_DEPLOYMENTS_STATISTICS.format(id=depid),
     )
 
     assert res.status_code == 200
@@ -2250,7 +2256,9 @@ class TestDynamicDeploymentsEnterprise:
         # a deployment with initial devs succeeds
         devs = [
             make_device_with_inventory(
-                [{"name": "bar", "value": "bar"}], user.utoken, tenant.tenant_token,
+                [{"name": "bar", "value": "bar"}],
+                user.utoken,
+                tenant.tenant_token,
             )
             for i in range(10)
         ]
@@ -2296,7 +2304,9 @@ class TestDynamicDeploymentsEnterprise:
             assert dep["status"] == "inprogress"
             extra_devs = [
                 make_device_with_inventory(
-                    [{"name": "bar", "value": "bar"}], user.utoken, tenant.tenant_token,
+                    [{"name": "bar", "value": "bar"}],
+                    user.utoken,
+                    tenant.tenant_token,
                 )
                 for i in range(10)
             ]

@@ -63,7 +63,9 @@ def test_reindex_reporting_deployment(mmock_url, workflows_url):
     assert {"name": "request_id", "value": request_id} in response["inputParameters"]
     assert {"name": "tenant_id", "value": tenant_id} in response["inputParameters"]
     assert {"name": "device_id", "value": device_id} in response["inputParameters"]
-    assert {"name": "deployment_id", "value": deployment_id} in response["inputParameters"]
+    assert {"name": "deployment_id", "value": deployment_id} in response[
+        "inputParameters"
+    ]
     assert {"name": "id", "value": id} in response["inputParameters"]
     assert {"name": "service", "value": service} in response["inputParameters"]
     assert response["status"] == "done"
