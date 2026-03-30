@@ -22,8 +22,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	inventory_mocks "github.com/mendersoftware/mender-server/services/deployments/client/inventory/mocks"
-	workflows_mocks "github.com/mendersoftware/mender-server/services/deployments/client/workflows/mocks"
+	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	fs_mocks "github.com/mendersoftware/mender-server/services/deployments/storage/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/store/mocks"
@@ -92,8 +91,8 @@ func TestGetDeviceDeploymentLastStatus(t *testing.T) {
 			ctx := context.TODO()
 			mDStore := &mocks.DataStore{}
 			mFStore := &fs_mocks.ObjectStorage{}
-			mWorkflows := &workflows_mocks.Client{}
-			mInventory := &inventory_mocks.Client{}
+			mWorkflows := oas_mocks.NewMockWorkflowsOtherAPI(t)
+			mInventory := oas_mocks.NewMockDeviceInventoryInternalAPIAPI(t)
 			dep := &Deployments{
 				db:              mDStore,
 				objectStorage:   mFStore,
