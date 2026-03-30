@@ -44,14 +44,17 @@ class TestDeleteDevice:
         with orchestrator.run_fake_for_device_id(ourdev.id):
             try:
                 management_api.decommission_device(
-                    ourdev.id, x_men_request_id="delete_device",
+                    ourdev.id,
+                    x_men_request_id="delete_device",
                 )
             except ApiException as e:
                 assert e.status == 204
 
         with orchestrator.run_fake_for_device_id(ourdev.id):
             try:
-                internal_api.delete_device(ourdev.id,)
+                internal_api.delete_device(
+                    ourdev.id,
+                )
             except ApiException as e:
                 assert e.status == 204
 
@@ -75,7 +78,8 @@ class TestDeleteDevice:
         with orchestrator.run_fake_for_device_id(ourdev.id, 500) as server:
             try:
                 management_api.decommission_device(
-                    ourdev.id, x_men_request_id="delete_device",
+                    ourdev.id,
+                    x_men_request_id="delete_device",
                 )
             except ApiException as e:
                 assert e.status == 500
@@ -84,7 +88,8 @@ class TestDeleteDevice:
         # try delete a nonexistent device
         try:
             management_api.decommission_device(
-                "some-devid-foo", x_men_request_id="delete_device",
+                "some-devid-foo",
+                x_men_request_id="delete_device",
             )
         except ApiException as e:
             assert e.status == 404

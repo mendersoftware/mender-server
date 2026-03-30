@@ -51,7 +51,11 @@ class TestInternalApiTenantCreate:
 
 class TestInternalApiDeviceCreate:
     def test_create_ok(
-        self, internal_client, management_client, clean_db, inventory_attributes,
+        self,
+        internal_client,
+        management_client,
+        clean_db,
+        inventory_attributes,
     ):
         devid = "".join([format(i, "02x") for i in os.urandom(128)])
         r = internal_client.create_device(
@@ -64,7 +68,11 @@ class TestInternalApiDeviceCreate:
         self._verify_inventory(inventory_attributes, dev.attributes)
 
     def test_create_twice_ok(
-        self, internal_client, management_client, clean_db, inventory_attributes,
+        self,
+        internal_client,
+        management_client,
+        clean_db,
+        inventory_attributes,
     ):
         # insert first device
         devid = "".join([format(i, "02x") for i in os.urandom(128)])
@@ -75,13 +83,19 @@ class TestInternalApiDeviceCreate:
 
         # add extra attribute, modify existing
         new_attr = management_client.inventoryAttribute(
-            name="new attr", value="new value", scope="inventory", description="desc",
+            name="new attr",
+            value="new value",
+            scope="inventory",
+            description="desc",
         )
 
         # Create a modified version of the first attribute instead of modifying in place
         existing = inventory_attributes[0]
         modified_existing = management_client.inventoryAttribute(
-            name=existing.name, value="newval", scope=existing.scope, description="newdesc",
+            name=existing.name,
+            value="newval",
+            scope=existing.scope,
+            description="newdesc",
         )
 
         new_attrs = [new_attr, modified_existing]
@@ -102,7 +116,7 @@ class TestInternalApiDeviceCreate:
     def _verify_inventory(self, expected, inventory):
         # Helper to extract raw value from AttributeV1Value wrapper
         def get_raw_value(val):
-            if hasattr(val, 'actual_instance'):
+            if hasattr(val, "actual_instance"):
                 return val.actual_instance
             return val
 

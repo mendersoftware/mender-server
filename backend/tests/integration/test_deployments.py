@@ -48,6 +48,7 @@ WAITING_MULTIPLIER = 8 if isK8S() else 1
 WAITING_TIME_K8S = 5.0
 logger = logging.getLogger("test_deployments")
 
+
 def upload_image(filename, auth_token, description="abc"):
     api_client = ApiClient(deployments.URL_MGMT)
     api_client.headers = {}
@@ -61,6 +62,7 @@ def upload_image(filename, auth_token, description="abc"):
         ),
     )
     assert r.status_code == 201
+
 
 def create_test_artifacts(
     utoken: str,
@@ -79,10 +81,10 @@ def create_test_artifacts(
     tenant_id = claims.get("mender.tenant")
 
     with get_mender_artifact(
-            "test-artifact",
-        ) as artifact:
-            upload_image(artifact, utoken, description)
-            artifact_names.append("test-artifact")
+        "test-artifact",
+    ) as artifact:
+        upload_image(artifact, utoken, description)
+        artifact_names.append("test-artifact")
 
     for i in range(number_artifacts - 1):
         artifact_name = f"{name}-{i}"
@@ -116,11 +118,13 @@ def create_test_artifacts(
 
     return artifacts
 
+
 def compare_artifact_names(artifacts, expected_names):
     assert len(artifacts) == len(expected_names)
 
     actual_names = [artifact["name"] for artifact in artifacts]
     assert expected_names == actual_names
+
 
 def create_tenant_test_setup(
     user_name, tenant_name, nr_deployments=3, nr_devices=100, plan="os"
@@ -165,6 +169,7 @@ def create_tenant_test_setup(
 
     return tenant
 
+
 @pytest.fixture(scope="function")
 def setup_deployments_enterprise_test(
     clean_mongo, existing_deployments=3, nr_devices=100, plan="enterprise"
@@ -186,6 +191,7 @@ def setup_deployments_enterprise_test(
     # Create 'existing_deployments' predefined deployments to act as noise for the server to handle
     # for both users
     return tenant1, tenant2
+
 
 def setup_devices_and_management_st(nr_devices=100, deploy_to_group=None):
     """
@@ -230,6 +236,7 @@ def setup_devices_and_management_st(nr_devices=100, deploy_to_group=None):
     assert new_count == count + nr_devices
 
     return user, utoken, devs
+
 
 def setup_devices_and_management_mt(nr_devices=100, deploy_to_group=None):
     """
@@ -284,6 +291,7 @@ def setup_devices_and_management_mt(nr_devices=100, deploy_to_group=None):
 
     return user, tenant, utoken, devs
 
+
 def try_update(
     device, default_artifact_name="bugs-bunny", default_device_type="qemux86-64"
 ):
@@ -316,6 +324,7 @@ def try_update(
             body={"status": "success"},
         )
     return resp.status_code
+
 
 class _TestDeploymentsBase(object):
     def do_test_listing_deployments(self, clean_mongo, user_token, devs):
@@ -538,6 +547,7 @@ class _TestDeploymentsBase(object):
             status_code = try_update(dev)
             assert status_code == 204
 
+
 @pytest.mark.storage_test
 class TestDeploymentOpenSource(_TestDeploymentsBase):
     def test_regular_deployment(self, clean_mongo):
@@ -552,7 +562,9 @@ class TestDeploymentOpenSource(_TestDeploymentsBase):
         _user, user_token, devs = setup_devices_and_management_st(5)
         self.do_test_regular_deployment_all_devices(clean_mongo, user_token, devs)
 
+
 # test status update
+
 
 class StatusVerifier:
     def __init__(self, deploymentsm, deploymentsd):
@@ -579,7 +591,9 @@ class StatusVerifier:
 
         # Update device status upon successful request
         resp = self.deploymentsd.with_auth(device_token).call(
-            "PUT", deployments.URL_STATUS.format(id=deployment_id), body=body,
+            "PUT",
+            deployments.URL_STATUS.format(id=deployment_id),
+            body=body,
         )
         assert resp.status_code == status_update_error_code
 
@@ -623,6 +637,7 @@ class StatusVerifier:
             )
             resp.status_code == 200
             assert resp.json()[0]["status"] == deployment_status
+
 
 class _TestDeploymentsStatusUpdateBase:
     def do_test_deployment_status_update(
@@ -851,11 +866,13 @@ class _TestDeploymentsStatusUpdateBase:
             deployment_status="finished",
         )
 
+
 @pytest.mark.storage_test
 class TestDeploymentsStatusUpdate(_TestDeploymentsStatusUpdateBase):
     def test_deployment_status_update(self, clean_mongo):
         _user, user_token, devs = setup_devices_and_management_st(5)
         self.do_test_deployment_status_update(clean_mongo, user_token, devs)
+
 
 @pytest.mark.storage_test
 class TestDeploymentsToGroupStatusUpdate(_TestDeploymentsStatusUpdateBase):
@@ -866,6 +883,7 @@ class TestDeploymentsToGroupStatusUpdate(_TestDeploymentsStatusUpdateBase):
         self.do_test_deployment_status_update(
             clean_mongo, user_token, devs, deploy_to_group="g0"
         )
+
 
 def create_tenant(name, username, plan):
     tenant = create_org(name, username, "correcthorse", plan=plan)
@@ -878,6 +896,7 @@ def create_tenant(name, username, plan):
 
     return tenant
 
+
 @pytest.fixture(scope="function")
 def setup_tenant(clean_mongo):
     uuidv4 = str(uuid.uuid4())
@@ -888,8 +907,10 @@ def setup_tenant(clean_mongo):
     time.sleep(10)
     return tenant
 
+
 def predicate(attr, scope, t, val):
     return {"attribute": attr, "scope": scope, "type": t, "value": val}
+
 
 def create_filter(name, predicates, utoken):
     f = {"name": name, "terms": predicates}
@@ -903,6 +924,7 @@ def create_filter(name, predicates, utoken):
 
     f["id"] = r.headers["Location"].split("/")[1]
     return f
+
 
 def create_dynamic_deployment(
     name, predicates, utoken, max_devices=None, phases=None, status_code=201
@@ -948,6 +970,7 @@ def create_dynamic_deployment(
 
     return newdep
 
+
 def get_deployment(depid, utoken):
     api_dep_v1 = ApiClient(deployments.URL_MGMT)
     res = api_dep_v1.with_auth(utoken).call(
@@ -956,15 +979,19 @@ def get_deployment(depid, utoken):
     assert res.status_code == 200
     return res.json()
 
+
 def update_deployment_status(deployment_id, status, token):
     api_dev_deploy = ApiClient(deployments.URL_DEVICES)
 
     body = {"status": status}
 
     resp = api_dev_deploy.with_auth(token).call(
-        "PUT", deployments.URL_STATUS.format(id=deployment_id), body=body,
+        "PUT",
+        deployments.URL_STATUS.format(id=deployment_id),
+        body=body,
     )
     assert resp.status_code == 204
+
 
 def assert_get_next(code, dtoken, artifact_name=None):
     api_dev_deploy = ApiClient(deployments.URL_DEVICES)
@@ -979,24 +1006,30 @@ def assert_get_next(code, dtoken, artifact_name=None):
     if code == 200:
         assert resp.json()["artifact"]["artifact_name"] == artifact_name
 
+
 def set_status(depid, status, dtoken):
     api_dev_deploy = ApiClient(deployments.URL_DEVICES)
 
     res = api_dev_deploy.with_auth(dtoken).call(
-        "PUT", deployments.URL_STATUS.format(id=depid), body={"status": status},
+        "PUT",
+        deployments.URL_STATUS.format(id=depid),
+        body={"status": status},
     )
 
     assert res.status_code == 204
+
 
 def get_stats(depid, token):
     api_dev_deploy = ApiClient(deployments.URL_MGMT)
 
     res = api_dev_deploy.with_auth(token).call(
-        "GET", deployments.URL_DEPLOYMENTS_STATISTICS.format(id=depid),
+        "GET",
+        deployments.URL_DEPLOYMENTS_STATISTICS.format(id=depid),
     )
 
     assert res.status_code == 200
     return res.json()
+
 
 def verify_stats(stats, expected):
     for k, v in stats.items():
@@ -1004,6 +1037,7 @@ def verify_stats(stats, expected):
             assert stats[k] == expected[k]
         else:
             assert stats[k] == 0
+
 
 class _TestDeploymentsArtifactBase(object):
     def do_test_show_artifact_size(self, clean_mongo, user_token, devs):
@@ -1094,9 +1128,7 @@ class _TestDeploymentsArtifactBase(object):
         #      └─ description: "abc-1"
 
         # check that artifacts are created
-        r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS
-        )
+        r = api_dep_v2.with_auth(user_token).call("GET", deployments_v2.URL_ARTIFACTS)
         assert r.status_code == 200
         artifacts = r.json()
         compare_artifact_names(
@@ -1105,8 +1137,7 @@ class _TestDeploymentsArtifactBase(object):
 
         # search for single exact name
         r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS +
-            "?name=test-artifact"
+            "GET", deployments_v2.URL_ARTIFACTS + "?name=test-artifact"
         )
         assert r.status_code == 200
         artifacts = r.json()
@@ -1114,8 +1145,8 @@ class _TestDeploymentsArtifactBase(object):
 
         # search for multiple exact names
         r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS +
-            "?name=test-artifact&name=test-artifact-0"
+            "GET",
+            deployments_v2.URL_ARTIFACTS + "?name=test-artifact&name=test-artifact-0",
         )
         assert r.status_code == 200
         artifacts = r.json()
@@ -1123,8 +1154,7 @@ class _TestDeploymentsArtifactBase(object):
 
         # search for names with prefix
         r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS +
-            "?name=test-artifact-*"
+            "GET", deployments_v2.URL_ARTIFACTS + "?name=test-artifact-*"
         )
         assert r.status_code == 200
         artifacts = r.json()
@@ -1139,22 +1169,21 @@ class _TestDeploymentsArtifactBase(object):
 
         # search for names with prefix and exact name
         r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS +
-            "?name=deployments-phase-testing&name=test-artifact-*"
+            "GET",
+            deployments_v2.URL_ARTIFACTS
+            + "?name=deployments-phase-testing&name=test-artifact-*",
         )
         assert r.status_code == 400
 
         # search for multiple prefix
         r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS +
-            "?name=test*&name=test-artifact-*"
+            "GET", deployments_v2.URL_ARTIFACTS + "?name=test*&name=test-artifact-*"
         )
         assert r.status_code == 400
 
         # search for exact description
         r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS +
-            "?description=abc"
+            "GET", deployments_v2.URL_ARTIFACTS + "?description=abc"
         )
         assert r.status_code == 200
         artifacts = r.json()
@@ -1169,8 +1198,7 @@ class _TestDeploymentsArtifactBase(object):
 
         # search for description with prefix
         r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS +
-            "?description=abc-*"
+            "GET", deployments_v2.URL_ARTIFACTS + "?description=abc-*"
         )
         assert r.status_code == 200
         artifacts = r.json()
@@ -1185,8 +1213,7 @@ class _TestDeploymentsArtifactBase(object):
 
         # search for exact device type
         r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS +
-            "?device_type=arm1"
+            "GET", deployments_v2.URL_ARTIFACTS + "?device_type=arm1"
         )
         assert r.status_code == 200
         artifacts = r.json()
@@ -1201,8 +1228,7 @@ class _TestDeploymentsArtifactBase(object):
 
         # search for device type with prefix
         r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS +
-            "?device_type=arm1-*"
+            "GET", deployments_v2.URL_ARTIFACTS + "?device_type=arm1-*"
         )
         assert r.status_code == 200
         artifacts = r.json()
@@ -1219,8 +1245,7 @@ class _TestDeploymentsArtifactBase(object):
 
         # test pagination
         r = api_dep_v2.with_auth(user_token).call(
-            "GET", deployments_v2.URL_ARTIFACTS +
-            "?page=2&per_page=3"
+            "GET", deployments_v2.URL_ARTIFACTS + "?page=2&per_page=3"
         )
         assert r.status_code == 200
         artifacts = r.json()
@@ -1232,15 +1257,18 @@ class _TestDeploymentsArtifactBase(object):
             ],
         )
 
+
 @pytest.mark.storage_test
 class TestDeploymentArtifactOpenSource(_TestDeploymentsArtifactBase):
     def test_show_artifact_size(self, clean_mongo):
         _user, user_token, devs = setup_devices_and_management_st(10)
         self.do_test_show_artifact_size(clean_mongo, user_token, devs)
+
     def test_list_artifacts_v2(self, clean_mongo):
         _user, user_token, devs = setup_devices_and_management_st()
         artifacts = create_test_artifacts(utoken=user_token, mongo_client=clean_mongo)
         self.do_list_artifacts_v2(clean_mongo, user_token, artifacts)
+
 
 class _TestReleasesBase:
     def do_test_delete_releases(self, clean_mongo, user_token, devs):
@@ -1277,6 +1305,7 @@ class _TestReleasesBase:
             deployments_v2.URL_RELEASES + "?name=" + "deployments-phase-testing",
         )
         assert r.status_code == 204
+
 
 @pytest.mark.storage_test
 class TestReleasesOpenSource(_TestReleasesBase):

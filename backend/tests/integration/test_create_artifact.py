@@ -23,6 +23,7 @@ from testutils.api.client import ApiClient
 from testutils.api import deployments, useradm
 from testutils.common import create_org, create_user
 
+
 class TestCreateArtifactBase:
     def run_create_artifact_test(self, username, password):
         r = ApiClient(useradm.URL_MGMT).call(
@@ -80,7 +81,10 @@ class TestCreateArtifactBase:
 
         artifact = None
         for _ in redo.retrier(attempts=15, sleeptime=1):
-            r = api_client.call("GET", artifact_url,)
+            r = api_client.call(
+                "GET",
+                artifact_url,
+            )
             if r.status_code == 200:
                 artifact = r.json()
                 break
@@ -94,6 +98,7 @@ class TestCreateArtifactBase:
         assert artifact["size"] > 0
         assert artifact["id"] is not None
         assert artifact["modified"] is not None
+
 
 class TestCreateArtifactOpenSource(TestCreateArtifactBase):
     def test_create_artifact(self, mongo, clean_mongo):

@@ -29,9 +29,10 @@ class TestInventorySorting:
         self, management_client, internal_client, inventory_attributes
     ):
         def get_raw_value(val):
-            if hasattr(val, 'actual_instance'):
+            if hasattr(val, "actual_instance"):
                 return val.actual_instance
             return val
+
         numbers = [100, 1000, 1, 999]
 
         for n in range(20):

@@ -136,13 +136,17 @@ class DeviceAPIClientWrapper:
         return self._client.device_config_get_device_configuration(**kwargs)
 
     def get_device_configuration_with_http_info(self, **kwargs):
-        return self._client.device_config_get_device_configuration_with_http_info(**kwargs)
+        return self._client.device_config_get_device_configuration_with_http_info(
+            **kwargs
+        )
 
     def report_device_configuration(self, **kwargs):
         return self._client.device_config_report_device_configuration(**kwargs)
 
     def report_device_configuration_with_http_info(self, **kwargs):
-        return self._client.device_config_report_device_configuration_with_http_info(**kwargs)
+        return self._client.device_config_report_device_configuration_with_http_info(
+            **kwargs
+        )
 
 
 class InternalAPIClientWrapper:

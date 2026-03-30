@@ -24,7 +24,6 @@ from pymongo import MongoClient
 
 from client import CliClient, ManagementApiClient, InternalApiClient
 
-
 TENANT_ONE: str = "tenant1id"
 TENANT_TWO: str = "tenant2id"
 TENANTS: List[str] = [TENANT_ONE, TENANT_TWO]
@@ -122,9 +121,7 @@ def api_client_mgmt(request):
 
 @pytest.fixture(scope="session")
 def api_client_int(request):
-    return InternalApiClient(
-        request.config.getoption("host")
-    )
+    return InternalApiClient(request.config.getoption("host"))
 
 
 @pytest.fixture(scope="class")

@@ -15,7 +15,11 @@
 import uuid
 import pytest
 
-from common import management_api_with_params, management_api_set_config_raw, InternalAPIClient
+from common import (
+    management_api_with_params,
+    management_api_set_config_raw,
+    InternalAPIClient,
+)
 from mender_client import ApiException as ManagementApiException
 
 

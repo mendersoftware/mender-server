@@ -40,7 +40,9 @@ class ManagementAPIClient(IoTManagerManagementAPIApi):
         return self.io_t_manager_management_register_integration(integration, **kwargs)
 
     def register_integration_with_http_info(self, integration, **kwargs):
-        return self.io_t_manager_management_register_integration_with_http_info(integration, **kwargs)
+        return self.io_t_manager_management_register_integration_with_http_info(
+            integration, **kwargs
+        )
 
     def remove_integration(self, id, **kwargs):
         return self.io_t_manager_management_remove_integration(id, **kwargs)

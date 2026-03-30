@@ -27,6 +27,7 @@ logging.basicConfig(format="%(asctime)s %(message)s")
 logger = logging.getLogger("test_api_endpoints")
 logger.setLevel(logging.INFO)
 
+
 def get_api_docs(repo):
     files = glob.glob(os.path.join(os.sep + "docs", repo, "*.yml"))
     for file in files:
@@ -41,6 +42,7 @@ def get_api_docs(repo):
         with open(file) as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
             yield kind, data
+
 
 def get_api_endpoints(repo):
     for kind, data in get_api_docs(repo):
@@ -88,6 +90,7 @@ def get_api_endpoints(repo):
                     "path": base_path.rstrip("/") + path,
                 }
 
+
 def get_all_api_endpoints(repos):
     for repo in repos:
         for endpoint in get_api_endpoints(repo):
@@ -99,6 +102,7 @@ def get_all_api_endpoints(repos):
                 endpoint["host"],
                 endpoint["path"],
             )
+
 
 class BaseTestAPIEndpoints:
     def do_test_api_endpoints(
@@ -123,6 +127,7 @@ class BaseTestAPIEndpoints:
                 and int(r.status_code) != 405
             )
 
+
 class TestAPIEndpoints(BaseTestAPIEndpoints):
     REPOS = (
         "deployments",
@@ -136,7 +141,8 @@ class TestAPIEndpoints(BaseTestAPIEndpoints):
     )
 
     @pytest.mark.parametrize(
-        "kind,returns_401,method,scheme,host,path", get_all_api_endpoints(REPOS),
+        "kind,returns_401,method,scheme,host,path",
+        get_all_api_endpoints(REPOS),
     )
     def test_api_endpoints(
         self, kind, returns_401, method, scheme, host, path, get_endpoint_url
@@ -144,4 +150,3 @@ class TestAPIEndpoints(BaseTestAPIEndpoints):
         self.do_test_api_endpoints(
             kind, returns_401, method, scheme, host, path, get_endpoint_url
         )
-

@@ -131,9 +131,7 @@ class InternalClient(SwaggerApiClient):
             )
         else:
             api_client = self.clientInternal.api_client
-            url = (
-                f"{api_client.configuration.host}/api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices"
-            )
+            url = f"{api_client.configuration.host}/api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices"
             return api_client.call_api(
                 "PUT",
                 url,

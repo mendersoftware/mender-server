@@ -92,7 +92,9 @@ class TestInventoryWebhooks:
         """Create an accepted device."""
         tenant_token = getattr(getattr(user, "tenant", {}), "tenant_token", "")
         dev = make_device_with_inventory(
-            self.attributes, user.token, tenant_token=tenant_token,
+            self.attributes,
+            user.token,
+            tenant_token=tenant_token,
         )
         self.devices.append(dev)
         return dev
@@ -105,7 +107,9 @@ class TestInventoryWebhooks:
             "provider": "webhook",
             "credentials": {
                 "type": "http",
-                "http": {"url": "http://mock-httpd:1080" + target_webhook_path,},
+                "http": {
+                    "url": "http://mock-httpd:1080" + target_webhook_path,
+                },
             },
             "description": "web hook test " + id,
             # "scopes": scopes,
@@ -139,7 +143,8 @@ class TestInventoryWebhooks:
         assert response.status_code == expected_response_code
 
     def test_deviceauth_webhook(
-        self, user: User,
+        self,
+        user: User,
     ):
         """Let's create a webhook in only deviceauth scope."""
         dev = self._prepare_device(user)
@@ -155,7 +160,8 @@ class TestInventoryWebhooks:
         assert not self.mocked_http.request_seen(target_webhook_path)
 
     def test_webhooks_all_events(
-        self, user: User,
+        self,
+        user: User,
     ):
         """Let's create a webhook in both supported scopes and see all the events."""
         new_uuid = str(uuid.uuid4())

@@ -14,6 +14,7 @@
 
 from mender_client import ApiClient, Configuration, api
 
+
 class TestHealthCheck:
     def test_health_check(self):
         configuration = Configuration.get_default()
@@ -65,4 +66,3 @@ class TestHealthCheck:
         api_client_workflows = ApiClient(configuration)
         api.WorkflowsOtherApi(api_client_workflows).workflows_check_health()
         configuration.host = host
-

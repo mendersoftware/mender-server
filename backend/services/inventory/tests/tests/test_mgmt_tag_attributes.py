@@ -94,14 +94,18 @@ class TestTagAttributes:
         management_client.updateTagAttributes(did, tags_body)
 
         res = requests.get(
-            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices/" + did,
-            headers={"Authorization":DEFAULT_AUTH},
+            management_client.client.api_client.configuration.host
+            + "/api/management/v1/inventory/devices/"
+            + did,
+            headers={"Authorization": DEFAULT_AUTH},
         )
         etag_one = res.headers["Etag"]
         management_client.setTagAttributes(did, tags_body, eTag=etag_one)
         res = requests.get(
-            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices/" + did,
-            headers={"Authorization":DEFAULT_AUTH},
+            management_client.client.api_client.configuration.host
+            + "/api/management/v1/inventory/devices/"
+            + did,
+            headers={"Authorization": DEFAULT_AUTH},
         )
         etag_two = res.headers["Etag"]
         assert etag_one != etag_two
@@ -124,14 +128,18 @@ class TestTagAttributes:
         management_client.setTagAttributes(did, tags_body)
 
         res = requests.get(
-            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices/" + did,
-            headers={"Authorization":DEFAULT_AUTH},
+            management_client.client.api_client.configuration.host
+            + "/api/management/v1/inventory/devices/"
+            + did,
+            headers={"Authorization": DEFAULT_AUTH},
         )
         etag_one = res.headers["Etag"]
         management_client.setTagAttributes(did, tags_body, eTag=etag_one)
         res = requests.get(
-            management_client.client.api_client.configuration.host + "/api/management/v1/inventory/devices/" + did,
-            headers={"Authorization":DEFAULT_AUTH},
+            management_client.client.api_client.configuration.host
+            + "/api/management/v1/inventory/devices/"
+            + did,
+            headers={"Authorization": DEFAULT_AUTH},
         )
         etag_two = res.headers["Etag"]
         assert etag_one != etag_two

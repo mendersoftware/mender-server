@@ -182,7 +182,6 @@ class TestClientCompat:
                 break
         else:
             pytest.fail("timeout: Waiting for devices to update")
-  
 
         for i in range(len(devices_ids)):
             r = devauthm.with_auth(utoken).call(
