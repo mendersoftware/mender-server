@@ -14,13 +14,6 @@
 
 package model
 
-type SearchParams struct {
-	Page      int               `json:"page"`
-	PerPage   int               `json:"per_page"`
-	Filters   []FilterPredicate `json:"filters"`
-	DeviceIDs []string          `json:"device_ids"`
-}
-
 type Filter struct {
 	Id    string            `json:"id" bson:"_id"`
 	Name  string            `json:"name" bson:"name"`

@@ -18,9 +18,12 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
+	"net/http"
 	"path"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 
@@ -32,11 +35,12 @@ import (
 	"github.com/mendersoftware/mender-artifact/awriter"
 	"github.com/mendersoftware/mender-artifact/handlers"
 
+	"github.com/mendersoftware/mender-server/pkg/api"
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
-	"github.com/mendersoftware/mender-server/services/deployments/client/inventory"
-	"github.com/mendersoftware/mender-server/services/deployments/client/workflows"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
 	"github.com/mendersoftware/mender-server/services/deployments/store"
@@ -212,10 +216,11 @@ type App interface {
 }
 
 type Deployments struct {
-	db              store.DataStore
-	objectStorage   storage.ObjectStorage
-	workflowsClient workflows.Client
-	inventoryClient inventory.Client
+	db                store.DataStore
+	objectStorage     storage.ObjectStorage
+	workflowsClient   openapi.WorkflowsOtherAPI
+	inventoryClient   openapi.DeviceInventoryInternalAPIAPI
+	inventoryV2Client openapi.DeviceInventoryFiltersAndSearchInternalAPIAPI
 }
 
 // Compile-time check
@@ -228,19 +233,18 @@ func NewDeployments(
 	withAuditLogs bool,
 ) *Deployments {
 	return &Deployments{
-		db:              storage,
-		objectStorage:   objectStorage,
-		workflowsClient: workflows.NewClient(),
-		inventoryClient: inventory.NewClient(),
+		db:            storage,
+		objectStorage: objectStorage,
 	}
 }
 
-func (d *Deployments) SetWorkflowsClient(workflowsClient workflows.Client) {
-	d.workflowsClient = workflowsClient
+func (d *Deployments) SetWorkflowsClient(apiClient *openapi.APIClient) {
+	d.workflowsClient = apiClient.WorkflowsOtherAPI
 }
 
-func (d *Deployments) SetInventoryClient(inventoryClient inventory.Client) {
-	d.inventoryClient = inventoryClient
+func (d *Deployments) SetInventoryClient(apiClient *openapi.APIClient) {
+	d.inventoryClient = apiClient.DeviceInventoryInternalAPIAPI
+	d.inventoryV2Client = apiClient.DeviceInventoryFiltersAndSearchInternalAPIAPI
 }
 
 func (d *Deployments) HealthCheck(ctx context.Context) error {
@@ -256,14 +260,24 @@ func (d *Deployments) HealthCheck(ctx context.Context) error {
 		)
 	}
 
-	err = d.workflowsClient.CheckHealth(ctx)
+	rspWorkflows, err := d.workflowsClient.WorkflowsCheckHealth(ctx).
+		Execute()
 	if err != nil {
 		return errors.Wrap(err, "Workflows service unhealthy")
 	}
+	defer rspWorkflows.Body.Close()
+	if rspWorkflows.StatusCode >= 300 {
+		return api.NewHTTPError(rspWorkflows.StatusCode)
+	}
 
-	err = d.inventoryClient.CheckHealth(ctx)
+	rspInventory, err := d.inventoryClient.InventoryInternalCheckHealth(ctx).
+		Execute()
 	if err != nil {
 		return errors.Wrap(err, "Inventory service unhealthy")
+	}
+	defer rspInventory.Body.Close()
+	if rspInventory.StatusCode >= 300 {
+		return api.NewHTTPError(rspInventory.StatusCode)
 	}
 
 	return nil
@@ -517,7 +531,15 @@ func (d *Deployments) GenerateImage(ctx context.Context,
 	if id := identity.FromContext(ctx); id != nil && len(id.Tenant) > 0 {
 		multipartGenerateImageMsg.TenantID = id.Tenant
 	}
-	err = d.workflowsClient.StartGenerateArtifact(ctx, multipartGenerateImageMsg)
+	_, rsp, err := d.workflowsClient.StartWorkflow(ctx, "generate_artifact").
+		RequestBody(multipartGenerateImageMsg.ToRequestParams()).
+		Execute()
+	if rsp != nil {
+		defer rsp.Body.Close()
+	}
+	if err == nil && rsp.StatusCode >= 300 {
+		err = api.NewHTTPError(rsp.StatusCode)
+	}
 	if err != nil {
 		if cleanupErr := d.objectStorage.DeleteObject(ctx, imgPath); cleanupErr != nil {
 			return "", errors.Wrap(err, cleanupErr.Error())
@@ -1073,16 +1095,6 @@ func getArtifactIDs(artifacts []*model.Image) []string {
 	return artifactIDs
 }
 
-// deployments
-func inventoryDevicesToDevicesIds(devices []model.InvDevice) []string {
-	ids := make([]string, len(devices))
-	for i, d := range devices {
-		ids[i] = d.ID
-	}
-
-	return ids
-}
-
 // updateDeploymentConstructor fills devices list with device ids
 func (d *Deployments) updateDeploymentConstructor(ctx context.Context,
 	constructor *model.DeploymentConstructor) (*model.DeploymentConstructor, error) {
@@ -1093,47 +1105,52 @@ func (d *Deployments) updateDeploymentConstructor(ctx context.Context,
 		l.Error("identity not present in the context")
 		return nil, ErrModelInternal
 	}
-	searchParams := model.SearchParams{
-		Page:    1,
-		PerPage: PerPageInventoryDevices,
-		Filters: []model.FilterPredicate{
+	page := int32(1)
+	searchParams := openapi.SearchParams{
+		Page:    &page,
+		PerPage: types.Pointer(int32(PerPageInventoryDevices)),
+		Filters: []openapi.FilterPredicate{
 			{
 				Scope:     InventoryIdentityScope,
 				Attribute: InventoryStatusAttributeName,
 				Type:      "$eq",
-				Value:     InventoryStatusAccepted,
+				Value: openapi.AttributeValue{
+					String: types.Pointer(InventoryStatusAccepted),
+				},
 			},
 		},
 	}
 	if len(constructor.Group) > 0 {
 		searchParams.Filters = append(
 			searchParams.Filters,
-			model.FilterPredicate{
+			openapi.FilterPredicate{
 				Scope:     InventoryGroupScope,
 				Attribute: InventoryGroupAttributeName,
 				Type:      "$eq",
-				Value:     constructor.Group,
+				Value: openapi.AttributeValue{
+					String: types.Pointer(constructor.Group),
+				},
 			})
 	}
 
 	for {
 		devices, count, err := d.search(ctx, id.Tenant, searchParams)
 		if err != nil {
-			l.Errorf("error searching for devices")
+			if errors.Is(err, ErrNoDevices) {
+				l.Errorf("no devices found")
+				return nil, ErrNoDevices
+			}
+			l.Errorf("error searching for devices: %s", err.Error())
 			return nil, ErrModelInternal
-		}
-		if count < 1 {
-			l.Errorf("no devices found")
-			return nil, ErrNoDevices
 		}
 		if len(devices) < 1 {
 			break
 		}
-		constructor.Devices = append(constructor.Devices, inventoryDevicesToDevicesIds(devices)...)
-		if len(constructor.Devices) == count {
+		constructor.Devices = append(constructor.Devices, devices...)
+		if len(constructor.Devices) == int(count) {
 			break
 		}
-		searchParams.Page++
+		page++
 	}
 
 	return constructor, nil
@@ -1263,11 +1280,21 @@ func (d *Deployments) getDeploymentGroups(
 		id = &identity.Identity{}
 	}
 
-	groups, err := d.inventoryClient.GetDeviceGroups(ctx, id.Tenant, devices[0])
-	if err != nil && err != inventory.ErrDevNotFound {
+	groups, rsp, err := d.inventoryClient.GetDeviceGroups(ctx, id.Tenant, devices[0]).
+		Execute()
+	if rsp != nil {
+		defer rsp.Body.Close()
+	}
+	if err != nil {
+		if rsp.StatusCode == http.StatusNotFound {
+			return []string{}, nil
+		}
 		return nil, err
 	}
-	return groups, nil
+	if rsp.StatusCode != http.StatusOK {
+		return nil, api.NewHTTPError(rsp.StatusCode)
+	}
+	return groups.Groups, nil
 }
 
 func getDeploymentFilter(
@@ -1886,22 +1913,24 @@ func (d *Deployments) LookupDeployment(ctx context.Context,
 			return make([]*model.Deployment, 0), 0, nil
 		}
 
-		devices, _, err := d.search(ctx, id.Tenant, model.SearchParams{
-			Page:    1,
-			PerPage: 1,
-			Filters: []model.FilterPredicate{{
-				Scope:     query.IdScope,
+		devices, _, err := d.search(ctx, id.Tenant, openapi.SearchParams{
+			Page:    types.Pointer(int32(1)),
+			PerPage: types.Pointer(int32(1)),
+			Filters: []openapi.FilterPredicate{{
+				Scope:     openapi.Scope(query.IdScope),
 				Attribute: query.IdAttribute,
 				Type:      "$eq",
-				Value:     query.Names[0],
+				Value: openapi.AttributeValue{
+					String: types.Pointer(query.Names[0]),
+				},
 			}},
 		})
-		if err != nil {
+		if err != nil && !errors.Is(err, ErrNoDevices) {
 			return nil, 0, errors.Wrap(err,
 				"searching inventory for device")
 		}
 		if len(devices) > 0 {
-			deviceID := devices[0].ID
+			deviceID := devices[0]
 			fallbackQuery := model.Query{
 				DeviceIDs:     []string{deviceID},
 				Status:        query.Status,
@@ -2101,13 +2130,6 @@ func (d *Deployments) DeleteDeviceDeploymentsHistory(ctx context.Context, device
 		return err
 	}
 
-	// trigger reindexing of updated device deployments
-	deviceDeployments := make([]workflows.DeviceDeploymentShortInfo, len(dd))
-	for i, d := range dd {
-		deviceDeployments[i].ID = d.Id
-		deviceDeployments[i].DeviceID = d.DeviceId
-		deviceDeployments[i].DeploymentID = d.DeploymentId
-	}
 	return err
 }
 
@@ -2143,9 +2165,34 @@ func (d *Deployments) SetStorageSettings(
 func (d *Deployments) search(
 	ctx context.Context,
 	tid string,
-	parms model.SearchParams,
-) ([]model.InvDevice, int, error) {
-	return d.inventoryClient.Search(ctx, tid, parms)
+	params openapi.SearchParams,
+) ([]string, int64, error) {
+	devices, rsp, err := d.inventoryV2Client.InventoryInternalV2SearchDeviceInventories(ctx, tid).
+		SearchParams(params).
+		Execute()
+	if rsp != nil {
+		defer rsp.Body.Close()
+	}
+	if err != nil {
+		return nil, -1, err
+	}
+	if rsp.StatusCode != http.StatusOK {
+		return nil, -1, api.NewHTTPError(rsp.StatusCode)
+	}
+	if len(devices) == 0 {
+		return nil, -1, ErrNoDevices
+	}
+	totalCount, err := strconv.ParseInt(rsp.Header.Get("X-Total-Count"), 10, 64)
+	if err != nil {
+		return nil, -1, fmt.Errorf("error parsing total count: %w", err)
+	}
+	deviceIDs := make([]string, 0, len(devices))
+	for _, device := range devices {
+		if device.Id != nil {
+			deviceIDs = append(deviceIDs, *device.Id)
+		}
+	}
+	return deviceIDs, totalCount, nil
 }
 
 func (d *Deployments) UpdateDeploymentsWithArtifactName(
