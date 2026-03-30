@@ -166,4 +166,3 @@ def run_fake(listen_addr, handlers=[]):
         yield mock_server.run_thread_and_sync()
     finally:
         mock_server.stop_thread_and_wait()
-

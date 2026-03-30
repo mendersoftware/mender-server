@@ -239,7 +239,7 @@ class TestDevice:
 
     @pytest.mark.parametrize("devices", ["5"], indirect=True)
     def test_device_count_multiple_auth_sets(self, devices, management_api, device_api):
-        """"Verify that auth sets are properly counted. Take a device, make sure it has
+        """ "Verify that auth sets are properly counted. Take a device, make sure it has
         2 auth sets, switch each auth sets between accepted/rejected/pending/noauth
         states
         """

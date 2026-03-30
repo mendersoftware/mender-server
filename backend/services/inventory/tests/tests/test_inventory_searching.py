@@ -52,7 +52,7 @@ class TestInventorySearching:
             management_client.client.swagger_spec.api_url + "/devices",
             params=({"users_logged_in": 100}),
             verify=False,
-            headers={"Authorization":DEFAULT_AUTH},
+            headers={"Authorization": DEFAULT_AUTH},
         )
         assert len(r.json()) == 1
 
@@ -60,6 +60,6 @@ class TestInventorySearching:
             management_client.client.swagger_spec.api_url + "/devices",
             params=({"open_connections": 1231}),
             verify=False,
-            headers={"Authorization":DEFAULT_AUTH},
+            headers={"Authorization": DEFAULT_AUTH},
         )
         assert len(r.json()) == 1

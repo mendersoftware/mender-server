@@ -484,7 +484,10 @@ def update_tenant(tid, addons=None, plan=None, container_manager=None):
     )
     tadm = ApiClient(tenantadm.URL_INTERNAL, host=tenantadm_host, schema="http://")
     res = tadm.call(
-        "PUT", tenantadm.URL_INTERNAL_TENANT, body=update, path_params={"tid": tid},
+        "PUT",
+        tenantadm.URL_INTERNAL_TENANT,
+        body=update,
+        path_params={"tid": tid},
     )
     assert res.status_code == 202
 
@@ -520,7 +523,7 @@ def new_tenant_client(
 
 
 def create_tenant_test_setup() -> Tenant:
-    """ Creates a tenant and a user belonging to the tenant (both tenant and user are created with random names). """
+    """Creates a tenant and a user belonging to the tenant (both tenant and user are created with random names)."""
     uuidv4 = str(uuid.uuid4())
     tenant, username, password = (
         "test.mender.io-" + uuidv4,
@@ -542,7 +545,7 @@ def create_tenant_test_setup() -> Tenant:
 
 
 def create_user_test_setup() -> User:
-    """Create a user with random name, log user in. """
+    """Create a user with random name, log user in."""
     uuidv4 = str(uuid.uuid4())
     user_name, password = (
         "some.user+" + uuidv4 + "@example.com",
@@ -636,11 +639,11 @@ class MockedHttp:
                 "path": path,
             },
         )
-        all_requests_recorded=[]
+        all_requests_recorded = []
         if r.status_code != 200:
             return all_requests_recorded
         for i in r.json():
-            all_requests_recorded.append(i['body']['json'])
+            all_requests_recorded.append(i["body"]["json"])
         return all_requests_recorded
 
 

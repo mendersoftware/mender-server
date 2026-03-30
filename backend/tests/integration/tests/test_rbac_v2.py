@@ -210,9 +210,14 @@ class TestRBACv2DeploymentsEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ReadReleases",},
+                            {
+                                "name": "ReadReleases",
+                            },
                         ],
                     },
                 ],
@@ -234,10 +239,17 @@ class TestRBACv2DeploymentsEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
-                            {"name": "ReadReleases",},
+                            {
+                                "name": "ManageTokens",
+                            },
+                            {
+                                "name": "ReadReleases",
+                            },
                         ],
                     },
                 ],
@@ -259,9 +271,14 @@ class TestRBACv2DeploymentsEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ReadReleases",},
+                            {
+                                "name": "ReadReleases",
+                            },
                         ],
                     },
                 ],
@@ -283,10 +300,17 @@ class TestRBACv2DeploymentsEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
-                            {"name": "ReadReleases",},
+                            {
+                                "name": "ManageTokens",
+                            },
+                            {
+                                "name": "ReadReleases",
+                            },
                         ],
                     },
                 ],
@@ -308,9 +332,14 @@ class TestRBACv2DeploymentsEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ReadReleases",},
+                            {
+                                "name": "ReadReleases",
+                            },
                         ],
                     },
                 ],
@@ -332,10 +361,17 @@ class TestRBACv2DeploymentsEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
-                            {"name": "ReadReleases",},
+                            {
+                                "name": "ManageTokens",
+                            },
+                            {
+                                "name": "ReadReleases",
+                            },
                         ],
                     },
                 ],
@@ -431,9 +467,14 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ReadReleases",},
+                            {
+                                "name": "ReadReleases",
+                            },
                         ],
                     },
                 ],
@@ -455,10 +496,17 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
-                            {"name": "ReadReleases",},
+                            {
+                                "name": "ManageTokens",
+                            },
+                            {
+                                "name": "ReadReleases",
+                            },
                         ],
                     },
                 ],
@@ -480,9 +528,14 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ReadReleases",},
+                            {
+                                "name": "ReadReleases",
+                            },
                         ],
                     },
                 ],
@@ -504,10 +557,17 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
-                            {"name": "ReadReleases",},
+                            {
+                                "name": "ManageTokens",
+                            },
+                            {
+                                "name": "ReadReleases",
+                            },
                         ],
                     },
                 ],
@@ -827,7 +887,10 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -850,9 +913,14 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
+                            {
+                                "name": "ManageTokens",
+                            },
                         ],
                     },
                 ],
@@ -887,7 +955,10 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ConfigureDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -962,15 +1033,24 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "ManageDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -998,17 +1078,28 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "ManageDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
+                            {
+                                "name": "ManageTokens",
+                            },
                         ],
                     },
                 ],
@@ -1035,11 +1126,17 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "ManageDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -1067,13 +1164,21 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "ManageDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
+                            {
+                                "name": "ManageTokens",
+                            },
                         ],
                     },
                 ],
@@ -1100,11 +1205,17 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -1132,13 +1243,21 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
+                            {
+                                "name": "ManageTokens",
+                            },
                         ],
                     },
                 ],
@@ -1165,7 +1284,10 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -1193,9 +1315,14 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
+                            {
+                                "name": "ManageTokens",
+                            },
                         ],
                     },
                 ],
@@ -1222,15 +1349,24 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "ManageDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -1258,17 +1394,28 @@ class TestRBACv2DeploymentsToGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "ManageDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "DeployToDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
-                            {"name": "ManageTokens",},
+                            {
+                                "name": "ManageTokens",
+                            },
                         ],
                     },
                 ],
@@ -1284,8 +1431,7 @@ class TestRBACv2DeploymentsToGroupEnterprise:
         ],
     )
     def test_access_to_devices(self, clean_mongo, test_case):
-        """
-        """
+        """ """
         self.logger.info("RUN: %s", test_case["name"])
 
         uuidv4 = str(uuid.uuid4())
@@ -1320,7 +1466,8 @@ class TestRBACv2DeploymentsToGroupEnterprise:
         if test_case["get_configuration_status_code"] < 300:
             token = tenant.users[0].token
         rsp = deviceconf_MGMT.with_auth(token).call(
-            "GET", deviceconfig.URL_MGMT_DEVICE_CONFIGURATION.format(id=device_id),
+            "GET",
+            deviceconfig.URL_MGMT_DEVICE_CONFIGURATION.format(id=device_id),
         )
         assert rsp.status_code == test_case["get_configuration_status_code"], rsp.text
         # Attempt to set configuration
@@ -1406,7 +1553,10 @@ class TestRBACGetEmailsByGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -1445,7 +1595,10 @@ class TestRBACGetEmailsByGroupEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadDevices",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -1459,7 +1612,9 @@ class TestRBACGetEmailsByGroupEnterprise:
                                     "value": ["production"],
                                 },
                             },
-                            {"name": "ManageTokens",},
+                            {
+                                "name": "ManageTokens",
+                            },
                         ],
                     },
                 ],
@@ -1536,7 +1691,10 @@ class TestRBACReleasesEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadReleases",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -1551,7 +1709,10 @@ class TestRBACReleasesEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ManageReleases",
-                                "scope": {"type": "DeviceGroups", "value": ["test"],},
+                                "scope": {
+                                    "type": "DeviceGroups",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -1566,11 +1727,17 @@ class TestRBACReleasesEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadReleases",
-                                "scope": {"type": "ReleaseTags", "value": ["test"],},
+                                "scope": {
+                                    "type": "ReleaseTags",
+                                    "value": ["test"],
+                                },
                             },
                             {
                                 "name": "ManageReleases",
-                                "scope": {"type": "ReleaseTags", "value": ["test"],},
+                                "scope": {
+                                    "type": "ReleaseTags",
+                                    "value": ["test"],
+                                },
                             },
                         ],
                     },
@@ -1615,11 +1782,17 @@ class TestRBACReleasesEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadReleases",
-                                "scope": {"type": "ReleaseTags", "value": ["foo"],},
+                                "scope": {
+                                    "type": "ReleaseTags",
+                                    "value": ["foo"],
+                                },
                             },
                             {
                                 "name": "ManageReleases",
-                                "scope": {"type": "ReleaseTags", "value": ["foo"],},
+                                "scope": {
+                                    "type": "ReleaseTags",
+                                    "value": ["foo"],
+                                },
                             },
                         ],
                     },
@@ -1641,11 +1814,17 @@ class TestRBACReleasesEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadReleases",
-                                "scope": {"type": "ReleaseTags", "value": ["foo"],},
+                                "scope": {
+                                    "type": "ReleaseTags",
+                                    "value": ["foo"],
+                                },
                             },
                             {
                                 "name": "ManageReleases",
-                                "scope": {"type": "ReleaseTags", "value": ["foo"],},
+                                "scope": {
+                                    "type": "ReleaseTags",
+                                    "value": ["foo"],
+                                },
                             },
                         ],
                     },
@@ -1669,7 +1848,9 @@ class TestRBACReleasesEnterprise:
         )
         tenant = create_org(tenant, username, password, "enterprise")
         create_roles(
-            tenant.users[0].token, test_case["roles"], status_code=201,
+            tenant.users[0].token,
+            test_case["roles"],
+            status_code=201,
         )
         # create and upload artifacts
         artifacts = (
@@ -1767,13 +1948,21 @@ class TestRBACReleasesEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadReleases",
-                                "scope": {"type": "ReleaseTags", "value": ["foo"],},
+                                "scope": {
+                                    "type": "ReleaseTags",
+                                    "value": ["foo"],
+                                },
                             },
                             {
                                 "name": "ManageReleases",
-                                "scope": {"type": "ReleaseTags", "value": ["foo"],},
+                                "scope": {
+                                    "type": "ReleaseTags",
+                                    "value": ["foo"],
+                                },
                             },
-                            {"name": "DeployToDevices",},
+                            {
+                                "name": "DeployToDevices",
+                            },
                         ],
                     },
                 ],
@@ -1795,7 +1984,9 @@ class TestRBACReleasesEnterprise:
         )
         tenant = create_org(tenant, username, password, "enterprise")
         create_roles(
-            tenant.users[0].token, test_case["roles"], status_code=201,
+            tenant.users[0].token,
+            test_case["roles"],
+            status_code=201,
         )
         # create and upload artifacts
         artifacts = (
@@ -1930,11 +2121,17 @@ class TestRBACReleasesEnterprise:
                         "permission_sets_with_scope": [
                             {
                                 "name": "ReadReleases",
-                                "scope": {"type": "ReleaseTags", "value": ["foo"],},
+                                "scope": {
+                                    "type": "ReleaseTags",
+                                    "value": ["foo"],
+                                },
                             },
                             {
                                 "name": "ManageReleases",
-                                "scope": {"type": "ReleaseTags", "value": ["foo"],},
+                                "scope": {
+                                    "type": "ReleaseTags",
+                                    "value": ["foo"],
+                                },
                             },
                         ],
                     },
@@ -1958,7 +2155,9 @@ class TestRBACReleasesEnterprise:
         )
         tenant = create_org(tenant, username, password, "enterprise")
         create_roles(
-            tenant.users[0].token, test_case["roles"], status_code=201,
+            tenant.users[0].token,
+            test_case["roles"],
+            status_code=201,
         )
         # create and upload artifacts
         artifacts = (
@@ -2042,7 +2241,11 @@ class TestRBACReleasesEnterprise:
                     ("size", (None, str(os.path.getsize(artifact)))),
                     (
                         "artifact",
-                        (artifact, open(artifact, "rb"), "application/octet-stream",),
+                        (
+                            artifact,
+                            open(artifact, "rb"),
+                            "application/octet-stream",
+                        ),
                     ),
                 ),
             )
@@ -2050,12 +2253,16 @@ class TestRBACReleasesEnterprise:
 
         # direct upload
         r = api_client.call(
-            "POST", deployments.URL_DEPLOYMENTS_ARTIFACTS_DIRECT_UPLOAD,
+            "POST",
+            deployments.URL_DEPLOYMENTS_ARTIFACTS_DIRECT_UPLOAD,
         )
         assert r.status_code == 403
 
         # generate
-        r = api_client.call("POST", deployments.URL_DEPLOYMENTS_ARTIFACTS_GENERATE,)
+        r = api_client.call(
+            "POST",
+            deployments.URL_DEPLOYMENTS_ARTIFACTS_GENERATE,
+        )
         assert r.status_code == 403
 
         # get by id

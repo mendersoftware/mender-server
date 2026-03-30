@@ -22,9 +22,9 @@ def pytest_addoption(parser):
     parser.addoption(
         "--host",
         action="store",
-        default=os.environ["TESTING_HOST"]
-        if "TESTING_HOST" in os.environ
-        else "localhost",
+        default=(
+            os.environ["TESTING_HOST"] if "TESTING_HOST" in os.environ else "localhost"
+        ),
         help="Address for host hosting reporting API (env: TEST_HOST)",
     )
 
@@ -32,9 +32,7 @@ def pytest_addoption(parser):
 def pytest_configure(config):
     host = config.getoption("host")
     internal_api.Configuration.set_default(
-        internal_api.Configuration(
-            host="http://" + host + "/api/internal/v1/reporting"
-        )
+        internal_api.Configuration(host="http://" + host + "/api/internal/v1/reporting")
     )
     management_api.Configuration.set_default(
         management_api.Configuration(

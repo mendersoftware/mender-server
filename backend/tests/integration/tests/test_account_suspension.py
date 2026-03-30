@@ -27,6 +27,7 @@ from testutils.common import (
     retry,
 )
 
+
 @pytest.fixture(scope="function")
 def tenants(clean_mongo):
     tenants = []

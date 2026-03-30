@@ -24,7 +24,6 @@ from pymongo import MongoClient
 
 from client import CliClient, ManagementApiClient, InternalApiClient
 
-
 TENANT_ONE: str = "tenant1id"
 TENANT_TWO: str = "tenant2id"
 TENANTS: List[str] = [TENANT_ONE, TENANT_TWO]
@@ -115,7 +114,8 @@ def migrate(cli: CliClient, mongo: MongoClient):
 @pytest.fixture(scope="session")
 def api_client_mgmt(request):
     return ManagementApiClient(
-        request.config.getoption("host"), request.config.getoption("management_spec"),
+        request.config.getoption("host"),
+        request.config.getoption("management_spec"),
         make_auth("foo", None),
     )
 

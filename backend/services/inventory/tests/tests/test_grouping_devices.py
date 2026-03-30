@@ -112,7 +112,7 @@ class TestGroupCreation:
 
     def test_has_group(self, management_client, internal_client, inventory_attributes):
         """
-            Verify has_group functionality
+        Verify has_group functionality
         """
         did = "some-device-id"
         internal_client.create_device(did, inventory_attributes)

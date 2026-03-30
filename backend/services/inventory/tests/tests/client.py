@@ -27,10 +27,10 @@ from bravado.swagger_model import load_file
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from requests.utils import parse_header_links
 
-
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 DEFAULT_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibWVuZGVyLnBsYW4iOiJlbnRlcnByaXNlIn0.s27fi93Qik81WyBmDB5APE0DfGko7Pq8BImbp33-gy4"
+
 
 def default_auth(**kwargs):
     if not "Authorization" in kwargs:
@@ -39,6 +39,8 @@ def default_auth(**kwargs):
     if not kwargs["Authorization"].startswith("Bearer "):
         kwargs["Authorization"] = "Bearer " + kwargs["Authorization"]
     return kwargs
+
+
 class ManagementClient:
     log = logging.getLogger("Client")
 
@@ -55,14 +57,16 @@ class ManagementClient:
         http_client.session.verify = False
 
         self.client = SwaggerClient.from_spec(
-            load_file(spec), config=config, http_client=http_client,
+            load_file(spec),
+            config=config,
+            http_client=http_client,
         )
         self.client.swagger_spec.api_url = "http://%s/api/%s" % (host, api)
 
         self.group = self.client.get_model("Group")
         self.inventoryAttribute = self.client.get_model("Attribute")
         self.inventoryAttributeTag = self.client.get_model("Tag")
-    
+
     def deleteAllGroups(self, **kwargs):
         kwargs = default_auth(**kwargs)
 
@@ -98,13 +102,19 @@ class ManagementClient:
 
     def updateTagAttributes(self, device_id, tags, eTag=None, JWT=DEFAULT_AUTH):
         r, _ = self.client.Management_API.Add_Tags(
-            id=device_id, If_Match=eTag, tags=tags, Authorization=JWT,
+            id=device_id,
+            If_Match=eTag,
+            tags=tags,
+            Authorization=JWT,
         ).result()
         return r
 
     def setTagAttributes(self, device_id, tags, eTag=None, JWT=DEFAULT_AUTH):
         r, _ = self.client.Management_API.Assign_Tags(
-            id=device_id, If_Match=eTag, tags=tags, Authorization=JWT,
+            id=device_id,
+            If_Match=eTag,
+            tags=tags,
+            Authorization=JWT,
         ).result()
         return r
 
@@ -119,7 +129,8 @@ class ManagementClient:
         try:
             kwargs = default_auth(**kwargs)
             r = self.client.Management_API.Get_Devices_in_Group(
-                name=group, **kwargs,
+                name=group,
+                **kwargs,
             ).result()
         except Exception as e:
             if expected_error:
@@ -131,7 +142,7 @@ class ManagementClient:
             return r[0]
 
     def deleteDeviceInGroup(self, group, device, expected_error=False, **kwargs):
-        try:    
+        try:
             kwargs = default_auth(**kwargs)
             r = self.client.Management_API.Clear_Group(
                 id=device, name=group, **kwargs
@@ -178,7 +189,9 @@ class ManagementClientV2:
         http_client.session.verify = False
 
         self.client = SwaggerClient.from_spec(
-            load_file(spec), config=config, http_client=http_client,
+            load_file(spec),
+            config=config,
+            http_client=http_client,
         )
         self.client.swagger_spec.api_url = (
             "http://%s/api/management/v2/inventory/" % host
@@ -276,7 +289,9 @@ class InternalApiClient(ApiClient):
 
     def create_tenant(self, tenant_id):
         return self.client.Internal_API.Create_Tenant(
-            tenant={"tenant_id": tenant_id,}
+            tenant={
+                "tenant_id": tenant_id,
+            }
         ).result()
 
     def create_device(self, device_id, attributes, description="test device"):

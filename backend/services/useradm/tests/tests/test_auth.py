@@ -96,7 +96,12 @@ class TestAuthLogout:
 
 class TestAuthVerify:
     @pytest.mark.parametrize(
-        "token", ["garbage", "", make_auth("user-1@foo.com")["Authorization"],],
+        "token",
+        [
+            "garbage",
+            "",
+            make_auth("user-1@foo.com")["Authorization"],
+        ],
     )
     def test_fail(self, api_client_int, init_users, token):
         try:

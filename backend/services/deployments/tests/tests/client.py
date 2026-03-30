@@ -326,9 +326,9 @@ class DeploymentsClient(BaseApiClient):
 
     def add_deployment(self, dep):
         """Posts new deployment `dep`"""
-        r = management_v1_client(jwt=self.get_jwt()).deployments_create_deployment_with_http_info(
-            dep
-        )
+        r = management_v1_client(
+            jwt=self.get_jwt()
+        ).deployments_create_deployment_with_http_info(dep)
         loc = r[2]["Location"]
         depid = os.path.basename(loc)
 
