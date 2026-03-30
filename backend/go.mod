@@ -7,13 +7,13 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.6.4
 	github.com/alicebob/miniredis v2.5.0+incompatible
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
-	github.com/aws/aws-sdk-go-v2 v1.41.2
-	github.com/aws/aws-sdk-go-v2/config v1.32.10
-	github.com/aws/aws-sdk-go-v2/credentials v1.19.10
-	github.com/aws/aws-sdk-go-v2/service/iot v1.72.2
-	github.com/aws/aws-sdk-go-v2/service/iotdataplane v1.32.18
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.96.2
-	github.com/aws/smithy-go v1.24.1
+	github.com/aws/aws-sdk-go-v2 v1.41.5
+	github.com/aws/aws-sdk-go-v2/config v1.32.13
+	github.com/aws/aws-sdk-go-v2/credentials v1.19.13
+	github.com/aws/aws-sdk-go-v2/service/iot v1.72.5
+	github.com/aws/aws-sdk-go-v2/service/iotdataplane v1.32.21
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.97.3
+	github.com/aws/smithy-go v1.24.2
 	github.com/gin-gonic/gin v1.12.0
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
 	github.com/go-viper/mapstructure/v2 v2.5.0
@@ -22,7 +22,7 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/mendersoftware/mender-artifact v0.0.0-20250724101633-c5f6563a4bcf
 	github.com/nats-io/nats-server/v2 v2.12.6
-	github.com/nats-io/nats.go v1.49.0
+	github.com/nats-io/nats.go v1.50.0
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.18.0
 	github.com/sirupsen/logrus v1.9.4
@@ -47,20 +47,20 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.11.2 // indirect
 	github.com/alicebob/gopher-json v0.0.0-20230218143504-906a9b012302 // indirect
 	github.com/antithesishq/antithesis-sdk-go v0.6.0-default-no-op // indirect
-	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.5 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.18 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.18 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.18 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.4 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/v4a v1.4.18 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.5 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.9.10 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.18 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.19.18 // indirect
-	github.com/aws/aws-sdk-go-v2/service/signin v1.0.6 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.30.11 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.15 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.41.7 // indirect
+	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.8 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.21 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.21 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.21 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.6 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/v4a v1.4.22 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.7 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.9.13 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.21 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.19.21 // indirect
+	github.com/aws/aws-sdk-go-v2/service/signin v1.0.9 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.30.14 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.18 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.41.10 // indirect
 	github.com/bytedance/gopkg v0.1.3 // indirect
 	github.com/bytedance/sonic v1.15.0 // indirect
 	github.com/bytedance/sonic/loader v0.5.0 // indirect
@@ -82,7 +82,7 @@ require (
 	github.com/google/go-tpm v0.9.8 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.18.4 // indirect
+	github.com/klauspost/compress v1.18.5 // indirect
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/klauspost/pgzip v1.2.6 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
