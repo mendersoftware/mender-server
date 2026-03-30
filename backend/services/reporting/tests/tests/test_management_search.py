@@ -64,7 +64,7 @@ class TestManagementSearch:
                         scope="inventory",
                     ),
                     management_api.models.DeviceAttribute(
-                        name="number", value=2 ** 47, scope="inventory"
+                        name="number", value=2**47, scope="inventory"
                     ),
                 ],
             ),
@@ -91,7 +91,9 @@ class TestManagementSearch:
                 id="ad707aab-916b-4ec9-a43f-0031b2bcf9ad",
                 attributes=[
                     management_api.models.DeviceAttribute(
-                        name="string", value="sed do eiusmod tempor", scope="inventory",
+                        name="string",
+                        value="sed do eiusmod tempor",
+                        scope="inventory",
                     ),
                 ],
             ),
@@ -102,7 +104,9 @@ class TestManagementSearch:
                 id="85388603-5852-437f-89c4-7549502893d5",
                 attributes=[
                     management_api.models.DeviceAttribute(
-                        name="string", value="incididunt ut labore", scope="inventory",
+                        name="string",
+                        value="incididunt ut labore",
+                        scope="inventory",
                     ),
                     management_api.models.DeviceAttribute(
                         name="number", value=0.0, scope="inventory"
@@ -122,7 +126,9 @@ class TestManagementSearch:
                 id="98efdb94-26c2-42eb-828d-12a5d6eb698c",
                 attributes=[
                     management_api.models.DeviceAttribute(
-                        name="string", value="sample text", scope="inventory",
+                        name="string",
+                        value="sample text",
+                        scope="inventory",
                     ),
                     management_api.models.DeviceAttribute(
                         name="number", value=1234, scope="inventory"
@@ -204,7 +210,7 @@ class TestManagementSearch:
                     filters=[
                         management_api.models.DeviceFilterTerm(
                             attribute="number",
-                            value=2 ** 47,
+                            value=2**47,
                             type="$gte",
                             scope="inventory",
                         )
@@ -216,7 +222,7 @@ class TestManagementSearch:
                         id="463e12dd-1adb-4f62-965e-b0a9ba2c93ff",
                         attributes=[
                             management_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                             management_api.models.DeviceAttribute(
                                 name="string",
@@ -286,7 +292,7 @@ class TestManagementSearch:
                     filters=[
                         management_api.models.DeviceFilterTerm(
                             attribute="number",
-                            value=2 ** 47,
+                            value=2**47,
                             type="$lte",
                             scope="inventory",
                         )
@@ -340,7 +346,7 @@ class TestManagementSearch:
                                 scope="inventory",
                             ),
                             management_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                         ],
                     ),
@@ -374,7 +380,7 @@ class TestManagementSearch:
                                 scope="inventory",
                             ),
                             management_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                         ],
                     ),
@@ -463,7 +469,7 @@ class TestManagementSearch:
                                 scope="inventory",
                             ),
                             management_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                         ],
                     ),
@@ -510,7 +516,7 @@ class TestManagementSearch:
                                 scope="inventory",
                             ),
                             management_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                             management_api.models.DeviceAttribute(
                                 name="latest_deployment_status",
@@ -528,7 +534,8 @@ class TestManagementSearch:
                         geo_distance=management_api.models.GeoDistance(
                             distance="100km",
                             location=management_api.models.GeoPoint(
-                                lat=59.91, lon=10.55,
+                                lat=59.91,
+                                lon=10.55,
                             ),
                         ),
                     ),
@@ -563,7 +570,8 @@ class TestManagementSearch:
                         geo_distance=management_api.models.GeoDistance(
                             distance="10km",
                             location=management_api.models.GeoPoint(
-                                lat=59.91, lon=10.55,
+                                lat=59.91,
+                                lon=10.55,
                             ),
                         ),
                     ),
@@ -578,10 +586,12 @@ class TestManagementSearch:
                         geo_bounding_box=management_api.models.GeoBoundingBox(
                             location=management_api.models.BoundingBox(
                                 top_left=management_api.models.GeoPoint(
-                                    lat=59.94, lon=10.70,
+                                    lat=59.94,
+                                    lon=10.70,
                                 ),
                                 bottom_right=management_api.models.GeoPoint(
-                                    lat=59.93, lon=10.73,
+                                    lat=59.93,
+                                    lon=10.73,
                                 ),
                             ),
                         ),
@@ -617,10 +627,12 @@ class TestManagementSearch:
                         geo_bounding_box=management_api.models.GeoBoundingBox(
                             location=management_api.models.BoundingBox(
                                 top_left=management_api.models.GeoPoint(
-                                    lat=59.93, lon=10.73,
+                                    lat=59.93,
+                                    lon=10.73,
                                 ),
                                 bottom_right=management_api.models.GeoPoint(
-                                    lat=59.92, lon=10.75,
+                                    lat=59.92,
+                                    lon=10.75,
                                 ),
                             ),
                         ),
@@ -634,7 +646,10 @@ class TestManagementSearch:
                 search_terms=management_api.models.DeviceSearchTerms(
                     filters=[
                         management_api.models.DeviceFilterTerm(
-                            attribute="foo", value="bar", type="$eq", scope="inventory",
+                            attribute="foo",
+                            value="bar",
+                            type="$eq",
+                            scope="inventory",
                         )
                     ],
                 ),
@@ -645,7 +660,10 @@ class TestManagementSearch:
                 search_terms=management_api.models.DeviceSearchTerms(
                     filters=[
                         management_api.models.DeviceFilterTerm(
-                            attribute="foo", value="bar", type="$eq", scope="inventory",
+                            attribute="foo",
+                            value="bar",
+                            type="$eq",
+                            scope="inventory",
                         )
                     ],
                 ),

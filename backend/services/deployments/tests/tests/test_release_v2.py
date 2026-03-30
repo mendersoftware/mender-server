@@ -151,7 +151,9 @@ class TestRelease:
             )
 
             r = requests.get(
-                get_types_url, verify=False, headers={"Authorization": "Bearer foo"},
+                get_types_url,
+                verify=False,
+                headers={"Authorization": "Bearer foo"},
             )
             types = json.loads(r.text)
             assert types == []

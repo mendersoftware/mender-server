@@ -14,7 +14,6 @@
 #    limitations under the License.
 from common import cli, mongo, clean_db
 
-
 DB_NAME = "inventory"
 MIGRATION_COLLECTION = "migration_info"
 DB_VERSION = "0.2.0"

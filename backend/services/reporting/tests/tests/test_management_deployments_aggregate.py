@@ -179,7 +179,8 @@ class TestManagementSearch:
                         other_count=0,
                         items=[
                             management_api.models.DeploymentAggregationItem(
-                                key="mender-demo-artifact-3.4.0", count=2,
+                                key="mender-demo-artifact-3.4.0",
+                                count=2,
                             ),
                         ],
                     ),
@@ -190,7 +191,9 @@ class TestManagementSearch:
                 aggregation_terms=management_api.models.DeploymentAggregationTerms(
                     filters=[
                         management_api.models.DeploymentFilterTerm(
-                            attribute="foo", value="bar", type="$eq",
+                            attribute="foo",
+                            value="bar",
+                            type="$eq",
                         )
                     ],
                     aggregations=[
@@ -208,7 +211,9 @@ class TestManagementSearch:
                 aggregation_terms=management_api.models.DeploymentAggregationTerms(
                     filters=[
                         management_api.models.DeploymentFilterTerm(
-                            attribute="foo", value="bar", type="$eq",
+                            attribute="foo",
+                            value="bar",
+                            type="$eq",
                         )
                     ],
                     aggregations=[

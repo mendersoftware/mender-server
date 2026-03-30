@@ -27,7 +27,6 @@ from bravado.swagger_model import load_file
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from requests.utils import parse_header_links
 
-
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
@@ -47,7 +46,9 @@ class ManagementClient:
         http_client.session.verify = False
 
         self.client = SwaggerClient.from_spec(
-            load_file(spec), config=config, http_client=http_client,
+            load_file(spec),
+            config=config,
+            http_client=http_client,
         )
         self.client.swagger_spec.api_url = "http://%s/api/%s" % (host, api)
 
@@ -88,13 +89,19 @@ class ManagementClient:
 
     def updateTagAttributes(self, device_id, tags, eTag=None, JWT="foo.bar.baz"):
         r, _ = self.client.Management_API.Add_Tags(
-            id=device_id, If_Match=eTag, tags=tags, Authorization=JWT,
+            id=device_id,
+            If_Match=eTag,
+            tags=tags,
+            Authorization=JWT,
         ).result()
         return r
 
     def setTagAttributes(self, device_id, tags, eTag=None, JWT="foo.bar.baz"):
         r, _ = self.client.Management_API.Assign_Tags(
-            id=device_id, If_Match=eTag, tags=tags, Authorization=JWT,
+            id=device_id,
+            If_Match=eTag,
+            tags=tags,
+            Authorization=JWT,
         ).result()
         return r
 
@@ -163,7 +170,9 @@ class ManagementClientV2:
         http_client.session.verify = False
 
         self.client = SwaggerClient.from_spec(
-            load_file(spec), config=config, http_client=http_client,
+            load_file(spec),
+            config=config,
+            http_client=http_client,
         )
         self.client.swagger_spec.api_url = (
             "http://%s/api/management/v2/inventory/" % host
@@ -260,7 +269,9 @@ class InternalApiClient(ApiClient):
 
     def create_tenant(self, tenant_id):
         return self.client.Internal_API.Create_Tenant(
-            tenant={"tenant_id": tenant_id,}
+            tenant={
+                "tenant_id": tenant_id,
+            }
         ).result()
 
     def create_device(self, device_id, attributes, description="test device"):

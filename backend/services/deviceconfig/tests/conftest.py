@@ -24,7 +24,6 @@ import devices_api
 import internal_api
 import management_api
 
-
 MMOCK_URI = "http://mmock:8082"
 
 
@@ -32,9 +31,9 @@ def pytest_addoption(parser):
     parser.addoption(
         "--host",
         action="store",
-        default=os.environ["TESTING_HOST"]
-        if "TESTING_HOST" in os.environ
-        else "localhost",
+        default=(
+            os.environ["TESTING_HOST"] if "TESTING_HOST" in os.environ else "localhost"
+        ),
         help="Address for host hosting deviceconfig API (env: TEST_HOST)",
     )
 

@@ -19,6 +19,6 @@ pytest_config = None
 
 
 def init(config):
-    """ Capture global pytest cmdline config (pytest.config deprecated) """
+    """Capture global pytest cmdline config (pytest.config deprecated)"""
     global pytest_config
     pytest_config = config

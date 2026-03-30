@@ -76,7 +76,9 @@ def do_decommission_device(mmock_url, workflows_url, tenant_id):
                 "host": "mender-inventory",
                 "port": "8080",
                 "method": "DELETE",
-                "path": "/api/internal/v1/inventory/tenants/" + tenant_id + "/devices/"
+                "path": "/api/internal/v1/inventory/tenants/"
+                + tenant_id
+                + "/devices/"
                 + device_id,
                 "queryStringParameters": {},
                 "fragment": "",
@@ -95,7 +97,9 @@ def do_decommission_device(mmock_url, workflows_url, tenant_id):
                 "host": "mender-deployments",
                 "port": "8080",
                 "method": "DELETE",
-                "path": "/api/internal/v1/deployments/tenants/" + tenant_id + "/deployments/devices/"
+                "path": "/api/internal/v1/deployments/tenants/"
+                + tenant_id
+                + "/deployments/devices/"
                 + device_id,
                 "queryStringParameters": {},
                 "fragment": "",

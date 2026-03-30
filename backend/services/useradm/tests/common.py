@@ -25,7 +25,6 @@ from client import CliClient, ManagementApiClient, InternalApiClient
 
 import tenantadm
 
-
 TENANT_ONE: str = "tenant1id"
 TENANT_TWO: str = "tenant2id"
 TENANTS: List[str] = [TENANT_ONE, TENANT_TWO]
