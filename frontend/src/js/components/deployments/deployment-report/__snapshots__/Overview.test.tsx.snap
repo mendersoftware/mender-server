@@ -52,25 +52,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   font-size: 1.25rem;
 }
 
-.emotion-5 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.25rem;
-  color: rgba(0, 0, 0, 0.54);
-}
-
-.emotion-10 {
+.emotion-9 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -108,12 +90,12 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   height: 18px;
 }
 
-.emotion-10.Mui-disabled {
+.emotion-9.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-10 .MuiChip-avatar {
+.emotion-9 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -122,17 +104,17 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-10 .MuiChip-avatarColorPrimary {
+.emotion-9 .MuiChip-avatarColorPrimary {
   color: #fff;
   background-color: #1565c0;
 }
 
-.emotion-10 .MuiChip-avatarColorSecondary {
+.emotion-9 .MuiChip-avatarColorSecondary {
   color: #fff;
   background-color: #7b1fa2;
 }
 
-.emotion-10 .MuiChip-avatarSmall {
+.emotion-9 .MuiChip-avatarSmall {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -140,12 +122,12 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   font-size: 0.625rem;
 }
 
-.emotion-10 .MuiChip-icon {
+.emotion-9 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-10 .MuiChip-deleteIcon {
+.emotion-9 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -153,27 +135,27 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-10 .MuiChip-deleteIcon:hover {
+.emotion-9 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-10 .MuiChip-icon {
+.emotion-9 .MuiChip-icon {
   font-size: 18px;
   margin-left: 4px;
   margin-right: -4px;
 }
 
-.emotion-10 .MuiChip-deleteIcon {
+.emotion-9 .MuiChip-deleteIcon {
   font-size: 16px;
   margin-right: 4px;
   margin-left: -4px;
 }
 
-.emotion-10 .MuiChip-icon {
+.emotion-9 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-11 {
+.emotion-10 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -183,7 +165,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   padding-right: 8px;
 }
 
-.emotion-21 {
+.emotion-17 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -240,33 +222,33 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-21::-moz-focus-inner {
+.emotion-17::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-21.Mui-disabled {
+.emotion-17.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-21 {
+  .emotion-17 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-21:hover {
+.emotion-17:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-21.Mui-disabled {
+.emotion-17.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-21:hover {
+  .emotion-17:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -274,17 +256,17 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   }
 }
 
-.emotion-21.MuiButton-loading {
+.emotion-17.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-22 {
+.emotion-18 {
   display: inherit;
   margin-right: -4px;
   margin-left: 8px;
 }
 
-.emotion-22>*:nth-of-type(1) {
+.emotion-18>*:nth-of-type(1) {
   font-size: 20px;
 }
 
@@ -301,7 +283,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       Release
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -328,19 +310,6 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
           </svg>
         </a>
       </div>
-      <svg
-        aria-hidden="true"
-        aria-label="Copy to clipboard"
-        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
-        data-mui-internal-clone-element="true"
-        data-testid="FileCopyOutlinedIcon"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-        />
-      </svg>
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
@@ -349,7 +318,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       Target device(s)
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -375,29 +344,16 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
             />
           </svg>
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased emotion-10"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased emotion-9"
           >
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-11"
+              class="MuiChip-label MuiChip-labelSmall emotion-10"
             >
               static
             </span>
           </div>
         </a>
       </div>
-      <svg
-        aria-hidden="true"
-        aria-label="Copy to clipboard"
-        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
-        data-mui-internal-clone-element="true"
-        data-testid="FileCopyOutlinedIcon"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-        />
-      </svg>
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
@@ -406,7 +362,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       Category
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -414,19 +370,6 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       >
         Software update
       </p>
-      <svg
-        aria-hidden="true"
-        aria-label="Copy to clipboard"
-        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
-        data-mui-internal-clone-element="true"
-        data-testid="FileCopyOutlinedIcon"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-        />
-      </svg>
     </div>
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
@@ -435,7 +378,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       Created at
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-2"
+      class="flexbox align-items-center  emotion-2"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -447,29 +390,16 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
           2019-01-01 00:00
         </time>
       </div>
-      <svg
-        aria-hidden="true"
-        aria-label="Copy to clipboard"
-        class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-5"
-        data-mui-internal-clone-element="true"
-        data-testid="FileCopyOutlinedIcon"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11zM8 21V7h6v5h5v9z"
-        />
-      </svg>
     </div>
   </div>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top emotion-21"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top emotion-17"
     tabindex="0"
     type="button"
   >
     See schedule details
     <span
-      class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-22"
+      class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-18"
     >
       <svg
         aria-hidden="true"

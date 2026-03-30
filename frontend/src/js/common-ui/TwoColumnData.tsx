@@ -40,15 +40,17 @@ const useStyles = makeStyles()(theme => ({
 const ValueColumn = ({ setSnackbar, value = '' }: { setSnackbar?: (message: string) => void; value?: DataValue }) => {
   const copyableValue = React.isValidElement(value) ? value.props.value : value;
 
+  if (!setSnackbar) {
+    return <CopyableText title={copyableValue}>{value}</CopyableText>;
+  }
+
   const onCopy = () => {
-    if (setSnackbar) {
-      copy(copyableValue);
-      setSnackbar('Value copied to clipboard');
-    }
+    copy(copyableValue);
+    setSnackbar('Value copied to clipboard');
   };
 
   return (
-    <CopyableText onCopy={onCopy} textClasses={setSnackbar ? 'clickable' : ''} title={copyableValue}>
+    <CopyableText onCopy={onCopy} textClasses="clickable" title={copyableValue}>
       {value}
     </CopyableText>
   );
