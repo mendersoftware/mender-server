@@ -18,6 +18,8 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"net/http"
+	"strconv"
 	"strings"
 	"sync"
 	"testing"
@@ -27,12 +29,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/api/client"
+	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
-	inventory_mocks "github.com/mendersoftware/mender-server/services/deployments/client/inventory/mocks"
-	workflows_mocks "github.com/mendersoftware/mender-server/services/deployments/client/workflows/mocks"
 	dconfig "github.com/mendersoftware/mender-server/services/deployments/config"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/services/deployments/storage"
@@ -42,6 +44,8 @@ import (
 	"github.com/mendersoftware/mender-server/services/deployments/store/mongo"
 	h "github.com/mendersoftware/mender-server/services/deployments/utils/testing"
 )
+
+var _ oas_mocks.MockDeploymentsDeviceAPIAPI
 
 const (
 	validUUIDv4  = "d50eda0d-2cea-4de1-8d42-9cd3e7e8670d"
@@ -79,24 +83,52 @@ func TestHealthCheck(t *testing.T) {
 			ctx := context.TODO()
 			mDStore := &mocks.DataStore{}
 			mFStore := &fs_mocks.ObjectStorage{}
-			mWorkflows := &workflows_mocks.Client{}
-			mInventory := &inventory_mocks.Client{}
+			inventoryClient := oas_mocks.NewMockDeviceInventoryInternalAPIAPI(t)
+			inventoryV2Client := oas_mocks.NewMockDeviceInventoryFiltersAndSearchInternalAPIAPI(t)
+			workflowsClient := oas_mocks.NewMockWorkflowsOtherAPI(t)
 			dep := &Deployments{
-				db:              mDStore,
-				objectStorage:   mFStore,
-				workflowsClient: mWorkflows,
-				inventoryClient: mInventory,
+				db:                mDStore,
+				objectStorage:     mFStore,
+				inventoryClient:   inventoryClient,
+				inventoryV2Client: inventoryV2Client,
+				workflowsClient:   workflowsClient,
 			}
 			switch {
 			default:
 				fallthrough
 			case tc.InventoryError != nil:
-				mInventory.On("CheckHealth", ctx).
-					Return(tc.InventoryError)
+				req := client.ApiInventoryInternalCheckHealthRequest{ApiService: inventoryClient}
+				inventoryClient.EXPECT().
+					InventoryInternalCheckHealth(mock.Anything).
+					Return(req).
+					Once()
+				inventoryClient.EXPECT().
+					InventoryInternalCheckHealthExecute(req).
+					Return(
+						&http.Response{
+							StatusCode: 200,
+							Body:       io.NopCloser(nil),
+						},
+						tc.InventoryError,
+					).
+					Once()
 				fallthrough
 			case tc.WorkflowsError != nil:
-				mWorkflows.On("CheckHealth", ctx).
-					Return(tc.WorkflowsError)
+				req := client.ApiWorkflowsCheckHealthRequest{ApiService: workflowsClient}
+				workflowsClient.EXPECT().
+					WorkflowsCheckHealth(mock.Anything).
+					Return(req).
+					Once()
+				workflowsClient.EXPECT().
+					WorkflowsCheckHealthExecute(req).
+					Return(
+						&http.Response{
+							StatusCode: 200,
+							Body:       io.NopCloser(nil),
+						},
+						tc.WorkflowsError,
+					).
+					Once()
 				fallthrough
 			case tc.FileStoreError != nil:
 				mFStore.On("HealthCheck", ctx).
@@ -158,8 +190,8 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 		InputDeploymentStorageInsertError error
 		InputImagesByNameError            error
 
-		InvDevices        []model.InvDevice
-		InvDevicesPageTwo []model.InvDevice
+		InvDevices        []client.DeviceInventory
+		InvDevicesPageTwo []client.DeviceInventory
 		TotalCount        int
 		SearchError       error
 		GetFilterError    error
@@ -203,9 +235,9 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 				Group:        "group",
 			},
 
-			InvDevices: []model.InvDevice{
+			InvDevices: []client.DeviceInventory{
 				{
-					ID: "b532b01a-9313-404f-8d19-e7fcbe5cc347",
+					Id: types.Pointer("b532b01a-9313-404f-8d19-e7fcbe5cc347"),
 				},
 			},
 			TotalCount: 1,
@@ -219,14 +251,14 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 				Group:        "group",
 			},
 
-			InvDevices: []model.InvDevice{
+			InvDevices: []client.DeviceInventory{
 				{
-					ID: "b532b01a-9313-404f-8d19-e7fcbe5cc347",
+					Id: types.Pointer("b532b01a-9313-404f-8d19-e7fcbe5cc347"),
 				},
 			},
-			InvDevicesPageTwo: []model.InvDevice{
+			InvDevicesPageTwo: []client.DeviceInventory{
 				{
-					ID: "b532b01a-9313-404f-8d19-e7fcbe5cc348",
+					Id: types.Pointer("b532b01a-9313-404f-8d19-e7fcbe5cc348"),
 				},
 			},
 			TotalCount: 2,
@@ -305,65 +337,74 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 
 			fs := &fs_mocks.ObjectStorage{}
 			ds := NewDeployments(&db, fs, 0, false)
-
-			mockInventoryClient := &inventory_mocks.Client{}
+			inventoryClient := oas_mocks.NewMockDeviceInventoryInternalAPIAPI(t)
+			inventoryV2Client := oas_mocks.NewMockDeviceInventoryFiltersAndSearchInternalAPIAPI(t)
+			ds.inventoryClient = inventoryClient
+			ds.inventoryV2Client = inventoryV2Client
 			if testCase.CallGetDeviceGroups {
-				mockInventoryClient.On("GetDeviceGroups",
-					ctx,
-					mock.AnythingOfType("string"),
-					mock.AnythingOfType("string")).
-					Return(testCase.InventoryGroups, testCase.GetDeviceGroupsError)
+				req := client.ApiGetDeviceGroupsRequest{ApiService: inventoryClient}
+				inventoryClient.EXPECT().GetDeviceGroups(ctx, mock.Anything, mock.Anything).
+					Return(req).
+					Once()
+				inventoryClient.EXPECT().GetDeviceGroupsExecute(req).
+					Return(
+						&client.Groups{Groups: testCase.InventoryGroups},
+						&http.Response{StatusCode: http.StatusOK, Body: io.NopCloser(nil)},
+						testCase.GetDeviceGroupsError).
+					Once()
 			}
 
 			if testCase.InputConstructor != nil && testCase.InputConstructor.Group != "" && len(testCase.InputConstructor.Devices) == 0 {
-				mockInventoryClient.On("Search", ctx,
-					"tenant_id",
-					model.SearchParams{
-						Page:    1,
-						PerPage: PerPageInventoryDevices,
-						Filters: []model.FilterPredicate{
+				for page, devices := range [][]client.DeviceInventory{testCase.InvDevices, testCase.InvDevicesPageTwo} {
+					if page == 1 && len(devices) == 0 {
+						break
+					}
+					req := client.ApiInventoryInternalV2SearchDeviceInventoriesRequest{ApiService: inventoryV2Client}
+					req = req.SearchParams(client.SearchParams{
+						Page:    types.Pointer(int32(page + 1)),
+						PerPage: types.Pointer(int32(PerPageInventoryDevices)),
+						Filters: []client.FilterPredicate{
 							{
 								Scope:     InventoryIdentityScope,
 								Attribute: InventoryStatusAttributeName,
 								Type:      "$eq",
-								Value:     InventoryStatusAccepted,
+								Value: client.AttributeValue{
+									String: types.Pointer(InventoryStatusAccepted),
+								},
 							},
 							{
 								Scope:     InventoryGroupScope,
 								Attribute: InventoryGroupAttributeName,
 								Type:      "$eq",
-								Value:     testCase.InputConstructor.Group,
+								Value: client.AttributeValue{
+									String: types.Pointer(testCase.InputConstructor.Group),
+								},
 							},
 						},
-					},
-				).Return(testCase.InvDevices, testCase.TotalCount, testCase.SearchError)
+					})
+					inventoryV2Client.EXPECT().
+						InventoryInternalV2SearchDeviceInventories(ctx, "tenant_id").
+						Return(req).
+						Once()
 
-				if testCase.TotalCount > len(testCase.InvDevices) {
-					mockInventoryClient.On("Search", ctx,
-						"tenant_id",
-						model.SearchParams{
-							Page:    2,
-							PerPage: PerPageInventoryDevices,
-							Filters: []model.FilterPredicate{
-								{
-									Scope:     InventoryIdentityScope,
-									Attribute: InventoryStatusAttributeName,
-									Type:      "$eq",
-									Value:     InventoryStatusAccepted,
-								},
-								{
-									Scope:     InventoryGroupScope,
-									Attribute: InventoryGroupAttributeName,
-									Type:      "$eq",
-									Value:     testCase.InputConstructor.Group,
+					totalCount := len(testCase.InvDevices) +
+						len(testCase.InvDevicesPageTwo)
+					inventoryV2Client.EXPECT().
+						InventoryInternalV2SearchDeviceInventoriesExecute(req).
+						Return(
+							testCase.InvDevices,
+							&http.Response{
+								StatusCode: 200,
+								Body:       io.NopCloser(nil),
+								Header: http.Header{
+									"X-Total-Count": []string{strconv.Itoa(totalCount)},
 								},
 							},
-						},
-					).Return(testCase.InvDevicesPageTwo, testCase.TotalCount, testCase.SearchError)
+							testCase.SearchError,
+						).
+						Once()
 				}
 			}
-
-			ds.SetInventoryClient(mockInventoryClient)
 
 			out, err := ds.CreateDeployment(ctx, testCase.InputConstructor)
 			if testCase.OutputError != nil {
@@ -374,8 +415,6 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 			if testCase.OutputBody {
 				assert.NotNil(t, out)
 			}
-
-			mockInventoryClient.AssertExpectations(t)
 		})
 	}
 
@@ -1036,12 +1075,22 @@ func TestCreateDeviceConfigurationDeployment(t *testing.T) {
 			}
 			defer db.AssertExpectations(t)
 
-			inv := &inventory_mocks.Client{}
+			inv := oas_mocks.NewMockDeviceInventoryInternalAPIAPI(t)
 			if tc.callInventory {
-				inv.On("GetDeviceGroups", ctx, mock.AnythingOfType("string"), mock.AnythingOfType("string")).
-					Return([]string{}, tc.inventoryError)
+				req := client.ApiGetDeviceGroupsRequest{ApiService: inv}
+				inv.EXPECT().
+					GetDeviceGroups(ctx, "tenant_id", mock.AnythingOfType("string")).
+					Return(req).
+					Once()
+				inv.EXPECT().
+					GetDeviceGroupsExecute(req).
+					Return(
+						&client.Groups{Groups: []string{}},
+						&http.Response{StatusCode: 200, Body: io.NopCloser(nil)},
+						tc.inventoryError,
+					).
+					Once()
 			}
-			defer inv.AssertExpectations(t)
 
 			ds := &Deployments{
 				db:              &db,
@@ -1156,7 +1205,7 @@ func TestDeleteDeviceDeploymentsHistory(t *testing.T) {
 	deviceID := "f826484e-1157-4109-af21-304e6d711561"
 
 	testCases := map[string]struct {
-		workflowsMock *workflows_mocks.Client
+		workflowsMock *oas_mocks.MockWorkflowsOtherAPI
 		storeMock     *mocks.DataStore
 
 		OutputError error
@@ -1188,16 +1237,10 @@ func TestDeleteDeviceDeploymentsHistory(t *testing.T) {
 
 				return ds
 			}(),
-			workflowsMock: func() *workflows_mocks.Client {
-				wf := new(workflows_mocks.Client)
-				return wf
-			}(),
+			workflowsMock: new(oas_mocks.MockWorkflowsOtherAPI),
 		},
 		"error": {
-			workflowsMock: func() *workflows_mocks.Client {
-				wf := new(workflows_mocks.Client)
-				return wf
-			}(),
+			workflowsMock: new(oas_mocks.MockWorkflowsOtherAPI),
 			storeMock: func() *mocks.DataStore {
 				ds := new(mocks.DataStore)
 
@@ -1716,18 +1759,42 @@ func TestLookupDeploymentFallback(t *testing.T) {
 			Return(nil, int64(0), nil)
 
 		// Inventory returns a matching device
-		inv := &inventory_mocks.Client{}
-		defer inv.AssertExpectations(t)
-		inv.On("Search", ctx, "tenant123", model.SearchParams{
-			Page:    1,
-			PerPage: 1,
-			Filters: []model.FilterPredicate{{
-				Scope:     "identity",
+		inv := oas_mocks.NewMockDeviceInventoryFiltersAndSearchInternalAPIAPI(t)
+		req := client.ApiInventoryInternalV2SearchDeviceInventoriesRequest{
+			ApiService: inv,
+		}
+		req = req.SearchParams(client.SearchParams{
+			Page:    types.Pointer(int32(1)),
+			PerPage: types.Pointer(int32(1)),
+			Filters: []client.FilterPredicate{{
+				Scope:     client.Scope("identity"),
 				Attribute: "mac",
 				Type:      "$eq",
-				Value:     "my-device",
+				Value: client.AttributeValue{
+					String: types.Pointer("my-device"),
+				},
 			}},
-		}).Return([]model.InvDevice{{ID: "device-uuid-123"}}, 1, nil)
+		})
+		inv.EXPECT().
+			InventoryInternalV2SearchDeviceInventories(ctx, "tenant123").
+			Return(req).
+			Once()
+		inv.EXPECT().
+			InventoryInternalV2SearchDeviceInventoriesExecute(req).
+			Return(
+				[]client.DeviceInventory{
+					{Id: types.Pointer("device-uuid-123")},
+				},
+				&http.Response{
+					StatusCode: 200,
+					Header: http.Header{
+						"X-Total-Count": []string{"1"},
+					},
+					Body: io.NopCloser(nil),
+				},
+				nil,
+			).
+			Once()
 
 		// Second call: search by device ID
 		fallbackQuery := model.Query{
@@ -1741,8 +1808,8 @@ func TestLookupDeploymentFallback(t *testing.T) {
 			}}, int64(1), nil)
 
 		ds := &Deployments{
-			db:              &db,
-			inventoryClient: inv,
+			db:                &db,
+			inventoryV2Client: inv,
 		}
 
 		deployments, count, err := ds.LookupDeployment(ctx, query)
@@ -1812,22 +1879,44 @@ func TestLookupDeploymentFallback(t *testing.T) {
 		db.On("FindDeployments", ctx, query).
 			Return(nil, int64(0), nil)
 
-		inv := &inventory_mocks.Client{}
-		defer inv.AssertExpectations(t)
-		inv.On("Search", ctx, "tenant123", model.SearchParams{
-			Page:    1,
-			PerPage: 1,
-			Filters: []model.FilterPredicate{{
-				Scope:     "identity",
+		inv := oas_mocks.NewMockDeviceInventoryFiltersAndSearchInternalAPIAPI(t)
+		req := client.ApiInventoryInternalV2SearchDeviceInventoriesRequest{
+			ApiService: inv,
+		}
+		req = req.SearchParams(client.SearchParams{
+			Page:    types.Pointer(int32(1)),
+			PerPage: types.Pointer(int32(1)),
+			Filters: []client.FilterPredicate{{
+				Scope:     client.Scope("identity"),
 				Attribute: "mac",
 				Type:      "$eq",
-				Value:     "unknown-device",
+				Value: client.AttributeValue{
+					String: types.Pointer("unknown-device"),
+				},
 			}},
-		}).Return([]model.InvDevice{}, 0, nil)
+		})
+		inv.EXPECT().
+			InventoryInternalV2SearchDeviceInventories(ctx, "tenant123").
+			Return(req).
+			Once()
+		inv.EXPECT().
+			InventoryInternalV2SearchDeviceInventoriesExecute(req).
+			Return(
+				[]client.DeviceInventory{},
+				&http.Response{
+					StatusCode: 200,
+					Header: http.Header{
+						"X-Total-Count": []string{"0"},
+					},
+					Body: io.NopCloser(nil),
+				},
+				nil,
+			).
+			Once()
 
 		ds := &Deployments{
-			db:              &db,
-			inventoryClient: inv,
+			db:                &db,
+			inventoryV2Client: inv,
 		}
 
 		deployments, count, err := ds.LookupDeployment(ctx, query)
@@ -1851,14 +1940,32 @@ func TestLookupDeploymentFallback(t *testing.T) {
 		db.On("FindDeployments", ctx, query).
 			Return(nil, int64(0), nil)
 
-		inv := &inventory_mocks.Client{}
-		defer inv.AssertExpectations(t)
-		inv.On("Search", ctx, "tenant123", mock.AnythingOfType("model.SearchParams")).
-			Return(nil, 0, errors.New("inventory error"))
+		inv := oas_mocks.NewMockDeviceInventoryFiltersAndSearchInternalAPIAPI(t)
+		req := client.ApiInventoryInternalV2SearchDeviceInventoriesRequest{
+			ApiService: inv,
+		}
+		inv.EXPECT().
+			InventoryInternalV2SearchDeviceInventories(ctx, "tenant123").
+			Return(req).
+			Once()
+		inv.EXPECT().
+			InventoryInternalV2SearchDeviceInventoriesExecute(mock.Anything).
+			Return(
+				[]client.DeviceInventory{},
+				&http.Response{
+					StatusCode: 200,
+					Header: http.Header{
+						"X-Total-Count": []string{"0"},
+					},
+					Body: io.NopCloser(nil),
+				},
+				errors.New("inventory error"),
+			).
+			Once()
 
 		ds := &Deployments{
-			db:              &db,
-			inventoryClient: inv,
+			db:                &db,
+			inventoryV2Client: inv,
 		}
 
 		_, _, err := ds.LookupDeployment(ctx, query)
