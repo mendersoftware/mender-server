@@ -197,7 +197,9 @@ class TestRelease:
 
                 releases = management_v1_client(
                     jwt=self.d.get_jwt()
-                ).deployments_v1_list_releases_with_pagination(update_type="single-file")
+                ).deployments_v1_list_releases_with_pagination(
+                    update_type="single-file"
+                )
                 assert len(releases) == 1
                 release = releases[0]
                 assert release.name == "foo"

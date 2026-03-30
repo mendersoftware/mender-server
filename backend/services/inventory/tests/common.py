@@ -83,7 +83,8 @@ def management_client_v2(request):
 @pytest.fixture(scope="session")
 def internal_client(request):
     return InternalApiClient(
-        request.config.getoption("host"), request.config.getoption("internal_spec"),
+        request.config.getoption("host"),
+        request.config.getoption("internal_spec"),
     )
 
 

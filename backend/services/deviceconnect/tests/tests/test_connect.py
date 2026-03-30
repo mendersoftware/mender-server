@@ -65,7 +65,7 @@ class _TestConnect:
         with dev.connect() as dev_conn:
             for i in range(15):
                 obj = api_mgmt.get_device(dev.id)
-                if obj.status == 'connected':
+                if obj.status == "connected":
                     break
                 time.sleep(1)
             else:
@@ -149,7 +149,7 @@ class _TestConnect:
 
         for i in range(15):
             obj = api_mgmt.get_device(dev.id)
-            if obj.status != 'connected':
+            if obj.status != "connected":
                 break
             time.sleep(1)
 

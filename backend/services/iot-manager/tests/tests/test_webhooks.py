@@ -78,7 +78,8 @@ class TestWebhooks:
         )
 
         intrnl.provision_device(
-            TEST_TENANT_ID, dev,
+            TEST_TENANT_ID,
+            dev,
         )
 
         # let the async processing complete
@@ -108,7 +109,8 @@ class TestWebhooks:
         req = matched[0]["request"]
         event = json.loads(req["body"])
         compare_expectations(
-            expected_event, event,
+            expected_event,
+            event,
         )
         events = mgmt.list_events()
         actual_event = events[0]
@@ -146,7 +148,8 @@ class TestWebhooks:
         req = matched[0]["request"]
         event = json.loads(req["body"])
         compare_expectations(
-            expected_event, event,
+            expected_event,
+            event,
         )
         events = mgmt.list_events()
         actual_event = events[0]
@@ -186,7 +189,8 @@ class TestWebhooks:
         req = matched[0]["request"]
         event = json.loads(req["body"])
         compare_expectations(
-            expected_event, event,
+            expected_event,
+            event,
         )
         events = mgmt.list_events()
         actual_event = events[0]

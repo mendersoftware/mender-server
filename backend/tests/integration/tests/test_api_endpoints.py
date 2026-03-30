@@ -142,7 +142,8 @@ class TestAPIEndpoints(BaseTestAPIEndpoints):
     )
 
     @pytest.mark.parametrize(
-        "kind,returns_401,method,scheme,host,path", get_all_api_endpoints(REPOS),
+        "kind,returns_401,method,scheme,host,path",
+        get_all_api_endpoints(REPOS),
     )
     def test_api_endpoints(
         self, kind, returns_401, method, scheme, host, path, get_endpoint_url
@@ -168,7 +169,8 @@ class TestAPIEndpointsEnterprise(BaseTestAPIEndpoints):
     )
 
     @pytest.mark.parametrize(
-        "kind,returns_401,method,scheme,host,path", get_all_api_endpoints(REPOS),
+        "kind,returns_401,method,scheme,host,path",
+        get_all_api_endpoints(REPOS),
     )
     def test_api_endpoints(
         self, kind, returns_401, method, scheme, host, path, get_endpoint_url

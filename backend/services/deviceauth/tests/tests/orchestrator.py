@@ -115,7 +115,11 @@ def run_fake_for_device_id(devid, status=None):
                 "/api/v1/workflow/update_device_inventory",
                 update_device_inventory_handler(devid),
             ),
-            ("POST", "/api/v1/workflow/reindex_reporting", reindex_reporting(devid),),
+            (
+                "POST",
+                "/api/v1/workflow/reindex_reporting",
+                reindex_reporting(devid),
+            ),
         ]
     else:
         handlers = [

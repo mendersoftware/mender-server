@@ -108,7 +108,9 @@ class _TestMonitoringAlertsBase:
     def test_alerting_email(self, test_case, user, devices, smtp_server):
         device = devices.pop(1)
         r = self.devmond.with_auth(device.token).call(
-            "POST", devicemonitor.URL_ALERT, test_case["alerts"],
+            "POST",
+            devicemonitor.URL_ALERT,
+            test_case["alerts"],
         )
         assert r.status_code < 300
 
@@ -147,7 +149,8 @@ class _TestMonitoringAlertsBase:
         alert_count_attrs = {
             x["name"]: x["value"]
             for x in filter(
-                lambda x: x["scope"] == "monitor", rsp.json()["attributes"],
+                lambda x: x["scope"] == "monitor",
+                rsp.json()["attributes"],
             )
         }
         assert len(alert_count_attrs) == 2

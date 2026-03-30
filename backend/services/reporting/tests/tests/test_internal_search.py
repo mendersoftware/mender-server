@@ -21,7 +21,6 @@ from typing import Union
 import internal_api
 import utils
 
-
 test_set = [
     (
         "123456789012345678901234",
@@ -32,7 +31,7 @@ test_set = [
                     name="string", value="Lorem ipsum dolor sit amet", scope="inventory"
                 ),
                 internal_api.models.DeviceAttribute(
-                    name="number", value=2 ** 47, scope="inventory"
+                    name="number", value=2**47, scope="inventory"
                 ),
             ],
         ),
@@ -59,7 +58,9 @@ test_set = [
             id="ad707aab-916b-4ec9-a43f-0031b2bcf9ad",
             attributes=[
                 internal_api.models.DeviceAttribute(
-                    name="string", value="sed do eiusmod tempor", scope="inventory",
+                    name="string",
+                    value="sed do eiusmod tempor",
+                    scope="inventory",
                 ),
             ],
         ),
@@ -70,7 +71,9 @@ test_set = [
             id="85388603-5852-437f-89c4-7549502893d5",
             attributes=[
                 internal_api.models.DeviceAttribute(
-                    name="string", value="incididunt ut labore", scope="inventory",
+                    name="string",
+                    value="incididunt ut labore",
+                    scope="inventory",
                 ),
                 internal_api.models.DeviceAttribute(
                     name="number", value=0.0, scope="inventory"
@@ -84,7 +87,9 @@ test_set = [
             id="98efdb94-26c2-42eb-828d-12a5d6eb698c",
             attributes=[
                 internal_api.models.DeviceAttribute(
-                    name="string", value="sample text", scope="inventory",
+                    name="string",
+                    value="sample text",
+                    scope="inventory",
                 ),
                 internal_api.models.DeviceAttribute(
                     name="number", value=1234, scope="inventory"
@@ -146,7 +151,7 @@ class TestInternalSearch:
                         id="463e12dd-1adb-4f62-965e-b0a9ba2c93ff",
                         attributes=[
                             internal_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                             internal_api.models.DeviceAttribute(
                                 name="string",
@@ -163,7 +168,7 @@ class TestInternalSearch:
                     filters=[
                         internal_api.models.DeviceFilterTerm(
                             attribute="number",
-                            value=2 ** 32,
+                            value=2**32,
                             type="$gt",
                             scope="inventory",
                         )
@@ -175,7 +180,7 @@ class TestInternalSearch:
                         id="463e12dd-1adb-4f62-965e-b0a9ba2c93ff",
                         attributes=[
                             internal_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                             internal_api.models.DeviceAttribute(
                                 name="string",
@@ -225,7 +230,7 @@ class TestInternalSearch:
                         id="463e12dd-1adb-4f62-965e-b0a9ba2c93ff",
                         attributes=[
                             internal_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                             internal_api.models.DeviceAttribute(
                                 name="string",
@@ -242,7 +247,7 @@ class TestInternalSearch:
                     filters=[
                         internal_api.models.DeviceFilterTerm(
                             attribute="number",
-                            value=2 ** 32,
+                            value=2**32,
                             type="$lt",
                             scope="inventory",
                         )
@@ -311,7 +316,7 @@ class TestInternalSearch:
                                 scope="inventory",
                             ),
                             internal_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                         ],
                     ),
@@ -394,7 +399,7 @@ class TestInternalSearch:
                                 scope="inventory",
                             ),
                             internal_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                         ],
                     ),
@@ -441,7 +446,7 @@ class TestInternalSearch:
                                 scope="inventory",
                             ),
                             internal_api.models.DeviceAttribute(
-                                name="number", value=2 ** 47, scope="inventory"
+                                name="number", value=2**47, scope="inventory"
                             ),
                             internal_api.models.DeviceAttribute(
                                 name="latest_deployment_status",

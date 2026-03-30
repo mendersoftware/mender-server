@@ -568,7 +568,10 @@ class TestUploadArtifactEnterprise(TestUploadArtifactBase):
                 {
                     "artifact_name": "test",
                     "device_types": ["arm1"],
-                    "depends": ("foo:fooval", "bar:barval",),
+                    "depends": (
+                        "foo:fooval",
+                        "bar:barval",
+                    ),
                     "size": 1024,
                 },
             ),
@@ -697,7 +700,10 @@ class TestUploadArtifactOpenSource(TestUploadArtifactBase):
                 {
                     "artifact_name": "test",
                     "device_types": ["arm1"],
-                    "depends": ("foo:fooval", "bar:barval",),
+                    "depends": (
+                        "foo:fooval",
+                        "bar:barval",
+                    ),
                     "size": 1024,
                 },
             ),

@@ -45,7 +45,6 @@ from testutils.common import (
     make_accepted_device,
 )
 
-
 HTTPServer.DEFAULT_LISTEN_PORT = get_free_tcp_port()
 HTTPServer.DEFAULT_LISTEN_HOST = "integration-tester"  # name of the compose service
 

@@ -312,6 +312,7 @@ def add_devices_to_tenant(tenant, dev_inventories):
 
     return tenant
 
+
 class DeviceFilteringTests:
     @property
     def logger(self):
@@ -321,7 +322,7 @@ class DeviceFilteringTests:
             self._logger = logging.getLogger(self.__class__.__name__)
         return self._logger
 
-    def do_test_search_v2(self, user_token, devices, additional_test_cases = []):
+    def do_test_search_v2(self, user_token, devices, additional_test_cases=[]):
         assert user_token
         assert len(devices) > 0
 
@@ -415,7 +416,7 @@ class DeviceFilteringTests:
                 "name": "Error - invalid filter scope",
                 "request": {
                     "filters": [
-                     {
+                        {
                             "type": "$eq",
                             "attribute": "idx",
                             "value": 1,
@@ -436,9 +437,9 @@ class DeviceFilteringTests:
                             "scope": "inventory",
                         }
                     ],
-                    "sort":[
+                    "sort": [
                         {"attribute": "idx", "scope": "user_defined", "order": "desc"},
-                    ]
+                    ],
                 },
                 "status_code": 400,
             },
@@ -453,9 +454,9 @@ class DeviceFilteringTests:
                             "scope": "inventory",
                         }
                     ],
-                    "attributes":[
-                        { "attribute": "idx", "scope": "user_defined" },
-                    ]
+                    "attributes": [
+                        {"attribute": "idx", "scope": "user_defined"},
+                    ],
                 },
                 "status_code": 400,
             },
@@ -491,16 +492,18 @@ class DeviceFilteringTests:
 
         invm_v2 = ApiClient(inventory_v2.URL_MGMT)
         for test_case in test_cases:
-            self.do_search_test_case(invm_v2, inventory_v2.URL_SEARCH, user_token, test_case)
+            self.do_search_test_case(
+                invm_v2, inventory_v2.URL_SEARCH, user_token, test_case
+            )
 
     def do_search_test_case(self, client, url, token, test_case):
         self.logger.info("Running test case: %s" % test_case["name"])
-        rsp = client.with_auth(token).call(
-            "POST", url, test_case["request"]
-        )
-        assert rsp.status_code == test_case["status_code"], (
-            "Unexpected status code (%d) from /filters/search response: %s"
-            % (rsp.status_code, rsp.text)
+        rsp = client.with_auth(token).call("POST", url, test_case["request"])
+        assert (
+            rsp.status_code == test_case["status_code"]
+        ), "Unexpected status code (%d) from /filters/search response: %s" % (
+            rsp.status_code,
+            rsp.text,
         )
 
         if rsp.status_code == 200 and "response" in test_case:
@@ -509,12 +512,11 @@ class DeviceFilteringTests:
                 body = []
             self.logger.info(test_case["response"])
             self.logger.info(body)
-            assert len(test_case["response"]) == len(body), (
-                "Unexpected number of results: %s != %s"
-                % (
-                    [dev["id"] for dev in test_case["response"]],
-                    [dev["id"] for dev in body],
-                )
+            assert len(test_case["response"]) == len(
+                body
+            ), "Unexpected number of results: %s != %s" % (
+                [dev["id"] for dev in test_case["response"]],
+                [dev["id"] for dev in body],
             )
 
             if len(test_case["response"]) > 0:
@@ -525,10 +527,9 @@ class DeviceFilteringTests:
                     )
 
                 for i, dev in enumerate(test_case["response"]):
-                    assert (
-                        dev["id"] == body[i]["id"]
-                    ), "Unexpected device in response"
+                    assert dev["id"] == body[i]["id"], "Unexpected device in response"
                     assert_device_attributes(dev, body[i])
+
 
 class TestDeviceFiltering(DeviceFilteringTests):
     @pytest.fixture(autouse=True)
@@ -541,14 +542,19 @@ class TestDeviceFiltering(DeviceFilteringTests):
         user = create_user(username, password)
 
         useradmm = ApiClient(useradm.URL_MGMT)
-        self.user_token = useradmm.call("POST", useradm.URL_LOGIN, auth=(user.name, user.pwd)).text
+        self.user_token = useradmm.call(
+            "POST", useradm.URL_LOGIN, auth=(user.name, user.pwd)
+        ).text
         assert self.user_token != ""
 
-        self.devices = self.add_devices(self.user_token, [
-            {"artifact": ["v1"], "idx": 0},
-            {"artifact": ["v1"], "idx": 1},
-            {"artifact": ["v1"], "idx": 2},
-        ])
+        self.devices = self.add_devices(
+            self.user_token,
+            [
+                {"artifact": ["v1"], "idx": 0},
+                {"artifact": ["v1"], "idx": 1},
+                {"artifact": ["v1"], "idx": 2},
+            ],
+        )
 
     def test_search_v2(self):
         self.do_test_search_v2(self.user_token, self.devices)
@@ -571,9 +577,7 @@ class TestDeviceFiltering(DeviceFilteringTests):
 
         devices = []
         for inv in dev_inventories:
-            device = make_accepted_device(
-                devauthd, devauthm, user_token
-            )
+            device = make_accepted_device(devauthd, devauthm, user_token)
 
             attrs = dict_to_inventoryattrs(inv)
             rsp = invd.with_auth(device.token).call(
@@ -586,8 +590,10 @@ class TestDeviceFiltering(DeviceFilteringTests):
 
         return devices
 
+
 @pytest.mark.skipif(
-    useExistingTenant(), reason="not feasible to test with existing tenant",
+    useExistingTenant(),
+    reason="not feasible to test with existing tenant",
 )
 class TestDeviceFilteringEnterprise(DeviceFilteringTests):
     @pytest.fixture(autouse=True)
@@ -739,10 +745,14 @@ class TestDeviceFilteringEnterprise(DeviceFilteringTests):
                         reverse=True,
                     )
                 ],
-            }
+            },
         ]
 
-        self.do_test_search_v2(self.tenant_ent.users[0].token, self.tenant_ent.devices, enterprise_only_test_cases)
+        self.do_test_search_v2(
+            self.tenant_ent.users[0].token,
+            self.tenant_ent.devices,
+            enterprise_only_test_cases,
+        )
 
     def test_search_v2_internal(self):
         """
@@ -913,7 +923,8 @@ class TestDeviceFilteringEnterprise(DeviceFilteringTests):
                 "result": [
                     {"id": dev.id, "attributes": dict_to_inventoryattrs(dev.inventory)}
                     for dev in filter(
-                        lambda dev: dev.inventory["idx"] == 5, self.tenant_ent.devices,
+                        lambda dev: dev.inventory["idx"] == 5,
+                        self.tenant_ent.devices,
                     )
                 ],
             },
@@ -1084,9 +1095,12 @@ class TestDeviceFilteringEnterprise(DeviceFilteringTests):
             rsp = invm_v2.with_auth(tenant.api_token).call(
                 "POST", inventory_v2.URL_SAVED_FILTERS, body=test_case["request"]
             )
-            assert rsp.status_code == test_case["status_codes"][0], (
-                "Unexpected status code (%d) on POST %s request; response: %s"
-                % (rsp.status_code, rsp.url, rsp.text)
+            assert (
+                rsp.status_code == test_case["status_codes"][0]
+            ), "Unexpected status code (%d) on POST %s request; response: %s" % (
+                rsp.status_code,
+                rsp.url,
+                rsp.text,
             )
             filter_url = rsp.headers.get("Location", "foobar")
             filter_id = filter_url.split("/")[-1]
@@ -1117,7 +1131,8 @@ class TestDeviceFilteringEnterprise(DeviceFilteringTests):
 
             # Test GET /filter/{id}/search endpoint
             rsp = invm_v2.with_auth(tenant.api_token).call(
-                "GET", inventory_v2.URL_SAVED_FILTER_SEARCH.format(id=filter_id),
+                "GET",
+                inventory_v2.URL_SAVED_FILTER_SEARCH.format(id=filter_id),
             )
 
             assert rsp.status_code == test_case["status_codes"][3]
@@ -1140,9 +1155,12 @@ class TestDeviceFilteringEnterprise(DeviceFilteringTests):
             rsp = invm_v2.with_auth(self.tenant_ent.api_token).call(
                 "DELETE", inventory_v2.URL_SAVED_FILTER.format(id=fltr["id"])
             )
-            assert rsp.status_code == 204, (
-                "Unexpected status code (%d) returned on DELETE %s. Response: %s"
-                % (rsp.status_code, rsp.url, rsp.text)
+            assert (
+                rsp.status_code == 204
+            ), "Unexpected status code (%d) returned on DELETE %s. Response: %s" % (
+                rsp.status_code,
+                rsp.url,
+                rsp.text,
             )
 
     @pytest.mark.parametrize(
@@ -1318,7 +1336,9 @@ class TestDeviceFilteringEnterprise(DeviceFilteringTests):
         )
         tenant = create_org(tenant, username, password, "enterprise")
         rsp = usradmm.call(
-            "POST", useradm.URL_LOGIN, auth=(tenant.users[0].name, tenant.users[0].pwd),
+            "POST",
+            useradm.URL_LOGIN,
+            auth=(tenant.users[0].name, tenant.users[0].pwd),
         )
         assert rsp.status_code == 200
         tenant.api_token = rsp.text
@@ -1328,7 +1348,9 @@ class TestDeviceFilteringEnterprise(DeviceFilteringTests):
 
         # Save test filter.
         rsp = invm_v2.with_auth(tenant.api_token).call(
-            "POST", inventory_v2.URL_SAVED_FILTERS, body=test_case["filter_req"],
+            "POST",
+            inventory_v2.URL_SAVED_FILTERS,
+            body=test_case["filter_req"],
         )
         assert rsp.status_code == 201, (
             "Failed to save filter, received status code: %d" % rsp.status_code
@@ -1405,7 +1427,9 @@ class TestDeviceFilteringEnterprise(DeviceFilteringTests):
 
 def assert_device_attributes(dev, api_dev):
     for attr in dev["attributes"]:
-        assert attr in api_dev["attributes"], (
-            "Missing inventory attribute: %s; device attributes: %s"
-            % (attr, api_dev["attributes"])
+        assert (
+            attr in api_dev["attributes"]
+        ), "Missing inventory attribute: %s; device attributes: %s" % (
+            attr,
+            api_dev["attributes"],
         )
