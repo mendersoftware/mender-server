@@ -89,7 +89,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root css-cfq8qh-MuiListItemText-root"
+            class="MuiListItemText-root css-1suf81v-MuiListItemText-root"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-rizt0-MuiTypography-root"
@@ -114,7 +114,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root margin-left css-cfq8qh-MuiListItemText-root"
+            class="MuiListItemText-root margin-left css-1suf81v-MuiListItemText-root"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-rizt0-MuiTypography-root"
@@ -139,7 +139,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root margin-left css-cfq8qh-MuiListItemText-root"
+            class="MuiListItemText-root margin-left css-1suf81v-MuiListItemText-root"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-rizt0-MuiTypography-root"

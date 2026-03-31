@@ -283,11 +283,8 @@ exports[`Artifact Component > renders correctly 1`] = `
   margin-bottom: 4px;
 }
 
-.MuiTypography-root:where(.emotion-18 .MuiListItemText-primary) {
-  display: block;
-}
-
-.MuiTypography-root:where(.emotion-18 .MuiListItemText-secondary) {
+.emotion-18 .MuiTypography-root:where( .MuiListItemText-primary),
+.emotion-18 .MuiTypography-root:where( .MuiListItemText-secondary) {
   display: block;
 }
 

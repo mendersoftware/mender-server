@@ -2745,11 +2745,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   flex: 1 1 auto;
 }
 
-.MuiTypography-root:where(.emotion-98 .MuiCardHeader-title) {
-  display: block;
-}
-
-.MuiTypography-root:where(.emotion-98 .MuiCardHeader-subheader) {
+.emotion-98 .MuiTypography-root:where( .MuiCardHeader-title),
+.emotion-98 .MuiTypography-root:where( .MuiCardHeader-subheader) {
   display: block;
 }
 
