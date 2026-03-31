@@ -24,14 +24,14 @@ import {
   GppGoodOutlined as SignedIcon,
   GppBadOutlined as UnsignedIcon
 } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Divider, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { getUserCapabilities } from '@northern.tech/store/selectors';
 import { editArtifact, getArtifactInstallCount, getArtifactUrl } from '@northern.tech/store/thunks';
-import { extractSoftware, extractSoftwareItem, isEmpty, toggle } from '@northern.tech/utils/helpers';
+import { createDownload, extractSoftware, extractSoftwareItem, isEmpty, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
 import ArtifactMetadataList from './ArtifactMetadataList';
@@ -98,6 +98,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
   const { classes } = useStyles();
   const [showPayloads, setShowPayloads] = useState(false);
   const [showProvidesDepends, setShowProvidesDepends] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -117,13 +118,6 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
   }, [JSON.stringify(artifact.artifact_provides)]);
 
   useEffect(() => {
-    if (artifact.url || !open) {
-      return;
-    }
-    dispatch(getArtifactUrl(artifact.id));
-  }, [artifact.id, artifact.url, dispatch, open]);
-
-  useEffect(() => {
     if (artifact.installCount || !open || softwareVersions.length > 1) {
       return;
     }
@@ -135,6 +129,21 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
   }, [artifact.id, artifact.installCount, dispatch, open, softwareVersions.length]);
 
   const onDescriptionChanged = useCallback(description => dispatch(editArtifact({ id: artifact.id, body: { description } })), [artifact.id, dispatch]);
+
+  const onDownloadClick = useCallback(async () => {
+    const filename = artifact.name ? `${artifact.name}.mender` : 'artifact.mender';
+    if (artifact.url) {
+      return createDownload(artifact.url, filename, '');
+    }
+    setIsDownloading(true);
+    try {
+      const results = await dispatch(getArtifactUrl(artifact.id)).unwrap();
+      const uri = results[results.length - 1];
+      createDownload(uri, filename, '');
+    } finally {
+      setIsDownloading(false);
+    }
+  }, [artifact.id, artifact.name, artifact.url, dispatch]);
 
   const softwareItem = extractSoftwareItem(artifact.artifact_provides);
   const softwareInformation = softwareItem
@@ -221,13 +230,11 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
         {canManageReleases && (
           <>
             <Button
-              href={artifact.url}
+              onClick={onDownloadClick}
               color="neutral"
               variant="outlined"
-              target="_blank"
-              disabled={!artifact.url}
-              download={artifact.name ? `${artifact.name}.mender` : true}
-              startIcon={<SaveAltIcon />}
+              disabled={isDownloading}
+              startIcon={isDownloading ? <CircularProgress size={16} /> : <SaveAltIcon />}
             >
               Download Artifact
             </Button>
