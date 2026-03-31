@@ -224,20 +224,18 @@ review:deploy:
       aud: https://gitlab.com
   environment:
     name: review/${CI_COMMIT_REF_NAME}
-    url: https://${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}
+    url: https://${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}
     on_stop: review:stop
     auto_stop_in: 7 days
   variables:
-    NAMESPACE: mender-${CI_COMMIT_REF_SLUG}
+    NAMESPACE: mender-${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}
   before_script:
     - echo "Deploying review app for branch ${CI_COMMIT_REF_NAME}"
-
-    # Generate short identifier to avoid Kubernetes 52 character name limit
-    # Use first 12 characters of branch slug hash for uniqueness
-    - export RELEASE_NAME="mender-$(echo -n ${CI_COMMIT_REF_SLUG} | md5sum | cut -c1-12)"
+    - test -n "${REVIEW_APPS_PROJECT_PREFIX}" || (echo "REVIEW_APPS_PROJECT_PREFIX is not set"; exit 1)
+    - export RELEASE_NAME="mender-$(echo -n "${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}" | md5sum | cut -c1-12)"
     - echo "Release name - ${RELEASE_NAME}"
     - echo "Namespace - ${NAMESPACE}"
-    - echo "URL - https://${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
+    - echo "URL - https://${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
   script:
     - echo "Authenticating to AWS using OIDC..."
     - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s"
@@ -283,7 +281,7 @@ review:deploy:
     - ./compose/k8s/create-initial-user.sh
 
     - echo "=== Deployment Information ==="
-    - echo "URL - https://${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
+    - echo "URL - https://${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
     - echo "Namespace - ${NAMESPACE}"
     - echo ""
     - echo "Note - Login credentials were displayed above by the create-initial-user script"
@@ -295,13 +293,6 @@ review:deploy:
     - echo "=== Ingress ==="
     - kubectl get ingress -n ${NAMESPACE}
     - echo "Review app deployed successfully!"
-  artifacts:
-    reports:
-      dotenv: review-deploy.env
-    paths:
-      - review-deploy.env
-    expire_in: 1 week
-
 review:stop:
   stage: review
   image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
@@ -318,12 +309,12 @@ review:stop:
     name: review/${CI_COMMIT_REF_NAME}
     action: stop
   variables:
-    NAMESPACE: mender-${CI_COMMIT_REF_SLUG}
+    NAMESPACE: mender-${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}
     GIT_STRATEGY: none
   script:
-    # Generate same short identifier used during deploy
-    - export RELEASE_NAME="mender-$(echo -n ${CI_COMMIT_REF_SLUG} | md5sum | cut -c1-12)"
-    - echo "Cleaning up review app - ${RELEASE_NAME}"
+    - test -n "${REVIEW_APPS_PROJECT_PREFIX}" || (echo "REVIEW_APPS_PROJECT_PREFIX is not set"; exit 1)
+    - export RELEASE_NAME="mender-$(echo -n "${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}" | md5sum | cut -c1-12)"
+    - echo "Cleaning up review app - ${RELEASE_NAME} in namespace ${NAMESPACE}"
 
     - echo "Authenticating to AWS using OIDC..."
     - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s"

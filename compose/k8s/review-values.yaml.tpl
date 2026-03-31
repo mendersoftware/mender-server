@@ -6,7 +6,7 @@
 global:
   # Domain for this review app
   # Example: feature-auth.staging.hosted.mender.io
-  url: "https://${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
+  url: "https://${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
 
   enterprise: false
 
@@ -112,9 +112,9 @@ ingress:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/ip-address-type: dualstack
   hosts:
-    - "${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
+    - "${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
   tls:
     - secretName: mender-review-ingress-tls
       hosts:
-        - "${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
+        - "${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
 

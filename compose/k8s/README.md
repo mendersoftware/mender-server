@@ -50,10 +50,18 @@ GitLab Push → CI Pipeline → Build Images → Deploy to EKS
 
 ### Namespace Strategy
 
-Each review app is deployed to an isolated namespace:
-- **Namespace Naming**: `mender-${CI_COMMIT_REF_SLUG}`
-- **Naming**: `mender-$(echo -n ${CI_COMMIT_REF_SLUG} | md5sum | cut -c1-12)`
-- **Example**: Branch `feature/new-auth` → Namespace `mender-feature-new-auth`
+Each review app is deployed to an isolated namespace. A short project prefix derived
+from `CI_PROJECT_NAME` ensures no collision between `mender-server` and
+`mender-server-enterprise` deployments that share the same PR number.
+
+| `CI_PROJECT_NAME` | Prefix |
+|---|---|
+| `mender-server` | `os` |
+| `mender-server-enterprise` | `ent` |
+
+- **Namespace**: `mender-<prefix>-${CI_COMMIT_REF_SLUG}` (e.g. `mender-os-pr-42`, `mender-ent-pr-42`)
+- **Helm release**: `mender-$(echo -n "<prefix>-${CI_COMMIT_REF_SLUG}" | md5sum | cut -c1-12)` (hashed to stay within the 52-char limit)
+- **URL**: `<prefix>-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}` (e.g. `os-pr-42.staging.hosted.mender.io`)
 - **Isolation**: Each namespace contains all services and dependencies
 - **Cleanup**: Namespace is deleted when branch is deleted or manually stopped
 
@@ -119,6 +127,9 @@ Add these variables to your GitLab project (Settings → CI/CD → Variables):
 | `REVIEW_APPS_REGISTRY_TOKEN` | Deploy token for Registry access (long-lived, doesn't expire with CI job) |
 | `REVIEW_APPS_REGISTRY_USERNAME` | Username for the Deploy token for Registry access |
 
+The project prefix (`os` / `ent`) is derived automatically from the predefined
+`CI_PROJECT_NAME` variable - no extra CI/CD variable is required.
+
 **Important**: We use GitLab deploy tokens instead of `CI_JOB_TOKEN` or `CI_REGISTRY_PASSWORD` because Karpenter may provision new nodes after the CI job completes. Deploy tokens are long-lived and allow those nodes to pull images successfully.
 
 ## Usage
@@ -145,7 +156,7 @@ Review apps are deployed automatically when you push to a non-protected branch: 
    - Check the job output for the review app URL
 
 4. **Access your review app**:
-   - URL: `https://feature-my-new-feature.staging.hosted.mender.io`
+   - URL: `https://os-pr-1234.staging.hosted.mender.io` (OS repo) or `https://ent-pr-1234.staging.hosted.mender.io` (enterprise repo)
    - The URL is also available in GitLab → Deployments → Environments
 
 ### Manual Stop
