@@ -20,12 +20,38 @@ import (
 )
 
 
+type DeviceConfigureDeviceAPIAPI interface {
+
+	/*
+	DeviceConfigGetDeviceConfiguration Query the configuration store; retrieve all key-value pairs
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConfigGetDeviceConfigurationRequest
+	*/
+	DeviceConfigGetDeviceConfiguration(ctx context.Context) ApiDeviceConfigGetDeviceConfigurationRequest
+
+	// DeviceConfigGetDeviceConfigurationExecute executes the request
+	//  @return map[string]string
+	DeviceConfigGetDeviceConfigurationExecute(r ApiDeviceConfigGetDeviceConfigurationRequest) (map[string]string, *http.Response, error)
+
+	/*
+	DeviceConfigReportDeviceConfiguration Set a key-value pair store, updating if existing, removing if empty
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConfigReportDeviceConfigurationRequest
+	*/
+	DeviceConfigReportDeviceConfiguration(ctx context.Context) ApiDeviceConfigReportDeviceConfigurationRequest
+
+	// DeviceConfigReportDeviceConfigurationExecute executes the request
+	DeviceConfigReportDeviceConfigurationExecute(r ApiDeviceConfigReportDeviceConfigurationRequest) (*http.Response, error)
+}
+
 // DeviceConfigureDeviceAPIAPIService DeviceConfigureDeviceAPIAPI service
 type DeviceConfigureDeviceAPIAPIService service
 
 type ApiDeviceConfigGetDeviceConfigurationRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureDeviceAPIAPIService
+	ApiService DeviceConfigureDeviceAPIAPI
 }
 
 func (r ApiDeviceConfigGetDeviceConfigurationRequest) Execute() (map[string]string, *http.Response, error) {
@@ -154,7 +180,7 @@ func (a *DeviceConfigureDeviceAPIAPIService) DeviceConfigGetDeviceConfigurationE
 
 type ApiDeviceConfigReportDeviceConfigurationRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureDeviceAPIAPIService
+	ApiService DeviceConfigureDeviceAPIAPI
 	requestBody *map[string]string
 }
 

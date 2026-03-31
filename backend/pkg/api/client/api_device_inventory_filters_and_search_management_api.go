@@ -20,12 +20,71 @@ import (
 )
 
 
+type DeviceInventoryFiltersAndSearchManagementAPIAPI interface {
+
+	/*
+	GetFilterableAttributes Get the list of filterable inventory attributes
+
+	Returns a list of filterable inventory attributes.
+
+The list is sorted in descending order by the count of occurrences of the
+attribute in the inventory database, then in ascending order by scope and name.
+
+Limitations:
+ * The API considers up to a sample of 5,000 devices when aggregating the number of attributes.
+ * The API returns up to 500 unique attributes.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetFilterableAttributesRequest
+	*/
+	GetFilterableAttributes(ctx context.Context) ApiGetFilterableAttributesRequest
+
+	// GetFilterableAttributesExecute executes the request
+	//  @return []FilterAttribute
+	GetFilterableAttributesExecute(r ApiGetFilterableAttributesRequest) ([]FilterAttribute, *http.Response, error)
+
+	/*
+	GetStatistics Get inventory statistics
+
+	The following statistics are currently supported:
+* Number of accepted and pending devices in each device tier
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetStatisticsRequest
+	*/
+	GetStatistics(ctx context.Context) ApiGetStatisticsRequest
+
+	// GetStatisticsExecute executes the request
+	//  @return GetStatisticsInternal200Response
+	GetStatisticsExecute(r ApiGetStatisticsRequest) (*GetStatisticsInternal200Response, *http.Response, error)
+
+	/*
+	InventoryV2SearchDeviceInventories Search devices based on inventory attributes
+
+	Returns a paged collection of devices and their attributes.
+
+If multiple filter predicates are specified, the filters are
+combined using boolean `and` operator.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiInventoryV2SearchDeviceInventoriesRequest
+	*/
+	InventoryV2SearchDeviceInventories(ctx context.Context) ApiInventoryV2SearchDeviceInventoriesRequest
+
+	// InventoryV2SearchDeviceInventoriesExecute executes the request
+	//  @return []DeviceInventory
+	InventoryV2SearchDeviceInventoriesExecute(r ApiInventoryV2SearchDeviceInventoriesRequest) ([]DeviceInventory, *http.Response, error)
+}
+
 // DeviceInventoryFiltersAndSearchManagementAPIAPIService DeviceInventoryFiltersAndSearchManagementAPIAPI service
 type DeviceInventoryFiltersAndSearchManagementAPIAPIService service
 
 type ApiGetFilterableAttributesRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryFiltersAndSearchManagementAPIAPIService
+	ApiService DeviceInventoryFiltersAndSearchManagementAPIAPI
 }
 
 func (r ApiGetFilterableAttributesRequest) Execute() ([]FilterAttribute, *http.Response, error) {
@@ -142,7 +201,7 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetFilterableAt
 
 type ApiGetStatisticsRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryFiltersAndSearchManagementAPIAPIService
+	ApiService DeviceInventoryFiltersAndSearchManagementAPIAPI
 }
 
 func (r ApiGetStatisticsRequest) Execute() (*GetStatisticsInternal200Response, *http.Response, error) {
@@ -253,7 +312,7 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) GetStatisticsEx
 
 type ApiInventoryV2SearchDeviceInventoriesRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryFiltersAndSearchManagementAPIAPIService
+	ApiService DeviceInventoryFiltersAndSearchManagementAPIAPI
 	inventoryV2SearchDeviceInventoriesRequest *InventoryV2SearchDeviceInventoriesRequest
 }
 

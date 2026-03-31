@@ -21,12 +21,243 @@ import (
 )
 
 
+type UserAdministrationManagementAPIAPI interface {
+
+	/*
+	CreatePersonalAccessToken Create new Personal Access Token
+
+	Create new Personal Access Token with given name and expiration.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreatePersonalAccessTokenRequest
+	*/
+	CreatePersonalAccessToken(ctx context.Context) ApiCreatePersonalAccessTokenRequest
+
+	// CreatePersonalAccessTokenExecute executes the request
+	//  @return string
+	CreatePersonalAccessTokenExecute(r ApiCreatePersonalAccessTokenRequest) (string, *http.Response, error)
+
+	/*
+	CreateUserManagement Create a new user under the tenant owning the JWT. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateUserManagementRequest
+	*/
+	CreateUserManagement(ctx context.Context) ApiCreateUserManagementRequest
+
+	// CreateUserManagementExecute executes the request
+	CreateUserManagementExecute(r ApiCreateUserManagementRequest) (*http.Response, error)
+
+	/*
+	ListPlans Get list of available plans
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListPlansRequest
+	*/
+	ListPlans(ctx context.Context) ApiListPlansRequest
+
+	// ListPlansExecute executes the request
+	//  @return []Plan
+	ListPlansExecute(r ApiListPlansRequest) ([]Plan, *http.Response, error)
+
+	/*
+	ListUserPersonalAccessTokens Get user Personal Access Tokens
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListUserPersonalAccessTokensRequest
+	*/
+	ListUserPersonalAccessTokens(ctx context.Context) ApiListUserPersonalAccessTokensRequest
+
+	// ListUserPersonalAccessTokensExecute executes the request
+	//  @return []PersonalAccessToken
+	ListUserPersonalAccessTokensExecute(r ApiListUserPersonalAccessTokensRequest) ([]PersonalAccessToken, *http.Response, error)
+
+	/*
+	ListUsersManagement List all users registered under the tenant owning the JWT. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListUsersManagementRequest
+	*/
+	ListUsersManagement(ctx context.Context) ApiListUsersManagementRequest
+
+	// ListUsersManagementExecute executes the request
+	//  @return []User
+	ListUsersManagementExecute(r ApiListUsersManagementRequest) ([]User, *http.Response, error)
+
+	/*
+	Login Log in to Mender
+
+	Accepts user credentials via standard Basic Auth, and returns a
+JWT token to be used for authentication in subsequent requests.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLoginRequest
+	*/
+	Login(ctx context.Context) ApiLoginRequest
+
+	// LoginExecute executes the request
+	//  @return string
+	LoginExecute(r ApiLoginRequest) (string, *http.Response, error)
+
+	/*
+	Logout Log out from Mender
+
+	Invalidates the JWT token of the current user.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLogoutRequest
+	*/
+	Logout(ctx context.Context) ApiLogoutRequest
+
+	// LogoutExecute executes the request
+	LogoutExecute(r ApiLogoutRequest) (*http.Response, error)
+
+	/*
+	RemoveUser Remove user from the system
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id User id.
+	@return ApiRemoveUserRequest
+	*/
+	RemoveUser(ctx context.Context, id string) ApiRemoveUserRequest
+
+	// RemoveUserExecute executes the request
+	RemoveUserExecute(r ApiRemoveUserRequest) (*http.Response, error)
+
+	/*
+	RevokePersonalAccessToken Revoke Personal Access Token
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Token identifier.
+	@return ApiRevokePersonalAccessTokenRequest
+	*/
+	RevokePersonalAccessToken(ctx context.Context, id string) ApiRevokePersonalAccessTokenRequest
+
+	// RevokePersonalAccessTokenExecute executes the request
+	RevokePersonalAccessTokenExecute(r ApiRevokePersonalAccessTokenRequest) (*http.Response, error)
+
+	/*
+	ShowMyUserSettings Get user settings for the current user
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiShowMyUserSettingsRequest
+	*/
+	ShowMyUserSettings(ctx context.Context) ApiShowMyUserSettingsRequest
+
+	// ShowMyUserSettingsExecute executes the request
+	//  @return map[string]interface{}
+	ShowMyUserSettingsExecute(r ApiShowMyUserSettingsRequest) (map[string]interface{}, *http.Response, error)
+
+	/*
+	ShowOwnUserData Get user information
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiShowOwnUserDataRequest
+	*/
+	ShowOwnUserData(ctx context.Context) ApiShowOwnUserDataRequest
+
+	// ShowOwnUserDataExecute executes the request
+	//  @return User
+	ShowOwnUserDataExecute(r ApiShowOwnUserDataRequest) (*User, *http.Response, error)
+
+	/*
+	ShowPlanAndLimits Get plan and limits information for current tenant
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiShowPlanAndLimitsRequest
+	*/
+	ShowPlanAndLimits(ctx context.Context) ApiShowPlanAndLimitsRequest
+
+	// ShowPlanAndLimitsExecute executes the request
+	//  @return PlanBindingDetails
+	ShowPlanAndLimitsExecute(r ApiShowPlanAndLimitsRequest) (*PlanBindingDetails, *http.Response, error)
+
+	/*
+	ShowUser Get user information
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id User id.
+	@return ApiShowUserRequest
+	*/
+	ShowUser(ctx context.Context, id string) ApiShowUserRequest
+
+	// ShowUserExecute executes the request
+	//  @return User
+	ShowUserExecute(r ApiShowUserRequest) (*User, *http.Response, error)
+
+	/*
+	ShowUserSettings Get global user settings
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiShowUserSettingsRequest
+	*/
+	ShowUserSettings(ctx context.Context) ApiShowUserSettingsRequest
+
+	// ShowUserSettingsExecute executes the request
+	//  @return map[string]interface{}
+	ShowUserSettingsExecute(r ApiShowUserSettingsRequest) (map[string]interface{}, *http.Response, error)
+
+	/*
+	UpdateMyUserSettings Set user settings for the current user
+
+	Create current user settings or replace existing settings with provided object.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateMyUserSettingsRequest
+	*/
+	UpdateMyUserSettings(ctx context.Context) ApiUpdateMyUserSettingsRequest
+
+	// UpdateMyUserSettingsExecute executes the request
+	UpdateMyUserSettingsExecute(r ApiUpdateMyUserSettingsRequest) (*http.Response, error)
+
+	/*
+	UpdateOwnUserData Update own user information
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateOwnUserDataRequest
+	*/
+	UpdateOwnUserData(ctx context.Context) ApiUpdateOwnUserDataRequest
+
+	// UpdateOwnUserDataExecute executes the request
+	UpdateOwnUserDataExecute(r ApiUpdateOwnUserDataRequest) (*http.Response, error)
+
+	/*
+	UpdateUser Update user information
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id User id.
+	@return ApiUpdateUserRequest
+	*/
+	UpdateUser(ctx context.Context, id string) ApiUpdateUserRequest
+
+	// UpdateUserExecute executes the request
+	UpdateUserExecute(r ApiUpdateUserRequest) (*http.Response, error)
+
+	/*
+	UpdateUserSettings Set global user settings
+
+	Create global user settings or replace existing settings with provided object.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpdateUserSettingsRequest
+	*/
+	UpdateUserSettings(ctx context.Context) ApiUpdateUserSettingsRequest
+
+	// UpdateUserSettingsExecute executes the request
+	UpdateUserSettingsExecute(r ApiUpdateUserSettingsRequest) (*http.Response, error)
+}
+
 // UserAdministrationManagementAPIAPIService UserAdministrationManagementAPIAPI service
 type UserAdministrationManagementAPIAPIService service
 
 type ApiCreatePersonalAccessTokenRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	personalAccessTokenRequest *PersonalAccessTokenRequest
 }
 
@@ -192,7 +423,7 @@ func (a *UserAdministrationManagementAPIAPIService) CreatePersonalAccessTokenExe
 
 type ApiCreateUserManagementRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	userNew *UserNew
 }
 
@@ -333,7 +564,7 @@ func (a *UserAdministrationManagementAPIAPIService) CreateUserManagementExecute(
 
 type ApiListPlansRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	page *int32
 	perPage *int32
 }
@@ -479,7 +710,7 @@ func (a *UserAdministrationManagementAPIAPIService) ListPlansExecute(r ApiListPl
 
 type ApiListUserPersonalAccessTokensRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 }
 
 func (r ApiListUserPersonalAccessTokensRequest) Execute() ([]PersonalAccessToken, *http.Response, error) {
@@ -597,7 +828,7 @@ func (a *UserAdministrationManagementAPIAPIService) ListUserPersonalAccessTokens
 
 type ApiListUsersManagementRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	id *string
 	email *string
 	createdAfter *int32
@@ -775,7 +1006,7 @@ func (a *UserAdministrationManagementAPIAPIService) ListUsersManagementExecute(r
 
 type ApiLoginRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	loginOptions *LoginOptions
 }
 
@@ -928,7 +1159,7 @@ func (a *UserAdministrationManagementAPIAPIService) LoginExecute(r ApiLoginReque
 
 type ApiLogoutRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 }
 
 func (r ApiLogoutRequest) Execute() (*http.Response, error) {
@@ -1049,7 +1280,7 @@ func (a *UserAdministrationManagementAPIAPIService) LogoutExecute(r ApiLogoutReq
 
 type ApiRemoveUserRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	id string
 }
 
@@ -1160,7 +1391,7 @@ func (a *UserAdministrationManagementAPIAPIService) RemoveUserExecute(r ApiRemov
 
 type ApiRevokePersonalAccessTokenRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	id string
 }
 
@@ -1271,7 +1502,7 @@ func (a *UserAdministrationManagementAPIAPIService) RevokePersonalAccessTokenExe
 
 type ApiShowMyUserSettingsRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 }
 
 func (r ApiShowMyUserSettingsRequest) Execute() (map[string]interface{}, *http.Response, error) {
@@ -1389,7 +1620,7 @@ func (a *UserAdministrationManagementAPIAPIService) ShowMyUserSettingsExecute(r 
 
 type ApiShowOwnUserDataRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 }
 
 func (r ApiShowOwnUserDataRequest) Execute() (*User, *http.Response, error) {
@@ -1518,7 +1749,7 @@ func (a *UserAdministrationManagementAPIAPIService) ShowOwnUserDataExecute(r Api
 
 type ApiShowPlanAndLimitsRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 }
 
 func (r ApiShowPlanAndLimitsRequest) Execute() (*PlanBindingDetails, *http.Response, error) {
@@ -1636,7 +1867,7 @@ func (a *UserAdministrationManagementAPIAPIService) ShowPlanAndLimitsExecute(r A
 
 type ApiShowUserRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	id string
 }
 
@@ -1769,7 +2000,7 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserExecute(r ApiShowUse
 
 type ApiShowUserSettingsRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 }
 
 func (r ApiShowUserSettingsRequest) Execute() (map[string]interface{}, *http.Response, error) {
@@ -1887,7 +2118,7 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserSettingsExecute(r Ap
 
 type ApiUpdateMyUserSettingsRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	body *map[string]interface{}
 	ifMatch *string
 }
@@ -2030,7 +2261,7 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateMyUserSettingsExecute(
 
 type ApiUpdateOwnUserDataRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	userUpdate *UserUpdate
 }
 
@@ -2182,7 +2413,7 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateOwnUserDataExecute(r A
 
 type ApiUpdateUserRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	id string
 	userUpdate *UserUpdate
 }
@@ -2338,7 +2569,7 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserExecute(r ApiUpdat
 
 type ApiUpdateUserSettingsRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationManagementAPIAPIService
+	ApiService UserAdministrationManagementAPIAPI
 	body *map[string]interface{}
 	ifMatch *string
 }

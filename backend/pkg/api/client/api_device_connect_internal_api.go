@@ -21,12 +21,111 @@ import (
 )
 
 
+type DeviceConnectInternalAPIAPI interface {
+
+	/*
+	DeleteTenant Delete all the data for given tenant.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant.
+	@return ApiDeleteTenantRequest
+	*/
+	DeleteTenant(ctx context.Context, tenantId string) ApiDeleteTenantRequest
+
+	// DeleteTenantExecute executes the request
+	DeleteTenantExecute(r ApiDeleteTenantRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectInternalCheckHealth Get health status of service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConnectInternalCheckHealthRequest
+	*/
+	DeviceConnectInternalCheckHealth(ctx context.Context) ApiDeviceConnectInternalCheckHealthRequest
+
+	// DeviceConnectInternalCheckHealthExecute executes the request
+	DeviceConnectInternalCheckHealthExecute(r ApiDeviceConnectInternalCheckHealthRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectInternalCheckLiveliness Get service liveliness status.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConnectInternalCheckLivelinessRequest
+	*/
+	DeviceConnectInternalCheckLiveliness(ctx context.Context) ApiDeviceConnectInternalCheckLivelinessRequest
+
+	// DeviceConnectInternalCheckLivelinessExecute executes the request
+	DeviceConnectInternalCheckLivelinessExecute(r ApiDeviceConnectInternalCheckLivelinessRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectInternalCheckUpdate Trigger check-update for the Mender client running on the device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param deviceId ID for the target device.
+	@return ApiDeviceConnectInternalCheckUpdateRequest
+	*/
+	DeviceConnectInternalCheckUpdate(ctx context.Context, tenantId string, deviceId string) ApiDeviceConnectInternalCheckUpdateRequest
+
+	// DeviceConnectInternalCheckUpdateExecute executes the request
+	DeviceConnectInternalCheckUpdateExecute(r ApiDeviceConnectInternalCheckUpdateRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectInternalDecomissionDevice Remove a device from the deviceconnect service.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param deviceId ID of the target device.
+	@return ApiDeviceConnectInternalDecomissionDeviceRequest
+	*/
+	DeviceConnectInternalDecomissionDevice(ctx context.Context, tenantId string, deviceId string) ApiDeviceConnectInternalDecomissionDeviceRequest
+
+	// DeviceConnectInternalDecomissionDeviceExecute executes the request
+	DeviceConnectInternalDecomissionDeviceExecute(r ApiDeviceConnectInternalDecomissionDeviceRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectInternalProvisionDevice Register a new device with the deviceconnect service.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@return ApiDeviceConnectInternalProvisionDeviceRequest
+	*/
+	DeviceConnectInternalProvisionDevice(ctx context.Context, tenantId string) ApiDeviceConnectInternalProvisionDeviceRequest
+
+	// DeviceConnectInternalProvisionDeviceExecute executes the request
+	DeviceConnectInternalProvisionDeviceExecute(r ApiDeviceConnectInternalProvisionDeviceRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectInternalSendInventory Trigger send-inventory for the Mender client running on the device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param deviceId ID for the target device.
+	@return ApiDeviceConnectInternalSendInventoryRequest
+	*/
+	DeviceConnectInternalSendInventory(ctx context.Context, tenantId string, deviceId string) ApiDeviceConnectInternalSendInventoryRequest
+
+	// DeviceConnectInternalSendInventoryExecute executes the request
+	DeviceConnectInternalSendInventoryExecute(r ApiDeviceConnectInternalSendInventoryRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectInternalShutdown Shutdown the service.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConnectInternalShutdownRequest
+	*/
+	DeviceConnectInternalShutdown(ctx context.Context) ApiDeviceConnectInternalShutdownRequest
+
+	// DeviceConnectInternalShutdownExecute executes the request
+	DeviceConnectInternalShutdownExecute(r ApiDeviceConnectInternalShutdownRequest) (*http.Response, error)
+}
+
 // DeviceConnectInternalAPIAPIService DeviceConnectInternalAPIAPI service
 type DeviceConnectInternalAPIAPIService service
 
 type ApiDeleteTenantRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectInternalAPIAPIService
+	ApiService DeviceConnectInternalAPIAPI
 	tenantId string
 }
 
@@ -126,7 +225,7 @@ func (a *DeviceConnectInternalAPIAPIService) DeleteTenantExecute(r ApiDeleteTena
 
 type ApiDeviceConnectInternalCheckHealthRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectInternalAPIAPIService
+	ApiService DeviceConnectInternalAPIAPI
 }
 
 func (r ApiDeviceConnectInternalCheckHealthRequest) Execute() (*http.Response, error) {
@@ -233,7 +332,7 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckHealthExe
 
 type ApiDeviceConnectInternalCheckLivelinessRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectInternalAPIAPIService
+	ApiService DeviceConnectInternalAPIAPI
 }
 
 func (r ApiDeviceConnectInternalCheckLivelinessRequest) Execute() (*http.Response, error) {
@@ -329,7 +428,7 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckLivelines
 
 type ApiDeviceConnectInternalCheckUpdateRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectInternalAPIAPIService
+	ApiService DeviceConnectInternalAPIAPI
 	tenantId string
 	deviceId string
 }
@@ -466,7 +565,7 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckUpdateExe
 
 type ApiDeviceConnectInternalDecomissionDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectInternalAPIAPIService
+	ApiService DeviceConnectInternalAPIAPI
 	tenantId string
 	deviceId string
 }
@@ -570,7 +669,7 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalDecomissionDev
 
 type ApiDeviceConnectInternalProvisionDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectInternalAPIAPIService
+	ApiService DeviceConnectInternalAPIAPI
 	tenantId string
 	provisionDevice *ProvisionDevice
 }
@@ -689,7 +788,7 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalProvisionDevic
 
 type ApiDeviceConnectInternalSendInventoryRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectInternalAPIAPIService
+	ApiService DeviceConnectInternalAPIAPI
 	tenantId string
 	deviceId string
 }
@@ -826,7 +925,7 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalSendInventoryE
 
 type ApiDeviceConnectInternalShutdownRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectInternalAPIAPIService
+	ApiService DeviceConnectInternalAPIAPI
 }
 
 func (r ApiDeviceConnectInternalShutdownRequest) Execute() (*http.Response, error) {

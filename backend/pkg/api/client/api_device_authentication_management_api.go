@@ -22,12 +22,159 @@ import (
 )
 
 
+type DeviceAuthenticationManagementAPIAPI interface {
+
+	/*
+	DeviceAuthManagementCountDevices Count number of devices, optionally filtered by status.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthManagementCountDevicesRequest
+	*/
+	DeviceAuthManagementCountDevices(ctx context.Context) ApiDeviceAuthManagementCountDevicesRequest
+
+	// DeviceAuthManagementCountDevicesExecute executes the request
+	//  @return Count
+	DeviceAuthManagementCountDevicesExecute(r ApiDeviceAuthManagementCountDevicesRequest) (*Count, *http.Response, error)
+
+	/*
+	DeviceAuthManagementDecommissionDevice Remove device and associated authentication set
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiDeviceAuthManagementDecommissionDeviceRequest
+	*/
+	DeviceAuthManagementDecommissionDevice(ctx context.Context, id string) ApiDeviceAuthManagementDecommissionDeviceRequest
+
+	// DeviceAuthManagementDecommissionDeviceExecute executes the request
+	DeviceAuthManagementDecommissionDeviceExecute(r ApiDeviceAuthManagementDecommissionDeviceRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthManagementGetAuthenticationStatus Get the device authentication set status
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@param aid Authentication data set identifier.
+	@return ApiDeviceAuthManagementGetAuthenticationStatusRequest
+	*/
+	DeviceAuthManagementGetAuthenticationStatus(ctx context.Context, id string, aid string) ApiDeviceAuthManagementGetAuthenticationStatusRequest
+
+	// DeviceAuthManagementGetAuthenticationStatusExecute executes the request
+	//  @return Status
+	DeviceAuthManagementGetAuthenticationStatusExecute(r ApiDeviceAuthManagementGetAuthenticationStatusRequest) (*Status, *http.Response, error)
+
+	/*
+	DeviceAuthManagementGetDevice Get a particular device.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@return ApiDeviceAuthManagementGetDeviceRequest
+	*/
+	DeviceAuthManagementGetDevice(ctx context.Context, id string) ApiDeviceAuthManagementGetDeviceRequest
+
+	// DeviceAuthManagementGetDeviceExecute executes the request
+	//  @return Device
+	DeviceAuthManagementGetDeviceExecute(r ApiDeviceAuthManagementGetDeviceRequest) (*Device, *http.Response, error)
+
+	/*
+	DeviceAuthManagementGetDeviceLimit Obtain limit of accepted devices.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthManagementGetDeviceLimitRequest
+	*/
+	DeviceAuthManagementGetDeviceLimit(ctx context.Context) ApiDeviceAuthManagementGetDeviceLimitRequest
+
+	// DeviceAuthManagementGetDeviceLimitExecute executes the request
+	//  @return Limit
+	DeviceAuthManagementGetDeviceLimitExecute(r ApiDeviceAuthManagementGetDeviceLimitRequest) (*Limit, *http.Response, error)
+
+	/*
+	DeviceAuthManagementListDevices List devices sorted by age and optionally filter on device status.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthManagementListDevicesRequest
+	*/
+	DeviceAuthManagementListDevices(ctx context.Context) ApiDeviceAuthManagementListDevicesRequest
+
+	// DeviceAuthManagementListDevicesExecute executes the request
+	//  @return []Device
+	DeviceAuthManagementListDevicesExecute(r ApiDeviceAuthManagementListDevicesRequest) ([]Device, *http.Response, error)
+
+	/*
+	DeviceAuthManagementPreauthorize Submit a preauthorized device.
+
+	Authorize a device identity with the server backend. On success the device identity is marked as 'preauthorized', and once the device connects and sends it's first authentication request the device automatically become 'accepted' without explicit user intervention.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthManagementPreauthorizeRequest
+	*/
+	DeviceAuthManagementPreauthorize(ctx context.Context) ApiDeviceAuthManagementPreauthorizeRequest
+
+	// DeviceAuthManagementPreauthorizeExecute executes the request
+	DeviceAuthManagementPreauthorizeExecute(r ApiDeviceAuthManagementPreauthorizeRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthManagementRemoveAuthentication Remove (dismiss) the device authentication set
+
+	Removes the device authentication set. Removing 'accepted' authentication set is equivalent to rejecting device and removing authentication set. If there is only one authentication set for the device and the device is 'preauthorized' then the device will also be deleted.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@param aid Authentication data set identifier.
+	@return ApiDeviceAuthManagementRemoveAuthenticationRequest
+	*/
+	DeviceAuthManagementRemoveAuthentication(ctx context.Context, id string, aid string) ApiDeviceAuthManagementRemoveAuthenticationRequest
+
+	// DeviceAuthManagementRemoveAuthenticationExecute executes the request
+	DeviceAuthManagementRemoveAuthenticationExecute(r ApiDeviceAuthManagementRemoveAuthenticationRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthManagementRevokeAPIToken Revoke JWT with given id
+
+	Deletes the token, effectively revoking it. The device must apply for a new one with a new authentication request. The token 'id' corresponds to the standard 'jti' claim.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Unique token identifier('jti').
+	@return ApiDeviceAuthManagementRevokeAPITokenRequest
+	*/
+	DeviceAuthManagementRevokeAPIToken(ctx context.Context, id string) ApiDeviceAuthManagementRevokeAPITokenRequest
+
+	// DeviceAuthManagementRevokeAPITokenExecute executes the request
+	DeviceAuthManagementRevokeAPITokenExecute(r ApiDeviceAuthManagementRevokeAPITokenRequest) (*http.Response, error)
+
+	/*
+	DeviceAuthManagementSearchDevices Query for devices. Returns a list of matching devices with AuthSets sorted by age.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceAuthManagementSearchDevicesRequest
+	*/
+	DeviceAuthManagementSearchDevices(ctx context.Context) ApiDeviceAuthManagementSearchDevicesRequest
+
+	// DeviceAuthManagementSearchDevicesExecute executes the request
+	//  @return []Device
+	DeviceAuthManagementSearchDevicesExecute(r ApiDeviceAuthManagementSearchDevicesRequest) ([]Device, *http.Response, error)
+
+	/*
+	DeviceAuthManagementSetAuthenticationStatus Update the device authentication set status
+
+	Sets the status of an authentication data set of selected value. Valid state transitions: - 'pending' -> 'accepted' - 'pending' -> 'rejected' - 'rejected' -> 'accepted' - 'accepted' -> 'rejected'
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Device identifier.
+	@param aid Authentication data set identifier.
+	@return ApiDeviceAuthManagementSetAuthenticationStatusRequest
+	*/
+	DeviceAuthManagementSetAuthenticationStatus(ctx context.Context, id string, aid string) ApiDeviceAuthManagementSetAuthenticationStatusRequest
+
+	// DeviceAuthManagementSetAuthenticationStatusExecute executes the request
+	DeviceAuthManagementSetAuthenticationStatusExecute(r ApiDeviceAuthManagementSetAuthenticationStatusRequest) (*http.Response, error)
+}
+
 // DeviceAuthenticationManagementAPIAPIService DeviceAuthenticationManagementAPIAPI service
 type DeviceAuthenticationManagementAPIAPIService service
 
 type ApiDeviceAuthManagementCountDevicesRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	status *string
 	xMENRequestID *string
 }
@@ -165,7 +312,7 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementCountD
 
 type ApiDeviceAuthManagementDecommissionDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	id string
 	xMENRequestID *string
 }
@@ -297,7 +444,7 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementDecomm
 
 type ApiDeviceAuthManagementGetAuthenticationStatusRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	id string
 	aid string
 	xMENRequestID *string
@@ -433,7 +580,7 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementGetAut
 
 type ApiDeviceAuthManagementGetDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	id string
 	xMENRequestID *string
 }
@@ -565,7 +712,7 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementGetDev
 
 type ApiDeviceAuthManagementGetDeviceLimitRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	xMENRequestID *string
 }
 
@@ -693,7 +840,7 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementGetDev
 
 type ApiDeviceAuthManagementListDevicesRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	status *string
 	id *[]string
 	page *int32
@@ -877,7 +1024,7 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementListDe
 
 type ApiDeviceAuthManagementPreauthorizeRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	preAuthSet *PreAuthSet
 	xMENRequestID *string
 }
@@ -1018,7 +1165,7 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementPreaut
 
 type ApiDeviceAuthManagementRemoveAuthenticationRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	id string
 	aid string
 	xMENRequestID *string
@@ -1156,7 +1303,7 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementRemove
 
 type ApiDeviceAuthManagementRevokeAPITokenRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	id string
 	xMENRequestID *string
 }
@@ -1290,7 +1437,7 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementRevoke
 
 type ApiDeviceAuthManagementSearchDevicesRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	deviceAuthManagementSearchDevicesRequest *DeviceAuthManagementSearchDevicesRequest
 	page *int32
 	perPage *int32
@@ -1458,7 +1605,7 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementSearch
 
 type ApiDeviceAuthManagementSetAuthenticationStatusRequest struct {
 	ctx context.Context
-	ApiService *DeviceAuthenticationManagementAPIAPIService
+	ApiService DeviceAuthenticationManagementAPIAPI
 	id string
 	aid string
 	status *Status

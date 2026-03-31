@@ -21,12 +21,53 @@ import (
 )
 
 
+type DeviceConfigureManagementAPIAPI interface {
+
+	/*
+	DeviceConfigManagementDeployDeviceConfiguration Deploy the device's configuration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId ID of the device.
+	@return ApiDeviceConfigManagementDeployDeviceConfigurationRequest
+	*/
+	DeviceConfigManagementDeployDeviceConfiguration(ctx context.Context, deviceId string) ApiDeviceConfigManagementDeployDeviceConfigurationRequest
+
+	// DeviceConfigManagementDeployDeviceConfigurationExecute executes the request
+	//  @return NewConfigurationDeploymentResponse
+	DeviceConfigManagementDeployDeviceConfigurationExecute(r ApiDeviceConfigManagementDeployDeviceConfigurationRequest) (*NewConfigurationDeploymentResponse, *http.Response, error)
+
+	/*
+	DeviceConfigManagementGetDeviceConfiguration Get the device's configuration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId ID of the device to query.
+	@return ApiDeviceConfigManagementGetDeviceConfigurationRequest
+	*/
+	DeviceConfigManagementGetDeviceConfiguration(ctx context.Context, deviceId string) ApiDeviceConfigManagementGetDeviceConfigurationRequest
+
+	// DeviceConfigManagementGetDeviceConfigurationExecute executes the request
+	//  @return DeviceConfiguration
+	DeviceConfigManagementGetDeviceConfigurationExecute(r ApiDeviceConfigManagementGetDeviceConfigurationRequest) (*DeviceConfiguration, *http.Response, error)
+
+	/*
+	DeviceConfigManagementSetDeviceConfiguration Set the device's configuration
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deviceId ID of the device to query.
+	@return ApiDeviceConfigManagementSetDeviceConfigurationRequest
+	*/
+	DeviceConfigManagementSetDeviceConfiguration(ctx context.Context, deviceId string) ApiDeviceConfigManagementSetDeviceConfigurationRequest
+
+	// DeviceConfigManagementSetDeviceConfigurationExecute executes the request
+	DeviceConfigManagementSetDeviceConfigurationExecute(r ApiDeviceConfigManagementSetDeviceConfigurationRequest) (*http.Response, error)
+}
+
 // DeviceConfigureManagementAPIAPIService DeviceConfigureManagementAPIAPI service
 type DeviceConfigureManagementAPIAPIService service
 
 type ApiDeviceConfigManagementDeployDeviceConfigurationRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureManagementAPIAPIService
+	ApiService DeviceConfigureManagementAPIAPI
 	deviceId string
 	newConfigurationDeployment *NewConfigurationDeployment
 }
@@ -170,7 +211,7 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementDeployDev
 
 type ApiDeviceConfigManagementGetDeviceConfigurationRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureManagementAPIAPIService
+	ApiService DeviceConfigureManagementAPIAPI
 	deviceId string
 }
 
@@ -303,7 +344,7 @@ func (a *DeviceConfigureManagementAPIAPIService) DeviceConfigManagementGetDevice
 
 type ApiDeviceConfigManagementSetDeviceConfigurationRequest struct {
 	ctx context.Context
-	ApiService *DeviceConfigureManagementAPIAPIService
+	ApiService DeviceConfigureManagementAPIAPI
 	deviceId string
 	requestBody *map[string]string
 }

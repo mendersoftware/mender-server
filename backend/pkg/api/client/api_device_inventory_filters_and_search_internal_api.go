@@ -21,12 +21,50 @@ import (
 )
 
 
+type DeviceInventoryFiltersAndSearchInternalAPIAPI interface {
+
+	/*
+	GetStatisticsInternal Get inventory statistics
+
+	The following statistics are currently supported:
+* Number of accepted and pending devices in each device tier
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@return ApiGetStatisticsInternalRequest
+	*/
+	GetStatisticsInternal(ctx context.Context, tenantId string) ApiGetStatisticsInternalRequest
+
+	// GetStatisticsInternalExecute executes the request
+	//  @return GetStatisticsInternal200Response
+	GetStatisticsInternalExecute(r ApiGetStatisticsInternalRequest) (*GetStatisticsInternal200Response, *http.Response, error)
+
+	/*
+	InventoryInternalV2SearchDeviceInventories Search device inventories based on attributes
+
+	Returns a paged collection of devices and their attributes.
+
+It accepts optional filters and sort parameters as body parameters.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@return ApiInventoryInternalV2SearchDeviceInventoriesRequest
+	*/
+	InventoryInternalV2SearchDeviceInventories(ctx context.Context, tenantId string) ApiInventoryInternalV2SearchDeviceInventoriesRequest
+
+	// InventoryInternalV2SearchDeviceInventoriesExecute executes the request
+	//  @return []DeviceInventory
+	InventoryInternalV2SearchDeviceInventoriesExecute(r ApiInventoryInternalV2SearchDeviceInventoriesRequest) ([]DeviceInventory, *http.Response, error)
+}
+
 // DeviceInventoryFiltersAndSearchInternalAPIAPIService DeviceInventoryFiltersAndSearchInternalAPIAPI service
 type DeviceInventoryFiltersAndSearchInternalAPIAPIService service
 
 type ApiGetStatisticsInternalRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryFiltersAndSearchInternalAPIAPIService
+	ApiService DeviceInventoryFiltersAndSearchInternalAPIAPI
 	tenantId string
 }
 
@@ -141,7 +179,7 @@ func (a *DeviceInventoryFiltersAndSearchInternalAPIAPIService) GetStatisticsInte
 
 type ApiInventoryInternalV2SearchDeviceInventoriesRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryFiltersAndSearchInternalAPIAPIService
+	ApiService DeviceInventoryFiltersAndSearchInternalAPIAPI
 	tenantId string
 	inventoryInternalV2SearchDeviceInventoriesRequest *InventoryInternalV2SearchDeviceInventoriesRequest
 }

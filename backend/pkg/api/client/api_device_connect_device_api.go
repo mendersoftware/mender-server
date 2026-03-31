@@ -20,12 +20,28 @@ import (
 )
 
 
+type DeviceConnectDeviceAPIAPI interface {
+
+	/*
+	DeviceConnectConnect Connect the device and make it available to the server.
+
+	Calling /connect will upgrade the connection to a persistent websocket connection and make the device available to the management API. The device must provide DeviceJWT identity either as Authorization (Bearer) header or as a cookie named 'JWT'.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeviceConnectConnectRequest
+	*/
+	DeviceConnectConnect(ctx context.Context) ApiDeviceConnectConnectRequest
+
+	// DeviceConnectConnectExecute executes the request
+	DeviceConnectConnectExecute(r ApiDeviceConnectConnectRequest) (*http.Response, error)
+}
+
 // DeviceConnectDeviceAPIAPIService DeviceConnectDeviceAPIAPI service
 type DeviceConnectDeviceAPIAPIService service
 
 type ApiDeviceConnectConnectRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectDeviceAPIAPIService
+	ApiService DeviceConnectDeviceAPIAPI
 	connection *string
 	upgrade *string
 	secWebsocketKey *string

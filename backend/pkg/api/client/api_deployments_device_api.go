@@ -23,12 +23,80 @@ import (
 )
 
 
+type DeploymentsDeviceAPIAPI interface {
+
+	/*
+	CheckUpdate Get next update
+
+	On success, either an empty response or a DeploymentInstructions object
+is returned depending on whether there are any pending updates.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCheckUpdateRequest
+	*/
+	CheckUpdate(ctx context.Context) ApiCheckUpdateRequest
+
+	// CheckUpdateExecute executes the request
+	//  @return DeploymentInstructions
+	CheckUpdateExecute(r ApiCheckUpdateRequest) (*DeploymentInstructions, *http.Response, error)
+
+	/*
+	FetchConfiguration Internally generated download link for deploying device configurations. All parameters are generated internally when fetching a configuration deployment. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param deploymentId Deployment UUID
+	@param deviceType Device type of the calling device
+	@param deviceId Device UUID
+	@return ApiFetchConfigurationRequest
+	*/
+	FetchConfiguration(ctx context.Context, deploymentId string, deviceType string, deviceId string) ApiFetchConfigurationRequest
+
+	// FetchConfigurationExecute executes the request
+	//  @return *os.File
+	FetchConfigurationExecute(r ApiFetchConfigurationRequest) (*os.File, *http.Response, error)
+
+	/*
+	ReportDeploymentLog Upload the device deployment log
+
+	Set the log of a selected deployment. Messages are split by line in the payload.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Deployment identifier.
+	@return ApiReportDeploymentLogRequest
+	*/
+	ReportDeploymentLog(ctx context.Context, id string) ApiReportDeploymentLogRequest
+
+	// ReportDeploymentLogExecute executes the request
+	ReportDeploymentLogExecute(r ApiReportDeploymentLogRequest) (*http.Response, error)
+
+	/*
+	UpdateDeploymentStatus Update the device deployment status
+
+	Updates the status of a deployment on a particular device. Final status
+of the deployment is required to be set to indicate the success or failure
+of the installation process. The status can not be changed when deployment
+status is set to aborted. Reporting of intermediate steps such as
+installing, downloading, rebooting is optional.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Deployment identifier.
+	@return ApiUpdateDeploymentStatusRequest
+	*/
+	UpdateDeploymentStatus(ctx context.Context, id string) ApiUpdateDeploymentStatusRequest
+
+	// UpdateDeploymentStatusExecute executes the request
+	UpdateDeploymentStatusExecute(r ApiUpdateDeploymentStatusRequest) (*http.Response, error)
+}
+
 // DeploymentsDeviceAPIAPIService DeploymentsDeviceAPIAPI service
 type DeploymentsDeviceAPIAPIService service
 
 type ApiCheckUpdateRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsDeviceAPIAPIService
+	ApiService DeploymentsDeviceAPIAPI
 	artifactName *string
 	deviceType *string
 }
@@ -194,7 +262,7 @@ func (a *DeploymentsDeviceAPIAPIService) CheckUpdateExecute(r ApiCheckUpdateRequ
 
 type ApiFetchConfigurationRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsDeviceAPIAPIService
+	ApiService DeploymentsDeviceAPIAPI
 	deploymentId string
 	deviceType string
 	deviceId string
@@ -356,7 +424,7 @@ func (a *DeploymentsDeviceAPIAPIService) FetchConfigurationExecute(r ApiFetchCon
 
 type ApiReportDeploymentLogRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsDeviceAPIAPIService
+	ApiService DeploymentsDeviceAPIAPI
 	id string
 	deploymentLog *DeploymentLog
 }
@@ -493,7 +561,7 @@ func (a *DeploymentsDeviceAPIAPIService) ReportDeploymentLogExecute(r ApiReportD
 
 type ApiUpdateDeploymentStatusRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsDeviceAPIAPIService
+	ApiService DeploymentsDeviceAPIAPI
 	id string
 	deploymentStatus *DeploymentStatus
 }

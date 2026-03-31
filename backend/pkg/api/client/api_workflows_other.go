@@ -21,12 +21,109 @@ import (
 )
 
 
+type WorkflowsOtherAPI interface {
+
+	/*
+	JobStructure Gets the job for the given id.
+
+	Gets the job object for the given job id.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id Job identifier
+	@return ApiJobStructureRequest
+	*/
+	JobStructure(ctx context.Context, id string) ApiJobStructureRequest
+
+	// JobStructureExecute executes the request
+	//  @return JobObject
+	JobStructureExecute(r ApiJobStructureRequest) (*JobObject, *http.Response, error)
+
+	/*
+	ListWorkflows Get all workflow definitions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListWorkflowsRequest
+	*/
+	ListWorkflows(ctx context.Context) ApiListWorkflowsRequest
+
+	// ListWorkflowsExecute executes the request
+	//  @return []Workflow
+	ListWorkflowsExecute(r ApiListWorkflowsRequest) ([]Workflow, *http.Response, error)
+
+	/*
+	RegisterWorkflow Register a new workflow
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRegisterWorkflowRequest
+	*/
+	RegisterWorkflow(ctx context.Context) ApiRegisterWorkflowRequest
+
+	// RegisterWorkflowExecute executes the request
+	RegisterWorkflowExecute(r ApiRegisterWorkflowRequest) (*http.Response, error)
+
+	/*
+	StartBatchWorkflows Start a batch of workflows
+
+	Starts a new workflow given by the name path-parameter.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Workflow identifier.
+	@return ApiStartBatchWorkflowsRequest
+	*/
+	StartBatchWorkflows(ctx context.Context, name string) ApiStartBatchWorkflowsRequest
+
+	// StartBatchWorkflowsExecute executes the request
+	//  @return []StartBatchWorkflows201ResponseInner
+	StartBatchWorkflowsExecute(r ApiStartBatchWorkflowsRequest) ([]StartBatchWorkflows201ResponseInner, *http.Response, error)
+
+	/*
+	StartWorkflow Start a new workflow
+
+	Starts a new workflow given by the name path-parameter.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param name Workflow identifier.
+	@return ApiStartWorkflowRequest
+	*/
+	StartWorkflow(ctx context.Context, name string) ApiStartWorkflowRequest
+
+	// StartWorkflowExecute executes the request
+	//  @return WorkflowsCheckLiveliness200Response
+	StartWorkflowExecute(r ApiStartWorkflowRequest) (*WorkflowsCheckLiveliness200Response, *http.Response, error)
+
+	/*
+	WorkflowsCheckHealth Check if service and all operational dependencies are healthy.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiWorkflowsCheckHealthRequest
+	*/
+	WorkflowsCheckHealth(ctx context.Context) ApiWorkflowsCheckHealthRequest
+
+	// WorkflowsCheckHealthExecute executes the request
+	WorkflowsCheckHealthExecute(r ApiWorkflowsCheckHealthRequest) (*http.Response, error)
+
+	/*
+	WorkflowsCheckLiveliness Check if service API is alive and serving requests
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiWorkflowsCheckLivelinessRequest
+	*/
+	WorkflowsCheckLiveliness(ctx context.Context) ApiWorkflowsCheckLivelinessRequest
+
+	// WorkflowsCheckLivelinessExecute executes the request
+	//  @return WorkflowsCheckLiveliness200Response
+	WorkflowsCheckLivelinessExecute(r ApiWorkflowsCheckLivelinessRequest) (*WorkflowsCheckLiveliness200Response, *http.Response, error)
+}
+
 // WorkflowsOtherAPIService WorkflowsOtherAPI service
 type WorkflowsOtherAPIService service
 
 type ApiJobStructureRequest struct {
 	ctx context.Context
-	ApiService *WorkflowsOtherAPIService
+	ApiService WorkflowsOtherAPI
 	id string
 }
 
@@ -140,7 +237,7 @@ func (a *WorkflowsOtherAPIService) JobStructureExecute(r ApiJobStructureRequest)
 
 type ApiListWorkflowsRequest struct {
 	ctx context.Context
-	ApiService *WorkflowsOtherAPIService
+	ApiService WorkflowsOtherAPI
 }
 
 func (r ApiListWorkflowsRequest) Execute() ([]Workflow, *http.Response, error) {
@@ -237,7 +334,7 @@ func (a *WorkflowsOtherAPIService) ListWorkflowsExecute(r ApiListWorkflowsReques
 
 type ApiRegisterWorkflowRequest struct {
 	ctx context.Context
-	ApiService *WorkflowsOtherAPIService
+	ApiService WorkflowsOtherAPI
 	workflow *Workflow
 }
 
@@ -356,7 +453,7 @@ func (a *WorkflowsOtherAPIService) RegisterWorkflowExecute(r ApiRegisterWorkflow
 
 type ApiStartBatchWorkflowsRequest struct {
 	ctx context.Context
-	ApiService *WorkflowsOtherAPIService
+	ApiService WorkflowsOtherAPI
 	name string
 	inputParameter *[][]InputParameter
 }
@@ -493,7 +590,7 @@ func (a *WorkflowsOtherAPIService) StartBatchWorkflowsExecute(r ApiStartBatchWor
 
 type ApiStartWorkflowRequest struct {
 	ctx context.Context
-	ApiService *WorkflowsOtherAPIService
+	ApiService WorkflowsOtherAPI
 	name string
 	inputParameter *[]InputParameter
 }
@@ -630,7 +727,7 @@ func (a *WorkflowsOtherAPIService) StartWorkflowExecute(r ApiStartWorkflowReques
 
 type ApiWorkflowsCheckHealthRequest struct {
 	ctx context.Context
-	ApiService *WorkflowsOtherAPIService
+	ApiService WorkflowsOtherAPI
 }
 
 func (r ApiWorkflowsCheckHealthRequest) Execute() (*http.Response, error) {
@@ -737,7 +834,7 @@ func (a *WorkflowsOtherAPIService) WorkflowsCheckHealthExecute(r ApiWorkflowsChe
 
 type ApiWorkflowsCheckLivelinessRequest struct {
 	ctx context.Context
-	ApiService *WorkflowsOtherAPIService
+	ApiService WorkflowsOtherAPI
 }
 
 func (r ApiWorkflowsCheckLivelinessRequest) Execute() (*WorkflowsCheckLiveliness200Response, *http.Response, error) {

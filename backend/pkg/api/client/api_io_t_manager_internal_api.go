@@ -21,12 +21,87 @@ import (
 )
 
 
+type IoTManagerInternalAPIAPI interface {
+
+	/*
+	IoTManagerInternalCheckHealth Get health status of service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIoTManagerInternalCheckHealthRequest
+	*/
+	IoTManagerInternalCheckHealth(ctx context.Context) ApiIoTManagerInternalCheckHealthRequest
+
+	// IoTManagerInternalCheckHealthExecute executes the request
+	IoTManagerInternalCheckHealthExecute(r ApiIoTManagerInternalCheckHealthRequest) (*http.Response, error)
+
+	/*
+	IoTManagerInternalCheckLiveliness Get service liveliness status.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiIoTManagerInternalCheckLivelinessRequest
+	*/
+	IoTManagerInternalCheckLiveliness(ctx context.Context) ApiIoTManagerInternalCheckLivelinessRequest
+
+	// IoTManagerInternalCheckLivelinessExecute executes the request
+	IoTManagerInternalCheckLivelinessExecute(r ApiIoTManagerInternalCheckLivelinessRequest) (*http.Response, error)
+
+	/*
+	IoTManagerInternalDecommissionDevice Remove a device from Iot Hub.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param deviceId ID of the target device.
+	@return ApiIoTManagerInternalDecommissionDeviceRequest
+	*/
+	IoTManagerInternalDecommissionDevice(ctx context.Context, tenantId string, deviceId string) ApiIoTManagerInternalDecommissionDeviceRequest
+
+	// IoTManagerInternalDecommissionDeviceExecute executes the request
+	IoTManagerInternalDecommissionDeviceExecute(r ApiIoTManagerInternalDecommissionDeviceRequest) (*http.Response, error)
+
+	/*
+	IoTManagerInternalDeleteTenant Delete all data belonging to a given tenant.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant to remove.
+	@return ApiIoTManagerInternalDeleteTenantRequest
+	*/
+	IoTManagerInternalDeleteTenant(ctx context.Context, tenantId string) ApiIoTManagerInternalDeleteTenantRequest
+
+	// IoTManagerInternalDeleteTenantExecute executes the request
+	IoTManagerInternalDeleteTenantExecute(r ApiIoTManagerInternalDeleteTenantRequest) (*http.Response, error)
+
+	/*
+	IoTManagerInternalProvisionDevice Register a new device with the deviceconfig service.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@return ApiIoTManagerInternalProvisionDeviceRequest
+	*/
+	IoTManagerInternalProvisionDevice(ctx context.Context, tenantId string) ApiIoTManagerInternalProvisionDeviceRequest
+
+	// IoTManagerInternalProvisionDeviceExecute executes the request
+	IoTManagerInternalProvisionDeviceExecute(r ApiIoTManagerInternalProvisionDeviceRequest) (*http.Response, error)
+
+	/*
+	IoTManagerInternalUpdateDeviceStatuses Update device statuses in bulk.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId ID of tenant the device belongs to.
+	@param status The status of the device
+	@return ApiIoTManagerInternalUpdateDeviceStatusesRequest
+	*/
+	IoTManagerInternalUpdateDeviceStatuses(ctx context.Context, tenantId string, status string) ApiIoTManagerInternalUpdateDeviceStatusesRequest
+
+	// IoTManagerInternalUpdateDeviceStatusesExecute executes the request
+	IoTManagerInternalUpdateDeviceStatusesExecute(r ApiIoTManagerInternalUpdateDeviceStatusesRequest) (*http.Response, error)
+}
+
 // IoTManagerInternalAPIAPIService IoTManagerInternalAPIAPI service
 type IoTManagerInternalAPIAPIService service
 
 type ApiIoTManagerInternalCheckHealthRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerInternalAPIAPIService
+	ApiService IoTManagerInternalAPIAPI
 }
 
 func (r ApiIoTManagerInternalCheckHealthRequest) Execute() (*http.Response, error) {
@@ -133,7 +208,7 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckHealthExecute(r
 
 type ApiIoTManagerInternalCheckLivelinessRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerInternalAPIAPIService
+	ApiService IoTManagerInternalAPIAPI
 }
 
 func (r ApiIoTManagerInternalCheckLivelinessRequest) Execute() (*http.Response, error) {
@@ -229,7 +304,7 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalCheckLivelinessExecu
 
 type ApiIoTManagerInternalDecommissionDeviceRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerInternalAPIAPIService
+	ApiService IoTManagerInternalAPIAPI
 	tenantId string
 	deviceId string
 }
@@ -333,7 +408,7 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDecommissionDeviceEx
 
 type ApiIoTManagerInternalDeleteTenantRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerInternalAPIAPIService
+	ApiService IoTManagerInternalAPIAPI
 	tenantId string
 }
 
@@ -433,7 +508,7 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalDeleteTenantExecute(
 
 type ApiIoTManagerInternalProvisionDeviceRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerInternalAPIAPIService
+	ApiService IoTManagerInternalAPIAPI
 	tenantId string
 	newDeviceInternalProvision *NewDeviceInternalProvision
 }
@@ -566,7 +641,7 @@ func (a *IoTManagerInternalAPIAPIService) IoTManagerInternalProvisionDeviceExecu
 
 type ApiIoTManagerInternalUpdateDeviceStatusesRequest struct {
 	ctx context.Context
-	ApiService *IoTManagerInternalAPIAPIService
+	ApiService IoTManagerInternalAPIAPI
 	tenantId string
 	status string
 	ioTManagerInternalUpdateDeviceStatusesRequestInner *[]IoTManagerInternalUpdateDeviceStatusesRequestInner

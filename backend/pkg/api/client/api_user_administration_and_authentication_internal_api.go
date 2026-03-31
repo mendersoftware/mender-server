@@ -21,12 +21,121 @@ import (
 )
 
 
+type UserAdministrationAndAuthenticationInternalAPIAPI interface {
+
+	/*
+	CreateUserInternal Create user
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@return ApiCreateUserInternalRequest
+	*/
+	CreateUserInternal(ctx context.Context, tenantId string) ApiCreateUserInternalRequest
+
+	// CreateUserInternalExecute executes the request
+	CreateUserInternalExecute(r ApiCreateUserInternalRequest) (*http.Response, error)
+
+	/*
+	DeleteUserInternal Delete a user
+
+	Remove a user from the tenant.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@param userId User ID.
+	@return ApiDeleteUserInternalRequest
+	*/
+	DeleteUserInternal(ctx context.Context, tenantId string, userId string) ApiDeleteUserInternalRequest
+
+	// DeleteUserInternalExecute executes the request
+	DeleteUserInternalExecute(r ApiDeleteUserInternalRequest) (*http.Response, error)
+
+	/*
+	ListUsersInternal List all users registered under the tenant owning the JWT. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tenantId Tenant ID.
+	@return ApiListUsersInternalRequest
+	*/
+	ListUsersInternal(ctx context.Context, tenantId string) ApiListUsersInternalRequest
+
+	// ListUsersInternalExecute executes the request
+	//  @return []User
+	ListUsersInternalExecute(r ApiListUsersInternalRequest) ([]User, *http.Response, error)
+
+	/*
+	RevokeUserTokens Delete all user tokens
+
+	This endpoint is designed to be used for tenant account suspension purpose.
+When only tenant_id parameter is set, tokens for all tenant users will be removed.
+It is also possible to remove tokens for user with given user_id by setting
+optional user_id parameter.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRevokeUserTokensRequest
+	*/
+	RevokeUserTokens(ctx context.Context) ApiRevokeUserTokensRequest
+
+	// RevokeUserTokensExecute executes the request
+	RevokeUserTokensExecute(r ApiRevokeUserTokensRequest) (*http.Response, error)
+
+	/*
+	UseradmCheckHealth Check the health of the service
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUseradmCheckHealthRequest
+	*/
+	UseradmCheckHealth(ctx context.Context) ApiUseradmCheckHealthRequest
+
+	// UseradmCheckHealthExecute executes the request
+	UseradmCheckHealthExecute(r ApiUseradmCheckHealthRequest) (*http.Response, error)
+
+	/*
+	UseradmCheckLiveliness Trivial endpoint that unconditionally returns an empty 200 response whenever the API handler is running correctly. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUseradmCheckLivelinessRequest
+	*/
+	UseradmCheckLiveliness(ctx context.Context) ApiUseradmCheckLivelinessRequest
+
+	// UseradmCheckLivelinessExecute executes the request
+	UseradmCheckLivelinessExecute(r ApiUseradmCheckLivelinessRequest) (*http.Response, error)
+
+	/*
+	UseradmCreateTenant Create a tenant with provided configuration.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUseradmCreateTenantRequest
+	*/
+	UseradmCreateTenant(ctx context.Context) ApiUseradmCreateTenantRequest
+
+	// UseradmCreateTenantExecute executes the request
+	UseradmCreateTenantExecute(r ApiUseradmCreateTenantRequest) (*http.Response, error)
+
+	/*
+	VerifyJWT Check the validity of a token
+
+	Besides the basic validity check, checks the token expiration time and user-initiated token revocation.
+Services which intend to use it should be correctly set up in the gateway's configuration.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiVerifyJWTRequest
+	*/
+	VerifyJWT(ctx context.Context) ApiVerifyJWTRequest
+
+	// VerifyJWTExecute executes the request
+	VerifyJWTExecute(r ApiVerifyJWTRequest) (*http.Response, error)
+}
+
 // UserAdministrationAndAuthenticationInternalAPIAPIService UserAdministrationAndAuthenticationInternalAPIAPI service
 type UserAdministrationAndAuthenticationInternalAPIAPIService service
 
 type ApiCreateUserInternalRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
+	ApiService UserAdministrationAndAuthenticationInternalAPIAPI
 	tenantId string
 	userNewInternal *UserNewInternal
 }
@@ -171,7 +280,7 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInt
 
 type ApiDeleteUserInternalRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
+	ApiService UserAdministrationAndAuthenticationInternalAPIAPI
 	tenantId string
 	userId string
 }
@@ -289,7 +398,7 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInt
 
 type ApiListUsersInternalRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
+	ApiService UserAdministrationAndAuthenticationInternalAPIAPI
 	tenantId string
 	id *string
 	email *string
@@ -471,7 +580,7 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) ListUsersInte
 
 type ApiRevokeUserTokensRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
+	ApiService UserAdministrationAndAuthenticationInternalAPIAPI
 	tenantId *string
 	userId *string
 }
@@ -616,7 +725,7 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) RevokeUserTok
 
 type ApiUseradmCheckHealthRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
+	ApiService UserAdministrationAndAuthenticationInternalAPIAPI
 }
 
 func (r ApiUseradmCheckHealthRequest) Execute() (*http.Response, error) {
@@ -723,7 +832,7 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckH
 
 type ApiUseradmCheckLivelinessRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
+	ApiService UserAdministrationAndAuthenticationInternalAPIAPI
 }
 
 func (r ApiUseradmCheckLivelinessRequest) Execute() (*http.Response, error) {
@@ -819,7 +928,7 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckL
 
 type ApiUseradmCreateTenantRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
+	ApiService UserAdministrationAndAuthenticationInternalAPIAPI
 	tenantNew *TenantNew
 }
 
@@ -937,7 +1046,7 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCreate
 
 type ApiVerifyJWTRequest struct {
 	ctx context.Context
-	ApiService *UserAdministrationAndAuthenticationInternalAPIAPIService
+	ApiService UserAdministrationAndAuthenticationInternalAPIAPI
 	authorization *string
 	xForwardedUri *string
 	xForwardedMethod *string

@@ -22,12 +22,155 @@ import (
 )
 
 
+type DeploymentsV2ManagementAPIAPI interface {
+
+	/*
+	AssignReleaseTags Update and replace the tags of a release. 
+
+	Assigns tags to a release. The tags associated with the release will be
+replaced with the ones defined in the request body.
+
+LIMITATIONS:
+  * Max 20 tags can be assigned to a single release.
+  * There can be no more than 100 unique tag keys in total.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param releaseName Name of the release
+	@return ApiAssignReleaseTagsRequest
+	*/
+	AssignReleaseTags(ctx context.Context, releaseName string) ApiAssignReleaseTagsRequest
+
+	// AssignReleaseTagsExecute executes the request
+	AssignReleaseTagsExecute(r ApiAssignReleaseTagsRequest) (*http.Response, error)
+
+	/*
+	DeleteReleases Delete the releases with given names
+
+	Deletes releases with names provided in the message body.
+Releases used by deployments in progress can not be deleted
+until deployment finishes.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeleteReleasesRequest
+	*/
+	DeleteReleases(ctx context.Context) ApiDeleteReleasesRequest
+
+	// DeleteReleasesExecute executes the request
+	DeleteReleasesExecute(r ApiDeleteReleasesRequest) (*http.Response, error)
+
+	/*
+	DeploymentsV2ListArtifactsWithPagination Lists known artifacts. 
+
+	Returns a collection of all artifacts sorted by name.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsV2ListArtifactsWithPaginationRequest
+	*/
+	DeploymentsV2ListArtifactsWithPagination(ctx context.Context) ApiDeploymentsV2ListArtifactsWithPaginationRequest
+
+	// DeploymentsV2ListArtifactsWithPaginationExecute executes the request
+	//  @return []ArtifactV2
+	DeploymentsV2ListArtifactsWithPaginationExecute(r ApiDeploymentsV2ListArtifactsWithPaginationRequest) ([]ArtifactV2, *http.Response, error)
+
+	/*
+	DeploymentsV2ListDeployments List all the deployments matching the specified filter parameters
+
+	Returns a filtered collection of deployments in the system. While you can provide multiple
+deployment identifiers, and multiple names to get the multiple deployments you cannot mix
+the ids and names in a one query expecting to get deployments that match both names or ids.
+The endpoint will return the deployments that match the ids and the name, if combined.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsV2ListDeploymentsRequest
+	*/
+	DeploymentsV2ListDeployments(ctx context.Context) ApiDeploymentsV2ListDeploymentsRequest
+
+	// DeploymentsV2ListDeploymentsExecute executes the request
+	//  @return []DeploymentV2
+	DeploymentsV2ListDeploymentsExecute(r ApiDeploymentsV2ListDeploymentsRequest) ([]DeploymentV2, *http.Response, error)
+
+	/*
+	DeploymentsV2ListReleasesWithPagination List releases 
+
+	Returns a collection of releases, allows filtering by release name and sorting
+by name or last modification date.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDeploymentsV2ListReleasesWithPaginationRequest
+	*/
+	DeploymentsV2ListReleasesWithPagination(ctx context.Context) ApiDeploymentsV2ListReleasesWithPaginationRequest
+
+	// DeploymentsV2ListReleasesWithPaginationExecute executes the request
+	//  @return []ReleaseV2
+	DeploymentsV2ListReleasesWithPaginationExecute(r ApiDeploymentsV2ListReleasesWithPaginationRequest) ([]ReleaseV2, *http.Response, error)
+
+	/*
+	GetReleaseWithGivenName Get release 
+
+	Returns the release with given name.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param releaseName Name of the release
+	@return ApiGetReleaseWithGivenNameRequest
+	*/
+	GetReleaseWithGivenName(ctx context.Context, releaseName string) ApiGetReleaseWithGivenNameRequest
+
+	// GetReleaseWithGivenNameExecute executes the request
+	//  @return ReleaseV2
+	GetReleaseWithGivenNameExecute(r ApiGetReleaseWithGivenNameRequest) (*ReleaseV2, *http.Response, error)
+
+	/*
+	ListReleaseTags Lists all available tags for releases. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListReleaseTagsRequest
+	*/
+	ListReleaseTags(ctx context.Context) ApiListReleaseTagsRequest
+
+	// ListReleaseTagsExecute executes the request
+	//  @return []string
+	ListReleaseTagsExecute(r ApiListReleaseTagsRequest) ([]string, *http.Response, error)
+
+	/*
+	ListReleaseTypes Lists all release update types. 
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListReleaseTypesRequest
+	*/
+	ListReleaseTypes(ctx context.Context) ApiListReleaseTypesRequest
+
+	// ListReleaseTypesExecute executes the request
+	//  @return []string
+	ListReleaseTypesExecute(r ApiListReleaseTypesRequest) ([]string, *http.Response, error)
+
+	/*
+	UpdateReleaseInformation Update selected fields of the Release object. 
+
+	Updates the Release object.
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param releaseName Name of the release
+	@return ApiUpdateReleaseInformationRequest
+	*/
+	UpdateReleaseInformation(ctx context.Context, releaseName string) ApiUpdateReleaseInformationRequest
+
+	// UpdateReleaseInformationExecute executes the request
+	UpdateReleaseInformationExecute(r ApiUpdateReleaseInformationRequest) (*http.Response, error)
+}
+
 // DeploymentsV2ManagementAPIAPIService DeploymentsV2ManagementAPIAPI service
 type DeploymentsV2ManagementAPIAPIService service
 
 type ApiAssignReleaseTagsRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ApiService DeploymentsV2ManagementAPIAPI
 	releaseName string
 	requestBody *[]string
 }
@@ -176,7 +319,7 @@ func (a *DeploymentsV2ManagementAPIAPIService) AssignReleaseTagsExecute(r ApiAss
 
 type ApiDeleteReleasesRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ApiService DeploymentsV2ManagementAPIAPI
 	name *string
 }
 
@@ -321,7 +464,7 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeleteReleasesExecute(r ApiDelete
 
 type ApiDeploymentsV2ListArtifactsWithPaginationRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ApiService DeploymentsV2ManagementAPIAPI
 	name *[]string
 	description *string
 	deviceType *string
@@ -508,7 +651,7 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListArtifactsWithPag
 
 type ApiDeploymentsV2ListDeploymentsRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ApiService DeploymentsV2ManagementAPIAPI
 	id *string
 	name *string
 	status *string
@@ -761,7 +904,7 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListDeploymentsExecu
 
 type ApiDeploymentsV2ListReleasesWithPaginationRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ApiService DeploymentsV2ManagementAPIAPI
 	name *string
 	tag *[]string
 	updateType *string
@@ -963,7 +1106,7 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListReleasesWithPagi
 
 type ApiGetReleaseWithGivenNameRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ApiService DeploymentsV2ManagementAPIAPI
 	releaseName string
 }
 
@@ -1099,7 +1242,7 @@ func (a *DeploymentsV2ManagementAPIAPIService) GetReleaseWithGivenNameExecute(r 
 
 type ApiListReleaseTagsRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ApiService DeploymentsV2ManagementAPIAPI
 }
 
 func (r ApiListReleaseTagsRequest) Execute() ([]string, *http.Response, error) {
@@ -1239,7 +1382,7 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTagsExecute(r ApiListR
 
 type ApiListReleaseTypesRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ApiService DeploymentsV2ManagementAPIAPI
 }
 
 func (r ApiListReleaseTypesRequest) Execute() ([]string, *http.Response, error) {
@@ -1368,7 +1511,7 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTypesExecute(r ApiList
 
 type ApiUpdateReleaseInformationRequest struct {
 	ctx context.Context
-	ApiService *DeploymentsV2ManagementAPIAPIService
+	ApiService DeploymentsV2ManagementAPIAPI
 	releaseName string
 	releaseUpdate *ReleaseUpdate
 }

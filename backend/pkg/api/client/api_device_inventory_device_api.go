@@ -20,12 +20,59 @@ import (
 )
 
 
+type DeviceInventoryDeviceAPIAPI interface {
+
+	/*
+	AssignAttributes Assign a set of attributes for a device
+
+	Saves the provided attribute set for the authenticated device.
+The device ID is retrieved from the authorization header.
+
+This method has upsert semantics:
+
+* the values of existing attributes are overwritten
+
+* attributes assigned for the first time are automatically created
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAssignAttributesRequest
+	*/
+	AssignAttributes(ctx context.Context) ApiAssignAttributesRequest
+
+	// AssignAttributesExecute executes the request
+	AssignAttributesExecute(r ApiAssignAttributesRequest) (*http.Response, error)
+
+	/*
+	ReplaceAttributes Replace the set of attributes for a device
+
+	Replaces the attribute set for the authenticated device with the provided one.
+The device ID is retrieved from the authorization header.
+
+This method replaces all the attributes with the new set:
+
+* attributes not provided in the set are removed from the db
+
+* the values of existing attributes are overwritten
+
+* attributes assigned for the first time are automatically created
+
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiReplaceAttributesRequest
+	*/
+	ReplaceAttributes(ctx context.Context) ApiReplaceAttributesRequest
+
+	// ReplaceAttributesExecute executes the request
+	ReplaceAttributesExecute(r ApiReplaceAttributesRequest) (*http.Response, error)
+}
+
 // DeviceInventoryDeviceAPIAPIService DeviceInventoryDeviceAPIAPI service
 type DeviceInventoryDeviceAPIAPIService service
 
 type ApiAssignAttributesRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryDeviceAPIAPIService
+	ApiService DeviceInventoryDeviceAPIAPI
 	attribute *[]Attribute
 }
 
@@ -165,7 +212,7 @@ func (a *DeviceInventoryDeviceAPIAPIService) AssignAttributesExecute(r ApiAssign
 
 type ApiReplaceAttributesRequest struct {
 	ctx context.Context
-	ApiService *DeviceInventoryDeviceAPIAPIService
+	ApiService DeviceInventoryDeviceAPIAPI
 	attribute *[]Attribute
 }
 

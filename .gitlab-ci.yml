@@ -393,7 +393,11 @@ test:backend:api-client:
   extends: .template:combine-api
   rules:
     - changes:
-        paths: ["backend/docs/api/*.yaml", "backend/docs/api/**/*.yaml"]
+        paths:
+         - backend/docs/api/*.yaml
+         - backend/docs/api/**/*.yaml
+         - backend/pkg/api/Makefile
+         - backend/pkg/api/docker-compose.yml
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
       when: on_success
   script:

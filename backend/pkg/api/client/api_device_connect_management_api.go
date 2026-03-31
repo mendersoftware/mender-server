@@ -22,12 +22,101 @@ import (
 )
 
 
+type DeviceConnectManagementAPIAPI interface {
+
+	/*
+	DeviceConnectManagementCheckUpdate Trigger check-update for the Mender client running on the device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementCheckUpdateRequest
+	*/
+	DeviceConnectManagementCheckUpdate(ctx context.Context, id string) ApiDeviceConnectManagementCheckUpdateRequest
+
+	// DeviceConnectManagementCheckUpdateExecute executes the request
+	DeviceConnectManagementCheckUpdateExecute(r ApiDeviceConnectManagementCheckUpdateRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectManagementConnect Establish permanent connection with device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementConnectRequest
+	*/
+	DeviceConnectManagementConnect(ctx context.Context, id string) ApiDeviceConnectManagementConnectRequest
+
+	// DeviceConnectManagementConnectExecute executes the request
+	DeviceConnectManagementConnectExecute(r ApiDeviceConnectManagementConnectRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectManagementDownload Download a file from the device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementDownloadRequest
+	*/
+	DeviceConnectManagementDownload(ctx context.Context, id string) ApiDeviceConnectManagementDownloadRequest
+
+	// DeviceConnectManagementDownloadExecute executes the request
+	//  @return *os.File
+	DeviceConnectManagementDownloadExecute(r ApiDeviceConnectManagementDownloadRequest) (*os.File, *http.Response, error)
+
+	/*
+	DeviceConnectManagementGetDevice Fetch the state of a device.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementGetDeviceRequest
+	*/
+	DeviceConnectManagementGetDevice(ctx context.Context, id string) ApiDeviceConnectManagementGetDeviceRequest
+
+	// DeviceConnectManagementGetDeviceExecute executes the request
+	//  @return ConnectionState
+	DeviceConnectManagementGetDeviceExecute(r ApiDeviceConnectManagementGetDeviceRequest) (*ConnectionState, *http.Response, error)
+
+	/*
+	DeviceConnectManagementPlayback Establish a connection for playing back a session
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param sessionId ID for the session to play back.
+	@return ApiDeviceConnectManagementPlaybackRequest
+	*/
+	DeviceConnectManagementPlayback(ctx context.Context, sessionId string) ApiDeviceConnectManagementPlaybackRequest
+
+	// DeviceConnectManagementPlaybackExecute executes the request
+	DeviceConnectManagementPlaybackExecute(r ApiDeviceConnectManagementPlaybackRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectManagementSendInventory Trigger send-inventory for the Mender client running on the device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementSendInventoryRequest
+	*/
+	DeviceConnectManagementSendInventory(ctx context.Context, id string) ApiDeviceConnectManagementSendInventoryRequest
+
+	// DeviceConnectManagementSendInventoryExecute executes the request
+	DeviceConnectManagementSendInventoryExecute(r ApiDeviceConnectManagementSendInventoryRequest) (*http.Response, error)
+
+	/*
+	DeviceConnectManagementUpload Upload a file to the device
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id ID of the device.
+	@return ApiDeviceConnectManagementUploadRequest
+	*/
+	DeviceConnectManagementUpload(ctx context.Context, id string) ApiDeviceConnectManagementUploadRequest
+
+	// DeviceConnectManagementUploadExecute executes the request
+	DeviceConnectManagementUploadExecute(r ApiDeviceConnectManagementUploadRequest) (*http.Response, error)
+}
+
 // DeviceConnectManagementAPIAPIService DeviceConnectManagementAPIAPI service
 type DeviceConnectManagementAPIAPIService service
 
 type ApiDeviceConnectManagementCheckUpdateRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectManagementAPIAPIService
+	ApiService DeviceConnectManagementAPIAPI
 	id string
 }
 
@@ -160,7 +249,7 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementCheckUpdat
 
 type ApiDeviceConnectManagementConnectRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectManagementAPIAPIService
+	ApiService DeviceConnectManagementAPIAPI
 	id string
 	connection *string
 	upgrade *string
@@ -322,7 +411,7 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementConnectExe
 
 type ApiDeviceConnectManagementDownloadRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectManagementAPIAPIService
+	ApiService DeviceConnectManagementAPIAPI
 	id string
 	path *string
 }
@@ -477,7 +566,7 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementDownloadEx
 
 type ApiDeviceConnectManagementGetDeviceRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectManagementAPIAPIService
+	ApiService DeviceConnectManagementAPIAPI
 	id string
 }
 
@@ -610,7 +699,7 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementGetDeviceE
 
 type ApiDeviceConnectManagementPlaybackRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectManagementAPIAPIService
+	ApiService DeviceConnectManagementAPIAPI
 	sessionId string
 	sleepMs *int32
 	connection *string
@@ -782,7 +871,7 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementPlaybackEx
 
 type ApiDeviceConnectManagementSendInventoryRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectManagementAPIAPIService
+	ApiService DeviceConnectManagementAPIAPI
 	id string
 }
 
@@ -915,7 +1004,7 @@ func (a *DeviceConnectManagementAPIAPIService) DeviceConnectManagementSendInvent
 
 type ApiDeviceConnectManagementUploadRequest struct {
 	ctx context.Context
-	ApiService *DeviceConnectManagementAPIAPIService
+	ApiService DeviceConnectManagementAPIAPI
 	id string
 	path *string
 	uid *int32
