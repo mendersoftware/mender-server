@@ -47,7 +47,7 @@ generate-openapi-spec: $(COMBINED_SPEC)
 
 .PHONY: generate-openapi-client
 generate-openapi-client: generate-openapi-spec
-	@$(MAKE) -C pkg/api
+	@$(MAKE) -C pkg/api OPENAPI_GENERATOR_VERSION=$(OPENAPI_GENERATOR_VERSION)
 
 tests/mender_client: $(COMBINED_SPEC)
 	[ -e $@ ] && rm -r $@; \
