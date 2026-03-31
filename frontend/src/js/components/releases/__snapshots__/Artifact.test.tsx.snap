@@ -1128,11 +1128,8 @@ exports[`Artifact Component > renders correctly 1`] = `
                   style="max-width: fit-content;"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-76"
-                    disabled=""
-                    download=""
-                    tabindex="-1"
-                    target="_blank"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-76"
+                    tabindex="0"
                     type="button"
                   >
                     <span
