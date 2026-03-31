@@ -193,13 +193,6 @@ build:frontend:docker:
     - curl -fsSL https://get.docker.com | sh -s -- --version ${DOCKER_VERSION}
     - !reference [.requires-docker]
     - !reference [.dind-login]
-    # If branch is not protected, use upstream main
-    # Otherwise use the local pipeline reference.
-    - |
-      if test "$CI_COMMIT_REF_PROTECTED" != "true"; then
-        unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
-        export MENDER_IMAGE_TAG=main
-      fi
     - npm i --prefix frontend/tests/e2e_tests
   artifacts:
     expire_in: 2w
