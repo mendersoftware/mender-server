@@ -250,6 +250,9 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
 
       await page.getByText(/Your subscription has been successfully updated to Mender Professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
+
+      // Wait for the 1m timeout for the post-upgrade dialog taking the user back to the login page.
+      await page.getByText(/Log in with/i).waitFor({ timeout: timeouts.sixtySeconds + timeouts.fiveSeconds });
       await page.context().close();
     });
     test('allows higher device limits once upgraded', async ({ baseUrl, browser, password, request, username }) => {
