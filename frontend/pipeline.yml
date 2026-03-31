@@ -222,7 +222,7 @@ test:frontend:acceptance:enterprise:
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
     - |
       if echo "$CI_COMMIT_REF_NAME" | grep -qE '^v?[0-9]+\.[0-9]+\.[0-9x]+$'; then
-        export MENDER_IMAGE_TAG="v$(echo "$CI_COMMIT_REF_NAME" | sed 's/\.x$//')"
+        export MENDER_IMAGE_TAG="v$(echo "$CI_COMMIT_REF_NAME" | sed 's/^v//; s/\.[^.]*$//')"
       else
         export MENDER_IMAGE_TAG=main
       fi
@@ -240,7 +240,7 @@ test:frontend:acceptance:enterprise:qemu:
     - unset MENDER_IMAGE_REGISTRY MENDER_IMAGE_REPOSITORY
     - |
       if echo "$CI_COMMIT_REF_NAME" | grep -qE '^v?[0-9]+\.[0-9]+\.[0-9x]+$'; then
-        export MENDER_IMAGE_TAG="v$(echo "$CI_COMMIT_REF_NAME" | sed 's/\.x$//')"
+        export MENDER_IMAGE_TAG="v$(echo "$CI_COMMIT_REF_NAME" | sed 's/^v//; s/\.[^.]*$//')"
       else
         export MENDER_IMAGE_TAG=main
       fi
