@@ -13,11 +13,11 @@ review_app:
 
   # Set to true to deploy an enterprise-flavored Review App from the OS repo.
   # Requires enterprise_image_tag to be set.
-  enterprise: false
+  enterprise: true
 
   # build-<sha> tag for enterprise-only service images from the ENT registry.
   # Required when enterprise: true.
   # Example:
   #   build-0b238a5aff9a76794f1c5f0653b0a3d6bb90f080
   # from: registry.gitlab.com/northern.tech/mender/mender-server-enterprise/tenantadm:build-0b238a5aff9a76794f1c5f0653b0a3d6bb90f080
-  enterprise_image_tag: ""
+  enterprise_image_tag: "build-0b238a5aff9a76794f1c5f0653b0a3d6bb90f080"
