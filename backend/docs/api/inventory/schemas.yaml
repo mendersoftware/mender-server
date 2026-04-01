@@ -178,8 +178,8 @@ components:
         - system
       properties:
         standard:
-          type: number
+          type: integer
         micro:
-          type: number
+          type: integer
         system:
-          type: number
+          type: integer

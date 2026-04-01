@@ -22,9 +22,9 @@ var _ MappedNullable = &DeviceCountByTier{}
 
 // DeviceCountByTier Number of devices per tier
 type DeviceCountByTier struct {
-	Standard float32 `json:"standard"`
-	Micro float32 `json:"micro"`
-	System float32 `json:"system"`
+	Standard int32 `json:"standard"`
+	Micro int32 `json:"micro"`
+	System int32 `json:"system"`
 }
 
 type _DeviceCountByTier DeviceCountByTier
@@ -33,7 +33,7 @@ type _DeviceCountByTier DeviceCountByTier
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeviceCountByTier(standard float32, micro float32, system float32) *DeviceCountByTier {
+func NewDeviceCountByTier(standard int32, micro int32, system int32) *DeviceCountByTier {
 	this := DeviceCountByTier{}
 	this.Standard = standard
 	this.Micro = micro
@@ -50,9 +50,9 @@ func NewDeviceCountByTierWithDefaults() *DeviceCountByTier {
 }
 
 // GetStandard returns the Standard field value
-func (o *DeviceCountByTier) GetStandard() float32 {
+func (o *DeviceCountByTier) GetStandard() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -61,7 +61,7 @@ func (o *DeviceCountByTier) GetStandard() float32 {
 
 // GetStandardOk returns a tuple with the Standard field value
 // and a boolean to check if the value has been set.
-func (o *DeviceCountByTier) GetStandardOk() (*float32, bool) {
+func (o *DeviceCountByTier) GetStandardOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -69,14 +69,14 @@ func (o *DeviceCountByTier) GetStandardOk() (*float32, bool) {
 }
 
 // SetStandard sets field value
-func (o *DeviceCountByTier) SetStandard(v float32) {
+func (o *DeviceCountByTier) SetStandard(v int32) {
 	o.Standard = v
 }
 
 // GetMicro returns the Micro field value
-func (o *DeviceCountByTier) GetMicro() float32 {
+func (o *DeviceCountByTier) GetMicro() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -85,7 +85,7 @@ func (o *DeviceCountByTier) GetMicro() float32 {
 
 // GetMicroOk returns a tuple with the Micro field value
 // and a boolean to check if the value has been set.
-func (o *DeviceCountByTier) GetMicroOk() (*float32, bool) {
+func (o *DeviceCountByTier) GetMicroOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -93,14 +93,14 @@ func (o *DeviceCountByTier) GetMicroOk() (*float32, bool) {
 }
 
 // SetMicro sets field value
-func (o *DeviceCountByTier) SetMicro(v float32) {
+func (o *DeviceCountByTier) SetMicro(v int32) {
 	o.Micro = v
 }
 
 // GetSystem returns the System field value
-func (o *DeviceCountByTier) GetSystem() float32 {
+func (o *DeviceCountByTier) GetSystem() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -109,7 +109,7 @@ func (o *DeviceCountByTier) GetSystem() float32 {
 
 // GetSystemOk returns a tuple with the System field value
 // and a boolean to check if the value has been set.
-func (o *DeviceCountByTier) GetSystemOk() (*float32, bool) {
+func (o *DeviceCountByTier) GetSystemOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -117,7 +117,7 @@ func (o *DeviceCountByTier) GetSystemOk() (*float32, bool) {
 }
 
 // SetSystem sets field value
-func (o *DeviceCountByTier) SetSystem(v float32) {
+func (o *DeviceCountByTier) SetSystem(v int32) {
 	o.System = v
 }
 

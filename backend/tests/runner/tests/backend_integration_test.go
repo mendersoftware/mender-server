@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/stretchr/testify/suite"
+	"github.com/mendersoftware/mender-server/pkg/api/client"
 
-	openapi "github.com/mendersoftware/mender-server/tests/runner/client"
+	"github.com/stretchr/testify/suite"
 )
 
 type TestSettings struct {
@@ -20,9 +20,9 @@ type TestSettings struct {
 	//nolint:unused
 	jwt string
 	//nolint:unused
-	client *openapi.APIClient
+	client *client.APIClient
 	//nolint:unused
-	configuration *openapi.Configuration
+	configuration *client.Configuration
 }
 
 type BackendIntegrationSuite struct {
@@ -53,7 +53,7 @@ func (i *BackendIntegrationSuite) SetupSuite() {
 		Username = strings.ReplaceAll(UsernamePattern, "%d", "1")
 		Password = strings.ReplaceAll(PasswordPattern, "%d", "1")
 	}
-	config := openapi.NewConfiguration()
+	config := client.NewConfiguration()
 	config.Host = ServerURL
 	config.Scheme = "https"
 	config.HTTPClient = &http.Client{
@@ -68,7 +68,7 @@ func (i *BackendIntegrationSuite) SetupSuite() {
 		Username:      Username,
 		Password:      Password,
 		configuration: config,
-		client:        openapi.NewAPIClient(config),
+		client:        client.NewAPIClient(config),
 	}
 }
 
@@ -78,4 +78,8 @@ func TestBackendIntegrationSuite(t *testing.T) {
 
 func (i *BackendIntegrationSuite) TestUseradmManagementV1() {
 	suite.Run(i.T(), &UseradmManagementV1Suite{settings: i.settings})
+}
+
+func (i *BackendIntegrationSuite) TestInventoryManagementV2() {
+	suite.Run(i.T(), &InventoryManagementV2Suite{settings: i.settings})
 }

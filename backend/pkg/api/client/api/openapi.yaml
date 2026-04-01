@@ -12186,11 +12186,11 @@ components:
       description: Number of devices per tier
       properties:
         standard:
-          type: number
+          type: integer
         micro:
-          type: number
+          type: integer
         system:
-          type: number
+          type: integer
       required:
       - micro
       - standard
