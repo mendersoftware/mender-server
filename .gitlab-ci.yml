@@ -542,6 +542,7 @@ test:backend:integration:
       GOCOVERDIR=${GOCOVERDIR}/integration
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
   after_script:
+    - export MANTRA_PROJECT_NAME="backend_integration_open_source"
     - !reference [.mantra-push-results]
   artifacts:
     expire_in: 1w
@@ -554,14 +555,13 @@ test:backend:integration:
 
 test:backend:integration:ng:
   extends: .template:test:backend:integration
-  variables:
-    MANTRA_PROJECT_NAME: "backend_integration_ng_open_source"
   script:
     - mkdir -p ${GOCOVERDIR}/integration-ng
     - make -C backend test-integration-ng
       GOCOVERDIR=${GOCOVERDIR}/integration-ng
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
   after_script:
+    - export MANTRA_PROJECT_NAME="backend_integration_ng_open_source"
     - !reference [.mantra-push-results]
   artifacts:
     expire_in: 1w
