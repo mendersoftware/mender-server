@@ -1,0 +1,12 @@
+# Control file for per-branch Review App fine-tuning.
+# All keys are optional. Omitting a key uses the pipeline default.
+# This file is safe to commit; absent or empty values are no-ops.
+
+review_app:
+  # Override the GUI container image with a fully-qualified reference.
+  # Useful when the desired GUI build exists only in the OS repository
+  # and has not yet landed in this repository via a synced PR.
+  # Format: <registry>/<repository>/<image>:<tag>
+  # Example:
+  #   registry.gitlab.com/northern.tech/mender/mender-server/gui:build-a6981efb79ff411e593fb3782ff5b3377bde350b
+  gui_image: ""
