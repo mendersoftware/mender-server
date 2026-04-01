@@ -252,9 +252,9 @@ test.describe('Settings', () => {
 
       await page.getByText(/Your subscription has been successfully updated to Mender Professional/i).waitFor({ timeout: timeouts.fifteenSeconds });
 
-      // Wait for the 1m timeout for the post-upgrade dialog taking the user back to the login page
-      // + some extra buffer time to account for slower moving time in the test environment
-      await page.getByText(/Log in with/i).waitFor({ timeout: timeouts.sixtySeconds + 2 * timeouts.fifteenSeconds });
+      // the tenant state seems to not be populated right away, so the explicit wait to increase chances of the follow up test succeeding
+      // we can't wait for the page to auto-logout as the `prepareNewPage` helper ties the page to a stale token with the prior jwt values
+      await page.waitForTimeout(2 * timeouts.fifteenSeconds);
       await page.context().close();
     });
     test('allows higher device limits once upgraded', async ({ baseUrl, browser, password, request, username }) => {
