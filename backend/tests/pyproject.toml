@@ -1,5 +1,5 @@
 [tool.pytest.ini_options]
 junit_family = "xunit1"
 minversion = "6.0"
-markers = ["storage_test: marks tests that uses artifact storage"]
+markers = ["storage_test: marks tests that uses artifact storage", "slow: marks tests as slow running"]
 testpaths = ["integration"]

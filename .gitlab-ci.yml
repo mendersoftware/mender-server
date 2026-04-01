@@ -203,6 +203,29 @@ build:backend:docker-acceptance:
     # NOTE: Only build for test platform (default) for the acceptance test images
     - make -C backend docker-acceptance
 
+build:backend:docker-integration-tester:
+  extends: .template:build:docker
+  before_script:
+    - *requires-docker
+    - apk add make bash git
+    - *dind-login
+    - unset DOCKER_PLATFORM
+  script:
+    - docker build ${DOCKER_BUILDARGS}
+        --cache-from ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
+        -t ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
+        -f backend/tests/Dockerfile.integration
+        backend/tests
+  rules:
+    - changes:
+        paths:
+          - backend/tests/Dockerfile.integration
+          - backend/tests/requirements-integration.txt
+        compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
+      when: on_success
+    - if: '$CI_COMMIT_REF_PROTECTED == "true"'
+      when: on_success
+
 #
 # Review Apps
 #
@@ -484,6 +507,9 @@ test:backend:acceptance:
       artifacts: false
     - job: build:backend:docker-acceptance
       artifacts: false
+    - job: build:backend:docker-integration-tester
+      artifacts: false
+      optional: true
   before_script:
     - *requires-docker
     - apk add make bash git
@@ -536,6 +562,7 @@ test:backend:integration:
   extends: .template:test:backend:integration
   variables:
     MANTRA_PROJECT_NAME: "backend_integration_open_source"
+  parallel: 2
   script:
     - mkdir -p ${GOCOVERDIR}/integration
     - make -C backend test-integration

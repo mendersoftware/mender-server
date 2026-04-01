@@ -47,4 +47,6 @@ ENV GOPATH=/go
 ENV PATH=$PATH:$GOPATH/bin
 RUN go version
 
+LABEL last_refreshed="2026-03-30"
+
 ENTRYPOINT ["python3", "-m", "pytest"]
