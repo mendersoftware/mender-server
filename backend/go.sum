@@ -50,8 +50,8 @@ github.com/aws/aws-sdk-go-v2/service/iot v1.72.5 h1:l/+ehZvGQ/iLapA+rBkUc5vIBUYp
 github.com/aws/aws-sdk-go-v2/service/iot v1.72.5/go.mod h1:1O16K3C+aCR4Vmn9/9bvxmXjPDIklab7S7Ete6AkaWc=
 github.com/aws/aws-sdk-go-v2/service/iotdataplane v1.32.21 h1:zWc6/Af69bA4vqZLV6jBU03BnQ5qylo2MRo6dELvCF4=
 github.com/aws/aws-sdk-go-v2/service/iotdataplane v1.32.21/go.mod h1:V0NSs5Sf5yDVQN5CrLoZKx/uxmMaQdBhAyE0hoPADkY=
-github.com/aws/aws-sdk-go-v2/service/s3 v1.97.3 h1:HwxWTbTrIHm5qY+CAEur0s/figc3qwvLWsNkF4RPToo=
-github.com/aws/aws-sdk-go-v2/service/s3 v1.97.3/go.mod h1:uoA43SdFwacedBfSgfFSjjCvYe8aYBS7EnU5GZ/YKMM=
+github.com/aws/aws-sdk-go-v2/service/s3 v1.98.0 h1:foqo/ocQ7WqKwy3FojGtZQJo0FR4vto9qnz9VaumbCo=
+github.com/aws/aws-sdk-go-v2/service/s3 v1.98.0/go.mod h1:uoA43SdFwacedBfSgfFSjjCvYe8aYBS7EnU5GZ/YKMM=
 github.com/aws/aws-sdk-go-v2/service/signin v1.0.9 h1:QKZH0S178gCmFEgst8hN0mCX1KxLgHBKKY/CLqwP8lg=
 github.com/aws/aws-sdk-go-v2/service/signin v1.0.9/go.mod h1:7yuQJoT+OoH8aqIxw9vwF+8KpvLZ8AWmvmUWHsGQZvI=
 github.com/aws/aws-sdk-go-v2/service/sso v1.30.14 h1:GcLE9ba5ehAQma6wlopUesYg/hbcOhFNWTjELkiWkh4=
