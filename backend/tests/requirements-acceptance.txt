@@ -1,9 +1,9 @@
 bravado==12.0.1
-boto3==1.42.64
+boto3==1.42.81
 certifi >= 14.05.14
 chardet >= 4.0.0
 crypto
-cryptography==46.0.5
+cryptography==46.0.6
 docker==7.1.0
 flaky==3.8.1
 flask
@@ -16,9 +16,9 @@ pymongo==4.16.0
 pytest-ordering==0.6
 pytest==9.0.2
 pyyaml
-redis==7.3.0
+redis==7.4.0
 redo==3.0.0
-requests==2.32.5
+requests==2.33.1
 semver==3.0.4
 stripe
 tornado
@@ -27,4 +27,4 @@ tz
 urllib3<3
 websocket_client >= 0.57
 pydantic==2.12.5
-pyjwt==2.11.0
+pyjwt==2.12.1
