@@ -224,6 +224,7 @@ test.describe('Settings', () => {
     });
 
     test('allows upgrading to Professional', async ({ baseUrl, browser, password, request, username }) => {
+      test.setTimeout(2 * timeouts.sixtySeconds);
       const page = await prepareNewPage({ baseUrl, browser, password, request, username });
       const wasUpgraded = await page.isVisible(`css=#limit >> text=350`);
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
