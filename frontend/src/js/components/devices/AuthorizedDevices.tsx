@@ -26,7 +26,6 @@ import storeActions from '@northern.tech/store/actions';
 import {
   ALL_DEVICES,
   DEVICE_FILTERING_OPTIONS,
-  DEVICE_ISSUE_OPTIONS,
   DEVICE_STATES,
   SORTING_OPTIONS,
   TIMEOUTS,
@@ -314,9 +313,6 @@ export const Authorized = ({
 
   useEffect(() => {
     Object.keys(availableIssueOptions).forEach(key => dispatch(getIssueCountsByType({ type: key, filters, group: selectedGroup, state: selectedState })));
-    if (availableIssueOptions[DEVICE_ISSUE_OPTIONS.authRequests.key]) {
-      dispatch(getIssueCountsByType({ type: DEVICE_ISSUE_OPTIONS.authRequests.key, options: { filters: [] } }));
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIssues.join(''), JSON.stringify(availableIssueOptions), selectedState, selectedGroup, dispatch, JSON.stringify(filters)]);
 

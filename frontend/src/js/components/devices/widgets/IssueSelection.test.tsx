@@ -21,7 +21,6 @@ import DeviceIssuesSelection from './IssueSelection';
 describe('DeviceIssuesSelection Component', () => {
   it('renders correctly', async () => {
     const options = [
-      { ...DEVICE_ISSUE_OPTIONS.authRequests, count: 2 },
       { ...DEVICE_ISSUE_OPTIONS.monitoring, count: 0 },
       { ...DEVICE_ISSUE_OPTIONS.offline, count: 8 }
     ];
