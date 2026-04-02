@@ -20,7 +20,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/websocket v1.5.3
-	github.com/mendersoftware/mender-artifact v0.0.0-20250724101633-c5f6563a4bcf
+	github.com/mendersoftware/mender-artifact v0.0.0-20260330114447-4c2551fc6196
 	github.com/nats-io/nats-server/v2 v2.12.6
 	github.com/nats-io/nats.go v1.50.0
 	github.com/pkg/errors v0.9.1
@@ -112,7 +112,7 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.3.1 // indirect
-	github.com/ulikunitz/xz v0.5.14 // indirect
+	github.com/ulikunitz/xz v0.5.15 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.2.0 // indirect

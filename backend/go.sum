@@ -150,6 +150,8 @@ github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWE
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/mendersoftware/mender-artifact v0.0.0-20250724101633-c5f6563a4bcf h1:HELuEjWz4jKrg/qnEH9uK8pL2DDCYh7LRmu9WNiy/vA=
 github.com/mendersoftware/mender-artifact v0.0.0-20250724101633-c5f6563a4bcf/go.mod h1:VaMQB78PJP8cUep1/ZhA8sNi/xL7MXaTtw/ELROwxXs=
+github.com/mendersoftware/mender-artifact v0.0.0-20260330114447-4c2551fc6196 h1:Q0cQLXnAmjqLSxIb7iAofrfwv8szLYgJkFtaQlz5PwE=
+github.com/mendersoftware/mender-artifact v0.0.0-20260330114447-4c2551fc6196/go.mod h1:xhvD1a2G6y3usGiASYHzCbcDi+8lR1GGfK0UeEuz39U=
 github.com/mendersoftware/openssl v1.1.1-0.20221101135106-cb94d0a179f8 h1:LO1M218stEQBF3bFaTyKQeyhj7xCZTzcZEvEmG++h7g=
 github.com/mendersoftware/openssl v1.1.1-0.20221101135106-cb94d0a179f8/go.mod h1:tikEC94q+Y0TU6r19L6mHzwruoTNYPEkrQPvsHEcQyU=
 github.com/mendersoftware/progressbar v0.0.4 h1:R2uO9WiNRwF4pL278KlzSFFeIq4GBK2bSg1uD9uy9MI=
@@ -234,6 +236,8 @@ github.com/ugorji/go/codec v1.3.1 h1:waO7eEiFDwidsBN6agj1vJQ4AG7lh2yqXyOXqhgQuyY
 github.com/ugorji/go/codec v1.3.1/go.mod h1:pRBVtBSKl77K30Bv8R2P+cLSGaTtex6fsA2Wjqmfxj4=
 github.com/ulikunitz/xz v0.5.14 h1:uv/0Bq533iFdnMHZdRBTOlaNMdb1+ZxXIlHDZHIHcvg=
 github.com/ulikunitz/xz v0.5.14/go.mod h1:nbz6k7qbPmH4IRqmfOplQw/tblSgqTqBwxkY0oWt/14=
+github.com/ulikunitz/xz v0.5.15 h1:9DNdB5s+SgV3bQ2ApL10xRc35ck0DuIX/isZvIk+ubY=
+github.com/ulikunitz/xz v0.5.15/go.mod h1:nbz6k7qbPmH4IRqmfOplQw/tblSgqTqBwxkY0oWt/14=
 github.com/urfave/cli v1.22.17 h1:SYzXoiPfQjHBbkYxbew5prZHS1TOLT3ierW8SYLqtVQ=
 github.com/urfave/cli v1.22.17/go.mod h1:b0ht0aqgH/6pBYzzxURyrM4xXNgsoT/n2ZzwQiEhNVo=
 github.com/vmihailenco/msgpack/v5 v5.4.1 h1:cQriyiUvjTwOHg8QZaPihLWeRAAVoCpE00IUPn0Bjt8=
