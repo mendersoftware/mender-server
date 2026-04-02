@@ -324,7 +324,7 @@ class TestDevicesApiGetConfigurationDeploymentLink:
         assert "Name: {}".format(name) in stdout
         assert "Version: 3" in stdout
         # NOTE: Using regular expression for backward compatibility
-        assert re.search(rf"Compatible devices: (\[{dtype}\]|'\[{dtype}\]')", stdout)
+        assert re.search(rf"Compatible types: (\[{dtype}\]|'\[{dtype}\]')", stdout)
 
         # configuration contents
         metapos = stdout.index("Metadata")

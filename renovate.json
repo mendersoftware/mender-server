@@ -23,7 +23,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/backend\/services\/create-artifact-worker\/Dockerfile/"],
+      "managerFilePatterns": ["/backend\/services\/create-artifact-worker\/Dockerfile/", "/backend\/tests\/Dockerfile.acceptance/"],
       "matchStrings": [
         "MENDER_ARTIFACT_VERSION=\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
       ],
