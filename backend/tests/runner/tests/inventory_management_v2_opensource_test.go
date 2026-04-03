@@ -141,14 +141,14 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 			Scope:     client.IDENTITY,
 			Attribute: "mac",
 			Type:      "$eq",
-			Value:     mac,
+			Value:     client.AttributeValue{String: &mac},
 		},
 	}
 
 	deviceByMac, _, err := inventorym.
 		InventoryV2SearchDeviceInventories(ctx).
-		InventoryV2SearchDeviceInventoriesRequest(
-			client.InventoryV2SearchDeviceInventoriesRequest{Filters: filter}).
+		SearchParams(
+			client.SearchParams{Filters: filter}).
 		Execute()
 
 	if err != nil {
@@ -183,8 +183,8 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 	for maxIterations > 0 {
 		deviceByMac, _, err = inventorym.
 			InventoryV2SearchDeviceInventories(ctx).
-			InventoryV2SearchDeviceInventoriesRequest(
-				client.InventoryV2SearchDeviceInventoriesRequest{Filters: filter}).
+			SearchParams(
+				client.SearchParams{Filters: filter}).
 			Execute()
 
 		if err != nil {

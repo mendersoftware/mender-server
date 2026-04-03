@@ -27,9 +27,8 @@ class WorkflowsCheckLiveliness200Response(BaseModel):
     """
     WorkflowsCheckLiveliness200Response
     """ # noqa: E501
-    id: Optional[StrictStr] = None
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["id", "name"]
+    status: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["status"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,8 +81,7 @@ class WorkflowsCheckLiveliness200Response(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "name": obj.get("name")
+            "status": obj.get("status")
         })
         return _obj
 

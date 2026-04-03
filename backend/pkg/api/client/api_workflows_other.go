@@ -91,8 +91,8 @@ type WorkflowsOtherAPI interface {
 	StartWorkflow(ctx context.Context, name string) ApiStartWorkflowRequest
 
 	// StartWorkflowExecute executes the request
-	//  @return WorkflowsCheckLiveliness200Response
-	StartWorkflowExecute(r ApiStartWorkflowRequest) (*WorkflowsCheckLiveliness200Response, *http.Response, error)
+	//  @return StartWorkflow201Response
+	StartWorkflowExecute(r ApiStartWorkflowRequest) (*StartWorkflow201Response, *http.Response, error)
 
 	/*
 	WorkflowsCheckHealth Check if service and all operational dependencies are healthy.
@@ -592,16 +592,16 @@ type ApiStartWorkflowRequest struct {
 	ctx context.Context
 	ApiService WorkflowsOtherAPI
 	name string
-	inputParameter *[]InputParameter
+	requestBody *map[string]interface{}
 }
 
 // Contains the definition of the job to be started.
-func (r ApiStartWorkflowRequest) InputParameter(inputParameter []InputParameter) ApiStartWorkflowRequest {
-	r.inputParameter = &inputParameter
+func (r ApiStartWorkflowRequest) RequestBody(requestBody map[string]interface{}) ApiStartWorkflowRequest {
+	r.requestBody = &requestBody
 	return r
 }
 
-func (r ApiStartWorkflowRequest) Execute() (*WorkflowsCheckLiveliness200Response, *http.Response, error) {
+func (r ApiStartWorkflowRequest) Execute() (*StartWorkflow201Response, *http.Response, error) {
 	return r.ApiService.StartWorkflowExecute(r)
 }
 
@@ -624,13 +624,13 @@ func (a *WorkflowsOtherAPIService) StartWorkflow(ctx context.Context, name strin
 }
 
 // Execute executes the request
-//  @return WorkflowsCheckLiveliness200Response
-func (a *WorkflowsOtherAPIService) StartWorkflowExecute(r ApiStartWorkflowRequest) (*WorkflowsCheckLiveliness200Response, *http.Response, error) {
+//  @return StartWorkflow201Response
+func (a *WorkflowsOtherAPIService) StartWorkflowExecute(r ApiStartWorkflowRequest) (*StartWorkflow201Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *WorkflowsCheckLiveliness200Response
+		localVarReturnValue  *StartWorkflow201Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsOtherAPIService.StartWorkflow")
@@ -644,8 +644,8 @@ func (a *WorkflowsOtherAPIService) StartWorkflowExecute(r ApiStartWorkflowReques
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.inputParameter == nil {
-		return localVarReturnValue, nil, reportError("inputParameter is required and must be specified")
+	if r.requestBody == nil {
+		return localVarReturnValue, nil, reportError("requestBody is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -666,7 +666,7 @@ func (a *WorkflowsOtherAPIService) StartWorkflowExecute(r ApiStartWorkflowReques
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.inputParameter
+	localVarPostBody = r.requestBody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

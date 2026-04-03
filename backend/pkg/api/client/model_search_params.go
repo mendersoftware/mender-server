@@ -15,11 +15,11 @@ import (
 	"encoding/json"
 )
 
-// checks if the InventoryInternalV2SearchDeviceInventoriesRequest type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &InventoryInternalV2SearchDeviceInventoriesRequest{}
+// checks if the SearchParams type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &SearchParams{}
 
-// InventoryInternalV2SearchDeviceInventoriesRequest struct for InventoryInternalV2SearchDeviceInventoriesRequest
-type InventoryInternalV2SearchDeviceInventoriesRequest struct {
+// SearchParams struct for SearchParams
+type SearchParams struct {
 	// Starting page.
 	Page *int32 `json:"page,omitempty"`
 	// Number of results per page.
@@ -36,25 +36,25 @@ type InventoryInternalV2SearchDeviceInventoriesRequest struct {
 	Attributes []SelectAttribute `json:"attributes,omitempty"`
 }
 
-// NewInventoryInternalV2SearchDeviceInventoriesRequest instantiates a new InventoryInternalV2SearchDeviceInventoriesRequest object
+// NewSearchParams instantiates a new SearchParams object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInventoryInternalV2SearchDeviceInventoriesRequest() *InventoryInternalV2SearchDeviceInventoriesRequest {
-	this := InventoryInternalV2SearchDeviceInventoriesRequest{}
+func NewSearchParams() *SearchParams {
+	this := SearchParams{}
 	return &this
 }
 
-// NewInventoryInternalV2SearchDeviceInventoriesRequestWithDefaults instantiates a new InventoryInternalV2SearchDeviceInventoriesRequest object
+// NewSearchParamsWithDefaults instantiates a new SearchParams object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewInventoryInternalV2SearchDeviceInventoriesRequestWithDefaults() *InventoryInternalV2SearchDeviceInventoriesRequest {
-	this := InventoryInternalV2SearchDeviceInventoriesRequest{}
+func NewSearchParamsWithDefaults() *SearchParams {
+	this := SearchParams{}
 	return &this
 }
 
 // GetPage returns the Page field value if set, zero value otherwise.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetPage() int32 {
+func (o *SearchParams) GetPage() int32 {
 	if o == nil || IsNil(o.Page) {
 		var ret int32
 		return ret
@@ -64,7 +64,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetPage() int32 {
 
 // GetPageOk returns a tuple with the Page field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetPageOk() (*int32, bool) {
+func (o *SearchParams) GetPageOk() (*int32, bool) {
 	if o == nil || IsNil(o.Page) {
 		return nil, false
 	}
@@ -72,7 +72,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetPageOk() (*int32,
 }
 
 // HasPage returns a boolean if a field has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasPage() bool {
+func (o *SearchParams) HasPage() bool {
 	if o != nil && !IsNil(o.Page) {
 		return true
 	}
@@ -81,12 +81,12 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasPage() bool {
 }
 
 // SetPage gets a reference to the given int32 and assigns it to the Page field.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) SetPage(v int32) {
+func (o *SearchParams) SetPage(v int32) {
 	o.Page = &v
 }
 
 // GetPerPage returns the PerPage field value if set, zero value otherwise.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetPerPage() int32 {
+func (o *SearchParams) GetPerPage() int32 {
 	if o == nil || IsNil(o.PerPage) {
 		var ret int32
 		return ret
@@ -96,7 +96,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetPerPage() int32 {
 
 // GetPerPageOk returns a tuple with the PerPage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetPerPageOk() (*int32, bool) {
+func (o *SearchParams) GetPerPageOk() (*int32, bool) {
 	if o == nil || IsNil(o.PerPage) {
 		return nil, false
 	}
@@ -104,7 +104,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetPerPageOk() (*int
 }
 
 // HasPerPage returns a boolean if a field has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasPerPage() bool {
+func (o *SearchParams) HasPerPage() bool {
 	if o != nil && !IsNil(o.PerPage) {
 		return true
 	}
@@ -113,12 +113,12 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasPerPage() bool {
 }
 
 // SetPerPage gets a reference to the given int32 and assigns it to the PerPage field.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) SetPerPage(v int32) {
+func (o *SearchParams) SetPerPage(v int32) {
 	o.PerPage = &v
 }
 
 // GetDeviceIds returns the DeviceIds field value if set, zero value otherwise.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetDeviceIds() []string {
+func (o *SearchParams) GetDeviceIds() []string {
 	if o == nil || IsNil(o.DeviceIds) {
 		var ret []string
 		return ret
@@ -128,7 +128,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetDeviceIds() []str
 
 // GetDeviceIdsOk returns a tuple with the DeviceIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetDeviceIdsOk() ([]string, bool) {
+func (o *SearchParams) GetDeviceIdsOk() ([]string, bool) {
 	if o == nil || IsNil(o.DeviceIds) {
 		return nil, false
 	}
@@ -136,7 +136,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetDeviceIdsOk() ([]
 }
 
 // HasDeviceIds returns a boolean if a field has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasDeviceIds() bool {
+func (o *SearchParams) HasDeviceIds() bool {
 	if o != nil && !IsNil(o.DeviceIds) {
 		return true
 	}
@@ -145,12 +145,12 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasDeviceIds() bool 
 }
 
 // SetDeviceIds gets a reference to the given []string and assigns it to the DeviceIds field.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) SetDeviceIds(v []string) {
+func (o *SearchParams) SetDeviceIds(v []string) {
 	o.DeviceIds = v
 }
 
 // GetText returns the Text field value if set, zero value otherwise.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetText() string {
+func (o *SearchParams) GetText() string {
 	if o == nil || IsNil(o.Text) {
 		var ret string
 		return ret
@@ -160,7 +160,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetText() string {
 
 // GetTextOk returns a tuple with the Text field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetTextOk() (*string, bool) {
+func (o *SearchParams) GetTextOk() (*string, bool) {
 	if o == nil || IsNil(o.Text) {
 		return nil, false
 	}
@@ -168,7 +168,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetTextOk() (*string
 }
 
 // HasText returns a boolean if a field has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasText() bool {
+func (o *SearchParams) HasText() bool {
 	if o != nil && !IsNil(o.Text) {
 		return true
 	}
@@ -177,12 +177,12 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasText() bool {
 }
 
 // SetText gets a reference to the given string and assigns it to the Text field.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) SetText(v string) {
+func (o *SearchParams) SetText(v string) {
 	o.Text = &v
 }
 
 // GetFilters returns the Filters field value if set, zero value otherwise.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetFilters() []FilterPredicate {
+func (o *SearchParams) GetFilters() []FilterPredicate {
 	if o == nil || IsNil(o.Filters) {
 		var ret []FilterPredicate
 		return ret
@@ -192,7 +192,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetFilters() []Filte
 
 // GetFiltersOk returns a tuple with the Filters field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetFiltersOk() ([]FilterPredicate, bool) {
+func (o *SearchParams) GetFiltersOk() ([]FilterPredicate, bool) {
 	if o == nil || IsNil(o.Filters) {
 		return nil, false
 	}
@@ -200,7 +200,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetFiltersOk() ([]Fi
 }
 
 // HasFilters returns a boolean if a field has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasFilters() bool {
+func (o *SearchParams) HasFilters() bool {
 	if o != nil && !IsNil(o.Filters) {
 		return true
 	}
@@ -209,12 +209,12 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasFilters() bool {
 }
 
 // SetFilters gets a reference to the given []FilterPredicate and assigns it to the Filters field.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) SetFilters(v []FilterPredicate) {
+func (o *SearchParams) SetFilters(v []FilterPredicate) {
 	o.Filters = v
 }
 
 // GetSort returns the Sort field value if set, zero value otherwise.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetSort() []SortCriteria {
+func (o *SearchParams) GetSort() []SortCriteria {
 	if o == nil || IsNil(o.Sort) {
 		var ret []SortCriteria
 		return ret
@@ -224,7 +224,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetSort() []SortCrit
 
 // GetSortOk returns a tuple with the Sort field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetSortOk() ([]SortCriteria, bool) {
+func (o *SearchParams) GetSortOk() ([]SortCriteria, bool) {
 	if o == nil || IsNil(o.Sort) {
 		return nil, false
 	}
@@ -232,7 +232,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetSortOk() ([]SortC
 }
 
 // HasSort returns a boolean if a field has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasSort() bool {
+func (o *SearchParams) HasSort() bool {
 	if o != nil && !IsNil(o.Sort) {
 		return true
 	}
@@ -241,12 +241,12 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasSort() bool {
 }
 
 // SetSort gets a reference to the given []SortCriteria and assigns it to the Sort field.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) SetSort(v []SortCriteria) {
+func (o *SearchParams) SetSort(v []SortCriteria) {
 	o.Sort = v
 }
 
 // GetAttributes returns the Attributes field value if set, zero value otherwise.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetAttributes() []SelectAttribute {
+func (o *SearchParams) GetAttributes() []SelectAttribute {
 	if o == nil || IsNil(o.Attributes) {
 		var ret []SelectAttribute
 		return ret
@@ -256,7 +256,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetAttributes() []Se
 
 // GetAttributesOk returns a tuple with the Attributes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetAttributesOk() ([]SelectAttribute, bool) {
+func (o *SearchParams) GetAttributesOk() ([]SelectAttribute, bool) {
 	if o == nil || IsNil(o.Attributes) {
 		return nil, false
 	}
@@ -264,7 +264,7 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) GetAttributesOk() ([
 }
 
 // HasAttributes returns a boolean if a field has been set.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasAttributes() bool {
+func (o *SearchParams) HasAttributes() bool {
 	if o != nil && !IsNil(o.Attributes) {
 		return true
 	}
@@ -273,11 +273,11 @@ func (o *InventoryInternalV2SearchDeviceInventoriesRequest) HasAttributes() bool
 }
 
 // SetAttributes gets a reference to the given []SelectAttribute and assigns it to the Attributes field.
-func (o *InventoryInternalV2SearchDeviceInventoriesRequest) SetAttributes(v []SelectAttribute) {
+func (o *SearchParams) SetAttributes(v []SelectAttribute) {
 	o.Attributes = v
 }
 
-func (o InventoryInternalV2SearchDeviceInventoriesRequest) MarshalJSON() ([]byte, error) {
+func (o SearchParams) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -285,7 +285,7 @@ func (o InventoryInternalV2SearchDeviceInventoriesRequest) MarshalJSON() ([]byte
 	return json.Marshal(toSerialize)
 }
 
-func (o InventoryInternalV2SearchDeviceInventoriesRequest) ToMap() (map[string]interface{}, error) {
+func (o SearchParams) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Page) {
 		toSerialize["page"] = o.Page
@@ -311,38 +311,38 @@ func (o InventoryInternalV2SearchDeviceInventoriesRequest) ToMap() (map[string]i
 	return toSerialize, nil
 }
 
-type NullableInventoryInternalV2SearchDeviceInventoriesRequest struct {
-	value *InventoryInternalV2SearchDeviceInventoriesRequest
+type NullableSearchParams struct {
+	value *SearchParams
 	isSet bool
 }
 
-func (v NullableInventoryInternalV2SearchDeviceInventoriesRequest) Get() *InventoryInternalV2SearchDeviceInventoriesRequest {
+func (v NullableSearchParams) Get() *SearchParams {
 	return v.value
 }
 
-func (v *NullableInventoryInternalV2SearchDeviceInventoriesRequest) Set(val *InventoryInternalV2SearchDeviceInventoriesRequest) {
+func (v *NullableSearchParams) Set(val *SearchParams) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableInventoryInternalV2SearchDeviceInventoriesRequest) IsSet() bool {
+func (v NullableSearchParams) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableInventoryInternalV2SearchDeviceInventoriesRequest) Unset() {
+func (v *NullableSearchParams) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableInventoryInternalV2SearchDeviceInventoriesRequest(val *InventoryInternalV2SearchDeviceInventoriesRequest) *NullableInventoryInternalV2SearchDeviceInventoriesRequest {
-	return &NullableInventoryInternalV2SearchDeviceInventoriesRequest{value: val, isSet: true}
+func NewNullableSearchParams(val *SearchParams) *NullableSearchParams {
+	return &NullableSearchParams{value: val, isSet: true}
 }
 
-func (v NullableInventoryInternalV2SearchDeviceInventoriesRequest) MarshalJSON() ([]byte, error) {
+func (v NullableSearchParams) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableInventoryInternalV2SearchDeviceInventoriesRequest) UnmarshalJSON(src []byte) error {
+func (v *NullableSearchParams) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

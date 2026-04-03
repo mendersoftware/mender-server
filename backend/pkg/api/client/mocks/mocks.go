@@ -22722,24 +22722,24 @@ func (_c *MockWorkflowsOtherAPI_StartWorkflow_Call) RunAndReturn(run func(ctx co
 }
 
 // StartWorkflowExecute provides a mock function for the type MockWorkflowsOtherAPI
-func (_mock *MockWorkflowsOtherAPI) StartWorkflowExecute(r client.ApiStartWorkflowRequest) (*client.WorkflowsCheckLiveliness200Response, *http.Response, error) {
+func (_mock *MockWorkflowsOtherAPI) StartWorkflowExecute(r client.ApiStartWorkflowRequest) (*client.StartWorkflow201Response, *http.Response, error) {
 	ret := _mock.Called(r)
 
 	if len(ret) == 0 {
 		panic("no return value specified for StartWorkflowExecute")
 	}
 
-	var r0 *client.WorkflowsCheckLiveliness200Response
+	var r0 *client.StartWorkflow201Response
 	var r1 *http.Response
 	var r2 error
-	if returnFunc, ok := ret.Get(0).(func(client.ApiStartWorkflowRequest) (*client.WorkflowsCheckLiveliness200Response, *http.Response, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(client.ApiStartWorkflowRequest) (*client.StartWorkflow201Response, *http.Response, error)); ok {
 		return returnFunc(r)
 	}
-	if returnFunc, ok := ret.Get(0).(func(client.ApiStartWorkflowRequest) *client.WorkflowsCheckLiveliness200Response); ok {
+	if returnFunc, ok := ret.Get(0).(func(client.ApiStartWorkflowRequest) *client.StartWorkflow201Response); ok {
 		r0 = returnFunc(r)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*client.WorkflowsCheckLiveliness200Response)
+			r0 = ret.Get(0).(*client.StartWorkflow201Response)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(client.ApiStartWorkflowRequest) *http.Response); ok {
@@ -22781,12 +22781,12 @@ func (_c *MockWorkflowsOtherAPI_StartWorkflowExecute_Call) Run(run func(r client
 	return _c
 }
 
-func (_c *MockWorkflowsOtherAPI_StartWorkflowExecute_Call) Return(workflowsCheckLiveliness200Response *client.WorkflowsCheckLiveliness200Response, response *http.Response, err error) *MockWorkflowsOtherAPI_StartWorkflowExecute_Call {
-	_c.Call.Return(workflowsCheckLiveliness200Response, response, err)
+func (_c *MockWorkflowsOtherAPI_StartWorkflowExecute_Call) Return(startWorkflow201Response *client.StartWorkflow201Response, response *http.Response, err error) *MockWorkflowsOtherAPI_StartWorkflowExecute_Call {
+	_c.Call.Return(startWorkflow201Response, response, err)
 	return _c
 }
 
-func (_c *MockWorkflowsOtherAPI_StartWorkflowExecute_Call) RunAndReturn(run func(r client.ApiStartWorkflowRequest) (*client.WorkflowsCheckLiveliness200Response, *http.Response, error)) *MockWorkflowsOtherAPI_StartWorkflowExecute_Call {
+func (_c *MockWorkflowsOtherAPI_StartWorkflowExecute_Call) RunAndReturn(run func(r client.ApiStartWorkflowRequest) (*client.StartWorkflow201Response, *http.Response, error)) *MockWorkflowsOtherAPI_StartWorkflowExecute_Call {
 	_c.Call.Return(run)
 	return _c
 }

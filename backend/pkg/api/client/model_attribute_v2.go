@@ -27,7 +27,7 @@ type AttributeV2 struct {
 	Scope Scope `json:"scope"`
 	// Attribute description.
 	Description *string `json:"description,omitempty"`
-	Value AttributeV2Value `json:"value"`
+	Value AttributeValue `json:"value"`
 }
 
 type _AttributeV2 AttributeV2
@@ -36,7 +36,7 @@ type _AttributeV2 AttributeV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAttributeV2(name string, scope Scope, value AttributeV2Value) *AttributeV2 {
+func NewAttributeV2(name string, scope Scope, value AttributeValue) *AttributeV2 {
 	this := AttributeV2{}
 	this.Name = name
 	this.Scope = scope
@@ -133,9 +133,9 @@ func (o *AttributeV2) SetDescription(v string) {
 }
 
 // GetValue returns the Value field value
-func (o *AttributeV2) GetValue() AttributeV2Value {
+func (o *AttributeV2) GetValue() AttributeValue {
 	if o == nil {
-		var ret AttributeV2Value
+		var ret AttributeValue
 		return ret
 	}
 
@@ -144,7 +144,7 @@ func (o *AttributeV2) GetValue() AttributeV2Value {
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *AttributeV2) GetValueOk() (*AttributeV2Value, bool) {
+func (o *AttributeV2) GetValueOk() (*AttributeValue, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -152,7 +152,7 @@ func (o *AttributeV2) GetValueOk() (*AttributeV2Value, bool) {
 }
 
 // SetValue sets field value
-func (o *AttributeV2) SetValue(v AttributeV2Value) {
+func (o *AttributeV2) SetValue(v AttributeValue) {
 	o.Value = v
 }
 
