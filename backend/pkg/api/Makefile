@@ -27,4 +27,5 @@ generate-openapi-mocks:
 	@docker run -u $(shell id -u):$(shell id -g) --rm \
 		-v $(GIT_DIR)/backend:/backend \
 		-w /backend/pkg/api \
-		vektra/mockery:$(MOCKERY_VERSION)
+		vektra/mockery:$(MOCKERY_VERSION) \
+			--config /backend/pkg/api/.mockery.yml
