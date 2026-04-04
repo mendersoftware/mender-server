@@ -27,12 +27,6 @@ exports[`DeviceDetails Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
 }
 
 .emotion-4 {
@@ -86,6 +80,7 @@ exports[`DeviceDetails Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <a
           class="flexbox align-items-center emotion-4"
@@ -125,6 +120,7 @@ exports[`DeviceDetails Component > renders correctly 1`] = `
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="raspberrypi4"
       >
         raspberrypi4
@@ -141,6 +137,7 @@ exports[`DeviceDetails Component > renders correctly 1`] = `
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="-"
       >
         -
@@ -157,6 +154,7 @@ exports[`DeviceDetails Component > renders correctly 1`] = `
     >
       <div
         class="MuiTypography-root MuiTypography-body2 emotion-3"
+        style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <a
           data-discover="true"

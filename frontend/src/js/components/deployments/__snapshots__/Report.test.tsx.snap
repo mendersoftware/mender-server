@@ -165,7 +165,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
                 <a
                   class="flexbox centered"
@@ -200,7 +201,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
                 <a
                   class="flexbox centered"
@@ -244,7 +246,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="Software update"
               >
                 Software update
@@ -260,7 +263,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="2019-01-01T12:30:00.000Z"
               >
                 <time
@@ -437,7 +441,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
             class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="1"
             >
               1
@@ -453,7 +458,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
             class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="N/A"
             >
               N/A
@@ -837,7 +843,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="1234"
               >
                 <div>
@@ -872,7 +879,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="2019-01-01T12:30:00.000Z"
               >
                 <time
@@ -892,7 +900,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="1"
               >
                 1
@@ -923,7 +932,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="-"
               >
                 -
@@ -990,7 +1000,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="2019-01-01T12:30:00.000Z"
                 >
                   <time
@@ -1010,7 +1021,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="100% (1 device)"
                 >
                   100% (1 device)
@@ -1197,7 +1209,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
                 <a
                   class="flexbox centered"
@@ -1231,7 +1244,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
                 <a
                   class="flexbox centered"
@@ -1275,7 +1289,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="Software update"
               >
                 Software update
@@ -1291,7 +1306,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="2019-01-31T12:59:30.020Z"
               >
                 <time
@@ -1467,7 +1483,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
             class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="0"
             >
               0
@@ -1483,7 +1500,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
             class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="N/A"
             >
               N/A
@@ -1854,7 +1872,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="1234"
               >
                 <div>
@@ -1889,7 +1908,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="2019-01-31T12:59:30.020Z"
               >
                 <time
@@ -1909,7 +1929,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="N/A"
               >
                 N/A
@@ -1940,7 +1961,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
               class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                 title="-"
               >
                 -
@@ -2130,7 +2152,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="2019-01-31T12:59:30.020Z"
                 >
                   <time
@@ -2150,7 +2173,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="2% (2 devices)"
                 >
                   2% (2 devices)
@@ -2186,7 +2210,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="2019-02-04T11:45:10.002Z"
                 >
                   <time
@@ -2206,7 +2231,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="3% (3 devices)"
                 >
                   3% (3 devices)
@@ -2242,7 +2268,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="2019-02-05T11:45:10.002Z"
                 >
                   <time
@@ -2262,7 +2289,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="5% (5 devices)"
                 >
                   5% (5 devices)
@@ -2298,7 +2326,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="2019-02-06T11:45:10.002Z"
                 >
                   <time
@@ -2318,7 +2347,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="5% (5 devices)"
                 >
                   5% (5 devices)
@@ -2354,7 +2384,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <div
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="2019-02-21T11:45:10.002Z"
                 >
                   <time
@@ -2374,7 +2405,8 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="5% (5 devices)"
                 >
                   5% (5 devices)

@@ -14,18 +14,12 @@
 import React, { ReactNode, useState } from 'react';
 
 import { FileCopyOutlined as CopyToClipboardIcon } from '@mui/icons-material';
-import { Tooltip, Typography } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import TextOverflowMultiline from './TextOverflowMultiline';
+
 const useStyles = makeStyles()(theme => ({
-  textContent: {
-    display: '-webkit-box',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    WebkitLineClamp: 5,
-    WebkitBoxOrient: 'vertical',
-    wordBreak: 'break-word'
-  },
   copyIconOverride: {
     '&.copy-to-clipboard svg': {
       fill: theme.palette.action.active
@@ -50,17 +44,19 @@ export const CopyableText = ({ children, onCopy, textClasses = '', title }: Copy
 
   return (
     <div className={`flexbox align-items-center ${onCopy ? 'copy-to-clipboard' : ''} ${classes.copyIconOverride}`}>
-      <Typography
-        className={`${classes.textContent} ${textClasses}`}
+      <TextOverflowMultiline
+        className={textClasses}
         component={isComponent ? 'div' : 'p'}
+        lines={5}
         onClick={onCopy}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        style={{ textOverflow: 'ellipsis' }}
         title={title}
         variant="body2"
       >
         {children}
-      </Typography>
+      </TextOverflowMultiline>
       {onCopy && (
         <Tooltip title="Copy to clipboard" placement="top">
           <CopyToClipboardIcon

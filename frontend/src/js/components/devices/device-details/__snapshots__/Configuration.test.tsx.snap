@@ -701,12 +701,6 @@ exports[`Configuration Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
 }
 
 .emotion-21 {
@@ -905,6 +899,7 @@ exports[`Configuration Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
+          style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         />
         <svg
           aria-hidden="true"
@@ -935,6 +930,7 @@ exports[`Configuration Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
+          style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="bar"
         >
           bar
@@ -968,6 +964,7 @@ exports[`Configuration Component > renders correctly 1`] = `
       >
         <p
           class="MuiTypography-root MuiTypography-body2 clickable emotion-20"
+          style="display: -webkit-box; -webkit-line-clamp: 5; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="GMT+2"
         >
           GMT+2
