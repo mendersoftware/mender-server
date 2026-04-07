@@ -201,10 +201,10 @@ func TestNewClient(t *testing.T) {
 		SetTransport(rt)
 	t.Log(options.storageSettings)
 
+	errCh := make(chan error)
 	go func() {
 		_, err := New(ctx, options) //nolint:errcheck
-		assert.NoError(t, err)
-		cancel()
+		errCh <- err
 	}()
 
 	// HeadBucket
@@ -214,6 +214,9 @@ func TestNewClient(t *testing.T) {
 		w := httptest.NewRecorder()
 		w.WriteHeader(http.StatusNotFound)
 		chRsp <- w.Result()
+
+	case err := <-errCh:
+		require.NoError(t, err, "unexpected error initilizing client")
 
 	case <-done:
 		assert.FailNow(t, "timeout waiting for request")
@@ -227,6 +230,9 @@ func TestNewClient(t *testing.T) {
 		w.WriteHeader(http.StatusOK)
 		chRsp <- w.Result()
 
+	case err := <-errCh:
+		require.NoError(t, err, "unexpected error initilizing client")
+
 	case <-done:
 		assert.FailNow(t, "timeout waiting for request")
 	}
@@ -238,6 +244,9 @@ func TestNewClient(t *testing.T) {
 		w := httptest.NewRecorder()
 		w.WriteHeader(http.StatusOK)
 		chRsp <- w.Result()
+
+	case err := <-errCh:
+		require.NoError(t, err, "unexpected error initilizing client")
 
 	case <-done:
 		assert.FailNow(t, "timeout waiting for request")
