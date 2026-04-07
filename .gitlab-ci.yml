@@ -93,6 +93,10 @@ variables:
     value: "302.Release-information/03.Open-source-licenses/01.Mender-Server/docs.md"
 
 include:
+  - project: Northern.tech/Mender/mendertesting
+    file:
+      - qa-common/runner.yml
+      - qa-common/retry.yml
   - component: "gitlab.com/Northern.tech/Mender/mendertesting/commit-lint@master"
   - project: "Northern.tech/Mender/mendertesting"
     file:
@@ -118,13 +122,8 @@ stages:
   - deploy-staging
 
 default:
-  tags:
-    - k8s
-  retry:
-    max: 2
-    when:
-      - runner_system_failure
-      - stuck_or_timeout_failure
+  tags: !reference [.qa-common-default-runner, tags]
+  retry: !reference [.qa-common-default-retry, retry]
 
 .requires-docker: &requires-docker
   - DOCKER_RETRY_SLEEP_S=10 # wait longer for k8s workers
@@ -151,10 +150,15 @@ default:
     - *requires-docker
   retry:
     max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
     exit_codes:
       - 2
       - 137
       - 192
+  tags:
+    - k8s
 
 .template:build:docker:
   stage: build
@@ -327,6 +331,8 @@ test:backend:unit:
     when: on_success
     paths:
       - ${GOCOVERDIR}/*-unit.cover
+  tags:
+    - k8s
 
 test:backend:acceptance:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
@@ -448,8 +454,6 @@ test:prep:
     paths:
       - mender-stress-test-client
     expire_in: 2w
-  tags:
-    - hetzner-amd-beefy
 
 .template:test:staging-deployment:
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
@@ -590,6 +594,7 @@ publish:backend:licenses:
   variables:
     GOFLAGS: -tags=nopkcs11
   before_script:
+    - !reference [.qa-common-network-go-retry, before_script]
     - go install github.com/google/go-licenses@v1.6.0
   script:
     - cd backend
@@ -620,6 +625,7 @@ publish:licenses:docs-site:
     - job: publish:frontend:licenses
       artifacts: true
   before_script:
+    - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
@@ -656,8 +662,6 @@ coveralls:done:
       fi
   script:
     - coveralls done -n
-  tags:
-    - hetzner-amd-beefy
 
 changelog:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
@@ -668,8 +672,6 @@ changelog:
 
     # TODO: Remove git cliff config override once 4.0.0 is released
     GIT_CLIFF__GIT__SKIP_TAGS: ""
-  tags:
-    - hetzner-amd-beefy
   rules:
     # Only run for protected branches (main and maintenance branches)
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
@@ -747,8 +749,6 @@ changelog:
 release:github:
   image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
   stage: .post
-  tags:
-    - hetzner-amd-beefy
   rules:
     # Only make available for protected branches (main and maintenance branches)
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
@@ -774,6 +774,7 @@ release:mender-docs-changelog:
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       allow_failure: true
   before_script:
+    - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
@@ -814,6 +815,7 @@ release:mender-docs-changelog:saas:
     - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
       when: never
   before_script:
+    - !reference [.qa-common-network-git-clone-retry, before_script]
     # Setting up git
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
@@ -840,12 +842,11 @@ release:mender-docs-changelog:saas:
     - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
       when: never
   allow_failure: true
-  tags:
-    - hetzner-amd-beefy
   image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
   variables:
     HELM_PATCH_VERSION: ${CI_PIPELINE_ID}
   before_script:
+    - !reference [.qa-common-network-git-clone-retry, before_script]
     - git config --global user.email "${GITHUB_USER_EMAIL}"
     - git config --global user.name "${GITHUB_USER_NAME}"
     - export DIGESTS_FOLDER=$(pwd)/.digests
