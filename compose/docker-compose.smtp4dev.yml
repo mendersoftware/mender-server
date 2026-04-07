@@ -1,7 +1,7 @@
 # Include this overlay to test SMTP features like email verifications.
 # smtp4dev acts like a web interface for all email addresses.
 # Any email sent by the backend (to any recipient) will end up in the smtp4dev inbox.
-# A web interface for the indbox can be accessed on port 8025 on your machine.
+# A web interface for the inbox can be accessed on port 8025 on your machine.
 services:
   smtp4dev:
     image: rnwood/smtp4dev:3.10.3
