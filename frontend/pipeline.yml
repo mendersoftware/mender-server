@@ -245,6 +245,8 @@ test:frontend:acceptance:enterprise:qemu:
       fi
     - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
     - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise --variant qemu
+  retry:
+    max: 2 # the qemu client is unreliable to connect
 
 publish:frontend:tests:
   extends: coveralls:done
