@@ -59,6 +59,9 @@ tests/mender_client: $(COMBINED_SPEC)
 		-c $(dir $@).openapi-generator.yaml \
 		-o $(dir $@)
 
+.PHONY: generate-openapi-all
+generate-openapi-all: generate-openapi-spec generate-openapi-client tests/mender_client
+
 .PHONY: docker
 docker: $(DOCKER_TARGETS)
 
