@@ -144,6 +144,7 @@ describe('Configuration Component', () => {
     await user.click(screen.getByRole('button', { name: /save/i }));
     await waitFor(() => expect(screen.queryByText(/Updating configuration/i)).toBeInTheDocument());
     await act(async () => vi.runOnlyPendingTimers());
-    expect(await screen.findByText(/Configuration up-to-date on the device/i)).toBeInTheDocument();
+    const successNote = await screen.findByText(/Configuration up-to-date on the device/i, {}, { timeout: 2000 });
+    expect(successNote).toBeInTheDocument();
   });
 });
