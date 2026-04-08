@@ -28,29 +28,42 @@ import (
 
 type InventoryManagementV2Suite struct {
 	suite.Suite
-	settings *TestSettings
+	TestSettings
+
+	User User
+	JWT  string
+}
+
+func (i *BackendIntegrationSuite) TestInventoryManagementV2() {
+	require := require.New(i.T())
+	require.False(i.settings.Tenants[0].ServiceProvider, 1, "tests can't use service provider tenant")
+	require.GreaterOrEqual(len(i.settings.Tenants), 1, "tests needs at least one user")
+	require.GreaterOrEqual(len(i.settings.Tenants[0].Users), 1, "tests needs at least one user")
+
+	suite.Run(i.T(), &InventoryManagementV2Suite{
+		TestSettings: i.settings,
+		User:         i.settings.Tenants[0].Users[0],
+	})
 }
 
 func (u *InventoryManagementV2Suite) SetupSuite() {
-	auth := client.BasicAuth{
-		UserName: u.settings.Username,
-		Password: u.settings.Password,
-	}
+	require := require.New(u.T())
 
-	ctx := context.WithValue(context.Background(), client.ContextBasicAuth, auth)
-	token, r, err := u.settings.client.UserAdministrationManagementAPIAPI.Login(ctx).Execute()
-	assert.NoError(u.T(), err)
-	assert.NotNil(u.T(), r)
-	assert.NotZero(u.T(), len(token))
-	assert.Equal(u.T(), 200, r.StatusCode)
-	u.settings.jwt = token
+	ctx := basicAuthContext(u.T().Context(), u.User)
+	token, r, err := u.APIClient.UserAdministrationManagementAPIAPI.Login(ctx).Execute()
+
+	require.NoError(err)
+	require.NotNil(r)
+	require.NotZero(len(token))
+	require.Equal(200, r.StatusCode)
+	u.JWT = token
 }
 
 func (u *InventoryManagementV2Suite) TestGetInventoryStatistics() {
 	var (
 		require = require.New(u.T())
 		assert  = assert.New(u.T())
-		ctx     = context.WithValue(u.T().Context(), client.ContextAccessToken, u.settings.jwt)
+		ctx     = jwtAuthContext(u.T().Context(), u.JWT)
 	)
 
 	var macs []string
@@ -72,7 +85,7 @@ func (u *InventoryManagementV2Suite) TestGetInventoryStatistics() {
 		require.NoError(err)
 	}
 
-	res, _, err := u.settings.client.
+	res, _, err := u.APIClient.
 		DeviceInventoryFiltersAndSearchManagementAPIAPI.
 		GetStatistics(ctx).
 		Execute()
@@ -115,7 +128,7 @@ func (d *InventoryManagementV2Suite) authRequest(ctx context.Context, mac string
 		return "", false, errors.Wrap(err, "failed to sign request data")
 	}
 
-	token, r, err := d.settings.client.DeviceAuthenticationDeviceAPIAPI.DeviceAuthAuthenticateDevice(ctx).
+	token, r, err := d.APIClient.DeviceAuthenticationDeviceAPIAPI.DeviceAuthAuthenticateDevice(ctx).
 		XMENSignature(signature).
 		AuthRequest(authRequest).
 		Execute()
@@ -124,7 +137,6 @@ func (d *InventoryManagementV2Suite) authRequest(ctx context.Context, mac string
 	}
 
 	require.NotNil(d.T(), r)
-	require.NotNil(d.T(), r)
 	require.Contains(d.T(), []int{http.StatusOK, http.StatusUnauthorized}, r.StatusCode)
 
 	return token, token != "", nil
@@ -132,34 +144,46 @@ func (d *InventoryManagementV2Suite) authRequest(ctx context.Context, mac string
 
 func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string) (*client.Device, error) {
 	var (
-		inventorym = d.settings.client.DeviceInventoryFiltersAndSearchManagementAPIAPI
-		devauthm   = d.settings.client.DeviceAuthenticationManagementAPIAPI
+		inventorym = d.APIClient.DeviceInventoryFiltersAndSearchManagementAPIAPI
+		devauthm   = d.APIClient.DeviceAuthenticationManagementAPIAPI
 	)
 
-	filter := []client.FilterPredicate{
-		{
-			Scope:     client.IDENTITY,
-			Attribute: "mac",
-			Type:      "$eq",
-			Value:     mac,
-		},
+	getDeviceInventory := func() (client.DeviceInventory, error) {
+		for range 5 {
+			filter := []client.FilterPredicate{
+				{
+					Scope:     client.IDENTITY,
+					Attribute: "mac",
+					Type:      "$eq",
+					Value:     mac,
+				},
+			}
+
+			devices, _, err := inventorym.
+				InventoryV2SearchDeviceInventories(ctx).
+				InventoryV2SearchDeviceInventoriesRequest(
+					client.InventoryV2SearchDeviceInventoriesRequest{Filters: filter}).
+				Execute()
+
+			if err != nil {
+				return client.DeviceInventory{}, errors.Wrap(err, "failed to get device inventory")
+			}
+
+			if len(devices) > 0 {
+				return devices[0], nil
+			}
+			time.Sleep(500 * time.Millisecond)
+		}
+
+		return client.DeviceInventory{}, errors.New("failed to get device inventory (no results)")
 	}
 
-	deviceByMac, _, err := inventorym.
-		InventoryV2SearchDeviceInventories(ctx).
-		InventoryV2SearchDeviceInventoriesRequest(
-			client.InventoryV2SearchDeviceInventoriesRequest{Filters: filter}).
-		Execute()
-
+	deviceInventory, err := getDeviceInventory()
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to get device inventory")
+		return nil, err
 	}
 
-	if len(deviceByMac) < 1 {
-		return nil, errors.Wrap(err, "failed to get device inventory (no results)")
-	}
-
-	device, _, err := devauthm.DeviceAuthManagementGetDevice(ctx, deviceByMac[0].GetId()).Execute()
+	device, _, err := devauthm.DeviceAuthManagementGetDevice(ctx, deviceInventory.GetId()).Execute()
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get device from device auth")
 	}
@@ -179,23 +203,15 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 		return nil, errors.Wrap(err, "failed to accept a device")
 	}
 
-	maxIterations := 32
+	maxIterations := 8
 	for maxIterations > 0 {
-		deviceByMac, _, err = inventorym.
-			InventoryV2SearchDeviceInventories(ctx).
-			InventoryV2SearchDeviceInventoriesRequest(
-				client.InventoryV2SearchDeviceInventoriesRequest{Filters: filter}).
-			Execute()
-
+		deviceInventory, err := getDeviceInventory()
 		if err != nil {
-			return nil, errors.Wrap(err, "failed to get device inventory")
-		}
-		if len(deviceByMac) != 1 {
-			return nil, errors.Wrap(err, "inventory returns more than one device per mac")
+			return nil, err
 		}
 
 		accepted := slices.ContainsFunc(
-			deviceByMac[0].Attributes,
+			deviceInventory.Attributes,
 			func(a client.AttributeV2) bool {
 				if a.GetScope() != client.IDENTITY || a.GetName() != "status" {
 					return false
@@ -209,7 +225,7 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 			return device, nil
 		}
 
-		time.Sleep(1 * time.Second)
+		time.Sleep(500 * time.Millisecond)
 		maxIterations--
 	}
 
