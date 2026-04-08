@@ -245,10 +245,7 @@ export const DeviceGroups = () => {
     return request.catch(console.log);
   };
 
-  const openSettingsDialog = e => {
-    e.preventDefault();
-    setOpenIdDialog(toggle);
-  };
+  const openSettingsDialog = () => setOpenIdDialog(toggle);
 
   const onCreateGroupClose = () => {
     setModifyGroupDialog(false);
