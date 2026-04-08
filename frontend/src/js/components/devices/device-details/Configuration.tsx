@@ -179,7 +179,11 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
 
   useEffect(() => {
     clearInterval(deploymentTimer.current);
-    if (isRelevantDeployment && deployment.status !== DEPLOYMENT_STATES.finished) {
+    if (deployment_id && !deployment.status) {
+      dispatch(getSingleDeployment(deployment_id));
+      return;
+    }
+    if (deployment_id && deployment.status !== DEPLOYMENT_STATES.finished) {
       deploymentTimer.current = setInterval(() => dispatch(getSingleDeployment(deployment_id)), TIMEOUTS.refreshDefault);
     } else if (deployment_id && !isRelevantDeployment) {
       dispatch(getSingleDeployment(deployment_id));
@@ -190,9 +194,6 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
   }, [deployment.status, deployment_id, dispatch, isRelevantDeployment]);
 
   useEffect(() => {
-    if (!isRelevantDeployment) {
-      return;
-    }
     if (deployment.status === DEPLOYMENT_STATES.finished) {
       // we have to rely on the device stats here as the state change might not have propagated to the deployment status
       // leaving all stats at 0 and giving a false impression of deployment success
@@ -214,9 +215,6 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
   }, [JSON.stringify(configured), JSON.stringify(deployment.stats), deployment.created, deployment.status, deployment.finished, isRelevantDeployment]);
 
   useEffect(() => {
-    if (!isRelevantDeployment) {
-      return;
-    }
     if (!changedConfig && !isEmpty(config) && (!deployment_id || deployment.status)) {
       // let currentConfig = reported;
       const stats = groupDeploymentStats(deployment);
