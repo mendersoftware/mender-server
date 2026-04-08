@@ -57,8 +57,6 @@ services:
         - go_build_cache:/root/.cache/go-build
         - go_tmp_cache:/tmp
         - /var/run/docker.sock:/var/run/docker.sock
-    command:
-      - integration
     environment:
         GOMODCACHE: /go/pkg/mod
         PYTHONPATH: "/tests"
