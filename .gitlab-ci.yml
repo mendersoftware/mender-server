@@ -788,7 +788,7 @@ release:mender-docs-changelog:
     - wget --output-document cliff.toml https://raw.githubusercontent.com/mendersoftware/mendertesting/master/utils/cliff.toml
   script:
     # Generate the change for this release only
-    - git cliff --use-branch-tags --current --output this_mender_docs_changelog.md
+    - git cliff --use-branch-tags --current --output this_mender_docs_changelog.md --github-repo ${GITHUB_REPO_URL}
     - git clone https://${GITHUB_USER_NAME}:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/${GITHUB_CHANGELOG_REPO_URL}
     - cd ${GITHUB_CHANGELOG_REPO_URL#*/}
     - git checkout -b changelog-${CI_JOB_ID}
