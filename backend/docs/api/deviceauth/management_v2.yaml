@@ -559,6 +559,7 @@ components:
         In reference implementation structure contains vendor-selected fields,
         such as MACs, serial numbers, etc.'
       type: object
+      additionalProperties: true
       properties:
         mac:
           description: MAC address.
