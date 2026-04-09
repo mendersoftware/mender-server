@@ -37,7 +37,7 @@ export const getPersistentLoginInfo = () => {
     loginInfo = JSON.parse(content);
     return loginInfo;
   } catch {
-    loginInfo = { username: process.env.STAGING_USER ?? `${uuid()}@example.com`, password: process.env.STAGING_PASSWORD ?? uuid() };
+    loginInfo = { username: process.env.STAGING_USER ?? `bot-test+${uuid()}@northern.tech`, password: process.env.STAGING_PASSWORD ?? uuid() };
   }
   process.env.STAGING_USER = loginInfo.username;
   process.env.STAGING_PASSWORD = loginInfo.password;

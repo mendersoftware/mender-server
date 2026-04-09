@@ -46,3 +46,33 @@ export const triggerDeploymentCreation = async (page: Page, successCheck: Promis
   await creationButton.click();
   return Promise.any([successCheck, deploymentWatcher]);
 };
+
+export const poll = async <T>({
+  callback,
+  condition = null,
+  delay = timeouts.oneSecond,
+  maxAttempts = 5,
+  message = 'timeout waiting for callback',
+  attempt = 1
+}: {
+  attempt?: number;
+  callback: () => Promise<T>;
+  condition?: (value: T) => boolean | null;
+  delay?: number;
+  maxAttempts?: number;
+  message?: string;
+}): Promise<T> => {
+  const res = await callback();
+  if (condition != null) {
+    if (condition(res)) {
+      return Promise.resolve(res);
+    }
+  } else if (res) {
+    return Promise.resolve(res);
+  }
+  if (attempt >= maxAttempts) {
+    throw new Error(message);
+  }
+  await new Promise(resolve => setTimeout(resolve, delay));
+  return poll({ callback, condition, maxAttempts, delay, message, attempt: attempt + 1 });
+};

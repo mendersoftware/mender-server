@@ -115,10 +115,12 @@ test.describe('RBAC functionality', () => {
         await page.getByText(/Create user/i).click();
         await page.getByText('The user was created successfully.').waitFor();
       }
-      for (let j = 0; j < userCreations.length; j++) {
+      for (const { user } of userCreations) {
         await page
+          .getByRole('row')
+          .filter({ hasText: user })
+          .first()
           .getByRole('button', { name: /view details/i })
-          .nth(2)
           .click();
         await page.getByRole('button', { name: /delete user/i }).click();
         await page.getByRole('button', { name: /delete user/i }).click();
