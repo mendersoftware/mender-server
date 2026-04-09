@@ -62,7 +62,7 @@ paths:
         required: true
         schema:
           type: string
-          format: "Bearer [token]"
+          pattern: "^Bearer .+$"
       - name: X-Forwarded-Uri
         in: header
         description: |
@@ -71,7 +71,7 @@ paths:
         required: true
         schema:
           type: string
-          format: HTTP path
+          format: uri-reference
       - name: X-Forwarded-Method
         in: header
         description: HTTP method used when accessing the original URI

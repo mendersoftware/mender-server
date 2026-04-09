@@ -76,7 +76,8 @@ paths:
           will sort by 'attr1' ascending, and then by 'attr2' descending.
         schema:
           type: string
-          format: "attr[:ord][,attr[:ord]...]"
+          pattern: "^[a-zA-Z0-9_-]+(:(asc|desc))?(,[a-zA-Z0-9_-]+(:(asc|desc))?)*$"
+          example: "attr1:asc,attr2:desc"
       - name: has_group
         in: query
         description: Limit result to devices assigned to a group.
