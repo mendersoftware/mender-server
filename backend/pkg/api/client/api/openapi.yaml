@@ -6812,7 +6812,8 @@ paths:
         name: sort
         required: false
         schema:
-          format: "attr[:ord][,attr[:ord]...]"
+          example: "attr1:asc,attr2:desc"
+          pattern: "^[a-zA-Z0-9_-]+(:(asc|desc))?(,[a-zA-Z0-9_-]+(:(asc|desc))?)*$"
           type: string
         style: form
       - description: Limit result to devices assigned to a group.
@@ -8442,7 +8443,7 @@ paths:
         name: Authorization
         required: true
         schema:
-          format: "Bearer [token]"
+          pattern: ^Bearer .+$
           type: string
         style: simple
       - description: |
@@ -8453,7 +8454,7 @@ paths:
         name: X-Forwarded-Uri
         required: true
         schema:
-          format: HTTP path
+          format: uri-reference
           type: string
         style: simple
       - description: HTTP method used when accessing the original URI
@@ -11798,6 +11799,7 @@ components:
       - status
       type: object
     IdentityData:
+      additionalProperties: true
       description: "Device identity attributes, in the form of a JSON structure. The\
         \ attributes are completely vendor-specific, the provided ones are just an\
         \ example. In reference implementation structure contains vendor-selected\
@@ -12238,23 +12240,7 @@ components:
           - $nin
           type: string
         value:
-          description: |
-            The value of the attribute to be used in filtering.
-
-            Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
-            Mixed arrays are not allowed.
-
-            The $exists operator expects a boolean value: true means the specified
-            attribute exists, false means the specified attribute doesn't exist.
-
-            The $regex operator expects a string as a Perl compatible regular expression
-            (PCRE), automatically anchored by ^. If the regular expression is not valid,
-            the filter will produce no results. If you need to specify options and flags,
-            you can provide the full regex in the format of /regex/flags, for example
-            `/[a-z]+/i`.
-          type: string
+          $ref: "#/components/schemas/FilterPredicate_value"
       required:
       - attribute
       - scope
@@ -13455,6 +13441,31 @@ components:
       oneOf:
       - type: string
       - type: number
+      - items:
+          type: string
+        type: array
+      - items:
+          type: number
+        type: array
+    FilterPredicate_value:
+      description: |
+        The value of the attribute to be used in filtering.
+        Attribute type is implicit, inferred from the JSON type.
+        Supported types: number, string, boolean, array of numbers, array of strings.
+        Mixed arrays are not allowed.
+
+        The $exists operator expects a boolean value: true means the specified
+        attribute exists, false means the specified attribute doesn't exist.
+
+        The $regex operator expects a string as a Perl compatible regular expression
+        (PCRE), automatically anchored by ^. If the regular expression is not valid,
+        the filter will produce no results. If you need to specify options and flags,
+        you can provide the full regex in the format of /regex/flags, for example
+        `/[a-z]+/i`.
+      oneOf:
+      - type: string
+      - type: number
+      - type: boolean
       - items:
           type: string
         type: array

@@ -335,6 +335,7 @@ Class | Method | HTTP request | Description
  - [Features](docs/Features.md)
  - [FilterAttribute](docs/FilterAttribute.md)
  - [FilterPredicate](docs/FilterPredicate.md)
+ - [FilterPredicateValue](docs/FilterPredicateValue.md)
  - [FilterV1](docs/FilterV1.md)
  - [FilterV2](docs/FilterV2.md)
  - [GetStatisticsInternal200Response](docs/GetStatisticsInternal200Response.md)

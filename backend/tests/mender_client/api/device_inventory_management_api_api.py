@@ -16,7 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBool, StrictInt, StrictStr
+from pydantic import Field, StrictBool, StrictInt, StrictStr, field_validator
 from typing import List, Optional
 from typing_extensions import Annotated
 from mender_client.models.add_devices_to_group200_response import AddDevicesToGroup200Response
@@ -2654,7 +2654,7 @@ class DeviceInventoryManagementAPIApi:
         self,
         page: Annotated[Optional[StrictInt], Field(description="Starting page.")] = None,
         per_page: Annotated[Optional[StrictInt], Field(description="Maximum number of results per page.")] = None,
-        sort: Annotated[Optional[StrictStr], Field(description="Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (`ord`) must be either `asc` or `desc` for ascending and descending respectively. Defaults to `desc` if not specified.  For example: `?sort=attr1:asc,attr2:desc` will sort by 'attr1' ascending, and then by 'attr2' descending. ")] = None,
+        sort: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (`ord`) must be either `asc` or `desc` for ascending and descending respectively. Defaults to `desc` if not specified.  For example: `?sort=attr1:asc,attr2:desc` will sort by 'attr1' ascending, and then by 'attr2' descending. ")] = None,
         has_group: Annotated[Optional[StrictBool], Field(description="Limit result to devices assigned to a group.")] = None,
         group: Annotated[Optional[StrictStr], Field(description="Limits result to devices in the given group.")] = None,
         _request_timeout: Union[
@@ -2739,7 +2739,7 @@ class DeviceInventoryManagementAPIApi:
         self,
         page: Annotated[Optional[StrictInt], Field(description="Starting page.")] = None,
         per_page: Annotated[Optional[StrictInt], Field(description="Maximum number of results per page.")] = None,
-        sort: Annotated[Optional[StrictStr], Field(description="Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (`ord`) must be either `asc` or `desc` for ascending and descending respectively. Defaults to `desc` if not specified.  For example: `?sort=attr1:asc,attr2:desc` will sort by 'attr1' ascending, and then by 'attr2' descending. ")] = None,
+        sort: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (`ord`) must be either `asc` or `desc` for ascending and descending respectively. Defaults to `desc` if not specified.  For example: `?sort=attr1:asc,attr2:desc` will sort by 'attr1' ascending, and then by 'attr2' descending. ")] = None,
         has_group: Annotated[Optional[StrictBool], Field(description="Limit result to devices assigned to a group.")] = None,
         group: Annotated[Optional[StrictStr], Field(description="Limits result to devices in the given group.")] = None,
         _request_timeout: Union[
@@ -2824,7 +2824,7 @@ class DeviceInventoryManagementAPIApi:
         self,
         page: Annotated[Optional[StrictInt], Field(description="Starting page.")] = None,
         per_page: Annotated[Optional[StrictInt], Field(description="Maximum number of results per page.")] = None,
-        sort: Annotated[Optional[StrictStr], Field(description="Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (`ord`) must be either `asc` or `desc` for ascending and descending respectively. Defaults to `desc` if not specified.  For example: `?sort=attr1:asc,attr2:desc` will sort by 'attr1' ascending, and then by 'attr2' descending. ")] = None,
+        sort: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="Sort devices by attribute. The parameter is formatted as a comma-separated list of attribute names and sort order.  The order direction (`ord`) must be either `asc` or `desc` for ascending and descending respectively. Defaults to `desc` if not specified.  For example: `?sort=attr1:asc,attr2:desc` will sort by 'attr1' ascending, and then by 'attr2' descending. ")] = None,
         has_group: Annotated[Optional[StrictBool], Field(description="Limit result to devices assigned to a group.")] = None,
         group: Annotated[Optional[StrictStr], Field(description="Limits result to devices in the given group.")] = None,
         _request_timeout: Union[

@@ -80,6 +80,7 @@ from mender_client.models.external_device import ExternalDevice
 from mender_client.models.features import Features
 from mender_client.models.filter_attribute import FilterAttribute
 from mender_client.models.filter_predicate import FilterPredicate
+from mender_client.models.filter_predicate_value import FilterPredicateValue
 from mender_client.models.filter_v1 import FilterV1
 from mender_client.models.filter_v2 import FilterV2
 from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response

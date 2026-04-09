@@ -26,7 +26,10 @@ type IdentityData struct {
 	Sku *string `json:"sku,omitempty"`
 	// Serial number.
 	Sn *string `json:"sn,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _IdentityData IdentityData
 
 // NewIdentityData instantiates a new IdentityData object
 // This constructor will assign default values to properties that have it defined,
@@ -160,7 +163,35 @@ func (o IdentityData) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Sn) {
 		toSerialize["sn"] = o.Sn
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *IdentityData) UnmarshalJSON(data []byte) (err error) {
+	varIdentityData := _IdentityData{}
+
+	err = json.Unmarshal(data, &varIdentityData)
+
+	if err != nil {
+		return err
+	}
+
+	*o = IdentityData(varIdentityData)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "mac")
+		delete(additionalProperties, "sku")
+		delete(additionalProperties, "sn")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableIdentityData struct {

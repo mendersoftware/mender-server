@@ -2044,7 +2044,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def verify_jwt(
         self,
-        authorization: Annotated[StrictStr, Field(description="The token in base64-encoded form.")],
+        authorization: Annotated[str, Field(strict=True, description="The token in base64-encoded form.")],
         x_forwarded_uri: Annotated[StrictStr, Field(description="URI the original request was sent to, the URI is expected to have at least 4 components, eg. /api/management/1.0/foo/bar ")],
         x_forwarded_method: Annotated[StrictStr, Field(description="HTTP method used when accessing the original URI")],
         _request_timeout: Union[
@@ -2123,7 +2123,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def verify_jwt_with_http_info(
         self,
-        authorization: Annotated[StrictStr, Field(description="The token in base64-encoded form.")],
+        authorization: Annotated[str, Field(strict=True, description="The token in base64-encoded form.")],
         x_forwarded_uri: Annotated[StrictStr, Field(description="URI the original request was sent to, the URI is expected to have at least 4 components, eg. /api/management/1.0/foo/bar ")],
         x_forwarded_method: Annotated[StrictStr, Field(description="HTTP method used when accessing the original URI")],
         _request_timeout: Union[
@@ -2202,7 +2202,7 @@ class UserAdministrationAndAuthenticationInternalAPIApi:
     @validate_call
     def verify_jwt_without_preload_content(
         self,
-        authorization: Annotated[StrictStr, Field(description="The token in base64-encoded form.")],
+        authorization: Annotated[str, Field(strict=True, description="The token in base64-encoded form.")],
         x_forwarded_uri: Annotated[StrictStr, Field(description="URI the original request was sent to, the URI is expected to have at least 4 components, eg. /api/management/1.0/foo/bar ")],
         x_forwarded_method: Annotated[StrictStr, Field(description="HTTP method used when accessing the original URI")],
         _request_timeout: Union[
