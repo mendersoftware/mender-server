@@ -1,4 +1,4 @@
-package tests
+package opensource
 
 import (
 	"context"
@@ -16,10 +16,11 @@ import (
 	"slices"
 	"time"
 
-	modelinventory "github.com/mendersoftware/mender-server/services/inventory/model"
-
 	"github.com/mendersoftware/mender-server/pkg/api/client"
+	oapiclient "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
+	modelinventory "github.com/mendersoftware/mender-server/services/inventory/model"
+	"github.com/mendersoftware/mender-server/tests/runner/tests/common"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -28,28 +29,26 @@ import (
 
 type InventoryManagementV2Suite struct {
 	suite.Suite
-	TestSettings
 
-	User User
-	JWT  string
+	APIClient *oapiclient.APIClient
+	User      common.User
+	Tenant    common.Tenant
+
+	JWT string
 }
 
 func (i *BackendIntegrationSuite) TestInventoryManagementV2() {
-	require := require.New(i.T())
-	require.False(i.settings.Tenants[0].ServiceProvider, 1, "tests can't use service provider tenant")
-	require.GreaterOrEqual(len(i.settings.Tenants), 1, "tests needs at least one user")
-	require.GreaterOrEqual(len(i.settings.Tenants[0].Users), 1, "tests needs at least one user")
-
 	suite.Run(i.T(), &InventoryManagementV2Suite{
-		TestSettings: i.settings,
-		User:         i.settings.Tenants[0].Users[0],
+		APIClient: i.environment.APIClient(),
+		User:      i.user,
+		Tenant:    i.tenant,
 	})
 }
 
 func (u *InventoryManagementV2Suite) SetupSuite() {
 	require := require.New(u.T())
 
-	ctx := basicAuthContext(u.T().Context(), u.User)
+	ctx := common.BasicAuthContext(u.T().Context(), u.User)
 	token, r, err := u.APIClient.UserAdministrationManagementAPIAPI.Login(ctx).Execute()
 
 	require.NoError(err)
@@ -63,7 +62,7 @@ func (u *InventoryManagementV2Suite) TestGetInventoryStatistics() {
 	var (
 		require = require.New(u.T())
 		assert  = assert.New(u.T())
-		ctx     = jwtAuthContext(u.T().Context(), u.JWT)
+		ctx     = common.JWTAuthContext(u.T().Context(), u.JWT)
 	)
 
 	var macs []string
@@ -75,7 +74,7 @@ func (u *InventoryManagementV2Suite) TestGetInventoryStatistics() {
 
 	// Create auth requests for all macs
 	for _, m := range macs {
-		_, _, err := u.authRequest(ctx, m)
+		_, _, err := u.authRequest(ctx, u.Tenant.TenantToken, m)
 		require.NoError(err)
 	}
 
@@ -101,7 +100,7 @@ func (u *InventoryManagementV2Suite) TestGetInventoryStatistics() {
 	assert.Equal(int32(0), statistics.Pending.System)
 }
 
-func (d *InventoryManagementV2Suite) authRequest(ctx context.Context, mac string) (string, bool, error) {
+func (d *InventoryManagementV2Suite) authRequest(ctx context.Context, tenantToken *string, mac string) (string, bool, error) {
 	privateKey, publicKey, err := d.generateKeys()
 	if err != nil {
 		return "", false, errors.Wrap(err, "failed to generate key-pair")
@@ -113,8 +112,9 @@ func (d *InventoryManagementV2Suite) authRequest(ctx context.Context, mac string
 	}
 
 	authRequest := client.AuthRequest{
-		IdData: string(idData),
-		Pubkey: d.exportPublicKeyPEM(publicKey),
+		IdData:      string(idData),
+		TenantToken: tenantToken,
+		Pubkey:      d.exportPublicKeyPEM(publicKey),
 	}
 
 	authRequestData, err := json.Marshal(authRequest)
@@ -149,7 +149,7 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 	)
 
 	getDeviceInventory := func() (client.DeviceInventory, error) {
-		for range 5 {
+		for range 10 {
 			filter := []client.FilterPredicate{
 				{
 					Scope:     client.IDENTITY,
