@@ -155,7 +155,7 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 					Scope:     client.IDENTITY,
 					Attribute: "mac",
 					Type:      "$eq",
-					Value:     mac,
+					Value:     client.StringAsFilterPredicateValue(&mac),
 				},
 			}
 
