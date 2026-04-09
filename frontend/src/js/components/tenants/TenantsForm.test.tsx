@@ -79,7 +79,6 @@ describe('TenantsForm', () => {
           system: 0
         },
         binary_delta: true,
-        restrict_sso_to_parent: false,
         sso: false
       })
     );
