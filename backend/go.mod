@@ -48,8 +48,6 @@ require (
 	gopkg.in/yaml.v3 v3.0.1
 )
 
-replace github.com/gorilla/websocket => github.com/gorilla/websocket v1.5.3
-
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.11.2 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20250102033503-faa5f7b0171c // indirect
