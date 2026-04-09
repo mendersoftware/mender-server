@@ -363,4 +363,4 @@ publish:frontend:sentry:finalize:
   allow_failure: true
   script:
     # this has to be in one line as the cli won't work with formatting induced white space around passed options
-    - sentry-cli --auth-token $SENTRY_AUTH_TOKEN --url $SENTRY_URL releases finalize mender-frontend@$CI_COMMIT_SHA  --project mender-frontend  --org $SENTRY_ORG
+    - sentry-cli --auth-token $SENTRY_AUTH_TOKEN --url $SENTRY_URL releases finalize mender-gui@$CI_COMMIT_SHA  --project mender-gui  --org $SENTRY_ORG
