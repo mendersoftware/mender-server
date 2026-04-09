@@ -9,15 +9,13 @@
 
   "packageRules": [
     {
-      // TODO: remove some of these when we ditch dependabot
       "matchCategories": ["python", "docker", "ci", "js", "golang"],
       "enabled": false
     },
     {
-      // TODO: remove  when we ditch dependabot
       "matchManagers": ["git-submodules"],
       "enabled": false
-    },
+    }
   ],
 
   "customManagers": [
@@ -31,7 +29,7 @@
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v?(?<version>.*)$",
       "versioningTemplate": "semver"
-    },
+    }
   ],
 
   "prHourlyLimit": 0
