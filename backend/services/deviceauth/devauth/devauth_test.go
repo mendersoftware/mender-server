@@ -767,7 +767,7 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			// for a preauthorized set - check if we're not over the limit
 			db.On("GetLimit",
 				ctxMatcher,
-				model.LimitMaxDeviceCount,
+				model.LimitMaxDevicesCount,
 			).Return(
 				tc.dbGetLimitRes,
 				tc.dbGetLimitErr,
@@ -1266,7 +1266,7 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 				dummyAuthID).
 				Return(tc.aset, tc.dbGetErr)
 			db.On("GetLimit", context.Background(),
-				model.LimitMaxDeviceCount).
+				model.LimitMaxDevicesCount).
 				Return(tc.dbLimit, tc.dbLimitErr)
 			db.On("GetDevCountByStatus", context.Background(),
 				model.DevStatusAccepted).
@@ -2565,12 +2565,12 @@ func TestDevAuthGetLimit(t *testing.T) {
 			outErr:   nil,
 		},
 		"ok max_devices": {
-			inName: model.LimitMaxDeviceCount,
+			inName: model.LimitMaxDevicesCount,
 
-			dbLimit: &model.Limit{Name: model.LimitMaxDeviceCount, Value: 123},
+			dbLimit: &model.Limit{Name: model.LimitMaxDevicesCount, Value: 123},
 			dbErr:   nil,
 
-			outLimit: &model.Limit{Name: model.LimitMaxDeviceCount, Value: 123},
+			outLimit: &model.Limit{Name: model.LimitMaxDevicesCount, Value: 123},
 			outErr:   nil,
 		},
 		"limit not found": {

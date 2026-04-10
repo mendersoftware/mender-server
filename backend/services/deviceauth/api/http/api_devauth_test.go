@@ -1387,7 +1387,7 @@ func TestApiDevAuthPutTenantLimit(t *testing.T) {
 				},
 			}),
 			limit: model.Limit{
-				Name:  model.LimitMaxDeviceCount,
+				Name:  model.LimitMaxDevicesCount,
 				Value: 123,
 			},
 			tenant: "foo",
@@ -1422,7 +1422,7 @@ func TestApiDevAuthPutTenantLimit(t *testing.T) {
 				},
 			}),
 			tenant: "foo",
-			limit:  model.Limit{Name: model.LimitMaxDeviceCount, Value: 123},
+			limit:  model.Limit{Name: model.LimitMaxDevicesCount, Value: 123},
 			code:   http.StatusInternalServerError,
 			err:    errors.New("failed"),
 			body:   RestError("internal error"),
@@ -1463,7 +1463,7 @@ func TestApiDevAuthDeleteTenantLimit(t *testing.T) {
 				Method: "DELETE",
 				Path:   "http://localhost/api/internal/v1/devauth/tenant/foo/limits/max_devices",
 			}),
-			limit:  model.LimitMaxDeviceCount,
+			limit:  model.LimitMaxDevicesCount,
 			tenant: "foo",
 			code:   http.StatusNoContent,
 		},
@@ -1481,7 +1481,7 @@ func TestApiDevAuthDeleteTenantLimit(t *testing.T) {
 				Path:   "http://localhost/api/internal/v1/devauth/tenant/foo/limits/max_devices",
 			}),
 			tenant: "foo",
-			limit:  model.LimitMaxDeviceCount,
+			limit:  model.LimitMaxDevicesCount,
 			code:   http.StatusInternalServerError,
 			err:    errors.New("failed"),
 			body:   RestError("internal error"),
@@ -1522,7 +1522,7 @@ func TestApiV2DevAuthGetLimit(t *testing.T) {
 			limit: "max_devices",
 
 			daLimit: &model.Limit{
-				Name:  model.LimitMaxDeviceCount,
+				Name:  model.LimitMaxDevicesCount,
 				Value: 123,
 			},
 			daErr: nil,
@@ -1591,7 +1591,7 @@ func TestApiDevAuthGetTenantLimit(t *testing.T) {
 			tenantId: "tenant-foo",
 
 			daLimit: &model.Limit{
-				Name:  model.LimitMaxDeviceCount,
+				Name:  model.LimitMaxDevicesCount,
 				Value: 123,
 			},
 			daErr: nil,

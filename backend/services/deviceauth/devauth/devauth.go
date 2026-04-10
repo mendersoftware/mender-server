@@ -1406,7 +1406,7 @@ func (d *DevAuth) GetDevCountByStatus(ctx context.Context, status string) (int, 
 
 // canAcceptDevice checks if model.LimitMaxDeviceCount will be exceeded
 func (d *DevAuth) canAcceptDevice(ctx context.Context) (bool, error) {
-	limit, err := d.GetLimit(ctx, model.LimitMaxDeviceCount)
+	limit, err := d.GetLimit(ctx, model.LimitMaxDevicesCount)
 	if err != nil {
 		return false, errors.Wrap(err, "can't get current device limit")
 	}

@@ -16,11 +16,11 @@ package model
 import "github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 
 const (
-	LimitMaxDeviceCount = "max_devices"
+	LimitMaxDevicesCount = "max_devices"
 )
 
 var (
-	ValidLimits = []string{LimitMaxDeviceCount}
+	ValidLimits = []string{LimitMaxDevicesCount}
 )
 
 type Limit struct {
