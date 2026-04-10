@@ -115,7 +115,7 @@ const initSentry = async ({ commit, location, replaysSessionSampleRate, tracesSa
   Sentry.init({
     dsn: location,
     integrations: [browserTracingIntegration(), replayIntegration({ networkDetailAllowUrls: [window.location.origin] })],
-    release: `mender-frontend@${commit}`,
+    release: `mender-gui@${commit}`,
     tracesSampleRate, // defaults to capturing 100% of the transactions
     tracePropagationTargets: ['localhost', /^https:\/\/(\w*\.)*hosted\.mender\.io/, 'https://docker.mender.io'],
     replaysSessionSampleRate, // defaults to 0.1 in the environment settings, to be adjusted externally
