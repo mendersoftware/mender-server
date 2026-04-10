@@ -1,4 +1,5 @@
-package tests
+//nolint:all // This is all test code so we don't care
+package common
 
 import (
 	"context"
@@ -11,9 +12,9 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"runtime/debug"
 	"slices"
 	"strings"
+	"testing"
 	"time"
 
 	"github.com/compose-spec/compose-go/v2/types"
@@ -29,75 +30,79 @@ import (
 	"github.com/moby/moby/api/types/mount"
 	"github.com/moby/moby/client"
 	"github.com/stretchr/testify/require"
-	"github.com/stretchr/testify/suite"
 )
-
-type BackendIntegrationSuite struct {
-	suite.Suite
-
-	settings TestSettings
-	project  *types.Project
-}
 
 const (
 	localhost = "127.0.0.1"
 )
 
-func (i *BackendIntegrationSuite) SetupSuite() {
-	defer i.CleanupOnSetupFailure() // If setup fails, we still want to run the cleanup in `TearDownSuite``
+type Config struct {
+	ProjectName                 string
+	SkipCleanup                 bool
+	SkipCleanupOnFailure        bool
+	PrintServiceLogsOnFailure   string
+	PrintServiceStatusOnFailure string
+}
 
+type ComposeEnvironment struct {
+	config Config
+
+	serverURL string
+	apiClient *oapiclient.APIClient
+	project   *types.Project
+}
+
+func NewComposeEnvironment(config Config) *ComposeEnvironment {
+	return &ComposeEnvironment{
+		config: config,
+	}
+}
+
+func (c *ComposeEnvironment) Setup(t *testing.T) {
 	var (
-		t       = i.T()
 		ctx     = t.Context()
 		require = require.New(t)
 	)
-	// We're testing against an externally managed environment, don't spin up
-	// the docker compose environment.
-	if externalServerURL != "" {
-		i.T().Logf("Running tests against external server: %s", externalServerURL)
-		i.settings = TestSettings{
-			ServerURL: externalServerURL,
-			Tenants:   externalTenants,
-			APIClient: createMenderAPIClient(externalServerURL, nil),
-		}
-		return
-	}
 
-	// Spin up the docker compose environment
 	t.Logf("Creating docker compose environment")
 
 	compose, err := createComposeService(io.Discard)
 	require.NoError(err, "failed to create compose service")
 
-	project, cleanup, err := loadComposeProject(ctx, compose, projectName)
+	project, cleanup, err := loadComposeProject(ctx, compose, c.config.ProjectName)
 	require.NoError(err, "failed to load compose project")
 
-	i.project = project
+	c.project = project
 	if cleanup != nil {
 		t.Cleanup(cleanup)
 	}
 
-	err = compose.Up(
-		ctx,
-		i.project,
-		api.UpOptions{
-			Create: api.CreateOptions{RemoveOrphans: true, Build: &api.BuildOptions{}},
-			Start:  api.StartOptions{Wait: true},
-		},
-	)
-	require.NoError(err, "failed to bring up docker compose environment")
+	stacks, err := compose.List(ctx, api.ListOptions{All: true})
+	require.NoError(err, "")
 
-	err = healthCheckComposeEnvironment(ctx, compose, i.project)
+	projectAlreadyRunning := slices.ContainsFunc(stacks, func(s api.Stack) bool {
+		return s.Name == c.config.ProjectName
+	})
+	if !projectAlreadyRunning {
+		err = compose.Up(
+			ctx,
+			c.project,
+			api.UpOptions{
+				Create: api.CreateOptions{RemoveOrphans: true, Build: &api.BuildOptions{}},
+				Start:  api.StartOptions{Wait: true},
+			},
+		)
+		require.NoError(err, "failed to bring up docker compose environment")
+	}
+
+	err = healthCheckComposeEnvironment(ctx, compose, c.project)
 	require.NoError(err, "failed to health check docker compose environment")
 
 	t.Logf("Successfully created docker compose environment")
 
-	i.settings.Tenants, err = seedComposeEnvironment(ctx, compose, i.project)
-	require.NoError(err, "failed to create initial users")
-
-	i.settings.ServerURL = "traefik"
+	c.serverURL = "traefik"
 	if hostname := os.Getenv("MENDER_HOSTNAME"); hostname != "" {
-		i.settings.ServerURL = hostname
+		c.serverURL = hostname
 	}
 
 	// Simple workaround to "resolve" DNS without an actual DNS server
@@ -111,7 +116,7 @@ func (i *BackendIntegrationSuite) SetupSuite() {
 		// The server URL can't be resolved through DNS so we
 		// resolve it manually here. This is essentially the same
 		// as adding `[localhost] [host]` to `/etc/hosts`.
-		if host == i.settings.ServerURL {
+		if host == c.serverURL {
 			host = localhost
 		}
 
@@ -121,26 +126,24 @@ func (i *BackendIntegrationSuite) SetupSuite() {
 			net.JoinHostPort(host, port),
 		)
 	}
-	i.settings.APIClient = createMenderAPIClient(i.settings.ServerURL, dialContext)
+	c.apiClient = createMenderAPIClient(c.serverURL, dialContext)
 }
 
-func (i *BackendIntegrationSuite) CleanupOnSetupFailure() {
-	if i.T().Failed() {
-		i.TearDownSuite()
-	}
+func (c *ComposeEnvironment) APIClient() *oapiclient.APIClient {
+	return c.apiClient
 }
 
-func (i *BackendIntegrationSuite) TearDownSuite() {
+func (c *ComposeEnvironment) Teardown(t *testing.T) {
 	var (
-		t      = i.T()
+		config = c.config
 		failed = t.Failed()
 	)
 
-	if skipCleanup || (skipCleanupOnFailure && failed) {
+	if config.SkipCleanup || (config.SkipCleanupOnFailure && failed) {
 		return
 	}
 
-	if i.project == nil {
+	if c.project == nil {
 		// Nothing below here can be done if we're not managing our own compose environment
 		return
 	}
@@ -149,22 +152,22 @@ func (i *BackendIntegrationSuite) TearDownSuite() {
 		ctx     = t.Context()
 		output  = t.Output()
 		require = require.New(t)
-		name    = i.project.Name
+		name    = c.project.Name
 	)
 
 	compose, err := createComposeService(io.Discard)
 	require.NoError(err)
 
-	if printServiceStatusOnFailure != "" && failed {
-		t.Logf("Printing service status for services %s in project: %s", printServiceStatusOnFailure, name)
+	if config.PrintServiceStatusOnFailure != "" && failed {
+		t.Logf("Printing service status for services %s in project: %s", config.PrintServiceStatusOnFailure, name)
 
 		containers, err := compose.Ps(ctx, name, api.PsOptions{All: true})
 		require.NoError(err, "failed to list docker compose containers")
 
-		if printServiceStatusOnFailure != "*" {
+		if config.PrintServiceStatusOnFailure != "*" {
 			var (
 				idx      = 0
-				services = strings.Split(printServiceStatusOnFailure, ",")
+				services = strings.Split(config.PrintServiceStatusOnFailure, ",")
 			)
 
 			for _, c := range containers {
@@ -193,11 +196,11 @@ func (i *BackendIntegrationSuite) TearDownSuite() {
 		require.NoError(err)
 	}
 
-	if printServiceLogsOnFailure != "" && failed {
-		t.Logf("Printing service logs for services %s in project: %s", printServiceStatusOnFailure, name)
+	if config.PrintServiceLogsOnFailure != "" && failed {
+		t.Logf("Printing service logs for services %s in project: %s", config.PrintServiceLogsOnFailure, name)
 		var services []string
-		if printServiceLogsOnFailure != "*" {
-			services = strings.Split(printServiceLogsOnFailure, ",")
+		if config.PrintServiceLogsOnFailure != "*" {
+			services = strings.Split(config.PrintServiceLogsOnFailure, ",")
 		}
 
 		err := compose.Logs(
@@ -219,6 +222,68 @@ func (i *BackendIntegrationSuite) TearDownSuite() {
 		Volumes: true,
 	})
 	require.NoError(err, "failed to tear down compose environment")
+}
+
+type User struct {
+	Username string
+	Password string
+}
+
+func (i *ComposeEnvironment) User(ctx context.Context) (User, error) {
+	compose, err := createComposeService(io.Discard)
+	if err != nil {
+		return User{}, err
+	}
+
+	username := fmt.Sprintf("user-%s@docker.mender.io", uuid.New().String())
+	password := uuid.New().String()
+	exitCode, err := compose.Exec(ctx, i.config.ProjectName, api.RunOptions{
+		Service: "useradm",
+		Command: []string{"useradm", "create-user", "--username", username, "--password", password},
+	})
+
+	if exitCode != 0 {
+		var statusErr cli.StatusError
+		if errors.As(err, &statusErr) {
+			return User{}, fmt.Errorf("unexpected exit code '%d' when creating initial user: %w", statusErr.StatusCode, statusErr.Cause)
+		}
+		return User{}, fmt.Errorf("unexpected exit code '%d' when creating initial user", exitCode)
+	}
+
+	return User{
+		Username: username,
+		Password: password,
+	}, nil
+}
+
+type Tenant struct {
+	ID          string
+	TenantToken *string
+}
+
+func (i *ComposeEnvironment) TenantOfUser(ctx context.Context, u User) (Tenant, error) {
+	return Tenant{}, nil
+}
+
+func BasicAuthContext(ctx context.Context, user User) context.Context {
+	return context.WithValue(
+		ctx,
+		oapiclient.ContextBasicAuth,
+		oapiclient.BasicAuth{UserName: user.Username, Password: user.Password},
+	)
+}
+
+func JWTAuthContext(ctx context.Context, jwt string) context.Context {
+	return context.WithValue(
+		ctx,
+		oapiclient.ContextAccessToken,
+		jwt,
+	)
+}
+
+type TestSettings struct {
+	ServerURL string
+	APIClient *oapiclient.APIClient
 }
 
 func createComposeService(output io.Writer) (api.Compose, error) {
@@ -246,12 +311,9 @@ func createComposeService(output io.Writer) (api.Compose, error) {
 }
 
 func loadComposeProject(ctx context.Context, compose api.Compose, projectName string) (*types.Project, func(), error) {
-	var configPaths []string
-	if isOpenSource() {
-		configPaths = []string{"../../../../docker-compose.yml"}
-	} else {
-		// Enterprise
-		return nil, nil, fmt.Errorf("project is not Mender Server open source")
+	configPaths := []string{
+		"../../../../../docker-compose.yml",
+		"../../../docker/docker-compose.backend-tests.yml",
 	}
 
 	project, err := compose.LoadProject(
@@ -337,26 +399,20 @@ func healthCheckComposeEnvironment(ctx context.Context, compose api.Compose, pro
 	// This is hopefully temporary because we should get this into the actual health checks
 	// of the docker compose service itself so we can trust the "healthy/unhealthy" status
 	// provided by the Docker Engine.
-	var healthChecks []healthCheck
-	if isOpenSource() {
-		healthChecks = []healthCheck{
-			{name: "deployments", url: "http://deployments:8080/api/internal/v1/deployments/health", code: http.StatusNoContent},
-			{name: "deviceauth", url: "http://deviceauth:8080/api/internal/v1/devauth/health", code: http.StatusNoContent},
-			{name: "deviceconfig", url: "http://deviceconfig:8080/api/internal/v1/deviceconfig/health", code: http.StatusNoContent},
-			{name: "deviceconnect", url: "http://deviceconnect:8080/api/internal/v1/deviceconnect/health", code: http.StatusNoContent},
-			{name: "inventory", url: "http://inventory:8080/api/internal/v1/inventory/health", code: http.StatusNoContent},
-			{name: "iot-manager", url: "http://iot-manager:8080/api/internal/v1/iot-manager/health", code: http.StatusNoContent},
-			{name: "useradm", url: "http://useradm:8080/api/internal/v1/useradm/health", code: http.StatusNoContent},
-			{name: "workflows", url: "http://workflows:8080/api/v1/health", code: http.StatusNoContent},
+	healthChecks := []healthCheck{
+		{name: "deployments", url: "http://deployments:8080/api/internal/v1/deployments/health", code: http.StatusNoContent},
+		{name: "deviceauth", url: "http://deviceauth:8080/api/internal/v1/devauth/health", code: http.StatusNoContent},
+		{name: "deviceconfig", url: "http://deviceconfig:8080/api/internal/v1/deviceconfig/health", code: http.StatusNoContent},
+		{name: "deviceconnect", url: "http://deviceconnect:8080/api/internal/v1/deviceconnect/health", code: http.StatusNoContent},
+		{name: "inventory", url: "http://inventory:8080/api/internal/v1/inventory/health", code: http.StatusNoContent},
+		{name: "iot-manager", url: "http://iot-manager:8080/api/internal/v1/iot-manager/health", code: http.StatusNoContent},
+		{name: "useradm", url: "http://useradm:8080/api/internal/v1/useradm/health", code: http.StatusNoContent},
+		{name: "workflows", url: "http://workflows:8080/api/v1/health", code: http.StatusNoContent},
 
-			// Sometimes, the ingress routing rules in traefik takes a bit longer to register, so we add another
-			// health check from outside the ingress to avoid spurious test failures.
-			{name: "useradm-ingress", url: "https://traefik:443/api/management/v1/useradm/users", code: http.StatusUnauthorized},
-			{name: "deviceauth-ingress", url: "https://traefik:443/api/devices/v1/authentication/auth_requests", code: http.StatusMethodNotAllowed},
-		}
-	} else {
-		// Enterprise
-		return fmt.Errorf("project is not Mender Server open source")
+		// Sometimes, the ingress routing rules in traefik takes a bit longer to register, so we add another
+		// health check from outside the ingress to avoid spurious test failures.
+		{name: "useradm-ingress", url: "https://traefik:443/api/management/v1/useradm/users", code: http.StatusUnauthorized},
+		{name: "deviceauth-ingress", url: "https://traefik:443/api/devices/v1/authentication/auth_requests", code: http.StatusMethodNotAllowed},
 	}
 
 	for _, h := range healthChecks {
@@ -395,36 +451,6 @@ func healthCheckComposeEnvironment(ctx context.Context, compose api.Compose, pro
 	return nil
 }
 
-func seedComposeEnvironment(ctx context.Context, compose api.Compose, project *types.Project) ([]Tenant, error) {
-	if isOpenSource() {
-		username := fmt.Sprintf("user-%s@docker.mender.io", uuid.New().String())
-		password := uuid.New().String()
-		exitCode, err := compose.Exec(ctx, project.Name, api.RunOptions{
-			Service: "useradm",
-			Command: []string{"useradm", "create-user", "--username", username, "--password", password},
-		})
-
-		if exitCode != 0 {
-			var statusErr cli.StatusError
-			if errors.As(err, &statusErr) {
-				return nil, fmt.Errorf("unexpected exit code '%d' when creating initial user: %w", statusErr.StatusCode, statusErr.Cause)
-			}
-			return nil, fmt.Errorf("unexpected exit code '%d' when creating initial user", exitCode)
-		}
-
-		return []Tenant{
-			{
-				ID:              "",    // Irrelevant for opensource
-				ServiceProvider: false, // Irrelevant for opensource
-				Users:           []User{{Username: username, Password: password}},
-			},
-		}, nil
-	} else {
-		// Enterprise
-		return nil, fmt.Errorf("project is not Mender Server open source")
-	}
-}
-
 func createMenderAPIClient(
 	serverURL string,
 	dialContext func(ctx context.Context, network, addr string) (net.Conn, error),
@@ -439,13 +465,4 @@ func createMenderAPIClient(
 		},
 	}
 	return oapiclient.NewAPIClient(config)
-}
-
-func isOpenSource() bool {
-	info, ok := debug.ReadBuildInfo()
-	if !ok {
-		return false
-	}
-
-	return info.Main.Path == "github.com/mendersoftware/mender-server"
 }
