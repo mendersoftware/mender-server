@@ -65,6 +65,7 @@ const useStyles = makeStyles()(theme => ({
   },
   navLink: {
     padding: theme.spacing(3.5),
+    paddingLeft: theme.spacing(5),
     color: theme.palette.text.primary,
     borderTop: '1px solid transparent',
     borderBottom: '1px solid transparent',
@@ -80,7 +81,7 @@ const useStyles = makeStyles()(theme => ({
       zIndex: 2
     }
   },
-  lowerList: { gap: theme.spacing() },
+  lowerList: { gap: theme.spacing(), paddingLeft: theme.spacing(5), paddingRight: theme.spacing(2) },
   versions: { display: 'grid', gridTemplateColumns: 'max-content max-content', columnGap: theme.spacing() }
 }));
 
@@ -184,7 +185,7 @@ export const LeftNav = () => {
           }
           accu.push(
             <ListItem
-              className={`navLink leftNav ${classes.navLink} padding-left-large`}
+              className={`navLink leftNav ${classes.navLink}`}
               component={NavLink}
               end={item.path === ''}
               key={index}
@@ -197,7 +198,7 @@ export const LeftNav = () => {
           return accu;
         }, [])}
       </List>
-      <List className={`flexbox column padding-left-large padding-bottom ${classes.lowerList}`}>
+      <List className={`flexbox column padding-bottom ${classes.lowerList}`}>
         <NavLink to={`/${routeConfigs.help.path}`}>
           <Typography variant="body2">{routeConfigs.help.title}</Typography>
         </NavLink>
