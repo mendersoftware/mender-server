@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 // material ui
-import { List, ListItem, ListItemText, Typography, darken, lighten, listClasses } from '@mui/material';
+import { List, ListItem, ListItemText, Typography, darken, getOverlayAlpha, lighten, listClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -50,16 +50,34 @@ const useStyles = makeStyles()(theme => ({
   licenseLink: { fontWeight: 'inherit' },
   list: {
     backgroundColor: isDarkMode(theme.palette.mode) ? lighten(theme.palette.background.paper, 0.08) : darken(theme.palette.background.paper, 0.08),
-    borderRight: `1px solid ${theme.palette.divider}`,
-    [`.${listClasses.root}`]: { paddingTop: 0 }
+    position: 'relative',
+    [`.${listClasses.root}`]: { paddingTop: 0 },
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      width: 1,
+      backgroundColor: theme.palette.divider,
+      zIndex: 1
+    }
   },
   navLink: {
     padding: theme.spacing(3.5),
     color: theme.palette.text.primary,
+    borderTop: '1px solid transparent',
+    borderBottom: '1px solid transparent',
+    [`&:hover`]: {
+      backgroundColor: isDarkMode(theme.palette.mode) ? lighten(theme.palette.background.default, getOverlayAlpha(1)) : theme.palette.background.default,
+      color: theme.palette.text.primary
+    },
     [`&.active`]: {
       backgroundColor: theme.palette.background.default,
       borderTop: `1px solid ${theme.palette.divider}`,
-      borderBottom: `1px solid ${theme.palette.divider}`
+      borderBottom: `1px solid ${theme.palette.divider}`,
+      position: 'relative',
+      zIndex: 2
     }
   },
   lowerList: { gap: theme.spacing() },
