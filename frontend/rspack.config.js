@@ -42,8 +42,8 @@ export default (env, argv) => {
       sentryWebpackPlugin({
         authToken: SENTRY_AUTH_TOKEN,
         org: SENTRY_ORG,
-        project: 'mender-frontend',
-        release: { name: `mender-frontend@${GIT_COMMIT_SHA}` },
+        project: 'mender-gui',
+        release: { name: `mender-gui@${GIT_COMMIT_SHA}` },
         sourcemaps: { ignore: ['./dist/vs'], assets: './dist' },
         telemetry: false,
         url: SENTRY_URL
