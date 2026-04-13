@@ -142,9 +142,9 @@ run_tests() {
             --entrypoint /bin/bash \
             integration-tester -c '
                 echo "shard $CI_NODE_INDEX/$CI_NODE_TOTAL" >&2
-                pytest --co -q -m "not slow" -k "not Enterprise and not Multitenant" 2>/tmp/co_err.txt | grep "::" | split -n "l/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" > /tmp/nodes
+                pytest --co -q -m "not slow" -k "not Enterprise and not Multitenant" 2>/tmp/co_err.txt | grep "::" | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" > /tmp/nodes
                 echo "not-slow collected: $(wc -l < /tmp/nodes), co_err: $(wc -l < /tmp/co_err.txt)" >&2
-                pytest --co -q -m "slow" -k "not Enterprise and not Multitenant" 2>>/tmp/co_err.txt | grep "::" | split -n "l/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" >> /tmp/nodes
+                pytest --co -q -m "slow" -k "not Enterprise and not Multitenant" 2>>/tmp/co_err.txt | grep "::" | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" >> /tmp/nodes
                 sort -u /tmp/nodes > /tmp/nodes.final
                 echo "total nodes: $(wc -l < /tmp/nodes.final)" >&2
                 if [ -s /tmp/co_err.txt ]; then echo "collection stderr:" >&2; cat /tmp/co_err.txt >&2; fi
