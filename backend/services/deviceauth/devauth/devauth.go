@@ -245,6 +245,7 @@ func (d *DevAuth) getDeviceFromAuthRequest(
 	if idData != nil {
 		tenantId = idData.Tenant
 	}
+
 	if addDeviceErr != store.ErrObjectExists {
 		if err := d.setDeviceIdentity(ctx, dev, tenantId); err != nil {
 			return nil, err
@@ -260,7 +261,7 @@ func (d *DevAuth) getDeviceFromAuthRequest(
 	return dev, nil
 }
 
-func (d *DevAuth) signToken(ctx context.Context) jwt.SignFunc {
+func (d *DevAuth) signToken() jwt.SignFunc {
 	return func(t *jwt.Token) (string, error) {
 		return d.jwt.ToJWT(t)
 	}
@@ -314,7 +315,7 @@ func (d *DevAuth) SubmitAuthRequest(ctx context.Context, r *model.AuthReq) (stri
 		token.Addons = addons.AllAddonsEnabled
 
 		// sign and encode as JWT
-		raw, err := token.MarshalJWT(d.signToken(ctx))
+		raw, err := token.MarshalJWT(d.signToken())
 		if err != nil {
 			return "", errors.Wrap(err, "generate token error")
 		}
@@ -1534,12 +1535,12 @@ func (d *DevAuth) updateCheckInTime(
 			return
 		}
 	}
+
+	const day = time.Hour * 24
 	// compare data without a time of current and previous check-in time
-	// and if it's different trigger reindexing (if enabled)
-	// and save check-in time in the database
-	if previous == nil ||
-		(previous != nil &&
-			!previous.Truncate(24*time.Hour).Equal(checkInTime.Truncate(24*time.Hour))) {
+	// If it's more than oneDay (with 30min jitter), propagate the data
+	// to the database, and inventory service
+	if previous == nil || checkInTime.Sub(*previous) > day || previous.IsZero() {
 		// update check-in time in inventory
 		if err := d.syncCheckInTime(ctx, checkInTime, deviceId, tenantId); err != nil {
 			log.FromContext(ctx).Errorf(
