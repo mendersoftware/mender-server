@@ -482,7 +482,7 @@ func (i *DevAuthApiHandlers) UpdateDeviceStatusHandler(c *gin.Context) {
 }
 
 type LimitValue struct {
-	Limit uint64 `json:"limit"`
+	Limit int64 `json:"limit"`
 }
 
 func (i *DevAuthApiHandlers) PutTenantLimitHandler(c *gin.Context) {

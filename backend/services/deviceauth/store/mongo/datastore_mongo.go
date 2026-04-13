@@ -42,7 +42,7 @@ import (
 )
 
 const (
-	DbVersion     = "2.0.0"
+	DbVersion     = "2.0.2"
 	DbName        = "deviceauth"
 	DbDevicesColl = "devices"
 	DbAuthSetColl = "auth_sets"
@@ -59,6 +59,7 @@ const (
 	dbFieldExpTime      = "exp.time"
 	dbFieldTenantClaim  = "mender.tenant"
 	dbFieldName         = "name"
+	dbFieldValue        = "value"
 	dbFieldSubject      = "sub"
 )
 
@@ -567,6 +568,10 @@ func (db *DataStoreMongo) MigrateTenant(ctx context.Context, database, version s
 			ctx: ctx,
 		},
 		&migration_2_0_0{
+			ds:  db,
+			ctx: ctx,
+		},
+		&migration_2_0_2{
 			ds:  db,
 			ctx: ctx,
 		},

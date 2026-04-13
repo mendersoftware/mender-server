@@ -13,10 +13,15 @@
 //	limitations under the License.
 package model
 
-import "github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
+import (
+	"github.com/pkg/errors"
+
+	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
+)
 
 const (
-	LimitMaxDevicesCount = "max_devices"
+	LimitMaxDevicesCount       = "max_devices"
+	LimitUnlimited       int64 = -1
 )
 
 var (
@@ -26,11 +31,28 @@ var (
 type Limit struct {
 	Id       oid.ObjectID `json:"-" bson:"_id,omitempty"`
 	Name     string       `json:"name" bson:"name"`
-	Value    uint64       `json:"value" bson:"value"`
+	Value    int64        `json:"value" bson:"value"`
 	TenantID string       `json:"-" bson:"tenant_id"`
 }
 
-func (l Limit) IsLess(what uint64) bool {
+func (r *Limit) Validate() error {
+	if !IsValidLimit(r.Name) {
+		return errors.Errorf("unsupported limit %v", r.Name)
+	}
+
+	isNormalOrUnlimited := r.Value >= 0 || r.IsUnlimited()
+	if !isNormalOrUnlimited {
+		return errors.Errorf("unsupported limit value %d", r.Value)
+	}
+
+	return nil
+}
+
+func (l Limit) IsUnlimited() bool {
+	return l.Value == LimitUnlimited
+}
+
+func (l Limit) IsLess(what int64) bool {
 	return what < l.Value
 }
 
