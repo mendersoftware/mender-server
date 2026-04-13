@@ -30,8 +30,6 @@ compose_cmd() {
     $docker_compose_cmd -p backend-tests $COMPOSE_FILES "$@"
 }
 
-PYTEST_FILTER_OPEN="not Enterprise and not Multitenant"
-PYTEST_FILTER_ENTERPRISE="Enterprise"
 PYTEST_FILTER=""
 
 PYTEST_REPORT_OPEN="--self-contained-html \
@@ -142,9 +140,9 @@ run_tests() {
             --entrypoint /bin/bash \
             integration-tester -c '
                 echo "shard $CI_NODE_INDEX/$CI_NODE_TOTAL" >&2
-                pytest --co -q -m "not slow" -k "not Enterprise and not Multitenant" 2>/tmp/co_err.txt | grep "::" | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" > /tmp/nodes
+                pytest --co -q -m "not slow" 2>/tmp/co_err.txt | grep "::" | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" > /tmp/nodes
                 echo "not-slow collected: $(wc -l < /tmp/nodes), co_err: $(wc -l < /tmp/co_err.txt)" >&2
-                pytest --co -q -m "slow" -k "not Enterprise and not Multitenant" 2>>/tmp/co_err.txt | grep "::" | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" >> /tmp/nodes
+                pytest --co -q -m "slow" 2>>/tmp/co_err.txt | grep "::" | split -n "r/${CI_NODE_INDEX}/${CI_NODE_TOTAL}" >> /tmp/nodes
                 sort -u /tmp/nodes > /tmp/nodes.final
                 echo "total nodes: $(wc -l < /tmp/nodes.final)" >&2
                 if [ -s /tmp/co_err.txt ]; then echo "collection stderr:" >&2; cat /tmp/co_err.txt >&2; fi
@@ -204,17 +202,14 @@ for suite in "${TEST_SUITES[@]}"; do
     case "$suite" in
         open)
             COMPOSE_FILES="$COMPOSE_FILES_OPEN"
-            PYTEST_FILTER="$PYTEST_FILTER_OPEN"
             PYTEST_REPORT="$PYTEST_REPORT_OPEN"
             ;;
         compat)
             COMPOSE_FILES="$COMPOSE_FILES_COMPAT"
-            PYTEST_FILTER="$PYTEST_FILTER_OPEN"
             PYTEST_REPORT="$PYTEST_REPORT_OPEN"
             ;;
         enterprise)
             COMPOSE_FILES="$COMPOSE_FILES_ENTERPRISE"
-            PYTEST_FILTER="$PYTEST_FILTER_ENTERPRISE"
             PYTEST_REPORT="$PYTEST_REPORT_ENTERPRISE"
             ;;
     esac
