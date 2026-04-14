@@ -1070,7 +1070,7 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 				Id:     dummyDevID,
 				Status: model.DevStatusPending,
 			},
-			dbLimit: &model.Limit{Value: 0},
+			dbLimit: &model.Limit{Value: model.LimitUnlimited},
 		},
 		{
 			aset: &model.AuthSet{
@@ -1082,7 +1082,7 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 				Id:     dummyDevID,
 				Status: model.DevStatusPreauth,
 			},
-			dbLimit: &model.Limit{Value: 0},
+			dbLimit: &model.Limit{Value: model.LimitUnlimited},
 			outErr:  "dev auth: bad request",
 		},
 		{
@@ -1183,12 +1183,12 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 			outErr:     "can't get current device count: error",
 		},
 		{
-			dbLimit:  &model.Limit{Value: 0},
+			dbLimit:  &model.Limit{Value: model.LimitUnlimited},
 			dbGetErr: store.ErrAuthSetNotFound,
 			outErr:   store.ErrAuthSetNotFound.Error(),
 		},
 		{
-			dbLimit: &model.Limit{Value: 0},
+			dbLimit: &model.Limit{Value: model.LimitUnlimited},
 			aset: &model.AuthSet{
 				Id:       dummyAuthID,
 				DeviceId: dummyDevID,
@@ -1202,7 +1202,7 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 			outErr:      "db update device auth set error: failed to update device",
 		},
 		{
-			dbLimit: &model.Limit{Value: 0},
+			dbLimit: &model.Limit{Value: model.LimitUnlimited},
 			aset: &model.AuthSet{
 				Id:       dummyAuthID,
 				DeviceId: dummyDevID,
@@ -1216,7 +1216,7 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 			outErr:                        "submit device provisioning job error: workflows failed",
 		},
 		{
-			dbLimit: &model.Limit{Value: 0},
+			dbLimit: &model.Limit{Value: model.LimitUnlimited},
 			aset: &model.AuthSet{
 				Id:       dummyAuthID,
 				DeviceId: dummyDevID,
@@ -1229,7 +1229,7 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 			dbUpdateRevokeAuthSetsErr: store.ErrAuthSetNotFound,
 		},
 		{
-			dbLimit: &model.Limit{Value: 0},
+			dbLimit: &model.Limit{Value: model.LimitUnlimited},
 			aset: &model.AuthSet{
 				Id:       dummyAuthID,
 				DeviceId: dummyDevID,
@@ -2579,7 +2579,7 @@ func TestDevAuthGetLimit(t *testing.T) {
 			dbLimit: nil,
 			dbErr:   store.ErrLimitNotFound,
 
-			outLimit: &model.Limit{Name: "other_limit", Value: 0},
+			outLimit: &model.Limit{Name: "other_limit", Value: model.LimitUnlimited},
 			outErr:   nil,
 		},
 		"generic error": {
@@ -2649,7 +2649,7 @@ func TestDevAuthGetTenantLimit(t *testing.T) {
 			dbLimit: nil,
 			dbErr:   store.ErrLimitNotFound,
 
-			outLimit: &model.Limit{Name: "max_devices", Value: 0},
+			outLimit: &model.Limit{Name: "max_devices", Value: model.LimitUnlimited},
 			outErr:   nil,
 		},
 		"generic error": {

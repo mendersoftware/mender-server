@@ -1310,7 +1310,7 @@ func (d *DevAuth) GetLimit(ctx context.Context, name string) (*model.Limit, erro
 		limit, err = d.db.GetLimit(ctx, name)
 		if err != nil {
 			if errors.Is(err, store.ErrLimitNotFound) {
-				limit = &model.Limit{Name: name, Value: 0}
+				limit = &model.Limit{Name: name, Value: model.LimitUnlimited}
 				err = nil
 			} else {
 				return nil, err
@@ -1412,7 +1412,7 @@ func (d *DevAuth) canAcceptDevice(ctx context.Context) (bool, error) {
 		return false, errors.Wrap(err, "can't get current device limit")
 	}
 
-	if limit.Value == 0 {
+	if limit.IsUnlimited() {
 		return true, nil
 	}
 
@@ -1421,7 +1421,7 @@ func (d *DevAuth) canAcceptDevice(ctx context.Context) (bool, error) {
 		return false, errors.Wrap(err, "can't get current device count")
 	}
 
-	if uint64(accepted+1) <= limit.Value {
+	if int64(accepted+1) <= limit.Value {
 		return true, nil
 	}
 

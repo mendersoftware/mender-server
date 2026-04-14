@@ -37,6 +37,8 @@ import os
 
 DEFAULT_AUTH = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibWVuZGVyLnBsYW4iOiJlbnRlcnByaXNlIn0.s27fi93Qik81WyBmDB5APE0DfGko7Pq8BImbp33-gy4"
 
+LIMIT_UNLIMITED = -1
+
 
 def get_keypair():
     private = rsa.generate_private_key(65537, 1024, default_backend())

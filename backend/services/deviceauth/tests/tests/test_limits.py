@@ -19,6 +19,7 @@ from common import (
     mongo,
     management_api,
     internal_api,
+    LIMIT_UNLIMITED
 )
 
 
@@ -28,7 +29,7 @@ class TestLimits:
         limit = internal_api.get_max_devices_limit(
             "cd280942-852f-4527-9aba-746ee110a845"
         )
-        assert limit.limit == 0
+        assert limit.limit == LIMIT_UNLIMITED
 
     def test_put_limit(self, internal_api):
         max_devs = 100
@@ -46,7 +47,7 @@ class TestLimits:
         internal_api.put_max_devices_limit("foo", max_devs)
 
         limit = internal_api.get_max_devices_limit("bar")
-        assert limit.limit == 0
+        assert limit.limit == LIMIT_UNLIMITED
 
     def test_put_limit_malformed_limit(self, internal_api):
         try:

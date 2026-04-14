@@ -124,7 +124,7 @@ func (rl *RedisCache) keyLimit(tenantID, name string) string {
 	if tenantID == "" {
 		tenantID = "default"
 	}
-	return fmt.Sprintf("%s:tenant:%s:limit:%s", rl.prefix, tenantID, name)
+	return fmt.Sprintf("%s:tenant:%s:limit:v2:%s", rl.prefix, tenantID, name)
 }
 
 func (rl *RedisCache) GetLimit(ctx context.Context, name string) (*model.Limit, error) {
@@ -141,7 +141,7 @@ func (rl *RedisCache) GetLimit(ctx context.Context, name string) (*model.Limit, 
 		return nil, err
 	}
 
-	value, err := cmd.Uint64()
+	value, err := cmd.Int64()
 	if err != nil {
 		return nil, err
 	}

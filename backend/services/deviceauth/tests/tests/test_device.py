@@ -28,6 +28,7 @@ from common import (
     management_api,
     internal_api,
     device_api,
+    LIMIT_UNLIMITED
 )
 from mender_client import ApiException
 
@@ -142,7 +143,7 @@ class TestDevice:
     def test_get_device_limit(self, management_api):
         limit = management_api.get_device_limit()
         print("limit:", limit)
-        assert limit.limit == 0
+        assert limit.limit == LIMIT_UNLIMITED
 
     def test_get_single_device_none(self, management_api):
         try:
