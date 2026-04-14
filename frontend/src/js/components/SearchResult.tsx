@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Close as CloseIcon } from '@mui/icons-material';
 // material ui
-import { ClickAwayListener, Drawer, IconButton, Typography } from '@mui/material';
+import { Drawer, IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ALL_DEVICE_STATES, DEVICE_STATES, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
@@ -105,40 +105,38 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
   };
 
   return (
-    <ClickAwayListener onClickAway={onToggleSearchResult}>
-      <Drawer
-        anchor="top"
-        classes={classes}
-        disableAutoFocus
-        disableEnforceFocus
-        disableRestoreFocus
-        open={open}
-        ModalProps={{ className: classes.drawerOffset, BackdropProps: { className: classes.drawerOffset } }}
-        slotProps={{ paper: { className: `${classes.drawerOffset} ${classes.paper}` }, transition: { direction: 'left' } }}
-      >
-        <div className="flexbox align-items-center margin-bottom-small space-between">
-          <ResultTitle term={searchTerm} total={searchTotal} />
-          <IconButton onClick={onToggleSearchResult} aria-label="close" size="large">
-            <CloseIcon />
-          </IconButton>
-        </div>
-        {!!searchTotal && (
-          <Devicelist
-            columnHeaders={columnHeaders}
-            customColumnSizes={customColumnSizes}
-            deviceListState={{ total: searchTotal, page, perPage: 10, sort: {} }}
-            devices={devices}
-            idAttribute={idAttribute}
-            onSort={onSortChange}
-            PaginationProps={{ rowsPerPageOptions: [10] }}
-            pageTotal={searchTotal}
-            onPageChange={handlePageChange}
-            pageLoading={isSearching}
-            onExpandClick={onDeviceSelect}
-          />
-        )}
-      </Drawer>
-    </ClickAwayListener>
+    <Drawer
+      anchor="top"
+      classes={classes}
+      disableAutoFocus
+      disableEnforceFocus
+      disableRestoreFocus
+      open={open}
+      ModalProps={{ className: classes.drawerOffset, BackdropProps: { className: classes.drawerOffset } }}
+      slotProps={{ paper: { className: `${classes.drawerOffset} ${classes.paper}` }, transition: { direction: 'left' } }}
+    >
+      <div className="flexbox align-items-center margin-bottom-small space-between">
+        <ResultTitle term={searchTerm} total={searchTotal} />
+        <IconButton onClick={onToggleSearchResult} aria-label="close" size="large">
+          <CloseIcon />
+        </IconButton>
+      </div>
+      {!!searchTotal && (
+        <Devicelist
+          columnHeaders={columnHeaders}
+          customColumnSizes={customColumnSizes}
+          deviceListState={{ total: searchTotal, page, perPage: 10, sort: {} }}
+          devices={devices}
+          idAttribute={idAttribute}
+          onSort={onSortChange}
+          PaginationProps={{ rowsPerPageOptions: [10] }}
+          pageTotal={searchTotal}
+          onPageChange={handlePageChange}
+          pageLoading={isSearching}
+          onExpandClick={onDeviceSelect}
+        />
+      )}
+    </Drawer>
   );
 };
 
