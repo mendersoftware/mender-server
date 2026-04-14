@@ -53,7 +53,8 @@ export const ControlledSearch = ({
   onSearch,
   placeholder = 'Search devices',
   style = {},
-  clearButtonOnHover = false
+  clearButtonOnHover = false,
+  searchClassName = ''
 }) => {
   const { control, watch, resetField } = useFormContext();
   const inputRef = useRef();
