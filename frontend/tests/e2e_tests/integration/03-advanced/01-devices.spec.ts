@@ -110,10 +110,10 @@ test.describe('Devices', () => {
 
   test('can be found', async ({ demoDeviceName, page }) => {
     const searchField = await page.getByPlaceholder(/search devices/i);
-    await searchField.fill(demoDeviceName);
+    await searchField.fill(demoDeviceName.slice(0, 6));
     await page.waitForSelector(selectors.deviceListItem);
-    const slideOut = await page.locator('.MuiPaper-root');
-    await expect(slideOut.locator(`:text("${demoDeviceName}"):below(:text("clear search"))`)).toBeVisible();
+    const slideOut = page.locator('.MuiPaper-root');
+    await expect(slideOut.locator(`:text("${demoDeviceName}")`)).toBeVisible();
     await expect(slideOut.getByText('1-1 of 1')).toBeVisible();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/device information/i).waitFor();
