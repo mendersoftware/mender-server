@@ -75,20 +75,15 @@ exports[`SearchResult Component > renders correctly 1`] = `
   max-width: 100vw;
   min-height: 20vh;
   box-shadow: none;
-  top: 57px;
-  left: 200px;
-  max-width: 100vw;
-  min-height: 20vh;
-  box-shadow: none;
 }
 
 .emotion-3 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  letter-spacing: 0.0075em;
 }
 
 .emotion-4 {
@@ -222,18 +217,12 @@ exports[`SearchResult Component > renders correctly 1`] = `
       >
         <div
           class="flexbox centered"
-          style="width: calc(100% - 500px);"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body2 info emotion-3"
+          <h6
+            class="MuiTypography-root MuiTypography-h6 emotion-3"
           >
             No devices found for "something"
-          </p>
-          <a
-            class="margin-left-large"
-          >
-            clear search
-          </a>
+          </h6>
         </div>
         <button
           aria-label="close"
