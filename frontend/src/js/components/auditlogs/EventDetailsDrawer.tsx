@@ -11,18 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Divider, Drawer } from '@mui/material';
-
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 
 export const EventDetailsDrawer = ({ eventItem = {}, onClose, open, mapChangeToContent, fallbackComponent }) => {
   const { title, content: Component } = mapChangeToContent(eventItem, fallbackComponent);
   return (
-    <Drawer className={`${open ? 'fadeIn' : 'fadeOut'}`} anchor="right" open={open} onClose={onClose}>
-      <DrawerTitle title={<div className="capitalized-start">{title}</div>} onClose={onClose} />
-      <Divider className="margin-bottom" />
+    <BaseDrawer open={open} onClose={onClose} slotProps={{ header: { title } }}>
       <Component item={eventItem} onClose={onClose} />
-    </Drawer>
+    </BaseDrawer>
   );
 };
 

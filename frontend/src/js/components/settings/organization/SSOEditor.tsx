@@ -16,10 +16,10 @@ import Dropzone from 'react-dropzone';
 
 // material ui
 import { CloudUpload, FileCopyOutlined as CopyPasteIcon } from '@mui/icons-material';
-import { Button, Divider, Drawer, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { CodeEditor } from '@northern.tech/common-ui/CodeEditor';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { JSON_METADATA_FORMAT, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
 import { createFileDownload } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
@@ -98,28 +98,27 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
   };
 
   return (
-    <Drawer
-      className={`${open ? 'fadeIn' : 'fadeOut'}`}
-      anchor="right"
+    <BaseDrawer
       open={open}
       onClose={onClose}
-      PaperProps={{ style: { minWidth: '75vw', display: 'flex', flexDirection: 'column' } }}
-    >
-      <DrawerTitle
-        title={`${ssoItem.title} metadata`}
-        preCloser={
-          <Dropzone multiple={false} onDrop={onDrop}>
-            {({ getRootProps, getInputProps }) => (
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                <Button startIcon={<CloudUpload fontSize="small" />}>Import from a file</Button>
-              </div>
-            )}
-          </Dropzone>
+      size="xl"
+      slotProps={{
+        paper: { style: { display: 'flex', flexDirection: 'column' } },
+        header: {
+          title: `${ssoItem.title} metadata`,
+          preCloser: (
+            <Dropzone multiple={false} onDrop={onDrop}>
+              {({ getRootProps, getInputProps }) => (
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <Button startIcon={<CloudUpload fontSize="small" />}>Import from a file</Button>
+                </div>
+              )}
+            </Dropzone>
+          )
         }
-        onClose={onClose}
-      />
-      <Divider />
+      }}
+    >
       <CodeEditor
         className="full-height"
         language={ssoItem.editorLanguage}
@@ -151,7 +150,7 @@ export const SSOEditor = ({ ssoItem, config, fileContent, hasSSOConfig, open, on
           </>
         )}
       </div>
-    </Drawer>
+    </BaseDrawer>
   );
 };
 

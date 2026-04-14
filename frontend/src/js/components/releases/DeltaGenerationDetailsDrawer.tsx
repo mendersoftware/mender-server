@@ -16,12 +16,12 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Launch as LaunchIcon } from '@mui/icons-material';
-import { Alert, Divider, Drawer, LinearProgress, tableCellClasses } from '@mui/material';
+import { Alert, LinearProgress, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { Code } from '@northern.tech/common-ui/CopyCode';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import Loader from '@northern.tech/common-ui/Loader';
@@ -237,18 +237,21 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
   };
 
   return (
-    <Drawer anchor="right" open={open} onClose={onClose}>
-      <DrawerTitle
-        title={
-          <>
-            Delta Artifact information
-            <div className="margin-left-small margin-right-small">ID: {jobId}</div>
-          </>
+    <BaseDrawer
+      open={open}
+      onClose={onClose}
+      slotProps={{
+        header: {
+          title: (
+            <>
+              Delta Artifact information
+              <div className="margin-left-small margin-right-small">ID: {jobId}</div>
+            </>
+          ),
+          onLinkCopy: copyLinkToClipboard
         }
-        onClose={onClose}
-        onLinkCopy={copyLinkToClipboard}
-      />
-      <Divider />
+      }}
+    >
       <div className={classes.detailsContainer}>
         {error && (
           <Alert severity="error" className="margin-bottom">
@@ -271,7 +274,7 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
           </>
         )}
       </div>
-    </Drawer>
+    </BaseDrawer>
   );
 };
 

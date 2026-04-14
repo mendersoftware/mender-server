@@ -16,11 +16,11 @@ import { useFormState, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 // material ui
-import { Divider, Drawer, buttonClasses } from '@mui/material';
+import { buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import InfoHint, { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Form from '@northern.tech/common-ui/forms/Form';
@@ -125,9 +125,12 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
   );
 
   return (
-    <Drawer anchor="right" open PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
-      <DrawerTitle title="Webhook details" postTitle={<MenderHelpTooltip className="margin-left-small" id={HELPTOOLTIPS.webhooks.id} />} onClose={onCancel} />
-      <Divider />
+    <BaseDrawer
+      open
+      onClose={onCancel}
+      size="md"
+      slotProps={{ header: { title: 'Webhook details', postTitle: <MenderHelpTooltip className="margin-left-small" id={HELPTOOLTIPS.webhooks.id} /> } }}
+    >
       <Form
         className={classes.formWrapper}
         classes={classes}
@@ -150,7 +153,7 @@ const WebhookConfiguration = ({ onCancel, onSubmit }: { onCancel: () => void; on
           </InfoHintContainer>
         </div>
       </Form>
-    </Drawer>
+    </BaseDrawer>
   );
 };
 

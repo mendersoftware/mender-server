@@ -22,8 +22,6 @@ import {
   AccordionSummary,
   Button,
   Checkbox,
-  Divider,
-  Drawer,
   FormControlLabel,
   FormGroup,
   Typography,
@@ -32,8 +30,8 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import Confirm from '@northern.tech/common-ui/Confirm';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getDeviceCountsByStatus,
@@ -265,9 +263,7 @@ export const CreateDeployment = props => {
   };
   const hasReleases = !!Object.keys(releasesById).length;
   return (
-    <Drawer anchor="right" open={open} onClose={closeWizard} PaperProps={{ style: { minWidth: '50vw' } }}>
-      <DrawerTitle title="Create a deployment" onClose={closeWizard} />
-      <Divider className="margin-bottom" />
+    <BaseDrawer open={open} onClose={closeWizard} size="sm" slotProps={{ header: { title: 'Create a deployment' } }}>
       <FormGroup>
         {!hasReleases ? (
           <ReleasesWarning />
@@ -330,7 +326,7 @@ export const CreateDeployment = props => {
         releases={releases}
         hasDevices={hasDevices}
       />
-    </Drawer>
+    </BaseDrawer>
   );
 };
 

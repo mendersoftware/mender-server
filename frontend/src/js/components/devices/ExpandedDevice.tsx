@@ -15,12 +15,12 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Chip, Divider, Drawer, Tab, Tabs, chipClasses } from '@mui/material';
+import { Chip, Tab, Tabs, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
@@ -73,10 +73,6 @@ const useStyles = makeStyles()(theme => ({
   },
   deviceConnection: {
     marginRight: theme.spacing(2)
-  },
-  dividerTop: {
-    marginBottom: theme.spacing(3),
-    marginTop: theme.spacing(2)
   }
 }));
 
@@ -277,26 +273,31 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
     userCapabilities
   };
   return (
-    <Drawer anchor="right" className="expandedDevice" open={!!deviceId} onClose={onCloseClick} PaperProps={{ style: { minWidth: '67vw' } }}>
-      <DrawerTitle
-        title={<>Device information for {<DeviceIdentityDisplay device={device} isEditable={false} hasAdornment={false} style={{ marginLeft: 4 }} />}</>}
-        onLinkCopy={copyLinkToClipboard}
-        preCloser={
-          <>
-            {isGateway && <GatewayNotification device={device} onClick={() => scrollToDeviceSystem()} />}
-            {!!gatewayIds.length && (
-              <GatewayConnectionNotification gatewayDevices={gatewayIds.map(gatewayId => devicesById[gatewayId])} onClick={scrollToDeviceSystem} />
-            )}
-            <div className={`${isOffline ? 'red' : 'muted'} margin-left margin-right flexbox`}>
-              <div className="margin-right-small">Latest activity:</div>
-              <RelativeTime updateTime={device.check_in_time} />
-            </div>
-          </>
+    <BaseDrawer
+      className="expandedDevice"
+      open={!!deviceId}
+      onClose={onCloseClick}
+      size="lg"
+      slotProps={{
+        header: {
+          title: <>Device information for {<DeviceIdentityDisplay device={device} isEditable={false} hasAdornment={false} style={{ marginLeft: 4 }} />}</>,
+          onLinkCopy: copyLinkToClipboard,
+          preCloser: (
+            <>
+              {isGateway && <GatewayNotification device={device} onClick={() => scrollToDeviceSystem()} />}
+              {!!gatewayIds.length && (
+                <GatewayConnectionNotification gatewayDevices={gatewayIds.map(gatewayId => devicesById[gatewayId])} onClick={scrollToDeviceSystem} />
+              )}
+              <div className={`${isOffline ? 'red' : 'muted'} margin-left margin-right flexbox`}>
+                <div className="margin-right-small">Latest activity:</div>
+                <RelativeTime updateTime={device.check_in_time} />
+              </div>
+            </>
+          )
         }
-        onClose={onCloseClick}
-      />
-      <DeviceNotifications alerts={latestAlerts} device={device} onClick={scrollToMonitor} />
-      <Divider className={classes.dividerTop} />
+      }}
+      notification={<DeviceNotifications alerts={latestAlerts} device={device} onClick={scrollToMonitor} />}
+    >
       <Tabs value={selectedTab} onChange={(e, tab) => setDetailsTab(tab)} textColor="primary">
         {availableTabs.map(item => (
           <Tab key={item.value} label={item.title({ integrations })} value={item.value} />
@@ -304,7 +305,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
       </Tabs>
       <SelectedTab {...commonProps} />
       <DeviceQuickActions actionCallbacks={actionCallbacks} deviceId={device.id} selectedGroup={selectedStaticGroup} />
-    </Drawer>
+    </BaseDrawer>
   );
 };
 

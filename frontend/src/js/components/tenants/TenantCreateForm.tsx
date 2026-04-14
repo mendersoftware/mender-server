@@ -17,10 +17,10 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
-import { Alert, Checkbox, Divider, Drawer, FormControlLabel, FormHelperText, Typography } from '@mui/material';
+import { Alert, Checkbox, FormControlLabel, FormHelperText, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
@@ -251,9 +251,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
   );
 
   return (
-    <Drawer open={open} onClose={onCloseClick} anchor="right" PaperProps={{ style: { minWidth: '67vw' } }}>
-      <DrawerTitle title="Create a tenant" onClose={onCloseClick} />
-      <Divider className="margin-bottom-large" />
+    <BaseDrawer open={open} onClose={onCloseClick} size="lg" slotProps={{ header: { title: 'Create a tenant' } }}>
       <Form
         initialValues={formInitialValues}
         classes={classes}
@@ -303,6 +301,6 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
           </div>
         )}
       </Form>
-    </Drawer>
+    </BaseDrawer>
   );
 };

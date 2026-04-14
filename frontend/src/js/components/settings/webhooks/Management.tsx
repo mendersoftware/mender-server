@@ -16,11 +16,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
 import { Circle as CircleIcon } from '@mui/icons-material';
-import { Button, Divider, Drawer, Slide } from '@mui/material';
+import { Button, Slide } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Time from '@northern.tech/common-ui/Time';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -121,17 +121,21 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
   };
 
   return (
-    <Drawer anchor="right" open={!!webhook?.id} PaperProps={{ style: { minWidth: 750, width: '60vw' } }} onClose={onCancelClick}>
-      <DrawerTitle
-        title="Webhook details"
-        preCloser={
-          <Button className={selectedEvent ? 'muted' : ''} color="secondary" disabled={!!selectedEvent} onClick={() => onRemove(webhook)}>
-            delete webhook
-          </Button>
+    <BaseDrawer
+      open={!!webhook?.id}
+      onClose={onCancelClick}
+      size="lg"
+      slotProps={{
+        header: {
+          title: 'Webhook details',
+          preCloser: (
+            <Button className={selectedEvent ? 'muted' : ''} color="secondary" disabled={!!selectedEvent} onClick={() => onRemove(webhook)}>
+              delete webhook
+            </Button>
+          )
         }
-        onClose={onCancelClick}
-      />
-      <Divider />
+      }}
+    >
       <div className="relative" ref={containerRef}>
         <Slide in={!selectedEvent} container={containerRef.current} direction="right">
           <div className="absolute margin-top full-width" style={{ top: 0 }}>
@@ -162,7 +166,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
           </div>
         </Slide>
       </div>
-    </Drawer>
+    </BaseDrawer>
   );
 };
 
