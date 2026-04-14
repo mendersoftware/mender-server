@@ -109,6 +109,7 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
       <Drawer
         anchor="top"
         classes={classes}
+        disableAutoFocus
         disableEnforceFocus
         disableRestoreFocus
         open={open}
