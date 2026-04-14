@@ -219,7 +219,7 @@ type ReleaseBase struct {
 	Modified *time.Time  `json:"modified,omitempty" bson:"modified,omitempty"`
 	Tags     Tags        `json:"tags" bson:"tags,omitempty"`
 	Notes    Notes       `json:"notes" bson:"notes,omitempty"`
-	Kind     ReleaseKind `json:"kind" bson:"kind,omitempty"`
+	Kind     ReleaseKind `json:"-" bson:"kind,omitempty"`
 }
 
 func (release ReleaseBase) Validate() error {
