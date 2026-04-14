@@ -3,11 +3,22 @@
 exports[`LeftNav Component > renders correctly 1`] = `
 .emotion-0 {
   background-color: rgb(234, 234, 234);
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  position: relative;
 }
 
 .emotion-0 .MuiList-root {
   padding-top: 0;
+}
+
+.emotion-0::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.12);
+  z-index: 1;
 }
 
 .emotion-1 {
@@ -43,6 +54,14 @@ exports[`LeftNav Component > renders correctly 1`] = `
   padding-left: 16px;
   padding-right: 16px;
   padding: 28px;
+  padding-left: 40px;
+  color: rgba(0, 0, 0, 0.87);
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.emotion-2:hover {
+  background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
 }
 
@@ -50,6 +69,8 @@ exports[`LeftNav Component > renders correctly 1`] = `
   background-color: #fff;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 2;
 }
 
 .emotion-3 {
@@ -86,6 +107,8 @@ exports[`LeftNav Component > renders correctly 1`] = `
   padding-top: 8px;
   padding-bottom: 8px;
   gap: 8px;
+  padding-left: 40px;
+  padding-right: 16px;
 }
 
 .emotion-18 {
@@ -109,7 +132,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
   >
     <a
       aria-current="page"
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2 active"
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2 active"
       data-discover="true"
       href="/"
     >
@@ -124,7 +147,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
       </div>
     </a>
     <a
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2"
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
       data-discover="true"
       href="/devices"
     >
@@ -139,7 +162,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
       </div>
     </a>
     <a
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2"
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
       data-discover="true"
       href="/software"
     >
@@ -154,7 +177,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
       </div>
     </a>
     <a
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2"
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
       data-discover="true"
       href="/deployments"
     >
@@ -169,7 +192,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
       </div>
     </a>
     <a
-      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav padding-left-large emotion-2"
+      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding navLink leftNav emotion-2"
       data-discover="true"
       href="/auditlog"
     >
@@ -185,7 +208,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
     </a>
   </ul>
   <ul
-    class="MuiList-root MuiList-padding flexbox column padding-left-large padding-bottom emotion-17"
+    class="MuiList-root MuiList-padding flexbox column padding-bottom emotion-17"
   >
     <a
       class=""
