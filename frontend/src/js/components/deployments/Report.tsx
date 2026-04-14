@@ -66,7 +66,7 @@ export const DeploymentAbortButton = ({ deployment, setAborting }) => (
     title="Devices that have not yet started the deployment will not start the deployment.&#10;Devices that have already completed the deployment are not affected by the abort.&#10;Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
     placement="bottom"
   >
-    <Button color="secondary" startIcon={<BlockIcon fontSize="small" />} onClick={() => setAborting(true)}>
+    <Button color="error" startIcon={<BlockIcon />} onClick={() => setAborting(true)} variant="outlined">
       {deployment.filters?.length ? 'Stop' : 'Abort'} deployment
     </Button>
   </Tooltip>
@@ -270,7 +270,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
               title="This will create a new deployment with the same device group and Release.&#10;Devices with this Release already installed will be skipped, all others will be updated."
               placement="bottom"
             >
-              <Button startIcon={<RefreshIcon fontSize="small" />} onClick={() => retry(deployment, Object.keys(devices))}>
+              <Button startIcon={<RefreshIcon fontSize="small" />} onClick={() => retry(deployment, Object.keys(devices))} variant="outlined">
                 Recreate deployment?
               </Button>
             </Tooltip>

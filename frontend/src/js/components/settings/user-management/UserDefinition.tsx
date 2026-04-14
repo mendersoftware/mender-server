@@ -154,8 +154,8 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         header: {
           title: 'Edit user',
           preCloser: currentUser.id !== id && (
-            <Button className={`flexbox align-items-center ${classes.leftButton}`} color="secondary" onClick={onRemoveClick}>
-              delete user
+            <Button className={`flexbox align-items-center ${classes.leftButton}`} color="error" onClick={onRemoveClick} variant="outlined">
+              Delete user
             </Button>
           )
         }

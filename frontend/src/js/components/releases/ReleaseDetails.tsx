@@ -383,10 +383,12 @@ export const ReleaseDetails = () => {
           ),
           onLinkCopy: copyLinkToClipboard,
           preCloser: (
-            <div className="muted margin-right flexbox">
-              <div className="margin-right-small">Last modified:</div>
+            <>
+              <Typography className="margin-right-x-small" variant="body2">
+                Last modified:
+              </Typography>
               <RelativeTime updateTime={release.modified} />
-            </div>
+            </>
           )
         }
       }}

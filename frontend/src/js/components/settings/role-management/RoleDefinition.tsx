@@ -346,11 +346,12 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
           preCloser: editing && !rolesById[selectedRole.value] && (
             <Button
               className={`flexbox align-items-center ${classes.roleDeletion}`}
-              color="secondary"
+              color="error"
               disabled={!!rolesById[selectedRole.value]}
               onClick={onToggleRemoveDialog}
+              variant="outlined"
             >
-              delete role
+              Delete role
             </Button>
           )
         }

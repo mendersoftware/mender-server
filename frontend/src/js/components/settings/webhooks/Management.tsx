@@ -129,8 +129,8 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
         header: {
           title: 'Webhook details',
           preCloser: (
-            <Button className={selectedEvent ? 'muted' : ''} color="secondary" disabled={!!selectedEvent} onClick={() => onRemove(webhook)}>
-              delete webhook
+            <Button className={selectedEvent ? 'muted' : ''} color="error" disabled={!!selectedEvent} onClick={() => onRemove(webhook)} variant="outlined">
+              Delete webhook
             </Button>
           )
         }
