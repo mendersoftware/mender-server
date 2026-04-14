@@ -41,23 +41,11 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-const leftNavOffset = 500;
-const ResultTitle = ({ onClick, term, total }) => {
+const ResultTitle = ({ term, total }) => {
   const content = `${total ? total : 'No'} ${pluralize('device', total)} found for "${term}"`;
-  let props = { className: 'bold' };
-  let style = {};
-  if (!total) {
-    props = { className: 'info' };
-    style = { width: `calc(100% - ${leftNavOffset}px)` };
-  }
   return (
-    <div className={`flexbox ${total ? 'align-items-center' : 'centered'}`} style={style}>
-      <Typography variant="body2" {...props}>
-        {content}
-      </Typography>
-      <a className="margin-left-large" onClick={onClick}>
-        clear search
-      </a>
+    <div className={`flexbox ${total ? 'align-items-center' : 'centered'}`}>
+      <Typography variant="h6">{content}</Typography>
     </div>
   );
 };
@@ -116,11 +104,6 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
     dispatch(setSearchState({ page: 1, sort: { direction: changedSortDown, key: changedSortCol, scope: attribute.scope } }));
   };
 
-  const onClearClick = () => {
-    dispatch(setSearchState({ searchTerm: '' }));
-    onToggleSearchResult();
-  };
-
   return (
     <ClickAwayListener onClickAway={onToggleSearchResult}>
       <Drawer
@@ -130,11 +113,10 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
         disableRestoreFocus
         open={open}
         ModalProps={{ className: classes.drawerOffset, BackdropProps: { className: classes.drawerOffset } }}
-        PaperProps={{ className: `${classes.drawerOffset} ${classes.paper}` }}
-        SlideProps={{ direction: 'left' }}
+        slotProps={{ paper: { className: `${classes.drawerOffset} ${classes.paper}` }, transition: { direction: 'left' } }}
       >
         <div className="flexbox align-items-center margin-bottom-small space-between">
-          <ResultTitle onClick={onClearClick} term={searchTerm} total={searchTotal} />
+          <ResultTitle term={searchTerm} total={searchTotal} />
           <IconButton onClick={onToggleSearchResult} aria-label="close" size="large">
             <CloseIcon />
           </IconButton>
