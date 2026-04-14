@@ -95,6 +95,7 @@ model_external_device.go
 model_features.go
 model_filter_attribute.go
 model_filter_predicate.go
+model_filter_predicate_value.go
 model_filter_v1.go
 model_filter_v2.go
 model_get_statistics_internal_200_response.go

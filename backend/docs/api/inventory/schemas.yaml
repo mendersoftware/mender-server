@@ -126,13 +126,10 @@ components:
           - $in
           - $nin
         value:
-          type: string
           description: |
             The value of the attribute to be used in filtering.
-
             Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
+            Supported types: number, string, boolean, array of numbers, array of strings.
             Mixed arrays are not allowed.
 
             The $exists operator expects a boolean value: true means the specified
@@ -143,6 +140,16 @@ components:
             the filter will produce no results. If you need to specify options and flags,
             you can provide the full regex in the format of /regex/flags, for example
             `/[a-z]+/i`.
+          oneOf:
+            - type: string
+            - type: number
+            - type: boolean
+            - type: array
+              items:
+                type: string
+            - type: array
+              items:
+                type: number
       description: Attribute filter predicate
       example:
         type: $eq

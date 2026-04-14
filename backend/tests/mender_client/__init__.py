@@ -117,6 +117,7 @@ __all__ = [
     "Features",
     "FilterAttribute",
     "FilterPredicate",
+    "FilterPredicateValue",
     "FilterV1",
     "FilterV2",
     "GetStatisticsInternal200Response",
@@ -285,6 +286,7 @@ from mender_client.models.external_device import ExternalDevice as ExternalDevic
 from mender_client.models.features import Features as Features
 from mender_client.models.filter_attribute import FilterAttribute as FilterAttribute
 from mender_client.models.filter_predicate import FilterPredicate as FilterPredicate
+from mender_client.models.filter_predicate_value import FilterPredicateValue as FilterPredicateValue
 from mender_client.models.filter_v1 import FilterV1 as FilterV1
 from mender_client.models.filter_v2 import FilterV2 as FilterV2
 from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response as GetStatisticsInternal200Response
