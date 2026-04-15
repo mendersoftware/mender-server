@@ -18,7 +18,7 @@ import { undefineds } from '@northern.tech/testing/mockData';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-import DeviceTwin, { Title, TwinError, TwinSyncStatus } from './DeviceTwin';
+import DeviceTwin, { TwinError, TwinSyncStatus } from './DeviceTwin';
 
 const mockStore = configureStore([thunk]);
 
@@ -43,7 +43,7 @@ describe('DeviceTwin Component', () => {
   });
 
   // ordered like this to trigger empty state + diff count state
-  [TwinSyncStatus, TwinSyncStatus, TwinSyncStatus, Title, TwinError].forEach((Component, index) => {
+  [TwinSyncStatus, TwinSyncStatus, TwinSyncStatus, TwinError].forEach((Component, index) => {
     it(`renders sub component ${Component.displayName || Component.name} correctly`, () => {
       const { baseElement } = render(
         <Provider store={store}>

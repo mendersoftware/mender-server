@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { Button, Typography } from '@mui/material';
 
 import { EditButton } from '@northern.tech/common-ui/Confirm';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks';
@@ -24,7 +25,6 @@ import { getDeviceAttributes, setDeviceTags } from '@northern.tech/store/thunks'
 import Tracking from '../../../tracking';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
-import DeviceDataCollapse from './DeviceDataCollapse';
 
 const NameTipComponent = props => <MenderHelpTooltip id={HELPTOOLTIPS.nameTagTip.id} {...props} />;
 
@@ -69,16 +69,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
   const isFullyDefined = Object.entries(changedTags).every(([key, value]) => !!key && !!value);
 
   return (
-    <DeviceDataCollapse
-      title={
-        <div className="two-columns">
-          <div className="flexbox align-items-center">
-            <h4 className="margin-right">Tags</h4>
-            {!isEditing && canWriteDevices && <EditButton onClick={onStartEdit} />}
-          </div>
-        </div>
-      }
-    >
+    <ContentSection postTitle={!isEditing && canWriteDevices && <EditButton onClick={onStartEdit} />} title="Tags">
       <div className="relative" style={{ maxWidth: 700 }}>
         {isEditing ? (
           <>
@@ -102,7 +93,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
           <Typography variant="subtitle2">No tags have been set for this device.</Typography>
         )}
       </div>
-    </DeviceDataCollapse>
+    </ContentSection>
   );
 };
 

@@ -19,6 +19,7 @@ import { Button, Table, TableBody, TableCell, TableHead, TableRow, buttonClasses
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
@@ -180,9 +181,8 @@ export const Deployments = ({ device }) => {
   const { deviceDeployments = [], deploymentsCount } = device;
 
   return (
-    <div className="margin-bottom">
-      <h4 className="margin-bottom-small">Deployments</h4>
-      <div className="flexbox margin-bottom-small" style={{ alignSelf: 'flex-start' }}>
+    <ContentSection className="margin-bottom" title="Deployments">
+      <div className="flexbox">
         <DeviceStateSelection className={classes.selection} onStateChange={onSelectStatus} selectedState={filters[0]} states={deploymentStates} />
       </div>
 
@@ -219,7 +219,7 @@ export const Deployments = ({ device }) => {
       {showsDeploymentLogForId && deployment && (
         <LogDialog canAi={canAi} deployment={deployment} deviceId={device.id} onClose={() => setShowsDeploymentLogForId('')} />
       )}
-    </div>
+    </ContentSection>
   );
 };
 

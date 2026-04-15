@@ -19,6 +19,7 @@ import { InfoOutlined as InfoIcon, Launch as LaunchIcon } from '@mui/icons-mater
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import Loader from '@northern.tech/common-ui/Loader';
@@ -42,7 +43,6 @@ import { createDownload } from '@northern.tech/utils/helpers';
 
 import FileTransfer from '../troubleshoot/FileTransfer';
 import TroubleshootContent from '../troubleshoot/TerminalWrapper';
-import DeviceDataCollapse from './DeviceDataCollapse';
 
 const { setSnackbar } = storeActions;
 
@@ -69,9 +69,10 @@ export const PortForwardLink = () => (
       </div>
     }
   >
-    <DocsLink className="flexbox centered margin-left" path="add-ons/port-forward">
-      Enable port forwarding
-      <LaunchIcon className="margin-left-small" fontSize="small" />
+    <DocsLink className="flexbox centered margin-left-x-small margin-right-x-small" path="add-ons/port-forward">
+      <Button variant="text" endIcon={<LaunchIcon />}>
+        Enable port forwarding
+      </Button>
     </DocsLink>
   </MenderTooltip>
 );
@@ -128,7 +129,7 @@ const tabs = {
   transfer: { title: 'File transfer', value: 'transfer', canShow: ({ canTroubleshoot }) => canTroubleshoot, Component: FileTransfer }
 };
 
-export const DeviceConnection = ({ className = '', device }) => {
+export const DeviceConnection = ({ device }) => {
   const [socketClosed, setSocketClosed] = useState();
   const [availableTabs, setAvailableTabs] = useState(Object.values(tabs));
   const [downloadPath, setDownloadPath] = useState('');
@@ -198,25 +199,24 @@ export const DeviceConnection = ({ className = '', device }) => {
   );
 
   return (
-    <DeviceDataCollapse
+    <ContentSection
       isAddOn
-      title={
-        <div className="flexbox align-items-center">
-          <h4>Troubleshooting</h4>
-          <div className={`flexbox ${className}`}>
-            {hasDeviceConnect && connectionStatus !== DEVICE_CONNECT_STATES.unknown && canTroubleshoot && tierEligible && <PortForwardLink />}
-            {hasDeviceConnect && canAuditlog && hasAuditlogs && (
-              <Link
-                className="flexbox align-items-center margin-left"
-                to={`/auditlog?${formatAuditlogs({ pageState: { type: deviceAuditlogType, detail: device.id, startDate: BEGINNING_OF_TIME } }, {})}`}
-              >
-                List all log entries for this device
-              </Link>
-            )}
-          </div>
-          <EnterpriseNotification className="margin-left-small" id={BENEFITS.deviceTroubleshoot.id} />
-        </div>
+      postTitle={
+        <>
+          {hasDeviceConnect && connectionStatus !== DEVICE_CONNECT_STATES.unknown && canTroubleshoot && tierEligible && <PortForwardLink />}
+          {hasDeviceConnect && canAuditlog && hasAuditlogs && (
+            <Button
+              component={Link}
+              variant="text"
+              to={`/auditlog?${formatAuditlogs({ pageState: { type: deviceAuditlogType, detail: device.id, startDate: BEGINNING_OF_TIME } }, {})}`}
+            >
+              List all log entries for this device
+            </Button>
+          )}
+          <EnterpriseNotification id={BENEFITS.deviceTroubleshoot.id} />
+        </>
       }
+      title="Troubleshooting"
     >
       {hasDeviceConnect &&
         (tierEligible ? (
@@ -257,7 +257,7 @@ export const DeviceConnection = ({ className = '', device }) => {
             </Typography>
           </div>
         ))}
-    </DeviceDataCollapse>
+    </ContentSection>
   );
 };
 

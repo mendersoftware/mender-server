@@ -16,11 +16,12 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { CheckCircleOutlined, CloudUploadOutlined as CloudUpload, Refresh as RefreshIcon } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DiffEditor } from '@monaco-editor/react';
 import { CodeEditor, defaultEditorOptions, useEditorStyles, useEditorTheme } from '@northern.tech/common-ui/CodeEditor';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
@@ -29,12 +30,8 @@ import { getDeviceTwin, setDeviceTwin } from '@northern.tech/store/thunks';
 import { deepCompare, isEmpty } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
-import DeviceDataCollapse from './DeviceDataCollapse';
-
 const useStyles = makeStyles()(theme => ({
   buttonSpacer: { marginLeft: theme.spacing(2) },
-  title: { alignItems: 'baseline' },
-  titleContainer: { width: '100%' },
   diffStatus: {
     minHeight: 75,
     display: 'grid',
@@ -47,9 +44,9 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 export const LastSyncNote = ({ updateTime }) => (
-  <div className="muted slightly-smaller" style={{ marginTop: 2 }}>
+  <Typography variant="body2">
     Last synced: <Time value={updateTime} />
-  </div>
+  </Typography>
 );
 
 const NoDiffStatus = () => {
@@ -92,21 +89,6 @@ export const TwinSyncStatus = ({ diffCount, providerTitle, twinError, updateTime
         between desired and reported configuration
       </div>
       <LastSyncNote updateTime={updateTime} />
-    </div>
-  );
-};
-
-export const Title = ({ providerTitle, twinTitle, updateTime }) => {
-  const { classes } = useStyles();
-  return (
-    <div className={`flexbox align-items-center space-between ${classes.titleContainer}`}>
-      <div className={`flexbox ${classes.title}`}>
-        <h4 className="margin-right">
-          {providerTitle} {twinTitle}
-        </h4>
-        <LastSyncNote updateTime={updateTime} />
-      </div>
-      <Link to="/settings/integrations">Integration settings</Link>
     </div>
   );
 };
@@ -207,19 +189,21 @@ export const DeviceTwin = ({ device, integration }) => {
   const widthStyle = { maxWidth: isSync ? maxWidth : 'initial' };
 
   return (
-    <DeviceDataCollapse
-      header={
-        <div className="flexbox column">
-          {initialized ? (
-            <TwinSyncStatus diffCount={diffCount} providerTitle={externalProvider.title} twinError={twinError} updateTime={updateTime} />
-          ) : (
-            <Loader show={!initialized} />
-          )}
-        </div>
+    <ContentSection
+      postTitle={
+        <>
+          <LastSyncNote updateTime={updateTime} />
+          <Link to="/settings/integrations">Integration settings</Link>
+        </>
       }
-      title={<Title providerTitle={externalProvider.title} twinTitle={externalProvider.twinTitle} updateTime={updateTime} />}
+      title={`${externalProvider.title} ${externalProvider.twinTitle}`}
     >
       <div className="flexbox column">
+        {initialized ? (
+          <TwinSyncStatus diffCount={diffCount} providerTitle={externalProvider.title} twinError={twinError} updateTime={updateTime} />
+        ) : (
+          <Loader show />
+        )}
         <div style={widthStyle}>
           {!initialized || (!(isEmpty(reported) && isEmpty(configured)) && !isSync) ? (
             <>
@@ -278,7 +262,7 @@ export const DeviceTwin = ({ device, integration }) => {
           </div>
         </div>
       </div>
-    </DeviceDataCollapse>
+    </ContentSection>
   );
 };
 

@@ -11,20 +11,19 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Typography } from '@mui/material';
+
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { InventoryTable } from '@northern.tech/common-ui/InventoryTable';
 import Time from '@northern.tech/common-ui/Time';
 import { extractSoftware } from '@northern.tech/utils/helpers';
 
-import DeviceDataCollapse from './DeviceDataCollapse';
 import DeviceInventoryLoader from './DeviceInventoryLoader';
 
-export const Title = ({ updateTime }) => (
-  <div className="flexbox" style={{ alignItems: 'baseline' }}>
-    <h4 className="margin-right">Device Inventory</h4>
-    <div className="muted slightly-smaller" style={{ marginTop: 2 }}>
-      Last changed: <Time value={updateTime} />
-    </div>
-  </div>
+export const LastChangedNote = ({ updateTime }) => (
+  <Typography variant="body2">
+    Last changed: <Time value={updateTime} />
+  </Typography>
 );
 
 export const DeviceInventory = ({ device, setSnackbar }) => {
@@ -38,9 +37,9 @@ export const DeviceInventory = ({ device, setSnackbar }) => {
 
   const waiting = !Object.values(attributes).some(i => i);
   return (
-    <DeviceDataCollapse header={null} title={<Title updateTime={updateTime} />}>
+    <ContentSection postTitle={<LastChangedNote updateTime={updateTime} />} title="Device Inventory">
       {waiting ? <DeviceInventoryLoader /> : <InventoryTable config={deviceInventory} setSnackbar={setSnackbar} />}
-    </DeviceDataCollapse>
+    </ContentSection>
   );
 };
 

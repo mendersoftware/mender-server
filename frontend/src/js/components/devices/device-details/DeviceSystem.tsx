@@ -18,6 +18,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -31,7 +32,6 @@ import { getHeaders } from '../AuthorizedDevices';
 import { routes } from '../BaseDevices';
 import Devicelist from '../DeviceList';
 import ConnectToGatewayDialog from '../dialogs/ConnectToGatewayDialog';
-import DeviceDataCollapse from './DeviceDataCollapse';
 
 const { setSnackbar } = storeActions;
 
@@ -82,17 +82,10 @@ export const DeviceSystem = ({ columnSelection, device, onConnectToGatewayClick,
 
   return (
     <>
-      <DeviceDataCollapse
-        title={
-          <div className="flexbox align-items-center">
-            <h4>Mender Gateway</h4>
-            <EnterpriseNotification className="margin-left-small" id={BENEFITS.gateway.id} />
-          </div>
-        }
-      >
+      <ContentSection postTitle={<EnterpriseNotification id={BENEFITS.gateway.id} />} title="Mender Gateway">
         <TwoColumnData data={{ 'Server IP': deviceIp }} setSnackbar={message => dispatch(setSnackbar(message))} />
-      </DeviceDataCollapse>
-      <DeviceDataCollapse className={classes.container} title="System for this gateway">
+      </ContentSection>
+      <ContentSection className={classes.container} title="System for this gateway">
         {systemDeviceTotal ? (
           <Devicelist
             customColumnSizes={[]}
@@ -119,7 +112,7 @@ export const DeviceSystem = ({ columnSelection, device, onConnectToGatewayClick,
             </div>
           </div>
         )}
-      </DeviceDataCollapse>
+      </ContentSection>
       <div className="flexbox">
         <Button color="secondary" component={Link} to={`/deployments?deviceId=${device.id}&open=true`}>
           Create deployment for this system

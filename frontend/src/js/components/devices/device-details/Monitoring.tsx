@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CheckCircle as CheckIcon, Error as ErrorIcon, Help as HelpIcon, Warning as WarningIcon } from '@mui/icons-material';
 
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import Pagination from '@northern.tech/common-ui/Pagination';
@@ -27,7 +28,6 @@ import { getDeviceAlerts } from '@northern.tech/store/thunks';
 
 import MonitorDetailsDialog from '../dialogs/MonitorDetailsDialog';
 import { DeviceConnectionNote } from './Connection';
-import DeviceDataCollapse from './DeviceDataCollapse';
 import { DeviceOfflineHeaderNotification, NoAlertsHeaderNotification } from './Notifications';
 
 const errorIcon = <ErrorIcon className="red" />;
@@ -103,29 +103,27 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
   const hasMonitorsDefined = !!(monitors.length || alerts.length || latestAlerts.length);
 
   return (
-    <DeviceDataCollapse
-      header={
-        hasMonitorsDefined || isOffline ? (
-          <>
-            {hasMonitorsDefined && !latestAlerts.length && <NoAlertsHeaderNotification />}
-            {latestAlerts.map(alert => (
-              <MonitoringAlert className="margin-bottom-x-small" alert={alert} key={alert.id} onDetailsClick={onDetailsClick} />
-            ))}
-            {isOffline && <DeviceOfflineHeaderNotification offlineThresholdSettings={offlineThresholdSettings} />}
-          </>
-        ) : (
-          hasMonitor && <DeviceMonitorsMissingNote />
-        )
-      }
+    <ContentSection
       isAddOn
-      title={
-        <div className="flexbox align-items-center">
-          <h4 className="margin-bottom-small margin-right">Monitoring</h4>
-          {!!monitors.length && <Time className="muted" value={updated_ts} />}
-          <EnterpriseNotification className="margin-left-small" id={BENEFITS.deviceMonitor.id} />
-        </div>
+      postTitle={
+        <>
+          {!!monitors.length && <Time value={updated_ts} />}
+          <EnterpriseNotification id={BENEFITS.deviceMonitor.id} />
+        </>
       }
+      title="Monitoring"
     >
+      {hasMonitorsDefined || isOffline ? (
+        <>
+          {hasMonitorsDefined && !latestAlerts.length && <NoAlertsHeaderNotification />}
+          {latestAlerts.map(alert => (
+            <MonitoringAlert className="margin-bottom-x-small" alert={alert} key={alert.id} onDetailsClick={onDetailsClick} />
+          ))}
+          {isOffline && <DeviceOfflineHeaderNotification offlineThresholdSettings={offlineThresholdSettings} />}
+        </>
+      ) : (
+        hasMonitor && <DeviceMonitorsMissingNote />
+      )}
       {alerts.length ? (
         <>
           <div>
@@ -154,7 +152,7 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
           </p>
         )
       )}
-    </DeviceDataCollapse>
+    </ContentSection>
   );
 };
 
