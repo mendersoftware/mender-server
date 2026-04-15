@@ -14,10 +14,10 @@
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Button, Divider, Drawer } from '@mui/material';
+import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import { Address } from '@northern.tech/store/api/types';
@@ -97,9 +97,12 @@ export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
   };
 
   return (
-    <Drawer anchor="right" open={true} PaperProps={{ style: { minWidth: '50vw' } }}>
-      <DrawerTitle title={selectedPlan ? `Subscribe to Mender ${selectedPlan.name}` : 'Edit billing details'} onClose={onCloseClick} />
-      <Divider className="margin-bottom" />
+    <BaseDrawer
+      open={true}
+      onClose={onCloseClick}
+      size="sm"
+      slotProps={{ header: { title: selectedPlan ? `Subscribe to Mender ${selectedPlan.name}` : 'Edit billing details' } }}
+    >
       {selectedPlan && (
         <div className="margin-bottom">
           Complete checkout to subscribe to <b>{selectedPlan.name}</b> at <b>{selectedPlan.price}</b>
@@ -134,6 +137,6 @@ export const PlanExpanded = (props: ProfileEditProps | PlanProps) => {
           </Button>
         </div>
       )}
-    </Drawer>
+    </BaseDrawer>
   );
 };

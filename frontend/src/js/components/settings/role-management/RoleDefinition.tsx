@@ -15,11 +15,11 @@ import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { FieldValues, UseFormSetValue, useFormContext } from 'react-hook-form';
 
 // material ui
-import { Button, Divider, Drawer, InputLabel } from '@mui/material';
+import { Button, Divider, InputLabel } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import {
@@ -336,25 +336,27 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
   const onToggleRemoveDialog = () => setRemoveDialog(toggle);
 
   return (
-    <Drawer anchor="right" open={adding || editing} onClose={onCancel} PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
-      <DrawerTitle
-        title={`${adding ? 'Add a' : 'Edit'} role`}
-        onClose={onCancel}
-        preCloser={
-          editing &&
-          !rolesById[selectedRole.value] && (
+    <BaseDrawer
+      open={adding || editing}
+      onClose={onCancel}
+      size="md"
+      slotProps={{
+        header: {
+          title: `${adding ? 'Add a' : 'Edit'} role`,
+          preCloser: editing && !rolesById[selectedRole.value] && (
             <Button
               className={`flexbox align-items-center ${classes.roleDeletion}`}
-              color="secondary"
+              color="error"
               disabled={!!rolesById[selectedRole.value]}
               onClick={onToggleRemoveDialog}
+              variant="outlined"
             >
-              delete role
+              Delete role
             </Button>
           )
         }
-      />
-      <Divider />
+      }}
+    >
       <Form
         className={classes.formWrapper}
         onSubmit={onSubmitClick}
@@ -380,7 +382,7 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
         close={onToggleRemoveDialog}
         onConfirm={onRemoveRole}
       />
-    </Drawer>
+    </BaseDrawer>
   );
 };
 

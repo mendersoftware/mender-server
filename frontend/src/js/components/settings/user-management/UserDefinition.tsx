@@ -14,11 +14,11 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 // material ui
-import { Button, Checkbox, Divider, Drawer, FormControl, FormControlLabel, FormHelperText, InputLabel, TextField, textFieldClasses } from '@mui/material';
+import { Button, Checkbox, Divider, FormControl, FormControlLabel, FormHelperText, InputLabel, TextField, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { ColumnWidthProvider, SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
@@ -146,19 +146,21 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
   const rolesClasses = isEnterprise ? '' : 'muted';
   return (
-    <Drawer anchor="right" onClose={onCancel} open={!!id} PaperProps={{ style: { minWidth: 600, width: '50vw' } }}>
-      <DrawerTitle
-        title="Edit user"
-        onClose={onCancel}
-        preCloser={
-          currentUser.id !== id && (
-            <Button className={`flexbox align-items-center ${classes.leftButton}`} color="secondary" onClick={onRemoveClick}>
-              delete user
+    <BaseDrawer
+      onClose={onCancel}
+      open={!!id}
+      size="md"
+      slotProps={{
+        header: {
+          title: 'Edit user',
+          preCloser: currentUser.id !== id && (
+            <Button className={`flexbox align-items-center ${classes.leftButton}`} color="error" onClick={onRemoveClick} variant="outlined">
+              Delete user
             </Button>
           )
         }
-      />
-      <Divider />
+      }}
+    >
       {userNotVerified && <EmailVerificationWarning className="margin-top-small" action="change another user’s email" />}
       <UserId className={classes.widthLimit} userId={id} />
       <FormControl className={classes.widthLimit}>
@@ -219,7 +221,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
           Save
         </Button>
       </div>
-    </Drawer>
+    </BaseDrawer>
   );
 };
 

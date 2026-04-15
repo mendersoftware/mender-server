@@ -16,11 +16,11 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { CheckCircleOutlined as CheckCircleOutlinedIcon, ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
-import { Alert, AlertTitle, Button, CircularProgress, Divider, Drawer, Typography, buttonClasses } from '@mui/material';
+import { Alert, AlertTitle, Button, CircularProgress, Typography, buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
@@ -168,9 +168,12 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
   );
   const cardDetailsDisabled = isTrial && isEmpty(billing);
   return (
-    <Drawer anchor="right" open={true} PaperProps={{ style: { minWidth: '50vw' } }}>
-      <DrawerTitle title={currentSubscription ? `Upgrade your subscription` : `Subscribe to Mender ${selectedPlan.name}`} onClose={onClose} />
-      <Divider className="margin-bottom-small" />
+    <BaseDrawer
+      open={true}
+      onClose={onClose}
+      size="sm"
+      slotProps={{ header: { title: currentSubscription ? `Upgrade your subscription` : `Subscribe to Mender ${selectedPlan.name}` } }}
+    >
       {selectedPlan && (
         <div className="margin-bottom-large">
           Complete checkout to subscribe to Mender <b>{selectedPlan.name}</b> at <b> {previewPrice ? formatPrice(previewPrice.total) : ''}</b>
@@ -296,6 +299,6 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
           </Typography>
         </Alert>
       )}
-    </Drawer>
+    </BaseDrawer>
   );
 };

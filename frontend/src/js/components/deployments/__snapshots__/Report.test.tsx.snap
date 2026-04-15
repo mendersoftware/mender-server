@@ -8,7 +8,7 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
     aria-hidden="true"
   />
   <div
-    class="MuiDrawer-root MuiDrawer-anchorRight MuiDrawer-modal MuiModal-root css-2soe65-MuiModal-root-MuiDrawer-root"
+    class="MuiDrawer-root MuiDrawer-anchorRight MuiDrawer-modal fadeIn MuiModal-root css-tzf2ry-MuiModal-root-MuiDrawer-root"
     role="presentation"
   >
     <div
@@ -24,99 +24,95 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight css-y7ab46-MuiPaper-root-MuiDrawer-paper"
       role="dialog"
-      style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12); min-width: 75vw;"
+      style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
       tabindex="-1"
     >
       <div
-        class="relative"
+        class="flexbox margin-bottom-small space-between relative"
       >
         <div
-          class="flexbox margin-bottom-small space-between"
+          class="flexbox align-items-center"
         >
           <div
-            class="flexbox align-items-center"
+            class="MuiTypography-root MuiTypography-subtitle1 capitalized-start flexbox align-items-center css-1i3tsf3-MuiTypography-root"
           >
-            <h3
-              class="capitalized-start flexbox align-items-center"
+            Deployment 
+            details
+            <div
+              class="margin-left-small margin-right-small"
             >
-              Deployment 
-              details
-              <div
-                class="margin-left-small margin-right-small"
-              >
-                ID: 
-                d1
-              </div>
-            </h3>
-            <button
-              aria-label="Copy link"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
-              data-mui-internal-clone-element="true"
-              tabindex="0"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                data-testid="LinkIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5"
-                />
-              </svg>
-            </button>
+              ID: 
+              d1
+            </div>
           </div>
-          <div
-            class="flexbox align-items-center relative"
+          <button
+            aria-label="Copy link"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+            data-mui-internal-clone-element="true"
+            tabindex="0"
+            type="button"
           >
-            <button
-              aria-label="Devices that have not yet started the deployment will not start the deployment.
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="LinkIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="flexbox align-items-center relative"
+        >
+          <button
+            aria-label="Devices that have not yet started the deployment will not start the deployment.
 Devices that have already completed the deployment are not affected by the abort.
 Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1xj59sp-MuiButtonBase-root-MuiButton-root"
-              data-mui-internal-clone-element="true"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-                  data-testid="BlockIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2M4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12m8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8"
-                  />
-                </svg>
-              </span>
-              Abort
-               deployment
-            </button>
-            <button
-              aria-label="close"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
-              tabindex="0"
-              type="button"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError css-1hz6i2n-MuiButtonBase-root-MuiButton-root"
+            data-mui-internal-clone-element="true"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
             >
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                data-testid="CloseIcon"
+                data-testid="BlockIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2M4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12m8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8"
                 />
               </svg>
-            </button>
-          </div>
+            </span>
+            Abort
+             deployment
+          </button>
+          <button
+            aria-label="close"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="CloseIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
       <div
@@ -146,7 +142,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth css-1jpc804-MuiDivider-root"
+        class="MuiDivider-root MuiDivider-fullWidth margin-top-x-small margin-bottom-small css-1jpc804-MuiDivider-root"
       />
       <div>
         <div
@@ -1040,7 +1036,7 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
     aria-hidden="true"
   />
   <div
-    class="MuiDrawer-root MuiDrawer-anchorRight MuiDrawer-modal MuiModal-root css-2soe65-MuiModal-root-MuiDrawer-root"
+    class="MuiDrawer-root MuiDrawer-anchorRight MuiDrawer-modal fadeIn MuiModal-root css-tzf2ry-MuiModal-root-MuiDrawer-root"
     role="presentation"
   >
     <div
@@ -1056,99 +1052,95 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight css-y7ab46-MuiPaper-root-MuiDrawer-paper"
       role="dialog"
-      style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12); min-width: 75vw;"
+      style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
       tabindex="-1"
     >
       <div
-        class="relative"
+        class="flexbox margin-bottom-small space-between relative"
       >
         <div
-          class="flexbox margin-bottom-small space-between"
+          class="flexbox align-items-center"
         >
           <div
-            class="flexbox align-items-center"
+            class="MuiTypography-root MuiTypography-subtitle1 capitalized-start flexbox align-items-center css-1i3tsf3-MuiTypography-root"
           >
-            <h3
-              class="capitalized-start flexbox align-items-center"
+            Deployment 
+            details
+            <div
+              class="margin-left-small margin-right-small"
             >
-              Deployment 
-              details
-              <div
-                class="margin-left-small margin-right-small"
-              >
-                ID: 
-                d3
-              </div>
-            </h3>
-            <button
-              aria-label="Copy link"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
-              data-mui-internal-clone-element="true"
-              tabindex="0"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                data-testid="LinkIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5"
-                />
-              </svg>
-            </button>
+              ID: 
+              d3
+            </div>
           </div>
-          <div
-            class="flexbox align-items-center relative"
+          <button
+            aria-label="Copy link"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+            data-mui-internal-clone-element="true"
+            tabindex="0"
+            type="button"
           >
-            <button
-              aria-label="Devices that have not yet started the deployment will not start the deployment.
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="LinkIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="flexbox align-items-center relative"
+        >
+          <button
+            aria-label="Devices that have not yet started the deployment will not start the deployment.
 Devices that have already completed the deployment are not affected by the abort.
 Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary css-1xj59sp-MuiButtonBase-root-MuiButton-root"
-              data-mui-internal-clone-element="true"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-                  data-testid="BlockIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2M4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12m8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8"
-                  />
-                </svg>
-              </span>
-              Abort
-               deployment
-            </button>
-            <button
-              aria-label="close"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
-              tabindex="0"
-              type="button"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError css-1hz6i2n-MuiButtonBase-root-MuiButton-root"
+            data-mui-internal-clone-element="true"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
             >
               <svg
                 aria-hidden="true"
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                data-testid="CloseIcon"
+                data-testid="BlockIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2M4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12m8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8"
                 />
               </svg>
-            </button>
-          </div>
+            </span>
+            Abort
+             deployment
+          </button>
+          <button
+            aria-label="close"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+              data-testid="CloseIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
       <div
@@ -1178,7 +1170,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth css-1jpc804-MuiDivider-root"
+        class="MuiDivider-root MuiDivider-fullWidth margin-top-x-small margin-bottom-small css-1jpc804-MuiDivider-root"
       />
       <div>
         <div

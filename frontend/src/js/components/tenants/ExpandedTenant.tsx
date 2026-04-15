@@ -16,11 +16,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Delete as DeleteIcon } from '@mui/icons-material';
-import { Button, Checkbox, Divider, Drawer, FormControlLabel, Typography, formControlLabelClasses } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Typography, formControlLabelClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import EditableNameInput from '@northern.tech/common-ui/EditableNameInput';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import Form from '@northern.tech/common-ui/forms/Form';
@@ -91,24 +91,22 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
   };
 
   return (
-    <Drawer onClose={onCloseClick} open={true} PaperProps={{ style: { minWidth: '67vw' } }} anchor="right">
-      <DrawerTitle
-        title={`Tenant Information for ${name}`}
-        onLinkCopy={copyLinkToClipboard}
-        preCloser={
-          <Button
-            variant="outlined"
-            className="margin-right-small"
-            color="error"
-            startIcon={<DeleteIcon className="red auth" />}
-            onClick={() => setShouldDelete(true)}
-          >
-            Delete tenant
-          </Button>
+    <BaseDrawer
+      onClose={onCloseClick}
+      open={true}
+      size="lg"
+      slotProps={{
+        header: {
+          title: `Tenant Information for ${name}`,
+          onLinkCopy: copyLinkToClipboard,
+          preCloser: (
+            <Button color="error" startIcon={<DeleteIcon className="red auth" />} onClick={() => setShouldDelete(true)} variant="outlined">
+              Delete tenant
+            </Button>
+          )
         }
-        onClose={onCloseClick}
-      />
-      <Divider className="margin-bottom-large" />
+      }}
+    >
       <div className={classes.formWrapper}>
         <TwoColumnData setSnackbar={(str: string) => dispatch(setSnackbar(str))} data={twoColumnData} />
         {!!ssoConfig && (
@@ -174,6 +172,6 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
           }}
         />
       </div>
-    </Drawer>
+    </BaseDrawer>
   );
 };

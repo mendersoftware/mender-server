@@ -16,11 +16,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
 import { Block as BlockIcon, CheckCircleOutline as CheckCircleOutlineIcon, Refresh as RefreshIcon } from '@mui/icons-material';
-import { Alert, Button, Divider, Drawer, Tooltip } from '@mui/material';
+import { Alert, Button, Divider, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import Confirm from '@northern.tech/common-ui/Confirm';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
@@ -66,7 +66,7 @@ export const DeploymentAbortButton = ({ deployment, setAborting }) => (
     title="Devices that have not yet started the deployment will not start the deployment.&#10;Devices that have already completed the deployment are not affected by the abort.&#10;Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
     placement="bottom"
   >
-    <Button color="secondary" startIcon={<BlockIcon fontSize="small" />} onClick={() => setAborting(true)}>
+    <Button color="error" startIcon={<BlockIcon />} onClick={() => setAborting(true)} variant="outlined">
       {deployment.filters?.length ? 'Stop' : 'Abort'} deployment
     </Button>
   </Tooltip>
@@ -247,42 +247,45 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
   }
 
   return (
-    <Drawer anchor="right" open={open} onClose={onClose} PaperProps={{ style: { minWidth: '75vw' } }}>
-      {!!onboardingComponent && onboardingComponent}
-      <div className="relative">
-        <DrawerTitle
-          title={
+    <BaseDrawer
+      open={open}
+      onClose={onClose}
+      size="xl"
+      slotProps={{
+        header: {
+          title: (
             <>
               Deployment {type !== DEPLOYMENT_STATES.scheduled ? 'details' : 'report'}
               <div className="margin-left-small margin-right-small">ID: {deployment.id}</div>
             </>
-          }
-          onLinkCopy={copyLinkToClipboard}
-          preCloser={
-            !finished ? (
-              <DeploymentAbortButton setAborting={setAborting} deployment={deployment} />
-            ) : (stats.failure || stats.aborted) && !isConfigurationDeployment ? (
-              <Tooltip
-                title="This will create a new deployment with the same device group and Release.&#10;Devices with this Release already installed will be skipped, all others will be updated."
-                placement="bottom"
-              >
-                <Button startIcon={<RefreshIcon fontSize="small" />} onClick={() => retry(deployment, Object.keys(devices))}>
-                  Recreate deployment?
-                </Button>
-              </Tooltip>
-            ) : (
-              <div className="flexbox centered margin-right" ref={onboardingTooltipAnchor}>
-                <CheckCircleOutlineIcon fontSize="small" className="green margin-right-small" />
-                <h3>Finished</h3>
-              </div>
-            )
-          }
-          onClose={onClose}
-        />
-        {aborting && <Confirm cancel={() => setAborting(false)} classes={classes.confirmation} action={() => abort(deployment.id)} type="abort" />}
-      </div>
-      <DeploymentStateNotification deployment={deployment} />
-      <Divider />
+          ),
+          onLinkCopy: copyLinkToClipboard,
+          postTitle: aborting ? (
+            <Confirm cancel={() => setAborting(false)} classes={classes.confirmation} action={() => abort(deployment.id)} type="abort" />
+          ) : undefined,
+          preCloser: !finished ? (
+            <DeploymentAbortButton setAborting={setAborting} deployment={deployment} />
+          ) : (stats.failure || stats.aborted) && !isConfigurationDeployment ? (
+            <Tooltip
+              title="This will create a new deployment with the same device group and Release.&#10;Devices with this Release already installed will be skipped, all others will be updated."
+              placement="bottom"
+            >
+              <Button startIcon={<RefreshIcon fontSize="small" />} onClick={() => retry(deployment, Object.keys(devices))} variant="outlined">
+                Recreate deployment?
+              </Button>
+            </Tooltip>
+          ) : (
+            <div className="flexbox centered margin-right" ref={onboardingTooltipAnchor}>
+              <CheckCircleOutlineIcon fontSize="small" className="green margin-right-small" />
+              <h3>Finished</h3>
+            </div>
+          )
+        }
+      }}
+      notification={<DeploymentStateNotification deployment={deployment} />}
+    >
+      {!!onboardingComponent && onboardingComponent}
+
       <div>
         <ColumnWidthProvider>
           <DeploymentPhaseNotification deployment={deployment} onReviewClick={scrollToBottom} />
@@ -312,7 +315,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
         {Boolean(deviceId.length) && <LogDialog canAi={canAi} deviceId={deviceId} deployment={deployment} onClose={() => setDeviceId('')} />}
       </div>
       <Divider className={classes.divider} light />
-    </Drawer>
+    </BaseDrawer>
   );
 };
 export default DeploymentReport;

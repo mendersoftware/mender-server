@@ -28,8 +28,6 @@ import {
   ClickAwayListener,
   DialogActions,
   DialogContent,
-  Divider,
-  Drawer,
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
@@ -41,9 +39,9 @@ import {
 import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
 import { makeStyles } from 'tss-react/mui';
 
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/Confirm';
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
@@ -371,23 +369,30 @@ export const ReleaseDetails = () => {
   const onTagSelectionChanged = useCallback(tags => dispatch(setReleaseTags({ name: releaseName, tags })).unwrap(), [dispatch, releaseName]);
 
   return (
-    <Drawer anchor="right" open={!!releaseName} onClose={onCloseClick} PaperProps={{ style: { minWidth: '60vw' }, ref: drawerRef }}>
-      <DrawerTitle
-        title={
-          <>
-            Release information for <div className="margin-left-small margin-right-small">{releaseName}</div>
-          </>
+    <BaseDrawer
+      open={!!releaseName}
+      onClose={onCloseClick}
+      size="md"
+      slotProps={{
+        paper: { ref: drawerRef },
+        header: {
+          title: (
+            <>
+              Release information for <div className="margin-left-small margin-right-small">{releaseName}</div>
+            </>
+          ),
+          onLinkCopy: copyLinkToClipboard,
+          preCloser: (
+            <>
+              <Typography className="margin-right-x-small" variant="body2">
+                Last modified:
+              </Typography>
+              <RelativeTime updateTime={release.modified} />
+            </>
+          )
         }
-        onLinkCopy={copyLinkToClipboard}
-        preCloser={
-          <div className="muted margin-right flexbox">
-            <div className="margin-right-small">Last modified:</div>
-            <RelativeTime updateTime={release.modified} />
-          </div>
-        }
-        onClose={onCloseClick}
-      />
-      <Divider className="margin-bottom" />
+      }}
+    >
       <ColumnWidthProvider>
         <ReleaseNotes onChange={onReleaseNotesChanged} release={release} />
         <ReleaseTags existingTags={existingTags} onChange={onTagSelectionChanged} release={release} userCapabilities={userCapabilities} />
@@ -406,7 +411,7 @@ export const ReleaseDetails = () => {
       />
       <RemoveArtifactDialog open={!!confirmReleaseDeletion} onRemove={onDeleteRelease} onCancel={onToggleReleaseDeletion} release={release} />
       <ReleaseQuickActions actionCallbacks={{ onCreateDeployment, onDeleteRelease: onToggleReleaseDeletion }} />
-    </Drawer>
+    </BaseDrawer>
   );
 };
 

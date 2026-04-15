@@ -11,23 +11,25 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, MouseEvent, ReactNode } from 'react';
 
 import { Close as CloseIcon, Link as LinkIcon } from '@mui/icons-material';
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip, Typography } from '@mui/material';
 
-interface DrawerTitleProps {
-  onClose: () => void;
+export interface DrawerTitleProps {
+  onClose: (event: MouseEvent<HTMLButtonElement>) => void;
   onLinkCopy?: () => void;
   postTitle?: ReactNode;
   preCloser?: ReactNode;
-  title: string | ReactNode;
+  title: ReactNode;
 }
 
 export const DrawerTitle: FunctionComponent<DrawerTitleProps> = ({ onClose, onLinkCopy, postTitle, preCloser, title }) => (
-  <div className="flexbox margin-bottom-small space-between">
+  <div className="flexbox margin-bottom-small space-between relative">
     <div className="flexbox align-items-center">
-      <h3 className="capitalized-start flexbox align-items-center">{title}</h3>
+      <Typography className="capitalized-start flexbox align-items-center" component="div" variant="subtitle1">
+        {title}
+      </Typography>
       {onLinkCopy && (
         <Tooltip title="Copy link">
           <IconButton onClick={onLinkCopy} size="large">
@@ -39,7 +41,7 @@ export const DrawerTitle: FunctionComponent<DrawerTitleProps> = ({ onClose, onLi
     </div>
     <div className="flexbox align-items-center relative">
       {preCloser}
-      <IconButton onClick={onClose} aria-label="close" size="large">
+      <IconButton className="margin-left-small" onClick={onClose} aria-label="close" size="large">
         <CloseIcon />
       </IconButton>
     </div>

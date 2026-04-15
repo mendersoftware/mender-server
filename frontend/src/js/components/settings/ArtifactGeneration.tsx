@@ -16,10 +16,10 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Button, Checkbox, Divider, Drawer, FormControlLabel, InputAdornment, TextField, Typography, drawerClasses } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, InputAdornment, TextField, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { DrawerTitle } from '@northern.tech/common-ui/DrawerTitle';
+import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import Form from '@northern.tech/common-ui/forms/Form';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeploymentsConfig, saveDeltaDeploymentsConfig } from '@northern.tech/store/thunks';
@@ -27,7 +27,6 @@ import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 const useStyles = makeStyles()(theme => ({
   buttonWrapper: { '&.button-wrapper': { justifyContent: 'start', alignItems: 'center' } },
-  drawer: { [`.${drawerClasses.paper}`]: { maxWidth: 'initial' } },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), marginLeft: theme.spacing(2), maxWidth: 300 },
   memoryFormWrapper: { gap: theme.spacing(4), marginLeft: 0 },
   info: { maxWidth: 750 },
@@ -202,9 +201,7 @@ export const ArtifactGenerationSettings = ({ onClose, open }) => {
   };
 
   return (
-    <Drawer anchor="right" className={classes.drawer} open={open} onClose={onClose}>
-      <DrawerTitle title="Delta artifacts generation configuration" onClose={onClose} />
-      <Divider className="margin-bottom" />
+    <BaseDrawer open={open} onClose={onClose} size="auto" slotProps={{ header: { title: 'Delta artifacts generation configuration' } }}>
       <Form
         classes={{ buttonWrapper: classes.buttonWrapper, cancelButton: '' }}
         defaultValues={defaultValues}
@@ -216,7 +213,7 @@ export const ArtifactGenerationSettings = ({ onClose, open }) => {
       >
         <ArtifactGenerationSettingsForm defaultValues={defaultValues} deltaLimits={deltaLimits} />
       </Form>
-    </Drawer>
+    </BaseDrawer>
   );
 };
 
