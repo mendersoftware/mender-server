@@ -11,12 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import ReactGA4 from 'react-ga4';
+import ReactGA from 'react-ga4';
 
 const cookieConsentCSS = 'https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css';
 const cookieConsentJS = 'https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js';
-
-const ReactGA = ReactGA4.default;
 
 class Tracker {
   constructor() {
