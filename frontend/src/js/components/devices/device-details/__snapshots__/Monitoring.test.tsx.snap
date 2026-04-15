@@ -2,25 +2,25 @@
 
 exports[`DeviceMonitoring Component > renders correctly 1`] = `
 "<div
-  class="margin-bottom "
+  class="margin-bottom margin-top-medium "
 >
   <div
-    class="flexbox space-between align-items-center"
+    class="flexbox space-between"
   >
     <div
-      class="flexbox align-items-center"
+      class="margin-bottom-small css-r1y5b9-title"
     >
-      <h4
-        class="margin-bottom-small margin-right"
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
       >
         Monitoring
-      </h4>
+      </h6>
       <div
         class=""
         data-mui-internal-clone-element="true"
       >
         <div
-          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault margin-left-small css-lbitzw-MuiButtonBase-root-MuiChip-root"
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault css-lbitzw-MuiButtonBase-root-MuiChip-root"
           role="button"
           tabindex="0"
         >
@@ -33,54 +33,48 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox centered"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-1mfsd6e-MuiChip-root"
     >
-      <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-1rikqh1-MuiChip-root-addOnPill"
+      <span
+        class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
       >
-        <span
-          class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
-        >
-          Add-on
-        </span>
-      </div>
+        Add-on
+      </span>
     </div>
   </div>
-  <div>
-    <div
-      class="monitoring-alert column-data margin-bottom-x-small"
+  <div
+    class="monitoring-alert column-data margin-bottom-x-small"
+  >
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-1umw9bq-MuiSvgIcon-root"
+      data-testid="ErrorIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <svg
-        aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-1umw9bq-MuiSvgIcon-root"
-        data-testid="ErrorIcon"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
-        />
-      </svg>
-      <div
-        class="key muted"
-      >
-        <b>
-          SSH Daemon is not running
-        </b>
-      </div>
-      <div>
-        CRITICAL
-      </div>
-      <time
-        datetime="2021-07-23T12:22:36+00:00"
-      >
-        2021-07-23 12:22
-      </time>
-      <a>
-        view 
-        details
-      </a>
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
+      />
+    </svg>
+    <div
+      class="key muted"
+    >
+      <b>
+        SSH Daemon is not running
+      </b>
     </div>
+    <div>
+      CRITICAL
+    </div>
+    <time
+      datetime="2021-07-23T12:22:36+00:00"
+    >
+      2021-07-23 12:22
+    </time>
+    <a>
+      view 
+      details
+    </a>
   </div>
   <div>
     <h4
