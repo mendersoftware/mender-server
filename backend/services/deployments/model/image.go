@@ -52,7 +52,7 @@ func ImagePathFromContext(ctx context.Context, id string) string {
 // Information provided by the user
 type ImageMeta struct {
 	// Image description
-	Description string `json:"description,omitempty" valid:"length(1|4096),optional"`
+	Description string `json:"description" valid:"length(1|4096),optional"`
 }
 
 // Creates new, empty ImageMeta
