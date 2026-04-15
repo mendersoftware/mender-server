@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Close as CloseIcon } from '@mui/icons-material';
 // material ui
-import { ClickAwayListener, Drawer, IconButton, Typography } from '@mui/material';
+import { Drawer, IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ALL_DEVICE_STATES, DEVICE_STATES, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
@@ -41,23 +41,11 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-const leftNavOffset = 500;
-const ResultTitle = ({ onClick, term, total }) => {
+const ResultTitle = ({ term, total }) => {
   const content = `${total ? total : 'No'} ${pluralize('device', total)} found for "${term}"`;
-  let props = { className: 'bold' };
-  let style = {};
-  if (!total) {
-    props = { className: 'info' };
-    style = { width: `calc(100% - ${leftNavOffset}px)` };
-  }
   return (
-    <div className={`flexbox ${total ? 'align-items-center' : 'centered'}`} style={style}>
-      <Typography variant="body2" {...props}>
-        {content}
-      </Typography>
-      <a className="margin-left-large" onClick={onClick}>
-        clear search
-      </a>
+    <div className={`flexbox ${total ? 'align-items-center' : 'centered'}`}>
+      <Typography variant="h6">{content}</Typography>
     </div>
   );
 };
@@ -116,46 +104,39 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
     dispatch(setSearchState({ page: 1, sort: { direction: changedSortDown, key: changedSortCol, scope: attribute.scope } }));
   };
 
-  const onClearClick = () => {
-    dispatch(setSearchState({ searchTerm: '' }));
-    onToggleSearchResult();
-  };
-
   return (
-    <ClickAwayListener onClickAway={onToggleSearchResult}>
-      <Drawer
-        anchor="top"
-        classes={classes}
-        disableEnforceFocus
-        disableRestoreFocus
-        open={open}
-        ModalProps={{ className: classes.drawerOffset, BackdropProps: { className: classes.drawerOffset } }}
-        PaperProps={{ className: `${classes.drawerOffset} ${classes.paper}` }}
-        SlideProps={{ direction: 'left' }}
-      >
-        <div className="flexbox align-items-center margin-bottom-small space-between">
-          <ResultTitle onClick={onClearClick} term={searchTerm} total={searchTotal} />
-          <IconButton onClick={onToggleSearchResult} aria-label="close" size="large">
-            <CloseIcon />
-          </IconButton>
-        </div>
-        {!!searchTotal && (
-          <Devicelist
-            columnHeaders={columnHeaders}
-            customColumnSizes={customColumnSizes}
-            deviceListState={{ total: searchTotal, page, perPage: 10, sort: {} }}
-            devices={devices}
-            idAttribute={idAttribute}
-            onSort={onSortChange}
-            PaginationProps={{ rowsPerPageOptions: [10] }}
-            pageTotal={searchTotal}
-            onPageChange={handlePageChange}
-            pageLoading={isSearching}
-            onExpandClick={onDeviceSelect}
-          />
-        )}
-      </Drawer>
-    </ClickAwayListener>
+    <Drawer
+      anchor="top"
+      classes={classes}
+      disableAutoFocus
+      disableEnforceFocus
+      disableRestoreFocus
+      open={open}
+      ModalProps={{ className: classes.drawerOffset, BackdropProps: { className: classes.drawerOffset } }}
+      slotProps={{ paper: { className: `${classes.drawerOffset} ${classes.paper}` }, transition: { direction: 'left' } }}
+    >
+      <div className="flexbox align-items-center margin-bottom-small space-between">
+        <ResultTitle term={searchTerm} total={searchTotal} />
+        <IconButton onClick={onToggleSearchResult} aria-label="close" size="large">
+          <CloseIcon />
+        </IconButton>
+      </div>
+      {!!searchTotal && (
+        <Devicelist
+          columnHeaders={columnHeaders}
+          customColumnSizes={customColumnSizes}
+          deviceListState={{ total: searchTotal, page, perPage: 10, sort: {} }}
+          devices={devices}
+          idAttribute={idAttribute}
+          onSort={onSortChange}
+          PaginationProps={{ rowsPerPageOptions: [10] }}
+          pageTotal={searchTotal}
+          onPageChange={handlePageChange}
+          pageLoading={isSearching}
+          onExpandClick={onDeviceSelect}
+        />
+      )}
+    </Drawer>
   );
 };
 

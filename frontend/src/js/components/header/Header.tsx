@@ -29,7 +29,8 @@ import {
   MenuItem,
   Toolbar,
   Typography,
-  accordionClasses
+  accordionClasses,
+  textFieldClasses
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -130,6 +131,10 @@ const useStyles = makeStyles()(theme => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
     color: theme.palette.text.secondary,
     display: 'grid',
+    gridTemplateColumns: 'max-content 1fr max-content',
+    '&.service-provider': {
+      gridTemplateColumns: '1fr max-content'
+    },
     '#logo': {
       minWidth: 142,
       height: theme.spacing(6),
@@ -147,7 +152,18 @@ const useStyles = makeStyles()(theme => ({
   redAnnouncementIcon: {
     color: theme.palette.error.dark
   },
-  search: { alignSelf: 'center' }
+  search: {
+    justifyContent: 'center',
+    display: 'flex',
+    transition: 'all 0.1s ease',
+    [`& .${textFieldClasses.root}`]: {
+      width: 220,
+      maxWidth: 640,
+      '&:focus-within': {
+        width: '100%'
+      }
+    }
+  }
 }));
 
 const AccountMenu = ({ className }) => {
@@ -368,40 +384,38 @@ export const Header = ({ isDarkMode }) => {
       )}
       {showOffer && <OfferHeader onHide={setHideOffer} />}
       <Toolbar className={classes.header}>
-        <div className="flexbox space-between">
-          <div className="flexbox align-items-center">
-            <Link to="/">
-              <img id="logo" src={headerLogo} />
-            </Link>
-            {organization.trial && (
-              <TrialNotification
-                expiration={organization.trial_expiration}
-                iconClassName={classes.demoAnnouncementIcon}
-                sectionClassName={classes.demoTrialAnnouncement}
-              />
-            )}
-          </div>
-          {isSp ? (
-            <>
-              <div className="flexbox align-items-center">
-                <Chip label="Service Provider" />
-                <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
-                <AccountMenu className={classes.headerSection} />
-              </div>
-            </>
-          ) : (
-            <>
-              <Search className={classes.search} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
-              <div className="flexbox align-items-center">
-                <DeviceNotifications pending={pendingDevices} total={acceptedDevices} />
-                <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
-                <DeploymentNotifications className={classes.headerSection} inprogress={inProgress} />
-                <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
-                <AccountMenu className={classes.headerSection} />
-              </div>
-            </>
+        <div className="flexbox align-items-center">
+          <Link to="/">
+            <img id="logo" src={headerLogo} />
+          </Link>
+          {organization.trial && (
+            <TrialNotification
+              expiration={organization.trial_expiration}
+              iconClassName={classes.demoAnnouncementIcon}
+              sectionClassName={classes.demoTrialAnnouncement}
+            />
           )}
         </div>
+        {isSp ? (
+          <>
+            <div className="flexbox align-items-center">
+              <Chip label="Service Provider" />
+              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
+              <AccountMenu className={classes.headerSection} />
+            </div>
+          </>
+        ) : (
+          <>
+            <Search className={classes.search} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
+            <div className={`flexbox align-items-center`}>
+              <DeviceNotifications pending={pendingDevices} total={acceptedDevices} />
+              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
+              <DeploymentNotifications className={classes.headerSection} inprogress={inProgress} />
+              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
+              <AccountMenu className={classes.headerSection} />
+            </div>
+          </>
+        )}
       </Toolbar>
     </div>
   );

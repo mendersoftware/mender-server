@@ -44,7 +44,6 @@ const useStyles = makeStyles()(() => ({
     }
   }
 }));
-
 export const ControlledSearch = ({
   className = '',
   showSearchIcon = true,
@@ -106,7 +105,14 @@ export const ControlledSearch = ({
 
   const resetSearchAdornment = searchValue ? (
     <InputAdornment position="end" className={clearButtonOnHover ? classes.adornment : ''}>
-      <IconButton size="small" onClick={() => resetField(name)}>
+      <IconButton
+        size="small"
+        onMouseDown={e => e.preventDefault()}
+        onClick={() => {
+          resetField(name);
+          inputRef.current?.focus();
+        }}
+      >
         <ClearIcon />
       </IconButton>
     </InputAdornment>
