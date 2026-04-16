@@ -383,7 +383,7 @@ export const Header = ({ isDarkMode }) => {
         />
       )}
       {showOffer && <OfferHeader onHide={setHideOffer} />}
-      <Toolbar className={classes.header}>
+      <Toolbar className={`${classes.header} ${isSp ? 'service-provider' : ''}`}>
         <div className="flexbox align-items-center">
           <Link to="/">
             <img id="logo" src={headerLogo} />
