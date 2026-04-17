@@ -2,13 +2,42 @@
 
 exports[`DeviceInventory Component > renders correctly 1`] = `
 .emotion-0 {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-3 {
   display: table;
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.emotion-0 caption {
+.emotion-3 caption {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -20,30 +49,30 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   caption-side: bottom;
 }
 
-.emotion-1 {
+.emotion-4 {
   display: table-header-group;
 }
 
-.emotion-2 {
+.emotion-5 {
   color: inherit;
   display: table-row;
   vertical-align: middle;
   outline: 0;
 }
 
-.emotion-2.MuiTableRow-hover:hover {
+.emotion-5.MuiTableRow-hover:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-2.Mui-selected {
+.emotion-5.Mui-selected {
   background-color: rgba(25, 118, 210, 0.08);
 }
 
-.emotion-2.Mui-selected:hover {
+.emotion-5.Mui-selected:hover {
   background-color: rgba(25, 118, 210, 0.12);
 }
 
-.emotion-3 {
+.emotion-6 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -60,7 +89,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   width: 30%;
 }
 
-.emotion-4 {
+.emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -111,44 +140,44 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   align-items: center;
 }
 
-.emotion-4::-moz-focus-inner {
+.emotion-7::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-7.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-4 {
+  .emotion-7 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-4:focus {
+.emotion-7:focus {
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-4:hover {
+.emotion-7:hover {
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-4:hover .MuiTableSortLabel-icon {
+.emotion-7:hover .MuiTableSortLabel-icon {
   opacity: 0.5;
 }
 
-.emotion-4.Mui-active {
+.emotion-7.Mui-active {
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-4.Mui-active .MuiTableSortLabel-icon {
+.emotion-7.Mui-active .MuiTableSortLabel-icon {
   opacity: 1;
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-5 {
+.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -179,7 +208,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   transform: rotate(180deg);
 }
 
-.emotion-6 {
+.emotion-9 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -196,11 +225,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   width: 70%;
 }
 
-.emotion-9 {
+.emotion-12 {
   display: table-row-group;
 }
 
-.emotion-11 {
+.emotion-14 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -215,11 +244,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   width: 30%;
 }
 
-.emotion-12.copy-to-clipboard svg {
+.emotion-15.copy-to-clipboard svg {
   fill: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-13 {
+.emotion-16 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -234,7 +263,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   word-break: break-word;
 }
 
-.emotion-14 {
+.emotion-17 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -252,7 +281,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-15 {
+.emotion-18 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -267,23 +296,21 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
 }
 
 <div
-  class="margin-bottom "
+  class="margin-bottom margin-top-medium "
 >
   <div
-    class="flexbox space-between align-items-center"
+    class="flexbox space-between"
   >
     <div
-      class="flexbox"
-      style="align-items: baseline;"
+      class="margin-bottom-small emotion-0"
     >
-      <h4
-        class="margin-right"
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1 emotion-1"
       >
         Device Inventory
-      </h4>
-      <div
-        class="muted slightly-smaller"
-        style="margin-top: 2px;"
+      </h6>
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-2"
       >
         Last changed: 
         <time
@@ -291,35 +318,31 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         >
           2019-01-13 13:00
         </time>
-      </div>
+      </p>
     </div>
-    <div
-      class="flexbox centered"
-    />
   </div>
-  <div />
   <table
-    class="MuiTable-root emotion-0"
+    class="MuiTable-root emotion-3"
   >
     <thead
-      class="MuiTableHead-root emotion-1"
+      class="MuiTableHead-root emotion-4"
     >
       <tr
-        class="MuiTableRow-root MuiTableRow-head emotion-2"
+        class="MuiTableRow-root MuiTableRow-head emotion-5"
       >
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium bold emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium bold emotion-6"
           scope="col"
         >
           <span
-            class="MuiButtonBase-root MuiTableSortLabel-root Mui-active MuiTableSortLabel-directionAsc emotion-4"
+            class="MuiButtonBase-root MuiTableSortLabel-root Mui-active MuiTableSortLabel-directionAsc emotion-7"
             role="button"
             tabindex="0"
           >
             Attribute
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc emotion-5"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc emotion-8"
               data-testid="ArrowDownwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -331,18 +354,18 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           </span>
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium bold emotion-6"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium bold emotion-9"
           scope="col"
         >
           <span
-            class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc emotion-4"
+            class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc emotion-7"
             role="button"
             tabindex="0"
           >
             Value
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc emotion-5"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc emotion-8"
               data-testid="ArrowDownwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -356,19 +379,19 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
       </tr>
     </thead>
     <tbody
-      class="MuiTableBody-root emotion-9"
+      class="MuiTableBody-root emotion-12"
     >
       <tr
-        class="MuiTableRow-root emotion-2"
+        class="MuiTableRow-root emotion-5"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-11"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-14"
         >
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 bold emotion-13"
+              class="MuiTypography-root MuiTypography-body2 bold emotion-16"
               title="artifact_name"
             >
               artifact_name
@@ -376,7 +399,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -389,13 +412,13 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           </div>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-15"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-18"
         >
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-13"
+              class="MuiTypography-root MuiTypography-body2 emotion-16"
               title="myapp"
             >
               myapp
@@ -403,7 +426,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -417,16 +440,16 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root emotion-2"
+        class="MuiTableRow-root emotion-5"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-11"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-14"
         >
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 bold emotion-13"
+              class="MuiTypography-root MuiTypography-body2 bold emotion-16"
               title="device_type"
             >
               device_type
@@ -434,7 +457,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -447,13 +470,13 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           </div>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-15"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-18"
         >
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-13"
+              class="MuiTypography-root MuiTypography-body2 emotion-16"
               title="raspberrypi4"
             >
               raspberrypi4
@@ -461,7 +484,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -475,16 +498,16 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root emotion-2"
+        class="MuiTableRow-root emotion-5"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-11"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-14"
         >
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 bold emotion-13"
+              class="MuiTypography-root MuiTypography-body2 bold emotion-16"
               title="ipv4_wlan0"
             >
               ipv4_wlan0
@@ -492,7 +515,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -505,13 +528,13 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           </div>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-15"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-18"
         >
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-12"
+            class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-13"
+              class="MuiTypography-root MuiTypography-body2 emotion-16"
               title="192.168.10.141/24"
             >
               192.168.10.141/24
@@ -519,7 +542,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-14"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-17"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"

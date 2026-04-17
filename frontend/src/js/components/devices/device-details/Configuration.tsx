@@ -19,6 +19,7 @@ import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Error as ErrorIcon,
 import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
 
 import Confirm, { EditButton } from '@northern.tech/common-ui/Confirm';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
@@ -46,7 +47,6 @@ import Tracking from '../../../tracking';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import ConfigImportDialog from './ConfigImportDialog';
-import DeviceDataCollapse from './DeviceDataCollapse';
 
 const { setSnackbar } = storeActions;
 
@@ -360,28 +360,24 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
   }, {});
 
   return (
-    <DeviceDataCollapse
+    <ContentSection
       isAddOn
-      title={
-        <div className="two-columns">
-          <div className="flexbox align-items-center">
-            <h4 className="margin-right">Device configuration</h4>
-            {hasDeviceConfig && !(isEditingConfig || isUpdatingConfig) && <EditButton onClick={onStartEdit} />}
-          </div>
-          <div className="flexbox align-items-center">
-            {isEditingConfig ? (
-              <Button onClick={onStartImportClick} disabled={isUpdatingConfig} startIcon={<SaveAltIcon />} style={{ justifySelf: 'left' }}>
-                Import configuration
-              </Button>
-            ) : null}
-            <InfoHintContainer>
-              <EnterpriseNotification id={BENEFITS.deviceConfiguration.id} />
-              <MenderHelpTooltip id={HELPTOOLTIPS.configureAddOnTip.id} style={{ marginTop: 5 }} />
-              <DocsTooltip id={DOCSTIPS.deviceConfig.id} />
-            </InfoHintContainer>
-          </div>
-        </div>
+      postTitle={
+        <>
+          {hasDeviceConfig && !(isEditingConfig || isUpdatingConfig) && <EditButton onClick={onStartEdit} />}
+          {isEditingConfig && (
+            <Button onClick={onStartImportClick} disabled={isUpdatingConfig} startIcon={<SaveAltIcon />}>
+              Import configuration
+            </Button>
+          )}
+          <InfoHintContainer className="flexbox center-aligned">
+            <EnterpriseNotification id={BENEFITS.deviceConfiguration.id} />
+            <MenderHelpTooltip id={HELPTOOLTIPS.configureAddOnTip.id} style={{ marginTop: 5 }} />
+            <DocsTooltip id={DOCSTIPS.deviceConfig.id} />
+          </InfoHintContainer>
+        </>
       }
+      title="Device configuration"
     >
       <div className="relative">
         {isEditingConfig ? (
@@ -399,7 +395,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
         {showLog && <LogDialog logData={updateLog} onClose={() => setShowLog(false)} type="configUpdateLog" />}
         {showConfigImport && <ConfigImportDialog onCancel={() => setShowConfigImport(false)} onSubmit={onConfigImport} />}
       </div>
-    </DeviceDataCollapse>
+    </ContentSection>
   );
 };
 

@@ -15,8 +15,9 @@ import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Check as CheckIcon } from '@mui/icons-material';
-import { Chip, Icon } from '@mui/material';
+import { Chip, Icon, Typography } from '@mui/material';
 
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getOnboardingState } from '@northern.tech/store/selectors';
 
@@ -24,7 +25,6 @@ import pendingIcon from '../../../../assets/img/pending_status.png';
 import { getOnboardingComponentFor } from '../../../utils/onboardingManager';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
-import DeviceDataCollapse from './DeviceDataCollapse';
 import Authsets from './authsets/AuthSets';
 
 const iconStyle = { margin: 12 };
@@ -76,22 +76,22 @@ export const AuthStatus = ({ decommission, device }) => {
     );
   }
   return (
-    <DeviceDataCollapse
-      title={
-        <div className="flexbox align-items-center">
-          <h4>Authentication status</h4>
-          <div className="flexbox align-items-center margin-left margin-right" ref={statusRef}>
-            <div className="capitalized">{status}</div>
-            {statusIcon}
-          </div>
+    <ContentSection
+      postTitle={
+        <>
+          <Typography className="capitalized" ref={statusRef}>
+            {status}
+          </Typography>
+          {statusIcon}
           {requestNotification}
           {status === DEVICE_STATES.pending && <MenderHelpTooltip id={HELPTOOLTIPS.authButton.id} />}
-        </div>
+        </>
       }
+      title="Authentication status"
     >
       <Authsets decommission={decommission} device={device} listRef={listRef} />
       {onboardingComponent}
-    </DeviceDataCollapse>
+    </ContentSection>
   );
 };
 

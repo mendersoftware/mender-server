@@ -42,6 +42,7 @@ import { makeStyles } from 'tss-react/mui';
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/Confirm';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
@@ -210,10 +211,9 @@ export const ReleaseQuickActions = ({ actionCallbacks }) => {
 };
 
 const ReleaseNotes = ({ onChange, release: { notes = '' } }) => (
-  <>
-    <h4>Release notes</h4>
+  <ContentSection title="Release notes">
     <EditableLongText contentFallback="Add release notes here" original={notes} onChange={onChange} placeholder="Release notes" />
-  </>
+  </ContentSection>
 );
 
 const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, userCapabilities }) => {
@@ -239,11 +239,7 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, user
   const onSave = () => onChange(getValues('tags')).then(() => setIsEditing(false));
 
   return (
-    <div className="margin-bottom margin-top" style={{ maxWidth: 500 }}>
-      <div className="flexbox align-items-center">
-        <h4 className="margin-right">Tags</h4>
-        {!isEditing && canManageReleases && <EditButton onClick={onToggleEdit} />}
-      </div>
+    <ContentSection title="Tags" postTitle={!isEditing && canManageReleases && <EditButton onClick={onToggleEdit} />}>
       <div className="flexbox" style={{ alignItems: 'center' }}>
         <FormProvider {...methods}>
           <form noValidate>
@@ -259,7 +255,7 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, user
         </FormProvider>
         {isEditing && <ConfirmationButtons onConfirm={onSave} onCancel={onToggleEdit} />}
       </div>
-    </div>
+    </ContentSection>
   );
 };
 
@@ -295,40 +291,37 @@ const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setSh
   }
 
   return (
-    <>
-      <h4>Artifacts in this Release:</h4>
-      <div>
-        <div className={`${classes.releaseRepoItem} repo-item repo-header`}>
-          {columns.map(item => (
-            <div className="columnHeader" key={item.name} onClick={() => sortColumn(item)}>
-              <Tooltip title={item.title} placement="top-start">
-                {item.title}
-              </Tooltip>
-              {item.sortable ? <SortIcon className={`sortIcon ${sortCol === item.name ? 'selected' : ''} ${sortDown.toString()}`} /> : null}
-              {item.tooltip}
-            </div>
-          ))}
-          <div />
-        </div>
-        {items.map((artifact, index) => {
-          const expanded = selectedArtifact?.id === artifact.id;
-          return (
-            <Artifact
-              key={`repository-item-${index}`}
-              artifact={artifact}
-              className={classes.releaseRepoItem}
-              columns={columns}
-              expanded={expanded}
-              index={index}
-              onRowSelection={() => onRowSelection(artifact)}
-              // this will be run after expansion + collapse and both need some time to fully settle
-              // otherwise the measurements are off
-              showRemoveArtifactDialog={setShowRemoveArtifactDialog}
-            />
-          );
-        })}
+    <ContentSection title="Artifacts in this Release:">
+      <div className={`${classes.releaseRepoItem} repo-item repo-header`}>
+        {columns.map(item => (
+          <div className="columnHeader" key={item.name} onClick={() => sortColumn(item)}>
+            <Tooltip title={item.title} placement="top-start">
+              {item.title}
+            </Tooltip>
+            {item.sortable ? <SortIcon className={`sortIcon ${sortCol === item.name ? 'selected' : ''} ${sortDown.toString()}`} /> : null}
+            {item.tooltip}
+          </div>
+        ))}
+        <div />
       </div>
-    </>
+      {items.map((artifact, index) => {
+        const expanded = selectedArtifact?.id === artifact.id;
+        return (
+          <Artifact
+            key={`repository-item-${index}`}
+            artifact={artifact}
+            className={classes.releaseRepoItem}
+            columns={columns}
+            expanded={expanded}
+            index={index}
+            onRowSelection={() => onRowSelection(artifact)}
+            // this will be run after expansion + collapse and both need some time to fully settle
+            // otherwise the measurements are off
+            showRemoveArtifactDialog={setShowRemoveArtifactDialog}
+          />
+        );
+      })}
+    </ContentSection>
   );
 };
 

@@ -2,44 +2,62 @@
 
 exports[`DeviceTwin Component > renders correctly 1`] = `
 .emotion-0 {
-  width: 100%;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: 8px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .emotion-1 {
-  -webkit-align-items: baseline;
-  -webkit-box-align: baseline;
-  -ms-flex-align: baseline;
-  align-items: baseline;
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
 }
 
 .emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-3 {
   border: 1px solid rgba(0, 0, 0, 0.54);
   border-radius: 4px;
 }
 
-.emotion-2>section {
+.emotion-3>section {
   min-height: 20lh;
 }
 
-.emotion-2 .monaco-editor,
-.emotion-2 .monaco-editor-background,
-.emotion-2 .monaco-editor .margin {
+.emotion-3 .monaco-editor,
+.emotion-3 .monaco-editor-background,
+.emotion-3 .monaco-editor .margin {
   background-color: transparent;
 }
 
-.emotion-2 .monaco-editor .view-overlays .current-line-exact {
+.emotion-3 .monaco-editor .view-overlays .current-line-exact {
   border: inherit;
 }
 
-.emotion-2.readOnly {
+.emotion-3.readOnly {
   border-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-2.readOnly .monaco-editor-background {
+.emotion-3.readOnly .monaco-editor-background {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-3 {
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -96,57 +114,57 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-3::-moz-focus-inner {
+.emotion-4::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-3.Mui-disabled {
+.emotion-4.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-3 {
+  .emotion-4 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-3:hover {
+.emotion-4:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-3.Mui-disabled {
+.emotion-4.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-3:hover {
+.emotion-4:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-3:hover {
+  .emotion-4:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-3:active {
+.emotion-4:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-3.Mui-focusVisible {
+.emotion-4.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-3.Mui-disabled {
+.emotion-4.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-3:hover {
+  .emotion-4:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -154,11 +172,11 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   }
 }
 
-.emotion-3.MuiButton-loading {
+.emotion-4.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-4 {
+.emotion-5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -215,33 +233,33 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-4::-moz-focus-inner {
+.emotion-5::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-5.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-4 {
+  .emotion-5 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-4:hover {
+.emotion-5:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-5.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-4:hover {
+  .emotion-5:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -249,21 +267,21 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   }
 }
 
-.emotion-4.MuiButton-loading {
+.emotion-5.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-5 {
+.emotion-6 {
   display: inherit;
   margin-right: 8px;
   margin-left: -4px;
 }
 
-.emotion-5>*:nth-of-type(1) {
+.emotion-6>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-6 {
+.emotion-7 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -281,36 +299,29 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
 }
 
 <div
-  class="margin-bottom "
+  class="margin-bottom margin-top-medium "
 >
   <div
-    class="flexbox space-between align-items-center"
+    class="flexbox space-between"
   >
     <div
-      class="flexbox align-items-center space-between emotion-0"
+      class="margin-bottom-small emotion-0"
     >
-      <div
-        class="flexbox emotion-1"
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1 emotion-1"
       >
-        <h4
-          class="margin-right"
+        Azure IoT Hub Device Twin
+      </h6>
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-2"
+      >
+        Last synced: 
+        <time
+          datetime="2019-01-13T06:25:00+00:00"
         >
-          Azure IoT Hub
-           
-          Device Twin
-        </h4>
-        <div
-          class="muted slightly-smaller"
-          style="margin-top: 2px;"
-        >
-          Last synced: 
-          <time
-            datetime="2019-01-13T06:25:00+00:00"
-          >
-            2019-01-13 06:25
-          </time>
-        </div>
-      </div>
+          2019-01-13 06:25
+        </time>
+      </p>
       <a
         data-discover="true"
         href="/settings/integrations"
@@ -318,39 +329,30 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
         Integration settings
       </a>
     </div>
-    <div
-      class="flexbox centered"
-    />
-  </div>
-  <div>
-    <div
-      class="flexbox column"
-    >
-      <div
-        class="loaderContainer"
-      >
-        <div
-          class="  loader"
-        >
-          <span
-            class="dot dot_1"
-          />
-          <span
-            class="dot dot_2"
-          />
-          <span
-            class="dot dot_3"
-          />
-          <span
-            class="dot dot_4"
-          />
-        </div>
-      </div>
-    </div>
   </div>
   <div
     class="flexbox column"
   >
+    <div
+      class="loaderContainer"
+    >
+      <div
+        class="  loader"
+      >
+        <span
+          class="dot dot_1"
+        />
+        <span
+          class="dot dot_2"
+        />
+        <span
+          class="dot dot_3"
+        />
+        <span
+          class="dot dot_4"
+        />
+      </div>
+    </div>
     <div
       style="max-width: 800px;"
     >
@@ -365,7 +367,7 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
         </h4>
       </div>
       <div
-        class="emotion-2"
+        class="emotion-3"
       >
         <section
           style="display: flex; position: relative; text-align: initial; width: 100%; height: 500px;"
@@ -409,7 +411,7 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
         style="align-items: flex-start; justify-content: flex-end;"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-3"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-4"
           tabindex="0"
           type="button"
         >
@@ -441,16 +443,16 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
           </div>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-5"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-5"
+            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-6"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
               data-testid="RefreshIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -465,52 +467,6 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
       </div>
     </div>
   </div>
-</div>
-`;
-
-exports[`DeviceTwin Component > renders sub component Title correctly 1`] = `
-.emotion-0 {
-  width: 100%;
-}
-
-.emotion-1 {
-  -webkit-align-items: baseline;
-  -webkit-box-align: baseline;
-  -ms-flex-align: baseline;
-  align-items: baseline;
-}
-
-<div
-  class="flexbox align-items-center space-between emotion-0"
->
-  <div
-    class="flexbox emotion-1"
-  >
-    <h4
-      class="margin-right"
-    >
-      Test
-       
-      Device Twin
-    </h4>
-    <div
-      class="muted slightly-smaller"
-      style="margin-top: 2px;"
-    >
-      Last synced: 
-      <time
-        datetime="2019-01-01T09:25:00+00:00"
-      >
-        2019-01-01 09:25
-      </time>
-    </div>
-  </div>
-  <a
-    data-discover="true"
-    href="/settings/integrations"
-  >
-    Integration settings
-  </a>
 </div>
 `;
 
@@ -656,6 +612,15 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 2
   font-size: 1.5rem;
 }
 
+.emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
 <div
   class="padding-small emotion-0"
 >
@@ -680,9 +645,8 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 2
      
     between desired and reported configuration
   </div>
-  <div
-    class="muted slightly-smaller"
-    style="margin-top: 2px;"
+  <p
+    class="MuiTypography-root MuiTypography-body2 emotion-2"
   >
     Last synced: 
     <time
@@ -690,7 +654,7 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 2
     >
       2019-01-01 09:25
     </time>
-  </div>
+  </p>
 </div>
 `;
 

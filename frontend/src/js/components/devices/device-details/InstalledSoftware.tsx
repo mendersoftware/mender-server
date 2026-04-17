@@ -14,11 +14,11 @@
 import { deepmerge } from '@mui/utils';
 import { makeStyles } from 'tss-react/mui';
 
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { rootfsImageVersion, softwareTitleMap } from '@northern.tech/store/constants';
 import { extractSoftware, isEmpty } from '@northern.tech/utils/helpers';
 
-import DeviceDataCollapse from './DeviceDataCollapse';
 import DeviceInventoryLoader from './DeviceInventoryLoader';
 
 const borderStyle = theme => ({ borderLeft: 'solid 1px', borderLeftColor: theme.palette.grey[500] });
@@ -145,13 +145,14 @@ export const InstalledSoftware = ({ device, setSnackbar }) => {
 
   const waiting = !Object.values(attributes).some(i => i);
   return (
-    <DeviceDataCollapse header={waiting && <DeviceInventoryLoader />} title="Installed software">
+    <ContentSection title="Installed software">
+      {waiting && <DeviceInventoryLoader />}
       <div className={classes.nestingBorders}>
         {Object.entries(softwareInformation).map(([key, layer]) => (
           <SoftwareLayer classes={classes} key={key} layer={layer} setSnackbar={setSnackbar} />
         ))}
       </div>
-    </DeviceDataCollapse>
+    </ContentSection>
   );
 };
 
