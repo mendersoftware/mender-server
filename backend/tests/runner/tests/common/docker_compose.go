@@ -64,10 +64,13 @@ func (c *ComposeEnvironment) Setup(t *testing.T) {
 		require = require.New(t)
 	)
 
-	t.Logf("Creating docker compose environment")
-
 	compose, err := createComposeService(io.Discard)
 	require.NoError(err, "failed to create compose service")
+
+	stacks, err := compose.List(ctx, api.ListOptions{All: true})
+	projectAlreadyRunning := slices.ContainsFunc(stacks, func(s api.Stack) bool {
+		return s.Name == c.config.ProjectName
+	})
 
 	project, cleanup, err := loadComposeProject(ctx, compose, c.config.ProjectName)
 	require.NoError(err, "failed to load compose project")
@@ -76,14 +79,10 @@ func (c *ComposeEnvironment) Setup(t *testing.T) {
 	if cleanup != nil {
 		t.Cleanup(cleanup)
 	}
-
-	stacks, err := compose.List(ctx, api.ListOptions{All: true})
 	require.NoError(err, "")
 
-	projectAlreadyRunning := slices.ContainsFunc(stacks, func(s api.Stack) bool {
-		return s.Name == c.config.ProjectName
-	})
 	if !projectAlreadyRunning {
+		t.Logf("Creating docker compose environment")
 		err = compose.Up(
 			ctx,
 			c.project,
@@ -93,12 +92,15 @@ func (c *ComposeEnvironment) Setup(t *testing.T) {
 			},
 		)
 		require.NoError(err, "failed to bring up docker compose environment")
+
+		err = healthCheckComposeEnvironment(ctx, compose, c.project)
+		require.NoError(err, "failed to health check docker compose environment")
+
+		t.Logf("Successfully created docker compose environment")
+	} else {
+		c.config.SkipCleanup = true // we don't want to spin down the existing environment
+		t.Logf("Using existing docker compose environment '%s'", c.config.ProjectName)
 	}
-
-	err = healthCheckComposeEnvironment(ctx, compose, c.project)
-	require.NoError(err, "failed to health check docker compose environment")
-
-	t.Logf("Successfully created docker compose environment")
 
 	c.serverURL = "traefik"
 	if hostname := os.Getenv("MENDER_HOSTNAME"); hostname != "" {
