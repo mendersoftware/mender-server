@@ -3,17 +3,16 @@
 exports[`Auditlogs Component > renders correctly 1`] = `
 "<div>
   <div
-    class="fadeIn margin-left flexbox column"
-    style="margin-right: 5%;"
+    class="fadeIn margin-right"
   >
     <div
       class="flexbox align-items-center"
     >
-      <h3
-        class="margin-right-small"
+      <h5
+        class="MuiTypography-root MuiTypography-h5 margin-bottom-small css-16xl4zq-MuiTypography-root"
       >
         Audit log
-      </h3>
+      </h5>
       <div
         class="flexbox align-items-center margin-left-small css-1dc2w5e-container"
       >
