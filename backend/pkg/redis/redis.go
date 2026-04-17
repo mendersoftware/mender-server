@@ -135,13 +135,18 @@ func ClientFromConnectionString(
 			}
 		}
 		q["addr"] = nodeAddrs
-		redisurl.RawQuery = q.Encode()
 		redisurl.Host = redisurl.Host[idx+1:]
 	}
+	// Use cluster mode if `cluster` querystring is truthy or additional
+	// addr parameters are supplied.
 	var cluster bool
-	if _, ok := q["addr"]; ok {
-		cluster = true
+	if _, ok := q["cluster"]; ok {
+		cluster, _ = strconv.ParseBool("cluster")
+		delete(q, "cluster")
+	} else {
+		_, cluster = q["addr"]
 	}
+	redisurl.RawQuery = q.Encode()
 	if cluster {
 		var redisOpts *redis.ClusterOptions
 		redisOpts, err = redis.ParseClusterURL(redisurl.String())
