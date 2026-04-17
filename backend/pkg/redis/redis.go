@@ -39,8 +39,7 @@ var (
 	ErrCacheInvalid = errors.New("cache invalidated")
 )
 
-// nolint:lll
-// NewClient creates a new redis client (Cmdable) from the parameters in the
+// ClientFromConnectionString creates a new redis client (Cmdable) from the parameters in the
 // connectionString URL format:
 // Standalone mode:
 // (redis|rediss|unix)://[<user>:<password>@](<host>|<socket path>)[:<port>[/<db_number>]][?option=value]
@@ -64,6 +63,8 @@ var (
 // read_timeout        duration
 // tls                 bool
 // write_timeout       duration
+//
+//nolint:lll
 func ClientFromConnectionString(
 	ctx context.Context,
 	connectionString string,
@@ -80,18 +81,21 @@ func ClientFromConnectionString(
 	// in case connection string was provided in form of host:port
 	// add scheme and parse again
 	if redisurl.Host == "" {
-		redisurl, err = url.Parse("redis://" + connectionString)
-		if err != nil {
-			return nil, err
-		}
+		redisurl.Host = net.JoinHostPort(redisurl.Scheme, redisurl.Opaque)
+		redisurl.Scheme = "redis"
+		redisurl.Opaque = ""
 	}
 	q := redisurl.Query()
-	scheme := redisurl.Scheme
-	cname := redisurl.Hostname()
-	if strings.HasSuffix(scheme, "+srv") {
-		scheme = strings.TrimSuffix(redisurl.Scheme, "+srv")
+	serverName := redisurl.Hostname()
+	var found bool
+	if redisurl.Scheme, found = strings.CutSuffix(redisurl.Scheme, "+srv"); found {
 		var srv []*net.SRV
-		cname, srv, err = net.DefaultResolver.LookupSRV(ctx, scheme, "tcp", redisurl.Host)
+		serverName, srv, err = net.DefaultResolver.LookupSRV(
+			ctx,
+			redisurl.Scheme,
+			"tcp",
+			redisurl.Host,
+		)
 		if err != nil {
 			return nil, err
 		}
@@ -104,38 +108,29 @@ func ClientFromConnectionString(
 			addrs = append(addrs, fmt.Sprintf("%s:%d", host, srv[i].Port))
 		}
 		redisurl.Host = strings.Join(addrs, ",")
-		// cleanup the scheme with one known to Redis
-		// to avoid: invalid URL scheme: tcp-redis+srv
-		redisurl.Scheme = "redis"
 
-	} else if scheme == "" {
-		redisurl.Scheme = "redis"
+	}
+	// Allow host to be a comma-separated list of hosts.
+	addrs := strings.Split(redisurl.Host, ",")
+	if len(addrs) > 1 {
+		redisurl.Host = addrs[0]
+		q := redisurl.Query()
+		for _, addr := range addrs {
+			q.Add("addr", addr)
+		}
 	}
 	// To allow more flexibility for the srv record service
 	// name we use "tls" query parameter to determine if we
 	// should use TLS, otherwise we test if the service
 	// name contains "rediss" before falling back to no TLS.
 	var useTLS bool
-	if scheme == "rediss" {
+	if redisurl.Scheme == "rediss" {
 		useTLS = true
 	} else {
 		useTLS, _ = strconv.ParseBool(q.Get("tls"))
 	}
 	if useTLS {
-		tlsOptions = &tls.Config{ServerName: cname}
-	}
-	// Allow host to be a comma-separated list of hosts.
-	if idx := strings.LastIndexByte(redisurl.Host, ','); idx > 0 {
-		nodeAddrs := strings.Split(redisurl.Host[:idx], ",")
-		for i := range nodeAddrs {
-			const redisPort = ":6379"
-			idx := strings.LastIndex(nodeAddrs[i], ":")
-			if idx < 0 {
-				nodeAddrs[i] = nodeAddrs[i] + redisPort
-			}
-		}
-		q["addr"] = nodeAddrs
-		redisurl.Host = redisurl.Host[idx+1:]
+		tlsOptions = &tls.Config{ServerName: serverName}
 	}
 	// Use cluster mode if `cluster` querystring is truthy or additional
 	// addr parameters are supplied.
