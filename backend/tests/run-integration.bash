@@ -128,8 +128,8 @@ get_runner_requirements() {
 
 run_tests() {
     local RUN_ARGS="--use-aliases"
-    # Need to start the backend first
-    compose_cmd up $COMPOSE_UP_EXTRA_ARGS -d
+    # Need to start the backend first, logs are collected on failure below (compose_cmd logs)
+    compose_cmd up $COMPOSE_UP_EXTRA_ARGS -d > /dev/null 2>&1
     if [ -n "$AZURE_IOTHUB_CONNECTIONSTRING" ]; then
         RUN_ARGS="${RUN_ARGS} -e AZURE_IOTHUB_CONNECTIONSTRING=${AZURE_IOTHUB_CONNECTIONSTRING}"
     fi
