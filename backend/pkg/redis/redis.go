@@ -149,7 +149,16 @@ func ClientFromConnectionString(
 			if tlsOptions != nil {
 				redisOpts.TLSConfig = tlsOptions
 			}
+			var retries int
+			if redisOpts.MaxRetries < 0 {
+				retries = 3 // Use same default as normal redis.Client
+				redisOpts.MaxRetries = -1
+			}
 			rdb = redis.NewClusterClient(redisOpts)
+			if retries > 0 {
+				// Special retry hook for cluster retries
+				rdb.(*redis.ClusterClient).AddHook(retryHook(retries))
+			}
 		}
 	} else {
 		var redisOpts *redis.Options
@@ -165,6 +174,34 @@ func ClientFromConnectionString(
 		Ping(ctx).
 		Result()
 	return rdb, err
+}
+
+type retryHook int
+
+func (retryHook) DialHook(next redis.DialHook) redis.DialHook {
+	return next
+}
+
+func (retries retryHook) ProcessHook(next redis.ProcessHook) redis.ProcessHook {
+	return func(ctx context.Context, cmd redis.Cmder) error {
+		err := next(ctx, cmd)
+		if err == nil {
+			return err
+		}
+		for range retries {
+			var netErr net.Error
+			if redis.IsTryAgainError(err) || (errors.As(err, &netErr) && netErr.Timeout()) {
+				err = next(ctx, cmd)
+			} else {
+				break
+			}
+		}
+		return err
+	}
+}
+
+func (retryHook) ProcessPipelineHook(next redis.ProcessPipelineHook) redis.ProcessPipelineHook {
+	return next
 }
 
 func IsUnavailableErr(err error) bool {
