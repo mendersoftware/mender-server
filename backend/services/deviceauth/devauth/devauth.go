@@ -1412,6 +1412,10 @@ func (d *DevAuth) canAcceptDevice(ctx context.Context) (bool, error) {
 		return false, errors.Wrap(err, "can't get current device limit")
 	}
 
+	if limit.Value == 0 {
+		return false, nil
+	}
+
 	if limit.IsUnlimited() {
 		return true, nil
 	}

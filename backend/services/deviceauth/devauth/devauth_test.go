@@ -1164,6 +1164,20 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 				Id:     dummyDevID,
 				Status: model.DevStatusPending,
 			},
+			dbLimit: &model.Limit{Value: 0},
+			dbCount: 0,
+			outErr:  "maximum number of accepted devices reached",
+		},
+		{
+			aset: &model.AuthSet{
+				Id:       dummyAuthID,
+				DeviceId: dummyDevID,
+				Status:   model.DevStatusPending,
+			},
+			dev: &model.Device{
+				Id:     dummyDevID,
+				Status: model.DevStatusPending,
+			},
 			dbLimit:    &model.Limit{Value: 5},
 			dbLimitErr: errors.New("error"),
 			outErr:     "can't get current device limit: error",
