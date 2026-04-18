@@ -193,6 +193,10 @@ const ArtifactUpload = () => (
   </>
 );
 
+const ManifestUpload = () => (
+  <>You can either upload a pre-made Manifest Artifact, or create a new Manifest using a .yaml file or by duplicating an existing one.</>
+);
+
 const PhasedPausedDeployments = () => (
   <>
     This feature is not available on <b>phased deployments</b>. If you&apos;d like to set pause states between update steps, go back and adjust the rollout
