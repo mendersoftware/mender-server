@@ -17,9 +17,14 @@ export default defineConfig(() => {
         svgrOptions: {
           ref: true,
           svgo: false,
-          titleProp: true
+          titleProp: true,
+          jsxRuntime: 'classic'
         },
-        include: '**/*.svg'
+        include: '**/*.svg',
+        oxcOptions: {
+          // @ts-expect-error -- vite-plugin-svgr's oxcOptions type is not correct
+          jsx: { runtime: 'classic' }
+        }
       }),
       tsconfigPaths({ root: path.resolve(__dirname) })
     ],

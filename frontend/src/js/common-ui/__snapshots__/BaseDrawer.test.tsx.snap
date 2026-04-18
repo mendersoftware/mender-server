@@ -211,7 +211,7 @@ exports[`BaseDrawer Component > renders correctly with ReactNode title 1`] = `
     <div
       aria-hidden="true"
       class="MuiBackdrop-root MuiModal-backdrop emotion-1"
-      style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
       data-testid="sentinelStart"
@@ -489,7 +489,7 @@ exports[`BaseDrawer Component > renders correctly with string title 1`] = `
     <div
       aria-hidden="true"
       class="MuiBackdrop-root MuiModal-backdrop emotion-1"
-      style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
       data-testid="sentinelStart"
@@ -763,7 +763,7 @@ exports[`BaseDrawer Component > renders notification slot 1`] = `
     <div
       aria-hidden="true"
       class="MuiBackdrop-root MuiModal-backdrop emotion-1"
-      style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
       data-testid="sentinelStart"

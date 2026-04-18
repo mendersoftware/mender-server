@@ -35,7 +35,16 @@ const createBillingProfileReq = {
       postal_code: '5678'
     },
     email: 'a@b.com',
-    name: 'test'
+    name: 'test',
+    shipping: {
+      name: 'test',
+      address: {
+        city: 'Oslo',
+        country: 'PL',
+        line1: 'Blindernveien',
+        postal_code: '5678'
+      }
+    }
   }
 };
 const preloadedState = {
