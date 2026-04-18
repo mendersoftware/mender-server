@@ -219,7 +219,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
       {isLoading === undefined ? (
         <Loader show />
       ) : !potentialTotal ? (
-        <p className="margin-top muted align-center margin-right">There are no Releases {isFiltering ? 'for the filter selection' : 'yet'}</p>
+        <Typography className="margin-top muted align-center margin-right">There are no Releases {isFiltering ? 'for the filter selection' : 'yet'}</Typography>
       ) : (
         <>
           <DetailsTable
