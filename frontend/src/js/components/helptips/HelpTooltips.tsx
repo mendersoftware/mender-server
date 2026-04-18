@@ -185,7 +185,13 @@ const ForceDeployment = () => (
   </>
 );
 
-const ArtifactUpload = () => <>Upload an Artifact to an existing or new Release</>;
+const ArtifactUpload = () => (
+  <>
+    Upload a premade Mender Artifact or create one from a single file.
+    <br />
+    Artifacts are grouped by name into Releases. If no matching Release exists, a new one will be created.
+  </>
+);
 
 const PhasedPausedDeployments = () => (
   <>
@@ -323,6 +329,7 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   forceDeployment: { id: 'forceDeployment', Component: ForceDeployment },
   groupDeployment: { id: 'groupDeployment', Component: GroupDeployment },
   microDevice: { id: 'microDevice', Component: MCUDevice },
+  manifestUpload: { id: 'manifestUpload', Component: ManifestUpload },
   menderArtifactUpload: { id: 'menderArtifactUpload', Component: MenderArtifactUpload },
   nameFilterTip: { id: 'nameFilterTip', Component: NameFilterTip },
   nameTagTip: { id: 'nameTagTip', Component: NameTagTip },
