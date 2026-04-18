@@ -11,20 +11,20 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { CloudUpload } from '@mui/icons-material';
-import { Button, Tab, Tabs } from '@mui/material';
+import { Button, Tab, Tabs, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import storeActions from '@northern.tech/store/actions';
-import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import { BENEFITS, SORTING_OPTIONS, TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
-import { getActiveTab, getReleaseListState, getReleasesList, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
-import { selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
+import { getActiveTab, getFeatures, getReleaseListState, getReleasesList, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
+import { selectManifest, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
@@ -33,8 +33,21 @@ import { DeltaProgress } from './DeltaGeneration';
 import { ReleasesFilters } from './ReleasesFilters';
 import ReleasesList from './ReleasesList';
 import AddArtifactDialog from './dialogs/AddArtifact';
+import { ManifestsFilters } from './manifests/ManifestsFilters';
+import { ManifestsList } from './manifests/ManifestsList';
 
 const { setActiveTab, setSelectedJob } = storeActions;
+
+type TitleDefinition = { benefitId?: string; title: string };
+
+const Title = ({ title, benefitId }: TitleDefinition) => (
+  <div className="flexbox align-items-center">
+    <Typography variant="button" style={{ textTransform: 'none' }}>
+      {title}
+    </Typography>
+    {benefitId && <EnterpriseNotification className="margin-left-small" id={benefitId} />}
+  </div>
+);
 
 const UploadRelease = ({ classes, onUploadClick }) => (
   <div className="flexbox align-items-center">
@@ -45,21 +58,37 @@ const UploadRelease = ({ classes, onUploadClick }) => (
   </div>
 );
 
-const DeltaTitle = () => (
+const UploadManifest = ({ classes, onUploadClick }) => (
   <div className="flexbox align-items-center">
-    <div>Delta Artifacts generation</div>
-    <EnterpriseNotification className="margin-left-small" id={BENEFITS.deltaGeneration.id} />
+    <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} variant="outlined">
+      Upload a Manifest
+    </Button>
+    <MenderHelpTooltip id={HELPTOOLTIPS.manifestUpload.id} style={{ marginTop: 8 }} />
   </div>
 );
 
-const tabs = [
-  { key: 'releases', Title: () => 'Releases', component: ReleasesList },
-  { key: 'delta', Title: DeltaTitle, component: DeltaProgress }
-];
-
 const tabbedComponents = {
-  releases: { Filters: ReleasesFilters, Upload: UploadRelease }
+  releases: { Filters: ReleasesFilters, Upload: UploadRelease },
+  manifests: { Filters: ManifestsFilters, Upload: UploadManifest }
 };
+
+type TabDefinition = {
+  canAccess: (flags: Record<string, boolean>) => boolean;
+  component: ({ className, onFileUploadClick }: { className?: string; onFileUploadClick: (file?: File) => void }) => ReactNode;
+  key: string;
+  title: TitleDefinition;
+};
+
+const baseTabs: TabDefinition[] = [
+  { key: 'releases', title: { title: 'Releases' }, component: ReleasesList, canAccess },
+  {
+    key: 'manifests',
+    title: { title: 'Manifests', benefitId: BENEFITS.manifests.id },
+    component: ManifestsList,
+    canAccess: ({ hasManifestsEnabled }) => !!hasManifestsEnabled
+  },
+  { key: 'delta', title: { title: 'Delta Artifacts generation', benefitId: BENEFITS.deltaGeneration.id }, component: DeltaProgress, canAccess }
+];
 
 const useStyles = makeStyles()(theme => ({
   container: { maxWidth: 1600 },
@@ -77,8 +106,8 @@ const Header = ({ canUpload, tab, onTabChanged, onUploadClick, tabs }) => {
     <div>
       <div className="flexbox space-between align-items-center">
         <Tabs className={classes.tabContainer} value={tab} onChange={onTabChanged} textColor="primary">
-          {tabs.map(({ key, Title }) => (
-            <Tab key={key} label={<Title />} value={key} />
+          {tabs.map(({ key, title }) => (
+            <Tab key={key} label={<Title {...title} />} value={key} />
           ))}
         </Tabs>
         {canUpload && UploadComponent && <UploadComponent classes={classes} onUploadClick={onUploadClick} />}
@@ -95,8 +124,11 @@ export const Releases = () => {
   const releases = useSelector(getReleasesList);
   const selectedRelease = useSelector(getSelectedRelease);
   const { canUploadReleases } = useSelector(getUserCapabilities);
+  const features = useSelector(getFeatures);
   const dispatch = useDispatch();
   const { classes } = useStyles();
+
+  const tabs = useMemo(() => baseTabs.filter(({ canAccess }) => canAccess(features)), [features]);
 
   const [selectedFile, setSelectedFile] = useState();
   const [showAddArtifactDialog, setShowAddArtifactDialog] = useState(false);
@@ -146,12 +178,15 @@ export const Releases = () => {
       isInitialized.current = true;
       return;
     }
-    const { selectedRelease, selectedJob, tab: urlTab, tags, ...remainder } = locationParams;
+    const { selectedRelease, selectedJob, selectedManifest, tab: urlTab, tags, ...remainder } = locationParams;
     if (selectedRelease) {
       dispatch(selectRelease(selectedRelease));
     }
     if (selectedJob) {
       dispatch(setSelectedJob(selectedJob));
+    }
+    if (selectedManifest) {
+      dispatch(selectManifest(selectedManifest));
     }
     if (urlTab) {
       dispatch(setActiveTab(urlTab));
@@ -164,7 +199,9 @@ export const Releases = () => {
   const onUploadClick = () => setShowAddArtifactDialog(true);
 
   const onFileUploadClick = selectedFile => {
-    setSelectedFile(selectedFile);
+    if (tab === baseTabs[0].key) {
+      setSelectedFile(selectedFile);
+    }
     setShowAddArtifactDialog(true);
   };
 
@@ -172,7 +209,11 @@ export const Releases = () => {
 
   const onTabChanged = useCallback((_, changedTab: 'releases' | 'delta' | 'manifests') => dispatch(setActiveTab(changedTab)), [dispatch]);
 
-  const ContentComponent = useMemo(() => tabs.find(({ key }) => key === tab).component, [tab]);
+  const ContentComponent = useMemo(() => {
+    const found = tabs.find(({ key }) => key === tab);
+    return found ? found.component : tabs[0].component;
+  }, [tab, tabs]);
+
   return (
     <div className="margin">
       <div>
