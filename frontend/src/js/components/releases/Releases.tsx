@@ -215,11 +215,12 @@ export const Releases = () => {
   }, [tab, tabs]);
 
   return (
-    <div className="margin">
-      <div>
-        <Header canUpload={canUploadReleases} tab={tab} onTabChanged={onTabChanged} onUploadClick={onUploadClick} tabs={tabs} />
-        <ContentComponent className={classes.container} onFileUploadClick={onFileUploadClick} />
-      </div>
+    <div className="margin-right">
+      <Typography className="margin-bottom-small" variant="h5">
+        Software
+      </Typography>
+      <Header canUpload={canUploadReleases} tab={tab} onTabChanged={onTabChanged} onUploadClick={onUploadClick} tabs={tabs} />
+      <ContentComponent className={classes.container} onFileUploadClick={onFileUploadClick} />
       {showAddArtifactDialog && (
         <AddArtifactDialog releases={releases} onCancel={onHideAddArtifactDialog} onUploadStarted={onHideAddArtifactDialog} selectedFile={selectedFile} />
       )}
