@@ -6,7 +6,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
     class=""
   >
     <h6
-      class="MuiTypography-root MuiTypography-subtitle1 margin-bottom css-1i3tsf3-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-subtitle1 margin-top margin-bottom css-1i3tsf3-MuiTypography-root"
     >
       Generated Delta Artifacts
     </h6>
