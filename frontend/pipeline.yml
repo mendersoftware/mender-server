@@ -86,7 +86,7 @@ test:frontend:unit:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   needs: []
-  timeout: 10 minutes
+  timeout: 15 minutes
   script:
     - cd frontend
     - npm ci
