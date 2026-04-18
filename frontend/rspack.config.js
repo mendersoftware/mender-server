@@ -1,5 +1,5 @@
 import { rspack } from '@rspack/core';
-import ReactRefreshPlugin from '@rspack/plugin-react-refresh';
+import { ReactRefreshRspackPlugin } from '@rspack/plugin-react-refresh';
 import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -34,7 +34,7 @@ export default (env, argv) => {
             emitWarning: true,
             emitError: true
           }),
-          new ReactRefreshPlugin()
+          new ReactRefreshRspackPlugin()
         ];
   const { GIT_COMMIT_SHA, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_URL } = process.env;
   if (SENTRY_URL && SENTRY_AUTH_TOKEN && argv.mode === 'production') {
