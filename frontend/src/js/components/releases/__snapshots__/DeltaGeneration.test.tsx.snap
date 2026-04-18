@@ -6,7 +6,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
     class=""
   >
     <h6
-      class="MuiTypography-root MuiTypography-subtitle1 margin-bottom css-1i3tsf3-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-subtitle1 margin-top margin-bottom css-1i3tsf3-MuiTypography-root"
     >
       Generated Delta Artifacts
     </h6>
@@ -27,13 +27,13 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             To version
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1umw9bq-MuiSvgIcon-root"
-              data-testid="SortIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeMedium sortIcon css-1ryok51-MuiSvgIcon-root"
+              data-testid="ArrowDownwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M3 18h6v-2H3zM3 6v2h18V6zm0 7h12v-2H3z"
+                d="m20 12-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8z"
               />
             </svg>
           </th>
@@ -45,13 +45,13 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             From version
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1umw9bq-MuiSvgIcon-root"
-              data-testid="SortIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeMedium sortIcon css-1ryok51-MuiSvgIcon-root"
+              data-testid="ArrowDownwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M3 18h6v-2H3zM3 6v2h18V6zm0 7h12v-2H3z"
+                d="m20 12-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8z"
               />
             </svg>
           </th>
@@ -70,13 +70,13 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             Started
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon selected true css-1umw9bq-MuiSvgIcon-root"
-              data-testid="SortIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeMedium sortIcon selected css-1ryok51-MuiSvgIcon-root"
+              data-testid="ArrowDownwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M3 18h6v-2H3zM3 6v2h18V6zm0 7h12v-2H3z"
+                d="m20 12-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8z"
               />
             </svg>
           </th>
@@ -88,13 +88,13 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             Status
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon true css-1umw9bq-MuiSvgIcon-root"
-              data-testid="SortIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeMedium sortIcon css-1ryok51-MuiSvgIcon-root"
+              data-testid="ArrowDownwardIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M3 18h6v-2H3zM3 6v2h18V6zm0 7h12v-2H3z"
+                d="m20 12-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8z"
               />
             </svg>
           </th>
@@ -112,7 +112,8 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           class="MuiTableRow-root MuiTableRow-hover clickable css-1xtozoh-MuiTableRow-root"
         >
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative padding-right-large css-1dc80h3-MuiTableCell-root"
+            style="width: 20%;"
           >
             <a
               data-discover="true"
@@ -122,7 +123,8 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </a>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative padding-right-large css-1dc80h3-MuiTableCell-root"
+            style="width: 20%;"
           >
             <a
               data-discover="true"
@@ -133,11 +135,13 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           </td>
           <td
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            style="width: 25%;"
           >
             qemux86-64
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative padding-right-large css-1dc80h3-MuiTableCell-root"
+            style="width: 10%;"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -150,7 +154,8 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </p>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative padding-right-large css-1dc80h3-MuiTableCell-root"
+            style="width: 20%;"
           >
             <div
               class="capitalized-start"
@@ -173,13 +178,15 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           </td>
           <td
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            style="width: 5%;"
           />
         </tr>
         <tr
           class="MuiTableRow-root MuiTableRow-hover clickable css-1xtozoh-MuiTableRow-root"
         >
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative padding-right-large css-1dc80h3-MuiTableCell-root"
+            style="width: 20%;"
           >
             <a
               data-discover="true"
@@ -189,7 +196,8 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </a>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative padding-right-large css-1dc80h3-MuiTableCell-root"
+            style="width: 20%;"
           >
             <a
               data-discover="true"
@@ -200,11 +208,13 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           </td>
           <td
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            style="width: 25%;"
           >
             raspberrypi0w, raspberrypi0-wifi, raspberrypi3, raspberrypi4
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative padding-right-large css-1dc80h3-MuiTableCell-root"
+            style="width: 10%;"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -217,7 +227,8 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
             </p>
           </td>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative padding-right-large css-1dc80h3-MuiTableCell-root"
+            style="width: 20%;"
           >
             <div
               class="capitalized-start"
@@ -240,6 +251,7 @@ exports[`DeltaProgress Component > renders correctly 1`] = `
           </td>
           <td
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+            style="width: 5%;"
           />
         </tr>
       </tbody>
