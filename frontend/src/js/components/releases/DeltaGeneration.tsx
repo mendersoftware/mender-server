@@ -137,11 +137,7 @@ export const DeltaProgress = ({ className = '' }) => {
   const onCloseDetailsDrawer = () => onJobSelect({ id: null });
 
   if (!isEnterprise) {
-    return (
-      <div className={`dashboard-placeholder ${className}`} style={{ display: 'grid', placeContent: 'center' }}>
-        <DefaultUpgradeNotification />
-      </div>
-    );
+    return <DefaultUpgradeNotification className={`dashboard-placeholder ${className}`} style={{ display: 'grid', placeContent: 'center' }} />;
   }
 
   if (!total) {
