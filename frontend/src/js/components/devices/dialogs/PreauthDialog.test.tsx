@@ -17,6 +17,7 @@ import { defaultState, render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { mockDate } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import configureStore from 'redux-mock-store';
@@ -36,6 +37,21 @@ let store;
 
 describe('PreauthDialog Component', () => {
   beforeEach(() => {
+    // jsdom 29 uses setImmediate for FileReader events; fake it so file uploads work with fake timers
+    vi.useFakeTimers({
+      now: mockDate,
+      toFake: [
+        'setTimeout',
+        'clearTimeout',
+        'setInterval',
+        'clearInterval',
+        'setImmediate',
+        'clearImmediate',
+        'Date',
+        'requestAnimationFrame',
+        'cancelAnimationFrame'
+      ]
+    });
     store = mockStore({ ...defaultState });
   });
 
