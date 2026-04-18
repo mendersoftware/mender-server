@@ -150,7 +150,7 @@ export const DeltaProgress = ({ className = '' }) => {
 
   return (
     <div className={className}>
-      <Typography className="margin-bottom" variant="subtitle1">
+      <Typography className="margin-top margin-bottom" variant="subtitle1">
         Generated Delta Artifacts
       </Typography>
       <DetailsTable
