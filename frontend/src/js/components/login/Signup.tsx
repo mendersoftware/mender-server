@@ -125,7 +125,7 @@ export const Signup = () => {
       return setSnackbar({ message: 'Please complete the reCAPTCHA test before proceeding!', autoHideDuration: TIMEOUTS.fiveSeconds, action: '' });
     }
     setLoading(true);
-    const { name, captcha, ...remainder } = formData;
+    const { name, captcha, tos: _tos, ...remainder } = formData;
     const { email, password } = formValues;
     const credentials = oauthProvider ? { email, login: { [oauthProvider]: oauthId } } : { email, password };
     const signup = {
@@ -133,7 +133,6 @@ export const Signup = () => {
       ...credentials,
       'g-recaptcha-response': captcha || 'empty',
       campaign,
-      emailVerified,
       organization: name,
       plan: 'enterprise',
       ts: captchaTimestamp

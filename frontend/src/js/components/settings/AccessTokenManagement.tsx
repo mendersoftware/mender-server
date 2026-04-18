@@ -224,10 +224,7 @@ export const AccessTokenManagement = () => {
     setCurrentToken(token);
   };
 
-  const onGenerateClick = config =>
-    dispatch(generateToken(config))
-      .unwrap()
-      .then(results => setCurrentToken(results[results.length - 1]));
+  const onGenerateClick = config => dispatch(generateToken(config)).unwrap().then(setCurrentToken);
 
   const hasLastUsedInfo = useMemo(() => tokens.some(token => !!token.last_used), [tokens]);
 

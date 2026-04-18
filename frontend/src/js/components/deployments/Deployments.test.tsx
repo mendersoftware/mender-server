@@ -198,17 +198,10 @@ describe('Deployments Component', () => {
     });
     await user.click(screen.getByRole('button', { name: 'Create deployment' }));
     expect(post).toHaveBeenCalledWith('/api/management/v2/deployments/deployments', {
-      all_devices: false,
       artifact_name: releaseId,
-      autogenerate_delta: undefined,
-      force_installation: false,
-      devices: undefined,
       filter_id: 'filter1',
-      group: 'testGroupDynamic',
       max_devices: 123,
-      name: 'testGroupDynamic',
-      phases: undefined,
-      update_control_map: undefined
+      name: 'testGroupDynamic'
     });
     await act(() => vi.advanceTimersByTime(1000));
     await waitFor(() => expect(screen.queryByText(/Cancel/i)).not.toBeInTheDocument());
@@ -319,21 +312,15 @@ describe('Deployments Component', () => {
     expect(post).toHaveBeenCalledWith('/api/management/v1/deployments/deployments', {
       all_devices: true,
       artifact_name: releaseId,
-      autogenerate_delta: undefined,
-      devices: undefined,
-      filter_id: undefined,
       force_installation: false,
-      group: undefined,
-      max_devices: undefined,
       name: ALL_DEVICES,
       phases: [
-        { batch_size: 40, delay: 30, delayUnit: 'minutes', start_ts: undefined },
-        { batch_size: 20, delay: 25, delayUnit: 'days', start_ts: secondBatchDate.toISOString() },
-        { batch_size: 20, delay: 2, delayUnit: 'hours', start_ts: thirdBatchDate.toISOString() },
+        { batch_size: 40 },
+        { batch_size: 20, start_ts: secondBatchDate.toISOString() },
+        { batch_size: 20, start_ts: thirdBatchDate.toISOString() },
         { start_ts: fourthBatchDate.toISOString() }
       ],
-      retries: 1,
-      update_control_map: undefined
+      retries: 1
     });
     expect(post).toHaveBeenCalledWith(
       '/api/management/v1/useradm/settings',

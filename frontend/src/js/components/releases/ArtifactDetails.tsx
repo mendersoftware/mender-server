@@ -137,8 +137,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
     }
     setIsDownloading(true);
     try {
-      const results = await dispatch(getArtifactUrl(artifact.id)).unwrap();
-      const uri = results[results.length - 1];
+      const uri = await dispatch(getArtifactUrl(artifact.id)).unwrap();
       createDownload(uri, filename, '');
     } finally {
       setIsDownloading(false);

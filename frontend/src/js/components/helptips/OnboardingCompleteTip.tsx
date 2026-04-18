@@ -41,7 +41,7 @@ export const OnboardingCompleteTip = ({ anchor, targetUrl }) => {
   useEffect(() => {
     dispatch(getDevicesByStatus({ status: DEVICE_STATES.accepted }))
       .unwrap()
-      .then(tasks => Promise.all(tasks[tasks.length - 1].deviceAccu.ids.map(id => dispatch(getDeviceById(id)))))
+      .then(({ deviceAccu }) => Promise.all(deviceAccu.ids.map(id => dispatch(getDeviceById(id)))))
       .finally(() => {
         timer.current = setTimeout(() => dispatch(setOnboardingComplete(true)), 120000);
       });
