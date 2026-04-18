@@ -67,12 +67,7 @@ const useStyles = makeStyles()(theme => ({
   container: { maxWidth: 1600 },
   searchNote: { minHeight: '1.8rem' },
   tabContainer: { alignSelf: 'flex-start' },
-  uploadButton: { minWidth: 164, marginRight: theme.spacing(2) },
-  nameSearch: {
-    [`.${inputBaseClasses.root}.${outlinedInputClasses.root}`]: {
-      padding: theme.palette.background.lightgrey ? `${theme.spacing()} 0 ${theme.spacing()} 14px` : ''
-    }
-  }
+  uploadButton: { minWidth: 164, marginRight: theme.spacing(2) }
 }));
 
 const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadClick }) => {
