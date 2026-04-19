@@ -211,8 +211,8 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
   }, [JSON.stringify(configured), JSON.stringify(deployment.stats), deployment.created, deployment.status, deployment.finished, isRelevantDeployment]);
 
   useEffect(() => {
-    if (!isRelevantDeployment) {
-      return;
+    if (deployment.status === DEPLOYMENT_STATES.finished) {
+      setIsUpdatingConfig(false)
     }
     if (!changedConfig && !isEmpty(config) && (!deployment_id || deployment.status)) {
       // let currentConfig = reported;
