@@ -212,7 +212,9 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
 
   useEffect(() => {
     if (deployment.status === DEPLOYMENT_STATES.finished) {
-      setIsUpdatingConfig(false)
+      setIsUpdatingConfig(false); // Force this to false when finished
+      setUpdateFailed(!!groupDeploymentStats(deployment).failures);
+      dispatch(getDeviceConfig(device.id));
     }
     if (!changedConfig && !isEmpty(config) && (!deployment_id || deployment.status)) {
       // let currentConfig = reported;
