@@ -36,7 +36,8 @@ export default (env, argv) => {
           }),
           new ReactRefreshRspackPlugin()
         ];
-  const { GIT_COMMIT_SHA, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_URL } = process.env;
+  const { GIT_COMMIT_SHA, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_URL, MOCKS } = process.env;
+  const mocksEnabled = MOCKS === 'true';
   if (SENTRY_URL && SENTRY_AUTH_TOKEN && argv.mode === 'production') {
     plugins.push(
       sentryWebpackPlugin({
@@ -60,8 +61,11 @@ export default (env, argv) => {
       port: 8080,
       hot: 'only',
       liveReload: false,
-      server: 'https',
-      static: [{ directory: path.join(__dirname, 'dist'), publicPath: '/ui', serveIndex: false }],
+      server: mocksEnabled ? 'http' : 'https',
+      static: [
+        { directory: path.join(__dirname, 'dist'), publicPath: '/ui', serveIndex: false },
+        ...(mocksEnabled ? [{ directory: path.join(__dirname, 'node_modules/msw/lib'), publicPath: '/', serveIndex: false, watch: false }] : [])
+      ],
       allowedHosts: 'all',
       historyApiFallback: {
         index: `${publicPath}index.html`,
@@ -78,7 +82,7 @@ export default (env, argv) => {
         );
         return middlewares;
       },
-      proxy: [{ context: ['/api'], target: 'https://docker.mender.io', secure: false, changeOrigin: true }]
+      proxy: mocksEnabled ? [] : [{ context: ['/api'], target: 'https://docker.mender.io', secure: false, changeOrigin: true }]
     },
     entry: './src/js/main.tsx',
     module: {
@@ -147,7 +151,10 @@ export default (env, argv) => {
         cleanAfterEveryBuildPatterns: ['!assets/fonts/*', '!assets/img/*']
       }),
       new rspack.CopyRspackPlugin({
-        patterns: [{ from: 'node_modules/monaco-editor/min/vs/', to: 'vs' }]
+        patterns: [
+          { from: 'node_modules/monaco-editor/min/vs/', to: 'vs' },
+          ...(mocksEnabled ? [{ from: 'node_modules/msw/lib/mockServiceWorker.js', to: 'mockServiceWorker.js' }] : [])
+        ]
       }),
       new rspack.ProvidePlugin({
         process: 'process/browser',
@@ -155,6 +162,7 @@ export default (env, argv) => {
       }),
       new rspack.DefinePlugin({
         ENV: JSON.stringify(argv.mode),
+        __MOCKS_ENABLED__: JSON.stringify(mocksEnabled),
         XTERM_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/xterm']),
         XTERM_FIT_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/addon-fit']),
         XTERM_SEARCH_VERSION: JSON.stringify(require('./package.json').dependencies['@xterm/addon-search'])
@@ -178,6 +186,7 @@ export default (env, argv) => {
       fallback: {
         assert: require.resolve('assert/'),
         buffer: require.resolve('buffer/'),
+        path: require.resolve('path-browserify'),
         stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
         vm: require.resolve('vm-browserify'),
