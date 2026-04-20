@@ -15,15 +15,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import {
-  Delete as DeleteIcon,
-  ExpandLess,
-  ExpandMore,
-  Launch as LaunchIcon,
-  SaveAlt as SaveAltIcon,
-  GppGoodOutlined as SignedIcon,
-  GppBadOutlined as UnsignedIcon
-} from '@mui/icons-material';
+import { Delete as DeleteIcon, ExpandLess, ExpandMore, Launch as LaunchIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
 import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Divider, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -36,6 +28,7 @@ import pluralize from 'pluralize';
 
 import ArtifactMetadataList from './ArtifactMetadataList';
 import ArtifactPayload from './ArtifactPayload';
+import { SignatureSign } from './utils';
 
 const useStyles = makeStyles()(() => ({
   accordPanel1: {
@@ -170,17 +163,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
         className="margin-bottom-small"
         data={{
           'Description': <EditableLongText fullWidth original={artifact.description} onChange={onDescriptionChanged} />,
-          'Signed': artifact.signed ? (
-            <div className="flexbox align-items-center">
-              <SignedIcon className="green margin-right-x-small" />
-              <Typography variant="body2">Signed</Typography>
-            </div>
-          ) : (
-            <div className="flexbox align-items-center">
-              <UnsignedIcon className="red margin-right-x-small" />
-              <Typography variant="body2">Unsigned</Typography>
-            </div>
-          )
+          'Signed': <SignatureSign isSigned={artifact.signed} />
         }}
       />
 
