@@ -26,6 +26,7 @@ import (
 	"github.com/urfave/cli"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/health"
 	"github.com/mendersoftware/mender-server/pkg/version"
 
 	"github.com/mendersoftware/mender-server/services/workflows/app/server"
@@ -144,6 +145,11 @@ func doMain(args []string) {
 					return nil
 				},
 			},
+			health.Command(func(c *cli.Context) string {
+				return "http://localhost" +
+					config.Config.GetString(dconfig.SettingListen) +
+					"/api/v1/health"
+			}),
 		},
 		Version: appVersion.Version,
 	}

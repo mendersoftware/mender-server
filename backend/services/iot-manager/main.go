@@ -38,6 +38,7 @@ import (
 	"github.com/urfave/cli"
 
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/pkg/health"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/version"
 )
@@ -142,6 +143,11 @@ func doMain(args []string) {
 					return nil
 				},
 			},
+			health.Command(func(c *cli.Context) string {
+				return "http://localhost" +
+					config.Config.GetString(dconfig.SettingListen) +
+					"/api/internal/v1/iot-manager/health"
+			}),
 		},
 		Version: appVersion.Version,
 	}
