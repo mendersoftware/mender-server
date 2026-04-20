@@ -69,15 +69,54 @@ func ClientFromConnectionString(
 	ctx context.Context,
 	connectionString string,
 ) (redis.Cmdable, error) {
-	var (
-		redisurl   *url.URL
-		tlsOptions *tls.Config
-		rdb        redis.Cmdable
-	)
+	var rdb redis.Cmdable
 	redisurl, err := url.Parse(connectionString)
 	if err != nil {
 		return nil, err
 	}
+	isCluster, tlsConfig, err := parseRedisExtraOptions(ctx, redisurl)
+	if err != nil {
+		return nil, err
+	}
+	if isCluster {
+		var redisOpts *redis.ClusterOptions
+		redisOpts, err = redis.ParseClusterURL(redisurl.String())
+		if err == nil {
+			if tlsConfig != nil {
+				redisOpts.TLSConfig = tlsConfig
+			}
+			var retries int
+			if redisOpts.MaxRetries < 0 {
+				retries = 3 // Use same default as normal redis.Client
+				redisOpts.MaxRetries = -1
+			}
+			rdb = redis.NewClusterClient(redisOpts)
+			if retries > 0 {
+				// Special retry hook for cluster retries
+				rdb.(*redis.ClusterClient).AddHook(retryHook(retries))
+			}
+		}
+	} else {
+		var redisOpts *redis.Options
+		redisOpts, err = redis.ParseURL(redisurl.String())
+		if err == nil {
+			rdb = redis.NewClient(redisOpts)
+		}
+	}
+	if err != nil {
+		return nil, fmt.Errorf("redis: invalid connection string: %w", err)
+	}
+	_, err = rdb.
+		Ping(ctx).
+		Result()
+	return rdb, err
+}
+
+func parseRedisExtraOptions(ctx context.Context, redisurl *url.URL) (
+	isCluster bool,
+	tlsConfig *tls.Config,
+	err error,
+) {
 	// in case connection string was provided in form of host:port
 	// add scheme and parse again
 	if redisurl.Host == "" {
@@ -97,7 +136,7 @@ func ClientFromConnectionString(
 			redisurl.Host,
 		)
 		if err != nil {
-			return nil, err
+			return false, nil, err
 		}
 		addrs := make([]string, 0, len(srv))
 		for i := range srv {
@@ -130,50 +169,18 @@ func ClientFromConnectionString(
 		useTLS, _ = strconv.ParseBool(q.Get("tls"))
 	}
 	if useTLS {
-		tlsOptions = &tls.Config{ServerName: serverName}
+		tlsConfig = &tls.Config{ServerName: serverName}
 	}
 	// Use cluster mode if `cluster` querystring is truthy or additional
 	// addr parameters are supplied.
-	var cluster bool
 	if _, ok := q["cluster"]; ok {
-		cluster, _ = strconv.ParseBool("cluster")
+		isCluster, _ = strconv.ParseBool("cluster")
 		delete(q, "cluster")
 	} else {
-		_, cluster = q["addr"]
+		_, isCluster = q["addr"]
 	}
 	redisurl.RawQuery = q.Encode()
-	if cluster {
-		var redisOpts *redis.ClusterOptions
-		redisOpts, err = redis.ParseClusterURL(redisurl.String())
-		if err == nil {
-			if tlsOptions != nil {
-				redisOpts.TLSConfig = tlsOptions
-			}
-			var retries int
-			if redisOpts.MaxRetries < 0 {
-				retries = 3 // Use same default as normal redis.Client
-				redisOpts.MaxRetries = -1
-			}
-			rdb = redis.NewClusterClient(redisOpts)
-			if retries > 0 {
-				// Special retry hook for cluster retries
-				rdb.(*redis.ClusterClient).AddHook(retryHook(retries))
-			}
-		}
-	} else {
-		var redisOpts *redis.Options
-		redisOpts, err = redis.ParseURL(redisurl.String())
-		if err == nil {
-			rdb = redis.NewClient(redisOpts)
-		}
-	}
-	if err != nil {
-		return nil, fmt.Errorf("redis: invalid connection string: %w", err)
-	}
-	_, err = rdb.
-		Ping(ctx).
-		Result()
-	return rdb, err
+	return isCluster, tlsConfig, nil
 }
 
 type retryHook int
