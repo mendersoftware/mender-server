@@ -163,7 +163,7 @@ def artifact_rootfs_from_data(
 
             cmd = (
                 f"mender-artifact write rootfs-image"
-                + f' --device-type "{devicetype}"'
+                + f' --compatible-types "{devicetype}"'
                 + f' --file "{tdata.name}"'
                 + f' --artifact-name "{name}"'
                 + f' --output-path "{tmender.name}"'
@@ -201,7 +201,7 @@ def artifact_update_module_from_data(
             cmd = (
                 f"mender-artifact write module-image"
                 + f' -T "{update_type}"'
-                + f' --device-type "{devicetype}"'
+                + f' --compatible-types "{devicetype}"'
                 + f' --file "{tdata.name}"'
                 + f' --artifact-name "{name}"'
                 + f' --output-path "{tmender.name}"'
@@ -234,7 +234,7 @@ def artifact_bootstrap_from_data(
         )
         cmd = (
             f"mender-artifact write bootstrap-artifact"
-            + f' --device-type "{devicetype}"'
+            + f' --compatible-types "{devicetype}"'
             + f' --artifact-name "{name}"'
             + f' --output-path "{tmender.name}"'
             + f"{provides_arg}"
