@@ -29,4 +29,6 @@ COPY --chown=$USER  backend/services/workflows/config.yaml /etc/workflows/config
 COPY --from=builder --chown=$USER /build/workflows /usr/bin/workflows
 COPY --from=builder --chown=$USER /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
+    CMD ["/usr/bin/workflows", "--config", "/etc/workflows/config.yaml", "healthcheck"]
 ENTRYPOINT ["/usr/bin/workflows", "--config", "/etc/workflows/config.yaml"]

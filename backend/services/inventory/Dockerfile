@@ -28,4 +28,6 @@ USER $USER
 COPY --chown=$USER  backend/services/inventory/config.yaml /etc/inventory/config.yaml
 COPY --from=builder --chown=$USER /build/inventory /usr/bin/inventory
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
+    CMD ["/usr/bin/inventory", "--config", "/etc/inventory/config.yaml", "healthcheck"]
 ENTRYPOINT ["/usr/bin/inventory", "--config", "/etc/inventory/config.yaml"]

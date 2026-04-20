@@ -31,4 +31,6 @@ COPY --from=empty --chown=$USER / $TMPDIR
 COPY --chown=$USER  backend/services/deployments/config.yaml /etc/deployments/config.yaml
 COPY --from=builder --chown=$USER /build/deployments /usr/bin/deployments
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
+    CMD ["/usr/bin/deployments", "--config", "/etc/deployments/config.yaml", "healthcheck"]
 ENTRYPOINT ["/usr/bin/deployments", "--config", "/etc/deployments/config.yaml"]

@@ -27,4 +27,6 @@ USER $USER
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --chown=$USER  backend/services/iot-manager/config.yaml /etc/iot-manager/config.yaml
 COPY --from=builder --chown=$USER /build/iot-manager /usr/bin/iot-manager
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
+    CMD ["/usr/bin/iot-manager", "--config", "/etc/iot-manager/config.yaml", "healthcheck"]
 ENTRYPOINT ["/usr/bin/iot-manager", "--config", "/etc/iot-manager/config.yaml"]

@@ -26,4 +26,6 @@ USER $USER
 COPY --chown=$USER  backend/services/deviceauth/config.yaml /etc/deviceauth/config.yaml
 COPY --from=builder --chown=$USER /build/deviceauth /usr/bin/deviceauth
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
+    CMD ["/usr/bin/deviceauth", "--config", "/etc/deviceauth/config.yaml", "healthcheck"]
 ENTRYPOINT ["/usr/bin/deviceauth", "--config", "/etc/deviceauth/config.yaml"]

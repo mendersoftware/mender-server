@@ -25,4 +25,6 @@ USER $USER
 COPY --chown=$USER  backend/services/deviceconnect/config.yaml /etc/deviceconnect/config.yaml
 COPY --from=builder --chown=$USER /build/deviceconnect /usr/bin/deviceconnect
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
+    CMD ["/usr/bin/deviceconnect", "--config", "/etc/deviceconnect/config.yaml", "healthcheck"]
 ENTRYPOINT ["/usr/bin/deviceconnect", "--config", "/etc/deviceconnect/config.yaml"]

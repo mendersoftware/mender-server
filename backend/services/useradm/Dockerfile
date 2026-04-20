@@ -28,4 +28,6 @@ COPY --chown=$USER  backend/services/useradm/config.yaml /etc/useradm/config.yam
 COPY --chown=$USER  backend/services/useradm/config/plans.yaml /etc/useradm/plans.yaml
 COPY --from=builder --chown=$USER build/useradm /usr/bin/useradm
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
+    CMD ["/usr/bin/useradm", "--config", "/etc/useradm/config.yaml", "healthcheck"]
 ENTRYPOINT ["/usr/bin/useradm", "--config", "/etc/useradm/config.yaml"]
