@@ -231,7 +231,7 @@ export const AddArtifactDialog = ({ onCancel, onUploadStarted, releases, selecte
 
   return (
     <BaseDialog open title="Upload an Artifact" fullWidth maxWidth="sm" onClose={onCancel}>
-      <DialogContent className="dialog-content margin-top margin-left margin-right margin-bottom">
+      <DialogContent className="margin-top margin-bottom">
         {!file ? (
           <ArtifactUpload updateCreation={onUpdateCreation} />
         ) : (

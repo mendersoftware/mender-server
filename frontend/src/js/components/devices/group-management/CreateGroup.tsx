@@ -53,7 +53,7 @@ export const CreateGroup = ({ addListOfDevices, fromFilters, isCreation, onClose
           selectedGroup={selectedGroup}
         />
       </DialogContent>
-      <DialogActions style={{ marginTop: 0 }}>
+      <DialogActions>
         <Button style={{ marginRight: 10 }} onClick={onClose}>
           Cancel
         </Button>
