@@ -26,6 +26,7 @@ import { getHasManifests, getIsEnterprise, getManifestsList, getManifestsListSta
 import { getManifests, selectManifest, setManifestsListState } from '@northern.tech/store/thunks';
 import type { Manifest } from '@northern.tech/types/MenderTypes';
 
+import { ManifestDetails } from './ManifestDetails';
 import { ManifestQuickActions } from './ManifestQuickActions';
 
 const columns = [
@@ -147,6 +148,7 @@ export const ManifestsList = ({ className = '', onFileUploadClick }: { className
           {selectedManifests?.length > 0 && <ManifestQuickActions />}
         </>
       )}
+      <ManifestDetails />
     </div>
   );
 };
