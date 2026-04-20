@@ -23,20 +23,7 @@ import {
   Sort as SortIcon,
   SyncOutlined as SyncOutlinedIcon
 } from '@mui/icons-material';
-import {
-  Button,
-  ClickAwayListener,
-  DialogActions,
-  DialogContent,
-  SpeedDial,
-  SpeedDialAction,
-  SpeedDialIcon,
-  Tooltip,
-  Typography,
-  alpha,
-  getOverlayAlpha
-} from '@mui/material';
-import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
+import { Button, DialogActions, DialogContent, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
@@ -45,6 +32,7 @@ import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/Confir
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import FileSize from '@northern.tech/common-ui/FileSize';
+import { BaseQuickActions, type QuickAction } from '@northern.tech/common-ui/QuickActions';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
@@ -53,7 +41,6 @@ import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getReleaseListState, getReleaseTags, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
 import { removeArtifact, removeRelease, selectRelease, setReleaseTags, updateReleaseInfo } from '@northern.tech/store/thunks';
-import { isDarkMode } from '@northern.tech/store/utils';
 import { customSort, formatTime, isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import copy from 'copy-to-clipboard';
@@ -119,21 +106,6 @@ const defaultActions = [
 ];
 
 const useStyles = makeStyles()(theme => ({
-  container: {
-    display: 'flex',
-    position: 'fixed',
-    bottom: theme.spacing(6.5),
-    right: theme.spacing(6.5),
-    zIndex: 10,
-    minWidth: 'max-content',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    pointerEvents: 'none',
-    [`.${speedDialActionClasses.staticTooltipLabel}`]: {
-      minWidth: 'max-content'
-    }
-  },
-  fab: { marginBottom: theme.spacing(2), marginRight: theme.spacing(2) },
   releaseRepoItem: {
     paddingBottom: theme.spacing(2),
     '&.repo-header': {
@@ -149,64 +121,40 @@ const useStyles = makeStyles()(theme => ({
       margin: 0
     }
   },
-  tagSelect: { marginRight: theme.spacing(2), maxWidth: 350 },
-  label: {
-    background: isDarkMode(theme.palette.mode) ? alpha('#fff', getOverlayAlpha(6)) : theme.palette.common.white,
-    boxShadow: isDarkMode(theme.palette.mode) ? 'none' : theme.shadows[6],
-    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
-    borderRadius: theme.spacing(0.5),
-    marginRight: theme.spacing(1),
-    marginBottom: theme.spacing(3)
-  }
+  tagSelect: { marginRight: theme.spacing(2), maxWidth: 350 }
 }));
 
 export const ReleaseQuickActions = ({ actionCallbacks }) => {
-  const [showActions, setShowActions] = useState(false);
-  const { classes } = useStyles();
   const { selection: selectedRows } = useSelector(getReleaseListState);
   const selectedRelease = useSelector(getSelectedRelease);
   const userCapabilities = useSelector(getUserCapabilities);
 
-  const actions = useMemo(
+  const selectedSingleRelease = !isEmpty(selectedRelease) || selectedRows.length === 1;
+  const pluralized = pluralize('Releases', selectedRows.length);
+
+  const actions: QuickAction[] = useMemo(
     () =>
-      Object.values(defaultActions).reduce((accu, action) => {
-        if (action.isApplicable({ userCapabilities, selectedSingleRelease: !isEmpty(selectedRelease), selectedRows })) {
-          accu.push(action);
+      defaultActions.reduce<QuickAction[]>((accu, action) => {
+        if (action.isApplicable({ userCapabilities, selectedSingleRelease, selectedRows })) {
+          accu.push({
+            key: action.key,
+            icon: action.icon,
+            title: action.title(pluralized),
+            onClick: () => action.action({ ...actionCallbacks, selection: selectedRows })
+          });
         }
         return accu;
       }, []),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(userCapabilities), selectedRelease, selectedRows]
+    [JSON.stringify(userCapabilities), selectedRelease, selectedRows, actionCallbacks, pluralized]
   );
 
-  const handleShowActions = () => setShowActions(toggle);
-
-  const handleClickAway = () => setShowActions(false);
-
-  const pluralized = pluralize('Releases', !isEmpty(selectedRelease) ? 1 : selectedRows.length);
-
-  if (!actions.length) {
-    return null;
-  }
   return (
-    <div className={classes.container}>
-      <Typography variant="body1" className={classes.label}>
-        {!isEmpty(selectedRelease) ? 'Release actions' : `${selectedRows.length} ${pluralized} selected`}
-      </Typography>
-      <ClickAwayListener onClickAway={handleClickAway}>
-        <SpeedDial className={classes.fab} ariaLabel="release-actions" icon={<SpeedDialIcon />} onClick={handleShowActions} open={Boolean(showActions)}>
-          {actions.map(action => (
-            <SpeedDialAction
-              key={action.key}
-              aria-label={action.key}
-              icon={action.icon}
-              slotProps={{ tooltip: { title: action.title(pluralized), open: true } }}
-              onClick={() => action.action({ ...actionCallbacks, selection: selectedRows })}
-            />
-          ))}
-        </SpeedDial>
-      </ClickAwayListener>
-    </div>
+    <BaseQuickActions
+      actions={actions}
+      ariaLabel="release-actions"
+      label={selectedSingleRelease ? 'Release actions' : `${selectedRows.length} ${pluralized} selected`}
+    />
   );
 };
 
