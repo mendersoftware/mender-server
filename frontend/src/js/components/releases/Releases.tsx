@@ -19,11 +19,7 @@ import { CloudUpload } from '@mui/icons-material';
 import { Button, Tab, Tabs, TextField, inputBaseClasses, outlinedInputClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
-import { ControlledSearch } from '@northern.tech/common-ui/Search';
-import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
-import { Filters } from '@northern.tech/common-ui/forms/Filters';
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
@@ -44,12 +40,22 @@ import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 import { DeltaProgress } from './DeltaGeneration';
 import ReleaseDetails from './ReleaseDetails';
+import { ReleasesFilters } from './ReleasesFilters';
 import ReleasesList from './ReleasesList';
 import AddArtifactDialog from './dialogs/AddArtifact';
 
 const { setSelectedJob } = storeActions;
 
 const refreshArtifactsLength = 60000;
+
+const UploadRelease = ({ classes, onUploadClick }) => (
+  <div className="flexbox align-items-center">
+    <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} variant="contained">
+      Upload an artifact
+    </Button>
+    <MenderHelpTooltip id={HELPTOOLTIPS.artifactUpload.id} style={{ marginTop: 8 }} />
+  </div>
+);
 
 const DeltaTitle = () => (
   <div className="flexbox align-items-center">
@@ -62,6 +68,10 @@ const tabs = [
   { key: 'releases', Title: () => 'Releases', component: ReleasesList },
   { key: 'delta', Title: DeltaTitle, component: DeltaProgress }
 ];
+
+const tabbedComponents = {
+  releases: { Filters: ReleasesFilters, Upload: UploadRelease }
+};
 
 const useStyles = makeStyles()(theme => ({
   container: { maxWidth: 1600 },
@@ -81,7 +91,7 @@ const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadCl
 
   const onTabChanged = (e, tab) => setReleasesListState({ tab });
 
-  const onFiltersChange = useCallback(({ name, tags, type }) => setReleasesListState({ selectedTags: tags, searchTerm: name, type }), [setReleasesListState]);
+  const { Filters: FilterComponent, Upload: UploadComponent } = tabbedComponents[tab] ?? {};
 
   return (
     <div>
@@ -91,59 +101,9 @@ const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadCl
             <Tab key={key} label={<Title />} value={key} />
           ))}
         </Tabs>
-        {canUpload && tab !== 'delta' && (
-          <div className="flexbox align-items-center">
-            <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} variant="contained">
-              Upload
-            </Button>
-            <MenderHelpTooltip id={HELPTOOLTIPS.artifactUpload.id} style={{ marginTop: 8 }} />
-          </div>
-        )}
+        {canUpload && UploadComponent && <UploadComponent classes={classes} onUploadClick={onUploadClick} />}
       </div>
-      {hasReleases && tab === tabs[0].key && (
-        <Filters
-          className={classes.container}
-          onChange={onFiltersChange}
-          initialValues={{ name: searchTerm, tags: selectedTags, type }}
-          defaultValues={{ name: '', tags: [], type: '' }}
-          filters={[
-            {
-              key: 'name',
-              title: 'Release name',
-              Component: ControlledSearch,
-              componentProps: {
-                className: classes.nameSearch,
-                onSearch: searchUpdated,
-                placeholder: 'Starts with'
-              }
-            },
-            {
-              key: 'tags',
-              title: 'Tags',
-              Component: ChipSelect,
-              componentProps: {
-                options: existingTags,
-                placeholder: 'Select tags',
-                selection: selectedTags
-              }
-            },
-            {
-              key: 'type',
-              title: 'Contains Artifact type',
-              Component: ControlledAutoComplete,
-              componentProps: {
-                autoHighlight: true,
-                filterSelectedOptions: true,
-                freeSolo: true,
-                handleHomeEndKeys: true,
-                options: updateTypes,
-                renderInput: params => <TextField {...params} placeholder="Any" InputProps={{ ...params.InputProps }} />
-              }
-            }
-          ]}
-        />
-      )}
-      <p className={`muted ${classes.searchNote}`}>{searchTerm && searchTotal !== total ? `Filtered from ${total} ${pluralize('Release', total)}` : ''}</p>
+      {FilterComponent && <FilterComponent classes={classes} />}
     </div>
   );
 };
