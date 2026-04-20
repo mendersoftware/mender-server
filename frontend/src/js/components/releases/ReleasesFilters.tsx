@@ -71,7 +71,7 @@ export const ReleasesFilters = ({ classes }: { classes: Record<string, string> }
               freeSolo: true,
               handleHomeEndKeys: true,
               options: updateTypes,
-              renderInput: params => <TextField {...params} placeholder="Any" slotProps={{ Input: { ...params.InputProps } }} />
+              renderInput: params => <TextField {...params} placeholder="Any" />
             }
           }
         ]}
