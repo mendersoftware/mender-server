@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
-import { DEPLOYMENT_ROUTES, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, canAccess as canShow } from '@northern.tech/store/constants';
+import { DEPLOYMENT_ROUTES, DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS, canAccess as canShow } from '@northern.tech/store/constants';
 import {
   getFeatures,
   getHasReleases,
@@ -33,12 +33,14 @@ import {
   getSelectedReleases,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
-import { removeReleases, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
+import { getExistingReleaseTags, getReleases, getUpdateTypes, removeReleases, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 
-import { DeleteReleasesConfirmationDialog, ReleaseQuickActions } from './ReleaseDetails';
+import ReleaseDetails, { DeleteReleasesConfirmationDialog, ReleaseQuickActions } from './ReleaseDetails';
 import AddTagsDialog from './dialogs/AddTags';
 
 const { setSnackbar } = storeActions;
+
+const refreshArtifactsLength = TIMEOUTS.refreshLong;
 
 const columns = [
   {
@@ -102,6 +104,7 @@ const EmptyState = ({ canUpload, className = '', dropzoneRef, uploading, onDrop,
 export const ReleasesList = ({ className = '', onFileUploadClick }) => {
   const repoRef = useRef();
   const dropzoneRef = useRef();
+  const artifactTimer = useRef<ReturnType<typeof setInterval> | undefined>();
   const uploading = useSelector(getIsUploading);
   const releasesListState = useSelector(getReleaseListState);
   const {
@@ -129,6 +132,20 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
 
   const { canUploadReleases } = userCapabilities;
   const { key: attribute, direction } = sort;
+
+  useEffect(() => {
+    dispatch(getReleases({ searchTerm: '', searchOnly: true, page: 1, perPage: 1, selectedTags: [], type: '' }))
+      .unwrap()
+      .then(() => dispatch(setReleasesListState({ isLoading: false })));
+    dispatch(getExistingReleaseTags());
+    dispatch(getUpdateTypes());
+    clearInterval(artifactTimer.current);
+    artifactTimer.current = setInterval(() => dispatch(getReleases()), refreshArtifactsLength);
+    return () => {
+      clearInterval(artifactTimer.current);
+      dispatch(setReleasesListState({ selection: [] }));
+    };
+  }, [dispatch]);
 
   const onSelect = useCallback(id => dispatch(selectRelease(id)), [dispatch]);
 
@@ -248,6 +265,7 @@ export const ReleasesList = ({ className = '', onFileUploadClick }) => {
           {deleteDialogConfirmation && <DeleteReleasesConfirmationDialog onClose={() => setDeleteDialogConfirmation(false)} onSubmit={deleteReleases} />}
         </>
       )}
+      <ReleaseDetails />
     </div>
   );
 };
