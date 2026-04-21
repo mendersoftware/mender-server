@@ -142,7 +142,7 @@ const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadCl
                 freeSolo: true,
                 handleHomeEndKeys: true,
                 options: updateTypes,
-                renderInput: params => <TextField {...params} placeholder="Any" InputProps={{ ...params.InputProps }} />
+                renderInput: params => <TextField {...params} placeholder="Any" />
               }
             }
           ]}
