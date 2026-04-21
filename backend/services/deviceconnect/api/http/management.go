@@ -16,7 +16,6 @@ package http
 
 import (
 	"context"
-	"encoding/binary"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -178,7 +177,7 @@ func (h ManagementController) Connect(c *gin.Context) {
 		return
 	}
 	//nolint:errcheck
-	defer s.Close(ctx)
+	defer doWithTimeout(ctx, time.Second*10, s.Close)
 
 	// Prepare the user session
 	err = h.app.PrepareUserSession(ctx, session)
@@ -192,12 +191,15 @@ func (h ManagementController) Connect(c *gin.Context) {
 		rest.RenderInternalError(c, err)
 		return
 	}
-	defer func() {
+
+	//nolint:errcheck
+	defer doWithTimeout(ctx, time.Second*10, func(ctx context.Context) error {
 		err := h.app.FreeUserSession(ctx, session.ID, session.Types)
 		if err != nil {
 			l.Warnf("failed to free session: %s", err.Error())
 		}
-	}()
+		return err
+	})
 
 	// upgrade get request to websocket protocol
 	conn, err := wsUpgrader.Upgrade(c.Writer, c.Request, nil)
@@ -324,15 +326,16 @@ func (h ManagementController) Playback(c *gin.Context) {
 func writerFinalizer(conn *websocket.Conn, e *error, l *log.Logger) {
 	err := *e
 	if err != nil {
-		if !websocket.IsUnexpectedCloseError(errors.Cause(err)) {
-			errMsg := err.Error()
-			errBody := make([]byte, len(errMsg)+2)
-			binary.BigEndian.PutUint16(errBody,
-				websocket.CloseInternalServerErr)
-			copy(errBody[2:], errMsg)
-			errClose := conn.WriteControl(
-				websocket.CloseMessage,
-				errBody,
+		var closeErr *websocket.CloseError
+		// If err is a websocket.CloseError we assume that we have already
+		// received a close frame, or a close frame has already been sent.
+		if errors.As(err, &closeErr) {
+			if closeErr.Code == websocket.CloseNormalClosure {
+				return
+			}
+		} else {
+			errClose := conn.WriteControl(websocket.CloseMessage,
+				websocket.FormatCloseMessage(websocket.CloseInternalServerErr, "internal error"),
 				time.Now().Add(writeWait),
 			)
 			if errClose != nil {
@@ -634,12 +637,12 @@ func (h ManagementController) ConnectServeWS(
 
 	controlRecorder := h.app.GetControlRecorder(sess.ID)
 	sessionRecorder := h.app.GetRecorder(sess.ID)
-	defer func() {
-		ctx, cancel := context.WithTimeout(context.WithoutCancel(ctx), time.Second*10)
-		defer cancel()
+	//nolint:errcheck
+	defer doWithTimeout(ctx, time.Second, func(ctx context.Context) error {
 		_ = sessionRecorder.Close(ctx)
 		_ = controlRecorder.Close(ctx)
-	}()
+		return nil
+	})
 
 	errRead := make(chan error)
 	errWrite := make(chan error)
@@ -662,7 +665,7 @@ func (h ManagementController) ConnectServeWS(
 	case <-ctx.Done():
 		err = ctx.Err()
 	}
-	if err != nil {
+	if err != nil && !websocket.IsCloseError(err, websocket.CloseNormalClosure) {
 		_ = c.Error(err)
 	}
 	return err
@@ -671,12 +674,16 @@ func (h ManagementController) ConnectServeWS(
 func (h ManagementController) handleReadErrors(
 	ctx context.Context,
 	errP *error,
+	s stream.Conn,
 	errChan chan<- error) {
 	var err error
 	if errP != nil {
 		err = *errP
 	}
 	log.FromContext(ctx).SimpleRecovery(log.NewRecoveryOption().WithError(err))
+	if !errors.Is(err, stream.ErrClosed) {
+		_ = doWithTimeout(ctx, time.Second, s.Close)
+	}
 	if err != nil && !websocket.IsUnexpectedCloseError(err) {
 		select {
 		case <-ctx.Done():
@@ -699,8 +706,7 @@ func (h ManagementController) connectServeWSProcessMessages(
 	l := log.FromContext(ctx)
 	logTerminal := false
 	logPortForward := false
-	defer s.Close(ctx)
-	defer h.handleReadErrors(ctx, &err, errChan)
+	defer h.handleReadErrors(ctx, &err, s, errChan)
 
 	var data []byte
 	controlBytes := 0

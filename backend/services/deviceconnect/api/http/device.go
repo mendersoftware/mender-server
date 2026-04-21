@@ -16,7 +16,6 @@ package http
 
 import (
 	"context"
-	"encoding/binary"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -145,8 +144,11 @@ func (h DeviceController) Connect(c *gin.Context) {
 		})
 		return
 	}
-	//nolint:errcheck
-	defer listener.Close(ctx)
+	defer func() {
+		ctx, cancel := context.WithTimeout(ctx, time.Second*10)
+		defer cancel()
+		_ = listener.Close(ctx)
+	}()
 
 	upgrader := websocket.Upgrader{
 		Subprotocols: []string{"protomsg/msgpack"},
@@ -182,39 +184,23 @@ func (h DeviceController) Connect(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	defer func() {
-		// update the device status on websocket closing
-		disconnectCtx, disconnectCancel := context.WithTimeout(
-			context.WithoutCancel(ctx),
-			time.Second*10,
-		)
-		defer disconnectCancel()
+	//nolint:errcheck
+	defer doWithTimeout(ctx, time.Second*10, func(ctx context.Context) error {
 		eStatus := h.app.SetDeviceDisconnected(
-			disconnectCtx, idata.Tenant,
+			ctx, idata.Tenant,
 			idata.Subject, version,
 		)
 		if eStatus != nil {
 			l.Error(eStatus)
 		}
-	}()
+		return eStatus
+	})
 
 	// websocketWriter is responsible for closing the websocket
 	//nolint:errcheck
 	err = h.connectWSWriter(ctxWithCancel, conn, listener)
-	if err != nil {
+	if err != nil && !websocket.IsCloseError(err, websocket.CloseNormalClosure) {
 		_ = c.Error(err)
-	}
-	disconnectCtx, disconnectCancel := context.WithTimeout(
-		context.WithoutCancel(ctx), 10*time.Second,
-	)
-	defer disconnectCancel()
-	// update the device status on websocket closing
-	eStatus := h.app.SetDeviceDisconnected(
-		disconnectCtx, idata.Tenant,
-		idata.Subject, version,
-	)
-	if eStatus != nil {
-		l.Error(eStatus)
 	}
 }
 
@@ -346,33 +332,11 @@ func (h DeviceController) connectWSWriter(
 	listener stream.Listener,
 ) (err error) {
 	l := log.FromContext(ctx)
-	defer l.SimpleRecovery(
-		log.NewRecoveryOption().WithError(err))
 	defer func() {
-		if err != nil {
-			if !websocket.IsUnexpectedCloseError(err) {
-				// If the peer didn't send a close message we must.
-				errMsg := err.Error()
-				errBody := make([]byte, len(errMsg)+2)
-				binary.BigEndian.PutUint16(errBody,
-					websocket.CloseInternalServerErr,
-				)
-				copy(errBody[2:], errMsg)
-				errClose := conn.WriteControl(
-					websocket.CloseMessage,
-					errBody,
-					time.Now().Add(writeWait),
-				)
-				if errClose != nil {
-					err = errors.Wrapf(err,
-						"error sending websocket close frame: %s",
-						errClose.Error(),
-					)
-				}
-			}
-			l.Errorf("websocket closed with error: %s", err.Error())
-		}
-		conn.Close()
+		l.SimpleRecovery(
+			log.NewRecoveryOption().
+				WithError(err))
+		writerFinalizer(conn, &err, l)
 	}()
 
 	// send periodic ping messages to keep the connection alive
