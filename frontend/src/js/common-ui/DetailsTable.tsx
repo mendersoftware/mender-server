@@ -94,7 +94,12 @@ export const DetailsTable = ({
               </TableCell>
             )}
             {columns.map(column => (
-              <TableCell className="relative" key={column.key} onClick={() => (onItemClick ? onItemClick(item) : null)}>
+              <TableCell
+                className={`relative ${column.sortable ? 'padding-right-large' : ''}`}
+                key={column.key}
+                onClick={() => (onItemClick ? onItemClick(item) : null)}
+                {...column.cellProps}
+              >
                 {column.render(item, column.extras)}
               </TableCell>
             ))}
