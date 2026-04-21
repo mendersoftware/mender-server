@@ -15,7 +15,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
+import { ErrorOutlined as ErrorOutlineIcon } from '@mui/icons-material';
 import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { Alert, Autocomplete, Button, TextField, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';

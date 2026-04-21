@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React from 'react';
 
-import { Add as AddIcon, ArrowRight as ArrowRightIcon, PauseCircleOutline as PauseIcon } from '@mui/icons-material';
+import { Add as AddIcon, ArrowRight as ArrowRightIcon, PauseCircleOutlined as PauseIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 

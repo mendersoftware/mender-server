@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { CheckCircleOutlined as CheckCircleOutlinedIcon, ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
+import { CheckCircleOutlined as CheckCircleOutlinedIcon, ErrorOutlined as ErrorOutlineIcon } from '@mui/icons-material';
 import { Alert, AlertTitle, Button, CircularProgress, Typography, buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 

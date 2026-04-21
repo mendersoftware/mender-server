@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import {
   ArrowDropDown as ArrowDropDownIcon,
   DeveloperBoard as DeveloperBoardIcon,
-  ErrorOutline as ErrorOutlineIcon,
+  ErrorOutlined as ErrorOutlineIcon,
   WarningAmber as WarningAmberIcon
 } from '@mui/icons-material';
 import { Alert, Badge, Button, Divider, LinearProgress, Paper, Popover, Tooltip, Typography, alpha } from '@mui/material';

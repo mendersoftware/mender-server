@@ -20,7 +20,7 @@ import {
   CheckCircle as CheckCircleIcon,
   HeightOutlined as HeightOutlinedIcon,
   HighlightOffOutlined as HighlightOffOutlinedIcon,
-  RemoveCircleOutline as RemoveCircleOutlineIcon
+  RemoveCircleOutlined as RemoveCircleOutlineIcon
 } from '@mui/icons-material';
 import { ClickAwayListener, SpeedDial, SpeedDialAction, SpeedDialIcon, Typography, alpha, getOverlayAlpha } from '@mui/material';
 import { speedDialActionClasses } from '@mui/material/SpeedDialAction';

@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Block as BlockIcon, CheckCircleOutline as CheckCircleOutlineIcon, Refresh as RefreshIcon } from '@mui/icons-material';
+import { Block as BlockIcon, CheckCircleOutlined as CheckCircleOutlineIcon, Refresh as RefreshIcon } from '@mui/icons-material';
 import { Alert, Button, Divider, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
