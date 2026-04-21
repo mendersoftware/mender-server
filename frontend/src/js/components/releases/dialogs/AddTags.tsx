@@ -23,13 +23,6 @@ import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { setReleaseTags, setReleasesListState } from '@northern.tech/store/thunks';
 
 const useStyles = makeStyles()(theme => ({
-  DialogContent: {
-    padding: 0,
-    margin: 30
-  },
-  DialogActions: {
-    padding: `${theme.spacing()} ${theme.spacing(3)}`
-  },
   tagSelect: { marginRight: theme.spacing(2), maxWidth: 350 }
 }));
 
@@ -61,7 +54,7 @@ export const AddTagsDialog = ({ selectedReleases, onClose }) => {
 
   return (
     <BaseDialog open title="Add tags to Releases" fullWidth maxWidth="sm" onClose={onClose}>
-      <DialogContent className={`${classes.DialogContent}`}>
+      <DialogContent>
         <div className="margin-bottom">Add tags to the selected Releases. If a Release already has the tag, it won’t be added again.</div>
         <FormProvider {...methods}>
           <form noValidate>
@@ -69,7 +62,7 @@ export const AddTagsDialog = ({ selectedReleases, onClose }) => {
           </form>
         </FormProvider>
       </DialogContent>
-      <DialogActions className={`flexbox space-between margin-top-none ${classes.DialogActions}`}>
+      <DialogActions>
         <Button style={{ marginRight: 10 }} onClick={onClose}>
           Cancel
         </Button>
