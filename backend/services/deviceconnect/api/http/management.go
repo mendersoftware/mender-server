@@ -375,15 +375,12 @@ func (h ManagementController) websocketWriter(
 	recordedBytes := 0
 	controlBytes := 0
 
-	sessOverLimit := false
-	sessOverLimitHandled := false
-
 	lastKeystrokeAt := time.Now().UTC().UnixNano()
-Loop:
 	for {
 		var forwardedMsg []byte
+		var data []byte
 
-		data, err := s.Recv(ctx)
+		data, err = s.Recv(ctx)
 		if err != nil {
 			return err
 		}
@@ -401,18 +398,19 @@ Loop:
 
 				if recordedBytes >= app.MessageSizeLimit ||
 					controlBytes >= app.MessageSizeLimit {
-					sessOverLimit = true
 
-					errMsg := h.handleSessLimit(ctx,
-						session,
-						&sessOverLimitHandled,
-						s,
-					)
-
-					//override original message with shell error
-					if errMsg != nil {
-						forwardedMsg = errMsg
+					_ = h.handleSessLimit(ctx, session, s)
+					closeErr := &websocket.CloseError{
+						Code: websocket.ClosePolicyViolation,
+						Text: "session byte limit exhausted",
 					}
+					_ = conn.WriteControl(websocket.CloseMessage,
+						websocket.FormatCloseMessage(closeErr.Code, closeErr.Text),
+						time.Now().Add(time.Second*10),
+					)
+					err = closeErr
+					return err
+
 				} else {
 					if err = recordSession(ctx,
 						mr,
@@ -433,12 +431,10 @@ Loop:
 			}
 		}
 
-		if !sessOverLimit {
-			err = conn.WriteMessage(websocket.BinaryMessage, forwardedMsg)
-			if err != nil {
-				l.Error(err)
-				break Loop
-			}
+		err = conn.WriteMessage(websocket.BinaryMessage, forwardedMsg)
+		if err != nil {
+			l.Error(err)
+			break
 		}
 	}
 	return err
@@ -446,7 +442,6 @@ Loop:
 
 func (h ManagementController) handleSessLimit(ctx context.Context,
 	session *model.Session,
-	handled *bool,
 	s stream.Conn,
 ) []byte {
 	l := log.FromContext(ctx)
@@ -455,23 +450,19 @@ func (h ManagementController) handleSessLimit(ctx context.Context,
 	var retMsg []byte
 
 	// attempt to clean up once
-	if !(*handled) {
-		sendLimitErrDevice(ctx, session, s)
-		userErrMsg, err := prepLimitErrUser(ctx, session)
-		if err != nil {
-			l.Errorf("session limit: " +
-				"failed to notify user")
-		}
+	sendLimitErrDevice(ctx, session, s)
+	userErrMsg, err := prepLimitErrUser(ctx, session)
+	if err != nil {
+		l.Errorf("session limit: " +
+			"failed to notify user")
+	}
 
-		retMsg = userErrMsg
+	retMsg = userErrMsg
 
-		err = h.app.FreeUserSession(ctx, session.ID, session.Types)
-		if err != nil {
-			l.Warnf("failed to free session"+
-				"that went over limit: %s", err.Error())
-		}
-
-		*handled = true
+	err = h.app.FreeUserSession(ctx, session.ID, session.Types)
+	if err != nil {
+		l.Warnf("failed to free session"+
+			"that went over limit: %s", err.Error())
 	}
 
 	return retMsg
