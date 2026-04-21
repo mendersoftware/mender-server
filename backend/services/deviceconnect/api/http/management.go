@@ -16,7 +16,6 @@ package http
 
 import (
 	"context"
-	"encoding/binary"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -310,15 +309,16 @@ func (h ManagementController) Playback(c *gin.Context) {
 func writerFinalizer(conn *websocket.Conn, e *error, l *log.Logger) {
 	err := *e
 	if err != nil {
-		if !websocket.IsUnexpectedCloseError(errors.Cause(err)) {
-			errMsg := err.Error()
-			errBody := make([]byte, len(errMsg)+2)
-			binary.BigEndian.PutUint16(errBody,
-				websocket.CloseInternalServerErr)
-			copy(errBody[2:], errMsg)
-			errClose := conn.WriteControl(
-				websocket.CloseMessage,
-				errBody,
+		var closeErr *websocket.CloseError
+		// If err is a websocket.CloseError we assume that we have already
+		// received a close frame, or a close frame has already been sent.
+		if errors.As(err, &closeErr) {
+			if closeErr.Code == websocket.CloseNormalClosure {
+				return
+			}
+		} else {
+			errClose := conn.WriteControl(websocket.CloseMessage,
+				websocket.FormatCloseMessage(websocket.CloseInternalServerErr, "internal error"),
 				time.Now().Add(writeWait),
 			)
 			if errClose != nil {
@@ -328,6 +328,7 @@ func writerFinalizer(conn *websocket.Conn, e *error, l *log.Logger) {
 				)
 			}
 		}
+		l.Errorf("websocket closed with error: %s", err.Error())
 	} else {
 		err = conn.WriteControl(websocket.CloseMessage,
 			websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""),
@@ -644,7 +645,7 @@ func (h ManagementController) ConnectServeWS(
 		errChan,
 		sessionRecorder,
 		controlRecorder)
-	if err != nil {
+	if err != nil && !websocket.IsCloseError(err, websocket.CloseNormalClosure) {
 		_ = c.Error(err)
 	}
 	return err
