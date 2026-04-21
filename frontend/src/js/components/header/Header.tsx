@@ -115,7 +115,7 @@ const useStyles = makeStyles()(theme => ({
   },
   demoAnnouncementIcon: {
     height: 16,
-    '&.MuiButton-textPrimary': {
+    '&.MuiButton-text.MuiButton-colorPrimary': {
       height: 'inherit'
     }
   },
