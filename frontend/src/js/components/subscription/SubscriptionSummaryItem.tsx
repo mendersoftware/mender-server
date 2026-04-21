@@ -58,7 +58,7 @@ export const SubscriptionSummaryItem = (props: SubscriptionSummaryItemProps) => 
             {addons.map(addon => (
               <div key={addon} className="flexbox space-between margin-bottom-x-small">
                 <div>
-                  <Typography textTransform="capitalize" variant="body1">
+                  <Typography variant="body1" className="capitalized-start">
                     {addon}
                   </Typography>
                   <Typography variant="body2">x {previewPriceItem.quantity} devices</Typography>

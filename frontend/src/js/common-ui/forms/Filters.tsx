@@ -83,7 +83,7 @@ export const Filters = ({ className = '', defaultValues, filters = [], initialVa
         <div className={classes.filters}>
           {filters.map(({ key, title, Component, componentProps }) => (
             <div className="filter-item" key={key}>
-              <Typography className="margin-top-small margin-bottom-small" color="text.secondary" variant="subtitle2">
+              <Typography className="margin-top-small margin-bottom-small" color="textSecondary" variant="subtitle2">
                 {title}
               </Typography>
               <Component name={key} {...componentProps} />
@@ -92,7 +92,7 @@ export const Filters = ({ className = '', defaultValues, filters = [], initialVa
         </div>
         {isDirty && (
           <div>
-            <Typography className="margin-top-small margin-bottom-small" color="text.secondary" variant="subtitle2">{`\u{200B}`}</Typography>
+            <Typography className="margin-top-small margin-bottom-small" color="textSecondary" variant="subtitle2">{`\u{200B}`}</Typography>
             <Button className={`nowrap ${classes.filterReset}`} color="info" onClick={() => reset()} variant="outlined">
               Clear filter
             </Button>

@@ -241,7 +241,7 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
                   <DeveloperBoardIcon className="margin-right-x-small" fontSize="small" />
                   <Typography variant="subtitle1">Accepted devices</Typography>
                 </div>
-                <Typography variant="subtitle1" color="text.secondary">
+                <Typography variant="subtitle1" color="textSecondary">
                   {total.toLocaleString(numberLocale)}
                 </Typography>
               </div>

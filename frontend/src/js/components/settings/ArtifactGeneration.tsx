@@ -30,7 +30,8 @@ const useStyles = makeStyles()(theme => ({
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), marginLeft: theme.spacing(2), maxWidth: 300 },
   memoryFormWrapper: { gap: theme.spacing(4), marginLeft: 0 },
   info: { maxWidth: 750 },
-  memoryTitle: { alignItems: 'baseline' }
+  memoryTitle: { alignItems: 'baseline' },
+  optionText: { display: 'block' }
 }));
 
 const formDefaults = {
@@ -115,7 +116,7 @@ const ArtifactGenerationSettingsForm = ({ deltaLimits, defaultValues }) => {
         </a>
         .
       </Typography>
-      <Typography className="margin-top-small" display="block" variant="subtitle1">
+      <Typography className={`${classes.optionText} margin-top-small`} variant="subtitle1">
         Compression options
       </Typography>
       <div className={classes.formWrapper}>
@@ -142,7 +143,7 @@ const ArtifactGenerationSettingsForm = ({ deltaLimits, defaultValues }) => {
         />
       </div>
       <div className={`flexbox margin-top-small margin-bottom ${classes.memoryTitle}`}>
-        <Typography display="block" variant="subtitle1">
+        <Typography className={classes.optionText} variant="subtitle1">
           Memory options
         </Typography>
         <Button className="margin-left-small" onClick={onResetClick} variant="text">
