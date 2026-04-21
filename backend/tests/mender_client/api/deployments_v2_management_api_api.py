@@ -1403,7 +1403,7 @@ class DeploymentsV2ManagementAPIApi:
     def deployments_v2_list_releases_with_pagination(
         self,
         name: Annotated[Optional[StrictStr], Field(description="Release name filter.")] = None,
-        tag: Annotated[Optional[List[StrictStr]], Field(description="Tag filter.")] = None,
+        tag: Annotated[Optional[List[StrictStr]], Field(description="Filter the releases based on their associated tags and only return releases that have at least one matching tag (i.e. OR matching).")] = None,
         update_type: Annotated[Optional[StrictStr], Field(description="Update type filter.")] = None,
         page: Annotated[Optional[StrictInt], Field(description="Starting page.")] = None,
         per_page: Annotated[Optional[Annotated[int, Field(le=500, strict=True)]], Field(description="Maximum number of results per page.")] = None,
@@ -1427,7 +1427,7 @@ class DeploymentsV2ManagementAPIApi:
 
         :param name: Release name filter.
         :type name: str
-        :param tag: Tag filter.
+        :param tag: Filter the releases based on their associated tags and only return releases that have at least one matching tag (i.e. OR matching).
         :type tag: List[str]
         :param update_type: Update type filter.
         :type update_type: str
@@ -1492,7 +1492,7 @@ class DeploymentsV2ManagementAPIApi:
     def deployments_v2_list_releases_with_pagination_with_http_info(
         self,
         name: Annotated[Optional[StrictStr], Field(description="Release name filter.")] = None,
-        tag: Annotated[Optional[List[StrictStr]], Field(description="Tag filter.")] = None,
+        tag: Annotated[Optional[List[StrictStr]], Field(description="Filter the releases based on their associated tags and only return releases that have at least one matching tag (i.e. OR matching).")] = None,
         update_type: Annotated[Optional[StrictStr], Field(description="Update type filter.")] = None,
         page: Annotated[Optional[StrictInt], Field(description="Starting page.")] = None,
         per_page: Annotated[Optional[Annotated[int, Field(le=500, strict=True)]], Field(description="Maximum number of results per page.")] = None,
@@ -1516,7 +1516,7 @@ class DeploymentsV2ManagementAPIApi:
 
         :param name: Release name filter.
         :type name: str
-        :param tag: Tag filter.
+        :param tag: Filter the releases based on their associated tags and only return releases that have at least one matching tag (i.e. OR matching).
         :type tag: List[str]
         :param update_type: Update type filter.
         :type update_type: str
@@ -1581,7 +1581,7 @@ class DeploymentsV2ManagementAPIApi:
     def deployments_v2_list_releases_with_pagination_without_preload_content(
         self,
         name: Annotated[Optional[StrictStr], Field(description="Release name filter.")] = None,
-        tag: Annotated[Optional[List[StrictStr]], Field(description="Tag filter.")] = None,
+        tag: Annotated[Optional[List[StrictStr]], Field(description="Filter the releases based on their associated tags and only return releases that have at least one matching tag (i.e. OR matching).")] = None,
         update_type: Annotated[Optional[StrictStr], Field(description="Update type filter.")] = None,
         page: Annotated[Optional[StrictInt], Field(description="Starting page.")] = None,
         per_page: Annotated[Optional[Annotated[int, Field(le=500, strict=True)]], Field(description="Maximum number of results per page.")] = None,
@@ -1605,7 +1605,7 @@ class DeploymentsV2ManagementAPIApi:
 
         :param name: Release name filter.
         :type name: str
-        :param tag: Tag filter.
+        :param tag: Filter the releases based on their associated tags and only return releases that have at least one matching tag (i.e. OR matching).
         :type tag: List[str]
         :param update_type: Update type filter.
         :type update_type: str

@@ -919,7 +919,7 @@ func (r ApiDeploymentsV2ListReleasesWithPaginationRequest) Name(name string) Api
 	return r
 }
 
-// Tag filter.
+// Filter the releases based on their associated tags and only return releases that have at least one matching tag (i.e. OR matching).
 func (r ApiDeploymentsV2ListReleasesWithPaginationRequest) Tag(tag []string) ApiDeploymentsV2ListReleasesWithPaginationRequest {
 	r.tag = &tag
 	return r
