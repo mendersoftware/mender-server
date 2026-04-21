@@ -223,7 +223,7 @@ export const Deployments = () => {
   const ComponentToShow = routes[state].component;
   return (
     <>
-      <div className="margin-left-small margin-right">
+      <div className="margin-right">
         <div className="flexbox space-between align-items-center margin-bottom">
           <Typography variant="h5">Deployments</Typography>
           {canDeploy && canReadReleases && (

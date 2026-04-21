@@ -737,7 +737,7 @@ exports[`Deployments Component > renders correctly 1`] = `
 }
 
 <div
-    class="margin-left-small margin-right"
+    class="margin-right"
   >
     <div
       class="flexbox space-between align-items-center margin-bottom"

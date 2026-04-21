@@ -69,6 +69,8 @@ exports[`ReleasesList Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.87);
   line-height: 1.5rem;
   font-weight: 500;
+  width: 48px;
+  padding: 0 0 0 4px;
 }
 
 .emotion-4 {
@@ -174,11 +176,43 @@ exports[`ReleasesList Component > renders correctly 1`] = `
   font-size: 1.5rem;
 }
 
+.emotion-7 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+
 .emotion-14 {
   display: table-row-group;
 }
 
 .emotion-16 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  width: 48px;
+  padding: 0 0 0 4px;
+}
+
+.emotion-20 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -596,7 +630,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
         class="MuiTableRow-root MuiTableRow-head emotion-2"
       >
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium emotion-3"
           scope="col"
         >
           <span
@@ -621,7 +655,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           </span>
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader emotion-7"
           scope="col"
         >
           Name
@@ -638,13 +672,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           </svg>
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
           scope="col"
         >
           Number of artifacts
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader emotion-7"
           scope="col"
         >
           Tags
@@ -661,7 +695,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           </svg>
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader emotion-7"
           scope="col"
         >
           Last modified
@@ -686,7 +720,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
         class="MuiTableRow-root MuiTableRow-hover clickable emotion-2"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-16"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium emotion-16"
         >
           <span
             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-4"
@@ -710,22 +744,22 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           </span>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-20"
         >
           r1
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-20"
         >
           1
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-20"
         >
           -
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-16"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-20"
         >
           <time
             aria-label="Thu Sep 10 2020 12:16:22 GMT+0000"

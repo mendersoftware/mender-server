@@ -68,7 +68,7 @@ export const DetailsTable = ({
       <TableHead className={classes.header}>
         <TableRow>
           {onRowSelected !== undefined && (
-            <TableCell>
+            <TableCell padding="checkbox">
               <Checkbox indeterminate={false} checked={selectedRows.length === items.length} onChange={onSelectAllClick} />
             </TableCell>
           )}
@@ -89,7 +89,7 @@ export const DetailsTable = ({
         {items.map((item, index) => (
           <TableRow className={onItemClick ? 'clickable' : ''} hover key={item.id || index}>
             {onRowSelected !== undefined && (
-              <TableCell>
+              <TableCell padding="checkbox">
                 <Checkbox checked={selectedRows.includes(index)} onChange={() => onRowSelection(index)} />
               </TableCell>
             )}

@@ -11,15 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Loader from '@northern.tech/common-ui/Loader';
 
 export const AuditlogsView = ({ total, csvLoading, createCsvDownload, infoHintComponent = null, auditLogsFilter, children }) => (
-  <div className="fadeIn margin-left flexbox column" style={{ marginRight: '5%' }}>
+  <div className="fadeIn margin-right">
     <div className="flexbox align-items-center">
-      <h3 className="margin-right-small">Audit log</h3>
+      <Typography className="margin-bottom-small" variant="h5">
+        Audit log
+      </Typography>
       <InfoHintContainer>{infoHintComponent}</InfoHintContainer>
     </div>
     {auditLogsFilter}
