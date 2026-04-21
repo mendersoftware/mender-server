@@ -39,8 +39,7 @@ var (
 	ErrCacheInvalid = errors.New("cache invalidated")
 )
 
-// nolint:lll
-// NewClient creates a new redis client (Cmdable) from the parameters in the
+// ClientFromConnectionString creates a new redis client (Cmdable) from the parameters in the
 // connectionString URL format:
 // Standalone mode:
 // (redis|rediss|unix)://[<user>:<password>@](<host>|<socket path>)[:<port>[/<db_number>]][?option=value]
@@ -64,92 +63,38 @@ var (
 // read_timeout        duration
 // tls                 bool
 // write_timeout       duration
+//
+//nolint:lll
 func ClientFromConnectionString(
 	ctx context.Context,
 	connectionString string,
 ) (redis.Cmdable, error) {
-	var (
-		redisurl   *url.URL
-		tlsOptions *tls.Config
-		rdb        redis.Cmdable
-	)
+	var rdb redis.Cmdable
 	redisurl, err := url.Parse(connectionString)
 	if err != nil {
 		return nil, err
 	}
-	// in case connection string was provided in form of host:port
-	// add scheme and parse again
-	if redisurl.Host == "" {
-		redisurl, err = url.Parse("redis://" + connectionString)
-		if err != nil {
-			return nil, err
-		}
+	isCluster, tlsConfig, err := parseRedisExtraOptions(ctx, redisurl)
+	if err != nil {
+		return nil, err
 	}
-	q := redisurl.Query()
-	scheme := redisurl.Scheme
-	cname := redisurl.Hostname()
-	if strings.HasSuffix(scheme, "+srv") {
-		scheme = strings.TrimSuffix(redisurl.Scheme, "+srv")
-		var srv []*net.SRV
-		cname, srv, err = net.DefaultResolver.LookupSRV(ctx, scheme, "tcp", redisurl.Host)
-		if err != nil {
-			return nil, err
-		}
-		addrs := make([]string, 0, len(srv))
-		for i := range srv {
-			if srv[i] == nil {
-				continue
-			}
-			host := strings.TrimSuffix(srv[i].Target, ".")
-			addrs = append(addrs, fmt.Sprintf("%s:%d", host, srv[i].Port))
-		}
-		redisurl.Host = strings.Join(addrs, ",")
-		// cleanup the scheme with one known to Redis
-		// to avoid: invalid URL scheme: tcp-redis+srv
-		redisurl.Scheme = "redis"
-
-	} else if scheme == "" {
-		redisurl.Scheme = "redis"
-	}
-	// To allow more flexibility for the srv record service
-	// name we use "tls" query parameter to determine if we
-	// should use TLS, otherwise we test if the service
-	// name contains "rediss" before falling back to no TLS.
-	var useTLS bool
-	if scheme == "rediss" {
-		useTLS = true
-	} else {
-		useTLS, _ = strconv.ParseBool(q.Get("tls"))
-	}
-	if useTLS {
-		tlsOptions = &tls.Config{ServerName: cname}
-	}
-	// Allow host to be a comma-separated list of hosts.
-	if idx := strings.LastIndexByte(redisurl.Host, ','); idx > 0 {
-		nodeAddrs := strings.Split(redisurl.Host[:idx], ",")
-		for i := range nodeAddrs {
-			const redisPort = ":6379"
-			idx := strings.LastIndex(nodeAddrs[i], ":")
-			if idx < 0 {
-				nodeAddrs[i] = nodeAddrs[i] + redisPort
-			}
-		}
-		q["addr"] = nodeAddrs
-		redisurl.RawQuery = q.Encode()
-		redisurl.Host = redisurl.Host[idx+1:]
-	}
-	var cluster bool
-	if _, ok := q["addr"]; ok {
-		cluster = true
-	}
-	if cluster {
+	if isCluster {
 		var redisOpts *redis.ClusterOptions
 		redisOpts, err = redis.ParseClusterURL(redisurl.String())
 		if err == nil {
-			if tlsOptions != nil {
-				redisOpts.TLSConfig = tlsOptions
+			if tlsConfig != nil {
+				redisOpts.TLSConfig = tlsConfig
+			}
+			var retries int
+			if redisOpts.MaxRetries < 0 {
+				retries = 3 // Use same default as normal redis.Client
+				redisOpts.MaxRetries = -1
 			}
 			rdb = redis.NewClusterClient(redisOpts)
+			if retries > 0 {
+				// Special retry hook for cluster retries
+				rdb.(*redis.ClusterClient).AddHook(retryHook(retries))
+			}
 		}
 	} else {
 		var redisOpts *redis.Options
@@ -165,6 +110,105 @@ func ClientFromConnectionString(
 		Ping(ctx).
 		Result()
 	return rdb, err
+}
+
+func parseRedisExtraOptions(ctx context.Context, redisurl *url.URL) (
+	isCluster bool,
+	tlsConfig *tls.Config,
+	err error,
+) {
+	// in case connection string was provided in form of host:port
+	// add scheme and parse again
+	if redisurl.Host == "" {
+		redisurl.Host = net.JoinHostPort(redisurl.Scheme, redisurl.Opaque)
+		redisurl.Scheme = "redis"
+		redisurl.Opaque = ""
+	}
+	q := redisurl.Query()
+	serverName := redisurl.Hostname()
+	var found bool
+	if redisurl.Scheme, found = strings.CutSuffix(redisurl.Scheme, "+srv"); found {
+		var srv []*net.SRV
+		serverName, srv, err = net.DefaultResolver.LookupSRV(
+			ctx,
+			redisurl.Scheme,
+			"tcp",
+			redisurl.Host,
+		)
+		if err != nil {
+			return false, nil, err
+		}
+		addrs := make([]string, 0, len(srv))
+		for i := range srv {
+			if srv[i] == nil {
+				continue
+			}
+			host := strings.TrimSuffix(srv[i].Target, ".")
+			addrs = append(addrs, fmt.Sprintf("%s:%d", host, srv[i].Port))
+		}
+		redisurl.Host = strings.Join(addrs, ",")
+
+	}
+	// Allow host to be a comma-separated list of hosts.
+	addrs := strings.Split(redisurl.Host, ",")
+	if len(addrs) > 1 {
+		redisurl.Host = addrs[0]
+		q := redisurl.Query()
+		for _, addr := range addrs {
+			q.Add("addr", addr)
+		}
+	}
+	// To allow more flexibility for the srv record service
+	// name we use "tls" query parameter to determine if we
+	// should use TLS, otherwise we test if the service
+	// name contains "rediss" before falling back to no TLS.
+	var useTLS bool
+	if redisurl.Scheme == "rediss" {
+		useTLS = true
+	} else {
+		useTLS, _ = strconv.ParseBool(q.Get("tls"))
+	}
+	if useTLS {
+		tlsConfig = &tls.Config{ServerName: serverName}
+	}
+	// Use cluster mode if `cluster` querystring is truthy or additional
+	// addr parameters are supplied.
+	if _, ok := q["cluster"]; ok {
+		isCluster, _ = strconv.ParseBool("cluster")
+		delete(q, "cluster")
+	} else {
+		_, isCluster = q["addr"]
+	}
+	redisurl.RawQuery = q.Encode()
+	return isCluster, tlsConfig, nil
+}
+
+type retryHook int
+
+func (retryHook) DialHook(next redis.DialHook) redis.DialHook {
+	return next
+}
+
+func (retries retryHook) ProcessHook(next redis.ProcessHook) redis.ProcessHook {
+	return func(ctx context.Context, cmd redis.Cmder) error {
+		err := next(ctx, cmd)
+		if err == nil {
+			return err
+		}
+		for range retries {
+			var netErr net.Error
+			if redis.IsTryAgainError(err) || (errors.As(err, &netErr) && netErr.Timeout()) {
+				err = next(ctx, cmd)
+			} else {
+				break
+			}
+		}
+		return err
+	}
+}
+
+func (retryHook) ProcessPipelineHook(next redis.ProcessPipelineHook) redis.ProcessPipelineHook {
+	return next
 }
 
 func IsUnavailableErr(err error) bool {
