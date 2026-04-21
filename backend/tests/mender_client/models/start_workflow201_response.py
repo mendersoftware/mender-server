@@ -18,22 +18,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from mender_client.models.attribute_value import AttributeValue
-from mender_client.models.scope import Scope
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AttributeV2(BaseModel):
+class StartWorkflow201Response(BaseModel):
     """
-    Attribute descriptor with scope (v2 APIs).
+    StartWorkflow201Response
     """ # noqa: E501
-    name: StrictStr = Field(description="A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. ")
-    scope: Scope
-    description: Optional[StrictStr] = Field(default=None, description="Attribute description.")
-    value: AttributeValue
-    __properties: ClassVar[List[str]] = ["name", "scope", "description", "value"]
+    id: Optional[StrictStr] = None
+    name: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["id", "name"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +49,7 @@ class AttributeV2(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AttributeV2 from a JSON string"""
+        """Create an instance of StartWorkflow201Response from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,14 +70,11 @@ class AttributeV2(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of value
-        if self.value:
-            _dict['value'] = self.value.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AttributeV2 from a dict"""
+        """Create an instance of StartWorkflow201Response from a dict"""
         if obj is None:
             return None
 
@@ -89,10 +82,8 @@ class AttributeV2(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "name": obj.get("name"),
-            "scope": obj.get("scope"),
-            "description": obj.get("description"),
-            "value": AttributeValue.from_dict(obj["value"]) if obj.get("value") is not None else None
+            "id": obj.get("id"),
+            "name": obj.get("name")
         })
         return _obj
 

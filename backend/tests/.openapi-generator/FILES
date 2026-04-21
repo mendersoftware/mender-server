@@ -41,7 +41,6 @@ mender_client/models/attribute.py
 mender_client/models/attribute_filter_predicate.py
 mender_client/models/attribute_v1.py
 mender_client/models/attribute_v2.py
-mender_client/models/attribute_v2_value.py
 mender_client/models/attribute_value.py
 mender_client/models/auth_request.py
 mender_client/models/auth_set.py
@@ -94,7 +93,6 @@ mender_client/models/external_device.py
 mender_client/models/features.py
 mender_client/models/filter_attribute.py
 mender_client/models/filter_predicate.py
-mender_client/models/filter_predicate_value.py
 mender_client/models/filter_v1.py
 mender_client/models/filter_v2.py
 mender_client/models/get_statistics_internal200_response.py
@@ -106,8 +104,6 @@ mender_client/models/http_params.py
 mender_client/models/identity_data.py
 mender_client/models/input_parameter.py
 mender_client/models/integration.py
-mender_client/models/inventory_internal_v2_search_device_inventories_request.py
-mender_client/models/inventory_v2_search_device_inventories_request.py
 mender_client/models/io_t_manager_internal_update_device_statuses_request_inner.py
 mender_client/models/job_object.py
 mender_client/models/job_status.py
@@ -135,9 +131,11 @@ mender_client/models/release_v2.py
 mender_client/models/releases_delete_error.py
 mender_client/models/remove_a_group200_response.py
 mender_client/models/scope.py
+mender_client/models/search_params.py
 mender_client/models/select_attribute.py
 mender_client/models/sort_criteria.py
 mender_client/models/start_batch_workflows201_response_inner.py
+mender_client/models/start_workflow201_response.py
 mender_client/models/statistics.py
 mender_client/models/status.py
 mender_client/models/storage_limit.py

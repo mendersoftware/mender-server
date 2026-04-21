@@ -29,7 +29,6 @@ from mender_client.models.attribute import Attribute
 from mender_client.models.attribute_filter_predicate import AttributeFilterPredicate
 from mender_client.models.attribute_v1 import AttributeV1
 from mender_client.models.attribute_v2 import AttributeV2
-from mender_client.models.attribute_v2_value import AttributeV2Value
 from mender_client.models.attribute_value import AttributeValue
 from mender_client.models.auth_request import AuthRequest
 from mender_client.models.auth_set import AuthSet
@@ -80,7 +79,6 @@ from mender_client.models.external_device import ExternalDevice
 from mender_client.models.features import Features
 from mender_client.models.filter_attribute import FilterAttribute
 from mender_client.models.filter_predicate import FilterPredicate
-from mender_client.models.filter_predicate_value import FilterPredicateValue
 from mender_client.models.filter_v1 import FilterV1
 from mender_client.models.filter_v2 import FilterV2
 from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response
@@ -92,8 +90,6 @@ from mender_client.models.http_params import HTTPParams
 from mender_client.models.identity_data import IdentityData
 from mender_client.models.input_parameter import InputParameter
 from mender_client.models.integration import Integration
-from mender_client.models.inventory_internal_v2_search_device_inventories_request import InventoryInternalV2SearchDeviceInventoriesRequest
-from mender_client.models.inventory_v2_search_device_inventories_request import InventoryV2SearchDeviceInventoriesRequest
 from mender_client.models.io_t_manager_internal_update_device_statuses_request_inner import IoTManagerInternalUpdateDeviceStatusesRequestInner
 from mender_client.models.job_object import JobObject
 from mender_client.models.job_status import JobStatus
@@ -121,9 +117,11 @@ from mender_client.models.release_v2 import ReleaseV2
 from mender_client.models.releases_delete_error import ReleasesDeleteError
 from mender_client.models.remove_a_group200_response import RemoveAGroup200Response
 from mender_client.models.scope import Scope
+from mender_client.models.search_params import SearchParams
 from mender_client.models.select_attribute import SelectAttribute
 from mender_client.models.sort_criteria import SortCriteria
 from mender_client.models.start_batch_workflows201_response_inner import StartBatchWorkflows201ResponseInner
+from mender_client.models.start_workflow201_response import StartWorkflow201Response
 from mender_client.models.statistics import Statistics
 from mender_client.models.status import Status
 from mender_client.models.storage_limit import StorageLimit

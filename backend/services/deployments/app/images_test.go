@@ -20,6 +20,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"net/http"
 	"testing"
 	"time"
 
@@ -29,9 +31,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/api/client"
+	oas_client "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
-	workflows_mocks "github.com/mendersoftware/mender-server/services/deployments/client/workflows/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/model"
 	fs_mocks "github.com/mendersoftware/mender-server/services/deployments/storage/mocks"
 	"github.com/mendersoftware/mender-server/services/deployments/store/mocks"
@@ -314,12 +318,17 @@ func TestGenerateImageErrorWhileStartingWorkflow(t *testing.T) {
 		Uri: "DELETE",
 	}, nil)
 
-	workflowsClient := &workflows_mocks.Client{}
-	workflowsClient.On("StartGenerateArtifact",
-		h.ContextMatcher(),
-		mock.AnythingOfType("*model.MultipartGenerateImageMsg"),
-	).Return(generateErr)
-	d.SetWorkflowsClient(workflowsClient)
+	workflowsClient := oas_client.NewMockWorkflowsOtherAPI(t)
+	req := client.ApiStartWorkflowRequest{
+		ApiService: workflowsClient,
+	}
+	workflowsClient.EXPECT().
+		StartWorkflow(h.ContextMatcher(), "generate_artifact").
+		Return(req)
+	workflowsClient.EXPECT().
+		StartWorkflowExecute(mock.Anything).
+		Return(nil, nil, generateErr)
+	d.workflowsClient = workflowsClient
 
 	fs.On("PutObject",
 		h.ContextMatcher(),
@@ -368,13 +377,17 @@ func TestGenerateImageErrorWhileStartingWorkflowAndFailsWhenCleaningUp(t *testin
 	d := NewDeployments(&db, fs, 0, false)
 	ctx := context.Background()
 
-	workflowsClient := &workflows_mocks.Client{}
-	d.SetWorkflowsClient(workflowsClient)
-
-	workflowsClient.On("StartGenerateArtifact",
-		h.ContextMatcher(),
-		mock.AnythingOfType("*model.MultipartGenerateImageMsg"),
-	).Return(errors.New("failed to start workflow: generate_artifact"))
+	workflowsClient := oas_client.NewMockWorkflowsOtherAPI(t)
+	req := client.ApiStartWorkflowRequest{
+		ApiService: workflowsClient,
+	}
+	workflowsClient.EXPECT().
+		StartWorkflow(h.ContextMatcher(), "generate_artifact").
+		Return(req)
+	workflowsClient.EXPECT().
+		StartWorkflowExecute(mock.Anything).
+		Return(nil, nil, errors.New("failed to start workflow: generate_artifact"))
+	d.workflowsClient = workflowsClient
 
 	fs.On("GetRequest",
 		h.ContextMatcher(),
@@ -451,14 +464,28 @@ func TestGenerateImageSuccessful(t *testing.T) {
 		FileReader:            bytes.NewReader([]byte("123456790")),
 	}
 
-	workflowsClient := &workflows_mocks.Client{}
-	d.SetWorkflowsClient(workflowsClient)
-
-	workflowsClient.On("StartGenerateArtifact",
-		h.ContextMatcher(),
-		multipartGenerateImage,
-	).Return(nil)
-
+	workflowsClient := oas_client.NewMockWorkflowsOtherAPI(t)
+	d.workflowsClient = workflowsClient
+	req := client.ApiStartWorkflowRequest{
+		ApiService: workflowsClient,
+	}
+	workflowsClient.EXPECT().
+		StartWorkflow(h.ContextMatcher(), "generate_artifact").
+		Run(func(ctx context.Context, name string) {
+			// Add the expectation for the chained call here as
+			// tenant ID is set post call.
+			expected := req.RequestBody(multipartGenerateImage.ToRequestParams())
+			workflowsClient.EXPECT().
+				StartWorkflowExecute(expected).
+				Return(
+					&client.StartWorkflow201Response{Id: types.Pointer("123")},
+					&http.Response{StatusCode: 201, Body: io.NopCloser(nil)},
+					nil,
+				).
+				Once()
+		}).
+		Return(req).
+		Once()
 	fs.On("GetRequest",
 		h.ContextMatcher(),
 		mock.AnythingOfType("string"),
@@ -519,11 +546,28 @@ func TestGenerateImageSuccessfulWithTenant(t *testing.T) {
 		FileReader:            bytes.NewReader([]byte("123456790")),
 	}
 
-	workflowsClient := &workflows_mocks.Client{}
-	d.SetWorkflowsClient(workflowsClient)
-	workflowsClient.On("StartGenerateArtifact",
-		h.ContextMatcher(), multipartGenerateImage,
-	).Return(nil)
+	workflowsClient := oas_client.NewMockWorkflowsOtherAPI(t)
+	d.workflowsClient = workflowsClient
+	req := client.ApiStartWorkflowRequest{
+		ApiService: workflowsClient,
+	}
+	workflowsClient.EXPECT().
+		StartWorkflow(h.ContextMatcher(), "generate_artifact").
+		Run(func(ctx context.Context, name string) {
+			// Add the expectation for the chained call here as
+			// tenant ID is set post call.
+			expected := req.RequestBody(multipartGenerateImage.ToRequestParams())
+			workflowsClient.EXPECT().
+				StartWorkflowExecute(expected).
+				Return(
+					&client.StartWorkflow201Response{Id: types.Pointer("123")},
+					&http.Response{StatusCode: 201, Body: io.NopCloser(nil)},
+					nil,
+				).
+				Once()
+		}).
+		Return(req).
+		Once()
 
 	fs.On("GetRequest",
 		h.ContextMatcher(),

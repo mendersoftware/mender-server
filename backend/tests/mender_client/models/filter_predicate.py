@@ -20,7 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List
-from mender_client.models.filter_predicate_value import FilterPredicateValue
+from mender_client.models.attribute_value import AttributeValue
 from mender_client.models.scope import Scope
 from typing import Optional, Set
 from typing_extensions import Self
@@ -32,7 +32,7 @@ class FilterPredicate(BaseModel):
     scope: Scope
     attribute: StrictStr = Field(description="Name of the attribute to be queried for filtering. ")
     type: StrictStr = Field(description="Type or operator of the filter predicate.")
-    value: FilterPredicateValue
+    value: AttributeValue = Field(description="The value of the attribute to be used in filtering.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed.  The $exists operator expects a boolean value: true means the specified attribute exists, false means the specified attribute doesn't exist.  The $regex operator expects a string as a Perl compatible regular expression (PCRE), automatically anchored by ^. If the regular expression is not valid, the filter will produce no results. If you need to specify options and flags, you can provide the full regex in the format of /regex/flags, for example `/[a-z]+/i`. ")
     __properties: ClassVar[List[str]] = ["scope", "attribute", "type", "value"]
 
     @field_validator('type')
@@ -99,7 +99,7 @@ class FilterPredicate(BaseModel):
             "scope": obj.get("scope"),
             "attribute": obj.get("attribute"),
             "type": obj.get("type"),
-            "value": FilterPredicateValue.from_dict(obj["value"]) if obj.get("value") is not None else None
+            "value": AttributeValue.from_dict(obj["value"]) if obj.get("value") is not None else None
         })
         return _obj
 

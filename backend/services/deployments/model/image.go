@@ -266,6 +266,21 @@ type MultipartGenerateImageMsg struct {
 	FileReader            io.Reader `json:"-"`
 }
 
+func (msg MultipartGenerateImageMsg) ToRequestParams() map[string]any {
+	return map[string]any{
+		"name":                    msg.Name,
+		"description":             msg.Description,
+		"device_types_compatible": msg.DeviceTypesCompatible,
+		"type":                    msg.Type,
+		"args":                    msg.Args,
+		"artifact_id":             msg.ArtifactID,
+		"get_artifact_uri":        msg.GetArtifactURI,
+		"delete_artifact_uri":     msg.DeleteArtifactURI,
+		"tenant_id":               msg.TenantID,
+		"token":                   msg.Token,
+	}
+}
+
 func (msg MultipartGenerateImageMsg) Validate() error {
 	if err := validation.ValidateStruct(&msg,
 		validation.Field(&msg.Name, validation.Required, lengthIn1To256),

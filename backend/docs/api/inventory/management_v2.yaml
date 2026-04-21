@@ -59,35 +59,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                page:
-                  type: integer
-                  default: 1
-                  description: Starting page.
-                per_page:
-                  type: integer
-                  default: 20
-                  maximum: 500
-                  description: Maximum number of results per page.
-                text:
-                  type: string
-                  description: Free-text search query
-                filters:
-                  type: array
-                  description: List of filter predicates.
-                  items:
-                    $ref: './schemas.yaml#/components/schemas/FilterPredicate'
-                sort:
-                  type: array
-                  description: List of ordered sort criterias
-                  items:
-                    $ref: './schemas.yaml#/components/schemas/SortCriteria'
-                attributes:
-                  type: array
-                  description: List of attributes to select and return
-                  items:
-                    $ref: '#/components/schemas/SelectAttribute'
+              $ref: './schemas.yaml#/components/schemas/SearchParams'
         required: false
       responses:
         "200":
@@ -108,7 +80,7 @@ paths:
                 title: ListOfDevices
                 type: array
                 items:
-                  $ref: '#/components/schemas/DeviceInventory'
+                  $ref: './schemas.yaml#/components/schemas/DeviceInventory'
               example:
               - id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
                 attributes:
@@ -164,32 +136,6 @@ components:
     ManagementJWT:
       $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
   schemas:
-    DeviceInventory:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Mender-assigned unique ID.
-        updated_ts:
-          type: string
-          description: Timestamp of the most recent attribute update.
-        attributes:
-          type: array
-          description: A list of attribute descriptors.
-          items:
-            $ref: './schemas.yaml#/components/schemas/AttributeV2'
-      example:
-        id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
-        attributes:
-        - name: ip_addr
-          scope: inventory
-          value: 1.2.3.4
-          description: IP address
-        - name: mac_addr
-          scope: inventory
-          value: 00.01:02:03:04:05
-          description: MAC address
-        updated_ts: 2016-10-03T16:58:51.639Z
     FilterAttribute:
       required:
       - count
@@ -210,36 +156,3 @@ components:
         name: serial_no
         scope: inventory
         count: 10
-    SelectAttribute:
-      required:
-      - attribute
-      - scope
-      type: object
-      properties:
-        attribute:
-          type: string
-          description: Attribute name.
-        scope:
-          $ref: '../common/schemas.yaml#/components/schemas/Scope'
-      description: Inventory attribute
-      example:
-        attribute: serial_no
-        scope: inventory
-    Scope:
-      type: string
-      description: |
-        The scope of the attribute.
-
-        Scope is a string and acts as namespace for the attribute name.
-
-        * __inventory__: Attributes reported by the device.
-        * __system__: Attributes populated by the mender-server.
-        * __identity__: Device's identity attributes provided in the device's auth request.
-        * __monitor__: Attributes populated by the monitoring add-on.
-        * __tags__: User-defined attributes associated with the device.
-      enum:
-        - system
-        - identity
-        - inventory
-        - monitor
-        - tags

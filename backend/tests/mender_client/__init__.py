@@ -66,7 +66,6 @@ __all__ = [
     "AttributeFilterPredicate",
     "AttributeV1",
     "AttributeV2",
-    "AttributeV2Value",
     "AttributeValue",
     "AuthRequest",
     "AuthSet",
@@ -117,7 +116,6 @@ __all__ = [
     "Features",
     "FilterAttribute",
     "FilterPredicate",
-    "FilterPredicateValue",
     "FilterV1",
     "FilterV2",
     "GetStatisticsInternal200Response",
@@ -129,8 +127,6 @@ __all__ = [
     "IdentityData",
     "InputParameter",
     "Integration",
-    "InventoryInternalV2SearchDeviceInventoriesRequest",
-    "InventoryV2SearchDeviceInventoriesRequest",
     "IoTManagerInternalUpdateDeviceStatusesRequestInner",
     "JobObject",
     "JobStatus",
@@ -158,9 +154,11 @@ __all__ = [
     "ReleasesDeleteError",
     "RemoveAGroup200Response",
     "Scope",
+    "SearchParams",
     "SelectAttribute",
     "SortCriteria",
     "StartBatchWorkflows201ResponseInner",
+    "StartWorkflow201Response",
     "Statistics",
     "Status",
     "StorageLimit",
@@ -235,7 +233,6 @@ from mender_client.models.attribute import Attribute as Attribute
 from mender_client.models.attribute_filter_predicate import AttributeFilterPredicate as AttributeFilterPredicate
 from mender_client.models.attribute_v1 import AttributeV1 as AttributeV1
 from mender_client.models.attribute_v2 import AttributeV2 as AttributeV2
-from mender_client.models.attribute_v2_value import AttributeV2Value as AttributeV2Value
 from mender_client.models.attribute_value import AttributeValue as AttributeValue
 from mender_client.models.auth_request import AuthRequest as AuthRequest
 from mender_client.models.auth_set import AuthSet as AuthSet
@@ -286,7 +283,6 @@ from mender_client.models.external_device import ExternalDevice as ExternalDevic
 from mender_client.models.features import Features as Features
 from mender_client.models.filter_attribute import FilterAttribute as FilterAttribute
 from mender_client.models.filter_predicate import FilterPredicate as FilterPredicate
-from mender_client.models.filter_predicate_value import FilterPredicateValue as FilterPredicateValue
 from mender_client.models.filter_v1 import FilterV1 as FilterV1
 from mender_client.models.filter_v2 import FilterV2 as FilterV2
 from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response as GetStatisticsInternal200Response
@@ -298,8 +294,6 @@ from mender_client.models.http_params import HTTPParams as HTTPParams
 from mender_client.models.identity_data import IdentityData as IdentityData
 from mender_client.models.input_parameter import InputParameter as InputParameter
 from mender_client.models.integration import Integration as Integration
-from mender_client.models.inventory_internal_v2_search_device_inventories_request import InventoryInternalV2SearchDeviceInventoriesRequest as InventoryInternalV2SearchDeviceInventoriesRequest
-from mender_client.models.inventory_v2_search_device_inventories_request import InventoryV2SearchDeviceInventoriesRequest as InventoryV2SearchDeviceInventoriesRequest
 from mender_client.models.io_t_manager_internal_update_device_statuses_request_inner import IoTManagerInternalUpdateDeviceStatusesRequestInner as IoTManagerInternalUpdateDeviceStatusesRequestInner
 from mender_client.models.job_object import JobObject as JobObject
 from mender_client.models.job_status import JobStatus as JobStatus
@@ -327,9 +321,11 @@ from mender_client.models.release_v2 import ReleaseV2 as ReleaseV2
 from mender_client.models.releases_delete_error import ReleasesDeleteError as ReleasesDeleteError
 from mender_client.models.remove_a_group200_response import RemoveAGroup200Response as RemoveAGroup200Response
 from mender_client.models.scope import Scope as Scope
+from mender_client.models.search_params import SearchParams as SearchParams
 from mender_client.models.select_attribute import SelectAttribute as SelectAttribute
 from mender_client.models.sort_criteria import SortCriteria as SortCriteria
 from mender_client.models.start_batch_workflows201_response_inner import StartBatchWorkflows201ResponseInner as StartBatchWorkflows201ResponseInner
+from mender_client.models.start_workflow201_response import StartWorkflow201Response as StartWorkflow201Response
 from mender_client.models.statistics import Statistics as Statistics
 from mender_client.models.status import Status as Status
 from mender_client.models.storage_limit import StorageLimit as StorageLimit
