@@ -314,7 +314,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
         </ColumnWidthProvider>
         {Boolean(deviceId.length) && <LogDialog canAi={canAi} deviceId={deviceId} deployment={deployment} onClose={() => setDeviceId('')} />}
       </div>
-      <Divider className={classes.divider} light />
+      <Divider className={classes.divider} />
     </BaseDrawer>
   );
 };

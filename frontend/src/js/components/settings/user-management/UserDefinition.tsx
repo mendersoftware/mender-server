@@ -212,7 +212,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
           return accu;
         }, [])}
       </ColumnWidthProvider>
-      <Divider className={classes.divider} light />
+      <Divider className={classes.divider} />
       <div className={`flexbox centered margin-top ${classes.actionButtons}`}>
         <Button className={classes.leftButton} onClick={onCancel}>
           Cancel
