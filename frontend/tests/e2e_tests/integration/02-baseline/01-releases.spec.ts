@@ -179,9 +179,9 @@ test.describe('Files', () => {
         }
         await foundTag.getByLabel('tags-delete').click();
       }
+      const input = await page.getByPlaceholder(/enter release tags/i);
       await page.getByRole('button', { name: 'confirm' }).click();
-      await page.getByPlaceholder(/add release tags/i).waitFor({ timeout: timeouts.oneSecond });
-      await expect(page.getByPlaceholder(/add release tags/i)).toBeVisible();
+      await expect(input).not.toBeVisible();
       await editButton.click();
     }
     await page.getByPlaceholder(/enter release tags/i).pressSequentially(releaseTag, { delay: 100 });

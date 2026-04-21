@@ -46,7 +46,7 @@ import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
-import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
+import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
@@ -249,7 +249,7 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, user
               label=""
               name="tags"
               options={existingTags}
-              placeholder={isEditing ? 'Enter release tags' : canManageReleases ? 'Click edit to add release tags' : 'No tags yet'}
+              placeholder={isEditing ? 'Enter release tags' : canManageReleases ? '' : 'No tags yet'}
             />
           </form>
         </FormProvider>
@@ -387,6 +387,7 @@ export const ReleaseDetails = () => {
       }}
     >
       <ColumnWidthProvider>
+        <TwoColumnData data={{ Name: release.name }} />
         <ReleaseNotes onChange={onReleaseNotesChanged} release={release} />
         <ReleaseTags existingTags={existingTags} onChange={onTagSelectionChanged} release={release} userCapabilities={userCapabilities} />
         <ArtifactsList
