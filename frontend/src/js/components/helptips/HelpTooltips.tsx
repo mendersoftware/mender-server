@@ -14,6 +14,7 @@
 import type { ComponentType, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { InlineCode } from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -128,10 +129,10 @@ const ConfigureRaspberryLedTip = () => {
 
 const ConfigureAddOnTip = () => (
   <p>
-    Mender deploys the configuration attributes using the same mechanisms as software updates. The configuration is stored as a JSON file at
-    <code>/var/lib/mender-configure/device-config.json</code> on the device and then all the scripts in{' '}
-    <code>/usr/lib/mender-configure/apply-device-config.d/</code> are executed to apply the configuration attributes. To add a new configuration attribute, you
-    simply need to input it in the UI and add a script to that directory that applies it accordingly.
+    Mender deploys the configuration attributes using the same mechanisms as software updates. The configuration is stored as a JSON file at{' '}
+    <InlineCode>/var/lib/mender-configure/device-config.json</InlineCode> on the device and then all the scripts in{' '}
+    <InlineCode>/usr/lib/mender-configure/apply-device-config.d/</InlineCode> are executed to apply the configuration attributes. To add a new configuration
+    attribute, you simply need to input it in the UI and add a script to that directory that applies it accordingly.
   </p>
 );
 

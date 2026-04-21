@@ -14,6 +14,7 @@
 import { Divider, Table, TableBody, TableCell, TableHead, TableRow, Typography, lighten } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import CopyCode from '@northern.tech/common-ui/CopyCode';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import Time from '@northern.tech/common-ui/Time';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -53,9 +54,7 @@ export const ArtifactPayload = ({ index, payload: { files: payloadFiles, meta_da
         {Object.keys(metaDataObject).length ? (
           <div>
             <h4>Update Metadata</h4>
-            <pre>
-              <code>{JSON.stringify(metaDataObject, null, METADATA_SPACING)}</code>
-            </pre>
+            <CopyCode code={JSON.stringify(metaDataObject, null, METADATA_SPACING)} size="medium" />
           </div>
         ) : null}
         <Typography variant="subtitle2">Files</Typography>

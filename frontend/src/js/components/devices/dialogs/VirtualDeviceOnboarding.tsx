@@ -62,7 +62,7 @@ export const VirtualDeviceOnboarding = () => {
         </>
       )}
       <Typography variant="subtitle1">2. Copy & paste and run the following command to start the virtual device:</Typography>
-      <CopyCode code={codeToCopy} withDescription={true} />
+      <CopyCode code={codeToCopy} withDescription variant="code2" />
       <Typography variant="body1">
         The device should appear in the Pending devices view in a couple of minutes. Visit{' '}
         <DocsLink path="get-started/preparation/prepare-a-virtual-device" title="our documentation" /> for more information on managing the virtual device.

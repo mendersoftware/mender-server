@@ -173,7 +173,7 @@ export const InstallationStep = ({ advanceOnboarding, selection, ...remainingPro
       <Typography className="margin-bottom-small" variant="body1">
         Copy & paste and run this command <b>on your device</b>:
       </Typography>
-      <CopyCode code={codeToCopy} onCopy={() => advanceOnboarding(onboardingSteps.DASHBOARD_ONBOARDING_START)} withDescription={true} />
+      <CopyCode code={codeToCopy} onCopy={() => advanceOnboarding(onboardingSteps.DASHBOARD_ONBOARDING_START)} withDescription variant="code2" />
       <Typography variant="body1">
         This downloads the Mender client on the device, sets the configuration and starts the client. Once the client has started, your device will attempt to
         connect to the server. It will then appear in your Pending devices tab and you can continue.
