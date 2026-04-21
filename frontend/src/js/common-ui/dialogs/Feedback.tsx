@@ -158,7 +158,15 @@ export const FeedbackDialog = () => {
 
   const Component = progressionLevels[progress];
   return (
-    <Dialog className={classes.root} open hideBackdrop disableEnforceFocus PaperProps={{ style: { pointerEvents: 'auto' } }}>
+    <Dialog
+      className={classes.root}
+      open
+      hideBackdrop
+      disableEnforceFocus
+      slotProps={{
+        paper: { style: { pointerEvents: 'auto' } }
+      }}
+    >
       <DialogTitle>
         <IconButton onClick={onCloseClick} aria-label="close" size="small">
           <CloseIcon />
