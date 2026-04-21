@@ -14,7 +14,7 @@
 // material ui
 import type { ReactNode } from 'react';
 
-import { Sort as SortIcon } from '@mui/icons-material';
+import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
 import { Checkbox, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -91,7 +91,12 @@ export const DetailsTable = ({
               {...cellProps}
             >
               {renderTitle ? renderTitle(extras) : title}
-              {sortable && <SortIcon className={`sortIcon ${sort.key === key ? 'selected' : ''} ${(sort.direction === SORTING_OPTIONS.desc).toString()}`} />}
+              {sortable &&
+                (sort.direction === SORTING_OPTIONS.desc ? (
+                  <ArrowDownward className={`sortIcon ${sort.key === key ? 'selected' : ''}`} color="action" />
+                ) : (
+                  <ArrowUpward className={`sortIcon ${sort.key === key ? 'selected' : ''}`} color="action" />
+                ))}
             </TableCell>
           ))}
         </TableRow>
