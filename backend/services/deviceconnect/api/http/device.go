@@ -183,9 +183,28 @@ func (h DeviceController) Connect(c *gin.Context) {
 	errChan := make(chan error)
 	//nolint:errcheck
 	go h.ConnectServeWS(ctxWithCancel, conn, errChan)
+
+	// update the device status on websocket opening
+	var version int64
+	version, err = h.app.SetDeviceConnected(ctx, idata.Tenant, idata.Subject)
+	if err != nil {
+		return
+	}
 	err = h.connectWSWriter(ctxWithCancel, conn, msgChan, errChan)
 	if err != nil {
 		_ = c.Error(err)
+	}
+	disconnectCtx, disconnectCancel := context.WithTimeout(
+		context.WithoutCancel(ctx), 10*time.Second,
+	)
+	defer disconnectCancel()
+	// update the device status on websocket closing
+	eStatus := h.app.SetDeviceDisconnected(
+		disconnectCtx, idata.Tenant,
+		idata.Subject, version,
+	)
+	if eStatus != nil {
+		l.Error(eStatus)
 	}
 }
 
@@ -289,12 +308,6 @@ func (h DeviceController) ConnectServeWS(
 		close(errChan)
 	}()
 
-	// update the device status on websocket opening
-	var version int64
-	version, err = h.app.SetDeviceConnected(ctx, id.Tenant, id.Subject)
-	if err != nil {
-		return
-	}
 	defer func() {
 		for sessionID, session := range sessMap {
 			// TODO: notify the session NATS topic about the session
@@ -317,14 +330,6 @@ func (h DeviceController) ConnectServeWS(
 					data,
 				)
 			}
-		}
-		// update the device status on websocket closing
-		eStatus := h.app.SetDeviceDisconnected(
-			ctx, id.Tenant,
-			id.Subject, version,
-		)
-		if eStatus != nil {
-			l.Error(eStatus)
 		}
 	}()
 
