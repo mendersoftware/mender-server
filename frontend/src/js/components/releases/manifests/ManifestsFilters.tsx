@@ -55,7 +55,8 @@ export const ManifestsFilters = ({ classes }: { classes: Record<string, string> 
             componentProps: {
               options: existingTags,
               placeholder: 'Select tags',
-              selection: []
+              selection: [],
+              disabled: true
             }
           }
         ]}

@@ -36,7 +36,7 @@ import AddArtifactDialog from './dialogs/AddArtifact';
 import { ManifestsFilters } from './manifests/ManifestsFilters';
 import { ManifestsList } from './manifests/ManifestsList';
 
-const { setActiveTab, setSelectedJob } = storeActions;
+const { setActiveTab, setSelectedJob, setSnackbar } = storeActions;
 
 type TitleDefinition = { benefitId?: string; title: string };
 
@@ -201,8 +201,10 @@ export const Releases = () => {
   const onFileUploadClick = selectedFile => {
     if (tab === baseTabs[0].key) {
       setSelectedFile(selectedFile);
+      setShowAddArtifactDialog(true);
+    } else {
+      dispatch(setSnackbar('Uploading Manifests is not yet supported'));
     }
-    setShowAddArtifactDialog(true);
   };
 
   const onHideAddArtifactDialog = () => setShowAddArtifactDialog(false);
