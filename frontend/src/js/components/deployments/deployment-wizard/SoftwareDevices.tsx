@@ -203,9 +203,7 @@ export const Devices = ({
               disabled={!(hasDevices || hasDynamicGroups)}
               options={groupNames}
               onChange={deploymentSettingsUpdate}
-              renderInput={params => (
-                <TextField {...params} placeholder="Select a device group" InputProps={{ ...params.InputProps }} className={classes.textField} />
-              )}
+              renderInput={params => <TextField {...params} placeholder="Select a device group" className={classes.textField} />}
               value={group}
             />
             {!(hasDevices || hasDynamicGroups) && (

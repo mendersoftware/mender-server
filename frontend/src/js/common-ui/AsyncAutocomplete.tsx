@@ -85,12 +85,14 @@ export const AsyncAutocomplete = ({
           placeholder={placeholder}
           style={styles.textField}
           slotProps={{
+            ...params.slotProps,
+
             input: {
-              ...params.InputProps,
+              ...params.slotProps.input,
               endAdornment: (
                 <>
                   {loading && <Loader show small table style={{ marginTop: theme.spacing(-4) }} />}
-                  {params.InputProps.endAdornment}
+                  {params.slotProps.input.endAdornment}
                 </>
               )
             }
