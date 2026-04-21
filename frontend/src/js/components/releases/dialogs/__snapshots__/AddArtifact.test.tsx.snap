@@ -296,7 +296,7 @@ exports[`AddArtifact Component > renders correctly 1`] = `
         Upload an Artifact
       </h2>
       <div
-        class="MuiDialogContent-root dialog-content margin-top margin-left margin-right margin-bottom emotion-5"
+        class="MuiDialogContent-root margin-top margin-bottom emotion-5"
       >
         <div
           class="flexbox column centered margin"
