@@ -3121,7 +3121,9 @@ paths:
         schema:
           type: string
         style: form
-      - description: Tag filter.
+      - description: |-
+          Filter the releases based on their associated tags and only return
+          releases that have at least one matching tag (i.e. OR matching).
         explode: true
         in: query
         name: tag
