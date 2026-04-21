@@ -20,8 +20,9 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
 }
 
 .emotion-3 {
-  background-color: rgba(2, 136, 209, 0.92);
+  background-color: rgba(255, 255, 255, 0.04);
   font-family: monospace;
+  color: rgba(0, 0, 0, 1);
   border-radius: 4px;
   padding: 16px;
   overflow-y: auto;
@@ -82,16 +83,16 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #1976d2;
-  --variant-outlinedColor: #1976d2;
-  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
-  --variant-containedColor: #fff;
-  --variant-containedBg: #1976d2;
+  color: inherit;
+  border-color: currentColor;
+  --variant-containedBg: #e0e0e0;
+  padding: 8px 11px;
+  font-size: 0.9375rem;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   float: right;
-  margin-right: -16px;
-  margin-top: -2px;
+  margin-right: -8px;
+  margin-top: -8px;
 }
 
 .emotion-4::-moz-focus-inner {
@@ -121,10 +122,9 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
 
 @media (hover: hover) {
   .emotion-4:hover {
-    --variant-containedBg: #1565c0;
-    --variant-textBg: rgba(25, 118, 210, 0.04);
-    --variant-outlinedBorder: #1976d2;
-    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
+    --variant-containedBg: #f5f5f5;
+    --variant-textBg: rgba(0, 0, 0, 0.04);
+    --variant-outlinedBg: rgba(0, 0, 0, 0.04);
   }
 }
 
@@ -139,7 +139,7 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
 }
 
 .emotion-5>*:nth-of-type(1) {
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .emotion-6 {
@@ -157,6 +157,10 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
   font-size: 1.5rem;
+}
+
+.emotion-7 {
+  margin: 0;
 }
 
 <div>
@@ -187,33 +191,33 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
     class="emotion-3 "
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit emotion-4"
       tabindex="0"
       title="Copy to clipboard"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-5"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge emotion-5"
       >
         <svg
           aria-hidden="true"
           class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
-          data-testid="FileCopyIcon"
+          data-testid="ContentCopyIcon"
           focusable="false"
           viewBox="0 0 24 24"
         >
           <path
-            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
+            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"
           />
         </svg>
       </span>
       Copy to clipboard
     </button>
-    <span
-      class="copyable-content"
+    <code
+      class="MuiTypography-root MuiTypography-code2 copyable-content emotion-7"
     >
       ./demo --client up
-    </span>
+    </code>
   </div>
   <p />
   <p
