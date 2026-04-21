@@ -230,7 +230,6 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
       const { email, sso, name, ...deviceLimits } = data;
       let selectionState = {
         deviceLimits: deviceLimits,
-        restrict_sso_to_parent: sso,
         sso,
         name,
         binary_delta: true
