@@ -102,11 +102,11 @@ export const Confirm = ({ action, cancel, classes = '', message = '', style = {}
 
 export const EditButton = ({ label = 'Edit', onClick, disabled = false }) =>
   label ? (
-    <Button onClick={onClick} size="small" disabled={disabled} startIcon={<EditIcon />} style={{ padding: 5 }}>
+    <Button onClick={onClick} size="small" disabled={disabled} startIcon={<EditIcon />} style={{ padding: 5 }} color="inherit">
       {label}
     </Button>
   ) : (
-    <IconButton onClick={onClick} size="small" disabled={disabled}>
+    <IconButton onClick={onClick} size="small" disabled={disabled} color="inherit">
       <EditIcon />
     </IconButton>
   );
