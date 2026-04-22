@@ -379,11 +379,13 @@ components:
         id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
         attributes:
         - name: ip_addr
+          scope: inventory
           value: 1.2.3.4
           description: IP address
         - name: mac_addr
           value: 00.01:02:03:04:05
           description: MAC address
+          scope: inventory
     DeviceUpdate:
       required:
       - id
