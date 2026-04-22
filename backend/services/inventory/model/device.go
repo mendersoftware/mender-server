@@ -232,7 +232,9 @@ func (d *DeviceAttributes) UnmarshalJSON(b []byte) error {
 		return err
 	}
 	for i := range *d {
+		(*d)[i].Timestamp = nil // Read-only field
 		if (*d)[i].Scope == "" {
+			// For backward compatibility
 			(*d)[i].Scope = AttrScopeInventory
 		}
 	}
