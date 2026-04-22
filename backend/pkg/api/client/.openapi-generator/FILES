@@ -40,8 +40,6 @@ model_artifact_v1.go
 model_artifact_v2.go
 model_attribute.go
 model_attribute_filter_predicate.go
-model_attribute_v1.go
-model_attribute_v2.go
 model_attribute_value.go
 model_auth_request.go
 model_auth_set.go
@@ -68,6 +66,7 @@ model_deployment_v1.go
 model_deployment_v1_internal.go
 model_deployment_v2.go
 model_device.go
+model_device_attribute.go
 model_device_auth_event.go
 model_device_auth_management_search_devices_request.go
 model_device_configuration.go
@@ -75,7 +74,6 @@ model_device_count_by_tier.go
 model_device_deployment.go
 model_device_deployment_v1.go
 model_device_inventory.go
-model_device_inventory_v1.go
 model_device_new.go
 model_device_state.go
 model_device_status.go

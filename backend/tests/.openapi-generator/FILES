@@ -39,8 +39,6 @@ mender_client/models/artifact_v1.py
 mender_client/models/artifact_v2.py
 mender_client/models/attribute.py
 mender_client/models/attribute_filter_predicate.py
-mender_client/models/attribute_v1.py
-mender_client/models/attribute_v2.py
 mender_client/models/attribute_value.py
 mender_client/models/auth_request.py
 mender_client/models/auth_set.py
@@ -67,6 +65,7 @@ mender_client/models/deployment_v1.py
 mender_client/models/deployment_v1_internal.py
 mender_client/models/deployment_v2.py
 mender_client/models/device.py
+mender_client/models/device_attribute.py
 mender_client/models/device_auth_event.py
 mender_client/models/device_auth_management_search_devices_request.py
 mender_client/models/device_configuration.py
@@ -74,7 +73,6 @@ mender_client/models/device_count_by_tier.py
 mender_client/models/device_deployment.py
 mender_client/models/device_deployment_v1.py
 mender_client/models/device_inventory.py
-mender_client/models/device_inventory_v1.py
 mender_client/models/device_new.py
 mender_client/models/device_state.py
 mender_client/models/device_status.py

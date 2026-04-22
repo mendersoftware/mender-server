@@ -13,6 +13,7 @@ package client
 
 import (
 	"encoding/json"
+	"time"
 	"bytes"
 	"fmt"
 )
@@ -20,13 +21,16 @@ import (
 // checks if the Attribute type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Attribute{}
 
-// Attribute Attribute descriptor.
+// Attribute struct for Attribute
 type Attribute struct {
 	// A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. 
 	Name string `json:"name"`
 	// Attribute description.
 	Description *string `json:"description,omitempty"`
 	Value AttributeValue `json:"value"`
+	Scope Scope `json:"scope"`
+	// The date and time of last tag update in RFC3339 format.  Only applicable when scope is `tags`. 
+	Timestamp *time.Time `json:"timestamp,omitempty"`
 }
 
 type _Attribute Attribute
@@ -35,10 +39,11 @@ type _Attribute Attribute
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAttribute(name string, value AttributeValue) *Attribute {
+func NewAttribute(name string, value AttributeValue, scope Scope) *Attribute {
 	this := Attribute{}
 	this.Name = name
 	this.Value = value
+	this.Scope = scope
 	return &this
 }
 
@@ -130,6 +135,62 @@ func (o *Attribute) SetValue(v AttributeValue) {
 	o.Value = v
 }
 
+// GetScope returns the Scope field value
+func (o *Attribute) GetScope() Scope {
+	if o == nil {
+		var ret Scope
+		return ret
+	}
+
+	return o.Scope
+}
+
+// GetScopeOk returns a tuple with the Scope field value
+// and a boolean to check if the value has been set.
+func (o *Attribute) GetScopeOk() (*Scope, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Scope, true
+}
+
+// SetScope sets field value
+func (o *Attribute) SetScope(v Scope) {
+	o.Scope = v
+}
+
+// GetTimestamp returns the Timestamp field value if set, zero value otherwise.
+func (o *Attribute) GetTimestamp() time.Time {
+	if o == nil || IsNil(o.Timestamp) {
+		var ret time.Time
+		return ret
+	}
+	return *o.Timestamp
+}
+
+// GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Attribute) GetTimestampOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.Timestamp) {
+		return nil, false
+	}
+	return o.Timestamp, true
+}
+
+// HasTimestamp returns a boolean if a field has been set.
+func (o *Attribute) HasTimestamp() bool {
+	if o != nil && !IsNil(o.Timestamp) {
+		return true
+	}
+
+	return false
+}
+
+// SetTimestamp gets a reference to the given time.Time and assigns it to the Timestamp field.
+func (o *Attribute) SetTimestamp(v time.Time) {
+	o.Timestamp = &v
+}
+
 func (o Attribute) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -145,6 +206,10 @@ func (o Attribute) ToMap() (map[string]interface{}, error) {
 		toSerialize["description"] = o.Description
 	}
 	toSerialize["value"] = o.Value
+	toSerialize["scope"] = o.Scope
+	if !IsNil(o.Timestamp) {
+		toSerialize["timestamp"] = o.Timestamp
+	}
 	return toSerialize, nil
 }
 
@@ -155,6 +220,7 @@ func (o *Attribute) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"name",
 		"value",
+		"scope",
 	}
 
 	allProperties := make(map[string]interface{})

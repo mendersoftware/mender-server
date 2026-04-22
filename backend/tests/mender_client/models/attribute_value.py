@@ -26,7 +26,7 @@ ATTRIBUTEVALUE_ONE_OF_SCHEMAS = ["List[float]", "List[str]", "float", "str"]
 
 class AttributeValue(BaseModel):
     """
-    The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed type arrays are not allowed. 
+    The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
     """
     # data type: str
     oneof_schema_1_validator: Optional[StrictStr] = None

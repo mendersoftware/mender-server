@@ -25,7 +25,7 @@ type DeviceInventory struct {
 	// Timestamp of the most recent attribute update.
 	UpdatedTs *string `json:"updated_ts,omitempty"`
 	// A list of attribute descriptors.
-	Attributes []AttributeV2 `json:"attributes,omitempty"`
+	Attributes []Attribute `json:"attributes,omitempty"`
 }
 
 // NewDeviceInventory instantiates a new DeviceInventory object
@@ -110,9 +110,9 @@ func (o *DeviceInventory) SetUpdatedTs(v string) {
 }
 
 // GetAttributes returns the Attributes field value if set, zero value otherwise.
-func (o *DeviceInventory) GetAttributes() []AttributeV2 {
+func (o *DeviceInventory) GetAttributes() []Attribute {
 	if o == nil || IsNil(o.Attributes) {
-		var ret []AttributeV2
+		var ret []Attribute
 		return ret
 	}
 	return o.Attributes
@@ -120,7 +120,7 @@ func (o *DeviceInventory) GetAttributes() []AttributeV2 {
 
 // GetAttributesOk returns a tuple with the Attributes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceInventory) GetAttributesOk() ([]AttributeV2, bool) {
+func (o *DeviceInventory) GetAttributesOk() ([]Attribute, bool) {
 	if o == nil || IsNil(o.Attributes) {
 		return nil, false
 	}
@@ -136,8 +136,8 @@ func (o *DeviceInventory) HasAttributes() bool {
 	return false
 }
 
-// SetAttributes gets a reference to the given []AttributeV2 and assigns it to the Attributes field.
-func (o *DeviceInventory) SetAttributes(v []AttributeV2) {
+// SetAttributes gets a reference to the given []Attribute and assigns it to the Attributes field.
+func (o *DeviceInventory) SetAttributes(v []Attribute) {
 	o.Attributes = v
 }
 

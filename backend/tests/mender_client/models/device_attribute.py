@@ -21,19 +21,17 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from mender_client.models.attribute_value import AttributeValue
-from mender_client.models.scope import Scope
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AttributeV2(BaseModel):
+class DeviceAttribute(BaseModel):
     """
-    Attribute descriptor with scope (v2 APIs).
+    Attribute descriptor.
     """ # noqa: E501
     name: StrictStr = Field(description="A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. ")
-    scope: Scope
     description: Optional[StrictStr] = Field(default=None, description="Attribute description.")
     value: AttributeValue
-    __properties: ClassVar[List[str]] = ["name", "scope", "description", "value"]
+    __properties: ClassVar[List[str]] = ["name", "description", "value"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +51,7 @@ class AttributeV2(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AttributeV2 from a JSON string"""
+        """Create an instance of DeviceAttribute from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -81,7 +79,7 @@ class AttributeV2(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AttributeV2 from a dict"""
+        """Create an instance of DeviceAttribute from a dict"""
         if obj is None:
             return None
 
@@ -90,7 +88,6 @@ class AttributeV2(BaseModel):
 
         _obj = cls.model_validate({
             "name": obj.get("name"),
-            "scope": obj.get("scope"),
             "description": obj.get("description"),
             "value": AttributeValue.from_dict(obj["value"]) if obj.get("value") is not None else None
         })
