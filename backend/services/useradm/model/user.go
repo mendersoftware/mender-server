@@ -27,6 +27,7 @@ import (
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/pkg/errors"
 
+	"github.com/mendersoftware/mender-server/pkg/rules"
 	"github.com/mendersoftware/mender-server/services/useradm/jwt"
 )
 
@@ -148,8 +149,8 @@ func (u User) NextETag() (ret ETag) {
 
 func (u User) Validate() error {
 	if err := validation.ValidateStruct(&u,
-		validation.Field(&u.Email, validation.Required),
-		validation.Field(&u.Password, validation.Required, lessThan4096),
+		validation.Field(&u.Email, validation.By(rules.Email), validation.Required),
+		validation.Field(&u.Password, validation.By(rules.Password), validation.Required),
 	); err != nil {
 		return err
 	}
@@ -212,10 +213,8 @@ func (u UserUpdate) Validate() error {
 	}
 
 	if err := validation.ValidateStruct(&u,
-		validation.Field(&u.Email),
-		validation.Field(&u.Password,
-			validation.When(len(u.Password) > 0, lessThan4096),
-		),
+		validation.Field(&u.Email, validation.By(rules.Email)),
+		validation.Field(&u.Password, validation.By(rules.Password)),
 	); err != nil {
 		return err
 	}
