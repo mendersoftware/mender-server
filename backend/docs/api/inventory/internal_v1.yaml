@@ -25,10 +25,9 @@ paths:
           description: |
             Service unhealthy / not ready to accept traffic. At least one dependency is not running.
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '../common/schemas.yaml#/components/schemas/Error'
-            application/json:
               example:
                 error: "error reaching MongoDB: context deadline exceeded"
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
@@ -55,7 +54,7 @@ paths:
       operationId: Inventory Internal Create Tenant
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/TenantNew'
         required: true
@@ -82,7 +81,7 @@ paths:
           type: string
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/DeviceNew'
         required: true
@@ -151,7 +150,7 @@ paths:
       requestBody:
         description: List of devices.
         content:
-          '*/*':
+          application/json:
             schema:
               type: array
               description: A list of devices to update.
@@ -210,7 +209,7 @@ paths:
       requestBody:
         description: List of inventory attributes to set.
         content:
-          '*/*':
+          application/json:
             schema:
               type: array
               description: A list of attribute descriptors.
@@ -263,7 +262,7 @@ paths:
       requestBody:
         description: List of inventory attributes to set.
         content:
-          '*/*':
+          application/json:
             schema:
               type: array
               description: A list of attribute descriptors.
@@ -308,7 +307,7 @@ paths:
           description: |
             Successful response.
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/Groups'
         "400":

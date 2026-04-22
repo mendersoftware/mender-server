@@ -6200,13 +6200,12 @@ paths:
           description: Internal Server Error.
         "503":
           content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Error"
             application/json:
               example:
                 error: "error reaching MongoDB: context deadline exceeded"
                 request_id: ffd712be-d697-4cb7-814b-88ff1e2eb5f6
+              schema:
+                $ref: "#/components/schemas/Error"
           description: |
             Service unhealthy / not ready to accept traffic. At least one dependency is not running.
       summary: Check the health of the service
@@ -6236,7 +6235,7 @@ paths:
       operationId: Inventory Internal Create Tenant
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: "#/components/schemas/TenantNew"
         required: true
@@ -6273,7 +6272,7 @@ paths:
         style: simple
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: "#/components/schemas/DeviceNew"
         required: true
@@ -6367,7 +6366,7 @@ paths:
         style: simple
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               description: A list of devices to update.
               example:
@@ -6447,7 +6446,7 @@ paths:
         style: simple
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               description: A list of attribute descriptors.
               items:
@@ -6515,7 +6514,7 @@ paths:
         style: simple
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               description: A list of attribute descriptors.
               items:
@@ -6571,7 +6570,7 @@ paths:
       responses:
         "200":
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Groups"
           description: |
