@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 import {
   FileCopyOutlined as FileCopyOutlinedIcon,
+  FileDownload,
   HighlightOffOutlined as HighlightOffOutlinedIcon,
   LabelOutlined as LabelOutlinedIcon,
   Replay as ReplayIcon
@@ -27,9 +28,10 @@ import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
-import { getManifestsListState, getSelectedManifests, getUserCapabilities } from '@northern.tech/store/selectors';
+import { getManifestsListState, getSelectedManifest, getSelectedManifests, getUserCapabilities } from '@northern.tech/store/selectors';
 import { isDarkMode } from '@northern.tech/store/utils';
-import { toggle } from '@northern.tech/utils/helpers';
+import type { Manifest } from '@northern.tech/types/MenderTypes';
+import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
 const { setSnackbar } = storeActions;
@@ -64,13 +66,22 @@ interface ActionCallbacks {
   onCopyManifest: (selection: number[]) => void;
   onCreateDeployment: (selection: number[]) => void;
   onDeleteManifest: (selection: number[]) => void;
+  onDownloadManifest: (selection: number[]) => void;
   onTagManifest: (selection: number[]) => void;
 }
 
 interface ManifestAction {
   action: (context: ActionCallbacks & { selection: number[] }) => void;
   icon: ReactNode;
-  isApplicable: ({ selectedRows, userCapabilities }: { selectedRows: number[]; userCapabilities: Record<string, boolean | string[]> }) => boolean;
+  isApplicable: ({
+    selectedManifest,
+    selectedRows,
+    userCapabilities
+  }: {
+    selectedManifest?: Manifest;
+    selectedRows: number[];
+    userCapabilities: Record<string, boolean | string[]>;
+  }) => boolean;
   key: string;
   title: (pluralized: string) => string;
 }
@@ -79,21 +90,29 @@ const defaultActions: ManifestAction[] = [
   {
     action: ({ onCreateDeployment, selection }) => onCreateDeployment(selection),
     icon: <ReplayIcon />,
-    isApplicable: ({ userCapabilities: { canDeploy }, selectedRows }) => canDeploy && selectedRows.length === 1,
+    isApplicable: ({ userCapabilities: { canDeploy }, selectedRows, selectedManifest }) =>
+      canDeploy && (!isEmpty(selectedManifest) || selectedRows.length === 1),
     key: 'deploy',
     title: () => 'Create a deployment for this Manifest'
   },
   {
     action: ({ onCopyManifest, selection }) => onCopyManifest(selection),
     icon: <FileCopyOutlinedIcon />,
-    isApplicable: ({ selectedRows }) => selectedRows.length === 1,
+    isApplicable: ({ selectedRows, selectedManifest }) => !isEmpty(selectedManifest) || selectedRows.length === 1,
     key: 'copy',
     title: () => 'Create a copy from this Manifest'
   },
   {
+    action: ({ onDownloadManifest, selection }) => onDownloadManifest(selection),
+    icon: <FileDownload />,
+    isApplicable: ({ selectedRows, selectedManifest }) => !isEmpty(selectedManifest) || selectedRows.length === 1,
+    key: 'download',
+    title: () => 'Download Manifest (.mender file)'
+  },
+  {
     action: ({ onTagManifest, selection }) => onTagManifest(selection),
     icon: <LabelOutlinedIcon />,
-    isApplicable: ({ userCapabilities: { canManageReleases } }) => canManageReleases,
+    isApplicable: ({ userCapabilities: { canManageReleases }, selectedManifest }) => canManageReleases && isEmpty(selectedManifest),
     key: 'tag',
     title: (pluralized: string) => `Tag ${pluralized}`
   },
@@ -110,21 +129,16 @@ export const ManifestQuickActions = () => {
   const [showActions, setShowActions] = useState(false);
   const { classes } = useStyles();
   const { selection: selectedRows } = useSelector(getManifestsListState);
+  const selectedManifest = useSelector(getSelectedManifest);
   const selectedManifests = useSelector(getSelectedManifests);
   const userCapabilities = useSelector(getUserCapabilities);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const actions = useMemo(
-    () =>
-      defaultActions.reduce<ManifestAction[]>((accu, action) => {
-        if (action.isApplicable({ userCapabilities, selectedRows })) {
-          accu.push(action);
-        }
-        return accu;
-      }, []),
+    () => defaultActions.filter(action => action.isApplicable({ userCapabilities, selectedRows, selectedManifest })),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(userCapabilities), selectedRows]
+    [JSON.stringify(userCapabilities), selectedRows, selectedManifest]
   );
 
   const onCreateDeployment = useCallback(
@@ -150,22 +164,28 @@ export const ManifestQuickActions = () => {
     dispatch(setSnackbar('Deleting Manifests is not yet supported'));
   }, [dispatch]);
 
-  const actionCallbacks: ActionCallbacks = { onCreateDeployment, onCopyManifest, onTagManifest, onDeleteManifest };
+  const onDownloadManifest = useCallback(() => {
+    dispatch(setSnackbar('Downloading Manifests is not yet supported'));
+  }, [dispatch]);
+
+  const actionCallbacks: ActionCallbacks = { onCreateDeployment, onCopyManifest, onTagManifest, onDeleteManifest, onDownloadManifest };
 
   const handleShowActions = () => setShowActions(toggle);
 
   const handleClickAway = () => setShowActions(false);
 
-  const pluralized = pluralize('Manifest', selectedRows.length);
+  const pluralized = pluralize('Manifest', !isEmpty(selectedManifest) ? 1 : selectedRows.length);
 
   if (!actions.length) {
     return null;
   }
   return (
     <div className={classes.container}>
-      <Typography variant="body1" className={classes.label}>
-        {`${selectedRows.length} ${pluralized} selected`}
-      </Typography>
+      {isEmpty(selectedManifest) && (
+        <Typography variant="body1" className={classes.label}>
+          {`${selectedRows.length} ${pluralized} selected`}
+        </Typography>
+      )}
       <ClickAwayListener onClickAway={handleClickAway}>
         <SpeedDial className={classes.fab} ariaLabel="manifest-actions" icon={<SpeedDialIcon />} onClick={handleShowActions} open={Boolean(showActions)}>
           {actions.map(action => (

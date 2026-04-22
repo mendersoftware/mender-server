@@ -25,6 +25,7 @@ describe('ManifestQuickActions Component', () => {
         ...defaultState.releases,
         manifestsList: {
           ...defaultState.releases.manifestsList,
+          manifestIds: [defaultState.releases.manifestsById.m1000.name],
           selection: [0]
         }
       }
@@ -42,6 +43,7 @@ describe('ManifestQuickActions Component', () => {
         ...defaultState.releases,
         manifestsList: {
           ...defaultState.releases.manifestsList,
+          manifestIds: [defaultState.releases.manifestsById.m1000.name],
           selection: [0]
         }
       }
