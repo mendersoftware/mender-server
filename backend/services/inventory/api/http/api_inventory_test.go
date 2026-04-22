@@ -834,6 +834,39 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 				OutputStatus: http.StatusOK,
 			},
 		},
+		"ok/PUT/cannot change scope": {
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
+				Auth:   true,
+				Body: []model.DeviceAttribute{
+					{
+						Name:  "tag_1",
+						Value: "value_1",
+						Scope: "foobar",
+					},
+					{
+						Name:  "tag_2",
+						Value: "value_2",
+						Scope: "inventory",
+					},
+				},
+			}),
+			deviceID: "ad22a170-37b5-4c8b-9eab-612bad1eac19",
+			inHdrs: map[string]string{
+				"If-Match": "f7238315-062d-4440-875a-676006f84c34",
+			},
+			attrsToUpsert: model.DeviceAttributes{
+				{Name: "tag_1", Value: "value_1", Scope: model.AttrScopeTags},
+				{Name: "tag_2", Value: "value_2", Scope: model.AttrScopeTags},
+			},
+			scope:        model.AttrScopeTags,
+			inventoryErr: nil,
+			etag:         "f7238315-062d-4440-875a-676006f84c34",
+			resp: JSONResponseParams{
+				OutputStatus: http.StatusOK,
+			},
+		},
 		"ok, replace tags, PUT, without ETag": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PUT",
@@ -907,6 +940,39 @@ func TestApiInventoryUpdateDeviceTags(t *testing.T) {
 					{
 						Name:  "tag_2",
 						Value: "value_2",
+					},
+				},
+			}),
+			deviceID: "ad22a170-37b5-4c8b-9eab-612bad1eac19",
+			inHdrs: map[string]string{
+				"If-Match": "f7238315-062d-4440-875a-676006f84c34",
+			},
+			attrsToUpsert: model.DeviceAttributes{
+				{Name: "tag_1", Value: "value_1", Scope: model.AttrScopeTags},
+				{Name: "tag_2", Value: "value_2", Scope: model.AttrScopeTags},
+			},
+			scope:        model.AttrScopeTags,
+			inventoryErr: nil,
+			etag:         "f7238315-062d-4440-875a-676006f84c34",
+			resp: JSONResponseParams{
+				OutputStatus: http.StatusOK,
+			},
+		},
+		"ok/PATCH/scope unaffected": {
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlManagementV1 + uriDevices + "/:id/tags",
+				Auth:   true,
+				Body: []model.DeviceAttribute{
+					{
+						Name:  "tag_1",
+						Value: "value_1",
+						Scope: "foobar",
+					},
+					{
+						Name:  "tag_2",
+						Value: "value_2",
+						Scope: "inventory",
 					},
 				},
 			}),
@@ -1182,6 +1248,41 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 			scope: model.AttrScopeInventory,
 		},
 
+		"ok/scope is ignored": {
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PATCH",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
+					{
+						Name:        "name1",
+						Value:       "value1",
+						Description: strPtr("descr1"),
+						Scope:       "foo",
+					},
+					{
+						Name:        "name2",
+						Value:       2,
+						Description: strPtr("descr2"),
+						Scope:       "system",
+					},
+				},
+			}),
+			inHdrs: map[string]string{
+				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
+			},
+			inventoryErr: nil,
+			resp: JSONResponseParams{
+				OutputStatus:     http.StatusOK,
+				OutputBodyObject: nil,
+			},
+			deviceAttributes: model.DeviceAttributes{
+				{Name: "name1", Value: "value1", Description: strPtr("descr1"), Scope: model.AttrScopeInventory},
+				{Name: "name2", Value: float64(2), Description: strPtr("descr2"), Scope: model.AttrScopeInventory},
+			},
+			scope: model.AttrScopeInventory,
+		},
+
 		"body formatted ok, attributes ok (all fields), with scope": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
 				Method: "PATCH",
@@ -1331,7 +1432,7 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 
 		"body formatted ok, attributes ok (values only), PUT": {
 			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "PATCH",
+				Method: "PUT",
 				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
 				Auth:   true,
 				Body: []model.DeviceAttribute{
@@ -1352,6 +1453,38 @@ func TestApiInventoryUpsertAttributes(t *testing.T) {
 			resp: JSONResponseParams{
 				OutputStatus:     http.StatusOK,
 				OutputBodyObject: nil,
+			},
+			scope: model.AttrScopeInventory,
+		},
+		"ok/PUT/scope unaffected": {
+			inReq: rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path:   "http://localhost" + apiUrlDevicesV1 + uriDeviceAttributes,
+				Auth:   true,
+				Body: []model.DeviceAttribute{
+					{
+						Name:  "name1",
+						Value: "value1",
+						Scope: "tags",
+					},
+					{
+						Name:  "name2",
+						Value: 2,
+						Scope: "foobar",
+					},
+				},
+			}),
+			inHdrs: map[string]string{
+				"Authorization": makeDeviceAuthHeader(`{"sub":"fakeid","mender.device":true}`),
+			},
+			inventoryErr: nil,
+			resp: JSONResponseParams{
+				OutputStatus:     http.StatusOK,
+				OutputBodyObject: nil,
+			},
+			deviceAttributes: model.DeviceAttributes{
+				{Name: "name1", Value: "value1", Scope: model.AttrScopeInventory},
+				{Name: "name2", Value: float64(2), Scope: model.AttrScopeInventory},
 			},
 			scope: model.AttrScopeInventory,
 		},
