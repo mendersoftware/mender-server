@@ -4,7 +4,7 @@
 # A web interface for the inbox can be accessed on port 8025 on your machine.
 services:
   smtp4dev:
-    image: rnwood/smtp4dev:3.10.3
+    image: rnwood/smtp4dev:3.15.0
     ports:
       # Change the number before : to the port the web interface should be accessible on
       # Add 127.0.0.1: prefix for localhost-only access (recommended for security)
