@@ -12,6 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // material ui
+import type { ReactNode } from 'react';
+
 import { Sort as SortIcon } from '@mui/icons-material';
 import { Checkbox, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -29,6 +31,15 @@ const useStyles = makeStyles()(() => ({
     '.nonSortable': { cursor: 'initial' }
   }
 }));
+
+export interface ColumnDefinition {
+  cellProps?: Record<string, string>;
+  key: string;
+  render: () => ReactNode | string;
+  renderTitle?: () => ReactNode | string;
+  sortable?: boolean;
+  title: string;
+}
 
 export const DetailsTable = ({
   className = '',
