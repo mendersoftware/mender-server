@@ -66,9 +66,9 @@ class ManagementClient:
         self.inventoryAttributeTag = mender_client.Tag
 
     def inventoryAttribute(self, name, value, scope, description=None):
-        """Create an AttributeV1 with the value properly wrapped in AttributeValue."""
+        """Create an Attribute with the value properly wrapped in AttributeValue."""
         wrapped_value = mender_client.AttributeValue(value)
-        return mender_client.AttributeV1(
+        return mender_client.Attribute(
             name=name, value=wrapped_value, scope=scope, description=description
         )
 
@@ -283,11 +283,11 @@ class InternalApiClient:
     def create_device(self, device_id, attributes, description="test device"):
         # Convert attributes to the internal API format using mender_client.Attribute
         # The internal Attribute model has: name, description, value (AttributeValue)
-        # The management AttributeV1 has: name, scope, description, value (AttributeV1Value), timestamp
+        # The management Attribute has: name, scope, description, value (AttributeValue), timestamp
         converted_attrs = []
         for attr in attributes:
             if hasattr(attr, "value") and hasattr(attr.value, "actual_instance"):
-                # This is an AttributeV1 with AttributeV1Value - extract the raw value
+                # This is an Attribute with AttributeValue - extract the raw value
                 raw_value = attr.value.actual_instance
             elif hasattr(attr, "to_dict"):
                 attr_dict = attr.to_dict()
@@ -313,6 +313,7 @@ class InternalApiClient:
                 name=name,
                 value=mender_client.AttributeValue(raw_value),
                 description=desc,
+                scope=mender_client.Scope.INVENTORY
             )
             converted_attrs.append(internal_attr)
 
