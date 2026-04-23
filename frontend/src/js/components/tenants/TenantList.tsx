@@ -19,17 +19,18 @@ import { Alert, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
-import { ColumnHeader, CommonList, ListItemComponentProps, RendererProp } from '@northern.tech/common-ui/List';
+import type { ColumnHeader, ListItemComponentProps, RendererProp } from '@northern.tech/common-ui/List';
+import { CommonList } from '@northern.tech/common-ui/List';
 import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import { getDisabledTiers, getTenantListWithLimits } from '@northern.tech/store/selectors';
-import { AppDispatch } from '@northern.tech/store/store';
+import type { AppDispatch } from '@northern.tech/store/store';
 import { setTenantsListState } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 
 import { getLimitStatus } from '../header/DeviceNotifications';
 import { ExpandedTenant } from './ExpandedTenant';
-import { Tenant } from './types';
+import type { Tenant } from './types';
 
 const useStyles = makeStyles()(theme => ({
   container: {

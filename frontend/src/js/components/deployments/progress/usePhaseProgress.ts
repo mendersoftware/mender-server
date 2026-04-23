@@ -14,9 +14,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { DEPLOYMENT_STATES, TIMEOUTS } from '@northern.tech/store/constants';
-import { Deployment } from '@northern.tech/store/deploymentsSlice';
+import type { Deployment } from '@northern.tech/store/deploymentsSlice';
 import { groupDeploymentStats } from '@northern.tech/store/utils';
-import { DeploymentPhase } from '@northern.tech/types/MenderTypes';
+import type { DeploymentPhase } from '@northern.tech/types/MenderTypes';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 

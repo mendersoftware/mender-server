@@ -32,7 +32,7 @@ import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
-import { MarkdownToJSX } from 'markdown-to-jsx';
+import type { MarkdownToJSX } from 'markdown-to-jsx';
 import MuiMarkdown, { defaultOverrides } from 'mui-markdown';
 
 dayjs.extend(duration);

@@ -11,19 +11,19 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { ArrowCircleLeftOutlined as ArrowLeftIcon } from '@mui/icons-material';
 import { Divider, IconButton } from '@mui/material';
 
 import { CodeEditor } from '@northern.tech/common-ui/CodeEditor';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
-import { ClassesOverrides } from '@northern.tech/common-ui/List';
+import type { ClassesOverrides } from '@northern.tech/common-ui/List';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
-import { Event } from '@northern.tech/store/api/types';
-import { Webhook } from '@northern.tech/store/constants';
+import type { Event } from '@northern.tech/store/api/types';
+import type { Webhook } from '@northern.tech/store/constants';
 
-import { WebhookColumns } from './Management';
+import type { WebhookColumns } from './Management';
 
 interface SetSnackbarProps {
   action: () => void;

@@ -15,16 +15,17 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // material ui
+import type { SvgIconComponent } from '@mui/icons-material';
 import {
   AutoAwesomeOutlined as AutoAwesomeIcon,
   Cancel as CancelIcon,
   CheckCircle as CheckIcon,
   Error as ErrorIcon,
   Launch as LaunchIcon,
-  PendingOutlined as PendingIcon,
-  SvgIconComponent
+  PendingOutlined as PendingIcon
 } from '@mui/icons-material';
-import { Button, LinearProgress, LinearProgressProps, SvgIconOwnProps, Typography } from '@mui/material';
+import type { LinearProgressProps, SvgIconOwnProps } from '@mui/material';
+import { Button, LinearProgress, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';

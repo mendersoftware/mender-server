@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { CSSProperties, ComponentType, useEffect, useState } from 'react';
+import type { CSSProperties, ComponentType } from 'react';
+import { useEffect, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';

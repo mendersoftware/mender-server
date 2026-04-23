@@ -11,11 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ReactNode, forwardRef, useState } from 'react';
+import type { ReactNode } from 'react';
+import { forwardRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Description as DescriptionIcon, Launch as LaunchIcon } from '@mui/icons-material';
-import { Chip, Collapse, Typography, TypographyProps, chipClasses } from '@mui/material';
+import type { TypographyProps } from '@mui/material';
+import { Chip, Collapse, Typography, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';

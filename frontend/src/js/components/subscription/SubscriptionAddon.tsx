@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { Alert, Card, CardActions, CardContent, Checkbox, FormControlLabel, Typography } from '@mui/material';
 
-import { Addon, AvailableAddon, Plan } from '@northern.tech/store/appSlice/constants';
+import type { Addon, AvailableAddon, Plan } from '@northern.tech/store/appSlice/constants';
 
 interface AddonProps {
   addon: Addon;

@@ -12,12 +12,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { deploymentDisplayStates } from '@northern.tech/store/constants';
-import { Deployment } from '@northern.tech/store/deploymentsSlice';
+import type { Deployment } from '@northern.tech/store/deploymentsSlice';
 import { getDeploymentState } from '@northern.tech/store/utils';
 
 import DeploymentStats from '../DeploymentStatus';
 import { DeploymentStatusNotification } from './DeploymentStatusNotification';
-import { ProgressVariant, RolloutProgressBar, SimpleProgress } from './RolloutProgressBar';
+import type { ProgressVariant } from './RolloutProgressBar';
+import { RolloutProgressBar, SimpleProgress } from './RolloutProgressBar';
 import { SubstateProgressBar } from './SubstateProgressBar';
 
 interface ReportProgressProps {

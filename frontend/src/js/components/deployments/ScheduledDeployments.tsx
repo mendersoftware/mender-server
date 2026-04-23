@@ -39,7 +39,8 @@ import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.t
 import dayjs from 'dayjs';
 
 import { DeploymentDeviceCount, DeploymentEndTime, DeploymentPhases, DeploymentStartTime } from './DeploymentItem';
-import DeploymentsList, { ColumnHeader, defaultHeaders } from './DeploymentsList';
+import type { ColumnHeader } from './DeploymentsList';
+import DeploymentsList, { defaultHeaders } from './DeploymentsList';
 import { defaultRefreshDeploymentsLength as refreshDeploymentsLength } from './constants';
 
 const { setSnackbar } = storeActions;

@@ -24,7 +24,8 @@ import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { Loader } from '@northern.tech/common-ui/Loader';
-import { BENEFITS, UiRoleDefinition, emptyRole, settingsKeys } from '@northern.tech/store/constants';
+import type { UiRoleDefinition } from '@northern.tech/store/constants';
+import { BENEFITS, emptyRole, settingsKeys } from '@northern.tech/store/constants';
 import {
   getGroupsByIdWithoutUngrouped,
   getIsEnterprise,

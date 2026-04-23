@@ -11,9 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { FormEvent, useState } from 'react';
+import type { FormEvent } from 'react';
+import { useState } from 'react';
 
-import { Button, DialogActions, DialogContent, DialogContentText, DialogProps, TextField } from '@mui/material';
+import type { DialogProps } from '@mui/material';
+import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 

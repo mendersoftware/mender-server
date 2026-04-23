@@ -11,16 +11,20 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { FunctionComponent, useCallback } from 'react';
-import { Controller, FieldValues, UseFormSetValue, useFieldArray, useFormContext } from 'react-hook-form';
+import type { FunctionComponent } from 'react';
+import { useCallback } from 'react';
+import type { FieldValues, UseFormSetValue } from 'react-hook-form';
+import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { InfoOutlined as InfoOutlinedIcon, WarningAmber as WarningIcon } from '@mui/icons-material';
 import { FormControl, InputLabel, MenuItem, Select, TextField, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { PermissionsArea, UiPermission, uiPermissionsByArea } from '@northern.tech/store/constants';
+import type { PermissionsArea, UiPermission } from '@northern.tech/store/constants';
+import { uiPermissionsByArea } from '@northern.tech/store/constants';
 
-import { PermissionsSelect, PermissionsSelectionBaseProps } from './PermissionsSelect';
+import type { PermissionsSelectionBaseProps } from './PermissionsSelect';
+import { PermissionsSelect } from './PermissionsSelect';
 
 export type ScopedUiPermissions = {
   item: string;

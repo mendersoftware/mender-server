@@ -19,7 +19,8 @@ import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { DeviceTypes, SubscriptionPage } from './SubscriptionPage';
+import type { DeviceTypes } from './SubscriptionPage';
+import { SubscriptionPage } from './SubscriptionPage';
 
 vi.mock('@northern.tech/store/thunks', { spy: true });
 export const standardDeviceTier: Partial<DeviceTypes> = {

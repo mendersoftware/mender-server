@@ -11,14 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { CSSProperties, ComponentType, MutableRefObject, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import type { CSSProperties, ComponentType, MutableRefObject, ReactElement } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Settings as SettingsIcon, Sort as SortIcon } from '@mui/icons-material';
 import { Checkbox, Typography, typographyClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { DEVICE_LIST_DEFAULTS, IdAttribute, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
-import { SortOptions } from '@northern.tech/store/organizationSlice/types';
+import type { IdAttribute } from '@northern.tech/store/constants';
+import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import type { SortOptions } from '@northern.tech/store/organizationSlice/types';
 import { isDarkMode } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';

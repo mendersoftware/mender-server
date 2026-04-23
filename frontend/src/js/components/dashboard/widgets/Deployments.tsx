@@ -16,8 +16,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import Time from '@northern.tech/common-ui/Time';
 import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
-import { Deployment } from '@northern.tech/store/deploymentsSlice';
-import { Device } from '@northern.tech/store/devicesSlice';
+import type { Deployment } from '@northern.tech/store/deploymentsSlice';
+import type { Device } from '@northern.tech/store/devicesSlice';
 import { useDeploymentDevice } from '@northern.tech/store/useDeploymentDevice';
 
 import { DeploymentDeviceGroup } from '../../deployments/DeploymentItem';

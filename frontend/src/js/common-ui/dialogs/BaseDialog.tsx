@@ -11,9 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-import { Dialog, DialogProps, DialogTitle, ModalProps } from '@mui/material';
+import type { DialogProps, ModalProps } from '@mui/material';
+import { Dialog, DialogTitle } from '@mui/material';
 
 interface BaseDialogProps extends Omit<DialogProps, 'title'> {
   onClose: ModalProps['onClose'];

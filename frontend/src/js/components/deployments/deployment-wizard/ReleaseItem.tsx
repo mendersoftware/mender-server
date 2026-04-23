@@ -15,7 +15,7 @@ import { Chip, Paper, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Time from '@northern.tech/common-ui/Time';
-import { Release } from '@northern.tech/store/releasesSlice';
+import type { Release } from '@northern.tech/store/releasesSlice';
 
 interface ReleaseItemProps {
   onClick: (rel: Release) => void;

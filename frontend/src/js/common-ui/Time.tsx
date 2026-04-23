@@ -11,11 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ElementType, useEffect, useState } from 'react';
+import type { ElementType } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Tooltip, Typography } from '@mui/material';
 
-import dayjs, { Dayjs } from 'dayjs';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import pluralize from 'pluralize';
 

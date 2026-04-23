@@ -29,8 +29,10 @@ import Cookies from 'universal-cookie';
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import SignupHero from '../../../assets/img/signuphero.svg';
 import { EntryLink } from './Login';
-import { OrgData, OrgDataEntry } from './signup-steps/OrgdataEntry';
-import { UserData, UserDataEntry } from './signup-steps/UserdataEntry';
+import type { OrgData } from './signup-steps/OrgdataEntry';
+import { OrgDataEntry } from './signup-steps/OrgdataEntry';
+import type { UserData } from './signup-steps/UserdataEntry';
+import { UserDataEntry } from './signup-steps/UserdataEntry';
 
 const { setSnackbar } = storeActions;
 

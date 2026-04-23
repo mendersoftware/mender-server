@@ -3,7 +3,8 @@ import { cpus } from 'os';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import { UserWorkspaceConfig, defineConfig } from 'vitest/config';
+import type { UserWorkspaceConfig} from 'vitest/config';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig(() => {
   const isCi = process.env.CI;

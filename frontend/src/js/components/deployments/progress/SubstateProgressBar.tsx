@@ -19,7 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
 import { deploymentDisplayStates, deploymentSubstates, installationSubstatesMap, pauseMap } from '@northern.tech/store/constants';
-import { Deployment } from '@northern.tech/store/deploymentsSlice';
+import type { Deployment } from '@northern.tech/store/deploymentsSlice';
 import { getDeploymentState, groupDeploymentStats, statCollector } from '@northern.tech/store/utils';
 import pluralize from 'pluralize';
 

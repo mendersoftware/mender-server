@@ -13,9 +13,9 @@
 //    limitations under the License.
 import { Button, Card, CardContent, CardHeader, Chip, Divider, Skeleton, Typography } from '@mui/material';
 
-import { AvailableAddon, Plan } from '@northern.tech/store/appSlice/constants';
+import type { AvailableAddon, Plan } from '@northern.tech/store/appSlice/constants';
 
-import { DeviceTypes, PlanPreviewWithTotal } from './SubscriptionPage';
+import type { DeviceTypes, PlanPreviewWithTotal } from './SubscriptionPage';
 import { SubscriptionSummaryItem } from './SubscriptionSummaryItem';
 import { formatPrice } from './utils';
 

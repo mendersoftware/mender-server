@@ -11,15 +11,17 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { SetStateAction, useEffect, useRef, useState } from 'react';
+import type { SetStateAction } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
-import { ClassesOverrides } from '@northern.tech/common-ui/List';
+import type { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Pagination from '@northern.tech/common-ui/Pagination';
-import { Event } from '@northern.tech/store/api/types';
-import { DEVICE_LIST_DEFAULTS, TIMEOUTS, Webhook } from '@northern.tech/store/constants';
+import type { Event } from '@northern.tech/store/api/types';
+import type { Webhook } from '@northern.tech/store/constants';
+import { DEVICE_LIST_DEFAULTS, TIMEOUTS } from '@northern.tech/store/constants';
 
-import { WebhookColumns } from './Management';
+import type { WebhookColumns } from './Management';
 
 const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 

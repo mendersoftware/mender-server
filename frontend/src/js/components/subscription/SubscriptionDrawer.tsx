@@ -24,8 +24,8 @@ import DocsLink from '@northern.tech/common-ui/DocsLink';
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
-import { AvailableAddon, Plan } from '@northern.tech/store/constants';
-import { Organization, ProductPlan } from '@northern.tech/store/organizationSlice/types';
+import type { AvailableAddon, Plan } from '@northern.tech/store/constants';
+import type { Organization, ProductPlan } from '@northern.tech/store/organizationSlice/types';
 import { getBillingProfile, getCard, getCurrentUser, getSubscription } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import {
@@ -36,7 +36,7 @@ import {
   requestPlanUpgrade,
   startCardUpdate
 } from '@northern.tech/store/thunks';
-import { Address } from '@northern.tech/types/MenderTypes';
+import type { Address } from '@northern.tech/types/MenderTypes';
 import { isEmpty } from '@northern.tech/utils/helpers';
 
 import CardSection from '../settings/CardSection';
@@ -45,7 +45,7 @@ import { CardDetails } from '../settings/organization/Billing';
 import { BillingDetails } from '../settings/organization/BillingDetails';
 import OrganizationPaymentSettings from '../settings/organization/OrganizationPaymentSettings';
 import { SubscriptionConfirmation } from './SubscriptionConfirmation';
-import { DeviceTypes, PlanPreviewWithTotal } from './SubscriptionPage';
+import type { DeviceTypes, PlanPreviewWithTotal } from './SubscriptionPage';
 import { SubscriptionSummary } from './SubscriptionSummary';
 import { formatPrice } from './utils';
 
