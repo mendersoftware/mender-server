@@ -15,6 +15,8 @@ import ReactDOM from 'react-dom/client';
 
 import { AppProviders } from './components/App';
 
+declare const __MOCKS_ENABLED__: boolean;
+
 const welcomeMessage = `Welcome to the Mender project!
 
 Does this page need fixes or improvements?
@@ -28,6 +30,19 @@ Open an issue, or contribute a fix to:
 🚀 We like your curiosity! Help us improve Mender by joining the team: https://northern.tech/careers
 `;
 
+const enableMocking = async () => {
+  if (typeof __MOCKS_ENABLED__ !== 'undefined' && __MOCKS_ENABLED__) {
+    const { worker } = await import('./mocks/browser');
+    await worker.start();
+  }
+};
+
+const renderApp = () => {
+  const root = ReactDOM.createRoot(document.getElementById('main'));
+  root.render(<AppProviders />);
+};
+
 console.log(welcomeMessage);
-const root = ReactDOM.createRoot(document.getElementById('main'));
-root.render(<AppProviders />);
+enableMocking()
+  .catch(err => console.error('[MSW] Failed to enable mocking, rendering app anyway:', err))
+  .then(renderApp);

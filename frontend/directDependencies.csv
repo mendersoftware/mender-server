@@ -65,6 +65,7 @@
 "msgpack5","MIT","https://github.com/mcollina/msgpack5"
 "msw","MIT","https://github.com/mswjs/msw"
 "mui-markdown","MIT","https://github.com/HPouyanmehr/mui-markdown"
+"path-browserify","MIT","https://github.com/browserify/path-browserify"
 "pluralize","MIT","https://github.com/blakeembrey/pluralize"
 "postcss-loader","MIT","https://github.com/webpack/postcss-loader"
 "prettier","MIT","https://github.com/prettier/prettier"
