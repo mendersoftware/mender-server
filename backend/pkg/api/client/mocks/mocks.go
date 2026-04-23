@@ -16452,24 +16452,24 @@ func (_c *MockDeviceInventoryManagementAPIAPI_GetDeviceInventory_Call) RunAndRet
 }
 
 // GetDeviceInventoryExecute provides a mock function for the type MockDeviceInventoryManagementAPIAPI
-func (_mock *MockDeviceInventoryManagementAPIAPI) GetDeviceInventoryExecute(r client.ApiGetDeviceInventoryRequest) (*client.DeviceInventoryV1, *http.Response, error) {
+func (_mock *MockDeviceInventoryManagementAPIAPI) GetDeviceInventoryExecute(r client.ApiGetDeviceInventoryRequest) (*client.DeviceInventory, *http.Response, error) {
 	ret := _mock.Called(r)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetDeviceInventoryExecute")
 	}
 
-	var r0 *client.DeviceInventoryV1
+	var r0 *client.DeviceInventory
 	var r1 *http.Response
 	var r2 error
-	if returnFunc, ok := ret.Get(0).(func(client.ApiGetDeviceInventoryRequest) (*client.DeviceInventoryV1, *http.Response, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(client.ApiGetDeviceInventoryRequest) (*client.DeviceInventory, *http.Response, error)); ok {
 		return returnFunc(r)
 	}
-	if returnFunc, ok := ret.Get(0).(func(client.ApiGetDeviceInventoryRequest) *client.DeviceInventoryV1); ok {
+	if returnFunc, ok := ret.Get(0).(func(client.ApiGetDeviceInventoryRequest) *client.DeviceInventory); ok {
 		r0 = returnFunc(r)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*client.DeviceInventoryV1)
+			r0 = ret.Get(0).(*client.DeviceInventory)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(client.ApiGetDeviceInventoryRequest) *http.Response); ok {
@@ -16511,12 +16511,12 @@ func (_c *MockDeviceInventoryManagementAPIAPI_GetDeviceInventoryExecute_Call) Ru
 	return _c
 }
 
-func (_c *MockDeviceInventoryManagementAPIAPI_GetDeviceInventoryExecute_Call) Return(deviceInventoryV1 *client.DeviceInventoryV1, response *http.Response, err error) *MockDeviceInventoryManagementAPIAPI_GetDeviceInventoryExecute_Call {
-	_c.Call.Return(deviceInventoryV1, response, err)
+func (_c *MockDeviceInventoryManagementAPIAPI_GetDeviceInventoryExecute_Call) Return(deviceInventory *client.DeviceInventory, response *http.Response, err error) *MockDeviceInventoryManagementAPIAPI_GetDeviceInventoryExecute_Call {
+	_c.Call.Return(deviceInventory, response, err)
 	return _c
 }
 
-func (_c *MockDeviceInventoryManagementAPIAPI_GetDeviceInventoryExecute_Call) RunAndReturn(run func(r client.ApiGetDeviceInventoryRequest) (*client.DeviceInventoryV1, *http.Response, error)) *MockDeviceInventoryManagementAPIAPI_GetDeviceInventoryExecute_Call {
+func (_c *MockDeviceInventoryManagementAPIAPI_GetDeviceInventoryExecute_Call) RunAndReturn(run func(r client.ApiGetDeviceInventoryRequest) (*client.DeviceInventory, *http.Response, error)) *MockDeviceInventoryManagementAPIAPI_GetDeviceInventoryExecute_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -16700,24 +16700,24 @@ func (_c *MockDeviceInventoryManagementAPIAPI_ListDeviceInventories_Call) RunAnd
 }
 
 // ListDeviceInventoriesExecute provides a mock function for the type MockDeviceInventoryManagementAPIAPI
-func (_mock *MockDeviceInventoryManagementAPIAPI) ListDeviceInventoriesExecute(r client.ApiListDeviceInventoriesRequest) ([]client.DeviceInventoryV1, *http.Response, error) {
+func (_mock *MockDeviceInventoryManagementAPIAPI) ListDeviceInventoriesExecute(r client.ApiListDeviceInventoriesRequest) ([]client.DeviceInventory, *http.Response, error) {
 	ret := _mock.Called(r)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ListDeviceInventoriesExecute")
 	}
 
-	var r0 []client.DeviceInventoryV1
+	var r0 []client.DeviceInventory
 	var r1 *http.Response
 	var r2 error
-	if returnFunc, ok := ret.Get(0).(func(client.ApiListDeviceInventoriesRequest) ([]client.DeviceInventoryV1, *http.Response, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(client.ApiListDeviceInventoriesRequest) ([]client.DeviceInventory, *http.Response, error)); ok {
 		return returnFunc(r)
 	}
-	if returnFunc, ok := ret.Get(0).(func(client.ApiListDeviceInventoriesRequest) []client.DeviceInventoryV1); ok {
+	if returnFunc, ok := ret.Get(0).(func(client.ApiListDeviceInventoriesRequest) []client.DeviceInventory); ok {
 		r0 = returnFunc(r)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]client.DeviceInventoryV1)
+			r0 = ret.Get(0).([]client.DeviceInventory)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(client.ApiListDeviceInventoriesRequest) *http.Response); ok {
@@ -16759,12 +16759,12 @@ func (_c *MockDeviceInventoryManagementAPIAPI_ListDeviceInventoriesExecute_Call)
 	return _c
 }
 
-func (_c *MockDeviceInventoryManagementAPIAPI_ListDeviceInventoriesExecute_Call) Return(deviceInventoryV1s []client.DeviceInventoryV1, response *http.Response, err error) *MockDeviceInventoryManagementAPIAPI_ListDeviceInventoriesExecute_Call {
-	_c.Call.Return(deviceInventoryV1s, response, err)
+func (_c *MockDeviceInventoryManagementAPIAPI_ListDeviceInventoriesExecute_Call) Return(deviceInventorys []client.DeviceInventory, response *http.Response, err error) *MockDeviceInventoryManagementAPIAPI_ListDeviceInventoriesExecute_Call {
+	_c.Call.Return(deviceInventorys, response, err)
 	return _c
 }
 
-func (_c *MockDeviceInventoryManagementAPIAPI_ListDeviceInventoriesExecute_Call) RunAndReturn(run func(r client.ApiListDeviceInventoriesRequest) ([]client.DeviceInventoryV1, *http.Response, error)) *MockDeviceInventoryManagementAPIAPI_ListDeviceInventoriesExecute_Call {
+func (_c *MockDeviceInventoryManagementAPIAPI_ListDeviceInventoriesExecute_Call) RunAndReturn(run func(r client.ApiListDeviceInventoriesRequest) ([]client.DeviceInventory, *http.Response, error)) *MockDeviceInventoryManagementAPIAPI_ListDeviceInventoriesExecute_Call {
 	_c.Call.Return(run)
 	return _c
 }

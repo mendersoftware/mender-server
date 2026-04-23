@@ -213,7 +213,7 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 
 		accepted := slices.ContainsFunc(
 			deviceInventory.Attributes,
-			func(a client.AttributeV2) bool {
+			func(a client.Attribute) bool {
 				if a.GetScope() != client.IDENTITY || a.GetName() != "status" {
 					return false
 				}

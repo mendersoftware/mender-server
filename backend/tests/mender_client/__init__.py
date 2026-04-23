@@ -64,8 +64,6 @@ __all__ = [
     "ArtifactV2",
     "Attribute",
     "AttributeFilterPredicate",
-    "AttributeV1",
-    "AttributeV2",
     "AttributeValue",
     "AuthRequest",
     "AuthSet",
@@ -90,6 +88,7 @@ __all__ = [
     "DeploymentV1Internal",
     "DeploymentV2",
     "Device",
+    "DeviceAttribute",
     "DeviceAuthEvent",
     "DeviceAuthManagementSearchDevicesRequest",
     "DeviceConfiguration",
@@ -97,7 +96,6 @@ __all__ = [
     "DeviceDeployment",
     "DeviceDeploymentV1",
     "DeviceInventory",
-    "DeviceInventoryV1",
     "DeviceNew",
     "DeviceState",
     "DeviceStatus",
@@ -231,8 +229,6 @@ from mender_client.models.artifact_v1 import ArtifactV1 as ArtifactV1
 from mender_client.models.artifact_v2 import ArtifactV2 as ArtifactV2
 from mender_client.models.attribute import Attribute as Attribute
 from mender_client.models.attribute_filter_predicate import AttributeFilterPredicate as AttributeFilterPredicate
-from mender_client.models.attribute_v1 import AttributeV1 as AttributeV1
-from mender_client.models.attribute_v2 import AttributeV2 as AttributeV2
 from mender_client.models.attribute_value import AttributeValue as AttributeValue
 from mender_client.models.auth_request import AuthRequest as AuthRequest
 from mender_client.models.auth_set import AuthSet as AuthSet
@@ -257,6 +253,7 @@ from mender_client.models.deployment_v1 import DeploymentV1 as DeploymentV1
 from mender_client.models.deployment_v1_internal import DeploymentV1Internal as DeploymentV1Internal
 from mender_client.models.deployment_v2 import DeploymentV2 as DeploymentV2
 from mender_client.models.device import Device as Device
+from mender_client.models.device_attribute import DeviceAttribute as DeviceAttribute
 from mender_client.models.device_auth_event import DeviceAuthEvent as DeviceAuthEvent
 from mender_client.models.device_auth_management_search_devices_request import DeviceAuthManagementSearchDevicesRequest as DeviceAuthManagementSearchDevicesRequest
 from mender_client.models.device_configuration import DeviceConfiguration as DeviceConfiguration
@@ -264,7 +261,6 @@ from mender_client.models.device_count_by_tier import DeviceCountByTier as Devic
 from mender_client.models.device_deployment import DeviceDeployment as DeviceDeployment
 from mender_client.models.device_deployment_v1 import DeviceDeploymentV1 as DeviceDeploymentV1
 from mender_client.models.device_inventory import DeviceInventory as DeviceInventory
-from mender_client.models.device_inventory_v1 import DeviceInventoryV1 as DeviceInventoryV1
 from mender_client.models.device_new import DeviceNew as DeviceNew
 from mender_client.models.device_state import DeviceState as DeviceState
 from mender_client.models.device_status import DeviceStatus as DeviceStatus

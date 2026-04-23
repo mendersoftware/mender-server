@@ -20,7 +20,7 @@ from pydantic import Field, StrictBool, StrictInt, StrictStr, field_validator
 from typing import List, Optional
 from typing_extensions import Annotated
 from mender_client.models.add_devices_to_group200_response import AddDevicesToGroup200Response
-from mender_client.models.device_inventory_v1 import DeviceInventoryV1
+from mender_client.models.device_inventory import DeviceInventory
 from mender_client.models.group import Group
 from mender_client.models.remove_a_group200_response import RemoveAGroup200Response
 from mender_client.models.tag import Tag
@@ -2100,7 +2100,7 @@ class DeviceInventoryManagementAPIApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeviceInventoryV1:
+    ) -> DeviceInventory:
         """Get a selected device's inventory
 
 
@@ -2137,7 +2137,7 @@ class DeviceInventoryManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeviceInventoryV1",
+            '200': "DeviceInventory",
             '404': "Error",
             '500': "Error",
         }
@@ -2168,7 +2168,7 @@ class DeviceInventoryManagementAPIApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeviceInventoryV1]:
+    ) -> ApiResponse[DeviceInventory]:
         """Get a selected device's inventory
 
 
@@ -2205,7 +2205,7 @@ class DeviceInventoryManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeviceInventoryV1",
+            '200': "DeviceInventory",
             '404': "Error",
             '500': "Error",
         }
@@ -2273,7 +2273,7 @@ class DeviceInventoryManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeviceInventoryV1",
+            '200': "DeviceInventory",
             '404': "Error",
             '500': "Error",
         }
@@ -2669,7 +2669,7 @@ class DeviceInventoryManagementAPIApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[DeviceInventoryV1]:
+    ) -> List[DeviceInventory]:
         """List devices inventories
 
         Returns a paged collection of devices and their attributes. Accepts optional search and sort parameters.  **Searching**<br/> Searching by attributes values is accomplished by appending attribute filters in the form `{scope}/{name}={value}` to the query string.  Supported values for scope are:   * __inventory__: Attributes reported by the device.   * __system__: Attributes populated by the mender-server.   * __identity__: Device's identity attributes provided in the device's auth request.   * __monitor__: Attributes populated by the monitoring add-on.   * __tags__: User-defined attributes associated with the device.  Using an unsupported value for __scope__ will produce no results from this API except when no scope is present, in which case scope defaults to inventory.  Examples: ``` # Search for devices with inventory attribute `attr_name_1` and tag attribute `attr_name_2` GET /devices?inventory/attr_name_1=foo&tags/attr_name_2=100  # Search devices by attribute without scope (inventory scope is used) GET /devices?attr_name_1=foo ``` 
@@ -2719,7 +2719,7 @@ class DeviceInventoryManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DeviceInventoryV1]",
+            '200': "List[DeviceInventory]",
             '400': "Error",
             '500': "Error",
         }
@@ -2754,7 +2754,7 @@ class DeviceInventoryManagementAPIApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[DeviceInventoryV1]]:
+    ) -> ApiResponse[List[DeviceInventory]]:
         """List devices inventories
 
         Returns a paged collection of devices and their attributes. Accepts optional search and sort parameters.  **Searching**<br/> Searching by attributes values is accomplished by appending attribute filters in the form `{scope}/{name}={value}` to the query string.  Supported values for scope are:   * __inventory__: Attributes reported by the device.   * __system__: Attributes populated by the mender-server.   * __identity__: Device's identity attributes provided in the device's auth request.   * __monitor__: Attributes populated by the monitoring add-on.   * __tags__: User-defined attributes associated with the device.  Using an unsupported value for __scope__ will produce no results from this API except when no scope is present, in which case scope defaults to inventory.  Examples: ``` # Search for devices with inventory attribute `attr_name_1` and tag attribute `attr_name_2` GET /devices?inventory/attr_name_1=foo&tags/attr_name_2=100  # Search devices by attribute without scope (inventory scope is used) GET /devices?attr_name_1=foo ``` 
@@ -2804,7 +2804,7 @@ class DeviceInventoryManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DeviceInventoryV1]",
+            '200': "List[DeviceInventory]",
             '400': "Error",
             '500': "Error",
         }
@@ -2889,7 +2889,7 @@ class DeviceInventoryManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DeviceInventoryV1]",
+            '200': "List[DeviceInventory]",
             '400': "Error",
             '500': "Error",
         }

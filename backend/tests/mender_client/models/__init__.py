@@ -27,8 +27,6 @@ from mender_client.models.artifact_v1 import ArtifactV1
 from mender_client.models.artifact_v2 import ArtifactV2
 from mender_client.models.attribute import Attribute
 from mender_client.models.attribute_filter_predicate import AttributeFilterPredicate
-from mender_client.models.attribute_v1 import AttributeV1
-from mender_client.models.attribute_v2 import AttributeV2
 from mender_client.models.attribute_value import AttributeValue
 from mender_client.models.auth_request import AuthRequest
 from mender_client.models.auth_set import AuthSet
@@ -53,6 +51,7 @@ from mender_client.models.deployment_v1 import DeploymentV1
 from mender_client.models.deployment_v1_internal import DeploymentV1Internal
 from mender_client.models.deployment_v2 import DeploymentV2
 from mender_client.models.device import Device
+from mender_client.models.device_attribute import DeviceAttribute
 from mender_client.models.device_auth_event import DeviceAuthEvent
 from mender_client.models.device_auth_management_search_devices_request import DeviceAuthManagementSearchDevicesRequest
 from mender_client.models.device_configuration import DeviceConfiguration
@@ -60,7 +59,6 @@ from mender_client.models.device_count_by_tier import DeviceCountByTier
 from mender_client.models.device_deployment import DeviceDeployment
 from mender_client.models.device_deployment_v1 import DeviceDeploymentV1
 from mender_client.models.device_inventory import DeviceInventory
-from mender_client.models.device_inventory_v1 import DeviceInventoryV1
 from mender_client.models.device_new import DeviceNew
 from mender_client.models.device_state import DeviceState
 from mender_client.models.device_status import DeviceStatus

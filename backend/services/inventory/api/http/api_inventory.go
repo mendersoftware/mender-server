@@ -417,7 +417,7 @@ func (i *ManagementAPI) UpdateDeviceAttributesHandler(c *gin.Context) {
 	}
 	deviceID := model.DeviceID(idata.Subject)
 	//extract attributes from body
-	attrs, err := parseAttributes(c)
+	attrs, err := parseAttributes(c, model.AttrScopeInventory)
 	if err != nil {
 		rest.RenderError(c,
 			http.StatusBadRequest,
@@ -442,7 +442,7 @@ func (i *ManagementAPI) UpdateDeviceTagsHandler(c *gin.Context) {
 	ifMatchHeader := c.Request.Header.Get("If-Match")
 
 	// extract attributes from body
-	attrs, err := parseAttributes(c)
+	attrs, err := parseAttributes(c, model.AttrScopeTags)
 	if err != nil {
 		rest.RenderError(c,
 			http.StatusBadRequest,
@@ -454,10 +454,7 @@ func (i *ManagementAPI) UpdateDeviceTagsHandler(c *gin.Context) {
 	// set scope and timestamp for tags attributes
 	now := time.Now()
 	for i := range attrs {
-		attrs[i].Scope = model.AttrScopeTags
-		if attrs[i].Timestamp == nil {
-			attrs[i].Timestamp = &now
-		}
+		attrs[i].Timestamp = &now
 	}
 
 	i.updateDeviceAttributes(c, attrs, deviceID, model.AttrScopeTags, ifMatchHeader)
@@ -522,7 +519,9 @@ func (i *InternalAPI) PatchDeviceAttributesInternalHandler(
 		return
 	}
 	//extract attributes from body
-	attrs, err := parseAttributes(c)
+	// NOTE: scope might be empty for urlInternalAttributesNoScope in
+	// which case it will accept scope as a parameter in the body.
+	attrs, err := parseAttributes(c, c.Param("scope"))
 	if err != nil {
 		rest.RenderError(c, http.StatusBadRequest, err)
 		return
@@ -536,11 +535,7 @@ func (i *InternalAPI) PatchDeviceAttributesInternalHandler(
 		}
 		notModifiedAfter = &parsed
 	}
-	scopeFromUrl := c.FullPath() == (apiUrlInternalV1 + urlInternalAttributes)
 	for i := range attrs {
-		if scopeFromUrl {
-			attrs[i].Scope = c.Param("scope")
-		}
 		if attrs[i].Name == checkInTimeParamName && attrs[i].Scope == checkInTimeParamScope {
 			t, err := time.Parse(time.RFC3339, fmt.Sprintf("%v", attrs[i].Value))
 			if err != nil {
@@ -776,12 +771,17 @@ func parseDevice(c *gin.Context) (*model.Device, error) {
 	return &dev, nil
 }
 
-func parseAttributes(c *gin.Context) (model.DeviceAttributes, error) {
+func parseAttributes(c *gin.Context, scope string) (model.DeviceAttributes, error) {
 	var attrs model.DeviceAttributes
 
 	err := c.ShouldBindJSON(&attrs)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to decode request body")
+	}
+	if scope != "" {
+		for i := range attrs {
+			attrs[i].Scope = scope
+		}
 	}
 
 	err = attrs.Validate()

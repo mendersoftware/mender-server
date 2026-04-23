@@ -19,7 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field
 from typing import List
 from typing_extensions import Annotated
-from mender_client.models.attribute import Attribute
+from mender_client.models.device_attribute import DeviceAttribute
 
 from mender_client.api_client import ApiClient, RequestSerialized
 from mender_client.api_response import ApiResponse
@@ -42,7 +42,7 @@ class DeviceInventoryDeviceAPIApi:
     @validate_call
     def assign_attributes(
         self,
-        attribute: Annotated[List[Attribute], Field(description="A list of attribute descriptors.")],
+        device_attribute: Annotated[List[DeviceAttribute], Field(description="A list of attribute descriptors.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60,8 +60,8 @@ class DeviceInventoryDeviceAPIApi:
 
         Saves the provided attribute set for the authenticated device. The device ID is retrieved from the authorization header.  This method has upsert semantics:  * the values of existing attributes are overwritten  * attributes assigned for the first time are automatically created 
 
-        :param attribute: A list of attribute descriptors. (required)
-        :type attribute: List[Attribute]
+        :param device_attribute: A list of attribute descriptors. (required)
+        :type device_attribute: List[DeviceAttribute]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -85,7 +85,7 @@ class DeviceInventoryDeviceAPIApi:
         """ # noqa: E501
 
         _param = self._assign_attributes_serialize(
-            attribute=attribute,
+            device_attribute=device_attribute,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -112,7 +112,7 @@ class DeviceInventoryDeviceAPIApi:
     @validate_call
     def assign_attributes_with_http_info(
         self,
-        attribute: Annotated[List[Attribute], Field(description="A list of attribute descriptors.")],
+        device_attribute: Annotated[List[DeviceAttribute], Field(description="A list of attribute descriptors.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -130,8 +130,8 @@ class DeviceInventoryDeviceAPIApi:
 
         Saves the provided attribute set for the authenticated device. The device ID is retrieved from the authorization header.  This method has upsert semantics:  * the values of existing attributes are overwritten  * attributes assigned for the first time are automatically created 
 
-        :param attribute: A list of attribute descriptors. (required)
-        :type attribute: List[Attribute]
+        :param device_attribute: A list of attribute descriptors. (required)
+        :type device_attribute: List[DeviceAttribute]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -155,7 +155,7 @@ class DeviceInventoryDeviceAPIApi:
         """ # noqa: E501
 
         _param = self._assign_attributes_serialize(
-            attribute=attribute,
+            device_attribute=device_attribute,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -182,7 +182,7 @@ class DeviceInventoryDeviceAPIApi:
     @validate_call
     def assign_attributes_without_preload_content(
         self,
-        attribute: Annotated[List[Attribute], Field(description="A list of attribute descriptors.")],
+        device_attribute: Annotated[List[DeviceAttribute], Field(description="A list of attribute descriptors.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -200,8 +200,8 @@ class DeviceInventoryDeviceAPIApi:
 
         Saves the provided attribute set for the authenticated device. The device ID is retrieved from the authorization header.  This method has upsert semantics:  * the values of existing attributes are overwritten  * attributes assigned for the first time are automatically created 
 
-        :param attribute: A list of attribute descriptors. (required)
-        :type attribute: List[Attribute]
+        :param device_attribute: A list of attribute descriptors. (required)
+        :type device_attribute: List[DeviceAttribute]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -225,7 +225,7 @@ class DeviceInventoryDeviceAPIApi:
         """ # noqa: E501
 
         _param = self._assign_attributes_serialize(
-            attribute=attribute,
+            device_attribute=device_attribute,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -247,7 +247,7 @@ class DeviceInventoryDeviceAPIApi:
 
     def _assign_attributes_serialize(
         self,
-        attribute,
+        device_attribute,
         _request_auth,
         _content_type,
         _headers,
@@ -257,7 +257,7 @@ class DeviceInventoryDeviceAPIApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            'Attribute': '',
+            'DeviceAttribute': '',
         }
 
         _path_params: Dict[str, str] = {}
@@ -274,8 +274,8 @@ class DeviceInventoryDeviceAPIApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if attribute is not None:
-            _body_params = attribute
+        if device_attribute is not None:
+            _body_params = device_attribute
 
 
         # set the HTTP header `Accept`
@@ -326,7 +326,7 @@ class DeviceInventoryDeviceAPIApi:
     @validate_call
     def replace_attributes(
         self,
-        attribute: Annotated[List[Attribute], Field(description="A list of attribute descriptors.")],
+        device_attribute: Annotated[List[DeviceAttribute], Field(description="A list of attribute descriptors.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -344,8 +344,8 @@ class DeviceInventoryDeviceAPIApi:
 
         Replaces the attribute set for the authenticated device with the provided one. The device ID is retrieved from the authorization header.  This method replaces all the attributes with the new set:  * attributes not provided in the set are removed from the db  * the values of existing attributes are overwritten  * attributes assigned for the first time are automatically created 
 
-        :param attribute: A list of attribute descriptors. (required)
-        :type attribute: List[Attribute]
+        :param device_attribute: A list of attribute descriptors. (required)
+        :type device_attribute: List[DeviceAttribute]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -369,7 +369,7 @@ class DeviceInventoryDeviceAPIApi:
         """ # noqa: E501
 
         _param = self._replace_attributes_serialize(
-            attribute=attribute,
+            device_attribute=device_attribute,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -396,7 +396,7 @@ class DeviceInventoryDeviceAPIApi:
     @validate_call
     def replace_attributes_with_http_info(
         self,
-        attribute: Annotated[List[Attribute], Field(description="A list of attribute descriptors.")],
+        device_attribute: Annotated[List[DeviceAttribute], Field(description="A list of attribute descriptors.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -414,8 +414,8 @@ class DeviceInventoryDeviceAPIApi:
 
         Replaces the attribute set for the authenticated device with the provided one. The device ID is retrieved from the authorization header.  This method replaces all the attributes with the new set:  * attributes not provided in the set are removed from the db  * the values of existing attributes are overwritten  * attributes assigned for the first time are automatically created 
 
-        :param attribute: A list of attribute descriptors. (required)
-        :type attribute: List[Attribute]
+        :param device_attribute: A list of attribute descriptors. (required)
+        :type device_attribute: List[DeviceAttribute]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -439,7 +439,7 @@ class DeviceInventoryDeviceAPIApi:
         """ # noqa: E501
 
         _param = self._replace_attributes_serialize(
-            attribute=attribute,
+            device_attribute=device_attribute,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -466,7 +466,7 @@ class DeviceInventoryDeviceAPIApi:
     @validate_call
     def replace_attributes_without_preload_content(
         self,
-        attribute: Annotated[List[Attribute], Field(description="A list of attribute descriptors.")],
+        device_attribute: Annotated[List[DeviceAttribute], Field(description="A list of attribute descriptors.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -484,8 +484,8 @@ class DeviceInventoryDeviceAPIApi:
 
         Replaces the attribute set for the authenticated device with the provided one. The device ID is retrieved from the authorization header.  This method replaces all the attributes with the new set:  * attributes not provided in the set are removed from the db  * the values of existing attributes are overwritten  * attributes assigned for the first time are automatically created 
 
-        :param attribute: A list of attribute descriptors. (required)
-        :type attribute: List[Attribute]
+        :param device_attribute: A list of attribute descriptors. (required)
+        :type device_attribute: List[DeviceAttribute]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -509,7 +509,7 @@ class DeviceInventoryDeviceAPIApi:
         """ # noqa: E501
 
         _param = self._replace_attributes_serialize(
-            attribute=attribute,
+            device_attribute=device_attribute,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -531,7 +531,7 @@ class DeviceInventoryDeviceAPIApi:
 
     def _replace_attributes_serialize(
         self,
-        attribute,
+        device_attribute,
         _request_auth,
         _content_type,
         _headers,
@@ -541,7 +541,7 @@ class DeviceInventoryDeviceAPIApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            'Attribute': '',
+            'DeviceAttribute': '',
         }
 
         _path_params: Dict[str, str] = {}
@@ -558,8 +558,8 @@ class DeviceInventoryDeviceAPIApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if attribute is not None:
-            _body_params = attribute
+        if device_attribute is not None:
+            _body_params = device_attribute
 
 
         # set the HTTP header `Accept`

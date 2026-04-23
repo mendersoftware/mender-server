@@ -20,7 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from mender_client.models.attribute_v2 import AttributeV2
+from mender_client.models.attribute import Attribute
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -30,7 +30,7 @@ class DeviceInventory(BaseModel):
     """ # noqa: E501
     id: Optional[StrictStr] = Field(default=None, description="Mender-assigned unique ID.")
     updated_ts: Optional[StrictStr] = Field(default=None, description="Timestamp of the most recent attribute update.")
-    attributes: Optional[List[AttributeV2]] = Field(default=None, description="A list of attribute descriptors.")
+    attributes: Optional[List[Attribute]] = Field(default=None, description="A list of attribute descriptors.")
     __properties: ClassVar[List[str]] = ["id", "updated_ts", "attributes"]
 
     model_config = ConfigDict(
@@ -93,7 +93,7 @@ class DeviceInventory(BaseModel):
         _obj = cls.model_validate({
             "id": obj.get("id"),
             "updated_ts": obj.get("updated_ts"),
-            "attributes": [AttributeV2.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None
+            "attributes": [Attribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None
         })
         return _obj
 

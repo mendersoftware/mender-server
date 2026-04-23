@@ -17,7 +17,7 @@ import (
 	"gopkg.in/validator.v2"
 )
 
-// AttributeValue - The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed type arrays are not allowed. 
+// AttributeValue - The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
 type AttributeValue struct {
 	ArrayOfFloat32 *[]float32
 	ArrayOfString *[]string

@@ -7,51 +7,14 @@ info:
 paths: {}
 components:
   schemas:
-    Attribute:
+    DeviceAttribute:
       description: Attribute descriptor.
       example:
-        name: ip_addr_eth
-        description: Device IP address on ethernet interface
-        value: 127.0.0.1
-      required:
-        - name
-        - value
-      type: object
-      properties:
-        name:
-          type: string
-          description: |
-            A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
-        description:
-          type: string
-          description: Attribute description.
-        value:
-          oneOf:
-            - type: string
-            - type: number
-            - type: array
-              items:
-                type: string
-            - type: array
-              items:
-                type: number
-          description: |
-            The current value of the attribute.
-
-            Attribute type is implicit, inferred from the JSON type.
-
-            Supported types: number, string, array of numbers, array of strings.
-            Mixed type arrays are not allowed.
-    AttributeV2:
-      description: Attribute descriptor with scope (v2 APIs).
-      example:
         name: serial_no
-        scope: inventory
         description: Serial number
         value: "123456789"
       required:
         - name
-        - scope
         - value
       type: object
       properties:
@@ -59,13 +22,34 @@ components:
           type: string
           description: |
             A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc.
-        scope:
-          $ref: '../common/schemas.yaml#/components/schemas/Scope'
         description:
           type: string
           description: Attribute description.
         value:
           $ref: "#/components/schemas/AttributeValue"
+    Attribute:
+      allOf:
+      - $ref: '#/components/schemas/DeviceAttribute'
+      - description: Attribute descriptor.
+        example:
+          name: serial_no
+          scope: inventory
+          description: Serial number
+          value: "123456789"
+        required:
+          - name
+          - value
+          - scope
+        properties:
+          scope:
+            $ref: '../common/schemas.yaml#/components/schemas/Scope'
+          timestamp:
+            type: string
+            description: |
+              The date and time of last tag update in RFC3339 format.
+
+              Only applicable when scope is `tags`.
+            format: date-time
     AttributeValue:
       oneOf:
         - type: string
@@ -200,7 +184,7 @@ components:
           type: array
           description: A list of attribute descriptors.
           items:
-            $ref: "./schemas.yaml#/components/schemas/AttributeV2"
+            $ref: "./schemas.yaml#/components/schemas/Attribute"
       example:
         id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
         attributes:
