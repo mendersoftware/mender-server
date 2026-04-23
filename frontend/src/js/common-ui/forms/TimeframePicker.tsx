@@ -111,13 +111,12 @@ export const TimeframePicker = ({
             <DatePicker
               disableFuture
               slotProps={{
-                textField: props => ({
+                textField: {
                   size: isNextTheme ? 'small' : 'medium',
-                  inputProps: {
-                    ...props.inputProps,
-                    'aria-label': 'From'
+                  slotProps: {
+                    htmlInput: { 'aria-label': 'From' }
                   }
-                })
+                }
               }}
               format="YYYY-MM-DD"
               yearsOrder="desc"
@@ -135,13 +134,12 @@ export const TimeframePicker = ({
             <DatePicker
               disableFuture
               slotProps={{
-                textField: props => ({
+                textField: {
                   size: isNextTheme ? 'small' : 'medium',
-                  inputProps: {
-                    ...props.inputProps,
-                    'aria-label': 'To'
+                  slotProps: {
+                    htmlInput: { 'aria-label': 'To' }
                   }
-                })
+                }
               }}
               format="YYYY-MM-DD"
               yearsOrder="desc"
