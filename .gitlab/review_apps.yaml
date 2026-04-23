@@ -1,0 +1,23 @@
+# Control file for per-branch Review App fine-tuning.
+# All keys are optional. Omitting a key uses the pipeline default.
+# This file is safe to commit; absent or empty values are no-ops.
+
+review_app:
+  # Override the GUI container image with a fully-qualified reference.
+  # Useful when the desired GUI build exists only in the OS repository
+  # and has not yet landed in this repository via a synced PR.
+  # Format: <registry>/<repository>/<image>:<tag>
+  # Example:
+  #   registry.gitlab.com/northern.tech/mender/mender-server/gui:build-a6981efb79ff411e593fb3782ff5b3377bde350b
+  gui_image: ""
+
+  # Set to true to deploy an enterprise-flavored Review App from the OS repo.
+  # Requires enterprise_image_tag to be set.
+  enterprise: true
+
+  # build-<sha> tag for enterprise-only service images from the ENT registry.
+  # Required when enterprise: true.
+  # Example:
+  #   build-0b238a5aff9a76794f1c5f0653b0a3d6bb90f080
+  # from: registry.gitlab.com/northern.tech/mender/mender-server-enterprise/tenantadm:build-0b238a5aff9a76794f1c5f0653b0a3d6bb90f080
+  enterprise_image_tag: "build-0b238a5aff9a76794f1c5f0653b0a3d6bb90f080"

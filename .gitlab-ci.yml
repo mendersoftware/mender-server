@@ -314,8 +314,20 @@ review:deploy:
     - helm repo update
 
     - echo "Generating Helm values file..."
-    - apt-get update && apt-get install -y gettext-base
-    - envsubst < compose/k8s/review-values.yaml.tpl > /tmp/review-values.yaml
+    - apt-get update && apt-get install -y gettext-base yq
+
+    - source compose/k8s/parse-review-config.sh
+
+    - |
+      if [[ "${REVIEW_APPS_PROJECT_PREFIX}" == "ent" ]] || [[ "${REVIEW_ENTERPRISE}" == "true" ]]; then
+        export HELM_VALUES_TPL="compose/k8s/review-values-enterprise.yaml.tpl"
+        export INIT_SCRIPT="./compose/k8s/create-initial-user-enterprise.sh"
+      else
+        export HELM_VALUES_TPL="compose/k8s/review-values.yaml.tpl"
+        export INIT_SCRIPT="./compose/k8s/create-initial-user.sh"
+      fi
+
+    - envsubst < "${HELM_VALUES_TPL}" > /tmp/review-values.yaml
     - echo "Generated Helm values:"
     - cat /tmp/review-values.yaml
 
@@ -324,13 +336,15 @@ review:deploy:
       -n ${NAMESPACE}
       --create-namespace
       -f /tmp/review-values.yaml
+      ${HELM_ENT_OVERRIDE_FLAG}
+      ${HELM_GUI_OVERRIDE_FLAG}
       --wait
       --timeout 15m
     - echo "Deployment completed successfully"
 
     - echo "Creating initial tenant and user..."
-    - chmod +x ./compose/k8s/create-initial-user.sh
-    - ./compose/k8s/create-initial-user.sh
+    - chmod +x "${INIT_SCRIPT}"
+    - "${INIT_SCRIPT}"
 
     - echo "=== Deployment Information ==="
     - echo "URL - https://${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
