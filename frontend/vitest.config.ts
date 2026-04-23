@@ -2,7 +2,6 @@ import react from '@vitejs/plugin-react';
 import { cpus } from 'os';
 import path from 'path';
 import svgr from 'vite-plugin-svgr';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import type { UserWorkspaceConfig} from 'vitest/config';
 import { defineConfig } from 'vitest/config';
 
@@ -26,11 +25,11 @@ export default defineConfig(() => {
           // @ts-expect-error -- vite-plugin-svgr's oxcOptions type is not correct
           jsx: { runtime: 'classic' }
         }
-      }),
-      tsconfigPaths({ root: path.resolve(__dirname) })
+      })
     ],
 
     resolve: {
+      tsconfigPaths: true,
       alias: [
         {
           find: '@northern.tech/common-ui',

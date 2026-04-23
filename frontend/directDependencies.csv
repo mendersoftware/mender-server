@@ -95,7 +95,6 @@
 "validator","MIT","https://github.com/validatorjs/validator.js"
 "victory","MIT","https://github.com/FormidableLabs/victory"
 "vite-plugin-svgr","MIT","https://github.com/pd4d10/vite-plugin-svgr"
-"vite-tsconfig-paths","MIT","https://github.com/aleclarson/vite-tsconfig-paths"
 "vitest","MIT","https://github.com/vitest-dev/vitest"
 "vm-browserify","MIT","https://github.com/substack/vm-browserify"
 "webpack-license-plugin","MIT","https://github.com/codepunkt/webpack-license-plugin"

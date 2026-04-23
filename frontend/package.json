@@ -101,7 +101,6 @@
     "typescript": "~6.0.3",
     "util": "0.12.5",
     "vite-plugin-svgr": "^5.2.0",
-    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.0.12",
     "vm-browserify": "1.1.2",
     "webpack-license-plugin": "^4.5.1",
