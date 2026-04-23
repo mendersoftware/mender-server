@@ -11,8 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { FunctionComponent, useEffect, useMemo, useState } from 'react';
-import { FieldValues, UseFormSetValue, useFormContext } from 'react-hook-form';
+import type { FunctionComponent } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import type { FieldValues, UseFormSetValue } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 // material ui
 import { Button, Divider, InputLabel } from '@mui/material';
@@ -22,12 +24,10 @@ import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
+import type { PermissionsArea, UiPermission, UiRoleDefinition } from '@northern.tech/store/constants';
 import {
   ALL_DEVICES,
   ALL_RELEASES,
-  PermissionsArea,
-  UiPermission,
-  UiRoleDefinition,
   emptyRole,
   emptyUiPermissions,
   itemUiPermissionsReducer,
@@ -36,10 +36,11 @@ import {
   uiPermissionsById
 } from '@northern.tech/store/constants';
 import { deepCompare, toggle } from '@northern.tech/utils/helpers';
-import { AsyncThunkAction } from '@reduxjs/toolkit';
+import type { AsyncThunkAction } from '@reduxjs/toolkit';
 
-import { ItemScope, ItemSelection, ItemSelectionType, PermissionsItem, ScopedUiPermissions, emptyItemSelection } from './PermissionsItems';
-import { PermissionsSelectionBaseProps } from './PermissionsSelect';
+import type { ItemScope, ItemSelectionType, ScopedUiPermissions } from './PermissionsItems';
+import { ItemSelection, PermissionsItem, emptyItemSelection } from './PermissionsItems';
+import type { PermissionsSelectionBaseProps } from './PermissionsSelect';
 
 const useStyles = makeStyles()(theme => ({
   buttons: { '&.flexbox.centered': { justifyContent: 'flex-end' } },

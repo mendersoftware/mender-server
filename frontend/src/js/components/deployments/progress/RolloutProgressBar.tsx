@@ -19,7 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import Time from '@northern.tech/common-ui/Time';
 import { deploymentDisplayStates } from '@northern.tech/store/constants';
-import { Deployment } from '@northern.tech/store/deploymentsSlice';
+import type { Deployment } from '@northern.tech/store/deploymentsSlice';
 import { getDeploymentState, groupDeploymentStats } from '@northern.tech/store/utils';
 import pluralize from 'pluralize';
 

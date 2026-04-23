@@ -11,13 +11,16 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { FunctionComponent, useMemo } from 'react';
+import type { FunctionComponent } from 'react';
+import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Checkbox, FormControl, InputLabel, MenuItem, PopoverProps, Select } from '@mui/material';
+import type { PopoverProps } from '@mui/material';
+import { Checkbox, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { PermissionsArea, UiPermission, uiPermissionsById } from '@northern.tech/store/constants';
+import type { PermissionsArea, UiPermission } from '@northern.tech/store/constants';
+import { uiPermissionsById } from '@northern.tech/store/constants';
 
 const menuProps: Partial<PopoverProps> = {
   anchorOrigin: {

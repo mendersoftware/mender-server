@@ -2,8 +2,9 @@
 
 exports[`CopyCode Component > renders correctly 1`] = `
 .emotion-0 {
-  background-color: rgba(2, 136, 209, 0.92);
+  background-color: rgba(255, 255, 255, 0.04);
   font-family: monospace;
+  color: rgba(0, 0, 0, 1);
   border-radius: 4px;
   padding: 16px;
   overflow-y: auto;
@@ -63,8 +64,8 @@ exports[`CopyCode Component > renders correctly 1`] = `
   padding: 12px;
   font-size: 1.75rem;
   float: right;
-  margin-right: -16px;
-  margin-top: -2px;
+  margin-right: -8px;
+  margin-top: -8px;
 }
 
 .emotion-1::-moz-focus-inner {
@@ -119,6 +120,10 @@ exports[`CopyCode Component > renders correctly 1`] = `
   font-size: 1.5rem;
 }
 
+.emotion-3 {
+  margin: 0;
+}
+
 <body>
   <div>
     <div
@@ -133,20 +138,20 @@ exports[`CopyCode Component > renders correctly 1`] = `
         <svg
           aria-hidden="true"
           class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-2"
-          data-testid="FileCopyIcon"
+          data-testid="ContentCopyIcon"
           focusable="false"
           viewBox="0 0 24 24"
         >
           <path
-            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm-1 4 6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2zm-1 7h5.5L14 6.5z"
+            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"
           />
         </svg>
       </button>
-      <span
-        class="copyable-content"
+      <code
+        class="MuiTypography-root MuiTypography-code1 copyable-content emotion-3"
       >
         sudo it all!
-      </span>
+      </code>
     </div>
     <p />
   </div>

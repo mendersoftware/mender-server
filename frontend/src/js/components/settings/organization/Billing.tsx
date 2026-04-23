@@ -27,7 +27,7 @@ import { getBillingProfile, getCard, getDeviceLimits, getIsEnterprise, getOrgani
 import { useAppDispatch } from '@northern.tech/store/store';
 import { cancelRequest, getCurrentCard, getUserBilling } from '@northern.tech/store/thunks';
 import { isDarkMode } from '@northern.tech/store/utils';
-import { DeviceTierLimits } from '@northern.tech/types/MenderTypes';
+import type { DeviceTierLimits } from '@northern.tech/types/MenderTypes';
 import { toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';

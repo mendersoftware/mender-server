@@ -19,11 +19,11 @@ import { Alert, AlertTitle, Button, DialogContent, IconButton, Typography } from
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { cleanUp } from '@northern.tech/store/auth';
-import { AvailableAddon, Plan } from '@northern.tech/store/constants';
+import type { AvailableAddon, Plan } from '@northern.tech/store/constants';
 import { getOrganization } from '@northern.tech/store/organizationSlice/selectors';
 import { getProducts } from '@northern.tech/store/selectors';
 
-import { DeviceTypes } from './SubscriptionPage';
+import type { DeviceTypes } from './SubscriptionPage';
 import { formatPrice } from './utils';
 
 interface SubscriptionConfirmationProps {

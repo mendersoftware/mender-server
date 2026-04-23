@@ -20,16 +20,10 @@ import { makeStyles } from 'tss-react/mui';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
-import { Deployment } from '@northern.tech/store/deploymentsSlice';
+import type { Deployment } from '@northern.tech/store/deploymentsSlice';
 
-import DeploymentItem, {
-  DeploymentDeviceCount,
-  DeploymentDeviceGroup,
-  DeploymentEndTime,
-  DeploymentItemProps,
-  DeploymentRelease,
-  DeploymentStartTime
-} from './DeploymentItem';
+import type { DeploymentItemProps } from './DeploymentItem';
+import DeploymentItem, { DeploymentDeviceCount, DeploymentDeviceGroup, DeploymentEndTime, DeploymentRelease, DeploymentStartTime } from './DeploymentItem';
 import { DeploymentProgress } from './progress/DeploymentProgress';
 
 export interface ColumnHeader {

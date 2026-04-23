@@ -33,7 +33,7 @@ import { formatReleases, generateReleasesPath } from '@northern.tech/store/locat
 import { getDeltaJobById } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeltaGenerationJobDetails, getDeltaGenerationJobs } from '@northern.tech/store/thunks';
-import { DeltaJobDetailsItem, DeltaJobsListItem } from '@northern.tech/types/MenderTypes';
+import type { DeltaJobDetailsItem, DeltaJobsListItem } from '@northern.tech/types/MenderTypes';
 import { formatTime } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';

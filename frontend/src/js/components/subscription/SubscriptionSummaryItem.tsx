@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { Skeleton, Typography } from '@mui/material';
 
-import { AvailableAddon } from '@northern.tech/store/appSlice/constants';
+import type { AvailableAddon } from '@northern.tech/store/appSlice/constants';
 
 import type { PlanPreviewPriceItem } from './SubscriptionPage';
 import { formatPrice } from './utils';

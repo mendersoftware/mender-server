@@ -16,7 +16,7 @@ import { useMemo, useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { SortCriteria } from '@northern.tech/types/MenderTypes';
+import type { SortCriteria } from '@northern.tech/types/MenderTypes';
 import { SORTING_OPTIONS } from '@northern.tech/utils/constants';
 import copy from 'copy-to-clipboard';
 

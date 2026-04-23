@@ -38,7 +38,7 @@ import {
   getUserRoles
 } from '@northern.tech/store/selectors';
 import { changeNotificationSetting, getDeviceAttributes, getGlobalSettings, saveGlobalSettings } from '@northern.tech/store/thunks';
-import { Scope } from '@northern.tech/types/MenderTypes';
+import type { Scope } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
 import ArtifactGenerationSettings from './ArtifactGeneration';

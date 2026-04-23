@@ -17,9 +17,10 @@ import { useSelector } from 'react-redux';
 import { alpha, rgbToHex, useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import MonacoEditor, { EditorProps, Monaco, loader } from '@monaco-editor/react';
+import type { EditorProps, Monaco } from '@monaco-editor/react';
+import MonacoEditor, { loader } from '@monaco-editor/react';
 import { getIsDarkMode } from '@northern.tech/store/selectors';
-import { editor } from 'monaco-editor';
+import type { editor } from 'monaco-editor';
 
 import Loader from './Loader';
 

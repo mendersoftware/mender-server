@@ -17,13 +17,14 @@ import { Link } from 'react-router-dom';
 
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { Autocomplete, TextField, Typography } from '@mui/material';
-import { UseAutocompleteProps, createFilterOptions } from '@mui/material/useAutocomplete';
+import type { UseAutocompleteProps } from '@mui/material/useAutocomplete';
+import { createFilterOptions } from '@mui/material/useAutocomplete';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { EXTERNAL_PROVIDER, onboardingSteps } from '@northern.tech/store/constants';
-import { initialState } from '@northern.tech/store/onboardingSlice';
+import type { initialState } from '@northern.tech/store/onboardingSlice';
 import {
   getCurrentSession,
   getFeatures,
@@ -35,7 +36,8 @@ import {
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, setOnboardingApproach, setOnboardingDeviceType } from '@northern.tech/store/thunks';
 
-import { DebConfigurationProps, getDebConfigurationCode } from '../../../utils/helpers';
+import type { DebConfigurationProps } from '../../../utils/helpers';
+import { getDebConfigurationCode } from '../../../utils/helpers';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 
@@ -173,7 +175,7 @@ export const InstallationStep = ({ advanceOnboarding, selection, ...remainingPro
       <Typography className="margin-bottom-small" variant="body1">
         Copy & paste and run this command <b>on your device</b>:
       </Typography>
-      <CopyCode code={codeToCopy} onCopy={() => advanceOnboarding(onboardingSteps.DASHBOARD_ONBOARDING_START)} withDescription={true} />
+      <CopyCode code={codeToCopy} onCopy={() => advanceOnboarding(onboardingSteps.DASHBOARD_ONBOARDING_START)} withDescription variant="code2" />
       <Typography variant="body1">
         This downloads the Mender client on the device, sets the configuration and starts the client. Once the client has started, your device will attempt to
         connect to the server. It will then appear in your Pending devices tab and you can continue.

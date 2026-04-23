@@ -149,8 +149,9 @@ exports[`EventDetailsDrawer Component > renders correctly 1`] = `
 }
 
 .emotion-5 {
-  background-color: rgba(2, 136, 209, 0.92);
+  background-color: rgba(255, 255, 255, 0.04);
   font-family: monospace;
+  color: rgba(0, 0, 0, 1);
   border-radius: 4px;
   padding: 16px;
   overflow-y: auto;

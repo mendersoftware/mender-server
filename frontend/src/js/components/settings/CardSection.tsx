@@ -11,13 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ReactNode, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button, CircularProgress, Skeleton, useTheme } from '@mui/material';
 
 import InfoText from '@northern.tech/common-ui/InfoText';
 import storeActions from '@northern.tech/store/actions';
-import { Organization } from '@northern.tech/store/organizationSlice/types';
+import type { Organization } from '@northern.tech/store/organizationSlice/types';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { cancelUpgrade } from '@northern.tech/store/thunks';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';

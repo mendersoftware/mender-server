@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { CSSProperties, Fragment, ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
+import React, { Fragment, createContext, useContext, useEffect, useRef, useState } from 'react';
 
 // material ui
 import { Chip, Typography } from '@mui/material';

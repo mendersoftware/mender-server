@@ -17,7 +17,8 @@ import Loader from '@northern.tech/common-ui/Loader';
 import { getCurrentSession } from '@northern.tech/store/selectors';
 
 import TerminalPlayer from './TerminalPlayer';
-import { SessionDetailsEventProps, SessionInfo, useSessionDetails } from './utils';
+import type { SessionDetailsEventProps } from './utils';
+import { SessionInfo, useSessionDetails } from './utils';
 
 export const TerminalSession = ({ item, onClose }: SessionDetailsEventProps) => {
   const { sessionDetails, isLoading, ...sessionMetaDetails } = useSessionDetails(item);

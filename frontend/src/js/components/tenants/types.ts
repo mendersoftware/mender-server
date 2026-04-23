@@ -11,6 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Tenant as APITenant } from '@northern.tech/store/api/types';
+import type { Tenant as APITenant } from '@northern.tech/store/api/types';
 
 export type Tenant = Required<APITenant>;

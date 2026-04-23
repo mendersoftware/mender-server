@@ -24,7 +24,7 @@ import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
-import { Release } from '@northern.tech/store/releasesSlice';
+import type { Release } from '@northern.tech/store/releasesSlice';
 import { getReleaseListState, getReleaseTags, getReleasesById, getUpdateTypes } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getReleases } from '@northern.tech/store/thunks';

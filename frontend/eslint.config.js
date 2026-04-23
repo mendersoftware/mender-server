@@ -15,6 +15,7 @@ export default [
   {
     languageOptions: { globals: globalsConfig },
     rules: {
+      '@typescript-eslint/consistent-type-imports': 'error',
       'react-hooks/refs': 'off',
       'react-hooks/set-state-in-effect': 'off'
     }

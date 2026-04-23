@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ReactElement, useCallback, useMemo, useRef, useState } from 'react';
+import type { ReactElement } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
@@ -21,12 +22,13 @@ import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
-import { ClassesOverrides } from '@northern.tech/common-ui/List';
+import type { ClassesOverrides } from '@northern.tech/common-ui/List';
 import Time from '@northern.tech/common-ui/Time';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import actions from '@northern.tech/store/actions';
-import { Event } from '@northern.tech/store/api/types';
-import { EXTERNAL_PROVIDER, Webhook, emptyWebhook } from '@northern.tech/store/constants';
+import type { Event } from '@northern.tech/store/api/types';
+import type { Webhook } from '@northern.tech/store/constants';
+import { EXTERNAL_PROVIDER, emptyWebhook } from '@northern.tech/store/constants';
 import { getTenantCapabilities, getWebhookEventInfo } from '@northern.tech/store/selectors';
 import { getWebhookEvents } from '@northern.tech/store/thunks';
 

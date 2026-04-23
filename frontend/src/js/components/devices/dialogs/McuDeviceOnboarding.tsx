@@ -42,7 +42,7 @@ export const McuDeviceOnboarding = () => {
       <Typography className="margin-bottom-small" variant="body1">
         First, copy your <b>organization token</b> below as you will need it to complete the steps in the guide:
       </Typography>
-      <CopyCode code={tenantToken} withDescription={true} />
+      <CopyCode code={tenantToken} withDescription variant="code2" />
       <Typography variant="body1">
         Once you have completed steps 1 and 2 in the documentation, your device should show in the Mender UI as <i>“Pending”</i>. Go to{' '}
         <Link to="/devices">Devices</Link> to see it.

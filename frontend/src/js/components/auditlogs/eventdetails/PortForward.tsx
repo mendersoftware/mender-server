@@ -13,7 +13,8 @@
 //    limitations under the License.
 import Loader from '@northern.tech/common-ui/Loader';
 
-import { SessionDetailsEventProps, SessionInfo, useSessionDetails } from './utils';
+import type { SessionDetailsEventProps } from './utils';
+import { SessionInfo, useSessionDetails } from './utils';
 
 export const PortForward = ({ item, onClose }: SessionDetailsEventProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

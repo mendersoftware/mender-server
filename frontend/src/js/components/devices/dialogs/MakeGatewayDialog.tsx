@@ -36,7 +36,7 @@ export const MakeGatewayDialog = ({ isPreRelease, onCancel }) => (
         On the device terminal, run the following command. You can use <DocsLink path="add-ons/remote-terminal" title="Remote Terminal" /> if mender-connect is
         enabled on the device.
       </p>
-      <CopyCode code={getCode(isPreRelease)} withDescription />
+      <CopyCode code={getCode(isPreRelease)} withDescription variant="code2" />
       <p>
         Note: this is only intended for demo or testing purposes. For production installation please refer to the{' '}
         <DocsLink path="get-started/mender-gateway" title="full Mender Gateway documentation" />

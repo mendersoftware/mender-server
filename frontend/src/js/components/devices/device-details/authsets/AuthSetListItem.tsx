@@ -12,15 +12,15 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { FileCopy as CopyPasteIcon, InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
+import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 // material ui
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Chip, Divider, IconButton, Tooltip } from '@mui/material';
+import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Chip, Divider, Tooltip, Typography } from '@mui/material';
 
+import CopyCode from '@northern.tech/common-ui/CopyCode';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
-import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
+import { DEVICE_DISMISSAL_STATE, DEVICE_STATES } from '@northern.tech/store/constants';
 import { formatTime } from '@northern.tech/utils/helpers';
 
 const padder = <div key="padder" style={{ flexGrow: 1 }} />;
@@ -121,7 +121,6 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
   const [showKey, setShowKey] = useState(false);
   const [confirmMessage, setConfirmMessage] = useState('');
   const [newStatus, setNewStatus] = useState('');
-  const [copied, setCopied] = useState(false);
   const [keyHash, setKeyHash] = useState('');
   const [endKey, setEndKey] = useState('');
   const { tier } = device;
@@ -188,11 +187,6 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
     return onConfirm(DEVICE_STATES.accepted);
   };
 
-  const onCopied = (_, result) => {
-    setCopied(result);
-    setTimeout(() => setCopied(false), TIMEOUTS.fiveSeconds);
-  };
-
   let key = <a onClick={onShowKey}>show key</a>;
   let content = [
     padder,
@@ -204,18 +198,11 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
   if (showKey) {
     content = [
       <div key="content">
-        <CopyToClipboard text={endKey} onCopy={onCopied}>
-          <IconButton style={{ float: 'right', margin: '-20px 0 0 10px' }} size="large">
-            <CopyPasteIcon />
-          </IconButton>
-        </CopyToClipboard>
-        <code className="pre-line">{endKey}</code>
-        {copied && <p className="green fadeIn">Copied key to clipboard.</p>}
+        <CopyCode code={endKey} />
         <Divider className={classes.divider} />
         <div title="SHA256">
-          Checksum
-          <br />
-          <code>{keyHash}</code>
+          <Typography>Checksum</Typography>
+          <Typography variant="body2">{keyHash}</Typography>
         </div>
       </div>,
       padder

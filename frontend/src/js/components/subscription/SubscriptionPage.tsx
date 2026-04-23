@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -25,8 +26,9 @@ import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import type { Addon as OrgAddon } from '@northern.tech/store/api/types';
-import { Addon, AddonId, AvailableAddon, AvailablePlans, TIMEOUTS } from '@northern.tech/store/constants';
-import { PricePreview, ProductConfig, ProductTier } from '@northern.tech/store/organizationSlice/types';
+import type { Addon, AddonId, AvailableAddon, AvailablePlans } from '@northern.tech/store/constants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
+import type { PricePreview, ProductConfig, ProductTier } from '@northern.tech/store/organizationSlice/types';
 import {
   getAcceptedDevices,
   getAppInitDone,

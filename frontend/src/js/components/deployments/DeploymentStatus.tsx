@@ -12,7 +12,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Cancel as CancelIcon, Error as FailedIcon, Pending as PendingIcon, Timelapse as ProgressIcon, CheckCircle as SuccessIcon } from '@mui/icons-material';
-import { SvgIconOwnProps, Tooltip, Typography } from '@mui/material';
+import type { SvgIconOwnProps } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import type { Deployment } from '@northern.tech/store/deploymentsSlice';

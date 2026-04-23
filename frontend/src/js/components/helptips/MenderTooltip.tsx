@@ -19,7 +19,8 @@ import { Help as HelpIcon } from '@mui/icons-material';
 import { Button, Tooltip, Typography } from '@mui/material';
 import { makeStyles, withStyles } from 'tss-react/mui';
 
-import { MenderTooltipClickable, MenderTooltipClickableProps } from '@northern.tech/common-ui/helptips/MenderTooltip';
+import type { MenderTooltipClickableProps } from '@northern.tech/common-ui/helptips/MenderTooltip';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import type { Device } from '@northern.tech/store/api/types';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeviceById, getTooltipsState } from '@northern.tech/store/selectors';
