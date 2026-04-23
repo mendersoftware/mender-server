@@ -24,19 +24,19 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strings"
-	"sync/atomic"
 	"testing"
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/nats-io/nats-server/v2/server"
-	"github.com/nats-io/nats.go"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 	"github.com/vmihailenco/msgpack/v5"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/stream"
+	stream_mocks "github.com/mendersoftware/mender-server/pkg/stream/mocks"
 	"github.com/mendersoftware/mender-server/pkg/ws"
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
 
@@ -52,32 +52,6 @@ type discardRecorder struct{}
 
 func (discardRecorder) Record(context.Context, []byte) error { return nil }
 func (discardRecorder) Close(context.Context) error          { return nil }
-
-func NewNATSTestClient(t *testing.T) *nats.Conn {
-	port := atomic.AddInt32(&natsPort, 1)
-	opts := &server.Options{
-		Port: int(port),
-	}
-	srv, err := server.NewServer(opts)
-	if err != nil {
-		panic(err)
-	}
-	go srv.Start()
-	t.Cleanup(srv.Shutdown)
-
-	// Spinlock until go routine is listening
-	for i := 0; srv.Addr() == nil && i < 1000; i++ {
-		time.Sleep(time.Millisecond)
-	}
-	if srv.Addr() == nil {
-		panic("failed to setup NATS test server")
-	}
-	client, err := nats.Connect("nats://" + srv.Addr().String())
-	if err != nil {
-		panic(err)
-	}
-	return client
-}
 
 func GenerateJWT(id identity.Identity) string {
 	JWT := base64.RawURLEncoding.EncodeToString(
@@ -200,6 +174,7 @@ func TestManagementGetDevice(t *testing.T) {
 }
 
 func TestManagementConnect(t *testing.T) {
+	// temporarily speed things up a bit
 	prevPongWait := pongWait
 	prevWriteWait := writeWait
 	defer func() {
@@ -208,327 +183,219 @@ func TestManagementConnect(t *testing.T) {
 	}()
 	pongWait = time.Second
 	writeWait = time.Second
-	testCases := []struct {
-		Name                       string
-		DeviceID                   string
-		SessionID                  string
-		Identity                   identity.Identity
-		RemoteTerminalAllowedError error
-		RemoteTerminalAllowed      bool
-	}{
-		{
-			Name:      "ok",
-			DeviceID:  "1234567890",
-			SessionID: "session_id",
-			Identity: identity.Identity{
-				Subject: "00000000-0000-0000-0000-000000000000",
-				Tenant:  "000000000000000000000000",
-				IsUser:  true,
-				Plan:    "professional",
-			},
-		},
+
+	Identity := identity.Identity{
+		Subject: "00000000-0000-0000-0000-000000000000",
+		Tenant:  "000000000000000000000000",
+		IsUser:  true,
+		Plan:    "professional",
 	}
-
-	for _, tc := range testCases {
-		t.Run(tc.Name, func(t *testing.T) {
-			app := &app_mocks.App{}
-			defer app.AssertExpectations(t)
-			natsClient := NewNATSTestClient(t)
-			router, _ := NewRouter(app, natsClient, nil)
-
-			headers := http.Header{}
-			headers.Set(headerAuthorization, "Bearer "+GenerateJWT(tc.Identity))
-
-			app.On("PrepareUserSession",
-				mock.MatchedBy(func(_ context.Context) bool {
-					return true
-				}),
-				mock.MatchedBy(func(sess *model.Session) bool {
-					sess.ID = tc.SessionID
-					return true
-				}),
-			).Return(nil)
+	var sessionID string
+	app := &app_mocks.App{}
+	app.On("PrepareUserSession",
+		mock.MatchedBy(func(_ context.Context) bool {
+			return true
+		}),
+		mock.MatchedBy(func(sess *model.Session) bool {
+			sessionID = sess.ID
+			return true
+		}),
+	).
+		Run(func(args mock.Arguments) {
 			app.On("LogUserSession",
 				mock.MatchedBy(func(_ context.Context) bool {
 					return true
 				}),
 				mock.MatchedBy(func(sess *model.Session) bool {
-					sess.ID = tc.SessionID
-					return true
+					return sess.ID == sessionID
 				}),
 				mock.AnythingOfType("string"),
-			).Return(nil)
-			app.On("FreeUserSession",
-				mock.MatchedBy(func(_ context.Context) bool {
-					return true
-				}),
-				tc.SessionID,
-				mock.AnythingOfType("[]string"),
-			).Return(nil)
-			app.On("GetControlRecorder",
-				tc.SessionID,
-			).Return(nil)
-			app.On("GetRecorder",
-				tc.SessionID,
-			).Return(nil)
+			).Return(nil).
+				On("FreeUserSession",
+					mock.MatchedBy(func(_ context.Context) bool {
+						return true
+					}),
+					sessionID,
+					mock.AnythingOfType("[]string"),
+				).Return(nil).
+				On("GetControlRecorder",
+					sessionID,
+				).Return(discardRecorder{}).
+				On("GetRecorder",
+					sessionID,
+				).Return(discardRecorder{})
+		}).
+		Return(nil)
 
-			s := httptest.NewServer(router)
-			defer s.Close()
+	natsClient := nats_mocks.NewClient(t)
+	router, _ := NewRouter(app, natsClient, nil)
+	s := httptest.NewServer(router)
+	defer s.Close()
 
-			url := "ws" + strings.TrimPrefix(s.URL, "http")
-			url = url + strings.Replace(
-				APIURLManagementDeviceConnect, ":deviceId",
-				tc.DeviceID, 1,
-			)
-			conn, _, err := websocket.DefaultDialer.Dial(url, headers)
-			assert.NoError(t, err)
+	streamRecv := make(chan []byte, 10)
+	streamConn := setupConn(t, streamRecv, Identity.Tenant+":foobar", Identity.Subject)
 
-			pongReceived := make(chan struct{}, 1)
-			conn.SetPongHandler(func(message string) error {
-				pongReceived <- struct{}{}
-				return nil
-			})
+	var (
+		conn *websocket.Conn
+		err  error
+	)
+	connRecvCh := make(chan struct {
+		Type  int
+		Data  []byte
+		Error error
+	})
+	if !t.Run("dial and connect", func(t *testing.T) {
+		natsClient.On("Connect", contextMatcher, mock.MatchedBy(func(s string) bool {
+			return strings.HasPrefix(s, Identity.Tenant)
+		}), "1234567890").
+			Return(streamConn, nil)
 
-			receivedMsg := make(chan []byte, 1)
-			go func() {
-				for {
-					_, data, err := conn.ReadMessage()
-					if err != nil {
-						break
-					}
-					receivedMsg <- data
+		url := "ws" + strings.TrimPrefix(s.URL, "http")
+		url = url + strings.Replace(
+			APIURLManagementDeviceConnect, ":deviceId",
+			"1234567890", 1,
+		)
+		headers := http.Header{}
+		headers.Set(
+			headerAuthorization,
+			"Bearer "+GenerateJWT(Identity),
+		)
+		conn, _, err = websocket.DefaultDialer.Dial(url, headers)
+		require.NoError(t, err)
+		go func() {
+			// Async read from websocket to keep ping/pong hooks active
+			for {
+				typ, data, err := conn.ReadMessage()
+				connRecvCh <- struct {
+					Type  int
+					Data  []byte
+					Error error
+				}{
+					Type:  typ,
+					Data:  data,
+					Error: err,
 				}
-			}()
-			natsChan := make(chan *nats.Msg, 2)
-			sub, _ := natsClient.ChanSubscribe(
-				model.GetDeviceSubject(
-					tc.Identity.Tenant,
-					tc.DeviceID,
-				), natsChan,
-			)
-			defer sub.Unsubscribe()
-			msg := ws.ProtoMsg{
-				Header: ws.ProtoHdr{
-					Proto:   ws.ProtoTypeShell,
-					MsgType: "hello",
-				},
-			}
-			b, _ := msgpack.Marshal(msg)
-			err = conn.WriteMessage(websocket.BinaryMessage, b)
-			assert.NoError(t, err)
-			select {
-			case natsMsg := <-natsChan:
-				var rMsg ws.ProtoMsg
-				err = msgpack.Unmarshal(natsMsg.Data, &rMsg)
-				if assert.NoError(t, err) {
-					msg.Header.SessionID = tc.SessionID
-					msg.Header.Properties = map[string]interface{}{
-						"user_id": tc.Identity.Subject,
-					}
-					assert.Equal(t, msg, rMsg)
+				if err != nil {
+					break
 				}
-			case <-time.After(time.Second * 5):
-				assert.Fail(t,
-					"api did not forward message to message bus",
-				)
 			}
-			err = conn.WriteControl(
-				websocket.PingMessage,
-				[]byte("1"),
-				time.Now().Add(time.Second),
-			)
-			assert.NoError(t, err)
-
-			msg.Header.SessionID = tc.SessionID
-			b, _ = msgpack.Marshal(msg)
-			err = natsClient.Publish(
-				model.GetSessionSubject(tc.Identity.Tenant, tc.SessionID),
-				b,
-			)
-			assert.NoError(t, err)
-			select {
-			case p := <-receivedMsg:
-				assert.Equal(t, b, p)
-			case <-time.After(time.Second * 5):
-				assert.Fail(t, "timed out waiting for message from device")
-			}
-
-			// check that ping and pong works as expected
-
-			select {
-			case <-pongReceived:
-			case <-time.After(pongWait):
-				assert.Fail(t, "did not receive pong within pongWait")
-			}
-
-			// start the remote terminal
-			msg = ws.ProtoMsg{
-				Header: ws.ProtoHdr{
-					Proto:     ws.ProtoTypeShell,
-					MsgType:   shell.MessageTypeSpawnShell,
-					SessionID: "foobar",
-				},
-			}
-			b, _ = msgpack.Marshal(msg)
-			natsClient.Publish(model.GetDeviceSubject(
-				tc.Identity.Tenant,
-				tc.Identity.Subject),
-				b,
-			)
-			_ = conn.WriteMessage(websocket.BinaryMessage, b)
-
-			select {
-			case msg := <-natsChan:
-				var stopMsg ws.ProtoMsg
-				err := msgpack.Unmarshal(msg.Data, &stopMsg)
-				if assert.NoError(t, err) {
-					assert.Equal(t,
-						ws.ProtoTypeShell,
-						stopMsg.Header.Proto,
-					)
-					assert.Equal(t,
-						shell.MessageTypeSpawnShell,
-						stopMsg.Header.MsgType,
-					)
-				}
-
-			case <-time.After(time.Second * 5):
-				assert.Fail(t,
-					"timeout waiting for stop message on nats channel",
-				)
-			}
-
-			// stop the remote terminal
-			msg = ws.ProtoMsg{
-				Header: ws.ProtoHdr{
-					Proto:     ws.ProtoTypeShell,
-					MsgType:   shell.MessageTypeStopShell,
-					SessionID: "foobar",
-				},
-			}
-			b, _ = msgpack.Marshal(msg)
-			natsClient.Publish(model.GetDeviceSubject(
-				tc.Identity.Tenant,
-				tc.Identity.Subject),
-				b,
-			)
-			_ = conn.WriteMessage(websocket.BinaryMessage, b)
-
-			select {
-			case msg := <-natsChan:
-				var stopMsg ws.ProtoMsg
-				err := msgpack.Unmarshal(msg.Data, &stopMsg)
-				if assert.NoError(t, err) {
-					assert.Equal(t,
-						ws.ProtoTypeShell,
-						stopMsg.Header.Proto,
-					)
-					assert.Equal(t,
-						shell.MessageTypeStopShell,
-						stopMsg.Header.MsgType,
-					)
-				}
-
-			case <-time.After(time.Second * 5):
-				assert.Fail(t,
-					"timeout waiting for stop message on nats channel",
-				)
-			}
-
-			// start the remote terminal again
-			msg = ws.ProtoMsg{
-				Header: ws.ProtoHdr{
-					Proto:     ws.ProtoTypeShell,
-					MsgType:   shell.MessageTypeSpawnShell,
-					SessionID: "foobar",
-				},
-			}
-			b, _ = msgpack.Marshal(msg)
-			natsClient.Publish(model.GetDeviceSubject(
-				tc.Identity.Tenant,
-				tc.Identity.Subject),
-				b,
-			)
-			_ = conn.WriteMessage(websocket.BinaryMessage, b)
-
-			select {
-			case msg := <-natsChan:
-				var stopMsg ws.ProtoMsg
-				err := msgpack.Unmarshal(msg.Data, &stopMsg)
-				if assert.NoError(t, err) {
-					assert.Equal(t,
-						ws.ProtoTypeShell,
-						stopMsg.Header.Proto,
-					)
-					assert.Equal(t,
-						shell.MessageTypeSpawnShell,
-						stopMsg.Header.MsgType,
-					)
-				}
-
-			case <-time.After(time.Second * 5):
-				assert.Fail(t,
-					"timeout waiting for stop message on nats channel",
-				)
-			}
-
-			// close the websocket
-			conn.Close()
-
-			select {
-			case msg := <-natsChan:
-				var stopMsg ws.ProtoMsg
-				err := msgpack.Unmarshal(msg.Data, &stopMsg)
-				if assert.NoError(t, err) {
-					assert.Equal(t,
-						ws.ProtoTypeShell,
-						stopMsg.Header.Proto,
-					)
-					assert.Equal(t,
-						shell.MessageTypeStopShell,
-						stopMsg.Header.MsgType,
-					)
-				}
-
-			case <-time.After(time.Second * 5):
-				assert.Fail(t,
-					"timeout waiting for stop message on nats channel",
-				)
-			}
-
-			conn, _, err = websocket.DefaultDialer.Dial(url, headers)
-			if err != nil {
-				t.Fatalf("error reopening websocket connection: %s", err.Error())
-			}
-			app.On("PrepareUserSession",
-				mock.MatchedBy(func(_ context.Context) bool {
-					return true
-				}),
-				mock.MatchedBy(func(sess *model.Session) bool {
-					sess.ID = tc.SessionID
-					return true
-				}),
-			).Return(nil)
-			app.On("FreeUserSession",
-				mock.MatchedBy(func(_ context.Context) bool {
-					return true
-				}),
-				tc.SessionID,
-				mock.AnythingOfType("[]string"),
-			).Return(nil)
-			err = conn.WriteMessage(websocket.BinaryMessage, []byte("bogus"))
-			assert.NoError(t, err)
-			_, _, err = conn.ReadMessage()
-			assert.Error(t, err)
-			assert.Truef(t, websocket.IsCloseError(err,
-				websocket.CloseInternalServerErr),
-				"The error %s is not a close error with status %d",
-				err.Error(), websocket.CloseInternalServerErr)
-			conn.Close()
-
-			app.AssertExpectations(t)
-		})
+		}()
+		require.NoError(t, err)
+	}) {
+		t.FailNow()
 	}
+
+	t.Run("websocket pong", func(t *testing.T) {
+		pingReceived := make(chan struct{}, 1)
+		pongReceived := make(chan struct{}, 1)
+		conn.SetPingHandler(func(message string) error {
+			select {
+			case pingReceived <- struct{}{}:
+			default:
+			}
+			return conn.WriteControl(
+				websocket.PongMessage,
+				[]byte{},
+				time.Now().Add(writeWait),
+			)
+		})
+		conn.SetPongHandler(func(message string) error {
+			select {
+			case pongReceived <- struct{}{}:
+			default:
+			}
+			return nil
+		})
+		err = websocketPing(conn)
+		assert.NoError(t, err)
+		select {
+		case <-pongReceived:
+		case <-time.After(pongWait * 2):
+			assert.Fail(t, "did not receive pong within pongWait")
+		}
+	})
+
+	assertSend := func(t *testing.T, msg ws.ProtoMsg) {
+		wsBytes, _ := msgpack.Marshal(msg)
+		msg.Header.SessionID = sessionID
+		msg.Header.Properties = map[string]any{
+			"user_id": Identity.Subject,
+		}
+		sendBytes, _ := msgpack.Marshal(msg)
+		wait := make(chan struct{})
+		streamConn.On("Send", contextMatcher, sendBytes).
+			Run(func(args mock.Arguments) { close(wait) }).
+			Return(nil).
+			Once()
+		err := conn.WriteMessage(websocket.BinaryMessage, wsBytes)
+		assert.NoError(t, err)
+		select {
+		case <-wait:
+		case <-time.After(time.Second):
+			t.Fatal("timeout waiting for message from websocket")
+		}
+	}
+
+	t.Run("send from device", func(t *testing.T) {
+		// terminal data
+		assertSend(t, ws.ProtoMsg{
+			Header: ws.ProtoHdr{
+				Proto:   ws.ProtoTypeShell,
+				MsgType: shell.MessageTypeSpawnShell,
+			},
+		})
+		// terminal data
+		assertSend(t, ws.ProtoMsg{
+			Header: ws.ProtoHdr{
+				Proto:   ws.ProtoTypeShell,
+				MsgType: shell.MessageTypeShellCommand,
+			},
+			Body: []byte("echo YAY!"),
+		})
+		// stop the terminal
+		assertSend(t, ws.ProtoMsg{
+			Header: ws.ProtoHdr{
+				Proto:   ws.ProtoTypeShell,
+				MsgType: shell.MessageTypeStopShell,
+			},
+		})
+	})
+
+	t.Run("recv from device", func(t *testing.T) {
+		// test receiving a message "from management"
+		msg := ws.ProtoMsg{
+			Header: ws.ProtoHdr{
+				Proto:     ws.ProtoTypeShell,
+				MsgType:   "cmd",
+				SessionID: sessionID,
+			},
+		}
+		b, _ := msgpack.Marshal(msg)
+		streamRecv <- b
+		wsMessage := <-connRecvCh
+		require.NoError(t, wsMessage.Error)
+		assert.Equal(t, websocket.BinaryMessage, wsMessage.Type)
+		assert.Equal(t, b, wsMessage.Data)
+	})
+
+	t.Run("close websocket", func(t *testing.T) {
+		closed := make(chan struct{})
+		streamConn.On("Close", contextMatcher).
+			Run(func(args mock.Arguments) { close(closed) }).
+			Return(nil)
+		err := conn.WriteControl(
+			websocket.CloseMessage,
+			websocket.FormatCloseMessage(websocket.CloseNormalClosure, "test"),
+			time.Now().Add(time.Second*10),
+		)
+		assert.NoError(t, err)
+		select {
+		case <-closed:
+		case <-time.After(time.Second):
+			t.Error("error waiting for session to close")
+		}
+		assert.NoError(t, conn.Close())
+	})
 }
 
 func TestManagementPlayback(t *testing.T) {
@@ -582,7 +449,7 @@ func TestManagementPlayback(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			app := &app_mocks.App{}
 			defer app.AssertExpectations(t)
-			natsClient := NewNATSTestClient(t)
+			natsClient := nats_mocks.NewClient(t)
 			router, _ := NewRouter(app, natsClient, nil)
 
 			headers := http.Header{}
@@ -596,7 +463,7 @@ func TestManagementPlayback(t *testing.T) {
 						return true
 					}),
 					tc.SessionID,
-					mock.AnythingOfType("*app.Playback"),
+					mock.AnythingOfType("*app.PipeWriter"),
 				).Return(nil)
 			}
 
@@ -671,6 +538,7 @@ func TestManagementConnectFailures(t *testing.T) {
 		Name                       string
 		DeviceID                   string
 		SessionID                  string
+		OnConnect                  func(t *testing.T) (stream.Conn, error)
 		PrepareUserSessionErr      error
 		Authorization              string
 		Identity                   identity.Identity
@@ -692,6 +560,11 @@ func TestManagementConnectFailures(t *testing.T) {
 				Tenant:  "000000000000000000000000",
 				IsUser:  true,
 			}),
+			OnConnect: func(t *testing.T) (stream.Conn, error) {
+				conn := stream_mocks.NewConn(t)
+				conn.On("Close", contextMatcher).Return(nil)
+				return conn, nil
+			},
 			HTTPStatus: http.StatusBadRequest,
 		},
 		{
@@ -708,6 +581,11 @@ func TestManagementConnectFailures(t *testing.T) {
 				Tenant:  "000000000000000000000000",
 				IsUser:  true,
 			}),
+			OnConnect: func(t *testing.T) (stream.Conn, error) {
+				conn := stream_mocks.NewConn(t)
+				conn.On("Close", contextMatcher).Return(nil)
+				return conn, nil
+			},
 			HTTPStatus: http.StatusInternalServerError,
 		},
 		{
@@ -724,7 +602,10 @@ func TestManagementConnectFailures(t *testing.T) {
 				Tenant:  "000000000000000000000000",
 				IsUser:  true,
 			}),
-			HTTPStatus: http.StatusNotFound,
+			OnConnect: func(t *testing.T) (stream.Conn, error) {
+				return nil, stream.ErrConnectionRefused
+			},
+			HTTPStatus: http.StatusConflict,
 		},
 		{
 			Name:       "ko, missing authorization header",
@@ -768,7 +649,18 @@ func TestManagementConnectFailures(t *testing.T) {
 				}
 			}
 
-			natsClient := NewNATSTestClient(t)
+			natsClient := nats_mocks.NewClient(t)
+			if tc.OnConnect != nil {
+				conn, err := tc.OnConnect(t)
+				natsClient.On("Connect",
+					contextMatcher,
+					mock.MatchedBy(func(s string) bool {
+						return strings.HasPrefix(s, tc.Identity.Tenant)
+					}),
+					tc.DeviceID).
+					Return(conn, err).
+					Once()
+			}
 			router, _ := NewRouter(app, natsClient, nil)
 			url := strings.Replace(APIURLManagementDeviceConnect, ":deviceId", tc.DeviceID, 1)
 			req, err := http.NewRequest("GET", "http://localhost"+url, nil)
@@ -799,12 +691,6 @@ func TestManagementSessionLimit(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	mapp := &app_mocks.App{}
-	natsClient := NewNATSTestClient(t)
-	router, _ := NewRouter(mapp, natsClient, nil)
-
-	sid := "test_session_id"
-
 	identity := identity.Identity{
 		Subject: "00000000-0000-0000-0000-000000000000",
 		Tenant:  "000000000000000000000000",
@@ -816,40 +702,44 @@ func TestManagementSessionLimit(t *testing.T) {
 	headers := http.Header{}
 	headers.Set(headerAuthorization, "Bearer "+GenerateJWT(identity))
 
+	var sessionID string
+	mapp := app_mocks.NewApp(t)
 	mapp.On("PrepareUserSession",
 		mock.MatchedBy(func(_ context.Context) bool {
 			return true
 		}),
 		mock.MatchedBy(func(sess *model.Session) bool {
-			sess.ID = sid
+			sessionID = sess.ID
 			return true
 		}),
-	).Return(nil)
-	mapp.On("FreeUserSession",
-		mock.MatchedBy(func(_ context.Context) bool {
-			return true
-		}),
-		sid,
-		mock.AnythingOfType("[]string"),
-	).Return(nil)
-	mapp.On("GetRecorder",
-		sid,
-	).Return(discardRecorder{})
-	mapp.On("GetControlRecorder",
-		sid,
-	).Return(discardRecorder{})
+	).
+		Run(func(args mock.Arguments) {
+			mapp.On("FreeUserSession",
+				mock.MatchedBy(func(_ context.Context) bool {
+					return true
+				}),
+				sessionID,
+				mock.AnythingOfType("[]string"),
+			).Return(nil).
+				On("GetControlRecorder",
+					sessionID,
+				).Return(discardRecorder{}).
+				On("GetRecorder",
+					sessionID,
+				).Return(discardRecorder{})
+		}).
+		Return(nil)
 
+	natsClient := nats_mocks.NewClient(t)
+	router, _ := NewRouter(mapp, natsClient, nil)
 	s := httptest.NewServer(router)
 	defer s.Close()
 
-	natsChan := make(chan *nats.Msg)
-	sub, _ := natsClient.ChanSubscribe(
-		model.GetDeviceSubject(
-			identity.Tenant,
-			devid,
-		), natsChan,
-	)
-	defer sub.Unsubscribe()
+	streamRecv := make(chan []byte, 10)
+	streamConn := setupConn(t, streamRecv, identity.Tenant+":foobar", identity.Subject)
+	streamConn.On("Close", contextMatcher).Return(nil).Maybe()
+	natsClient.On("Connect", mock.Anything, mock.Anything, mock.Anything).
+		Return(streamConn, nil)
 
 	url := "ws" + strings.TrimPrefix(s.URL, "http")
 	url = url + strings.Replace(
@@ -857,7 +747,7 @@ func TestManagementSessionLimit(t *testing.T) {
 		devid, 1,
 	)
 	conn, _, err := websocket.DefaultDialer.Dial(url, headers)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	// MessageSizeLimit = 8 * 1024 * 1024
 	// chunk spamming every 1msec should saturate session in ~1sec
@@ -868,7 +758,7 @@ func TestManagementSessionLimit(t *testing.T) {
 		Header: ws.ProtoHdr{
 			Proto:     ws.ProtoTypeShell,
 			MsgType:   shell.MessageTypeShellCommand,
-			SessionID: sid,
+			SessionID: sessionID,
 			Properties: map[string]interface{}{
 				"status": shell.NormalMessage,
 			},
@@ -884,12 +774,7 @@ func TestManagementSessionLimit(t *testing.T) {
 			case <-ctx.Done():
 				return
 			default:
-				err = natsClient.Publish(
-					model.GetSessionSubject(identity.Tenant, sid),
-					b,
-				)
-				assert.NoError(t, err)
-				time.Sleep(1 * time.Millisecond)
+				streamRecv <- b
 			}
 		}
 	}()
@@ -898,48 +783,50 @@ func TestManagementSessionLimit(t *testing.T) {
 	// expect limit will be exceed at the app limit (error shell message)
 	go func() {
 		readBytes := 0
+	Loop:
 		for {
 			select {
 			case <-ctx.Done():
 				return
 			default:
 				_, data, err := conn.ReadMessage()
-				assert.NoError(t, err)
-
-				var rMsg ws.ProtoMsg
-				err = msgpack.Unmarshal(data, &rMsg)
-				assert.NoError(t, err)
 
 				if readBytes < app.MessageSizeLimit {
+					require.NoError(t, err)
+					var rMsg ws.ProtoMsg
+					err = msgpack.Unmarshal(data, &rMsg)
+					assert.NoError(t, err)
 					assert.Equal(t, ws.ProtoTypeShell, rMsg.Header.Proto)
 					assert.Equal(t, shell.MessageTypeShellCommand, rMsg.Header.MsgType)
-					assert.Equal(t, sid, rMsg.Header.SessionID)
+					assert.Equal(t, sessionID, rMsg.Header.SessionID)
 					assert.Equal(t, int8(shell.NormalMessage), rMsg.Header.Properties["status"])
 
 					readBytes += len(rMsg.Body)
 				} else {
-					assert.Equal(t, ws.ProtoTypeShell, rMsg.Header.Proto)
-					assert.Equal(t, shell.MessageTypeShellCommand, rMsg.Header.MsgType)
-					assert.Equal(t, sid, rMsg.Header.SessionID)
-					assert.Equal(t, int8(shell.ErrorMessage), rMsg.Header.Properties["status"])
-					assert.Equal(t, "session byte limit exceeded", string(rMsg.Body))
+					assert.Error(t, err)
+					break Loop
 				}
 			}
 		}
 	}()
 
-	select {
-	case natsMsg := <-natsChan:
+	done := make(chan struct{})
+	streamConn.On("Send", contextMatcher, mock.MatchedBy(func(b []byte) bool {
 		var rMsg ws.ProtoMsg
-		err = msgpack.Unmarshal(natsMsg.Data, &rMsg)
+		err = msgpack.Unmarshal(b, &rMsg)
 		assert.NoError(t, err)
 		assert.Equal(t, ws.ProtoTypeShell, rMsg.Header.Proto)
 		assert.Equal(t, shell.MessageTypeStopShell, rMsg.Header.MsgType)
-		assert.Equal(t, sid, rMsg.Header.SessionID)
+		assert.Equal(t, sessionID, rMsg.Header.SessionID)
 		assert.Equal(t, identity.Subject, rMsg.Header.Properties["user_id"])
 		assert.Equal(t, int8(shell.ErrorMessage), rMsg.Header.Properties["status"])
 		assert.Equal(t, "session byte limit exceeded", string(rMsg.Body))
-		break
+		return true
+	})).
+		Run(func(args mock.Arguments) { close(done) }).
+		Return(nil)
+	select {
+	case <-done:
 	case <-time.After(time.Second * 5):
 		assert.Fail(t,
 			"api did not forward shell_stop to nats device subject",
