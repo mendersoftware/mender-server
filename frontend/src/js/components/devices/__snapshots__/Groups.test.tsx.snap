@@ -127,11 +127,8 @@ exports[`Groups Component > renders GroupItem correctly 1`] = `
   margin-bottom: 4px;
 }
 
-.MuiTypography-root:where(.emotion-1 .MuiListItemText-primary) {
-  display: block;
-}
-
-.MuiTypography-root:where(.emotion-1 .MuiListItemText-secondary) {
+.emotion-1 .MuiTypography-root:where( .MuiListItemText-primary),
+.emotion-1 .MuiTypography-root:where( .MuiListItemText-secondary) {
   display: block;
 }
 
@@ -344,11 +341,8 @@ exports[`Groups Component > renders correctly 1`] = `
   margin-bottom: 4px;
 }
 
-.MuiTypography-root:where(.emotion-3 .MuiListItemText-primary) {
-  display: block;
-}
-
-.MuiTypography-root:where(.emotion-3 .MuiListItemText-secondary) {
+.emotion-3 .MuiTypography-root:where( .MuiListItemText-primary),
+.emotion-3 .MuiTypography-root:where( .MuiListItemText-secondary) {
   display: block;
 }
 
