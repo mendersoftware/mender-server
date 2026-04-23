@@ -309,6 +309,7 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
       aria-labelledby="deployments-past-completed"
       class="tooltip onboard-icon onboard-tip"
       data-mui-internal-clone-element="true"
+      popperprops="[object Object]"
     >
       <svg
         aria-hidden="true"
@@ -351,7 +352,7 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
           class="margin-bottom-small margin-top-small"
         >
           <a
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary button emotion-3"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary button emotion-3"
             href="http://192.168.10.141:85/index.html?source=http%3A%2F%2Ftest.com"
             tabindex="0"
             target="_blank"
@@ -371,7 +372,7 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
             style="flex-grow: 1;"
           />
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-4"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary emotion-4"
             tabindex="0"
             type="button"
           >

@@ -289,12 +289,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
         aria-hidden="true"
         aria-invalid="false"
         class="MuiSelect-nativeInput emotion-3"
+        id="_r_2_"
         tabindex="-1"
         value="offline"
       />
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-4"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-4"
         data-testid="ArrowDropDownIcon"
         focusable="false"
         viewBox="0 0 24 24"

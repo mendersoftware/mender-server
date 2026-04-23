@@ -99,7 +99,7 @@ exports[`RedirectionWidget Component > renders correctly 1`] = `
       class="widget flexbox centered"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-0"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-0"
         style="max-width: 200px;"
         tabindex="0"
         type="button"

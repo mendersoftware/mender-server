@@ -103,24 +103,6 @@ exports[`EnterpriseNotification Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-0 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-0 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-0 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-0 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -168,12 +150,12 @@ exports[`EnterpriseNotification Component > renders correctly 1`] = `
     data-mui-internal-clone-element="true"
   >
     <div
-      class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-0"
+      class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-0"
       role="button"
       tabindex="0"
     >
       <span
-        class="MuiChip-label MuiChip-labelMedium emotion-1"
+        class="MuiChip-label emotion-1"
       >
         Enterprise
       </span>
@@ -445,7 +427,7 @@ exports[`EnterpriseNotification Component > works as expected 1`] = `
     class="flexbox space-between margin-top-small"
   >
     <a
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorSecondary emotion-1"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorSecondary emotion-1"
       data-discover="true"
       href="/subscription"
       tabindex="0"
@@ -453,7 +435,7 @@ exports[`EnterpriseNotification Component > works as expected 1`] = `
       Upgrade now
     </a>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorInherit emotion-2"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-2"
       tabindex="0"
       type="button"
     >

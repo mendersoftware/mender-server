@@ -191,24 +191,6 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-6 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -265,13 +247,13 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
           target="_blank"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-2"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-2"
             tabindex="0"
             type="button"
           >
             Enable port forwarding
             <span
-              class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-3"
+              class="MuiButton-icon MuiButton-endIcon emotion-3"
             >
               <svg
                 aria-hidden="true"
@@ -288,7 +270,7 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
           </button>
         </a>
         <a
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-2"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-2"
           data-discover="true"
           href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           tabindex="0"
@@ -297,10 +279,10 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
         </a>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-6"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault emotion-6"
       >
         <span
-          class="MuiChip-label MuiChip-labelMedium emotion-7"
+          class="MuiChip-label emotion-7"
         >
           Add-on
         </span>
@@ -527,24 +509,6 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   height: 24px;
   color: #616161;
   font-size: 0.75rem;
-}
-
-.emotion-6 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
 }
 
 .emotion-6 .MuiChip-icon {
@@ -1203,13 +1167,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           target="_blank"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-2"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-2"
             tabindex="0"
             type="button"
           >
             Enable port forwarding
             <span
-              class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-3"
+              class="MuiButton-icon MuiButton-endIcon emotion-3"
             >
               <svg
                 aria-hidden="true"
@@ -1226,7 +1190,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           </button>
         </a>
         <a
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-2"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-2"
           data-discover="true"
           href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           tabindex="0"
@@ -1235,10 +1199,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
         </a>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-6"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault emotion-6"
       >
         <span
-          class="MuiChip-label MuiChip-labelMedium emotion-7"
+          class="MuiChip-label emotion-7"
         >
           Add-on
         </span>
@@ -1498,7 +1462,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
             class="emotion-12"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-13"
               tabindex="0"
               type="button"
             >
@@ -1509,7 +1473,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
             class="flexbox space-between emotion-14"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-2"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-2"
               tabindex="0"
               type="button"
             >
@@ -1517,7 +1481,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
                Terminal
             </button>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-2"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-2"
               data-discover="true"
               href="/auditlog?objectType=device&objectId=a1&startDate=2016-01-01T00:00:00.000Z"
               tabindex="0"
@@ -1544,7 +1508,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
               style="overflow: hidden;"
             >
               <div
-                class="MuiTabs-list MuiTabs-flexContainer emotion-20"
+                class="MuiTabs-list emotion-20"
                 role="tablist"
               >
                 <button
@@ -1635,13 +1599,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
             >
               <div
                 class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-28"
+                inputlabelprops="[object Object]"
               >
                 <div
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd emotion-29"
                 >
                   <input
                     aria-invalid="false"
-                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-30"
+                    class="MuiInputBase-input MuiOutlinedInput-input emotion-30"
                     id="_r_12_"
                     placeholder="Example: /opt/installed-by-single-file"
                     type="text"
@@ -1688,7 +1653,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-13"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -1895,24 +1860,6 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
   font-size: 0.75rem;
 }
 
-.emotion-6 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -1998,13 +1945,13 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
           target="_blank"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-2"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-2"
             tabindex="0"
             type="button"
           >
             Enable port forwarding
             <span
-              class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-3"
+              class="MuiButton-icon MuiButton-endIcon emotion-3"
             >
               <svg
                 aria-hidden="true"
@@ -2021,7 +1968,7 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
           </button>
         </a>
         <a
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-2"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-2"
           data-discover="true"
           href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           tabindex="0"
@@ -2030,10 +1977,10 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
         </a>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-6"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault emotion-6"
       >
         <span
-          class="MuiChip-label MuiChip-labelMedium emotion-7"
+          class="MuiChip-label emotion-7"
         >
           Add-on
         </span>
@@ -2352,13 +2299,13 @@ exports[`tiny DeviceConnection components > renders PortForwardLink correctly 1`
     target="_blank"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-0"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-0"
       tabindex="0"
       type="button"
     >
       Enable port forwarding
       <span
-        class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-1"
+        class="MuiButton-icon MuiButton-endIcon emotion-1"
       >
         <svg
           aria-hidden="true"

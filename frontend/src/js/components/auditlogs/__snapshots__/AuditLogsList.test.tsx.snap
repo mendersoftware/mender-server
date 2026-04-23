@@ -89,7 +89,7 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
           2019-01-01 12:10
         </time>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
           tabindex="0"
           type="button"
         >
@@ -127,7 +127,7 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
           2019-01-01 12:16
         </time>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
           tabindex="0"
           type="button"
         >
@@ -167,7 +167,7 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
           2019-01-01 12:10
         </time>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap css-10bnaj9-MuiButtonBase-root-MuiButton-root"
           tabindex="0"
           type="button"
         >
@@ -211,13 +211,14 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
               aria-hidden="true"
               aria-invalid="false"
               class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+              id="_r_7_"
               name="pagination"
               tabindex="-1"
               value="20"
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"

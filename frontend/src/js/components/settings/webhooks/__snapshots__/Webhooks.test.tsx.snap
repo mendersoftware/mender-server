@@ -243,7 +243,7 @@ exports[`Webhooks Component > renders correctly with entries  1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-8"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap emotion-11"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-11"
             tabindex="0"
             type="button"
           >

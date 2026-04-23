@@ -669,16 +669,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
   border-radius: 4px;
 }
 
-.emotion-39 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.57;
-  letter-spacing: 0.00714em;
-  color: rgba(0, 0, 0, 0.87);
-}
-
 .emotion-40 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -686,7 +676,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-41 {
@@ -836,7 +825,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
     <div
       aria-hidden="true"
       class="MuiBackdrop-root MuiModal-backdrop emotion-1"
-      style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
       data-testid="sentinelStart"
@@ -844,7 +833,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
     />
     <div
       aria-modal="true"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper emotion-2"
       role="dialog"
       style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
       tabindex="-1"
@@ -884,12 +873,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           class="flexbox align-items-center relative"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-6"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-6"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-7"
+              class="MuiButton-icon MuiButton-startIcon emotion-7"
             >
               <svg
                 aria-hidden="true"
@@ -950,7 +939,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-17"
               >
                 <input
-                  class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd emotion-18"
+                  class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-18"
                   disabled=""
                   id="tenant-name"
                   placeholder="child2"
@@ -1114,7 +1103,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 class="flexbox"
               >
                 <h6
-                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-39"
+                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-14"
                 >
                   micro
                 </h6>
@@ -1138,7 +1127,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 role="progressbar"
               >
                 <span
-                  class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-42"
+                  class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-42"
                   style="transform: translateX(-100%);"
                 />
               </span>
@@ -1170,7 +1159,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 class="flexbox"
               >
                 <h6
-                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-39"
+                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-14"
                 >
                   standard
                 </h6>
@@ -1194,7 +1183,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 role="progressbar"
               >
                 <span
-                  class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-42"
+                  class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-42"
                   style="transform: translateX(-100%);"
                 />
               </span>
@@ -1226,7 +1215,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 class="flexbox"
               >
                 <h6
-                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-39"
+                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-14"
                 >
                   system
                 </h6>
@@ -1250,7 +1239,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 role="progressbar"
               >
                 <span
-                  class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-42"
+                  class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-42"
                   style="transform: translateX(-100%);"
                 />
               </span>
@@ -1272,7 +1261,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top-x-small emotion-56"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-x-small emotion-56"
             tabindex="0"
             type="button"
           >

@@ -142,31 +142,31 @@ exports[`Devices Component > renders correctly 1`] = `
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-bdbdbd .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-bdbdbd .undefined {
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-1d8faf .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-1d8faf .undefined {
   background-color: #1d8faf;
 }
 
-.emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-a31773 .undefined {
   background-color: #a31773;
 }
 
-.emotion-6 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-00859e .undefined {
   background-color: #00859e;
 }
 
-.emotion-6 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-14cfda .undefined {
   background-color: #14cfda;
 }
 
-.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-9bfff0 .undefined {
   background-color: #9bfff0;
 }
 
-.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-d5d5d5 .undefined {
   background-color: #d5d5d5;
 }
 
@@ -489,7 +489,7 @@ exports[`Devices Component > renders correctly 1`] = `
               style="height: 8px;"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-9"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-9"
                 style="transform: translateX(-100%);"
               />
             </span>
@@ -528,12 +528,12 @@ exports[`Devices Component > renders correctly 1`] = `
         class="flexbox centered"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-14"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-14"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-15"
+            class="MuiButton-icon MuiButton-startIcon emotion-15"
           >
             <svg
               aria-hidden="true"
@@ -660,24 +660,6 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
   height: 24px;
   color: #616161;
   font-size: 0.75rem;
-}
-
-.emotion-1 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-1 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-1 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
 }
 
 .emotion-1 .MuiChip-icon {
@@ -905,12 +887,12 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-1"
+            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-1"
             role="button"
             tabindex="0"
           >
             <span
-              class="MuiChip-label MuiChip-labelMedium emotion-2"
+              class="MuiChip-label emotion-2"
             >
               Enterprise
             </span>
@@ -940,12 +922,12 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
         class="flexbox centered"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-6"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-6"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-7"
+            class="MuiButton-icon MuiButton-startIcon emotion-7"
           >
             <svg
               aria-hidden="true"
@@ -1200,12 +1182,12 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
         class="flexbox centered"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-4"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-4"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-5"
+            class="MuiButton-icon MuiButton-startIcon emotion-5"
           >
             <svg
               aria-hidden="true"
@@ -1407,31 +1389,31 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-bdbdbd .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-bdbdbd .undefined {
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-1d8faf .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-1d8faf .undefined {
   background-color: #1d8faf;
 }
 
-.emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-a31773 .undefined {
   background-color: #a31773;
 }
 
-.emotion-6 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-00859e .undefined {
   background-color: #00859e;
 }
 
-.emotion-6 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-14cfda .undefined {
   background-color: #14cfda;
 }
 
-.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-9bfff0 .undefined {
   background-color: #9bfff0;
 }
 
-.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-d5d5d5 .undefined {
   background-color: #d5d5d5;
 }
 
@@ -1754,7 +1736,7 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
               style="height: 8px;"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-9"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-9"
                 style="transform: translateX(0%);"
               />
             </span>
@@ -1793,12 +1775,12 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
         class="flexbox centered"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-14"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-14"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-15"
+            class="MuiButton-icon MuiButton-startIcon emotion-15"
           >
             <svg
               aria-hidden="true"

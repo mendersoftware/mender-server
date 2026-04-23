@@ -427,7 +427,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
       type="button"
     >
       <span
-        class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters emotion-3"
+        class="MuiAccordionSummary-content Mui-expanded emotion-3"
       >
         <div
           class="capitalized"
@@ -501,14 +501,14 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
             class="MuiAccordionActions-root MuiAccordionActions-spacing margin-right-small emotion-9"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-right-small emotion-10"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-right-small emotion-10"
               tabindex="0"
               type="button"
             >
               Cancel
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-11"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-11"
               tabindex="0"
               type="button"
             >

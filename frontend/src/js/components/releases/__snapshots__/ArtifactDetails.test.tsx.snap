@@ -677,13 +677,13 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-10"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-10"
             style="padding: 5px;"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall emotion-11"
+              class="MuiButton-icon MuiButton-startIcon emotion-11"
             >
               <svg
                 aria-hidden="true"
@@ -811,7 +811,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-33"
+          class="MuiAccordionSummary-content emotion-33"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 emotion-34"
@@ -872,7 +872,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-33"
+          class="MuiAccordionSummary-content emotion-33"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 emotion-34"
@@ -987,12 +987,12 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     style="max-width: fit-content;"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-64"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral emotion-64"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-65"
+        class="MuiButton-icon MuiButton-startIcon emotion-65"
       >
         <svg
           aria-hidden="true"
@@ -1009,12 +1009,12 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       Download Artifact
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-67"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-67"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-65"
+        class="MuiButton-icon MuiButton-startIcon emotion-65"
       >
         <svg
           aria-hidden="true"
@@ -1718,13 +1718,13 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-10"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-10"
             style="padding: 5px;"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall emotion-11"
+              class="MuiButton-icon MuiButton-startIcon emotion-11"
             >
               <svg
                 aria-hidden="true"
@@ -1792,7 +1792,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-21"
+          class="MuiAccordionSummary-content emotion-21"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 emotion-22"
@@ -1853,7 +1853,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
         type="button"
       >
         <span
-          class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters emotion-21"
+          class="MuiAccordionSummary-content Mui-expanded emotion-21"
         >
           <p
             class="MuiTypography-root MuiTypography-body1 emotion-22"
@@ -1936,12 +1936,12 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     style="max-width: fit-content;"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral emotion-46"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral emotion-46"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-47"
+        class="MuiButton-icon MuiButton-startIcon emotion-47"
       >
         <svg
           aria-hidden="true"
@@ -1958,12 +1958,12 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       Download Artifact
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-49"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-49"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-47"
+        class="MuiButton-icon MuiButton-startIcon emotion-47"
       >
         <svg
           aria-hidden="true"

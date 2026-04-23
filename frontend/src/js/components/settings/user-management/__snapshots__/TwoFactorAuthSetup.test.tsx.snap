@@ -56,24 +56,6 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-0 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-0 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-0 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-0 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -89,6 +71,14 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
 
 .emotion-0 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-0 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-0 .MuiChip-icon {
@@ -132,23 +122,23 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
   margin-left: 4px;
 }
 
-.emotion-0 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-0 .MuiChip-icon {
   margin-left: 4px;
-}
-
-.emotion-0 .MuiChip-iconSmall {
-  margin-left: 2px;
 }
 
 .emotion-0 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-0 .MuiChip-deleteIconSmall {
+.emotion-0 .MuiChip-avatar {
+  margin-left: 2px;
+}
+
+.emotion-0 .MuiChip-icon {
+  margin-left: 2px;
+}
+
+.emotion-0 .MuiChip-deleteIcon {
   margin-right: 3px;
 }
 
@@ -380,17 +370,17 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
       Two Factor authentication
     </p>
     <div
-      class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorWarning MuiChip-outlinedWarning margin-left-x-small emotion-0"
+      class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorWarning margin-left-x-small emotion-0"
     >
       <span
-        class="MuiChip-label MuiChip-labelSmall emotion-1"
+        class="MuiChip-label emotion-1"
       >
         Not enabled
       </span>
     </div>
   </div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-standardWarning MuiAlert-standard emotion-2"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-standard emotion-2"
     role="alert"
     style="--Paper-shadow: none;"
   >
@@ -422,7 +412,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
     Two-factor authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in.
   </p>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-7"
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-7"
     tabindex="0"
     type="button"
   >

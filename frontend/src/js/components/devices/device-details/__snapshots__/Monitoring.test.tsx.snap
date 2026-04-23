@@ -20,12 +20,12 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
         data-mui-internal-clone-element="true"
       >
         <div
-          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault css-lbitzw-MuiButtonBase-root-MuiChip-root"
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable css-1o1lizq-MuiButtonBase-root-MuiChip-root"
           role="button"
           tabindex="0"
         >
           <span
-            class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+            class="MuiChip-label css-1dybbl5-MuiChip-label"
           >
             Professional
           </span>
@@ -33,10 +33,10 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-1mfsd6e-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault css-q9ev5h-MuiChip-root"
     >
       <span
-        class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+        class="MuiChip-label css-1dybbl5-MuiChip-label"
       >
         Add-on
       </span>
@@ -153,13 +153,14 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
             aria-hidden="true"
             aria-invalid="false"
             class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+            id="_r_6_"
             name="pagination"
             tabindex="-1"
             value="20"
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"

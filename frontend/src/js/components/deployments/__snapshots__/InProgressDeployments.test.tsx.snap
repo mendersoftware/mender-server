@@ -574,10 +574,10 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-20"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-20"
               />
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-21"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-21"
               />
             </span>
             <p
@@ -603,7 +603,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
           </div>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary nowrap emotion-25"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-25"
           tabindex="0"
           type="button"
         >
@@ -773,7 +773,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
           </span>
         </p>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary nowrap emotion-25"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-25"
           tabindex="0"
           type="button"
         >

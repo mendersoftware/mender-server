@@ -1194,7 +1194,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
     <div
       aria-hidden="true"
       class="MuiBackdrop-root MuiModal-backdrop emotion-1"
-      style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
       data-testid="sentinelStart"
@@ -1202,7 +1202,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
     />
     <div
       aria-modal="true"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper emotion-2"
       role="dialog"
       style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
       tabindex="-1"
@@ -1349,7 +1349,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
             Memory options
           </h6>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-left-small emotion-22"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-left-small emotion-22"
             tabindex="0"
             type="button"
           >
@@ -1377,7 +1377,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
                 aria-describedby="_r_3_-helper-text"
                 aria-invalid="true"
                 autocomplete="off"
-                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-28"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-28"
                 id="_r_3_"
                 pattern="[0-9]*"
                 step="1"
@@ -1431,7 +1431,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
                 aria-describedby="_r_4_-helper-text"
                 aria-invalid="true"
                 autocomplete="off"
-                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-28"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-28"
                 id="_r_4_"
                 pattern="[0-9]*"
                 step="1"
@@ -1485,7 +1485,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
                 aria-describedby="_r_5_-helper-text"
                 aria-invalid="true"
                 autocomplete="off"
-                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-28"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-28"
                 id="_r_5_"
                 pattern="[0-9]*"
                 step="1"
@@ -1539,7 +1539,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
                 aria-describedby="_r_6_-helper-text"
                 aria-invalid="true"
                 autocomplete="off"
-                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-28"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-28"
                 id="_r_6_"
                 pattern="[0-9]*"
                 step="1"
@@ -1618,14 +1618,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
           class="button-wrapper emotion-67 emotion-68"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-69"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-69"
             tabindex="0"
             type="button"
           >
             Cancel
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-70"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-70"
             disabled=""
             tabindex="-1"
             type="submit"

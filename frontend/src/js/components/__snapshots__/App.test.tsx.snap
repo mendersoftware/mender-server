@@ -1301,24 +1301,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   font-size: 0.75rem;
 }
 
-.emotion-64 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #015969;
-}
-
-.emotion-64 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #820f50;
-}
-
-.emotion-64 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-64 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -1622,7 +1604,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
               </div>
               <input
                 aria-invalid="false"
-                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-6"
+                class="MuiInputBase-input MuiOutlinedInput-input emotion-6"
                 id="_r_10_"
                 name="search"
                 placeholder="Search devices"
@@ -1666,12 +1648,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 class="MuiBadge-root emotion-9"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-10"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-10"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
+                    class="MuiButton-icon MuiButton-startIcon emotion-11"
                   >
                     <svg
                       aria-hidden="true"
@@ -1687,7 +1669,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                   </span>
                   2
                   <span
-                    class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-13"
+                    class="MuiButton-icon MuiButton-endIcon emotion-13"
                   >
                     <svg
                       aria-hidden="true"
@@ -1743,12 +1725,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             role="separator"
           />
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-22"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-22"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
+              class="MuiButton-icon MuiButton-startIcon emotion-11"
             >
               <svg
                 aria-hidden="true"
@@ -2013,7 +1995,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                     1
                   </h5>
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-60"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-60"
                     tabindex="0"
                     type="button"
                   >
@@ -2026,7 +2008,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
               class="widget flexbox centered"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-61"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-61"
                 style="max-width: 200px;"
                 tabindex="0"
                 type="button"
@@ -2061,12 +2043,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                   data-mui-internal-clone-element="true"
                 >
                   <div
-                    class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-64"
+                    class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-64"
                     role="button"
                     tabindex="0"
                   >
                     <span
-                      class="MuiChip-label MuiChip-labelMedium emotion-65"
+                      class="MuiChip-label emotion-65"
                     >
                       Enterprise
                     </span>
@@ -2096,12 +2078,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 class="flexbox centered"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-61"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-61"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
+                    class="MuiButton-icon MuiButton-startIcon emotion-11"
                   >
                     <svg
                       aria-hidden="true"
@@ -2160,10 +2142,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                   role="progressbar"
                 >
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-79"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-79"
                   />
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-80"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-80"
                   />
                 </span>
               </div>
@@ -2190,10 +2172,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                   role="progressbar"
                 >
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-79"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-79"
                   />
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-80"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-80"
                   />
                 </span>
               </div>
@@ -2281,10 +2263,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                   role="progressbar"
                 >
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-79"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-79"
                   />
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-80"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-80"
                   />
                 </span>
               </div>
@@ -2311,10 +2293,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                   role="progressbar"
                 >
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-79"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-79"
                   />
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-80"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-80"
                   />
                 </span>
               </div>
@@ -2414,10 +2396,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                       role="progressbar"
                     >
                       <span
-                        class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-79"
+                        class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-79"
                       />
                       <span
-                        class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-80"
+                        class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-80"
                       />
                     </span>
                   </div>
@@ -2454,10 +2436,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                       role="progressbar"
                     >
                       <span
-                        class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-79"
+                        class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-79"
                       />
                       <span
-                        class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-80"
+                        class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-80"
                       />
                     </span>
                   </div>
@@ -3461,24 +3443,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   border-radius: 4px;
 }
 
-.emotion-57 {
-  margin: 0;
-  font-family: Red Hat Text;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.57;
-  color: #1f1f20;
-}
-
-.emotion-58 {
-  margin: 0;
-  font-family: Red Hat Text;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  color: #1f1f20;
-}
-
 .emotion-59 {
   position: relative;
   overflow: hidden;
@@ -3820,24 +3784,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   font-size: 0.75rem;
 }
 
-.emotion-68 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #015969;
-}
-
-.emotion-68 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #820f50;
-}
-
-.emotion-68 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-68 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -4027,7 +3973,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             </div>
             <input
               aria-invalid="false"
-              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-6"
+              class="MuiInputBase-input MuiOutlinedInput-input emotion-6"
               id="_r_2_"
               name="search"
               placeholder="Search devices"
@@ -4071,12 +4017,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
               class="MuiBadge-root emotion-9"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-10"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-10"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
+                  class="MuiButton-icon MuiButton-startIcon emotion-11"
                 >
                   <svg
                     aria-hidden="true"
@@ -4092,7 +4038,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 </span>
                 2
                 <span
-                  class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-13"
+                  class="MuiButton-icon MuiButton-endIcon emotion-13"
                 >
                   <svg
                     aria-hidden="true"
@@ -4148,12 +4094,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           role="separator"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-22"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-22"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
+            class="MuiButton-icon MuiButton-startIcon emotion-11"
           >
             <svg
               aria-hidden="true"
@@ -4379,13 +4325,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                           class="flexbox"
                         >
                           <h6
-                            class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-57"
+                            class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-20"
                           >
                             standard
                           </h6>
                         </div>
                         <p
-                          class="MuiTypography-root MuiTypography-body2 emotion-58"
+                          class="MuiTypography-root MuiTypography-body2 emotion-43"
                           data-testid="device-limit-standard"
                         >
                           2/500
@@ -4402,7 +4348,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                           role="progressbar"
                         >
                           <span
-                            class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-60"
+                            class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-60"
                             style="transform: translateX(-100%);"
                           />
                         </span>
@@ -4459,7 +4405,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                   1
                 </h5>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-64"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-64"
                   tabindex="0"
                   type="button"
                 >
@@ -4472,7 +4418,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             class="widget flexbox centered"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-65"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-65"
               style="max-width: 200px;"
               tabindex="0"
               type="button"
@@ -4507,12 +4453,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 data-mui-internal-clone-element="true"
               >
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-68"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-68"
                   role="button"
                   tabindex="0"
                 >
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-69"
+                    class="MuiChip-label emotion-69"
                   >
                     Enterprise
                   </span>
@@ -4542,12 +4488,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
               class="flexbox centered"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-65"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-65"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-11"
+                  class="MuiButton-icon MuiButton-startIcon emotion-11"
                 >
                   <svg
                     aria-hidden="true"

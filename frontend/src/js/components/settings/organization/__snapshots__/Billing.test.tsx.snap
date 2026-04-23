@@ -587,7 +587,7 @@ exports[`Billing Component > renders correctly 1`] = `
             class="flexbox align-items-center margin-top-x-small"
           >
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorInfo margin-right-small emotion-21"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorInfo margin-right-small emotion-21"
               href="https://mender.io/pricing/plans"
               rel="noopener noreferrer"
               tabindex="0"
@@ -595,7 +595,7 @@ exports[`Billing Component > renders correctly 1`] = `
             >
               Compare all plans
               <span
-                class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeSmall emotion-22"
+                class="MuiButton-icon MuiButton-endIcon emotion-22"
               >
                 <svg
                   aria-hidden="true"
@@ -611,7 +611,7 @@ exports[`Billing Component > renders correctly 1`] = `
               </span>
             </a>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorSecondary emotion-24"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeSmall MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-sizeSmall MuiButton-colorSecondary emotion-24"
               data-discover="true"
               href="/subscription"
               tabindex="0"
@@ -626,7 +626,7 @@ exports[`Billing Component > renders correctly 1`] = `
           Billing details
         </h6>
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-standardWarning MuiAlert-standard emotion-26"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-standard emotion-26"
           role="alert"
           style="--Paper-shadow: none;"
         >
@@ -676,7 +676,7 @@ exports[`Billing Component > renders correctly 1`] = `
         </p>
         <div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-32"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-32"
             tabindex="0"
             type="button"
           >

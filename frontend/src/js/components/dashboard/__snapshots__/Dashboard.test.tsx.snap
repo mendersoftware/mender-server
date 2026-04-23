@@ -130,7 +130,6 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0.00714em;
-  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-8 {
@@ -140,7 +139,6 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-9 {
@@ -485,24 +483,6 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-18 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-18 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-18 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-18 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -644,15 +624,6 @@ exports[`Dashboard Component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
-.emotion-28 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.57;
-  letter-spacing: 0.00714em;
-}
-
 .emotion-29 {
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -671,15 +642,6 @@ exports[`Dashboard Component > renders correctly 1`] = `
 
 .emotion-29>div:last-child {
   width: 100%;
-}
-
-.emotion-31 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
 }
 
 .emotion-33 {
@@ -835,7 +797,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                         role="progressbar"
                       >
                         <span
-                          class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-10"
+                          class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-10"
                           style="transform: translateX(-100%);"
                         />
                       </span>
@@ -892,7 +854,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                 1
               </h5>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-14"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-14"
                 tabindex="0"
                 type="button"
               >
@@ -905,7 +867,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           class="widget flexbox centered"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-15"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-15"
             style="max-width: 200px;"
             tabindex="0"
             type="button"
@@ -940,12 +902,12 @@ exports[`Dashboard Component > renders correctly 1`] = `
               data-mui-internal-clone-element="true"
             >
               <div
-                class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-18"
+                class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-18"
                 role="button"
                 tabindex="0"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-19"
+                  class="MuiChip-label emotion-19"
                 >
                   Enterprise
                 </span>
@@ -975,12 +937,12 @@ exports[`Dashboard Component > renders correctly 1`] = `
             class="flexbox centered"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-15"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-15"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-24"
+                class="MuiButton-icon MuiButton-startIcon emotion-24"
               >
                 <svg
                   aria-hidden="true"
@@ -1013,7 +975,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           Recent deployments
         </h6>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-28"
+          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-7"
         >
           Pending
         </h6>
@@ -1025,7 +987,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               class="MuiTypography-root MuiTypography-body1 emotion-3"
             />
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-31"
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               title="Test"
             >
               Test
@@ -1039,10 +1001,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-33"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-33"
               />
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-34"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-34"
               />
             </span>
           </div>
@@ -1057,7 +1019,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-31"
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               title="test deployment"
             >
               test deployment
@@ -1071,10 +1033,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-33"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-33"
               />
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-34"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-34"
               />
             </span>
           </div>
@@ -1089,7 +1051,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-31"
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               title="test deployment 2"
             >
               test deployment 2
@@ -1099,7 +1061,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             class=""
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-31"
+              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-8"
             >
               <svg
                 aria-hidden="true"
@@ -1136,7 +1098,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-28"
+          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-7"
         >
           In Progress
         </h6>
@@ -1148,7 +1110,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               class="MuiTypography-root MuiTypography-body1 emotion-3"
             />
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-31"
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               title="Test"
             >
               Test
@@ -1162,10 +1124,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-33"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-33"
               />
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-34"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-34"
               />
             </span>
           </div>
@@ -1180,7 +1142,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-31"
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               title="test deployment"
             >
               test deployment
@@ -1194,10 +1156,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-33"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-33"
               />
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-34"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-34"
               />
             </span>
           </div>
@@ -1212,7 +1174,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-31"
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               title="test deployment 2"
             >
               test deployment 2
@@ -1222,7 +1184,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             class=""
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-31"
+              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-8"
             >
               <svg
                 aria-hidden="true"
@@ -1259,7 +1221,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-28"
+          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-7"
         >
           Finished
         </h6>
@@ -1283,7 +1245,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   class="MuiTypography-root MuiTypography-body1 emotion-3"
                 />
                 <p
-                  class="MuiTypography-root MuiTypography-body2 emotion-31"
+                  class="MuiTypography-root MuiTypography-body2 emotion-8"
                   title="Test"
                 >
                   Test
@@ -1297,10 +1259,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   role="progressbar"
                 >
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-33"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-33"
                   />
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-34"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-34"
                   />
                 </span>
               </div>
@@ -1325,7 +1287,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   r1
                 </p>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 emotion-31"
+                  class="MuiTypography-root MuiTypography-body2 emotion-8"
                   title="test deployment"
                 >
                   test deployment
@@ -1339,10 +1301,10 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   role="progressbar"
                 >
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-33"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-33"
                   />
                   <span
-                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-34"
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-34"
                   />
                 </span>
               </div>
@@ -1367,7 +1329,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   r1
                 </p>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 emotion-31"
+                  class="MuiTypography-root MuiTypography-body2 emotion-8"
                   title="test deployment 2"
                 >
                   test deployment 2
@@ -1377,7 +1339,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                 class="emotion-70"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-31"
+                  class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-8"
                 >
                   <svg
                     aria-hidden="true"

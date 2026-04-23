@@ -524,7 +524,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
                 class="button-wrapper emotion-11 emotion-12"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-13"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-13"
                   disabled=""
                   tabindex="-1"
                   type="submit"

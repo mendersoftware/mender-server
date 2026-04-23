@@ -302,24 +302,6 @@ exports[`Configuration Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-9 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-9 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-9 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-9 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -335,6 +317,11 @@ exports[`Configuration Component > renders correctly 1`] = `
 
 .emotion-9 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-9 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-9 .MuiChip-deleteIcon {
@@ -374,24 +361,12 @@ exports[`Configuration Component > renders correctly 1`] = `
   margin-left: 4px;
 }
 
-.emotion-9 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-9 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-9 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-9 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-9 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-9.MuiChip-clickable:hover {
@@ -546,24 +521,6 @@ exports[`Configuration Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-16 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-16 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-16 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-16 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -648,24 +605,6 @@ exports[`Configuration Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-19 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-19 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-19 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-19 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -681,6 +620,14 @@ exports[`Configuration Component > renders correctly 1`] = `
 
 .emotion-19 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-19 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-19 .MuiChip-icon {
@@ -779,13 +726,13 @@ exports[`Configuration Component > renders correctly 1`] = `
         Device configuration
       </h6>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-2"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-2"
         style="padding: 5px;"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall emotion-3"
+          class="MuiButton-icon MuiButton-startIcon emotion-3"
         >
           <svg
             aria-hidden="true"
@@ -835,12 +782,12 @@ exports[`Configuration Component > renders correctly 1`] = `
             target="_blank"
           >
             <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-9"
+              class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-9"
               role="button"
               tabindex="0"
             >
               <span
-                class="MuiChip-label MuiChip-labelMedium emotion-10"
+                class="MuiChip-label emotion-10"
               >
                 <div
                   class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-11"
@@ -858,7 +805,7 @@ exports[`Configuration Component > renders correctly 1`] = `
                 </div>
               </span>
               <div
-                class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                class="relative MuiChip-deleteIcon"
               >
                 <svg
                   aria-hidden="true"
@@ -881,10 +828,10 @@ exports[`Configuration Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-16"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault emotion-16"
     >
       <span
-        class="MuiChip-label MuiChip-labelMedium emotion-17"
+        class="MuiChip-label emotion-17"
       >
         Add-on
       </span>
@@ -897,11 +844,11 @@ exports[`Configuration Component > renders correctly 1`] = `
       class="break-all two-columns emotion-18 column-data "
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-19"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-19"
         style="justify-self: end;"
       >
         <span
-          class="MuiChip-label MuiChip-labelSmall emotion-20"
+          class="MuiChip-label emotion-20"
         >
           uiPasswordRequired
         </span>
@@ -927,11 +874,11 @@ exports[`Configuration Component > renders correctly 1`] = `
         </svg>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-19"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-19"
         style="justify-self: end;"
       >
         <span
-          class="MuiChip-label MuiChip-labelSmall emotion-20"
+          class="MuiChip-label emotion-20"
         >
           foo
         </span>
@@ -960,11 +907,11 @@ exports[`Configuration Component > renders correctly 1`] = `
         </svg>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-19"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-19"
         style="justify-self: end;"
       >
         <span
-          class="MuiChip-label MuiChip-labelSmall emotion-20"
+          class="MuiChip-label emotion-20"
         >
           timezone
         </span>
@@ -1429,7 +1376,7 @@ exports[`tiny components > renders ConfigEditingActions correctly 1`] = `
     </div>
   </div>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-5"
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-5"
     style="margin-left: 30px;"
     tabindex="0"
     type="button"
@@ -1437,7 +1384,7 @@ exports[`tiny components > renders ConfigEditingActions correctly 1`] = `
     Save and apply to device
   </button>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-6"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-6"
     style="margin-left: 30px;"
     tabindex="0"
     type="button"
@@ -1690,13 +1637,13 @@ exports[`tiny components > renders ConfigUpdateFailureActions correctly 1`] = `
 
 <div>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-0"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-0"
     style="margin-left: 30px;"
     tabindex="0"
     type="button"
   >
     <span
-      class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-1"
+      class="MuiButton-icon MuiButton-startIcon emotion-1"
     >
       <svg
         aria-hidden="true"

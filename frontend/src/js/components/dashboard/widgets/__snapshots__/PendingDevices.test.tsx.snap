@@ -181,7 +181,7 @@ exports[`PendingDevices Component > renders correctly 1`] = `
             0
           </h5>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-3"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-3"
             tabindex="0"
             type="button"
           >

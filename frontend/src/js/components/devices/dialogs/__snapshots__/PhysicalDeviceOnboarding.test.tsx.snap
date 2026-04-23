@@ -576,7 +576,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             aria-invalid="false"
             autocapitalize="none"
             autocomplete="off"
-            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-6"
+            class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-6"
             id="device-type-selection"
             placeholder="Choose a device type"
             role="combobox"
@@ -1326,7 +1326,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
             aria-invalid="false"
             autocapitalize="none"
             autocomplete="off"
-            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-6"
+            class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-6"
             id="device-type-selection"
             placeholder="Choose a device type"
             role="combobox"
@@ -1649,13 +1649,13 @@ exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders Ins
     class="emotion-2 "
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit emotion-3"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit emotion-3"
       tabindex="0"
       title="Copy to clipboard"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge emotion-4"
+        class="MuiButton-icon MuiButton-startIcon emotion-4"
       >
         <svg
           aria-hidden="true"

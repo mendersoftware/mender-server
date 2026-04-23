@@ -288,17 +288,6 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
   font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0.00714em;
-  color: rgba(0, 0, 0, 0.87);
-}
-
-.emotion-15 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
-  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-16 {
@@ -442,7 +431,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
   <div
     aria-hidden="true"
     class="MuiBackdrop-root MuiBackdrop-invisible MuiModal-backdrop emotion-1"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   />
   <div
     data-testid="sentinelStart"
@@ -454,7 +443,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
     tabindex="-1"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard flexbox align-items-center margin-bottom-small emotion-3"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard flexbox align-items-center margin-bottom-small emotion-3"
       role="alert"
       style="--Paper-shadow: none;"
     >
@@ -485,7 +474,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
            pending
         </p>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary padding-bottom-none padding-top-none emotion-8"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary padding-bottom-none padding-top-none emotion-8"
           tabindex="0"
           type="button"
         >
@@ -552,7 +541,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
               </h6>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-15"
+              class="MuiTypography-root MuiTypography-body2 emotion-7"
               data-testid="device-limit-standard"
             >
               100
@@ -570,7 +559,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-17"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-17"
                 style="transform: translateX(-60%);"
               />
             </span>
@@ -594,7 +583,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
       </div>
     </div>
     <a
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-19"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
       data-discover="true"
       href="/settings/subscription"
       tabindex="0"
@@ -844,12 +833,12 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-2"
+          class="MuiButton-icon MuiButton-startIcon emotion-2"
         >
           <svg
             aria-hidden="true"
@@ -865,7 +854,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
         </span>
         100
         <span
-          class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-4"
+          class="MuiButton-icon MuiButton-endIcon emotion-4"
         >
           <svg
             aria-hidden="true"
@@ -1129,12 +1118,12 @@ exports[`DeviceNotifications Component > renders correctly at limit 1`] = `
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-2"
+          class="MuiButton-icon MuiButton-startIcon emotion-2"
         >
           <svg
             aria-hidden="true"
@@ -1150,7 +1139,7 @@ exports[`DeviceNotifications Component > renders correctly at limit 1`] = `
         </span>
         250
         <span
-          class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-4"
+          class="MuiButton-icon MuiButton-endIcon emotion-4"
         >
           <svg
             aria-hidden="true"
@@ -1414,12 +1403,12 @@ exports[`DeviceNotifications Component > renders correctly close to limits 1`] =
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-2"
+          class="MuiButton-icon MuiButton-startIcon emotion-2"
         >
           <svg
             aria-hidden="true"
@@ -1435,7 +1424,7 @@ exports[`DeviceNotifications Component > renders correctly close to limits 1`] =
         </span>
         240
         <span
-          class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-4"
+          class="MuiButton-icon MuiButton-endIcon emotion-4"
         >
           <svg
             aria-hidden="true"
@@ -1695,12 +1684,12 @@ exports[`DeviceNotifications Component > renders correctly with limits 1`] = `
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-2"
+          class="MuiButton-icon MuiButton-startIcon emotion-2"
         >
           <svg
             aria-hidden="true"
@@ -1716,7 +1705,7 @@ exports[`DeviceNotifications Component > renders correctly with limits 1`] = `
         </span>
         40
         <span
-          class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-4"
+          class="MuiButton-icon MuiButton-endIcon emotion-4"
         >
           <svg
             aria-hidden="true"
@@ -1976,12 +1965,12 @@ exports[`DeviceNotifications Component > renders correctly without limits 1`] = 
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-2"
+          class="MuiButton-icon MuiButton-startIcon emotion-2"
         >
           <svg
             aria-hidden="true"
@@ -1997,7 +1986,7 @@ exports[`DeviceNotifications Component > renders correctly without limits 1`] = 
         </span>
         240
         <span
-          class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-4"
+          class="MuiButton-icon MuiButton-endIcon emotion-4"
         >
           <svg
             aria-hidden="true"

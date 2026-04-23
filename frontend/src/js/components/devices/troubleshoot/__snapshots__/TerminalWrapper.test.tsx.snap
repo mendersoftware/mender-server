@@ -508,7 +508,7 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
         class="flexbox space-between emotion-3"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
           tabindex="0"
           type="button"
         >
@@ -516,13 +516,13 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
            Terminal
         </button>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-5"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-5"
           tabindex="0"
           type="button"
         >
           Quick commands
           <span
-            class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-6"
+            class="MuiButton-icon MuiButton-endIcon emotion-6"
           >
             <svg
               aria-hidden="true"

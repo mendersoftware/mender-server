@@ -19,14 +19,14 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
         role="group"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButtonGroup-firstButton css-15aywyl-MuiButtonBase-root-MuiButton-root-buttonStyle"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButtonGroup-firstButton css-15aywyl-MuiButtonBase-root-MuiButton-root-buttonStyle"
           tabindex="0"
           type="button"
         >
           Connect a new device
         </button>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary padding-left-small padding-right-small MuiButtonGroup-lastButton css-1l66tb1-MuiButtonBase-root-MuiButton-root-buttonStyle"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorPrimary padding-left-small padding-right-small MuiButtonGroup-lastButton css-1l66tb1-MuiButtonBase-root-MuiButton-root-buttonStyle"
           tabindex="0"
           type="button"
         >
@@ -150,12 +150,12 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
         </div>
       </ul>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit margin-top css-plnrbk-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit margin-top css-plnrbk-MuiButtonBase-root-MuiButton-root"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
+          class="MuiButton-icon MuiButton-startIcon css-1sh91j5-MuiButton-startIcon"
         >
           <svg
             aria-hidden="true"
@@ -218,12 +218,13 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                     aria-hidden="true"
                     aria-invalid="false"
                     class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+                    id="_r_6_"
                     tabindex="-1"
                     value="accepted"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-1rfqz7c-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon css-1rfqz7c-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -267,12 +268,12 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               </h6>
             </div>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
+                class="MuiButton-icon MuiButton-startIcon css-1sh91j5-MuiButton-startIcon"
               >
                 <svg
                   aria-hidden="true"
@@ -294,12 +295,12 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           class="flexbox align-items-center space-between margin-top margin-bottom-x-small"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-text MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-color MuiButton-root MuiButton-text MuiButton-text MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-color flexbox css-1ibakg3-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-color MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-color flexbox css-1ibakg3-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
+              class="MuiButton-icon MuiButton-startIcon css-1sh91j5-MuiButton-startIcon"
             >
               <svg
                 aria-hidden="true"
@@ -316,13 +317,13 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
             Filters
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-plnrbk-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit css-plnrbk-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
             Table options
             <span
-              class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium css-1gulhci-MuiButton-endIcon"
+              class="MuiButton-icon MuiButton-endIcon css-1gulhci-MuiButton-endIcon"
             >
               <svg
                 aria-hidden="true"
@@ -705,7 +706,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               />
               <p
                 class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                id="_r_a_"
+                id="_r_b_"
               >
                 Rows per page:
               </p>
@@ -715,9 +716,9 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 <div
                   aria-expanded="false"
                   aria-haspopup="listbox"
-                  aria-labelledby="_r_a_ _r_9_"
+                  aria-labelledby="_r_b_ _r_a_"
                   class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                  id="_r_9_"
+                  id="_r_a_"
                   role="combobox"
                   tabindex="0"
                 >
@@ -727,13 +728,14 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   aria-hidden="true"
                   aria-invalid="false"
                   class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+                  id="_r_d_"
                   name="pagination"
                   tabindex="-1"
                   value="20"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
                   data-testid="ArrowDropDownIcon"
                   focusable="false"
                   viewBox="0 0 24 24"

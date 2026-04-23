@@ -107,24 +107,6 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-1 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-1 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-1 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-1 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -348,12 +330,12 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
           data-mui-internal-clone-element="true"
         >
           <div
-            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-1"
+            class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-1"
             role="button"
             tabindex="0"
           >
             <span
-              class="MuiChip-label MuiChip-labelMedium emotion-2"
+              class="MuiChip-label emotion-2"
             >
               Enterprise
             </span>
@@ -383,12 +365,12 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
         class="flexbox centered"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-6"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-6"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-7"
+            class="MuiButton-icon MuiButton-startIcon emotion-7"
           >
             <svg
               aria-hidden="true"

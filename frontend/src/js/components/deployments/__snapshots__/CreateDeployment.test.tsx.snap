@@ -246,24 +246,6 @@ exports[`CreateDeployment Component > smaller components > renders DeviceLimit c
   font-size: 0.75rem;
 }
 
-.emotion-6 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -279,6 +261,11 @@ exports[`CreateDeployment Component > smaller components > renders DeviceLimit c
 
 .emotion-6 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-6 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-6 .MuiChip-deleteIcon {
@@ -318,24 +305,12 @@ exports[`CreateDeployment Component > smaller components > renders DeviceLimit c
   margin-left: 4px;
 }
 
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-6 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-6 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-6 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-6.MuiChip-clickable:hover {
@@ -731,12 +706,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
               target="_blank"
             >
               <div
-                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-6"
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-6"
                 role="button"
                 tabindex="0"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-7"
+                  class="MuiChip-label emotion-7"
                 >
                   <div
                     class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-8"
@@ -754,7 +729,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
                   </div>
                 </span>
                 <div
-                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                  class="relative MuiChip-deleteIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -1077,24 +1052,6 @@ exports[`CreateDeployment Component > smaller components > renders DeviceLimit c
   font-size: 0.75rem;
 }
 
-.emotion-6 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -1110,6 +1067,11 @@ exports[`CreateDeployment Component > smaller components > renders DeviceLimit c
 
 .emotion-6 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-6 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-6 .MuiChip-deleteIcon {
@@ -1149,24 +1111,12 @@ exports[`CreateDeployment Component > smaller components > renders DeviceLimit c
   margin-left: 4px;
 }
 
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-6 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-6 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-6 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-6.MuiChip-clickable:hover {
@@ -1562,12 +1512,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
               target="_blank"
             >
               <div
-                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-6"
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-6"
                 role="button"
                 tabindex="0"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-7"
+                  class="MuiChip-label emotion-7"
                 >
                   <div
                     class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-8"
@@ -1585,7 +1535,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
                   </div>
                 </span>
                 <div
-                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                  class="relative MuiChip-deleteIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -2137,7 +2087,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
               aria-invalid="false"
               autocapitalize="none"
               autocomplete="off"
-              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-4"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-4"
               id="deployment-device-group-selection"
               placeholder="Select a device group"
               role="combobox"
@@ -2664,7 +2614,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
               aria-invalid="false"
               autocapitalize="none"
               autocomplete="off"
-              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-4"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-4"
               id="deployment-device-group-selection"
               placeholder="Select a device group"
               role="combobox"
@@ -3250,13 +3200,13 @@ exports[`CreateDeployment Component > smaller components > renders ReleasesWarni
     <svg
       aria-hidden="true"
       class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
-      data-testid="ErrorOutlineIcon"
+      data-testid="ErrorOutlinedIcon"
       focusable="false"
       style="margin-right: 4px; top: 4px; color: rgb(171, 16, 0);"
       viewBox="0 0 24 24"
     >
       <path
-        d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
       />
     </svg>
     <p
@@ -3307,13 +3257,13 @@ exports[`CreateDeployment Component > smaller components > renders ReleasesWarni
     <svg
       aria-hidden="true"
       class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
-      data-testid="ErrorOutlineIcon"
+      data-testid="ErrorOutlinedIcon"
       focusable="false"
       style="margin-right: 4px; top: 4px; color: rgb(171, 16, 0);"
       viewBox="0 0 24 24"
     >
       <path
-        d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
       />
     </svg>
     <p
@@ -3439,24 +3389,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   height: 24px;
   color: #616161;
   font-size: 0.75rem;
-}
-
-.emotion-1 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-1 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-1 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
 }
 
 .emotion-1 .MuiChip-icon {
@@ -3603,24 +3535,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   font-size: 0.75rem;
 }
 
-.emotion-3 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-3 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-3 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-3 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -3636,6 +3550,11 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
 
 .emotion-3 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-3 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-3 .MuiChip-deleteIcon {
@@ -3675,24 +3594,12 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   margin-left: 4px;
 }
 
-.emotion-3 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-3 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-3 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-3 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-3 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-3.MuiChip-clickable:hover {
@@ -4319,12 +4226,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
         data-mui-internal-clone-element="true"
       >
         <div
-          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-1"
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-1"
           role="button"
           tabindex="0"
         >
           <span
-            class="MuiChip-label MuiChip-labelMedium emotion-2"
+            class="MuiChip-label emotion-2"
           >
             Professional
           </span>
@@ -4341,12 +4248,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
           target="_blank"
         >
           <div
-            class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-3"
+            class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-3"
             role="button"
             tabindex="0"
           >
             <span
-              class="MuiChip-label MuiChip-labelMedium emotion-4"
+              class="MuiChip-label emotion-4"
             >
               <div
                 class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-5"
@@ -4364,7 +4271,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
               </div>
             </span>
             <div
-              class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+              class="relative MuiChip-deleteIcon"
             >
               <svg
                 aria-hidden="true"
@@ -4575,24 +4482,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   font-size: 0.75rem;
 }
 
-.emotion-1 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-1 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-1 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-1 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -4737,24 +4626,6 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   font-size: 0.75rem;
 }
 
-.emotion-3 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-3 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-3 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-3 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -4770,6 +4641,11 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
 
 .emotion-3 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-3 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-3 .MuiChip-deleteIcon {
@@ -4809,24 +4685,12 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   margin-left: 4px;
 }
 
-.emotion-3 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-3 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-3 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-3 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-3 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-3.MuiChip-clickable:hover {
@@ -5453,12 +5317,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
         data-mui-internal-clone-element="true"
       >
         <div
-          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-1"
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-1"
           role="button"
           tabindex="0"
         >
           <span
-            class="MuiChip-label MuiChip-labelMedium emotion-2"
+            class="MuiChip-label emotion-2"
           >
             Professional
           </span>
@@ -5475,12 +5339,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
           target="_blank"
         >
           <div
-            class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-3"
+            class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-3"
             role="button"
             tabindex="0"
           >
             <span
-              class="MuiChip-label MuiChip-labelMedium emotion-4"
+              class="MuiChip-label emotion-4"
             >
               <div
                 class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-5"
@@ -5498,7 +5362,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-
               </div>
             </span>
             <div
-              class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+              class="relative MuiChip-deleteIcon"
             >
               <svg
                 aria-hidden="true"
@@ -5846,24 +5710,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 0.75rem;
 }
 
-.emotion-6 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -6008,24 +5854,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 0.75rem;
 }
 
-.emotion-8 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-8 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-8 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-8 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -6041,6 +5869,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
 
 .emotion-8 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-8 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-8 .MuiChip-deleteIcon {
@@ -6080,24 +5913,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   margin-left: 4px;
 }
 
-.emotion-8 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-8 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-8 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-8 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-8 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-8.MuiChip-clickable:hover {
@@ -6259,24 +6080,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 0.75rem;
 }
 
-.emotion-18 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-18 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-18 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-18 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -6310,24 +6113,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   margin-left: 4px;
 }
 
-.emotion-18 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-18 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-18 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-18 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-18 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-20 {
@@ -6445,12 +6236,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
             data-mui-internal-clone-element="true"
           >
             <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-6"
+              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-6"
               role="button"
               tabindex="0"
             >
               <span
-                class="MuiChip-label MuiChip-labelMedium emotion-7"
+                class="MuiChip-label emotion-7"
               >
                 Enterprise
               </span>
@@ -6467,12 +6258,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               target="_blank"
             >
               <div
-                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-8"
                 role="button"
                 tabindex="0"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   <div
                     class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
@@ -6490,7 +6281,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                   </div>
                 </span>
                 <div
-                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                  class="relative MuiChip-deleteIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -6535,11 +6326,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
             >
               <div
                 aria-label="The Artifact is downloaded (streamed) to the inactive partition."
-                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-outlinedDefault emotion-18"
+                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-18"
                 data-mui-internal-clone-element="true"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   Download
                 </span>
@@ -6567,11 +6358,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </div>
               </div>
               <div
-                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-outlinedDefault emotion-18"
+                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-18"
                 data-mui-internal-clone-element="true"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   Install
                 </span>
@@ -6600,11 +6391,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               </div>
               <div
                 aria-label="The device will reboot and the installed update will be active when the device boots up again. As changes are not yet committed, the update is not persistent and the device will still roll back again on the next reboot."
-                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-outlinedDefault emotion-18"
+                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-18"
                 data-mui-internal-clone-element="true"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   Reboot
                 </span>
@@ -6633,11 +6424,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               </div>
               <div
                 aria-label="If the update passes integrity checks, Mender will mark the update as successful and continue running from this partition. The commit makes the update persistent."
-                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-outlinedDefault emotion-18"
+                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-18"
                 data-mui-internal-clone-element="true"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   Commit
                 </span>
@@ -6919,24 +6710,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 0.75rem;
 }
 
-.emotion-6 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -7081,24 +6854,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 0.75rem;
 }
 
-.emotion-8 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-8 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-8 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-8 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -7114,6 +6869,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
 
 .emotion-8 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-8 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-8 .MuiChip-deleteIcon {
@@ -7153,24 +6913,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   margin-left: 4px;
 }
 
-.emotion-8 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-8 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-8 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-8 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-8 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-8.MuiChip-clickable:hover {
@@ -7332,24 +7080,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 0.75rem;
 }
 
-.emotion-18 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-18 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-18 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-18 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -7383,24 +7113,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   margin-left: 4px;
 }
 
-.emotion-18 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-18 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-18 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-18 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-18 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-20 {
@@ -7537,24 +7255,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 0.75rem;
 }
 
-.emotion-25 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-25 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-25 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-25 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -7570,6 +7270,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
 
 .emotion-25 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-25 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-25 .MuiChip-deleteIcon {
@@ -7672,12 +7377,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
             data-mui-internal-clone-element="true"
           >
             <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-6"
+              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-6"
               role="button"
               tabindex="0"
             >
               <span
-                class="MuiChip-label MuiChip-labelMedium emotion-7"
+                class="MuiChip-label emotion-7"
               >
                 Enterprise
               </span>
@@ -7694,12 +7399,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               target="_blank"
             >
               <div
-                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-8"
                 role="button"
                 tabindex="0"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   <div
                     class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
@@ -7717,7 +7422,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                   </div>
                 </span>
                 <div
-                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                  class="relative MuiChip-deleteIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -7762,11 +7467,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
             >
               <div
                 aria-label="The Artifact is downloaded (streamed) to the inactive partition."
-                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-outlinedDefault emotion-18"
+                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-18"
                 data-mui-internal-clone-element="true"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   Download
                 </span>
@@ -7796,13 +7501,13 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                   class="emotion-24"
                 />
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-filledPrimary emotion-25"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-25"
                   role="button"
                   tabindex="0"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconMedium MuiChip-iconColorPrimary emotion-26"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-26"
                     data-testid="AddIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -7812,18 +7517,18 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-7"
+                    class="MuiChip-label emotion-7"
                   >
                     Add a pause
                   </span>
                 </div>
               </div>
               <div
-                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-outlinedDefault emotion-18"
+                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-18"
                 data-mui-internal-clone-element="true"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   Install
                 </span>
@@ -7853,13 +7558,13 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                   class="emotion-24"
                 />
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-filledPrimary emotion-25"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-25"
                   role="button"
                   tabindex="0"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconMedium MuiChip-iconColorPrimary emotion-26"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-26"
                     data-testid="AddIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -7869,7 +7574,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-7"
+                    class="MuiChip-label emotion-7"
                   >
                     Add a pause
                   </span>
@@ -7877,11 +7582,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               </div>
               <div
                 aria-label="The device will reboot and the installed update will be active when the device boots up again. As changes are not yet committed, the update is not persistent and the device will still roll back again on the next reboot."
-                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-outlinedDefault emotion-18"
+                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-18"
                 data-mui-internal-clone-element="true"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   Reboot
                 </span>
@@ -7911,13 +7616,13 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                   class="emotion-24"
                 />
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-filledPrimary emotion-25"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-25"
                   role="button"
                   tabindex="0"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconMedium MuiChip-iconColorPrimary emotion-26"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-26"
                     data-testid="AddIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -7927,7 +7632,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                     />
                   </svg>
                   <span
-                    class="MuiChip-label MuiChip-labelMedium emotion-7"
+                    class="MuiChip-label emotion-7"
                   >
                     Add a pause
                   </span>
@@ -7935,11 +7640,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               </div>
               <div
                 aria-label="If the update passes integrity checks, Mender will mark the update as successful and continue running from this partition. The commit makes the update persistent."
-                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault MuiChip-outlinedDefault emotion-18"
+                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-18"
                 data-mui-internal-clone-element="true"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   Commit
                 </span>
@@ -8211,24 +7916,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   font-size: 0.75rem;
 }
 
-.emotion-6 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -8373,24 +8060,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   font-size: 0.75rem;
 }
 
-.emotion-8 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-8 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-8 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-8 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -8406,6 +8075,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
 
 .emotion-8 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-8 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-8 .MuiChip-deleteIcon {
@@ -8445,24 +8119,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   margin-left: 4px;
 }
 
-.emotion-8 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-8 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-8 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-8 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-8 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-8.MuiChip-clickable:hover {
@@ -8895,12 +8557,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
             data-mui-internal-clone-element="true"
           >
             <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-6"
+              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-6"
               role="button"
               tabindex="0"
             >
               <span
-                class="MuiChip-label MuiChip-labelMedium emotion-7"
+                class="MuiChip-label emotion-7"
               >
                 Enterprise
               </span>
@@ -8917,12 +8579,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
               target="_blank"
             >
               <div
-                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-8"
                 role="button"
                 tabindex="0"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   <div
                     class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
@@ -8940,7 +8602,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
                   </div>
                 </span>
                 <div
-                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                  class="relative MuiChip-deleteIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -8994,12 +8656,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
               aria-invalid="false"
               class="MuiSelect-nativeInput emotion-21"
               disabled=""
+              id="_r_2s_"
               tabindex="-1"
               value="0"
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined Mui-disabled emotion-22"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon Mui-disabled emotion-22"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -9274,24 +8937,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   font-size: 0.75rem;
 }
 
-.emotion-6 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -9436,24 +9081,6 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   font-size: 0.75rem;
 }
 
-.emotion-8 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-8 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-8 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-8 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -9469,6 +9096,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
 
 .emotion-8 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-8 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-8 .MuiChip-deleteIcon {
@@ -9508,24 +9140,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   margin-left: 4px;
 }
 
-.emotion-8 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-8 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-8 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-8 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-8 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-8.MuiChip-clickable:hover {
@@ -9957,12 +9577,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
             data-mui-internal-clone-element="true"
           >
             <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-6"
+              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-6"
               role="button"
               tabindex="0"
             >
               <span
-                class="MuiChip-label MuiChip-labelMedium emotion-7"
+                class="MuiChip-label emotion-7"
               >
                 Enterprise
               </span>
@@ -9979,12 +9599,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
               target="_blank"
             >
               <div
-                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-8"
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-8"
                 role="button"
                 tabindex="0"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-9"
+                  class="MuiChip-label emotion-9"
                 >
                   <div
                     class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-10"
@@ -10002,7 +9622,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
                   </div>
                 </span>
                 <div
-                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                  class="relative MuiChip-deleteIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -10055,12 +9675,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
               aria-hidden="true"
               aria-invalid="false"
               class="MuiSelect-nativeInput emotion-21"
+              id="_r_31_"
               tabindex="-1"
               value="0"
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-22"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-22"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -10192,12 +9813,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   }
 }
 
-@media (max-width:663.95px) {
-  .emotion-3.MuiDialog-paperScrollBody {
-    max-width: calc(100% - 64px);
-  }
-}
-
 .emotion-4 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
@@ -11085,22 +10700,31 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
 }
 
 .emotion-54 {
+  --PickerDay-horizontalMargin: 2px;
+  --PickerDay-size: 36px;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
-  line-height: 1.66;
+  line-height: 1;
   letter-spacing: 0.03333em;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: var(--PickerDay-size);
+  height: var(--PickerDay-size);
+  border-radius: calc(var(--PickerDay-size) / 2);
   padding: 0;
   background-color: transparent;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   color: rgba(0, 0, 0, 0.87);
+  margin-left: var(--PickerDay-horizontalMargin);
+  margin-right: var(--PickerDay-horizontalMargin);
+  color: rgba(0, 0, 0, 0.38);
   opacity: 0;
   pointer-events: none;
-  margin: 0 2px;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 @media (pointer: fine) {
@@ -11111,30 +10735,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
 
 .emotion-54:focus {
   background-color: rgba(25, 118, 210, 0.12);
-}
-
-.emotion-54:focus.Mui-selected {
-  will-change: background-color;
-  background-color: #1565c0;
-}
-
-.emotion-54.Mui-selected {
-  color: #fff;
-  background-color: #1976d2;
-  font-weight: 500;
-}
-
-.emotion-54.Mui-selected:hover {
-  will-change: background-color;
-  background-color: #1565c0;
-}
-
-.emotion-54.Mui-disabled:not(.Mui-selected) {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-54.Mui-disabled.emotion-54.Mui-selected {
-  opacity: 0.6;
 }
 
 .emotion-56 {
@@ -11170,20 +10770,28 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  --PickerDay-horizontalMargin: 2px;
+  --PickerDay-size: 36px;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
-  line-height: 1.66;
+  line-height: 1;
   letter-spacing: 0.03333em;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: var(--PickerDay-size);
+  height: var(--PickerDay-size);
+  border-radius: calc(var(--PickerDay-size) / 2);
   padding: 0;
   background-color: transparent;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   color: rgba(0, 0, 0, 0.87);
-  margin: 0 2px;
+  margin-left: var(--PickerDay-horizontalMargin);
+  margin-right: var(--PickerDay-horizontalMargin);
+  color: rgba(0, 0, 0, 0.38);
 }
 
 .emotion-56::-moz-focus-inner {
@@ -11210,30 +10818,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
 
 .emotion-56:focus {
   background-color: rgba(25, 118, 210, 0.12);
-}
-
-.emotion-56:focus.Mui-selected {
-  will-change: background-color;
-  background-color: #1565c0;
-}
-
-.emotion-56.Mui-selected {
-  color: #fff;
-  background-color: #1976d2;
-  font-weight: 500;
-}
-
-.emotion-56.Mui-selected:hover {
-  will-change: background-color;
-  background-color: #1565c0;
-}
-
-.emotion-56.Mui-disabled:not(.Mui-selected) {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-56.Mui-disabled.emotion-56.Mui-selected {
-  opacity: 0.6;
 }
 
 .emotion-70 {
@@ -11269,20 +10853,31 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  --PickerDay-horizontalMargin: 2px;
+  --PickerDay-size: 36px;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
-  line-height: 1.66;
+  line-height: 1;
   letter-spacing: 0.03333em;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: var(--PickerDay-size);
+  height: var(--PickerDay-size);
+  border-radius: calc(var(--PickerDay-size) / 2);
   padding: 0;
   background-color: transparent;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   color: rgba(0, 0, 0, 0.87);
-  margin: 0 2px;
+  margin-left: var(--PickerDay-horizontalMargin);
+  margin-right: var(--PickerDay-horizontalMargin);
+  color: #fff;
+  background-color: #1976d2;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.38);
 }
 
 .emotion-70::-moz-focus-inner {
@@ -11311,32 +10906,14 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   background-color: rgba(25, 118, 210, 0.12);
 }
 
-.emotion-70:focus.Mui-selected {
+.emotion-70:focus,
+.emotion-70:hover {
   will-change: background-color;
   background-color: #1565c0;
 }
 
-.emotion-70.Mui-selected {
-  color: #fff;
-  background-color: #1976d2;
-  font-weight: 500;
-}
-
-.emotion-70.Mui-selected:hover {
-  will-change: background-color;
-  background-color: #1565c0;
-}
-
-.emotion-70.Mui-disabled:not(.Mui-selected) {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-70.Mui-disabled.emotion-70.Mui-selected {
+.emotion-70.Mui-disabled {
   opacity: 0.6;
-}
-
-.emotion-70:not(.Mui-selected) {
-  border: 1px solid rgba(0, 0, 0, 0.6);
 }
 
 .emotion-93 {
@@ -11464,7 +11041,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   <div
     aria-hidden="true"
     class="MuiBackdrop-root MuiModal-backdrop MuiDialog-backdrop emotion-1"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   />
   <div
     data-testid="sentinelStart"
@@ -11473,13 +11050,13 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   <div
     class="MuiDialog-container MuiDialog-scrollPaper emotion-2"
     role="presentation"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     tabindex="-1"
   >
     <div
-      aria-labelledby="_r_v_"
+      aria-labelledby="_r_10_"
       aria-modal="true"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
       style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
     >
@@ -11494,7 +11071,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
           >
             <span
               class="MuiTypography-root MuiTypography-overline MuiPickersToolbar-title emotion-7"
-              id="_r_v_"
+              id="_r_10_"
             >
               Select date & time
             </span>
@@ -11505,7 +11082,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 class="MuiDateTimePickerToolbar-dateContainer emotion-9"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
                   tabindex="-1"
                   type="button"
                 >
@@ -11516,7 +11093,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   </span>
                 </button>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
                   tabindex="-1"
                   type="button"
                 >
@@ -11535,7 +11112,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   class="MuiDateTimePickerToolbar-timeDigitsContainer emotion-15"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
                     tabindex="0"
                     type="button"
                   >
@@ -11551,7 +11128,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                     :
                   </span>
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
                     tabindex="0"
                     type="button"
                   >
@@ -11576,7 +11153,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 style="overflow: hidden; margin-bottom: 0px;"
               >
                 <div
-                  class="MuiTabs-list MuiTabs-flexContainer emotion-24"
+                  class="MuiTabs-list emotion-24"
                   role="tablist"
                 >
                   <button
@@ -11645,7 +11222,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   >
                     <div
                       class="MuiPickersCalendarHeader-label emotion-34"
-                      id="_r_17_-grid-label"
+                      id="_r_18_-grid-label"
                       style="opacity: 1;"
                     >
                       January 2019
@@ -11654,7 +11231,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 </div>
                 <div
                   class="MuiPickersArrowSwitcher-root emotion-35"
-                  style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+                  style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                 >
                   <button
                     aria-label="Previous month"
@@ -11707,7 +11284,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   style="opacity: 1;"
                 >
                   <div
-                    aria-labelledby="_r_17_-grid-label"
+                    aria-labelledby="_r_18_-grid-label"
                     class="MuiDayCalendar-root emotion-42"
                     role="grid"
                   >
@@ -11779,17 +11356,17 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           role="row"
                         >
                           <div
-                            class="MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller emotion-54"
+                            class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                           <div
-                            class="MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller emotion-54"
+                            class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                           <button
                             aria-colindex="3"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546300800000"
                             disabled=""
                             role="gridcell"
@@ -11801,7 +11378,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="4"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546387200000"
                             disabled=""
                             role="gridcell"
@@ -11813,7 +11390,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="5"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546473600000"
                             disabled=""
                             role="gridcell"
@@ -11825,7 +11402,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="6"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546560000000"
                             disabled=""
                             role="gridcell"
@@ -11837,7 +11414,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="7"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546646400000"
                             disabled=""
                             role="gridcell"
@@ -11855,7 +11432,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="1"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546732800000"
                             disabled=""
                             role="gridcell"
@@ -11867,7 +11444,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="2"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546819200000"
                             disabled=""
                             role="gridcell"
@@ -11879,7 +11456,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="3"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546905600000"
                             disabled=""
                             role="gridcell"
@@ -11891,7 +11468,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="4"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546992000000"
                             disabled=""
                             role="gridcell"
@@ -11903,7 +11480,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="5"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547078400000"
                             disabled=""
                             role="gridcell"
@@ -11915,7 +11492,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="6"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547164800000"
                             disabled=""
                             role="gridcell"
@@ -11927,7 +11504,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="7"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547251200000"
                             disabled=""
                             role="gridcell"
@@ -11946,7 +11523,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                             aria-colindex="1"
                             aria-current="date"
                             aria-selected="true"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-selected Mui-disabled MuiPickersDay-dayWithMargin MuiPickersDay-today emotion-70"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-selected Mui-disabled emotion-70"
                             data-timestamp="1547337600000"
                             disabled=""
                             role="gridcell"
@@ -11958,7 +11535,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="2"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547424000000"
                             disabled=""
                             role="gridcell"
@@ -11970,7 +11547,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="3"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547510400000"
                             disabled=""
                             role="gridcell"
@@ -11982,7 +11559,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="4"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547596800000"
                             disabled=""
                             role="gridcell"
@@ -11994,7 +11571,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="5"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547683200000"
                             disabled=""
                             role="gridcell"
@@ -12006,7 +11583,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="6"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547769600000"
                             disabled=""
                             role="gridcell"
@@ -12018,7 +11595,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="7"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547856000000"
                             disabled=""
                             role="gridcell"
@@ -12036,7 +11613,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="1"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547942400000"
                             disabled=""
                             role="gridcell"
@@ -12048,7 +11625,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="2"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548028800000"
                             disabled=""
                             role="gridcell"
@@ -12060,7 +11637,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="3"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548115200000"
                             disabled=""
                             role="gridcell"
@@ -12072,7 +11649,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="4"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548201600000"
                             disabled=""
                             role="gridcell"
@@ -12084,7 +11661,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="5"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548288000000"
                             disabled=""
                             role="gridcell"
@@ -12096,7 +11673,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="6"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548374400000"
                             disabled=""
                             role="gridcell"
@@ -12108,7 +11685,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="7"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548460800000"
                             disabled=""
                             role="gridcell"
@@ -12126,7 +11703,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="1"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548547200000"
                             disabled=""
                             role="gridcell"
@@ -12138,7 +11715,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="2"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548633600000"
                             disabled=""
                             role="gridcell"
@@ -12150,7 +11727,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="3"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548720000000"
                             disabled=""
                             role="gridcell"
@@ -12162,7 +11739,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="4"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548806400000"
                             disabled=""
                             role="gridcell"
@@ -12174,7 +11751,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="5"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548892800000"
                             disabled=""
                             role="gridcell"
@@ -12184,11 +11761,11 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                             31
                           </button>
                           <div
-                            class="MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller emotion-54"
+                            class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                           <div
-                            class="MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller emotion-54"
+                            class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                         </div>
@@ -12203,14 +11780,14 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
             class="MuiDialogActions-root MuiDialogActions-spacing MuiPickersLayout-actionBar emotion-93"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-94"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-94"
               tabindex="0"
               type="button"
             >
               Cancel
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-94"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-94"
               tabindex="0"
               type="button"
             >
@@ -12328,12 +11905,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   }
 }
 
-@media (max-width:663.95px) {
-  .emotion-3.MuiDialog-paperScrollBody {
-    max-width: calc(100% - 64px);
-  }
-}
-
 .emotion-4 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
@@ -13221,22 +12792,31 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
 }
 
 .emotion-54 {
+  --PickerDay-horizontalMargin: 2px;
+  --PickerDay-size: 36px;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
-  line-height: 1.66;
+  line-height: 1;
   letter-spacing: 0.03333em;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: var(--PickerDay-size);
+  height: var(--PickerDay-size);
+  border-radius: calc(var(--PickerDay-size) / 2);
   padding: 0;
   background-color: transparent;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   color: rgba(0, 0, 0, 0.87);
+  margin-left: var(--PickerDay-horizontalMargin);
+  margin-right: var(--PickerDay-horizontalMargin);
+  color: rgba(0, 0, 0, 0.38);
   opacity: 0;
   pointer-events: none;
-  margin: 0 2px;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 @media (pointer: fine) {
@@ -13247,30 +12827,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
 
 .emotion-54:focus {
   background-color: rgba(25, 118, 210, 0.12);
-}
-
-.emotion-54:focus.Mui-selected {
-  will-change: background-color;
-  background-color: #1565c0;
-}
-
-.emotion-54.Mui-selected {
-  color: #fff;
-  background-color: #1976d2;
-  font-weight: 500;
-}
-
-.emotion-54.Mui-selected:hover {
-  will-change: background-color;
-  background-color: #1565c0;
-}
-
-.emotion-54.Mui-disabled:not(.Mui-selected) {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-54.Mui-disabled.emotion-54.Mui-selected {
-  opacity: 0.6;
 }
 
 .emotion-56 {
@@ -13306,20 +12862,28 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  --PickerDay-horizontalMargin: 2px;
+  --PickerDay-size: 36px;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
-  line-height: 1.66;
+  line-height: 1;
   letter-spacing: 0.03333em;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: var(--PickerDay-size);
+  height: var(--PickerDay-size);
+  border-radius: calc(var(--PickerDay-size) / 2);
   padding: 0;
   background-color: transparent;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   color: rgba(0, 0, 0, 0.87);
-  margin: 0 2px;
+  margin-left: var(--PickerDay-horizontalMargin);
+  margin-right: var(--PickerDay-horizontalMargin);
+  color: rgba(0, 0, 0, 0.38);
 }
 
 .emotion-56::-moz-focus-inner {
@@ -13346,30 +12910,6 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
 
 .emotion-56:focus {
   background-color: rgba(25, 118, 210, 0.12);
-}
-
-.emotion-56:focus.Mui-selected {
-  will-change: background-color;
-  background-color: #1565c0;
-}
-
-.emotion-56.Mui-selected {
-  color: #fff;
-  background-color: #1976d2;
-  font-weight: 500;
-}
-
-.emotion-56.Mui-selected:hover {
-  will-change: background-color;
-  background-color: #1565c0;
-}
-
-.emotion-56.Mui-disabled:not(.Mui-selected) {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-56.Mui-disabled.emotion-56.Mui-selected {
-  opacity: 0.6;
 }
 
 .emotion-70 {
@@ -13405,20 +12945,31 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
+  --PickerDay-horizontalMargin: 2px;
+  --PickerDay-size: 36px;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.75rem;
-  line-height: 1.66;
+  line-height: 1;
   letter-spacing: 0.03333em;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: var(--PickerDay-size);
+  height: var(--PickerDay-size);
+  border-radius: calc(var(--PickerDay-size) / 2);
   padding: 0;
   background-color: transparent;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   color: rgba(0, 0, 0, 0.87);
-  margin: 0 2px;
+  margin-left: var(--PickerDay-horizontalMargin);
+  margin-right: var(--PickerDay-horizontalMargin);
+  color: #fff;
+  background-color: #1976d2;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.38);
 }
 
 .emotion-70::-moz-focus-inner {
@@ -13447,32 +12998,14 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   background-color: rgba(25, 118, 210, 0.12);
 }
 
-.emotion-70:focus.Mui-selected {
+.emotion-70:focus,
+.emotion-70:hover {
   will-change: background-color;
   background-color: #1565c0;
 }
 
-.emotion-70.Mui-selected {
-  color: #fff;
-  background-color: #1976d2;
-  font-weight: 500;
-}
-
-.emotion-70.Mui-selected:hover {
-  will-change: background-color;
-  background-color: #1565c0;
-}
-
-.emotion-70.Mui-disabled:not(.Mui-selected) {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-70.Mui-disabled.emotion-70.Mui-selected {
+.emotion-70.Mui-disabled {
   opacity: 0.6;
-}
-
-.emotion-70:not(.Mui-selected) {
-  border: 1px solid rgba(0, 0, 0, 0.6);
 }
 
 .emotion-93 {
@@ -13600,7 +13133,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   <div
     aria-hidden="true"
     class="MuiBackdrop-root MuiModal-backdrop MuiDialog-backdrop emotion-1"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   />
   <div
     data-testid="sentinelStart"
@@ -13609,13 +13142,13 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   <div
     class="MuiDialog-container MuiDialog-scrollPaper emotion-2"
     role="presentation"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     tabindex="-1"
   >
     <div
-      aria-labelledby="_r_1g_"
+      aria-labelledby="_r_1i_"
       aria-modal="true"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
       style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
     >
@@ -13630,7 +13163,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
           >
             <span
               class="MuiTypography-root MuiTypography-overline MuiPickersToolbar-title emotion-7"
-              id="_r_1g_"
+              id="_r_1i_"
             >
               Select date & time
             </span>
@@ -13641,7 +13174,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 class="MuiDateTimePickerToolbar-dateContainer emotion-9"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
                   tabindex="-1"
                   type="button"
                 >
@@ -13652,7 +13185,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   </span>
                 </button>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
                   tabindex="-1"
                   type="button"
                 >
@@ -13671,7 +13204,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   class="MuiDateTimePickerToolbar-timeDigitsContainer emotion-15"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
                     tabindex="0"
                     type="button"
                   >
@@ -13687,7 +13220,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                     :
                   </span>
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiPickersToolbar-root emotion-10"
                     tabindex="0"
                     type="button"
                   >
@@ -13712,7 +13245,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 style="overflow: hidden; margin-bottom: 0px;"
               >
                 <div
-                  class="MuiTabs-list MuiTabs-flexContainer emotion-24"
+                  class="MuiTabs-list emotion-24"
                   role="tablist"
                 >
                   <button
@@ -13781,7 +13314,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   >
                     <div
                       class="MuiPickersCalendarHeader-label emotion-34"
-                      id="_r_1o_-grid-label"
+                      id="_r_1q_-grid-label"
                       style="opacity: 1;"
                     >
                       January 2019
@@ -13790,7 +13323,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                 </div>
                 <div
                   class="MuiPickersArrowSwitcher-root emotion-35"
-                  style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+                  style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                 >
                   <button
                     aria-label="Previous month"
@@ -13843,7 +13376,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                   style="opacity: 1;"
                 >
                   <div
-                    aria-labelledby="_r_1o_-grid-label"
+                    aria-labelledby="_r_1q_-grid-label"
                     class="MuiDayCalendar-root emotion-42"
                     role="grid"
                   >
@@ -13915,17 +13448,17 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           role="row"
                         >
                           <div
-                            class="MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller emotion-54"
+                            class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                           <div
-                            class="MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller emotion-54"
+                            class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                           <button
                             aria-colindex="3"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546300800000"
                             disabled=""
                             role="gridcell"
@@ -13937,7 +13470,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="4"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546387200000"
                             disabled=""
                             role="gridcell"
@@ -13949,7 +13482,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="5"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546473600000"
                             disabled=""
                             role="gridcell"
@@ -13961,7 +13494,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="6"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546560000000"
                             disabled=""
                             role="gridcell"
@@ -13973,7 +13506,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="7"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546646400000"
                             disabled=""
                             role="gridcell"
@@ -13991,7 +13524,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="1"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546732800000"
                             disabled=""
                             role="gridcell"
@@ -14003,7 +13536,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="2"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546819200000"
                             disabled=""
                             role="gridcell"
@@ -14015,7 +13548,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="3"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546905600000"
                             disabled=""
                             role="gridcell"
@@ -14027,7 +13560,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="4"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1546992000000"
                             disabled=""
                             role="gridcell"
@@ -14039,7 +13572,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="5"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547078400000"
                             disabled=""
                             role="gridcell"
@@ -14051,7 +13584,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="6"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547164800000"
                             disabled=""
                             role="gridcell"
@@ -14063,7 +13596,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="7"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547251200000"
                             disabled=""
                             role="gridcell"
@@ -14082,7 +13615,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                             aria-colindex="1"
                             aria-current="date"
                             aria-selected="true"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-selected Mui-disabled MuiPickersDay-dayWithMargin MuiPickersDay-today emotion-70"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-selected Mui-disabled emotion-70"
                             data-timestamp="1547337600000"
                             disabled=""
                             role="gridcell"
@@ -14094,7 +13627,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="2"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547424000000"
                             disabled=""
                             role="gridcell"
@@ -14106,7 +13639,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="3"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547510400000"
                             disabled=""
                             role="gridcell"
@@ -14118,7 +13651,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="4"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547596800000"
                             disabled=""
                             role="gridcell"
@@ -14130,7 +13663,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="5"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547683200000"
                             disabled=""
                             role="gridcell"
@@ -14142,7 +13675,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="6"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547769600000"
                             disabled=""
                             role="gridcell"
@@ -14154,7 +13687,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="7"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547856000000"
                             disabled=""
                             role="gridcell"
@@ -14172,7 +13705,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="1"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1547942400000"
                             disabled=""
                             role="gridcell"
@@ -14184,7 +13717,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="2"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548028800000"
                             disabled=""
                             role="gridcell"
@@ -14196,7 +13729,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="3"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548115200000"
                             disabled=""
                             role="gridcell"
@@ -14208,7 +13741,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="4"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548201600000"
                             disabled=""
                             role="gridcell"
@@ -14220,7 +13753,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="5"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548288000000"
                             disabled=""
                             role="gridcell"
@@ -14232,7 +13765,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="6"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548374400000"
                             disabled=""
                             role="gridcell"
@@ -14244,7 +13777,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="7"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548460800000"
                             disabled=""
                             role="gridcell"
@@ -14262,7 +13795,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="1"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548547200000"
                             disabled=""
                             role="gridcell"
@@ -14274,7 +13807,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="2"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548633600000"
                             disabled=""
                             role="gridcell"
@@ -14286,7 +13819,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="3"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548720000000"
                             disabled=""
                             role="gridcell"
@@ -14298,7 +13831,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="4"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548806400000"
                             disabled=""
                             role="gridcell"
@@ -14310,7 +13843,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                           <button
                             aria-colindex="5"
                             aria-selected="false"
-                            class="MuiButtonBase-root Mui-disabled MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin emotion-56"
+                            class="MuiButtonBase-root Mui-disabled MuiPickerDay-root Mui-disabled emotion-56"
                             data-timestamp="1548892800000"
                             disabled=""
                             role="gridcell"
@@ -14320,11 +13853,11 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
                             31
                           </button>
                           <div
-                            class="MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller emotion-54"
+                            class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                           <div
-                            class="MuiPickersDay-root Mui-disabled MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller emotion-54"
+                            class="MuiPickerDay-root Mui-disabled MuiPickerDay-dayOutsideMonth MuiPickerDay-fillerCell emotion-54"
                             role="gridcell"
                           />
                         </div>
@@ -14339,14 +13872,14 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
             class="MuiDialogActions-root MuiDialogActions-spacing MuiPickersLayout-actionBar emotion-93"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-94"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-94"
               tabindex="0"
               type="button"
             >
               Cancel
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-94"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-94"
               tabindex="0"
               type="button"
             >
@@ -14559,7 +14092,7 @@ exports[`CreateDeployment Component > smaller components > renders Software corr
       class="emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorNeutral emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeLarge MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeLarge MuiButton-colorNeutral emotion-1"
         tabindex="0"
         type="button"
       >
@@ -14569,7 +14102,7 @@ exports[`CreateDeployment Component > smaller components > renders Software corr
           Select a release
         </span>
         <span
-          class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeLarge emotion-3"
+          class="MuiButton-icon MuiButton-endIcon emotion-3"
         >
           <svg
             aria-hidden="true"
@@ -14807,7 +14340,7 @@ exports[`CreateDeployment Component > smaller components > renders Software corr
       class="emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorNeutral emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeLarge MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeLarge MuiButton-colorNeutral emotion-1"
         tabindex="0"
         type="button"
       >
@@ -14817,7 +14350,7 @@ exports[`CreateDeployment Component > smaller components > renders Software corr
           Select a release
         </span>
         <span
-          class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeLarge emotion-3"
+          class="MuiButton-icon MuiButton-endIcon emotion-3"
         >
           <svg
             aria-hidden="true"

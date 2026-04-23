@@ -581,12 +581,12 @@ exports[`Groups Component > renders correctly 1`] = `
     </div>
   </ul>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit margin-top emotion-13"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit margin-top emotion-13"
     tabindex="0"
     type="button"
   >
     <span
-      class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-14"
+      class="MuiButton-icon MuiButton-startIcon emotion-14"
     >
       <svg
         aria-hidden="true"

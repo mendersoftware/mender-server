@@ -289,10 +289,10 @@ exports[`Deployments Component > renders correctly 1`] = `
           role="progressbar"
         >
           <span
-            class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-12"
+            class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-12"
           />
           <span
-            class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-13"
+            class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-13"
           />
         </span>
       </div>
@@ -338,10 +338,10 @@ exports[`Deployments Component > renders correctly 1`] = `
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate emotion-12"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-12"
               />
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate emotion-13"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar2 emotion-13"
               />
             </span>
           </div>

@@ -30,12 +30,6 @@ exports[`AccessTokenManagement Component > renders AccessTokenCreationDialog cor
   }
 }
 
-@media (max-width:663.95px) {
-  .emotion-0.MuiDialog-paperScrollBody {
-    max-width: calc(100% - 64px);
-  }
-}
-
 .emotion-1 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -883,15 +877,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
 }
 
 <div
-  aria-labelledby="_r_o_"
+  aria-labelledby="_r_p_"
   aria-modal="true"
-  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-0"
+  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-0"
   role="dialog"
   style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
 >
   <h2
     class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
-    id="_r_o_"
+    id="_r_p_"
   >
     Create new token
   </h2>
@@ -909,7 +903,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             disabled=""
-            id="_r_p_"
+            id="_r_q_"
             placeholder="Name"
             type="text"
             value=""
@@ -961,12 +955,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
             aria-invalid="false"
             class="MuiSelect-nativeInput emotion-12"
             disabled=""
+            id="_r_s_"
             tabindex="-1"
             value="31536000"
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined Mui-disabled emotion-13"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon Mui-disabled emotion-13"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -1043,7 +1038,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
     class="MuiDialogActions-root MuiDialogActions-spacing emotion-21"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-22"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-22"
       disabled=""
       tabindex="-1"
       type="button"
@@ -1081,12 +1076,6 @@ exports[`AccessTokenManagement Component > renders AccessTokenRevocationDialog c
   .emotion-0 {
     overflow-y: visible;
     box-shadow: none;
-  }
-}
-
-@media (max-width:663.95px) {
-  .emotion-0.MuiDialog-paperScrollBody {
-    max-width: calc(100% - 64px);
   }
 }
 
@@ -1235,15 +1224,15 @@ exports[`AccessTokenManagement Component > renders AccessTokenRevocationDialog c
 }
 
 <div
-  aria-labelledby="_r_u_"
+  aria-labelledby="_r_10_"
   aria-modal="true"
-  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-0"
+  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-0"
   role="dialog"
   style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
 >
   <h2
     class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
-    id="_r_u_"
+    id="_r_10_"
   >
     Revoke token
   </h2>
@@ -1260,14 +1249,14 @@ exports[`AccessTokenManagement Component > renders AccessTokenRevocationDialog c
     class="MuiDialogActions-root MuiDialogActions-spacing emotion-3"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
       tabindex="0"
       type="button"
     >
       Cancel
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
       tabindex="0"
       type="button"
     >
@@ -1386,7 +1375,7 @@ exports[`AccessTokenManagement Component > renders correctly 1`] = `
     Personal access token management
   </p>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
     tabindex="0"
     type="button"
   >

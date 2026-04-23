@@ -90,24 +90,6 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-5 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-5 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-5 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-5 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -123,6 +105,14 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
 
 .emotion-5 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-5 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-5 .MuiChip-icon {
@@ -222,11 +212,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="break-all two-columns emotion-4 column-data  margin-left-small margin-top-small"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-6"
+              class="MuiChip-label emotion-6"
             >
               version
             </span>
@@ -255,11 +245,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-6"
+              class="MuiChip-label emotion-6"
             >
               checksum
             </span>
@@ -318,11 +308,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   class="break-all two-columns emotion-4 column-data margin-bottom-small margin-left-small margin-top-small"
                 >
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
                     style="justify-self: end;"
                   >
                     <span
-                      class="MuiChip-label MuiChip-labelSmall emotion-6"
+                      class="MuiChip-label emotion-6"
                     >
                       version
                     </span>
@@ -351,11 +341,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     </svg>
                   </div>
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
                     style="justify-self: end;"
                   >
                     <span
-                      class="MuiChip-label MuiChip-labelSmall emotion-6"
+                      class="MuiChip-label emotion-6"
                     >
                       mender_update_module
                     </span>
@@ -401,11 +391,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                   class="break-all two-columns emotion-4 column-data margin-bottom-small margin-left-small margin-top-small"
                 >
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
                     style="justify-self: end;"
                   >
                     <span
-                      class="MuiChip-label MuiChip-labelSmall emotion-6"
+                      class="MuiChip-label emotion-6"
                     >
                       version
                     </span>
@@ -434,11 +424,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     </svg>
                   </div>
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
                     style="justify-self: end;"
                   >
                     <span
-                      class="MuiChip-label MuiChip-labelSmall emotion-6"
+                      class="MuiChip-label emotion-6"
                     >
                       mender_update_module
                     </span>
@@ -486,11 +476,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               class="break-all two-columns emotion-4 column-data margin-bottom-small margin-left-small margin-top-small"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelSmall emotion-6"
+                  class="MuiChip-label emotion-6"
                 >
                   version
                 </span>
@@ -538,11 +528,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="break-all two-columns emotion-4 column-data  margin-left-small margin-top-small"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-6"
+              class="MuiChip-label emotion-6"
             >
               version
             </span>
@@ -588,11 +578,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="break-all two-columns emotion-4 column-data  margin-left-small margin-top-small"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-6"
+              class="MuiChip-label emotion-6"
             >
               version
             </span>
@@ -621,11 +611,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-6"
+              class="MuiChip-label emotion-6"
             >
               more
             </span>
@@ -671,11 +661,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           class="break-all two-columns emotion-4 column-data  margin-left-small margin-top-small"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-6"
+              class="MuiChip-label emotion-6"
             >
               version
             </span>
@@ -704,11 +694,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-6"
+              class="MuiChip-label emotion-6"
             >
               more
             </span>
@@ -765,11 +755,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               class="break-all two-columns emotion-4 column-data margin-bottom-small margin-left-small margin-top-small"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelSmall emotion-6"
+                  class="MuiChip-label emotion-6"
                 >
                   name
                 </span>
@@ -798,11 +788,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </svg>
               </div>
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelSmall emotion-6"
+                  class="MuiChip-label emotion-6"
                 >
                   version
                 </span>
@@ -848,11 +838,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
               class="break-all two-columns emotion-4 column-data margin-bottom-small margin-left-small margin-top-small"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelSmall emotion-6"
+                  class="MuiChip-label emotion-6"
                 >
                   checksum
                 </span>
@@ -881,11 +871,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </svg>
               </div>
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelSmall emotion-6"
+                  class="MuiChip-label emotion-6"
                 >
                   name
                 </span>
@@ -914,11 +904,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </svg>
               </div>
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelSmall emotion-6"
+                  class="MuiChip-label emotion-6"
                 >
                   version
                 </span>

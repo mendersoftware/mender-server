@@ -629,7 +629,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
               class="padding-bottom-small padding-top-small"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap emotion-7"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-7"
                 tabindex="0"
                 type="button"
               >
@@ -662,7 +662,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
               class="padding-bottom-small padding-top-small"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap emotion-7"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-7"
                 tabindex="0"
                 type="button"
               >
@@ -708,13 +708,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
                 aria-hidden="true"
                 aria-invalid="false"
                 class="MuiSelect-nativeInput emotion-15"
+                id="_r_6_"
                 name="pagination"
                 tabindex="-1"
                 value="20"
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard emotion-16"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon emotion-16"
                 data-testid="ArrowDropDownIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
