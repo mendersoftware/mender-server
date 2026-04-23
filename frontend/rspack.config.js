@@ -64,6 +64,7 @@ export default (env, argv) => {
       server: mocksEnabled ? 'http' : 'https',
       static: [
         { directory: path.join(__dirname, 'dist'), publicPath: '/ui', serveIndex: false },
+        { directory: path.join(__dirname, 'dist'), publicPath: '/', serveIndex: false },
         ...(mocksEnabled ? [{ directory: path.join(__dirname, 'node_modules/msw/lib'), publicPath: '/', serveIndex: false, watch: false }] : [])
       ],
       allowedHosts: 'all',
@@ -76,12 +77,6 @@ export default (env, argv) => {
         ]
       },
       devMiddleware: { publicPath, writeToDisk: false },
-      setupMiddlewares: (middlewares, devServer) => {
-        devServer.app.get(['/tags.json', '/versions.json'], (req, res) =>
-          res.sendFile(path.join(__dirname, `dist${req.path}`), err => err && res.status(404).send('File not found'))
-        );
-        return middlewares;
-      },
       proxy: mocksEnabled ? [] : [{ context: ['/api'], target: 'https://docker.mender.io', secure: false, changeOrigin: true }]
     },
     entry: './src/js/main.tsx',
