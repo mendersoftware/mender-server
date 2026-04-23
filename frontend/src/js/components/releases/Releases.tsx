@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -49,46 +50,50 @@ const Title = ({ title, benefitId }: TitleDefinition) => (
   </div>
 );
 
-const UploadRelease = ({ classes, onUploadClick }) => (
+type UploadDefinition = { buttonProps: Record<string, string>; title: string; tooltipId: string };
+
+const Upload = ({ classes, onUploadClick, tooltipId, title, buttonProps }) => (
   <div className="flexbox align-items-center">
-    <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} variant="contained">
-      Upload an artifact
+    <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} {...buttonProps}>
+      {title}
     </Button>
-    <MenderHelpTooltip id={HELPTOOLTIPS.artifactUpload.id} style={{ marginTop: 8 }} />
+    <MenderHelpTooltip id={tooltipId} style={{ marginTop: 8 }} />
   </div>
 );
-
-const UploadManifest = ({ classes, onUploadClick }) => (
-  <div className="flexbox align-items-center">
-    <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} variant="outlined">
-      Upload a Manifest
-    </Button>
-    <MenderHelpTooltip id={HELPTOOLTIPS.manifestUpload.id} style={{ marginTop: 8 }} />
-  </div>
-);
-
-const tabbedComponents = {
-  releases: { Filters: ReleasesFilters, Upload: UploadRelease },
-  manifests: { Filters: ManifestsFilters, Upload: UploadManifest }
-};
 
 type TabDefinition = {
   canAccess: (flags: Record<string, boolean>) => boolean;
-  component: ({ className, onFileUploadClick }: { className?: string; onFileUploadClick: (file?: File) => void }) => ReactNode;
+  Content: ({ className, onFileUploadClick }: { className?: string; onFileUploadClick: (file?: File) => void }) => ReactNode;
+  Filters?: ({ classes }: { classes: Record<string, string> }) => ReactNode;
   key: string;
   title: TitleDefinition;
+  upload?: UploadDefinition;
 };
 
-const baseTabs: TabDefinition[] = [
-  { key: 'releases', title: { title: 'Releases' }, component: ReleasesList, canAccess },
-  {
+const tabbedComponents: Record<string, TabDefinition> = {
+  releases: {
+    canAccess,
+    Content: ReleasesList,
+    key: 'releases',
+    title: { title: 'Releases' },
+    Filters: ReleasesFilters,
+    upload: { buttonProps: { variant: 'contained' }, tooltipId: HELPTOOLTIPS.artifactUpload.id, title: 'Upload an artifact' }
+  },
+  manifests: {
+    canAccess: ({ hasManifestsEnabled }) => !!hasManifestsEnabled,
+    Content: ManifestsList,
     key: 'manifests',
     title: { title: 'Manifests', benefitId: BENEFITS.manifests.id },
-    component: ManifestsList,
-    canAccess: ({ hasManifestsEnabled }) => !!hasManifestsEnabled
+    Filters: ManifestsFilters,
+    upload: { buttonProps: { variant: 'outlined' }, tooltipId: HELPTOOLTIPS.manifestUpload.id, title: 'Upload a Manifest' }
   },
-  { key: 'delta', title: { title: 'Delta Artifacts generation', benefitId: BENEFITS.deltaGeneration.id }, component: DeltaProgress, canAccess }
-];
+  delta: {
+    canAccess,
+    Content: DeltaProgress,
+    key: 'delta',
+    title: { title: 'Delta Artifacts generation', benefitId: BENEFITS.deltaGeneration.id }
+  }
+};
 
 const useStyles = makeStyles()(theme => ({
   container: { maxWidth: 1600 },
@@ -100,7 +105,7 @@ const useStyles = makeStyles()(theme => ({
 const Header = ({ canUpload, tab, onTabChanged, onUploadClick, tabs }) => {
   const { classes } = useStyles();
 
-  const { Filters: FilterComponent, Upload: UploadComponent } = tabbedComponents[tab] ?? {};
+  const { Filters: FilterComponent, upload } = tabbedComponents[tab] ?? {};
 
   return (
     <div>
@@ -110,7 +115,7 @@ const Header = ({ canUpload, tab, onTabChanged, onUploadClick, tabs }) => {
             <Tab key={key} label={<Title {...title} />} value={key} />
           ))}
         </Tabs>
-        {canUpload && UploadComponent && <UploadComponent classes={classes} onUploadClick={onUploadClick} />}
+        {canUpload && upload && <Upload classes={classes} onUploadClick={onUploadClick} {...upload} />}
       </div>
       {FilterComponent && <FilterComponent classes={classes} />}
     </div>
@@ -128,7 +133,7 @@ export const Releases = () => {
   const dispatch = useDispatch();
   const { classes } = useStyles();
 
-  const tabs = useMemo(() => baseTabs.filter(({ canAccess }) => canAccess(features)), [features]);
+  const tabs = useMemo(() => Object.values(tabbedComponents).filter(({ canAccess }) => canAccess(features)), [features]);
 
   const [selectedFile, setSelectedFile] = useState();
   const [showAddArtifactDialog, setShowAddArtifactDialog] = useState(false);
@@ -199,7 +204,7 @@ export const Releases = () => {
   const onUploadClick = () => setShowAddArtifactDialog(true);
 
   const onFileUploadClick = selectedFile => {
-    if (tab === baseTabs[0].key) {
+    if (tab === tabbedComponents.releases.key) {
       setSelectedFile(selectedFile);
       setShowAddArtifactDialog(true);
     } else {
@@ -211,10 +216,7 @@ export const Releases = () => {
 
   const onTabChanged = useCallback((_, changedTab: 'releases' | 'delta' | 'manifests') => dispatch(setActiveTab(changedTab)), [dispatch]);
 
-  const ContentComponent = useMemo(() => {
-    const found = tabs.find(({ key }) => key === tab);
-    return found ? found.component : tabs[0].component;
-  }, [tab, tabs]);
+  const { Content: ContentComponent } = tabbedComponents[tab || tabbedComponents.releases.key];
 
   return (
     <div className="margin-right">
