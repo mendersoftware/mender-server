@@ -1,9 +1,35 @@
 import react from '@vitejs/plugin-react';
 import { cpus } from 'os';
 import path from 'path';
+import type { Plugin } from 'vite';
 import svgr from 'vite-plugin-svgr';
-import type { UserWorkspaceConfig} from 'vitest/config';
+import type { UserWorkspaceConfig } from 'vitest/config';
 import { defineConfig } from 'vitest/config';
+
+// `@mui/icons-material` v9 has 10k+ strict-ESM files and per-icon package exports entries.
+// A barrel import drags all of them into the module graph, adding ~75s per test file on the current suite.
+// Rewrite `import { Icon as MyIcon } from '@mui/icons-material'` into deep imports
+// (import MyIcon from '@mui/icons-material/MyIcon') so only the icons actually referenced get loaded.
+const muiIconsDeepImports = (): Plugin => ({
+  name: 'mui-icons-deep-imports',
+  enforce: 'pre',
+  transform(code) {
+    if (!code.includes('@mui/icons-material')) return null;
+    const barrel = /import\s*\{([^}]+)\}\s*from\s*['"]@mui\/icons-material['"]\s*;?/g;
+    const transformed = code.replace(barrel, (_, names: string) =>
+      names
+        .split(',')
+        .map((n: string) => n.trim())
+        .filter(Boolean)
+        .map((n: string) => {
+          const [orig, alias] = n.split(/\s+as\s+/).map(s => s.trim());
+          return `import ${alias || orig} from '@mui/icons-material/${orig}';`;
+        })
+        .join('\n')
+    );
+    return transformed === code ? null : { code: transformed, map: null };
+  }
+});
 
 export default defineConfig(() => {
   const isCi = process.env.CI;
@@ -12,6 +38,7 @@ export default defineConfig(() => {
 
   return {
     plugins: [
+      muiIconsDeepImports(),
       react(),
       svgr({
         svgrOptions: {
@@ -22,7 +49,6 @@ export default defineConfig(() => {
         },
         include: '**/*.svg',
         oxcOptions: {
-          // @ts-expect-error -- vite-plugin-svgr's oxcOptions type is not correct
           jsx: { runtime: 'classic' }
         }
       })
@@ -73,6 +99,7 @@ export default defineConfig(() => {
         maxThreads: threadCount,
         useAtomics: true
       }
-    }
+    },
+    disableConsoleIntercept: true
   } as UserWorkspaceConfig;
 });
