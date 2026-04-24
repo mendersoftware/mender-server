@@ -70,15 +70,17 @@ func setupConn(t *testing.T, recvCh <-chan []byte, remoteAddr, localAddr string)
 	conn := stream_mocks.NewConn(t)
 	conn.On("RemoteAddr").Return(remoteAddr).Maybe()
 	conn.On("LocalAddr").Return(localAddr).Maybe()
-	conn.On("Recv", contextMatcher).
-		Return(func(context.Context) ([]byte, error) {
-			data, open := <-recvCh
-			if !open {
-				return nil, stream.ErrClosed
-			}
-			return data, nil
-		}).
-		Maybe()
+	if recvCh != nil {
+		conn.On("Recv", contextMatcher).
+			Return(func(context.Context) ([]byte, error) {
+				data, open := <-recvCh
+				if !open {
+					return nil, stream.ErrClosed
+				}
+				return data, nil
+			}).
+			Maybe()
+	}
 	return conn
 }
 

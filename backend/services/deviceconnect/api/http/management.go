@@ -17,6 +17,7 @@ package http
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"sync"
@@ -829,26 +830,23 @@ func (h ManagementController) sendMenderCommand(c *gin.Context, msgType string) 
 		})
 		return
 	}
-	tenantID := idata.Tenant
 	deviceID := c.Param("deviceId")
-
-	device, err := h.app.GetDevice(ctx, tenantID, deviceID)
-	if err == app.ErrDeviceNotFound {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": err.Error(),
-		})
-		return
-	} else if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	} else if device.Status != model.DeviceStatusConnected {
-		c.JSON(http.StatusConflict, gin.H{
-			"error": app.ErrDeviceNotConnected,
-		})
+	if len(deviceID) == 0 {
+		rest.RenderError(c, http.StatusBadRequest, fmt.Errorf("deivce ID cannot be empty"))
 		return
 	}
+
+	recvAddr := fmt.Sprintf("%s:cmd%s", idata.Tenant, uuid.NewString())
+	s, err := h.nats.Connect(ctx, recvAddr, deviceID)
+	if err != nil {
+		if errors.Is(err, stream.ErrConnectionRefused) {
+			rest.RenderError(c, http.StatusConflict, app.ErrDeviceNotConnected)
+			return
+		}
+		rest.RenderInternalError(c, err)
+		return
+	}
+	defer s.Close(ctx)
 
 	msg := &ws.ProtoMsg{
 		Header: ws.ProtoHdr{
@@ -861,11 +859,10 @@ func (h ManagementController) sendMenderCommand(c *gin.Context, msgType string) 
 	}
 	data, _ := msgpack.Marshal(msg)
 
-	err = h.nats.Publish(model.GetDeviceSubject(idata.Tenant, device.ID), data)
+	err = s.Send(ctx, data)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
+		rest.RenderInternalError(c, err)
+		return
 	}
 
 	c.JSON(http.StatusAccepted, nil)

@@ -21,6 +21,7 @@ import (
 	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -38,6 +39,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/stream"
 	stream_mocks "github.com/mendersoftware/mender-server/pkg/stream/mocks"
 	"github.com/mendersoftware/mender-server/pkg/ws"
+	"github.com/mendersoftware/mender-server/pkg/ws/menderclient"
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
@@ -841,10 +843,7 @@ func TestManagementCheckUpdate(t *testing.T) {
 		DeviceID string
 		Identity *identity.Identity
 
-		GetDevice      *model.Device
-		GetDeviceError error
-
-		PublishErr error
+		OnConnect func(*testing.T, context.Context, string, string) (stream.Conn, error)
 
 		HTTPStatus int
 	}{
@@ -857,9 +856,21 @@ func TestManagementCheckUpdate(t *testing.T) {
 				IsUser:  true,
 			},
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusConnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				conn := setupConn(t, nil, "foo", "bar")
+				conn.On("Send", ctx, mock.MatchedBy(func(b []byte) bool {
+					var msg ws.ProtoMsg
+					err := msgpack.Unmarshal(b, &msg)
+					return assert.NoError(t, err) &&
+						assert.Equal(t, ws.ProtoTypeMenderClient, msg.Header.Proto) &&
+						assert.Equal(t, menderclient.MessageTypeMenderClientSendInventory, msg.Header.MsgType)
+				})).
+					Return(nil)
+				conn.On("Close", ctx).
+					Return(nil)
+				return conn, nil
 			},
 
 			HTTPStatus: http.StatusAccepted,
@@ -871,19 +882,6 @@ func TestManagementCheckUpdate(t *testing.T) {
 			HTTPStatus: 401,
 		},
 		{
-			Name:     "ko, not found",
-			DeviceID: "1234567890",
-			Identity: &identity.Identity{
-				Subject: "00000000-0000-0000-0000-000000000000",
-				Tenant:  "000000000000000000000000",
-				IsUser:  true,
-			},
-
-			GetDeviceError: app.ErrDeviceNotFound,
-
-			HTTPStatus: 404,
-		},
-		{
 			Name:     "ko, other error",
 			DeviceID: "1234567890",
 			Identity: &identity.Identity{
@@ -892,9 +890,11 @@ func TestManagementCheckUpdate(t *testing.T) {
 				IsUser:  true,
 			},
 
-			GetDeviceError: errors.New("error"),
+			OnConnect: func(*testing.T, context.Context, string, string) (stream.Conn, error) {
+				return nil, fmt.Errorf("other error")
+			},
 
-			HTTPStatus: 400,
+			HTTPStatus: 500,
 		},
 		{
 			Name:     "ko, device not connected",
@@ -905,9 +905,8 @@ func TestManagementCheckUpdate(t *testing.T) {
 				IsUser:  true,
 			},
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusDisconnected,
+			OnConnect: func(t *testing.T, ctx context.Context, s1, s2 string) (stream.Conn, error) {
+				return nil, stream.ErrConnectionRefused
 			},
 
 			HTTPStatus: http.StatusConflict,
@@ -921,12 +920,22 @@ func TestManagementCheckUpdate(t *testing.T) {
 				IsUser:  true,
 			},
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusConnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				conn := setupConn(t, nil, "foo", "bar")
+				conn.On("Send", ctx, mock.MatchedBy(func(b []byte) bool {
+					var msg ws.ProtoMsg
+					err := msgpack.Unmarshal(b, &msg)
+					return assert.NoError(t, err) &&
+						assert.Equal(t, ws.ProtoTypeMenderClient, msg.Header.Proto) &&
+						assert.Equal(t, menderclient.MessageTypeMenderClientSendInventory, msg.Header.MsgType)
+				})).
+					Return(fmt.Errorf("internal error"))
+				conn.On("Close", ctx).
+					Return(nil)
+				return conn, nil
 			},
-
-			PublishErr: errors.New("error"),
 
 			HTTPStatus: http.StatusInternalServerError,
 		},
@@ -934,36 +943,24 @@ func TestManagementCheckUpdate(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			app := &app_mocks.App{}
-			defer app.AssertExpectations(t)
-
-			natsClient := &nats_mocks.Client{}
-			defer natsClient.AssertExpectations(t)
+			app := app_mocks.NewApp(t)
+			natsClient := nats_mocks.NewClient(t)
 
 			router, _ := NewRouter(app, natsClient, nil)
 			s := httptest.NewServer(router)
 			defer s.Close()
 
-			url := strings.Replace(APIURLManagementDeviceCheckUpdate, ":deviceId", tc.DeviceID, 1)
+			url := strings.Replace(APIURLManagementDeviceSendInventory, ":deviceId", tc.DeviceID, 1)
 			req, err := http.NewRequest("POST", "http://localhost"+url, nil)
 			if tc.Identity != nil {
 				jwt := GenerateJWT(*tc.Identity)
-				app.On("GetDevice",
-					mock.MatchedBy(func(_ context.Context) bool {
-						return true
-					}),
-					tc.Identity.Tenant,
-					tc.DeviceID,
-				).Return(tc.GetDevice, tc.GetDeviceError)
 				req.Header.Set(headerAuthorization, "Bearer "+jwt)
-
-				if tc.GetDeviceError == nil && tc.GetDevice != nil &&
-					tc.GetDevice.Status == model.DeviceStatusConnected {
-					natsClient.On("Publish",
-						mock.AnythingOfType("string"),
-						mock.AnythingOfType("[]uint8"),
-					).Return(tc.PublishErr)
-				}
+				natsClient.On("Connect", contextMatcher, mock.Anything, mock.Anything).
+					Return(func(
+						ctx context.Context, localAddr, remoteAddr string,
+					) (stream.Conn, error) {
+						return tc.OnConnect(t, ctx, localAddr, remoteAddr)
+					})
 			}
 			if !assert.NoError(t, err) {
 				t.FailNow()
@@ -982,10 +979,7 @@ func TestManagementSendInventory(t *testing.T) {
 		DeviceID string
 		Identity *identity.Identity
 
-		GetDevice      *model.Device
-		GetDeviceError error
-
-		PublishErr error
+		OnConnect func(*testing.T, context.Context, string, string) (stream.Conn, error)
 
 		HTTPStatus int
 	}{
@@ -998,9 +992,21 @@ func TestManagementSendInventory(t *testing.T) {
 				IsUser:  true,
 			},
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusConnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				conn := setupConn(t, nil, "foo", "bar")
+				conn.On("Send", ctx, mock.MatchedBy(func(b []byte) bool {
+					var msg ws.ProtoMsg
+					err := msgpack.Unmarshal(b, &msg)
+					return assert.NoError(t, err) &&
+						assert.Equal(t, ws.ProtoTypeMenderClient, msg.Header.Proto) &&
+						assert.Equal(t, menderclient.MessageTypeMenderClientSendInventory, msg.Header.MsgType)
+				})).
+					Return(nil)
+				conn.On("Close", ctx).
+					Return(nil)
+				return conn, nil
 			},
 
 			HTTPStatus: http.StatusAccepted,
@@ -1012,19 +1018,6 @@ func TestManagementSendInventory(t *testing.T) {
 			HTTPStatus: 401,
 		},
 		{
-			Name:     "ko, not found",
-			DeviceID: "1234567890",
-			Identity: &identity.Identity{
-				Subject: "00000000-0000-0000-0000-000000000000",
-				Tenant:  "000000000000000000000000",
-				IsUser:  true,
-			},
-
-			GetDeviceError: app.ErrDeviceNotFound,
-
-			HTTPStatus: 404,
-		},
-		{
 			Name:     "ko, other error",
 			DeviceID: "1234567890",
 			Identity: &identity.Identity{
@@ -1033,9 +1026,11 @@ func TestManagementSendInventory(t *testing.T) {
 				IsUser:  true,
 			},
 
-			GetDeviceError: errors.New("error"),
+			OnConnect: func(*testing.T, context.Context, string, string) (stream.Conn, error) {
+				return nil, fmt.Errorf("other error")
+			},
 
-			HTTPStatus: 400,
+			HTTPStatus: 500,
 		},
 		{
 			Name:     "ko, device not connected",
@@ -1046,9 +1041,8 @@ func TestManagementSendInventory(t *testing.T) {
 				IsUser:  true,
 			},
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusDisconnected,
+			OnConnect: func(t *testing.T, ctx context.Context, s1, s2 string) (stream.Conn, error) {
+				return nil, stream.ErrConnectionRefused
 			},
 
 			HTTPStatus: http.StatusConflict,
@@ -1062,12 +1056,22 @@ func TestManagementSendInventory(t *testing.T) {
 				IsUser:  true,
 			},
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusConnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				conn := setupConn(t, nil, "foo", "bar")
+				conn.On("Send", ctx, mock.MatchedBy(func(b []byte) bool {
+					var msg ws.ProtoMsg
+					err := msgpack.Unmarshal(b, &msg)
+					return assert.NoError(t, err) &&
+						assert.Equal(t, ws.ProtoTypeMenderClient, msg.Header.Proto) &&
+						assert.Equal(t, menderclient.MessageTypeMenderClientSendInventory, msg.Header.MsgType)
+				})).
+					Return(fmt.Errorf("internal error"))
+				conn.On("Close", ctx).
+					Return(nil)
+				return conn, nil
 			},
-
-			PublishErr: errors.New("error"),
 
 			HTTPStatus: http.StatusInternalServerError,
 		},
@@ -1075,11 +1079,8 @@ func TestManagementSendInventory(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			app := &app_mocks.App{}
-			defer app.AssertExpectations(t)
-
-			natsClient := &nats_mocks.Client{}
-			defer natsClient.AssertExpectations(t)
+			app := app_mocks.NewApp(t)
+			natsClient := nats_mocks.NewClient(t)
 
 			router, _ := NewRouter(app, natsClient, nil)
 			s := httptest.NewServer(router)
@@ -1089,22 +1090,13 @@ func TestManagementSendInventory(t *testing.T) {
 			req, err := http.NewRequest("POST", "http://localhost"+url, nil)
 			if tc.Identity != nil {
 				jwt := GenerateJWT(*tc.Identity)
-				app.On("GetDevice",
-					mock.MatchedBy(func(_ context.Context) bool {
-						return true
-					}),
-					tc.Identity.Tenant,
-					tc.DeviceID,
-				).Return(tc.GetDevice, tc.GetDeviceError)
 				req.Header.Set(headerAuthorization, "Bearer "+jwt)
-
-				if tc.GetDeviceError == nil && tc.GetDevice != nil &&
-					tc.GetDevice.Status == model.DeviceStatusConnected {
-					natsClient.On("Publish",
-						mock.AnythingOfType("string"),
-						mock.AnythingOfType("[]uint8"),
-					).Return(tc.PublishErr)
-				}
+				natsClient.On("Connect", contextMatcher, mock.Anything, mock.Anything).
+					Return(func(
+						ctx context.Context, localAddr, remoteAddr string,
+					) (stream.Conn, error) {
+						return tc.OnConnect(t, ctx, localAddr, remoteAddr)
+					})
 			}
 			if !assert.NoError(t, err) {
 				t.FailNow()
