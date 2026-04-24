@@ -347,6 +347,13 @@ func (a *UserAdministrationManagementAPIAPIService) CreatePersonalAccessTokenExe
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -508,6 +515,13 @@ func (a *UserAdministrationManagementAPIAPIService) CreateUserManagementExecute(
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -667,6 +681,13 @@ func (a *UserAdministrationManagementAPIAPIService) ListPlansExecute(r ApiListPl
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -783,6 +804,13 @@ func (a *UserAdministrationManagementAPIAPIService) ListUserPersonalAccessTokens
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -963,6 +991,13 @@ func (a *UserAdministrationManagementAPIAPIService) ListUsersManagementExecute(r
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1092,6 +1127,13 @@ func (a *UserAdministrationManagementAPIAPIService) LoginExecute(r ApiLoginReque
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1235,6 +1277,13 @@ func (a *UserAdministrationManagementAPIAPIService) LogoutExecute(r ApiLogoutReq
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1357,6 +1406,13 @@ func (a *UserAdministrationManagementAPIAPIService) RemoveUserExecute(r ApiRemov
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1468,6 +1524,13 @@ func (a *UserAdministrationManagementAPIAPIService) RevokePersonalAccessTokenExe
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1575,6 +1638,13 @@ func (a *UserAdministrationManagementAPIAPIService) ShowMyUserSettingsExecute(r 
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1693,6 +1763,13 @@ func (a *UserAdministrationManagementAPIAPIService) ShowOwnUserDataExecute(r Api
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1824,6 +1901,13 @@ func (a *UserAdministrationManagementAPIAPIService) ShowPlanAndLimitsExecute(r A
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1944,6 +2028,13 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserExecute(r ApiShowUse
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2073,6 +2164,13 @@ func (a *UserAdministrationManagementAPIAPIService) ShowUserSettingsExecute(r Ap
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2216,6 +2314,13 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateMyUserSettingsExecute(
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -2344,6 +2449,13 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateOwnUserDataExecute(r A
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2500,6 +2612,13 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserExecute(r ApiUpdat
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -2665,6 +2784,13 @@ func (a *UserAdministrationManagementAPIAPIService) UpdateUserSettingsExecute(r 
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {

@@ -269,6 +269,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementCountD
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -397,6 +404,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementDecomm
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -537,6 +551,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementGetAut
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -669,6 +690,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementGetDev
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -795,6 +823,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementGetDev
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -981,6 +1016,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementListDe
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1118,6 +1160,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementPreaut
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1258,6 +1307,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementRemove
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1390,6 +1446,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementRevoke
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1562,6 +1625,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementSearch
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1707,6 +1777,13 @@ func (a *DeviceAuthenticationManagementAPIAPIService) DeviceAuthManagementSetAut
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {

@@ -202,6 +202,13 @@ func (a *DeviceConnectInternalAPIAPIService) DeleteTenantExecute(r ApiDeleteTena
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -296,6 +303,13 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckHealthExe
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -405,6 +419,13 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckLivelines
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -507,6 +528,13 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalCheckUpdateExe
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -646,6 +674,13 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalDecomissionDev
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -752,6 +787,13 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalProvisionDevic
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -867,6 +909,13 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalSendInventoryE
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -996,6 +1045,13 @@ func (a *DeviceConnectInternalAPIAPIService) DeviceConnectInternalShutdownExecut
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {

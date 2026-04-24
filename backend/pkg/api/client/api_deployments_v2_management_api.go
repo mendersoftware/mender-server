@@ -263,6 +263,13 @@ func (a *DeploymentsV2ManagementAPIAPIService) AssignReleaseTagsExecute(r ApiAss
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -406,6 +413,13 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeleteReleasesExecute(r ApiDelete
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -606,6 +620,13 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListArtifactsWithPag
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -850,6 +871,13 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListDeploymentsExecu
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1063,6 +1091,13 @@ func (a *DeploymentsV2ManagementAPIAPIService) DeploymentsV2ListReleasesWithPagi
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1186,6 +1221,13 @@ func (a *DeploymentsV2ManagementAPIAPIService) GetReleaseWithGivenNameExecute(r 
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1315,6 +1357,13 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTagsExecute(r ApiListR
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1457,6 +1506,13 @@ func (a *DeploymentsV2ManagementAPIAPIService) ListReleaseTypesExecute(r ApiList
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1597,6 +1653,13 @@ func (a *DeploymentsV2ManagementAPIAPIService) UpdateReleaseInformationExecute(r
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {

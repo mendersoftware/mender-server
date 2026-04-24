@@ -224,6 +224,13 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) CreateUserInt
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -362,6 +369,13 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) DeleteUserInt
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -537,6 +551,13 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) ListUsersInte
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -680,6 +701,13 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) RevokeUserTok
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -798,6 +826,13 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckH
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -905,6 +940,13 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCheckL
 		return localVarHTTPResponse, err
 	}
 
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
@@ -1010,6 +1052,13 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) UseradmCreate
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -1154,6 +1203,13 @@ func (a *UserAdministrationAndAuthenticationInternalAPIAPIService) VerifyJWTExec
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {

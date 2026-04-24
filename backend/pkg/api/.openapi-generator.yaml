@@ -8,6 +8,7 @@ additionalProperties:
   packageName: "client"
   withGoMod: false
   generateInterfaces: true
+  withCustomMiddlewareFunction: true
 
 globalProperties:
   apiDocs: false
