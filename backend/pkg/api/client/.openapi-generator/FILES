@@ -1,8 +1,4 @@
-.gitignore
-.openapi-generator-ignore
-.travis.yml
 README.md
-api/openapi.yaml
 api_deployments_device_api.go
 api_deployments_internal_api_internal_api.go
 api_deployments_management_api.go
@@ -28,7 +24,6 @@ api_user_administration_management_api.go
 api_workflows_other.go
 client.go
 configuration.go
-git_push.sh
 model_abort_deployment_request.go
 model_add_devices_to_group_200_response.go
 model_artifact_info.go
