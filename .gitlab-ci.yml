@@ -613,12 +613,16 @@ test:backend:integration:ng:
   extends: .template:test:backend:integration
   before_script:
     - !reference [.template:test:backend:integration, before_script]
-    - apk add go
+    # Install go
+    - curl -L "https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz" | tar -C /usr/local -xz
+    - export PATH="$PATH:/usr/local/go/bin"
+    - export GOPATH="/go"
   script:
     - mkdir -p ${GOCOVERDIR}/integration-ng
     - make -C backend test-integration-ng
       GOCOVERDIR=${GOCOVERDIR}/integration-ng
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
+    
   after_script:
     - export MANTRA_PROJECT_NAME="backend_integration_ng_open_source"
     - !reference [.mantra-push-results]
