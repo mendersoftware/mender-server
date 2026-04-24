@@ -1724,22 +1724,22 @@ func ParseDeploymentLookupQueryV2(vals url.Values) (model.Query, error) {
 			"id_scope requires id_attribute",
 		)
 	}
-	if idScope != "" && idScope != "identity" && idScope != "inventory" {
+	if idScope != "" && idScope != "identity" && idScope != "tags" {
 		return query, errors.Errorf(
-			"invalid id_scope %q: must be \"identity\" or \"inventory\"",
+			"invalid id_scope %q: must be \"identity\" or \"tags\"",
 			idScope,
 		)
 	}
-	if idScope == "inventory" && idAttribute != "name" {
+	if idScope == "tags" && idAttribute != "name" {
 		return query, errors.Errorf(
-			"id_scope \"inventory\" only supports id_attribute \"name\", got %q",
+			"id_scope \"tags\" only supports id_attribute \"name\", got %q",
 			idAttribute,
 		)
 	}
 	if idAttribute != "" {
 		if idScope == "" {
 			if idAttribute == "name" {
-				idScope = "inventory"
+				idScope = "tags"
 			} else {
 				idScope = "identity"
 			}
