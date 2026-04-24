@@ -25,6 +25,7 @@ import (
 	"github.com/docker/compose/v5/pkg/api"
 	"github.com/docker/compose/v5/pkg/compose"
 	"github.com/google/uuid"
+	oapi "github.com/mendersoftware/mender-server/pkg/api"
 	oapiclient "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/moby/moby/api/types/container"
 	"github.com/moby/moby/api/types/mount"
@@ -457,7 +458,7 @@ func createMenderAPIClient(
 	serverURL string,
 	dialContext func(ctx context.Context, network, addr string) (net.Conn, error),
 ) *oapiclient.APIClient {
-	config := oapiclient.NewConfiguration()
+	config := oapi.NewDefaultClientConfiguration()
 	config.Host = serverURL
 	config.Scheme = "https"
 	config.HTTPClient = &http.Client{
