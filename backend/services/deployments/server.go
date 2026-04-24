@@ -28,6 +28,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/sys/unix"
 
+	pkgapi "github.com/mendersoftware/mender-server/pkg/api"
 	"github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -177,28 +178,20 @@ func SetupObjectStorage(ctx context.Context) (objManager storage.ObjectStorage, 
 }
 
 func setupClients(c config.Reader, deployments *app.Deployments) error {
-	workflowsURL, err := url.Parse(c.GetString(dconfig.SettingWorkflows))
+	workflowsConfig, err := pkgapi.NewDefaultClientConfigurationFromURL(
+		c.GetString(dconfig.SettingWorkflows),
+	)
 	if err != nil {
-		return fmt.Errorf("error parsing setting %s: %w", dconfig.SettingWorkflows, err)
+		return fmt.Errorf("error creating workflows client config: %w", err)
 	}
-	workflowsConfig := client.NewConfiguration()
-	workflowsConfig.Host = workflowsURL.Host
-	workflowsConfig.Scheme = workflowsURL.Scheme
-	workflowsConfig.Servers = client.ServerConfigurations{{
-		URL: workflowsURL.String(),
-	}}
 	deployments.SetWorkflowsClient(client.NewAPIClient(workflowsConfig))
 
-	inventoryURL, err := url.Parse(c.GetString(dconfig.SettingInventoryAddr))
+	inventoryConfig, err := pkgapi.NewDefaultClientConfigurationFromURL(
+		c.GetString(dconfig.SettingInventoryAddr),
+	)
 	if err != nil {
-		return fmt.Errorf("error parsing setting %s: %w", dconfig.SettingInventoryAddr, err)
+		return fmt.Errorf("error creating inventory client config: %w", err)
 	}
-	inventoryConfig := client.NewConfiguration()
-	inventoryConfig.Host = inventoryURL.Host
-	inventoryConfig.Scheme = inventoryURL.Scheme
-	inventoryConfig.Servers = client.ServerConfigurations{{
-		URL: inventoryURL.String(),
-	}}
 	deployments.SetInventoryClient(client.NewAPIClient(inventoryConfig))
 	return nil
 }
