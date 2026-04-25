@@ -196,7 +196,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
       deploymentCheckCount.current++;
       console.log('newconf: dispatch:getSingleDeployment from interval');
       dispatch(getSingleDeployment(deployment_id));
-    }, TIMEOUTS.refreshDefault);
+    }, TIMEOUTS.refreshDefault); // TIMEOUTS.refreshDefault/20 makes the unit pass
   }, [deployment_id]);
 
   useEffect(() => {
@@ -206,29 +206,6 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
       deploymentInterval.current = null;
     }
   }, [deployment.status]);
-
-  // useEffect(() => {
-  //   console.log('conf: entering useEffect 3: interval cleared, ',deployment.status, deployment_id, dispatch, isRelevantDeployment);
-  //   clearInterval(deploymentTimer.current);
-  //   if (deployment_id && !deployment.status) {
-  //     console.log('conf: dispatch:getSingleDeployment from useEffect 3 if 1');
-  //     dispatch(getSingleDeployment(deployment_id));
-  //     return;
-  //   }
-  //   if (deployment_id && deployment.status !== DEPLOYMENT_STATES.finished) {
-  //     console.log('conf: about to set interval');
-  //     deploymentTimer.current = setInterval(() => {
-  //       console.log('conf: dispatch:getSingleDeployment from interval');
-  //       dispatch(getSingleDeployment(deployment_id));
-  //     }, TIMEOUTS.refreshDefault);
-  //   } else if (deployment_id && !isRelevantDeployment) {
-  //     dispatch(getSingleDeployment(deployment_id));
-  //   }
-  //   return () => {
-  //     console.log('conf: interval cleared');
-  //     clearInterval(deploymentTimer.current);
-  //   };
-  // }, [deployment.status, deployment_id, dispatch, isRelevantDeployment]);
 
   useEffect(() => {
     if (deployment.status === DEPLOYMENT_STATES.finished) {
