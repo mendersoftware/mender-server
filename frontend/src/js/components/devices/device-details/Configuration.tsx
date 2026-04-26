@@ -160,10 +160,9 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
   const [updateFailed, setUpdateFailed] = useState();
   const [updateLog, setUpdateLog] = useState();
   const dispatch = useDispatch();
-  const deploymentTimer = useRef();
-  const deploymentInterval = useRef(null);
+  const deploymentTimer = useRef(null);
   const deploymentCheckCount = useRef(0);
-  const maxDeplyomentsChecks = 128;
+  const maxDeploymentsChecks = 128;
 
   useEffect(() => {
     if (!isEmpty(config) && !isEmpty(changedConfig) && !isEditingConfig) {
@@ -176,34 +175,29 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     if (deployment.devices && deployment.devices[device.id]?.log) {
       setUpdateLog(deployment.devices[device.id].log);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(deployment.devices), device.id]);
 
 
   useEffect(() => {
-    if (!deployment_id||deploymentInterval.current) {
+    if (!deployment_id||deploymentTimer.current) {
       return;
     }
-    console.log('newconf: I want to start timer here: ',deploymentInterval.current);
     deploymentCheckCount.current=0;
-    deploymentInterval.current = setInterval(() => {
-      if (deploymentCheckCount.current>maxDeplyomentsChecks) {
-        console.log('newconf: too many retries');
-        clearInterval(deploymentInterval.current)
+    deploymentTimer.current = setInterval(() => {
+      if (deploymentCheckCount.current>maxDeploymentsChecks) {
+        clearInterval(deploymentTimer.current)
         return;
       }
       deploymentCheckCount.current++;
-      console.log('newconf: dispatch:getSingleDeployment from interval');
       dispatch(getSingleDeployment(deployment_id));
     }, TIMEOUTS.refreshDefault); // TIMEOUTS.refreshDefault/20 makes the unit pass
   }, [deployment_id]);
 
   useEffect(() => {
-    console.log('newconf: I detected deployment.status change: ',deployment.status);
     if (deployment.status === DEPLOYMENT_STATES.finished) {
-      clearInterval(deploymentInterval.current);
-      deploymentInterval.current = null;
+      clearInterval(deploymentTimer.current);
+      deploymentTimer.current = null;
     }
   }, [deployment.status]);
 
@@ -214,20 +208,16 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
       const stats = groupDeploymentStats(deployment);
       const deviceStats = groupDeploymentDevicesStats(deployment);
       const updateFailed = !!((stats.failures || deviceStats.failures) && deployment.device_count);
-      console.log('conf: block1 {');
       setUpdateFailed(updateFailed);
       setIsEditingConfig(updateFailed);
       setIsUpdatingConfig(false);
       dispatch(getDeviceConfig(device.id));
-      console.log('conf: } block1');
     } else if (deployment.status) {
-      console.log('conf: block2 {');
       setChangedConfig(configured);
       setEditableConfig(configured);
       // we can't rely on the deployment.status to be !== 'finished' since `deployment` is initialized as an empty object
       // and thus the undefined status would also point to an ongoing update
       setIsUpdatingConfig(true);
-      console.log('conf: } block2');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(configured), JSON.stringify(deployment.stats), deployment.created, deployment.status, deployment.finished, isRelevantDeployment]);
