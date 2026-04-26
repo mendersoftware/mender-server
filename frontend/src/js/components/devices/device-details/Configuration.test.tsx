@@ -19,8 +19,6 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import Configuration, { ConfigEditingActions, ConfigEmptyNote, ConfigUpToDateNote, ConfigUpdateFailureActions, ConfigUpdateNote } from './Configuration';
-import {waitMs} from "@reduxjs/toolkit/src/tests/utils/helpers";
-import {timeouts} from "retry";
 
 describe('tiny components', () => {
   [ConfigEditingActions, ConfigUpdateFailureActions, ConfigUpdateNote, ConfigEmptyNote, ConfigUpToDateNote].forEach(async Component => {
