@@ -178,15 +178,14 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(deployment.devices), device.id]);
 
-
   useEffect(() => {
-    if (!deployment_id||deploymentTimer.current) {
+    if (!deployment_id || deploymentTimer.current) {
       return;
     }
-    deploymentCheckCount.current=0;
+    deploymentCheckCount.current = 0;
     deploymentTimer.current = setInterval(() => {
-      if (deploymentCheckCount.current>maxDeploymentsChecks) {
-        clearInterval(deploymentTimer.current)
+      if (deploymentCheckCount.current > maxDeploymentsChecks) {
+        clearInterval(deploymentTimer.current);
         return;
       }
       deploymentCheckCount.current++;
