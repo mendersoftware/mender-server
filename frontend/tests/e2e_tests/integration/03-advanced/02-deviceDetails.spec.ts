@@ -30,14 +30,14 @@ test.describe('Device details', () => {
   test.beforeEach(async ({ baseUrl, page }) => {
     await page.goto(`${baseUrl}ui/devices`);
   });
-  test('has basic inventory', async ({ demoDeviceName, page }) => {
+  test('has basic inventory', async ({ demoDeviceSoftware, page }) => {
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/inventory/i).click();
     const expandedDevice = await page.locator(`css=.expandedDevice`);
     await expect(expandedDevice.getByText('Linux')).toBeVisible();
     await expect(expandedDevice.getByText(/hostname/).first()).toBeVisible();
     await expandedDevice.getByRole('tab', { name: /software/i }).click();
-    await expect(expandedDevice.getByText(demoDeviceName)).toBeVisible();
+    await expect(expandedDevice.getByText(demoDeviceSoftware)).toBeVisible();
   });
 
   test.describe('Terminal interactions', () => {
