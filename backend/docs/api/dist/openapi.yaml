@@ -3925,6 +3925,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addon:
+        - troubleshoot
       security:
         - DeviceJWT: []
   /api/internal/v1/deviceconnect/health:
@@ -4116,6 +4118,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addon:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/devices/{id}/check-update:
@@ -4143,6 +4147,8 @@ paths:
           $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addon:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/devices/{id}/connect:
@@ -4197,6 +4203,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addon:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/devices/{id}/download:
@@ -4256,6 +4264,8 @@ paths:
           $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addon:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/devices/{id}/send-inventory:
@@ -4283,6 +4293,8 @@ paths:
           $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addon:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/sessions/{session_id}/playback:
@@ -4342,6 +4354,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addon:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/devices/{id}/upload:
@@ -4374,6 +4388,8 @@ paths:
           $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addon:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/devices/v1/inventory/device/attributes:
