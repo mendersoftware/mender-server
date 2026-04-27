@@ -11,19 +11,19 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { ChangeEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Alert, Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Radio, RadioGroup, Typography, outlinedInputClasses } from '@mui/material';
+import { Alert, Button, Checkbox, FormControl, FormControlLabel, Radio, RadioGroup, Typography, outlinedInputClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { Loader } from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
+import NumberInput from '@northern.tech/common-ui/forms/NumberInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import type { Addon as OrgAddon } from '@northern.tech/store/api/types';
 import type { Addon, AddonId, AvailableAddon, AvailablePlans } from '@northern.tech/store/constants';
@@ -362,9 +362,8 @@ const SubscriptionForm = ({
     initialPreviewPrice
   ]);
 
-  const handleDeviceLimitBlur = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    const tier = event.target.id as DeviceTypeId;
+  const handleDeviceLimitBlur = (numValue: number | null, tier: DeviceTypeId) => {
+    const value = numValue ?? 0;
     const { div: step } = deviceTypes[tier].limitConstrains[selectedPlan.id];
     const snappedValue = Math.ceil(value / step) * step;
     const effectiveLimit = Math.min(
@@ -470,22 +469,18 @@ const SubscriptionForm = ({
                         </div>
                       }
                     />
-                    <TextInput
+                    <NumberInput
                       id={deviceType.id}
                       label="Device limit"
                       disabled={!deviceTierEnabled[deviceType.id]}
-                      type="number"
-                      InputProps={{
-                        inputProps: {
-                          min: Math.max(currentDeviceLimits[deviceType.id], deviceType.limitConstrains[selectedPlan.id].min),
-                          step: deviceType.limitConstrains[selectedPlan.id].div
-                        },
-                        size: 'small',
-                        onBlur: handleDeviceLimitBlur
-                      }}
+                      min={Math.max(currentDeviceLimits[deviceType.id], deviceType.limitConstrains[selectedPlan.id].min)}
+                      step={deviceType.limitConstrains[selectedPlan.id].div}
+                      size="small"
+                      showSteps
+                      onBlur={value => handleDeviceLimitBlur(value, deviceType.id)}
                       width="100%"
+                      helperText={inputHelperText[deviceType.id]}
                     />
-                    <FormHelperText className="margin-left-small">{inputHelperText[deviceType.id]}</FormHelperText>
                     {contactReason[deviceType.id] && selectedPlan.id !== PLANS.enterprise.id && (
                       <ContactReasonAlert reason={contactReason[deviceType.id]} limit={deviceType.limitConstrains[selectedPlan.id].max} />
                     )}
