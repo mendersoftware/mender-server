@@ -195,6 +195,7 @@ test.describe('Settings', () => {
       test.skip(environment !== 'staging');
     });
     test('allows subscribing to Basic', async ({ page, username }) => {
+      test.setTimeout(2 * timeouts.sixtySeconds);
       const wasUpgraded = await page.isVisible(`css=#limit >> text=250`);
       test.skip(wasUpgraded, 'looks like the account was upgraded already, continue with the remaining tests');
       await page.getByRole('button', { name: username }).click();
@@ -231,7 +232,7 @@ test.describe('Settings', () => {
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
       await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
       await page.getByText(/Your subscription has been successfully updated to Mender Basic/i).waitFor({ timeout: timeouts.fifteenSeconds });
-      await page.waitForTimeout(timeouts.default); // the tenant state seems to not be populated right away, so the explicit wait to increase chances of the follow up test succeeding
+      await page.waitForTimeout(2 * timeouts.fifteenSeconds); // the tenant state seems to not be populated right away, so the explicit wait to increase chances of the follow up test succeeding
     });
 
     test('allows upgrading to Professional', async ({ baseUrl, browser, password, request, username }) => {
