@@ -3614,6 +3614,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - configure
       security:
         - DeviceJWT: []
     put:
@@ -3633,6 +3635,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - configure
       security:
         - DeviceJWT: []
   /api/internal/v1/deviceconfig/health:
@@ -3808,6 +3812,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - configure
       security:
         - ManagementJWT: []
     put:
@@ -3834,6 +3840,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - configure
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconfig/configurations/device/{deviceId}/deploy:
@@ -3868,6 +3876,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - configure
       security:
         - ManagementJWT: []
   /api/devices/v1/deviceconnect/connect:
