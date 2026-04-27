@@ -272,7 +272,7 @@ export const TenantCreateForm = (props: TenantCreateFormProps) => {
           <Typography className="margin-bottom-x-small" variant="subtitle1">
             Tenant name
           </Typography>
-          <TextInput validations="isLength:3,trim" required requiredRendered={false} id="name" hint="Name" label="Name" width={430} />
+          <TextInput validations="isLength:3:256,trim" required requiredRendered={false} id="name" hint="Name" label="Name" width={430} />
         </div>
         <div>
           <Typography className="margin-bottom-x-small" variant="subtitle1">

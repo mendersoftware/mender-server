@@ -148,7 +148,7 @@ export const SelfUserManagement = () => {
             className="margin-top-x-small"
             id="current_password"
             label="Current password *"
-            validations={`isLength:8,isNot:${email}`}
+            validations={`isLength:8:256,isNot:${email}`}
             required={true}
           />
         </Form>
@@ -169,15 +169,15 @@ export const SelfUserManagement = () => {
                 className="margin-bottom-x-small"
                 id="current_password"
                 label="Current password *"
-                validations={`isLength:8,isNot:${email}`}
+                validations={`isLength:8:256,isNot:${email}`}
                 required
               />
-              <PasswordInput id="password" label="Password *" validations={`isLength:8,isNot:${email}`} create generate required />
+              <PasswordInput id="password" label="Password *" validations={`isLength:8:256,isNot:${email}`} create generate required />
               <PasswordInput
                 className="margin-top-x-small"
                 id="password_confirmation"
                 label="Confirm password *"
-                validations={`isLength:8,isNot:${email}`}
+                validations={`isLength:8:256,isNot:${email}`}
                 required
               />
             </Form>
