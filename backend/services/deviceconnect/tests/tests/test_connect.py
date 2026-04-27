@@ -44,7 +44,7 @@ class _TestConnect:
             )
         except mender_client.ApiException as e:
             assert e.status == 404
-            assert "device not found" in str(e.body)
+            assert "device disconnected" in str(e.body)
         else:
             raise Exception("Expected status code 404")
 
@@ -58,7 +58,7 @@ class _TestConnect:
             )
         except mender_client.ApiException as e:
             assert e.status == 404
-            assert "device not connected" in str(e.body)
+            assert "device disconnected" in str(e.body)
         else:
             raise Exception("Expected status code 404")
 
@@ -163,6 +163,7 @@ class _TestConnect:
             )
         except mender_client.ApiException as e:
             assert e.status == 404
+            assert "device disconnected" in str(e.body)
         else:
             raise Exception("Expected status code 404")
 
