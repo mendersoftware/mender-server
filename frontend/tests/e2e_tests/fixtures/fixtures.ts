@@ -23,6 +23,7 @@ export type TestEnvironment = 'enterprise' | 'staging' | 'os';
 type TestFixtures = {
   baseUrl: string;
   config: unknown;
+  demoDeviceName: string;
   demoDeviceSoftware: string;
   environment: TestEnvironment;
   page: Page;
@@ -42,6 +43,7 @@ const defaultConfig = {
   spTenantUsername: 'tenant-demo@example.com',
   username: 'mender-demo@example.com',
   password: 'mysecretpassword!123',
+  demoDeviceName: 'theDeviceName',
   demoDeviceSoftware: 'original'
 };
 
@@ -81,6 +83,7 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     const baseUrl = process.env.BASE_URL ?? urls[environment] ?? defaultConfig.baseUrl;
     await use(baseUrl);
   },
+  demoDeviceName: defaultConfig.demoDeviceName,
   demoDeviceSoftware: defaultConfig.demoDeviceSoftware
 });
 
