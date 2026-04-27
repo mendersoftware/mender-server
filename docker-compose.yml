@@ -411,7 +411,7 @@ services:
         aliases: [mender-nats]
 
   client:
-    image: mendersoftware/mender-client-docker-addons:mender-master
+    image: mendersoftware/mender-client-docker-addons:client-main
     scale: 0
     configs:
       - source: client_json
