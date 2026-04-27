@@ -43,6 +43,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addon:
+      - configure
     put:
       operationId: DeviceConfig Management Set Device Configuration
       tags:
@@ -67,6 +69,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addon:
+      - configure
 
   /api/management/v1/deviceconfig/configurations/device/{deviceId}/deploy:
     post:
@@ -100,6 +104,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addon:
+      - configure
 
 components:
   securitySchemes:
