@@ -29,6 +29,7 @@ const (
 	hdrForwardedMethod = "X-Forwarded-Method"
 	hdrForwardedURI    = "X-Forwarded-Uri"
 
+	regexDeviceconnectURI = "^/api/devices/v[1-9]/deviceconnect"
 	regexDeviceconfigURI  = "^/api/devices/v[1-9]/deviceconfig"
 	regexDevicemonitorURI = "^/api/devices/v[1-9]/devicemonitor"
 )
@@ -50,6 +51,9 @@ var addonRules = []addonRule{{
 }, {
 	Name: addons.MenderMonitor,
 	URI:  regexp.MustCompile(regexDevicemonitorURI),
+}, {
+	Name: addons.MenderTroubleshoot,
+	URI:  regexp.MustCompile(regexDeviceconnectURI),
 }}
 
 type addonChecker struct{}
