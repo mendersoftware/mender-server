@@ -715,7 +715,7 @@ test:prep:
       - frontend/tests/e2e_tests/traces
     when: always
   tags:
-    - hetzner-amd-beefy-privileged
+    - k8s
   allow_failure:
     exit_codes: 464
 
