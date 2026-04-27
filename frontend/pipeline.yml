@@ -190,7 +190,6 @@ build:frontend:docker:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
       alias: docker
   before_script:
-    - curl -fsSL https://get.docker.com | sh -s -- --version ${DOCKER_VERSION}
     - !reference [.requires-docker]
     - !reference [.dind-login]
     - npm i --prefix frontend/tests/e2e_tests
