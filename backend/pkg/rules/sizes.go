@@ -5,8 +5,13 @@ import (
 )
 
 var (
-	legacyDeviceGroupNameSize = validation.Length(0, 1024)
-	deviceGroupNameSize       = validation.Length(0, 256)
+	size256 = validation.Length(0, 256)
 
-	deploymentNameSize = validation.Length(0, 256)
+	legacyDeviceGroupNameSize = validation.Length(0, 1024)
+	deviceGroupNameSize       = size256
+
+	deploymentNameSize = size256
+
+	emailSize    = size256
+	passwordSize = size256
 )

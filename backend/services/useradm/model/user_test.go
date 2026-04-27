@@ -18,6 +18,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"strings"
 	"testing"
 	"time"
 
@@ -25,7 +26,7 @@ import (
 )
 
 func TestValidateNew(t *testing.T) {
-
+	longStr := strings.Repeat("a", 257)
 	testCases := map[string]struct {
 		inUser User
 
@@ -72,6 +73,20 @@ func TestValidateNew(t *testing.T) {
 				Password: "asdf",
 			},
 			outErr: "password: must be minimum 8 characters long",
+		},
+		"email invalid (too long), pass ok ": {
+			inUser: User{
+				Email:    Email(longStr) + "@bar.com",
+				Password: "asdf",
+			},
+			outErr: "email: the length must be no more than 256.",
+		},
+		"email ok, pass invalid (too long) ": {
+			inUser: User{
+				Email:    "foo@bar.com",
+				Password: longStr,
+			},
+			outErr: "password: the length must be no more than 256.",
 		},
 	}
 
