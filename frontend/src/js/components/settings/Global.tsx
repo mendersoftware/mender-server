@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { AutoAwesomeOutlined as AutoAwesomeIcon, Edit as EditIcon } from '@mui/icons-material';
-import { Button, Checkbox, FormControl, FormControlLabel, FormHelperText, MenuItem, Select, TextField, Typography, textFieldClasses } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, MenuItem, Select, Typography, outlinedInputClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
@@ -24,6 +24,7 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
+import { NumberField } from '@northern.tech/common-ui/forms/NumberField';
 import { BENEFITS, DEVICE_ONLINE_CUTOFF, TIMEOUTS, alertChannels, settingsKeys } from '@northern.tech/store/constants';
 import {
   getDeviceIdentityAttributes,
@@ -44,16 +45,11 @@ import { useDebounce } from '@northern.tech/utils/debouncehook';
 import ArtifactGenerationSettings from './ArtifactGeneration';
 
 const maxWidth = 750;
+const maxOfflineIntervalDays = 1000;
 
 const useStyles = makeStyles()(theme => ({
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(4) },
-  threshold: {
-    columnGap: theme.spacing(2),
-    display: 'grid',
-    gridTemplateColumns: '100px 100px',
-    marginLeft: 0,
-    [`.${textFieldClasses.root}`]: { minWidth: 'auto' }
-  }
+  offlineThresholdInput: { [`& .${outlinedInputClasses.root}`]: { width: 120 } }
 }));
 
 type DisplayableAttribute = {
@@ -111,8 +107,7 @@ export const GlobalSettings = () => {
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
   const [channelSettings, setChannelSettings] = useState(notificationChannelSettings);
-  const [currentInterval, setCurrentInterval] = useState(offlineThresholdSettings.interval);
-  const [intervalErrorText, setIntervalErrorText] = useState('');
+  const [currentInterval, setCurrentInterval] = useState<number | null>(offlineThresholdSettings.interval);
   const [showDeltaConfig, setShowDeltaConfig] = useState(false);
   const debouncedOfflineThreshold = useDebounce(currentInterval, TIMEOUTS.threeSeconds);
   const timer = useRef(false);
@@ -126,6 +121,8 @@ export const GlobalSettings = () => {
   const { hasAiEnabled } = useSelector(getFeatures);
   const isPreview = useSelector(getIsPreview);
 
+  const isValidInterval = (value: number | null): value is number => value != null && value > 0 && value <= maxOfflineIntervalDays;
+  const intervalErrorText = isValidInterval(currentInterval) ? '' : 'Please enter a valid number between 1 and 1000.';
   const dispatchedSaveGlobalSettings = useCallback((...args) => dispatch(saveGlobalSettings(...args)), [dispatch]);
 
   useEffect(() => {
@@ -137,7 +134,7 @@ export const GlobalSettings = () => {
   }, [offlineThresholdSettings.interval]);
 
   useEffect(() => {
-    if (!window.sessionStorage.getItem(settingsKeys.initialized) || !timer.current || !canManageUsers) {
+    if (!window.sessionStorage.getItem(settingsKeys.initialized) || !timer.current || !canManageUsers || !isValidInterval(debouncedOfflineThreshold)) {
       return;
     }
     dispatchedSaveGlobalSettings({ offlineThreshold: { interval: debouncedOfflineThreshold, intervalUnit: DEVICE_ONLINE_CUTOFF.intervalName }, notify: true });
@@ -167,13 +164,7 @@ export const GlobalSettings = () => {
     [JSON.stringify(channelSettings), dispatch]
   );
 
-  const onChangeOfflineInterval = ({ target: { validity, value } }) => {
-    if (validity.valid) {
-      setCurrentInterval(value || 1);
-      return setIntervalErrorText('');
-    }
-    setIntervalErrorText('Please enter a valid number between 1 and 1000.');
-  };
+  const onChangeOfflineInterval = (value: number | null) => setCurrentInterval(value);
 
   const toggleDeploymentConfirmation = () => saveGlobalSettings({ needsDeploymentConfirmation: !needsDeploymentConfirmation });
 
@@ -239,24 +230,18 @@ export const GlobalSettings = () => {
           <Typography className="margin-bottom-small" variant="subtitle1">
             Offline threshold
           </Typography>
-          <FormControl variant="standard">
-            <FormControlLabel
-              className={classes.threshold}
-              control={
-                <TextField
-                  type="number"
-                  onChange={onChangeOfflineInterval}
-                  slotProps={{ htmlInput: { min: '1', max: '1000' } }}
-                  error={!!intervalErrorText}
-                  value={currentInterval}
-                  variant="outlined"
-                />
-              }
-              label={<div className="capitalized-start">{DEVICE_ONLINE_CUTOFF.intervalName}</div>}
-            />
-            {!!intervalErrorText && <FormHelperText className="warning">{intervalErrorText}</FormHelperText>}
-            <FormHelperText>Choose how long a device can go without reporting to the server before it is considered “offline”.</FormHelperText>
-          </FormControl>
+          <Typography className="margin-bottom-small" variant="body2">
+            Choose how long (days) a device can go without reporting to the server before it is considered &quot;offline&quot;
+          </Typography>
+          <NumberField
+            min={1}
+            max={maxOfflineIntervalDays}
+            className={classes.offlineThresholdInput}
+            onValueChange={onChangeOfflineInterval}
+            error={!!intervalErrorText}
+            value={currentInterval}
+            helperText={intervalErrorText}
+          />
         </div>
         {(isPreview || hasAiEnabled) && (
           <div>

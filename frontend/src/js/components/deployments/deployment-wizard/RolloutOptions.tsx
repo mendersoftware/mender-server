@@ -13,12 +13,13 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 
-import { Autocomplete, Checkbox, Collapse, FormControl, FormControlLabel, FormGroup, TextField } from '@mui/material';
+import { Checkbox, Collapse, FormControl, FormControlLabel, FormGroup } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import { NumberField } from '@northern.tech/common-ui/forms/NumberField';
 import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { toggle } from '@northern.tech/utils/helpers';
@@ -100,6 +101,8 @@ export const RolloutOptions = ({ deploymentObject, isEnterprise, setDeploymentSe
   );
 };
 
+const maxDeploymentRetries = 100;
+
 export const Retries = ({
   canRetry,
   commonClasses,
@@ -112,26 +115,14 @@ export const Retries = ({
   const { retries } = deploymentObject;
   const { classes } = useStyles();
 
-  const [currentAttempts, setCurrentAttempts] = useState(Number(retries ?? previousRetries ?? 0) + 1);
+  const [currentAttempts, setCurrentAttempts] = useState<number>(Number((retries ?? previousRetries ?? 0) + 1));
   const debouncedAttempts = useDebounce(currentAttempts, TIMEOUTS.debounceShort);
 
   useEffect(() => {
-    setDeploymentSettings({ retries: Number(debouncedAttempts) - 1 });
+    setDeploymentSettings({ retries: debouncedAttempts - 1 });
   }, [debouncedAttempts, setDeploymentSettings]);
 
-  const formatValue = value => {
-    const newValue = Math.max(0, Math.min(value, 100));
-    return newValue ? `${newValue}` : '';
-  };
-
-  const onInputChange = (e, value, reason) => {
-    if (reason === 'clear') {
-      return setDeploymentSettings({ retries: 0 });
-    } else if ((reason === 'reset' && !e) || reason === 'blur') {
-      return;
-    }
-    setCurrentAttempts(formatValue(value));
-  };
+  const onAttemptsChange = (value: number | null) => setCurrentAttempts(Math.max(1, Math.min(value ?? 1, maxDeploymentRetries)));
 
   const onSaveRetriesSettingClick = (_, checked) => onSaveRetriesSetting(checked);
 
@@ -146,29 +137,14 @@ export const Retries = ({
       </div>
       <FormControl disabled={!canRetry}>
         <FormGroup row>
-          <Autocomplete
-            autoSelect
-            autoHighlight
-            className={`margin-right ${classes.retryInput}`}
-            freeSolo
-            disabled={!canRetry}
-            getOptionLabel={formatValue}
-            handleHomeEndKeys
+          <NumberField
             id="deployment-retries-selection"
-            options={[1, 2, 3, 4]}
-            onInputChange={onInputChange}
-            renderInput={params => (
-              <TextField
-                {...params}
-                className={classes.retryInput}
-                slotProps={{
-                  ...params.slotProps,
-                  htmlInput: { ...params.slotProps.htmlInput, value: formatValue(params.slotProps.htmlInput.value) }
-                }}
-                type="number"
-              />
-            )}
+            className={`margin-right ${classes.retryInput}`}
+            disabled={!canRetry}
             value={currentAttempts}
+            onValueChange={onAttemptsChange}
+            min={1}
+            max={maxDeploymentRetries}
           />
           <FormControlLabel
             className={classes.defaultBox}
