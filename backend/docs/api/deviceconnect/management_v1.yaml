@@ -43,6 +43,9 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/NotFound'
         500:
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addons:
+      - troubleshoot
+
   /api/management/v1/deviceconnect/devices/{id}/check-update:
     post:
       tags:
@@ -68,6 +71,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/ConflictError'
         500:
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addons:
+      - troubleshoot
 
   /api/management/v1/deviceconnect/devices/{id}/connect:
     get:
@@ -121,6 +126,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/NotFound'
         500:
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addons:
+      - troubleshoot
 
   /api/management/v1/deviceconnect/devices/{id}/download:
     get:
@@ -179,6 +186,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/ConflictError'
         500:
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addons:
+      - troubleshoot
 
   /api/management/v1/deviceconnect/devices/{id}/send-inventory:
     post:
@@ -205,7 +214,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/ConflictError'
         500:
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
-
+      x-mender-addons:
+      - troubleshoot
 
   /api/management/v1/deviceconnect/sessions/{session_id}/playback:
     get:
@@ -264,6 +274,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/NotFound'
         500:
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addons:
+      - troubleshoot
 
   /api/management/v1/deviceconnect/devices/{id}/upload:
     put:
@@ -295,6 +307,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/ConflictError'
         500:
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addons:
+      - troubleshoot
 
 components:
   securitySchemes:
