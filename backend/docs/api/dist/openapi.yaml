@@ -9003,6 +9003,8 @@ components:
             A valid JSON object defining the update control map.
             *NOTE*: Available only in the Enterprise plan.
           type: object
+          x-mender-plan:
+            - enterprise
         max_devices:
           description: |
             max_devices denotes a limit on a number of completed deployments (failed or successful) above which the dynamic deployment will be finished.
