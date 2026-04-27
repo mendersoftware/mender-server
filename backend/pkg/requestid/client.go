@@ -37,8 +37,13 @@ func NewTrackingApiClient(reqid string) *TrackingApiClient {
 
 // do send a request with a request id
 func (a *TrackingApiClient) Do(r *http.Request) (*http.Response, error) {
-	if r.Header.Get(RequestIdHeader) == "" {
-		r.Header.Set(RequestIdHeader, a.reqid)
-	}
+	SetRequestIDHeader(r, a.reqid)
 	return a.Client.Do(r)
+}
+
+func SetRequestIDHeader(r *http.Request, requestID string) {
+	if r.Header.Get(RequestIdHeader) == "" {
+		// Only set if not already set
+		r.Header.Set(RequestIdHeader, requestID)
+	}
 }

@@ -500,6 +500,18 @@ func (c *APIClient) prepareRequest(
 	for header, value := range c.cfg.DefaultHeader {
 		localVarRequest.Header.Add(header, value)
 	}
+
+	if c.cfg.Middleware != nil {
+		c.cfg.Middleware(localVarRequest)
+	}
+
+	if c.cfg.MiddlewareWithError != nil {
+		err = c.cfg.MiddlewareWithError(localVarRequest)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	return localVarRequest, nil
 }
 
