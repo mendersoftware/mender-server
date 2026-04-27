@@ -14,7 +14,7 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
     <div
       aria-hidden="true"
       class="MuiBackdrop-root MuiModal-backdrop css-4nmryk-MuiBackdrop-root-MuiModal-backdrop"
-      style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
       data-testid="sentinelStart"
@@ -22,7 +22,7 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
     />
     <div
       aria-modal="true"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight css-y7ab46-MuiPaper-root-MuiDrawer-paper"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper css-y7ab46-MuiPaper-root-MuiDrawer-paper"
       role="dialog"
       style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
       tabindex="-1"
@@ -72,13 +72,13 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
             aria-label="Devices that have not yet started the deployment will not start the deployment.
 Devices that have already completed the deployment are not affected by the abort.
 Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError css-1hz6i2n-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError css-1hz6i2n-MuiButtonBase-root-MuiButton-root"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
+              class="MuiButton-icon MuiButton-startIcon css-1sh91j5-MuiButton-startIcon"
             >
               <svg
                 aria-hidden="true"
@@ -116,7 +116,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard margin-bottom-small css-k1p3sh-MuiPaper-root-MuiAlert-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-bottom-small css-k1p3sh-MuiPaper-root-MuiAlert-root"
         role="alert"
         style="--Paper-shadow: none;"
       >
@@ -219,10 +219,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     />
                   </svg>
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-1xm4ydy-MuiChip-root-chip"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault margin-left uppercased css-pef06l-MuiChip-root-chip"
                   >
                     <span
-                      class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                      class="MuiChip-label css-eccknh-MuiChip-label"
                     >
                       static
                     </span>
@@ -268,13 +268,13 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
             See schedule details
             <span
-              class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium css-1gulhci-MuiButton-endIcon"
+              class="MuiButton-icon MuiButton-endIcon css-1gulhci-MuiButton-endIcon"
             >
               <svg
                 aria-hidden="true"
@@ -659,10 +659,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     role="progressbar"
                   >
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorInfo MuiLinearProgress-bar1Indeterminate css-1tp6vqc-MuiLinearProgress-bar1"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-1tp6vqc-MuiLinearProgress-bar1"
                     />
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorInfo MuiLinearProgress-bar2Indeterminate css-1btyq4i-MuiLinearProgress-bar2"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-1btyq4i-MuiLinearProgress-bar2"
                     />
                   </span>
                 </div>
@@ -671,13 +671,13 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary nowrap css-1ccsd5i-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary nowrap css-1ccsd5i-MuiButtonBase-root-MuiButton-root"
                   tabindex="0"
                   type="button"
                 >
                   View log
                   <span
-                    class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeSmall css-itrjwl-MuiButton-endIcon"
+                    class="MuiButton-icon MuiButton-endIcon css-itrjwl-MuiButton-endIcon"
                   >
                     <svg
                       aria-hidden="true"
@@ -735,13 +735,14 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     aria-hidden="true"
                     aria-invalid="false"
                     class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+                    id="_r_b_"
                     name="pagination"
                     tabindex="-1"
                     value="10"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -944,10 +945,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate css-lcqqge-MuiLinearProgress-bar1"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-lcqqge-MuiLinearProgress-bar1"
               />
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate css-lfb3c7-MuiLinearProgress-bar2"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-lfb3c7-MuiLinearProgress-bar2"
               />
             </span>
           </div>
@@ -965,10 +966,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Complete
             </span>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-12yfamt-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                class="MuiChip-label css-eccknh-MuiChip-label"
               >
                 Phase 1
               </span>
@@ -1017,7 +1018,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light css-1my3nyb-MuiDivider-root-divider"
+        class="MuiDivider-root MuiDivider-fullWidth css-iu3zzr-MuiDivider-root-divider"
       />
     </div>
     <div
@@ -1042,7 +1043,7 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
     <div
       aria-hidden="true"
       class="MuiBackdrop-root MuiModal-backdrop css-4nmryk-MuiBackdrop-root-MuiModal-backdrop"
-      style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
       data-testid="sentinelStart"
@@ -1050,7 +1051,7 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
     />
     <div
       aria-modal="true"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight css-y7ab46-MuiPaper-root-MuiDrawer-paper"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper css-y7ab46-MuiPaper-root-MuiDrawer-paper"
       role="dialog"
       style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
       tabindex="-1"
@@ -1100,13 +1101,13 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
             aria-label="Devices that have not yet started the deployment will not start the deployment.
 Devices that have already completed the deployment are not affected by the abort.
 Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError css-1hz6i2n-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError css-1hz6i2n-MuiButtonBase-root-MuiButton-root"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
+              class="MuiButton-icon MuiButton-startIcon css-1sh91j5-MuiButton-startIcon"
             >
               <svg
                 aria-hidden="true"
@@ -1144,7 +1145,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard margin-bottom-small css-k1p3sh-MuiPaper-root-MuiAlert-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-bottom-small css-k1p3sh-MuiPaper-root-MuiAlert-root"
         role="alert"
         style="--Paper-shadow: none;"
       >
@@ -1246,10 +1247,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     />
                   </svg>
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased css-1xm4ydy-MuiChip-root-chip"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault margin-left uppercased css-pef06l-MuiChip-root-chip"
                   >
                     <span
-                      class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                      class="MuiChip-label css-eccknh-MuiChip-label"
                     >
                       static
                     </span>
@@ -1295,13 +1296,13 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
             See schedule details
             <span
-              class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium css-1gulhci-MuiButton-endIcon"
+              class="MuiButton-icon MuiButton-endIcon css-1gulhci-MuiButton-endIcon"
             >
               <svg
                 aria-hidden="true"
@@ -1696,10 +1697,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     role="progressbar"
                   >
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorInfo MuiLinearProgress-bar1Indeterminate css-1tp6vqc-MuiLinearProgress-bar1"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-1tp6vqc-MuiLinearProgress-bar1"
                     />
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 MuiLinearProgress-barColorInfo MuiLinearProgress-bar2Indeterminate css-1btyq4i-MuiLinearProgress-bar2"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-1btyq4i-MuiLinearProgress-bar2"
                     />
                   </span>
                 </div>
@@ -1727,7 +1728,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 />
                 <p
                   class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                  id="_r_l_"
+                  id="_r_m_"
                 >
                   Rows per page:
                 </p>
@@ -1737,9 +1738,9 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   <div
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    aria-labelledby="_r_l_ _r_k_"
+                    aria-labelledby="_r_m_ _r_l_"
                     class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                    id="_r_k_"
+                    id="_r_l_"
                     role="combobox"
                     tabindex="0"
                   >
@@ -1749,13 +1750,14 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     aria-hidden="true"
                     aria-invalid="false"
                     class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+                    id="_r_o_"
                     name="pagination"
                     tabindex="-1"
                     value="10"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -2101,10 +2103,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Begins in 17 days 23 h 59 m
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-12yfamt-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                class="MuiChip-label css-eccknh-MuiChip-label"
               >
                 Phase 1
               </span>
@@ -2157,10 +2159,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Begins in 21 days 22 h 45 m
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-12yfamt-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                class="MuiChip-label css-eccknh-MuiChip-label"
               >
                 Phase 2
               </span>
@@ -2213,10 +2215,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Begins in 22 days 22 h 45 m
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-12yfamt-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                class="MuiChip-label css-eccknh-MuiChip-label"
               >
                 Phase 3
               </span>
@@ -2269,10 +2271,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Begins in 23 days 22 h 45 m
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-12yfamt-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                class="MuiChip-label css-eccknh-MuiChip-label"
               >
                 Phase 4
               </span>
@@ -2325,10 +2327,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Begins in 08 days 12 h 45 m
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-12yfamt-MuiChip-root-phaseIndex"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault css-1x1ny0z-MuiChip-root-phaseIndex"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
+                class="MuiChip-label css-eccknh-MuiChip-label"
               >
                 Phase 5
               </span>
@@ -2377,7 +2379,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-light css-1my3nyb-MuiDivider-root-divider"
+        class="MuiDivider-root MuiDivider-fullWidth css-iu3zzr-MuiDivider-root-divider"
       />
     </div>
     <div

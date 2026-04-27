@@ -244,24 +244,6 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-6 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-6 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -277,6 +259,19 @@ exports[`AuthsetList Component > renders correctly 1`] = `
 
 .emotion-6 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-6 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
+}
+
+.emotion-6 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-6 .MuiChip-icon {
@@ -417,14 +412,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-6"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary emotion-6"
               style="justify-self: flex-start;"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall emotion-7"
+                class="MuiChip-label emotion-7"
               >
                 new
               </span>
@@ -511,14 +506,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-6"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary emotion-6"
               style="justify-self: flex-start;"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall emotion-7"
+                class="MuiChip-label emotion-7"
               >
                 new
               </span>
@@ -617,14 +612,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-6"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary emotion-6"
               style="justify-self: flex-start;"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall emotion-7"
+                class="MuiChip-label emotion-7"
               >
                 new
               </span>
@@ -711,7 +706,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div
               class="capitalized"
@@ -800,7 +795,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div
               class="capitalized"
@@ -901,7 +896,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div
               class="capitalized"
@@ -990,7 +985,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div />
             <div
@@ -1075,7 +1070,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div />
             <div
@@ -1160,7 +1155,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div />
             <div
@@ -1257,7 +1252,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div />
             <div
@@ -1354,7 +1349,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div />
             <div
@@ -1439,7 +1434,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           type="button"
         >
           <span
-            class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-5"
+            class="MuiAccordionSummary-content emotion-5"
           >
             <div />
             <div

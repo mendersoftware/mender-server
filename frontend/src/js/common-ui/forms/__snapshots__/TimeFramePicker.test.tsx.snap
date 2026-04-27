@@ -634,6 +634,7 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
             <button
               aria-label="Choose date"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-19"
+              data-mui-picker-open-button="true"
               tabindex="0"
               type="button"
             >
@@ -796,6 +797,7 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
             <button
               aria-label="Choose date, selected date is Jan 13, 2019"
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-19"
+              data-mui-picker-open-button="true"
               tabindex="0"
               type="button"
             >

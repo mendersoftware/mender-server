@@ -78,12 +78,12 @@ const FeedbackSection = ({ deploymentId, deviceId }) => {
   return (
     <div className="flexbox align-items-center">
       {feedbackSubmitted ? (
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="textSecondary">
           Thank you for your feedback!
         </Typography>
       ) : (
         <>
-          <Typography className="margin-right-small" variant="body2" color="text.secondary">
+          <Typography className="margin-right-small" variant="body2" color="textSecondary">
             Was this helpful?
           </Typography>
           <IconButton size="small" aria-label="thumbs-up" onClick={() => handleFeedback(true)}>
@@ -169,7 +169,7 @@ export const AiLogAnalysis = ({ deployment, deviceId }: AiLogAnalysisProps) => {
             {!analysisResult ? (
               <div className="flexbox">
                 <SparkleAnimation className="margin-right-x-small" />
-                <Typography variant="body1" color="text.secondary">
+                <Typography variant="body1" color="textSecondary">
                   Thinking...
                 </Typography>
               </div>
@@ -191,7 +191,7 @@ export const AiLogAnalysis = ({ deployment, deviceId }: AiLogAnalysisProps) => {
                 </>
                 <div className="flexbox align-items-center space-between">
                   <FeedbackSection deploymentId={deployment.id} deviceId={deviceId} />
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="textSecondary">
                     AI-generated information can be inaccurate, so always verify it before taking action.
                   </Typography>
                 </div>

@@ -28,6 +28,7 @@ exports[`BaseOnboardingTip Component > renders correctly 1`] = `
     <div
       class="emotion-0 onboard-tip"
       data-mui-internal-clone-element="true"
+      popperprops="[object Object]"
       style="left: -14px; top: 1px; overflow: initial;"
     >
       <div

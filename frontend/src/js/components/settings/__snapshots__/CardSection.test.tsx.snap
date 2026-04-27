@@ -245,7 +245,7 @@ exports[`CardSection Component > renders correctly 1`] = `
     class="flexbox align-items-center margin-top-small"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
       style="margin-right: 15px;"
       tabindex="0"
       type="reset"
@@ -253,7 +253,7 @@ exports[`CardSection Component > renders correctly 1`] = `
       Cancel
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-2"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary emotion-2"
       tabindex="0"
       type="submit"
     >

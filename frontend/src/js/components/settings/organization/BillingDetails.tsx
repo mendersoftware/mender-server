@@ -29,7 +29,7 @@ const Address = props => {
   const displayNames = new Intl.DisplayNames('en', { type: 'region' });
   return (
     <div>
-      <Typography color="text.secondary">{name}</Typography>
+      <Typography color="textSecondary">{name}</Typography>
       <Typography>{line1}</Typography>
       <Typography>
         {postal_code}, {city}

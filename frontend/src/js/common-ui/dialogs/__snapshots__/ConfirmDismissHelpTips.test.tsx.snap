@@ -91,12 +91,6 @@ exports[`ConfirmDismissHelptips Component > renders correctly 1`] = `
   }
 }
 
-@media (max-width:663.95px) {
-  .emotion-3.MuiDialog-paperScrollBody {
-    max-width: calc(100% - 64px);
-  }
-}
-
 .emotion-4 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -367,7 +361,7 @@ exports[`ConfirmDismissHelptips Component > renders correctly 1`] = `
   <div
     aria-hidden="true"
     class="MuiBackdrop-root MuiModal-backdrop MuiDialog-backdrop emotion-1"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   />
   <div
     data-testid="sentinelStart"
@@ -376,13 +370,13 @@ exports[`ConfirmDismissHelptips Component > renders correctly 1`] = `
   <div
     class="MuiDialog-container MuiDialog-scrollPaper emotion-2"
     role="presentation"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     tabindex="-1"
   >
     <div
       aria-labelledby="_r_1_"
       aria-modal="true"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
       style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
     >
@@ -401,14 +395,14 @@ exports[`ConfirmDismissHelptips Component > renders correctly 1`] = `
         class="MuiDialogActions-root MuiDialogActions-spacing flexbox space-between emotion-6"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-7"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-7"
           tabindex="0"
           type="button"
         >
           Cancel
         </button>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-8"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-8"
           tabindex="0"
           type="button"
         >

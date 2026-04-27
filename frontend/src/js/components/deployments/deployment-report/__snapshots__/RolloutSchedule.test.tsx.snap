@@ -241,24 +241,6 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-20 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-20 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-20 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-20 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -274,6 +256,14 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
 
 .emotion-20 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-20 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-20 .MuiChip-icon {
@@ -407,7 +397,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
         role="progressbar"
       >
         <span
-          class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-17"
+          class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-17"
           style="transform: translateX(-100%);"
         />
       </span>
@@ -426,10 +416,10 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
         Complete
       </span>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-20"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-20"
       >
         <span
-          class="MuiChip-label MuiChip-labelSmall emotion-21"
+          class="MuiChip-label emotion-21"
         >
           Phase 1
         </span>

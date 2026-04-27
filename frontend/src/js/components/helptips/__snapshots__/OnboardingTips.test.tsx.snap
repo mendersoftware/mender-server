@@ -26,6 +26,7 @@ exports[`OnboardingTips Components > DevicePendingTip > renders correctly 1`] = 
 <div
   class="emotion-0 onboard-tip"
   data-mui-internal-clone-element="true"
+  popperprops="[object Object]"
   style="left: -15px; top: 0px; overflow: initial;"
 >
   <div
@@ -105,6 +106,7 @@ exports[`OnboardingTips Components > tiny onboarding tips > renders DevicesAccep
 <div
   class="emotion-0 onboard-tip"
   data-mui-internal-clone-element="true"
+  popperprops="[object Object]"
   style="left: -15px; top: 0px; overflow: initial;"
 >
   <div
@@ -161,6 +163,7 @@ exports[`OnboardingTips Components > tiny onboarding tips > renders GetStartedTi
 <div
   class="emotion-0 onboard-tip"
   data-mui-internal-clone-element="true"
+  popperprops="[object Object]"
   style="left: -15px; top: 0px; overflow: initial;"
 >
   <div

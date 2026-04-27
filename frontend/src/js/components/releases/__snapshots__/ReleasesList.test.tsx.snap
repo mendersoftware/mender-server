@@ -809,13 +809,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
             aria-hidden="true"
             aria-invalid="false"
             class="MuiSelect-nativeInput emotion-31"
+            id="_r_5_"
             name="pagination"
             tabindex="-1"
             value="20"
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard emotion-32"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon emotion-32"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"

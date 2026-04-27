@@ -91,12 +91,6 @@ exports[`ReleaseArtifactFilter Component > renders correctly 1`] = `
   }
 }
 
-@media (max-width:663.95px) {
-  .emotion-3.MuiDialog-paperScrollBody {
-    max-width: calc(100% - 64px);
-  }
-}
-
 .emotion-4 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -547,7 +541,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
     <div
       aria-hidden="true"
       class="MuiBackdrop-root MuiModal-backdrop MuiDialog-backdrop emotion-1"
-      style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
       data-testid="sentinelStart"
@@ -556,13 +550,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
     <div
       class="MuiDialog-container MuiDialog-scrollPaper emotion-2"
       role="presentation"
-      style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       tabindex="-1"
     >
       <div
         aria-labelledby="_r_1_"
         aria-modal="true"
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-3"
         role="dialog"
         style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
       >
@@ -592,12 +586,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 Filters
               </p>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorNeutral margin-left-small emotion-8"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorNeutral margin-left-small emotion-8"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall emotion-9"
+                  class="MuiButton-icon MuiButton-startIcon emotion-9"
                 >
                   <svg
                     aria-hidden="true"
@@ -615,7 +609,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 0
                 )
                 <span
-                  class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeSmall emotion-11"
+                  class="MuiButton-icon MuiButton-endIcon emotion-11"
                 >
                   <svg
                     aria-hidden="true"
@@ -672,7 +666,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                   </div>
                   <input
                     aria-invalid="false"
-                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart emotion-18"
+                    class="MuiInputBase-input MuiOutlinedInput-input emotion-18"
                     id="_r_3_"
                     name="searchTerm"
                     placeholder="Search Releases..."

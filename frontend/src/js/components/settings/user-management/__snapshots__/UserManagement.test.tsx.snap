@@ -250,24 +250,6 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-19 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-19 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-19 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-19 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -283,6 +265,14 @@ exports[`UserManagement Component > renders correctly 1`] = `
 
 .emotion-19 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-19 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-19 .MuiChip-icon {
@@ -313,23 +303,23 @@ exports[`UserManagement Component > renders correctly 1`] = `
   margin-left: 4px;
 }
 
-.emotion-19 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-19 .MuiChip-icon {
   margin-left: 4px;
-}
-
-.emotion-19 .MuiChip-iconSmall {
-  margin-left: 2px;
 }
 
 .emotion-19 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-19 .MuiChip-deleteIconSmall {
+.emotion-19 .MuiChip-avatar {
+  margin-left: 2px;
+}
+
+.emotion-19 .MuiChip-icon {
+  margin-left: 2px;
+}
+
+.emotion-19 .MuiChip-deleteIcon {
   margin-right: 3px;
 }
 
@@ -468,24 +458,6 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-28 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-28 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-28 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-28 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -501,6 +473,11 @@ exports[`UserManagement Component > renders correctly 1`] = `
 
 .emotion-28 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-28 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-28 .MuiChip-deleteIcon {
@@ -635,7 +612,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap emotion-16"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-16"
             tabindex="0"
             type="button"
           >
@@ -653,10 +630,10 @@ exports[`UserManagement Component > renders correctly 1`] = `
             a2@b.com
           </span>
           <div
-            class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault MuiChip-outlinedDefault margin-left-small emotion-19"
+            class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault margin-left-small emotion-19"
           >
             <svg
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconSmall MuiChip-iconColorDefault emotion-20"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-20"
               data-testid="CheckIcon"
               focusable="false"
               role="img"
@@ -670,7 +647,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
               </title>
             </svg>
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-21"
+              class="MuiChip-label emotion-21"
             >
               2FA
             </span>
@@ -703,7 +680,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo nowrap emotion-16"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-16"
             tabindex="0"
             type="button"
           >
@@ -714,13 +691,13 @@ exports[`UserManagement Component > renders correctly 1`] = `
     </tbody>
   </table>
   <div
-    class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable MuiChip-clickableColorPrimary MuiChip-filledPrimary emotion-28"
+    class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-28"
     role="button"
     tabindex="0"
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon MuiChip-iconMedium MuiChip-iconColorPrimary emotion-20"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-20"
       data-testid="AddIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -730,7 +707,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
       />
     </svg>
     <span
-      class="MuiChip-label MuiChip-labelMedium emotion-30"
+      class="MuiChip-label emotion-30"
     >
       Add new user
     </span>

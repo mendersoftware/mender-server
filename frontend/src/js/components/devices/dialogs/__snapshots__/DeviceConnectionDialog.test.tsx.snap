@@ -91,12 +91,6 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
   }
 }
 
-@media (max-width:663.95px) {
-  .emotion-3.MuiDialog-paperScrollBody {
-    max-width: calc(100% - 64px);
-  }
-}
-
 .emotion-4 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -206,24 +200,6 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-10 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-10 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-10 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-10 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -239,6 +215,14 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
 
 .emotion-10 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-10 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-10 .MuiChip-icon {
@@ -591,7 +575,7 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
   <div
     aria-hidden="true"
     class="MuiBackdrop-root MuiModal-backdrop MuiDialog-backdrop emotion-1"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   />
   <div
     data-testid="sentinelStart"
@@ -600,13 +584,13 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
   <div
     class="MuiDialog-container MuiDialog-scrollPaper emotion-2"
     role="presentation"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     tabindex="-1"
   >
     <div
       aria-labelledby="_r_7_"
       aria-modal="true"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
       style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
     >
@@ -644,10 +628,10 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
               </h6>
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-10"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-10"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall emotion-11"
+                class="MuiChip-label emotion-11"
               >
                 Standard
               </span>
@@ -662,13 +646,13 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
             class="flexbox margin-top-small"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-13"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-13"
               tabindex="0"
               type="button"
             >
               Get started
               <span
-                class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeSmall emotion-14"
+                class="MuiButton-icon MuiButton-endIcon emotion-14"
               >
                 <svg
                   aria-hidden="true"
@@ -708,10 +692,10 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
                 </h6>
               </div>
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-10"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-10"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelSmall emotion-11"
+                  class="MuiChip-label emotion-11"
                 >
                   Micro
                 </span>
@@ -724,13 +708,13 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
             </p>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-13"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-13"
                 tabindex="0"
                 type="button"
               >
                 Get started with Zephyr
                 <span
-                  class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeSmall emotion-14"
+                  class="MuiButton-icon MuiButton-endIcon emotion-14"
                 >
                   <svg
                     aria-hidden="true"
@@ -764,13 +748,13 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
               class="flexbox margin-top-small"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-13"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-13"
                 tabindex="0"
                 type="button"
               >
                 Try the virtual device
                 <span
-                  class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeSmall emotion-14"
+                  class="MuiButton-icon MuiButton-endIcon emotion-14"
                 >
                   <svg
                     aria-hidden="true"
@@ -829,7 +813,7 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
           style="flex-grow: 1;"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-36"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-36"
           tabindex="0"
           type="button"
         >
@@ -933,12 +917,6 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   .emotion-3 {
     overflow-y: visible;
     box-shadow: none;
-  }
-}
-
-@media (max-width:663.95px) {
-  .emotion-3.MuiDialog-paperScrollBody {
-    max-width: calc(100% - 64px);
   }
 }
 
@@ -1051,24 +1029,6 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-10 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-10 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-10 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-10 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -1084,6 +1044,14 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
 
 .emotion-10 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-10 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-10 .MuiChip-icon {
@@ -1461,7 +1429,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   <div
     aria-hidden="true"
     class="MuiBackdrop-root MuiModal-backdrop MuiDialog-backdrop emotion-1"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   />
   <div
     data-testid="sentinelStart"
@@ -1470,13 +1438,13 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   <div
     class="MuiDialog-container MuiDialog-scrollPaper emotion-2"
     role="presentation"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     tabindex="-1"
   >
     <div
       aria-labelledby="_r_1_"
       aria-modal="true"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-3"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
       style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
     >
@@ -1514,10 +1482,10 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
               </h6>
             </div>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-10"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-10"
             >
               <span
-                class="MuiChip-label MuiChip-labelSmall emotion-11"
+                class="MuiChip-label emotion-11"
               >
                 Standard
               </span>
@@ -1532,13 +1500,13 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
             class="flexbox margin-top-small"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-13"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-13"
               tabindex="0"
               type="button"
             >
               Get started
               <span
-                class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeSmall emotion-14"
+                class="MuiButton-icon MuiButton-endIcon emotion-14"
               >
                 <svg
                   aria-hidden="true"
@@ -1631,13 +1599,13 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
               class="flexbox margin-top-small"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-13"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-13"
                 tabindex="0"
                 type="button"
               >
                 Try the virtual device
                 <span
-                  class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeSmall emotion-14"
+                  class="MuiButton-icon MuiButton-endIcon emotion-14"
                 >
                   <svg
                     aria-hidden="true"
@@ -1696,7 +1664,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
           style="flex-grow: 1;"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-34"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-34"
           tabindex="0"
           type="button"
         >

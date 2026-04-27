@@ -530,12 +530,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
                   aria-hidden="true"
                   aria-invalid="false"
                   class="MuiSelect-nativeInput emotion-4"
+                  id="_r_2_"
                   tabindex="-1"
                   value="accepted"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-5"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-5"
                   data-testid="ArrowDropDownIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -568,12 +569,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
         class="flexbox align-items-center space-between margin-top margin-bottom-x-small"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-text MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-color MuiButton-root MuiButton-text MuiButton-text MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-color flexbox emotion-8"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-color MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-color flexbox emotion-8"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-9"
+            class="MuiButton-icon MuiButton-startIcon emotion-9"
           >
             <svg
               aria-hidden="true"
@@ -590,13 +591,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
           Filters
         </button>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit emotion-11"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-11"
           tabindex="0"
           type="button"
         >
           Table options
           <span
-            class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-12"
+            class="MuiButton-icon MuiButton-endIcon emotion-12"
           >
             <svg
               aria-hidden="true"

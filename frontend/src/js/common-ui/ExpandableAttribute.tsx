@@ -80,7 +80,9 @@ export const ExpandableAttribute = ({
         <ListItemText
           primary={primary}
           secondary={secondaryText}
-          secondaryTypographyProps={{ title: secondary, component: 'div', ...secondaryTypographyProps }}
+          slotProps={{
+            secondary: { title: secondary, component: 'div', ...secondaryTypographyProps }
+          }}
         />
         {copyToClipboard ? (
           <Tooltip title={'Copy to clipboard'} placement="top" open={tooltipVisible}>

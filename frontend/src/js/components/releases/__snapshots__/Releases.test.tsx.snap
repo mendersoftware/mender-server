@@ -18,7 +18,7 @@ exports[`Releases Component > renders correctly 1`] = `
               style="overflow: hidden; margin-bottom: 0px;"
             >
               <div
-                class="MuiTabs-list MuiTabs-flexContainer css-hzcega-MuiTabs-list"
+                class="MuiTabs-list css-hzcega-MuiTabs-list"
                 role="tablist"
               >
                 <button
@@ -48,12 +48,12 @@ exports[`Releases Component > renders correctly 1`] = `
                       data-mui-internal-clone-element="true"
                     >
                       <div
-                        class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault margin-left-small css-lbitzw-MuiButtonBase-root-MuiChip-root"
+                        class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable margin-left-small css-1o1lizq-MuiButtonBase-root-MuiChip-root"
                         role="button"
                         tabindex="0"
                       >
                         <span
-                          class="MuiChip-label MuiChip-labelMedium css-1dybbl5-MuiChip-label"
+                          class="MuiChip-label css-1dybbl5-MuiChip-label"
                         >
                           Enterprise
                         </span>
@@ -72,12 +72,12 @@ exports[`Releases Component > renders correctly 1`] = `
             class="flexbox align-items-center"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-1ju8gut-MuiButtonBase-root-MuiButton-root-uploadButton"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-1ju8gut-MuiButtonBase-root-MuiButton-root-uploadButton"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1sh91j5-MuiButton-startIcon"
+                class="MuiButton-icon MuiButton-startIcon css-1sh91j5-MuiButton-startIcon"
               >
                 <svg
                   aria-hidden="true"
@@ -126,7 +126,7 @@ exports[`Releases Component > renders correctly 1`] = `
               class="filter-item"
             >
               <h6
-                class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small css-1x0mq5c-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small css-fm6l08-MuiTypography-root"
               >
                 Release name
               </h6>
@@ -159,7 +159,7 @@ exports[`Releases Component > renders correctly 1`] = `
                   </div>
                   <input
                     aria-invalid="false"
-                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
+                    class="MuiInputBase-input MuiOutlinedInput-input css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
                     id="_r_4_"
                     name="name"
                     placeholder="Starts with"
@@ -188,7 +188,7 @@ exports[`Releases Component > renders correctly 1`] = `
               class="filter-item"
             >
               <h6
-                class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small css-1x0mq5c-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small css-fm6l08-MuiTypography-root"
               >
                 Tags
               </h6>
@@ -239,19 +239,19 @@ exports[`Releases Component > renders correctly 1`] = `
               class="filter-item"
             >
               <h6
-                class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small css-1x0mq5c-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small css-fm6l08-MuiTypography-root"
               >
                 Contains Artifact type
               </h6>
               <div
-                class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon css-1tlcqt-MuiAutocomplete-root"
+                class="MuiAutocomplete-root css-1tlcqt-MuiAutocomplete-root"
                 name="type"
               >
                 <div
                   class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
                 >
                   <div
-                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
                   >
                     <input
                       aria-autocomplete="list"
@@ -259,7 +259,7 @@ exports[`Releases Component > renders correctly 1`] = `
                       aria-invalid="false"
                       autocapitalize="none"
                       autocomplete="off"
-                      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+                      class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
                       id="_r_7_"
                       placeholder="Any"
                       role="combobox"
@@ -267,29 +267,6 @@ exports[`Releases Component > renders correctly 1`] = `
                       type="text"
                       value=""
                     />
-                    <div
-                      class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
-                    >
-                      <button
-                        aria-label="Clear"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-1x7n7v0-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
-                        tabindex="-1"
-                        title="Clear"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-                          data-testid="CloseIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                          />
-                        </svg>
-                      </button>
-                    </div>
                     <fieldset
                       aria-hidden="true"
                       class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
@@ -1530,7 +1507,7 @@ exports[`Releases Component > renders correctly 1`] = `
               />
               <p
                 class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-                id="_r_c_"
+                id="_r_b_"
               >
                 Rows per page:
               </p>
@@ -1540,9 +1517,9 @@ exports[`Releases Component > renders correctly 1`] = `
                 <div
                   aria-expanded="false"
                   aria-haspopup="listbox"
-                  aria-labelledby="_r_c_ _r_b_"
+                  aria-labelledby="_r_b_ _r_a_"
                   class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                  id="_r_b_"
+                  id="_r_a_"
                   role="combobox"
                   tabindex="0"
                 >
@@ -1552,13 +1529,14 @@ exports[`Releases Component > renders correctly 1`] = `
                   aria-hidden="true"
                   aria-invalid="false"
                   class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+                  id="_r_d_"
                   name="pagination"
                   tabindex="-1"
                   value="20"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
                   data-testid="ArrowDropDownIcon"
                   focusable="false"
                   viewBox="0 0 24 24"

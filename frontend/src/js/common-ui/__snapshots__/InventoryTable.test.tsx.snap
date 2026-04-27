@@ -287,7 +287,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
           Attribute
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc emotion-5"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon emotion-5"
             data-testid="ArrowDownwardIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -310,7 +310,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
           Value
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc emotion-5"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon emotion-5"
             data-testid="ArrowDownwardIcon"
             focusable="false"
             viewBox="0 0 24 24"

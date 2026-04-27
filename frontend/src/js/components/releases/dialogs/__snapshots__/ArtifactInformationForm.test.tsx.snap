@@ -530,24 +530,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   font-size: 0.75rem;
 }
 
-.emotion-13 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-13 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-13 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-13 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -563,6 +545,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
 
 .emotion-13 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-13 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
 }
 
 .emotion-13 .MuiChip-deleteIcon {
@@ -602,24 +589,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
   margin-left: 4px;
 }
 
-.emotion-13 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-13 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-13 .MuiChip-iconSmall {
-  margin-left: 2px;
-}
-
 .emotion-13 .MuiChip-deleteIcon {
   margin-right: 5px;
-}
-
-.emotion-13 .MuiChip-deleteIconSmall {
-  margin-right: 3px;
 }
 
 .emotion-13.MuiChip-clickable:hover {
@@ -1096,12 +1071,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
               target="_blank"
             >
               <div
-                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable MuiChip-deletableColorPrimary MuiChip-outlinedPrimary not-hovering emotion-13"
+                class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-13"
                 role="button"
                 tabindex="0"
               >
                 <span
-                  class="MuiChip-label MuiChip-labelMedium emotion-14"
+                  class="MuiChip-label emotion-14"
                 >
                   <div
                     class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-15"
@@ -1119,7 +1094,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-3:focus::-ms-input-p
                   </div>
                 </span>
                 <div
-                  class="relative MuiChip-deleteIcon MuiChip-deleteIconMedium MuiChip-deleteIconColorPrimary MuiChip-deleteIconOutlinedColorPrimary"
+                  class="relative MuiChip-deleteIcon"
                 >
                   <svg
                     aria-hidden="true"

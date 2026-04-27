@@ -16,7 +16,7 @@ import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { ErrorOutline as ErrorOutlineIcon } from '@mui/icons-material';
+import { ErrorOutlined as ErrorOutlineIcon } from '@mui/icons-material';
 import { Alert, Checkbox, FormControlLabel, FormHelperText, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 

@@ -96,7 +96,7 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
           <Alert severity="info" icon={false}>
             <AlertTitle textAlign="center">Automatic logout in {count} seconds</AlertTitle>
             <div className="flexbox column centered">
-              <Typography className="margin-bottom-x-small" textAlign="center" variant="body2">
+              <Typography className="margin-bottom-x-small align-center" variant="body2">
                 You will be logged out automatically, for your new subscription to take effect. <br />
                 If you are using Personal Access Tokens, remember to generate and deploy new tokens when you log in again.
               </Typography>
@@ -118,7 +118,7 @@ export const SubscriptionConfirmation = (props: SubscriptionConfirmationProps) =
           >
             <AlertTitle textAlign="center">Subscription Active</AlertTitle>
             <div className="flexbox column centered">
-              <Typography className="margin-bottom-x-small" textAlign="center" variant="body2">
+              <Typography className="margin-bottom-x-small align-center" variant="body2">
                 Your updated subscription is ready to use.{' '}
               </Typography>
               <Button variant="outlined" onClick={() => window.location.replace('/ui/')}>

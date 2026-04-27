@@ -162,8 +162,8 @@ export const Retries = ({
                 {...params}
                 className={classes.retryInput}
                 slotProps={{
-                  htmlInput: { ...params.inputProps, value: formatValue(params.inputProps.value) },
-                  input: { ...params.InputProps }
+                  ...params.slotProps,
+                  htmlInput: { ...params.slotProps.htmlInput, value: formatValue(params.slotProps.htmlInput.value) }
                 }}
                 type="number"
               />

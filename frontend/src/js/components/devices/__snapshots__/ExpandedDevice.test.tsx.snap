@@ -297,24 +297,6 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-7 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-7 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-7 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-7 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -1758,7 +1740,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
     <div
       aria-hidden="true"
       class="MuiBackdrop-root MuiModal-backdrop emotion-1"
-      style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
       data-testid="sentinelStart"
@@ -1766,7 +1748,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
     />
     <div
       aria-modal="true"
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper emotion-2"
       role="dialog"
       style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
       tabindex="-1"
@@ -1820,12 +1802,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
             data-mui-internal-clone-element="true"
           >
             <div
-              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-clickableColorDefault MuiChip-filledDefault emotion-7"
+              class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable emotion-7"
               role="button"
               tabindex="0"
             >
               <svg
-                class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault"
+                class="MuiChip-icon"
                 fill="none"
                 height="17"
                 viewBox="0 0 17 17"
@@ -1838,7 +1820,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                 />
               </svg>
               <span
-                class="MuiChip-label MuiChip-labelMedium emotion-8"
+                class="MuiChip-label emotion-8"
               >
                 Gateway
               </span>
@@ -1895,7 +1877,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
           style="overflow: hidden; margin-bottom: 0px;"
         >
           <div
-            class="MuiTabs-list MuiTabs-flexContainer emotion-15"
+            class="MuiTabs-list emotion-15"
             role="tablist"
           >
             <button
@@ -2021,7 +2003,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                 class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-32"
               >
                 <input
-                  class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd emotion-33"
+                  class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-33"
                   disabled=""
                   id="a1-id-input"
                   placeholder="a1..."
@@ -2285,7 +2267,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                     type="button"
                   >
                     <span
-                      class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-65"
+                      class="MuiAccordionSummary-content emotion-65"
                     >
                       <div
                         class="capitalized"
@@ -2364,7 +2346,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
             class="flexbox relative emotion-72"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-73"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary emotion-73"
               tabindex="0"
               type="button"
             >
@@ -2388,13 +2370,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
               Tags
             </h6>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-76"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-76"
               style="padding: 5px;"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall emotion-77"
+                class="MuiButton-icon MuiButton-startIcon emotion-77"
               >
                 <svg
                   aria-hidden="true"
@@ -2447,7 +2429,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                 aria-haspopup="true"
                 aria-label="device-actions"
                 class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiSpeedDial-fab emotion-84"
-                style="transform: none; -webkit-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+                style="transform: none; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                 tabindex="0"
                 type="button"
               >
@@ -2498,12 +2480,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                     <svg
                       aria-hidden="true"
                       class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
-                      data-testid="RemoveCircleOutlineIcon"
+                      data-testid="RemoveCircleOutlinedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
                     >
                       <path
-                        d="M7 11v2h10v-2zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m5 11H7v-2h10z"
                       />
                     </svg>
                   </button>

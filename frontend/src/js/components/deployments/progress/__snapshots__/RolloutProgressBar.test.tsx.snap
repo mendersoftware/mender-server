@@ -446,7 +446,7 @@ exports[`RolloutProgressBar Component > renders correctly with list variant 1`] 
         role="progressbar"
       >
         <span
-          class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-5"
+          class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-5"
           style="transform: translateX(-100%);"
         />
       </span>
@@ -590,7 +590,7 @@ exports[`RolloutProgressBar Component > renders correctly with report variant 1`
         role="progressbar"
       >
         <span
-          class="MuiLinearProgress-bar MuiLinearProgress-bar1 MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Determinate emotion-2"
+          class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-2"
           style="transform: translateX(-100%);"
         />
       </span>

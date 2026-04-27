@@ -8,7 +8,6 @@ exports[`Subscription Summary item component > renders correctly 1`] = `
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;
-  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-1 {
@@ -18,7 +17,6 @@ exports[`Subscription Summary item component > renders correctly 1`] = `
   font-size: 0.75rem;
   line-height: 1.66;
   letter-spacing: 0.03333em;
-  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-2 {
@@ -37,16 +35,6 @@ exports[`Subscription Summary item component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-}
-
-.emotion-4 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-  letter-spacing: 0.00938em;
-  text-transform: capitalize;
 }
 
 <div>
@@ -86,7 +74,7 @@ exports[`Subscription Summary item component > renders correctly 1`] = `
     >
       <div>
         <p
-          class="MuiTypography-root MuiTypography-body1 emotion-4"
+          class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-0"
         >
           configure
         </p>
@@ -109,7 +97,7 @@ exports[`Subscription Summary item component > renders correctly 1`] = `
     >
       <div>
         <p
-          class="MuiTypography-root MuiTypography-body1 emotion-4"
+          class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-0"
         >
           monitor
         </p>
@@ -132,7 +120,7 @@ exports[`Subscription Summary item component > renders correctly 1`] = `
     >
       <div>
         <p
-          class="MuiTypography-root MuiTypography-body1 emotion-4"
+          class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-0"
         >
           troubleshoot
         </p>

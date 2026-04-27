@@ -210,7 +210,7 @@ export const Past = props => {
             componentProps: {
               ...autoCompleteProps,
               options: groupNames,
-              renderInput: params => <TextField {...params} label="Target devices" placeholder="Select a group" InputProps={{ ...params.InputProps }} />
+              renderInput: params => <TextField {...params} label="Target devices" placeholder="Select a group" />
             }
           },
           {
@@ -220,7 +220,7 @@ export const Past = props => {
             componentProps: {
               ...autoCompleteProps,
               options: Object.keys(DEPLOYMENT_TYPES),
-              renderInput: params => <TextField {...params} label="Deployment type" placeholder="Select a type" InputProps={{ ...params.InputProps }} />
+              renderInput: params => <TextField {...params} label="Deployment type" placeholder="Select a type" />
             }
           },
           {

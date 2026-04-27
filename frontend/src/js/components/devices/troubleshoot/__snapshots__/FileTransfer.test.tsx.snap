@@ -589,7 +589,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
         style="overflow: hidden;"
       >
         <div
-          class="MuiTabs-list MuiTabs-flexContainer emotion-3"
+          class="MuiTabs-list emotion-3"
           role="tablist"
         >
           <button
@@ -680,13 +680,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
       >
         <div
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-11"
+          inputlabelprops="[object Object]"
         >
           <div
             class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd emotion-12"
           >
             <input
               aria-invalid="false"
-              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-13"
+              class="MuiInputBase-input MuiOutlinedInput-input emotion-13"
               id="_r_1_"
               placeholder="Example: /opt/installed-by-single-file"
               type="text"
@@ -733,7 +734,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
           </div>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-19"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
           disabled=""
           tabindex="-1"
           type="button"

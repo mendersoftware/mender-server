@@ -142,7 +142,9 @@ export const FileTransfer = ({
               onChange={e => setUploadPath(e.target.value)}
               placeholder="Example: /opt/installed-by-single-file"
               value={uploadPath}
-              InputProps={{ endAdornment: <CopyPasteButton onClick={onPasteUploadClick} /> }}
+              slotProps={{
+                input: { endAdornment: <CopyPasteButton onClick={onPasteUploadClick} /> }
+              }}
             />
             <Button variant="contained" disabled={!(file && uploadPath && isValidDestination)} onClick={onUploadClick}>
               Upload
@@ -161,7 +163,9 @@ export const FileTransfer = ({
               onChange={e => setDownloadPath(e.target.value)}
               placeholder="Example: /home/mender/"
               value={downloadPath}
-              InputProps={{ endAdornment: <CopyPasteButton onClick={onPasteDownloadClick} /> }}
+              slotProps={{
+                input: { endAdornment: <CopyPasteButton onClick={onPasteDownloadClick} /> }
+              }}
             />
             <Button
               variant="contained"

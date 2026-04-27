@@ -385,7 +385,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
       </div>
       <input
         aria-invalid="false"
-        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd emotion-4"
+        class="MuiInputBase-input MuiOutlinedInput-input emotion-4"
         id="_r_1_"
         name="search"
         placeholder="Search devices"

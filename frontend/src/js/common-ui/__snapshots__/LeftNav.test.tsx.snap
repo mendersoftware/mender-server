@@ -87,7 +87,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
 }
 
 .emotion-5 {
-  min-width: 56px;
+  min-width: 36px;
   color: rgba(0, 0, 0, 0.54);
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;

@@ -1030,12 +1030,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
           aria-hidden="true"
           aria-invalid="false"
           class="MuiSelect-nativeInput emotion-5"
+          id="_r_2_"
           tabindex="-1"
           value="any"
         />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-6"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-6"
           data-testid="ArrowDropDownIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -1159,7 +1160,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-21"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-28"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-28"
               tabindex="0"
               type="button"
             >
@@ -1193,7 +1194,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
           />
           <p
             class="MuiTablePagination-selectLabel emotion-33"
-            id="_r_4_"
+            id="_r_5_"
           >
             Rows per page:
           </p>
@@ -1203,9 +1204,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="_r_4_ _r_3_"
+              aria-labelledby="_r_5_ _r_4_"
               class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input emotion-35"
-              id="_r_3_"
+              id="_r_4_"
               role="combobox"
               tabindex="0"
             >
@@ -1215,13 +1216,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
               aria-hidden="true"
               aria-invalid="false"
               class="MuiSelect-nativeInput emotion-5"
+              id="_r_7_"
               name="pagination"
               tabindex="-1"
               value="10"
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard emotion-37"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon emotion-37"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1285,7 +1287,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-35:focus::-ms-input-
     class="flexbox margin-top relative emotion-43"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-44"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-44"
       tabindex="0"
       type="button"
     >

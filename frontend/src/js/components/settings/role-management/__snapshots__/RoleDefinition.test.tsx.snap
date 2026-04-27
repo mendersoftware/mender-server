@@ -1217,7 +1217,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
   <div
     aria-hidden="true"
     class="MuiBackdrop-root MuiModal-backdrop emotion-1"
-    style="opacity: 1; -webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   />
   <div
     data-testid="sentinelStart"
@@ -1225,9 +1225,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
   />
   <div
     aria-modal="true"
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight emotion-2"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper emotion-2"
     role="dialog"
-    style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12); -webkit-transform: none; transform: none; -webkit-transition: -webkit-transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
+    style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12); transform: none; transition: transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
     tabindex="-1"
   >
     <div
@@ -1328,7 +1328,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
         >
           <textarea
             aria-invalid="false"
-            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline emotion-18"
+            class="MuiInputBase-input MuiOutlinedInput-input emotion-18"
             id="description"
             name="description"
             placeholder="-"
@@ -1336,7 +1336,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
           />
           <textarea
             aria-hidden="true"
-            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline emotion-18"
+            class="MuiInputBase-input MuiOutlinedInput-input emotion-18"
             readonly=""
             style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
             tabindex="-1"
@@ -1412,13 +1412,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
               aria-hidden="true"
               aria-invalid="false"
               class="MuiSelect-nativeInput emotion-29"
+              id="_r_4_"
               name="userManagement"
               tabindex="-1"
               value=""
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-30"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-30"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1493,13 +1494,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
               aria-hidden="true"
               aria-invalid="false"
               class="MuiSelect-nativeInput emotion-29"
+              id="_r_7_"
               name="auditlog"
               tabindex="-1"
               value=""
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-30"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-30"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1584,13 +1586,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
                 aria-hidden="true"
                 aria-invalid="false"
                 class="MuiSelect-nativeInput emotion-29"
+                id="_r_e_"
                 name="releases.0.item"
                 tabindex="-1"
                 value=""
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-30"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-30"
                 data-testid="ArrowDropDownIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1646,13 +1649,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
                 aria-hidden="true"
                 aria-invalid="false"
                 class="MuiSelect-nativeInput emotion-29"
+                id="_r_g_"
                 name="releases.0.uiPermissions"
                 tabindex="-1"
                 value=""
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-30"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-30"
                 data-testid="ArrowDropDownIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1735,13 +1739,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
                 aria-hidden="true"
                 aria-invalid="false"
                 class="MuiSelect-nativeInput emotion-29"
+                id="_r_i_"
                 name="groups.0.item"
                 tabindex="-1"
                 value=""
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-30"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-30"
                 data-testid="ArrowDropDownIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1797,13 +1802,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
                 aria-hidden="true"
                 aria-invalid="false"
                 class="MuiSelect-nativeInput emotion-29"
+                id="_r_k_"
                 name="groups.0.uiPermissions"
                 tabindex="-1"
                 value=""
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-30"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-30"
                 data-testid="ArrowDropDownIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1835,14 +1841,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
         class="flexbox centered margin-top emotion-79"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-right emotion-80"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-right emotion-80"
           tabindex="0"
           type="button"
         >
           Cancel
         </button>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-81"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-81"
           disabled=""
           tabindex="-1"
           type="submit"

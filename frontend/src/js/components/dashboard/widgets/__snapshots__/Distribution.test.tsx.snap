@@ -142,31 +142,31 @@ exports[`Distribution Component > renders correctly 1`] = `
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-bdbdbd .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-bdbdbd .undefined {
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-1d8faf .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-1d8faf .undefined {
   background-color: #1d8faf;
 }
 
-.emotion-6 .barchart .color-a31773 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-a31773 .undefined {
   background-color: #a31773;
 }
 
-.emotion-6 .barchart .color-00859e .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-00859e .undefined {
   background-color: #00859e;
 }
 
-.emotion-6 .barchart .color-14cfda .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-14cfda .undefined {
   background-color: #14cfda;
 }
 
-.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-9bfff0 .undefined {
   background-color: #9bfff0;
 }
 
-.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-barColorPrimary {
+.emotion-6 .barchart .color-d5d5d5 .undefined {
   background-color: #d5d5d5;
 }
 

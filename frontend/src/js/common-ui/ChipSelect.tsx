@@ -69,9 +69,9 @@ export const ChipSelect = ({ className = '', name, disabled = false, helperText,
           options={options}
           readOnly={disabled}
           ref={ref}
-          renderTags={(values, getTagProps) =>
+          renderValue={(values, getItemProps) =>
             values.map((option, index) => {
-              const { key, onDelete, ...tagProps } = getTagProps({ index });
+              const { key, onDelete, ...tagProps } = getItemProps({ index });
               return (
                 <Chip
                   label={option}
@@ -89,8 +89,8 @@ export const ChipSelect = ({ className = '', name, disabled = false, helperText,
               {...params}
               fullWidth
               slotProps={{
-                htmlInput: { ...params.inputProps, value },
-                input: params.InputProps
+                ...params.slotProps,
+                htmlInput: { ...params.slotProps.htmlInput, value }
               }}
               key={`${name}-input`}
               label={label}

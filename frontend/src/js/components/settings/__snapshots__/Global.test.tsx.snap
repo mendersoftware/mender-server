@@ -528,6 +528,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
 .emotion-23 {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
   background-color: currentColor;
+  box-sizing: border-box;
+  border: 1px solid transparent;
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -537,6 +539,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
   height: 100%;
   width: 100%;
   border-radius: 7px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
   z-index: -1;
   -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -1081,12 +1085,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-36:focus::-ms-input-
           aria-hidden="true"
           aria-invalid="false"
           class="MuiSelect-nativeInput emotion-13"
+          id="_r_2_"
           tabindex="-1"
           value="id"
         />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-14"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-14"
           data-testid="ArrowDropDownIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -1164,13 +1169,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-36:focus::-ms-input-
         </h6>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top-x-small emotion-28"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-x-small emotion-28"
         tabindex="0"
         type="button"
       >
         Edit configuration
         <span
-          class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-29"
+          class="MuiButton-icon MuiButton-endIcon emotion-29"
         >
           <svg
             aria-hidden="true"
@@ -1207,7 +1212,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-36:focus::-ms-input-
               <input
                 aria-invalid="false"
                 class="MuiInputBase-input MuiOutlinedInput-input emotion-36"
-                id="_r_3_"
+                id="_r_4_"
                 max="1000"
                 min="1"
                 type="number"

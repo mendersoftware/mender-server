@@ -389,6 +389,8 @@ exports[`MyOrganization Component > renders correctly 1`] = `
 .emotion-37 {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
   background-color: currentColor;
+  box-sizing: border-box;
+  border: 1px solid transparent;
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -398,6 +400,8 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   height: 100%;
   width: 100%;
   border-radius: 7px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
   z-index: -1;
   -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -448,12 +452,12 @@ exports[`MyOrganization Component > renders correctly 1`] = `
               </div>
               <div>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo emotion-8"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-8"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-9"
+                    class="MuiButton-icon MuiButton-startIcon emotion-9"
                   >
                     <svg
                       aria-hidden="true"
@@ -494,12 +498,12 @@ exports[`MyOrganization Component > renders correctly 1`] = `
               </div>
               <div>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo emotion-8"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-8"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-9"
+                    class="MuiButton-icon MuiButton-startIcon emotion-9"
                   >
                     <svg
                       aria-hidden="true"
@@ -556,12 +560,12 @@ exports[`MyOrganization Component > renders correctly 1`] = `
               </div>
               <div>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-outlinedInfo MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorInfo emotion-8"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-8"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-9"
+                    class="MuiButton-icon MuiButton-startIcon emotion-9"
                   >
                     <svg
                       aria-hidden="true"
@@ -763,7 +767,7 @@ exports[`smaller components > renders CancelSubscription correctly 1`] = `
   </p>
   <div>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-outlinedError MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorError emotion-2"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-2"
       tabindex="0"
       type="button"
     >
@@ -838,7 +842,7 @@ exports[`smaller components > renders CancelSubscriptionAlert correctly 1`] = `
 }
 
 <div
-  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-standardError MuiAlert-standard margin-top-large emotion-0"
+  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-standard margin-top-large emotion-0"
   role="alert"
   style="--Paper-shadow: none;"
 >

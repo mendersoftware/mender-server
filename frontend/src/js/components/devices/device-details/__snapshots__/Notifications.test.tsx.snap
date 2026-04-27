@@ -87,7 +87,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
 
 <div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-standardError MuiAlert-standard clickable emotion-0"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-standard clickable emotion-0"
     role="alert"
     style="--Paper-shadow: none;"
   >
@@ -207,7 +207,7 @@ exports[`tiny components > renders DeviceOfflineHeaderNotification correctly 1`]
 
 <div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-standardError MuiAlert-standard emotion-0"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-standard emotion-0"
     role="alert"
     style="--Paper-shadow: none;"
   >
@@ -319,7 +319,7 @@ exports[`tiny components > renders LastConnection correctly 1`] = `
 
 <div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-standardWarning MuiAlert-standard emotion-0"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorWarning MuiAlert-standard emotion-0"
     role="alert"
     style="--Paper-shadow: none;"
   >
@@ -421,7 +421,7 @@ exports[`tiny components > renders NoAlertsHeaderNotification correctly 1`] = `
 
 <div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorSuccess MuiAlert-standardSuccess MuiAlert-standard emotion-0"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorSuccess MuiAlert-standard emotion-0"
     role="alert"
     style="--Paper-shadow: none;"
   >
@@ -540,7 +540,7 @@ exports[`tiny components > renders ServiceNotification correctly 1`] = `
 
 <div>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-standardError MuiAlert-standard clickable emotion-0"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-standard clickable emotion-0"
     role="alert"
     style="--Paper-shadow: none;"
   >

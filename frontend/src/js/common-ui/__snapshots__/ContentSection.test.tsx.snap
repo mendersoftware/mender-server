@@ -110,24 +110,6 @@ exports[`ContentSection Component > renders correctly with title and postTitle 1
   font-size: 0.75rem;
 }
 
-.emotion-2 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-2 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-2 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-2 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -174,10 +156,10 @@ exports[`ContentSection Component > renders correctly with title and postTitle 1
       Online
     </div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-2"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault emotion-2"
     >
       <span
-        class="MuiChip-label MuiChip-labelMedium emotion-3"
+        class="MuiChip-label emotion-3"
       >
         Add-on
       </span>

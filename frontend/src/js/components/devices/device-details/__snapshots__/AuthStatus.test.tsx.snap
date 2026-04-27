@@ -98,24 +98,6 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-4 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-4 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-4 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-4 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -131,6 +113,19 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 
 .emotion-4 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-4 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
+}
+
+.emotion-4 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-4 .MuiChip-icon {
@@ -585,10 +580,10 @@ exports[`AuthStatus Component > renders correctly 1`] = `
         />
       </svg>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-4"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary emotion-4"
       >
         <span
-          class="MuiChip-label MuiChip-labelSmall emotion-5"
+          class="MuiChip-label emotion-5"
         >
           new request
         </span>
@@ -674,14 +669,14 @@ exports[`AuthStatus Component > renders correctly 1`] = `
               type="button"
             >
               <span
-                class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-15"
+                class="MuiAccordionSummary-content emotion-15"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary emotion-4"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary emotion-4"
                   style="justify-self: flex-start;"
                 >
                   <span
-                    class="MuiChip-label MuiChip-labelSmall emotion-5"
+                    class="MuiChip-label emotion-5"
                   >
                     new
                   </span>
@@ -766,7 +761,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
               type="button"
             >
               <span
-                class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-15"
+                class="MuiAccordionSummary-content emotion-15"
               >
                 <div
                   class="capitalized"
@@ -845,7 +840,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
       class="flexbox relative emotion-34"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-35"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary emotion-35"
         tabindex="0"
         type="button"
       >

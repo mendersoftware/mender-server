@@ -635,7 +635,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       >
         <textarea
           aria-invalid="false"
-          class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
+          class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
           disabled=""
           id="_r_5_"
           style="height: 0px; overflow: hidden;"
@@ -644,7 +644,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         </textarea>
         <textarea
           aria-hidden="true"
-          class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
+          class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
           readonly=""
           style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
           tabindex="-1"
@@ -667,14 +667,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       class="flexbox margin-bottom-x-small"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
         tabindex="0"
         type="button"
       >
         Edit
       </button>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
         tabindex="0"
         type="button"
       >
@@ -739,14 +739,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         >
           <textarea
             aria-invalid="false"
-            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             disabled=""
             id="_r_8_"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
             aria-hidden="true"
-            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             readonly=""
             style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
             tabindex="-1"
@@ -781,14 +781,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         >
           <textarea
             aria-invalid="false"
-            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             disabled=""
             id="_r_9_"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
             aria-hidden="true"
-            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             readonly=""
             style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
             tabindex="-1"
@@ -823,14 +823,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         >
           <textarea
             aria-invalid="false"
-            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             disabled=""
             id="_r_a_"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
             aria-hidden="true"
-            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             readonly=""
             style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
             tabindex="-1"
@@ -865,14 +865,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
         >
           <textarea
             aria-invalid="false"
-            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             disabled=""
             id="_r_b_"
             style="height: 0px; overflow: hidden;"
           />
           <textarea
             aria-hidden="true"
-            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline emotion-5"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
             readonly=""
             style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
             tabindex="-1"
@@ -896,14 +896,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       class="flexbox margin-bottom-x-small"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
         tabindex="0"
         type="button"
       >
         Edit
       </button>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-10"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
         tabindex="0"
         type="button"
       >

@@ -959,7 +959,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
             aria-invalid="false"
             autocapitalize="none"
             autocomplete="off"
-            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-5"
+            class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-5"
             id="filter-selection"
             role="combobox"
             spellcheck="false"
@@ -1020,12 +1020,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
         aria-hidden="true"
         aria-invalid="false"
         class="MuiSelect-nativeInput emotion-13"
+        id="_r_5_"
         tabindex="-1"
         value="$eq"
       />
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-14"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-14"
         data-testid="ArrowDropDownIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -1056,8 +1057,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-3"
         data-shrink="false"
-        for="_r_5_"
-        id="_r_5_-label"
+        for="_r_6_"
+        id="_r_6_-label"
       >
         Value
       </label>
@@ -1067,7 +1068,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
         <input
           aria-invalid="false"
           class="MuiInputBase-input MuiOutlinedInput-input emotion-20"
-          id="_r_5_"
+          id="_r_6_"
           type="text"
           value=""
         />

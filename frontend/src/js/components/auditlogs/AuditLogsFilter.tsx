@@ -98,7 +98,7 @@ export const AuditLogsFilter = ({
               freeSolo: true,
               isOptionEqualToValue: isUserOptionEqualToValue,
               options: Object.values(users),
-              renderInput: params => <TextField {...params} placeholder="Select a user" InputProps={{ ...params.InputProps }} />
+              renderInput: params => <TextField {...params} placeholder="Select a user" />
             }
           },
           {
@@ -109,7 +109,7 @@ export const AuditLogsFilter = ({
               ...autoSelectProps,
               options: auditLogsTypes,
               isOptionEqualToValue: (option, value) => option.value === value.value && option.object_type === value.object_type,
-              renderInput: params => <TextField {...params} placeholder="Type" InputProps={{ ...params.InputProps }} />
+              renderInput: params => <TextField {...params} placeholder="Type" />
             }
           },
           {
@@ -121,7 +121,7 @@ export const AuditLogsFilter = ({
               freeSolo: true,
               options: detailOptions,
               disabled: !type,
-              renderInput: params => <TextField {...params} placeholder={detailsMap[type] || '-'} InputProps={{ ...params.InputProps }} />
+              renderInput: params => <TextField {...params} placeholder={detailsMap[type] || '-'} />
             }
           },
           {

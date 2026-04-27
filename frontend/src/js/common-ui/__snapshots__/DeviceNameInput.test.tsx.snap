@@ -301,7 +301,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-0"
 >
   <input
-    class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd emotion-1"
+    class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-1"
     disabled=""
     id="a1-id-input"
     placeholder="a1..."

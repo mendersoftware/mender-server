@@ -104,24 +104,6 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-9 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-9 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-9 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-9 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -137,6 +119,14 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
 
 .emotion-9 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-9 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-9 .MuiChip-icon {
@@ -344,10 +334,10 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
             />
           </svg>
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault margin-left uppercased emotion-9"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault margin-left uppercased emotion-9"
           >
             <span
-              class="MuiChip-label MuiChip-labelSmall emotion-10"
+              class="MuiChip-label emotion-10"
             >
               static
             </span>
@@ -393,13 +383,13 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     </div>
   </div>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary margin-top emotion-17"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top emotion-17"
     tabindex="0"
     type="button"
   >
     See schedule details
     <span
-      class="MuiButton-icon MuiButton-endIcon MuiButton-iconSizeMedium emotion-18"
+      class="MuiButton-icon MuiButton-endIcon emotion-18"
     >
       <svg
         aria-hidden="true"

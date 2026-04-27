@@ -146,9 +146,7 @@ export const DeviceTypeSelectionStep = ({
           }}
           options={types}
           onChange={onSelect}
-          renderInput={params => (
-            <TextField {...params} label="Device type" placeholder="Choose a device type" InputProps={{ ...params.InputProps }} style={{ marginTop: 0 }} />
-          )}
+          renderInput={params => <TextField {...params} label="Device type" placeholder="Choose a device type" style={{ marginTop: 0 }} />}
           style={{ maxWidth: 300 }}
           value={selection}
         />

@@ -907,24 +907,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   font-size: 0.75rem;
 }
 
-.emotion-101 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-101 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-101 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-101 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -940,6 +922,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
 
 .emotion-101 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-101 .MuiChip-avatar {
+  color: #fff;
+  background-color: #1565c0;
+}
+
+.emotion-101 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-101 .MuiChip-icon {
@@ -983,23 +978,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   margin-left: 4px;
 }
 
-.emotion-101 .MuiChip-avatarSmall {
-  margin-left: 2px;
-}
-
 .emotion-101 .MuiChip-icon {
   margin-left: 4px;
-}
-
-.emotion-101 .MuiChip-iconSmall {
-  margin-left: 2px;
 }
 
 .emotion-101 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-101 .MuiChip-deleteIconSmall {
+.emotion-101 .MuiChip-avatar {
+  margin-left: 2px;
+}
+
+.emotion-101 .MuiChip-icon {
+  margin-left: 2px;
+}
+
+.emotion-101 .MuiChip-deleteIcon {
   margin-right: 3px;
 }
 
@@ -1034,26 +1029,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   padding-right: 7px;
 }
 
-.emotion-105 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-  letter-spacing: 0.00938em;
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-106 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.75rem;
-  line-height: 1.66;
-  letter-spacing: 0.03333em;
-  color: rgba(0, 0, 0, 0.38);
-}
-
 .emotion-107 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -1061,7 +1036,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0.00714em;
-  color: rgba(0, 0, 0, 0.38);
 }
 
 .emotion-111 {
@@ -1075,25 +1049,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   border-bottom-width: thin;
   margin-left: 16px;
   margin-right: 16px;
-}
-
-.emotion-112 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.75;
-  letter-spacing: 0.00938em;
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-113 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.57;
-  letter-spacing: 0.00714em;
 }
 
 .emotion-114 {
@@ -1494,7 +1449,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
               >
                 <input
                   aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall emotion-41"
+                  class="MuiInputBase-input MuiOutlinedInput-input emotion-41"
                   id="micro"
                   min="50"
                   name="micro"
@@ -1598,7 +1553,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
               >
                 <input
                   aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall emotion-41"
+                  class="MuiInputBase-input MuiOutlinedInput-input emotion-41"
                   id="standard"
                   min="500"
                   name="standard"
@@ -1740,7 +1695,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                   Detect and analyze health issues of devices, services and applications. Set up alerts so you can act quickly.
                 </p>
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard margin-bottom-x-small emotion-82"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-bottom-x-small emotion-82"
                   role="alert"
                   style="--Paper-shadow: none;"
                 >
@@ -1864,10 +1819,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                         Your subscription:
                       </h6>
                       <div
-                        class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-outlinedPrimary emotion-101"
+                        class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorPrimary emotion-101"
                       >
                         <span
-                          class="MuiChip-label MuiChip-labelSmall emotion-102"
+                          class="MuiChip-label emotion-102"
                         >
                           New
                         </span>
@@ -1890,12 +1845,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 >
                   <div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-105"
+                      class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-2"
                     >
                       micro
                     </p>
                     <span
-                      class="MuiTypography-root MuiTypography-caption emotion-106"
+                      class="MuiTypography-root MuiTypography-caption emotion-64"
                     >
                       x 
                       0
@@ -1913,12 +1868,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 >
                   <div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-105"
+                      class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-2"
                     >
                       standard
                     </p>
                     <span
-                      class="MuiTypography-root MuiTypography-caption emotion-106"
+                      class="MuiTypography-root MuiTypography-caption emotion-64"
                     >
                       x 
                       0
@@ -1938,19 +1893,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                   class="flexbox space-between margin-top-small"
                 >
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle1 emotion-112"
+                    class="MuiTypography-root MuiTypography-subtitle1 emotion-3"
                   >
                     Monthly price
                   </h6>
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle2 emotion-113"
+                    class="MuiTypography-root MuiTypography-subtitle2 emotion-107"
                   >
                     -
                   </h6>
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-114"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-114"
                 disabled=""
                 tabindex="-1"
                 type="button"

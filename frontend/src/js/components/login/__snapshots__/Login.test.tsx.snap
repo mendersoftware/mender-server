@@ -1358,12 +1358,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
           class="flexbox centered"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-5"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-5"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-6"
+              class="MuiButton-icon MuiButton-startIcon emotion-6"
             >
               <svg
                 aria-hidden="true"
@@ -1379,12 +1379,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
             Github
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-5"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-5"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-6"
+              class="MuiButton-icon MuiButton-startIcon emotion-6"
             >
               <svg
                 aria-hidden="true"
@@ -1400,12 +1400,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
             Google
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-outlinedNeutral MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-5"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-5"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium emotion-6"
+              class="MuiButton-icon MuiButton-startIcon emotion-6"
             >
               <svg
                 aria-hidden="true"
@@ -1508,7 +1508,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
                       >
                         <input
                           aria-invalid="false"
-                          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd emotion-31"
+                          class="MuiInputBase-input MuiOutlinedInput-input emotion-31"
                           id="password"
                           name="password"
                           type="password"
@@ -1649,7 +1649,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
             </span>
           </label>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary full-width emotion-53"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary full-width emotion-53"
             tabindex="0"
             type="submit"
           >

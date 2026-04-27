@@ -104,7 +104,7 @@ export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputCh
         inputValue={newGroup}
         options={filteredGroups}
         onInputChange={(e, newValue) => validateName(newValue)}
-        renderInput={params => <TextField {...params} label="Select a group, or type to create new" InputProps={{ ...params.InputProps }} />}
+        renderInput={params => <TextField {...params} label="Select a group, or type to create new" />}
         renderOption={GroupOption}
       />
       <FormHelperText>{errorText}</FormHelperText>

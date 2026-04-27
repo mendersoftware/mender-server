@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import {
   ArrowDropDown as ArrowDropDownIcon,
   DeveloperBoard as DeveloperBoardIcon,
-  ErrorOutline as ErrorOutlineIcon,
+  ErrorOutlined as ErrorOutlineIcon,
   WarningAmber as WarningAmberIcon
 } from '@mui/icons-material';
 import { Alert, Badge, Button, Divider, LinearProgress, Paper, Popover, Tooltip, Typography, alpha } from '@mui/material';
@@ -241,7 +241,7 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
                   <DeveloperBoardIcon className="margin-right-x-small" fontSize="small" />
                   <Typography variant="subtitle1">Accepted devices</Typography>
                 </div>
-                <Typography variant="subtitle1" color="text.secondary">
+                <Typography variant="subtitle1" color="textSecondary">
                   {total.toLocaleString(numberLocale)}
                 </Typography>
               </div>

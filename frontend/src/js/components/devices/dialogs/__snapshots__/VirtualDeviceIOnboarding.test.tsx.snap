@@ -191,13 +191,13 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
     class="emotion-3 "
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit emotion-4"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit emotion-4"
       tabindex="0"
       title="Copy to clipboard"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge emotion-5"
+        class="MuiButton-icon MuiButton-startIcon emotion-5"
       >
         <svg
           aria-hidden="true"

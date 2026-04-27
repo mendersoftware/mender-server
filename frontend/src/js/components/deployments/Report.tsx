@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Block as BlockIcon, CheckCircleOutline as CheckCircleOutlineIcon, Refresh as RefreshIcon } from '@mui/icons-material';
+import { Block as BlockIcon, CheckCircleOutlined as CheckCircleOutlineIcon, Refresh as RefreshIcon } from '@mui/icons-material';
 import { Alert, Button, Divider, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -314,7 +314,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
         </ColumnWidthProvider>
         {Boolean(deviceId.length) && <LogDialog canAi={canAi} deviceId={deviceId} deployment={deployment} onClose={() => setDeviceId('')} />}
       </div>
-      <Divider className={classes.divider} light />
+      <Divider className={classes.divider} />
     </BaseDrawer>
   );
 };

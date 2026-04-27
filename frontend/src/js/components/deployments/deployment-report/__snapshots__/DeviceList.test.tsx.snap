@@ -40,13 +40,14 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
             aria-hidden="true"
             aria-invalid="false"
             class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+            id="_r_4_"
             name="pagination"
             tabindex="-1"
             value="10"
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"

@@ -142,24 +142,6 @@ exports[`TwoColumnData Component > renders with chipLikeKey prop 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-1 .MuiChip-avatarColorPrimary {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-1 .MuiChip-avatarColorSecondary {
-  color: #fff;
-  background-color: #7b1fa2;
-}
-
-.emotion-1 .MuiChip-avatarSmall {
-  margin-left: 4px;
-  margin-right: -4px;
-  width: 18px;
-  height: 18px;
-  font-size: 0.625rem;
-}
-
 .emotion-1 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
@@ -175,6 +157,14 @@ exports[`TwoColumnData Component > renders with chipLikeKey prop 1`] = `
 
 .emotion-1 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
+}
+
+.emotion-1 .MuiChip-avatar {
+  margin-left: 4px;
+  margin-right: -4px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
 }
 
 .emotion-1 .MuiChip-icon {
@@ -226,11 +216,11 @@ exports[`TwoColumnData Component > renders with chipLikeKey prop 1`] = `
   class="break-all two-columns emotion-0 column-data "
 >
   <div
-    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-1"
+    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-1"
     style="justify-self: end;"
   >
     <span
-      class="MuiChip-label MuiChip-labelSmall emotion-2"
+      class="MuiChip-label emotion-2"
     >
       attribute
     </span>
@@ -246,11 +236,11 @@ exports[`TwoColumnData Component > renders with chipLikeKey prop 1`] = `
     </p>
   </div>
   <div
-    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault emotion-1"
+    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-1"
     style="justify-self: end;"
   >
     <span
-      class="MuiChip-label MuiChip-labelSmall emotion-2"
+      class="MuiChip-label emotion-2"
     >
       another
     </span>

@@ -1060,13 +1060,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
           aria-hidden="true"
           aria-invalid="false"
           class="MuiSelect-nativeInput emotion-20"
+          id="_r_2_"
           name="location"
           tabindex="-1"
           value=""
         />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-21"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon emotion-21"
           data-testid="ArrowDropDownIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -1211,7 +1212,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
       class="button-wrapper emotion-36 "
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-37"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-37"
         disabled=""
         tabindex="-1"
         type="submit"
