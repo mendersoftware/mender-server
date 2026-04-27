@@ -74,7 +74,7 @@ describe('TenantsForm', () => {
         users: [{ email: newChildTenant.email, role: rolesByName.admin }],
         name: newChildTenant.name,
         deviceLimits: {
-          micro: '2',
+          micro: 2,
           standard: 0,
           system: 0
         },
