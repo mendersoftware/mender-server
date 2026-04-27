@@ -421,7 +421,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   <svg
                     aria-hidden="true"
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                    data-testid="SettingsIcon"
+                    data-testid="column-configuration"
                     focusable="false"
                     style="font-size: 16px;"
                     viewBox="0 0 24 24"
