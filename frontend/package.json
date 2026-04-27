@@ -107,9 +107,6 @@
     "yarn": "1.22.22"
   },
   "overrides": {
-    "react-copy-to-clipboard": {
-      "react": "^19.x"
-    },
     "tss-react": {
       "@mui/material": "$@mui/material"
     }
