@@ -43,10 +43,10 @@ class _TestConnect:
                 sec_websocket_version=13,
             )
         except mender_client.ApiException as e:
-            assert e.status == 404
-            assert "device not found" in str(e.body)
+            assert e.status == 409
+            assert "device disconnected" in str(e.body)
         else:
-            raise Exception("Expected status code 404")
+            raise Exception("Expected status code 409")
 
         try:
             api_mgmt.connect(
@@ -57,10 +57,10 @@ class _TestConnect:
                 sec_websocket_version=13,
             )
         except mender_client.ApiException as e:
-            assert e.status == 404
-            assert "device not connected" in str(e.body)
+            assert e.status == 409
+            assert "device disconnected" in str(e.body)
         else:
-            raise Exception("Expected status code 404")
+            raise Exception("Expected status code 409")
 
         with dev.connect() as dev_conn:
             for i in range(15):
@@ -162,9 +162,10 @@ class _TestConnect:
                 sec_websocket_version=13,
             )
         except mender_client.ApiException as e:
-            assert e.status == 404
+            assert e.status == 409
+            assert "device disconnected" in str(e.body)
         else:
-            raise Exception("Expected status code 404")
+            raise Exception("Expected status code 409")
 
 
 class TestConnect(_TestConnect):
