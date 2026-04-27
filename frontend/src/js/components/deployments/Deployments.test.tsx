@@ -29,6 +29,7 @@ const defaultLocationProps = { location: { search: 'startDate=2019-01-01' }, mat
 
 const specialKeys = {
   ArrowDown: '{ArrowDown}',
+  ArrowUp: '{ArrowUp}',
   Enter: '{Enter}'
 };
 
@@ -187,8 +188,7 @@ describe('Deployments Component', () => {
     await user.click(screen.getByRole('button', { name: /advanced options/i }));
     await user.click(screen.getByRole('checkbox', { name: /maximum number of devices/i }));
     await waitFor(() => rerender(ui));
-    const accordion = screen.getByRole('checkbox', { name: /maximum number of devices/i }).parentElement.parentElement?.parentElement;
-    const limitInput = within(accordion).getByRole('textbox');
+    const limitInput = within(screen.getByText(/Finish deployment after/i)).getByRole('textbox');
     await user.clear(limitInput);
     await user.type(limitInput, '123');
     const post = vi.spyOn(GeneralApi, 'post');
@@ -274,27 +274,29 @@ describe('Deployments Component', () => {
     await selectMaterialUiSelectOption(screen.getByText(/Single phase: 100%/i), /3 phases/i, user);
     const firstPhase = screen.getByText(/Phase 1/i).parentElement.parentElement.parentElement;
     await selectMaterialUiSelectOption(within(firstPhase).getByDisplayValue(/days/i), /minutes/i, user);
-    fireEvent.change(within(firstPhase).getByDisplayValue(30), { target: { value: '40' } });
-    fireEvent.change(within(firstPhase).getByDisplayValue('5'), { target: { value: '30' } });
+    const [firstBatch, firstDelay] = within(firstPhase).getAllByRole('textbox') as HTMLInputElement[];
+    fireEvent.change(firstBatch, { target: { value: '40' } });
+    fireEvent.change(firstDelay, { target: { value: '30' } });
     const secondPhase = screen.getByText(/Phase 2/i).parentElement.parentElement.parentElement;
     await selectMaterialUiSelectOption(within(secondPhase).getByDisplayValue(/hours/i), /days/i, user);
-    fireEvent.change(within(secondPhase).getByDisplayValue(20), { target: { value: '20' } });
-    fireEvent.change(within(secondPhase).getByDisplayValue('15'), { target: { value: '25' } });
+    const [secondBatch, secondDelay] = within(secondPhase).getAllByRole('textbox') as HTMLInputElement[];
+    fireEvent.change(secondBatch, { target: { value: '20' } });
+    fireEvent.change(secondDelay, { target: { value: '25' } });
     await user.click(screen.getByText(/Add a phase/i));
     const thirdPhase = screen.getByText(/Phase 3/i).parentElement.parentElement.parentElement;
     expect(within(thirdPhase).getByText(/Phases must have at least 1 device/i)).toBeTruthy();
-    fireEvent.change(within(thirdPhase).getByDisplayValue(10), { target: { value: '20' } });
+    const [thirdBatch] = within(thirdPhase).getAllByRole('textbox') as HTMLInputElement[];
+    fireEvent.change(thirdBatch, { target: { value: '20' } });
     await user.click(screen.getByRole('checkbox', { name: /save as default/i }));
     const retrySelect = document.querySelector('#deployment-retries-selection');
     await user.click(retrySelect);
-    await user.keyboard(specialKeys.ArrowDown);
-    await user.keyboard(specialKeys.Enter);
+    await user.keyboard(specialKeys.ArrowUp);
     await user.tab();
     await act(async () => {
       vi.advanceTimersByTime(1000);
       vi.runAllTicks();
     });
-    expect(retrySelect).toHaveValue(2);
+    expect(retrySelect).toHaveValue('2');
 
     // extra explicit here as the general date mocking seems to be ignored by the moment/ date combination
     vi.setSystemTime(mockDate);

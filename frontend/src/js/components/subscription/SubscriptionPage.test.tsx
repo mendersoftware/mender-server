@@ -116,8 +116,8 @@ describe('Subscription Page component', () => {
 
     const deviceLimits = screen.getAllByLabelText('Device limit');
     const [microLimit, standardLimit] = deviceLimits;
-    expect(standardLimit).toHaveValue(PLANS.os.tierLimitsConstrains.standard.min);
-    expect(microLimit).toHaveValue(PLANS.os.tierLimitsConstrains.micro.min);
+    expect(standardLimit).toHaveValue(String(PLANS.os.tierLimitsConstrains.standard.min));
+    expect(microLimit).toHaveValue(String(PLANS.os.tierLimitsConstrains.micro.min));
 
     await act(async () => {
       vi.runOnlyPendingTimers();
@@ -127,8 +127,8 @@ describe('Subscription Page component', () => {
 
     await user.click(professionalRadioButton);
     expect(professionalRadioButton).toBeChecked();
-    await waitFor(() => expect(microLimit).toHaveValue(PLANS.professional.tierLimitsConstrains.micro.min));
-    await waitFor(() => expect(standardLimit).toHaveValue(PLANS.professional.tierLimitsConstrains.standard.min));
+    await waitFor(() => expect(microLimit).toHaveValue(String(PLANS.professional.tierLimitsConstrains.micro.min)));
+    await waitFor(() => expect(standardLimit).toHaveValue(String(PLANS.professional.tierLimitsConstrains.standard.min)));
     // Monitor addon should not be disabled for Professional Plan
     expect(monitorAddonCheckbox).not.toBeDisabled();
     await waitFor(() => expect(getBillingPreview).toHaveBeenCalled());
@@ -139,7 +139,7 @@ describe('Subscription Page component', () => {
       await user.tab();
     });
     await act(async () => vi.runOnlyPendingTimers());
-    await waitFor(() => expect(standardLimit).toHaveValue(300));
+    await waitFor(() => expect(standardLimit).toHaveValue('300'));
     await act(async () => vi.runOnlyPendingTimers());
     expect(getBillingPreview).toHaveBeenCalledWith(professionalReq300);
     await user.click(monitorAddonCheckbox);
