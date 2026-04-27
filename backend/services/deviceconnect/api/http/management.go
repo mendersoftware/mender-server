@@ -69,8 +69,6 @@ var (
 	keyStrokeMaxDelayRecording = int64(65535 * 1000000)
 )
 
-const channelSize = 25 // TODO make configurable
-
 const (
 	PropertyUserID = "user_id"
 )
