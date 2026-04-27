@@ -19,6 +19,7 @@ generate-openapi-client:
 		-i=/backend/docs/api/dist/openapi.yaml \
 		-o=client \
 		-g=go \
+		--ignore-file-override=.openapi-generator-ignore \
 		-c=.openapi-generator.yaml
 
 .PHONY: generate-openapi-client-mocks
