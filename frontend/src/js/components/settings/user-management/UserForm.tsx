@@ -175,7 +175,7 @@ const UserIdentifier = ({ userIdAllowed, onHasUserId }) => {
       hint="Email"
       label={userIdAllowed ? 'Email or User ID' : 'Email'}
       id="email"
-      validations={userIdAllowed ? 'isLength:1,isUUID||isEmail,trim' : 'isLength:1,trim'}
+      validations={userIdAllowed ? 'isLength:1,isUUID||isEmail,trim' : 'isLength:1,isEmail,trim'}
       required
       autocomplete="off"
     />
@@ -225,7 +225,7 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
               InputLabelProps={{ shrink: true }}
               label={<PasswordLabel />}
               placeholder="Password"
-              validations="isLength:8"
+              validations="isLength:8:256"
             />
             <FormCheckbox id="shouldResetPassword" label="Send an email to the user containing a link to reset the password" />
             <UserRolesSelect currentUser={currentUser} disabled={!(canManageUsers && isEnterprise)} onSelect={onSelect} roles={roles} user={{}} />

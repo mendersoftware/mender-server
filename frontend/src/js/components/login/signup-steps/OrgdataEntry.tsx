@@ -69,7 +69,7 @@ const OrgDataContent = ({
         hint="Your organization name"
         required
         requiredRendered={false}
-        validations="isLength:1,trim"
+        validations="isLength:1:256,trim"
       />
       {!emailVerified && <TextInput hint="Email *" label="Email *" id="email" required validations="isLength:1,isEmail,trim" />}
       <div className={classes.locationSelect}>

@@ -59,12 +59,12 @@ export const UserDataEntry = ({ classes, onSubmit }) => {
           {...commonProps}
           id="password"
           label="Password *"
-          validations={`isLength:8,isNot:${email}`}
+          validations={`isLength:8:256,isNot:${email}`}
           create={true}
           generate={false}
           className="margin-bottom-small"
         />
-        <PasswordInput {...commonProps} id="password_confirmation" label="Confirm password *" validations={`isLength:8,isNot:${email}`} />
+        <PasswordInput {...commonProps} id="password_confirmation" label="Confirm password *" validations={`isLength:8:256,isNot:${email}`} />
         <Button variant="contained" type="submit" disabled={isNotDefined}>
           Sign up
         </Button>
