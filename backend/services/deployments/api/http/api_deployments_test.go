@@ -1972,6 +1972,30 @@ func TestLookupDeploymentV2(t *testing.T) {
 			count:        0,
 			ResponseCode: http.StatusOK,
 		},
+		{
+			Name:         "page beyond available pages returns 404",
+			query:        &model.Query{Limit: 50, Sort: model.SortDirectionDescending},
+			deployments:  []*model.Deployment{{Name: "deployment-1"}},
+			count:        34, // Only 34 items total
+			sort:         model.SortDirectionDescending,
+			ResponseCode: http.StatusNotFound,
+		},
+		{
+			Name:         "zero page returns 400",
+			query:        &model.Query{Limit: 50, Sort: model.SortDirectionDescending},
+			deployments:  []*model.Deployment{},
+			count:        34,
+			sort:         model.SortDirectionDescending,
+			ResponseCode: http.StatusBadRequest,
+		},
+		{
+			Name:         "very large page number returns 404",
+			query:        &model.Query{Limit: 50, Sort: model.SortDirectionDescending},
+			deployments:  []*model.Deployment{{Name: "deployment-1"}},
+			count:        34,
+			sort:         model.SortDirectionDescending,
+			ResponseCode: http.StatusNotFound,
+		},
 	}
 
 	for _, tc := range testCases {
