@@ -401,6 +401,8 @@ test:backend:static:
   script:
     - cd backend
     - golangci-lint run -v
+  tags:
+    - k8s
 
 .template:combine-api:
   stage: test
@@ -622,7 +624,7 @@ test:backend:integration:ng:
     - make -C backend test-integration-ng
       GOCOVERDIR=${GOCOVERDIR}/integration-ng
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
-    
+
   after_script:
     - export MANTRA_PROJECT_NAME="backend_integration_ng_open_source"
     - !reference [.mantra-push-results]
