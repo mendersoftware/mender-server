@@ -418,7 +418,7 @@ const HeaderItem = <T extends wID>(props: HeaderItemProps<T>) => {
         )}
       </Typography>
       <div className="flexbox align-items-center full-height">
-        {column.customize && <SettingsIcon onClick={column.customize} style={{ fontSize: 16 }} />}
+        {column.customize && <SettingsIcon onClick={column.customize} style={{ fontSize: 16 }} data-testid="column-configuration" />}
         {index < columnCount - 2 && resizable && (
           <div onMouseDown={mouseDown} className={`${classes.resizer} full-height`}>
             <div className={`full-height ${classes.resizeHandle} ${resizeHandleClassName}`} />

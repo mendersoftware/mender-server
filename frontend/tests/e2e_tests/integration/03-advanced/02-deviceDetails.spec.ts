@@ -30,14 +30,14 @@ test.describe('Device details', () => {
   test.beforeEach(async ({ baseUrl, page }) => {
     await page.goto(`${baseUrl}ui/devices`);
   });
-  test('has basic inventory', async ({ demoDeviceName, page }) => {
+  test('has basic inventory', async ({ demoDeviceSoftware, page }) => {
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/inventory/i).click();
     const expandedDevice = await page.locator(`css=.expandedDevice`);
     await expect(expandedDevice.getByText('Linux')).toBeVisible();
     await expect(expandedDevice.getByText(/hostname/).first()).toBeVisible();
     await expandedDevice.getByRole('tab', { name: /software/i }).click();
-    await expect(expandedDevice.getByText(demoDeviceName)).toBeVisible();
+    await expect(expandedDevice.getByText(demoDeviceSoftware)).toBeVisible();
   });
 
   test.describe('Terminal interactions', () => {
@@ -109,5 +109,32 @@ test.describe('Device details', () => {
     await expect(updateLoadingIndicator).toBeVisible();
     await updateLoadingIndicator.waitFor({ state: 'hidden', timeout: timeouts.tenSeconds });
     await expect(updateLoadingIndicator).not.toBeVisible();
+  });
+
+  test('can name a device', async ({ demoDeviceName, page }) => {
+    await page.waitForTimeout(timeouts.default);
+    await page.getByTestId('column-configuration').click();
+    await page.getByRole('combobox').click();
+    await page.getByRole('option', { name: 'Device ID', exact: true }).waitFor({ timeout: timeouts.default });
+    await page.getByRole('option', { name: 'Name', exact: true }).click();
+    await page.getByRole('button', { name: /Save/i }).click();
+    await expect(page.getByText(/Settings saved successfully/i)).toBeVisible();
+    await expect(page.getByText(demoDeviceName)).not.toBeVisible();
+    await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+
+    const expandedDevice = page.locator(`css=.expandedDevice`);
+    await expandedDevice.getByRole('tab', { name: /identity/i }).click();
+    await expandedDevice.getByRole('button', { name: 'Edit' }).click();
+    await expandedDevice.getByRole('textbox', { name: /Key/i }).last().fill('name');
+    await expandedDevice.getByRole('textbox', { name: /Value/i }).last().fill(demoDeviceName);
+    await expandedDevice.getByRole('button', { name: /Save/i }).click();
+    await expandedDevice.getByRole('button', { name: 'close' }).click();
+    await expect(expandedDevice).not.toBeVisible();
+    const input = page
+      .getByRole('textbox')
+      .locator('..')
+      .filter({ hasNot: page.locator('svg') })
+      .getByRole('textbox');
+    await expect(input).toHaveValue(demoDeviceName);
   });
 });

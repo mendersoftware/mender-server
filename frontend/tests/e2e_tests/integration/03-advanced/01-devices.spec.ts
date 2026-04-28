@@ -108,12 +108,12 @@ test.describe('Devices', () => {
     });
   });
 
-  test('can be found', async ({ demoDeviceName, page }) => {
+  test('can be found', async ({ demoDeviceSoftware, page }) => {
     const searchField = await page.getByPlaceholder(/search devices/i);
-    await searchField.fill(demoDeviceName.slice(0, 6));
+    await searchField.fill(demoDeviceSoftware.slice(0, 6));
     await page.waitForSelector(selectors.deviceListItem);
     const slideOut = page.locator('.MuiPaper-root');
-    await expect(slideOut.locator(`:text("${demoDeviceName}")`)).toBeVisible();
+    await expect(slideOut.locator(`:text("${demoDeviceSoftware}")`)).toBeVisible();
     await expect(slideOut.getByText('1-1 of 1')).toBeVisible();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/device information/i).waitFor();
@@ -125,18 +125,18 @@ test.describe('Devices', () => {
     await expect(page.getByText(/device found/i)).toBeVisible();
   });
 
-  test('can be filtered', async ({ browserName, demoDeviceName, page }) => {
+  test('can be filtered', async ({ browserName, demoDeviceSoftware, page }) => {
     test.setTimeout(2 * timeouts.fifteenSeconds);
     await page.getByRole('button', { name: /filters/i }).click();
     await page.getByLabel(/attribute/i).fill(rootfs);
     const nameInput = await page.getByLabel(/value/i);
-    await nameInput.fill(demoDeviceName);
+    await nameInput.fill(demoDeviceSoftware);
     await page.waitForTimeout(timeouts.default);
     await nameInput.press('Enter');
     if (browserName === 'webkit') {
       await page.waitForTimeout(timeouts.fiveSeconds);
     }
-    const filterChip = await page.getByRole('button', { name: `${rootfs} = ${demoDeviceName}` });
+    const filterChip = await page.getByRole('button', { name: `${rootfs} = ${demoDeviceSoftware}` });
     await filterChip.waitFor({ timeout: timeouts.fiveSeconds });
     await expect(filterChip).toBeVisible();
     const resetButton = await page.getByRole('button', { name: /clear filter/i });

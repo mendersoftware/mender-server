@@ -133,6 +133,17 @@ test.describe('Deployments', () => {
     await page.getByRole('tab', { name: /finished/i }).click();
     await page.getByRole('listitem').first().waitFor({ timeout: timeouts.sixtySeconds });
   });
+
+  test('allows deployment filtering by name', async ({ demoDeviceName, page }) => {
+    await navbar.getByRole('link', { name: /deployments/i }).click();
+    await page.getByRole('tab', { name: /Finished/i }).click();
+    await page.getByRole('combobox', { name: /Target devices/i }).click();
+    await page.getByRole('combobox', { name: /Target devices/i }).fill(demoDeviceName);
+    await page.getByRole('listitem').first().waitFor({ timeout: timeouts.fiveSeconds });
+    const deployments = await page.getByRole('listitem').all();
+    expect(deployments.length).toBeTruthy();
+  });
+
   test('deployment pagination', async ({ baseUrl, page, request }) => {
     const token = await getTokenFromStorage(baseUrl);
     const pendingDeploymentRequests = Array.from({ length: 60 }, (_, index) => ({

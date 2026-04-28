@@ -39,7 +39,7 @@ export const DeviceIdentityDialog = ({ open, onClose }) => {
   }, [dispatch]);
 
   const onHandleSubmit = async () => {
-    await dispatch(saveGlobalSettings({ id_attribute: selectedAttribute, notify: true })).unwrap();
+    await dispatch(saveGlobalSettings({ id_attribute: attributeSelection, notify: true })).unwrap();
     onClose();
   };
 
@@ -66,7 +66,7 @@ export const DeviceIdentityDialog = ({ open, onClose }) => {
           </Select>
           <FormHelperText>Choose a device identity attribute to use to identify your devices throughout the UI.</FormHelperText>
         </FormControl>
-        <Typography className="margin-top-x-small" variant="body2">
+        <Typography className="margin-top-x-small" variant="body2" component="div">
           Add custom identity attributes to your devices.{' '}
           <DocsTextLink id={DOCSTIPS.deviceIdentity.id} typographyProps={{ variant: 'body2' }}>
             Learn how
