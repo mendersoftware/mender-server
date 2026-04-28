@@ -163,9 +163,6 @@ func TestPrepareUserSession(t *testing.T) {
 		Rand          io.Reader
 		BadParameters bool
 
-		StoreGetDevice    *model.Device
-		StoreGetDeviceErr error
-
 		StoreAllocSessErr error
 
 		HaveAuditLogs         bool
@@ -183,11 +180,6 @@ func TestPrepareUserSession(t *testing.T) {
 			TenantID: "000000000000000000000000",
 			StartTS:  time.Now(),
 		},
-		StoreGetDevice: &model.Device{
-			ID:     "00000000-0000-0000-0000-000000000000",
-			Status: model.DeviceStatusConnected,
-		},
-		StoreGetDeviceErr: nil,
 		StoreAllocSessErr: nil,
 
 		WorkflowsError: nil,
@@ -227,47 +219,6 @@ func TestPrepareUserSession(t *testing.T) {
 		Erre: errors.New("^app: cannot create invalid Session: " +
 			"start_ts: cannot be blank.$"),
 	}, {
-		Name: "error, GetDevice internal error",
-
-		CTX: context.Background(),
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-
-		StoreGetDeviceErr: errors.New("store: internal error"),
-
-		Erre: errors.New("^store: internal error$"),
-	}, {
-		Name: "error, GetDevice not found",
-
-		CTX: context.Background(),
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-
-		Erre: ErrDeviceNotFound,
-	}, {
-		Name: "error, GetDevice disconnected",
-
-		CTX: context.Background(),
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-		StoreGetDevice: &model.Device{
-			ID:     "00000000-0000-0000-0000-000000000000",
-			Status: model.DeviceStatusDisconnected,
-		},
-		Erre: ErrDeviceNotConnected,
-	}, {
 		Name: "error, AllocateSession internal error",
 
 		CTX: context.Background(),
@@ -276,10 +227,6 @@ func TestPrepareUserSession(t *testing.T) {
 			UserID:   "00000000-0000-0000-0000-000000000001",
 			TenantID: "000000000000000000000000",
 			StartTS:  time.Now(),
-		},
-		StoreGetDevice: &model.Device{
-			ID:     "00000000-0000-0000-0000-000000000000",
-			Status: model.DeviceStatusConnected,
 		},
 		StoreAllocSessErr: errors.New("store: internal error"),
 		Erre:              errors.New("store: internal error"),
@@ -299,18 +246,6 @@ func TestPrepareUserSession(t *testing.T) {
 				wf, Config{HaveAuditLogs: tc.HaveAuditLogs},
 			)
 			if tc.BadParameters {
-				goto execTest
-			}
-			ds.On("GetDevice",
-				tc.CTX,
-				tc.Session.TenantID,
-				tc.Session.DeviceID).
-				Return(tc.StoreGetDevice, tc.StoreGetDeviceErr)
-			if tc.StoreGetDeviceErr != nil ||
-				(tc.StoreGetDeviceErr == nil &&
-					tc.StoreGetDevice == nil) ||
-				tc.StoreGetDevice.Status !=
-					model.DeviceStatusConnected {
 				goto execTest
 			}
 			ds.On("AllocateSession", tc.CTX, tc.Session).
@@ -683,8 +618,7 @@ func TestGetRecorder(t *testing.T) {
 			store := &store_mocks.DataStore{}
 			app := New(store, nil)
 
-			ctx := context.Background()
-			r := app.GetRecorder(ctx, sessionId)
+			r := app.GetRecorder(sessionId)
 			assert.NotNil(t, r)
 		})
 	}
