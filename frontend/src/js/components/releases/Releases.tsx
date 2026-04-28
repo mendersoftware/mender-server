@@ -11,160 +11,132 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { CloudUpload } from '@mui/icons-material';
-import { Button, Tab, Tabs, TextField, inputBaseClasses, outlinedInputClasses } from '@mui/material';
+import { Button, Tab, Tabs, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
-import { ControlledSearch } from '@northern.tech/common-ui/Search';
-import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
-import { Filters } from '@northern.tech/common-ui/forms/Filters';
 import storeActions from '@northern.tech/store/actions';
-import { BENEFITS, SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
+import { BENEFITS, SORTING_OPTIONS, TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
-import {
-  getHasReleases,
-  getReleaseListState,
-  getReleaseTags,
-  getReleasesList,
-  getSelectedRelease,
-  getUpdateTypes as getUpdateTypesSelector,
-  getUserCapabilities
-} from '@northern.tech/store/selectors';
-import { getExistingReleaseTags, getReleases, getUpdateTypes, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
+import { getActiveTab, getFeatures, getReleaseListState, getReleasesList, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
+import { selectManifest, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
-import pluralize from 'pluralize';
 
 import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 import { DeltaProgress } from './DeltaGeneration';
-import ReleaseDetails from './ReleaseDetails';
+import { ReleasesFilters } from './ReleasesFilters';
 import ReleasesList from './ReleasesList';
 import AddArtifactDialog from './dialogs/AddArtifact';
+import { ManifestsFilters } from './manifests/ManifestsFilters';
+import { ManifestsList } from './manifests/ManifestsList';
 
-const { setSelectedJob } = storeActions;
+const { setActiveTab, setSelectedJob, setSnackbar } = storeActions;
 
-const refreshArtifactsLength = 60000;
+type TitleDefinition = { benefitId?: string; title: string };
 
-const DeltaTitle = () => (
+const Title = ({ title, benefitId }: TitleDefinition) => (
   <div className="flexbox align-items-center">
-    <div>Delta Artifacts generation</div>
-    <EnterpriseNotification className="margin-left-small" id={BENEFITS.deltaGeneration.id} />
+    <Typography variant="button" style={{ textTransform: 'none' }}>
+      {title}
+    </Typography>
+    {benefitId && <EnterpriseNotification className="margin-left-small" id={benefitId} />}
   </div>
 );
 
-const tabs = [
-  { key: 'releases', Title: () => 'Releases', component: ReleasesList },
-  { key: 'delta', Title: DeltaTitle, component: DeltaProgress }
-];
+type UploadDefinition = { buttonProps: Record<string, string>; title: string; tooltipId: string };
+
+const Upload = ({ classes, onUploadClick, tooltipId, title, buttonProps }) => (
+  <div className="flexbox align-items-center">
+    <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} {...buttonProps}>
+      {title}
+    </Button>
+    <MenderHelpTooltip id={tooltipId} style={{ marginTop: 8 }} />
+  </div>
+);
+
+type TabDefinition = {
+  canAccess: (flags: Record<string, boolean>) => boolean;
+  Content: ({ className, onFileUploadClick }: { className?: string; onFileUploadClick: (file?: File) => void }) => ReactNode;
+  Filters?: ({ classes }: { classes: Record<string, string> }) => ReactNode;
+  key: string;
+  title: TitleDefinition;
+  upload?: UploadDefinition;
+};
+
+const tabbedComponents: Record<string, TabDefinition> = {
+  releases: {
+    canAccess,
+    Content: ReleasesList,
+    key: 'releases',
+    title: { title: 'Releases' },
+    Filters: ReleasesFilters,
+    upload: { buttonProps: { variant: 'contained' }, tooltipId: HELPTOOLTIPS.artifactUpload.id, title: 'Upload an artifact' }
+  },
+  manifests: {
+    canAccess: ({ hasManifestsEnabled }) => !!hasManifestsEnabled,
+    Content: ManifestsList,
+    key: 'manifests',
+    title: { title: 'Manifests', benefitId: BENEFITS.manifests.id },
+    Filters: ManifestsFilters,
+    upload: { buttonProps: { variant: 'outlined' }, tooltipId: HELPTOOLTIPS.manifestUpload.id, title: 'Upload a Manifest' }
+  },
+  delta: {
+    canAccess,
+    Content: DeltaProgress,
+    key: 'delta',
+    title: { title: 'Delta Artifacts generation', benefitId: BENEFITS.deltaGeneration.id }
+  }
+};
 
 const useStyles = makeStyles()(theme => ({
   container: { maxWidth: 1600 },
   searchNote: { minHeight: '1.8rem' },
   tabContainer: { alignSelf: 'flex-start' },
-  uploadButton: { minWidth: 164, marginRight: theme.spacing(2) },
-  nameSearch: {
-    [`.${inputBaseClasses.root}.${outlinedInputClasses.root}`]: {
-      padding: theme.palette.background.lightgrey ? `${theme.spacing()} 0 ${theme.spacing()} 14px` : ''
-    }
-  }
+  uploadButton: { minWidth: 164, marginRight: theme.spacing(2) }
 }));
 
-const Header = ({ canUpload, releasesListState, setReleasesListState, onUploadClick }) => {
-  const { selectedTags = [], searchTerm = '', searchTotal, tab = tabs[0].key, total, type } = releasesListState;
+const Header = ({ canUpload, tab, onTabChanged, onUploadClick, tabs }) => {
   const { classes } = useStyles();
-  const hasReleases = useSelector(getHasReleases);
-  const existingTags = useSelector(getReleaseTags);
-  const updateTypes = useSelector(getUpdateTypesSelector);
 
-  const searchUpdated = useCallback(searchTerm => setReleasesListState({ searchTerm }), [setReleasesListState]);
-
-  const onTabChanged = (e, tab) => setReleasesListState({ tab });
-
-  const onFiltersChange = useCallback(({ name, tags, type }) => setReleasesListState({ selectedTags: tags, searchTerm: name, type }), [setReleasesListState]);
+  const { Filters: FilterComponent, upload } = tabbedComponents[tab] ?? {};
 
   return (
     <div>
       <div className="flexbox space-between align-items-center">
         <Tabs className={classes.tabContainer} value={tab} onChange={onTabChanged} textColor="primary">
-          {tabs.map(({ key, Title }) => (
-            <Tab key={key} label={<Title />} value={key} />
+          {tabs.map(({ key, title }) => (
+            <Tab key={key} label={<Title {...title} />} value={key} />
           ))}
         </Tabs>
-        {canUpload && tab !== 'delta' && (
-          <div className="flexbox align-items-center">
-            <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} variant="contained">
-              Upload
-            </Button>
-            <MenderHelpTooltip id={HELPTOOLTIPS.artifactUpload.id} style={{ marginTop: 8 }} />
-          </div>
-        )}
+        {canUpload && upload && <Upload classes={classes} onUploadClick={onUploadClick} {...upload} />}
       </div>
-      {hasReleases && tab === tabs[0].key && (
-        <Filters
-          className={classes.container}
-          onChange={onFiltersChange}
-          initialValues={{ name: searchTerm, tags: selectedTags, type }}
-          defaultValues={{ name: '', tags: [], type: '' }}
-          filters={[
-            {
-              key: 'name',
-              title: 'Release name',
-              Component: ControlledSearch,
-              componentProps: {
-                className: classes.nameSearch,
-                onSearch: searchUpdated,
-                placeholder: 'Starts with'
-              }
-            },
-            {
-              key: 'tags',
-              title: 'Tags',
-              Component: ChipSelect,
-              componentProps: {
-                options: existingTags,
-                placeholder: 'Select tags',
-                selection: selectedTags
-              }
-            },
-            {
-              key: 'type',
-              title: 'Contains Artifact type',
-              Component: ControlledAutoComplete,
-              componentProps: {
-                autoHighlight: true,
-                filterSelectedOptions: true,
-                freeSolo: true,
-                handleHomeEndKeys: true,
-                options: updateTypes,
-                renderInput: params => <TextField {...params} placeholder="Any" />
-              }
-            }
-          ]}
-        />
-      )}
-      <p className={`muted ${classes.searchNote}`}>{searchTerm && searchTotal !== total ? `Filtered from ${total} ${pluralize('Release', total)}` : ''}</p>
+      {FilterComponent && <FilterComponent classes={classes} />}
     </div>
   );
 };
 
 export const Releases = () => {
   const releasesListState = useSelector(getReleaseListState);
-  const { searchTerm, sort = {}, page, perPage, tab = tabs[0].key, selectedTags, type } = releasesListState;
+  const { searchTerm, sort = {}, page, perPage, selectedTags, type } = releasesListState;
+  const tab = useSelector(getActiveTab);
   const releases = useSelector(getReleasesList);
   const selectedRelease = useSelector(getSelectedRelease);
   const { canUploadReleases } = useSelector(getUserCapabilities);
+  const features = useSelector(getFeatures);
   const dispatch = useDispatch();
   const { classes } = useStyles();
 
+  const tabs = useMemo(() => Object.values(tabbedComponents).filter(({ canAccess }) => canAccess(features)), [features]);
+
   const [selectedFile, setSelectedFile] = useState();
   const [showAddArtifactDialog, setShowAddArtifactDialog] = useState(false);
-  const artifactTimer = useRef();
   const isInitialized = useRef(false);
   const location = useLocation();
   const [locationParams, setLocationParams, { shouldInitializeFromUrl }] = useLocationParams('releases', {
@@ -190,7 +162,7 @@ export const Releases = () => {
     if (!isInitialized.current) {
       return;
     }
-    setLocationParams({ pageState: { ...releasesListState, selectedRelease: selectedRelease.name } });
+    setLocationParams({ pageState: { ...releasesListState, tab, selectedRelease: selectedRelease.name } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     debouncedSearchTerm,
@@ -207,60 +179,52 @@ export const Releases = () => {
   ]);
 
   useEffect(() => {
-    if (artifactTimer.current && (isInitialized.current || !shouldInitializeFromUrl)) {
+    if (isInitialized.current || !shouldInitializeFromUrl) {
       isInitialized.current = true;
       return;
     }
-    const { selectedRelease, selectedJob, tags, ...remainder } = locationParams;
+    const { selectedRelease, selectedJob, selectedManifest, tab: urlTab, tags, ...remainder } = locationParams;
     if (selectedRelease) {
       dispatch(selectRelease(selectedRelease));
     }
     if (selectedJob) {
       dispatch(setSelectedJob(selectedJob));
     }
+    if (selectedManifest) {
+      dispatch(selectManifest(selectedManifest));
+    }
+    if (urlTab) {
+      dispatch(setActiveTab(urlTab));
+    }
     dispatch(setReleasesListState({ ...remainder, selectedTags: tags }));
     isInitialized.current = true;
-    clearInterval(artifactTimer.current);
-    artifactTimer.current = setInterval(() => dispatch(getReleases()), refreshArtifactsLength);
-    return () => {
-      clearInterval(artifactTimer.current);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, JSON.stringify(locationParams), shouldInitializeFromUrl]);
-
-  useEffect(() => {
-    dispatch(getReleases({ searchTerm: '', searchOnly: true, page: 1, perPage: 1, selectedTags: [], type: '' }));
-    dispatch(getExistingReleaseTags());
-    dispatch(getUpdateTypes());
-    return () => {
-      dispatch(setReleasesListState({ selection: [] }));
-    };
-  }, [dispatch]);
 
   const onUploadClick = () => setShowAddArtifactDialog(true);
 
   const onFileUploadClick = selectedFile => {
-    setSelectedFile(selectedFile);
-    setShowAddArtifactDialog(true);
+    if (tab === tabbedComponents.releases.key) {
+      setSelectedFile(selectedFile);
+      setShowAddArtifactDialog(true);
+    } else {
+      dispatch(setSnackbar('Uploading Manifests is not yet supported'));
+    }
   };
 
   const onHideAddArtifactDialog = () => setShowAddArtifactDialog(false);
 
-  const onSetReleasesListState = useCallback(state => dispatch(setReleasesListState(state)), [dispatch]);
+  const onTabChanged = useCallback((_, changedTab: 'releases' | 'delta' | 'manifests') => dispatch(setActiveTab(changedTab)), [dispatch]);
 
-  const ContentComponent = useMemo(() => tabs.find(({ key }) => key === tab).component, [tab]);
+  const { Content: ContentComponent } = tabbedComponents[tab || tabbedComponents.releases.key];
+
   return (
-    <div className="margin">
-      <div>
-        <Header
-          canUpload={canUploadReleases}
-          onUploadClick={onUploadClick}
-          releasesListState={releasesListState}
-          setReleasesListState={onSetReleasesListState}
-        />
-        <ContentComponent className={classes.container} onFileUploadClick={onFileUploadClick} />
-      </div>
-      <ReleaseDetails />
+    <div className="margin-right">
+      <Typography className="margin-bottom-small" variant="h5">
+        Software
+      </Typography>
+      <Header canUpload={canUploadReleases} tab={tab} onTabChanged={onTabChanged} onUploadClick={onUploadClick} tabs={tabs} />
+      <ContentComponent className={classes.container} onFileUploadClick={onFileUploadClick} />
       {showAddArtifactDialog && (
         <AddArtifactDialog releases={releases} onCancel={onHideAddArtifactDialog} onUploadStarted={onHideAddArtifactDialog} selectedFile={selectedFile} />
       )}

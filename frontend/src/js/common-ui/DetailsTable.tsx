@@ -12,7 +12,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // material ui
-import { Sort as SortIcon } from '@mui/icons-material';
+import type { ReactNode } from 'react';
+
+import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
 import { Checkbox, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -29,6 +31,15 @@ const useStyles = makeStyles()(() => ({
     '.nonSortable': { cursor: 'initial' }
   }
 }));
+
+export interface ColumnDefinition {
+  cellProps?: Record<string, string>;
+  key: string;
+  render: () => ReactNode | string;
+  renderTitle?: () => ReactNode | string;
+  sortable?: boolean;
+  title: string;
+}
 
 export const DetailsTable = ({
   className = '',
@@ -80,7 +91,12 @@ export const DetailsTable = ({
               {...cellProps}
             >
               {renderTitle ? renderTitle(extras) : title}
-              {sortable && <SortIcon className={`sortIcon ${sort.key === key ? 'selected' : ''} ${(sort.direction === SORTING_OPTIONS.desc).toString()}`} />}
+              {sortable &&
+                (sort.direction === SORTING_OPTIONS.desc ? (
+                  <ArrowDownward className={`sortIcon ${sort.key === key ? 'selected' : ''}`} color="action" />
+                ) : (
+                  <ArrowUpward className={`sortIcon ${sort.key === key ? 'selected' : ''}`} color="action" />
+                ))}
             </TableCell>
           ))}
         </TableRow>
@@ -94,7 +110,12 @@ export const DetailsTable = ({
               </TableCell>
             )}
             {columns.map(column => (
-              <TableCell className="relative" key={column.key} onClick={() => (onItemClick ? onItemClick(item) : null)}>
+              <TableCell
+                className={`relative ${column.sortable ? 'padding-right-large' : ''}`}
+                key={column.key}
+                onClick={() => (onItemClick ? onItemClick(item) : null)}
+                {...column.cellProps}
+              >
                 {column.render(item, column.extras)}
               </TableCell>
             ))}

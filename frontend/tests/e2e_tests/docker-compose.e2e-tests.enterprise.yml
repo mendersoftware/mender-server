@@ -2,6 +2,7 @@ services:
   gui-tests-runner:
     environment:
       SMTP4DEV_URL: "http://smtp4dev"
+      GITHUB_TOKEN:
     depends_on:
       - auditlogs
       - client
@@ -21,11 +22,19 @@ services:
       - s3
       - traefik
 
+  gui:
+    environment:
+      HAVE_MANIFESTS_ENABLED: "true"
+
   useradm:
     environment:
       USERADM_BASE_URL: "https://docker.mender.io"
       # FIXME: QA-1457 - Setup mail server to verify email
       USERADM_INSECURE_DISABLE_EMAIL_VERIFICATION: "true"
+
+  deployments:
+    environment:
+      DEPLOYMENTS_ORCHESTRATOR_MANIFESTS_ENABLED: "true"
 
   iot-manager:
     environment:

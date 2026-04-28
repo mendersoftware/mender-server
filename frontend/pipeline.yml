@@ -226,6 +226,7 @@ test:frontend:acceptance:enterprise:
         export MENDER_IMAGE_TAG=main
       fi
     - docker login -u "$REGISTRY_MENDER_IO_USERNAME" -p "$REGISTRY_MENDER_IO_PASSWORD" registry.mender.io
+    - export GITHUB_TOKEN="${GITHUB_BOT_TOKEN_REPO_FULL}"
     - npm run script --prefix frontend/tests/e2e_tests -- --environment enterprise
 
 test:frontend:acceptance:enterprise:qemu:

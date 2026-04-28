@@ -11,7 +11,13 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components > renders ArtifactUpload correctly 1`] = `Upload an Artifact to an existing or new Release`;
+exports[`Helptooltips Components > renders ArtifactUpload correctly 1`] = `
+NodeList [
+  Upload a premade Mender Artifact or create one from a single file.,
+  <br />,
+  Artifacts are grouped by name into Releases. If no matching Release exists, a new one will be created.,
+]
+`;
 
 exports[`Helptooltips Components > renders AttributeLimit correctly 1`] = `
 NodeList [
@@ -424,6 +430,8 @@ NodeList [
   </a>,
 ]
 `;
+
+exports[`Helptooltips Components > renders ManifestUpload correctly 1`] = `You can either upload a pre-made Manifest Artifact, or create a new Manifest using a .yaml file or by duplicating an existing one.`;
 
 exports[`Helptooltips Components > renders MenderArtifactUpload correctly 1`] = `
 NodeList [

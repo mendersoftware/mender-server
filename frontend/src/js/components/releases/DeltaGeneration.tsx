@@ -137,11 +137,7 @@ export const DeltaProgress = ({ className = '' }) => {
   const onCloseDetailsDrawer = () => onJobSelect({ id: null });
 
   if (!isEnterprise) {
-    return (
-      <div className={`dashboard-placeholder ${className}`} style={{ display: 'grid', placeContent: 'center' }}>
-        <DefaultUpgradeNotification />
-      </div>
-    );
+    return <DefaultUpgradeNotification className={`dashboard-placeholder ${className}`} style={{ display: 'grid', placeContent: 'center' }} />;
   }
 
   if (!total) {
@@ -154,7 +150,7 @@ export const DeltaProgress = ({ className = '' }) => {
 
   return (
     <div className={className}>
-      <Typography className="margin-bottom" variant="subtitle1">
+      <Typography className="margin-top margin-bottom" variant="subtitle1">
         Generated Delta Artifacts
       </Typography>
       <DetailsTable
