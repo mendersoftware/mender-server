@@ -1689,6 +1689,16 @@ func TestLookupDeployment(t *testing.T) {
 			res:                []*model.Deployment{},
 			resCount:           0,
 		},
+		"empty page with non-zero total": {
+			query: model.Query{
+				Limit: 10,
+				Skip:  10, // page 2 of a one-page result
+			},
+			dbDeployments:      nil,
+			dbDeploymentsCount: 5,
+			res:                []*model.Deployment{},
+			resCount:           5,
+		},
 		"database error": {
 			query: model.Query{
 				IDs: []string{

@@ -2521,6 +2521,7 @@ func TestFindDeployments(t *testing.T) {
 		query            model.Query
 
 		outputDeployments []*model.Deployment
+		expectedCount     int64
 	}{
 		"ok, empty query": {
 			inputDeployments: []interface{}{
@@ -2567,6 +2568,7 @@ func TestFindDeployments(t *testing.T) {
 					Active: true,
 				},
 			},
+			expectedCount: 3,
 		},
 		"ok, Ids in query": {
 			inputDeployments: []interface{}{
@@ -2616,6 +2618,7 @@ func TestFindDeployments(t *testing.T) {
 					Active: true,
 				},
 			},
+			expectedCount: 2,
 		},
 		"ok, names in query": {
 			inputDeployments: []interface{}{
@@ -2665,10 +2668,12 @@ func TestFindDeployments(t *testing.T) {
 					Active: true,
 				},
 			},
+			expectedCount: 2,
 		},
 		"no deployments": {
 			query:             model.Query{},
 			outputDeployments: nil,
+			expectedCount:     0,
 		},
 		"ok, DeviceIDs matches by name (single-device deployment)": {
 			inputDeployments: []interface{}{
@@ -2700,6 +2705,7 @@ func TestFindDeployments(t *testing.T) {
 					Active: true,
 				},
 			},
+			expectedCount: 1,
 		},
 		"ok, DeviceIDs matches by device_list (multi-device deployment)": {
 			inputDeployments: []interface{}{
@@ -2734,6 +2740,7 @@ func TestFindDeployments(t *testing.T) {
 					Active:     true,
 				},
 			},
+			expectedCount: 1,
 		},
 		"ok, DeviceIDs no match": {
 			inputDeployments: []interface{}{
@@ -2749,6 +2756,25 @@ func TestFindDeployments(t *testing.T) {
 				DeviceIDs: []string{"nonexistent-device"},
 			},
 			outputDeployments: nil,
+			expectedCount:     0,
+		},
+		"empty page on overshoot returns true total": {
+			inputDeployments: []interface{}{
+				&model.Deployment{
+					DeploymentConstructor: &model.DeploymentConstructor{
+						ArtifactName: "foo",
+						Name:         "some-name",
+					},
+					Id: "a108ae14-bb4e-455f-9b40-2ef4bab97bb7",
+				},
+			},
+			query: model.Query{
+				Names: []string{"some-name"},
+				Skip:  10, // page 2 of a one-page result
+				Limit: 10,
+			},
+			outputDeployments: nil,
+			expectedCount:     1,
 		},
 	}
 
@@ -2774,7 +2800,7 @@ func TestFindDeployments(t *testing.T) {
 
 			deployments, count, err := ds.FindDeployments(ctx, tc.query)
 			assert.NoError(t, err)
-			assert.Equal(t, int64(len(tc.outputDeployments)), count)
+			assert.Equal(t, tc.expectedCount, count)
 			assert.Equal(t, tc.outputDeployments, deployments)
 		})
 	}

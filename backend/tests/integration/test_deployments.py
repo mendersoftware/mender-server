@@ -443,6 +443,14 @@ class _TestDeploymentsBase(object):
         assert len(resp.json()) == 5
         assert 5 == int(resp.headers["X-Total-Count"])
 
+        # pagination overshoot: page beyond last should return correct X-Total-Count
+        resp = api_dep_v2.with_auth(user_token).call(
+            "GET", "/deployments" + "?per_page=10&page=2"
+        )
+        assert resp.status_code == 200
+        assert len(resp.json()) == 0
+        assert int(resp.headers["X-Total-Count"]) == 5
+
         # per_page query parameter
         resp = api_dep_v2.with_auth(user_token).call(
             "GET", "/deployments" + "?per_page=18446744073709551617"

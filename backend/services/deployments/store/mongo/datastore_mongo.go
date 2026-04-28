@@ -2694,7 +2694,7 @@ func (db *DataStoreMongo) FindDeployments(ctx context.Context,
 	count := int64(0)
 	if !match.DisableCount {
 		count = int64(len(deployments))
-		if count >= int64(match.Limit) {
+		if count >= int64(match.Limit) || (count == 0 && match.Skip > 0) {
 			count, err = collDpl.CountDocuments(ctx, query)
 			if err != nil {
 				return nil, 0, err

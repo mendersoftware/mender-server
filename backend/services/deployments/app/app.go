@@ -1953,7 +1953,7 @@ func (d *Deployments) LookupDeployment(ctx context.Context,
 	}
 
 	if list == nil {
-		return make([]*model.Deployment, 0), 0, nil
+		list = []*model.Deployment{}
 	}
 
 	for _, deployment := range list {
