@@ -1,4 +1,5 @@
 "module name","license","repository"
+"@base-ui/react","MIT","https://github.com/mui/base-ui"
 "@emotion/jest","MIT","https://github.com/emotion-js/emotion.git#main"
 "@emotion/react","MIT","https://github.com/emotion-js/emotion.git#main"
 "@emotion/styled","MIT","https://github.com/emotion-js/emotion.git#main"
