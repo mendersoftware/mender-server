@@ -78,6 +78,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addons:
+      - troubleshoot
 
 
 components:

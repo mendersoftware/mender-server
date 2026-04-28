@@ -3614,6 +3614,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - configure
       security:
         - DeviceJWT: []
     put:
@@ -3633,6 +3635,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - configure
       security:
         - DeviceJWT: []
   /api/internal/v1/deviceconfig/health:
@@ -3808,6 +3812,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - configure
       security:
         - ManagementJWT: []
     put:
@@ -3834,6 +3840,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - configure
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconfig/configurations/device/{deviceId}/deploy:
@@ -3868,6 +3876,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - configure
       security:
         - ManagementJWT: []
   /api/devices/v1/deviceconnect/connect:
@@ -3925,6 +3935,8 @@ paths:
           $ref: '#/components/responses/InvalidRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - troubleshoot
       security:
         - DeviceJWT: []
   /api/internal/v1/deviceconnect/health:
@@ -4116,6 +4128,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/devices/{id}/check-update:
@@ -4143,6 +4157,8 @@ paths:
           $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/devices/{id}/connect:
@@ -4197,6 +4213,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/devices/{id}/download:
@@ -4256,6 +4274,8 @@ paths:
           $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/devices/{id}/send-inventory:
@@ -4283,6 +4303,8 @@ paths:
           $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/sessions/{session_id}/playback:
@@ -4342,6 +4364,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/management/v1/deviceconnect/devices/{id}/upload:
@@ -4374,6 +4398,8 @@ paths:
           $ref: '#/components/responses/ConflictError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      x-mender-addons:
+        - troubleshoot
       security:
         - ManagementJWT: []
   /api/devices/v1/inventory/device/attributes:
@@ -8977,6 +9003,8 @@ components:
             A valid JSON object defining the update control map.
             *NOTE*: Available only in the Enterprise plan.
           type: object
+          x-mender-plan:
+            - enterprise
         max_devices:
           description: |
             max_devices denotes a limit on a number of completed deployments (failed or successful) above which the dynamic deployment will be finished.
