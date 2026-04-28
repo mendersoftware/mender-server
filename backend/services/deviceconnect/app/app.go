@@ -53,8 +53,8 @@ type App interface {
 	FreeUserSession(ctx context.Context, sessionID string, sessionTypes []string) error
 	GetSessionRecording(ctx context.Context, id string, w io.Writer) (err error)
 	SaveSessionRecording(ctx context.Context, id string, sessionBytes []byte) error
-	GetRecorder(ctx context.Context, sessionID string) io.Writer
-	GetControlRecorder(ctx context.Context, sessionID string) io.Writer
+	GetRecorder(sessionID string) Recorder
+	GetControlRecorder(sessionID string) Recorder
 	DownloadFile(ctx context.Context, userID string, deviceID string, path string) error
 	UploadFile(ctx context.Context, userID string, deviceID string, path string) error
 	DeleteTenant(ctx context.Context, tenantID string) error
@@ -284,12 +284,12 @@ func (a *app) SaveSessionRecording(ctx context.Context, id string, sessionBytes 
 	return err
 }
 
-func (a app) GetRecorder(ctx context.Context, sessionID string) io.Writer {
-	return NewRecorder(ctx, sessionID, a.store)
+func (a app) GetRecorder(sessionID string) Recorder {
+	return NewRecorder(sessionID, a.store)
 }
 
-func (a app) GetControlRecorder(ctx context.Context, sessionID string) io.Writer {
-	return NewControlRecorder(ctx, sessionID, a.store)
+func (a app) GetControlRecorder(sessionID string) Recorder {
+	return NewControlRecorder(sessionID, a.store)
 }
 
 func (a *app) DownloadFile(ctx context.Context, userID string, deviceID string, path string) error {
