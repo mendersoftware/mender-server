@@ -74,15 +74,21 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
   };
 
   const onNewLimitSubmit = async newLimits => {
-    await dispatch(editTenant({ id, name, deviceLimits: newLimits }));
+    await dispatch(editTenant({ id, name, deviceLimits: newLimits })).unwrap();
     setLimitEdit(false);
   };
 
   const onChangeName = async (newName: string) => {
     //TODO: endpoint is resetting some limits if you don't send the limits. Refactor if it is ever fixed
-    await dispatch(editTenant({ id, name: newName, deviceLimits: currentDeviceLimits }));
+    await dispatch(editTenant({ id, name: newName, deviceLimits: currentDeviceLimits })).unwrap();
   };
-  const deleteTenant = () => dispatch(removeTenant({ id }));
+
+  const onDeleteTenant = async () => {
+    await dispatch(removeTenant({ id })).unwrap();
+    setShouldDelete(false);
+    onCloseClick();
+  };
+
   const twoColumnData = {
     name: <EditableNameInput id="tenant-name" isHovered name={name} placeholder={name} onSave={onChangeName} />,
     ID: id,
@@ -165,11 +171,7 @@ export const ExpandedTenant = (props: ExpandedTenantProps) => {
           toType="delete"
           open={shouldDelete}
           close={() => setShouldDelete(false)}
-          onConfirm={() => {
-            deleteTenant();
-            setShouldDelete(false);
-            onCloseClick();
-          }}
+          onConfirm={onDeleteTenant}
         />
       </div>
     </BaseDrawer>
