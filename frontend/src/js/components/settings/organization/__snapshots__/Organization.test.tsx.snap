@@ -76,11 +76,8 @@ exports[`MyOrganization Component renders correctly 1`] = `
   margin-bottom: 8px;
 }
 
-.MuiTypography-root:where(.emotion-2 .MuiListItemText-primary) {
-  display: block;
-}
-
-.MuiTypography-root:where(.emotion-2 .MuiListItemText-secondary) {
+.emotion-2 .MuiTypography-root:where( .MuiListItemText-primary),
+.emotion-2 .MuiTypography-root:where( .MuiListItemText-secondary) {
   display: block;
 }
 
@@ -142,11 +139,8 @@ exports[`MyOrganization Component renders correctly 1`] = `
   margin-bottom: 0;
 }
 
-.MuiTypography-root:where(.emotion-8 .MuiListItemText-primary) {
-  display: block;
-}
-
-.MuiTypography-root:where(.emotion-8 .MuiListItemText-secondary) {
+.emotion-8 .MuiTypography-root:where( .MuiListItemText-primary),
+.emotion-8 .MuiTypography-root:where( .MuiListItemText-secondary) {
   display: block;
 }
 
@@ -253,11 +247,8 @@ exports[`MyOrganization Component renders correctly 1`] = `
   color: rgba(10, 10, 11, 0.78);
 }
 
-.MuiTypography-root:where(.emotion-16 .MuiListItemText-primary) {
-  display: block;
-}
-
-.MuiTypography-root:where(.emotion-16 .MuiListItemText-secondary) {
+.emotion-16 .MuiTypography-root:where( .MuiListItemText-primary),
+.emotion-16 .MuiTypography-root:where( .MuiListItemText-secondary) {
   display: block;
 }
 

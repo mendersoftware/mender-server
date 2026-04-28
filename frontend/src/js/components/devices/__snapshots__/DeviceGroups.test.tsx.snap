@@ -72,7 +72,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root css-lwvkuz-MuiListItemText-root"
+            class="MuiListItemText-root css-1i5kbsj-MuiListItemText-root"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-152d8e8-MuiTypography-root"
@@ -99,7 +99,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root css-lwvkuz-MuiListItemText-root"
+            class="MuiListItemText-root css-1i5kbsj-MuiListItemText-root"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-152d8e8-MuiTypography-root"
@@ -126,7 +126,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
           tabindex="0"
         >
           <div
-            class="MuiListItemText-root css-lwvkuz-MuiListItemText-root"
+            class="MuiListItemText-root css-1i5kbsj-MuiListItemText-root"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-152d8e8-MuiTypography-root"
@@ -157,7 +157,7 @@ exports[`DeviceGroups Component renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="MuiListItemText-root css-lwvkuz-MuiListItemText-root"
+            class="MuiListItemText-root css-1i5kbsj-MuiListItemText-root"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-152d8e8-MuiTypography-root"
