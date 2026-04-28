@@ -224,6 +224,8 @@ test:backend:static:
   script:
     - cd backend
     - golangci-lint run -v
+  tags:
+    - k8s
 
 .template:combine-api:
   stage: test
