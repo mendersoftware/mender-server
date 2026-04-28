@@ -248,21 +248,6 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   fill: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-16 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
-}
-
 .emotion-17 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -391,7 +376,8 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 bold emotion-16"
+              class="MuiTypography-root MuiTypography-body2 bold emotion-2"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="artifact_name"
             >
               artifact_name
@@ -418,7 +404,8 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-16"
+              class="MuiTypography-root MuiTypography-body2 emotion-2"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="myapp"
             >
               myapp
@@ -449,7 +436,8 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 bold emotion-16"
+              class="MuiTypography-root MuiTypography-body2 bold emotion-2"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="device_type"
             >
               device_type
@@ -476,7 +464,8 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-16"
+              class="MuiTypography-root MuiTypography-body2 emotion-2"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="raspberrypi4"
             >
               raspberrypi4
@@ -507,7 +496,8 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 bold emotion-16"
+              class="MuiTypography-root MuiTypography-body2 bold emotion-2"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="ipv4_wlan0"
             >
               ipv4_wlan0
@@ -534,7 +524,8 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             class="flexbox align-items-center copy-to-clipboard emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-16"
+              class="MuiTypography-root MuiTypography-body2 emotion-2"
+              style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="192.168.10.141/24"
             >
               192.168.10.141/24

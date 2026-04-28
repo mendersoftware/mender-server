@@ -168,12 +168,6 @@ exports[`TerminalSession Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
 }
 
 .emotion-14 {
@@ -528,6 +522,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
+            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           >
             <a
               class="flexbox align-items-center emotion-14"
@@ -567,6 +562,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         >
           <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
+            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="raspberrypi4"
           >
             raspberrypi4
@@ -583,6 +579,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         >
           <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
+            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="raspotifyInstaller"
           >
             raspotifyInstaller
@@ -599,6 +596,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
+            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           >
             <a
               data-discover="true"
@@ -633,6 +631,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         >
           <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
+            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="abd313a8-ee88-48ab-9c99-fbcd80048e6e"
           >
             abd313a8-ee88-48ab-9c99-fbcd80048e6e
@@ -649,6 +648,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
+            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="Tue Jan 01 2019 12:10:22 GMT+0000 (Coordinated Universal Time)"
           >
             <time
@@ -669,6 +669,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         >
           <div
             class="MuiTypography-root MuiTypography-body2 emotion-13"
+            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="Tue Jan 01 2019 12:16:22 GMT+0000 (Coordinated Universal Time)"
           >
             <time
@@ -689,6 +690,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         >
           <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
+            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="00:05:59:998"
           >
             00:05:59:998
@@ -705,6 +707,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         >
           <p
             class="MuiTypography-root MuiTypography-body2 emotion-13"
+            style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="string@example.com"
           >
             string@example.com

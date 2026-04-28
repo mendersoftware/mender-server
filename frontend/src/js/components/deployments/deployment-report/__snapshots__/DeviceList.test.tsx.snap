@@ -139,7 +139,8 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
       class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
     >
       <div
-        class="MuiTypography-root MuiTypography-body2 css-1wuip12-MuiTypography-root-textContent"
+        class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="1234"
       >
         <div>

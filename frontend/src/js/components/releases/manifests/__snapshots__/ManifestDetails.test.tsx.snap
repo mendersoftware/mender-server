@@ -176,21 +176,6 @@ exports[`ManifestDetails Component > renders correctly 1`] = `
   fill: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-12 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
-}
-
 .emotion-27 {
   display: grid;
   grid-auto-flow: column;
@@ -1599,7 +1584,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-68:focus::-ms-input-
       class="flexbox align-items-center  emotion-11"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-12"
+        class="MuiTypography-root MuiTypography-body2 emotion-4"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="art-m1000"
       >
         art-m1000
@@ -1615,7 +1601,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-68:focus::-ms-input-
       class="flexbox align-items-center  emotion-11"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-12"
+        class="MuiTypography-root MuiTypography-body2 emotion-4"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="m1000"
       >
         m1000
@@ -1631,7 +1618,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-68:focus::-ms-input-
       class="flexbox align-items-center  emotion-11"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-12"
+        class="MuiTypography-root MuiTypography-body2 emotion-4"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="qemux86-64"
       >
         qemux86-64
@@ -1647,7 +1635,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-68:focus::-ms-input-
       class="flexbox align-items-center  emotion-11"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-12"
+        class="MuiTypography-root MuiTypography-body2 emotion-4"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="0 devices"
       >
         0 devices
@@ -1663,7 +1652,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-68:focus::-ms-input-
       class="flexbox align-items-center  emotion-11"
     >
       <div
-        class="MuiTypography-root MuiTypography-body2 emotion-12"
+        class="MuiTypography-root MuiTypography-body2 emotion-4"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <div
           class="flexbox align-items-center"

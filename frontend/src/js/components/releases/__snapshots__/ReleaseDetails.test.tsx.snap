@@ -176,21 +176,6 @@ exports[`ReleaseDetails Component > renders correctly 1`] = `
   fill: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-12 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
-}
-
 .emotion-13 {
   display: grid;
   grid-auto-flow: column;
@@ -1713,7 +1698,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
       class="flexbox align-items-center  emotion-11"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-12"
+        class="MuiTypography-root MuiTypography-body2 emotion-4"
+        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="r1"
       >
         r1
@@ -2068,7 +2054,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         class="flexbox align-items-center  emotion-11"
                       >
                         <div
-                          class="MuiTypography-root MuiTypography-body2 emotion-12"
+                          class="MuiTypography-root MuiTypography-body2 emotion-4"
+                          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                         >
                           <div
                             class="flexbox"
@@ -2136,7 +2123,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         class="flexbox align-items-center  emotion-11"
                       >
                         <div
-                          class="MuiTypography-root MuiTypography-body2 emotion-12"
+                          class="MuiTypography-root MuiTypography-body2 emotion-4"
+                          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                         >
                           <div
                             class="flexbox align-items-center"
@@ -2182,7 +2170,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         class="flexbox align-items-center  emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body2 emotion-12"
+                          class="MuiTypography-root MuiTypography-body2 emotion-4"
+                          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                           title="data-partition"
                         >
                           data-partition
@@ -2198,7 +2187,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         class="flexbox align-items-center  emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body2 emotion-12"
+                          class="MuiTypography-root MuiTypography-body2 emotion-4"
+                          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                           title="myapp"
                         >
                           myapp
@@ -2214,7 +2204,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         class="flexbox align-items-center  emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body2 emotion-12"
+                          class="MuiTypography-root MuiTypography-body2 emotion-4"
+                          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                           title="v2020.10"
                         >
                           v2020.10
@@ -2360,7 +2351,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                                       class="flexbox align-items-center  emotion-11"
                                     >
                                       <p
-                                        class="MuiTypography-root MuiTypography-body2 emotion-12"
+                                        class="MuiTypography-root MuiTypography-body2 emotion-4"
+                                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                                         title="myapp"
                                       >
                                         myapp
@@ -2376,7 +2368,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                                       class="flexbox align-items-center  emotion-11"
                                     >
                                       <p
-                                        class="MuiTypography-root MuiTypography-body2 emotion-12"
+                                        class="MuiTypography-root MuiTypography-body2 emotion-4"
+                                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                                         title="v2020.10"
                                       >
                                         v2020.10
@@ -2392,7 +2385,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                                       class="flexbox align-items-center  emotion-11"
                                     >
                                       <p
-                                        class="MuiTypography-root MuiTypography-body2 emotion-12"
+                                        class="MuiTypography-root MuiTypography-body2 emotion-4"
+                                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                                         title="qemux86-64"
                                       >
                                         qemux86-64
@@ -2408,7 +2402,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                                       class="flexbox align-items-center  emotion-11"
                                     >
                                       <p
-                                        class="MuiTypography-root MuiTypography-body2 emotion-12"
+                                        class="MuiTypography-root MuiTypography-body2 emotion-4"
+                                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                                         title="x172"
                                       >
                                         x172
@@ -2573,7 +2568,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         class="flexbox align-items-center  emotion-11"
                       >
                         <div
-                          class="MuiTypography-root MuiTypography-body2 emotion-12"
+                          class="MuiTypography-root MuiTypography-body2 emotion-4"
+                          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                         >
                           <div
                             class="flexbox"
@@ -2641,7 +2637,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         class="flexbox align-items-center  emotion-11"
                       >
                         <div
-                          class="MuiTypography-root MuiTypography-body2 emotion-12"
+                          class="MuiTypography-root MuiTypography-body2 emotion-4"
+                          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                         >
                           <div
                             class="flexbox align-items-center"
@@ -2687,7 +2684,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         class="flexbox align-items-center  emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body2 emotion-12"
+                          class="MuiTypography-root MuiTypography-body2 emotion-4"
+                          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                           title="data-partition"
                         >
                           data-partition
@@ -2703,7 +2701,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         class="flexbox align-items-center  emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body2 emotion-12"
+                          class="MuiTypography-root MuiTypography-body2 emotion-4"
+                          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                           title="myapp"
                         >
                           myapp
@@ -2719,7 +2718,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                         class="flexbox align-items-center  emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body2 emotion-12"
+                          class="MuiTypography-root MuiTypography-body2 emotion-4"
+                          style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                           title="v2020.10"
                         >
                           v2020.10
@@ -2865,7 +2865,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                                       class="flexbox align-items-center  emotion-11"
                                     >
                                       <p
-                                        class="MuiTypography-root MuiTypography-body2 emotion-12"
+                                        class="MuiTypography-root MuiTypography-body2 emotion-4"
+                                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                                         title="myapp"
                                       >
                                         myapp
@@ -2881,7 +2882,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                                       class="flexbox align-items-center  emotion-11"
                                     >
                                       <p
-                                        class="MuiTypography-root MuiTypography-body2 emotion-12"
+                                        class="MuiTypography-root MuiTypography-body2 emotion-4"
+                                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                                         title="v2020.10"
                                       >
                                         v2020.10
@@ -2897,7 +2899,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                                       class="flexbox align-items-center  emotion-11"
                                     >
                                       <p
-                                        class="MuiTypography-root MuiTypography-body2 emotion-12"
+                                        class="MuiTypography-root MuiTypography-body2 emotion-4"
+                                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                                         title="qemux86-64"
                                       >
                                         qemux86-64
@@ -2913,7 +2916,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                                       class="flexbox align-items-center  emotion-11"
                                     >
                                       <p
-                                        class="MuiTypography-root MuiTypography-body2 emotion-12"
+                                        class="MuiTypography-root MuiTypography-body2 emotion-4"
+                                        style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                                         title="x172"
                                       >
                                         x172

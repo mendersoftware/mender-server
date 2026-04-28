@@ -27,10 +27,6 @@ exports[`ReleaseArtifactItem Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0.00714em;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
 }
 
 .emotion-2 {
@@ -48,6 +44,7 @@ exports[`ReleaseArtifactItem Component > renders correctly 1`] = `
   >
     <h6
       class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-x-small emotion-1"
+      style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
     >
       r1
     </h6>
