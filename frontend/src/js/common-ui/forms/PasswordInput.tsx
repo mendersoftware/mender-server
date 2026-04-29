@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
 import { CheckCircle as CheckIcon, Visibility as VisibilityIcon, VisibilityOff as VisibilityOffIcon } from '@mui/icons-material';
@@ -80,15 +80,46 @@ export const PasswordInput = ({
   const timer = useRef();
   const {
     clearErrors,
-    formState: { errors },
+    formState: { dirtyFields, touchedFields, errors },
     setError,
     setValue,
     trigger,
     getValues
   } = useFormContext();
   const confirmation = useWatch({ name: confirmationId });
+  const confirmationRef = useRef(confirmation);
+  confirmationRef.current = confirmation;
   const errorKey = `${id}`;
   const { message } = errors[errorKey] ?? {};
+
+  const validate = useCallback(
+    async (value = '') => {
+      if (!validations || disabled) {
+        return true;
+      }
+      let { isValid, errortext } = runValidations({ id, required, validations, value });
+      if (confirmationRef.current && value !== confirmationRef.current) {
+        isValid = false;
+        errortext = 'The passwords you provided do not match, please check again.';
+      }
+      if (isValid) {
+        clearErrors(errorKey);
+      } else {
+        setError(errorKey, { type: 'validate', message: errortext });
+      }
+      // always calculate score to always give feedback on a cleared input
+      const { default: zxcvbn } = await import(/* webpackChunkName: "zxcvbn" */ 'zxcvbn');
+      const strength = zxcvbn(value);
+      const score = strength.score;
+      setScore(score);
+      if (!create || (!required && !value)) {
+        return isValid || errortext;
+      }
+      setFeedback(strength.feedback.suggestions || []);
+      return (score > SCORE_THRESHOLD && isValid) || errortext;
+    },
+    [clearErrors, create, disabled, errorKey, id, required, setError, validations]
+  );
 
   useEffect(() => {
     if (confirmationId === 'password' && !message) {
@@ -96,9 +127,20 @@ export const PasswordInput = ({
     }
   }, [confirmationId, message, trigger]);
 
-  useEffect(() => () => {
-    clearTimeout(timer.current);
-  });
+  const currentValue = getValues(id);
+
+  useEffect(() => {
+    if ((dirtyFields.password || touchedFields.password) && create && !generate && id == 'password') {
+      validate(currentValue);
+    }
+  }, [create, currentValue, generate, validate, touchedFields.password, dirtyFields.password, id]);
+
+  useEffect(
+    () => () => {
+      clearTimeout(timer.current);
+    },
+    []
+  );
 
   const clearPassClick = () => {
     setValue(id, '');
@@ -118,32 +160,6 @@ export const PasswordInput = ({
     setVisible(true);
     timer.current = setTimeout(() => setCopied(false), TIMEOUTS.fiveSeconds);
     trigger();
-  };
-
-  const validate = async (value = '') => {
-    if (!validations || disabled) {
-      return true;
-    }
-    let { isValid, errortext } = runValidations({ id, required, validations, value });
-    if (confirmation && value !== confirmation) {
-      isValid = false;
-      errortext = 'The passwords you provided do not match, please check again.';
-    }
-    if (isValid) {
-      clearErrors(errorKey);
-    } else {
-      setError(errorKey, { type: 'validate', message: errortext });
-    }
-    // always calculate score to always give feedback on a cleared input
-    const { default: zxcvbn } = await import(/* webpackChunkName: "zxcvbn" */ 'zxcvbn');
-    const strength = zxcvbn(value);
-    const score = strength.score;
-    setScore(score);
-    if (!create || (!required && !value)) {
-      return isValid || errortext;
-    }
-    setFeedback(strength.feedback.suggestions || []);
-    return (score > SCORE_THRESHOLD && isValid) || errortext;
   };
 
   const showAsNotched = label && typeof label !== 'string' ? { notched: true } : {};
