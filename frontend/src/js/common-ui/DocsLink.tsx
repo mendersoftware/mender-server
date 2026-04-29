@@ -123,7 +123,6 @@ export const InlineLaunchIcon = () => <LaunchIcon style={{ verticalAlign: 'sub' 
 
 interface DocsTextLinkProps {
   [key: string]: unknown;
-  capitalizedStart?: boolean;
   children?: ReactNode;
   id: keyof typeof DOCSTIPS;
   typographyProps: Partial<TypographyProps>;
@@ -131,15 +130,15 @@ interface DocsTextLinkProps {
 
 const textLinkDefaultProps: TypographyProps = { variant: 'body1' };
 
-export const DocsTextLink = ({ capitalizedStart = true, children, id, typographyProps = textLinkDefaultProps, ...props }: DocsTextLinkProps) => {
+export const DocsTextLink = ({ children, id, typographyProps = textLinkDefaultProps, ...props }: DocsTextLinkProps) => {
   if (!DOCSTIPS[id]) {
     return null;
   }
   const { path } = DOCSTIPS[id];
   return (
     <DocsLink path={path} {...props}>
-      <Typography className={`inline ${capitalizedStart ? 'capitalized-start' : ''}`} color="primary" {...typographyProps}>
-        {children || 'learn more'}
+      <Typography className="inline" color="primary" {...typographyProps}>
+        {children || 'Learn more'}
       </Typography>
     </DocsLink>
   );
