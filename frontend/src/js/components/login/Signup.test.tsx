@@ -61,12 +61,12 @@ describe('Signup Component', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: /sign up/i })).toBeEnabled());
     await user.click(screen.getByRole('button', { name: /sign up/i }));
     await act(async () => vi.runAllTicks());
-    await waitFor(() => screen.getByLabelText(/organization name/i));
-    await user.type(screen.getByLabelText(/organization name/i), 'test');
-    expect(screen.getByRole('button', { name: /complete signup/i })).toBeDisabled();
-    await user.click(screen.getByRole('checkbox', { name: /by checking this you agree to our/i }));
-    await waitFor(() => expect(screen.getByRole('button', { name: /complete signup/i })).toBeEnabled());
-    await user.click(screen.getByRole('button', { name: /complete signup/i }));
+    await waitFor(() => screen.getByLabelText(/name/i));
+    await user.type(screen.getByLabelText(/name/i), 'test');
+    expect(screen.getByRole('button', { name: /complete/i })).toBeDisabled();
+    await user.click(screen.getByRole('checkbox', { name: /terms of service/i }));
+    await waitFor(() => expect(screen.getByRole('button', { name: /complete/i })).toBeEnabled());
+    await user.click(screen.getByRole('button', { name: /complete/i }));
     await waitFor(() => expect(container.querySelector('.loaderContainer')).toBeVisible());
     await act(async () => vi.advanceTimersByTime(TIMEOUTS.refreshDefault));
     // we can't await the cookie setting anymore as we have no connection to the universal cookie instance used in the store,
