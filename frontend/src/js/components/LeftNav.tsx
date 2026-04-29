@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 // material ui
-import { List, ListItem, ListItemText, Typography, darken, getOverlayAlpha, lighten, listClasses } from '@mui/material';
+import { List, ListItem, ListItemText, darken, getOverlayAlpha, lighten, listClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -48,7 +48,6 @@ const listItems = [
 ];
 
 const useStyles = makeStyles()(theme => ({
-  licenseLink: { fontWeight: 'inherit' },
   list: {
     backgroundColor: isDarkMode(theme.palette.mode) ? lighten(theme.palette.background.paper, 0.08) : darken(theme.palette.background.paper, 0.08),
     position: 'relative',
@@ -200,23 +199,17 @@ export const LeftNav = () => {
         }, [])}
       </List>
       <List className={`flexbox column padding-bottom ${classes.lowerList}`}>
-        <NavLink to={`/${routeConfigs.help.path}`}>
-          <Typography variant="body2">{routeConfigs.help.title}</Typography>
-        </NavLink>
+        <Link to={`/${routeConfigs.help.path}`} variant="body2">
+          {routeConfigs.help.title}
+        </Link>
         <VersionInfo />
-        <Typography variant="body2">
-          <DocsLink
-            className={classes.licenseLink}
-            path={`release-information/release-notes-changelog/${getDocsLocation({ isEnterprise, isHosted })}`}
-            title="Release information"
-          />
-        </Typography>
-        <Typography variant="body2">
-          <DocsLink className={classes.licenseLink} path="release-information/supported-releases#mender-client" title="Supported Mender client releases" />
-        </Typography>
-        <Typography variant="body2">
-          <DocsLink className={classes.licenseLink} path="release-information/open-source-licenses" title="License information" />
-        </Typography>
+        <DocsLink
+          variant="body2"
+          path={`release-information/release-notes-changelog/${getDocsLocation({ isEnterprise, isHosted })}`}
+          title="Release information"
+        />
+        <DocsLink variant="body2" path="release-information/supported-releases#mender-client" title="Supported Mender client releases" />
+        <DocsLink variant="body2" path="release-information/open-source-licenses" title="License information" />
       </List>
     </div>
   );
