@@ -64,16 +64,20 @@ export const ForceDeploy = () => {
   );
 };
 
-export const RolloutOptions = ({ deploymentObject, isEnterprise, setDeploymentSettings }) => {
-  const { phases = [], release = {} } = deploymentObject;
+export const RolloutOptions = ({ isEnterprise }) => {
   const { classes } = useStyles();
+  const { watch, setValue } = useFormContext();
 
-  const { states = {} } = deploymentObject.update_control_map || {};
+  const phases = watch(deploymentFormSections.phases) || [];
+  const release = watch(deploymentFormSections.release) || {};
+
+  const updateControlMap = watch(deploymentFormSections.update_control_map) || { states: {} };
+  const { states = {} } = updateControlMap;
   const [isPaused, setIsPaused] = useState(!!Object.keys(states).length);
 
   const onStepChangeClick = step => {
     const { action } = step;
-    setDeploymentSettings({ update_control_map: { states: { ...states, [step.state]: { action } } } });
+    setValue(deploymentFormSections.update_control_map, { states: { ...states, [step.state]: { action } } });
   };
 
   const onIsPausedClick = () => setIsPaused(toggle);
