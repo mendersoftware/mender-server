@@ -64,6 +64,7 @@ export const DOCSTIPS = {
   deviceConfig: { id: 'deviceConfig', path: 'add-ons/configure' },
   deviceIdentity: { id: 'deviceIdentity', path: 'client-installation/identity' },
   dynamicGroups: { id: 'dynamicGroups', path: 'overview/device-group#dynamic-group' },
+  hostedRegions: { id: 'hostedRegions', path: 'general/hosted-mender-regions' },
   limitedDeployments: { id: 'limitedDeployments', path: 'overview/deployment#deployment-to-dynamic-groups' },
   phasedDeployments: { id: 'phasedDeployments', path: 'overview/customize-the-update-process' },
   pausedDeployments: { id: 'pausedDeployments', path: 'overview/customize-the-update-process#synchronized-updates' },
