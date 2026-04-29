@@ -44,7 +44,8 @@ import dayjs from 'dayjs';
 import pluralize from 'pluralize';
 import validator from 'validator';
 
-import { deploymentFormSections } from './utils';
+import type { DeploymentFormValues } from './types';
+import { deploymentFormSections, useDerivedData } from './utils';
 
 // use this to get remaining percent of final phase so we don't set a hard number
 export const getRemainderPercent = phases =>
@@ -104,9 +105,10 @@ export const getPhaseStartTime = (phases, index, startDate) => {
   return newStartTime.toISOString();
 };
 
-export const PhaseSettings = ({ classNames, disabled, filter, numberDevices }) => {
+export const PhaseSettings = ({ classNames, disabled, numberDevices }) => {
   const { classes } = useStyles();
-  const { watch, setValue } = useFormContext();
+  const { watch, setValue } = useFormContext<DeploymentFormValues>();
+  const { filter } = useDerivedData(watch);
 
   const phases = watch(deploymentFormSections.phases) || [];
 
@@ -271,9 +273,9 @@ export const PhaseSettings = ({ classNames, disabled, filter, numberDevices }) =
 };
 
 export const RolloutPatternSelection = props => {
-  const { deploymentDeviceCount = 0, deploymentDeviceIds = [], disableSchedule, filter, isEnterprise, open = false, previousPhases = [] } = props;
-
-  const { watch, setValue } = useFormContext();
+  const { disableSchedule, isEnterprise, open = false, previousPhases = [] } = props;
+  const { watch, setValue } = useFormContext<DeploymentFormValues>();
+  const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
   const phases = watch(deploymentFormSections.phases) || [];
 
   const [usesPattern, setUsesPattern] = useState(open || phases.some(i => i));

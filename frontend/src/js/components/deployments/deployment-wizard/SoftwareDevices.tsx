@@ -37,7 +37,8 @@ import validator from 'validator';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { ReleaseArtifactFilter } from './ReleaseArtifactFilter';
-import { deploymentFormSections } from './utils';
+import type { DeploymentFormValues } from './types';
+import { deploymentFormSections, useDerivedData } from './utils';
 
 const { isUUID } = validator;
 
@@ -128,25 +129,15 @@ export const ReleasesWarning = ({ lacksReleases }) => (
   </div>
 );
 
-export const Devices = ({
-  deploymentDeviceCount = 0,
-  devices = [],
-  devicesById,
-  filter,
-  groupRef,
-  groupNames,
-  hasDevices,
-  hasDynamicGroups,
-  hasPending,
-  idAttribute
-}) => {
+export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDynamicGroups, hasPending, idAttribute, initialDevices = [] }) => {
   const { classes } = useStyles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
   const dispatch = useAppDispatch();
-  const { watch } = useFormContext();
+  const { watch } = useFormContext<DeploymentFormValues>();
 
   const group = watch(deploymentFormSections.group);
+  const { deploymentDeviceCount, devices, filter } = useDerivedData(watch, initialDevices);
   const device = useMemo(() => (devices.length === 1 ? devices[0] : {}), [devices]);
 
   useEffect(() => {
@@ -230,13 +221,14 @@ export const Devices = ({
 
 const MCU_ARTIFACT_SIZE_LIMIT = 5 * 1024 ** 2;
 
-export const Software = ({ commonClasses, devices = [], releaseRef, releaseSelectionLocked, releases, releasesById }) => {
+export const Software = ({ commonClasses, initialDevices = [], releaseRef, releaseSelectionLocked, releases, releasesById }) => {
   const [releaseFilterOpened, setReleaseFilterOpened] = useState(false);
   const [showSizeWarning, setShowSizeWarning] = useState(false);
   const deviceLimits = useSelector(getDeviceLimits);
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
-  const { watch, setValue } = useFormContext();
+  const { watch, setValue } = useFormContext<DeploymentFormValues>();
+  const { devices } = useDerivedData(watch, initialDevices);
 
   const deploymentRelease = watch(deploymentFormSections.release);
   const device = devices.length ? devices[0] : undefined;

@@ -20,9 +20,9 @@ import { makeStyles } from 'tss-react/mui';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
-import type { Filter } from '@northern.tech/types/MenderTypes';
 
-import { deploymentFormSections } from './utils';
+import type { DeploymentFormValues } from './types';
+import { deploymentFormSections, useDerivedData } from './utils';
 
 const useStyles = makeStyles()(theme => ({
   limitSelection: {
@@ -33,18 +33,10 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const DeviceLimit = ({
-  deploymentDeviceCount = 0,
-  deploymentDeviceIds = [],
-  filter
-}: {
-  deploymentDeviceCount?: number;
-  deploymentDeviceIds?: string[];
-  filter?: Filter;
-}) => {
+export const DeviceLimit = () => {
+  const { setValue, watch } = useFormContext<DeploymentFormValues>();
+  const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
   const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
-
-  const { setValue } = useFormContext();
   const [shouldLimit, setShouldLimit] = useState(false);
 
   const { classes } = useStyles();
