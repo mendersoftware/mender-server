@@ -1903,7 +1903,7 @@ func (d *Deployments) LookupDeployment(ctx context.Context,
 	// Fallback: if name search returned no results and device identity
 	// lookup params are provided, resolve the device UUID via inventory
 	// and search deployments targeting that device.
-	if len(list) == 0 &&
+	if totalCount == 0 &&
 		len(query.Names) > 0 &&
 		query.IdAttribute != "" &&
 		query.IdScope != "" {
