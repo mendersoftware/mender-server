@@ -80,11 +80,11 @@ const entryText = {
 };
 
 export const EntryLink = ({ className = '', target = 'signup' }) => (
-  <div className={`margin-top margin-bottom flexbox centered ${className}`}>
-    <div className="muted margin-right">{entryText[target].question}</div>
-    <Link className="flexbox align-items-center" to={entryText[target].target}>
-      {entryText[target].linkText} <ChevronRight fontSize="small" />
-    </Link>
+  <div className={`margin-top-small margin-bottom flexbox centered ${className}`}>
+    <Typography className="margin-right-x-small">{entryText[target].question}</Typography>
+    <Button component={Link} className="flexbox align-items-center" to={entryText[target].target} variant="text" endIcon={<ChevronRight fontSize="small" />}>
+      {entryText[target].linkText}
+    </Button>
   </div>
 );
 
@@ -126,7 +126,7 @@ export const OAuthHeader = ({ buttonProps, type }) => (
         );
       })}
     </div>
-    <LinedHeader className="margin-top-large flexbox centered" heading="or your email address" innerStyle={{ padding: 15, top: -24 }} />
+    <LinedHeader className="margin-top-large flexbox centered" heading="or your email address" innerStyle={{ padding: 15, top: -24, fontWeight: 'bold' }} />
   </>
 );
 

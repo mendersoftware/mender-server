@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
@@ -52,7 +52,9 @@ export const UserDataEntry = ({ classes, onSubmit }) => {
   return (
     <FormProvider {...methods}>
       <form className={classes.userData} noValidate onBlur={onFormBlur} onSubmit={handleSubmit(onSubmit)}>
-        <h1 className="flexbox centered">Create your account</h1>
+        <Typography variant="h5" className="flexbox centered margin-bottom-medium">
+          Create your account
+        </Typography>
         <OAuthHeader type="Sign up" />
         <TextInput {...commonProps} hint="Email *" label="Email *" id="email" validations="isLength:1,isEmail,trim" />
         <PasswordInput
@@ -62,10 +64,10 @@ export const UserDataEntry = ({ classes, onSubmit }) => {
           validations={`isLength:8:256,isNot:${email}`}
           create={true}
           generate={false}
-          className="margin-bottom-small"
+          className="margin-bottom-small margin-top-small"
         />
         <PasswordInput {...commonProps} id="password_confirmation" label="Confirm password *" validations={`isLength:8:256,isNot:${email}`} />
-        <Button variant="contained" type="submit" disabled={isNotDefined}>
+        <Button className="full-width margin-top-medium" variant="contained" type="submit" disabled={isNotDefined}>
           Sign up
         </Button>
       </form>

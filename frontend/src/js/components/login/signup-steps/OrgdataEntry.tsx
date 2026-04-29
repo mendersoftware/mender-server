@@ -14,17 +14,15 @@
 import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
-import { MenuItem, Select, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
-import { DocsLink, InlineLaunchIcon } from '@northern.tech/common-ui/DocsLink';
+import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import { Link } from '@northern.tech/common-ui/Link';
 import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-
-import { locationMap } from '../Login';
 
 export type OrgData = {
   captcha: string | null;
@@ -35,12 +33,11 @@ export type OrgData = {
 };
 
 const OrgDataContent = ({
-  classes,
   emailVerified,
   recaptchaSiteKey = '',
   setCaptchaTimestamp
-}: Pick<OrgDataProps, 'classes' | 'emailVerified' | 'recaptchaSiteKey' | 'setCaptchaTimestamp'>) => {
-  const { control, register, setValue, trigger } = useFormContext();
+}: Pick<OrgDataProps, 'emailVerified' | 'recaptchaSiteKey' | 'setCaptchaTimestamp'>) => {
+  const { register, setValue, trigger } = useFormContext();
   const inputRef = useRef<HTMLInputElement | undefined>();
   const captchaFieldName = 'captcha';
 
@@ -59,70 +56,32 @@ const OrgDataContent = ({
   return (
     <>
       <Typography variant="subtitle1" className="margin-bottom-x-small">
-        Set an organization name
+        Organization name
       </Typography>
       <TextInput
+        className="margin-bottom-small"
         controlRef={inputRef}
         id="name"
         InputLabelProps={{ size: 'medium' }}
         InputProps={{ size: 'medium' }}
-        label="Your organization name"
-        hint="Your organization name"
+        label="Name*"
+        helperText="Set an organization name for your account"
         required
         requiredRendered={false}
         validations="isLength:1:256,trim"
       />
-      {!emailVerified && <TextInput hint="Email *" label="Email *" id="email" required validations="isLength:1,isEmail,trim" />}
-      <div className={classes.locationSelect}>
-        <Typography variant="subtitle1">Hosting region</Typography>
-        <div className="flexbox align-items-center slightly-smaller margin-bottom-x-small">
-          <Typography variant="body2" className="margin-bottom-none margin-top-none margin-right-x-small">
-            Choose a hosting region for your account.{' '}
-            <DocsLink
-              path="general/hosted-mender-regions"
-              title={
-                <>
-                  Learn more <InlineLaunchIcon />
-                </>
-              }
-            />
-          </Typography>
-        </div>
-        <Controller
-          name="location"
-          control={control}
-          render={({ field }) => (
-            <Select
-              renderValue={selected => {
-                const { icon: Icon, title } = locationMap[selected];
-                return (
-                  <div className="flexbox align-items-center">
-                    {title} <Icon className={classes.locationIcon} />
-                  </div>
-                );
-              }}
-              {...field}
-            >
-              {Object.entries(locationMap).map(([key, { icon: Icon, title }]) => (
-                <MenuItem key={key} value={key}>
-                  {title} <Icon className={classes.locationIcon} />
-                </MenuItem>
-              ))}
-            </Select>
-          )}
-        />
-      </div>
+      {!emailVerified && <TextInput className="margin-bottom-small" hint="Email *" label="Email *" id="email" required validations="isLength:1,isEmail,trim" />}
       <FormCheckbox
         id="tos"
         label={
-          <label htmlFor="tos">
-            By checking this you agree to our{' '}
+          <label htmlFor="tos" style={{ fontSize: 'smaller' }}>
+            I have read and agreed to the Mender
             <Link href="https://northern.tech/legal/hosted-mender-agreement-northern-tech-as.pdf" external>
-              Terms of service <InlineLaunchIcon />
+              Terms of service
             </Link>{' '}
-            and{' '}
+            and
             <Link href="https://northern.tech/legal/privacy-policy" external>
-              Privacy Policy <InlineLaunchIcon />
+              Privacy Policy
             </Link>{' '}
           </label>
         }
@@ -130,7 +89,11 @@ const OrgDataContent = ({
       />
       <FormCheckbox
         id="marketing"
-        label="By checking this you agree that we can send you occasional email updates about Mender. You can unsubscribe from these emails at any time"
+        label={
+          <label htmlFor="marketing" style={{ fontSize: 'smaller' }}>
+            Keep me updated on Mender news and releases. You can unsubscribe at any time.
+          </label>
+        }
       />
       {recaptchaSiteKey && (
         <div className="margin-top">
@@ -157,19 +120,24 @@ type OrgDataProps = {
 export const OrgDataEntry = (props: OrgDataProps) => {
   const { classes, initialValues, loading, handleSignup, ...remainder } = props;
   return (
-    <Form
-      className={classes.orgData}
-      id="signup-org-data"
-      defaultValues={defaultValues}
-      initialValues={initialValues}
-      onSubmit={handleSignup}
-      showButtons={!loading}
-      submitLabel="Complete signup"
-    >
-      <h1>Create your Account</h1>
-      <h2 className="margin-bottom-large">Complete the options below to finish creating your Mender account</h2>
-      <OrgDataContent classes={classes} {...remainder} />
-    </Form>
+    <>
+      <Form
+        className={classes.orgData}
+        id="signup-org-data"
+        defaultValues={defaultValues}
+        initialValues={initialValues}
+        onSubmit={handleSignup}
+        showButtons={!loading}
+        submitLabel="Complete sign-up"
+      >
+        <Typography variant="h4" className="flexbox centered margin-bottom-medium">
+          Sign up for Mender
+        </Typography>
+        <Typography className="margin-bottom-small">Complete the options below to finish creating your Mender account</Typography>
+        <OrgDataContent {...remainder} />
+      </Form>
+      <LinedHeader className="margin-top-large flexbox centered" heading="OR" />
+    </>
   );
 };
 
