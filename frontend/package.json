@@ -13,7 +13,7 @@
     "@mui/material": "9.0.0",
     "@mui/x-date-pickers": "9.0.4",
     "@northern.tech/store": "0.31.0",
-    "@northern.tech/themes": "0.16.2",
+    "@northern.tech/themes": "0.16.3",
     "@northern.tech/utils": "0.10.0",
     "@redux-devtools/extension": "4.0.0",
     "@reduxjs/toolkit": "2.11.2",
