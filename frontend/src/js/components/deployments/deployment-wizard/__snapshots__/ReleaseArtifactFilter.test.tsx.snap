@@ -528,6 +528,20 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
   padding-right: 8px;
 }
 
+.emotion-26 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  color: inherit;
+}
+
+.emotion-26:hover {
+  text-decoration-color: inherit;
+}
+
 <body
   style="padding-right: 1024px; overflow: hidden;"
 >
@@ -720,7 +734,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 Try adjusting the filters, or
                  
                 <a
-                  color="inherit"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
                   data-discover="true"
                   href="/software"
                 >

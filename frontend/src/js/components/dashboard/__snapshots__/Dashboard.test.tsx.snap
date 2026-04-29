@@ -709,6 +709,22 @@ exports[`Dashboard Component > renders correctly 1`] = `
   justify-content: space-evenly;
 }
 
+.emotion-89 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-89:hover {
+  text-decoration-color: inherit;
+}
+
 <div>
   <h5
     class="MuiTypography-root MuiTypography-h5 margin-bottom-small emotion-0"
@@ -1378,7 +1394,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <a
-          class="margin-top margin-bottom-large"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways margin-top margin-bottom-large emotion-89"
           data-discover="true"
           href="/deployments"
         >

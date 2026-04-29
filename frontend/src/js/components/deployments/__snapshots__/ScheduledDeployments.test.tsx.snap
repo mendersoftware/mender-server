@@ -85,6 +85,22 @@ exports[`ScheduledDeployments Component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
+.emotion-3 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-3:hover {
+  text-decoration-color: inherit;
+}
+
 <div
   class="fadeIn emotion-0"
 >
@@ -99,9 +115,11 @@ exports[`ScheduledDeployments Component > renders correctly 1`] = `
     <p
       class="MuiTypography-root MuiTypography-body1 margin-top-small emotion-1"
     >
-      <a>
+      <span
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
+      >
         Create a deployment
-      </a>
+      </span>
        to get started
     </p>
   </div>

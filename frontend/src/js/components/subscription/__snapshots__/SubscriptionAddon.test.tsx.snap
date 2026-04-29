@@ -241,6 +241,22 @@ exports[`Subscription Summary component > renders correctly 1`] = `
   margin-left: 8px;
 }
 
+.emotion-13 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-13:hover {
+  text-decoration-color: inherit;
+}
+
 <div>
   <div
     class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-0"
@@ -316,8 +332,9 @@ exports[`Subscription Summary component > renders correctly 1`] = `
       class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-12"
     >
       <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-13"
         href="https://mender.io/pricing/add-ons/configure"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         target="_blank"
       >
         Learn More

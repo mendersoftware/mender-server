@@ -2,7 +2,20 @@
 
 exports[`DeploymentNotifications Component > renders correctly 1`] = `
 .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
   color: rgba(0, 0, 0, 0.6);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
 }
 
 .emotion-1 {
@@ -32,7 +45,7 @@ exports[`DeploymentNotifications Component > renders correctly 1`] = `
 }
 
 <a
-  class="flexbox align-items-center emotion-0 "
+  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox align-items-center emotion-0"
   data-discover="true"
   href="/deployments/active"
 >

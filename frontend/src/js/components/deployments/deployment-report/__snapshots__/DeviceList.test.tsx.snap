@@ -136,7 +136,7 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
       Total download size
     </h6>
     <div
-      class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+      class="flexbox align-items-center "
     >
       <div
         class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"

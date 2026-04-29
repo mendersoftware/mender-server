@@ -119,6 +119,22 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
 }
 
 .emotion-6 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-6:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-7 {
   background-color: rgba(255, 255, 255, 0.04);
   font-family: monospace;
   color: rgba(0, 0, 0, 1);
@@ -129,12 +145,12 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   white-space: pre-line;
 }
 
-.emotion-6 .copyable-content {
+.emotion-7 .copyable-content {
   white-space: pre-wrap;
   word-break: break-word;
 }
 
-.emotion-7 {
+.emotion-8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -194,54 +210,54 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   margin-top: -8px;
 }
 
-.emotion-7::-moz-focus-inner {
+.emotion-8::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-7 {
+  .emotion-8 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-7:hover {
+.emotion-8:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-7:hover {
+  .emotion-8:hover {
     --variant-containedBg: #f5f5f5;
     --variant-textBg: rgba(0, 0, 0, 0.04);
     --variant-outlinedBg: rgba(0, 0, 0, 0.04);
   }
 }
 
-.emotion-7.MuiButton-loading {
+.emotion-8.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-8 {
+.emotion-9 {
   display: inherit;
   margin-right: 8px;
   margin-left: -4px;
 }
 
-.emotion-8>*:nth-of-type(1) {
+.emotion-9>*:nth-of-type(1) {
   font-size: 22px;
 }
 
-.emotion-9 {
+.emotion-10 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -258,11 +274,11 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   font-size: 1.5rem;
 }
 
-.emotion-10 {
+.emotion-11 {
   margin: 0;
 }
 
-.emotion-11 {
+.emotion-13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -281,11 +297,11 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   flex: 0 0 auto;
 }
 
-.emotion-11>:not(style)~:not(style) {
+.emotion-13>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-12 {
+.emotion-14 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -342,33 +358,33 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-12::-moz-focus-inner {
+.emotion-14::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-12.Mui-disabled {
+.emotion-14.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-12 {
+  .emotion-14 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-12:hover {
+.emotion-14:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-12.Mui-disabled {
+.emotion-14.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-12:hover {
+  .emotion-14:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -376,11 +392,11 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   }
 }
 
-.emotion-12.MuiButton-loading {
+.emotion-14.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-13 {
+.emotion-15 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -437,57 +453,57 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-13::-moz-focus-inner {
+.emotion-15::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-15.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-13 {
+  .emotion-15 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-13:hover {
+.emotion-15:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-15.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-13:hover {
+.emotion-15:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-13:hover {
+  .emotion-15:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-13:active {
+.emotion-15:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-13.Mui-focusVisible {
+.emotion-15.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-13.Mui-disabled {
+.emotion-15.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-13:hover {
+  .emotion-15:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -495,7 +511,7 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
   }
 }
 
-.emotion-13.MuiButton-loading {
+.emotion-15.MuiButton-loading {
   color: transparent;
 }
 
@@ -538,7 +554,7 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
         <p>
           On the device terminal, run the following command. You can use 
           <a
-            class=""
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-6"
             href="https://docs.mender.io/add-ons/remote-terminal"
             rel="noopener"
             target="_blank"
@@ -548,20 +564,20 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
            if mender-connect is enabled on the device.
         </p>
         <div
-          class="emotion-6 "
+          class="emotion-7 "
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit emotion-7"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit emotion-8"
             tabindex="0"
             title="Copy to clipboard"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon emotion-8"
+              class="MuiButton-icon MuiButton-startIcon emotion-9"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
                 data-testid="ContentCopyIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -574,7 +590,7 @@ exports[`CreateGroupExplainerContent Component > renders correctly 1`] = `
             Copy to clipboard
           </button>
           <code
-            class="MuiTypography-root MuiTypography-code2 copyable-content emotion-10"
+            class="MuiTypography-root MuiTypography-code2 copyable-content emotion-11"
           >
             JWT_TOKEN='veryTest'
 
@@ -586,7 +602,7 @@ wget -O- https://get.mender.io | sudo bash -s -- --jwt-token $JWT_TOKEN mender-g
           Note: this is only intended for demo or testing purposes. For production installation please refer to the
            
           <a
-            class=""
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-6"
             href="https://docs.mender.io/get-started/mender-gateway"
             rel="noopener"
             target="_blank"
@@ -596,10 +612,10 @@ wget -O- https://get.mender.io | sudo bash -s -- --jwt-token $JWT_TOKEN mender-g
         </p>
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-11"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-13"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-12"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-14"
           tabindex="0"
           type="button"
         >
@@ -609,7 +625,7 @@ wget -O- https://get.mender.io | sudo bash -s -- --jwt-token $JWT_TOKEN mender-g
           style="flex-grow: 1;"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-13"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-15"
           tabindex="0"
           type="button"
         >

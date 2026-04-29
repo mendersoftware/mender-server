@@ -149,6 +149,22 @@ exports[`Roles Component > renders correctly 1`] = `
 }
 
 .emotion-3 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-3:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -221,28 +237,28 @@ exports[`Roles Component > renders correctly 1`] = `
   border-style: dashed;
 }
 
-.emotion-3::-moz-focus-inner {
+.emotion-4::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-3.Mui-disabled {
+.emotion-4.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-3 {
+  .emotion-4 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-3.Mui-disabled {
+.emotion-4.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-3 .MuiChip-avatar {
+.emotion-4 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -251,12 +267,12 @@ exports[`Roles Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-3 .MuiChip-icon {
+.emotion-4 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-3 .MuiChip-deleteIcon {
+.emotion-4 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -264,96 +280,96 @@ exports[`Roles Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-3 .MuiChip-deleteIcon:hover {
+.emotion-4 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-3 .MuiChip-avatar {
+.emotion-4 .MuiChip-avatar {
   color: #fff;
   background-color: #1565c0;
 }
 
-.emotion-3 .MuiChip-deleteIcon {
+.emotion-4 .MuiChip-deleteIcon {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.emotion-3 .MuiChip-deleteIcon:hover,
-.emotion-3 .MuiChip-deleteIcon:active {
+.emotion-4 .MuiChip-deleteIcon:hover,
+.emotion-4 .MuiChip-deleteIcon:active {
   color: #fff;
 }
 
-.emotion-3 .MuiChip-icon {
+.emotion-4 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-3 .MuiChip-icon {
+.emotion-4 .MuiChip-icon {
   color: inherit;
 }
 
-.emotion-3.Mui-focusVisible {
+.emotion-4.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-3.Mui-focusVisible {
+.emotion-4.Mui-focusVisible {
   background: #1565c0;
 }
 
-.emotion-3.MuiChip-clickable:hover {
+.emotion-4.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-3.Mui-focusVisible {
+.emotion-4.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-3 .MuiChip-avatar {
+.emotion-4 .MuiChip-avatar {
   margin-left: 4px;
 }
 
-.emotion-3 .MuiChip-icon {
+.emotion-4 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-3 .MuiChip-deleteIcon {
+.emotion-4 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-3.MuiChip-clickable:hover {
+.emotion-4.MuiChip-clickable:hover {
   background-color: rgba(25, 118, 210, 0.04);
 }
 
-.emotion-3.Mui-focusVisible {
+.emotion-4.Mui-focusVisible {
   background-color: rgba(25, 118, 210, 0.12);
 }
 
-.emotion-3 .MuiChip-deleteIcon {
+.emotion-4 .MuiChip-deleteIcon {
   color: rgba(25, 118, 210, 0.7);
 }
 
-.emotion-3 .MuiChip-deleteIcon:hover,
-.emotion-3 .MuiChip-deleteIcon:active {
+.emotion-4 .MuiChip-deleteIcon:hover,
+.emotion-4 .MuiChip-deleteIcon:active {
   color: #1976d2;
 }
 
-.emotion-3 .MuiChip-deleteIcon {
+.emotion-4 .MuiChip-deleteIcon {
   font-size: smaller;
 }
 
-.emotion-3.not-hovering {
+.emotion-4.not-hovering {
   border-color: transparent;
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-3.not-hovering .MuiChip-deleteIcon {
+.emotion-4.not-hovering .MuiChip-deleteIcon {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-3.not-hovering .MuiChip-label {
+.emotion-4.not-hovering .MuiChip-label {
   padding-left: 0;
   visibility: collapse;
 }
 
-.emotion-4 {
+.emotion-5 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -363,7 +379,7 @@ exports[`Roles Component > renders correctly 1`] = `
   padding-right: 11px;
 }
 
-.emotion-5 {
+.emotion-6 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -375,7 +391,7 @@ exports[`Roles Component > renders correctly 1`] = `
   visibility: hidden;
 }
 
-.emotion-6 {
+.emotion-7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -385,13 +401,13 @@ exports[`Roles Component > renders correctly 1`] = `
   height: 100%;
 }
 
-.emotion-7 {
+.emotion-8 {
   width: 100%;
   width: auto;
   height: 100%;
 }
 
-.emotion-8 {
+.emotion-9 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -408,7 +424,7 @@ exports[`Roles Component > renders correctly 1`] = `
   font-size: 1.25rem;
 }
 
-.emotion-9 {
+.emotion-10 {
   position: absolute;
   top: -6px;
   bottom: -4px;
@@ -418,18 +434,18 @@ exports[`Roles Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-9.hovering {
+.emotion-10.hovering {
   border-color: transparent;
 }
 
-.emotion-10 {
+.emotion-11 {
   display: table;
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.emotion-10 caption {
+.emotion-11 caption {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -441,42 +457,42 @@ exports[`Roles Component > renders correctly 1`] = `
   caption-side: bottom;
 }
 
-.emotion-11 {
+.emotion-12 {
   display: table-header-group;
 }
 
-.emotion-11 .columnHeader {
+.emotion-12 .columnHeader {
   display: table-cell;
 }
 
-.emotion-11 .columnHeader .sortIcon {
+.emotion-12 .columnHeader .sortIcon {
   margin-bottom: -6px;
 }
 
-.emotion-11 .nonSortable {
+.emotion-12 .nonSortable {
   cursor: initial;
 }
 
-.emotion-12 {
+.emotion-13 {
   color: inherit;
   display: table-row;
   vertical-align: middle;
   outline: 0;
 }
 
-.emotion-12.MuiTableRow-hover:hover {
+.emotion-13.MuiTableRow-hover:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-12.Mui-selected {
+.emotion-13.Mui-selected {
   background-color: rgba(25, 118, 210, 0.08);
 }
 
-.emotion-12.Mui-selected:hover {
+.emotion-13.Mui-selected:hover {
   background-color: rgba(25, 118, 210, 0.12);
 }
 
-.emotion-13 {
+.emotion-14 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -492,11 +508,11 @@ exports[`Roles Component > renders correctly 1`] = `
   font-weight: 500;
 }
 
-.emotion-16 {
+.emotion-17 {
   display: table-row-group;
 }
 
-.emotion-18 {
+.emotion-19 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -510,7 +526,7 @@ exports[`Roles Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-21 {
+.emotion-22 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -569,37 +585,37 @@ exports[`Roles Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-21::-moz-focus-inner {
+.emotion-22::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-21.Mui-disabled {
+.emotion-22.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-21 {
+  .emotion-22 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-21:hover {
+.emotion-22:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-21.Mui-disabled {
+.emotion-22.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-21.Mui-disabled {
+.emotion-22.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-21:hover {
+  .emotion-22:hover {
     --variant-containedBg: #01579b;
     --variant-textBg: rgba(2, 136, 209, 0.04);
     --variant-outlinedBorder: #0288d1;
@@ -607,11 +623,11 @@ exports[`Roles Component > renders correctly 1`] = `
   }
 }
 
-.emotion-21.MuiButton-loading {
+.emotion-22.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-47 {
+.emotion-48 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -685,28 +701,28 @@ exports[`Roles Component > renders correctly 1`] = `
   cursor: pointer;
 }
 
-.emotion-47::-moz-focus-inner {
+.emotion-48::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-47.Mui-disabled {
+.emotion-48.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-47 {
+  .emotion-48 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-47.Mui-disabled {
+.emotion-48.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-47 .MuiChip-avatar {
+.emotion-48 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -715,12 +731,12 @@ exports[`Roles Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-47 .MuiChip-icon {
+.emotion-48 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-47 .MuiChip-deleteIcon {
+.emotion-48 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -728,50 +744,50 @@ exports[`Roles Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-47 .MuiChip-deleteIcon:hover {
+.emotion-48 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-47 .MuiChip-avatar {
+.emotion-48 .MuiChip-avatar {
   color: #fff;
   background-color: #1565c0;
 }
 
-.emotion-47 .MuiChip-deleteIcon {
+.emotion-48 .MuiChip-deleteIcon {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.emotion-47 .MuiChip-deleteIcon:hover,
-.emotion-47 .MuiChip-deleteIcon:active {
+.emotion-48 .MuiChip-deleteIcon:hover,
+.emotion-48 .MuiChip-deleteIcon:active {
   color: #fff;
 }
 
-.emotion-47 .MuiChip-icon {
+.emotion-48 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-47 .MuiChip-icon {
+.emotion-48 .MuiChip-icon {
   color: inherit;
 }
 
-.emotion-47:hover {
+.emotion-48:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-47.Mui-focusVisible {
+.emotion-48.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-47:active {
+.emotion-48:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-47:hover,
-.emotion-47.Mui-focusVisible {
+.emotion-48:hover,
+.emotion-48.Mui-focusVisible {
   background-color: #1565c0;
 }
 
-.emotion-48 {
+.emotion-49 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -821,28 +837,28 @@ exports[`Roles Component > renders correctly 1`] = `
         data-mui-internal-clone-element="true"
       >
         <a
-          class=""
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
           href="https://docs.mender.io/overview/role.based.access.control"
           rel="noopener"
           target="_blank"
         >
           <div
-            class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-3"
+            class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-deletable not-hovering emotion-4"
             role="button"
             tabindex="0"
           >
             <span
-              class="MuiChip-label emotion-4"
+              class="MuiChip-label emotion-5"
             >
               <div
-                class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-5"
+                class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-hidden emotion-6"
                 style="min-width: 0px;"
               >
                 <div
-                  class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-6"
+                  class="MuiCollapse-wrapper MuiCollapse-horizontal emotion-7"
                 >
                   <div
-                    class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-7"
+                    class="MuiCollapse-wrapperInner MuiCollapse-horizontal emotion-8"
                   >
                     Learn more
                   </div>
@@ -854,7 +870,7 @@ exports[`Roles Component > renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-9"
                 data-testid="DescriptionIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -864,7 +880,7 @@ exports[`Roles Component > renders correctly 1`] = `
                 />
               </svg>
               <div
-                class="emotion-9 not-hovering"
+                class="emotion-10 not-hovering"
               />
             </div>
           </div>
@@ -873,28 +889,28 @@ exports[`Roles Component > renders correctly 1`] = `
     </div>
   </div>
   <table
-    class="MuiTable-root margin-bottom emotion-10"
+    class="MuiTable-root margin-bottom emotion-11"
   >
     <thead
-      class="MuiTableHead-root emotion-11"
+      class="MuiTableHead-root emotion-12"
     >
       <tr
-        class="MuiTableRow-root MuiTableRow-head emotion-12"
+        class="MuiTableRow-root MuiTableRow-head emotion-13"
       >
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-13"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-14"
           scope="col"
         >
           Role
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-13"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-14"
           scope="col"
         >
           Description
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-13"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-14"
           scope="col"
         >
           Manage
@@ -902,26 +918,26 @@ exports[`Roles Component > renders correctly 1`] = `
       </tr>
     </thead>
     <tbody
-      class="MuiTableBody-root emotion-16"
+      class="MuiTableBody-root emotion-17"
     >
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-12"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Admin
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Full access
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-21"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -930,23 +946,23 @@ exports[`Roles Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-12"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Read Access
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Intended for team leaders or limited tech support accounts, this role can see all Devices, Artifacts and Deployment reports but cannot make any changes.
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-21"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -955,23 +971,23 @@ exports[`Roles Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-12"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Releases Manager
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Intended for automation accounts building software (e.g. CI/CD systems), this role can only manage Artifacts, including upload new Artifacts and delete Artifacts. It does not have access to Devices or Deployments.
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-21"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -980,23 +996,23 @@ exports[`Roles Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-12"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Deployments Manager
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Intended for users responsible for managing deployments, this role can create and abort deployments
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-21"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -1005,23 +1021,23 @@ exports[`Roles Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-12"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Troubleshooting
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           Access to the troubleshooting features: Remote Terminal, File Transfer, Port Forwarding
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-21"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -1030,23 +1046,23 @@ exports[`Roles Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-12"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-13"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           test
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           test description
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-18"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-21"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -1058,13 +1074,13 @@ exports[`Roles Component > renders correctly 1`] = `
   </table>
   <div
     aria-disabled="true"
-    class="MuiButtonBase-root Mui-disabled MuiChip-root MuiChip-filled Mui-disabled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-47"
+    class="MuiButtonBase-root Mui-disabled MuiChip-root MuiChip-filled Mui-disabled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-48"
     role="button"
     tabindex="-1"
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-48"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-49"
       data-testid="AddIcon"
       focusable="false"
       viewBox="0 0 24 24"

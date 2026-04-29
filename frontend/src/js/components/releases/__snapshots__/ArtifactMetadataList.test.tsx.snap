@@ -27,11 +27,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
   row-gap: 8px;
 }
 
-.emotion-4.copy-to-clipboard svg {
-  fill: rgba(0, 0, 0, 0.54);
-}
-
-.emotion-5 {
+.emotion-4 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -59,10 +55,10 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
       custom-key
     </h6>
     <div
-      class="flexbox align-items-center  emotion-4"
+      class="flexbox align-items-center "
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-5"
+        class="MuiTypography-root MuiTypography-body2 emotion-4"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="secondary text"
       >

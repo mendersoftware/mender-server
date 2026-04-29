@@ -422,6 +422,46 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 }
 
 .emotion-19 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.emotion-19:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-19::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-19.Mui-focusVisible {
+  outline: auto;
+}
+
+.emotion-23 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -429,7 +469,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   visibility: hidden;
 }
 
-.emotion-20 {
+.emotion-24 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -437,15 +477,15 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-21 {
+.emotion-25 {
   width: 100%;
 }
 
-.emotion-23 {
+.emotion-27 {
   padding: 8px 16px 16px;
 }
 
-.emotion-34 {
+.emotion-41 {
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   -webkit-justify-content: flex-end;
@@ -453,7 +493,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   margin-top: 16px;
 }
 
-.emotion-35 {
+.emotion-42 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -510,33 +550,33 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-35::-moz-focus-inner {
+.emotion-42::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-35.Mui-disabled {
+.emotion-42.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-35 {
+  .emotion-42 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-35:hover {
+.emotion-42:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-35.Mui-disabled {
+.emotion-42.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-35:hover {
+  .emotion-42:hover {
     --variant-containedBg: #7b1fa2;
     --variant-textBg: rgba(156, 39, 176, 0.04);
     --variant-outlinedBorder: #9c27b0;
@@ -544,7 +584,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   }
 }
 
-.emotion-35.MuiButton-loading {
+.emotion-42.MuiButton-loading {
   color: transparent;
 }
 
@@ -692,9 +732,11 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                 >
                   <div />
                 </div>
-                <a>
+                <button
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-19"
+                >
                   show key
-                </a>
+                </button>
                 <time
                   datetime="2019-01-13T06:25:00+00:00"
                 >
@@ -703,35 +745,41 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                 <div
                   class="action-buttons flexbox"
                 >
-                  <a>
+                  <button
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-19"
+                  >
                     Accept
-                  </a>
-                  <a>
+                  </button>
+                  <button
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-19"
+                  >
                     Reject
-                  </a>
-                  <a>
+                  </button>
+                  <button
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-19"
+                  >
                     Dismiss
-                  </a>
+                  </button>
                 </div>
               </span>
             </button>
           </h3>
           <div
-            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-19"
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-23"
             style="min-height: 0px;"
           >
             <div
-              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-20"
+              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-24"
             >
               <div
-                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-21"
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-25"
               >
                 <div
-                  class="MuiAccordion-region emotion-22"
+                  class="MuiAccordion-region emotion-26"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-23"
+                    class="MuiAccordionDetails-root emotion-27"
                   >
                     <div
                       style="flex-grow: 1;"
@@ -779,9 +827,11 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                 >
                   <div />
                 </div>
-                <a>
+                <button
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-19"
+                >
                   show key
-                </a>
+                </button>
                 <time
                   datetime="2019-01-13T06:25:00+00:00"
                 >
@@ -793,32 +843,36 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                   <div>
                     Accept
                   </div>
-                  <a>
+                  <button
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-19"
+                  >
                     Reject
-                  </a>
-                  <a>
+                  </button>
+                  <button
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-19"
+                  >
                     Dismiss
-                  </a>
+                  </button>
                 </div>
               </span>
             </button>
           </h3>
           <div
-            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-19"
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-23"
             style="min-height: 0px;"
           >
             <div
-              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-20"
+              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-24"
             >
               <div
-                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-21"
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-25"
               >
                 <div
-                  class="MuiAccordion-region emotion-22"
+                  class="MuiAccordion-region emotion-26"
                   role="region"
                 >
                   <div
-                    class="MuiAccordionDetails-root emotion-23"
+                    class="MuiAccordionDetails-root emotion-27"
                   >
                     <div
                       style="flex-grow: 1;"
@@ -837,10 +891,10 @@ exports[`AuthStatus Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox relative emotion-34"
+      class="flexbox relative emotion-41"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary emotion-35"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary emotion-42"
         tabindex="0"
         type="button"
       >

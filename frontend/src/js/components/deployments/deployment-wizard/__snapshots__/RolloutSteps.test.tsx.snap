@@ -340,6 +340,22 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   margin: 15px 0;
 }
 
+.emotion-33 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-33:hover {
+  text-decoration-color: inherit;
+}
+
 <div>
   <div
     class=""
@@ -542,7 +558,7 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
         <br />
         You can grant approval by clicking "continue" in the deployment progress UI. 
         <a
-          class=""
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
           href="https://docs.mender.io/"
           rel="noopener"
           target="_blank"
@@ -895,6 +911,22 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   margin: 15px 0;
 }
 
+.emotion-33 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-33:hover {
+  text-decoration-color: inherit;
+}
+
 <div>
   <div
     class=""
@@ -1097,7 +1129,7 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
         <br />
         You can grant approval by clicking "continue" in the deployment progress UI. 
         <a
-          class=""
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
           href="https://docs.mender.io/"
           rel="noopener"
           target="_blank"

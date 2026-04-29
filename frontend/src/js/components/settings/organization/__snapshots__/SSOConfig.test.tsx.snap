@@ -18,6 +18,46 @@ exports[`SamlConfig Component > renders correctly 1`] = `
 }
 
 .emotion-1 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.emotion-1:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-1::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-1.Mui-focusVisible {
+  outline: auto;
+}
+
+.emotion-2 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -74,33 +114,33 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-1::-moz-focus-inner {
+.emotion-2::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-1.Mui-disabled {
+.emotion-2.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-1 {
+  .emotion-2 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-1:hover {
+.emotion-2:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-1.Mui-disabled {
+.emotion-2.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-1:hover {
+  .emotion-2:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -108,20 +148,20 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   }
 }
 
-.emotion-1.MuiButton-loading {
+.emotion-2.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-2 {
+.emotion-3 {
   max-width: 500px;
 }
 
-.emotion-2 .MuiListItemText-primary {
+.emotion-3 .MuiListItemText-primary {
   color: rgba(0, 0, 0, 0.38);
   font-size: smaller;
 }
 
-.emotion-3 {
+.emotion-4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -142,9 +182,21 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   text-align: left;
   padding-top: 8px;
   padding-bottom: 8px;
+  cursor: pointer;
 }
 
-.emotion-4 {
+.emotion-4>svg {
+  color: #1976d2;
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.emotion-4:hover>svg {
+  opacity: 1;
+}
+
+.emotion-5 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -155,15 +207,15 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   margin-bottom: 6px;
 }
 
-.MuiTypography-root:where(.emotion-4 .MuiListItemText-primary) {
+.MuiTypography-root:where(.emotion-5 .MuiListItemText-primary) {
   display: block;
 }
 
-.MuiTypography-root:where(.emotion-4 .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-5 .MuiListItemText-secondary) {
   display: block;
 }
 
-.emotion-5 {
+.emotion-6 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -172,7 +224,7 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
-.emotion-6 {
+.emotion-7 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -182,7 +234,7 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-7 {
+.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -203,14 +255,16 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   <div
     class="flexbox align-items-center emotion-0 has-sso"
   >
-    <a>
+    <button
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-1"
+    >
       View metadata in the text editor
-    </a>
+    </button>
     <div
       class="flexbox"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-2"
         tabindex="0"
         type="button"
       >
@@ -222,21 +276,21 @@ exports[`SamlConfig Component > renders correctly 1`] = `
     class="flexbox column margin-top"
   >
     <div
-      class="emotion-2"
+      class="emotion-3"
     >
       <li
-        class="MuiListItem-root attributes copy-to-clipboard MuiListItem-padding emotion-3"
+        class="MuiListItem-root attributes MuiListItem-padding emotion-4"
       >
         <div
-          class="MuiListItemText-root MuiListItemText-multiline emotion-4"
+          class="MuiListItemText-root MuiListItemText-multiline emotion-5"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-5"
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-6"
           >
             Entity ID
           </span>
           <div
-            class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-6"
+            class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-7"
             title="http://localhost/api/management/v1/useradm/sso/sp/metadata/1"
           >
             <span
@@ -250,7 +304,7 @@ exports[`SamlConfig Component > renders correctly 1`] = `
         <svg
           aria-hidden="true"
           aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-7"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
           data-mui-internal-clone-element="true"
           data-testid="FileCopyOutlinedIcon"
           focusable="false"
@@ -263,21 +317,21 @@ exports[`SamlConfig Component > renders correctly 1`] = `
       </li>
     </div>
     <div
-      class="emotion-2"
+      class="emotion-3"
     >
       <li
-        class="MuiListItem-root attributes copy-to-clipboard MuiListItem-padding emotion-3"
+        class="MuiListItem-root attributes MuiListItem-padding emotion-4"
       >
         <div
-          class="MuiListItemText-root MuiListItemText-multiline emotion-4"
+          class="MuiListItemText-root MuiListItemText-multiline emotion-5"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-5"
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-6"
           >
             ACS URL
           </span>
           <div
-            class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-6"
+            class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-7"
             title="http://localhost/api/management/v1/useradm/auth/sso/1/acs"
           >
             <span
@@ -291,7 +345,7 @@ exports[`SamlConfig Component > renders correctly 1`] = `
         <svg
           aria-hidden="true"
           aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-7"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
           data-mui-internal-clone-element="true"
           data-testid="FileCopyOutlinedIcon"
           focusable="false"
@@ -304,21 +358,21 @@ exports[`SamlConfig Component > renders correctly 1`] = `
       </li>
     </div>
     <div
-      class="emotion-2"
+      class="emotion-3"
     >
       <li
-        class="MuiListItem-root attributes copy-to-clipboard MuiListItem-padding emotion-3"
+        class="MuiListItem-root attributes MuiListItem-padding emotion-4"
       >
         <div
-          class="MuiListItemText-root MuiListItemText-multiline emotion-4"
+          class="MuiListItemText-root MuiListItemText-multiline emotion-5"
         >
           <span
-            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-5"
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary emotion-6"
           >
             Start URL
           </span>
           <div
-            class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-6"
+            class="MuiTypography-root MuiTypography-body2 MuiListItemText-secondary emotion-7"
             title="http://localhost/api/management/v1/useradm/auth/sso/1/login"
           >
             <span
@@ -332,7 +386,7 @@ exports[`SamlConfig Component > renders correctly 1`] = `
         <svg
           aria-hidden="true"
           aria-label="Copy to clipboard"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-7"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-8"
           data-mui-internal-clone-element="true"
           data-testid="FileCopyOutlinedIcon"
           focusable="false"

@@ -24,6 +24,22 @@ exports[`DeploymentPhaseNotification Component > renders correctly 1`] = `
 }
 
 .emotion-2 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-2:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-3 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -67,15 +83,17 @@ exports[`DeploymentPhaseNotification Component > renders correctly 1`] = `
         paused
       </span>
       . 
-      <a>
+      <span
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-2"
+      >
         Review its status
-      </a>
+      </span>
        to continue, retry or abort the deployment
        
     </div>
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall link-color emotion-2"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall link-color emotion-3"
       data-testid="ArrowDropDownCircleOutlinedIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -125,10 +143,6 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0.00714em;
-}
-
-.emotion-19.copy-to-clipboard svg {
-  fill: rgba(0, 0, 0, 0.54);
 }
 
 <div>
@@ -263,7 +277,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
       Update attempts per device
     </h6>
     <div
-      class="flexbox align-items-center  emotion-19"
+      class="flexbox align-items-center "
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-2"
@@ -280,7 +294,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
       Maximum number of devices
     </h6>
     <div
-      class="flexbox align-items-center  emotion-19"
+      class="flexbox align-items-center "
     >
       <p
         class="MuiTypography-root MuiTypography-body2 emotion-2"

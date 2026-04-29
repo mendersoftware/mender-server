@@ -141,8 +141,16 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   padding-right: 8px;
 }
 
-.emotion-7.copy-to-clipboard svg {
+.emotion-7>svg {
+  cursor: pointer;
   fill: rgba(0, 0, 0, 0.54);
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.emotion-7:hover>svg {
+  opacity: 1;
 }
 
 .emotion-8 {
@@ -216,7 +224,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </span>
           </div>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-7"
+            class="flexbox align-items-center emotion-7"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -250,7 +258,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </span>
           </div>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-7"
+            class="flexbox align-items-center emotion-7"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -314,7 +322,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     </span>
                   </div>
                   <div
-                    class="flexbox align-items-center copy-to-clipboard emotion-7"
+                    class="flexbox align-items-center emotion-7"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -348,7 +356,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     </span>
                   </div>
                   <div
-                    class="flexbox align-items-center copy-to-clipboard emotion-7"
+                    class="flexbox align-items-center emotion-7"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -399,7 +407,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     </span>
                   </div>
                   <div
-                    class="flexbox align-items-center copy-to-clipboard emotion-7"
+                    class="flexbox align-items-center emotion-7"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -433,7 +441,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     </span>
                   </div>
                   <div
-                    class="flexbox align-items-center copy-to-clipboard emotion-7"
+                    class="flexbox align-items-center emotion-7"
                   >
                     <p
                       class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -486,7 +494,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="flexbox align-items-center copy-to-clipboard emotion-7"
+                class="flexbox align-items-center emotion-7"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -539,7 +547,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </span>
           </div>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-7"
+            class="flexbox align-items-center emotion-7"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -590,7 +598,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </span>
           </div>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-7"
+            class="flexbox align-items-center emotion-7"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -624,7 +632,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </span>
           </div>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-7"
+            class="flexbox align-items-center emotion-7"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -675,7 +683,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </span>
           </div>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-7"
+            class="flexbox align-items-center emotion-7"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -709,7 +717,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </span>
           </div>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-7"
+            class="flexbox align-items-center emotion-7"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -771,7 +779,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="flexbox align-items-center copy-to-clipboard emotion-7"
+                class="flexbox align-items-center emotion-7"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -805,7 +813,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="flexbox align-items-center copy-to-clipboard emotion-7"
+                class="flexbox align-items-center emotion-7"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -856,7 +864,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="flexbox align-items-center copy-to-clipboard emotion-7"
+                class="flexbox align-items-center emotion-7"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -890,7 +898,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="flexbox align-items-center copy-to-clipboard emotion-7"
+                class="flexbox align-items-center emotion-7"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
@@ -924,7 +932,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="flexbox align-items-center copy-to-clipboard emotion-7"
+                class="flexbox align-items-center emotion-7"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 clickable emotion-8"

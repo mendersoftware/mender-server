@@ -36,8 +36,16 @@ exports[`DeviceIdentity Component > renders correctly 1`] = `
   letter-spacing: 0.00714em;
 }
 
-.emotion-4.copy-to-clipboard svg {
+.emotion-4>svg {
+  cursor: pointer;
   fill: rgba(0, 0, 0, 0.54);
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.emotion-4:hover>svg {
+  opacity: 1;
 }
 
 .emotion-5 {
@@ -390,7 +398,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
       Name
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-4"
+      class="flexbox align-items-center emotion-4"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-5"
@@ -466,7 +474,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
       ID
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-4"
+      class="flexbox align-items-center emotion-4"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-5"
@@ -496,7 +504,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
       mac
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-4"
+      class="flexbox align-items-center emotion-4"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-5"
@@ -526,7 +534,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
       First request
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-4"
+      class="flexbox align-items-center emotion-4"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-5"
@@ -593,8 +601,16 @@ exports[`DeviceIdentity Component > renders correctly without a mac 1`] = `
   letter-spacing: 0.00714em;
 }
 
-.emotion-4.copy-to-clipboard svg {
+.emotion-4>svg {
+  cursor: pointer;
   fill: rgba(0, 0, 0, 0.54);
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.emotion-4:hover>svg {
+  opacity: 1;
 }
 
 .emotion-5 {
@@ -947,7 +963,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
       Name
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-4"
+      class="flexbox align-items-center emotion-4"
     >
       <div
         class="MuiTypography-root MuiTypography-body2 clickable emotion-5"
@@ -1023,7 +1039,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
       ID
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-4"
+      class="flexbox align-items-center emotion-4"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-5"

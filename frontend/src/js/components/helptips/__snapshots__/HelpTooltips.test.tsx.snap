@@ -22,8 +22,24 @@ NodeList [
 exports[`Helptooltips Components > renders AttributeLimit correctly 1`] = `
 NodeList [
   Expand to see the list of attributes currently in use. Please ,
-  <a
-    class=""
+  .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+<a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
     href="mailto:support@mender.io"
     rel="noopener noreferrer"
     target="_blank"
@@ -44,10 +60,26 @@ NodeList [
   <p>
     Expand this section to view the authentication options for this device. You can decide whether to accept it, reject it, or just dismiss this device for now.
   </p>,
-  <p>
+  .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+<p>
     See the documentation for more on 
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://docs.mender.io/overview/device-authentication"
       rel="noopener"
       target="_blank"
@@ -67,11 +99,27 @@ NodeList [
   <p>
     Each device sends an authentication request containing its identity attributes and its current public key. You can accept, reject or dismiss these requests to determine the authorization status of the device.
   </p>,
-  <p>
+  .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+<p>
     In cases such as key rotation, each device may have more than one identity/key combination listed. See the documentation for more on
      
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://docs.mender.io/overview/device-authentication"
       rel="noopener"
       target="_blank"
@@ -131,8 +179,16 @@ NodeList [
   letter-spacing: 0.00714em;
 }
 
-.emotion-2.copy-to-clipboard svg {
+.emotion-2>svg {
+  cursor: pointer;
   fill: rgba(0, 0, 0, 0.54);
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.emotion-2:hover>svg {
+  opacity: 1;
 }
 
 .emotion-3 {
@@ -172,7 +228,7 @@ NodeList [
       mmc0
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-2"
+      class="flexbox align-items-center emotion-2"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -202,7 +258,7 @@ NodeList [
       on
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-2"
+      class="flexbox align-items-center emotion-2"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -232,7 +288,7 @@ NodeList [
       off
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-2"
+      class="flexbox align-items-center emotion-2"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -262,7 +318,7 @@ NodeList [
       heartbeat
     </h6>
     <div
-      class="flexbox align-items-center copy-to-clipboard emotion-2"
+      class="flexbox align-items-center emotion-2"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
@@ -287,7 +343,24 @@ NodeList [
     </div>
   </div>,
   There are other possible values, but we won't advertise them here. See,
-  <a
+  .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+<a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
     href="http://www.d3noob.org/2020/07/controlling-activity-led-on-raspberry-pi.html"
     rel="noopener noreferrer"
     target="_blank"
@@ -297,7 +370,24 @@ NodeList [
    ,
   or,
    ,
-  <a
+  .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+<a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
     href="https://www.raspberrypi.org/forums/viewtopic.php?t=273194#p1658930"
     rel="noopener noreferrer"
     target="_blank"
@@ -338,10 +428,26 @@ NodeList [
 exports[`Helptooltips Components > renders DashboardWidget correctly 1`] = `Add dashboard widgets to visualize the software distribution or geographical location of all your devices, or a group of your devices.`;
 
 exports[`Helptooltips Components > renders DeviceSupportTip correctly 1`] = `
+.emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
 <p>
   The steps in the guide should work on most operating systems in the Debian family (e.g. Debian, Ubuntu, Raspberry Pi OS) and devices based on ARMv6 or newer (e.g. Raspberry Pi 2/3/4, Beaglebone). Visit 
   <a
-    class=""
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
     href="https://docs.mender.io/overview/device-support"
     rel="noopener"
     target="_blank"
@@ -386,11 +492,27 @@ NodeList [
   <p>
     You can click on each Artifact in the Release to expand the row and view more information about it.
   </p>,
-  <p>
+  .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+<p>
     For more information on how to specify the device type compatibility and other artifact metadata,
      
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://docs.mender.io/artifact-creation/create-an-artifact"
       rel="noopener"
       target="_blank"
@@ -418,8 +540,24 @@ exports[`Helptooltips Components > renders GroupDeployment correctly 1`] = `The 
 exports[`Helptooltips Components > renders MCUDevice correctly 1`] = `
 NodeList [
   Typically low-power (MCU) devices that require smaller, less frequent updates. Artifact size is limited to 5MB on micro devices, and polling intervals are longer. ,
-  <a
-    class=""
+  .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+<a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
     href="https://docs.mender.io//overview/limits"
     rel="noopener"
     target="_blank"
@@ -482,8 +620,24 @@ exports[`Helptooltips Components > renders StandardDevice correctly 1`] = `
 NodeList [
   These are typically Linux-based devices that need larger, more frequent updates. Artifacts can be bigger and device polling intervals are more frequent.,
    ,
-  <a
-    class=""
+  .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+<a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
     href="https://docs.mender.io//overview/limits"
     rel="noopener"
     target="_blank"

@@ -841,6 +841,22 @@ exports[`smaller components > renders CancelSubscriptionAlert correctly 1`] = `
   overflow: auto;
 }
 
+.emotion-4 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-4:hover {
+  text-decoration-color: inherit;
+}
+
 <div
   class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-standard margin-top-large emotion-0"
   role="alert"
@@ -872,6 +888,7 @@ exports[`smaller components > renders CancelSubscriptionAlert correctly 1`] = `
        
       <strong>
         <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-4"
           href="https://support.northern.tech"
           rel="noopener noreferrer"
           target="_blank"
@@ -903,6 +920,22 @@ exports[`smaller components > renders DeviceLimitExpansionNotification correctly
   font-size: 1.25rem;
 }
 
+.emotion-1 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-1:hover {
+  text-decoration-color: inherit;
+}
+
 <div
   class="flexbox centered"
 >
@@ -925,6 +958,7 @@ exports[`smaller components > renders DeviceLimitExpansionNotification correctly
      
   </div>
   <a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-1"
     data-discover="true"
     href="/subscription"
   >

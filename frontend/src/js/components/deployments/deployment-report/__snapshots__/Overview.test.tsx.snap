@@ -16,17 +16,29 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   letter-spacing: 0.00714em;
 }
 
-.emotion-2.copy-to-clipboard svg {
-  fill: rgba(0, 0, 0, 0.54);
-}
-
-.emotion-3 {
+.emotion-2 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
+}
+
+.emotion-3 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-3:hover {
+  text-decoration-color: inherit;
 }
 
 .emotion-4 {
@@ -149,7 +161,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   padding-right: 8px;
 }
 
-.emotion-17 {
+.emotion-15 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -206,33 +218,33 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-17::-moz-focus-inner {
+.emotion-15::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-17.Mui-disabled {
+.emotion-15.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-17 {
+  .emotion-15 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-17:hover {
+.emotion-15:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-17.Mui-disabled {
+.emotion-15.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-17:hover {
+  .emotion-15:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -240,17 +252,17 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   }
 }
 
-.emotion-17.MuiButton-loading {
+.emotion-15.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-18 {
+.emotion-16 {
   display: inherit;
   margin-right: -4px;
   margin-left: 8px;
 }
 
-.emotion-18>*:nth-of-type(1) {
+.emotion-16>*:nth-of-type(1) {
   font-size: 20px;
 }
 
@@ -267,19 +279,17 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       Release
     </h6>
     <div
-      class="flexbox align-items-center  emotion-2"
+      class="flexbox align-items-center "
     >
       <div
-        class="MuiTypography-root MuiTypography-body2 emotion-3"
+        class="MuiTypography-root MuiTypography-body2 emotion-2"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <a
-          class="flexbox centered"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered emotion-3"
           data-discover="true"
           href="/software/test"
-          rel="noopener noreferrer"
           style="font-weight: 500;"
-          target="_blank"
         >
           test
           <svg
@@ -303,19 +313,17 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       Target device(s)
     </h6>
     <div
-      class="flexbox align-items-center  emotion-2"
+      class="flexbox align-items-center "
     >
       <div
-        class="MuiTypography-root MuiTypography-body2 emotion-3"
+        class="MuiTypography-root MuiTypography-body2 emotion-2"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <a
-          class="flexbox centered"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered emotion-3"
           data-discover="true"
           href="/devices?inventory=group:eq:testGroup"
-          rel="noopener noreferrer"
           style="font-weight: 500;"
-          target="_blank"
         >
           testGroup
           <svg
@@ -348,10 +356,10 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       Category
     </h6>
     <div
-      class="flexbox align-items-center  emotion-2"
+      class="flexbox align-items-center "
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-3"
+        class="MuiTypography-root MuiTypography-body2 emotion-2"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="Software update"
       >
@@ -365,10 +373,10 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
       Created at
     </h6>
     <div
-      class="flexbox align-items-center  emotion-2"
+      class="flexbox align-items-center "
     >
       <div
-        class="MuiTypography-root MuiTypography-body2 emotion-3"
+        class="MuiTypography-root MuiTypography-body2 emotion-2"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="2019-01-01"
       >
@@ -381,13 +389,13 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     </div>
   </div>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top emotion-17"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top emotion-15"
     tabindex="0"
     type="button"
   >
     See schedule details
     <span
-      class="MuiButton-icon MuiButton-endIcon emotion-18"
+      class="MuiButton-icon MuiButton-endIcon emotion-16"
     >
       <svg
         aria-hidden="true"

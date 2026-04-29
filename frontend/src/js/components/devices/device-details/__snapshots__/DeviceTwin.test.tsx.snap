@@ -31,33 +31,49 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
 }
 
 .emotion-3 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-3:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-4 {
   border: 1px solid rgba(0, 0, 0, 0.54);
   border-radius: 4px;
 }
 
-.emotion-3>section {
+.emotion-4>section {
   min-height: 20lh;
 }
 
-.emotion-3 .monaco-editor,
-.emotion-3 .monaco-editor-background,
-.emotion-3 .monaco-editor .margin {
+.emotion-4 .monaco-editor,
+.emotion-4 .monaco-editor-background,
+.emotion-4 .monaco-editor .margin {
   background-color: transparent;
 }
 
-.emotion-3 .monaco-editor .view-overlays .current-line-exact {
+.emotion-4 .monaco-editor .view-overlays .current-line-exact {
   border: inherit;
 }
 
-.emotion-3.readOnly {
+.emotion-4.readOnly {
   border-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-3.readOnly .monaco-editor-background {
+.emotion-4.readOnly .monaco-editor-background {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-4 {
+.emotion-5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -114,57 +130,57 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-4::-moz-focus-inner {
+.emotion-5::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-5.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-4 {
+  .emotion-5 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-4:hover {
+.emotion-5:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-5.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-4:hover {
+.emotion-5:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-4:hover {
+  .emotion-5:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-4:active {
+.emotion-5:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-4.Mui-focusVisible {
+.emotion-5.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-4.Mui-disabled {
+.emotion-5.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-4:hover {
+  .emotion-5:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -172,11 +188,11 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   }
 }
 
-.emotion-4.MuiButton-loading {
+.emotion-5.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-5 {
+.emotion-6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -233,33 +249,33 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5::-moz-focus-inner {
+.emotion-6::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-5 {
+  .emotion-6 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-5:hover {
+.emotion-6:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-5:hover {
+  .emotion-6:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -267,21 +283,21 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   }
 }
 
-.emotion-5.MuiButton-loading {
+.emotion-6.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-6 {
+.emotion-7 {
   display: inherit;
   margin-right: 8px;
   margin-left: -4px;
 }
 
-.emotion-6>*:nth-of-type(1) {
+.emotion-7>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-7 {
+.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -323,6 +339,7 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
         </time>
       </p>
       <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
         data-discover="true"
         href="/settings/integrations"
       >
@@ -367,7 +384,7 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
         </h4>
       </div>
       <div
-        class="emotion-3"
+        class="emotion-4"
       >
         <section
           style="display: flex; position: relative; text-align: initial; width: 100%; height: 500px;"
@@ -411,7 +428,7 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
         style="align-items: flex-start; justify-content: flex-end;"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-5"
           tabindex="0"
           type="button"
         >
@@ -443,16 +460,16 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
           </div>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-5"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-6"
           tabindex="0"
           type="button"
         >
           <span
-            class="MuiButton-icon MuiButton-startIcon emotion-6"
+            class="MuiButton-icon MuiButton-startIcon emotion-7"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
               data-testid="RefreshIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -497,6 +514,22 @@ exports[`DeviceTwin Component > renders sub component TwinError correctly 1`] = 
   font-size: 1.25rem;
 }
 
+.emotion-3 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-3:hover {
+  text-decoration-color: inherit;
+}
+
 <p
   class="emotion-0 icon flexbox align-items-center emotion-1 "
 >
@@ -515,6 +548,7 @@ exports[`DeviceTwin Component > renders sub component TwinError correctly 1`] = 
   <br />
   Please check your connection string in the 
   <a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
     data-discover="true"
     href="/settings/integrations"
   >
@@ -685,6 +719,22 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 3
   font-size: 1.25rem;
 }
 
+.emotion-3 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-3:hover {
+  text-decoration-color: inherit;
+}
+
 <p
   class="emotion-0 icon flexbox align-items-center emotion-1 "
 >
@@ -703,6 +753,7 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 3
   <br />
   Please check your connection string in the 
   <a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
     data-discover="true"
     href="/settings/integrations"
   >
