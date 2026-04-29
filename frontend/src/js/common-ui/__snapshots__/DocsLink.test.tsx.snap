@@ -34,9 +34,9 @@ exports[`DocsTextLink Component > renders correctly 1`] = `
   target="_blank"
 >
   <p
-    class="MuiTypography-root MuiTypography-body1 inline capitalized-start emotion-1"
+    class="MuiTypography-root MuiTypography-body1 inline emotion-1"
   >
-    learn more
+    Learn more
   </p>
 </a>
 `;

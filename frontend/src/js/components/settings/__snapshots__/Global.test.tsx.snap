@@ -1109,7 +1109,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-37:focus::-ms-input-
               target="_blank"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 inline capitalized-start emotion-9"
+                class="MuiTypography-root MuiTypography-body2 inline emotion-9"
               >
                 Learn how to add custom identity attributes.
               </p>
