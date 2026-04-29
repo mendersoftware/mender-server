@@ -13,13 +13,13 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 
 import { Edit as EditIcon } from '@mui/icons-material';
 import type { Theme } from '@mui/material';
 import { Alert, Button, Collapse, IconButton, InputAdornment } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';

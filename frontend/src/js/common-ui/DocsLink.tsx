@@ -25,6 +25,7 @@ import { getDocsVersion, getFeatures } from '@northern.tech/store/selectors';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { yes } from '@northern.tech/utils/helpers';
 
+import { Link } from './Link';
 import { MenderTooltipClickable } from './helptips/MenderTooltip';
 
 const useStyles = makeStyles()(theme => ({
@@ -155,10 +156,9 @@ export const DocsLink = forwardRef(({ children, className = '', path = '', title
   };
 
   return (
-    // eslint-disable-next-line react/jsx-no-target-blank
-    <a className={className} {...remainder} href={target} onClick={onClickHandler} ref={ref} target="_blank" rel={isHosted ? 'noopener' : ''}>
+    <Link className={className} {...remainder} href={target} onClick={onClickHandler} ref={ref} external rel={isHosted ? 'noopener' : ''}>
       {children ? children : title}
-    </a>
+    </Link>
   );
 });
 

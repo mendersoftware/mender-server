@@ -13,12 +13,13 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 
 import { Mail as MailIcon } from '@mui/icons-material';
 import { Button, CircularProgress, IconButton, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { getCurrentSession } from '@northern.tech/store/selectors';
 import { verifyEmailComplete } from '@northern.tech/store/thunks';
@@ -65,7 +66,7 @@ const ActivateError = ({ errorDetails, isLoggedIn }: { errorDetails: string; isL
 const ActivateSuccess = ({ isLoggedIn }: { isLoggedIn?: string }) => (
   <>
     <Typography>Your new email address has been successfully confirmed.</Typography>
-    <Button className="margin-top-small" variant="contained" component={Link} to={isLoggedIn ? '/dashboard' : '/login'}>
+    <Button className="margin-top-small" variant="contained" component={RouterLink} to={isLoggedIn ? '/dashboard' : '/login'}>
       Continue to {isLoggedIn ? 'dashboard' : 'login'}
     </Button>
   </>

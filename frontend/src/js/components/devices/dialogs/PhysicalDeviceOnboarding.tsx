@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { Autocomplete, TextField, Typography } from '@mui/material';
@@ -22,6 +21,7 @@ import { createFilterOptions } from '@mui/material/useAutocomplete';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { Link } from '@northern.tech/common-ui/Link';
 import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { EXTERNAL_PROVIDER, onboardingSteps } from '@northern.tech/store/constants';
 import type { initialState } from '@northern.tech/store/onboardingSlice';

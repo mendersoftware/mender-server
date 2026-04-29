@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { Launch as LaunchIcon } from '@mui/icons-material';
 import { Alert, LinearProgress, tableCellClasses } from '@mui/material';
@@ -24,6 +23,7 @@ import { Code } from '@northern.tech/common-ui/CopyCode';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';

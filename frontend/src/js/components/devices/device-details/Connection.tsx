@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { InfoOutlined as InfoIcon, Launch as LaunchIcon } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
@@ -206,7 +206,7 @@ export const DeviceConnection = ({ device }) => {
           {hasDeviceConnect && connectionStatus !== DEVICE_CONNECT_STATES.unknown && canTroubleshoot && tierEligible && <PortForwardLink />}
           {hasDeviceConnect && canAuditlog && hasAuditlogs && (
             <Button
-              component={Link}
+              component={RouterLink}
               variant="text"
               to={`/auditlog?${formatAuditlogs({ pageState: { type: deviceAuditlogType, detail: device.id, startDate: BEGINNING_OF_TIME } }, {})}`}
             >

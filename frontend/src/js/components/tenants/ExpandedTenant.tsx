@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, Typography, formControlLabelClasses } from '@mui/material';
@@ -22,6 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import EditableNameInput from '@northern.tech/common-ui/EditableNameInput';
+import { Link } from '@northern.tech/common-ui/Link';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import Form from '@northern.tech/common-ui/forms/Form';
 import actions from '@northern.tech/store/actions';

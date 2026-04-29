@@ -11,9 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Link } from 'react-router-dom';
-
 import { defaultTextRender } from '@northern.tech/common-ui/DeviceIdentity';
+import { Link } from '@northern.tech/common-ui/Link';
 import Time, { ApproximateRelativeDate } from '@northern.tech/common-ui/Time';
 import { DEVICE_STATES, currentArtifact, rootfsImageVersion } from '@northern.tech/store/constants';
 import pluralize from 'pluralize';
@@ -86,8 +85,8 @@ export const PreauthorizedEmptyState = ({ canManageDevices, limitMaxed, onClick 
     <p>There are no preauthorized devices.</p>
     {canManageDevices && (
       <p>
-        {limitMaxed ? 'Preauthorize devices' : <a onClick={onClick}>Preauthorize devices</a>} so that when they come online, they will connect to the server
-        immediately
+        {limitMaxed ? 'Preauthorize devices' : <Link onClick={onClick}>Preauthorize devices</Link>} so that when they come online, they will connect to the
+        server immediately
       </p>
     )}
     <img src={preauthImage} alt="preauthorize" />

@@ -11,9 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Link } from 'react-router-dom';
-
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
+import { Link } from '@northern.tech/common-ui/Link';
 import Time from '@northern.tech/common-ui/Time';
 import { DEPLOYMENT_ROUTES, auditlogTypes, canAccess } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
@@ -22,7 +21,7 @@ const ArtifactLink = ({ item }) => <Link to={generateReleasesPath({ pageState: {
 const DeploymentLink = ({ item }) => <Link to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</Link>;
 const DeviceLink = ({ item }) => <Link to={`/devices?id=${item.object.id}`}>View device</Link>;
 const DeviceRejectedLink = ({ item }) => <Link to={`/devices/rejected?id=${item.object.id}`}>View device</Link>;
-const TerminalSessionLink = () => <a>View session log</a>;
+const TerminalSessionLink = () => <Link>View session log</Link>;
 const ChangeFallback = props => {
   const {
     item: { change = '-' }

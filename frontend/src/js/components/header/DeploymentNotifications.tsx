@@ -11,13 +11,12 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Link } from 'react-router-dom';
-
 // material ui
 import { Sync as RefreshIcon } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 
 const useStyles = makeStyles()(theme => ({

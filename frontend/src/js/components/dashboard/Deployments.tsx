@@ -13,10 +13,10 @@
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { Typography } from '@mui/material';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, TIMEOUTS, deploymentDisplayStates, onboardingSteps } from '@northern.tech/store/constants';

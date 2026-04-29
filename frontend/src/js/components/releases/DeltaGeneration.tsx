@@ -13,13 +13,13 @@
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { Typography, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseNotification';
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';

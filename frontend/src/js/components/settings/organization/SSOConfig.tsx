@@ -21,6 +21,7 @@ import { listItemTextClasses } from '@mui/material/ListItemText';
 import { makeStyles } from 'tss-react/mui';
 
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
+import { Link } from '@northern.tech/common-ui/Link';
 import { maxWidth } from '@northern.tech/common-ui/SettingsItem';
 import { SSO_TYPES, XML_METADATA_FORMAT } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
@@ -114,7 +115,7 @@ export const SSOConfig = ({ ssoItem, config, onCancel, onSave, setSnackbar, toke
     <>
       <div className={`flexbox align-items-center ${classes.wrapper} ${hasSSOConfig ? 'has-sso' : ''}`}>
         {hasSSOConfig ? (
-          <a onClick={onOpenEditorClick}>View metadata in the text editor</a>
+          <Link onClick={onOpenEditorClick}>View metadata in the text editor</Link>
         ) : (
           <>
             <MenderHelpTooltip id={HELPTOOLTIPS.ssoMetadata.id} style={{ position: 'absolute', left: -35 }} placement="left" />
@@ -122,13 +123,13 @@ export const SSOConfig = ({ ssoItem, config, onCancel, onSave, setSnackbar, toke
               {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps()} className="dropzone onboard dashboard-placeholder flexbox centered">
                   <input {...getInputProps()} />
-                  <CloudUpload className={classes.uploadIcon} fontSize="small" /> Drag here or <a className={classes.tinyMargin}>browse</a> to upload a metadata
-                  document
+                  <CloudUpload className={classes.uploadIcon} fontSize="small" /> Drag here or <Link className={classes.tinyMargin}>browse</Link> to upload a
+                  metadata document
                 </div>
               )}
             </Dropzone>
             <div>
-              or <a onClick={onOpenEditorClick}>input with the text editor</a>
+              or <Link onClick={onOpenEditorClick}>input with the text editor</Link>
             </div>
           </>
         )}

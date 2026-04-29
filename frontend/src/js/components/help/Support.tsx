@@ -13,6 +13,8 @@
 //    limitations under the License.
 import { Launch as LaunchIcon } from '@mui/icons-material';
 
+import { Link } from '@northern.tech/common-ui/Link';
+
 import hubLogo from '../../../assets/img/mender-hub-logo.png';
 
 const Support = () => (
@@ -21,9 +23,9 @@ const Support = () => (
     <p>Do you have a paid plan and need to contact support?</p>
     <p>
       Please reach out through our{' '}
-      <a href="https://support.northern.tech" target="_blank" rel="noopener noreferrer">
+      <Link href="https://support.northern.tech" external>
         support portal
-      </a>
+      </Link>
       , including your organization name and how we can help you.
     </p>
     <h4>Reporting bugs</h4>
@@ -36,17 +38,15 @@ const Support = () => (
     <h3>Trial or open source users</h3>
     <div>
       <p>Find technical help at</p>
-      {/* eslint-disable-next-line react/jsx-no-target-blank */}
-      <a href="https://hub.mender.io" target="_blank" rel="noopener">
+      <Link href="https://hub.mender.io" external>
         <span>
           <img style={{ 'width': '50%' }} src={hubLogo} />
         </span>
-      </a>
+      </Link>
       <p>Mender Hub is a forum where you can find help, ask technical questions and start discussions with our active and knowledgeable community.</p>
-      {/* eslint-disable-next-line react/jsx-no-target-blank */}
-      <a href="https://hub.mender.io" target="_blank" rel="noopener">
+      <Link href="https://hub.mender.io" external>
         <span>Ask a question at Mender Hub</span> <LaunchIcon style={{ 'verticalAlign': 'text-bottom' }} fontSize="small" />
-      </a>
+      </Link>
     </div>
   </div>
 );

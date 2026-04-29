@@ -18,6 +18,7 @@ import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Chip, Divider, Tooltip, Typography } from '@mui/material';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES } from '@northern.tech/store/constants';
@@ -103,16 +104,16 @@ const ActionButtons = ({ authset, confirmMessage, newStatus, limitMaxed, onAccep
   ) : (
     <div className="action-buttons flexbox">
       {authset.status !== DEVICE_STATES.accepted && authset.status !== DEVICE_STATES.preauth && !limitMaxed ? (
-        <a onClick={onAcceptClick}>Accept</a>
+        <Link onClick={onAcceptClick}>Accept</Link>
       ) : (
         <div>Accept</div>
       )}
       {authset.status !== DEVICE_STATES.rejected && authset.status !== DEVICE_STATES.preauth ? (
-        <a onClick={() => onRequestConfirm(DEVICE_STATES.rejected)}>Reject</a>
+        <Link onClick={() => onRequestConfirm(DEVICE_STATES.rejected)}>Reject</Link>
       ) : (
         <div>Reject</div>
       )}
-      <a onClick={onDismissClick}>Dismiss</a>
+      <Link onClick={onDismissClick}>Dismiss</Link>
     </div>
   );
 };
@@ -187,7 +188,7 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
     return onConfirm(DEVICE_STATES.accepted);
   };
 
-  let key = <a onClick={onShowKey}>show key</a>;
+  let key = <Link onClick={onShowKey}>show key</Link>;
   let content = [
     padder,
     <p className="bold expanded" key="content">
@@ -207,7 +208,7 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
       </div>,
       padder
     ];
-    key = <a onClick={() => onShowKey(false)}>hide key</a>;
+    key = <Link onClick={() => onShowKey(false)}>hide key</Link>;
   }
   return (
     <Accordion className={classes.accordion} square expanded={isExpanded}>

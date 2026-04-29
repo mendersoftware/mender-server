@@ -16,6 +16,7 @@ import { useState } from 'react';
 // material ui
 import { Button, DialogActions, DialogContent, FormControlLabel, FormHelperText, Radio, RadioGroup } from '@mui/material';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import FileUpload from '@northern.tech/common-ui/forms/FileUpload';
 
@@ -68,7 +69,7 @@ export const ConfigImportDialog = ({ onCancel, onSubmit }) => {
               <FileUpload
                 placeholder={
                   <>
-                    Drag & drop or <a>select a JSON file</a> to import configuration data
+                    Drag & drop or <Link>select a JSON file</Link> to import configuration data
                   </>
                 }
                 onFileChange={onFileChange}

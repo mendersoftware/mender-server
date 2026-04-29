@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import {
   AutoAwesomeOutlined as AutoAwesomeIcon,
@@ -24,6 +23,7 @@ import {
 import { Alert, Button, IconButton, Slide, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { SparkleAnimation } from '@northern.tech/common-ui/Sparkles';
 import { getGlobalSettings, getUserRoles } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';

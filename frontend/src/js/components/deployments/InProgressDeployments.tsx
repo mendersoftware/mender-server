@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Paper, Typography } from '@mui/material';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_STATES, onboardingSteps } from '@northern.tech/store/constants';
@@ -194,7 +195,7 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
           <Typography>Pending and ongoing deployments will appear here.</Typography>
           {canDeploy && (
             <Typography>
-              <a onClick={createClick}>Create a deployment</a> to get started
+              <Link onClick={createClick}>Create a deployment</Link> to get started
             </Typography>
           )}
         </div>

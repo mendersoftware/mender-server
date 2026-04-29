@@ -20,6 +20,8 @@ import { ListItem, ListItemText, Tooltip } from '@mui/material';
 import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
+import { Link } from './Link';
+
 const defaultClasses = { root: 'attributes' };
 
 export const ExpandableAttribute = ({
@@ -68,7 +70,7 @@ export const ExpandableAttribute = ({
       <span className={currentTextClasses} ref={textContent}>
         {secondary}
       </span>{' '}
-      {overflowActive ? <a>show {expanded ? 'less' : 'more'}</a> : null}
+      {overflowActive ? <Link>show {expanded ? 'less' : 'more'}</Link> : null}
     </>
   );
 

@@ -20,6 +20,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress
 import { makeStyles } from 'tss-react/mui';
 
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
+import { Link } from '@northern.tech/common-ui/Link';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { getUserCapabilities } from '@northern.tech/store/selectors';
 import { editArtifact, getArtifactInstallCount, getArtifactUrl } from '@northern.tech/store/thunks';
@@ -74,16 +75,15 @@ const DevicesLink = ({ artifact: { installCount }, softwareItem: { key, name, ve
   }
   const attribute = `${key}${name ? `.${name}` : ''}.version`;
   return (
-    <a
+    <Link
       className="flexbox align-items-center"
       href={`${window.location.origin}/ui/devices/accepted?inventory=${attribute}:eq:${version}`}
-      target="_blank"
-      rel="noreferrer"
+      external
       title={title}
     >
       {text}
       <LaunchIcon className="margin-left-small" fontSize="small" />
-    </a>
+    </Link>
   );
 };
 

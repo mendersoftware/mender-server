@@ -20,6 +20,7 @@ import { Button, Chip, DialogActions, DialogContent, List, ListItem, Typography,
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { DEVICE_STATES, TIMEOUTS, onboardingSteps } from '@northern.tech/store/constants';
@@ -57,10 +58,10 @@ const docsLinks = [
 
 const MenderHubReference = () => (
   <Typography variant="body1">
-    Or visit {/* eslint-disable-next-line react/jsx-no-target-blank */}
-    <a href="https://hub.mender.io/c/board-integrations" target="_blank" rel="noopener">
+    Or visit{' '}
+    <Link href="https://hub.mender.io/c/board-integrations" external>
       Mender Hub
-    </a>{' '}
+    </Link>{' '}
     and search integrations for your device and OS.
   </Typography>
 );

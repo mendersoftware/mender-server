@@ -14,8 +14,7 @@
 import type { MouseEvent } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // material ui
 import {
@@ -255,7 +254,7 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
               ))}
             </div>
             {isAdmin && (
-              <Button color="primary" variant="text" component={Link} to="/settings/subscription" onClick={handleClose}>
+              <Button color="primary" variant="text" component={RouterLink} to="/settings/subscription" onClick={handleClose}>
                 Manage device limit
               </Button>
             )}

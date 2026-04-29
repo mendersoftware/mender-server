@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux';
 import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { Button, DialogActions, DialogContent } from '@mui/material';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import FileUpload from '@northern.tech/common-ui/forms/FileUpload';
 import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
@@ -27,9 +28,9 @@ import { isEmpty } from '@northern.tech/utils/helpers';
 export const DeviceLimitContact = () => (
   <p>
     If you need a higher device limit, you can contact us through our{' '}
-    <a href="https://support.northern.tech" target="_blank" rel="noopener noreferrer">
+    <Link href="https://support.northern.tech" external>
       support portal
-    </a>{' '}
+    </Link>{' '}
     to request a higher limit.
   </p>
 );
@@ -75,7 +76,7 @@ export const PreauthDialog = ({ acceptedDevices, deviceLimit, limitMaxed, onCanc
         <FileUpload
           placeholder={
             <>
-              Drag here or <a>browse</a> to upload a public key file
+              Drag here or <Link>browse</Link> to upload a public key file
             </>
           }
           onFileChange={setPublicKey}

@@ -14,7 +14,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -298,7 +298,7 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
       <div className={`flexbox space-between ${classes.connectionActions}`}>
         <Button onClick={onConnectionToggle}>{socketInitialized ? 'Disconnect' : 'Connect'} Terminal</Button>
         {canAuditlog && hasAuditlogs && (
-          <Button component={Link} to={`/auditlog?objectType=device&objectId=${device.id}&startDate=${BEGINNING_OF_TIME}`}>
+          <Button component={RouterLink} to={`/auditlog?objectType=device&objectId=${device.id}&startDate=${BEGINNING_OF_TIME}`}>
             View Session Logs for this device
           </Button>
         )}

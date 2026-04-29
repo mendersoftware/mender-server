@@ -14,7 +14,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 import { Button, Tab, Tabs, Typography } from '@mui/material';
 
@@ -234,7 +234,7 @@ export const Deployments = () => {
         </div>
         <Tabs value={state} onChange={changeTab} ref={tabsRef}>
           {Object.values(routes).map(route => (
-            <Tab component={Link} key={route.route} label={route.title} to={route.route} value={route.key} />
+            <Tab component={RouterLink} key={route.route} label={route.title} to={route.route} value={route.key} />
           ))}
         </Tabs>
         <ComponentToShow abort={onAbortDeployment} createClick={onCreationShow} openReport={showReport} isShowingDetails={reportDialog} />

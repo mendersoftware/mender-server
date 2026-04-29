@@ -20,6 +20,7 @@ import { List, ListItem, ListItemText, Typography, darken, getOverlayAlpha, ligh
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { Link } from '@northern.tech/common-ui/Link';
 import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
@@ -120,9 +121,9 @@ const VersionInfo = () => {
           accu.push(
             <React.Fragment key={key}>
               {linkables[key] ? (
-                <a href={`https://github.com/mendersoftware/${linkables[key]}/tree/${version}`} target="_blank" rel="noopener noreferrer">
+                <Link href={`https://github.com/mendersoftware/${linkables[key]}/tree/${version}`} external>
                   {key}
-                </a>
+                </Link>
               ) : (
                 <div>{key}</div>
               )}

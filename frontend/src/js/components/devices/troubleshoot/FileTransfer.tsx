@@ -18,6 +18,7 @@ import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
 import { Button, Divider, IconButton, InputAdornment, Tab, Tabs, TextField, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import FileUpload from '@northern.tech/common-ui/forms/FileUpload';
 import { canAccess } from '@northern.tech/store/constants';
 import { deviceFileUpload } from '@northern.tech/store/thunks';
@@ -127,7 +128,7 @@ export const FileTransfer = ({
               onFileSelect={onFileSelect}
               placeholder={
                 <>
-                  Drag here or <a>browse</a> to upload a file
+                  Drag here or <Link>browse</Link> to upload a file
                 </>
               }
             />

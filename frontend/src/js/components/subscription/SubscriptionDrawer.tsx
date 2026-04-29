@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { CheckCircleOutlined as CheckCircleOutlinedIcon, ErrorOutlined as ErrorOutlineIcon } from '@mui/icons-material';
 import { Alert, AlertTitle, Button, CircularProgress, Typography, buttonClasses } from '@mui/material';
@@ -21,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
