@@ -125,7 +125,7 @@ interface DocsTextLinkProps {
   [key: string]: unknown;
   children?: ReactNode;
   id: keyof typeof DOCSTIPS;
-  typographyProps: Partial<TypographyProps>;
+  typographyProps?: Partial<TypographyProps>;
 }
 
 const textLinkDefaultProps: TypographyProps = { variant: 'body1' };
