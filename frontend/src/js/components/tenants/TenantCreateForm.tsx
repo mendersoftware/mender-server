@@ -25,6 +25,7 @@ import InfoHint from '@northern.tech/common-ui/InfoHint';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
+import NumberInput from '@northern.tech/common-ui/forms/NumberInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { TIMEOUTS, rolesByName } from '@northern.tech/store/constants';
 import { getSpLimits, getSsoConfig } from '@northern.tech/store/selectors';
@@ -126,7 +127,7 @@ export const DeviceLimitsInput = props => {
   const inputProps = Object.values(spLimits).map(limit => {
     const unlimited = limit.limit === -1;
     const quotaLeft = limit.quotaLeft + currentLimits[limit.id];
-    const numericValidations = unlimited
+    const rules = unlimited
       ? {}
       : {
           min: { value: 0, message: 'The limit must be 0 or more' },
@@ -134,7 +135,7 @@ export const DeviceLimitsInput = props => {
         };
     return {
       ...limit,
-      numericValidations,
+      rules,
       maxPlaceholder: unlimited ? 'Device limit' : `Maximum: ${(quotaLeft || 0).toLocaleString()}`
     };
   });
@@ -170,16 +171,17 @@ export const DeviceLimitsInput = props => {
               </div>
             }
           />
-          <TextInput
+          <NumberInput
             className="margin-top-x-small"
             label="Device limit"
             disabled={!deviceTierEnabled[limit.id]}
             id={limit.id}
             required={deviceTierEnabled[limit.id]}
             requiredRendered={false}
-            type="number"
-            InputProps={{ inputProps: { min: 0, max: limit.quotaLeft }, size: 'small' }}
-            numericValidations={limit.numericValidations}
+            min={0}
+            max={limit.quotaLeft}
+            size="small"
+            rules={limit.rules}
             helperText={deviceTierEnabled[limit.id] ? limit.maxPlaceholder : ''}
             width="550px"
           />

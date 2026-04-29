@@ -24,7 +24,6 @@ import {
   InputAdornment,
   ListSubheader,
   MenuItem,
-  OutlinedInput,
   Select,
   Table,
   TableBody,
@@ -38,6 +37,7 @@ import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Time from '@northern.tech/common-ui/Time';
+import { NumberField } from '@northern.tech/common-ui/forms/NumberField';
 import { BENEFITS } from '@northern.tech/store/constants';
 import dayjs from 'dayjs';
 import pluralize from 'pluralize';
@@ -189,21 +189,18 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
         <TableCell>
           <div className="flexbox align-items-center">
             {phase.batch_size && phase.batch_size < 100 ? (
-              <OutlinedInput
+              <NumberField
                 value={phase.batch_size}
-                onChange={event => updateBatchSize(event.target.value, index)}
+                onValueChange={value => updateBatchSize(value ?? 1, index)}
                 endAdornment={
                   <InputAdornment className={isEmptyPhase ? 'warning' : ''} position="end">
                     %
                   </InputAdornment>
                 }
                 disabled={disabled && deviceCount >= 1}
-                inputProps={{
-                  step: 1,
-                  min: 1,
-                  max: max,
-                  type: 'number'
-                }}
+                step={1}
+                min={1}
+                max={max}
               />
             ) : (
               phase.batch_size || remainder
@@ -221,10 +218,12 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
         <TableCell>
           {phase.delay && index !== phases.length - 1 ? (
             <div className={classes.delayInputWrapper}>
-              <OutlinedInput
-                value={phase.delay}
-                onChange={event => updateDelay(event.target.value, index)}
-                inputProps={{ step: 1, min: 1, max: 720, type: 'number' }}
+              <NumberField
+                id={`phase-delay-${index}`}
+                value={Number(phase.delay) || null}
+                onValueChange={value => updateDelay(value ?? 1, index)}
+                min={1}
+                max={720}
               />
               <Select onChange={event => handleDelayToggle(event.target.value, index)} value={phase.delayUnit || 'hours'}>
                 {timeframes.map(value => (

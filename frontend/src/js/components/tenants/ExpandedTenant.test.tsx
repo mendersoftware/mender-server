@@ -71,9 +71,9 @@ describe('ExpandedTenant', () => {
     await user.click(screen.getByRole('button', { name: /save/i }));
     expect(editDeviceLimit).toHaveBeenCalledWith({
       deviceLimits: {
-        micro: '50',
-        standard: '20',
-        system: '0'
+        micro: 50,
+        standard: 20,
+        system: 0
       },
       name: tenant.name,
       id: tenant.id
