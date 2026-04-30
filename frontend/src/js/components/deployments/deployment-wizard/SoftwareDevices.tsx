@@ -266,9 +266,9 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
   const releaseDeviceTypes = (deploymentRelease && deploymentRelease.device_types_compatible) ?? [];
   const devicetypesInfo = (
     <Tooltip title={<p>{releaseDeviceTypes.join(', ')}</p>} placement="bottom">
-      <span className="link">
+      <Link>
         {releaseDeviceTypes.length} device {pluralize('types', releaseDeviceTypes.length)}
-      </span>
+      </Link>
     </Tooltip>
   );
 

@@ -47,12 +47,9 @@ const TenantsEmptyState = (props: TenantsEmptyStateProps) => {
   );
 };
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles()(() => ({
   limit: {
     maxWidth: '726px'
-  },
-  link: {
-    color: theme.palette.secondary.main
   }
 }));
 

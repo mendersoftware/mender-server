@@ -91,7 +91,7 @@ export const Dashboard = () => {
         <Alert className="margin-bottom-small margin-right" onClose={dismissAlert} severity="warning">
           <>
             Your Mender account is not using recommended security settings. Improve your account security in{' '}
-            <Link to="/settings/my-profile" color="inherit">
+            <Link to="/settings/my-profile" color="inherit" variant="subtitle2">
               My profile
             </Link>
             .

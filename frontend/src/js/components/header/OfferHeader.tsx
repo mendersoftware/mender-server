@@ -23,10 +23,6 @@ const useStyles = makeStyles()(theme => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText
   },
-  link: {
-    color: 'inherit',
-    textDecoration: 'underline'
-  },
   note: { gap: theme.spacing() },
   closeButton: {
     color: 'inherit',
@@ -42,7 +38,7 @@ const OfferHeader = ({ onHide }) => {
       <div className={`flexbox centered full-width ${classes.note}`}>
         <AutoAwesomeOutlined fontSize="small" />
         <Typography variant="body2">Try out the new AI feature to diagnose deployment failures in seconds.</Typography>
-        <Link href="https://mender.io/blog/new-mender-experimental-ai-enabled-feature" external onClick={onHide} className={classes.link} variant="body2">
+        <Link href="https://mender.io/blog/new-mender-experimental-ai-enabled-feature" external onClick={onHide} color="inherit" variant="body2">
           Learn more
         </Link>
       </div>
