@@ -300,7 +300,7 @@ exports[`Distribution Component > renders correctly 1`] = `
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
               data-testid="SquareIcon"
               focusable="false"
-              style="fill: #337a87;"
+              style="fill: rgb(51, 122, 135);"
               viewBox="0 0 24 24"
             >
               <path
@@ -319,7 +319,7 @@ exports[`Distribution Component > renders correctly 1`] = `
         </div>
         <div
           class="VictoryContainer"
-          style="pointer-events: none; position: relative;"
+          style="pointer-events: none; touch-action: none; position: relative;"
         >
           <svg
             height="400"
@@ -333,7 +333,7 @@ exports[`Distribution Component > renders correctly 1`] = `
                 d="M1.1787225441793275e-14,-192.5A192.5,192.5,0,1,1,-1.1787225441793275e-14,192.5A192.5,192.5,0,1,1,1.1787225441793275e-14,-192.5Z"
                 role="presentation"
                 shape-rendering="auto"
-                style="fill: #337a87; padding: 10px; stroke: transparent; stroke-width: 1;"
+                style="fill: rgb(51, 122, 135); padding: 10px; stroke: transparent; stroke-width: 1;"
                 transform="translate(200, 192.5)"
               />
             </g>
