@@ -171,7 +171,7 @@ build:frontend:docker:
 
 .template:test:frontend:acceptance:
   stage: test
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/gui-e2e-testing:master
   extends: .build:base
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'

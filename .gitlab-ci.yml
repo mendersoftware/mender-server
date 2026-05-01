@@ -260,7 +260,7 @@ build:backend:docker-integration-tester:
 #
 review:deploy:
   stage: review
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/aws-k8s-toolbox:master
   needs:
     - job: build:backend:docker
       artifacts: false
@@ -347,7 +347,7 @@ review:deploy:
     - echo "Review app deployed successfully!"
 review:stop:
   stage: review
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/aws-k8s-toolbox:master
   needs: []
   rules:
     # Trigger on manual stop or branch deletion
@@ -465,7 +465,7 @@ test:backend:validate-open-api:
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:base-alpine-master
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/base-alpine:master
   before_script:
     - curl -L https://raw.githubusercontent.com/stoplightio/spectral/master/scripts/install.sh -o install.sh
     - sh install.sh
@@ -686,7 +686,7 @@ test:prep:
     expire_in: 2w
 
 .template:test:staging-deployment:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/gui-e2e-testing:master
   stage: .post
   services:
     - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
@@ -848,7 +848,7 @@ publish:licenses:docs-site:
     # Only make available for stable branches
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       allow_failure: true
-  image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/release-please:master
   needs:
     - job: publish:backend:licenses
       artifacts: true
@@ -877,7 +877,7 @@ publish:licenses:docs-site:
     - git remote remove licenses-${CI_JOB_ID}
 
 coveralls:done:
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:base-alpine-master
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/base-alpine:master
   stage: .post
   allow_failure: true # QA-925 - Coveralls servers are unreliable.
   before_script:
@@ -893,7 +893,7 @@ coveralls:done:
     - coveralls done -n
 
 changelog:
-  image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/release-please:master
   stage: changelog
   variables:
     GIT_DEPTH: 0 # Always get the full history
@@ -976,7 +976,7 @@ changelog:
     - git remote remove github-${CI_JOB_ID}
 
 release:github:
-  image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/release-please:master
   stage: .post
   rules:
     # Only make available for protected branches (main and maintenance branches)
@@ -994,7 +994,7 @@ release:github:
       --target-branch=${CI_COMMIT_REF_NAME}
 
 release:mender-docs-changelog:
-  image: "registry.gitlab.com/northern.tech/mender/mender-test-containers:release-please-v1-master"
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/release-please:master
   stage: .post
   rules:
     # Only make available for stable branches
@@ -1060,7 +1060,7 @@ release:mender-docs-changelog:saas:
     - if: '$CI_COMMIT_REF_NAME =~ /^\d+\.\d+\.x$/' # Disabled on Maintenance branches
       when: never
   allow_failure: true
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:aws-k8s-v1-master
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/aws-k8s-toolbox:master
   variables:
     HELM_PATCH_VERSION: ${CI_PIPELINE_ID}
   before_script:
