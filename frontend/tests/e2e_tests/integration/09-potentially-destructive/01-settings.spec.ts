@@ -244,8 +244,8 @@ test.describe('Settings', () => {
       await page.waitForTimeout(timeouts.default);
       const deviceNumberInput = selectDeviceLimitInput(page, 'Standard');
 
-      await deviceNumberInput.selectText();
-      await deviceNumberInput.pressSequentially('310');
+      await deviceNumberInput.clear();
+      await deviceNumberInput.fill('310');
       await page.press('body', 'Tab');
       await page.waitForTimeout(timeouts.oneSecond);
       await expect(deviceNumberInput).toHaveValue('350');
