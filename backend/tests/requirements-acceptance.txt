@@ -1,20 +1,20 @@
 bravado==12.0.1
-boto3==1.42.81
-certifi >= 14.05.14
-chardet >= 4.0.0
+boto3==1.43.2
+certifi >= 2026.4.22
+chardet >= 7.4.3
 crypto
-cryptography==46.0.6
+cryptography==47.0.0
 docker==7.1.0
 flaky==3.8.1
 flask
-idna >= 2.10
+idna >= 3.13
 jsonschema<5.0
-msgpack >= 1.0
-opensearch-py >= 2.0.0, < 4.0.0
+msgpack >= 1.1.2
+opensearch-py >= 3.2.0, < 4.0.0
 pluggy==1.6.0
-pymongo==4.16.0
+pymongo==4.17.0
 pytest-ordering==0.6
-pytest==9.0.2
+pytest==9.0.3
 pyyaml
 redis==7.4.0
 redo==3.0.0
@@ -25,6 +25,6 @@ tornado
 twisted
 tz
 urllib3<3
-websocket_client >= 0.57
-pydantic==2.12.5
+websocket_client >= 1.9.0
+pydantic==2.13.3
 pyjwt==2.12.1
