@@ -249,7 +249,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                   <div
                     aria-invalid="false"
                     aria-labelledby="_r_a_-label"
-                    class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-inputSizeSmall MuiPickersInputBase-adornedEnd css-vycme6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+                    class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-inputSizeSmall MuiPickersInputBase-adornedEnd css-17nnke6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
                     role="group"
                   >
                     <div
@@ -412,7 +412,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
                   <div
                     aria-invalid="false"
                     aria-labelledby="_r_e_-label"
-                    class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-inputSizeSmall MuiPickersInputBase-adornedEnd css-vycme6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+                    class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-inputSizeSmall MuiPickersInputBase-adornedEnd css-17nnke6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
                     role="group"
                   >
                     <div
