@@ -295,6 +295,7 @@ test.describe('Settings', () => {
       await page.waitForTimeout(timeouts.fiveSeconds); // Wait 5 seconds to avoid hitting rate limits
       const deviceNumberInput = selectDeviceLimitInput(page, 'Micro');
 
+      await deviceNumberInput.clear();
       await deviceNumberInput.fill('680');
       await page.press('body', 'Tab');
       await page.waitForTimeout(timeouts.oneSecond);
