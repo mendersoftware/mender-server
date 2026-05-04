@@ -1,4 +1,5 @@
-FROM --platform=$BUILDPLATFORM golang:1.26.2 as builder
+ARG REGISTRY=docker.io
+FROM --platform=$BUILDPLATFORM ${REGISTRY}/golang:1.26.2 as builder
 ARG TARGETARCH
 ARG TARGETOS
 ARG BUILDFLAGS="-trimpath"
@@ -43,7 +44,7 @@ RUN \
   BUILDFLAGS="${BUILDFLAGS}" && \
   mkdir /var/cache/create-artifact-worker
 
-FROM alpine:3.23.4
+FROM ${REGISTRY}/alpine:3.23.4
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534:65534
