@@ -382,11 +382,17 @@ review:stop:
     - echo "Configuring kubectl for EKS cluster ${REVIEW_APPS_EKS_CLUSTER_NAME}..."
     - aws eks update-kubeconfig --name ${REVIEW_APPS_EKS_CLUSTER_NAME} --region ${REVIEW_APPS_AWS_REGION}
 
-    - echo "Uninstalling Helm release ${RELEASE_NAME}..."
-    - helm uninstall ${RELEASE_NAME} -n ${NAMESPACE} --wait || echo "Release not found or already deleted"
+    - echo "Uninstalling Mender Helm release ${RELEASE_NAME}..."
+    - helm uninstall ${RELEASE_NAME} -n ${NAMESPACE} --wait --timeout 5m || echo "Release not found or already deleted"
+
+    - echo "Uninstalling SeaweedFS Helm release..."
+    - helm uninstall seaweedfs -n ${NAMESPACE} --wait --timeout 5m || echo "Release not found or already deleted"
+
+    - echo "Deleting PVCs in ${NAMESPACE}..."
+    - kubectl delete pvc --all -n ${NAMESPACE} --wait=false --ignore-not-found
 
     - echo "Deleting namespace ${NAMESPACE}..."
-    - kubectl delete namespace ${NAMESPACE} --wait=true --timeout=5m || echo "Namespace not found or already deleted"
+    - kubectl delete namespace ${NAMESPACE} --wait=true --timeout=10m || echo "Namespace not found or already deleted"
 
     - echo "Review app cleanup completed successfully!"
 
