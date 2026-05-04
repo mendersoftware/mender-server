@@ -56,6 +56,8 @@ const textStyle = { textTransform: 'capitalize', textAlign: 'left' };
 
 const defaultReportTimeStamp = '0001-01-01T00:00:00Z';
 
+const maxDeploymentsChecks = 128;
+
 const configHelpTipsMap = {
   'mender-demo-raspberrypi-led': {
     position: 'right',
@@ -162,7 +164,6 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
   const dispatch = useDispatch();
   const deploymentTimer = useRef(null);
   const deploymentCheckCount = useRef(0);
-  const maxDeploymentsChecks = 128;
 
   useEffect(() => {
     if (!isEmpty(config) && !isEmpty(changedConfig) && !isEditingConfig) {
@@ -190,7 +191,11 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
       }
       deploymentCheckCount.current++;
       dispatch(getSingleDeployment(deployment_id));
-    }, TIMEOUTS.refreshDefault); // TIMEOUTS.refreshDefault/20 makes the unit pass
+    }, TIMEOUTS.refreshDefault);
+    dispatch(getSingleDeployment(deployment_id));
+    return () => {
+      clearInterval(deploymentTimer.current);
+    };
   }, [deployment_id]);
 
   useEffect(() => {
