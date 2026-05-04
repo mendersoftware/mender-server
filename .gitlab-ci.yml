@@ -168,7 +168,9 @@ renovate:
 
 .dind-login: &dind-login
   - mkdir -p $HOME/.docker && echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
+  - unset DOCKER_AUTH_CONFIG
   - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - docker login --username $CI_DEPENDENCY_PROXY_USER --password $CI_DEPENDENCY_PROXY_PASSWORD $CI_DEPENDENCY_PROXY_SERVER
 
 .build:base:
   before_script:
