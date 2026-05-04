@@ -174,17 +174,38 @@ kubectl create secret generic mender-s3-artifacts \
     --dry-run=client -o yaml | kubectl apply -f -
 
 # Deploy SeaweedFS using Helm
-log_info "Installing SeaweedFS Helm chart..."
+SEAWEEDFS_CHART_VERSION="${SEAWEEDFS_CHART_VERSION:-4.23.0}"
+SEAWEEDFS_STORAGE_CLASS="${SEAWEEDFS_STORAGE_CLASS:-}"
+
+log_info "Installing SeaweedFS Helm chart (version ${SEAWEEDFS_CHART_VERSION})..."
 helm repo add seaweedfs https://seaweedfs.github.io/seaweedfs/helm
 helm repo update
 
+STORAGE_CLASS_ARGS=()
+if [ -n "${SEAWEEDFS_STORAGE_CLASS}" ]; then
+    STORAGE_CLASS_ARGS=(
+        --set "master.data.storageClass=${SEAWEEDFS_STORAGE_CLASS}"
+        --set "volume.dataDirs[0].storageClass=${SEAWEEDFS_STORAGE_CLASS}"
+        --set "filer.data.storageClass=${SEAWEEDFS_STORAGE_CLASS}"
+    )
+fi
+
 helm upgrade --install seaweedfs seaweedfs/seaweedfs \
     -n "${NAMESPACE}" \
+    --version "${SEAWEEDFS_CHART_VERSION}" \
     --set nameOverride="${SEAWEEDFS_NAME_OVERRIDE}" \
     --set master.replicas=1 \
+    --set master.data.type=persistentVolumeClaim \
+    --set master.data.size=1Gi \
     --set volume.replicas=1 \
+    --set 'volume.dataDirs[0].name=data1' \
+    --set 'volume.dataDirs[0].type=persistentVolumeClaim' \
+    --set 'volume.dataDirs[0].size=10Gi' \
+    --set 'volume.dataDirs[0].maxVolumes=0' \
     --set filer.enabled=true \
     --set filer.replicas=1 \
+    --set filer.data.type=persistentVolumeClaim \
+    --set filer.data.size=2Gi \
     --set filer.s3.enabled=true \
     --set filer.s3.port=8333 \
     --set filer.s3.enableAuth=true \
@@ -206,7 +227,8 @@ helm upgrade --install seaweedfs seaweedfs/seaweedfs \
     --set filer.resources.requests.cpu=100m \
     --set filer.resources.limits.memory=512Mi \
     --set filer.resources.limits.cpu=250m \
-    --wait --timeout 5m
+    "${STORAGE_CLASS_ARGS[@]}" \
+    --wait --timeout 7m
 
 log_info "SeaweedFS deployed successfully"
 
