@@ -219,8 +219,9 @@ build:backend:docker:
     - |-
       make -j$(nproc) -C backend/services/deployments docker \
         DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --target builder" \
-        MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_BUILDER}
-    - make -j$(nproc) -C backend docker
+        MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_BUILDER} \
+        DOCKER_HUB_BUILD_REGISTRY="${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"
+    - make -j$(nproc) -C backend docker DOCKER_HUB_BUILD_REGISTRY="${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"
 
 build:backend:docker-acceptance:
   extends: build:backend:docker
@@ -232,7 +233,7 @@ build:backend:docker-acceptance:
     - unset DOCKER_PLATFORM
   script:
     # NOTE: Only build for test platform (default) for the acceptance test images
-    - make -j$(nproc) -C backend docker-acceptance
+    - make -j$(nproc) -C backend docker-acceptance DOCKER_HUB_BUILD_REGISTRY="${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"
 
 build:backend:docker-integration-tester:
   extends: .template:build:docker
@@ -245,6 +246,7 @@ build:backend:docker-integration-tester:
     - docker build ${DOCKER_BUILDARGS}
         --cache-from ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
         -t ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
+        --build-arg REGISTRY="${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"
         -f backend/tests/Dockerfile.integration
         backend/tests
   rules:
