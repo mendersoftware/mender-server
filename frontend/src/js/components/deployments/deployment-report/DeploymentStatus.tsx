@@ -12,16 +12,16 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Pause as PauseIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-material';
-import { Typography } from '@mui/material';
+import { Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { deploymentDisplayStates, pauseMap } from '@northern.tech/store/constants';
-import { groupDeploymentStats } from '@northern.tech/store/utils';
+import { groupDeploymentStats, isDarkMode } from '@northern.tech/store/utils';
 
 const useStyles = makeStyles()(theme => ({
   progressStatus: {
-    backgroundColor: theme.palette.info.light,
+    backgroundColor: isDarkMode(theme.palette.mode) ? alpha(theme.palette.grey[300], theme.palette.action.selectedOpacity) : theme.palette.grey[50],
     borderRadius: theme.spacing(0.5)
   },
   scrollDown: { marginLeft: theme.spacing() }

@@ -304,7 +304,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </span>
         </div>
         <div
-          class="css-t9z1pl-progressStatus flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium "
+          class="css-15trp98-progressStatus flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium "
         >
           <div
             class="flexbox column"
@@ -1344,7 +1344,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </span>
         </div>
         <div
-          class="css-t9z1pl-progressStatus flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium "
+          class="css-15trp98-progressStatus flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium "
         >
           <div
             class="flexbox column"
