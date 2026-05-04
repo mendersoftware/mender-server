@@ -13,12 +13,12 @@
 //    limitations under the License.
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { Typography } from '@mui/material';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { Link } from '@northern.tech/common-ui/Link';
 import { getOrganization } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { setOnboardingApproach } from '@northern.tech/store/thunks';

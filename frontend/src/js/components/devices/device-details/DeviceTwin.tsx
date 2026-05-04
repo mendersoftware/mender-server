@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { CheckCircleOutlined, CloudUploadOutlined as CloudUpload, Refresh as RefreshIcon } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
@@ -23,6 +22,7 @@ import { DiffEditor } from '@monaco-editor/react';
 import { CodeEditor, defaultEditorOptions, useEditorStyles, useEditorTheme } from '@northern.tech/common-ui/CodeEditor';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { EXTERNAL_PROVIDER, TIMEOUTS } from '@northern.tech/store/constants';

@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { InlineCode } from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { Link } from '@northern.tech/common-ui/Link';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
@@ -115,13 +116,13 @@ const ConfigureRaspberryLedTip = () => {
         setSnackbar={(...args) => dispatch(setSnackbar(...args))}
       />
       There are other possible values, but we won&apos;t advertise them here. See
-      <a href="http://www.d3noob.org/2020/07/controlling-activity-led-on-raspberry-pi.html" target="_blank" rel="noopener noreferrer">
+      <Link href="http://www.d3noob.org/2020/07/controlling-activity-led-on-raspberry-pi.html" external>
         this blog post
-      </a>{' '}
+      </Link>{' '}
       or{' '}
-      <a href="https://www.raspberrypi.org/forums/viewtopic.php?t=273194#p1658930" target="_blank" rel="noopener noreferrer">
+      <Link href="https://www.raspberrypi.org/forums/viewtopic.php?t=273194#p1658930" external>
         in the Raspberry Pi forums
-      </a>{' '}
+      </Link>{' '}
       for more information.
     </>
   );

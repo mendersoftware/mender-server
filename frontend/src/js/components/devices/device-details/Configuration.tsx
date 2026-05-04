@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Error as ErrorIcon, Refresh as RefreshIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
@@ -23,6 +23,7 @@ import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -136,9 +137,9 @@ export const ConfigUpdateFailureActions = ({ hasLog, onSubmit, onCancel, setShow
     <Button onClick={onSubmit} startIcon={<RefreshIcon fontSize="small" />} style={buttonStyle}>
       Retry
     </Button>
-    <a className="margin-left-large" onClick={onCancel}>
+    <Link className="margin-left-large" onClick={onCancel}>
       cancel changes
-    </a>
+    </Link>
   </>
 );
 
@@ -342,7 +343,11 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
             <Button color="secondary" onClick={onAbortClick} startIcon={<BlockIcon fontSize="small" />} style={buttonStyle}>
               Abort update
             </Button>
-            <Button component={Link} to={`/deployments/${deployment.status || DEPLOYMENT_ROUTES.active.key}?open=true&id=${deployment_id}`} style={buttonStyle}>
+            <Button
+              component={RouterLink}
+              to={`/deployments/${deployment.status || DEPLOYMENT_ROUTES.active.key}?open=true&id=${deployment_id}`}
+              style={buttonStyle}
+            >
               View deployment
             </Button>
           </>

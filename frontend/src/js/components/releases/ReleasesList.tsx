@@ -20,6 +20,7 @@ import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
@@ -92,7 +93,7 @@ const EmptyState = ({ canUpload, className = '', dropzoneRef, uploading, onDrop,
             There are no Releases yet.{' '}
             {canUpload && (
               <>
-                <a>Upload an Artifact</a> to create a new Release
+                <Link>Upload an Artifact</Link> to create a new Release
               </>
             )}
           </p>

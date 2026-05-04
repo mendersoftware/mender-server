@@ -67,6 +67,22 @@ exports[`smaller components > renders DeviceTypes correctly 1`] = `
 `;
 
 exports[`smaller components > renders PendingEmptyState correctly 1`] = `
+.emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
 <div
   class="dashboard-placeholder"
 >
@@ -76,6 +92,7 @@ exports[`smaller components > renders PendingEmptyState correctly 1`] = `
   <p>
     Visit the 
     <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       data-discover="true"
       href="/help/get-started"
     >

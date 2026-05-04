@@ -3,6 +3,22 @@
 exports[`DocsTextLink Component > renders correctly 1`] = `
 .emotion-0 {
   margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-1 {
+  margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -12,13 +28,13 @@ exports[`DocsTextLink Component > renders correctly 1`] = `
 }
 
 <a
-  class=""
+  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
   href="https://docs.mender.io/overview/artifact"
   rel="noopener"
   target="_blank"
 >
   <p
-    class="MuiTypography-root MuiTypography-body1 inline capitalized-start emotion-0"
+    class="MuiTypography-root MuiTypography-body1 inline capitalized-start emotion-1"
   >
     learn more
   </p>

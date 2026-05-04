@@ -18,6 +18,7 @@ import { Typography } from '@mui/material';
 
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseNotification';
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
@@ -63,7 +64,7 @@ const EmptyState = ({ className = '', isFiltering, onFileUploadClick }: { classN
         'for the filter selection'
       ) : (
         <>
-          to display. <a onClick={onFileUploadClick}>Create a Manifest</a>
+          to display. <Link onClick={onFileUploadClick}>Create a Manifest</Link>
         </>
       )}
     </Typography>

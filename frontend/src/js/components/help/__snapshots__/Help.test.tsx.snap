@@ -87,6 +87,22 @@ exports[`Help Component > renders correctly 1`] = `
 }
 
 .emotion-17 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-17:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-18 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -230,7 +246,7 @@ exports[`Help Component > renders correctly 1`] = `
             To quickly get started with the common use cases of Mender, follow the
              
             <a
-              class=""
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
               href="https://docs.mender.io/get-started"
               rel="noopener"
               target="_blank"
@@ -238,7 +254,7 @@ exports[`Help Component > renders correctly 1`] = `
               Get Started chapter in our documentation 
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-18"
                 data-testid="LaunchIcon"
                 focusable="false"
                 style="vertical-align: sub;"
@@ -258,7 +274,7 @@ exports[`Help Component > renders correctly 1`] = `
             We support several ways of integrating your devices with Mender. For a detailed introduction read the
              
             <a
-              class=""
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
               href="https://docs.mender.io/client-installation"
               rel="noopener"
               target="_blank"
@@ -266,7 +282,7 @@ exports[`Help Component > renders correctly 1`] = `
               Client Installation documentation 
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-18"
                 data-testid="LaunchIcon"
                 focusable="false"
                 style="vertical-align: sub;"
@@ -280,16 +296,18 @@ exports[`Help Component > renders correctly 1`] = `
             .
           </p>
           <p>
-            Integrations for different boards and operating systems can be found on 
+            Integrations for different boards and operating systems can be found on
+             
             <a
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
               href="https://hub.mender.io/c/board-integrations/6"
-              rel="noopener"
+              rel="noopener noreferrer"
               target="_blank"
             >
               Mender Hub 
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-18"
                 data-testid="LaunchIcon"
                 focusable="false"
                 style="vertical-align: sub;"
@@ -308,7 +326,7 @@ exports[`Help Component > renders correctly 1`] = `
             Everything you need to package your software for deployment with Mender can be found here:
              
             <a
-              class=""
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
               href="https://docs.mender.io/artifact-creation"
               rel="noopener"
               target="_blank"
@@ -316,7 +334,7 @@ exports[`Help Component > renders correctly 1`] = `
               Artifact Creation documentation 
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-17"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-18"
                 data-testid="LaunchIcon"
                 focusable="false"
                 style="vertical-align: sub;"
@@ -742,6 +760,22 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
 }
 
 .emotion-77 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-77:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-78 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -758,7 +792,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   font-size: 1.25rem;
 }
 
-.emotion-95 {
+.emotion-96 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -830,28 +864,28 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   cursor: pointer;
 }
 
-.emotion-95::-moz-focus-inner {
+.emotion-96::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-95.Mui-disabled {
+.emotion-96.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-95 {
+  .emotion-96 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-95.Mui-disabled {
+.emotion-96.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-95 .MuiChip-avatar {
+.emotion-96 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -860,12 +894,12 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   font-size: 0.75rem;
 }
 
-.emotion-95 .MuiChip-icon {
+.emotion-96 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-95 .MuiChip-deleteIcon {
+.emotion-96 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -873,31 +907,31 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   margin: 0 5px 0 -6px;
 }
 
-.emotion-95 .MuiChip-deleteIcon:hover {
+.emotion-96 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-95 .MuiChip-icon {
+.emotion-96 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-95.Mui-focusVisible {
+.emotion-96.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-95:hover {
+.emotion-96:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-95.Mui-focusVisible {
+.emotion-96.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-95:active {
+.emotion-96:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-97 {
+.emotion-98 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -1532,7 +1566,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                 </div>
               </div>
               <a
-                class=""
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-77"
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-client"
                 rel="noopener"
                 target="_blank"
@@ -1541,7 +1575,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-77"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-78"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -1662,7 +1696,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-deletable margin-bottom-small margin-right-small emotion-95"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-deletable margin-bottom-small margin-right-small emotion-96"
                   role="button"
                   tabindex="0"
                 >
@@ -1678,7 +1712,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label emotion-97"
+                    class="MuiChip-label emotion-98"
                   >
                     Unix
                   </span>
@@ -1697,7 +1731,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                 </div>
               </div>
               <a
-                class=""
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-77"
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-artifact"
                 rel="noopener"
                 target="_blank"
@@ -1706,7 +1740,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-77"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-78"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -1828,7 +1862,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                 </div>
               </div>
               <a
-                class=""
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-77"
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-binary-delta"
                 rel="noopener"
                 target="_blank"
@@ -1837,7 +1871,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-77"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-78"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -1958,7 +1992,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                   </svg>
                 </div>
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-deletable margin-bottom-small margin-right-small emotion-95"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-clickable MuiChip-deletable margin-bottom-small margin-right-small emotion-96"
                   role="button"
                   tabindex="0"
                 >
@@ -1974,7 +2008,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                     />
                   </svg>
                   <span
-                    class="MuiChip-label emotion-97"
+                    class="MuiChip-label emotion-98"
                   >
                     Unix
                   </span>
@@ -1993,7 +2027,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                 </div>
               </div>
               <a
-                class=""
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-77"
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-cli"
                 rel="noopener"
                 target="_blank"
@@ -2002,7 +2036,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-77"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-78"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -2508,7 +2542,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                 </div>
               </div>
               <a
-                class=""
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-77"
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-configure"
                 rel="noopener"
                 target="_blank"
@@ -2517,7 +2551,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-77"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-78"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -3013,7 +3047,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                 </div>
               </div>
               <a
-                class=""
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-77"
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-connect"
                 rel="noopener"
                 target="_blank"
@@ -3022,7 +3056,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-77"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-78"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -3144,7 +3178,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                 </div>
               </div>
               <a
-                class=""
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-77"
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-convert"
                 rel="noopener"
                 target="_blank"
@@ -3153,7 +3187,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-77"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-78"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -3649,7 +3683,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                 </div>
               </div>
               <a
-                class=""
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-77"
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-gateway"
                 rel="noopener"
                 target="_blank"
@@ -3658,7 +3692,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-77"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-78"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -3882,7 +3916,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                 </div>
               </div>
               <a
-                class=""
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-77"
                 href="https://docs.mender.io/release-information/release-notes-changelog/mender-monitor"
                 rel="noopener"
                 target="_blank"
@@ -3891,7 +3925,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
                  
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-77"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-78"
                   data-testid="LaunchIcon"
                   focusable="false"
                   style="vertical-align: text-bottom;"
@@ -3911,7 +3945,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
   <p>
     To learn more about the tools availabe for Mender, read the 
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-77"
       href="https://docs.mender.io/downloads"
       rel="noopener"
       target="_blank"
@@ -3920,7 +3954,7 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
        
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-77"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-78"
         data-testid="LaunchIcon"
         focusable="false"
         style="vertical-align: text-bottom;"
@@ -3938,6 +3972,22 @@ exports[`Help Component > static components > renders Downloads correctly 1`] = 
 
 exports[`Help Component > static components > renders GettingStarted correctly 1`] = `
 .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-1 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -3965,7 +4015,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
     To quickly get started with the common use cases of Mender, follow the
      
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://docs.mender.io/get-started"
       rel="noopener"
       target="_blank"
@@ -3973,7 +4023,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
       Get Started chapter in our documentation 
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-1"
         data-testid="LaunchIcon"
         focusable="false"
         style="vertical-align: sub;"
@@ -3993,7 +4043,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
     We support several ways of integrating your devices with Mender. For a detailed introduction read the
      
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://docs.mender.io/client-installation"
       rel="noopener"
       target="_blank"
@@ -4001,7 +4051,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
       Client Installation documentation 
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-1"
         data-testid="LaunchIcon"
         focusable="false"
         style="vertical-align: sub;"
@@ -4015,16 +4065,18 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
     .
   </p>
   <p>
-    Integrations for different boards and operating systems can be found on 
+    Integrations for different boards and operating systems can be found on
+     
     <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://hub.mender.io/c/board-integrations/6"
-      rel="noopener"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Mender Hub 
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-1"
         data-testid="LaunchIcon"
         focusable="false"
         style="vertical-align: sub;"
@@ -4043,7 +4095,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
     Everything you need to package your software for deployment with Mender can be found here:
      
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://docs.mender.io/artifact-creation"
       rel="noopener"
       target="_blank"
@@ -4051,7 +4103,7 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
       Artifact Creation documentation 
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-1"
         data-testid="LaunchIcon"
         focusable="false"
         style="vertical-align: sub;"
@@ -4069,6 +4121,22 @@ exports[`Help Component > static components > renders GettingStarted correctly 1
 
 exports[`Help Component > static components > renders MenderHub correctly 1`] = `
 .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-3 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -4090,8 +4158,9 @@ exports[`Help Component > static components > renders MenderHub correctly 1`] = 
     Find technical help at Mender Hub
   </h3>
   <a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
     href="https://hub.mender.io"
-    rel="noopener"
+    rel="noopener noreferrer"
     target="_blank"
   >
     <span>
@@ -4103,8 +4172,9 @@ exports[`Help Component > static components > renders MenderHub correctly 1`] = 
   </a>
   <p>
     <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://hub.mender.io"
-      rel="noopener"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Mender Hub
@@ -4138,14 +4208,15 @@ exports[`Help Component > static components > renders MenderHub correctly 1`] = 
   </p>
   <p>
     <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://hub.mender.io"
-      rel="noopener"
+      rel="noopener noreferrer"
       target="_blank"
     >
       Visit Mender Hub 
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
         data-testid="LaunchIcon"
         focusable="false"
         style="vertical-align: text-bottom;"
@@ -4162,6 +4233,22 @@ exports[`Help Component > static components > renders MenderHub correctly 1`] = 
 
 exports[`Help Component > static components > renders Support correctly 1`] = `
 .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-3 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -4189,6 +4276,7 @@ exports[`Help Component > static components > renders Support correctly 1`] = `
     Please reach out through our
      
     <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://support.northern.tech"
       rel="noopener noreferrer"
       target="_blank"
@@ -4222,8 +4310,9 @@ exports[`Help Component > static components > renders Support correctly 1`] = `
       Find technical help at
     </p>
     <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://hub.mender.io"
-      rel="noopener"
+      rel="noopener noreferrer"
       target="_blank"
     >
       <span>
@@ -4237,8 +4326,9 @@ exports[`Help Component > static components > renders Support correctly 1`] = `
       Mender Hub is a forum where you can find help, ask technical questions and start discussions with our active and knowledgeable community.
     </p>
     <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
       href="https://hub.mender.io"
-      rel="noopener"
+      rel="noopener noreferrer"
       target="_blank"
     >
       <span>
@@ -4247,7 +4337,7 @@ exports[`Help Component > static components > renders Support correctly 1`] = `
        
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-3"
         data-testid="LaunchIcon"
         focusable="false"
         style="vertical-align: text-bottom;"

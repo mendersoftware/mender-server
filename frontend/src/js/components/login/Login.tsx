@@ -13,13 +13,13 @@
 //    limitations under the License.
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { ChevronRight } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
+import { Link } from '@northern.tech/common-ui/Link';
 import storeActions from '@northern.tech/store/actions';
 import { getToken } from '@northern.tech/store/auth';
 import { TIMEOUTS, locations, useradmApiUrl } from '@northern.tech/store/constants';
@@ -108,9 +108,9 @@ export const LocationWarning = () => {
       <div className="margin-left-small">
         You are logging into the <b style={{ marginLeft: 4 }}>{title} server</b>.
       </div>
-      <a className="flexbox align-items-center margin-left-small" href={`https://${fallback.location}/ui/`}>
+      <Link className="flexbox align-items-center margin-left-small" href={`https://${fallback.location}/ui/`} external>
         Change to {fallback.title} <ChevronRight fontSize="small" />
-      </a>
+      </Link>
     </div>
   );
 };

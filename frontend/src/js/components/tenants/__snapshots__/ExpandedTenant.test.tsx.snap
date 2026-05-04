@@ -340,8 +340,16 @@ exports[`ExpandedTenant > renders correctly 1`] = `
   letter-spacing: 0.00714em;
 }
 
-.emotion-15.copy-to-clipboard svg {
+.emotion-15>svg {
+  cursor: pointer;
   fill: rgba(0, 0, 0, 0.54);
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.emotion-15:hover>svg {
+  opacity: 1;
 }
 
 .emotion-16 {
@@ -916,7 +924,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
             name
           </h6>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-15"
+            class="flexbox align-items-center emotion-15"
           >
             <div
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
@@ -992,7 +1000,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
             ID
           </h6>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-15"
+            class="flexbox align-items-center emotion-15"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
@@ -1022,7 +1030,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
             created at
           </h6>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-15"
+            class="flexbox align-items-center emotion-15"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"
@@ -1052,7 +1060,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
             status
           </h6>
           <div
-            class="flexbox align-items-center copy-to-clipboard emotion-15"
+            class="flexbox align-items-center emotion-15"
           >
             <p
               class="MuiTypography-root MuiTypography-body2 clickable emotion-16"

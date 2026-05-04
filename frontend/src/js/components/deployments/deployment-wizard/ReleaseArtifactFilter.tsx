@@ -14,13 +14,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { Close as CloseIcon, ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon, FilterList as FilterListIcon } from '@mui/icons-material';
 import { Button, DialogContent, Divider, TextField, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
+import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';

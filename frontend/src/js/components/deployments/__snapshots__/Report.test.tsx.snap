@@ -158,19 +158,17 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Release
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                 style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
                 <a
-                  class="flexbox centered"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered css-1orsvah-MuiTypography-root-MuiLink-root"
                   data-discover="true"
                   href="/software/r1"
-                  rel="noopener noreferrer"
                   style="font-weight: 500;"
-                  target="_blank"
                 >
                   r1
                   <svg
@@ -194,19 +192,17 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Target device(s)
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                 style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
                 <a
-                  class="flexbox centered"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered css-1orsvah-MuiTypography-root-MuiLink-root"
                   data-discover="true"
                   href="/devices"
-                  rel="noopener noreferrer"
                   style="font-weight: 500;"
-                  target="_blank"
                 >
                   test deployment
                   <svg
@@ -239,7 +235,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Category
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <p
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -256,7 +252,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Created at
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -434,7 +430,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             Update attempts per device
           </h6>
           <div
-            class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+            class="flexbox align-items-center "
           >
             <p
               class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -451,7 +447,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             Maximum number of devices
           </h6>
           <div
-            class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+            class="flexbox align-items-center "
           >
             <p
               class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -548,12 +544,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
                 <a
-                  class="flexbox align-items-center"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox align-items-center css-1orsvah-MuiTypography-root-MuiLink-root"
                   data-discover="true"
                   href="/devices?id=a1"
-                  rel="noopener noreferrer"
                   style="font-weight: 500;"
-                  target="_blank"
                 >
                   <div
                     class="css-z9m6tn-container"
@@ -837,7 +831,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Total download size
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -873,7 +867,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Start time
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -894,7 +888,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Current phase
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <p
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -926,7 +920,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               End time
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <p
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -994,7 +988,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1015,7 +1009,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1199,19 +1193,17 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Release
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                 style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
                 <a
-                  class="flexbox centered"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered css-1orsvah-MuiTypography-root-MuiLink-root"
                   data-discover="true"
                   href="/software"
-                  rel="noopener noreferrer"
                   style="font-weight: 500;"
-                  target="_blank"
                 >
                   <svg
                     aria-hidden="true"
@@ -1234,19 +1226,17 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Target device(s)
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                 style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
                 <a
-                  class="flexbox centered"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered css-1orsvah-MuiTypography-root-MuiLink-root"
                   data-discover="true"
                   href="/devices"
-                  rel="noopener noreferrer"
                   style="font-weight: 500;"
-                  target="_blank"
                 >
                   Test
                   <svg
@@ -1279,7 +1269,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Category
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <p
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1296,7 +1286,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Created at
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1473,7 +1463,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             Update attempts per device
           </h6>
           <div
-            class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+            class="flexbox align-items-center "
           >
             <p
               class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1490,7 +1480,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             Maximum number of devices
           </h6>
           <div
-            class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+            class="flexbox align-items-center "
           >
             <p
               class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1593,12 +1583,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
                 <a
-                  class="flexbox align-items-center"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox align-items-center css-1orsvah-MuiTypography-root-MuiLink-root"
                   data-discover="true"
                   href="/devices?id=a1"
-                  rel="noopener noreferrer"
                   style="font-weight: 500;"
-                  target="_blank"
                 >
                   <div
                     class="css-z9m6tn-container"
@@ -1863,7 +1851,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Total download size
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1899,7 +1887,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Start time
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <div
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1920,7 +1908,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               Current phase
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <p
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1952,7 +1940,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
               End time
             </h6>
             <div
-              class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+              class="flexbox align-items-center "
             >
               <p
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -2143,7 +2131,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -2164,7 +2152,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -2201,7 +2189,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -2222,7 +2210,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -2259,7 +2247,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -2280,7 +2268,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -2317,7 +2305,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -2338,7 +2326,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -2375,7 +2363,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Phase start time
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -2396,7 +2384,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 Batch size
               </h6>
               <div
-                class="flexbox align-items-center  css-1gqhfda-copyIconOverride"
+                class="flexbox align-items-center "
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"

@@ -14,7 +14,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { ErrorOutlined as ErrorOutlineIcon } from '@mui/icons-material';
 import { Alert, Checkbox, FormControlLabel, FormHelperText, Typography } from '@mui/material';
@@ -22,6 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
+import { Link } from '@northern.tech/common-ui/Link';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';

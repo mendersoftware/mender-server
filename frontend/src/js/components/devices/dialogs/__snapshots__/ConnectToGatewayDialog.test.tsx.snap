@@ -263,6 +263,22 @@ exports[`ConnectToGatewayDialog Component > renders correctly 1`] = `
 }
 
 .emotion-11 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-11:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -281,11 +297,11 @@ exports[`ConnectToGatewayDialog Component > renders correctly 1`] = `
   flex: 0 0 auto;
 }
 
-.emotion-11>:not(style)~:not(style) {
+.emotion-12>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-12 {
+.emotion-13 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -342,33 +358,33 @@ exports[`ConnectToGatewayDialog Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-12::-moz-focus-inner {
+.emotion-13::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-12.Mui-disabled {
+.emotion-13.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-12 {
+  .emotion-13 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-12:hover {
+.emotion-13:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-12.Mui-disabled {
+.emotion-13.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-12:hover {
+  .emotion-13:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -376,11 +392,11 @@ exports[`ConnectToGatewayDialog Component > renders correctly 1`] = `
   }
 }
 
-.emotion-12.MuiButton-loading {
+.emotion-13.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-13 {
+.emotion-14 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -437,57 +453,57 @@ exports[`ConnectToGatewayDialog Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-13::-moz-focus-inner {
+.emotion-14::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-14.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-13 {
+  .emotion-14 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-13:hover {
+.emotion-14:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-14.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-13:hover {
+.emotion-14:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-13:hover {
+  .emotion-14:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-13:active {
+.emotion-14:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-13.Mui-focusVisible {
+.emotion-14.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-13.Mui-disabled {
+.emotion-14.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-13:hover {
+  .emotion-14:hover {
     --variant-containedBg: #7b1fa2;
     --variant-textBg: rgba(156, 39, 176, 0.04);
     --variant-outlinedBorder: #9c27b0;
@@ -495,7 +511,7 @@ exports[`ConnectToGatewayDialog Component > renders correctly 1`] = `
   }
 }
 
-.emotion-13.MuiButton-loading {
+.emotion-14.MuiButton-loading {
   color: transparent;
 }
 
@@ -574,7 +590,7 @@ wget -O- https://get.mender.io | sudo bash -s -- --demo --force-mender-client4 -
           Note: this is only intended for demo or testing purposes. For production installation please refer to the
            
           <a
-            class=""
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-11"
             href="https://docs.mender.io/get-started/mender-gateway"
             rel="noopener"
             target="_blank"
@@ -584,10 +600,10 @@ wget -O- https://get.mender.io | sudo bash -s -- --demo --force-mender-client4 -
         </p>
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-11"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-12"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-12"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-13"
           tabindex="0"
           type="button"
         >
@@ -597,7 +613,7 @@ wget -O- https://get.mender.io | sudo bash -s -- --demo --force-mender-client4 -
           style="flex-grow: 1;"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary emotion-13"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary emotion-14"
           tabindex="0"
           type="button"
         >

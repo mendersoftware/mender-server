@@ -118,10 +118,15 @@ exports[`LeftNav Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
 }
 
-.emotion-20 {
-  font-weight: inherit;
+.emotion-18:hover {
+  text-decoration-color: inherit;
 }
 
 <div
@@ -211,15 +216,11 @@ exports[`LeftNav Component > renders correctly 1`] = `
     class="MuiList-root MuiList-padding flexbox column padding-bottom emotion-17"
   >
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-18"
       data-discover="true"
       href="/help"
     >
-      <p
-        class="MuiTypography-root MuiTypography-body2 emotion-18"
-      >
-        Help & support
-      </p>
+      Help & support
     </a>
     <div
       class="clickable slightly-smaller"
@@ -227,42 +228,30 @@ exports[`LeftNav Component > renders correctly 1`] = `
     >
       Version: latest
     </div>
-    <p
-      class="MuiTypography-root MuiTypography-body2 emotion-18"
+    <a
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-18"
+      href="https://docs.mender.io/release-information/release-notes-changelog/hosted-mender"
+      rel="noopener"
+      target="_blank"
     >
-      <a
-        class="emotion-20"
-        href="https://docs.mender.io/release-information/release-notes-changelog/hosted-mender"
-        rel="noopener"
-        target="_blank"
-      >
-        Release information
-      </a>
-    </p>
-    <p
-      class="MuiTypography-root MuiTypography-body2 emotion-18"
+      Release information
+    </a>
+    <a
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-18"
+      href="https://docs.mender.io/release-information/supported-releases#mender-client"
+      rel="noopener"
+      target="_blank"
     >
-      <a
-        class="emotion-20"
-        href="https://docs.mender.io/release-information/supported-releases#mender-client"
-        rel="noopener"
-        target="_blank"
-      >
-        Supported Mender client releases
-      </a>
-    </p>
-    <p
-      class="MuiTypography-root MuiTypography-body2 emotion-18"
+      Supported Mender client releases
+    </a>
+    <a
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-18"
+      href="https://docs.mender.io/release-information/open-source-licenses"
+      rel="noopener"
+      target="_blank"
     >
-      <a
-        class="emotion-20"
-        href="https://docs.mender.io/release-information/open-source-licenses"
-        rel="noopener"
-        target="_blank"
-      >
-        License information
-      </a>
-    </p>
+      License information
+    </a>
   </ul>
 </div>
 `;

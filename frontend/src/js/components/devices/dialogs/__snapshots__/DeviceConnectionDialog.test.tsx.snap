@@ -402,6 +402,22 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
 }
 
 .emotion-32 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-32:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-33 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -420,20 +436,20 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
   flex: 0 0 auto;
 }
 
-.emotion-32>:not(style)~:not(style) {
+.emotion-33>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-33 {
+.emotion-34 {
   margin: auto;
   margin-left: 0;
 }
 
-.emotion-33:hover svg {
+.emotion-34:hover svg {
   color: #1565c0;
 }
 
-.emotion-34 {
+.emotion-35 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -451,11 +467,11 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
   color: #1976d2;
 }
 
-.emotion-34.read {
+.emotion-35.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-35 {
+.emotion-36 {
   position: absolute;
   top: -4px;
   bottom: -4px;
@@ -465,15 +481,15 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-35.read {
+.emotion-36.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-35:hover {
+.emotion-36:hover {
   border-color: #1565c0;
 }
 
-.emotion-36 {
+.emotion-37 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -530,33 +546,33 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-36::-moz-focus-inner {
+.emotion-37::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-36.Mui-disabled {
+.emotion-37.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-36 {
+  .emotion-37 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-36:hover {
+.emotion-37:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-36.Mui-disabled {
+.emotion-37.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-36:hover {
+  .emotion-37:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -564,7 +580,7 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
   }
 }
 
-.emotion-36.MuiButton-loading {
+.emotion-37.MuiButton-loading {
   color: transparent;
 }
 
@@ -776,7 +792,7 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
           class="MuiTypography-root MuiTypography-body1 emotion-31"
         >
           <a
-            class=""
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
             href="https://docs.mender.io/overview/device-support"
             rel="noopener"
             target="_blank"
@@ -787,16 +803,16 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
         </p>
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-32"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-33"
       >
         <div
-          class="relative flexbox emotion-33  "
+          class="relative flexbox emotion-34  "
           data-mui-internal-clone-element="true"
           style="margin-left: 20px;"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-34"
+            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-35"
             data-testid="HelpIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -806,14 +822,14 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
             />
           </svg>
           <div
-            class="emotion-35 "
+            class="emotion-36 "
           />
         </div>
         <div
           style="flex-grow: 1;"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-36"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-37"
           tabindex="0"
           type="button"
         >
@@ -1245,7 +1261,23 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   text-align: left;
 }
 
-.emotion-29 {
+.emotion-21 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-21:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-32 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -1255,7 +1287,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   margin-top: 24px;
 }
 
-.emotion-30 {
+.emotion-34 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1274,20 +1306,20 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   flex: 0 0 auto;
 }
 
-.emotion-30>:not(style)~:not(style) {
+.emotion-34>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-31 {
+.emotion-35 {
   margin: auto;
   margin-left: 0;
 }
 
-.emotion-31:hover svg {
+.emotion-35:hover svg {
   color: #1565c0;
 }
 
-.emotion-32 {
+.emotion-36 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -1305,11 +1337,11 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   color: #1976d2;
 }
 
-.emotion-32.read {
+.emotion-36.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-33 {
+.emotion-37 {
   position: absolute;
   top: -4px;
   bottom: -4px;
@@ -1319,15 +1351,15 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-33.read {
+.emotion-37.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-33:hover {
+.emotion-37:hover {
   border-color: #1565c0;
 }
 
-.emotion-34 {
+.emotion-38 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1384,33 +1416,33 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-34::-moz-focus-inner {
+.emotion-38::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-34.Mui-disabled {
+.emotion-38.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-34 {
+  .emotion-38 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-34:hover {
+.emotion-38:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-34.Mui-disabled {
+.emotion-38.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-34:hover {
+  .emotion-38:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -1418,7 +1450,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
   }
 }
 
-.emotion-34.MuiButton-loading {
+.emotion-38.MuiButton-loading {
   color: transparent;
 }
 
@@ -1546,7 +1578,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
                 class="MuiListItem-root MuiListItem-gutters padding-top-none padding-bottom-none emotion-20"
               >
                 <a
-                  class=""
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
                   href="https://docs.mender.io/operating-system-updates-debian-family"
                   rel="noopener"
                   target="_blank"
@@ -1558,7 +1590,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
                 class="MuiListItem-root MuiListItem-gutters padding-top-none padding-bottom-none emotion-20"
               >
                 <a
-                  class=""
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
                   href="https://docs.mender.io/operating-system-updates-yocto-project"
                   rel="noopener"
                   target="_blank"
@@ -1570,10 +1602,12 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
             <p
               class="MuiTypography-root MuiTypography-body1 emotion-6"
             >
-              Or visit 
+              Or visit
+               
               <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
                 href="https://hub.mender.io/c/board-integrations"
-                rel="noopener"
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 Mender Hub
@@ -1624,10 +1658,10 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
           </div>
         </div>
         <p
-          class="MuiTypography-root MuiTypography-body1 emotion-29"
+          class="MuiTypography-root MuiTypography-body1 emotion-32"
         >
           <a
-            class=""
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
             href="https://docs.mender.io/overview/device-support"
             rel="noopener"
             target="_blank"
@@ -1638,16 +1672,16 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
         </p>
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-30"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-34"
       >
         <div
-          class="relative flexbox emotion-31  "
+          class="relative flexbox emotion-35  "
           data-mui-internal-clone-element="true"
           style="margin-left: 20px;"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-32"
+            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-36"
             data-testid="HelpIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -1657,14 +1691,14 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
             />
           </svg>
           <div
-            class="emotion-33 "
+            class="emotion-37 "
           />
         </div>
         <div
           style="flex-grow: 1;"
         />
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-34"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-38"
           tabindex="0"
           type="button"
         >

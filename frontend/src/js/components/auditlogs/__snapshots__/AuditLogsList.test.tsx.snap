@@ -116,6 +116,7 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
           production
         </div>
         <a
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
           data-discover="true"
           href="/deployments/finished?open=true&id=string"
         >
@@ -158,9 +159,11 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
             a1
           </div>
         </div>
-        <a>
+        <span
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+        >
           View session log
-        </a>
+        </span>
         <time
           datetime="2019-01-01T12:10:22+00:00"
         >

@@ -11,9 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Link } from 'react-router-dom';
-
 import { Alert } from '@mui/material';
+
+import { Link } from '@northern.tech/common-ui/Link';
 
 export const EmailVerificationWarning = ({ action, className = '' }: { action: string; className: string }) => (
   <Alert className={`flexbox align-items-center margin-bottom-small ${className}`} severity="warning">

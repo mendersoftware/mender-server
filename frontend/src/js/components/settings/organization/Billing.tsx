@@ -13,13 +13,14 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 // material ui
 import { Error as ErrorIcon, OpenInNew } from '@mui/icons-material';
 import { Alert, Button, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { ADDONS, PLANS } from '@northern.tech/store/constants';
@@ -133,9 +134,9 @@ export const CancelSubscriptionAlert = () => (
     <p>
       We&#39;ll send you an email confirming your deactivation. If you have any question at all, contact us at our{' '}
       <strong>
-        <a href="https://support.northern.tech" target="_blank" rel="noopener noreferrer">
+        <Link href="https://support.northern.tech" external>
           support portal
-        </a>
+        </Link>
         .
       </strong>
     </p>
@@ -184,7 +185,7 @@ const UpgradeNote = ({ isTrial }) => {
       <div className="flexbox align-items-center margin-top-x-small">
         <Button
           className="margin-right-small"
-          component={Link}
+          component={RouterLink}
           to="https://mender.io/pricing/plans"
           target="_blank"
           rel="noopener noreferrer"
@@ -195,7 +196,7 @@ const UpgradeNote = ({ isTrial }) => {
         >
           Compare all plans
         </Button>
-        <Button className={classes.link} color="secondary" component={Link} to="/subscription" size="small" variant="contained">
+        <Button className={classes.link} color="secondary" component={RouterLink} to="/subscription" size="small" variant="contained">
           Upgrade
         </Button>
       </div>
@@ -258,9 +259,9 @@ export const Billing = () => {
           <Typography variant="body2">
             Enterprise plan payments are invoiced periodically to your organization. If you&apos;d like to make any changes to your plan, Add-ons, or billing
             details, please contact{' '}
-            <a href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
+            <Link href="mailto:support@mender.io" external>
               support@mender.io
-            </a>
+            </Link>
             .
           </Typography>
         ) : (

@@ -70,7 +70,7 @@ test.describe('Deployments', () => {
   test('ensure release page filters are not used on deployment creation', async ({ page }) => {
     await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
     await navbar.getByRole('link', { name: /deployments/i }).click();
-    await page.getByRole('button', { name: /create a deployment/i }).click();
+    await page.getByRole('button', { name: /create a deployment/i }).first().click();
     await page.getByRole('button', { name: 'Select a release' }).click();
     await expect(locateReleaseByName(page, 'mender-demo-artifact')).toBeVisible();
   });

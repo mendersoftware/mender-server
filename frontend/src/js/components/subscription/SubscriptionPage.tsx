@@ -14,11 +14,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { Alert, Button, Checkbox, FormControl, FormControlLabel, Radio, RadioGroup, Typography, outlinedInputClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { Loader } from '@northern.tech/common-ui/Loader';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { AddonSelect } from '@northern.tech/common-ui/forms/AddonSelect';
@@ -676,9 +676,9 @@ export const SubscriptionPageContent = () => {
       <Typography variant="body1">
         Upgrade your plan or purchase an Add-on package to connect more devices, access more features and advanced support. <br />
         See the full details of plans and features at{' '}
-        <a href="https://mender.io/plans/pricing" target="_blank" rel="noopener noreferrer">
+        <Link href="https://mender.io/plans/pricing" external>
           mender.io/plans/pricing
-        </a>
+        </Link>
       </Typography>
 
       <Form initialValues={initialValues} defaultValues={defaultValues} onSubmit={onSubmit} autocomplete="off">

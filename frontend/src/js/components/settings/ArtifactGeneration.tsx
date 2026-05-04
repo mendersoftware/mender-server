@@ -20,6 +20,7 @@ import { Button, Checkbox, FormControlLabel, InputAdornment, TextField, Typograp
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
+import { Link } from '@northern.tech/common-ui/Link';
 import Form from '@northern.tech/common-ui/forms/Form';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeploymentsConfig, saveDeltaDeploymentsConfig } from '@northern.tech/store/thunks';
@@ -107,13 +108,13 @@ const ArtifactGenerationSettingsForm = ({ deltaLimits, defaultValues }) => {
     <>
       <Typography className={classes.info} variant="body2">
         Before adjusting these parameters, we recommend experimenting with the{' '}
-        <a href="https://docs.mender.io/artifact-creation/create-a-delta-update-artifact" target="_blank" rel="noopener noreferrer">
+        <Link href="https://docs.mender.io/artifact-creation/create-a-delta-update-artifact" external>
           mender-binary-delta-generator CLI tool
-        </a>{' '}
+        </Link>{' '}
         on your own workstation to find the optimal configuration for your Artifacts. You can learn more about these parameters on the{' '}
-        <a href="https://github.com/jmacd/xdelta/blob/wiki/TuningMemoryBudget.md" target="_blank" rel="noopener noreferrer">
+        <Link href="https://github.com/jmacd/xdelta/blob/wiki/TuningMemoryBudget.md" external>
           xdelta wiki
-        </a>
+        </Link>
         .
       </Typography>
       <Typography className={`${classes.optionText} margin-top-small`} variant="subtitle1">

@@ -11,12 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Link } from 'react-router-dom';
-
 import { Launch as LaunchIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-material';
 import { Button, Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import Time from '@northern.tech/common-ui/Time';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { DEPLOYMENT_TYPES } from '@northern.tech/store/constants';

@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { AccountCircle as AccountCircleIcon, ExitToApp as ExitIcon, ExpandMore } from '@mui/icons-material';
 import {
@@ -34,6 +34,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import Search from '@northern.tech/common-ui/Search';
 import storeActions from '@northern.tech/store/actions';
 import { READ_STATES, TIMEOUTS } from '@northern.tech/store/constants';
@@ -213,12 +214,12 @@ const AccountMenu = ({ className }) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
-        <MenuItem component={Link} to="/settings/my-profile" onClick={handleClose}>
+        <MenuItem component={RouterLink} to="/settings/my-profile" onClick={handleClose}>
           My profile
         </MenuItem>
         <Divider />
         {!!(multitenancy && name) && (
-          <MenuItem component={Link} dense to="/settings/organization" onClick={handleClose} className={classes.organization}>
+          <MenuItem component={RouterLink} dense to="/settings/organization" onClick={handleClose} className={classes.organization}>
             <div>
               <Typography variant="caption" className="muted">
                 My organization
@@ -249,11 +250,11 @@ const AccountMenu = ({ className }) => {
           </div>
         )}
         <Divider />
-        <MenuItem component={Link} to="/settings/global-settings" onClick={handleClose}>
+        <MenuItem component={RouterLink} to="/settings/global-settings" onClick={handleClose}>
           Settings
         </MenuItem>
         <MenuItem onClick={onToggleTooltips}>{`Mark help tips as ${hasReadHelptips ? 'un' : ''}read`}</MenuItem>
-        <MenuItem component={Link} to="/help/get-started" onClick={handleClose}>
+        <MenuItem component={RouterLink} to="/help/get-started" onClick={handleClose}>
           Help & support
         </MenuItem>
         <MenuItem onClick={onLogoutClick}>

@@ -63,8 +63,21 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
 }
 
 .emotion-4 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
   margin-left: 4px;
   margin-right: 4px;
+}
+
+.emotion-4:hover {
+  text-decoration-color: inherit;
 }
 
 .emotion-6 {
@@ -116,14 +129,15 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
          
         service
          reported issues. View details in the 
-        <a
-          class="emotion-4"
+        <span
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-4"
         >
           monitoring section
-        </a>
-         below
-        <a
-          class="emotion-4"
+        </span>
+         
+        below
+        <span
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-4"
         >
           <svg
             aria-hidden="true"
@@ -136,7 +150,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
               d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
             />
           </svg>
-        </a>
+        </span>
       </div>
     </div>
   </div>
@@ -516,8 +530,21 @@ exports[`tiny components > renders ServiceNotification correctly 1`] = `
 }
 
 .emotion-4 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
   margin-left: 4px;
   margin-right: 4px;
+}
+
+.emotion-4:hover {
+  text-decoration-color: inherit;
 }
 
 .emotion-6 {
@@ -569,14 +596,15 @@ exports[`tiny components > renders ServiceNotification correctly 1`] = `
          
         services
          reported issues. View details in the 
-        <a
-          class="emotion-4"
+        <span
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-4"
         >
           monitoring section
-        </a>
-         below
-        <a
-          class="emotion-4"
+        </span>
+         
+        below
+        <span
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-4"
         >
           <svg
             aria-hidden="true"
@@ -589,7 +617,7 @@ exports[`tiny components > renders ServiceNotification correctly 1`] = `
               d="M12 4c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8m0-2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 13-4-4h8z"
             />
           </svg>
-        </a>
+        </span>
       </div>
     </div>
   </div>

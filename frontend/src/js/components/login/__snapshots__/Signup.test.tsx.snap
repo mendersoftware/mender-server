@@ -837,6 +837,22 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-
 }
 
 .emotion-43 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-43:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-44 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -853,7 +869,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-
   font-size: 1.25rem;
 }
 
-.emotion-44 {
+.emotion-45 {
   background: #bdbdbd;
   grid-template-rows: min-content min-content min-content;
   padding: 80px 0;
@@ -1193,7 +1209,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-
           Already have an account?
         </div>
         <a
-          class="flexbox align-items-center"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox align-items-center emotion-43"
           data-discover="true"
           href="/login"
         >
@@ -1201,7 +1217,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-
            
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-43"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-44"
             data-testid="ChevronRightIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -1214,7 +1230,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-
       </div>
     </div>
     <div
-      class="emotion-44"
+      class="emotion-45"
     >
       <h2>
         Connect up to 10 devices free for 12 months – no credit card required.

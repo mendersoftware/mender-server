@@ -13,11 +13,12 @@
 //    limitations under the License.
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Button, Paper, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { getSpLimits, getTenantListWithLimits } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getTenants } from '@northern.tech/store/thunks';
@@ -40,18 +41,15 @@ const TenantsEmptyState = (props: TenantsEmptyStateProps) => {
     <div className="dashboard-placeholder">
       <p>You are not currently managing any tenants. </p>
       <p>
-        <a onClick={openModal}>Add a tenant</a> to get started.
+        <Link onClick={openModal}>Add a tenant</Link> to get started.
       </p>
     </div>
   );
 };
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles()(() => ({
   limit: {
     maxWidth: '726px'
-  },
-  link: {
-    color: theme.palette.secondary.main
   }
 }));
 
@@ -87,7 +85,7 @@ export const TenantPage = () => {
           </div>
         ))}
       </div>
-      <Button className="margin-top-small margin-bottom-medium" color="secondary" component={Link} to="/subscription" variant="text">
+      <Button className="margin-top-small margin-bottom-medium" color="secondary" component={RouterLink} to="/subscription" variant="text">
         Request changes to device limits
       </Button>
 

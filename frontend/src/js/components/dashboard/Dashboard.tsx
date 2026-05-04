@@ -12,11 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Alert, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { getCurrentUser, getShowSecurityAlert } from '@northern.tech/store/selectors';
@@ -90,7 +91,7 @@ export const Dashboard = () => {
         <Alert className="margin-bottom-small margin-right" onClose={dismissAlert} severity="warning">
           <>
             Your Mender account is not using recommended security settings. Improve your account security in{' '}
-            <Link to="/settings/my-profile" color="inherit">
+            <Link to="/settings/my-profile" color="inherit" variant="subtitle2">
               My profile
             </Link>
             .

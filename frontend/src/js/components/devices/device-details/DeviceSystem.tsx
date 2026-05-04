@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -114,7 +114,7 @@ export const DeviceSystem = ({ columnSelection, device, onConnectToGatewayClick,
         )}
       </ContentSection>
       <div className="flexbox">
-        <Button color="secondary" component={Link} to={`/deployments?deviceId=${device.id}&open=true`}>
+        <Button color="secondary" component={RouterLink} to={`/deployments?deviceId=${device.id}&open=true`}>
           Create deployment for this system
         </Button>
         <Button onClick={onConnectToGatewayClick}>Connect devices</Button>

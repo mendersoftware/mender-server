@@ -654,6 +654,22 @@ exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders Con
   letter-spacing: 0.00938em;
 }
 
+.emotion-1 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-1:hover {
+  text-decoration-color: inherit;
+}
+
 <div>
   <p
     class="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -661,7 +677,7 @@ exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders Con
     We prepared an image, ready for Mender, for you to start with. You can find it in the
      
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-1"
       href="https://docs.mender.io/get-started/preparation/prepare-a-raspberry-pi-device"
       rel="noopener"
       target="_blank"
@@ -1286,6 +1302,22 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   letter-spacing: 0.00938em;
 }
 
+.emotion-17 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-17:hover {
+  text-decoration-color: inherit;
+}
+
 <div>
   <h6
     class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-gutterBottom emotion-0"
@@ -1415,7 +1447,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
     We prepared an image, ready for Mender, for you to start with. You can find it in the
      
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-17"
       href="https://docs.mender.io/get-started/preparation/prepare-a-raspberry-pi-device"
       rel="noopener"
       target="_blank"

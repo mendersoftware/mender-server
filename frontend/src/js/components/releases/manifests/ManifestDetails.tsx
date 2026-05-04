@@ -14,7 +14,6 @@
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 
 import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -26,6 +25,7 @@ import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import type { ColumnDefinition } from '@northern.tech/common-ui/DetailsTable';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
+import { Link } from '@northern.tech/common-ui/Link';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';

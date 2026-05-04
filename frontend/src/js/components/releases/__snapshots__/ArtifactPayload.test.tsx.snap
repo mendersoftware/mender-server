@@ -24,11 +24,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
   letter-spacing: 0.00714em;
 }
 
-.emotion-3.copy-to-clipboard svg {
-  fill: rgba(0, 0, 0, 0.54);
-}
-
-.emotion-4 {
+.emotion-3 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -37,7 +33,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-9 {
+.emotion-7 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -66,10 +62,10 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
       Type
     </h6>
     <div
-      class="flexbox align-items-center  emotion-3"
+      class="flexbox align-items-center "
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-4"
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="test"
       >
@@ -83,10 +79,10 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
       Total Size (uncompressed)
     </h6>
     <div
-      class="flexbox align-items-center  emotion-3"
+      class="flexbox align-items-center "
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-4"
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="0 Bytes"
       >
@@ -103,7 +99,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
       Files
     </h6>
     <hr
-      class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-9"
+      class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-7"
     />
     <p>
       There are no files in this Artifact

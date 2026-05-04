@@ -111,9 +111,22 @@ exports[`Devices Component > renders correctly 1`] = `
 }
 
 .emotion-11 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
   max-width: 6vh;
   -webkit-text-decoration: none;
   text-decoration: none;
+}
+
+.emotion-11:hover {
+  text-decoration-color: inherit;
 }
 
 .emotion-11.red {
@@ -473,7 +486,7 @@ exports[`Devices Component > renders correctly 1`] = `
         class="flexbox align-self-center full-width emotion-10"
       >
         <a
-          class="flexbox align-items-center column emotion-11 green"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox align-items-center column green emotion-11"
           data-discover="true"
           href="/devices?issues=offline"
         >

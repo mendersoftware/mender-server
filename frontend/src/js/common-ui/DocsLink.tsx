@@ -11,8 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { ReactNode } from 'react';
-import { forwardRef, useState } from 'react';
+import type { ReactNode, Ref } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Description as DescriptionIcon, Launch as LaunchIcon } from '@mui/icons-material';
@@ -25,6 +25,7 @@ import { getDocsVersion, getFeatures } from '@northern.tech/store/selectors';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import { yes } from '@northern.tech/utils/helpers';
 
+import { Link } from './Link';
 import { MenderTooltipClickable } from './helptips/MenderTooltip';
 
 const useStyles = makeStyles()(theme => ({
@@ -144,7 +145,16 @@ export const DocsTextLink = ({ capitalizedStart = true, children, id, typography
   );
 };
 
-export const DocsLink = forwardRef(({ children, className = '', path = '', title = '', ...remainder }, ref) => {
+interface DocsLinkProps {
+  [key: string]: unknown;
+  children?: ReactNode;
+  className?: string;
+  path?: string;
+  ref?: Ref<HTMLAnchorElement>;
+  title?: string;
+}
+
+export const DocsLink = ({ children, className = '', path = '', ref, title = '', ...remainder }: DocsLinkProps) => {
   const docsVersion = useSelector(getDocsVersion);
   const { isHosted } = useSelector(getFeatures);
   const target = `https://docs.mender.io/${path}`;
@@ -155,13 +165,10 @@ export const DocsLink = forwardRef(({ children, className = '', path = '', title
   };
 
   return (
-    // eslint-disable-next-line react/jsx-no-target-blank
-    <a className={className} {...remainder} href={target} onClick={onClickHandler} ref={ref} target="_blank" rel={isHosted ? 'noopener' : ''}>
+    <Link className={className} {...remainder} href={target} onClick={onClickHandler} ref={ref} external rel={isHosted ? 'noopener' : ''}>
       {children ? children : title}
-    </a>
+    </Link>
   );
-});
-
-DocsLink.displayName = 'DocsLink';
+};
 
 export default DocsLink;

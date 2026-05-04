@@ -1451,6 +1451,22 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
   letter-spacing: 0.00938em;
 }
 
+.emotion-70 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-70:hover {
+  text-decoration-color: inherit;
+}
+
 <div
   class="MuiDrawer-root MuiDrawer-anchorRight MuiDrawer-modal fadeIn MuiModal-root emotion-0"
   role="presentation"
@@ -1901,7 +1917,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
           Upgrading your plan will invalidate existing
            
           <a
-            class=""
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-70"
             href="https://docs.mender.io/server-integration/using-the-apis#personal-access-tokens"
             rel="noopener"
             target="_blank"
@@ -1910,6 +1926,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
           </a>
           (PATs) for all users for security reasons. After upgrade, you will need to generate new PATs for any scripts or integrations using these tokens. You can manage your own PATs in 
           <a
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-70"
             data-discover="true"
             href="/settings/my-profile"
           >
@@ -1957,6 +1974,22 @@ exports[`Subscription Page component > renders correctly 1`] = `
 
 .emotion-3 {
   margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-3:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-4 {
+  margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -1964,7 +1997,7 @@ exports[`Subscription Page component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
-.emotion-4 {
+.emotion-5 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1980,7 +2013,7 @@ exports[`Subscription Page component > renders correctly 1`] = `
   vertical-align: top;
 }
 
-.emotion-5 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1997,7 +2030,7 @@ exports[`Subscription Page component > renders correctly 1`] = `
   flex-direction: row;
 }
 
-.emotion-6 {
+.emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2013,15 +2046,15 @@ exports[`Subscription Page component > renders correctly 1`] = `
   margin-right: 16px;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-7.Mui-disabled {
   cursor: default;
 }
 
-.emotion-6 .MuiFormControlLabel-label.Mui-disabled {
+.emotion-7 .MuiFormControlLabel-label.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-7 {
+.emotion-8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2059,41 +2092,41 @@ exports[`Subscription Page component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-7::-moz-focus-inner {
+.emotion-8::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-7 {
+  .emotion-8 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-7:hover {
+.emotion-8:hover {
   background-color: rgba(25, 118, 210, 0.04);
 }
 
-.emotion-7.Mui-checked {
+.emotion-8.Mui-checked {
   color: #1976d2;
 }
 
 @media (hover: none) {
-  .emotion-7:hover {
+  .emotion-8:hover {
     background-color: transparent;
   }
 }
 
-.emotion-8 {
+.emotion-9 {
   cursor: inherit;
   position: absolute;
   opacity: 0;
@@ -2106,7 +2139,7 @@ exports[`Subscription Page component > renders correctly 1`] = `
   z-index: 1;
 }
 
-.emotion-9 {
+.emotion-10 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -2114,7 +2147,7 @@ exports[`Subscription Page component > renders correctly 1`] = `
   display: flex;
 }
 
-.emotion-10 {
+.emotion-11 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2135,7 +2168,7 @@ exports[`Subscription Page component > renders correctly 1`] = `
   transform: scale(1);
 }
 
-.emotion-11 {
+.emotion-12 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2166,7 +2199,7 @@ exports[`Subscription Page component > renders correctly 1`] = `
   transition: transform 150ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
 }
 
-.emotion-18 {
+.emotion-19 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2191,7 +2224,7 @@ exports[`Subscription Page component > renders correctly 1`] = `
   transition: transform 150ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 }
 
-.emotion-30 {
+.emotion-31 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2229,42 +2262,42 @@ exports[`Subscription Page component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-30::-moz-focus-inner {
+.emotion-31::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-30.Mui-disabled {
+.emotion-31.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-30 {
+  .emotion-31 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-30:hover {
+.emotion-31:hover {
   background-color: rgba(25, 118, 210, 0.04);
 }
 
-.emotion-30.Mui-checked,
-.emotion-30.MuiCheckbox-indeterminate {
+.emotion-31.Mui-checked,
+.emotion-31.MuiCheckbox-indeterminate {
   color: #1976d2;
 }
 
-.emotion-30.Mui-disabled {
+.emotion-31.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: none) {
-  .emotion-30:hover {
+  .emotion-31:hover {
     background-color: transparent;
   }
 }
 
-.emotion-32 {
+.emotion-33 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2281,7 +2314,7 @@ exports[`Subscription Page component > renders correctly 1`] = `
   font-size: 1.5rem;
 }
 
-.emotion-34 {
+.emotion-35 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -2291,16 +2324,16 @@ exports[`Subscription Page component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-35 {
+.emotion-36 {
   margin: auto;
   margin-left: 0;
 }
 
-.emotion-35:hover svg {
+.emotion-36:hover svg {
   color: #1565c0;
 }
 
-.emotion-36 {
+.emotion-37 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2318,11 +2351,11 @@ exports[`Subscription Page component > renders correctly 1`] = `
   color: #1976d2;
 }
 
-.emotion-36.read {
+.emotion-37.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-37 {
+.emotion-38 {
   position: absolute;
   top: -4px;
   bottom: -4px;
@@ -2332,15 +2365,15 @@ exports[`Subscription Page component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-37.read {
+.emotion-38.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-37:hover {
+.emotion-38:hover {
   border-color: #1565c0;
 }
 
-.emotion-39 {
+.emotion-40 {
   color: rgba(0, 0, 0, 0.6);
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -2397,19 +2430,19 @@ exports[`Subscription Page component > renders correctly 1`] = `
   transform: translate(14px, -9px) scale(0.75);
 }
 
-.emotion-39.Mui-focused {
+.emotion-40.Mui-focused {
   color: #1976d2;
 }
 
-.emotion-39.Mui-disabled {
+.emotion-40.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-39.Mui-error {
+.emotion-40.Mui-error {
   color: #d32f2f;
 }
 
-.emotion-40 {
+.emotion-41 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -2433,38 +2466,38 @@ exports[`Subscription Page component > renders correctly 1`] = `
   padding-right: 0px;
 }
 
-.emotion-40.Mui-disabled {
+.emotion-41.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-40:hover .MuiOutlinedInput-notchedOutline {
+.emotion-41:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
-  .emotion-40:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-41:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-40.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-41.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
-.emotion-40.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-41.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #1976d2;
 }
 
-.emotion-40.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-41.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #d32f2f;
 }
 
-.emotion-40.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-41.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-41 {
+.emotion-42 {
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
@@ -2488,80 +2521,80 @@ exports[`Subscription Page component > renders correctly 1`] = `
   padding-right: 0;
 }
 
-.emotion-41::-webkit-input-placeholder {
+.emotion-42::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-41::-moz-placeholder {
+.emotion-42::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-41::-ms-input-placeholder {
+.emotion-42::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-41:focus {
+.emotion-42:focus {
   outline: 0;
 }
 
-.emotion-41:invalid {
+.emotion-42:invalid {
   box-shadow: none;
 }
 
-.emotion-41::-webkit-search-decoration {
+.emotion-42::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-41::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-42::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-41::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-42::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-41::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-42::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-41.Mui-disabled {
+.emotion-42.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-41:-webkit-autofill {
+.emotion-42:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-41:-webkit-autofill {
+.emotion-42:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-42 {
+.emotion-43 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2586,7 +2619,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   margin-left: 0px;
 }
 
-.emotion-42 button {
+.emotion-43 button {
   padding-top: 0px;
   padding-bottom: 0px;
   -webkit-flex: 1;
@@ -2595,7 +2628,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   border-radius: 2px;
 }
 
-.emotion-43 {
+.emotion-44 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2643,42 +2676,42 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   font-size: 1.125rem;
 }
 
-.emotion-43::-moz-focus-inner {
+.emotion-44::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-43.Mui-disabled {
+.emotion-44.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-43 {
+  .emotion-44 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-43:hover {
+.emotion-44:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-43:hover {
+  .emotion-44:hover {
     background-color: transparent;
   }
 }
 
-.emotion-43.Mui-disabled {
+.emotion-44.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-43.MuiIconButton-loading {
+.emotion-44.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-44 {
+.emotion-45 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2699,7 +2732,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   transform: translateY(2px);
 }
 
-.emotion-46 {
+.emotion-47 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2720,7 +2753,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   transform: translateY(-2px);
 }
 
-.emotion-47 {
+.emotion-48 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -2738,7 +2771,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-48 {
+.emotion-49 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -2756,7 +2789,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   transition: max-width 100ms cubic-bezier(0.0, 0, 0.2, 1) 50ms;
 }
 
-.emotion-48>span {
+.emotion-49>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
@@ -2764,7 +2797,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   visibility: visible;
 }
 
-.emotion-49 {
+.emotion-50 {
   color: rgba(0, 0, 0, 0.6);
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -2782,19 +2815,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   margin-left: 0px;
 }
 
-.emotion-49.Mui-disabled {
+.emotion-50.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-49.Mui-error {
+.emotion-50.Mui-error {
   color: #d32f2f;
 }
 
-.emotion-49:empty {
+.emotion-50:empty {
   margin-top: 0px;
 }
 
-.emotion-72 {
+.emotion-73 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -2803,7 +2836,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   letter-spacing: 0.03333em;
 }
 
-.emotion-73 {
+.emotion-74 {
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -2813,15 +2846,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   overflow: hidden;
 }
 
-.emotion-74 {
+.emotion-75 {
   padding: 16px;
 }
 
-.emotion-74:last-child {
+.emotion-75:last-child {
   padding-bottom: 24px;
 }
 
-.emotion-81 {
+.emotion-82 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2833,11 +2866,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   padding: 8px;
 }
 
-.emotion-81>:not(style)~:not(style) {
+.emotion-82>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-90 {
+.emotion-92 {
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -2860,11 +2893,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   background-color: rgb(229, 246, 253);
 }
 
-.emotion-90 .MuiAlert-icon {
+.emotion-92 .MuiAlert-icon {
   color: #0288d1;
 }
 
-.emotion-91 {
+.emotion-93 {
   margin-right: 12px;
   padding: 7px 0;
   display: -webkit-box;
@@ -2875,7 +2908,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   opacity: 0.9;
 }
 
-.emotion-92 {
+.emotion-94 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2892,13 +2925,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   font-size: inherit;
 }
 
-.emotion-93 {
+.emotion-95 {
   padding: 8px 0;
   min-width: 0;
   overflow: auto;
 }
 
-.emotion-105 {
+.emotion-109 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -2910,21 +2943,21 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   padding: 16px;
 }
 
-.emotion-106 {
+.emotion-110 {
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-.MuiTypography-root:where(.emotion-106 .MuiCardHeader-title) {
+.MuiTypography-root:where(.emotion-110 .MuiCardHeader-title) {
   display: block;
 }
 
-.MuiTypography-root:where(.emotion-106 .MuiCardHeader-subheader) {
+.MuiTypography-root:where(.emotion-110 .MuiCardHeader-subheader) {
   display: block;
 }
 
-.emotion-107 {
+.emotion-111 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -2933,7 +2966,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   letter-spacing: 0em;
 }
 
-.emotion-109 {
+.emotion-113 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -2974,12 +3007,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   border: 1px solid rgba(25, 118, 210, 0.7);
 }
 
-.emotion-109.Mui-disabled {
+.emotion-113.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-109 .MuiChip-avatar {
+.emotion-113 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -2988,12 +3021,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   font-size: 0.75rem;
 }
 
-.emotion-109 .MuiChip-icon {
+.emotion-113 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-109 .MuiChip-deleteIcon {
+.emotion-113 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -3001,16 +3034,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   margin: 0 5px 0 -6px;
 }
 
-.emotion-109 .MuiChip-deleteIcon:hover {
+.emotion-113 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-109 .MuiChip-avatar {
+.emotion-113 .MuiChip-avatar {
   color: #fff;
   background-color: #1565c0;
 }
 
-.emotion-109 .MuiChip-avatar {
+.emotion-113 .MuiChip-avatar {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -3018,85 +3051,85 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   font-size: 0.625rem;
 }
 
-.emotion-109 .MuiChip-icon {
+.emotion-113 .MuiChip-icon {
   font-size: 18px;
   margin-left: 4px;
   margin-right: -4px;
 }
 
-.emotion-109 .MuiChip-deleteIcon {
+.emotion-113 .MuiChip-deleteIcon {
   font-size: 16px;
   margin-right: 4px;
   margin-left: -4px;
 }
 
-.emotion-109 .MuiChip-deleteIcon {
+.emotion-113 .MuiChip-deleteIcon {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.emotion-109 .MuiChip-deleteIcon:hover,
-.emotion-109 .MuiChip-deleteIcon:active {
+.emotion-113 .MuiChip-deleteIcon:hover,
+.emotion-113 .MuiChip-deleteIcon:active {
   color: #fff;
 }
 
-.emotion-109 .MuiChip-icon {
+.emotion-113 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-109 .MuiChip-icon {
+.emotion-113 .MuiChip-icon {
   color: inherit;
 }
 
-.emotion-109.MuiChip-clickable:hover {
+.emotion-113.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-109.Mui-focusVisible {
+.emotion-113.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-109 .MuiChip-avatar {
+.emotion-113 .MuiChip-avatar {
   margin-left: 4px;
 }
 
-.emotion-109 .MuiChip-icon {
+.emotion-113 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-109 .MuiChip-deleteIcon {
+.emotion-113 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-109 .MuiChip-avatar {
+.emotion-113 .MuiChip-avatar {
   margin-left: 2px;
 }
 
-.emotion-109 .MuiChip-icon {
+.emotion-113 .MuiChip-icon {
   margin-left: 2px;
 }
 
-.emotion-109 .MuiChip-deleteIcon {
+.emotion-113 .MuiChip-deleteIcon {
   margin-right: 3px;
 }
 
-.emotion-109.MuiChip-clickable:hover {
+.emotion-113.MuiChip-clickable:hover {
   background-color: rgba(25, 118, 210, 0.04);
 }
 
-.emotion-109.Mui-focusVisible {
+.emotion-113.Mui-focusVisible {
   background-color: rgba(25, 118, 210, 0.12);
 }
 
-.emotion-109 .MuiChip-deleteIcon {
+.emotion-113 .MuiChip-deleteIcon {
   color: rgba(25, 118, 210, 0.7);
 }
 
-.emotion-109 .MuiChip-deleteIcon:hover,
-.emotion-109 .MuiChip-deleteIcon:active {
+.emotion-113 .MuiChip-deleteIcon:hover,
+.emotion-113 .MuiChip-deleteIcon:active {
   color: #1976d2;
 }
 
-.emotion-110 {
+.emotion-114 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -3110,7 +3143,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   padding-right: 7px;
 }
 
-.emotion-115 {
+.emotion-119 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
@@ -3119,7 +3152,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   letter-spacing: 0.00714em;
 }
 
-.emotion-119 {
+.emotion-123 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -3132,7 +3165,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   margin-right: 16px;
 }
 
-.emotion-122 {
+.emotion-126 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -3190,57 +3223,57 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-122::-moz-focus-inner {
+.emotion-126::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-122.Mui-disabled {
+.emotion-126.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-122 {
+  .emotion-126 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-122:hover {
+.emotion-126:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-122.Mui-disabled {
+.emotion-126.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-122:hover {
+.emotion-126:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-122:hover {
+  .emotion-126:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-122:active {
+.emotion-126:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-122.Mui-focusVisible {
+.emotion-126.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-122.Mui-disabled {
+.emotion-126.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-122:hover {
+  .emotion-126:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -3248,7 +3281,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
   }
 }
 
-.emotion-122.MuiButton-loading {
+.emotion-126.MuiButton-loading {
   color: transparent;
 }
 
@@ -3275,6 +3308,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
       See the full details of plans and features at
        
       <a
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
         href="https://mender.io/plans/pricing"
         rel="noopener noreferrer"
         target="_blank"
@@ -3294,37 +3328,37 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
           style="max-width: 550px;"
         >
           <h6
-            class="MuiTypography-root MuiTypography-subtitle1 margin-top emotion-3"
+            class="MuiTypography-root MuiTypography-subtitle1 margin-top emotion-4"
           >
             1. Choose a plan
           </h6>
           <fieldset
-            class="MuiFormControl-root emotion-4"
+            class="MuiFormControl-root emotion-5"
           >
             <div
               aria-labelledby="plan-selection"
-              class="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row emotion-5"
+              class="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row emotion-6"
               role="radiogroup"
             >
               <label
-                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-6"
+                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-7"
               >
                 <span
-                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-7"
+                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-8"
                 >
                   <input
                     checked=""
-                    class="PrivateSwitchBase-input emotion-8"
+                    class="PrivateSwitchBase-input emotion-9"
                     name="plan-selection-radio-group"
                     type="radio"
                     value="os"
                   />
                   <span
-                    class="emotion-9"
+                    class="emotion-10"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
                       data-testid="RadioButtonUncheckedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3335,7 +3369,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     </svg>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-12"
                       data-testid="RadioButtonCheckedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3353,23 +3387,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 </span>
               </label>
               <label
-                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-6"
+                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-7"
               >
                 <span
-                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-7"
+                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-8"
                 >
                   <input
-                    class="PrivateSwitchBase-input emotion-8"
+                    class="PrivateSwitchBase-input emotion-9"
                     name="plan-selection-radio-group"
                     type="radio"
                     value="professional"
                   />
                   <span
-                    class="emotion-9"
+                    class="emotion-10"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
                       data-testid="RadioButtonUncheckedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3380,7 +3414,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     </svg>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-18"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
                       data-testid="RadioButtonCheckedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3398,23 +3432,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 </span>
               </label>
               <label
-                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-6"
+                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-7"
               >
                 <span
-                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-7"
+                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-8"
                 >
                   <input
-                    class="PrivateSwitchBase-input emotion-8"
+                    class="PrivateSwitchBase-input emotion-9"
                     name="plan-selection-radio-group"
                     type="radio"
                     value="enterprise"
                   />
                   <span
-                    class="emotion-9"
+                    class="emotion-10"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-10"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
                       data-testid="RadioButtonUncheckedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3425,7 +3459,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     </svg>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-18"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
                       data-testid="RadioButtonCheckedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3451,27 +3485,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
             The core features of Mender. To continue using Enterprise Trial features—like Delta updates, scheduled deployments, phased rollouts, device filtering, dynamic groups, RBAC, audit logs, and more—please upgrade to a higher plan.
           </p>
           <h6
-            class="MuiTypography-root MuiTypography-subtitle1 margin-top margin-bottom-x-small emotion-3"
+            class="MuiTypography-root MuiTypography-subtitle1 margin-top margin-bottom-x-small emotion-4"
           >
             2. Set a device limit
           </h6>
           <div>
             <label
-              class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-6"
+              class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-7"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-30"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-31"
               >
                 <input
                   checked=""
-                  class="PrivateSwitchBase-input emotion-8"
+                  class="PrivateSwitchBase-input emotion-9"
                   data-indeterminate="false"
                   disabled=""
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
                   data-testid="CheckBoxIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -3488,17 +3522,17 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                   class="flexbox"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-34"
+                    class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-35"
                   >
                     micro devices
                   </p>
                   <div
-                    class="relative flexbox emotion-35  margin-left-small"
+                    class="relative flexbox emotion-36  margin-left-small"
                     data-mui-internal-clone-element="true"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-36"
+                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-37"
                       data-testid="HelpIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3508,31 +3542,31 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                       />
                     </svg>
                     <div
-                      class="emotion-37 "
+                      class="emotion-38 "
                     />
                   </div>
                 </div>
               </span>
             </label>
             <div
-              class="MuiFormControl-root emotion-4"
+              class="MuiFormControl-root emotion-5"
               style="width: 100%;"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-39"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-40"
                 data-shrink="true"
                 for="micro"
               >
                 Device limit
               </label>
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-40"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-41"
               >
                 <input
                   aria-roledescription="Number field"
                   autocomplete="off"
                   autocorrect="off"
-                  class="MuiInputBase-input MuiOutlinedInput-input emotion-41"
+                  class="MuiInputBase-input MuiOutlinedInput-input emotion-42"
                   id="micro"
                   inputmode="numeric"
                   spellcheck="false"
@@ -3540,20 +3574,20 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                   value="50"
                 />
                 <div
-                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-42"
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-43"
                 >
                   <button
                     aria-controls="base-ui-_r_4_"
                     aria-disabled="false"
                     aria-label="Increase"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-43"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-44"
                     style="-webkit-user-select: none; user-select: none;"
                     tabindex="-1"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-44"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-45"
                       data-testid="KeyboardArrowUpIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3567,7 +3601,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     aria-controls="base-ui-_r_4_"
                     aria-disabled="true"
                     aria-label="Decrease"
-                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-43"
+                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-44"
                     data-disabled=""
                     disabled=""
                     style="-webkit-user-select: none; user-select: none;"
@@ -3576,7 +3610,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-46"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-47"
                       data-testid="KeyboardArrowDownIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3589,10 +3623,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 </div>
                 <fieldset
                   aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline emotion-47"
+                  class="MuiOutlinedInput-notchedOutline emotion-48"
                 >
                   <legend
-                    class="emotion-48"
+                    class="emotion-49"
                   >
                     <span>
                       Device limit
@@ -3601,7 +3635,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 </fieldset>
               </div>
               <p
-                class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained MuiFormHelperText-filled emotion-49"
+                class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained MuiFormHelperText-filled emotion-50"
               />
             </div>
             <input
@@ -3616,21 +3650,21 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
           </div>
           <div>
             <label
-              class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-6"
+              class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-7"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-30"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-31"
               >
                 <input
                   checked=""
-                  class="PrivateSwitchBase-input emotion-8"
+                  class="PrivateSwitchBase-input emotion-9"
                   data-indeterminate="false"
                   disabled=""
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
                   data-testid="CheckBoxIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -3647,17 +3681,17 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                   class="flexbox"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-34"
+                    class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-35"
                   >
                     standard devices
                   </p>
                   <div
-                    class="relative flexbox emotion-35  margin-left-small"
+                    class="relative flexbox emotion-36  margin-left-small"
                     data-mui-internal-clone-element="true"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-36"
+                      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-37"
                       data-testid="HelpIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3667,31 +3701,31 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                       />
                     </svg>
                     <div
-                      class="emotion-37 "
+                      class="emotion-38 "
                     />
                   </div>
                 </div>
               </span>
             </label>
             <div
-              class="MuiFormControl-root emotion-4"
+              class="MuiFormControl-root emotion-5"
               style="width: 100%;"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-39"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined emotion-40"
                 data-shrink="true"
                 for="standard"
               >
                 Device limit
               </label>
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-40"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd emotion-41"
               >
                 <input
                   aria-roledescription="Number field"
                   autocomplete="off"
                   autocorrect="off"
-                  class="MuiInputBase-input MuiOutlinedInput-input emotion-41"
+                  class="MuiInputBase-input MuiOutlinedInput-input emotion-42"
                   id="standard"
                   inputmode="numeric"
                   spellcheck="false"
@@ -3699,20 +3733,20 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                   value="500"
                 />
                 <div
-                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-42"
+                  class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-43"
                 >
                   <button
                     aria-controls="base-ui-_r_9_"
                     aria-disabled="false"
                     aria-label="Increase"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-43"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-44"
                     style="-webkit-user-select: none; user-select: none;"
                     tabindex="-1"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-44"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-45"
                       data-testid="KeyboardArrowUpIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3726,7 +3760,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     aria-controls="base-ui-_r_9_"
                     aria-disabled="true"
                     aria-label="Decrease"
-                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-43"
+                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-44"
                     data-disabled=""
                     disabled=""
                     style="-webkit-user-select: none; user-select: none;"
@@ -3735,7 +3769,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-46"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-47"
                       data-testid="KeyboardArrowDownIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3748,10 +3782,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 </div>
                 <fieldset
                   aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline emotion-47"
+                  class="MuiOutlinedInput-notchedOutline emotion-48"
                 >
                   <legend
-                    class="emotion-48"
+                    class="emotion-49"
                   >
                     <span>
                       Device limit
@@ -3760,7 +3794,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 </fieldset>
               </div>
               <p
-                class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained MuiFormHelperText-filled emotion-49"
+                class="MuiFormHelperText-root MuiFormHelperText-sizeSmall MuiFormHelperText-contained MuiFormHelperText-filled emotion-50"
               />
             </div>
             <input
@@ -3774,13 +3808,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
             />
           </div>
           <h6
-            class="MuiTypography-root MuiTypography-subtitle1 margin-top emotion-3"
+            class="MuiTypography-root MuiTypography-subtitle1 margin-top emotion-4"
           >
             3
             . Choose Add-ons
           </h6>
           <span
-            class="MuiTypography-root MuiTypography-caption emotion-72"
+            class="MuiTypography-root MuiTypography-caption emotion-73"
           >
             Add-ons are currently available for Standard devices only.
           </span>
@@ -3788,19 +3822,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
             class="margin-top-x-small"
           >
             <div
-              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-73"
+              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-74"
             >
               <div
-                class="MuiCardContent-root padding-bottom-none emotion-74"
+                class="MuiCardContent-root padding-bottom-none emotion-75"
               >
                 <label
-                  class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-none emotion-6"
+                  class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-none emotion-7"
                 >
                   <span
-                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-30"
+                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-31"
                   >
                     <input
-                      class="PrivateSwitchBase-input emotion-8"
+                      class="PrivateSwitchBase-input emotion-9"
                       data-indeterminate="false"
                       name="configure"
                       type="checkbox"
@@ -3808,7 +3842,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
                       data-testid="CheckBoxOutlineBlankIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3831,11 +3865,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 </p>
               </div>
               <div
-                class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-81"
+                class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-82"
               >
                 <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
                   href="https://mender.io/pricing/add-ons/configure"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   Learn More
@@ -3843,19 +3878,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
               </div>
             </div>
             <div
-              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-73"
+              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-74"
             >
               <div
-                class="MuiCardContent-root padding-bottom-none emotion-74"
+                class="MuiCardContent-root padding-bottom-none emotion-75"
               >
                 <label
-                  class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd margin-none emotion-6"
+                  class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd margin-none emotion-7"
                 >
                   <span
-                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-30"
+                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-31"
                   >
                     <input
-                      class="PrivateSwitchBase-input emotion-8"
+                      class="PrivateSwitchBase-input emotion-9"
                       data-indeterminate="false"
                       disabled=""
                       name="monitor"
@@ -3864,7 +3899,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
                       data-testid="CheckBoxOutlineBlankIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3886,16 +3921,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                   Detect and analyze health issues of devices, services and applications. Set up alerts so you can act quickly.
                 </p>
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-bottom-x-small emotion-90"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-bottom-x-small emotion-92"
                   role="alert"
                   style="--Paper-shadow: none;"
                 >
                   <div
-                    class="MuiAlert-icon emotion-91"
+                    class="MuiAlert-icon emotion-93"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-92"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-94"
                       data-testid="InfoOutlinedIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3906,7 +3941,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     </svg>
                   </div>
                   <div
-                    class="MuiAlert-message emotion-93"
+                    class="MuiAlert-message emotion-95"
                   >
                     Monitor
                      is not available on the 
@@ -3916,11 +3951,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 </div>
               </div>
               <div
-                class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-81"
+                class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-82"
               >
                 <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
                   href="https://mender.io/pricing/add-ons/monitor"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   Learn More
@@ -3928,19 +3964,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
               </div>
             </div>
             <div
-              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-73"
+              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root margin-bottom-small emotion-74"
             >
               <div
-                class="MuiCardContent-root padding-bottom-none emotion-74"
+                class="MuiCardContent-root padding-bottom-none emotion-75"
               >
                 <label
-                  class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-none emotion-6"
+                  class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-none emotion-7"
                 >
                   <span
-                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-30"
+                    class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium padding-none margin-x-small emotion-31"
                   >
                     <input
-                      class="PrivateSwitchBase-input emotion-8"
+                      class="PrivateSwitchBase-input emotion-9"
                       data-indeterminate="false"
                       name="troubleshoot"
                       type="checkbox"
@@ -3948,7 +3984,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-33"
                       data-testid="CheckBoxOutlineBlankIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -3971,11 +4007,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 </p>
               </div>
               <div
-                class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-81"
+                class="MuiCardActions-root MuiCardActions-spacing padding-small padding-top-none emotion-82"
               >
                 <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
                   href="https://mender.io/pricing/add-ons/troubleshoot"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   Learn More
@@ -3989,31 +4026,31 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
             class="margin-top margin-left-x-large"
           >
             <div
-              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root padding emotion-73"
+              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded MuiCard-root padding emotion-74"
               style="min-width: 320px;"
             >
               <div
-                class="MuiCardHeader-root padding-none emotion-105"
+                class="MuiCardHeader-root padding-none emotion-109"
               >
                 <div
-                  class="MuiCardHeader-content emotion-106"
+                  class="MuiCardHeader-content emotion-110"
                 >
                   <span
-                    class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title emotion-107"
+                    class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title emotion-111"
                   >
                     <div
                       class="flexbox space-between"
                     >
                       <h6
-                        class="MuiTypography-root MuiTypography-subtitle1 emotion-3"
+                        class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
                       >
                         Your subscription:
                       </h6>
                       <div
-                        class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorPrimary emotion-109"
+                        class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorPrimary emotion-113"
                       >
                         <span
-                          class="MuiChip-label emotion-110"
+                          class="MuiChip-label emotion-114"
                         >
                           New
                         </span>
@@ -4023,7 +4060,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                 </div>
               </div>
               <div
-                class="MuiCardContent-root padding-none emotion-74"
+                class="MuiCardContent-root padding-none emotion-75"
               >
                 <p
                   class="MuiTypography-root MuiTypography-body2 margin-top-small emotion-1"
@@ -4041,7 +4078,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                       micro
                     </p>
                     <span
-                      class="MuiTypography-root MuiTypography-caption emotion-72"
+                      class="MuiTypography-root MuiTypography-caption emotion-73"
                     >
                       x 
                       0
@@ -4049,7 +4086,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     </span>
                   </div>
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle2 emotion-115"
+                    class="MuiTypography-root MuiTypography-subtitle2 emotion-119"
                   >
                     -
                   </h6>
@@ -4064,7 +4101,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                       standard
                     </p>
                     <span
-                      class="MuiTypography-root MuiTypography-caption emotion-72"
+                      class="MuiTypography-root MuiTypography-caption emotion-73"
                     >
                       x 
                       0
@@ -4072,31 +4109,31 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-41:focus::-ms-input-
                     </span>
                   </div>
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle2 emotion-115"
+                    class="MuiTypography-root MuiTypography-subtitle2 emotion-119"
                   >
                     -
                   </h6>
                 </div>
                 <hr
-                  class="MuiDivider-root MuiDivider-middle margin-none emotion-119"
+                  class="MuiDivider-root MuiDivider-middle margin-none emotion-123"
                 />
                 <div
                   class="flexbox space-between margin-top-small"
                 >
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle1 emotion-3"
+                    class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
                   >
                     Monthly price
                   </h6>
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle2 emotion-115"
+                    class="MuiTypography-root MuiTypography-subtitle2 emotion-119"
                   >
                     -
                   </h6>
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-122"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-126"
                 disabled=""
                 tabindex="-1"
                 type="button"

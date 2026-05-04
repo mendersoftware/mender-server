@@ -19,6 +19,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { MenuItem, Select, Typography } from '@mui/material';
 
 import { DocsLink, InlineLaunchIcon } from '@northern.tech/common-ui/DocsLink';
+import { Link } from '@northern.tech/common-ui/Link';
 import Form from '@northern.tech/common-ui/forms/Form';
 import FormCheckbox from '@northern.tech/common-ui/forms/FormCheckbox';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
@@ -115,14 +116,14 @@ const OrgDataContent = ({
         id="tos"
         label={
           <label htmlFor="tos">
-            By checking this you agree to our {/* eslint-disable-next-line react/jsx-no-target-blank */}
-            <a href="https://northern.tech/legal/hosted-mender-agreement-northern-tech-as.pdf" target="_blank" rel="noopener">
+            By checking this you agree to our{' '}
+            <Link href="https://northern.tech/legal/hosted-mender-agreement-northern-tech-as.pdf" external>
               Terms of service <InlineLaunchIcon />
-            </a>{' '}
-            and {/* eslint-disable-next-line react/jsx-no-target-blank */}
-            <a href="https://northern.tech/legal/privacy-policy" target="_blank" rel="noopener">
+            </Link>{' '}
+            and{' '}
+            <Link href="https://northern.tech/legal/privacy-policy" external>
               Privacy Policy <InlineLaunchIcon />
-            </a>{' '}
+            </Link>{' '}
           </label>
         }
         required={true}

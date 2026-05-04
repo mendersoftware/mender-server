@@ -25,10 +25,11 @@ const useStyles = makeStyles()(theme => ({
     paddingLeft: '5vw',
     paddingRight: '5vw',
     alignItems: 'center',
-    '>a': {
+    '> a': {
+      textDecoration: 'none',
       color: '#fff'
     },
-    '>a:hover': {
+    '> a:hover': {
       color: '#092128'
     }
   }

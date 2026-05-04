@@ -15,6 +15,7 @@ import { ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-materi
 import { Alert } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import Time from '@northern.tech/common-ui/Time';
 import pluralize from 'pluralize';
 
@@ -51,10 +52,11 @@ export const ServiceNotification = ({ alerts, onClick }) => {
 
   return (
     <BaseNotification onClick={onClick} severity="error">
-      {alerts.length} {pluralize('service', alerts.length)} reported issues. View details in the <a className={classes.textSpacing}>monitoring section</a> below
-      <a className={classes.textSpacing}>
+      {alerts.length} {pluralize('service', alerts.length)} reported issues. View details in the <Link className={classes.textSpacing}>monitoring section</Link>{' '}
+      below
+      <Link className={classes.textSpacing}>
         <ScrollDownIcon className={classes.downButton} fontSize="small" />
-      </a>
+      </Link>
     </BaseNotification>
   );
 };

@@ -413,6 +413,22 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   margin: 15px 0;
 }
 
+.emotion-9 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-9:hover {
+  text-decoration-color: inherit;
+}
+
 <div>
   <div
     class="MuiAutocomplete-root margin-top-x-small emotion-0"
@@ -468,7 +484,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     Note: individual devices can't be added to dynamic groups.
     <br />
     <a
-      class=""
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
       href="https://docs.mender.io/overview/device-group"
       rel="noopener"
       target="_blank"

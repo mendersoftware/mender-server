@@ -19,6 +19,7 @@ import { CheckCircle as CheckIcon, Error as ErrorIcon, Help as HelpIcon, Warning
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
+import { Link } from '@northern.tech/common-ui/Link';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import Time from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
@@ -74,7 +75,7 @@ const MonitoringAlert = ({ alert, className = '', onDetailsClick, style }) => {
       </div>
       <div>{alert.level}</div>
       <Time value={alert.timestamp} />
-      {(lines.length || description) && <a onClick={() => onDetailsClick(alert)}>view {lines.length ? 'log' : 'details'}</a>}
+      {(lines.length || description) && <Link onClick={() => onDetailsClick(alert)}>view {lines.length ? 'log' : 'details'}</Link>}
     </div>
   );
 };

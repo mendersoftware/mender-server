@@ -14,11 +14,11 @@
 import type { ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { buttonClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
@@ -54,9 +54,9 @@ export const PasswordScreenContainer = ({ children, hasReturn = true, hasLocatio
     <>
       <div className={classes.headerWrapper}>
         <div className="margin-top-large margin-left-large">
-          <a href="https://mender.io/" target="_blank" rel="noopener noreferrer">
+          <Link href="https://mender.io/" external>
             <LoginLogo alt="mender-logo" className={classes.logo} />
-          </a>
+          </Link>
         </div>
         {hasLocationWarning && <LocationWarning />}
       </div>

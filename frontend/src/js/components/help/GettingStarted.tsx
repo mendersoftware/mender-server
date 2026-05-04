@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { DocsLink, InlineLaunchIcon } from '@northern.tech/common-ui/DocsLink';
+import { Link } from '@northern.tech/common-ui/Link';
 
 const GettingStarted = () => (
   <div>
@@ -33,10 +34,10 @@ const GettingStarted = () => (
       .
     </p>
     <p>
-      Integrations for different boards and operating systems can be found on {/* eslint-disable-next-line react/jsx-no-target-blank */}
-      <a href="https://hub.mender.io/c/board-integrations/6" target="_blank" rel="noopener">
+      Integrations for different boards and operating systems can be found on{' '}
+      <Link href="https://hub.mender.io/c/board-integrations/6" external>
         Mender Hub <InlineLaunchIcon />
-      </a>
+      </Link>
     </p>
     <h3>Creating Artifacts</h3>
     <p>

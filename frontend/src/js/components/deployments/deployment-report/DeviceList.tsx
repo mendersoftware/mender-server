@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 // material ui
 import type { SvgIconComponent } from '@mui/icons-material';
@@ -31,6 +30,7 @@ import { makeStyles } from 'tss-react/mui';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import FileSize from '@northern.tech/common-ui/FileSize';
+import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
@@ -139,9 +139,9 @@ const deviceListColumns = [
       const softwareName = rootfsImageVersion;
       return softwareName ? (
         canReadReleases ? (
-          <a style={{ fontWeight: 'initial' }} href={generateReleasesPath({ pageState: { selectedRelease: softwareName } })}>
+          <Link style={{ fontWeight: 'initial' }} href={generateReleasesPath({ pageState: { selectedRelease: softwareName } })}>
             {softwareName}
-          </a>
+          </Link>
         ) : (
           softwareName
         )

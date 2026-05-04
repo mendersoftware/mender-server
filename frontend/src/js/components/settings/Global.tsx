@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { AutoAwesomeOutlined as AutoAwesomeIcon, Edit as EditIcon } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, MenuItem, Select, Typography, outlinedInputClasses } from '@mui/material';
@@ -21,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
+import { Link } from '@northern.tech/common-ui/Link';
 import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';

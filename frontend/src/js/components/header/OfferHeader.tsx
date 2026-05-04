@@ -12,18 +12,16 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { AutoAwesomeOutlined, Close } from '@mui/icons-material';
-import { IconButton, Link, Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+
+import { Link } from '@northern.tech/common-ui/Link';
 
 const useStyles = makeStyles()(theme => ({
   container: {
     height: theme.mixins.toolbar.minHeight,
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText
-  },
-  link: {
-    color: 'inherit',
-    textDecoration: 'underline'
   },
   note: { gap: theme.spacing() },
   closeButton: {
@@ -40,14 +38,7 @@ const OfferHeader = ({ onHide }) => {
       <div className={`flexbox centered full-width ${classes.note}`}>
         <AutoAwesomeOutlined fontSize="small" />
         <Typography variant="body2">Try out the new AI feature to diagnose deployment failures in seconds.</Typography>
-        <Link
-          href="https://mender.io/blog/new-mender-experimental-ai-enabled-feature"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={onHide}
-          className={classes.link}
-          variant="body2"
-        >
+        <Link href="https://mender.io/blog/new-mender-experimental-ai-enabled-feature" external onClick={onHide} color="inherit" variant="body2">
           Learn more
         </Link>
       </div>

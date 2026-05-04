@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { ErrorOutlined as ErrorOutlineIcon } from '@mui/icons-material';
 import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
@@ -22,6 +21,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
 import InfoText from '@northern.tech/common-ui/InfoText';
+import { Link } from '@northern.tech/common-ui/Link';
 import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIONS, DEVICE_STATES } from '@northern.tech/store/constants';
 import { formatDeviceSearch } from '@northern.tech/store/locationutils';
 import { getDeviceLimits } from '@northern.tech/store/selectors';
@@ -266,9 +266,9 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
   const releaseDeviceTypes = (deploymentRelease && deploymentRelease.device_types_compatible) ?? [];
   const devicetypesInfo = (
     <Tooltip title={<p>{releaseDeviceTypes.join(', ')}</p>} placement="bottom">
-      <span className="link">
+      <Link>
         {releaseDeviceTypes.length} device {pluralize('types', releaseDeviceTypes.length)}
-      </span>
+      </Link>
     </Tooltip>
   );
 

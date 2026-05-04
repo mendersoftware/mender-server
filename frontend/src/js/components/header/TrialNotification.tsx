@@ -11,10 +11,11 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Chip } from '@mui/material';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
@@ -30,10 +31,10 @@ const TrialInformation = () => (
       <Link to="/subscription">Upgrade to a plan</Link> to add more devices and continue using Mender after the trial expires.
     </p>
     <p>
-      Or compare the plans at {/* eslint-disable-next-line react/jsx-no-target-blank */}
-      <a href={`https://mender.io/plans/pricing`} target="_blank" rel="noopener">
+      Or compare the plans at{' '}
+      <Link href="https://mender.io/plans/pricing" external>
         mender.io/plans/pricing
-      </a>
+      </Link>
       .
     </p>
   </>
@@ -46,7 +47,7 @@ const TrialNotification = ({ sectionClassName, expiration }) => {
   return (
     <div className={`flexbox centered ${sectionClassName}`}>
       <MenderTooltipClickable className="flexbox align-items-center margin-right-small" disableHoverListener={false} title={<TrialInformation />}>
-        <Chip className="clickable" component={Link} label="Trial plan" size="small" to="/subscription" variant="outlined" />
+        <Chip className="clickable" component={RouterLink} label="Trial plan" size="small" to="/subscription" variant="outlined" />
       </MenderTooltipClickable>
 
       {expiration && daysLeft <= 100 && daysLeft >= 0 && (

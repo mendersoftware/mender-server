@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Button, Chip } from '@mui/material';
 import { makeStyles, withStyles } from 'tss-react/mui';
@@ -22,6 +22,7 @@ import { ADDONS, BENEFITS, PLANS } from '@northern.tech/store/constants';
 import { getTenantCapabilities } from '@northern.tech/store/selectors';
 import { yes } from '@northern.tech/utils/helpers';
 
+import { Link } from './Link';
 import MenderTooltip, { MenderTooltipClickable } from './helptips/MenderTooltip';
 
 const useStyles = makeStyles()(({ palette }) => ({
@@ -73,7 +74,7 @@ const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id }) =>
         <>
           {content}
           <div className="flexbox space-between margin-top-small">
-            <Button className={classes.link} color="secondary" component={Link} size="small" to="/subscription">
+            <Button className={classes.link} color="secondary" component={RouterLink} size="small" to="/subscription">
               Upgrade now
             </Button>
             <Button color="inherit" onClick={() => setIsOpen(false)} size="small" variant="text">

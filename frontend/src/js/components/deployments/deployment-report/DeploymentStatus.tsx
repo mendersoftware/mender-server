@@ -15,6 +15,7 @@ import { Pause as PauseIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } fro
 import { Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { deploymentDisplayStates, pauseMap } from '@northern.tech/store/constants';
 import { groupDeploymentStats, isDarkMode } from '@northern.tech/store/utils';
@@ -41,7 +42,7 @@ export const DeploymentPhaseNotification = ({ className = '', deployment = {}, o
     >
       <PauseIcon />
       <div className="muted">
-        Deployment is <span className="uppercased">paused</span>. <a>Review its status</a> to continue, retry or abort the deployment{' '}
+        Deployment is <span className="uppercased">paused</span>. <Link>Review its status</Link> to continue, retry or abort the deployment{' '}
       </div>
       <ScrollDownIcon fontSize="small" className={`link-color ${classes.scrollDown}`} />
     </div>

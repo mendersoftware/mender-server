@@ -12,12 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
 
 // material ui
 import { WifiOff as OfflineIcon, WarningAmber as WarningIcon } from '@mui/icons-material';
 import { makeStyles } from 'tss-react/mui';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { DEVICE_ISSUE_OPTIONS } from '@northern.tech/store/constants';
 
 import { BaseWidget } from './BaseWidget';

@@ -69,13 +69,7 @@ export const DevicesPendingAcceptingOnboarding = () => (
 );
 
 export const DashboardOnboardingPendings = () => <div>Next accept your device</div>;
-const useStyles = makeStyles()(theme => ({
-  link: {
-    color: theme.palette.grey[100],
-    '&:hover': {
-      color: theme.palette.grey[100]
-    }
-  },
+const useStyles = makeStyles()(() => ({
   buttonContainer: {
     justifyContent: 'flex-end'
   }
@@ -92,7 +86,7 @@ export const DevicesAcceptedOnboarding = props => {
           <p>Your device is now authenticated and has connected to the server! It&apos;s ready to receive updates, report its data and more.</p>
           <p>
             If you would like to learn how to deploy your first update, follow the steps in the documentation and{' '}
-            <DocsLink path="get-started/microcontroller-preview/deploy-a-firmware-update" className={`bold ${classes.link}`}>
+            <DocsLink path="get-started/microcontroller-preview/deploy-a-firmware-update" color="inherit">
               deploy a firmware update for Zephyr.
             </DocsLink>
           </p>

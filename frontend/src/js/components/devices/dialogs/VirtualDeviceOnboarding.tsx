@@ -18,6 +18,7 @@ import { Typography } from '@mui/material';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { Link } from '@northern.tech/common-ui/Link';
 import { getFeatures, getOrganization } from '@northern.tech/store/selectors';
 import { setOnboardingApproach } from '@northern.tech/store/thunks';
 
@@ -45,9 +46,9 @@ export const VirtualDeviceOnboarding = () => {
           <Typography variant="subtitle1">1. Get Docker Engine</Typography>
           <Typography variant="body1">
             If you do not have it already, please install Docker on your local machine. For example if you are using Ubuntu follow this tutorial:{' '}
-            <a href="https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/" target="_blank" rel="noopener noreferrer">
+            <Link href="https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/" external>
               https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
-            </a>
+            </Link>
           </Typography>
         </>
       ) : (

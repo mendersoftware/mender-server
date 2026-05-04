@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 // material ui
 import { TextField } from '@mui/material';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
 import Filters from '@northern.tech/common-ui/forms/Filters';
 import TimeframePicker from '@northern.tech/common-ui/forms/TimeframePicker';
@@ -262,7 +263,7 @@ export const Past = props => {
           <div className="dashboard-placeholder">
             <p>No finished deployments were found.</p>
             <p>
-              Try adjusting the filters, or <a onClick={createClick}>Create a new deployment</a> to get started
+              Try adjusting the filters, or <Link onClick={createClick}>Create a new deployment</Link> to get started
             </p>
             <img src={historyImage} alt="Past" />
           </div>

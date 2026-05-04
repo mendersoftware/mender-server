@@ -189,6 +189,22 @@ exports[`Deployments Component > renders correctly 1`] = `
   justify-content: space-evenly;
 }
 
+.emotion-24 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-24:hover {
+  text-decoration-color: inherit;
+}
+
 <div
   class=" deployments"
 >
@@ -349,7 +365,7 @@ exports[`Deployments Component > renders correctly 1`] = `
       </div>
     </div>
     <a
-      class="margin-top margin-bottom-large"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways margin-top margin-bottom-large emotion-24"
       data-discover="true"
       href="/deployments"
     >

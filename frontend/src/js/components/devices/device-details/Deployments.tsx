@@ -13,7 +13,6 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, buttonClasses, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -21,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 import Confirm from '@northern.tech/common-ui/Confirm';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import InfoHint from '@northern.tech/common-ui/InfoHint';
+import { Link } from '@northern.tech/common-ui/Link';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { getToken } from '@northern.tech/store/auth';

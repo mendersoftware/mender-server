@@ -309,7 +309,23 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
   white-space: nowrap;
 }
 
-.emotion-19 {
+.emotion-18 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-18:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-20 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -328,11 +344,11 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
   flex: 0 0 auto;
 }
 
-.emotion-19>:not(style)~:not(style) {
+.emotion-20>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-20 {
+.emotion-21 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -389,33 +405,33 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-20::-moz-focus-inner {
+.emotion-21::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-20.Mui-disabled {
+.emotion-21.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-20 {
+  .emotion-21 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-20:hover {
+.emotion-21:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-20.Mui-disabled {
+.emotion-21.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-20:hover {
+  .emotion-21:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -423,7 +439,7 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
   }
 }
 
-.emotion-20.MuiButton-loading {
+.emotion-21.MuiButton-loading {
   color: transparent;
 }
 
@@ -554,7 +570,7 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
                 You can set filters based on device attributes, and save them as a group. At any point in time, all devices that match the filters will be part of this group. This means that new devices will automatically join the group if they match the filters.
                  
                 <a
-                  class=""
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-18"
                   href="https://docs.mender.io/overview/device-group#dynamic-group"
                   rel="noopener"
                   target="_blank"
@@ -572,10 +588,10 @@ exports[`CreateGroupExplainer Component > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-19"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-20"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-20"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-21"
           tabindex="0"
           type="button"
         >

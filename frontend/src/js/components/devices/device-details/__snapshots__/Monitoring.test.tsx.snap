@@ -71,10 +71,12 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
     >
       2021-07-23 12:22
     </time>
-    <a>
+    <button
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button css-1yi5qyp-MuiTypography-root-MuiLink-root"
+    >
       view 
       details
-    </a>
+    </button>
   </div>
   <div>
     <h4
@@ -111,10 +113,12 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
       >
         2021-07-23 12:22
       </time>
-      <a>
+      <button
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button css-1yi5qyp-MuiTypography-root-MuiLink-root"
+      >
         view 
         details
-      </a>
+      </button>
     </div>
   </div>
   <div
@@ -250,6 +254,22 @@ exports[`tiny components > renders DeviceMonitorsMissingNote correctly 1`] = `
   text-align: left;
 }
 
+.emotion-2 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-2:hover {
+  text-decoration-color: inherit;
+}
+
 <div>
   <div
     class="flexbox muted"
@@ -272,7 +292,7 @@ exports[`tiny components > renders DeviceMonitorsMissingNote correctly 1`] = `
       <br />
       Please 
       <a
-        class=""
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-2"
         href="https://docs.mender.io/add-ons/monitor"
         rel="noopener"
         target="_blank"

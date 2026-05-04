@@ -16,11 +16,7 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
   letter-spacing: 0.00714em;
 }
 
-.emotion-2.copy-to-clipboard svg {
-  fill: rgba(0, 0, 0, 0.54);
-}
-
-.emotion-3 {
+.emotion-2 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -39,10 +35,10 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
     uiPasswordRequired
   </h6>
   <div
-    class="flexbox align-items-center  emotion-2"
+    class="flexbox align-items-center "
   >
     <p
-      class="MuiTypography-root MuiTypography-body2 emotion-3"
+      class="MuiTypography-root MuiTypography-body2 emotion-2"
       style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
     />
   </div>
@@ -53,10 +49,10 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
     foo
   </h6>
   <div
-    class="flexbox align-items-center  emotion-2"
+    class="flexbox align-items-center "
   >
     <p
-      class="MuiTypography-root MuiTypography-body2 emotion-3"
+      class="MuiTypography-root MuiTypography-body2 emotion-2"
       style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       title="bar"
     >
@@ -70,10 +66,10 @@ exports[`TwoColumnData Component > renders correctly 1`] = `
     timezone
   </h6>
   <div
-    class="flexbox align-items-center  emotion-2"
+    class="flexbox align-items-center "
   >
     <p
-      class="MuiTypography-root MuiTypography-body2 emotion-3"
+      class="MuiTypography-root MuiTypography-body2 emotion-2"
       style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       title="GMT+2"
     >
@@ -190,11 +186,7 @@ exports[`TwoColumnData Component > renders with chipLikeKey prop 1`] = `
   padding-right: 8px;
 }
 
-.emotion-3.copy-to-clipboard svg {
-  fill: rgba(0, 0, 0, 0.54);
-}
-
-.emotion-4 {
+.emotion-3 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -217,10 +209,10 @@ exports[`TwoColumnData Component > renders with chipLikeKey prop 1`] = `
     </span>
   </div>
   <div
-    class="flexbox align-items-center  emotion-3"
+    class="flexbox align-items-center "
   >
     <p
-      class="MuiTypography-root MuiTypography-body2 emotion-4"
+      class="MuiTypography-root MuiTypography-body2 emotion-3"
       style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       title="value"
     >
@@ -238,10 +230,10 @@ exports[`TwoColumnData Component > renders with chipLikeKey prop 1`] = `
     </span>
   </div>
   <div
-    class="flexbox align-items-center  emotion-3"
+    class="flexbox align-items-center "
   >
     <p
-      class="MuiTypography-root MuiTypography-body2 emotion-4"
+      class="MuiTypography-root MuiTypography-body2 emotion-3"
       style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       title="item"
     >

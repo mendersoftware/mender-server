@@ -21,6 +21,7 @@ import { ToggleButton, ToggleButtonGroup, Typography, alpha } from '@mui/materia
 import { makeStyles } from 'tss-react/mui';
 
 import { DefaultUpgradeNotification } from '@northern.tech/common-ui/EnterpriseNotification';
+import { Link } from '@northern.tech/common-ui/Link';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_STATES } from '@northern.tech/store/constants';
 import {
@@ -274,7 +275,7 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
               <Typography>Scheduled deployments will appear here.</Typography>
               {canDeploy && (
                 <Typography className="margin-top-small">
-                  <a onClick={createClick}>Create a deployment</a> to get started
+                  <Link onClick={createClick}>Create a deployment</Link> to get started
                 </Typography>
               )}
             </>

@@ -13,6 +13,7 @@
 //    limitations under the License.
 import { Alert, Card, CardActions, CardContent, Checkbox, FormControlLabel, Typography } from '@mui/material';
 
+import { Link } from '@northern.tech/common-ui/Link';
 import type { Addon, AvailableAddon, Plan } from '@northern.tech/store/appSlice/constants';
 
 interface AddonProps {
@@ -48,9 +49,9 @@ export const SubscriptionAddon = (props: AddonProps) => {
         )}
       </CardContent>
       <CardActions className="padding-small padding-top-none">
-        <a href={`https://mender.io/pricing/add-ons/${addon.id}`} target="_blank" rel="noreferrer">
+        <Link href={`https://mender.io/pricing/add-ons/${addon.id}`} external>
           Learn More
-        </a>
+        </Link>
       </CardActions>
     </Card>
   );

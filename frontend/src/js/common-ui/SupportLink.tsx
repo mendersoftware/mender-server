@@ -11,6 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Link } from './Link';
 
 const variants = {
   email: 'support@mender.io',
@@ -21,7 +22,7 @@ const variants = {
 };
 
 export const SupportLink = ({ className = '', variant }: { className?: string; variant: keyof typeof variants | string }) => (
-  <a className={className} href="mailto:support@mender.io" target="_blank" rel="noopener noreferrer">
+  <Link className={className} href="mailto:support@mender.io" external>
     {variants[variant] ?? variant}
-  </a>
+  </Link>
 );
