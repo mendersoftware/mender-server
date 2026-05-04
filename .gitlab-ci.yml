@@ -702,6 +702,7 @@ test:prep:
     CI: 1
     DEVICE_TYPE: qemux86-64
     DOCKER_CERT_PATH: /certs/client
+    GITHUB_TOKEN: "${GITHUB_BOT_TOKEN_REPO_FULL}"
   before_script:
     - mv mender-stress-test-client frontend/tests/e2e_tests/
     - cd frontend/tests/e2e_tests
