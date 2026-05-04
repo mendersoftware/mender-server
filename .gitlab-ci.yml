@@ -744,7 +744,7 @@ test:staging-deployment:firefox:
 
 publish:backend:coverage:
   stage: publish
-  extends: coveralls:done
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:base-alpine-master
   needs:
     - job: test:backend:unit
       artifacts: true
@@ -762,11 +762,22 @@ publish:backend:coverage:
       when: on_success
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-  allow_failure: true # QA-925 - Coveralls servers are unreliable.
+  allow_failure: true
+  before_script:
+    - curl -Os https://cli.codecov.io/latest/alpine/codecov
+    - chmod +x codecov
   script:
+    - PR_FLAG=$(echo "${CI_COMMIT_BRANCH}" | grep -q '^pr_' && echo "--pr $(echo "${CI_COMMIT_BRANCH}" | sed 's/^pr_//')" || echo "")
     - for coverpath in $(find ${GOCOVERDIR} -type f -name '*.cover'); do
       coverfile=$(basename "$coverpath");
-      coveralls report -n --parallel --job-flag="${coverfile%.cover}" --format=golang "$coverpath";
+      ./codecov upload-process
+        --fail-on-error
+        --git-service github
+        --slug mendersoftware/${CI_PROJECT_NAME}
+        --sha ${CI_COMMIT_SHA}
+        ${PR_FLAG}
+        --file "$coverpath"
+        --flag "${coverfile%.cover}";
       done
 
 publish:backend:docker:
@@ -877,21 +888,6 @@ publish:licenses:docs-site:
   after_script:
     - git remote remove licenses-${CI_JOB_ID}
 
-coveralls:done:
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/base-alpine:master
-  stage: .post
-  allow_failure: true # QA-925 - Coveralls servers are unreliable.
-  before_script:
-    - wget https://github.com/coverallsapp/coverage-reporter/releases/latest/download/coveralls-linux-$(uname -m).tar.gz
-    - wget https://github.com/coverallsapp/coverage-reporter/releases/latest/download/coveralls-checksums.txt -O- | grep "coveralls-linux-$(uname -m).tar.gz" | sha256sum -c
-    - mkdir -p $HOME/bin
-    - tar -xzvf ./coveralls-linux-$(uname -m).tar.gz -C $HOME/bin
-    - export PATH="$PATH:$HOME/bin"
-    - if test "${CI_COMMIT_BRANCH#pr_}" != "$CI_COMMIT_BRANCH"; then
-      export CI_MERGE_REQUEST_IID="${CI_COMMIT_BRANCH#pr_}";
-      fi
-  script:
-    - coveralls done -n
 
 changelog:
   image: registry.gitlab.com/northern.tech/mender/mender-test-containers/release-please:master
