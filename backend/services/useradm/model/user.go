@@ -24,7 +24,6 @@ import (
 	"time"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
-	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/rules"
@@ -55,10 +54,7 @@ func (email *Email) UnmarshalJSON(b []byte) error {
 }
 
 func (email Email) Validate() error {
-	return validation.Validate(string(email),
-		lessThan4096,
-		is.ASCII, is.EmailFormat,
-	)
+	return rules.Email(string(email))
 }
 
 type ETag [12]byte
