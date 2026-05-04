@@ -34,6 +34,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/NotFound'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addon:
+      - configure
     put:
       operationId: DeviceConfig Report Device Configuration
       tags:
@@ -51,6 +53,8 @@ paths:
           $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
         "500":
           $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      x-mender-addon:
+      - configure
 
 components:
   securitySchemes:
