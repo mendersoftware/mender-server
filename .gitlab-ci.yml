@@ -399,7 +399,7 @@ test:backend:static:
     - changes:
         paths: ["backend/**/*.go", "backend/go.mod", ".gitlab-ci.yml"]
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
-  image: "golangci/golangci-lint:${IMAGE_GOLANGCI_VERSION}"
+  image: "${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/golangci/golangci-lint:${IMAGE_GOLANGCI_VERSION}"
   script:
     - cd backend
     - golangci-lint run -v
@@ -823,7 +823,7 @@ publish:backend:licenses:
         compare_to: "${RULES_CHANGES_COMPARE_TO_REF}"
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-  image: golang:${GOLANG_VERSION}
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/golang:${GOLANG_VERSION}
   variables:
     GOFLAGS: -tags=nopkcs11
   before_script:
