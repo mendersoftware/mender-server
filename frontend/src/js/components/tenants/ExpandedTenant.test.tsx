@@ -17,7 +17,7 @@ import { initialState as initialOrganizationState } from '@northern.tech/store/o
 import { getTenantListWithLimits } from '@northern.tech/store/selectors';
 import * as StoreThunks from '@northern.tech/store/thunks';
 import { spTenantLimits, tenants, undefineds } from '@northern.tech/testing/mockData';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -77,6 +77,10 @@ describe('ExpandedTenant', () => {
       },
       name: tenant.name,
       id: tenant.id
+    });
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
     });
   });
 });
