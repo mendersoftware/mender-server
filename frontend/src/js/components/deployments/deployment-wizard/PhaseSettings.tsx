@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import { Add as AddIcon, Cancel as CancelIcon } from '@mui/icons-material';
 import {
@@ -42,6 +43,8 @@ import { BENEFITS } from '@northern.tech/store/constants';
 import dayjs from 'dayjs';
 import pluralize from 'pluralize';
 import validator from 'validator';
+
+import { deploymentFormSections } from './utils';
 
 // use this to get remaining percent of final phase so we don't set a hard number
 export const getRemainderPercent = phases =>
@@ -101,17 +104,18 @@ export const getPhaseStartTime = (phases, index, startDate) => {
   return newStartTime.toISOString();
 };
 
-export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDevices, setDeploymentSettings }) => {
+export const PhaseSettings = ({ classNames, disabled, filter, numberDevices }) => {
   const { classes } = useStyles();
+  const { watch, setValue } = useFormContext();
 
-  const { filter, phases = [] } = deploymentObject;
+  const phases = watch(deploymentFormSections.phases) || [];
+
   const updateDelay = (value, index) => {
     const newPhases = [...phases];
     // value must be at least 1
     value = Math.max(1, value);
     newPhases[index] = { ...newPhases[index], delay: value };
-
-    setDeploymentSettings({ phases: newPhases });
+    setValue(deploymentFormSections.phases, newPhases);
     // logic for updating time stamps should be in parent - only change delays here
   };
 
@@ -131,7 +135,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
       const { batch_size, ...newFinalPhase } = newPhases[newPhases.length - 1];
       newPhases[newPhases.length - 1] = newFinalPhase;
     }
-    setDeploymentSettings({ phases: newPhases });
+    setValue(deploymentFormSections.phases, newPhases);
   };
 
   const addPhase = () => {
@@ -148,19 +152,19 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
     };
     newPhases.push({});
     // use function to set new phases incl start time of new phase
-    setDeploymentSettings({ phases: newPhases });
+    setValue(deploymentFormSections.phases, newPhases);
   };
 
   const removePhase = index => {
     const newPhases = [...phases];
     newPhases.splice(index, 1);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { batch_size, delay, ...newPhase } = newPhases[newPhases.length - 1]; // remove batch size from new last phase, use remainder
+    const { batch_size, delay, ...newPhase } = newPhases[newPhases.length - 1];
     if (newPhases.length > 1) {
       newPhase.delay = delay;
     }
     newPhases[newPhases.length - 1] = newPhase;
-    setDeploymentSettings({ phases: newPhases });
+    setValue(deploymentFormSections.phases, newPhases);
   };
 
   const handleDelayToggle = (value, index) => {
@@ -169,7 +173,7 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
       ...newPhases[index],
       delayUnit: value
     };
-    setDeploymentSettings({ phases: newPhases });
+    setValue(deploymentFormSections.phases, newPhases);
   };
 
   const remainder = getRemainderPercent(phases);
@@ -267,8 +271,10 @@ export const PhaseSettings = ({ classNames, deploymentObject, disabled, numberDe
 };
 
 export const RolloutPatternSelection = props => {
-  const { setDeploymentSettings, deploymentObject = {}, disableSchedule, isEnterprise, open = false, previousPhases = [] } = props;
-  const { deploymentDeviceCount = 0, deploymentDeviceIds = [], filter, phases = [] } = deploymentObject;
+  const { deploymentDeviceCount = 0, deploymentDeviceIds = [], disableSchedule, filter, isEnterprise, open = false, previousPhases = [] } = props;
+
+  const { watch, setValue } = useFormContext();
+  const phases = watch(deploymentFormSections.phases) || [];
 
   const [usesPattern, setUsesPattern] = useState(open || phases.some(i => i));
   const { classes } = useStyles();
@@ -288,20 +294,19 @@ export const RolloutPatternSelection = props => {
         updatedPhases = [{ batch_size: minBatch, delay: 2, delayUnit: 'hours', ...phaseStart }, {}];
         break;
       default:
-        // have to create a deep copy of the array to prevent overwriting, due to nested objects in the array
         updatedPhases = JSON.parse(JSON.stringify(value));
         break;
     }
-    setDeploymentSettings({ phases: updatedPhases });
+    setValue(deploymentFormSections.phases, updatedPhases);
   };
 
   const onUsesPatternClick = useCallback(() => {
     if (usesPattern) {
-      setDeploymentSettings({ phases: phases.slice(0, 1) });
+      setValue(deploymentFormSections.phases, phases.slice(0, 1));
     }
     setUsesPattern(!usesPattern);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [usesPattern, JSON.stringify(phases), setDeploymentSettings, setUsesPattern]);
+  }, [usesPattern, JSON.stringify(phases), setValue, setUsesPattern]);
 
   const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
   const customPattern = phases && phases.length > 1 ? 1 : 0;
