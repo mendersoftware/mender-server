@@ -138,7 +138,7 @@ export const DocsTextLink = ({ children, id, typographyProps = textLinkDefaultPr
   const { path } = DOCSTIPS[id];
   return (
     <DocsLink path={path} {...props}>
-      <Typography className="inline" color="primary" {...typographyProps}>
+      <Typography component="span" color="primary" {...typographyProps}>
         {children || 'Learn more'}
       </Typography>
     </DocsLink>

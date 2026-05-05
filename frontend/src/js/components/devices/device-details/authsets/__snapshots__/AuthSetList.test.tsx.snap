@@ -329,34 +329,10 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   text-decoration: underline;
   text-decoration-color: var(--Link-underlineColor);
   --Link-underlineColor: rgba(25, 118, 210, 0.4);
-  position: relative;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
 }
 
 .emotion-9:hover {
   text-decoration-color: inherit;
-}
-
-.emotion-9::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-9.Mui-focusVisible {
-  outline: auto;
 }
 
 .emotion-13 {
@@ -477,11 +453,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:48:34+00:00"
             >
@@ -490,21 +466,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             <div
               class="action-buttons flexbox"
             >
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Accept
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Reject
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -591,11 +567,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 micro
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:43:34+00:00"
             >
@@ -604,21 +580,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             <div
               class="action-buttons flexbox"
             >
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Accept
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Reject
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -693,11 +669,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:38:34+00:00"
             >
@@ -706,21 +682,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             <div
               class="action-buttons flexbox"
             >
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Accept
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Reject
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -790,11 +766,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:47:34+00:00"
             >
@@ -806,16 +782,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div>
                 Accept
               </div>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Reject
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -897,11 +873,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 micro
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:42:34+00:00"
             >
@@ -913,16 +889,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div>
                 Accept
               </div>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Reject
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -992,11 +968,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:37:34+00:00"
             >
@@ -1008,16 +984,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div>
                 Accept
               </div>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Reject
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -1083,11 +1059,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:50:34+00:00"
             >
@@ -1096,19 +1072,19 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             <div
               class="action-buttons flexbox"
             >
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Accept
-              </button>
+              </div>
               <div>
                 Reject
               </div>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -1174,11 +1150,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:49:34+00:00"
             >
@@ -1187,21 +1163,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             <div
               class="action-buttons flexbox"
             >
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Accept
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Reject
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -1279,11 +1255,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 micro
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:45:34+00:00"
             >
@@ -1292,19 +1268,19 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             <div
               class="action-buttons flexbox"
             >
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Accept
-              </button>
+              </div>
               <div>
                 Reject
               </div>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -1382,11 +1358,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 micro
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:44:34+00:00"
             >
@@ -1395,21 +1371,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             <div
               class="action-buttons flexbox"
             >
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Accept
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Reject
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -1475,11 +1451,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:40:34+00:00"
             >
@@ -1488,19 +1464,19 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             <div
               class="action-buttons flexbox"
             >
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Accept
-              </button>
+              </div>
               <div>
                 Reject
               </div>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>
@@ -1566,11 +1542,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+            <span
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
             >
               show key
-            </button>
+            </span>
             <time
               datetime="2020-09-21T12:39:34+00:00"
             >
@@ -1579,21 +1555,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             <div
               class="action-buttons flexbox"
             >
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Accept
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Reject
-              </button>
-              <button
-                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-9"
+              </div>
+              <div
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
               >
                 Dismiss
-              </button>
+              </div>
             </div>
           </span>
         </button>

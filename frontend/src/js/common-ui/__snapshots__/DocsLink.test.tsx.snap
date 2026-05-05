@@ -33,10 +33,10 @@ exports[`DocsTextLink Component > renders correctly 1`] = `
   rel="noopener"
   target="_blank"
 >
-  <p
-    class="MuiTypography-root MuiTypography-body1 inline emotion-1"
+  <span
+    class="MuiTypography-root MuiTypography-body1 emotion-1"
   >
     Learn more
-  </p>
+  </span>
 </a>
 `;
