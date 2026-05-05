@@ -18,10 +18,11 @@ import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import type { DeploymentDeployments, Device, Filter, NewDeploymentPhase } from '@northern.tech/store/api/types';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 import validator from 'validator';
+
+import type { DeploymentSettings } from './types';
 
 const useStyles = makeStyles()(theme => ({
   limitSelection: {
@@ -32,21 +33,6 @@ const useStyles = makeStyles()(theme => ({
     [`.${formControlClasses.root}`]: { minWidth: 'unset', width: 100, marginLeft: theme.spacing(), marginRight: theme.spacing() }
   }
 }));
-
-export type DeploymentSettings = Partial<{
-  delta: boolean;
-  deploymentDeviceCount: number;
-  deploymentDeviceIds: string[];
-  devices: Array<Device>;
-  filter: Filter;
-  forceDeploy: boolean;
-  group: string;
-  maxDevices: number;
-  phases: Array<NewDeploymentPhase>;
-  release: string;
-  retries: number;
-  update_control_map: DeploymentDeployments['update_control_map'];
-}>;
 
 export const DeviceLimit = ({
   deploymentObject,
