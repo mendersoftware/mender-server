@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useRef, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -57,6 +58,7 @@ import { RolloutPatternSelection, getPhaseStartTime, validatePhases } from './de
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/RolloutOptions';
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
+import type { DeploymentFormValues } from './deployment-wizard/types';
 
 const useStyles = makeStyles()(theme => ({
   accordion: {
@@ -86,6 +88,17 @@ const getAnchor = (element, heightAdjustment = 3) => ({
   left: element.offsetLeft + element.offsetWidth
 });
 
+const defaultValues = {
+  group: null,
+  release: null,
+  delta: false,
+  forceDeploy: false,
+  maxDevices: 0,
+  retries: 1,
+  phases: [],
+  update_control_map: { states: {} }
+};
+
 export const CreateDeployment = props => {
   const { deploymentObject = {}, onDismiss, onScheduleSubmit, setDeploymentSettings, open } = props;
 
@@ -105,7 +118,6 @@ export const CreateDeployment = props => {
   const releasesById = useSelector(getReleasesById);
   const groupNames = useSelector(getGroupNames);
   const dispatch = useDispatch();
-
   const isCreating = useRef(false);
   const [hasNewRetryDefault, setHasNewRetryDefault] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
@@ -115,6 +127,8 @@ export const CreateDeployment = props => {
   const groupRef = useRef();
   const deploymentAnchor = useRef();
   const { classes } = useStyles();
+  const methods = useForm<DeploymentFormValues>({ mode: 'onChange', defaultValues });
+  const { reset, watch } = methods;
 
   useEffect(() => {
     dispatch(getReleases({ page: 1, perPage: 100, searchOnly: true, searchTerm: '', selectedTags: [], type: '' }));
@@ -125,6 +139,37 @@ export const CreateDeployment = props => {
       dispatch(getDeploymentsConfig());
     }
   }, [dispatch, isEnterprise, isHosted]);
+
+  useEffect(() => {
+    if (open) {
+      reset({
+        group: deploymentObject.group ?? defaultValues.group,
+        release: deploymentObject.release ?? defaultValues.release,
+        delta: deploymentObject.delta ?? defaultValues.delta,
+        forceDeploy: deploymentObject.forceDeploy ?? defaultValues.forceDeploy,
+        maxDevices: deploymentObject.maxDevices ?? defaultValues.maxDevices,
+        retries: (deploymentObject.retries ?? previousRetries ?? 0) + 1,
+        phases: deploymentObject.phases ?? defaultValues.phases,
+        update_control_map: deploymentObject.update_control_map ?? defaultValues.update_control_map
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, reset]);
+
+  const formValues = watch();
+  useEffect(() => {
+    setDeploymentSettings({
+      group: formValues.group,
+      release: formValues.release,
+      delta: formValues.delta,
+      forceDeploy: formValues.forceDeploy,
+      maxDevices: formValues.maxDevices,
+      retries: formValues.retries,
+      phases: formValues.phases,
+      update_control_map: formValues.update_control_map
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(formValues), setDeploymentSettings]);
 
   useEffect(() => {
     const { devices = [], group, release } = deploymentObject;
@@ -264,68 +309,70 @@ export const CreateDeployment = props => {
   const hasReleases = !!Object.keys(releasesById).length;
   return (
     <BaseDrawer open={open} onClose={closeWizard} size="sm" slotProps={{ header: { title: 'Create a deployment' } }}>
-      <FormGroup>
-        {!hasReleases ? (
-          <ReleasesWarning />
-        ) : (
-          <>
-            <Devices {...sharedProps} devicesById={devicesById} groupRef={groupRef} />
-            <Software {...sharedProps} releaseRef={releaseRef} />
-          </>
-        )}
-        <ScheduleRollout {...sharedProps} />
-        <Accordion className={classes.accordion} square expanded={isExpanded} onChange={() => setIsExpanded(toggle)}>
-          <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography className={classes.disabled} variant="subtitle2">
-              {isExpanded ? 'Hide' : 'Show'} advanced options
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <DeviceLimit {...sharedProps} />
-            <RolloutPatternSelection {...sharedProps} />
-            <RolloutOptions {...sharedProps} />
-            <Retries {...sharedProps} />
-            <ForceDeploy {...sharedProps} />
-            {hasDeltaEnabled && (
-              <FormControlLabel
-                control={<Checkbox color="primary" checked={delta} onChange={onDeltaToggle} size="small" />}
-                label="Generate and deploy Delta Artifacts where available"
-              />
-            )}
-          </AccordionDetails>
-        </Accordion>
-      </FormGroup>
-      <div className="margin-top relative">
-        {isChecking && (
-          <Confirm
-            classes="confirmation-overlay"
-            cancel={() => setIsChecking(false)}
-            action={() => onScheduleSubmitClick(deploymentSettings)}
-            message={`This will deploy ${deploymentSettings.release?.name} to ${deploymentDeviceCount} ${pluralize(
-              'device',
-              deploymentDeviceCount
-            )}. Are you sure?`}
-            style={{ paddingLeft: 12, justifyContent: 'flex-start', maxHeight: 44 }}
-          />
-        )}
-        <Button onClick={closeWizard} style={{ marginRight: 10 }}>
-          Cancel
-        </Button>
-        <Button variant="contained" color="primary" ref={deploymentAnchor} disabled={disabled} onClick={() => onScheduleSubmitClick(deploymentSettings)}>
-          Create deployment
-        </Button>
-      </div>
-      <OnboardingComponent
-        releaseRef={releaseRef}
-        groupRef={groupRef}
-        deploymentObject={deploymentObject}
-        deploymentAnchor={deploymentAnchor}
-        onboardingState={onboardingState}
-        createdGroup={createdGroup}
-        releasesById={releasesById}
-        releases={releases}
-        hasDevices={hasDevices}
-      />
+      <FormProvider {...methods}>
+        <FormGroup>
+          {!hasReleases ? (
+            <ReleasesWarning />
+          ) : (
+            <>
+              <Devices {...sharedProps} devicesById={devicesById} groupRef={groupRef} />
+              <Software {...sharedProps} releaseRef={releaseRef} />
+            </>
+          )}
+          <ScheduleRollout {...sharedProps} />
+          <Accordion className={classes.accordion} square expanded={isExpanded} onChange={() => setIsExpanded(toggle)}>
+            <AccordionSummary expandIcon={<ExpandMore />}>
+              <Typography className={classes.disabled} variant="subtitle2">
+                {isExpanded ? 'Hide' : 'Show'} advanced options
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <DeviceLimit {...sharedProps} />
+              <RolloutPatternSelection {...sharedProps} />
+              <RolloutOptions {...sharedProps} />
+              <Retries {...sharedProps} />
+              <ForceDeploy {...sharedProps} />
+              {hasDeltaEnabled && (
+                <FormControlLabel
+                  control={<Checkbox color="primary" checked={delta} onChange={onDeltaToggle} size="small" />}
+                  label="Generate and deploy Delta Artifacts where available"
+                />
+              )}
+            </AccordionDetails>
+          </Accordion>
+        </FormGroup>
+        <div className="margin-top relative">
+          {isChecking && (
+            <Confirm
+              classes="confirmation-overlay"
+              cancel={() => setIsChecking(false)}
+              action={() => onScheduleSubmitClick(deploymentSettings)}
+              message={`This will deploy ${deploymentSettings.release?.name} to ${deploymentDeviceCount} ${pluralize(
+                'device',
+                deploymentDeviceCount
+              )}. Are you sure?`}
+              style={{ paddingLeft: 12, justifyContent: 'flex-start', maxHeight: 44 }}
+            />
+          )}
+          <Button onClick={closeWizard} style={{ marginRight: 10 }}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" ref={deploymentAnchor} disabled={disabled} onClick={() => onScheduleSubmitClick(deploymentSettings)}>
+            Create deployment
+          </Button>
+        </div>
+        <OnboardingComponent
+          releaseRef={releaseRef}
+          groupRef={groupRef}
+          deploymentObject={deploymentObject}
+          deploymentAnchor={deploymentAnchor}
+          onboardingState={onboardingState}
+          createdGroup={createdGroup}
+          releasesById={releasesById}
+          releases={releases}
+          hasDevices={hasDevices}
+        />
+      </FormProvider>
     </BaseDrawer>
   );
 };
