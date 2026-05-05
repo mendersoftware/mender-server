@@ -15,7 +15,7 @@ services:
       - iot-manager
 
   mmock:
-    image: jordimartin/mmock:v3.1.6
+    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX:-docker.io}/jordimartin/mmock:v3.1.6
     command:
       - "-config-path=/config"
       - "-console-ip=0.0.0.0"

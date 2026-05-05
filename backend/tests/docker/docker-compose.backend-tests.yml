@@ -62,7 +62,7 @@ services:
     volumes:
       - ${GOCOVERDIR:-cover}:/cover
   mock-httpd:
-    image: mockserver/mockserver:5.15.0
+    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX:-docker.io}/mockserver/mockserver:5.15.0
 
 volumes:
   cover: {}

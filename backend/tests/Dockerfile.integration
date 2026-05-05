@@ -1,4 +1,5 @@
-FROM python:3.14-trixie
+ARG REGISTRY=docker.io
+FROM ${REGISTRY}/python:3.14-trixie
 WORKDIR /tests
 
 # Install mender-artifact
