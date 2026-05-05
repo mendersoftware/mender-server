@@ -15,12 +15,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 
-import { formControlClasses } from '@mui/material';
+import { ChevronRight, InfoOutlined as InfoIcon } from '@mui/icons-material';
+import { Button, Tooltip, Typography, formControlClasses, typographyClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import Loader from '@northern.tech/common-ui/Loader';
 import storeActions from '@northern.tech/store/actions';
-import { TIMEOUTS, locations } from '@northern.tech/store/constants';
+import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getRecaptchaKey } from '@northern.tech/store/selectors';
 import { createOrganizationTrial } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
@@ -33,51 +35,81 @@ import type { OrgData } from './signup-steps/OrgdataEntry';
 import { OrgDataEntry } from './signup-steps/OrgdataEntry';
 import type { UserData } from './signup-steps/UserdataEntry';
 import { UserDataEntry } from './signup-steps/UserdataEntry';
+import { getCurrentLocation, locationMap } from './utils';
 
 const { setSnackbar } = storeActions;
 
 const cookies = new Cookies();
+
+const inputWidth = 400;
+
 const useStyles = makeStyles()(theme => ({
   background: {
     width: '100%',
-    marginTop: -(50 + 45),
+    marginTop: -(40 + theme.mixins.toolbar.minHeight),
     height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
     [`.${formControlClasses.root}`]: {
-      marginTop: 0,
-      marginBottom: theme.spacing(2)
-    },
-    '> div': {
-      display: 'grid',
-      gridTemplateColumns: 'minmax(min-content, 500px)',
-      placeContent: 'center'
+      marginTop: 0
     }
   },
-  locationSelect: { minWidth: 150, alignSelf: 'flex-start' },
-  locationIcon: { marginLeft: theme.spacing(1.5), transform: 'scale(0.75)' },
+  content: {
+    paddingTop: theme.mixins.toolbar.minHeight,
+    display: 'grid',
+    gridTemplateColumns: 'minmax(min-content, 500px)',
+    placeContent: 'center',
+    '.entry-link': { marginTop: 0 }
+  },
+  docsLink: {
+    color: theme.palette.common.white,
+    '&:hover': { color: theme.palette.common.white },
+    [`.${typographyClasses.root}`]: { color: theme.palette.common.white }
+  },
+  header: { '>svg': { maxHeight: 50 }, zIndex: 1 },
+  infoIcon: { color: theme.palette.action.active, zIndex: 100 },
+  locationIcon: { transform: 'scale(0.75)' },
   userData: {
     display: 'grid',
     justifyContent: 'center',
     alignContent: 'center',
-    '> button': { justifySelf: 'flex-start', marginTop: theme.spacing(4) }
+    '> button': { width: inputWidth }
   },
   orgData: {
     alignItems: 'start',
     display: 'grid',
     placeContent: 'center',
-    gridTemplateColumns: 400,
+    gridTemplateColumns: inputWidth,
     '.button-wrapper': { width: '100%', 'button': { width: '100%' } }
   },
   promo: {
-    background: theme.palette.grey[400],
-    gridTemplateRows: 'min-content min-content min-content',
-    padding: '80px 0'
-  },
-  logo: { marginLeft: '5vw', marginTop: 45, maxHeight: 50 }
+    background: theme.palette.grey[100],
+    gridTemplateRows: 'min-content min-content min-content'
+  }
 }));
 
-const getCurrentLocation = (location: Location): string => {
-  const currentLocation = Object.values(locations).find(value => [`staging.${value.location}`, value.location].includes(location.hostname));
-  return currentLocation ? currentLocation.key : locations.us.key;
+export const LocationWarning = () => {
+  const { classes } = useStyles();
+  const location = getCurrentLocation(window.location);
+  const { icon: Icon, title, fallback } = locationMap[location];
+  return (
+    <div className="flexbox align-items-center">
+      <Icon className={classes.locationIcon} />
+      <Typography variant="body2">You are creating your account on the {title} server.</Typography>
+      <Tooltip
+        arrow
+        title={
+          <>
+            This choice determines where your account data will be stored and which regional data laws will apply.{' '}
+            <DocsTextLink className={classes.docsLink} id={DOCSTIPS.hostedRegions.id} typographyProps={{ variant: 'caption' }} />
+          </>
+        }
+      >
+        <InfoIcon className={`margin-left-x-small ${classes.infoIcon}`} fontSize="small" />
+      </Tooltip>
+      <Button className="margin-left-x-small" component="a" href={`https://${fallback.location}/ui/`} endIcon={<ChevronRight />} size="small" variant="text">
+        Change to {fallback.title}
+      </Button>
+    </div>
+  );
 };
 
 type FormData = UserData & OrgData;
@@ -159,9 +191,14 @@ export const Signup = () => {
   }
   return (
     <>
-      <LoginLogo className={classes.logo} />
+      <div className="two-columns" style={{ zIndex: 100 }}>
+        <div className={`flexbox align-items-center space-between margin-left-x-large margin-top-large ${classes.header}`}>
+          <LoginLogo />
+          {isStarting && <LocationWarning />}
+        </div>
+      </div>
       <div className={`${classes.background} ${isStarting ? 'two-columns' : classes.orgData}`} id="signup-box">
-        <div>
+        <div className={classes.content}>
           {loading ? (
             <Loader show style={{ marginTop: '40vh' }} />
           ) : (
@@ -179,18 +216,20 @@ export const Signup = () => {
                   setCaptchaTimestamp={setCaptchaTimestamp}
                 />
               )}
-              <EntryLink target="login" />
+              <EntryLink className={isStarting ? '' : 'entry-link'} target="login" />
             </>
           )}
         </div>
         {isStarting && (
-          <div className={classes.promo}>
-            <h2>Connect up to 10 devices free for 12 months – no credit card required.</h2>
-            <p>
+          <div className={`${classes.content} ${classes.promo}`}>
+            <Typography className="margin-bottom" variant="h5">
+              Try Mender for free for 12 months – no credit card required.
+            </Typography>
+            <Typography>
               Mender provides a complete over-the-air update infrastructure for all device software. Whether in the field or the factory, you can remotely and
               easily manage device software without the need for manual labor.
-            </p>
-            <div className="svg-container margin-top">
+            </Typography>
+            <div className="svg-container margin-top-large">
               <SignupHero />
             </div>
           </div>

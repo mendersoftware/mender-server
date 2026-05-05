@@ -22,29 +22,21 @@ import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import { Link } from '@northern.tech/common-ui/Link';
 import storeActions from '@northern.tech/store/actions';
 import { getToken } from '@northern.tech/store/auth';
-import { TIMEOUTS, locations, useradmApiUrl } from '@northern.tech/store/constants';
+import { TIMEOUTS, useradmApiUrl } from '@northern.tech/store/constants';
 import { getCurrentUser, getFeatures, getIsEnterprise } from '@northern.tech/store/selectors';
 import { loginUser, logoutUser } from '@northern.tech/store/thunks';
 import { clearAllRetryTimers } from '@northern.tech/utils/retrytimer';
 import Cookies from 'universal-cookie';
 
-import FlagCN from '../../../assets/img/flag-cn.svg';
-import FlagEU from '../../../assets/img/flag-eu.svg';
-import FlagUS from '../../../assets/img/flag-us.svg';
 import LoginLogo from '../../../assets/img/loginlogo.svg';
 import VeryMuch from '../../../assets/img/verymuch.svg';
 import { LoginForm } from './LoginForm';
 import { OAuth2Providers } from './OAuth2Providers';
+import { getCurrentLocation, locationMap } from './utils';
 
 const { setSnackbar } = storeActions;
 
 const cookies = new Cookies();
-
-export const locationMap = {
-  cn: { ...locations.cn, icon: FlagCN, fallback: locations.us },
-  eu: { ...locations.eu, icon: FlagEU, fallback: locations.us },
-  us: { ...locations.us, icon: FlagUS, fallback: locations.eu }
-};
 
 const useStyles = makeStyles()(theme => {
   const skew = 3;
@@ -88,19 +80,16 @@ const entryText = {
 };
 
 export const EntryLink = ({ className = '', target = 'signup' }) => (
-  <div className={`margin-top margin-bottom flexbox centered ${className}`}>
-    <div className="muted margin-right">{entryText[target].question}</div>
-    <Link className="flexbox align-items-center" to={entryText[target].target}>
-      {entryText[target].linkText} <ChevronRight fontSize="small" />
-    </Link>
+  <div className={`margin-top-small margin-bottom flexbox centered ${className}`}>
+    <Typography className="margin-right-x-small">{entryText[target].question}</Typography>
+    <Button component={Link} className="flexbox align-items-center" to={entryText[target].target} variant="text" endIcon={<ChevronRight fontSize="small" />}>
+      {entryText[target].linkText}
+    </Button>
   </div>
 );
 
 export const LocationWarning = () => {
-  const location = Object.entries(locations).reduce(
-    (accu, [key, value]) => ([`staging.${value.location}`, value.location].includes(window.location.hostname) ? key : accu),
-    locations.us.key
-  );
+  const location = getCurrentLocation(window.location);
   const { icon: Icon, title, fallback } = locationMap[location];
   return (
     <div className="flexbox centered margin-top-large">
@@ -137,7 +126,7 @@ export const OAuthHeader = ({ buttonProps, type }) => (
         );
       })}
     </div>
-    <LinedHeader className="margin-top-large flexbox centered" heading="or your email address" innerStyle={{ padding: 15, top: -24 }} />
+    <LinedHeader className="margin-top-large flexbox centered" heading="or your email address" innerStyle={{ padding: 15, top: -24, fontWeight: 'bold' }} />
   </>
 );
 

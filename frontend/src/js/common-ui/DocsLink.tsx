@@ -64,6 +64,7 @@ export const DOCSTIPS = {
   deviceConfig: { id: 'deviceConfig', path: 'add-ons/configure' },
   deviceIdentity: { id: 'deviceIdentity', path: 'client-installation/identity' },
   dynamicGroups: { id: 'dynamicGroups', path: 'overview/device-group#dynamic-group' },
+  hostedRegions: { id: 'hostedRegions', path: 'general/hosted-mender-regions' },
   limitedDeployments: { id: 'limitedDeployments', path: 'overview/deployment#deployment-to-dynamic-groups' },
   phasedDeployments: { id: 'phasedDeployments', path: 'overview/customize-the-update-process' },
   pausedDeployments: { id: 'pausedDeployments', path: 'overview/customize-the-update-process#synchronized-updates' },
@@ -123,23 +124,22 @@ export const InlineLaunchIcon = () => <LaunchIcon style={{ verticalAlign: 'sub' 
 
 interface DocsTextLinkProps {
   [key: string]: unknown;
-  capitalizedStart?: boolean;
   children?: ReactNode;
   id: keyof typeof DOCSTIPS;
-  typographyProps: Partial<TypographyProps>;
+  typographyProps?: Partial<TypographyProps>;
 }
 
 const textLinkDefaultProps: TypographyProps = { variant: 'body1' };
 
-export const DocsTextLink = ({ capitalizedStart = true, children, id, typographyProps = textLinkDefaultProps, ...props }: DocsTextLinkProps) => {
+export const DocsTextLink = ({ children, id, typographyProps = textLinkDefaultProps, ...props }: DocsTextLinkProps) => {
   if (!DOCSTIPS[id]) {
     return null;
   }
   const { path } = DOCSTIPS[id];
   return (
     <DocsLink path={path} {...props}>
-      <Typography className={`inline ${capitalizedStart ? 'capitalized-start' : ''}`} color="primary" {...typographyProps}>
-        {children || 'learn more'}
+      <Typography className="inline" color="primary" {...typographyProps}>
+        {children || 'Learn more'}
       </Typography>
     </DocsLink>
   );
