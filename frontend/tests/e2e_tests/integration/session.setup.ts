@@ -68,7 +68,7 @@ test.describe('Test setup', () => {
 
     await page.getByRole('button', { name: /Sign up/i }).click();
     await page.getByRole('button', { name: /Complete/i }).waitFor();
-    await page.getByLabel(/organization name/i).fill('CI test corp');
+    await page.getByLabel(/name*/i).fill('CI test corp');
     await page.getByLabel(/terms of service/i).check();
     const frameHandle = await page.waitForSelector('iframe[title="reCAPTCHA"]');
     await page.waitForTimeout(300);
