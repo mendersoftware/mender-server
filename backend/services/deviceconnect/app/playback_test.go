@@ -15,56 +15,42 @@
 package app
 
 import (
+	"io"
 	"testing"
 	"time"
 
-	"github.com/nats-io/nats.go"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewPlayback(t *testing.T) {
-	deviceChan := make(chan *nats.Msg, 1)
-	sleepMs := uint(100)
-	r := NewPlayback(deviceChan, sleepMs)
+func TestPipeWriter(t *testing.T) {
+	r := NewPipeWriter()
 	assert.NotNil(t, r)
-	assert.Equal(t, r.deviceChan, deviceChan)
-	assert.Equal(t, r.sleepMilliseconds, sleepMs)
-}
-
-func TestPlaybackWrite(t *testing.T) {
-	deviceChan := make(chan *nats.Msg, 1)
-
-	testCases := []struct {
-		Name      string
-		Data      []byte
-		SleepTime uint
-	}{
-		{
-			Name: "ok",
-			Data: []byte("some data"),
-		},
-		{
-			Name:      "ok with sleep time",
-			Data:      []byte("some data"),
-			SleepTime: 2000,
-		},
+	d := []byte("testing123")
+	errCh := make(chan error, 1)
+	go func() {
+		_, err := r.Write(d)
+		errCh <- err
+	}()
+	select {
+	case actual := <-r.RecvChan():
+		assert.Equal(t, d, actual, "did not receive the data written to PipeWriter")
+	case err := <-errCh:
+		assert.NoError(t, err, "unexpected error from PipeWriter.Write")
+	case <-time.After(time.Second):
+		t.Fatal("timeout waiting for PipeWriter data")
 	}
 
-	thresholdMs := uint(15)
-	for _, tc := range testCases {
-		r := NewPlayback(deviceChan, tc.SleepTime)
-		assert.NotNil(t, r)
+	assert.NoError(t, r.Close())
 
-		t0 := float64(time.Now().UTC().UnixNano()) * 0.000001
-		n, err := r.Write(tc.Data)
-		assert.NoError(t, err)
-		assert.Equal(t, len(tc.Data), n)
-		t1 := float64(time.Now().UTC().UnixNano()) * 0.000001
-		<-deviceChan
-
-		if tc.SleepTime > 0 {
-			t.Logf("dt:%d", uint(t1-t0))
-			assert.True(t, (t1-t0) > float64(tc.SleepTime-thresholdMs) && (t1-t0) < float64(thresholdMs+tc.SleepTime))
-		}
+	errCh = make(chan error, 1)
+	go func() {
+		_, err := r.Write(d)
+		errCh <- err
+	}()
+	select {
+	case err := <-errCh:
+		assert.ErrorIs(t, err, io.EOF)
+	case <-time.After(time.Second):
+		t.Fatal("timeout waiting for PipeWriter data")
 	}
 }
