@@ -254,8 +254,11 @@ exports[`Artifact Component > renders correctly 1`] = `
   margin-bottom: 6px;
 }
 
-.emotion-12 .MuiTypography-root:where( .MuiListItemText-primary),
-.emotion-12 .MuiTypography-root:where( .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-12 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-12 .MuiListItemText-secondary) {
   display: block;
 }
 
@@ -315,8 +318,11 @@ exports[`Artifact Component > renders correctly 1`] = `
   margin-bottom: 4px;
 }
 
-.emotion-17 .MuiTypography-root:where( .MuiListItemText-primary),
-.emotion-17 .MuiTypography-root:where( .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-17 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-17 .MuiListItemText-secondary) {
   display: block;
 }
 

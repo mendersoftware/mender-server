@@ -618,8 +618,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   margin-bottom: 4px;
 }
 
-.emotion-25 .MuiTypography-root:where( .MuiListItemText-primary),
-.emotion-25 .MuiTypography-root:where( .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-25 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-25 .MuiListItemText-secondary) {
   display: block;
 }
 
@@ -2978,8 +2981,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   margin-bottom: 4px;
 }
 
-.emotion-22 .MuiTypography-root:where( .MuiListItemText-primary),
-.emotion-22 .MuiTypography-root:where( .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-22 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-22 .MuiListItemText-secondary) {
   display: block;
 }
 
