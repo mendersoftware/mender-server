@@ -1839,6 +1839,15 @@ func (d *DeploymentsApiHandlers) LookupDeploymentV2(c *gin.Context) {
 	query.Skip = int((page - 1) * perPage)
 	query.Limit = int(perPage + 1)
 
+	// Validate pagination - if requested page exceeds available pages, return 404
+	if perPage > 0 {
+		totalPages := (totalCount + perPage - 1) / perPage
+		if page > totalPages {
+			d.view.RenderError(c, errors.New("No more pages available"), http.StatusNotFound)
+			return
+		}
+	}
+
 	deps, totalCount, err := d.app.LookupDeployment(ctx, query)
 	if err != nil {
 		d.view.RenderError(c, err, http.StatusBadRequest)
