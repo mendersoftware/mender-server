@@ -12,26 +12,17 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useRef, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ExpandMore } from '@mui/icons-material';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Typography,
-  accordionClasses,
-  lighten
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, FormGroup, Typography, accordionClasses, lighten } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import Confirm from '@northern.tech/common-ui/Confirm';
+import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getDeviceCountsByStatus,
@@ -48,7 +39,7 @@ import {
   getTenantCapabilities
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, createDeployment, getDeploymentsConfig, getGroupDevices, getRelease, getReleases } from '@northern.tech/store/thunks';
-import { toggle } from '@northern.tech/utils/helpers';
+import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
@@ -57,6 +48,8 @@ import { RolloutPatternSelection, getPhaseStartTime, validatePhases } from './de
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/RolloutOptions';
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
+import type { DeploymentFormValues } from './deployment-wizard/types';
+import { deploymentFormSections } from './deployment-wizard/utils';
 
 const useStyles = makeStyles()(theme => ({
   accordion: {
@@ -86,10 +79,21 @@ const getAnchor = (element, heightAdjustment = 3) => ({
   left: element.offsetLeft + element.offsetWidth
 });
 
-export const CreateDeployment = props => {
-  const { deploymentObject = {}, onDismiss, onScheduleSubmit, setDeploymentSettings, open } = props;
+export const defaultValues = {
+  group: null,
+  release: null,
+  delta: false,
+  forceDeploy: false,
+  maxDevices: 0,
+  retries: 1,
+  phases: [],
+  update_control_map: { states: {} }
+};
 
-  const { canRetry, canSchedule, hasFullFiltering } = useSelector(getTenantCapabilities);
+export const CreateDeployment = props => {
+  const { deploymentObject = {}, onDismiss, onScheduleSubmit, onValuesChange, open } = props;
+
+  const { canRetry, canSchedule } = useSelector(getTenantCapabilities);
   const { isHosted } = useSelector(getFeatures);
   const { createdGroup, groups, hasDynamicGroups } = useSelector(getGroupData);
   const { hasDelta: hasDeltaEnabled } = useSelector(state => state.deployments.config) ?? {};
@@ -105,7 +109,6 @@ export const CreateDeployment = props => {
   const releasesById = useSelector(getReleasesById);
   const groupNames = useSelector(getGroupNames);
   const dispatch = useDispatch();
-
   const isCreating = useRef(false);
   const [hasNewRetryDefault, setHasNewRetryDefault] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
@@ -115,6 +118,14 @@ export const CreateDeployment = props => {
   const groupRef = useRef();
   const deploymentAnchor = useRef();
   const { classes } = useStyles();
+  const methods = useForm<DeploymentFormValues>({ mode: 'onChange', defaultValues });
+  const { reset, watch } = methods;
+  const formValues = watch();
+  const [derivedState, setDerivedState] = useState({
+    deploymentDeviceCount: deploymentObject.deploymentDeviceCount ?? 0,
+    deploymentDeviceIds: deploymentObject.deploymentDeviceIds ?? [],
+    devices: deploymentObject.devices ?? []
+  });
 
   useEffect(() => {
     dispatch(getReleases({ page: 1, perPage: 100, searchOnly: true, searchTerm: '', selectedTags: [], type: '' }));
@@ -126,17 +137,54 @@ export const CreateDeployment = props => {
     }
   }, [dispatch, isEnterprise, isHosted]);
 
+  const { group, phases, release } = formValues;
   useEffect(() => {
-    const { devices = [], group, release } = deploymentObject;
+    if (open) {
+      reset({
+        group: deploymentObject.group ?? defaultValues.group,
+        release: deploymentObject.release ?? defaultValues.release,
+        delta: deploymentObject.delta ?? defaultValues.delta,
+        forceDeploy: deploymentObject.forceDeploy ?? defaultValues.forceDeploy,
+        maxDevices: deploymentObject.maxDevices ?? defaultValues.maxDevices,
+        retries: (deploymentObject.retries ?? previousRetries ?? 0) + 1,
+        phases: deploymentObject.phases ?? defaultValues.phases,
+        update_control_map: deploymentObject.update_control_map ?? defaultValues.update_control_map
+      });
+      setDerivedState({
+        deploymentDeviceCount: deploymentObject.deploymentDeviceCount ?? 0,
+        deploymentDeviceIds: deploymentObject.deploymentDeviceIds ?? [],
+        devices: deploymentObject.devices ?? []
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, reset]);
+
+  // Notify parent of form value changes for URL param sync
+  useEffect(() => {
+    onValuesChange?.({
+      group: formValues.group,
+      release: formValues.release,
+      delta: formValues.delta,
+      forceDeploy: formValues.forceDeploy,
+      maxDevices: formValues.maxDevices,
+      retries: formValues.retries - 1,
+      phases: formValues.phases,
+      update_control_map: formValues.update_control_map
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(formValues), onValuesChange]);
+
+  useEffect(() => {
+    const { devices = [] } = deploymentObject;
     if (release) {
       dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_ARTIFACT_SELECTION));
       dispatch(getRelease(release.name));
     }
     dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_GROUP_SELECTION));
-    const nextDeploymentObject = { deploymentDeviceCount: devices.length ? devices.length : 0 };
+    let deploymentDeviceCount = devices.length ? devices.length : 0;
     if (group === ALL_DEVICES) {
       dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_ALL_DEVICES_SELECTION));
-      nextDeploymentObject.deploymentDeviceCount = acceptedDeviceCount;
+      deploymentDeviceCount = acceptedDeviceCount;
     }
     if (groups[group]) {
       dispatch(getGroupDevices({ group, perPage: 1 }))
@@ -146,25 +194,27 @@ export const CreateDeployment = props => {
             payload: {
               group: { total: deploymentDeviceCount }
             }
-          }) => setDeploymentSettings({ deploymentDeviceCount })
+          }) => setDerivedState(prev => ({ ...prev, deploymentDeviceCount }))
         );
     }
-    setDeploymentSettings(nextDeploymentObject);
+    setDerivedState(prev => ({ ...prev, deploymentDeviceCount }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [acceptedDeviceCount, deploymentObject.group, deploymentObject.release?.name, dispatch, JSON.stringify(groups), setDeploymentSettings]);
+  }, [acceptedDeviceCount, group, release?.name, dispatch, JSON.stringify(groups)]);
 
+  // Enrich devices from Redux store
   useEffect(() => {
-    let { deploymentDeviceCount: deviceCount, deploymentDeviceIds: deviceIds = [], devices = [] } = deploymentObject;
+    let { deploymentDeviceIds: deviceIds = [], devices = [] } = deploymentObject;
+    let deviceCount = derivedState.deploymentDeviceCount;
     if (devices.length) {
       deviceIds = devices.map(({ id }) => id);
       deviceCount = deviceIds.length;
       devices = devices.map(({ id }) => ({ id, ...(devicesById[id] ?? {}) }));
-    } else if (deploymentObject.group === ALL_DEVICES) {
+    } else if (group === ALL_DEVICES) {
       deviceCount = acceptedDeviceCount;
     }
-    setDeploymentSettings({ deploymentDeviceIds: deviceIds, deploymentDeviceCount: deviceCount, devices });
+    setDerivedState(prev => ({ ...prev, deploymentDeviceIds: deviceIds, deploymentDeviceCount: deviceCount, devices }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [acceptedDeviceCount, JSON.stringify(deploymentObject), JSON.stringify(devicesById), setDeploymentSettings]);
+  }, [acceptedDeviceCount, group, JSON.stringify(deploymentObject.devices), JSON.stringify(devicesById)]);
 
   const cleanUpDeploymentsStatus = () => {
     if (!window.location.search) {
@@ -181,34 +231,35 @@ export const CreateDeployment = props => {
     onDismiss();
   };
 
-  const onDeltaToggle = ({ target: { checked } }) => setDeploymentSettings({ delta: checked });
-
   const onScheduleSubmitClick = settings => {
     if (needsCheck && !isChecking) {
       return setIsChecking(true);
     }
     isCreating.current = true;
-    const { delta, deploymentDeviceIds, devices, filter, forceDeploy = false, group, maxDevices, phases, release, retries, update_control_map } = settings;
+    const { delta, forceDeploy = false, maxDevices, phases, release, update_control_map } = settings;
+    const retries = (settings.retries ?? 1) - 1;
+    const { deploymentDeviceIds, devices, filter } = settings;
+    const group = settings.group;
     const startTime = phases?.length ? phases[0].start_ts : undefined;
     const retrySetting = canRetry && retries ? { retries } : {};
     const newDeployment = {
       artifact_name: release.name,
-      autogenerate_delta: delta,
+      autogenerate_delta: delta ? delta : undefined,
       devices: (filter || group) && !devices.length ? undefined : deploymentDeviceIds,
       filter_id: filter?.id,
       all_devices: !filter && group === ALL_DEVICES,
       group: group === ALL_DEVICES || devices.length ? undefined : group,
       max_devices: maxDevices ? maxDevices : undefined,
       name: devices[0]?.id || (group ? decodeURIComponent(group) : ALL_DEVICES),
-      phases: phases
+      phases: phases.length
         ? phases.map((phase, i, origPhases) => {
             phase.start_ts = getPhaseStartTime(origPhases, i, startTime);
             return phase;
           })
-        : phases,
+        : undefined,
       ...retrySetting,
       force_installation: forceDeploy,
-      update_control_map
+      update_control_map: !isEmpty(update_control_map.states) ? update_control_map : undefined
     };
     if (!isOnboardingComplete) {
       dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_RELEASE_TO_DEVICES));
@@ -225,107 +276,102 @@ export const CreateDeployment = props => {
       });
   };
 
-  const { delta, deploymentDeviceCount, group, phases } = deploymentObject;
+  const { deploymentDeviceCount, deploymentDeviceIds, devices } = derivedState;
 
+  const filter = groups[group]?.id ? groups[group] : undefined;
   const deploymentSettings = {
-    ...deploymentObject,
-    filter: groups[group]?.id ? groups[group] : undefined
+    ...formValues,
+    ...derivedState,
+    filter,
+    releaseSelectionLocked: deploymentObject.releaseSelectionLocked
   };
-  const disabled =
-    isCreating.current ||
-    !(deploymentSettings.release && (deploymentSettings.deploymentDeviceCount || !!deploymentSettings.filter || deploymentSettings.group)) ||
-    !validatePhases(phases, deploymentSettings.deploymentDeviceCount);
+  const disabled = isCreating.current || !(release && (deploymentDeviceCount || !!filter || group)) || !validatePhases(phases, deploymentDeviceCount);
 
-  const sharedProps = {
-    ...props,
-    canRetry,
-    canSchedule,
-    groupNames,
-    groupRef,
-    groups,
-    hasDevices,
-    hasDynamicGroups,
-    hasFullFiltering,
-    hasPending,
-    idAttribute,
-    isEnterprise,
-    previousPhases,
-    previousRetries,
-    releaseRef,
-    releases,
-    releasesById,
-    commonClasses: classes,
-    deploymentObject: deploymentSettings,
-    hasNewRetryDefault,
-    onSaveRetriesSetting,
-    open: false,
-    setDeploymentSettings
-  };
   const hasReleases = !!Object.keys(releasesById).length;
   return (
     <BaseDrawer open={open} onClose={closeWizard} size="sm" slotProps={{ header: { title: 'Create a deployment' } }}>
-      <FormGroup>
-        {!hasReleases ? (
-          <ReleasesWarning />
-        ) : (
-          <>
-            <Devices {...sharedProps} devicesById={devicesById} groupRef={groupRef} />
-            <Software {...sharedProps} releaseRef={releaseRef} />
-          </>
-        )}
-        <ScheduleRollout {...sharedProps} />
-        <Accordion className={classes.accordion} square expanded={isExpanded} onChange={() => setIsExpanded(toggle)}>
-          <AccordionSummary expandIcon={<ExpandMore />}>
-            <Typography className={classes.disabled} variant="subtitle2">
-              {isExpanded ? 'Hide' : 'Show'} advanced options
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <DeviceLimit {...sharedProps} />
-            <RolloutPatternSelection {...sharedProps} />
-            <RolloutOptions {...sharedProps} />
-            <Retries {...sharedProps} />
-            <ForceDeploy {...sharedProps} />
-            {hasDeltaEnabled && (
-              <FormControlLabel
-                control={<Checkbox color="primary" checked={delta} onChange={onDeltaToggle} size="small" />}
-                label="Generate and deploy Delta Artifacts where available"
+      <FormProvider {...methods}>
+        <FormGroup>
+          {!hasReleases ? (
+            <ReleasesWarning />
+          ) : (
+            <>
+              <Devices
+                deploymentDeviceCount={deploymentDeviceCount}
+                devices={devices}
+                devicesById={devicesById}
+                filter={filter}
+                groupRef={groupRef}
+                groupNames={groupNames}
+                hasDevices={hasDevices}
+                hasDynamicGroups={hasDynamicGroups}
+                hasPending={hasPending}
+                idAttribute={idAttribute}
               />
-            )}
-          </AccordionDetails>
-        </Accordion>
-      </FormGroup>
-      <div className="margin-top relative">
-        {isChecking && (
-          <Confirm
-            classes="confirmation-overlay"
-            cancel={() => setIsChecking(false)}
-            action={() => onScheduleSubmitClick(deploymentSettings)}
-            message={`This will deploy ${deploymentSettings.release?.name} to ${deploymentDeviceCount} ${pluralize(
-              'device',
-              deploymentDeviceCount
-            )}. Are you sure?`}
-            style={{ paddingLeft: 12, justifyContent: 'flex-start', maxHeight: 44 }}
-          />
-        )}
-        <Button onClick={closeWizard} style={{ marginRight: 10 }}>
-          Cancel
-        </Button>
-        <Button variant="contained" color="primary" ref={deploymentAnchor} disabled={disabled} onClick={() => onScheduleSubmitClick(deploymentSettings)}>
-          Create deployment
-        </Button>
-      </div>
-      <OnboardingComponent
-        releaseRef={releaseRef}
-        groupRef={groupRef}
-        deploymentObject={deploymentObject}
-        deploymentAnchor={deploymentAnchor}
-        onboardingState={onboardingState}
-        createdGroup={createdGroup}
-        releasesById={releasesById}
-        releases={releases}
-        hasDevices={hasDevices}
-      />
+              <Software
+                commonClasses={classes}
+                devices={devices}
+                releaseRef={releaseRef}
+                releaseSelectionLocked={deploymentObject.releaseSelectionLocked}
+                releases={releases}
+                releasesById={releasesById}
+              />
+            </>
+          )}
+          <ScheduleRollout canSchedule={canSchedule} commonClasses={classes} />
+          <Accordion className={classes.accordion} square expanded={isExpanded} onChange={() => setIsExpanded(toggle)}>
+            <AccordionSummary expandIcon={<ExpandMore />}>
+              <Typography className={classes.disabled} variant="subtitle2">
+                {isExpanded ? 'Hide' : 'Show'} advanced options
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <DeviceLimit deploymentDeviceCount={deploymentDeviceCount} deploymentDeviceIds={deploymentDeviceIds} filter={filter} />
+              <RolloutPatternSelection
+                deploymentDeviceCount={deploymentDeviceCount}
+                deploymentDeviceIds={deploymentDeviceIds}
+                filter={filter}
+                isEnterprise={isEnterprise}
+                previousPhases={previousPhases}
+              />
+              <RolloutOptions isEnterprise={isEnterprise} />
+              <Retries canRetry={canRetry} commonClasses={classes} hasNewRetryDefault={hasNewRetryDefault} onSaveRetriesSetting={onSaveRetriesSetting} />
+              <ForceDeploy />
+              {hasDeltaEnabled && (
+                <FormCheckbox id={deploymentFormSections.delta} control={methods.control} label="Generate and deploy Delta Artifacts where available" />
+              )}
+            </AccordionDetails>
+          </Accordion>
+        </FormGroup>
+        <div className="margin-top relative">
+          {isChecking && (
+            <Confirm
+              classes="confirmation-overlay"
+              cancel={() => setIsChecking(false)}
+              action={() => onScheduleSubmitClick(deploymentSettings)}
+              message={`This will deploy ${release?.name} to ${deploymentDeviceCount} ${pluralize('device', deploymentDeviceCount)}. Are you sure?`}
+              style={{ paddingLeft: 12, justifyContent: 'flex-start', maxHeight: 44 }}
+            />
+          )}
+          <Button onClick={closeWizard} style={{ marginRight: 10 }}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" ref={deploymentAnchor} disabled={disabled} onClick={() => onScheduleSubmitClick(deploymentSettings)}>
+            Create deployment
+          </Button>
+        </div>
+        <OnboardingComponent
+          releaseRef={releaseRef}
+          groupRef={groupRef}
+          deploymentObject={deploymentSettings}
+          deploymentAnchor={deploymentAnchor}
+          onboardingState={onboardingState}
+          createdGroup={createdGroup}
+          releasesById={releasesById}
+          releases={releases}
+          hasDevices={hasDevices}
+        />
+      </FormProvider>
     </BaseDrawer>
   );
 };

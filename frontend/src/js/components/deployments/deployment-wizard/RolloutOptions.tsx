@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import { Checkbox, Collapse, FormControl, FormControlLabel, FormGroup } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -19,14 +20,15 @@ import { makeStyles } from 'tss-react/mui';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import { NumberField } from '@northern.tech/common-ui/forms/NumberField';
-import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
-import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
+import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
+import { BENEFITS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import RolloutSteps from './RolloutSteps';
+import { deploymentFormSections } from './utils';
 
 const useStyles = makeStyles()(() => ({
   defaultBox: { marginTop: 0, marginBottom: -15 },
@@ -35,19 +37,16 @@ const useStyles = makeStyles()(() => ({
   wrapper: { minHeight: 300 }
 }));
 
-export const ForceDeploy = ({ deploymentObject, setDeploymentSettings }) => {
-  const [forceDeploy, setForceDeploy] = useState(deploymentObject.forceDeploy ?? false);
+export const ForceDeploy = () => {
+  const { control } = useFormContext();
   const { classes } = useStyles();
-
-  useEffect(() => {
-    setDeploymentSettings({ forceDeploy });
-  }, [forceDeploy, setDeploymentSettings]);
 
   return (
     <div>
-      <FormControlLabel
+      <FormCheckbox
         className={classes.heading}
-        control={<Checkbox color="primary" checked={forceDeploy} onChange={() => setForceDeploy(toggle)} size="small" />}
+        id={deploymentFormSections.forceDeploy}
+        control={control}
         label={
           <div className="flexbox align-items-center">
             <b className="margin-right-small">Force update</b> (optional)
@@ -65,16 +64,20 @@ export const ForceDeploy = ({ deploymentObject, setDeploymentSettings }) => {
   );
 };
 
-export const RolloutOptions = ({ deploymentObject, isEnterprise, setDeploymentSettings }) => {
-  const { phases = [], release = {} } = deploymentObject;
+export const RolloutOptions = ({ isEnterprise }) => {
   const { classes } = useStyles();
+  const { watch, setValue } = useFormContext();
 
-  const { states = {} } = deploymentObject.update_control_map || {};
+  const phases = watch(deploymentFormSections.phases) || [];
+  const release = watch(deploymentFormSections.release) || {};
+
+  const updateControlMap = watch(deploymentFormSections.update_control_map) || { states: {} };
+  const { states = {} } = updateControlMap;
   const [isPaused, setIsPaused] = useState(!!Object.keys(states).length);
 
   const onStepChangeClick = step => {
     const { action } = step;
-    setDeploymentSettings({ update_control_map: { states: { ...states, [step.state]: { action } } } });
+    setValue(deploymentFormSections.update_control_map, { states: { ...states, [step.state]: { action } } });
   };
 
   const onIsPausedClick = () => setIsPaused(toggle);
@@ -103,26 +106,8 @@ export const RolloutOptions = ({ deploymentObject, isEnterprise, setDeploymentSe
 
 const maxDeploymentRetries = 100;
 
-export const Retries = ({
-  canRetry,
-  commonClasses,
-  deploymentObject,
-  hasNewRetryDefault = false,
-  onSaveRetriesSetting,
-  previousRetries,
-  setDeploymentSettings
-}) => {
-  const { retries } = deploymentObject;
+export const Retries = ({ canRetry, commonClasses, hasNewRetryDefault = false, onSaveRetriesSetting }) => {
   const { classes } = useStyles();
-
-  const [currentAttempts, setCurrentAttempts] = useState<number>(Number((retries ?? previousRetries ?? 0) + 1));
-  const debouncedAttempts = useDebounce(currentAttempts, TIMEOUTS.debounceShort);
-
-  useEffect(() => {
-    setDeploymentSettings({ retries: debouncedAttempts - 1 });
-  }, [debouncedAttempts, setDeploymentSettings]);
-
-  const onAttemptsChange = (value: number | null) => setCurrentAttempts(Math.max(1, Math.min(value ?? 1, maxDeploymentRetries)));
 
   const onSaveRetriesSettingClick = (_, checked) => onSaveRetriesSetting(checked);
 
@@ -137,12 +122,10 @@ export const Retries = ({
       </div>
       <FormControl disabled={!canRetry}>
         <FormGroup row>
-          <NumberField
-            id="deployment-retries-selection"
+          <NumberInput
+            id={deploymentFormSections.retries}
             className={`margin-right ${classes.retryInput}`}
             disabled={!canRetry}
-            value={currentAttempts}
-            onValueChange={onAttemptsChange}
             min={1}
             max={maxDeploymentRetries}
           />

@@ -12,86 +12,56 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import { Checkbox, Collapse, FormControl, FormControlLabel, FormHelperText, OutlinedInput, formControlClasses } from '@mui/material';
+import { Checkbox, Collapse, FormControlLabel } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import type { DeploymentDeployments, Device, Filter, NewDeploymentPhase } from '@northern.tech/store/api/types';
-import { TIMEOUTS } from '@northern.tech/store/constants';
-import { useDebounce } from '@northern.tech/utils/debouncehook';
-import validator from 'validator';
+import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
+import type { Filter } from '@northern.tech/types/MenderTypes';
+
+import { deploymentFormSections } from './utils';
 
 const useStyles = makeStyles()(theme => ({
   limitSelection: {
     alignItems: 'baseline',
     display: 'flex',
     marginTop: theme.spacing(2),
-    marginLeft: `calc(1em + ${theme.spacing(1.5)})`,
-    [`.${formControlClasses.root}`]: { minWidth: 'unset', width: 100, marginLeft: theme.spacing(), marginRight: theme.spacing() }
+    marginLeft: `calc(1em + ${theme.spacing(1.5)})`
   }
 }));
 
-export type DeploymentSettings = Partial<{
-  delta: boolean;
-  deploymentDeviceCount: number;
-  deploymentDeviceIds: string[];
-  devices: Array<Device>;
-  filter: Filter;
-  forceDeploy: boolean;
-  group: string;
-  maxDevices: number;
-  phases: Array<NewDeploymentPhase>;
-  release: string;
-  retries: number;
-  update_control_map: DeploymentDeployments['update_control_map'];
-}>;
-
 export const DeviceLimit = ({
-  deploymentObject,
-  setDeploymentSettings
+  deploymentDeviceCount = 0,
+  deploymentDeviceIds = [],
+  filter
 }: {
-  deploymentObject: Pick<DeploymentSettings, 'deploymentDeviceCount' | 'deploymentDeviceIds' | 'filter'>;
-  setDeploymentSettings: (settings: DeploymentSettings) => void;
+  deploymentDeviceCount?: number;
+  deploymentDeviceIds?: string[];
+  filter?: Filter;
 }) => {
-  const { deploymentDeviceCount = 0, deploymentDeviceIds = [], filter } = deploymentObject ?? {};
   const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
 
+  const { setValue } = useFormContext();
   const [shouldLimit, setShouldLimit] = useState(false);
-  const [error, setError] = useState('');
-  const [value, setValue] = useState(numberDevices);
 
   const { classes } = useStyles();
 
-  const debouncedValue = useDebounce(value, TIMEOUTS.debounceDefault);
-
-  useEffect(() => {
-    if (debouncedValue >= 1) {
-      setDeploymentSettings({ maxDevices: Number(debouncedValue) });
-    }
-  }, [debouncedValue, setDeploymentSettings]);
-
   useEffect(() => {
     if (!filter) {
-      setDeploymentSettings({ maxDevices: 0 });
+      setValue(deploymentFormSections.maxDevices, 0);
+      setShouldLimit(false);
     }
-  }, [filter, setDeploymentSettings]);
-
-  const handleLimitChange = ({ target: { value } }) => {
-    setError('');
-    setValue(value);
-    if (!validator.isNumeric(value) || value < 1) {
-      setError('Please enter a valid number.');
-    }
-  };
+  }, [filter, setValue]);
 
   const onToggleLimit = (_, checked) => {
     setShouldLimit(checked);
     if (checked) {
-      setValue(numberDevices);
+      setValue(deploymentFormSections.maxDevices, numberDevices);
     } else {
-      setDeploymentSettings({ maxDevices: 0 });
+      setValue(deploymentFormSections.maxDevices, 0);
     }
   };
 
@@ -111,10 +81,14 @@ export const DeviceLimit = ({
       <Collapse in={shouldLimit}>
         <div className={classes.limitSelection}>
           Finish deployment after{' '}
-          <FormControl error={!!error}>
-            <OutlinedInput value={value} onChange={handleLimitChange} type="text" />
-            <FormHelperText>{error}</FormHelperText>
-          </FormControl>
+          <NumberInput
+            id={deploymentFormSections.maxDevices}
+            min={1}
+            width={100}
+            rules={{
+              validate: value => !shouldLimit || (Number(value) >= 1 && !isNaN(Number(value))) || 'Please enter a valid number.'
+            }}
+          />{' '}
           devices have attempted to apply the update
         </div>
       </Collapse>
