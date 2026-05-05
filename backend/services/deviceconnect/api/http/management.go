@@ -15,11 +15,9 @@
 package http
 
 import (
-	"bufio"
 	"context"
 	"encoding/binary"
 	"encoding/json"
-	"io"
 	"net/http"
 	"strconv"
 	"sync"
@@ -269,8 +267,7 @@ func (h ManagementController) Playback(c *gin.Context) {
 		session,
 		deviceChan,
 		errChan,
-		bufio.NewWriterSize(io.Discard, app.RecorderBufferSize),
-		bufio.NewWriterSize(io.Discard, app.RecorderBufferSize))
+		nil, nil)
 
 	go func() {
 		defer l.SimpleRecovery(
@@ -326,8 +323,8 @@ func (h ManagementController) websocketWriter(
 	session *model.Session,
 	deviceChan <-chan *natsio.Msg,
 	errChan <-chan error,
-	recorderBuffered *bufio.Writer,
-	controlRecorderBuffered *bufio.Writer,
+	recorder app.Recorder,
+	controlRecorder app.Recorder,
 ) (err error) {
 	l := log.FromContext(ctx)
 	defer l.SimpleRecovery(
@@ -348,8 +345,6 @@ func (h ManagementController) websocketWriter(
 		)
 	})
 
-	defer recorderBuffered.Flush()
-	defer controlRecorderBuffered.Flush()
 	recordedBytes := 0
 	controlBytes := 0
 
@@ -388,11 +383,11 @@ Loop:
 						if errMsg != nil {
 							forwardedMsg = errMsg
 						}
-					} else {
+					} else if recorder != nil && controlRecorder != nil {
 						if err = recordSession(ctx,
 							mr,
-							recorderBuffered,
-							controlRecorderBuffered,
+							recorder,
+							controlRecorder,
 							&recordedBytes,
 							&controlBytes,
 							&lastKeystrokeAt,
@@ -405,7 +400,6 @@ Loop:
 				case shell.MessageTypeStopShell:
 					l.Debugf("session logging: recorderBuffered.Flush()"+
 						" at %d on stop shell", recordedBytes)
-					recorderBuffered.Flush()
 				}
 			}
 
@@ -459,20 +453,20 @@ func (h ManagementController) handleSessLimit(ctx context.Context,
 
 func recordSession(ctx context.Context,
 	msg *ws.ProtoMsg,
-	recorder io.Writer,
-	recorderCtrl io.Writer,
+	recorder app.Recorder,
+	recorderCtrl app.Recorder,
 	recBytes *int,
 	ctrlBytes *int,
 	lastKeystrokeAt *int64,
 	session *model.Session) error {
 	l := log.FromContext(ctx)
 
-	b, e := recorder.Write(msg.Body)
+	e := recorder.Record(ctx, msg.Body)
 	if e != nil {
 		l.Errorf("session logging: "+
 			"recorderBuffered.Write"+
-			"(len=%d)=%d,%+v",
-			len(msg.Body), b, e)
+			"(len=%d),%+v",
+			len(msg.Body), e)
 	}
 	timeNowUTC := time.Now().UTC().UnixNano()
 	keystrokeDelay := timeNowUTC - (*lastKeystrokeAt)
@@ -489,11 +483,13 @@ func recordSession(ctx context.Context,
 			TerminalHeight: 0,
 			TerminalWidth:  0,
 		}
-		n, _ := recorderCtrl.Write(
-			controlMsg.MarshalBinary())
+		msg := controlMsg.MarshalBinary()
+		_ = recorderCtrl.Record(
+			ctx,
+			msg)
 		l.Debugf("saving control delay message: %+v/%d",
-			controlMsg, n)
-		(*ctrlBytes) += n
+			controlMsg, len(msg))
+		(*ctrlBytes) += len(msg)
 	}
 
 	(*lastKeystrokeAt) = timeNowUTC
@@ -609,26 +605,23 @@ func (h ManagementController) ConnectServeWS(
 		}
 	}()
 
-	controlRecorder := h.app.GetControlRecorder(ctx, sess.ID)
-	controlRecorderBuffered := bufio.NewWriterSize(controlRecorder, app.RecorderBufferSize)
-	defer controlRecorderBuffered.Flush()
-
-	sessionRecorder := h.app.GetRecorder(ctx, sess.ID)
-	sessionRecorderBuffered := bufio.NewWriterSize(sessionRecorder, app.RecorderBufferSize)
-	defer sessionRecorderBuffered.Flush()
+	controlRecorder := h.app.GetControlRecorder(sess.ID)
+	sessionRecorder := h.app.GetRecorder(sess.ID)
+	defer sessionRecorder.Close(ctx)
+	defer controlRecorder.Close(ctx)
 
 	errChan := make(chan error)
 	//nolint:errcheck
 	go h.connectServeWSProcessMessages(ctx, conn, sess, errChan,
-		&remoteTerminalRunning, controlRecorderBuffered)
+		&remoteTerminalRunning, controlRecorder)
 
 	err = h.websocketWriter(ctx,
 		conn,
 		sess,
 		deviceChan,
 		errChan,
-		sessionRecorderBuffered,
-		controlRecorderBuffered)
+		sessionRecorder,
+		controlRecorder)
 	if err != nil {
 		_ = c.Error(err)
 	}
@@ -659,7 +652,7 @@ func (h ManagementController) connectServeWSProcessMessages(
 	sess *model.Session,
 	errChan chan<- error,
 	remoteTerminalRunning *bool,
-	controlRecorderBuffered *bufio.Writer,
+	controlRecorder app.Recorder,
 ) {
 	var err error
 	l := log.FromContext(ctx)
@@ -720,7 +713,7 @@ func (h ManagementController) connectServeWSProcessMessages(
 					continue
 				}
 
-				controlBytes += sendResizeMessage(m, sess, controlRecorderBuffered)
+				controlBytes += sendResizeMessage(ctx, m, sess, controlRecorder)
 			}
 		case ws.ProtoTypePortForward:
 			if !logPortForward {
@@ -740,9 +733,9 @@ func (h ManagementController) connectServeWSProcessMessages(
 	}
 }
 
-func sendResizeMessage(m *ws.ProtoMsg,
+func sendResizeMessage(ctx context.Context, m *ws.ProtoMsg,
 	sess *model.Session,
-	controlRecorderBuffered *bufio.Writer) (n int) {
+	controlRecorder app.Recorder) (n int) {
 	if _, ok := m.Header.Properties[model.ResizeMessageTermHeightField]; ok {
 		return 0
 	}
@@ -776,7 +769,8 @@ func sendResizeMessage(m *ws.ProtoMsg,
 	}
 	sess.BytesRecordedMutex.Unlock()
 
-	n, _ = controlRecorderBuffered.Write(
+	_ = controlRecorder.Record(
+		ctx,
 		controlMsg.MarshalBinary(),
 	)
 	return n
