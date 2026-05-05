@@ -17,22 +17,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ExpandMore } from '@mui/icons-material';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Typography,
-  accordionClasses,
-  lighten
-} from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, FormGroup, Typography, accordionClasses, lighten } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import Confirm from '@northern.tech/common-ui/Confirm';
+import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getDeviceCountsByStatus,
@@ -59,6 +49,7 @@ import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/Rollou
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
 import type { DeploymentFormValues } from './deployment-wizard/types';
+import { deploymentFormSections } from './deployment-wizard/utils';
 
 const useStyles = makeStyles()(theme => ({
   accordion: {
@@ -226,8 +217,6 @@ export const CreateDeployment = props => {
     onDismiss();
   };
 
-  const onDeltaToggle = ({ target: { checked } }) => setDeploymentSettings({ delta: checked });
-
   const onScheduleSubmitClick = settings => {
     if (needsCheck && !isChecking) {
       return setIsChecking(true);
@@ -270,7 +259,7 @@ export const CreateDeployment = props => {
       });
   };
 
-  const { delta, deploymentDeviceCount, group, phases } = deploymentObject;
+  const { deploymentDeviceCount, group, phases } = deploymentObject;
 
   const deploymentSettings = {
     ...deploymentObject,
@@ -333,10 +322,7 @@ export const CreateDeployment = props => {
               <Retries {...sharedProps} />
               <ForceDeploy {...sharedProps} />
               {hasDeltaEnabled && (
-                <FormControlLabel
-                  control={<Checkbox color="primary" checked={delta} onChange={onDeltaToggle} size="small" />}
-                  label="Generate and deploy Delta Artifacts where available"
-                />
+                <FormCheckbox id={deploymentFormSections.delta} control={methods.control} label="Generate and deploy Delta Artifacts where available" />
               )}
             </AccordionDetails>
           </Accordion>
