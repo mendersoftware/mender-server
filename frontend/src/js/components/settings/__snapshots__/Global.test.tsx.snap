@@ -1108,11 +1108,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-37:focus::-ms-input-
               rel="noopener"
               target="_blank"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body2 inline emotion-9"
+              <span
+                class="MuiTypography-root MuiTypography-body2 emotion-9"
               >
                 Learn how to add custom identity attributes.
-              </p>
+              </span>
             </a>
           </p>
           <div

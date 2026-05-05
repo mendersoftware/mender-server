@@ -1108,34 +1108,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
   text-decoration: underline;
   text-decoration-color: var(--Link-underlineColor);
   --Link-underlineColor: rgba(25, 118, 210, 0.4);
-  position: relative;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
 }
 
 .emotion-67:hover {
   text-decoration-color: inherit;
-}
-
-.emotion-67::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-67.Mui-focusVisible {
-  outline: auto;
 }
 
 .emotion-70 {
@@ -2320,11 +2296,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                       >
                         <div />
                       </div>
-                      <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-67"
+                      <span
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-67"
                       >
                         show key
-                      </button>
+                      </span>
                       <time
                         datetime="2019-01-13T06:25:00+00:00"
                       >
@@ -2336,16 +2312,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                         <div>
                           Accept
                         </div>
-                        <button
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-67"
+                        <div
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-67"
                         >
                           Reject
-                        </button>
-                        <button
-                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-67"
+                        </div>
+                        <div
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-67"
                         >
                           Dismiss
-                        </button>
+                        </div>
                       </div>
                     </span>
                   </button>
