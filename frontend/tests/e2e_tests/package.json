@@ -27,17 +27,17 @@
     "commander": "^14.0.3",
     "dayjs": "^1.11.20",
     "docker-compose": "^1.4.2",
-    "inquirer": "^13.3.2",
+    "inquirer": "^13.4.2",
     "jsqr": "1.4.0",
     "jwt-decode": "^4.0.0",
     "md5": "^2.3.0",
-    "ora": "^9.3.0",
+    "ora": "^9.4.0",
     "otplib": "^13.4.0",
-    "pixelmatch": "^7.1.0",
+    "pixelmatch": "^7.2.0",
     "pngjs": "7.0.0",
-    "typescript": "^6.0.2",
-    "uuid": "^13.0.0",
-    "validator": "^13.15.26",
+    "typescript": "^6.0.3",
+    "uuid": "^14.0.0",
+    "validator": "^13.15.35",
     "yaml": "^2.8.3"
   }
 }
