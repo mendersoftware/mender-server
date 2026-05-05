@@ -96,16 +96,21 @@ exports[`RedirectionWidget Component > renders correctly 1`] = `
 <body>
   <div>
     <div
-      class="widget flexbox centered"
+      class="widget"
     >
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-0"
-        style="max-width: 200px;"
-        tabindex="0"
-        type="button"
+      <div />
+      <div
+        class="flexbox centered"
       >
-        testlocation
-      </button>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-0"
+          style="max-width: 200px;"
+          tabindex="0"
+          type="button"
+        >
+          testlocation
+        </button>
+      </div>
     </div>
   </div>
 </body>

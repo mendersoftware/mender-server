@@ -2029,27 +2029,32 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
               </div>
             </div>
             <div
-              class="widget flexbox centered"
+              class="widget"
             >
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-58"
-                style="max-width: 200px;"
-                tabindex="0"
-                type="button"
+              <div />
+              <div
+                class="flexbox centered"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-right-x-small emotion-24"
-                  data-testid="AddIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-58"
+                  style="max-width: 200px;"
+                  tabindex="0"
+                  type="button"
                 >
-                  <path
-                    d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
-                  />
-                </svg>
-                 Connect more devices
-              </button>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-right-x-small emotion-24"
+                    data-testid="AddIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+                    />
+                  </svg>
+                   Connect more devices
+                </button>
+              </div>
             </div>
           </div>
           <div
@@ -4463,27 +4468,32 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
             </div>
           </div>
           <div
-            class="widget flexbox centered"
+            class="widget"
           >
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-62"
-              style="max-width: 200px;"
-              tabindex="0"
-              type="button"
+            <div />
+            <div
+              class="flexbox centered"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-right-x-small emotion-24"
-                data-testid="AddIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-62"
+                style="max-width: 200px;"
+                tabindex="0"
+                type="button"
               >
-                <path
-                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
-                />
-              </svg>
-               Connect more devices
-            </button>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-right-x-small emotion-24"
+                  data-testid="AddIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+                  />
+                </svg>
+                 Connect more devices
+              </button>
+            </div>
           </div>
         </div>
         <div

@@ -14,10 +14,13 @@
 import { Button } from '@mui/material';
 
 export const RedirectionWidget = ({ content, onClick }) => (
-  <div className="widget flexbox centered" onClick={onClick}>
-    <Button style={{ maxWidth: 200 }} color="inherit" variant="text">
-      {content}
-    </Button>
+  <div className="widget" onClick={onClick}>
+    <div />
+    <div className="flexbox centered">
+      <Button style={{ maxWidth: 200 }} color="inherit" variant="text">
+        {content}
+      </Button>
+    </div>
   </div>
 );
 
