@@ -11,7 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import { Checkbox, Collapse, FormControl, FormControlLabel, FormGroup } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -19,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { NumberField } from '@northern.tech/common-ui/forms/NumberField';
 import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -27,6 +29,7 @@ import { toggle } from '@northern.tech/utils/helpers';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import RolloutSteps from './RolloutSteps';
+import { deploymentFormSections } from './utils';
 
 const useStyles = makeStyles()(() => ({
   defaultBox: { marginTop: 0, marginBottom: -15 },
@@ -35,19 +38,16 @@ const useStyles = makeStyles()(() => ({
   wrapper: { minHeight: 300 }
 }));
 
-export const ForceDeploy = ({ deploymentObject, setDeploymentSettings }) => {
-  const [forceDeploy, setForceDeploy] = useState(deploymentObject.forceDeploy ?? false);
+export const ForceDeploy = () => {
+  const { control } = useFormContext();
   const { classes } = useStyles();
-
-  useEffect(() => {
-    setDeploymentSettings({ forceDeploy });
-  }, [forceDeploy, setDeploymentSettings]);
 
   return (
     <div>
-      <FormControlLabel
+      <FormCheckbox
         className={classes.heading}
-        control={<Checkbox color="primary" checked={forceDeploy} onChange={() => setForceDeploy(toggle)} size="small" />}
+        id={deploymentFormSections.forceDeploy}
+        control={control}
         label={
           <div className="flexbox align-items-center">
             <b className="margin-right-small">Force update</b> (optional)
