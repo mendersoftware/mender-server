@@ -161,7 +161,11 @@ prepare_pytest_args() {
         if [ "$val" == "-k" ]; then
             filter="next"
         elif [ "$filter" == "next" ]; then
-            PYTEST_FILTER="$PYTEST_FILTER and $val"
+            if [ -z "$PYTEST_FILTER" ]; then
+                PYTEST_FILTER="$val"
+            else
+                PYTEST_FILTER="$PYTEST_FILTER and $val"
+            fi
             filter="done"
         else
             PYTEST_ADDOPTS="$PYTEST_ADDOPTS $val"
