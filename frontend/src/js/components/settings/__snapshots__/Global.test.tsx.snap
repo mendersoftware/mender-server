@@ -921,8 +921,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-31 .MuiTypography-root:where( .MuiListItemText-primary),
-.emotion-31 .MuiTypography-root:where( .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-31 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-31 .MuiListItemText-secondary) {
   display: block;
 }
 
@@ -1169,6 +1172,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
 .emotion-99 {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
   background-color: currentColor;
+  box-sizing: border-box;
+  border: 1px solid transparent;
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -1178,6 +1183,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   height: 100%;
   width: 100%;
   border-radius: 7px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
   z-index: -1;
   -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;

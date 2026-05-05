@@ -87,8 +87,11 @@ exports[`ArtifactPayload Component renders correctly 1`] = `
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-3 .MuiTypography-root:where( .MuiListItemText-primary),
-.emotion-3 .MuiTypography-root:where( .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-3 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-3 .MuiListItemText-secondary) {
   display: block;
 }
 

@@ -1091,16 +1091,16 @@ exports[`TimeframePicker Component renders correctly 1`] = `
   border-width: 2px;
 }
 
+.emotion-2.Mui-error .MuiPickersOutlinedInput-notchedOutline {
+  border-color: #ab1000;
+}
+
 .emotion-2.Mui-disabled .MuiPickersOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
 .emotion-2.Mui-disabled * {
   color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-2.Mui-error .MuiPickersOutlinedInput-notchedOutline {
-  border-color: #ab1000;
 }
 
 .emotion-2.Mui-focused:not(.Mui-error) .MuiPickersOutlinedInput-notchedOutline {

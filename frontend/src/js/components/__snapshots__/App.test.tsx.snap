@@ -651,8 +651,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-23 .MuiTypography-root:where( .MuiListItemText-primary),
-.emotion-23 .MuiTypography-root:where( .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-23 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-23 .MuiListItemText-secondary) {
   display: block;
 }
 
@@ -738,8 +741,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-9:focus::-ms-input-p
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-42 .MuiTypography-root:where( .MuiListItemText-primary),
-.emotion-42 .MuiTypography-root:where( .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-42 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-42 .MuiListItemText-secondary) {
   display: block;
 }
 
@@ -2789,8 +2795,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-20 .MuiTypography-root:where( .MuiListItemText-primary),
-.emotion-20 .MuiTypography-root:where( .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-20 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-20 .MuiListItemText-secondary) {
   display: block;
 }
 
@@ -2876,8 +2885,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   color: rgba(10, 10, 11, 0.78);
 }
 
-.emotion-39 .MuiTypography-root:where( .MuiListItemText-primary),
-.emotion-39 .MuiTypography-root:where( .MuiListItemText-secondary) {
+.MuiTypography-root:where(.emotion-39 .MuiListItemText-primary) {
+  display: block;
+}
+
+.MuiTypography-root:where(.emotion-39 .MuiListItemText-secondary) {
   display: block;
 }
 
