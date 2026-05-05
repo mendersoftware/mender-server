@@ -264,7 +264,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
               <div
                 aria-invalid="false"
                 aria-labelledby=":ra:-label"
-                class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd css-z0tynf-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+                class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd css-id2red-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
                 role="group"
               >
                 <div
@@ -394,7 +394,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
               <div
                 aria-invalid="false"
                 aria-labelledby=":rd:-label"
-                class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd css-z0tynf-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+                class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd css-id2red-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
                 role="group"
               >
                 <div
