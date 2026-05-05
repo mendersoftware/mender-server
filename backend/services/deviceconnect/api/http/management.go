@@ -27,7 +27,6 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
-	natsio "github.com/nats-io/nats.go"
 	"github.com/pkg/errors"
 	"github.com/vmihailenco/msgpack/v5"
 
@@ -239,15 +238,7 @@ func (h ManagementController) Playback(c *gin.Context) {
 		return
 	}
 
-	tenantID := idata.Tenant
-	userID := idata.Subject
 	sessionID := c.Param(PlaybackSessionIDField)
-	session := &model.Session{
-		TenantID:           tenantID,
-		UserID:             userID,
-		StartTS:            time.Now(),
-		BytesRecordedMutex: &sync.Mutex{},
-	}
 	sleepInterval := c.Param(PlaybackSleepIntervalMsField)
 	sleepMilliseconds := uint(app.DefaultPlaybackSleepIntervalMs)
 	if len(sleepInterval) > 1 {
@@ -267,33 +258,66 @@ func (h ManagementController) Playback(c *gin.Context) {
 		return
 	}
 	conn.SetReadLimit(int64(app.MessageSizeLimit))
+	defer conn.Close()
 
-	deviceChan := make(chan *natsio.Msg, channelSize)
+	pipeWriter := app.NewPipeWriter()
+	defer pipeWriter.Close() //nolint:errcheck
+
 	errChan := make(chan error, 1)
-
-	//nolint:errcheck
-	go h.websocketWriter(ctx,
-		conn,
-		session,
-		nil, // FIXME: Use stream.Conn
-		errChan,
-		nil, nil)
-
 	go func() {
 		defer l.SimpleRecovery(
 			log.NewRecoveryOption().
 				WithChannel(errChan))
+		defer pipeWriter.Close()
 		err = h.app.GetSessionRecording(ctx,
 			sessionID,
-			app.NewPlayback(deviceChan, sleepMilliseconds))
+			pipeWriter)
 		if err != nil {
 			err = errors.Wrap(err, "unable to get the session.")
-			errChan <- err
-			return
 		}
 	}()
-	// We need to keep reading in order to keep ping/pong handlers functioning.
-	for ; err == nil; _, _, err = conn.NextReader() {
+	go func() {
+		defer l.SimpleRecovery(
+			log.NewRecoveryOption().
+				WithChannel(errChan))
+		// We need to keep reading in order to keep ping/pong handlers functioning.
+		for ; err == nil; _, _, err = conn.NextReader() {
+		}
+	}()
+
+	var dataChan <-chan []byte
+	ticker := time.NewTicker(time.Duration(sleepMilliseconds) * time.Millisecond)
+
+	for {
+		select {
+		case data, open := <-dataChan:
+			if !open {
+				_ = conn.WriteControl(websocket.CloseMessage,
+					websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""),
+					time.Now().Add(time.Second*5))
+				return
+			}
+			err = conn.WriteMessage(websocket.BinaryMessage, data)
+			if err != nil {
+				_ = c.Error(err)
+				return
+			}
+			dataChan = nil // Will cause loop to wait for ticker.C next iteration
+
+		case <-ticker.C:
+			dataChan = pipeWriter.RecvChan()
+
+		case <-ctx.Done():
+			_ = c.Error(ctx.Err())
+			return
+
+		case err = <-errChan:
+			if err != nil {
+				_ = c.Error(err)
+			}
+			return
+
+		}
 	}
 }
 
