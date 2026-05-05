@@ -254,25 +254,35 @@ test:frontend:acceptance:enterprise:qemu:
       - unknown_failure
 
 publish:frontend:tests:
-  extends: coveralls:done
   stage: publish
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/base-alpine:master
   rules:
     - if: $CI_COMMIT_REF_PROTECTED == "true"
       when: on_success
     - changes:
         paths: ['frontend/**/*']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
-  variables:
-    COVERALLS_FLAG_NAME: frontend-unit
   needs:
     - job: test:frontend:unit
       artifacts: true
+  allow_failure: true
+  before_script:
+    - curl -Os https://cli.codecov.io/latest/alpine/codecov
+    - chmod +x codecov
+    - PR_FLAG=$(echo "${CI_COMMIT_BRANCH}" | grep -q '^pr_' && echo "--pr $(echo "${CI_COMMIT_BRANCH}" | sed 's/^pr_//')" || echo "")
   script:
-    - coveralls report --format lcov --job-flag frontend-unit frontend/coverage/lcov.info
+    - ./codecov upload-process
+      --fail-on-error
+      --git-service github
+      --slug mendersoftware/${CI_PROJECT_NAME}
+      --sha ${CI_COMMIT_SHA}
+      ${PR_FLAG}
+      --file frontend/coverage/lcov.info
+      --flag frontend-unit
 
 publish:frontend:e2e-tests:
-  extends: coveralls:done
   stage: publish
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/base-alpine:master
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
@@ -280,17 +290,26 @@ publish:frontend:e2e-tests:
         paths: ['frontend/**/*', 'compose/**/*', 'docker-compose.yml']
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
       when: on_success
+  variables:
+    CODECOV_FLAG: frontend-e2e
   needs:
     - job: test:frontend:acceptance
       artifacts: true
-  allow_failure: true # QA-925 - Coveralls servers are unreliable.
+  allow_failure: true
+  before_script:
+    - curl -Os https://cli.codecov.io/latest/alpine/codecov
+    - chmod +x codecov
+    - PR_FLAG=$(echo "${CI_COMMIT_BRANCH}" | grep -q '^pr_' && echo "--pr $(echo "${CI_COMMIT_BRANCH}" | sed 's/^pr_//')" || echo "")
   script:
     - sed -i -re 's/(^[SF:]+[../]+)(.*)$/SF:\2/' frontend/coverage/lcov.info
-    - coveralls report -n
-      --parallel
-      --format lcov
-      --job-flag frontend-e2e
-      frontend/coverage/lcov.info
+    - ./codecov upload-process
+      --fail-on-error
+      --git-service github
+      --slug mendersoftware/${CI_PROJECT_NAME}
+      --sha ${CI_COMMIT_SHA}
+      ${PR_FLAG}
+      --file frontend/coverage/lcov.info
+      --flag ${CODECOV_FLAG}
 
 publish:frontend:e2e-tests:enterprise:
   extends: publish:frontend:e2e-tests
@@ -301,8 +320,7 @@ publish:frontend:e2e-tests:enterprise:
     - job: test:frontend:acceptance:enterprise
       artifacts: true
   variables:
-    COVERALLS_SERVICE_JOB_NUMBER: frontend-e2e-enterprise
-    COVERALLS_FLAG_NAME: frontend-e2e-enterprise
+    CODECOV_FLAG: frontend-e2e-enterprise
 
 publish:frontend:docker:
   extends: publish:backend:docker
