@@ -664,16 +664,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   border-width: 2px;
 }
 
+.emotion-25.Mui-error .MuiPickersOutlinedInput-notchedOutline {
+  border-color: #d32f2f;
+}
+
 .emotion-25.Mui-disabled .MuiPickersOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
 .emotion-25.Mui-disabled * {
   color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-25.Mui-error .MuiPickersOutlinedInput-notchedOutline {
-  border-color: #d32f2f;
 }
 
 .emotion-25.Mui-focused:not(.Mui-error) .MuiPickersOutlinedInput-notchedOutline {
