@@ -607,8 +607,12 @@ func (h ManagementController) ConnectServeWS(
 
 	controlRecorder := h.app.GetControlRecorder(sess.ID)
 	sessionRecorder := h.app.GetRecorder(sess.ID)
-	defer sessionRecorder.Close(ctx)
-	defer controlRecorder.Close(ctx)
+	defer func() {
+		ctx, cancel := context.WithTimeout(context.WithoutCancel(ctx), time.Second*10)
+		defer cancel()
+		_ = sessionRecorder.Close(ctx)
+		_ = controlRecorder.Close(ctx)
+	}()
 
 	errChan := make(chan error)
 	//nolint:errcheck
