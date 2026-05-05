@@ -21,9 +21,8 @@ import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
-import { NumberField } from '@northern.tech/common-ui/forms/NumberField';
-import { BENEFITS, TIMEOUTS } from '@northern.tech/store/constants';
-import { useDebounce } from '@northern.tech/utils/debouncehook';
+import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
+import { BENEFITS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
@@ -103,26 +102,8 @@ export const RolloutOptions = ({ deploymentObject, isEnterprise, setDeploymentSe
 
 const maxDeploymentRetries = 100;
 
-export const Retries = ({
-  canRetry,
-  commonClasses,
-  deploymentObject,
-  hasNewRetryDefault = false,
-  onSaveRetriesSetting,
-  previousRetries,
-  setDeploymentSettings
-}) => {
-  const { retries } = deploymentObject;
+export const Retries = ({ canRetry, commonClasses, hasNewRetryDefault = false, onSaveRetriesSetting }) => {
   const { classes } = useStyles();
-
-  const [currentAttempts, setCurrentAttempts] = useState<number>(Number((retries ?? previousRetries ?? 0) + 1));
-  const debouncedAttempts = useDebounce(currentAttempts, TIMEOUTS.debounceShort);
-
-  useEffect(() => {
-    setDeploymentSettings({ retries: debouncedAttempts - 1 });
-  }, [debouncedAttempts, setDeploymentSettings]);
-
-  const onAttemptsChange = (value: number | null) => setCurrentAttempts(Math.max(1, Math.min(value ?? 1, maxDeploymentRetries)));
 
   const onSaveRetriesSettingClick = (_, checked) => onSaveRetriesSetting(checked);
 
@@ -137,12 +118,10 @@ export const Retries = ({
       </div>
       <FormControl disabled={!canRetry}>
         <FormGroup row>
-          <NumberField
-            id="deployment-retries-selection"
+          <NumberInput
+            id={deploymentFormSections.retries}
             className={`margin-right ${classes.retryInput}`}
             disabled={!canRetry}
-            value={currentAttempts}
-            onValueChange={onAttemptsChange}
             min={1}
             max={maxDeploymentRetries}
           />
