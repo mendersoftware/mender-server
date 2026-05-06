@@ -102,7 +102,7 @@ export const NumberField = (props: NumberFieldProps) => {
                 endAdornment
               )
             }
-            sx={showSteps ? { pr: 0 } : undefined}
+            sx={{ minWidth: 80, ...(showSteps ? { pr: 0 } : undefined) }}
           />
         )}
       />
