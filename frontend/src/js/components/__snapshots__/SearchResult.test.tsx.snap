@@ -34,6 +34,8 @@ exports[`SearchResult Component > renders correctly 1`] = `
   background-color: rgba(0, 0, 0, 0.5);
   -webkit-tap-highlight-color: transparent;
   z-index: -1;
+  top: 57px;
+  left: 200px;
 }
 
 .emotion-2 {
@@ -191,7 +193,6 @@ exports[`SearchResult Component > renders correctly 1`] = `
     aria-hidden="true"
   />
   <div
-    backdropprops="[object Object]"
     class="MuiDrawer-root MuiDrawer-anchorTop MuiDrawer-modal MuiModal-root emotion-0"
     role="presentation"
   >
