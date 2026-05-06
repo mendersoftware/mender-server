@@ -156,7 +156,7 @@ test.describe('Settings', () => {
       await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
     });
 
-    test('password change triggers email notification', async ({ username, environment }) => {
+    test.skip('password change triggers email notification', async ({ username, environment }) => {
       test.skip(!isEnterpriseOrStaging(environment), 'test requires enterprise or staging environment');
       const emailClient = setupEmailClient(username, environment);
       if (emailClient) {

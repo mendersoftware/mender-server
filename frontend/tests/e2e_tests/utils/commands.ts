@@ -38,7 +38,7 @@ export const getPersistentLoginInfo = () => {
     return loginInfo;
   } catch {
     const uniqueId = process.env.STAGING_ID ?? uuid();
-    loginInfo = { username: process.env.STAGING_USER ?? `bot-test+${uniqueId}@northern.tech`, password: process.env.STAGING_PASSWORD ?? uuid(), uniqueId };
+    loginInfo = { username: process.env.STAGING_USER ?? `bot-test+${uniqueId}@example.com`, password: process.env.STAGING_PASSWORD ?? uuid(), uniqueId };
   }
   process.env.STAGING_USER = loginInfo.username;
   process.env.STAGING_PASSWORD = loginInfo.password;
