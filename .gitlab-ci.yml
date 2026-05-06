@@ -780,7 +780,7 @@ publish:backend:coverage:
     - PR_FLAG=$(echo "${CI_COMMIT_BRANCH}" | grep -q '^pr_' && echo "--pr $(echo "${CI_COMMIT_BRANCH}" | sed 's/^pr_//')" || echo "")
     - for coverpath in $(find ${GOCOVERDIR} -type f -name '*.cover'); do
       coverfile=$(basename "$coverpath");
-      ./codecov upload-process
+      ./codecov --codecov-yml-path backend/codecov.yml upload-process
         --fail-on-error
         --git-service github
         --slug mendersoftware/${CI_PROJECT_NAME}
