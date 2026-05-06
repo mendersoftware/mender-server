@@ -20,8 +20,8 @@ import { useNavigate } from 'react-router-dom';
 import {
   HighlightOffOutlined as HighlightOffOutlinedIcon,
   LabelOutlined as LabelOutlinedIcon,
-  Replay as ReplayIcon,
-  Sort as SortIcon
+  Sort as SortIcon,
+  SyncOutlined as SyncOutlinedIcon
 } from '@mui/icons-material';
 import {
   Button,
@@ -96,7 +96,7 @@ export const columns = [
 const defaultActions = [
   {
     action: ({ onCreateDeployment, selection }) => onCreateDeployment(selection),
-    icon: <ReplayIcon />,
+    icon: <SyncOutlinedIcon />,
     isApplicable: ({ userCapabilities: { canDeploy }, selectedSingleRelease, selectedRows }) =>
       canDeploy && (selectedSingleRelease || selectedRows.length === 1),
     key: 'deploy',
