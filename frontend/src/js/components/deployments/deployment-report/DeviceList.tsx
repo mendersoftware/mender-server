@@ -20,7 +20,6 @@ import {
   Cancel as CancelIcon,
   CheckCircle as CheckIcon,
   Error as ErrorIcon,
-  Launch as LaunchIcon,
   PendingOutlined as PendingIcon
 } from '@mui/icons-material';
 import type { LinearProgressProps, SvgIconOwnProps } from '@mui/material';
@@ -81,22 +80,14 @@ const stateInfoMap: Record<string, StateInfoEntry> = {
 
 const undefinedStates = [deploymentSubstates.pending, deploymentSubstates.decommissioned, deploymentSubstates.alreadyInstalled];
 
-const defaultLinkProps = {
-  className: 'flexbox align-items-center',
-  style: { fontWeight: '500' },
-  target: '_blank',
-  rel: 'noopener noreferrer'
-};
-
 const deviceListColumns = [
   {
     key: 'idAttribute',
     title: 'id',
     renderTitle: ({ idAttribute }) => idAttribute.attribute,
     render: ({ device }) => (
-      <Link {...defaultLinkProps} to={`/devices?id=${device.id}`}>
+      <Link to={`/devices?id=${device.id}`}>
         <DeviceIdentityDisplay device={device} isEditable={false} />
-        <LaunchIcon className="margin-left-x-small" fontSize="small" />
       </Link>
     ),
     canShow
@@ -118,10 +109,7 @@ const deviceListColumns = [
       const { artifact_name: softwareName } = attributes;
       return softwareName ? (
         canReadReleases ? (
-          <Link {...defaultLinkProps} to={generateReleasesPath({ pageState: { selectedRelease: softwareName } })}>
-            {softwareName}
-            <LaunchIcon className="margin-left-x-small" fontSize="small" />
-          </Link>
+          <Link to={generateReleasesPath({ pageState: { selectedRelease: softwareName } })}>{softwareName}</Link>
         ) : (
           softwareName
         )
