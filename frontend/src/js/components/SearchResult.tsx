@@ -112,8 +112,12 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
       disableEnforceFocus
       disableRestoreFocus
       open={open}
-      ModalProps={{ className: classes.drawerOffset, BackdropProps: { className: classes.drawerOffset } }}
-      slotProps={{ paper: { className: `${classes.drawerOffset} ${classes.paper}` }, transition: { direction: 'left' } }}
+      ModalProps={{ className: classes.drawerOffset }}
+      slotProps={{
+        backdrop: { className: classes.drawerOffset },
+        paper: { className: `${classes.drawerOffset} ${classes.paper}` },
+        transition: { direction: 'left' }
+      }}
     >
       <div className="flexbox align-items-center margin-bottom-small space-between">
         <ResultTitle term={searchTerm} total={searchTotal} />
