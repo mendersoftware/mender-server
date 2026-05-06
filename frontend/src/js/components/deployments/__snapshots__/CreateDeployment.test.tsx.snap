@@ -3920,6 +3920,7 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   align-items: center;
   position: relative;
   border-radius: 4px;
+  min-width: 80px;
 }
 
 .emotion-15.Mui-disabled {
@@ -4990,6 +4991,7 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   align-items: center;
   position: relative;
   border-radius: 4px;
+  min-width: 80px;
 }
 
 .emotion-15.Mui-disabled {
