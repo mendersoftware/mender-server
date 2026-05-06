@@ -18,13 +18,10 @@ import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Chip, Divider, Tooltip, Typography } from '@mui/material';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
-import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES } from '@northern.tech/store/constants';
 import { formatTime } from '@northern.tech/utils/helpers';
-
-const padder = <div key="padder" style={{ flexGrow: 1 }} />;
 
 const tierChangeTooltip = (newTier: string) =>
   `This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a ${newTier} device and contribute to your ${newTier} device tier limit.`;
@@ -100,26 +97,19 @@ const ActionButtons = ({ authset, confirmMessage, newStatus, limitMaxed, onAccep
     return null;
   }
   return confirmMessage.length ? (
-    <div>Set to: {newStatus}?</div>
+    <Typography>Set to: {newStatus}?</Typography>
   ) : (
     <div className="action-buttons flexbox">
-      {authset.status !== DEVICE_STATES.accepted && authset.status !== DEVICE_STATES.preauth && !limitMaxed ? (
-        <Link component="div" onClick={onAcceptClick}>
-          Accept
-        </Link>
-      ) : (
-        <div>Accept</div>
-      )}
-      {authset.status !== DEVICE_STATES.rejected && authset.status !== DEVICE_STATES.preauth ? (
-        <Link component="div" onClick={() => onRequestConfirm(DEVICE_STATES.rejected)}>
-          Reject
-        </Link>
-      ) : (
-        <div>Reject</div>
-      )}
-      <Link component="div" onClick={onDismissClick}>
-        Dismiss
-      </Link>
+      <Button onClick={onAcceptClick} disabled={authset.status === DEVICE_STATES.accepted || authset.status === DEVICE_STATES.preauth || limitMaxed}>
+        Accept
+      </Button>
+      <Button
+        onClick={() => onRequestConfirm(DEVICE_STATES.rejected)}
+        disabled={authset.status === DEVICE_STATES.rejected || authset.status === DEVICE_STATES.preauth}
+      >
+        Reject
+      </Button>
+      <Button onClick={onDismissClick}>Dismiss</Button>
     </div>
   );
 };
@@ -194,39 +184,25 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
     return onConfirm(DEVICE_STATES.accepted);
   };
 
-  let key = (
-    <Link component="span" onClick={onShowKey}>
-      show key
-    </Link>
-  );
-  let content = [
-    padder,
-    <p className="bold expanded" key="content">
+  const toggleKey = () => onShowKey(!showKey);
+  const key = <Button onClick={toggleKey}>{showKey ? 'hide' : 'show'} key</Button>;
+  const content = showKey ? (
+    <div>
+      <CopyCode code={endKey} />
+      <Divider className={classes.divider} />
+      <div title="SHA256">
+        <Typography>Checksum</Typography>
+        <Typography variant="body2">{keyHash}</Typography>
+      </div>
+    </div>
+  ) : (
+    <Typography className={classes.confirmMessage}>
       {loading === authset.id ? 'Updating status' : `${confirmMessage} Are you sure you want to continue?`}
-    </p>
-  ];
-
-  if (showKey) {
-    content = [
-      <div key="content">
-        <CopyCode code={endKey} />
-        <Divider className={classes.divider} />
-        <div title="SHA256">
-          <Typography>Checksum</Typography>
-          <Typography variant="body2">{keyHash}</Typography>
-        </div>
-      </div>,
-      padder
-    ];
-    key = (
-      <Link component="span" onClick={() => onShowKey(false)}>
-        hide key
-      </Link>
-    );
-  }
+    </Typography>
+  );
   return (
     <Accordion className={classes.accordion} square expanded={isExpanded}>
-      <AccordionSummary className={`columns-${columns.length}`}>
+      <AccordionSummary component="div" className={`columns-${columns.length}`}>
         <AuthSetStatus authset={authset} device={device} />
         <div className="capitalized">{authset.status}</div>
         <Tooltip arrow title={newTier ? tierChangeTooltip(authset.tier) : undefined}>

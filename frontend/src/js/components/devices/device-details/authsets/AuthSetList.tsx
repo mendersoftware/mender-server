@@ -30,7 +30,8 @@ const useStyles = makeStyles()(theme => ({
     [`.header, .body .${accordionSummaryClasses.content}`]: {
       display: 'grid',
       gridColumnGap: theme.spacing(2),
-      gridTemplateColumns: '0.5fr 1fr 1.5fr 2fr 2fr 2fr'
+      gridTemplateColumns: '0.5fr 1fr 1.5fr 2fr 2fr 2fr',
+      alignItems: 'center'
     }
   },
   accordion: {
@@ -41,6 +42,7 @@ const useStyles = makeStyles()(theme => ({
     },
     [`.${accordionDetailsClasses.root}`]: { flexDirection: 'row' }
   },
+  confirmMessage: { fontWeight: 500, marginLeft: 'auto' },
   divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
   fitContent: { width: 'fit-content' },
   header: {
