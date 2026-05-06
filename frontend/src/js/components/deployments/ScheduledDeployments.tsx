@@ -275,7 +275,10 @@ export const Scheduled = ({ abort, createClick, openReport, ...remainder }) => {
               <Typography>Scheduled deployments will appear here.</Typography>
               {canDeploy && (
                 <Typography className="margin-top-small">
-                  <Link onClick={createClick}>Create a deployment</Link> to get started
+                  <Link component="span" className="clickable" onClick={createClick}>
+                    Create a deployment
+                  </Link>{' '}
+                  to get started
                 </Typography>
               )}
             </>

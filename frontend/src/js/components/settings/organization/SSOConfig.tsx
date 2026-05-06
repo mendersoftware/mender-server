@@ -115,7 +115,9 @@ export const SSOConfig = ({ ssoItem, config, onCancel, onSave, setSnackbar, toke
     <>
       <div className={`flexbox align-items-center ${classes.wrapper} ${hasSSOConfig ? 'has-sso' : ''}`}>
         {hasSSOConfig ? (
-          <Link onClick={onOpenEditorClick}>View metadata in the text editor</Link>
+          <Link component="span" className="clickable" onClick={onOpenEditorClick}>
+            View metadata in the text editor
+          </Link>
         ) : (
           <>
             <MenderHelpTooltip id={HELPTOOLTIPS.ssoMetadata.id} style={{ position: 'absolute', left: -35 }} placement="left" />
@@ -129,7 +131,10 @@ export const SSOConfig = ({ ssoItem, config, onCancel, onSave, setSnackbar, toke
               )}
             </Dropzone>
             <div>
-              or <Link onClick={onOpenEditorClick}>input with the text editor</Link>
+              or{' '}
+              <Link component="span" className="clickable" onClick={onOpenEditorClick}>
+                input with the text editor
+              </Link>
             </div>
           </>
         )}

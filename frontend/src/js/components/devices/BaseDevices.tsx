@@ -85,8 +85,14 @@ export const PreauthorizedEmptyState = ({ canManageDevices, limitMaxed, onClick 
     <p>There are no preauthorized devices.</p>
     {canManageDevices && (
       <p>
-        {limitMaxed ? 'Preauthorize devices' : <Link onClick={onClick}>Preauthorize devices</Link>} so that when they come online, they will connect to the
-        server immediately
+        {limitMaxed ? (
+          'Preauthorize devices'
+        ) : (
+          <Link component="span" className="clickable" onClick={onClick}>
+            Preauthorize devices
+          </Link>
+        )}{' '}
+        so that when they come online, they will connect to the server immediately
       </p>
     )}
     <img src={preauthImage} alt="preauthorize" />

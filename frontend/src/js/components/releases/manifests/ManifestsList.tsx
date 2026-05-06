@@ -64,7 +64,10 @@ const EmptyState = ({ className = '', isFiltering, onFileUploadClick }: { classN
         'for the filter selection'
       ) : (
         <>
-          to display. <Link onClick={onFileUploadClick}>Create a Manifest</Link>
+          to display.{' '}
+          <Link component="span" className="clickable" onClick={onFileUploadClick}>
+            Create a Manifest
+          </Link>
         </>
       )}
     </Typography>

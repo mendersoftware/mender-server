@@ -195,7 +195,10 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
           <Typography>Pending and ongoing deployments will appear here.</Typography>
           {canDeploy && (
             <Typography>
-              <Link onClick={createClick}>Create a deployment</Link> to get started
+              <Link component="span" className="clickable" onClick={createClick}>
+                Create a deployment
+              </Link>{' '}
+              to get started
             </Typography>
           )}
         </div>
