@@ -341,7 +341,7 @@ services:
       default:
         aliases: [mender-workflows]
   traefik:
-    image: traefik:v3.6.15
+    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX:-docker.io}/traefik:v3.6.15
     command:
       - --api=true
       - --api.insecure=true
@@ -382,7 +382,7 @@ services:
           - s3.docker.mender.io
 
   mongo:
-    image: mongo:${MONGO_VERSION:-8.0}
+    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX:-docker.io}/mongo:${MONGO_VERSION:-8.0}
     healthcheck:
       test: ["CMD", "mongosh", "mongodb://localhost:27017/test", "--quiet", "--eval", "db.runCommand('ping').ok"]
       interval: 10s
@@ -399,7 +399,7 @@ services:
         aliases: [mender-mongo]
 
   nats:
-    image: nats:2.14-alpine
+    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX:-docker.io}/nats:2.14-alpine
     command: [-js, -m, '8222']
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8222/healthz | grep -q 'ok'"]

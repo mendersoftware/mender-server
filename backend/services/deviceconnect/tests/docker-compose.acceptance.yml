@@ -14,7 +14,7 @@ services:
       - deviceconnect
 
   mmock:
-    image: "jordimartin/mmock:v3.0.0"
+    image: "${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX:-docker.io}/jordimartin/mmock:v3.0.0"
     networks:
       default:
         aliases:
