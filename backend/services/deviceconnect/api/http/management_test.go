@@ -21,7 +21,6 @@ import (
 	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -48,6 +47,11 @@ import (
 )
 
 var natsPort int32 = 14420
+
+type discardRecorder struct{}
+
+func (discardRecorder) Record(context.Context, []byte) error { return nil }
+func (discardRecorder) Close(context.Context) error          { return nil }
 
 func NewNATSTestClient(t *testing.T) *nats.Conn {
 	port := atomic.AddInt32(&natsPort, 1)
@@ -262,15 +266,9 @@ func TestManagementConnect(t *testing.T) {
 				mock.AnythingOfType("[]string"),
 			).Return(nil)
 			app.On("GetControlRecorder",
-				mock.MatchedBy(func(_ context.Context) bool {
-					return true
-				}),
 				tc.SessionID,
 			).Return(nil)
 			app.On("GetRecorder",
-				mock.MatchedBy(func(_ context.Context) bool {
-					return true
-				}),
 				tc.SessionID,
 			).Return(nil)
 
@@ -835,17 +833,11 @@ func TestManagementSessionLimit(t *testing.T) {
 		mock.AnythingOfType("[]string"),
 	).Return(nil)
 	mapp.On("GetRecorder",
-		mock.MatchedBy(func(_ context.Context) bool {
-			return true
-		}),
 		sid,
-	).Return(ioutil.Discard)
+	).Return(discardRecorder{})
 	mapp.On("GetControlRecorder",
-		mock.MatchedBy(func(_ context.Context) bool {
-			return true
-		}),
 		sid,
-	).Return(nil)
+	).Return(discardRecorder{})
 
 	s := httptest.NewServer(router)
 	defer s.Close()

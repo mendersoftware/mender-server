@@ -20,19 +20,15 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 
 	store_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/store/mocks"
 )
 
 func TestNewRecorder(t *testing.T) {
-	ctx := context.Background()
 	sessionID := "sessionID"
-	r := NewRecorder(ctx, sessionID, nil)
+	r := NewRecorder(sessionID, nil)
 	assert.NotNil(t, r)
-	assert.Equal(t, r.ctx, ctx)
-	assert.Equal(t, r.sessionID, sessionID)
-	assert.Equal(t, r.store, nil)
 }
 
 func TestRecorderWrite(t *testing.T) {
@@ -50,31 +46,29 @@ func TestRecorderWrite(t *testing.T) {
 		},
 		{
 			Name:                       "error from the store",
+			Data:                       []byte("some data"),
 			DbGetSessionRecordingError: errors.New("some error"),
 		},
 	}
 
 	for _, tc := range testCases {
-		store := &store_mocks.DataStore{}
-		store.On("InsertSessionRecording",
-			mock.MatchedBy(func(ctx context.Context) bool {
-				return true
-			}),
-			sessionID,
-			mock.AnythingOfType("[]uint8"),
-		).Return(tc.DbGetSessionRecordingError)
+		t.Run(tc.Name, func(t *testing.T) {
+			store := &store_mocks.DataStore{}
 
-		r := NewRecorder(ctx, sessionID, store)
-		assert.NotNil(t, r)
+			r := NewRecorder(sessionID, store)
+			assert.NotNil(t, r)
+			require.IsType(t, &recorder{}, r)
+			r.(*recorder).init(func(ctx context.Context, b []byte) error {
+				return tc.DbGetSessionRecordingError
+			}, 5)
 
-		n, err := r.Write(tc.Data)
+			err := r.Record(ctx, tc.Data)
 
-		if tc.DbGetSessionRecordingError == nil {
-			assert.NoError(t, err)
-			assert.Equal(t, len(tc.Data), n)
-		} else {
-			assert.Error(t, err)
-			assert.Equal(t, -1, n)
-		}
+			if tc.DbGetSessionRecordingError == nil {
+				assert.NoError(t, err)
+			} else {
+				assert.Error(t, err)
+			}
+		})
 	}
 }

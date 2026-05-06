@@ -683,8 +683,7 @@ func TestGetRecorder(t *testing.T) {
 			store := &store_mocks.DataStore{}
 			app := New(store, nil)
 
-			ctx := context.Background()
-			r := app.GetRecorder(ctx, sessionId)
+			r := app.GetRecorder(sessionId)
 			assert.NotNil(t, r)
 		})
 	}
