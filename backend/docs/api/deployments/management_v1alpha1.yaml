@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  description: |
+    Experimental API for deployments management.
+    These endpoints are subject to change and may be removed in future versions.
+  title: Deployments v1alpha1
+  version: v1alpha1
+tags:
+  - name: Management API
+paths:
+  /api/management/v1alpha1/deployments/software/tags:
+     get:
+      operationId: List software tags
+      parameters:
+        - description: |-
+            Only list tags used on software of a particular kind
+          in: query
+          name: kind
+          schema:
+            enum:
+              - release
+              - manifest
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/Tags'
+          description: Successful response.
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "401":
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+      summary: |
+        Lists all available tags for software (releases and/or manifests).
+      tags:
+        - Management API
+components:
+  securitySchemes:
+    ManagementJWT:
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'
