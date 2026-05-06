@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-form';
 
 import { Clear as ClearIcon, Search as SearchIcon } from '@mui/icons-material';
@@ -58,7 +58,12 @@ export const ControlledSearch = ({
   const inputRef = useRef();
   const focusLockRef = useRef(true);
   const timer = useRef(); // this + the above focusLock are needed to work around the focus being reassigned to the input field which would cause runaway search triggers
-  const triggerDebounceRef = useRef(false); // this is needed to reject the search triggered through the recreation of the onSearch callback
+  // Latest Ref pattern: callers frequently pass an unstable onSearch (parent state toggles after every search), which under React 19 caused
+  // "Maximum update depth exceeded" when onSearch was a useEffect dependency. Reading through a ref keeps the search effect stable.
+  const onSearchRef = useRef(onSearch);
+  useLayoutEffect(() => {
+    onSearchRef.current = onSearch;
+  });
   const { classes } = useStyles();
   const searchValue = watch(name, '');
 
@@ -69,7 +74,6 @@ export const ControlledSearch = ({
     focusLockRef.current = false;
     inputRef.current.focus();
     clearTimeout(timer.current);
-    triggerDebounceRef.current = false;
     timer.current = setTimeout(() => (focusLockRef.current = true), TIMEOUTS.oneSecond);
   };
 
@@ -81,27 +85,32 @@ export const ControlledSearch = ({
   );
 
   useEffect(() => {
-    if (!shouldTriggerSearch || debouncedSearchTerm.length < MINIMUM_SEARCH_LENGTH || triggerDebounceRef.current) {
+    if (!shouldTriggerSearch || debouncedSearchTerm.length < MINIMUM_SEARCH_LENGTH) {
       return;
     }
-    triggerDebounceRef.current = true;
-    onSearch(debouncedSearchTerm).then(focusAndLock);
-  }, [debouncedSearchTerm, onSearch, shouldTriggerSearch]);
+    onSearchRef.current?.(debouncedSearchTerm).then(focusAndLock);
+    // onSearch is intentionally read via onSearchRef (Latest Ref pattern) so an unstable parent callback does not retrigger this effect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchTerm, shouldTriggerSearch]);
 
   const onTriggerSearch = useCallback(
     ({ key }) => {
       if (shouldTriggerSearch && key === 'Enter' && (!debouncedSearchTerm || debouncedSearchTerm.length >= MINIMUM_SEARCH_LENGTH)) {
-        onSearch(debouncedSearchTerm).then(focusAndLock);
+        onSearchRef.current?.(debouncedSearchTerm).then(focusAndLock);
       }
     },
-    [debouncedSearchTerm, onSearch, shouldTriggerSearch]
+    // onSearch is intentionally read via onSearchRef (Latest Ref pattern) so an unstable parent callback does not change this handler's identity
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [debouncedSearchTerm, shouldTriggerSearch]
   );
 
   const onFocus = useCallback(() => {
     if (shouldTriggerSearch && focusLockRef.current && debouncedSearchTerm.length >= MINIMUM_SEARCH_LENGTH) {
-      onSearch(debouncedSearchTerm).then(focusAndLock);
+      onSearchRef.current?.(debouncedSearchTerm).then(focusAndLock);
     }
-  }, [debouncedSearchTerm, onSearch, shouldTriggerSearch]);
+    // onSearch is intentionally read via onSearchRef (Latest Ref pattern) so an unstable parent callback does not change this handler's identity
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchTerm, shouldTriggerSearch]);
 
   const resetSearchAdornment = searchValue ? (
     <InputAdornment position="end" className={clearButtonOnHover ? classes.adornment : ''}>
