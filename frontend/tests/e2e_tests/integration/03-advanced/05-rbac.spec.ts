@@ -148,10 +148,10 @@ test.describe('RBAC functionality', () => {
   });
   test('allows user creation', async ({ environment, page, password, uniqueId }) => {
     const userCreations = [
-      { user: `lim-${uniqueId}@example.com`, role: 'test-groups-role' },
-      { user: `lim-ro-releases-${uniqueId}@example.com`, role: releaseRoles[0].name },
-      { user: `lim-manage-${releaseTag}-${uniqueId}@example.com`, role: releaseRoles[1].name },
-      { user: `lim-ro-${releaseTag}-${uniqueId}@example.com`, role: releaseRoles[2].name }
+      { user: `test-bot+${uniqueId}-lim@northern.tech`, role: 'test-groups-role' },
+      { user: `test-bot+${uniqueId}-lim-ro-releases@northern.tech`, role: releaseRoles[0].name },
+      { user: `test-bot+${uniqueId}-lim-manage-${releaseTag}@northern.tech`, role: releaseRoles[1].name },
+      { user: `test-bot+${uniqueId}-lim-manage-${releaseTag}@northern.tech`, role: releaseRoles[2].name }
     ];
     for (const { user, role } of userCreations) {
       await page.getByRole('button', { name: /new user/i }).click();
@@ -174,7 +174,7 @@ test.describe('RBAC functionality', () => {
   });
   test.describe('has working RBAC limitations for', () => {
     test('device groups', async ({ baseUrl, browser, password, request, uniqueId }) => {
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `lim-${uniqueId}@example.com` });
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `test-bot+${uniqueId}-lim@northern.tech` });
       const navigationButton = page.getByRole('link', { name: /devices/i });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
@@ -185,7 +185,7 @@ test.describe('RBAC functionality', () => {
       await page.context().close();
     });
     test('read-only all releases', async ({ baseUrl, browser, password, request, uniqueId }) => {
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `lim-ro-releases-${uniqueId}@example.com` });
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `test-bot+${uniqueId}-lim-ro-releases@northern.tech` });
       const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
@@ -198,7 +198,7 @@ test.describe('RBAC functionality', () => {
       await page.context().close();
     });
     test('read-only tagged releases', async ({ baseUrl, browser, password, request, uniqueId }) => {
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `lim-ro-${releaseTag}-${uniqueId}@example.com` });
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `test-bot+${uniqueId}-lim-ro-${releaseTag}@northern.tech` });
       const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
@@ -209,7 +209,7 @@ test.describe('RBAC functionality', () => {
       await page.context().close();
     });
     test('manage tagged releases', async ({ baseUrl, browser, password, request, uniqueId }) => {
-      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `lim-manage-${releaseTag}-${uniqueId}@example.com` });
+      const page = await prepareNewPage({ baseUrl, browser, password, request, username: `test-bot+${uniqueId}-lim-manage-${releaseTag}@northern.tech` });
       const navigationButton = page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true });
       await navigationButton.waitFor({ timeout: timeouts.tenSeconds });
       await navigationButton.click({ force: true });
