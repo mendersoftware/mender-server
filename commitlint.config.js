@@ -10,6 +10,7 @@ const commonScopes = [
   'useradm',
   'workflows',
   'gui',
+  'e2e',
   null
 ];
 

@@ -29,6 +29,7 @@ type TestFixtures = {
   page: Page;
   password: string;
   spTenantUsername: string;
+  uniqueId: string;
   username: string;
 };
 
@@ -64,6 +65,13 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
       spTenantUsername = getPersistentLoginInfo().tenantUsername;
     }
     await use(spTenantUsername);
+  },
+  uniqueId: async ({ environment }, use) => {
+    let uniqueId = '';
+    if (environment === 'staging') {
+      uniqueId = getPersistentLoginInfo().uniqueId;
+    }
+    await use(uniqueId);
   },
   username: async ({ environment }, use) => {
     let username = defaultConfig.username;

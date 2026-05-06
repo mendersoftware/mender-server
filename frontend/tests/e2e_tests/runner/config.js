@@ -24,6 +24,7 @@ const serverRoot = process.env.SERVER_ROOT || execSync('git rev-parse --show-top
 const guiRepository = process.env.GUI_REPOSITORY || join(serverRoot, 'frontend');
 
 const defaultCredentials = {
+  uniqueId: '',
   username: 'mender-demo@example.com',
   username2: 'demo-secondary@example.com',
   spTenant: 'tenant-demo@example.com',
@@ -37,7 +38,9 @@ const getCredentials = config => {
     username: config.username ?? defaultCredentials.username
   };
   if (config.environment === environments.staging) {
-    credentials.username = config.username ?? `bot-test+${uuid()}@northern.tech`;
+    const uniqueId = uuid();
+    credentials.uniqueId = uniqueId;
+    credentials.username = config.username ?? `bot-test+${uniqueId}@example.com`;
     credentials.password = config.password ?? uuid();
   }
   return credentials;
@@ -107,6 +110,9 @@ export const exportToProcessEnv = config => {
   }
   if (config.credentials?.password) {
     process.env.STAGING_PASSWORD = config.credentials.password;
+  }
+  if (config.credentials?.uniqueId) {
+    process.env.STAGING_ID = config.credentials.uniqueId;
   }
 };
 
