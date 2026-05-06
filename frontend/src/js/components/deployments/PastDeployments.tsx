@@ -263,7 +263,11 @@ export const Past = props => {
           <div className="dashboard-placeholder">
             <p>No finished deployments were found.</p>
             <p>
-              Try adjusting the filters, or <Link onClick={createClick}>Create a new deployment</Link> to get started
+              Try adjusting the filters, or{' '}
+              <Link component="span" className="clickable" onClick={createClick}>
+                Create a new deployment
+              </Link>{' '}
+              to get started
             </p>
             <img src={historyImage} alt="Past" />
           </div>

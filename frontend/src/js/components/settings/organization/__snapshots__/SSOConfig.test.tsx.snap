@@ -27,34 +27,10 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   text-decoration: underline;
   text-decoration-color: var(--Link-underlineColor);
   --Link-underlineColor: rgba(25, 118, 210, 0.4);
-  position: relative;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
 }
 
 .emotion-1:hover {
   text-decoration-color: inherit;
-}
-
-.emotion-1::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-1.Mui-focusVisible {
-  outline: auto;
 }
 
 .emotion-2 {
@@ -255,11 +231,11 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   <div
     class="flexbox align-items-center emotion-0 has-sso"
   >
-    <button
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-1"
+    <span
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways clickable emotion-1"
     >
       View metadata in the text editor
-    </button>
+    </span>
     <div
       class="flexbox"
     >

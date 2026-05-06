@@ -785,7 +785,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
       />
     </div>
     <label
-      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-17"
+      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd margin-right-none emotion-17"
     >
       <span
         class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-18"
@@ -816,6 +816,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           style="font-size: smaller;"
         >
           I have read and agreed to the Mender
+           
           <a
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
             href="https://northern.tech/legal/hosted-mender-agreement-northern-tech-as.pdf"
@@ -826,6 +827,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           </a>
            
           and
+           
           <a
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
             href="https://northern.tech/legal/privacy-policy"
@@ -834,7 +836,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
           >
             Privacy Policy
           </a>
-           
         </label>
       </span>
     </label>

@@ -20,7 +20,7 @@ import {
   FileDownload,
   HighlightOffOutlined as HighlightOffOutlinedIcon,
   LabelOutlined as LabelOutlinedIcon,
-  Replay as ReplayIcon
+  SyncOutlined as SyncOutlinedIcon
 } from '@mui/icons-material';
 import { ClickAwayListener, SpeedDial, SpeedDialAction, SpeedDialIcon, Typography, alpha, getOverlayAlpha } from '@mui/material';
 import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
@@ -89,7 +89,7 @@ interface ManifestAction {
 const defaultActions: ManifestAction[] = [
   {
     action: ({ onCreateDeployment, selection }) => onCreateDeployment(selection),
-    icon: <ReplayIcon />,
+    icon: <SyncOutlinedIcon />,
     isApplicable: ({ userCapabilities: { canDeploy }, selectedRows, selectedManifest }) =>
       canDeploy && (!isEmpty(selectedManifest) || selectedRows.length === 1),
     key: 'deploy',

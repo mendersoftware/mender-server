@@ -41,7 +41,10 @@ const TenantsEmptyState = (props: TenantsEmptyStateProps) => {
     <div className="dashboard-placeholder">
       <p>You are not currently managing any tenants. </p>
       <p>
-        <Link onClick={openModal}>Add a tenant</Link> to get started.
+        <Link component="span" className="clickable" onClick={openModal}>
+          Add a tenant
+        </Link>{' '}
+        to get started.
       </p>
     </div>
   );

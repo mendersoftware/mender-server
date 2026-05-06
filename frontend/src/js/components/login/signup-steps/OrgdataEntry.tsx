@@ -73,16 +73,17 @@ const OrgDataContent = ({
       {!emailVerified && <TextInput className="margin-bottom-small" hint="Email *" label="Email *" id="email" required validations="isLength:1,isEmail,trim" />}
       <FormCheckbox
         id="tos"
+        className="margin-right-none"
         label={
           <label htmlFor="tos" style={{ fontSize: 'smaller' }}>
-            I have read and agreed to the Mender
+            I have read and agreed to the Mender{' '}
             <Link href="https://northern.tech/legal/hosted-mender-agreement-northern-tech-as.pdf" external>
               Terms of service
             </Link>{' '}
-            and
+            and{' '}
             <Link href="https://northern.tech/legal/privacy-policy" external>
               Privacy Policy
-            </Link>{' '}
+            </Link>
           </label>
         }
         required={true}

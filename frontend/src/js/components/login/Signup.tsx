@@ -42,7 +42,6 @@ const { setSnackbar } = storeActions;
 const cookies = new Cookies();
 
 const inputWidth = 400;
-
 const useStyles = makeStyles()(theme => ({
   background: {
     width: '100%',

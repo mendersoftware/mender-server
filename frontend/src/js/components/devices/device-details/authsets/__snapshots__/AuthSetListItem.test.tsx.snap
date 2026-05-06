@@ -155,67 +155,6 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
 }
 
 .emotion-4 {
-  margin: 0;
-  font: inherit;
-  line-height: inherit;
-  letter-spacing: inherit;
-  color: #1976d2;
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-  text-decoration-color: var(--Link-underlineColor);
-  --Link-underlineColor: rgba(25, 118, 210, 0.4);
-}
-
-.emotion-4:hover {
-  text-decoration-color: inherit;
-}
-
-.emotion-7 {
-  height: 0;
-  overflow: hidden;
-  -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  height: auto;
-  overflow: visible;
-}
-
-.emotion-8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-}
-
-.emotion-9 {
-  width: 100%;
-}
-
-.emotion-11 {
-  padding: 8px 16px 16px;
-}
-
-.emotion-12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 8px;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-}
-
-.emotion-12>:not(style)~:not(style) {
-  margin-left: 8px;
-}
-
-.emotion-13 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -272,33 +211,33 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-13::-moz-focus-inner {
+.emotion-4::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-4.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-13 {
+  .emotion-4 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-13:hover {
+.emotion-4:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-4.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-13:hover {
+  .emotion-4:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -306,11 +245,65 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   }
 }
 
-.emotion-13.MuiButton-loading {
+.emotion-4.MuiButton-loading {
   color: transparent;
 }
 
+.emotion-8 {
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  height: auto;
+  overflow: visible;
+}
+
+.emotion-9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.emotion-10 {
+  width: 100%;
+}
+
+.emotion-12 {
+  padding: 8px 16px 16px;
+}
+
+.emotion-13 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
 .emotion-14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 8px;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.emotion-14>:not(style)~:not(style) {
+  margin-left: 8px;
+}
+
+.emotion-16 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -367,57 +360,57 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-14::-moz-focus-inner {
+.emotion-16::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-14.Mui-disabled {
+.emotion-16.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-14 {
+  .emotion-16 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-14:hover {
+.emotion-16:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-14.Mui-disabled {
+.emotion-16.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-14:hover {
+.emotion-16:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-14:hover {
+  .emotion-16:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-14:active {
+.emotion-16:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-14.Mui-focusVisible {
+.emotion-16.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-14.Mui-disabled {
+.emotion-16.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-14:hover {
+  .emotion-16:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -425,7 +418,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   }
 }
 
-.emotion-14.MuiButton-loading {
+.emotion-16.MuiButton-loading {
   color: transparent;
 }
 
@@ -436,11 +429,11 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   <h3
     class="MuiAccordion-heading emotion-1"
   >
-    <button
+    <div
       aria-expanded="true"
       class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters columns-6 emotion-2"
+      role="button"
       tabindex="0"
-      type="button"
     >
       <span
         class="MuiAccordionSummary-content Mui-expanded emotion-3"
@@ -463,11 +456,14 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
             standard
           </div>
         </div>
-        <span
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-4"
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+          tabindex="0"
+          type="button"
         >
-          show key
-        </span>
+          show
+           key
+        </button>
         <time
           datetime="2020-09-21T12:42:34+00:00"
         >
@@ -476,61 +472,67 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
         <div
           class="action-buttons flexbox"
         >
-          <div>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+            disabled=""
+            tabindex="-1"
+            type="button"
+          >
             Accept
-          </div>
-          <div
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-4"
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+            tabindex="0"
+            type="button"
           >
             Reject
-          </div>
-          <div
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-4"
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+            tabindex="0"
+            type="button"
           >
             Dismiss
-          </div>
+          </button>
         </div>
       </span>
-    </button>
+    </div>
   </h3>
   <div
-    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered emotion-7"
+    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered emotion-8"
     style="min-height: 0px;"
   >
     <div
-      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-8"
+      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
     >
       <div
-        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-9"
+        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
       >
         <div
-          class="MuiAccordion-region emotion-10"
+          class="MuiAccordion-region emotion-11"
           role="region"
         >
           <div
-            class="MuiAccordionDetails-root emotion-11"
+            class="MuiAccordionDetails-root emotion-12"
           >
-            <div
-              style="flex-grow: 1;"
-            />
             <p
-              class="bold expanded"
+              class="MuiTypography-root MuiTypography-body1 emotion-13"
             >
                Are you sure you want to continue?
             </p>
           </div>
           <div
-            class="MuiAccordionActions-root MuiAccordionActions-spacing margin-right-small emotion-12"
+            class="MuiAccordionActions-root MuiAccordionActions-spacing margin-right-small emotion-14"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-right-small emotion-13"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-right-small emotion-4"
               tabindex="0"
               type="button"
             >
               Cancel
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-14"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-16"
               tabindex="0"
               type="button"
             >

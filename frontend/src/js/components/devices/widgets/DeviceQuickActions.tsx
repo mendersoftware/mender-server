@@ -16,11 +16,11 @@ import { useSelector } from 'react-redux';
 
 import {
   AddCircle as AddCircleIcon,
-  Cached as CachedIcon,
   CheckCircle as CheckCircleIcon,
   HeightOutlined as HeightOutlinedIcon,
   HighlightOffOutlined as HighlightOffOutlinedIcon,
-  RemoveCircleOutlined as RemoveCircleOutlineIcon
+  RemoveCircleOutlined as RemoveCircleOutlineIcon,
+  SyncOutlined as SyncOutlinedIcon
 } from '@mui/icons-material';
 import { ClickAwayListener, SpeedDial, SpeedDialAction, SpeedDialIcon, Typography, alpha, getOverlayAlpha } from '@mui/material';
 import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
@@ -101,7 +101,7 @@ const defaultActions = {
       features.isHosted && isEnterprise && !stringToBoolean(device.attributes?.mender_is_gateway) && device.status === DEVICE_STATES.accepted
   },
   createDeployment: {
-    icon: <CachedIcon />,
+    icon: <SyncOutlinedIcon />,
     key: 'create-deployment',
     title: (pluralized, count) => `Create deployment for ${pluralize('this', count)} ${pluralized}`,
     action: ({ onCreateDeployment, selection }) => onCreateDeployment(selection),
