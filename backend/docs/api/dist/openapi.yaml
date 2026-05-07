@@ -19,6 +19,8 @@ tags:
     x-displayName: Internal API
   - name: Deployments_Management API
     x-displayName: Management API
+  - name: Deployments_v1alpha1_Management API
+    x-displayName: Management API
   - name: Deployments_v2_Management API
     x-displayName: Management API
   - name: Device_Authentication_Device API
@@ -2193,6 +2195,37 @@ paths:
       summary: Get storage limit and current storage usage
       tags:
         - Deployments_Management API
+  /api/management/v1alpha1/deployments/software/tags:
+    get:
+      operationId: List software tags
+      parameters:
+        - description: Only list tags used on software of a particular kind
+          in: query
+          name: kind
+          schema:
+            enum:
+              - release
+              - manifest
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tags'
+          description: Successful response.
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
+      summary: |
+        Lists all available tags for software (releases and/or manifests).
+      tags:
+        - Deployments_v1alpha1_Management API
   /api/management/v2/deployments/deployments:
     get:
       description: |
@@ -8666,6 +8699,14 @@ components:
         - type
         - value
       type: object
+    Tags:
+      description: |-
+        Tags assigned to software used for filtering. Each tag
+        must be valid a ASCII string and contain only lowercase and uppercase
+        letters, digits, underscores, periods and hyphens.
+      items:
+        type: string
+      type: array
     ArtifactV2:
       description: Detailed artifact.
       example:
@@ -8863,14 +8904,6 @@ components:
           description: Release notes, limited to maximum length.
           type: string
       type: object
-    Tags:
-      description: |-
-        Tags assigned to the release used for filtering releases. Each tag
-        must be valid a ASCII string and contain only lowercase and uppercase
-        letters, digits, underscores, periods and hyphens.
-      items:
-        type: string
-      type: array
     UpdateTypes:
       description: Update types as present in the images.
       items:
@@ -10320,6 +10353,9 @@ x-tagGroups:
   - name: Deployments Internal API
     tags:
       - Deployments_Internal_API_Internal API
+  - name: Deployments v1alpha1
+    tags:
+      - Deployments_v1alpha1_Management API
   - name: Deployments v2
     tags:
       - Deployments_v2_Management API

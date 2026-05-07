@@ -2,6 +2,7 @@ README.md
 api_deployments_device_api.go
 api_deployments_internal_api_internal_api.go
 api_deployments_management_api.go
+api_deployments_v1alpha1_management_api.go
 api_deployments_v2_management_api.go
 api_device_authentication_device_api.go
 api_device_authentication_internal_api.go

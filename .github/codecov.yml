@@ -1,0 +1,2 @@
+ignore:
+  - "backend/pkg/api/client"

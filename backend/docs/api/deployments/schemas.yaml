@@ -378,3 +378,11 @@ components:
       - type
       - value
       type: object
+    Tags:
+      description: |-
+        Tags assigned to software used for filtering. Each tag
+        must be valid a ASCII string and contain only lowercase and uppercase
+        letters, digits, underscores, periods and hyphens.
+      items:
+        type: string
+      type: array

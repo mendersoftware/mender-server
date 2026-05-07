@@ -56,6 +56,8 @@ type APIClient struct {
 
 	DeploymentsManagementAPIAPI DeploymentsManagementAPIAPI
 
+	DeploymentsV1alpha1ManagementAPIAPI DeploymentsV1alpha1ManagementAPIAPI
+
 	DeploymentsV2ManagementAPIAPI DeploymentsV2ManagementAPIAPI
 
 	DeviceAuthenticationDeviceAPIAPI DeviceAuthenticationDeviceAPIAPI
@@ -116,6 +118,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.DeploymentsDeviceAPIAPI = (*DeploymentsDeviceAPIAPIService)(&c.common)
 	c.DeploymentsInternalAPIInternalAPIAPI = (*DeploymentsInternalAPIInternalAPIAPIService)(&c.common)
 	c.DeploymentsManagementAPIAPI = (*DeploymentsManagementAPIAPIService)(&c.common)
+	c.DeploymentsV1alpha1ManagementAPIAPI = (*DeploymentsV1alpha1ManagementAPIAPIService)(&c.common)
 	c.DeploymentsV2ManagementAPIAPI = (*DeploymentsV2ManagementAPIAPIService)(&c.common)
 	c.DeviceAuthenticationDeviceAPIAPI = (*DeviceAuthenticationDeviceAPIAPIService)(&c.common)
 	c.DeviceAuthenticationInternalAPIAPI = (*DeviceAuthenticationInternalAPIAPIService)(&c.common)
