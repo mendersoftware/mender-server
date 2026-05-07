@@ -2463,6 +2463,7 @@ exports[`Subscription Page component > renders correctly 1`] = `
   position: relative;
   border-radius: 4px;
   padding-right: 14px;
+  min-width: 80px;
   padding-right: 0px;
 }
 

@@ -263,7 +263,7 @@ export const CreateDeployment = props => {
   };
   const hasReleases = !!Object.keys(releasesById).length;
   return (
-    <BaseDrawer open={open} onClose={closeWizard} size="sm" slotProps={{ header: { title: 'Create a deployment' } }}>
+    <BaseDrawer open={open} onClose={closeWizard} size="md" slotProps={{ header: { title: 'Create a deployment' } }}>
       <FormGroup>
         {!hasReleases ? (
           <ReleasesWarning />

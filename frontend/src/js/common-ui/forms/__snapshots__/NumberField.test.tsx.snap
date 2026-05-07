@@ -82,6 +82,7 @@ exports[`NumberField Component > renders correctly 1`] = `
   align-items: center;
   position: relative;
   border-radius: 4px;
+  min-width: 80px;
 }
 
 .emotion-2.Mui-disabled {
