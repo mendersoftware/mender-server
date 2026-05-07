@@ -21,6 +21,7 @@ import Devices from '../components/devices/DeviceGroups';
 import Help from '../components/help/Help';
 import Activate from '../components/login/Activate';
 import Login from '../components/login/Login';
+import { OAuthLink } from '../components/login/OAuthLink';
 import Password from '../components/login/Password';
 import PasswordReset from '../components/login/PasswordReset';
 import Signup from '../components/login/Signup';
@@ -44,6 +45,7 @@ const ReleaseFallback = () => {
 
 export const routeConfigs: RouteConfigs = {
   activate: { path: 'activate/:code', element: <Activate />, title: 'Email verification' },
+  linkOauth: { path: 'signin/link', element: <OAuthLink />, title: 'Link OAuth account', isPublic: true },
   auditlog: { path: 'auditlog', element: <AuditLogs />, title: 'Audit log' },
   dashboard: { path: '', element: <Dashboard />, title: 'Dashboard' },
   deployments: { path: 'deployments', element: <Deployments />, title: 'Deployments' },
@@ -122,6 +124,8 @@ export const PrivateSPRoutes = () => (
 export const PublicRoutes = () => (
   <Routes>
     <Route path={routeConfigs.activate.path} element={routeConfigs.activate.element} />
+    <Route path={routeConfigs.linkOauth.path} element={routeConfigs.linkOauth.element} />
+
     <Route path={routeConfigs.password.path} element={routeConfigs.password.element} />
     <Route path={routeConfigs.passwordReset.path} element={routeConfigs.passwordReset.element} />
     <Route path={routeConfigs.signup.path} element={routeConfigs.signup.element}>
