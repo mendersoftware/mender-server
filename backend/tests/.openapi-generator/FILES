@@ -3,6 +3,7 @@ mender_client/api/__init__.py
 mender_client/api/deployments_device_api_api.py
 mender_client/api/deployments_internal_api_internal_api_api.py
 mender_client/api/deployments_management_api_api.py
+mender_client/api/deployments_v1alpha1_management_api_api.py
 mender_client/api/deployments_v2_management_api_api.py
 mender_client/api/device_authentication_device_api_api.py
 mender_client/api/device_authentication_internal_api_api.py

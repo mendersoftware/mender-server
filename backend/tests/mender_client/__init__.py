@@ -22,6 +22,7 @@ __all__ = [
     "DeploymentsDeviceAPIApi",
     "DeploymentsInternalAPIInternalAPIApi",
     "DeploymentsManagementAPIApi",
+    "DeploymentsV1alpha1ManagementAPIApi",
     "DeploymentsV2ManagementAPIApi",
     "DeviceAuthenticationDeviceAPIApi",
     "DeviceAuthenticationInternalAPIApi",
@@ -183,6 +184,7 @@ __all__ = [
 from mender_client.api.deployments_device_api_api import DeploymentsDeviceAPIApi as DeploymentsDeviceAPIApi
 from mender_client.api.deployments_internal_api_internal_api_api import DeploymentsInternalAPIInternalAPIApi as DeploymentsInternalAPIInternalAPIApi
 from mender_client.api.deployments_management_api_api import DeploymentsManagementAPIApi as DeploymentsManagementAPIApi
+from mender_client.api.deployments_v1alpha1_management_api_api import DeploymentsV1alpha1ManagementAPIApi as DeploymentsV1alpha1ManagementAPIApi
 from mender_client.api.deployments_v2_management_api_api import DeploymentsV2ManagementAPIApi as DeploymentsV2ManagementAPIApi
 from mender_client.api.device_authentication_device_api_api import DeviceAuthenticationDeviceAPIApi as DeviceAuthenticationDeviceAPIApi
 from mender_client.api.device_authentication_internal_api_api import DeviceAuthenticationInternalAPIApi as DeviceAuthenticationInternalAPIApi
