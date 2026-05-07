@@ -50,7 +50,7 @@ const ResultTitle = ({ term, total }) => {
   );
 };
 
-export const SearchResult = ({ onToggleSearchResult, open = true }) => {
+export const SearchResult = ({ onOpenSearchResult, onCloseSearchResult, open = true }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -73,21 +73,21 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
   }, [columnSelection, idAttribute, idAttribute.attribute, idAttribute.scope]);
 
   useEffect(() => {
-    if (!open && isSearching) {
-      onToggleSearchResult();
+    if (!open && isSearching && searchTerm) {
+      onOpenSearchResult();
     }
-  }, [open, isSearching, onToggleSearchResult]);
+  }, [open, isSearching, searchTerm, onOpenSearchResult]);
 
   useEffect(() => {
     if (open && !searchTerm) {
-      onToggleSearchResult();
+      onCloseSearchResult();
     }
-  }, [onToggleSearchResult, open, searchTerm]);
+  }, [onCloseSearchResult, open, searchTerm]);
 
   const onDeviceSelect = device => {
     const deviceState = DEVICE_STATES[device.status] ?? ALL_DEVICE_STATES;
     dispatch(setDeviceListState({ selectedId: device.id, state: deviceState }));
-    onToggleSearchResult();
+    onCloseSearchResult();
     setTimeout(() => navigate(`/devices/${deviceState}?id=${device.id}`, { state: { internal: true } }), TIMEOUTS.debounceShort);
   };
 
@@ -112,12 +112,16 @@ export const SearchResult = ({ onToggleSearchResult, open = true }) => {
       disableEnforceFocus
       disableRestoreFocus
       open={open}
-      ModalProps={{ className: classes.drawerOffset, BackdropProps: { className: classes.drawerOffset } }}
-      slotProps={{ paper: { className: `${classes.drawerOffset} ${classes.paper}` }, transition: { direction: 'left' } }}
+      ModalProps={{ className: classes.drawerOffset }}
+      slotProps={{
+        backdrop: { className: classes.drawerOffset },
+        paper: { className: `${classes.drawerOffset} ${classes.paper}` },
+        transition: { direction: 'left' }
+      }}
     >
       <div className="flexbox align-items-center margin-bottom-small space-between">
         <ResultTitle term={searchTerm} total={searchTotal} />
-        <IconButton onClick={onToggleSearchResult} aria-label="close" size="large">
+        <IconButton onClick={onCloseSearchResult} aria-label="close" size="large">
           <CloseIcon />
         </IconButton>
       </div>

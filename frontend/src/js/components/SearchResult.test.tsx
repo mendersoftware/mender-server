@@ -41,7 +41,7 @@ describe('SearchResult Component', () => {
         }
       }
     };
-    const { baseElement } = render(<SearchResult onToggleSearchResult={vi.fn} open setSearchState={vi.fn} setSnackbar={vi.fn} />, {
+    const { baseElement } = render(<SearchResult onOpenSearchResult={vi.fn} onCloseSearchResult={vi.fn} open setSearchState={vi.fn} setSnackbar={vi.fn} />, {
       preloadedState: state
     });
     const view = baseElement;
@@ -76,12 +76,12 @@ describe('SearchResult Component', () => {
         }
       }
     };
-    const onToggleSearchResult = vi.fn();
-    const { store } = render(<SearchResult onToggleSearchResult={onToggleSearchResult} open />, {
+    const onCloseSearchResult = vi.fn();
+    const { store } = render(<SearchResult onOpenSearchResult={vi.fn()} onCloseSearchResult={onCloseSearchResult} open />, {
       preloadedState: state
     });
     await user.click(screen.getByText(noauthDeviceId));
-    expect(onToggleSearchResult).toHaveBeenCalled();
+    expect(onCloseSearchResult).toHaveBeenCalled();
     const { state: devicesState, selectedId } = store.getState().devices.deviceList;
     expect(devicesState).toEqual(ALL_DEVICE_STATES);
     expect(selectedId).toEqual(noauthDeviceId);

@@ -47,7 +47,6 @@ import { parseEnvironmentInfo } from '@northern.tech/store/storehooks';
 import { logoutUser } from '@northern.tech/store/thunks';
 import { dark as darkTheme, light as lightTheme } from '@northern.tech/themes/Mender';
 import '@northern.tech/themes/Mender/styles/main.css';
-import { toggle } from '@northern.tech/utils/helpers';
 import { browserTracingIntegration, replayIntegration, setUser } from '@sentry/react';
 import Cookies from 'universal-cookie';
 
@@ -224,7 +223,8 @@ export const AppRoot = () => {
 
   useIdleTimer({ crossTab: true, onAction: updateExpiryDate, onActive: updateExpiryDate, onIdle, syncTimers: 400, timeout, timers: workerTimers });
 
-  const onToggleSearchResult = () => setShowSearchResult(toggle);
+  const onOpenSearchResult = useCallback(() => setShowSearchResult(true), []);
+  const onCloseSearchResult = useCallback(() => setShowSearchResult(false), []);
 
   const theme = createTheme(THEME[isDarkMode ? DARK_MODE : LIGHT_MODE] || THEME.light);
 
@@ -245,7 +245,7 @@ export const AppRoot = () => {
             <LeftNav />
             <div className="rightFluid container">
               <ErrorBoundary>
-                <SearchResult onToggleSearchResult={onToggleSearchResult} open={showSearchResult} />
+                <SearchResult onOpenSearchResult={onOpenSearchResult} onCloseSearchResult={onCloseSearchResult} open={showSearchResult} />
                 {isSP ? <PrivateSPRoutes /> : <PrivateRoutes />}
               </ErrorBoundary>
             </div>
