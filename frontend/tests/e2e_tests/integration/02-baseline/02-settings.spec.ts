@@ -86,7 +86,7 @@ test.describe('Settings', () => {
       await userCreationButton.waitFor();
     });
 
-    test.skip('verify email address', async ({ baseUrl, environment, page, username }) => {
+    test('verify email address', async ({ baseUrl, environment, page, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
       const emailClient = setupEmailClient(username, environment);
       test.skip(!emailClient, 'test requires configuring a mailbox');
