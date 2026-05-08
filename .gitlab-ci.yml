@@ -754,7 +754,7 @@ test:staging-deployment:firefox:
 
 publish:backend:coverage:
   stage: publish
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers:base-alpine-master
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/base-alpine:master
   needs:
     - job: test:backend:unit
       artifacts: true
