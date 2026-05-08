@@ -18,7 +18,7 @@ configs:
       }
 services:
   gui-tests-runner:
-    image: mendersoftware/mender-test-containers:gui-e2e-testing
+    image: registry.gitlab.com/northern.tech/mender/mender-test-containers/gui-e2e-testing:master
     command: ['tail', '-f', '/dev/null']
     environment:
       - TEST_ENVIRONMENT
