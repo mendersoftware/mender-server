@@ -213,6 +213,9 @@ type App interface {
 	GetReleasesUpdateTypes(ctx context.Context) ([]string, error)
 	DeleteReleases(ctx context.Context, releaseNames []string) ([]string, error)
 	GetRelease(ctx context.Context, releaseName string) (*model.Release, error)
+
+	// software
+	ListSoftwareTags(ctx context.Context, filter *model.SoftwareTagsFilter) (model.Tags, error)
 }
 
 type Deployments struct {
