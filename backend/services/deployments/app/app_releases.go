@@ -62,16 +62,6 @@ func (d *Deployments) updateRelease(
 	return d.db.UpdateReleaseArtifacts(ctx, artifactToAdd, artifactToRemove, name)
 }
 
-func (d *Deployments) ListReleaseTags(ctx context.Context) (model.Tags, error) {
-	tags, err := d.db.ListReleaseTags(ctx)
-	if err != nil {
-		log.FromContext(ctx).
-			Errorf("failed to list release tags: %s", err)
-		err = ErrModelInternal
-	}
-	return tags, err
-}
-
 func (d *Deployments) GetReleasesUpdateTypes(ctx context.Context) ([]string, error) {
 	updateTypes, err := d.db.GetUpdateTypes(ctx)
 	if err != nil {
