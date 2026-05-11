@@ -21,7 +21,6 @@ import { TIMEOUTS, maxSessionAge } from '@northern.tech/store/constants';
 import { mockDate, token, undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, render as testLibRender, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import 'jsdom-worker';
 import { vi } from 'vitest';
 
 import App, { AppProviders } from './App';
@@ -56,6 +55,9 @@ describe('App Component', () => {
     Linkify.default = vi.fn();
     Linkify.default.mockReturnValue(null);
   });
+  beforeEach(() => {
+    createMocks();
+  });
   it(
     'renders correctly',
     async () => {
@@ -83,8 +85,6 @@ describe('App Component', () => {
   it(
     'works as intended',
     async () => {
-      createMocks(); // mock react-idle-timers timers only here, since it will interfere with standard timer mocking otherwise
-
       const currentSession = { expiresAt: new Date().toISOString(), token };
       window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify(currentSession) : undefined));
 
