@@ -611,9 +611,9 @@ test:backend:integration:
     MANTRA_PROJECT_NAME: "backend_integration_open_source"
   parallel: 2
   script:
-    - mkdir -p ${GOCOVERDIR}/integration
+    - mkdir -p ${GOCOVERDIR}/integration-${CI_NODE_INDEX}
     - make -C backend test-integration
-      GOCOVERDIR=${GOCOVERDIR}/integration
+      GOCOVERDIR=${GOCOVERDIR}/integration-${CI_NODE_INDEX}
       MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
   after_script:
     - export MANTRA_PROJECT_NAME="backend_integration_open_source"
@@ -622,7 +622,7 @@ test:backend:integration:
     expire_in: 1w
     when: always
     paths:
-      - ${GOCOVERDIR}/integration/*
+      - ${GOCOVERDIR}/integration-${CI_NODE_INDEX}
       - backend/tests/logs/*
     reports:
       junit: backend/tests/logs/results_integration_*.xml
@@ -771,6 +771,9 @@ publish:backend:coverage:
     - job: test:backend:integration
       artifacts: true
       optional: true
+    - job: test:backend:integration:ng
+      artifacts: true
+      optional: true
   rules:
     - changes:
         paths: ["backend/**/*"]
@@ -782,8 +785,15 @@ publish:backend:coverage:
   before_script:
     - curl -Os https://cli.codecov.io/latest/alpine/codecov
     - chmod +x codecov
+    - curl -L "https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz" | tar -C /usr/local -xz
+    - export PATH="$PATH:/usr/local/go/bin"
   script:
     - PR_FLAG=$(echo "${CI_COMMIT_BRANCH}" | grep -q '^pr_' && echo "--pr $(echo "${CI_COMMIT_BRANCH}" | sed 's/^pr_//')" || echo "")
+    - for coverdir in $(find ${GOCOVERDIR} -mindepth 1 -maxdepth 1 -type d); do
+      if find "$coverdir" -maxdepth 1 -name "covmeta.*" | grep -q .; then
+        go tool covdata textfmt -i "$coverdir" -o "${GOCOVERDIR}/$(basename $coverdir).cover";
+      fi;
+      done
     - for coverpath in $(find ${GOCOVERDIR} -type f -name '*.cover'); do
       coverfile=$(basename "$coverpath");
       ./codecov upload-process
