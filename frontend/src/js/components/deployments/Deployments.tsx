@@ -205,7 +205,7 @@ export const Deployments = () => {
 
   const onCreationShow = () => dispatch(setDeploymentsState({ general: { showCreationDialog: true } }));
 
-  const setDeploymentSettings = useCallback(change => setDeploymentObject(current => ({ ...current, ...change })), []);
+  const onValuesChange = useCallback(change => setDeploymentObject(current => ({ ...current, ...change })), []);
 
   let onboardingComponent = null;
   // the pastCount prop is needed to trigger the rerender as the change in past deployments would otherwise not be noticed on this view
@@ -245,7 +245,7 @@ export const Deployments = () => {
         onDismiss={onCreationDismiss}
         deploymentObject={deploymentObject}
         onScheduleSubmit={onScheduleSubmit}
-        setDeploymentSettings={setDeploymentSettings}
+        onValuesChange={onValuesChange}
       />
       {!reportDialog && onboardingComponent}
     </>

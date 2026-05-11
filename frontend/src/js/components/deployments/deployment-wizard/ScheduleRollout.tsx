@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import { FormControl, MenuItem, Select } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
@@ -24,6 +25,7 @@ import dayjs from 'dayjs';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
+import { deploymentFormSections } from './utils';
 
 const useStyles = makeStyles()(() => ({
   textField: { minWidth: 400 },
@@ -31,21 +33,22 @@ const useStyles = makeStyles()(() => ({
   pickerStyle: { marginBottom: 15, width: 'min-content' }
 }));
 
-export const ScheduleRollout = ({ canSchedule, commonClasses, setDeploymentSettings, deploymentObject, open = false }) => {
+export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) => {
   const [isPickerOpen, setIsPickerOpen] = useState(open);
   const { classes } = useStyles();
+  const { watch, setValue } = useFormContext();
 
-  const { phases = [] } = deploymentObject;
+  const phases = watch(deploymentFormSections.phases) || [];
 
   const handleStartTimeChange = value => {
     // if there is no existing phase, set phase and start time
     if (!phases.length) {
-      setDeploymentSettings({ phases: [{ batch_size: 100, start_ts: value, delay: 0 }] });
+      setValue(deploymentFormSections.phases, [{ batch_size: 100, start_ts: value, delay: 0 }]);
     } else {
       //if there are existing phases, set the first phases to the new start time and adjust later phases in different function
-      const newPhases = phases;
-      newPhases[0].start_ts = value;
-      setDeploymentSettings({ phases: newPhases });
+      const newPhases = [...phases];
+      newPhases[0] = { ...newPhases[0], start_ts: value };
+      setValue(deploymentFormSections.phases, newPhases);
     }
   };
 

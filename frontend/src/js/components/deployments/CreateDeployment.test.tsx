@@ -11,6 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { FormProvider, useForm } from 'react-hook-form';
+
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -18,12 +20,22 @@ import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 
-import CreateDeployment from './CreateDeployment';
+import CreateDeployment, { defaultValues as formDefaultValues } from './CreateDeployment';
 import { DeviceLimit } from './deployment-wizard/DeviceLimit';
 import { RolloutPatternSelection, getPhaseDeviceCount, getRemainderPercent, validatePhases } from './deployment-wizard/PhaseSettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/RolloutOptions';
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
+
+const FormWrapper = ({ children, defaultValues = {} }) => {
+  const methods = useForm({
+    defaultValues: {
+      ...formDefaultValues,
+      ...defaultValues
+    }
+  });
+  return <FormProvider {...methods}>{children}</FormProvider>;
+};
 
 const preloadedState = {
   ...defaultState,
@@ -40,7 +52,7 @@ const deploymentCreationTime = defaultState.deployments.byId.d1.created;
 
 describe('CreateDeployment Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<CreateDeployment deploymentObject={{}} setDeploymentSettings={vi.fn()} />, { preloadedState });
+    const { baseElement } = render(<CreateDeployment deploymentObject={{}} onValuesChange={vi.fn()} />, { preloadedState });
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
@@ -61,13 +73,14 @@ describe('CreateDeployment Component', () => {
         open: true,
         previousRetries: 0,
         releases: Object.keys(defaultState.releases.byId),
-        releasesById: defaultState.releases.byId,
-        setDeploymentSettings: vi.fn()
+        releasesById: defaultState.releases.byId
       };
       it(`renders ${Component.displayName || Component.name} correctly`, () => {
         const { baseElement } = render(
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Component {...props} />
+            <FormWrapper>
+              <Component {...props} />
+            </FormWrapper>
           </LocalizationProvider>,
           { preloadedState }
         );
@@ -79,7 +92,9 @@ describe('CreateDeployment Component', () => {
       it(`renders ${Component.displayName || Component.name} correctly as enterprise`, () => {
         const { baseElement } = render(
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Component {...props} isEnterprise />
+            <FormWrapper>
+              <Component {...props} isEnterprise />
+            </FormWrapper>
           </LocalizationProvider>,
           { preloadedState }
         );

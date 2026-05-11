@@ -12,16 +12,18 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 import { ErrorOutlined as ErrorOutlineIcon } from '@mui/icons-material';
 import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
-import { Alert, Autocomplete, Button, TextField, Tooltip } from '@mui/material';
+import { Alert, Button, TextField, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
 import InfoText from '@northern.tech/common-ui/InfoText';
 import { Link } from '@northern.tech/common-ui/Link';
+import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
 import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIONS, DEVICE_STATES } from '@northern.tech/store/constants';
 import { formatDeviceSearch } from '@northern.tech/store/locationutils';
 import { getDeviceLimits } from '@northern.tech/store/selectors';
@@ -35,6 +37,8 @@ import validator from 'validator';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { ReleaseArtifactFilter } from './ReleaseArtifactFilter';
+import type { DeploymentFormValues } from './types';
+import { deploymentFormSections, useDerivedData } from './utils';
 
 const { isUUID } = validator;
 
@@ -125,24 +129,15 @@ export const ReleasesWarning = ({ lacksReleases }) => (
   </div>
 );
 
-export const Devices = ({
-  deploymentObject,
-  devicesById,
-  groupRef,
-  groupNames,
-  hasDevices,
-  hasDynamicGroups,
-  hasFullFiltering,
-  hasPending,
-  idAttribute,
-  setDeploymentSettings
-}) => {
+export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDynamicGroups, hasPending, idAttribute, initialDevices = [] }) => {
   const { classes } = useStyles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
   const dispatch = useAppDispatch();
+  const { watch } = useFormContext<DeploymentFormValues>();
 
-  const { deploymentDeviceCount = 0, devices = [], filter, group = null } = deploymentObject;
+  const group = watch(deploymentFormSections.group);
+  const { deploymentDeviceCount, devices, filter } = useDerivedData(watch, initialDevices);
   const device = useMemo(() => (devices.length === 1 ? devices[0] : {}), [devices]);
 
   useEffect(() => {
@@ -155,17 +150,9 @@ export const Devices = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [device.id, device.attributes?.mender_is_gateway, dispatch]);
 
-  const deploymentSettingsUpdate = (e, value, reason) => {
-    let update = { group: value };
-    if (reason === 'clear') {
-      update = { ...update, deploymentDeviceCount: 0, devices: [] };
-    }
-    setDeploymentSettings(update);
-  };
-
   const { deviceText, devicesLink, targetDeviceCount, targetDevicesText } = useMemo(() => {
     const devicesLink = getDevicesLink({ devices, group, filters: filter?.filters, groupId: filter?.id });
-    let deviceText = getDeploymentTargetText({ deployment: deploymentObject, devicesById, idAttribute });
+    let deviceText = getDeploymentTargetText({ deployment: { devices, filter, group }, devicesById, idAttribute });
     let targetDeviceCount = deploymentDeviceCount;
     let targetDevicesText = `${deploymentDeviceCount} ${pluralize('devices', deploymentDeviceCount)}`;
     if (device?.id) {
@@ -184,7 +171,7 @@ export const Devices = ({
       }
     }
     return { deviceText, devicesLink, targetDeviceCount, targetDevicesText };
-  }, [devices, filter, group, hasFullFiltering, deploymentObject, idAttribute, deploymentDeviceCount, device]);
+  }, [devices, filter, group, devicesById, idAttribute, deploymentDeviceCount, device]);
 
   return (
     <>
@@ -194,7 +181,8 @@ export const Devices = ({
           <TextField value={deviceText} label={pluralize('device', devices.length)} disabled className={classes.infoStyle} />
         ) : (
           <div>
-            <Autocomplete
+            <ControlledAutoComplete
+              name={deploymentFormSections.group}
               id="deployment-device-group-selection"
               autoSelect
               autoHighlight
@@ -202,9 +190,7 @@ export const Devices = ({
               handleHomeEndKeys
               disabled={!(hasDevices || hasDynamicGroups)}
               options={groupNames}
-              onChange={deploymentSettingsUpdate}
               renderInput={params => <TextField {...params} placeholder="Select a device group" className={classes.textField} />}
-              value={group}
             />
             {!(hasDevices || hasDynamicGroups) && (
               <InfoText style={{ marginTop: '10px' }}>
@@ -235,13 +221,16 @@ export const Devices = ({
 
 const MCU_ARTIFACT_SIZE_LIMIT = 5 * 1024 ** 2;
 
-export const Software = ({ commonClasses, deploymentObject, releaseRef, releases, releasesById, setDeploymentSettings }) => {
+export const Software = ({ commonClasses, initialDevices = [], releaseRef, releaseSelectionLocked, releases, releasesById }) => {
   const [releaseFilterOpened, setReleaseFilterOpened] = useState(false);
   const [showSizeWarning, setShowSizeWarning] = useState(false);
   const deviceLimits = useSelector(getDeviceLimits);
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
-  const { devices = [], release: deploymentRelease = null, releaseSelectionLocked } = deploymentObject;
+  const { watch, setValue } = useFormContext<DeploymentFormValues>();
+  const { devices } = useDerivedData(watch, initialDevices);
+
+  const deploymentRelease = watch(deploymentFormSections.release);
   const device = devices.length ? devices[0] : undefined;
   const hasMicroDevicesOnly = deviceLimits.micro !== 0 && !(deviceLimits.standard && deviceLimits.system);
 
@@ -253,14 +242,14 @@ export const Software = ({ commonClasses, deploymentObject, releaseRef, releases
   const releaseItems = releases.map(rel => releasesById[rel]);
   const onReleaseSelectionChange = useCallback(
     release => {
-      if (release !== deploymentObject.release) {
-        setDeploymentSettings({ release });
+      if (release !== deploymentRelease) {
+        setValue(deploymentFormSections.release, release);
       }
       if (hasMicroDevicesOnly) {
         setShowSizeWarning(release?.artifacts.some(({ size }) => size > MCU_ARTIFACT_SIZE_LIMIT));
       }
     },
-    [deploymentObject.release, hasMicroDevicesOnly, setDeploymentSettings]
+    [deploymentRelease, hasMicroDevicesOnly, setValue]
   );
 
   const releaseDeviceTypes = (deploymentRelease && deploymentRelease.device_types_compatible) ?? [];
