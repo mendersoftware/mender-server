@@ -138,7 +138,7 @@ export const AiLogAnalysis = ({ deployment, deviceId }: AiLogAnalysisProps) => {
       setIsAnalyzing(false);
       if (error.status === 429) {
         const waitingTime = dayjs.duration(error.request.getResponseHeader('Retry-After'), 'seconds').humanize();
-        setAnalysisError(`You have reached your limit of 50 AI requests per day. Please try again in about ${waitingTime}.`);
+        setAnalysisError(`You have reached your limit of 10 AI requests per day. Please try again in about ${waitingTime}.`);
         return;
       }
       setAnalysisError('Failed to generate analysis. Please try again.');

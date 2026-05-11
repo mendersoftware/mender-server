@@ -254,7 +254,7 @@ export const GlobalSettings = () => {
                   <Typography variant="subtitle1">AI features (experimental)</Typography>
                 </div>
               }
-              description="Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 50 requests per day. "
+              description="Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 10 requests per day. "
             />
             <FormControlLabel
               control={
