@@ -128,6 +128,7 @@ model_remove_a_group_200_response.go
 model_scope.go
 model_search_params.go
 model_select_attribute.go
+model_software.go
 model_sort_criteria.go
 model_start_batch_workflows_201_response_inner.go
 model_start_workflow_201_response.go

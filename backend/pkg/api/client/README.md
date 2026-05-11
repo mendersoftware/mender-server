@@ -125,6 +125,7 @@ Class | Method | HTTP request | Description
 *DeploymentsManagementAPIAPI* | [**ShowDeployment**](docs/DeploymentsManagementAPIAPI.md#showdeployment) | **Get** /api/management/v1/deployments/deployments/{id} | Get the details of a selected deployment
 *DeploymentsManagementAPIAPI* | [**UpdateArtifactInfo**](docs/DeploymentsManagementAPIAPI.md#updateartifactinfo) | **Put** /api/management/v1/deployments/artifacts/{id} | Update description of a selected artifact
 *DeploymentsManagementAPIAPI* | [**UploadArtifact**](docs/DeploymentsManagementAPIAPI.md#uploadartifact) | **Post** /api/management/v1/deployments/artifacts | Upload mender artifact
+*DeploymentsV1alpha1ManagementAPIAPI* | [**GetDeploymentSoftware**](docs/DeploymentsV1alpha1ManagementAPIAPI.md#getdeploymentsoftware) | **Get** /api/management/v1alpha1/deployments/software | Get Mender Software
 *DeploymentsV1alpha1ManagementAPIAPI* | [**ListSoftwareTags**](docs/DeploymentsV1alpha1ManagementAPIAPI.md#listsoftwaretags) | **Get** /api/management/v1alpha1/deployments/software/tags | Lists all available tags for software (releases and/or manifests). 
 *DeploymentsV2ManagementAPIAPI* | [**AssignReleaseTags**](docs/DeploymentsV2ManagementAPIAPI.md#assignreleasetags) | **Put** /api/management/v2/deployments/deployments/releases/{release_name}/tags | Update and replace the tags of a release. 
 *DeploymentsV2ManagementAPIAPI* | [**DeleteReleases**](docs/DeploymentsV2ManagementAPIAPI.md#deletereleases) | **Delete** /api/management/v2/deployments/deployments/releases | Delete the releases with given names
@@ -373,6 +374,7 @@ Class | Method | HTTP request | Description
  - [Scope](docs/Scope.md)
  - [SearchParams](docs/SearchParams.md)
  - [SelectAttribute](docs/SelectAttribute.md)
+ - [Software](docs/Software.md)
  - [SortCriteria](docs/SortCriteria.md)
  - [StartBatchWorkflows201ResponseInner](docs/StartBatchWorkflows201ResponseInner.md)
  - [StartWorkflow201Response](docs/StartWorkflow201Response.md)

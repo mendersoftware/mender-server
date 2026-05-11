@@ -155,6 +155,7 @@ __all__ = [
     "Scope",
     "SearchParams",
     "SelectAttribute",
+    "Software",
     "SortCriteria",
     "StartBatchWorkflows201ResponseInner",
     "StartWorkflow201Response",
@@ -321,6 +322,7 @@ from mender_client.models.remove_a_group200_response import RemoveAGroup200Respo
 from mender_client.models.scope import Scope as Scope
 from mender_client.models.search_params import SearchParams as SearchParams
 from mender_client.models.select_attribute import SelectAttribute as SelectAttribute
+from mender_client.models.software import Software as Software
 from mender_client.models.sort_criteria import SortCriteria as SortCriteria
 from mender_client.models.start_batch_workflows201_response_inner import StartBatchWorkflows201ResponseInner as StartBatchWorkflows201ResponseInner
 from mender_client.models.start_workflow201_response import StartWorkflow201Response as StartWorkflow201Response
