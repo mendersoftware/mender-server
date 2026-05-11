@@ -204,10 +204,11 @@ type DataStore interface {
 		releaseName string,
 		release model.ReleasePatch,
 	) error
-	ListReleaseTags(ctx context.Context) (model.Tags, error)
 	SaveUpdateTypes(ctx context.Context, updateTypes []string) error
 	GetUpdateTypes(ctx context.Context) ([]string, error)
 	DeleteReleasesByNames(ctx context.Context, names []string) error
+
+	ListSoftwareTags(ctx context.Context, filter *model.SoftwareTagsFilter) (model.Tags, error)
 }
 
 var ErrNotFound = errors.New("document not found")

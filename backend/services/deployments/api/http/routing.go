@@ -38,9 +38,10 @@ import (
 )
 
 const (
-	ApiUrlInternal   = "/api/internal/v1/deployments"
-	ApiUrlManagement = "/api/management/v1/deployments"
-	ApiUrlDevices    = "/api/devices/v1/deployments"
+	ApiUrlInternal           = "/api/internal/v1/deployments"
+	ApiUrlManagement         = "/api/management/v1/deployments"
+	ApiUrlManagementV1Alpha1 = "/api/management/v1alpha1/deployments"
+	ApiUrlDevices            = "/api/devices/v1/deployments"
 
 	ApiUrlManagementArtifacts               = "/artifacts"
 	ApiUrlManagementArtifactsList           = "/artifacts/list"
@@ -95,6 +96,9 @@ const (
 		"/:deployment_id/devices/:device_id"
 	ApiUrlInternalDeviceDeploymentLastStatusDeployments = "/tenants/:tenant/devices/deployments" +
 		"/last"
+
+	APIPathSoftware     = "/software"
+	APIPathSoftwareTags = APIPathSoftware + "/tags"
 )
 
 func init() {
@@ -141,6 +145,9 @@ func NewRouter(
 	NewLimitsResourceRoutes(withAuth, deploymentsHandlers)
 	InternalRoutes(internalAPIs, deploymentsHandlers)
 	ReleasesRoutes(withAuth, deploymentsHandlers)
+
+	alpha := withAuth.Group(ApiUrlManagementV1Alpha1)
+	alpha.GET(APIPathSoftwareTags, deploymentsHandlers.GetSoftwareTags)
 
 	restutil.AutogenOptionsRoutes(
 		restutil.NewOptionsHandler,

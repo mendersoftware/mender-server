@@ -118,27 +118,6 @@ func (db *DataStoreMongo) UpdateReleaseArtifacts(
 	return nil
 }
 
-func (db *DataStoreMongo) ListReleaseTags(ctx context.Context) (model.Tags, error) {
-	filter := bson.M{
-		StorageKeyReleaseKind: bson.M{"$in": bson.A{nil, model.ReleaseKindRelease}},
-	}
-	res := db.client.
-		Database(mstore.DbFromContext(ctx, DatabaseName)).
-		Collection(CollectionReleases).
-		Distinct(ctx, StorageKeyReleaseTags, filter)
-
-	var tagKeys []string
-	if err := res.Decode(&tagKeys); err != nil {
-		return nil, err
-	}
-	ret := make([]model.Tag, 0, len(tagKeys))
-	for _, elem := range tagKeys {
-		ret = append(ret, model.Tag(elem))
-	}
-
-	return ret, nil
-}
-
 func (db *DataStoreMongo) ReplaceReleaseTags(
 	ctx context.Context,
 	releaseName string,
@@ -155,7 +134,9 @@ func (db *DataStoreMongo) ReplaceReleaseTags(
 
 	// Check if added tags will exceed limits
 	if len(tags) > 0 {
-		inUseTags, err := db.ListReleaseTags(ctx)
+		inUseTags, err := db.ListSoftwareTags(ctx,
+			&model.SoftwareTagsFilter{Kind: model.ReleaseKindRelease},
+		)
 		if err != nil {
 			return errors.WithMessage(err, "mongo: failed to count in-use tags")
 		}

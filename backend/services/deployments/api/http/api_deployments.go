@@ -80,6 +80,7 @@ const (
 	ParamPerPage      = "per_page"
 	ParamSort         = "sort"
 	ParamID           = "id"
+	ParamReleaseKind  = "kind"
 )
 
 const Redacted = "REDACTED"
