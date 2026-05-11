@@ -19,8 +19,6 @@ import { vi } from 'vitest';
 
 import { PortForward } from './PortForward';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('PortForward Component', () => {
   it('renders correctly', async () => {
     const { getSessionDetails: sessionSpy } = StoreThunks;

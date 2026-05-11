@@ -20,8 +20,6 @@ import { vi } from 'vitest';
 
 import SoftwareDistribution from './SoftwareDistribution';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 const preloadedState = {
   ...defaultState,
   app: {

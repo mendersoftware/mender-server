@@ -604,7 +604,7 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
     tabindex="-1"
   >
     <div
-      aria-labelledby="_r_7_"
+      aria-labelledby="_r_X_"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
@@ -612,7 +612,7 @@ exports[`DeviceConnectionDialog Component > renders Zephyr correctly 1`] = `
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id="_r_7_"
+        id="_r_X_"
       >
         Connecting a device
       </h2>
@@ -1474,7 +1474,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
     tabindex="-1"
   >
     <div
-      aria-labelledby="_r_1_"
+      aria-labelledby="_r_X_"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-3"
       role="dialog"
@@ -1482,7 +1482,7 @@ exports[`DeviceConnectionDialog Component > renders correctly 1`] = `
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id="_r_1_"
+        id="_r_X_"
       >
         Connecting a device
       </h2>

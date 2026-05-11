@@ -975,12 +975,7 @@ exports[`smaller components > renders DeviceLimitExpansionNotification correctly
 exports[`smaller components > renders PlanDescriptor correctly 1`] = `You're currently on the `;
 
 exports[`smaller components > renders unlimited Standard devices in billing correctly 1`] = `
-<body
-  style=""
->
-  <script
-    src="/ui/vs/loader.js"
-  />
+<body>
   <div>
     You're currently on the 
     <b>

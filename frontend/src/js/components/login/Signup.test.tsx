@@ -23,8 +23,6 @@ import { vi } from 'vitest';
 
 import Signup from './Signup';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('Signup Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<Signup match={{ params: { campaign: '' } }} />);

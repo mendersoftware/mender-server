@@ -20,8 +20,6 @@ import { vi } from 'vitest';
 
 import AccessTokenManagement, { AccessTokenCreationDialog, AccessTokenRevocationDialog } from './AccessTokenManagement';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 const preloadedState = {
   ...defaultState,
   app: {

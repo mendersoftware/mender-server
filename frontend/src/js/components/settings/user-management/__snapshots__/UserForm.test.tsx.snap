@@ -1613,7 +1613,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
     tabindex="-1"
   >
     <div
-      aria-labelledby="_r_1_"
+      aria-labelledby="_r_X_"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm MuiDialog-paperFullWidth emotion-3"
       role="dialog"
@@ -1621,7 +1621,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id="_r_1_"
+        id="_r_X_"
       >
         Add new user
       </h2>
@@ -1885,7 +1885,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                           aria-invalid="false"
                           class="MuiSelect-nativeInput emotion-39"
                           disabled=""
-                          id="_r_7_"
+                          id="_r_X_"
                           required=""
                           tabindex="-1"
                           value=""
@@ -3603,7 +3603,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
     tabindex="-1"
   >
     <div
-      aria-labelledby="_r_b_"
+      aria-labelledby="_r_X_"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm MuiDialog-paperFullWidth emotion-3"
       role="dialog"
@@ -3611,7 +3611,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id="_r_b_"
+        id="_r_X_"
       >
         Add new user
       </h2>
@@ -3875,7 +3875,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                           aria-invalid="false"
                           class="MuiSelect-nativeInput emotion-39"
                           disabled=""
-                          id="_r_h_"
+                          id="_r_X_"
                           required=""
                           tabindex="-1"
                           value=""

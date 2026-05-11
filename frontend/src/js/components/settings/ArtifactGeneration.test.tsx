@@ -20,8 +20,6 @@ import userEvent from '@testing-library/user-event';
 
 import ArtifactGeneration from './ArtifactGeneration';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('ArtifactGeneration component', () => {
   it(`renders correctly`, async () => {
     const { baseElement } = render(<ArtifactGeneration onClose={vi.fn()} open />);

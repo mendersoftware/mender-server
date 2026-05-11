@@ -21,8 +21,6 @@ import { vi } from 'vitest';
 
 import { Billing } from './Billing';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 const preloadedState = {
   organization: {
     ...defaultState.organization,

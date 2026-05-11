@@ -23,8 +23,6 @@ import { vi } from 'vitest';
 import Authorized from './AuthorizedDevices';
 import { routes } from './BaseDevices';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 const preloadedState = {
   ...defaultState,
   devices: {

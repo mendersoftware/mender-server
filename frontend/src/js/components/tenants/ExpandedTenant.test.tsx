@@ -23,8 +23,6 @@ import { vi } from 'vitest';
 
 import { ExpandedTenant } from './ExpandedTenant';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 const state = {
   ...defaultState,
   organization: {

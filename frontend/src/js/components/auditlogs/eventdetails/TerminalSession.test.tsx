@@ -19,8 +19,6 @@ import { vi } from 'vitest';
 
 import TerminalSession from './TerminalSession';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('TerminalSession Component', () => {
   let socketSpyFactory;
   let socketSpy;

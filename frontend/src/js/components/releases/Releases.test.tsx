@@ -22,8 +22,6 @@ import { vi } from 'vitest';
 
 import Releases from './Releases';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('Releases Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<Releases />);

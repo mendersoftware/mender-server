@@ -24,8 +24,6 @@ import { vi } from 'vitest';
 import { SubscriptionDrawer } from './SubscriptionDrawer';
 import { microDeviceTier, standardDeviceTier } from './SubscriptionPage.test';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 const createBillingProfileReq = {
   billingProfile: {
     address: {
