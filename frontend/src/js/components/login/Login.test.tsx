@@ -22,8 +22,6 @@ import { vi } from 'vitest';
 
 import Login from './Login';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 const preloadedState = {
   ...defaultState,
   app: {

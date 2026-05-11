@@ -22,8 +22,6 @@ import { vi } from 'vitest';
 
 import Roles from './RoleManagement';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('Roles Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<Roles />);

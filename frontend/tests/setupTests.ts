@@ -11,11 +11,32 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { cleanUp } from '@northern.tech/store/auth';
 import handlers from '@northern.tech/testing/requestHandlers/requestHandlers';
 import { afterAll as ntAfterAll, afterEach as ntAfterEach, beforeAll as ntBeforeAll, beforeEach as ntBeforeEach } from '@northern.tech/testing/setupTests';
 import '@testing-library/jest-dom/vitest';
 import { setupServer } from 'msw/node';
-import { afterAll, afterEach, beforeAll, beforeEach, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, expect, vi } from 'vitest';
+
+import Tracking from '../src/js/tracking';
+
+// monaco editor is not available in jsdom, stub it to avoid dom modifications
+vi.mock('@monaco-editor/react', () => ({
+  default: () => null,
+  DiffEditor: () => null,
+  loader: { config: () => {} }
+}));
+
+// avoid appending the recaptcha input
+vi.mock('react-google-recaptcha', () => ({
+  default: () => null
+}));
+
+vi.mock('@northern.tech/store/thunks', { spy: true });
+
+// Avoid inserting links in DOM
+Tracking.cookieconsent = () => Promise.resolve({ trackingConsentGiven: false });
+
 // Unified id's assigned by react to stabilize snapshots
 expect.addSnapshotSerializer({
   test: val => typeof val === 'string' && /_r_[a-z0-9]+_/.test(val),
@@ -55,6 +76,8 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  // reset module-level tokenCache
+  cleanUp();
   await ntBeforeEach({ vi });
 });
 
@@ -62,6 +85,8 @@ afterEach(async () => {
   await ntAfterEach({ vi });
   // Reset any runtime handlers tests may use.
   await server.resetHandlers();
+  // clean-up after MUI modals append styles to body
+  document.body.removeAttribute('style');
 });
 
 afterAll(async () => {

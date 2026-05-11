@@ -26,8 +26,6 @@ import { vi } from 'vitest';
 
 import { PreauthDialog } from './PreauthDialog';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 const mockStore = configureStore([thunk]);
 
 const errorText = 'test-errortext';

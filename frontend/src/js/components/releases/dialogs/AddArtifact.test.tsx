@@ -21,8 +21,6 @@ import { vi } from 'vitest';
 
 import AddArtifact from './AddArtifact';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('AddArtifact Component', () => {
   const preloadedState = { ...defaultState, onboarding: { ...defaultState.onboarding, complete: true } };
   it('renders correctly', async () => {

@@ -35,8 +35,6 @@ const deviceDeployments = [
   }
 ];
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('Deployments Component', () => {
   it('renders correctly', async () => {
     const { getDeviceDeployments: getDeploymentsSpy } = StoreThunks;

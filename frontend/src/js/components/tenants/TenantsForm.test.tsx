@@ -23,8 +23,6 @@ import { expect, vi } from 'vitest';
 import { TenantCreateForm } from './TenantCreateForm';
 import { TenantPage } from './TenantPage';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('TenantsForm', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<TenantCreateForm open={true} onCloseClick={vi.fn} />);

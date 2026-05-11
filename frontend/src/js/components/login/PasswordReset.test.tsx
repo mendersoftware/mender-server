@@ -28,8 +28,6 @@ import PasswordReset from './PasswordReset';
 const goodPassword = 'mysecretpassword!123';
 const badPassword = 'mysecretpassword!546';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('PasswordReset Component', () => {
   let store;
   beforeEach(() => {

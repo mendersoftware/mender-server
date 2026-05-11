@@ -21,8 +21,6 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { UserManagement } from './UserManagement';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 const preloadedState = {
   ...defaultState,
   app: {

@@ -20,8 +20,6 @@ import { vi } from 'vitest';
 
 import Password from './Password';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
-
 describe('Password Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<Password />);

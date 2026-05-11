@@ -22,7 +22,6 @@ import { vi } from 'vitest';
 import type { DeviceTypes } from './SubscriptionPage';
 import { SubscriptionPage } from './SubscriptionPage';
 
-vi.mock('@northern.tech/store/thunks', { spy: true });
 export const standardDeviceTier: Partial<DeviceTypes> = {
   standard: { id: 'standard', stripeProductName: 'mender_standard', label: 'Standard devices', summaryLabel: 'Standard', tooltipId: 'standardDevice' }
 };
