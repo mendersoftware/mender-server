@@ -1,5 +1,4 @@
-ARG REGISTRY=docker.io
-FROM ${REGISTRY}/python:3.14-slim-bookworm
+FROM python:3.14-slim-bookworm
 ARG MENDER_ARTIFACT_VERSION=4.4.0
 COPY requirements-acceptance.txt requirements.txt
 RUN apt update && apt install -qy wget && \
