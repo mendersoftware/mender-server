@@ -423,7 +423,7 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
     tabindex="-1"
   >
     <div
-      aria-labelledby="_r_11_"
+      aria-labelledby="_r_X_"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthXs emotion-3"
       role="dialog"
@@ -431,7 +431,7 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-        id="_r_11_"
+        id="_r_X_"
       >
         <div
           class="flexbox align-items-center"
@@ -2173,7 +2173,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                   class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-43"
                 >
                   <button
-                    aria-controls="base-ui-_r_4_"
+                    aria-controls="base-ui-_r_X_"
                     aria-disabled="false"
                     aria-label="Increase"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-44"
@@ -2194,7 +2194,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                     </svg>
                   </button>
                   <button
-                    aria-controls="base-ui-_r_4_"
+                    aria-controls="base-ui-_r_X_"
                     aria-disabled="true"
                     aria-label="Decrease"
                     class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-44"
@@ -2332,7 +2332,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                   class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-43"
                 >
                   <button
-                    aria-controls="base-ui-_r_9_"
+                    aria-controls="base-ui-_r_X_"
                     aria-disabled="false"
                     aria-label="Increase"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall emotion-44"
@@ -2353,7 +2353,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                     </svg>
                   </button>
                   <button
-                    aria-controls="base-ui-_r_9_"
+                    aria-controls="base-ui-_r_X_"
                     aria-disabled="true"
                     aria-label="Decrease"
                     class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall emotion-44"

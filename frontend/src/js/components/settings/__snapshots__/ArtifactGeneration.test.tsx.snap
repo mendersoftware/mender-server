@@ -1383,8 +1383,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-28"
               data-shrink="true"
-              for="_r_3_"
-              id="_r_3_-label"
+              for="_r_X_"
+              id="_r_X_-label"
             >
               Source buffer size
             </label>
@@ -1392,11 +1392,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-29"
             >
               <input
-                aria-describedby="_r_3_-helper-text"
+                aria-describedby="_r_X_-helper-text"
                 aria-invalid="true"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input emotion-30"
-                id="_r_3_"
+                id="_r_X_"
                 pattern="[0-9]*"
                 step="1"
                 type="numeric"
@@ -1426,7 +1426,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
             </div>
             <p
               class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-35"
-              id="_r_3_-helper-text"
+              id="_r_X_-helper-text"
             >
               Defaults to: 10
             </p>
@@ -1437,8 +1437,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-28"
               data-shrink="true"
-              for="_r_4_"
-              id="_r_4_-label"
+              for="_r_X_"
+              id="_r_X_-label"
             >
               Input window size
             </label>
@@ -1446,11 +1446,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-29"
             >
               <input
-                aria-describedby="_r_4_-helper-text"
+                aria-describedby="_r_X_-helper-text"
                 aria-invalid="true"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input emotion-30"
-                id="_r_4_"
+                id="_r_X_"
                 pattern="[0-9]*"
                 step="1"
                 type="numeric"
@@ -1480,7 +1480,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
             </div>
             <p
               class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-35"
-              id="_r_4_-helper-text"
+              id="_r_X_-helper-text"
             >
               Defaults to: 10
             </p>
@@ -1491,8 +1491,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-28"
               data-shrink="true"
-              for="_r_5_"
-              id="_r_5_-label"
+              for="_r_X_"
+              id="_r_X_-label"
             >
               Instruction buffer size
             </label>
@@ -1500,11 +1500,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-29"
             >
               <input
-                aria-describedby="_r_5_-helper-text"
+                aria-describedby="_r_X_-helper-text"
                 aria-invalid="true"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input emotion-30"
-                id="_r_5_"
+                id="_r_X_"
                 pattern="[0-9]*"
                 step="1"
                 type="numeric"
@@ -1534,7 +1534,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
             </div>
             <p
               class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-35"
-              id="_r_5_-helper-text"
+              id="_r_X_-helper-text"
             >
               Defaults to: 10
             </p>
@@ -1545,8 +1545,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-28"
               data-shrink="true"
-              for="_r_6_"
-              id="_r_6_-label"
+              for="_r_X_"
+              id="_r_X_-label"
             >
               Compression duplicates size
             </label>
@@ -1554,11 +1554,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-29"
             >
               <input
-                aria-describedby="_r_6_-helper-text"
+                aria-describedby="_r_X_-helper-text"
                 aria-invalid="true"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input emotion-30"
-                id="_r_6_"
+                id="_r_X_"
                 pattern="[0-9]*"
                 step="1"
                 type="numeric"
@@ -1588,7 +1588,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
             </div>
             <p
               class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-35"
-              id="_r_6_-helper-text"
+              id="_r_X_-helper-text"
             >
               Defaults to: 10
             </p>
@@ -1599,8 +1599,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-28"
               data-shrink="true"
-              for="_r_7_"
-              id="_r_7_-label"
+              for="_r_X_"
+              id="_r_X_-label"
             >
               Compression level
             </label>
@@ -1611,7 +1611,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-66:focus::-ms-input-
                 aria-invalid="false"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input emotion-66"
-                id="_r_7_"
+                id="_r_X_"
                 pattern="[0-9]*"
                 step="1"
                 type="numeric"

@@ -1641,7 +1641,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                   <input
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input emotion-32"
-                    id="_r_12_"
+                    id="_r_X_"
                     placeholder="Example: /opt/installed-by-single-file"
                     type="text"
                     value=""

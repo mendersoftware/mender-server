@@ -1982,7 +1982,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
           />
           <p
             class="MuiTablePagination-selectLabel emotion-62"
-            id="_r_a_"
+            id="_r_X_"
           >
             Rows per page:
           </p>
@@ -1992,9 +1992,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="_r_a_ _r_9_"
+              aria-labelledby="_r_X_ _r_X_"
               class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input emotion-64"
-              id="_r_9_"
+              id="_r_X_"
               role="combobox"
               tabindex="0"
             >
@@ -2004,7 +2004,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-64:focus::-ms-input-
               aria-hidden="true"
               aria-invalid="false"
               class="MuiSelect-nativeInput emotion-65"
-              id="_r_c_"
+              id="_r_X_"
               name="pagination"
               tabindex="-1"
               value="10"

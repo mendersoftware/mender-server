@@ -568,7 +568,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
       tabindex="-1"
     >
       <div
-        aria-labelledby="_r_1_"
+        aria-labelledby="_r_X_"
         aria-modal="true"
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-3"
         role="dialog"
@@ -576,7 +576,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
       >
         <h2
           class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
-          id="_r_1_"
+          id="_r_X_"
         >
           Select a Release
         </h2>
@@ -681,7 +681,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                   <input
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input emotion-18"
-                    id="_r_3_"
+                    id="_r_X_"
                     name="searchTerm"
                     placeholder="Search Releases..."
                     type="text"

@@ -16,6 +16,11 @@ import { afterAll as ntAfterAll, afterEach as ntAfterEach, beforeAll as ntBefore
 import '@testing-library/jest-dom/vitest';
 import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from 'vitest';
+// Unified id's assigned by react to stabilize snapshots
+expect.addSnapshotSerializer({
+  test: val => typeof val === 'string' && /_r_[a-z0-9]+_/.test(val),
+  serialize: (val, config, indent, depth, refs, printer) => printer(val.replace(/_r_[a-z0-9]+_/g, '_r_X_'), config, indent, depth, refs)
+});
 
 process.on('unhandledRejection', err => {
   throw err;

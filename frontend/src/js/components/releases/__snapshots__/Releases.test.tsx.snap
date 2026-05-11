@@ -176,7 +176,7 @@ exports[`Releases Component > renders correctly 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-1q55ijt-MuiInputBase-input-MuiOutlinedInput-input"
-                  id="_r_4_"
+                  id="_r_X_"
                   name="name"
                   placeholder="Starts with"
                   type="text"
@@ -276,7 +276,7 @@ exports[`Releases Component > renders correctly 1`] = `
                     autocapitalize="none"
                     autocomplete="off"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-                    id="_r_7_"
+                    id="_r_X_"
                     placeholder="Any"
                     role="combobox"
                     spellcheck="false"
@@ -1523,7 +1523,7 @@ exports[`Releases Component > renders correctly 1`] = `
             />
             <p
               class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
-              id="_r_b_"
+              id="_r_X_"
             >
               Rows per page:
             </p>
@@ -1533,9 +1533,9 @@ exports[`Releases Component > renders correctly 1`] = `
               <div
                 aria-expanded="false"
                 aria-haspopup="listbox"
-                aria-labelledby="_r_b_ _r_a_"
+                aria-labelledby="_r_X_ _r_X_"
                 class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
-                id="_r_a_"
+                id="_r_X_"
                 role="combobox"
                 tabindex="0"
               >
@@ -1545,7 +1545,7 @@ exports[`Releases Component > renders correctly 1`] = `
                 aria-hidden="true"
                 aria-invalid="false"
                 class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
-                id="_r_d_"
+                id="_r_X_"
                 name="pagination"
                 tabindex="-1"
                 value="20"
