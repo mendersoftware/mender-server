@@ -1369,7 +1369,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-37:focus::-ms-input-
         <p
           class="MuiTypography-root MuiTypography-body2 margin-top-x-small emotion-1"
         >
-          Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 50 requests per day. 
+          Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 10 requests per day. 
         </p>
       </div>
       <label
