@@ -172,6 +172,16 @@ renovate:
   - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
   - docker login --username $CI_DEPENDENCY_PROXY_USER --password $CI_DEPENDENCY_PROXY_PASSWORD $CI_DEPENDENCY_PROXY_SERVER
 
+.buildkit-mirror-setup: &buildkit-mirror-setup
+  - |
+    cat > /tmp/buildkitd.toml <<EOF
+    [registry."docker.io"]
+      mirrors = ["${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"]
+    EOF
+  - docker context create ci
+  - docker buildx create ${DOCKER_BUILDKITARGS} --name ci-builder --driver=docker-container --config /tmp/buildkitd.toml ci
+  - export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder"
+
 .build:base:
   before_script:
     - *requires-docker
@@ -201,12 +211,10 @@ renovate:
     - *requires-docker
     - apk add make bash git
     - *dind-login
-    # NOTE: If we're running on a PR, do not build multiplatform
     - test "$CI_COMMIT_REF_PROTECTED" != "true" && unset DOCKER_PLATFORM
+    - *buildkit-mirror-setup
     - if test -n "${DOCKER_PLATFORM}"; then
-      docker context create ci;
-      docker builder create ${DOCKER_BUILDKITARGS} --name ci-builder ci;
-      export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder";
+        export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --platform=${DOCKER_PLATFORM}";
       fi
 
 build:backend:docker:
@@ -219,9 +227,8 @@ build:backend:docker:
     - |-
       make -j$(nproc) -C backend/services/deployments docker \
         DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --target builder" \
-        MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_BUILDER} \
-        DOCKER_HUB_BUILD_REGISTRY="${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"
-    - make -j$(nproc) -C backend docker DOCKER_HUB_BUILD_REGISTRY="${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"
+        MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_BUILDER}
+    - make -j$(nproc) -C backend docker
 
 build:backend:docker-acceptance:
   extends: build:backend:docker
@@ -229,11 +236,10 @@ build:backend:docker-acceptance:
     - *requires-docker
     - apk add make bash git
     - *dind-login
-    # We're only building acceptance test images for CI runner platform.
     - unset DOCKER_PLATFORM
+    - *buildkit-mirror-setup
   script:
-    # NOTE: Only build for test platform (default) for the acceptance test images
-    - make -j$(nproc) -C backend docker-acceptance DOCKER_HUB_BUILD_REGISTRY="${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"
+    - make -j$(nproc) -C backend docker-acceptance
 
 build:backend:docker-integration-tester:
   extends: .template:build:docker
@@ -242,11 +248,11 @@ build:backend:docker-integration-tester:
     - apk add make bash git
     - *dind-login
     - unset DOCKER_PLATFORM
+    - *buildkit-mirror-setup
   script:
     - docker build ${DOCKER_BUILDARGS}
         --cache-from ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
         -t ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
-        --build-arg REGISTRY="${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"
         -f backend/tests/Dockerfile.integration
         backend/tests
   rules:

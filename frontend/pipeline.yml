@@ -145,23 +145,15 @@ build:frontend:docker:
   # no rules as the job have to build every time for the review jobs
   script:
     - cd frontend
-    - if test -z "${DOCKER_PLATFORM}"; then
-    - docker context create ci;
-    - fi
-    - docker buildx create ${DOCKER_BUILDKITARGS} --name gui-builder --driver=docker-container ci
-    # build production target
-    - docker build
+    - docker build ${DOCKER_BUILDARGS}
       --tag ${MENDER_IMAGE_GUI}
-      --builder=gui-builder
       --build-arg GIT_COMMIT_TAG="${CI_COMMIT_TAG}"
       --build-arg GIT_COMMIT_SHA="${CI_COMMIT_SHA}"
       --build-arg SENTRY_ORG="${SENTRY_ORG}"
       --build-arg SENTRY_URL="${SENTRY_URL}"
-      --build-arg REGISTRY="${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"
       --secret id=sentryAuthToken,env=SENTRY_AUTH_TOKEN
       --platform ${DOCKER_PLATFORM:-linux/amd64}
       --provenance false
-      --push
       .
     - docker context use ci
     - docker run --rm --entrypoint "/bin/sh" -v $(pwd):/extract ${MENDER_IMAGE_GUI} -c "cp licenses.json /extract/"
