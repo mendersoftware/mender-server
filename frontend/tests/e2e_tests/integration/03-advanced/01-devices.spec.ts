@@ -91,7 +91,8 @@ test.describe('Devices', () => {
     await page.getByRole('tab', { name: /download/i }).click();
     await page.getByPlaceholder(/\/home\/mender/i).fill(`/tmp/${fileName}`);
     await expect(async () => {
-      const downloadPromise = page.waitForEvent('download');
+      console.log('trying to download...');
+      const downloadPromise = page.waitForEvent('download', { timeout: timeouts.default });
       await page.click('button:text("Download"):below(:text("file on the device"))');
       const download = await downloadPromise;
       const failure = await download.failure();
@@ -104,7 +105,7 @@ test.describe('Devices', () => {
       expect(md5(newFile)).toEqual(md5(testFile));
     }).toPass({
       intervals: [timeouts.oneSecond, timeouts.fiveSeconds, timeouts.tenSeconds],
-      timeout: timeouts.sixtySeconds
+      timeout: 2 * timeouts.fifteenSeconds
     });
   });
 
