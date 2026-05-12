@@ -166,7 +166,7 @@ export const GlobalSettings = () => {
 
   const onChangeOfflineInterval = (value: number | null) => setCurrentInterval(value);
 
-  const toggleDeploymentConfirmation = () => saveGlobalSettings({ needsDeploymentConfirmation: !needsDeploymentConfirmation });
+  const toggleDeploymentConfirmation = ({ target: { checked } }) => dispatchedSaveGlobalSettings({ needsDeploymentConfirmation: checked });
 
   const onEditDeltaClick = () => setShowDeltaConfig(true);
 
