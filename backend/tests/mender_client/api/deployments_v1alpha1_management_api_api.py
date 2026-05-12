@@ -42,7 +42,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
     @validate_call
     def get_deployment_software(
         self,
-        name: Annotated[Optional[StrictStr], Field(description="Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.")] = None,
+        name: Annotated[Optional[List[StrictStr]], Field(description="Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.")] = None,
         name_prefix: Annotated[Optional[StrictStr], Field(description="Software name prefix filter. Mutually exclusive with `name`.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Software kind filter.")] = None,
         update_type: Annotated[Optional[StrictStr], Field(description="Update type filter.")] = None,
@@ -67,7 +67,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
         Returns software information according to the specified parameters. \"Software\" in this context refers to base information shared across both Releases and Manifests. Note that the operation between the `name` and `kind` parameters is an AND operation.
 
         :param name: Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.
-        :type name: str
+        :type name: List[str]
         :param name_prefix: Software name prefix filter. Mutually exclusive with `name`.
         :type name_prefix: str
         :param kind: Software kind filter.
@@ -136,7 +136,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
     @validate_call
     def get_deployment_software_with_http_info(
         self,
-        name: Annotated[Optional[StrictStr], Field(description="Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.")] = None,
+        name: Annotated[Optional[List[StrictStr]], Field(description="Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.")] = None,
         name_prefix: Annotated[Optional[StrictStr], Field(description="Software name prefix filter. Mutually exclusive with `name`.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Software kind filter.")] = None,
         update_type: Annotated[Optional[StrictStr], Field(description="Update type filter.")] = None,
@@ -161,7 +161,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
         Returns software information according to the specified parameters. \"Software\" in this context refers to base information shared across both Releases and Manifests. Note that the operation between the `name` and `kind` parameters is an AND operation.
 
         :param name: Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.
-        :type name: str
+        :type name: List[str]
         :param name_prefix: Software name prefix filter. Mutually exclusive with `name`.
         :type name_prefix: str
         :param kind: Software kind filter.
@@ -230,7 +230,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
     @validate_call
     def get_deployment_software_without_preload_content(
         self,
-        name: Annotated[Optional[StrictStr], Field(description="Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.")] = None,
+        name: Annotated[Optional[List[StrictStr]], Field(description="Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.")] = None,
         name_prefix: Annotated[Optional[StrictStr], Field(description="Software name prefix filter. Mutually exclusive with `name`.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Software kind filter.")] = None,
         update_type: Annotated[Optional[StrictStr], Field(description="Update type filter.")] = None,
@@ -255,7 +255,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
         Returns software information according to the specified parameters. \"Software\" in this context refers to base information shared across both Releases and Manifests. Note that the operation between the `name` and `kind` parameters is an AND operation.
 
         :param name: Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.
-        :type name: str
+        :type name: List[str]
         :param name_prefix: Software name prefix filter. Mutually exclusive with `name`.
         :type name_prefix: str
         :param kind: Software kind filter.
@@ -335,6 +335,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'name': 'multi',
         }
 
         _path_params: Dict[str, str] = {}
