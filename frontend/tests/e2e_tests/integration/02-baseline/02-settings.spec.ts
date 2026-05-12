@@ -86,11 +86,12 @@ test.describe('Settings', () => {
       await userCreationButton.waitFor();
     });
 
-    test.skip('verify email address', async ({ baseUrl, environment, page, username }) => {
+    test('verify email address', async ({ baseUrl, environment, page, username }) => {
       test.skip(!isEnterpriseOrStaging(environment));
       const emailClient = setupEmailClient(username, environment);
       test.skip(!emailClient, 'test requires configuring a mailbox');
-      await page.goto(`${baseUrl}ui/settings/my-profile`);
+      await page.getByRole('button', { name: username }).click();
+      await page.getByRole('menuitem', { name: 'My profile' }).click();
 
       test.skip(!(await page.getByText('Not verified').isVisible()), 'email is already verified');
 

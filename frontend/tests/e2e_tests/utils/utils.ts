@@ -63,14 +63,13 @@ export const poll = async <T>({
   message?: string;
 }): Promise<T> => {
   const res = await callback();
-  if (condition != null) {
-    if (condition(res)) {
-      return Promise.resolve(res);
-    }
+  if (condition && condition(res)) {
+    return Promise.resolve(res);
   } else if (res) {
     return Promise.resolve(res);
   }
   if (attempt >= maxAttempts) {
+    console.error(message);
     throw new Error(message);
   }
   await new Promise(resolve => setTimeout(resolve, delay));

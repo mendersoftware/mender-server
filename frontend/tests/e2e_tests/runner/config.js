@@ -40,7 +40,7 @@ const getCredentials = config => {
   if (config.environment === environments.staging) {
     const uniqueId = uuid();
     credentials.uniqueId = uniqueId;
-    credentials.username = config.username ?? `bot-test+${uniqueId}@example.com`;
+    credentials.username = config.username ?? `bot-test+${uniqueId}@northern.tech`;
     credentials.password = config.password ?? uuid();
   }
   return credentials;

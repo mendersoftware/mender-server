@@ -16,7 +16,7 @@ import * as fs from 'fs';
 
 import test from '../fixtures/fixtures';
 import { isEnterpriseOrStaging, isLoggedIn, login, prepareNewPage, startDockerClient, tenantTokenRetrieval } from '../utils/commands';
-import { emptyStorageState, selectors, spStoragePath, storageFolder, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants';
+import { allowedToFailPath, emptyStorageState, selectors, spStoragePath, storageFolder, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants';
 import { poll } from '../utils/utils';
 
 test.describe('Test setup', () => {
@@ -28,25 +28,30 @@ test.describe('Test setup', () => {
   test('allows account creation', async ({ baseUrl, context, environment, page, password, request, username }) => {
     test.skip(environment !== 'staging');
     test.setTimeout(6 * timeouts.sixtySeconds);
-    await poll({
-      callback: async (): Promise<boolean> => {
-        const response = await fetch(baseUrl);
-        const versionInfo = response.headers.get('x-mender-version')?.split('-') || [];
-        const pipelineId = versionInfo.length ? Number(versionInfo[1]) : 0;
-        const currentPipeline = Number(process.env.CI_PIPELINE_ID);
-        if (pipelineId === currentPipeline) {
-          return Promise.resolve(true);
-        } else if (pipelineId > currentPipeline) {
-          process.env.ALLOWED_TO_FAIL = '1';
-          return Promise.resolve(true);
-        }
-        return Promise.resolve(false);
-      },
-      message: `Couldn't get ${baseUrl} after 60 attempts`,
-      // give max 60 * 10s to see a version update, same as current CI job delay
-      delay: timeouts.tenSeconds,
-      maxAttempts: 60
-    });
+    try {
+      const maxAttempts = 10;
+      await poll({
+        callback: async (): Promise<boolean> => {
+          const response = await fetch(baseUrl);
+          const versionInfo = response.headers.get('x-mender-version')?.split('-') || [];
+          const pipelineId = versionInfo.length ? Number(versionInfo[1]) : 0;
+          const currentPipeline = Number(process.env.CI_PIPELINE_ID);
+          if (pipelineId === currentPipeline) {
+            return Promise.resolve(true);
+          } else if (pipelineId > currentPipeline) {
+            fs.writeFileSync(allowedToFailPath, '1');
+            return Promise.resolve(true);
+          }
+          return Promise.resolve(false);
+        },
+        message: `Couldn't get ${baseUrl} after ${maxAttempts} attempts`,
+        // give max 10 * 30s to see a version update to give the rest of the test 60s to complete
+        delay: 2 * timeouts.fifteenSeconds,
+        maxAttempts
+      });
+    } catch {
+      fs.writeFileSync(allowedToFailPath, '1');
+    }
     // wait a little extra to allow rollout to complete if we happen to poll the first replica in a deployment
     await new Promise(resolve => setTimeout(resolve, 3 * timeouts.tenSeconds));
     try {

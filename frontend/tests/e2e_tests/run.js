@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import chalk from 'chalk';
-import { mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import process from 'process';
 
@@ -85,7 +85,8 @@ try {
   } else {
     console.log(chalk.red('💥 Test runner failed!'));
   }
-  if (process.env.ALLOWED_TO_FAIL) {
+  if (existsSync('storage/allowed-to-fail')) {
+    console.log(chalk.red(`🧘 it's ok to fail sometimes - this is such a time!`));
     process.exit(464); // would equate to `incompatible protocol` as in test version & deployed version have diverged slightly - so failures might be tolerable
   }
   process.exit(exitCode);

@@ -37,6 +37,7 @@ export const expectedArtifactName = 'mender-demo-artifact';
 export const releaseTag = 'sometag';
 
 export const storageFolder = 'storage';
+export const allowedToFailPath = `${storageFolder}/allowed-to-fail`;
 export const storagePath = `${storageFolder}/storage.json`;
 export const spStoragePath = `${storageFolder}/sp-tenant-storage.json`;
 export const switchTenantStoragePath = `${storageFolder}/switch-tenant-storage.json`;
