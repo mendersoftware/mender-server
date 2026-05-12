@@ -222,9 +222,8 @@ func (d *DeploymentsApiHandlers) GetReleaseTagKeys(
 	c *gin.Context,
 ) {
 	ctx := c.Request.Context()
-	tags, err := d.app.ListSoftwareTags(ctx,
-		&model.SoftwareTagsFilter{Kind: model.ReleaseKindRelease},
-	)
+
+	tags, err := d.app.ListReleaseTags(ctx)
 	if err != nil {
 		d.view.RenderError(c, err, http.StatusInternalServerError)
 		return

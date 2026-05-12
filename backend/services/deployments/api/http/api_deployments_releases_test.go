@@ -785,6 +785,125 @@ func TestPutReleaseTags(t *testing.T) {
 	}
 }
 
+func TestListReleaseTags(t *testing.T) {
+	t.Parallel()
+
+	type testCase struct {
+		Name string
+
+		App func(t *testing.T, self *testCase) *mapp.App
+		*http.Request
+
+		StatusCode int
+		Tags       model.Tags
+		RestErr    map[string]interface{}
+	}
+
+	testCases := []testCase{{
+		Name: "ok",
+
+		Request: func() *http.Request {
+			req, _ := http.NewRequest(
+				http.MethodGet,
+				fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+					strings.ReplaceAll(ApiUrlManagementV2ReleaseAllTags,
+						":name", "release-mc-release-face"),
+				),
+				nil,
+			)
+			return req
+		}(),
+
+		App: func(t *testing.T, self *testCase) *mapp.App {
+			appie := new(mapp.App)
+			appie.On("ListReleaseTags",
+				contextMatcher()).
+				Return(self.Tags, nil)
+			return appie
+		},
+
+		StatusCode: http.StatusOK,
+		Tags:       model.Tags{"bar", "baz", "foo"},
+	}, {
+		Name: "error/internal",
+
+		Request: func() *http.Request {
+			req, _ := http.NewRequest(
+				http.MethodGet,
+				fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+					strings.ReplaceAll(ApiUrlManagementV2ReleaseAllTags,
+						":name", "release-mc-release-face"),
+				),
+				nil,
+			)
+			return req
+		}(),
+
+		App: func(t *testing.T, self *testCase) *mapp.App {
+			appie := new(mapp.App)
+			appie.On("ListReleaseTags",
+				contextMatcher()).
+				Return(nil, errors.New("internal error"))
+			return appie
+		},
+
+		StatusCode: http.StatusInternalServerError,
+		RestErr:    deployments_testing.RestError("internal error"),
+	}, {
+		Name: "error/internal",
+
+		Request: func() *http.Request {
+			req, _ := http.NewRequest(
+				http.MethodGet,
+				fmt.Sprintf("http://localhost:1234"+ApiUrlManagementV2+"%s",
+					strings.ReplaceAll(ApiUrlManagementV2ReleaseAllTags,
+						":name", "release-mc-release-face"),
+				),
+				nil,
+			)
+			return req
+		}(),
+
+		App: func(t *testing.T, self *testCase) *mapp.App {
+			appie := new(mapp.App)
+			appie.On("ListReleaseTags",
+				contextMatcher()).
+				Return(nil, errors.New("internal error"))
+			return appie
+		},
+
+		StatusCode: http.StatusInternalServerError,
+		RestErr:    deployments_testing.RestError("internal error"),
+	}}
+
+	for i := range testCases {
+		tc := testCases[i]
+		t.Run(tc.Name, func(t *testing.T) {
+			appie := tc.App(t, &tc)
+			defer appie.AssertExpectations(t)
+
+			handlers := NewDeploymentsApiHandlers(nil, &view.RESTView{}, appie)
+			router := setUpTestRouter()
+			ReleasesRoutes(router.Group("."), handlers)
+
+			recorded := restutil.RunRequest(t, router, tc.Request)
+			var body interface{}
+			body = tc.Tags
+			if tc.RestErr != nil {
+				body = tc.RestErr
+			}
+			checker := mt.NewJSONResponse(tc.StatusCode,
+				map[string]string{
+					"Content-Type": "application/json; charset=utf-8",
+				},
+				body)
+
+			mt.CheckHTTPResponse(t, checker, recorded)
+
+		})
+	}
+}
+
 func TestGetReleasesUpdateTypes(t *testing.T) {
 	t.Parallel()
 
