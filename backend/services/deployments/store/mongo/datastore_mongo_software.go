@@ -34,7 +34,9 @@ func (db *DataStoreMongo) ListSoftwareTags(
 	}
 	ret := make([]model.Tag, 0, len(tagKeys))
 	for _, elem := range tagKeys {
-		ret = append(ret, model.Tag(elem))
+		if elem != "" {
+			ret = append(ret, model.Tag(elem))
+		}
 	}
 
 	return ret, nil

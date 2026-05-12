@@ -1,6 +1,7 @@
 package opensource
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -11,6 +12,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/api/client"
 	dmodel "github.com/mendersoftware/mender-server/services/deployments/model"
 	"github.com/mendersoftware/mender-server/tests/runner/tests/common"
+	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
@@ -60,36 +62,8 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 		for idx := range 2 {
 			name := uuid.NewString()
 
-			file, err := os.Create(path.Join(t.TempDir(), name))
+			_, err := u.createReleaseArtifact(ctx, t, name)
 			require.NoError(err)
-			_, err = file.WriteString("Hello world!")
-			require.NoError(err)
-			_, err = file.Seek(0, 0)
-			require.NoError(err)
-
-			_, err = u.APIClient.DeploymentsManagementAPIAPI.
-				GenerateArtifact(ctx).
-				Name(name).
-				Type_("single_file").
-				DeviceTypesCompatible([]string{"device-type-1"}).
-				Args(fmt.Sprintf(`{"dest_dir":"/", "filename":"%s"}`, name)).
-				File(file).
-				Execute()
-			require.NoError(err)
-
-			// Wait for the async processing to complete
-			created := false
-			for range 5 {
-				_, res, err := u.APIClient.DeploymentsV2ManagementAPIAPI.GetReleaseWithGivenName(ctx, name).Execute()
-				if err != nil {
-					require.Equal(http.StatusNotFound, res.StatusCode, "unexpected status code from get release")
-					time.Sleep(200 * time.Millisecond)
-					continue
-				}
-				created = true
-				break
-			}
-			require.True(created, "artifact not created in time")
 
 			// tag the first release with tag1 and tag2, the second with tag2 and tag3
 			_, err = u.APIClient.DeploymentsV2ManagementAPIAPI.AssignReleaseTags(ctx, name).
@@ -97,6 +71,10 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 				Execute()
 			require.NoError(err)
 		}
+
+		// create a release without a tag to check empty omission
+		_, err := u.createReleaseArtifact(ctx, t, uuid.NewString())
+		require.NoError(err)
 	}
 
 	u.Run("Success/NoFilter", func() {
@@ -137,4 +115,54 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftwareTags() {
 		require.Error(u.T(), err)
 		assert.Equal(u.T(), http.StatusBadRequest, res.StatusCode)
 	})
+}
+
+func (u *DeploymentsManagementV1Alpha1Suite) createReleaseArtifact(
+	ctx context.Context,
+	t interface{ TempDir() string },
+	name string) (*os.File, error) {
+
+	file, err := os.Create(path.Join(t.TempDir(), name))
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	_, err = file.WriteString("Hello world!")
+	if err != nil {
+		return nil, err
+	}
+	_, err = file.Seek(0, 0)
+	if err != nil {
+		return nil, err
+	}
+	_, err = u.APIClient.DeploymentsManagementAPIAPI.
+		GenerateArtifact(ctx).
+		Name(name).
+		Type_("single_file").
+		DeviceTypesCompatible([]string{"device-type-1"}).
+		Args(fmt.Sprintf(`{"dest_dir":"/", "filename":"%s"}`, name)).
+		File(file).
+		Execute()
+	if err != nil {
+		return nil, err
+	}
+	// Wait for the async processing to complete
+	created := false
+	for range 5 {
+		_, res, err := u.APIClient.DeploymentsV2ManagementAPIAPI.GetReleaseWithGivenName(ctx, name).Execute()
+		if err != nil {
+			if http.StatusNotFound != res.StatusCode {
+				return nil, errors.New("unexpected status code from get release")
+			}
+			time.Sleep(200 * time.Millisecond)
+			continue
+		}
+		created = true
+		break
+	}
+	if !created {
+		return nil, errors.New("artifact not created in time")
+	}
+	return file, nil
 }
