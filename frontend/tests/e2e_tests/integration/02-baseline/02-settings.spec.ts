@@ -92,6 +92,7 @@ test.describe('Settings', () => {
       test.skip(!emailClient, 'test requires configuring a mailbox');
       await page.getByRole('button', { name: username }).click();
       await page.getByRole('menuitem', { name: 'My profile' }).click();
+      await page.getByText(/Personal access token management/i).waitFor({ timeout: timeouts.default });
 
       test.skip(!(await page.getByText('Not verified').isVisible()), 'email is already verified');
 
