@@ -216,6 +216,7 @@ type App interface {
 
 	// software
 	ListSoftwareTags(ctx context.Context, filter *model.SoftwareTagsFilter) (model.Tags, error)
+	ListSoftware(ctx context.Context, filter *model.SoftwareFilter) ([]model.Software, int, error)
 }
 
 type Deployments struct {

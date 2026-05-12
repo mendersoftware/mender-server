@@ -12,3 +12,10 @@ func (d *Deployments) ListSoftwareTags(
 ) (model.Tags, error) {
 	return d.db.ListSoftwareTags(ctx, filter)
 }
+
+func (d *Deployments) ListSoftware(
+	ctx context.Context,
+	filter *model.SoftwareFilter,
+) ([]model.Software, int, error) {
+	return d.db.ListSoftware(ctx, filter)
+}

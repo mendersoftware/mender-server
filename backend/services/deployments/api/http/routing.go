@@ -148,6 +148,7 @@ func NewRouter(
 
 	alpha := withAuth.Group(ApiUrlManagementV1Alpha1)
 	alpha.GET(APIPathSoftwareTags, deploymentsHandlers.GetSoftwareTags)
+	alpha.GET(APIPathSoftware, deploymentsHandlers.ListSoftware)
 
 	restutil.AutogenOptionsRoutes(
 		restutil.NewOptionsHandler,

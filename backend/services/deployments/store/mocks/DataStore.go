@@ -1477,6 +1477,43 @@ func (_m *DataStore) ListReleaseTags(ctx context.Context) (model.Tags, error) {
 	return r0, r1
 }
 
+// ListSoftware provides a mock function with given fields: ctx, filter
+func (_m *DataStore) ListSoftware(ctx context.Context, filter *model.SoftwareFilter) ([]model.Software, int, error) {
+	ret := _m.Called(ctx, filter)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListSoftware")
+	}
+
+	var r0 []model.Software
+	var r1 int
+	var r2 error
+	if rf, ok := ret.Get(0).(func(context.Context, *model.SoftwareFilter) ([]model.Software, int, error)); ok {
+		return rf(ctx, filter)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, *model.SoftwareFilter) []model.Software); ok {
+		r0 = rf(ctx, filter)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]model.Software)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, *model.SoftwareFilter) int); ok {
+		r1 = rf(ctx, filter)
+	} else {
+		r1 = ret.Get(1).(int)
+	}
+
+	if rf, ok := ret.Get(2).(func(context.Context, *model.SoftwareFilter) error); ok {
+		r2 = rf(ctx, filter)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
 // ListSoftwareTags provides a mock function with given fields: ctx, filter
 func (_m *DataStore) ListSoftwareTags(ctx context.Context, filter *model.SoftwareTagsFilter) (model.Tags, error) {
 	ret := _m.Called(ctx, filter)
