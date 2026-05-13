@@ -15,8 +15,8 @@ import { SvgIcon } from '@mui/material';
 
 import { mdiImageBrokenVariant } from '@mdi/js';
 
-const MaterialDesignIcon = ({ className = '', path = mdiImageBrokenVariant, style = {} }) => (
-  <SvgIcon className={className} fontSize="inherit" style={style}>
+const MaterialDesignIcon = ({ className = '', path = mdiImageBrokenVariant, style = {}, fontSize = 'inherit' }) => (
+  <SvgIcon className={className} fontSize={fontSize} style={style}>
     <path d={path} />
   </SvgIcon>
 );
