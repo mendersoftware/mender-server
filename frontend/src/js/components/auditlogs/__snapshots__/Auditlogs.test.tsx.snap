@@ -905,15 +905,17 @@ exports[`Auditlogs Component > renders correctly 1`] = `
       <div
         class="margin-right-small"
       >
-        This feature is not available on your plan. 
-        <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
-          data-discover="true"
-          href="/subscription"
-        >
-          Upgrade
-        </a>
-         to enable it
+        <span>
+          This feature is not available on your plan. 
+          <a
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+            data-discover="true"
+            href="/subscription"
+          >
+            Upgrade
+          </a>
+           to enable it
+        </span>
       </div>
       <div
         class="relative flexbox css-19k6xox-iconWrapper  "

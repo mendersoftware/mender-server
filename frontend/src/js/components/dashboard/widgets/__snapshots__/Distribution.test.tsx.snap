@@ -225,7 +225,7 @@ exports[`Distribution Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
-              data-testid="PieChartOutlineIcon"
+              data-testid="PieChartOutlinedIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
