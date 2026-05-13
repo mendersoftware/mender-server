@@ -24,7 +24,15 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, SORTING_OPTIONS, TIMEOUTS, canAccess } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
-import { getActiveTab, getFeatures, getReleaseListState, getReleasesList, getSelectedRelease, getUserCapabilities } from '@northern.tech/store/selectors';
+import {
+  getActiveTab,
+  getFeatures,
+  getIsEnterprise,
+  getReleaseListState,
+  getReleasesList,
+  getSelectedRelease,
+  getUserCapabilities
+} from '@northern.tech/store/selectors';
 import { selectManifest, selectRelease, setReleasesListState } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
@@ -34,10 +42,11 @@ import { DeltaProgress } from './DeltaGeneration';
 import { ReleasesFilters } from './ReleasesFilters';
 import ReleasesList from './ReleasesList';
 import AddArtifactDialog from './dialogs/AddArtifact';
+import { AddManifestDrawer } from './manifests/ManifestDrawer';
 import { ManifestsFilters } from './manifests/ManifestsFilters';
 import { ManifestsList } from './manifests/ManifestsList';
 
-const { setActiveTab, setSelectedJob, setSnackbar } = storeActions;
+const { setActiveTab, setSelectedJob } = storeActions;
 
 type TitleDefinition = { benefitId?: string; title: string };
 
@@ -52,9 +61,9 @@ const Title = ({ title, benefitId }: TitleDefinition) => (
 
 type UploadDefinition = { buttonProps: Record<string, string>; title: string; tooltipId: string };
 
-const Upload = ({ classes, onUploadClick, tooltipId, title, buttonProps }) => (
+const Upload = ({ classes, onUploadClick, tooltipId, title, buttonProps, disabled }) => (
   <div className="flexbox align-items-center">
-    <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} {...buttonProps}>
+    <Button className={classes.uploadButton} onClick={onUploadClick} startIcon={<CloudUpload fontSize="small" />} disabled={disabled} {...buttonProps}>
       {title}
     </Button>
     <MenderHelpTooltip id={tooltipId} style={{ marginTop: 8 }} />
@@ -104,8 +113,10 @@ const useStyles = makeStyles()(theme => ({
 
 const Header = ({ canUpload, tab, onTabChanged, onUploadClick, tabs }) => {
   const { classes } = useStyles();
+  const isEnterprise = useSelector(getIsEnterprise);
 
   const { Filters: FilterComponent, upload } = tabbedComponents[tab] ?? {};
+  const uploadDisabled = tab === tabbedComponents.manifests.key && !isEnterprise;
 
   return (
     <div>
@@ -115,7 +126,7 @@ const Header = ({ canUpload, tab, onTabChanged, onUploadClick, tabs }) => {
             <Tab key={key} label={<Title {...title} />} value={key} />
           ))}
         </Tabs>
-        {canUpload && upload && <Upload classes={classes} onUploadClick={onUploadClick} {...upload} />}
+        {canUpload && upload && <Upload classes={classes} onUploadClick={onUploadClick} disabled={uploadDisabled} {...upload} />}
       </div>
       {FilterComponent && <FilterComponent classes={classes} />}
     </div>
@@ -137,6 +148,7 @@ export const Releases = () => {
 
   const [selectedFile, setSelectedFile] = useState();
   const [showAddArtifactDialog, setShowAddArtifactDialog] = useState(false);
+  const [showManifestDrawer, setShowManifestDrawer] = useState(false);
   const isInitialized = useRef(false);
   const location = useLocation();
   const [locationParams, setLocationParams, { shouldInitializeFromUrl }] = useLocationParams('releases', {
@@ -201,14 +213,20 @@ export const Releases = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, JSON.stringify(locationParams), shouldInitializeFromUrl]);
 
-  const onUploadClick = () => setShowAddArtifactDialog(true);
+  const onUploadClick = () => {
+    if (tab === tabbedComponents.releases.key) {
+      setShowAddArtifactDialog(true);
+    } else {
+      setShowManifestDrawer(true);
+    }
+  };
 
   const onFileUploadClick = selectedFile => {
     if (tab === tabbedComponents.releases.key) {
       setSelectedFile(selectedFile);
       setShowAddArtifactDialog(true);
     } else {
-      dispatch(setSnackbar('Uploading Manifests is not yet supported'));
+      setShowManifestDrawer(true);
     }
   };
 
@@ -228,6 +246,7 @@ export const Releases = () => {
       {showAddArtifactDialog && (
         <AddArtifactDialog releases={releases} onCancel={onHideAddArtifactDialog} onUploadStarted={onHideAddArtifactDialog} selectedFile={selectedFile} />
       )}
+      <AddManifestDrawer open={showManifestDrawer} onClose={() => setShowManifestDrawer(false)} />
     </div>
   );
 };
