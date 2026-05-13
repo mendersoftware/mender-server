@@ -183,7 +183,7 @@ const columns: ManifestColumnDefinition[] = [
   }
 ];
 
-const ComponentTypesTable = ({ componentTypes }: ComponentTypesTableProps) => {
+export const ComponentTypesTable = ({ componentTypes }: ComponentTypesTableProps) => {
   const [sortCol, setSortCol] = useState('');
   const [sortDown, setSortDown] = useState(false);
   const [page, setPage] = useState(1);

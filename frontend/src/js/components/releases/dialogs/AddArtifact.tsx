@@ -96,7 +96,7 @@ const singleFileLimit = 256 * 1024 ** 2; //256MiB
 const menderFileLimit = 10 * 1024 ** 3; //10GiB
 const reFilename = new RegExp(/^[\w\-.,]+$/);
 
-const isMenderArtifact = (name: string): boolean => name.endsWith('.mender');
+export const isMenderArtifact = (name: string): boolean => name.endsWith('.mender');
 
 const validateFile = ({ name, size }: File): string => {
   if (!reFilename.test(name)) {
