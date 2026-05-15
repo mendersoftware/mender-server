@@ -1,4 +1,4 @@
-FROM python:3.14-trixie
+FROM python:3.14.5-trixie
 WORKDIR /tests
 
 # Install mender-artifact
