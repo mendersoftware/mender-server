@@ -5,9 +5,6 @@ variables:
   DOCKER_VERSION:
     value: "29.1"
     description: "Version of docker to use in pipelines"
-  DOCKER_BUILDKITARGS:
-    value: '--driver-opt "image=moby/buildkit:v0.17.3"' # QA-823
-    description: "Optional buildkit args for docker build"
   DOCKER_HOST:
     value: 'tcp://docker:2376'
     description: "Required to run dind inside k8s runners with TLS"
@@ -179,7 +176,7 @@ renovate:
       mirrors = ["${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"]
     EOF
   - docker context create ci
-  - docker buildx create ${DOCKER_BUILDKITARGS} --name ci-builder --driver=docker-container --config /tmp/buildkitd.toml ci
+  - docker buildx create --name ci-builder --driver=docker-container --config /tmp/buildkitd.toml ci
   - export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder"
 
 .build:base:
