@@ -258,7 +258,10 @@ func GetCache(ctx context.Context, c Client, key string) *redis.StringCmd {
 		return cmd
 	}
 	cmd := c.Get(ctx, key)
-	if cmd.Val() == CacheInvalidValue && !IsErrRedisNil(cmd.Err()) {
+	if err := cmd.Err(); err != nil {
+		return cmd
+	}
+	if cmd.Val() == CacheInvalidValue {
 		cmd.SetErr(ErrCacheInvalid)
 	}
 
