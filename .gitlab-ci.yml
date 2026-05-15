@@ -169,14 +169,9 @@ renovate:
   - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
   - docker login --username $CI_DEPENDENCY_PROXY_USER --password $CI_DEPENDENCY_PROXY_PASSWORD $CI_DEPENDENCY_PROXY_SERVER
 
-.buildkit-mirror-setup: &buildkit-mirror-setup
-  - |
-    cat > /tmp/buildkitd.toml <<EOF
-    [registry."docker.io"]
-      mirrors = ["${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}"]
-    EOF
+.buildx-builder-setup: &buildx-builder-setup
   - docker context create ci
-  - docker buildx create --name ci-builder --driver=docker-container --config /tmp/buildkitd.toml ci
+  - docker buildx create --name ci-builder --driver=docker-container ci
   - export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --builder=ci-builder"
 
 .build:base:
@@ -209,7 +204,7 @@ renovate:
     - apk add make bash git
     - *dind-login
     - test "$CI_COMMIT_REF_PROTECTED" != "true" && unset DOCKER_PLATFORM
-    - *buildkit-mirror-setup
+    - *buildx-builder-setup
     - if test -n "${DOCKER_PLATFORM}"; then
         export DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --platform=${DOCKER_PLATFORM}";
       fi
@@ -234,7 +229,7 @@ build:backend:docker-acceptance:
     - apk add make bash git
     - *dind-login
     - unset DOCKER_PLATFORM
-    - *buildkit-mirror-setup
+    - *buildx-builder-setup
   script:
     - make -j$(nproc) -C backend docker-acceptance
 
@@ -245,7 +240,7 @@ build:backend:docker-integration-tester:
     - apk add make bash git
     - *dind-login
     - unset DOCKER_PLATFORM
-    - *buildkit-mirror-setup
+    - *buildx-builder-setup
   script:
     - docker build ${DOCKER_BUILDARGS}
         --cache-from ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
