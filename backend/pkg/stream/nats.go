@@ -146,8 +146,20 @@ func ConnectNATS(ctx context.Context, nc *nats.Conn, srcAddr, dstAddr string) (C
 	return nil, fmt.Errorf("failed to establish connection with peer")
 }
 
+func isConnectionRefused(msg *nats.Msg) bool {
+	const (
+		statusConnectionRefused = "503"
+
+		headerStatus = "Status"
+	)
+	if msg != nil && msg.Header.Get(headerStatus) == statusConnectionRefused {
+		return true
+	}
+	return false
+}
+
 func (stream *natsStream) handleMessage(ctx context.Context, msg *nats.Msg) error {
-	if msg.Header.Get("Status") == "503" {
+	if isConnectionRefused(msg) {
 		return ErrConnectionRefused
 	}
 	_, msgType, _ := cutLast(msg.Subject, ".")
