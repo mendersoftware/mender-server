@@ -109,6 +109,11 @@ export default defineConfig(
           reporter: ['json', 'lcov'],
           reportsDirectory: 'coverage'
         },
+        server: {
+          deps: {
+            inline: [/@northern\.tech\/store/]
+          }
+        },
         env: {
           BABEL_ENV: 'test',
           LANG: 'en_US.UTF-8',
