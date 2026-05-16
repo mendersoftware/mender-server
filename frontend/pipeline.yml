@@ -162,6 +162,43 @@ build:frontend:docker:
     paths:
       - frontend/licenses.json
 
+test:frontend:docker:healthcheck:
+  stage: test
+  extends: .build:base
+  # no rules - must run on every pipeline to catch a broken healthcheck early
+  needs:
+    - job: build:frontend:docker
+      artifacts: false
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-cli
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
+  before_script:
+    - !reference [.requires-docker]
+    - !reference [.dind-login]
+  script:
+    - docker run -d --name gui ${MENDER_IMAGE_GUI}
+    - |
+      echo "Waiting for gui container to become healthy..."
+      for i in $(seq 1 15); do
+        status=$(docker inspect --format='{{.State.Health.Status}}' gui)
+        echo "Health status (attempt ${i}/15): ${status}"
+        if [ "${status}" = "healthy" ]; then
+          echo "Container is healthy"
+          exit 0
+        fi
+        if [ "${status}" = "unhealthy" ]; then
+          echo "Container is unhealthy - logs:"
+          docker logs gui
+          exit 1
+        fi
+        sleep 10
+      done
+      echo "Container failed to become healthy within 150s - current status: $(docker inspect --format='{{.State.Health.Status}}' gui)"
+      echo "Container logs:"
+      docker logs gui
+      exit 1
+
 .template:test:frontend:acceptance:
   stage: test
   image: registry.gitlab.com/northern.tech/mender/mender-test-containers/gui-e2e-testing:master
