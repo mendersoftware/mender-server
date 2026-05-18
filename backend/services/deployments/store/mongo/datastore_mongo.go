@@ -594,12 +594,17 @@ func (db *DataStoreMongo) getReleases_1_2_14(
 		})
 	}
 
-	sortField, sortOrder := getReleaseSortFieldAndOrder(filt)
-	if sortField == "" {
-		sortField = "name"
-	}
-	if sortOrder == 0 {
-		sortOrder = 1
+	sortField := "name"
+	sortOrder := 1
+	if filt != nil {
+		field, order := getReleaseSortFieldAndOrder(filt.Sort)
+
+		if field != "" {
+			sortField = field
+		}
+		if order != 0 {
+			sortOrder = order
+		}
 	}
 
 	page := 1
@@ -656,14 +661,20 @@ func (db *DataStoreMongo) getReleases_1_2_15(
 	l := log.FromContext(ctx)
 	l.Infof("get releases method version 1.2.15")
 
-	sortField, sortOrder := getReleaseSortFieldAndOrder(filt)
-	if sortField == "" {
-		sortField = "_id"
-	} else if sortField == "name" {
-		sortField = StorageKeyReleaseName
+	sortField := "_id"
+	sortOrder := 1
+	if filt != nil {
+		field, order := getReleaseSortFieldAndOrder(filt.Sort)
+
+		if field != "" {
+			sortField = field
+		}
+		if order != 0 {
+			sortOrder = order
+		}
 	}
-	if sortOrder == 0 {
-		sortOrder = 1
+	if sortField == "name" {
+		sortField = StorageKeyReleaseName
 	}
 
 	page := 1
@@ -1152,9 +1163,9 @@ func (db *DataStoreMongo) DeleteImage(ctx context.Context, id string) error {
 	return nil
 }
 
-func getReleaseSortFieldAndOrder(filt *model.ReleaseOrImageFilter) (string, int) {
-	if filt != nil && filt.Sort != "" {
-		sortParts := strings.SplitN(filt.Sort, ":", 2)
+func getReleaseSortFieldAndOrder(sortOption string) (string, int) {
+	if sortOption != "" {
+		sortParts := strings.SplitN(sortOption, ":", 2)
 		if len(sortParts) == 2 &&
 			(sortParts[0] == "name" ||
 				sortParts[0] == "modified" ||
@@ -1220,12 +1231,17 @@ func (db *DataStoreMongo) ListImages(
 		findOptions.SetLimit(int64(filt.PerPage))
 	}
 
-	sortField, sortOrder := getReleaseSortFieldAndOrder(filt)
-	if sortField == "" || sortField == "name" {
-		sortField = StorageKeyImageName
-	}
-	if sortOrder == 0 {
-		sortOrder = 1
+	sortField := StorageKeyImageName
+	sortOrder := 1
+	if filt != nil {
+		field, order := getReleaseSortFieldAndOrder(filt.Sort)
+
+		if field != "" {
+			sortField = field
+		}
+		if order != 0 {
+			sortOrder = order
+		}
 	}
 	findOptions.SetSort(bson.D{
 		{Key: sortField, Value: sortOrder},

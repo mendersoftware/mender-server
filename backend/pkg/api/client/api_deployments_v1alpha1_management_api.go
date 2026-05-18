@@ -17,6 +17,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"reflect"
 )
 
 
@@ -57,7 +58,7 @@ type DeploymentsV1alpha1ManagementAPIAPIService service
 type ApiGetDeploymentSoftwareRequest struct {
 	ctx context.Context
 	ApiService DeploymentsV1alpha1ManagementAPIAPI
-	name *string
+	name *[]string
 	namePrefix *string
 	kind *string
 	updateType *string
@@ -67,7 +68,7 @@ type ApiGetDeploymentSoftwareRequest struct {
 }
 
 // Software name filter. Can be repeated to query a set of entries. Mutually exclusive with &#x60;name_prefix&#x60;.
-func (r ApiGetDeploymentSoftwareRequest) Name(name string) ApiGetDeploymentSoftwareRequest {
+func (r ApiGetDeploymentSoftwareRequest) Name(name []string) ApiGetDeploymentSoftwareRequest {
 	r.name = &name
 	return r
 }
@@ -151,7 +152,15 @@ func (a *DeploymentsV1alpha1ManagementAPIAPIService) GetDeploymentSoftwareExecut
 	localVarFormParams := url.Values{}
 
 	if r.name != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "name", r.name, "form", "")
+		t := *r.name
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "name", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "name", t, "form", "multi")
+		}
 	}
 	if r.namePrefix != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "name_prefix", r.namePrefix, "form", "")

@@ -2209,7 +2209,9 @@ paths:
           explode: true
           style: form
           schema:
-            type: string
+            items:
+              type: string
+            type: array
         - description: Software name prefix filter. Mutually exclusive with `name`.
           in: query
           name: name_prefix
