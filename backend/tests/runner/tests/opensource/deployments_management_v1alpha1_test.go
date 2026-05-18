@@ -276,6 +276,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		ctx := u.T().Context()
 		softwares, res, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
+			Name([]string{allSoftwares[0].Name, allSoftwares[1].Name, allSoftwares[2].Name}).
 			Page(2).
 			PerPage(1).
 			Execute()
@@ -286,13 +287,17 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 		actualLinkHeaders := res.Header.Values("Link")
 
-		expectedNextLink := generateLinkHeader(res.Request.URL.Path, "page=3&per_page=1&sort=name%3Aasc", "next")
+		query := res.Request.URL.Query()
+
+		query.Set("page", "3")
+		expectedNextLink := generateLinkHeader(res.Request.URL.Path, query.Encode(), "next")
 		assert.Contains(u.T(), actualLinkHeaders, expectedNextLink)
 
-		expectedPrevLink := generateLinkHeader(res.Request.URL.Path, "page=1&per_page=1&sort=name%3Aasc", "prev")
+		query.Set("page", "1")
+		expectedPrevLink := generateLinkHeader(res.Request.URL.Path, query.Encode(), "prev")
 		assert.Contains(u.T(), actualLinkHeaders, expectedPrevLink)
 
-		expectedFirstLink := generateLinkHeader(res.Request.URL.Path, "page=1&per_page=1&sort=name%3Aasc", "first")
+		expectedFirstLink := generateLinkHeader(res.Request.URL.Path, query.Encode(), "first")
 		assert.Contains(u.T(), actualLinkHeaders, expectedFirstLink)
 	})
 
