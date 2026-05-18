@@ -113,7 +113,7 @@ export const ManifestsList = ({ className = '', onFileUploadClick }: { className
   const potentialTotal = isFiltering ? searchTotal : total;
 
   if (!isEnterprise) {
-    return <DefaultUpgradeNotification className={`dashboard-placeholder ${className}`} style={{ display: 'grid', placeContent: 'center' }} />;
+    return <DefaultUpgradeNotification className={`dashboard-placeholder ${className}`} style={{ placeContent: 'center' }} />;
   }
 
   if (!hasManifests) {
