@@ -14,14 +14,14 @@
 import * as fs from 'fs';
 
 import test, { expect } from '../../fixtures/fixtures';
-import { getTokenFromStorage, isEnterpriseOrStaging } from '../../utils/commands';
+import { isEnterpriseOrStaging } from '../../utils/commands';
 
 const manifestArtifactApiUrl =
   'https://api.github.com/repos/mendersoftware/mender-server-enterprise/contents/backend/services/deployments/tests/data/test.manifest.mender?ref=main';
 const manifestFileLocation = 'fixtures/test.manifest.mender';
 
 test.describe('Manifests', () => {
-  test.beforeAll(async ({ baseUrl, browser, request }) => {
+  test.beforeAll(async ({ baseUrl, browser }) => {
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto(baseUrl);
@@ -41,18 +41,6 @@ test.describe('Manifests', () => {
     } else {
       console.warn(`Failed to download manifest artifact (${response.status}) - upload tests will be skipped`);
     }
-
-    const token = getTokenFromStorage(baseUrl);
-    const fileBuffer = fs.readFileSync(manifestFileLocation);
-    const upload = await request.post(`${baseUrl}api/management/v1alpha1/deployments/manifests`, {
-      headers: { Authorization: `Bearer ${token}` },
-      multipart: {
-        artifact: { name: 'test.manifest.mender', mimeType: 'application/octet-stream', buffer: fileBuffer }
-      }
-    });
-    if (!upload.ok()) {
-      console.warn(`Failed to upload manifest artifact via API (${upload.status()})`);
-    }
   });
 
   test.beforeEach(async ({ environment, page }) => {
@@ -62,6 +50,17 @@ test.describe('Manifests', () => {
 
     await page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true }).click();
     await page.getByRole('tab', { name: /manifests/i }).click();
+  });
+  test('allows .mender manifest upload with tags and description', async ({ page }) => {
+    await page.getByRole('button', { name: /upload a manifest/i }).click();
+    const drawer = page.locator('.MuiDrawer-paper');
+    await drawer.locator('.dropzone input').setInputFiles(manifestFileLocation);
+    await drawer.getByPlaceholder(/add notes here/i).fill('uploaded via e2e');
+    const tagsInput = drawer.getByPlaceholder(/add tags/i);
+    await tagsInput.fill('e2e-tag');
+    await tagsInput.press('Enter');
+    await drawer.getByRole('button', { name: /^upload$/i }).click();
+    await expect(page.getByRole('cell', { name: 'e2e-tag' })).toBeVisible();
   });
 
   test('shows the manifests tab and list', async ({ page }) => {
