@@ -137,7 +137,12 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
   };
   const onSubmit = (formData: ManifestFormValues) => {
     if (!selectedFile) return;
-    dispatch(uploadManifest({ file: selectedFile, meta: formData }))
+    const { name } = selectedFile;
+    let action = uploadManifest({ file: selectedFile, meta: formData });
+    if (isYaml(name)) {
+      action = generateManifest({ file: selectedFile, meta: formData });
+    }
+    dispatch(action)
       .unwrap()
       .then(() => onClose())
       .catch(e => setBackendErrorMessage(typeof e === 'string' ? e : (e?.message ?? genericUploadErrorMessage)));
