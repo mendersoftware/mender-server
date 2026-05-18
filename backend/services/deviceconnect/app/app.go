@@ -165,16 +165,7 @@ func (a *app) PrepareUserSession(
 		return errors.Wrap(err, "app: cannot create invalid Session")
 	}
 
-	device, err := a.store.GetDevice(ctx, sess.TenantID, sess.DeviceID)
-	if err != nil {
-		return err
-	} else if device == nil {
-		return ErrDeviceNotFound
-	} else if device.Status != model.DeviceStatusConnected {
-		return ErrDeviceNotConnected
-	}
-
-	err = a.store.AllocateSession(ctx, sess)
+	err := a.store.AllocateSession(ctx, sess)
 	if err != nil {
 		return err
 	}

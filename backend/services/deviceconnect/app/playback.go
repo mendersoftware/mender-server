@@ -15,36 +15,55 @@
 package app
 
 import (
-	"time"
-
-	"github.com/nats-io/nats.go"
+	"io"
+	"sync"
 )
 
 const (
 	DefaultPlaybackSleepIntervalMs = uint(100)
 )
 
-type Playback struct {
-	deviceChan        chan *nats.Msg
-	sleepMilliseconds uint
+type PipeWriter struct {
+	mu        chan struct{}
+	dataChan  chan []byte
+	closeOnce sync.Once
 }
 
-func NewPlayback(deviceChan chan *nats.Msg, sleepMilliseconds uint) *Playback {
-	return &Playback{
-		deviceChan:        deviceChan,
-		sleepMilliseconds: sleepMilliseconds,
+func NewPipeWriter() *PipeWriter {
+	mu := make(chan struct{}, 1)
+	mu <- struct{}{}
+	return &PipeWriter{
+		dataChan: make(chan []byte),
+		mu:       mu,
 	}
 }
 
-func (r *Playback) Write(d []byte) (n int, err error) {
-	//now playback gets the msgpacked ProtoMsgs
-	m := nats.Msg{
-		Subject: "playback",
-		Reply:   "no-reply",
-		Data:    d,
-		Sub:     nil,
+func (r *PipeWriter) Write(d []byte) (n int, err error) {
+	if _, open := <-r.mu; !open {
+		return 0, io.EOF
 	}
-	time.Sleep(time.Duration(r.sleepMilliseconds) * time.Millisecond)
-	r.deviceChan <- &m
-	return len(d), nil
+	defer func() {
+		if err != io.EOF {
+			r.mu <- struct{}{}
+		}
+	}()
+	select {
+	case <-r.mu:
+		err = io.EOF
+		return 0, err
+	case r.dataChan <- d:
+		return len(d), nil
+	}
+}
+
+func (r *PipeWriter) RecvChan() <-chan []byte {
+	return r.dataChan
+}
+
+func (r *PipeWriter) Close() error {
+	r.closeOnce.Do(func() {
+		close(r.mu)
+	})
+
+	return nil
 }

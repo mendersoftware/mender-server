@@ -21,6 +21,7 @@ import (
 	natsio "github.com/nats-io/nats.go"
 
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/stream"
 )
 
 const (
@@ -36,6 +37,9 @@ const (
 type Client interface {
 	Publish(string, []byte) error
 	ChanSubscribe(string, chan *natsio.Msg) (*natsio.Subscription, error)
+
+	Listen(addr string) (stream.Listener, error)
+	Connect(ctx context.Context, srcAddr, dstAddr string) (stream.Conn, error)
 }
 
 // NewClient returns a new workflows client
@@ -92,4 +96,12 @@ func (c *client) Publish(subj string, data []byte) error {
 func (c *client) ChanSubscribe(subj string,
 	channel chan *natsio.Msg) (*natsio.Subscription, error) {
 	return c.nats.ChanSubscribe(subj, channel)
+}
+
+func (c *client) Listen(addr string) (stream.Listener, error) {
+	return stream.ListenNATS(c.nats, addr)
+}
+
+func (c *client) Connect(ctx context.Context, srcAddr, dstAddr string) (stream.Conn, error) {
+	return stream.ConnectNATS(ctx, c.nats, srcAddr, dstAddr)
 }
