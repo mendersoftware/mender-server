@@ -15,17 +15,23 @@
 package http
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+	"github.com/pkg/errors"
 	"github.com/vmihailenco/msgpack/v5"
 
+	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+	"github.com/mendersoftware/mender-server/pkg/stream"
 	"github.com/mendersoftware/mender-server/pkg/ws"
 	"github.com/mendersoftware/mender-server/pkg/ws/menderclient"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/nats"
-	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 )
 
 // InternalController contains status-related end-points
@@ -53,40 +59,45 @@ func (h InternalController) sendMenderCommand(c *gin.Context, msgType string) {
 	tenantID := c.Param("tenantId")
 	deviceID := c.Param("deviceId")
 
-	device, err := h.app.GetDevice(ctx, tenantID, deviceID)
-	if err == app.ErrDeviceNotFound {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": err.Error(),
-		})
-		return
-	} else if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
-		return
-	} else if device.Status != model.DeviceStatusConnected {
-		c.JSON(http.StatusConflict, gin.H{
-			"error": app.ErrDeviceNotConnected,
-		})
+	err := sendMenderCommand(ctx, h.nats, tenantID, deviceID, msgType)
+	if err != nil {
+		if errors.Is(err, stream.ErrConnectionRefused) {
+			rest.RenderError(c, http.StatusNotFound, app.ErrDeviceNotConnected)
+			return
+		}
+		rest.RenderInternalError(c, err)
 		return
 	}
+
+	c.JSON(http.StatusAccepted, nil)
+}
+
+func sendMenderCommand(ctx context.Context, nc nats.Client, tenantID, deviceID, cmd string) error {
+	recvAddr := fmt.Sprintf("%s:cmd%s", tenantID, uuid.NewString())
+	s, err := nc.Connect(ctx, recvAddr, deviceID)
+	if err != nil {
+		return err
+	}
+	defer s.Close(ctx)
 
 	msg := &ws.ProtoMsg{
 		Header: ws.ProtoHdr{
 			Proto:   ws.ProtoTypeMenderClient,
-			MsgType: msgType,
+			MsgType: cmd,
 		},
+	}
+	if idata := identity.FromContext(ctx); idata != nil {
+		msg.Header.Properties = map[string]interface{}{
+			PropertyUserID: idata.Subject,
+		}
 	}
 	data, _ := msgpack.Marshal(msg)
 
-	err = h.nats.Publish(model.GetDeviceSubject(tenantID, device.ID), data)
+	err = s.Send(ctx, data)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
+		return err
 	}
-
-	c.JSON(http.StatusAccepted, nil)
+	return nil
 }
 
 func (h InternalController) DeleteTenant(c *gin.Context) {
