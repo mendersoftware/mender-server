@@ -151,6 +151,7 @@ build:frontend:docker:
       --build-arg GIT_COMMIT_SHA="${CI_COMMIT_SHA}"
       --build-arg SENTRY_ORG="${SENTRY_ORG}"
       --build-arg SENTRY_URL="${SENTRY_URL}"
+      --build-arg REGISTRY="${MIRROR_REGISTRY}"
       --secret id=sentryAuthToken,env=SENTRY_AUTH_TOKEN
       --platform ${DOCKER_PLATFORM:-linux/amd64}
       --provenance false
@@ -185,6 +186,7 @@ build:frontend:docker:
   before_script:
     - !reference [.requires-docker]
     - !reference [.dind-login]
+    - !reference [.ecr-login]
     - npm i --prefix frontend/tests/e2e_tests
   artifacts:
     expire_in: 2w
