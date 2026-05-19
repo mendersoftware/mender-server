@@ -62,7 +62,7 @@ const sectionMap = {
   'role-management': {
     component: RoleManagement,
     text: () => 'Roles',
-    canAccess: ({ currentUser, userRoles: { isAdmin } }) => currentUser && isAdmin
+    canAccess: ({ userCapabilities: { canManageUsers } }) => canManageUsers
   },
   integrations: {
     component: Integrations,
