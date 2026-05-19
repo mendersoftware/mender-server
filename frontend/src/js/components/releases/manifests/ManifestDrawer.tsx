@@ -25,10 +25,10 @@ import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
+import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import Link from '@northern.tech/common-ui/Link';
 import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
-import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { getManifestTags } from '@northern.tech/store/releasesSlice/selectors';
 import { generateManifest, uploadManifest } from '@northern.tech/store/releasesSlice/thunks';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -115,8 +115,19 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
 
   const defaultValues: ManifestFormValues = { tags: [], description: '' };
   const methods = useForm<ManifestFormValues>({ mode: 'onChange', defaultValues });
-  const { handleSubmit } = methods;
-
+  const { handleSubmit, setValue, watch, reset } = methods;
+  const description = watch('description');
+  const onReset = () => {
+    setSelectedFile(null);
+    setErrorMessage('');
+    setBackendErrorMessage('');
+    setParsedManifest(null);
+  };
+  const onDrawerClose = () => {
+    reset();
+    onReset();
+    onClose();
+  };
   const onDrop = async (acceptedFiles: File[]) => {
     if (acceptedFiles.length === 1) {
       const { ok, message, data } = await validateFile(acceptedFiles[0]);
@@ -144,18 +155,12 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
     }
     dispatch(action)
       .unwrap()
-      .then(() => onClose())
+      .then(() => onDrawerClose())
       .catch(e => setBackendErrorMessage(typeof e === 'string' ? e : (e?.message ?? genericUploadErrorMessage)));
-  };
-  const onReset = () => {
-    setSelectedFile(null);
-    setErrorMessage('');
-    setBackendErrorMessage('');
-    setParsedManifest(null);
   };
 
   return (
-    <BaseDrawer open={open} size="md" onClose={onClose} slotProps={{ header: { title: 'Upload a Manifest' } }}>
+    <BaseDrawer open={open} size="md" onClose={onDrawerClose} slotProps={{ header: { title: 'Upload a Manifest' } }}>
       <FormProvider {...methods}>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           {selectedFile ? (
@@ -220,7 +225,12 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
           )}
 
           <ContentSection title="Notes">
-            <TextInput id="description" hint="Add notes here" InputLabelProps={{ shrink: true }} />
+            <EditableLongText
+              original={description}
+              onChange={(value: string) => setValue('description', value)}
+              placeholder="Add notes here"
+              contentFallback="Add notes here"
+            />
           </ContentSection>
           <ContentSection title="Tags">
             <ChipSelect className={classes.input} options={existingTags} name="tags" placeholder="Add Tags" forcePopupIcon={existingTags.length !== 0} />
@@ -232,7 +242,7 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
             </Alert>
           )}
           <div className="margin-top">
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onDrawerClose}>Cancel</Button>
             <Button type="submit" className="margin-left-small" variant="contained" disabled={!!errorMessage || !selectedFile}>
               Upload
             </Button>

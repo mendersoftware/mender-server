@@ -55,7 +55,9 @@ test.describe('Manifests', () => {
     await page.getByRole('button', { name: /upload a manifest/i }).click();
     const drawer = page.locator('.MuiDrawer-paper');
     await drawer.locator('.dropzone input').setInputFiles(manifestFileLocation);
+    await drawer.getByRole('button', { name: /^edit$/i }).click();
     await drawer.getByPlaceholder(/add notes here/i).fill('uploaded via e2e');
+    await drawer.getByRole('button', { name: /^confirm$/i }).click();
     const tagsInput = drawer.getByPlaceholder(/add tags/i);
     await tagsInput.fill('e2e-tag');
     await tagsInput.press('Enter');
