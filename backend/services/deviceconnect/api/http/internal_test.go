@@ -24,11 +24,13 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/vmihailenco/msgpack/v5"
 
-	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
+	"github.com/mendersoftware/mender-server/pkg/stream"
+	"github.com/mendersoftware/mender-server/pkg/ws"
+	"github.com/mendersoftware/mender-server/pkg/ws/menderclient"
 	app_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/app/mocks"
 	nats_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/nats/mocks"
-	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 )
 
 func TestInternalCheckUpdate(t *testing.T) {
@@ -37,8 +39,7 @@ func TestInternalCheckUpdate(t *testing.T) {
 		TenantID string
 		DeviceID string
 
-		GetDevice      *model.Device
-		GetDeviceError error
+		OnConnect func(*testing.T, context.Context, string, string) (stream.Conn, error)
 
 		PublishErr error
 
@@ -48,9 +49,21 @@ func TestInternalCheckUpdate(t *testing.T) {
 			Name:     "ok",
 			DeviceID: "1234567890",
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusConnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				conn := setupConn(t, nil, "foo", "bar")
+				conn.On("Send", ctx, mock.MatchedBy(func(b []byte) bool {
+					var msg ws.ProtoMsg
+					err := msgpack.Unmarshal(b, &msg)
+					return assert.NoError(t, err) &&
+						assert.Equal(t, ws.ProtoTypeMenderClient, msg.Header.Proto) &&
+						assert.Equal(t, menderclient.MessageTypeMenderClientCheckUpdate, msg.Header.MsgType)
+				})).
+					Return(nil)
+				conn.On("Close", ctx).
+					Return(nil)
+				return conn, nil
 			},
 
 			HTTPStatus: http.StatusAccepted,
@@ -60,9 +73,21 @@ func TestInternalCheckUpdate(t *testing.T) {
 			DeviceID: "1234567890",
 			TenantID: "tenant_id",
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusConnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				conn := setupConn(t, nil, "foo", "bar")
+				conn.On("Send", ctx, mock.MatchedBy(func(b []byte) bool {
+					var msg ws.ProtoMsg
+					err := msgpack.Unmarshal(b, &msg)
+					return assert.NoError(t, err) &&
+						assert.Equal(t, ws.ProtoTypeMenderClient, msg.Header.Proto) &&
+						assert.Equal(t, menderclient.MessageTypeMenderClientCheckUpdate, msg.Header.MsgType)
+				})).
+					Return(nil)
+				conn.On("Close", ctx).
+					Return(nil)
+				return conn, nil
 			},
 
 			HTTPStatus: http.StatusAccepted,
@@ -71,7 +96,11 @@ func TestInternalCheckUpdate(t *testing.T) {
 			Name:     "ko, not found",
 			DeviceID: "1234567890",
 
-			GetDeviceError: app.ErrDeviceNotFound,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				return nil, stream.ErrConnectionRefused
+			},
 
 			HTTPStatus: 404,
 		},
@@ -79,31 +108,35 @@ func TestInternalCheckUpdate(t *testing.T) {
 			Name:     "ko, other error",
 			DeviceID: "1234567890",
 
-			GetDeviceError: errors.New("error"),
-
-			HTTPStatus: 400,
-		},
-		{
-			Name:     "ko, device not connected",
-			DeviceID: "1234567890",
-
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusDisconnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				return nil, errors.New("error!")
 			},
 
-			HTTPStatus: http.StatusConflict,
+			HTTPStatus: 500,
 		},
 		{
-			Name:     "ko, publish error",
+			Name:     "ok, with tenantID",
 			DeviceID: "1234567890",
+			TenantID: "tenant_id",
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusConnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				conn := setupConn(t, nil, "foo", "bar")
+				conn.On("Send", ctx, mock.MatchedBy(func(b []byte) bool {
+					var msg ws.ProtoMsg
+					err := msgpack.Unmarshal(b, &msg)
+					return assert.NoError(t, err) &&
+						assert.Equal(t, ws.ProtoTypeMenderClient, msg.Header.Proto) &&
+						assert.Equal(t, menderclient.MessageTypeMenderClientCheckUpdate, msg.Header.MsgType)
+				})).
+					Return(errors.New("error!"))
+				conn.On("Close", ctx).
+					Return(nil)
+				return conn, nil
 			},
-
-			PublishErr: errors.New("error"),
 
 			HTTPStatus: http.StatusInternalServerError,
 		},
@@ -111,11 +144,8 @@ func TestInternalCheckUpdate(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			app := &app_mocks.App{}
-			defer app.AssertExpectations(t)
-
-			natsClient := &nats_mocks.Client{}
-			defer natsClient.AssertExpectations(t)
+			app := app_mocks.NewApp(t)
+			natsClient := nats_mocks.NewClient(t)
 
 			router, _ := NewRouter(app, natsClient, nil)
 			s := httptest.NewServer(router)
@@ -125,20 +155,13 @@ func TestInternalCheckUpdate(t *testing.T) {
 			url = strings.Replace(url, ":deviceId", tc.DeviceID, 1)
 			req, err := http.NewRequest("POST", "http://localhost"+url, nil)
 
-			app.On("GetDevice",
-				mock.MatchedBy(func(_ context.Context) bool {
-					return true
-				}),
-				tc.TenantID,
-				tc.DeviceID,
-			).Return(tc.GetDevice, tc.GetDeviceError)
-
-			if tc.GetDeviceError == nil && tc.GetDevice != nil &&
-				tc.GetDevice.Status == model.DeviceStatusConnected {
-				natsClient.On("Publish",
-					mock.AnythingOfType("string"),
-					mock.AnythingOfType("[]uint8"),
-				).Return(tc.PublishErr)
+			if tc.OnConnect != nil {
+				natsClient.On("Connect", contextMatcher, mock.Anything, mock.Anything).
+					Return(func(
+						ctx context.Context, localAddr, remoteAddr string,
+					) (stream.Conn, error) {
+						return tc.OnConnect(t, ctx, localAddr, remoteAddr)
+					})
 			}
 			if !assert.NoError(t, err) {
 				t.FailNow()
@@ -157,8 +180,7 @@ func TestInternalSendInventory(t *testing.T) {
 		TenantID string
 		DeviceID string
 
-		GetDevice      *model.Device
-		GetDeviceError error
+		OnConnect func(*testing.T, context.Context, string, string) (stream.Conn, error)
 
 		PublishErr error
 
@@ -168,9 +190,21 @@ func TestInternalSendInventory(t *testing.T) {
 			Name:     "ok",
 			DeviceID: "1234567890",
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusConnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				conn := setupConn(t, nil, "foo", "bar")
+				conn.On("Send", ctx, mock.MatchedBy(func(b []byte) bool {
+					var msg ws.ProtoMsg
+					err := msgpack.Unmarshal(b, &msg)
+					return assert.NoError(t, err) &&
+						assert.Equal(t, ws.ProtoTypeMenderClient, msg.Header.Proto) &&
+						assert.Equal(t, menderclient.MessageTypeMenderClientSendInventory, msg.Header.MsgType)
+				})).
+					Return(nil)
+				conn.On("Close", ctx).
+					Return(nil)
+				return conn, nil
 			},
 
 			HTTPStatus: http.StatusAccepted,
@@ -180,9 +214,21 @@ func TestInternalSendInventory(t *testing.T) {
 			DeviceID: "1234567890",
 			TenantID: "tenant_id",
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusConnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				conn := setupConn(t, nil, "foo", "bar")
+				conn.On("Send", ctx, mock.MatchedBy(func(b []byte) bool {
+					var msg ws.ProtoMsg
+					err := msgpack.Unmarshal(b, &msg)
+					return assert.NoError(t, err) &&
+						assert.Equal(t, ws.ProtoTypeMenderClient, msg.Header.Proto) &&
+						assert.Equal(t, menderclient.MessageTypeMenderClientSendInventory, msg.Header.MsgType)
+				})).
+					Return(nil)
+				conn.On("Close", ctx).
+					Return(nil)
+				return conn, nil
 			},
 
 			HTTPStatus: http.StatusAccepted,
@@ -191,7 +237,11 @@ func TestInternalSendInventory(t *testing.T) {
 			Name:     "ko, not found",
 			DeviceID: "1234567890",
 
-			GetDeviceError: app.ErrDeviceNotFound,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				return nil, stream.ErrConnectionRefused
+			},
 
 			HTTPStatus: 404,
 		},
@@ -199,31 +249,35 @@ func TestInternalSendInventory(t *testing.T) {
 			Name:     "ko, other error",
 			DeviceID: "1234567890",
 
-			GetDeviceError: errors.New("error"),
-
-			HTTPStatus: 400,
-		},
-		{
-			Name:     "ko, device not connected",
-			DeviceID: "1234567890",
-
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusDisconnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				return nil, errors.New("error")
 			},
 
-			HTTPStatus: http.StatusConflict,
+			HTTPStatus: 500,
 		},
 		{
-			Name:     "ko, publish error",
+			Name:     "ok, with tenantID",
 			DeviceID: "1234567890",
+			TenantID: "tenant_id",
 
-			GetDevice: &model.Device{
-				ID:     "1234567890",
-				Status: model.DeviceStatusConnected,
+			OnConnect: func(t *testing.T,
+				ctx context.Context,
+				localAddr, remoteAddr string) (stream.Conn, error) {
+				conn := setupConn(t, nil, "foo", "bar")
+				conn.On("Send", ctx, mock.MatchedBy(func(b []byte) bool {
+					var msg ws.ProtoMsg
+					err := msgpack.Unmarshal(b, &msg)
+					return assert.NoError(t, err) &&
+						assert.Equal(t, ws.ProtoTypeMenderClient, msg.Header.Proto) &&
+						assert.Equal(t, menderclient.MessageTypeMenderClientSendInventory, msg.Header.MsgType)
+				})).
+					Return(errors.New("error!"))
+				conn.On("Close", ctx).
+					Return(nil)
+				return conn, nil
 			},
-
-			PublishErr: errors.New("error"),
 
 			HTTPStatus: http.StatusInternalServerError,
 		},
@@ -231,11 +285,8 @@ func TestInternalSendInventory(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			app := &app_mocks.App{}
-			defer app.AssertExpectations(t)
-
-			natsClient := &nats_mocks.Client{}
-			defer natsClient.AssertExpectations(t)
+			app := app_mocks.NewApp(t)
+			natsClient := nats_mocks.NewClient(t)
 
 			router, _ := NewRouter(app, natsClient, nil)
 			s := httptest.NewServer(router)
@@ -245,21 +296,19 @@ func TestInternalSendInventory(t *testing.T) {
 			url = strings.Replace(url, ":deviceId", tc.DeviceID, 1)
 			req, err := http.NewRequest("POST", "http://localhost"+url, nil)
 
-			app.On("GetDevice",
-				mock.MatchedBy(func(_ context.Context) bool {
-					return true
-				}),
-				tc.TenantID,
-				tc.DeviceID,
-			).Return(tc.GetDevice, tc.GetDeviceError)
-
-			if tc.GetDeviceError == nil && tc.GetDevice != nil &&
-				tc.GetDevice.Status == model.DeviceStatusConnected {
-				natsClient.On("Publish",
-					mock.AnythingOfType("string"),
-					mock.AnythingOfType("[]uint8"),
-				).Return(tc.PublishErr)
+			if tc.OnConnect != nil {
+				natsClient.On("Connect",
+					contextMatcher,
+					mock.MatchedBy(func(s string) bool { return strings.HasPrefix(s, tc.TenantID+":cmd") }),
+					tc.DeviceID,
+				).
+					Return(func(
+						ctx context.Context, localAddr, remoteAddr string,
+					) (stream.Conn, error) {
+						return tc.OnConnect(t, ctx, localAddr, remoteAddr)
+					})
 			}
+
 			if !assert.NoError(t, err) {
 				t.FailNow()
 			}

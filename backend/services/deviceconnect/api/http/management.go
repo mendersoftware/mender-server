@@ -834,8 +834,7 @@ func (h ManagementController) sendMenderCommand(c *gin.Context, msgType string) 
 		return
 	}
 
-	recvAddr := fmt.Sprintf("%s:cmd%s", idata.Tenant, uuid.NewString())
-	s, err := h.nats.Connect(ctx, recvAddr, deviceID)
+	err := sendMenderCommand(ctx, h.nats, idata.Tenant, deviceID, msgType)
 	if err != nil {
 		if errors.Is(err, stream.ErrConnectionRefused) {
 			rest.RenderError(c, http.StatusNotFound, app.ErrDeviceNotConnected)
@@ -844,24 +843,5 @@ func (h ManagementController) sendMenderCommand(c *gin.Context, msgType string) 
 		rest.RenderInternalError(c, err)
 		return
 	}
-	defer s.Close(ctx)
-
-	msg := &ws.ProtoMsg{
-		Header: ws.ProtoHdr{
-			Proto:   ws.ProtoTypeMenderClient,
-			MsgType: msgType,
-			Properties: map[string]interface{}{
-				PropertyUserID: idata.Subject,
-			},
-		},
-	}
-	data, _ := msgpack.Marshal(msg)
-
-	err = s.Send(ctx, data)
-	if err != nil {
-		rest.RenderInternalError(c, err)
-		return
-	}
-
 	c.JSON(http.StatusAccepted, nil)
 }
