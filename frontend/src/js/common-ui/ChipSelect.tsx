@@ -19,7 +19,17 @@ import { Autocomplete, Chip, TextField } from '@mui/material';
 
 import { duplicateFilter, unionizeStrings } from '@northern.tech/utils/helpers';
 
-export const ChipSelect = ({ className = '', name, disabled = false, helperText, inputRef, label = '', options = [], placeholder = '' }) => {
+export const ChipSelect = ({
+  className = '',
+  name,
+  disabled = false,
+  forcePopupIcon = false,
+  helperText,
+  inputRef,
+  label = '',
+  options = [],
+  placeholder = ''
+}) => {
   const [value, setValue] = useState('');
 
   const { control, getValues } = useFormContext();
@@ -60,6 +70,7 @@ export const ChipSelect = ({ className = '', name, disabled = false, helperText,
           value={currentSelection}
           className={className}
           filterSelectedOptions
+          forcePopupIcon={forcePopupIcon}
           freeSolo={true}
           includeInputInList={true}
           multiple

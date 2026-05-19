@@ -23,6 +23,7 @@ import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/constants';
+import { getExistingManifestTags } from '@northern.tech/store/releasesSlice/thunks';
 import { getHasManifests, getIsEnterprise, getManifestsList, getManifestsListState, getSelectedManifests } from '@northern.tech/store/selectors';
 import { getManifests, selectManifest, setManifestsListState } from '@northern.tech/store/thunks';
 import type { Manifest } from '@northern.tech/types/MenderTypes';
@@ -90,6 +91,7 @@ export const ManifestsList = ({ className = '', onFileUploadClick }: { className
     if (!isEnterprise) {
       return;
     }
+    dispatch(getExistingManifestTags());
     dispatch(getManifests())
       .unwrap()
       .then(() => dispatch(setManifestsListState({ isLoading: false })));
@@ -113,7 +115,7 @@ export const ManifestsList = ({ className = '', onFileUploadClick }: { className
   const potentialTotal = isFiltering ? searchTotal : total;
 
   if (!isEnterprise) {
-    return <DefaultUpgradeNotification className={`dashboard-placeholder ${className}`} style={{ display: 'grid', placeContent: 'center' }} />;
+    return <DefaultUpgradeNotification className={`dashboard-placeholder ${className}`} style={{ placeContent: 'center' }} />;
   }
 
   if (!hasManifests) {

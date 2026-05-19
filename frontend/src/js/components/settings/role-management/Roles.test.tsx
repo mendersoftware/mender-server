@@ -37,7 +37,7 @@ describe('Roles Component', () => {
       ...defaultState,
       releases: {
         ...defaultState.releases,
-        tags: ['foo', 'bar']
+        tags: { ...defaultState.releases.tags, releases: ['foo', 'bar'] }
       }
     };
     render(<Roles />, { preloadedState });

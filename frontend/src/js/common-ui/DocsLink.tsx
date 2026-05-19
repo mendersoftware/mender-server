@@ -66,6 +66,7 @@ export const DOCSTIPS = {
   dynamicGroups: { id: 'dynamicGroups', path: 'overview/device-group#dynamic-group' },
   hostedRegions: { id: 'hostedRegions', path: 'general/hosted-mender-regions' },
   limitedDeployments: { id: 'limitedDeployments', path: 'overview/deployment#deployment-to-dynamic-groups' },
+  orchestratorManifest: { id: 'orchestratorManifest', path: 'orchestrate-updates/manifest' },
   phasedDeployments: { id: 'phasedDeployments', path: 'overview/customize-the-update-process' },
   pausedDeployments: { id: 'pausedDeployments', path: 'overview/customize-the-update-process#synchronized-updates' },
   retryDeployments: { id: 'retryDeployments', path: 'overview/deployment' },
