@@ -151,6 +151,7 @@ build:frontend:docker:
       --build-arg GIT_COMMIT_SHA="${CI_COMMIT_SHA}"
       --build-arg SENTRY_ORG="${SENTRY_ORG}"
       --build-arg SENTRY_URL="${SENTRY_URL}"
+      --build-arg REGISTRY="${ECR_DOCKERHUB_PREFIX}"
       --secret id=sentryAuthToken,env=SENTRY_AUTH_TOKEN
       --platform ${DOCKER_PLATFORM:-linux/amd64}
       --provenance false
