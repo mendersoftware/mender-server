@@ -1269,10 +1269,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
   letter-spacing: 0.00938em;
   background: #fff;
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+  color: rgba(0, 0, 0, 0.54);
   padding: 8px 16px;
   border-radius: 4px;
   margin-right: 8px;
   margin-bottom: 24px;
+  pointer-events: auto;
 }
 
 .emotion-194 {
@@ -2989,7 +2991,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
     class="emotion-192"
   >
     <p
-      class="MuiTypography-root MuiTypography-body1 emotion-193"
+      class="MuiTypography-root MuiTypography-body1 clickable emotion-193"
     >
       Release actions
     </p>
@@ -3072,7 +3074,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
             id="release-actions-action-1-label"
             style="transition-delay: 30ms;"
           >
-            Delete Release
+            Delete Releases
           </span>
           <button
             aria-labelledby="release-actions-action-1-label"

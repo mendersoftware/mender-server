@@ -22,12 +22,10 @@ import {
   RemoveCircleOutlined as RemoveCircleOutlineIcon,
   SyncOutlined as SyncOutlinedIcon
 } from '@mui/icons-material';
-import { ClickAwayListener, SpeedDial, SpeedDialAction, SpeedDialIcon, Typography, alpha, getOverlayAlpha } from '@mui/material';
-import { speedDialActionClasses } from '@mui/material/SpeedDialAction';
-import { makeStyles } from 'tss-react/mui';
 
 import { mdiTrashCanOutline as TrashCan } from '@mdi/js';
 import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
+import { BaseQuickActions, type QuickAction } from '@northern.tech/common-ui/QuickActions';
 import { DEVICE_STATES, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
 import { advanceOnboarding } from '@northern.tech/store/onboardingSlice/thunks';
 import {
@@ -39,7 +37,6 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { isDarkMode } from '@northern.tech/store/utils';
 import { stringToBoolean, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
@@ -110,62 +107,20 @@ const defaultActions = {
   }
 };
 
-const useStyles = makeStyles()(theme => ({
-  container: {
-    position: 'fixed',
-    bottom: theme.spacing(6.5),
-    right: theme.spacing(6.5),
-    zIndex: 10,
-    minWidth: 400,
-    pointerEvents: 'none',
-    [`.${speedDialActionClasses.staticTooltipLabel}`]: {
-      minWidth: 'max-content'
-    }
-  },
-  fab: { margin: `${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(2)} ${theme.spacing(0.5)}` },
-  innerContainer: {
-    display: 'flex',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end'
-  },
-  label: {
-    background: isDarkMode(theme.palette.mode) ? alpha('#fff', getOverlayAlpha(6)) : theme.palette.common.white,
-    boxShadow: isDarkMode(theme.palette.mode) ? 'none' : theme.shadows[6],
-    opacity: 0.97,
-    borderRadius: theme.spacing(0.5),
-    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
-    marginBottom: theme.spacing(3),
-    marginRight: theme.spacing(1),
-    cursor: 'pointer',
-    pointerEvents: 'auto'
-  }
-}));
-
 export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup }) => {
   const dispatch = useAppDispatch();
-  const [showActions, setShowActions] = useState(false);
   const features = useSelector(getFeatures);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
   const { selection: selectedRows } = useSelector(state => state.devices.deviceList);
   const singleDevice = useSelector(state => getDeviceById(state, deviceId));
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
-  const { classes } = useStyles();
   const deviceActionRef = useRef<HTMLDivElement>();
+  const deviceActionLabelRef = useRef<HTMLDivElement>(null);
   const deploymentActionRef = useRef<HTMLDivElement>(null);
   const onboardingState = useSelector(getOnboardingState);
   const [isInitialized, setIsInitialized] = useState(false);
   const timer = useRef();
-
-  const handleShowActions = e => {
-    e.stopPropagation();
-    setShowActions(!showActions);
-    dispatch(advanceOnboarding(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING));
-  };
-
-  const handleClickAway = () => {
-    setShowActions(false);
-  };
 
   useEffect(() => {
     clearTimeout(timer.current);
@@ -176,62 +131,47 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   }, []);
 
   const selectedDevices = deviceId ? [singleDevice] : selectedRows.map(row => devices[row]);
-  const actions = Object.values(defaultActions).reduce((accu, action) => {
-    if (selectedDevices.every(device => device && action.checkRelevance({ device, features, selectedGroup, tenantCapabilities, userCapabilities }))) {
-      accu.push(action);
-    }
-    return accu;
-  }, []);
-
   const pluralized = pluralize('devices', selectedDevices.length);
+
+  const actions: QuickAction[] = Object.values(defaultActions)
+    .filter(action =>
+      selectedDevices.every(device => device && action.checkRelevance({ device, features, selectedGroup, tenantCapabilities, userCapabilities }))
+    )
+    .map(({ action, key, icon, title }) => ({
+      key,
+      icon,
+      title: <div ref={key === 'create-deployment' ? deploymentActionRef : undefined}>{title(pluralized, selectedDevices.length)}</div>,
+      onClick: () => action({ ...actionCallbacks, selection: selectedDevices })
+    }));
+
+  const handleToggle = () => dispatch(advanceOnboarding(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING));
 
   let onboardingComponent;
   let anchor;
-  if (deploymentActionRef.current && isInitialized && showActions) {
+  if (deviceActionLabelRef.current && deploymentActionRef.current && isInitialized) {
     anchor = {
-      left: deploymentActionRef.current.parentElement.parentElement.offsetLeft - deploymentActionRef.current.offsetWidth - 45,
-      top: deploymentActionRef.current.parentElement.parentElement.offsetTop + deploymentActionRef.current.parentElement.offsetHeight
+      left: deploymentActionRef.current.parentElement.offsetLeft + deploymentActionRef.current.parentElement.parentElement.offsetWidth + 45,
+      top: deploymentActionRef.current.parentElement.offsetTop + 15
     };
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING_STEP_2, onboardingState, { anchor, place: 'left' }, null);
-  } else if (deviceActionRef.current && isInitialized) {
-    const deviceActionDiv = deviceActionRef.current;
+  } else if (deviceActionLabelRef.current && deviceActionRef.current && isInitialized) {
     anchor = {
-      left: deviceActionDiv.firstElementChild.offsetLeft - 15,
-      top: deviceActionDiv.offsetTop + deviceActionDiv.firstElementChild.offsetTop + deviceActionDiv.firstElementChild.offsetHeight / 2
+      left: deviceActionLabelRef.current.offsetLeft - 55,
+      top: deviceActionRef.current.offsetHeight - (deviceActionLabelRef.current.offsetHeight + 15) / 2
     };
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING, onboardingState, { anchor, place: 'left' }, null);
   }
+
   return (
-    <div className={classes.container}>
-      <div className="relative">
-        <div className={classes.innerContainer} ref={deviceActionRef}>
-          <Typography variant="body1" className={classes.label} onClick={handleShowActions}>
-            {deviceId ? 'Device actions' : `${selectedDevices.length} ${pluralized} selected`}
-          </Typography>
-          <ClickAwayListener onClickAway={handleClickAway}>
-            <SpeedDial className={classes.fab} ariaLabel="device-actions" icon={<SpeedDialIcon />} onClick={handleShowActions} open={Boolean(showActions)}>
-              {actions.map(action => (
-                <SpeedDialAction
-                  key={action.key}
-                  aria-label={action.key}
-                  icon={action.icon}
-                  slotProps={{
-                    tooltip: {
-                      title: (
-                        <div ref={action.key === 'create-deployment' ? deploymentActionRef : undefined}>{action.title(pluralized, selectedDevices.length)}</div>
-                      ),
-                      open: true
-                    }
-                  }}
-                  onClick={() => action.action({ ...actionCallbacks, selection: selectedDevices })}
-                />
-              ))}
-            </SpeedDial>
-          </ClickAwayListener>
-        </div>
-        {onboardingComponent}
-      </div>
-    </div>
+    <BaseQuickActions
+      actions={actions}
+      ariaLabel="device-actions"
+      label={deviceId ? 'Device actions' : `${selectedDevices.length} ${pluralized} selected`}
+      onToggle={handleToggle}
+      onboardingComponent={onboardingComponent}
+      speedDialRef={deviceActionRef}
+      titleRef={deviceActionLabelRef}
+    />
   );
 };
 
