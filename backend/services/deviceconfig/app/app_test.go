@@ -15,20 +15,28 @@
 package app
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"path"
 	"testing"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 
+	"github.com/mendersoftware/mender-server/pkg/api/client"
+	client_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
-	"github.com/mendersoftware/mender-server/services/deviceconfig/client/workflows"
-	mworkflows "github.com/mendersoftware/mender-server/services/deviceconfig/client/workflows/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
 	mstore "github.com/mendersoftware/mender-server/services/deviceconfig/store/mocks"
 )
@@ -272,7 +280,7 @@ func TestUpdateConfiguration(t *testing.T) {
 		Attrs    model.Attributes
 
 		Store func(t *testing.T, self *testCase) *mstore.DataStore
-		Wf    func(t *testing.T, self *testCase) *mworkflows.Client
+		Wf    func(t *testing.T, self *testCase) client.WorkflowsOtherAPI
 
 		Error error
 	}
@@ -295,8 +303,11 @@ func TestUpdateConfiguration(t *testing.T) {
 			).Return(nil).Once()
 			return store
 		},
-		Wf: func(t *testing.T, self *testCase) *mworkflows.Client {
-			return new(mworkflows.Client)
+		Wf: func(t *testing.T, self *testCase) client.WorkflowsOtherAPI {
+			rt := client_mocks.NewMockRoundTripper(t)
+			cfg := client.NewConfiguration()
+			cfg.HTTPClient = &http.Client{Transport: rt}
+			return client.NewAPIClient(cfg).WorkflowsOtherAPI
 		},
 	}, {
 		Name: "ok/with audit",
@@ -320,21 +331,36 @@ func TestUpdateConfiguration(t *testing.T) {
 			).Return(nil).Once()
 			return store
 		},
-		Wf: func(t *testing.T, self *testCase) *mworkflows.Client {
-			wf := new(mworkflows.Client)
-			id := identity.FromContext(self.CTX)
-			wf.On("SubmitAuditLog",
-				self.CTX,
-				mock.AnythingOfType("workflows.AuditLog")).
-				Run(func(args mock.Arguments) {
-					al, ok := args.Get(1).(workflows.AuditLog)
-					if assert.True(t, ok) {
-						assert.Equal(t, id.Subject, al.Actor.ID)
-						assert.Equal(t, self.DeviceID, al.Object.ID)
-						assert.WithinDuration(t, time.Now(), al.EventTS, 5*time.Minute)
+		Wf: func(t *testing.T, self *testCase) client.WorkflowsOtherAPI {
+			rt := client_mocks.NewMockRoundTripper(t)
+			cfg := client.NewConfiguration()
+			cfg.HTTPClient = &http.Client{Transport: rt}
+			rt.EXPECT().RoundTrip(mock.Anything).
+				Run(func(request *http.Request) {
+					assert.Equal(t, "emit_auditlog", path.Base(request.URL.Path))
+					var body struct {
+						Auditlog  model.AuditLog `json:"auditlog"`
+						TenantID  string         `json:"tenant_id"`
+						RequestID string         `json:"request_id"`
 					}
-				}).Return(nil).Once()
-			return wf
+					id := identity.FromContext(request.Context())
+					err := json.NewDecoder(request.Body).Decode(&body)
+					assert.NoError(t, err)
+					al := body.Auditlog
+					assert.Equal(t, id.Subject, al.Actor.ID)
+					assert.Equal(t, self.DeviceID, al.Object.ID)
+					assert.WithinDuration(t, time.Now(), al.EventTS, 5*time.Minute)
+
+				}).
+				Return(
+					&http.Response{
+						StatusCode:    200,
+						Header:        http.Header{"Content-Type": []string{"application/json"}},
+						ContentLength: int64(len(`{"id": "123","name": "emit_auditlog"}`)),
+						Body:          io.NopCloser(bytes.NewReader([]byte(`{"id": "123","name": "emit_auditlog"}`))),
+					}, nil,
+				).Once()
+			return client.NewAPIClient(cfg).WorkflowsOtherAPI
 		},
 	}, {
 		Name: "error/submitting audit",
@@ -358,21 +384,21 @@ func TestUpdateConfiguration(t *testing.T) {
 			).Return(nil).Once()
 			return store
 		},
-		Wf: func(t *testing.T, self *testCase) *mworkflows.Client {
-			wf := new(mworkflows.Client)
-			id := identity.FromContext(self.CTX)
-			wf.On("SubmitAuditLog",
-				self.CTX,
-				mock.AnythingOfType("workflows.AuditLog")).
-				Run(func(args mock.Arguments) {
-					al, ok := args.Get(1).(workflows.AuditLog)
-					if assert.True(t, ok) {
-						assert.Equal(t, id.Subject, al.Actor.ID)
-						assert.Equal(t, self.DeviceID, al.Object.ID)
-						assert.WithinDuration(t, time.Now(), al.EventTS, 5*time.Minute)
-					}
-				}).Return(errors.New("internal error")).Once()
-			return wf
+		Wf: func(t *testing.T, self *testCase) client.WorkflowsOtherAPI {
+			rt := client_mocks.NewMockRoundTripper(t)
+			cfg := client.NewConfiguration()
+			cfg.HTTPClient = &http.Client{Transport: rt}
+			rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+				assert.Equal(t, "emit_auditlog", path.Base(r.URL.Path))
+				return true
+
+			})).Return(&http.Response{
+				StatusCode: 500,
+				Header:     http.Header{"Content-Type": []string{"application/json"}},
+				Status:     "internal error",
+				Body:       io.NopCloser(bytes.NewReader([]byte(`{"error": "internal error"}`))),
+			}, nil)
+			return client.NewAPIClient(cfg).WorkflowsOtherAPI
 		},
 
 		Error: errors.New("failed to submit audit log for updating " +
@@ -396,8 +422,11 @@ func TestUpdateConfiguration(t *testing.T) {
 			).Return(errors.New("internal error")).Once()
 			return store
 		},
-		Wf: func(t *testing.T, self *testCase) *mworkflows.Client {
-			return new(mworkflows.Client)
+		Wf: func(t *testing.T, self *testCase) client.WorkflowsOtherAPI {
+			rt := client_mocks.NewMockRoundTripper(t)
+			cfg := client.NewConfiguration()
+			cfg.HTTPClient = &http.Client{Transport: rt}
+			return client.NewAPIClient(cfg).WorkflowsOtherAPI
 		},
 
 		Error: errors.New("internal error"),
@@ -409,13 +438,12 @@ func TestUpdateConfiguration(t *testing.T) {
 			ds := tc.Store(t, &tc)
 			wf := tc.Wf(t, &tc)
 			defer ds.AssertExpectations(t)
-			defer wf.AssertExpectations(t)
 
 			app := New(ds, wf, Config{HaveAuditLogs: true})
 			err := app.UpdateConfiguration(tc.CTX, tc.DeviceID, tc.Attrs)
 			if tc.Error != nil {
 				if assert.Error(t, err) {
-					assert.Regexp(t, tc.Error.Error(), err.Error())
+					assert.ErrorContains(t, err, tc.Error.Error())
 				}
 			} else {
 				assert.NoError(t, err)
@@ -470,28 +498,46 @@ func TestSetConfigurationWithAuditLogs(t *testing.T) {
 			ds.On("InsertDevice", ctx, deviceMatcher).Return(nil)
 			ds.On("ReplaceConfiguration", ctx, deviceMatcher).Return(nil)
 
-			wflows := &mworkflows.Client{}
-			defer wflows.AssertExpectations(t)
-			wflows.On("SubmitAuditLog",
-				mock.MatchedBy(func(ctx context.Context) bool {
-					return true
-				}),
-				mock.MatchedBy(func(log workflows.AuditLog) bool {
-					assert.Equal(t, workflows.ActionSetConfiguration, log.Action)
-					assert.Equal(t, workflows.Actor{
-						ID:   userID,
-						Type: workflows.ActorUser,
-					}, log.Actor)
-					assert.Equal(t, workflows.Object{
-						ID:   dev.ID,
-						Type: workflows.ObjectDevice,
-					}, log.Object)
-					assert.Equal(t, "{\"hostname\":\"some0\"}", log.Change)
-					assert.WithinDuration(t, time.Now(), log.EventTS, time.Minute)
-
-					return true
-				}),
-			).Return(tc.err)
+			rt := client_mocks.NewMockRoundTripper(t)
+			cfg := client.NewConfiguration()
+			cfg.HTTPClient = &http.Client{
+				Transport: rt,
+			}
+			wflows := client.NewAPIClient(cfg).WorkflowsOtherAPI
+			roundTrip := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+				return path.Base(r.URL.Path) == "emit_auditlog"
+			}))
+			roundTrip.Run(func(request *http.Request) {
+				var body struct {
+					Auditlog model.AuditLog `json:"auditlog"`
+					TenantID string         `json:"tenant_id"`
+				}
+				err := json.NewDecoder(request.Body).Decode(&body)
+				assert.NoError(t, err)
+				log := body.Auditlog
+				assert.Equal(t, model.ActionSetConfiguration, log.Action)
+				assert.Equal(t, model.AuditLogActor{
+					ID:   userID,
+					Type: model.ActorUser,
+				}, log.Actor)
+				assert.Equal(t, model.AuditLogObject{
+					ID:   dev.ID,
+					Type: model.ObjectDevice,
+				}, log.Object)
+				assert.Equal(t, "{\"hostname\":\"some0\"}", log.Change)
+				assert.WithinDuration(t, time.Now(), log.EventTS, time.Minute)
+				if tc.err != nil {
+					roundTrip.Return(nil, tc.err)
+				} else {
+					w := httptest.NewRecorder()
+					w.Header().Add("Content-Type", "application/json")
+					w.WriteHeader(http.StatusCreated)
+					json.NewEncoder(w).Encode(client.StartWorkflow201Response{
+						Id: types.Pointer("123"),
+					})
+					roundTrip.Return(w.Result(), nil)
+				}
+			})
 
 			app := New(ds, wflows, Config{HaveAuditLogs: true})
 			err := app.ProvisionDevice(ctx, dev)
@@ -625,45 +671,84 @@ func TestDeployConfiguration(t *testing.T) {
 				mock.AnythingOfType("uuid.UUID"),
 			).Return(tc.dsErr)
 
-			wflows := &mworkflows.Client{}
-			defer wflows.AssertExpectations(t)
+			rt := client_mocks.NewMockRoundTripper(t)
+			cfg := client.NewConfiguration()
+			cfg.HTTPClient = &http.Client{
+				Transport: rt,
+			}
+			wflows := client.NewAPIClient(cfg).WorkflowsOtherAPI
 
 			configuration, _ := tc.device.ConfiguredAttributes.MarshalJSON()
 			if tc.dsErr == nil {
-				wflows.On("DeployConfiguration",
-					mock.MatchedBy(func(ctx context.Context) bool {
-						return true
-					}),
-					"tenantID",
-					tc.device.ID,
-					mock.AnythingOfType("uuid.UUID"),
-					configuration,
-					tc.request.Retries,
-					tc.request.UpdateControlMap,
-				).Return(tc.err)
+				deployConfig := rt.EXPECT().
+					RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+						return path.Base(r.URL.Path) == "deploy_device_configuration"
+					}))
+				deployConfig.Run(func(request *http.Request) {
+					var body struct {
+						DeviceID      string         `json:"device_id"`
+						TenantID      string         `json:"tenant_id"`
+						Configuration []byte         `json:"configuration"`
+						Retries       uint           `json:"retries"`
+						UpdateCtrlMap map[string]any `json:"update_control_map"`
+					}
+					err := json.NewDecoder(request.Body).Decode(&body)
+					require.NoError(t, err)
+					assert.Equal(t, body.DeviceID, tc.device.ID)
+					assert.Equal(t, body.TenantID, "tenantID")
+					assert.Equal(t, body.Retries, tc.request.Retries)
+					assert.Equal(t, body.UpdateCtrlMap, tc.request.UpdateControlMap)
+					assert.Equal(t, body.Configuration, configuration)
+					if tc.err == nil {
+						w := httptest.NewRecorder()
+						w.Header().Set("Content-Type", "application/json")
+						w.WriteHeader(http.StatusCreated)
+						json.NewEncoder(w).Encode(client.StartWorkflow201Response{
+							Id: types.Pointer("1234"),
+						})
+						deployConfig.Return(w.Result(), nil)
+					} else {
+						deployConfig.Return(nil, tc.err)
+					}
+				}).
+					Once()
 			}
 
 			if tc.dsErr == nil && tc.err == nil || tc.wfErr != nil {
-				wflows.On("SubmitAuditLog",
-					mock.MatchedBy(func(ctx context.Context) bool {
-						return true
-					}),
-					mock.MatchedBy(func(log workflows.AuditLog) bool {
-						assert.Equal(t, workflows.ActionDeployConfiguration, log.Action)
-						assert.Equal(t, workflows.Actor{
-							ID:   userID,
-							Type: workflows.ActorUser,
-						}, log.Actor)
-						assert.Equal(t, workflows.Object{
-							ID:   tc.device.ID,
-							Type: workflows.ObjectDevice,
-						}, log.Object)
-						assert.Equal(t, string(configuration), log.Change)
-						assert.WithinDuration(t, time.Now(), log.EventTS, time.Minute)
-
-						return true
-					}),
-				).Return(tc.wfErr)
+				submitLog := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+					return path.Base(r.URL.Path) == "emit_auditlog"
+				}))
+				submitLog.Run(func(request *http.Request) {
+					var body struct {
+						Auditlog model.AuditLog `json:"auditlog"`
+						TenantID string         `json:"tenant_id"`
+					}
+					err := json.NewDecoder(request.Body).Decode(&body)
+					assert.NoError(t, err)
+					log := body.Auditlog
+					assert.Equal(t, model.ActionDeployConfiguration, log.Action)
+					assert.Equal(t, model.AuditLogActor{
+						ID:   userID,
+						Type: model.ActorUser,
+					}, log.Actor)
+					assert.Equal(t, model.AuditLogObject{
+						ID:   tc.device.ID,
+						Type: model.ObjectDevice,
+					}, log.Object)
+					assert.Equal(t, string(configuration), log.Change)
+					assert.WithinDuration(t, time.Now(), log.EventTS, time.Minute)
+					if tc.wfErr != nil {
+						submitLog.Return(nil, tc.wfErr)
+					} else {
+						w := httptest.NewRecorder()
+						w.Header().Add("Content-Type", "application/json")
+						w.WriteHeader(http.StatusCreated)
+						json.NewEncoder(w).Encode(client.StartWorkflow201Response{
+							Id: types.Pointer("123"),
+						})
+						submitLog.Return(w.Result(), nil)
+					}
+				})
 			}
 
 			app := New(ds, wflows, Config{HaveAuditLogs: true})
@@ -677,18 +762,4 @@ func TestDeployConfiguration(t *testing.T) {
 			}
 		})
 	}
-}
-
-func map2Attributes(configurationMap map[string]interface{}) model.Attributes {
-	attributes := make(model.Attributes, len(configurationMap))
-	i := 0
-	for k, v := range configurationMap {
-		attributes[i] = model.Attribute{
-			Key:   k,
-			Value: v,
-		}
-		i++
-	}
-
-	return attributes
 }

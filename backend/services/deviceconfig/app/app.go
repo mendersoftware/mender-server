@@ -21,9 +21,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
+	"github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/identity"
+	"github.com/mendersoftware/mender-server/pkg/requestid"
 
-	"github.com/mendersoftware/mender-server/services/deviceconfig/client/workflows"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/model"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/store"
 )
@@ -56,9 +57,9 @@ type App interface {
 
 // app is an app object
 type app struct {
-	store     store.DataStore
-	workflows workflows.Client
+	store store.DataStore
 	Config
+	workflows client.WorkflowsOtherAPI
 }
 
 type Config struct {
@@ -66,7 +67,7 @@ type Config struct {
 }
 
 // NewApp initialize a new deviceconfig App
-func New(ds store.DataStore, wf workflows.Client, config ...Config) App {
+func New(ds store.DataStore, wf client.WorkflowsOtherAPI, config ...Config) App {
 	conf := Config{}
 	for _, cfgIn := range config {
 		if cfgIn.HaveAuditLogs {
@@ -111,6 +112,45 @@ func (a *app) DecommissionDevice(ctx context.Context, devID string) error {
 	return a.store.DeleteDevice(ctx, devID)
 }
 
+func (a *app) SubmitAuditLog(ctx context.Context, log model.AuditLog) error {
+	const workflowSubmitAuditLog = "emit_auditlog"
+	id := identity.FromContext(ctx)
+	_, _, err := a.workflows.StartWorkflow(ctx, workflowSubmitAuditLog).
+		RequestBody(map[string]any{
+			"auditlog":   log,
+			"tenant_id":  id.Tenant,
+			"request_id": requestid.FromContext(ctx),
+		}).
+		Execute()
+	return err
+}
+
+func (a *app) deployConfiguration(ctx context.Context,
+	tenantID, deviceID string,
+	deploymentID uuid.UUID,
+	configuration []byte,
+	retries uint,
+	updateControlMap map[string]any,
+) error {
+	const workflowDeployConfig = "deploy_device_configuration"
+	id := identity.FromContext(ctx)
+	req := map[string]any{
+		"tenant_id":     id.Tenant,
+		"request_id":    requestid.FromContext(ctx),
+		`device_id`:     deviceID,
+		`deployment_id`: deploymentID,
+		`configuration`: configuration,
+		`retries`:       retries,
+	}
+	if updateControlMap != nil {
+		req["update_control_map"] = updateControlMap
+	}
+	_, _, err := a.workflows.StartWorkflow(ctx, workflowDeployConfig).
+		RequestBody(req).
+		Execute()
+	return err
+}
+
 func (a *app) SetConfiguration(ctx context.Context,
 	devID string,
 	configuration model.Attributes) error {
@@ -128,24 +168,24 @@ func (a *app) SetConfiguration(ctx context.Context,
 		userID := identity.Subject
 		configuration, err := configuration.MarshalJSON()
 		if err == nil {
-			err = a.workflows.SubmitAuditLog(ctx, workflows.AuditLog{
-				Action: workflows.ActionSetConfiguration,
-				Actor: workflows.Actor{
+			err := a.SubmitAuditLog(ctx, model.AuditLog{
+				Action: model.ActionSetConfiguration,
+				Actor: model.AuditLogActor{
 					ID:   userID,
-					Type: workflows.ActorUser,
+					Type: model.ActorUser,
 				},
-				Object: workflows.Object{
+				Object: model.AuditLogObject{
 					ID:   devID,
-					Type: workflows.ObjectDevice,
+					Type: model.ObjectDevice,
 				},
 				Change:  string(configuration),
 				EventTS: time.Now(),
 			})
-		}
-		if err != nil {
-			return errors.Wrap(err,
-				"failed to submit audit log for setting the device configuration",
-			)
+			if err != nil {
+				return errors.Wrap(err,
+					"failed to submit audit log for setting the device configuration",
+				)
+			}
 		}
 	}
 
@@ -166,15 +206,15 @@ func (a *app) UpdateConfiguration(
 		userID := identity.Subject
 		configuration, err := attrs.MarshalJSON()
 		if err == nil {
-			err = a.workflows.SubmitAuditLog(ctx, workflows.AuditLog{
-				Action: workflows.ActionSetConfiguration,
-				Actor: workflows.Actor{
+			err = a.SubmitAuditLog(ctx, model.AuditLog{
+				Action: model.ActionSetConfiguration,
+				Actor: model.AuditLogActor{
 					ID:   userID,
-					Type: workflows.ActorUser,
+					Type: model.ActorUser,
 				},
-				Object: workflows.Object{
+				Object: model.AuditLogObject{
 					ID:   devID,
-					Type: workflows.ObjectDevice,
+					Type: model.ObjectDevice,
 				},
 				Change:  string(configuration),
 				EventTS: time.Now(),
@@ -221,22 +261,22 @@ func (a *app) DeployConfiguration(ctx context.Context, device model.Device,
 		return response, nil
 	}
 	response.DeploymentID = deploymentID
-	err = a.workflows.DeployConfiguration(ctx, identity.Tenant, device.ID,
+	err = a.deployConfiguration(ctx, identity.Tenant, device.ID,
 		response.DeploymentID, configuration, request.Retries, request.UpdateControlMap)
 	if err != nil {
 		return response, err
 	}
 	if a.HaveAuditLogs {
 		userID := identity.Subject
-		err = a.workflows.SubmitAuditLog(ctx, workflows.AuditLog{
-			Action: workflows.ActionDeployConfiguration,
-			Actor: workflows.Actor{
+		err = a.SubmitAuditLog(ctx, model.AuditLog{
+			Action: model.ActionDeployConfiguration,
+			Actor: model.AuditLogActor{
 				ID:   userID,
-				Type: workflows.ActorUser,
+				Type: model.ActorUser,
 			},
-			Object: workflows.Object{
+			Object: model.AuditLogObject{
 				ID:   device.ID,
-				Type: workflows.ObjectDevice,
+				Type: model.ObjectDevice,
 			},
 			Change:  string(configuration),
 			EventTS: time.Now(),
