@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -132,19 +132,14 @@ export const ReleaseQuickActions = ({ actionCallbacks }) => {
   const selectedSingleRelease = !isEmpty(selectedRelease) || selectedRows.length === 1;
   const pluralized = pluralize('Releases', selectedRows.length);
 
-  const actions: QuickAction[] = useMemo(
-    () =>
-      defaultActions
-        .filter(action => action.isApplicable({ userCapabilities, selectedSingleRelease, selectedRows }))
-        .map(({ action, key, icon, title }) => ({
-          key,
-          icon,
-          title: title(pluralized),
-          onClick: () => action({ ...actionCallbacks, selection: selectedRows })
-        })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(userCapabilities), selectedRelease, selectedRows, actionCallbacks, pluralized]
-  );
+  const actions: QuickAction[] = defaultActions
+    .filter(action => action.isApplicable({ userCapabilities, selectedSingleRelease, selectedRows }))
+    .map(({ action, key, icon, title }) => ({
+      key,
+      icon,
+      title: title(pluralized),
+      onClick: () => action({ ...actionCallbacks, selection: selectedRows })
+    }));
 
   return (
     <BaseQuickActions

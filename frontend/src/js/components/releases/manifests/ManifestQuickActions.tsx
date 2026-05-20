@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { type ReactNode, useCallback, useMemo } from 'react';
+import { type ReactNode, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -129,19 +129,14 @@ export const ManifestQuickActions = () => {
 
   const pluralized = pluralize('Manifest', !isEmpty(selectedManifest) ? 1 : selectedRows.length);
 
-  const actions: QuickAction[] = useMemo(
-    () =>
-      defaultActions
-        .filter(action => action.isApplicable({ userCapabilities, selectedRows, selectedManifest }))
-        .map(({ action, key, icon, title }) => ({
-          key,
-          icon,
-          title: title(pluralized),
-          onClick: () => action({ ...actionCallbacks, selection: selectedRows })
-        })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(userCapabilities), selectedRows, selectedManifest, actionCallbacks, pluralized]
-  );
+  const actions: QuickAction[] = defaultActions
+    .filter(action => action.isApplicable({ userCapabilities, selectedRows, selectedManifest }))
+    .map(({ action, key, icon, title }) => ({
+      key,
+      icon,
+      title: title(pluralized),
+      onClick: () => action({ ...actionCallbacks, selection: selectedRows })
+    }));
 
   return <BaseQuickActions actions={actions} ariaLabel="manifest-actions" label={`${selectedRows.length} ${pluralized} selected`} />;
 };
