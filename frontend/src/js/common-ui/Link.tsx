@@ -20,7 +20,7 @@ export type LinkProps = Omit<MuiLinkProps, 'href'> & { external?: boolean; href?
 
 export const Link = ({ href, to, external = false, onClick, target, rel, component, ...rest }: LinkProps) => {
   if (to) {
-    return <MuiLink component={RouterLink} to={to} onClick={onClick} {...rest} />;
+    return <MuiLink component={RouterLink} to={to} onClick={onClick} target={target} {...rest} />;
   }
   if (href) {
     return (
