@@ -170,7 +170,14 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
               className={classes.input}
               value={selectedFile.name}
               error={!!errorMessage}
-              helperText={errorMessage}
+              helperText={
+                errorMessage &&
+                errorMessage.split('\n').map((line, index) => (
+                  <span key={index} className="flexbox">
+                    {line}
+                  </span>
+                ))
+              }
               slotProps={{
                 input: {
                   readOnly: true,
