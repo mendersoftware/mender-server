@@ -131,17 +131,14 @@ export const ManifestQuickActions = () => {
 
   const actions: QuickAction[] = useMemo(
     () =>
-      defaultActions.reduce<QuickAction[]>((accu, action) => {
-        if (action.isApplicable({ userCapabilities, selectedRows, selectedManifest })) {
-          accu.push({
-            key: action.key,
-            icon: action.icon,
-            title: action.title(pluralized),
-            onClick: () => action.action({ ...actionCallbacks, selection: selectedRows })
-          });
-        }
-        return accu;
-      }, []),
+      defaultActions
+        .filter(action => action.isApplicable({ userCapabilities, selectedRows, selectedManifest }))
+        .map(({ action, key, icon, title }) => ({
+          key,
+          icon,
+          title: title(pluralized),
+          onClick: () => action({ ...actionCallbacks, selection: selectedRows })
+        })),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [JSON.stringify(userCapabilities), selectedRows, selectedManifest, actionCallbacks, pluralized]
   );

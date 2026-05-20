@@ -133,17 +133,16 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   const selectedDevices = deviceId ? [singleDevice] : selectedRows.map(row => devices[row]);
   const pluralized = pluralize('devices', selectedDevices.length);
 
-  const actions: QuickAction[] = Object.values(defaultActions).reduce<QuickAction[]>((accu, action) => {
-    if (selectedDevices.every(device => device && action.checkRelevance({ device, features, selectedGroup, tenantCapabilities, userCapabilities }))) {
-      accu.push({
-        key: action.key,
-        icon: action.icon,
-        title: <div ref={action.key === 'create-deployment' ? deploymentActionRef : undefined}>{action.title(pluralized, selectedDevices.length)}</div>,
-        onClick: () => action.action({ ...actionCallbacks, selection: selectedDevices })
-      });
-    }
-    return accu;
-  }, []);
+  const actions: QuickAction[] = Object.values(defaultActions)
+    .filter(action =>
+      selectedDevices.every(device => device && action.checkRelevance({ device, features, selectedGroup, tenantCapabilities, userCapabilities }))
+    )
+    .map(({ action, key, icon, title }) => ({
+      key,
+      icon,
+      title: <div ref={key === 'create-deployment' ? deploymentActionRef : undefined}>{title(pluralized, selectedDevices.length)}</div>,
+      onClick: () => action({ ...actionCallbacks, selection: selectedDevices })
+    }));
 
   const handleToggle = () => dispatch(advanceOnboarding(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING));
 

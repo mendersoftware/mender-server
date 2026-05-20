@@ -134,17 +134,14 @@ export const ReleaseQuickActions = ({ actionCallbacks }) => {
 
   const actions: QuickAction[] = useMemo(
     () =>
-      defaultActions.reduce<QuickAction[]>((accu, action) => {
-        if (action.isApplicable({ userCapabilities, selectedSingleRelease, selectedRows })) {
-          accu.push({
-            key: action.key,
-            icon: action.icon,
-            title: action.title(pluralized),
-            onClick: () => action.action({ ...actionCallbacks, selection: selectedRows })
-          });
-        }
-        return accu;
-      }, []),
+      defaultActions
+        .filter(action => action.isApplicable({ userCapabilities, selectedSingleRelease, selectedRows }))
+        .map(({ action, key, icon, title }) => ({
+          key,
+          icon,
+          title: title(pluralized),
+          onClick: () => action({ ...actionCallbacks, selection: selectedRows })
+        })),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [JSON.stringify(userCapabilities), selectedRelease, selectedRows, actionCallbacks, pluralized]
   );
