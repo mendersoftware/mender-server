@@ -25,6 +25,7 @@ const isolatedTestFiles = [
   'devices/troubleshoot/Terminal.test.tsx',
   'devices/troubleshoot/TerminalWrapper.test.tsx',
   'login/Login.test.tsx',
+  'login/OAuthLink.test.tsx',
   'login/Password.test.tsx',
   'login/PasswordReset.test.tsx',
   'releases/Releases.test.tsx',
