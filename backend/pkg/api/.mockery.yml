@@ -29,3 +29,10 @@ packages:
       pkgname: mocks
       dir: "{{.InterfaceDir}}/mocks"
       include-auto-generated: true
+  net/http:
+    config:
+      pkgname: mocks
+      dir: "{{.ConfigDir}}/client/mocks"
+      include-auto-generated: true
+      include-interface-regex: "^RoundTripper$"
+      filename: roundtripper.go

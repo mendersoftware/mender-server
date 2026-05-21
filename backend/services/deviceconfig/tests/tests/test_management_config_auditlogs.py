@@ -12,9 +12,11 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+from typing import Iterable
 import uuid
 import pytest
 import requests
+import difflib, pprint
 
 from common import management_api_with_params
 from common import InternalAPIClient
@@ -34,6 +36,28 @@ def device_id():
         tenant_id="tenant-id", device_id=device_id
     )
     assert r.status_code == 204
+
+
+def dict_diff(subset: dict, superset: dict) -> dict:
+    err = {}
+    for key, value in subset.items():
+        if key not in superset:
+            err[key] = value
+        if isinstance(value, dict) and isinstance(superset[key], dict):
+            sub_err = dict_diff(value, superset[key])
+            if sub_err:
+                err[key] = sub_err
+        elif isinstance(value, Iterable) and isinstance(superset[key], type(value)):
+            # Check that values in subset is contained in superset and
+            # collect missing items.
+            a = set(value)
+            b = set(superset[key])
+            errs = a.difference(b).intersection(a)
+            if errs:
+                err[key] = {"expected": value, "actual": errs}
+        elif superset[key] != value:
+            err[key] = {"expected": value, "actual": superset[key]}
+    return err
 
 
 class TestAuditlogs:
@@ -69,14 +93,18 @@ class TestAuditlogs:
                 "headers": {
                     "Content-Type": ["application/json"],
                     "Accept-Encoding": ["gzip"],
-                    "User-Agent": ["Go-http-client/1.1"],
+                    "User-Agent": ["OpenAPI-Generator/1.0.0/go"],
+                    "X-Men-Requestid": [],
                 },
                 "cookies": {},
             },
         }
         body = response[0]["request"].pop("body")
-        del response[0]["request"]["headers"]["Content-Length"]
-        assert expected["request"] == response[0]["request"]
+        req_diff = dict_diff(expected["request"], response[0]["request"])
+        assert not req_diff, (
+            "did not receive expected request: diff follows:\n"
+            + pprint.pformat(req_diff)
+        )
         assert "set_configuration" in body
 
     def test_config_device_deploy_auditlog(self, device_id, mmock_url):
@@ -120,9 +148,11 @@ class TestAuditlogs:
                     "queryStringParameters": {},
                     "fragment": "",
                     "headers": {
+                        "Accept": ["application/json"],
                         "Content-Type": ["application/json"],
                         "Accept-Encoding": ["gzip"],
-                        "User-Agent": ["Go-http-client/1.1"],
+                        "User-Agent": ["OpenAPI-Generator/1.0.0/go"],
+                        "X-Men-Requestid": [],
                     },
                     "cookies": {},
                 },
@@ -138,9 +168,11 @@ class TestAuditlogs:
                     "queryStringParameters": {},
                     "fragment": "",
                     "headers": {
+                        "Accept": ["application/json"],
                         "Content-Type": ["application/json"],
                         "Accept-Encoding": ["gzip"],
-                        "User-Agent": ["Go-http-client/1.1"],
+                        "User-Agent": ["OpenAPI-Generator/1.0.0/go"],
+                        "X-Men-Requestid": [],
                     },
                     "cookies": {},
                 },
@@ -155,9 +187,11 @@ class TestAuditlogs:
                     "queryStringParameters": {},
                     "fragment": "",
                     "headers": {
+                        "Accept": ["application/json"],
                         "Content-Type": ["application/json"],
                         "Accept-Encoding": ["gzip"],
-                        "User-Agent": ["Go-http-client/1.1"],
+                        "User-Agent": ["OpenAPI-Generator/1.0.0/go"],
+                        "X-Men-Requestid": [],
                     },
                     "cookies": {},
                 },
@@ -166,7 +200,10 @@ class TestAuditlogs:
         ]
         for expected, response in zip(expected, responses):
             body = response["request"].pop("body")
-            del response["request"]["headers"]["Content-Length"]
-            assert expected["request"] == response["request"]
+            req_diff = dict_diff(expected["request"], response["request"])
+            assert not req_diff, (
+                "did not receive expected request: diff follows:\n"
+                + pprint.pformat(req_diff)
+            )
             if expected.get("contains"):
                 assert expected["contains"] in body

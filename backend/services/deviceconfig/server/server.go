@@ -16,6 +16,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -23,12 +24,13 @@ import (
 
 	"golang.org/x/sys/unix"
 
+	oas "github.com/mendersoftware/mender-server/pkg/api"
+	"github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
 
 	api "github.com/mendersoftware/mender-server/services/deviceconfig/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/app"
-	"github.com/mendersoftware/mender-server/services/deviceconfig/client/workflows"
 	. "github.com/mendersoftware/mender-server/services/deviceconfig/config"
 	"github.com/mendersoftware/mender-server/services/deviceconfig/store"
 )
@@ -38,9 +40,13 @@ func InitAndRun(dataStore store.DataStore) error {
 	ctx := context.Background()
 
 	l := log.FromContext(ctx)
-	wflows := workflows.NewClient(
+	cfg, err := oas.NewDefaultClientConfigurationFromURL(
 		config.Config.GetString(SettingWorkflowsURL),
 	)
+	if err != nil {
+		return fmt.Errorf("failed to initialize workflows client: %w", err)
+	}
+	wflows := client.NewAPIClient(cfg).WorkflowsOtherAPI
 	appl := app.New(
 		dataStore, wflows, app.Config{
 			HaveAuditLogs: config.Config.GetBool(SettingEnableAudit),

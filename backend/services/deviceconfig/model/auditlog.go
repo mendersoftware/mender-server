@@ -1,4 +1,4 @@
-// Copyright 2021 Northern.tech AS
+// Copyright 2026 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -12,43 +12,36 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-package workflows
+package model
 
 import (
 	"time"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
-	"github.com/google/uuid"
 )
 
-type AuditWorkflow struct {
-	RequestID string   `json:"request_id"`
-	TenantID  string   `json:"tenant_id"`
-	AuditLog  AuditLog `json:"auditlog"`
-}
-
-type Action string
+type AuditLogAction string
 
 const (
-	ActionSetConfiguration    Action = "set_configuration"
-	ActionDeployConfiguration Action = "deploy_configuration"
+	ActionSetConfiguration    AuditLogAction = "set_configuration"
+	ActionDeployConfiguration AuditLogAction = "deploy_configuration"
 )
 
-type ActorType string
+type AuditLogActorType string
 
 const (
-	ActorUser ActorType = "user"
+	ActorUser AuditLogActorType = "user"
 )
 
-type Actor struct {
-	ID             string    `json:"id"`
-	Type           ActorType `json:"type"`
-	Email          string    `json:"email,omitempty"`
-	DeviceIdentity string    `json:"identity_data,omitempty"`
+type AuditLogActor struct {
+	ID             string            `json:"id"`
+	Type           AuditLogActorType `json:"type"`
+	Email          string            `json:"email,omitempty"`
+	DeviceIdentity string            `json:"identity_data,omitempty"`
 }
 
-func (a Actor) Validate() error {
+func (a AuditLogActor) Validate() error {
 	err := validation.ValidateStruct(&a,
 		validation.Field(&a.ID, validation.Required),
 		validation.Field(&a.Type,
@@ -70,16 +63,16 @@ func (a Actor) Validate() error {
 	return err
 }
 
-type ObjectType string
+type AuditLogObjectType string
 
-const ObjectDevice ObjectType = "device"
+const ObjectDevice AuditLogObjectType = "device"
 
-type Object struct {
-	ID   string     `json:"id"`
-	Type ObjectType `json:"type"`
+type AuditLogObject struct {
+	ID   string             `json:"id"`
+	Type AuditLogObjectType `json:"type"`
 }
 
-func (o Object) Validate() error {
+func (o AuditLogObject) Validate() error {
 	err := validation.ValidateStruct(&o,
 		validation.Field(&o.ID, validation.Required),
 		validation.Field(&o.Type,
@@ -91,9 +84,9 @@ func (o Object) Validate() error {
 }
 
 type AuditLog struct {
-	Action   Action              `json:"action"`
-	Actor    Actor               `json:"actor"`
-	Object   Object              `json:"object"`
+	Action   AuditLogAction      `json:"action"`
+	Actor    AuditLogActor       `json:"actor"`
+	Object   AuditLogObject      `json:"object"`
 	Change   string              `json:"change,omitempty"`
 	MetaData map[string][]string `json:"meta,omitempty"`
 	EventTS  time.Time           `json:"time,omitempty"`
@@ -109,14 +102,4 @@ func (l AuditLog) Validate() error {
 		validation.Field(&l.Object, validation.Required),
 		validation.Field(&l.EventTS, validation.Required),
 	)
-}
-
-type DeployConfigurationWorkflow struct {
-	RequestID        string                 `json:"request_id"`
-	TenantID         string                 `json:"tenant_id"`
-	DeviceID         string                 `json:"device_id"`
-	DeploymentID     uuid.UUID              `json:"deployment_id"`
-	Configuration    string                 `json:"configuration"`
-	Retries          uint                   `json:"retries"`
-	UpdateControlMap map[string]interface{} `json:"update_control_map,omitempty"`
 }
