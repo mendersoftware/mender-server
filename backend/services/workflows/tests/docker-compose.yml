@@ -31,7 +31,7 @@ services:
       service: nats
 
   mmock:
-    image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX:-docker.io}/jordimartin/mmock:v2.7.6
+    image: ${MIRROR_REGISTRY:-docker.io}/jordimartin/mmock:v2.7.6
     command:
       [
         "-server-ip",

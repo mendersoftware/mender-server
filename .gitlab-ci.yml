@@ -45,6 +45,16 @@ variables:
   MENDER_IMAGE_TAG_TEST: "test-${CI_COMMIT_SHA}"
   MENDER_IMAGE_TAG_BUILDER: "builder-${CI_COMMIT_SHA}"
 
+  AWS_REGION:
+    value: "eu-central-1"
+    description: "AWS region of the ECR pull-through cache registry"
+  ECR_REGISTRY:
+    value: "017659451055.dkr.ecr.eu-central-1.amazonaws.com"
+    description: "ECR registry endpoint that fronts the Docker Hub pull-through cache"
+  MIRROR_REGISTRY:
+    value: "017659451055.dkr.ecr.eu-central-1.amazonaws.com/dockerhub"
+    description: "Registry mirror for Docker Hub images - used in Dockerfiles (--build-arg REGISTRY) and docker-compose files"
+
   GOCOVERDIR: "${CI_PROJECT_DIR}/backend/tests/cover"
 
   # release and changelog generators
@@ -169,6 +179,10 @@ renovate:
   - docker login --username $CI_REGISTRY_USER --password $CI_REGISTRY_PASSWORD $CI_REGISTRY
   - docker login --username $CI_DEPENDENCY_PROXY_USER --password $CI_DEPENDENCY_PROXY_PASSWORD $CI_DEPENDENCY_PROXY_SERVER
 
+.ecr-login: &ecr-login
+  - if ! command -v aws > /dev/null 2>&1; then apk add --no-cache aws-cli; fi
+  - aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${ECR_REGISTRY}"
+
 .buildx-builder-setup: &buildx-builder-setup
   - docker context create ci
   - docker buildx create --name ci-builder --driver=docker-container ci
@@ -203,6 +217,7 @@ renovate:
     - *requires-docker
     - apk add make bash git
     - *dind-login
+    - *ecr-login
     - test "$CI_COMMIT_REF_PROTECTED" != "true" && unset DOCKER_PLATFORM
     - *buildx-builder-setup
     - if test -n "${DOCKER_PLATFORM}"; then
@@ -219,8 +234,9 @@ build:backend:docker:
     - |-
       make -j$(nproc) -C backend/services/deployments docker \
         DOCKER_BUILDARGS="${DOCKER_BUILDARGS} --target builder" \
-        MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_BUILDER}
-    - make -j$(nproc) -C backend docker
+        MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_BUILDER} \
+        MIRROR_REGISTRY="${MIRROR_REGISTRY}"
+    - make -j$(nproc) -C backend docker MIRROR_REGISTRY="${MIRROR_REGISTRY}"
 
 build:backend:docker-acceptance:
   extends: build:backend:docker
@@ -228,10 +244,11 @@ build:backend:docker-acceptance:
     - *requires-docker
     - apk add make bash git
     - *dind-login
+    - *ecr-login
     - unset DOCKER_PLATFORM
     - *buildx-builder-setup
   script:
-    - make -j$(nproc) -C backend docker-acceptance
+    - make -j$(nproc) -C backend docker-acceptance MIRROR_REGISTRY="${MIRROR_REGISTRY}"
 
 build:backend:docker-integration-tester:
   extends: .template:build:docker
@@ -239,12 +256,14 @@ build:backend:docker-integration-tester:
     - *requires-docker
     - apk add make bash git
     - *dind-login
+    - *ecr-login
     - unset DOCKER_PLATFORM
     - *buildx-builder-setup
   script:
     - docker build ${DOCKER_BUILDARGS}
         --cache-from ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
         -t ${CI_REGISTRY_IMAGE}:${CI_INTEGRATION_IMAGE_TAG:-integration_v3}
+        --build-arg REGISTRY="${MIRROR_REGISTRY}"
         -f backend/tests/Dockerfile.integration
         backend/tests
   rules:
@@ -553,6 +572,7 @@ test:backend:acceptance:
     - *requires-docker
     - apk add make bash git
     - *dind-login
+    - *ecr-login
     - make -C backend -j 4 docker-pull
     - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=${MENDER_IMAGE_TAG_TEST}
     - mkdir -p $GOCOVERDIR
@@ -595,6 +615,7 @@ test:backend:acceptance:
     - *requires-docker
     - apk add make bash git curl jq
     - *dind-login
+    - *ecr-login
     - make -C backend -j 4 docker-pull MENDER_IMAGE_TAG=$MENDER_IMAGE_TAG_TEST
 
 test:backend:integration:
