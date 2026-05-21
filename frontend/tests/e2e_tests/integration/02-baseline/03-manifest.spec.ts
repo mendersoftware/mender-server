@@ -11,6 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 import test, { expect } from '../../fixtures/fixtures';
@@ -19,6 +20,7 @@ import { isEnterpriseOrStaging } from '../../utils/commands';
 const manifestArtifactApiUrl =
   'https://api.github.com/repos/mendersoftware/mender-server-enterprise/contents/backend/services/deployments/tests/data/test.manifest.mender?ref=main';
 const manifestFileLocation = 'fixtures/test.manifest.mender';
+const manifestYamlFileLocation = 'fixtures/example.yaml';
 
 test.describe('Manifests', () => {
   test.beforeAll(async ({ baseUrl, browser }) => {
@@ -38,6 +40,8 @@ test.describe('Manifests', () => {
     if (response.ok) {
       const buffer = await response.arrayBuffer();
       fs.writeFileSync(manifestFileLocation, Buffer.from(buffer));
+      // Dump the yaml file (example.yaml) from the manfiest meder file
+      execSync(`mender-artifact dump --files fixtures/ ${manifestFileLocation}`, { stdio: ['inherit', 'pipe', 'pipe'] });
     } else {
       console.warn(`Failed to download manifest artifact (${response.status}) - upload tests will be skipped`);
     }
@@ -79,5 +83,29 @@ test.describe('Manifests', () => {
 
     await page.getByLabel(/close/i).click();
     await expect(page.getByText(`Manifest information for`)).not.toBeVisible();
+  });
+  test('allows removing an uploaded manifest', async ({ page }) => {
+    const targetCell = page.getByRole('cell', { name: 'e2e-tag' });
+    await expect(targetCell).toBeVisible();
+    const targetRow = page.getByRole('row').filter({ has: targetCell });
+    await targetRow.getByRole('checkbox').click();
+    await page.click('.MuiSpeedDial-fab');
+    await page.getByLabel(/delete/i).click();
+    await expect(page.getByText(/are you sure you want to remove/i)).toBeVisible();
+    await page.getByRole('button', { name: 'Remove', exact: true }).click();
+    await expect(page.getByRole('cell', { name: 'e2e-tag' })).not.toBeVisible();
+  });
+  test('allows .yaml manifest upload with tags and description', async ({ page }) => {
+    await page.getByRole('button', { name: /upload a manifest/i }).click();
+    const drawer = page.locator('.MuiDrawer-paper');
+    await drawer.locator('.dropzone input').setInputFiles(manifestYamlFileLocation);
+    await drawer.getByRole('button', { name: /^edit$/i }).click();
+    await drawer.getByPlaceholder(/add notes here/i).fill('yaml e2e upload');
+    await drawer.getByRole('button', { name: /^confirm$/i }).click();
+    const tagsInput = drawer.getByPlaceholder(/add tags/i);
+    await tagsInput.fill('yaml-e2e-tag');
+    await tagsInput.press('Enter');
+    await drawer.getByRole('button', { name: /^upload$/i }).click();
+    await expect(page.getByRole('cell', { name: 'yaml-e2e-tag' })).toBeVisible();
   });
 });
