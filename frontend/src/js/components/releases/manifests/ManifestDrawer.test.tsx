@@ -97,6 +97,9 @@ name: missing-required-fields
     await user.upload(dropzoneInput, file);
 
     expect(await screen.findByDisplayValue('broken.yaml')).toBeInTheDocument();
+    expect(screen.getByText(/at api_version/)).toBeInTheDocument();
+    expect(screen.getByText(/at system_types_compatible/)).toBeInTheDocument();
+    expect(screen.getByText(/at component_types/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /^upload$/i })).toBeDisabled();
     expect(ReleasesThunks.uploadManifest).not.toHaveBeenCalled();
   });
