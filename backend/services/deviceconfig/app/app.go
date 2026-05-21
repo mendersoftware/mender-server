@@ -16,6 +16,7 @@ package app
 
 import (
 	"context"
+	"encoding/json"
 	"time"
 
 	"github.com/google/uuid"
@@ -139,7 +140,7 @@ func (a *app) deployConfiguration(ctx context.Context,
 		"request_id":    requestid.FromContext(ctx),
 		`device_id`:     deviceID,
 		`deployment_id`: deploymentID,
-		`configuration`: configuration,
+		`configuration`: json.RawMessage(configuration),
 		`retries`:       retries,
 	}
 	if updateControlMap != nil {

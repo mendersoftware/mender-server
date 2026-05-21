@@ -686,19 +686,19 @@ func TestDeployConfiguration(t *testing.T) {
 					}))
 				deployConfig.Run(func(request *http.Request) {
 					var body struct {
-						DeviceID      string         `json:"device_id"`
-						TenantID      string         `json:"tenant_id"`
-						Configuration []byte         `json:"configuration"`
-						Retries       uint           `json:"retries"`
-						UpdateCtrlMap map[string]any `json:"update_control_map"`
+						DeviceID      string          `json:"device_id"`
+						TenantID      string          `json:"tenant_id"`
+						Configuration json.RawMessage `json:"configuration"`
+						Retries       uint            `json:"retries"`
+						UpdateCtrlMap map[string]any  `json:"update_control_map"`
 					}
 					err := json.NewDecoder(request.Body).Decode(&body)
 					require.NoError(t, err)
-					assert.Equal(t, body.DeviceID, tc.device.ID)
-					assert.Equal(t, body.TenantID, "tenantID")
-					assert.Equal(t, body.Retries, tc.request.Retries)
-					assert.Equal(t, body.UpdateCtrlMap, tc.request.UpdateControlMap)
-					assert.Equal(t, body.Configuration, configuration)
+					assert.Equal(t, tc.device.ID, body.DeviceID)
+					assert.Equal(t, "tenantID", body.TenantID)
+					assert.Equal(t, tc.request.Retries, body.Retries)
+					assert.Equal(t, tc.request.UpdateControlMap, body.UpdateCtrlMap)
+					assert.Equal(t, configuration, []byte(body.Configuration))
 					if tc.err == nil {
 						w := httptest.NewRecorder()
 						w.Header().Set("Content-Type", "application/json")
