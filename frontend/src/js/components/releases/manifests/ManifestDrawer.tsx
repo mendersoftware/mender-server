@@ -25,10 +25,10 @@ import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
-import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import Link from '@northern.tech/common-ui/Link';
 import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { getManifestTags } from '@northern.tech/store/releasesSlice/selectors';
 import { generateManifest, uploadManifest } from '@northern.tech/store/releasesSlice/thunks';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -115,8 +115,7 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
 
   const defaultValues: ManifestFormValues = { tags: [], description: '' };
   const methods = useForm<ManifestFormValues>({ mode: 'onChange', defaultValues });
-  const { handleSubmit, setValue, watch, reset } = methods;
-  const description = watch('description');
+  const { handleSubmit, reset } = methods;
   const onReset = () => {
     setSelectedFile(null);
     setErrorMessage('');
@@ -232,12 +231,7 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
           )}
 
           <ContentSection title="Notes">
-            <EditableLongText
-              original={description}
-              onChange={(value: string) => setValue('description', value)}
-              placeholder="Add notes here"
-              contentFallback="Add notes here"
-            />
+            <TextInput id="description" hint="Add notes here" InputLabelProps={{ shrink: true }} InputProps={{ multiline: true, maxRows: 4 }} />
           </ContentSection>
           <ContentSection title="Tags">
             <ChipSelect className={classes.input} options={existingTags} name="tags" placeholder="Add Tags" forcePopupIcon={existingTags.length !== 0} />
@@ -249,7 +243,7 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
             </Alert>
           )}
           <div className="margin-top">
-            <Button onClick={onDrawerClose}>Cancel</Button>
+            <Button onClick={onClose}>Cancel</Button>
             <Button type="submit" className="margin-left-small" variant="contained" disabled={!!errorMessage || !selectedFile}>
               Upload
             </Button>

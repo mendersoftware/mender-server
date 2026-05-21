@@ -42,9 +42,7 @@ describe('AddManifestDrawer Component', () => {
     const dropzoneInput = baseElement.querySelector('.dropzone input') as HTMLInputElement;
     await user.upload(dropzoneInput, file);
 
-    await user.click(screen.getByRole('button', { name: /^edit$/i }));
     await user.type(screen.getByPlaceholderText(/add notes here/i), 'unit test note');
-    await user.click(screen.getByRole('button', { name: /^confirm$/i }));
     await user.type(screen.getByPlaceholderText(/add tags/i), 'unit-tag{enter}');
 
     await user.click(screen.getByRole('button', { name: /^upload$/i }));
