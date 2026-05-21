@@ -216,6 +216,7 @@ exports[`AddManifestDrawer Component > renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  min-height: 40px;
 }
 
 .emotion-14 {
@@ -1134,7 +1135,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         class="flexbox space-between"
       >
         <div
-          class="margin-bottom-small emotion-12"
+          class="margin-bottom-x-small emotion-12"
         >
           <h6
             class="MuiTypography-root MuiTypography-subtitle1 emotion-1"
@@ -1198,7 +1199,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
         class="flexbox space-between"
       >
         <div
-          class="margin-bottom-small emotion-12"
+          class="margin-bottom-x-small emotion-12"
         >
           <h6
             class="MuiTypography-root MuiTypography-subtitle1 emotion-1"

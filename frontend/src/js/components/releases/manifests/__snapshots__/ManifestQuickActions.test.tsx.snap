@@ -394,7 +394,7 @@ exports[`ManifestQuickActions Component > renders correctly 1`] = `
   <p
     class="MuiTypography-root MuiTypography-body1 clickable emotion-1"
   >
-    1 Manifest selected
+    Manifest actions
   </p>
   <div
     class="MuiSpeedDial-root MuiSpeedDial-directionUp emotion-2"

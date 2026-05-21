@@ -10,6 +10,7 @@ exports[`Deployments Component > renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  min-height: 40px;
 }
 
 .emotion-1 {
@@ -1010,7 +1011,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-37:focus::-ms-input-
     class="flexbox space-between"
   >
     <div
-      class="margin-bottom-small emotion-0"
+      class="margin-bottom-x-small emotion-0"
     >
       <h6
         class="MuiTypography-root MuiTypography-subtitle1 emotion-1"
