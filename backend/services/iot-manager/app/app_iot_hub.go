@@ -24,6 +24,7 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client"
@@ -79,7 +80,7 @@ func (a *app) provisionIoTHubDevice(
 		HostName: cs.HostName,
 	}
 
-	err = a.wf.ProvisionExternalDevice(ctx, dev.DeviceID, map[string]string{
+	err = a.provisionExternalDevice(ctx, dev.DeviceID, "Azure", map[string]string{
 		confKeyPrimaryKey: primKey.String(),
 	})
 	if err != nil {
@@ -130,24 +131,34 @@ func (a *app) decommissionIoTHubDevice(ctx context.Context, deviceID string,
 	return nil
 }
 
+//nolint:gocyclo
 func (a *app) syncIoTHubDevices(
 	ctx context.Context,
 	deviceIDs []string,
 	integration model.Integration,
 	failEarly bool,
 ) error {
+	var tenantID string
 	l := log.FromContext(ctx)
 	cs := integration.Credentials.ConnectionString
+	if id := identity.FromContext(ctx); id != nil {
+		tenantID = id.Tenant
+	}
 
 	// Get device authentication
-	devAuths, err := a.devauth.GetDevices(ctx, deviceIDs)
+	//nolint:bodyclose // body is closed by Execute
+	devAuths, _, err := a.devauth.
+		DeviceAuthInternalListDevices(ctx, tenantID).
+		Id(deviceIDs).
+		PerPage(int32(len(deviceIDs))).
+		Execute()
 	if err != nil {
 		return errors.Wrap(err, "app: failed to lookup device authentication")
 	}
 
 	statuses := make(map[string]iothub.Status, len(deviceIDs))
 	for _, auth := range devAuths {
-		statuses[auth.ID] = iothub.NewStatusFromMenderStatus(auth.Status)
+		statuses[*auth.Id] = iothub.NewStatusFromMenderStatus(model.Status(*auth.Status))
 	}
 	// Find devices that shouldn't exist
 	var (

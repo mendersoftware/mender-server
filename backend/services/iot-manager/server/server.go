@@ -16,23 +16,23 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
-	"github.com/pkg/errors"
 	"golang.org/x/sys/unix"
 
+	oas "github.com/mendersoftware/mender-server/pkg/api"
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
 
 	api "github.com/mendersoftware/mender-server/services/iot-manager/api/http"
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
-	"github.com/mendersoftware/mender-server/services/iot-manager/client/devauth"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iothub"
-	"github.com/mendersoftware/mender-server/services/iot-manager/client/workflows"
 	dconfig "github.com/mendersoftware/mender-server/services/iot-manager/config"
 	"github.com/mendersoftware/mender-server/services/iot-manager/store"
 )
@@ -41,23 +41,26 @@ import (
 func InitAndRun(conf config.Reader, dataStore store.DataStore) error {
 	ctx := context.Background()
 	httpClient := new(http.Client)
-	wf := workflows.NewClient(
+	wfCfg, err := oas.NewDefaultClientConfigurationFromURL(
 		conf.GetString(dconfig.SettingWorkflowsURL),
-		workflows.NewOptions().SetClient(httpClient),
 	)
+	if err != nil {
+		return fmt.Errorf("failed to initialize workflows client: %w", err)
+	}
+	wf := openapi.NewAPIClient(wfCfg).WorkflowsOtherAPI
 	hub := iothub.NewClient(iothub.NewOptions().SetClient(httpClient))
 	core := iotcore.NewClient()
 
 	log.Setup(conf.GetBool(dconfig.SettingDebugLog))
 	l := log.FromContext(ctx)
 
-	da, err := devauth.NewClient(devauth.Config{
-		Client:         httpClient,
-		DevauthAddress: conf.GetString(dconfig.SettingDeviceauthURL),
-	})
+	daCfg, err := oas.NewDefaultClientConfigurationFromURL(
+		conf.GetString(dconfig.SettingDeviceauthURL),
+	)
 	if err != nil {
-		return errors.Wrap(err, "failed to initialize devicauth client")
+		return fmt.Errorf("failed to initialize deviceauth client: %w", err)
 	}
+	da := openapi.NewAPIClient(daCfg).DeviceAuthenticationInternalAPIAPI
 
 	azureIotManagerApp := app.New(dataStore, wf, da).WithIoTHub(hub).WithIoTCore(core)
 	azureIotManagerApp = azureIotManagerApp.

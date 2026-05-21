@@ -16,23 +16,29 @@ package app
 
 import (
 	"context"
+	"encoding/json"
 	"io"
 	"net/http"
+	"net/http/httptest"
+	"path"
+	"slices"
 	"testing"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
+	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
+	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client"
-	"github.com/mendersoftware/mender-server/services/iot-manager/client/devauth"
-	mdevauth "github.com/mendersoftware/mender-server/services/iot-manager/client/devauth/mocks"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iothub"
 	hubMocks "github.com/mendersoftware/mender-server/services/iot-manager/client/iothub/mocks"
-	wfMocks "github.com/mendersoftware/mender-server/services/iot-manager/client/workflows/mocks"
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 	"github.com/mendersoftware/mender-server/services/iot-manager/store"
@@ -54,7 +60,7 @@ func TestProvisionDeviceIoTHub(t *testing.T) {
 
 		Store func(t *testing.T, self *testCase) *storeMocks.DataStore
 		Hub   func(t *testing.T, self *testCase) *hubMocks.Client
-		Wf    func(t *testing.T, self *testCase) *wfMocks.Client
+		Wf    func(t *testing.T, self *testCase) openapi.WorkflowsOtherAPI
 
 		Error error
 	}
@@ -91,20 +97,40 @@ func TestProvisionDeviceIoTHub(t *testing.T) {
 					Return(nil)
 				return hub
 			},
-			Wf: func(t *testing.T, self *testCase) *wfMocks.Client {
-				wf := new(wfMocks.Client)
-				primKey := &model.ConnectionString{
-					Key:      crypto.String("key1"),
-					DeviceID: self.DeviceID,
-					HostName: connString.HostName,
+			Wf: func(t *testing.T, self *testCase) openapi.WorkflowsOtherAPI {
+				client, rt := oas_mocks.NewMockRoundTripperClient(t)
+				call := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+					return path.Base(r.URL.Path) == "provision_external_device"
+				}))
+				var body struct {
+					DeviceID      string            `json:"device_id"`
+					Configuration map[string]string `json:"configuration"`
+					Provider      string            `json:"provider"`
 				}
-				wf.On("ProvisionExternalDevice",
-					contextMatcher,
-					self.DeviceID,
-					map[string]string{
+				call.Run(func(request *http.Request) {
+					err := json.NewDecoder(request.Body).Decode(&body)
+					require.NoError(t, err)
+
+					primKey := &model.ConnectionString{
+						Key:      crypto.String("key1"),
+						DeviceID: self.DeviceID,
+						HostName: connString.HostName,
+					}
+					assert.Equal(t, body.Configuration, map[string]string{
 						confKeyPrimaryKey: primKey.String(),
-					}).Return(nil)
-				return wf
+					})
+					assert.Equal(t, self.DeviceID, body.DeviceID)
+					assert.Equal(t, "Azure", body.Provider)
+					w := httptest.NewRecorder()
+					w.Header().Set("Content-Type", "application/json")
+					w.WriteHeader(http.StatusCreated)
+					json.NewEncoder(w).
+						Encode(openapi.StartWorkflow201Response{
+							Id: types.Pointer("12345"),
+						})
+					call.Return(w.Result(), nil)
+				}).Once()
+				return client.WorkflowsOtherAPI
 			},
 		},
 		{
@@ -130,8 +156,9 @@ func TestProvisionDeviceIoTHub(t *testing.T) {
 					}, nil)
 				return hub
 			},
-			Wf: func(t *testing.T, self *testCase) *wfMocks.Client {
-				return new(wfMocks.Client)
+			Wf: func(t *testing.T, self *testCase) openapi.WorkflowsOtherAPI {
+				client, _ := oas_mocks.NewMockRoundTripperClient(t)
+				return client.WorkflowsOtherAPI
 			},
 
 			Error: ErrNoDeviceConnectionString,
@@ -154,8 +181,9 @@ func TestProvisionDeviceIoTHub(t *testing.T) {
 					Return(nil, errors.New("internal error"))
 				return hub
 			},
-			Wf: func(t *testing.T, self *testCase) *wfMocks.Client {
-				return new(wfMocks.Client)
+			Wf: func(t *testing.T, self *testCase) openapi.WorkflowsOtherAPI {
+				client, _ := oas_mocks.NewMockRoundTripperClient(t)
+				return client.WorkflowsOtherAPI
 			},
 
 			Error: errors.New("failed to update iothub devices: internal error"),
@@ -171,7 +199,6 @@ func TestProvisionDeviceIoTHub(t *testing.T) {
 			defer ds.AssertExpectations(t)
 
 			wf := tc.Wf(t, &tc)
-			defer wf.AssertExpectations(t)
 
 			a := New(ds, wf, nil)
 
@@ -859,9 +886,9 @@ func TestSyncIoTHubDevices(t *testing.T) {
 		FailEarly   bool
 
 		DataStore func(t *testing.T, self *testCase) *storeMocks.DataStore
-		Devauth   func(t *testing.T, self *testCase) *mdevauth.Client
+		Devauth   func(t *testing.T, self *testCase) openapi.DeviceAuthenticationInternalAPIAPI
 		Hub       func(t *testing.T, self *testCase) *hubMocks.Client
-		Wf        func(t *testing.T, self *testCase) *wfMocks.Client
+		Wf        func(t *testing.T, self *testCase) openapi.WorkflowsOtherAPI
 
 		Error error
 	}
@@ -936,9 +963,9 @@ func TestSyncIoTHubDevices(t *testing.T) {
 
 			return ds
 		},
-		Devauth: func(t *testing.T, self *testCase) *mdevauth.Client {
-			da := new(mdevauth.Client)
-			authSets := make([]devauth.Device, 0, len(self.DeviceIDs))
+		Devauth: func(t *testing.T, self *testCase) openapi.DeviceAuthenticationInternalAPIAPI {
+			client, rt := oas_mocks.NewMockRoundTripperClient(t)
+			authSets := make([]openapi.Device, 0, len(self.DeviceIDs))
 			for i, id := range self.DeviceIDs[:8] {
 				var status model.Status
 				if i < 5 {
@@ -950,14 +977,23 @@ func TestSyncIoTHubDevices(t *testing.T) {
 				} else {
 					continue
 				}
-				authSets = append(authSets, devauth.Device{
-					ID:     id,
-					Status: status,
+				authSets = append(authSets, openapi.Device{
+					Id:     types.Pointer(id),
+					Status: types.Pointer(string(status)),
 				})
 			}
-			da.On("GetDevices", contextMatcher, self.DeviceIDs).
-				Return(authSets, nil)
-			return da
+			expect := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+				return path.Base(r.URL.Path) == "devices" &&
+					slices.Equal(r.URL.Query()["id"], self.DeviceIDs)
+			}))
+			expect.Run(func(request *http.Request) {
+				w := httptest.NewRecorder()
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusOK)
+				json.NewEncoder(w).Encode(authSets)
+				expect.Return(w.Result(), nil)
+			}).Once()
+			return client.DeviceAuthenticationInternalAPIAPI
 		},
 		Hub: func(t *testing.T, self *testCase) *hubMocks.Client {
 			hub := new(hubMocks.Client)
@@ -1037,20 +1073,40 @@ func TestSyncIoTHubDevices(t *testing.T) {
 
 			return hub
 		},
-		Wf: func(t *testing.T, self *testCase) *wfMocks.Client {
-			wf := new(wfMocks.Client)
-			devCS := &model.ConnectionString{
-				Key:      crypto.String("secret"),
-				DeviceID: "38e5ebfb-963d-4ac2-8f5e-d51b2df1fa6e",
-				HostName: validConnString.HostName,
+		Wf: func(t *testing.T, self *testCase) openapi.WorkflowsOtherAPI {
+			client, rt := oas_mocks.NewMockRoundTripperClient(t)
+			call := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+				return path.Base(r.URL.Path) == "provision_external_device"
+			}))
+			var body struct {
+				DeviceID      string            `json:"device_id"`
+				Configuration map[string]string `json:"configuration"`
+				Provider      string            `json:"provider"`
 			}
-			wf.On("ProvisionExternalDevice",
-				contextMatcher,
-				"38e5ebfb-963d-4ac2-8f5e-d51b2df1fa6e",
-				map[string]string{
+			call.Run(func(request *http.Request) {
+				err := json.NewDecoder(request.Body).Decode(&body)
+				require.NoError(t, err)
+
+				devCS := &model.ConnectionString{
+					Key:      crypto.String("secret"),
+					DeviceID: "38e5ebfb-963d-4ac2-8f5e-d51b2df1fa6e",
+					HostName: validConnString.HostName,
+				}
+				assert.Equal(t, body.Configuration, map[string]string{
 					confKeyPrimaryKey: devCS.String(),
-				}).Return(nil).Once()
-			return wf
+				})
+				assert.Equal(t, devCS.DeviceID, body.DeviceID)
+				assert.Equal(t, "Azure", body.Provider)
+				w := httptest.NewRecorder()
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusCreated)
+				json.NewEncoder(w).
+					Encode(openapi.StartWorkflow201Response{
+						Id: types.Pointer("12345"),
+					})
+				call.Return(w.Result(), nil)
+			}).Once()
+			return client.WorkflowsOtherAPI
 		},
 	}, {
 		Name: "continue on errors",
@@ -1078,18 +1134,30 @@ func TestSyncIoTHubDevices(t *testing.T) {
 				Return(nil, errors.New("internal error"))
 			return ds
 		},
-		Devauth: func(t *testing.T, self *testCase) *mdevauth.Client {
-			da := new(mdevauth.Client)
-			authSets := make([]devauth.Device, 0, len(self.DeviceIDs))
-			for _, id := range self.DeviceIDs[1:] {
-				authSets = append(authSets, devauth.Device{
-					ID:     id,
-					Status: model.StatusAccepted,
-				})
-			}
-			da.On("GetDevices", contextMatcher, self.DeviceIDs).
-				Return(authSets, nil)
-			return da
+		Devauth: func(t *testing.T, self *testCase) openapi.DeviceAuthenticationInternalAPIAPI {
+			client, rt := oas_mocks.NewMockRoundTripperClient(t)
+			authSets := slices.Collect(func(yield func(openapi.Device) bool) {
+				for _, id := range self.DeviceIDs[1:] {
+					if !yield(openapi.Device{
+						Id:     &id,
+						Status: types.Pointer(string(model.StatusAccepted)),
+					}) {
+						return
+					}
+				}
+			})
+			expect := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+				return path.Base(r.URL.Path) == "devices" &&
+					slices.Equal(r.URL.Query()["id"], self.DeviceIDs)
+			}))
+			expect.Run(func(request *http.Request) {
+				w := httptest.NewRecorder()
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusOK)
+				json.NewEncoder(w).Encode(authSets)
+				expect.Return(w.Result(), nil)
+			}).Once()
+			return client.DeviceAuthenticationInternalAPIAPI
 		},
 		Hub: func(t *testing.T, self *testCase) *hubMocks.Client {
 			hub := new(hubMocks.Client)
@@ -1159,9 +1227,9 @@ func TestSyncIoTHubDevices(t *testing.T) {
 
 			return hub
 		},
-		Wf: func(t *testing.T, self *testCase) *wfMocks.Client {
-			wf := new(wfMocks.Client)
-			return wf
+		Wf: func(t *testing.T, self *testCase) openapi.WorkflowsOtherAPI {
+			client, _ := oas_mocks.NewMockRoundTripperClient(t)
+			return client.WorkflowsOtherAPI
 		},
 	}, {
 		Name: "error/devauth",
@@ -1177,19 +1245,28 @@ func TestSyncIoTHubDevices(t *testing.T) {
 			ds := new(storeMocks.DataStore)
 			return ds
 		},
-		Devauth: func(t *testing.T, self *testCase) *mdevauth.Client {
-			da := new(mdevauth.Client)
-			da.On("GetDevices", contextMatcher, self.DeviceIDs).
-				Return(nil, client.NewHTTPError(500))
-			return da
+		Devauth: func(t *testing.T, self *testCase) openapi.DeviceAuthenticationInternalAPIAPI {
+			client, rt := oas_mocks.NewMockRoundTripperClient(t)
+			expect := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+				return path.Base(r.URL.Path) == "devices" &&
+					slices.Equal(r.URL.Query()["id"], self.DeviceIDs)
+			}))
+			expect.Run(func(request *http.Request) {
+				w := httptest.NewRecorder()
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusInternalServerError)
+				json.NewEncoder(w).Encode(rest.Error{Err: "internal error"})
+				expect.Return(w.Result(), nil)
+			}).Once()
+			return client.DeviceAuthenticationInternalAPIAPI
 		},
 		Hub: func(t *testing.T, self *testCase) *hubMocks.Client {
 			hub := new(hubMocks.Client)
 			return hub
 		},
-		Wf: func(t *testing.T, self *testCase) *wfMocks.Client {
-			wf := new(wfMocks.Client)
-			return wf
+		Wf: func(t *testing.T, self *testCase) openapi.WorkflowsOtherAPI {
+			client, _ := oas_mocks.NewMockRoundTripperClient(t)
+			return client.WorkflowsOtherAPI
 		},
 		FailEarly: true,
 		Error:     errors.New("app: failed to lookup device authentication"),
@@ -1206,19 +1283,28 @@ func TestSyncIoTHubDevices(t *testing.T) {
 				Return(nil, errors.New("internal error"))
 			return ds
 		},
-		Devauth: func(t *testing.T, self *testCase) *mdevauth.Client {
-			da := new(mdevauth.Client)
-			da.On("GetDevices", contextMatcher, self.DeviceIDs).
-				Return([]devauth.Device{}, nil)
-			return da
+		Devauth: func(t *testing.T, self *testCase) openapi.DeviceAuthenticationInternalAPIAPI {
+			client, rt := oas_mocks.NewMockRoundTripperClient(t)
+			expect := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+				return path.Base(r.URL.Path) == "devices" &&
+					slices.Equal(r.URL.Query()["id"], self.DeviceIDs)
+			}))
+			expect.Run(func(request *http.Request) {
+				w := httptest.NewRecorder()
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusOK)
+				json.NewEncoder(w).Encode([]struct{}{})
+				expect.Return(w.Result(), nil)
+			}).Once()
+			return client.DeviceAuthenticationInternalAPIAPI
 		},
 		Hub: func(t *testing.T, self *testCase) *hubMocks.Client {
 			hub := new(hubMocks.Client)
 			return hub
 		},
-		Wf: func(t *testing.T, self *testCase) *wfMocks.Client {
-			wf := new(wfMocks.Client)
-			return wf
+		Wf: func(t *testing.T, self *testCase) openapi.WorkflowsOtherAPI {
+			client, _ := oas_mocks.NewMockRoundTripperClient(t)
+			return client.WorkflowsOtherAPI
 		},
 		FailEarly: true,
 		Error:     errors.New("app: failed to decommission device"),
@@ -1233,14 +1319,24 @@ func TestSyncIoTHubDevices(t *testing.T) {
 			ds := new(storeMocks.DataStore)
 			return ds
 		},
-		Devauth: func(t *testing.T, self *testCase) *mdevauth.Client {
-			da := new(mdevauth.Client)
-			da.On("GetDevices", contextMatcher, self.DeviceIDs).
-				Return([]devauth.Device{{
-					ID:     self.DeviceIDs[0],
-					Status: model.StatusAccepted,
-				}}, nil)
-			return da
+		Devauth: func(t *testing.T, self *testCase) openapi.DeviceAuthenticationInternalAPIAPI {
+			client, rt := oas_mocks.NewMockRoundTripperClient(t)
+			expect := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+				return path.Base(r.URL.Path) == "devices" &&
+					slices.Equal(r.URL.Query()["id"], self.DeviceIDs)
+			}))
+			expect.Run(func(request *http.Request) {
+				w := httptest.NewRecorder()
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusOK)
+				json.NewEncoder(w).Encode([]openapi.Device{{
+					Id:     types.Pointer(self.DeviceIDs[0]),
+					Status: types.Pointer("accepted"),
+				}})
+
+				expect.Return(w.Result(), nil)
+			}).Once()
+			return client.DeviceAuthenticationInternalAPIAPI
 		},
 		Hub: func(t *testing.T, self *testCase) *hubMocks.Client {
 			hub := new(hubMocks.Client)
@@ -1251,13 +1347,14 @@ func TestSyncIoTHubDevices(t *testing.T) {
 				Return(nil, client.NewHTTPError(500))
 			return hub
 		},
-		Wf: func(t *testing.T, self *testCase) *wfMocks.Client {
-			wf := new(wfMocks.Client)
-			return wf
+		Wf: func(t *testing.T, self *testCase) openapi.WorkflowsOtherAPI {
+			client, _ := oas_mocks.NewMockRoundTripperClient(t)
+			return client.WorkflowsOtherAPI
 		},
 		FailEarly: true,
 		Error:     errors.New("app: failed to get devices from IoT Hub"),
-	}}
+	},
+	}
 	for i := range testCases {
 		tc := testCases[i]
 		t.Run(tc.Name, func(t *testing.T) {
@@ -1268,10 +1365,8 @@ func TestSyncIoTHubDevices(t *testing.T) {
 			da := tc.Devauth(t, &tc)
 			hub := tc.Hub(t, &tc)
 			wf := tc.Wf(t, &tc)
-			defer da.AssertExpectations(t)
 			defer ds.AssertExpectations(t)
 			defer hub.AssertExpectations(t)
-			defer wf.AssertExpectations(t)
 
 			app := New(ds, wf, da).WithIoTHub(hub).(*app)
 			err := app.syncIoTHubDevices(ctx, tc.DeviceIDs, tc.Integration, tc.FailEarly)
