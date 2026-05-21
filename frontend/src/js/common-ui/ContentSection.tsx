@@ -25,7 +25,14 @@ interface ContentSectionProps {
 }
 
 const useStyles = makeStyles()(theme => ({
-  title: { display: 'grid', gridAutoFlow: 'column', gridAutoColumns: 'max-content', gap: theme.spacing(), alignItems: 'center' }
+  title: {
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gridAutoColumns: 'max-content',
+    gap: theme.spacing(),
+    alignItems: 'center',
+    minHeight: theme.spacing(5)
+  }
 }));
 
 export const ContentSection = ({ children, className = '', isAddOn = false, postTitle, title }: ContentSectionProps) => {
