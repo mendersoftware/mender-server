@@ -139,10 +139,8 @@ export const ManifestQuickActions = () => {
 
   const actionCallbacks: ActionCallbacks = { onCreateDeployment, onCopyManifest, onTagManifest, onDeleteManifest, onDownloadManifest };
 
-  const manifestsToRemove = !isEmpty(selectedManifest) ? [selectedManifest] : selectedManifests;
-  const manifestLength = manifestsToRemove.length;
-  const isOne = manifestLength === 1;
-  const pluralized = pluralize('Manifest', manifestLength);
+  const selectedSingleManifest = !isEmpty(selectedManifest) || selectedRows.length === 1;
+  const pluralized = pluralize('Manifest', selectedSingleManifest ? 1 : selectedRows.length);
 
   const actions: QuickAction[] = defaultActions
     .filter(action => action.isApplicable({ userCapabilities, selectedRows, selectedManifest }))
@@ -155,10 +153,14 @@ export const ManifestQuickActions = () => {
 
   return (
     <>
-      <BaseQuickActions actions={actions} ariaLabel="manifest-actions" label={`${selectedRows.length} ${pluralized} selected`} />
+      <BaseQuickActions
+        actions={actions}
+        ariaLabel="manifest-actions"
+        label={selectedSingleManifest ? 'Manifest actions' : `${selectedRows.length} ${pluralized} selected`}
+      />
       <ConfirmModal
-        header={`Remove ${isOne ? 'Manifest' : `${manifestLength} Manifests`}?`}
-        description={`Are you sure you want to remove ${isOne ? 'the selected Manifest' : `the ${manifestLength} selected Manifests`}?`}
+        header={`Remove${selectedSingleManifest ? '' : ` ${selectedRows.length}`} ${pluralized}?`}
+        description={`Are you sure you want to remove the ${selectedSingleManifest ? '' : `${selectedRows.length} `}selected ${pluralized}?`}
         open={confirmManifestDeletion}
         confirmButtonText="Remove"
         close={onCancelDeletion}
