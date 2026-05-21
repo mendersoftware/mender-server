@@ -41,7 +41,7 @@ export const ContentSection = ({ children, className = '', isAddOn = false, post
   return (
     <div className={`margin-bottom margin-top-medium ${className}`}>
       <div className="flexbox space-between">
-        <div className={`margin-bottom-small ${classes.title}`}>
+        <div className={`margin-bottom-x-small ${classes.title}`}>
           <Typography variant="subtitle1">{title}</Typography>
           {postTitle}
         </div>
