@@ -10,7 +10,7 @@ generate-openapi: generate-openapi-client generate-openapi-mocks
 .PHONY: generate-openapi-client
 generate-openapi-client:
 	@echo "Regenerating OpenAPI client"
-	@rm -rf client
+	@xargs -I % rm -f client/% < client/.openapi-generator/FILES
 	@docker run -u $(shell id -u):$(shell id -g) --rm \
 		-v $(GIT_DIR)/backend:/backend \
 		-w /backend/pkg/api \
