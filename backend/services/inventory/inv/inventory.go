@@ -24,7 +24,6 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/log"
 
-	"github.com/mendersoftware/mender-server/services/inventory/client/devicemonitor"
 	"github.com/mendersoftware/mender-server/services/inventory/model"
 	"github.com/mendersoftware/mender-server/services/inventory/store"
 	"github.com/mendersoftware/mender-server/services/inventory/store/mongo"
@@ -96,7 +95,6 @@ type InventoryApp interface {
 	SearchDevices(ctx context.Context, searchParams model.SearchParams) ([]model.Device, int, error)
 	CheckAlerts(ctx context.Context, deviceId string) (int, error)
 	WithLimits(attributes, tags int) InventoryApp
-	WithDevicemonitor(client devicemonitor.Client) InventoryApp
 	GetDeviceStatistics(ctx context.Context) (*model.DeviceStatistics, error)
 }
 
@@ -104,16 +102,10 @@ type inventory struct {
 	db              store.DataStore
 	limitAttributes int
 	limitTags       int
-	dmClient        devicemonitor.Client
 }
 
 func NewInventory(d store.DataStore) InventoryApp {
 	return &inventory{db: d}
-}
-
-func (i *inventory) WithDevicemonitor(client devicemonitor.Client) InventoryApp {
-	i.dmClient = client
-	return i
 }
 
 func (i *inventory) WithLimits(limitAttributes, limitTags int) InventoryApp {
@@ -584,7 +576,8 @@ func (i *inventory) SearchDevices(
 }
 
 func (i *inventory) CheckAlerts(ctx context.Context, deviceId string) (int, error) {
-	return i.dmClient.CheckAlerts(ctx, deviceId)
+	// Device monitor alerts is not an open source supported feature
+	return 0, nil
 }
 
 // reindexTextField reindex the device's text field
