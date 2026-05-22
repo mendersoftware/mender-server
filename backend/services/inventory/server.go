@@ -26,7 +26,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/log"
 
 	api_http "github.com/mendersoftware/mender-server/services/inventory/api/http"
-	"github.com/mendersoftware/mender-server/services/inventory/client/devicemonitor"
 	"github.com/mendersoftware/mender-server/services/inventory/config"
 	inventory "github.com/mendersoftware/mender-server/services/inventory/inv"
 	"github.com/mendersoftware/mender-server/services/inventory/store/mongo"
@@ -45,13 +44,6 @@ func RunServer(c config.Reader) error {
 	limitTags := c.GetInt(SettingLimitTags)
 
 	inv := inventory.NewInventory(db).WithLimits(limitAttributes, limitTags)
-
-	devicemonitorAddr := c.GetString(SettingDevicemonitorAddr)
-	if devicemonitorAddr != "" {
-		c := devicemonitor.NewClient(devicemonitorAddr)
-		inv = inv.WithDevicemonitor(c)
-	}
-
 	options := []api_http.Option{
 		api_http.SetMaxRequestSize(config.Config.GetInt64(SettingMaxRequestSize)),
 	}
