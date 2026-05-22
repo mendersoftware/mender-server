@@ -22,14 +22,14 @@ import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
+	"github.com/mendersoftware/mender-server/pkg/requestid"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client"
-	"github.com/mendersoftware/mender-server/services/iot-manager/client/devauth"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iothub"
-	"github.com/mendersoftware/mender-server/services/iot-manager/client/workflows"
 	"github.com/mendersoftware/mender-server/services/iot-manager/model"
 	"github.com/mendersoftware/mender-server/services/iot-manager/store"
 )
@@ -90,17 +90,23 @@ type App interface {
 
 // app is an app object
 type app struct {
-	store           store.DataStore
-	iothubClient    iothub.Client
-	iotcoreClient   iotcore.Client
-	wf              workflows.Client
-	devauth         devauth.Client
+	store         store.DataStore
+	iothubClient  iothub.Client
+	iotcoreClient iotcore.Client
+
+	wf      openapi.WorkflowsOtherAPI
+	devauth openapi.DeviceAuthenticationInternalAPIAPI
+
 	httpClient      *http.Client
 	webhooksTimeout time.Duration
 }
 
 // NewApp initialize a new iot-manager App
-func New(ds store.DataStore, wf workflows.Client, da devauth.Client) App {
+func New(
+	ds store.DataStore,
+	wf openapi.WorkflowsOtherAPI,
+	da openapi.DeviceAuthenticationInternalAPIAPI,
+) App {
 	c := client.New()
 	hubClient := iothub.NewClient(
 		iothub.NewOptions().SetClient(c),
@@ -788,4 +794,27 @@ func runAndLogError(ctx context.Context, f func() error) {
 		}
 	}()
 	err = f()
+}
+
+func (a *app) provisionExternalDevice(
+	ctx context.Context,
+	deviceID, provider string,
+	config map[string]string,
+) error {
+	const workflowProvisionDevice = "provision_external_device"
+	var tenantID string
+	if id := identity.FromContext(ctx); id != nil {
+		tenantID = id.Tenant
+	}
+	//nolint:bodyclose // body is closed by Execute
+	_, _, err := a.wf.StartWorkflow(ctx, workflowProvisionDevice).
+		RequestBody(map[string]any{
+			"tenant_id":     tenantID,
+			"device_id":     deviceID,
+			"provider":      provider,
+			"request_id":    requestid.FromContext(ctx),
+			"configuration": config,
+		}).
+		Execute()
+	return err
 }

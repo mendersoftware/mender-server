@@ -23,10 +23,8 @@ import (
 	"strings"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/app"
-	"github.com/mendersoftware/mender-server/services/iot-manager/client/devauth"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore"
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iothub"
-	"github.com/mendersoftware/mender-server/services/iot-manager/client/workflows"
 	"github.com/mendersoftware/mender-server/services/iot-manager/cmd"
 	dconfig "github.com/mendersoftware/mender-server/services/iot-manager/config"
 	"github.com/mendersoftware/mender-server/services/iot-manager/crypto"
@@ -37,6 +35,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 
+	oas "github.com/mendersoftware/mender-server/pkg/api"
+	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/version"
@@ -259,20 +259,23 @@ func cmdSync(args *cli.Context) error {
 	httpClient := new(http.Client)
 	ctx := context.Background()
 
-	wf := workflows.NewClient(
+	wfCfg, err := oas.NewDefaultClientConfigurationFromURL(
 		config.Config.GetString(dconfig.SettingWorkflowsURL),
-		workflows.NewOptions().SetClient(httpClient),
 	)
+	if err != nil {
+		return fmt.Errorf("failed to initialize workflows client: %w", err)
+	}
+	wf := openapi.NewAPIClient(wfCfg).WorkflowsOtherAPI
+	daCfg, err := oas.NewDefaultClientConfigurationFromURL(
+		config.Config.GetString(dconfig.SettingDeviceauthURL),
+	)
+	if err != nil {
+		return fmt.Errorf("failed to initialize deviceauth client: %w", err)
+	}
+	devauth := openapi.NewAPIClient(daCfg).DeviceAuthenticationInternalAPIAPI
 	hub := iothub.NewClient(iothub.NewOptions().SetClient(httpClient))
 	core := iotcore.NewClient()
 	mgoConfig := store.NewConfig()
-	devauth, err := devauth.NewClient(devauth.Config{
-		Client:         httpClient,
-		DevauthAddress: config.Config.GetString(dconfig.SettingDeviceauthURL),
-	})
-	if err != nil {
-		return err
-	}
 
 	ds, err := store.SetupDataStore(mgoConfig)
 	if err != nil {
