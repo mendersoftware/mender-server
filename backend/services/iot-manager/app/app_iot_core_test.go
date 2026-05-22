@@ -15,16 +15,20 @@
 package app
 
 import (
+	"bytes"
 	"context"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/json"
+	"encoding/pem"
+	"io"
 	"math/big"
 	"net/http"
 	"net/http/httptest"
 	"path"
+	"reflect"
 	"testing"
 	"time"
 
@@ -36,6 +40,7 @@ import (
 
 	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
+	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	"github.com/mendersoftware/mender-server/services/iot-manager/client/iotcore"
@@ -852,7 +857,7 @@ func TestSetDeviceStateIoTCore(t *testing.T) {
 	}
 }
 
-func createSelfSignedCertificate(deviceID string) (cert []byte, private []byte) {
+func createSelfSignedCertificate(deviceID string) (certPEM string, privatePEM string) {
 	pkey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
 		panic(err)
@@ -868,458 +873,500 @@ func createSelfSignedCertificate(deviceID string) (cert []byte, private []byte) 
 		PublicKeyAlgorithm: x509.RSA,
 		PublicKey:          &pkey.PublicKey,
 	}
-	cert, err = x509.CreateCertificate(rand.Reader, template, template, &pkey.PublicKey, pkey)
+	cert, err := x509.CreateCertificate(rand.Reader, template, template, &pkey.PublicKey, pkey)
 	if err != nil {
 		panic(err)
 	}
-	private, _ = x509.MarshalPKCS8PrivateKey(pkey)
-	return cert, private
+	private, _ := x509.MarshalPKCS8PrivateKey(pkey)
+
+	var (
+		privatePEMBuf bytes.Buffer
+		certPEMBuf    bytes.Buffer
+	)
+	err = pem.Encode(&privatePEMBuf, &pem.Block{
+		Type:  "PRIVATE KEY",
+		Bytes: private,
+	})
+	if err != nil {
+		panic(err)
+	}
+	err = pem.Encode(&certPEMBuf, &pem.Block{
+		Type:  "CERTIFICATE",
+		Bytes: cert,
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	return certPEMBuf.String(), privatePEMBuf.String()
 }
 
-// func TestSyncIoTCoreDevices(t *testing.T) {
-// 	t.Parallel()
-// 	noLogger := log.NewEmpty()
-// 	noLogger.Logger.Out = io.Discard
-// 	type testDevice struct {
-// 		ID            string
-// 		CoreStatus    *iotcore.Status
-// 		DevauthStatus *model.Status
-//
-// 		DeleteDeviceError error // decommisssionIoTCoreDevice
-// 		UpsertDeviceError error
-// 		GetDeviceError    error
-// 	}
-// 	type testCase struct {
-// 		Name string
-//
-// 		Devices     []testDevice
-// 		Integration model.Integration
-// 		FailEarly   bool
-//
-// 		DataStore func(t *testing.T, self *testCase) *storeMocks.DataStore
-// 		Devauth   func(t *testing.T, self *testCase) *mdevauth.Client
-// 		Core      func(t *testing.T, self *testCase) *coreMocks.Client
-// 		Wf        func(t *testing.T, self *testCase) *wfMocks.Client
-//
-// 		GetDevicesError error
-// 		SaveEventError  error
-//
-// 		Error error
-// 	}
-// 	iotStatusPtr := func(s iotcore.Status) *iotcore.Status {
-// 		return &s
-// 	}
-// 	testCases := []testCase{{
-// 		Name: "ok/10 devices in all cases",
-//
-// 		Devices: []testDevice{{
-// 			ID:            "38e5ebfb-963d-4ac2-8f5e-d51b2df1fa6e",
-// 			DevauthStatus: statusPtr(model.StatusAccepted),
-// 			CoreStatus:    nil,
-// 		}, {
-// 			ID:            "72334767-ff25-48ef-ae10-9dcf4f98587d",
-// 			DevauthStatus: statusPtr(model.StatusAccepted),
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
-// 		}, {
-// 			ID:            "1280cb45-e941-47fb-922e-8dc55006d127",
-// 			DevauthStatus: statusPtr(model.StatusAccepted),
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
-// 		}, {
-// 			ID:            "6b7ed385-91ca-4499-a118-3e6b863a9082",
-// 			DevauthStatus: statusPtr(model.StatusAccepted),
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
-// 		}, {
-// 			ID:            "4e8e5b20-5558-486c-891c-41e3a4d309a4",
-// 			DevauthStatus: statusPtr(model.StatusAccepted),
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
-// 		}, {
-// 			ID:            "49900bc3-9f2b-4b84-ad0d-bec7313b866b",
-// 			DevauthStatus: statusPtr(model.StatusRejected),
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
-// 		}, {
-// 			ID:            "3146cc4d-21eb-4f67-bdb8-96e3222b1b4b",
-// 			DevauthStatus: statusPtr(model.StatusRejected),
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
-// 		}, {
-// 			ID:            "02d9ab3e-ca1c-4a61-bf06-b23a224935d4",
-// 			DevauthStatus: statusPtr(model.StatusNoAuth),
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
-// 		}, {
-// 			ID:            "a4a32db1-047d-4b4b-9f4a-b86a6c16ab90",
-// 			DevauthStatus: nil,
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
-// 		}, {
-// 			ID:            "1434a240-e556-4acf-b96d-ac66a20f82de",
-// 			DevauthStatus: nil,
-// 			CoreStatus:    nil,
-// 		}},
-// 		Integration: model.Integration{
-// 			ID:       uuid.New(),
-// 			Provider: model.ProviderIoTCore,
-// 			Credentials: model.Credentials{
-// 				Type: model.CredentialTypeAWS,
-// 				AWSCredentials: &model.AWSCredentials{
-// 					AccessKeyID:      &awsAccessKeyID,
-// 					SecretAccessKey:  &awsSecretAccessKey,
-// 					Region:           &awsRegion,
-// 					DevicePolicyName: &awsDevicePolicyName,
-// 				},
-// 			},
-// 		},
-// 	}, {
-// 		Name: "error/invalid credentials",
-//
-// 		Integration: model.Integration{
-// 			ID:       uuid.New(),
-// 			Provider: model.ProviderIoTCore,
-// 			Credentials: model.Credentials{
-// 				Type: model.CredentialTypeSAS, // NOTE Invalid for provider
-// 				AWSCredentials: &model.AWSCredentials{
-// 					AccessKeyID:      &awsAccessKeyID,
-// 					SecretAccessKey:  &awsSecretAccessKey,
-// 					Region:           &awsRegion,
-// 					DevicePolicyName: &awsDevicePolicyName,
-// 				},
-// 			},
-// 		},
-// 		Error: ErrNoCredentials,
-// 	}, {
-// 		Name: "error/from device auth",
-//
-// 		Devices: []testDevice{},
-// 		Integration: model.Integration{
-// 			ID:       uuid.New(),
-// 			Provider: model.ProviderIoTCore,
-// 			Credentials: model.Credentials{
-// 				Type: model.CredentialTypeAWS,
-// 				AWSCredentials: &model.AWSCredentials{
-// 					AccessKeyID:      &awsAccessKeyID,
-// 					SecretAccessKey:  &awsSecretAccessKey,
-// 					Region:           &awsRegion,
-// 					DevicePolicyName: &awsDevicePolicyName,
-// 				},
-// 			},
-// 		},
-// 		GetDevicesError: errors.New("internal error"),
-// 		Error:           errors.New("internal error"),
-// 	}, {
-// 		Name: "error/deleting device from IoT Core",
-//
-// 		FailEarly: true,
-//
-// 		Devices: []testDevice{{
-// 			ID:            "a4a32db1-047d-4b4b-9f4a-b86a6c16ab90",
-// 			DevauthStatus: nil,
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
-//
-// 			DeleteDeviceError: errors.New("internal error"),
-// 		}},
-// 		Integration: model.Integration{
-// 			ID:       uuid.New(),
-// 			Provider: model.ProviderIoTCore,
-// 			Credentials: model.Credentials{
-// 				Type: model.CredentialTypeAWS,
-// 				AWSCredentials: &model.AWSCredentials{
-// 					AccessKeyID:      &awsAccessKeyID,
-// 					SecretAccessKey:  &awsSecretAccessKey,
-// 					Region:           &awsRegion,
-// 					DevicePolicyName: &awsDevicePolicyName,
-// 				},
-// 			},
-// 		},
-// 	}, {
-// 		Name: "error/SaveEvent/deleting device from IoT Core",
-//
-// 		FailEarly: true,
-//
-// 		Devices: []testDevice{{
-// 			ID:            "a4a32db1-047d-4b4b-9f4a-b86a6c16ab90",
-// 			DevauthStatus: nil,
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
-//
-// 			DeleteDeviceError: errors.New("internal error"),
-// 		}},
-// 		Integration: model.Integration{
-// 			ID:       uuid.New(),
-// 			Provider: model.ProviderIoTCore,
-// 			Credentials: model.Credentials{
-// 				Type: model.CredentialTypeAWS,
-// 				AWSCredentials: &model.AWSCredentials{
-// 					AccessKeyID:      &awsAccessKeyID,
-// 					SecretAccessKey:  &awsSecretAccessKey,
-// 					Region:           &awsRegion,
-// 					DevicePolicyName: &awsDevicePolicyName,
-// 				},
-// 			},
-// 		},
-//
-// 		SaveEventError: errors.New("internal error"),
-// 		Error:          errors.New("internal error"),
-// 	}, {
-// 		Name: "error/provisioning device to IoT Core",
-//
-// 		FailEarly: true,
-//
-// 		Devices: []testDevice{{
-// 			ID:            "38e5ebfb-963d-4ac2-8f5e-d51b2df1fa6e",
-// 			DevauthStatus: statusPtr(model.StatusAccepted),
-// 			CoreStatus:    nil,
-//
-// 			UpsertDeviceError: errors.New("internal error"),
-// 		}},
-// 		Integration: model.Integration{
-// 			ID:       uuid.New(),
-// 			Provider: model.ProviderIoTCore,
-// 			Credentials: model.Credentials{
-// 				Type: model.CredentialTypeAWS,
-// 				AWSCredentials: &model.AWSCredentials{
-// 					AccessKeyID:      &awsAccessKeyID,
-// 					SecretAccessKey:  &awsSecretAccessKey,
-// 					Region:           &awsRegion,
-// 					DevicePolicyName: &awsDevicePolicyName,
-// 				},
-// 			},
-// 		},
-// 		Error: errors.New("internal error"),
-// 	}, {
-// 		Name: "error/retrieving device from IoT Core",
-//
-// 		FailEarly: true,
-//
-// 		Devices: []testDevice{{
-// 			ID:            "72334767-ff25-48ef-ae10-9dcf4f98587d",
-// 			DevauthStatus: statusPtr(model.StatusAccepted),
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
-//
-// 			GetDeviceError: errors.New("internal error"),
-// 		}},
-// 		Integration: model.Integration{
-// 			ID:       uuid.New(),
-// 			Provider: model.ProviderIoTCore,
-// 			Credentials: model.Credentials{
-// 				Type: model.CredentialTypeAWS,
-// 				AWSCredentials: &model.AWSCredentials{
-// 					AccessKeyID:      &awsAccessKeyID,
-// 					SecretAccessKey:  &awsSecretAccessKey,
-// 					Region:           &awsRegion,
-// 					DevicePolicyName: &awsDevicePolicyName,
-// 				},
-// 			},
-// 		},
-// 		Error: errors.New("internal error"),
-// 	}, {
-// 		Name: "error/updating IoT Core device status",
-//
-// 		FailEarly: true,
-//
-// 		Devices: []testDevice{{
-// 			ID:            "72334767-ff25-48ef-ae10-9dcf4f98587d",
-// 			DevauthStatus: statusPtr(model.StatusAccepted),
-// 			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
-//
-// 			UpsertDeviceError: errors.New("internal error"),
-// 		}},
-// 		Integration: model.Integration{
-// 			ID:       uuid.New(),
-// 			Provider: model.ProviderIoTCore,
-// 			Credentials: model.Credentials{
-// 				Type: model.CredentialTypeAWS,
-// 				AWSCredentials: &model.AWSCredentials{
-// 					AccessKeyID:      &awsAccessKeyID,
-// 					SecretAccessKey:  &awsSecretAccessKey,
-// 					Region:           &awsRegion,
-// 					DevicePolicyName: &awsDevicePolicyName,
-// 				},
-// 			},
-// 		},
-// 		Error: errors.New("internal error"),
-// 	}}
-// 	matchConf := func(cert, pkey, endpoint string) func(map[string]string) bool {
-// 		return func(m map[string]string) bool {
-// 			return assert.Equal(t, map[string]string{
-// 				confKeyAWSCertificate: cert,
-// 				confKeyAWSPrivateKey:  pkey,
-// 				confKeyAWSEndpoint:    endpoint,
-// 			}, m)
-// 		}
-// 	}
-// 	matchDev := func(expected iotcore.Device) func(*iotcore.Device) bool {
-// 		return func(actual *iotcore.Device) bool {
-// 			return actual != nil && reflect.DeepEqual(expected, *actual)
-// 		}
-// 	}
-// 	for i := range testCases {
-// 		tc := testCases[i]
-// 		t.Run(tc.Name, func(t *testing.T) {
-// 			t.Parallel()
-// 			ctx := log.WithContext(context.Background(), noLogger)
-//
-// 			ds := new(storeMocks.DataStore)
-// 			da := new(mdevauth.Client)
-// 			wf := new(wfMocks.Client)
-// 			core := new(coreMocks.Client)
-//
-// 			defer da.AssertExpectations(t)
-// 			defer ds.AssertExpectations(t)
-// 			defer wf.AssertExpectations(t)
-// 			defer core.AssertExpectations(t)
-//
-// 			authSets := make([]devauth.Device, 0, len(tc.Devices))
-//
-// 			// Initialize mock assertions
-// 			for _, dev := range tc.Devices {
-// 				if tc.GetDevicesError != nil {
-// 					break
-// 				}
-// 				if dev.DevauthStatus != nil {
-// 					authSets = append(authSets, devauth.Device{
-// 						ID:     dev.ID,
-// 						Status: model.Status(*dev.DevauthStatus),
-// 					})
-// 					awsEndpoint := "test_aws_endpoint"
-// 					// Generate a random "Thing" identity
-// 					cert, pkey := createSelfSignedCertificate(dev.ID)
-// 					iotDev := iotcore.Device{
-// 						ID:            dev.ID,
-// 						Name:          dev.ID,
-// 						CertificateID: uuid.NewString(),
-// 						Certificate:   string(cert),
-// 						PrivateKey:    string(pkey),
-// 						Endpoint:      &awsEndpoint,
-// 					}
-// 					if dev.CoreStatus != nil {
-// 						iotDev.Status = *dev.CoreStatus
-// 						core.On("GetDevice",
-// 							contextMatcher,
-// 							*tc.Integration.Credentials.AWSCredentials,
-// 							dev.ID).
-// 							Return(&iotDev, dev.GetDeviceError).
-// 							Once()
-// 						if dev.GetDeviceError != nil {
-// 							break
-// 						}
-// 						desiredStatus := iotcore.NewStatusFromMenderStatus(*dev.DevauthStatus)
-// 						desiredDev := iotDev
-// 						desiredDev.Status = desiredStatus
-// 						desiredDev.Endpoint = &awsEndpoint
-// 						if *dev.CoreStatus != desiredStatus {
-// 							// Status mismatch
-// 							core.On("UpsertDevice",
-// 								contextMatcher,
-// 								*tc.Integration.Credentials.
-// 									AWSCredentials,
-// 								dev.ID,
-// 								mock.MatchedBy(matchDev(iotcore.Device{
-// 									Status: desiredStatus,
-// 								})),
-// 								*tc.Integration.Credentials.
-// 									AWSCredentials.
-// 									DevicePolicyName).
-// 								Return(&desiredDev, dev.UpsertDeviceError).
-// 								Once()
-// 						}
-// 					} else {
-// 						iotDev.Status = iotcore.NewStatusFromMenderStatus(*dev.DevauthStatus)
-// 						iotDev.Endpoint = &awsEndpoint
-// 						// Provision device
-// 						core.On("GetDevice",
-// 							contextMatcher,
-// 							*tc.Integration.Credentials.AWSCredentials,
-// 							dev.ID).
-// 							Return(nil, iotcore.ErrDeviceNotFound).
-// 							Once()
-// 						core.On("UpsertDevice",
-// 							contextMatcher,
-// 							*tc.Integration.Credentials.AWSCredentials,
-// 							dev.ID,
-// 							mock.AnythingOfType("*iotcore.Device"),
-// 							mock.AnythingOfType("string")).
-// 							Return(&iotDev, dev.UpsertDeviceError).
-// 							Once()
-// 						if dev.UpsertDeviceError == nil {
-// 							wf.On("ProvisionExternalDevice",
-// 								contextMatcher,
-// 								dev.ID,
-// 								mock.MatchedBy(matchConf(iotDev.Certificate, iotDev.PrivateKey, *iotDev.Endpoint))).
-// 								Return(nil).
-// 								Once()
-// 						}
-// 					}
-// 				} else {
-// 					// Decommission device
-// 					ds.On("GetDevice",
-// 						contextMatcher,
-// 						dev.ID).
-// 						Return(&model.Device{
-// 							ID:             dev.ID,
-// 							IntegrationIDs: []uuid.UUID{tc.Integration.ID},
-// 						}, nil).
-// 						Once()
-//
-// 					ds.On("GetIntegrations",
-// 						contextMatcher,
-// 						model.IntegrationFilter{}).
-// 						Return([]model.Integration{tc.Integration}, nil).
-// 						Once()
-//
-// 					deviceID := dev.ID
-// 					// mock.MatchedBy function is executed twice for some reason
-// 					ds.On("SaveEvent",
-// 						contextMatcher,
-// 						mock.MatchedBy(func(actual model.Event) bool {
-// 							ret := model.EventTypeDeviceDecommissioned == actual.Type
-// 							if ret {
-// 								_, ret = actual.Data.(model.DeviceEvent)
-// 							}
-// 							if ret {
-// 								ret = deviceID == actual.Data.(model.DeviceEvent).ID
-// 							}
-// 							return ret
-// 						})).
-// 						Return(tc.SaveEventError).
-// 						Once()
-//
-// 					var mockErr error = dev.DeleteDeviceError
-// 					if dev.CoreStatus == nil {
-// 						mockErr = iotcore.ErrDeviceNotFound
-// 					}
-// 					core.On("DeleteDevice",
-// 						contextMatcher,
-// 						*tc.Integration.Credentials.AWSCredentials,
-// 						dev.ID).
-// 						Return(mockErr).
-// 						Once()
-//
-// 					ds.On("DeleteDevice",
-// 						contextMatcher,
-// 						dev.ID).
-// 						Return(nil).
-// 						Once()
-//
-// 				}
-// 				if tc.SaveEventError != nil {
-// 					break
-// 				}
-// 			}
-//
-// 			deviceIDs := make([]string, len(tc.Devices))
-// 			for i, dev := range tc.Devices {
-// 				deviceIDs[i] = dev.ID
-// 			}
-//
-// 			if tc.Devices != nil {
-// 				da.On("GetDevices", contextMatcher, deviceIDs).
-// 					Return(authSets, tc.GetDevicesError)
-// 			}
-// 			app := New(ds, wf, da).WithIoTCore(core).(*app)
-// 			err := app.syncIoTCoreDevices(ctx, deviceIDs, tc.Integration, tc.FailEarly)
-// 			if tc.Error != nil {
-// 				if assert.Error(t, err) {
-// 					assert.Regexp(t, tc.Error.Error(), err.Error())
-// 				}
-// 			} else {
-// 				assert.NoError(t, err)
-// 			}
-// 		})
-// 	}
-// }
+func TestSyncIoTCoreDevices(t *testing.T) {
+	t.Parallel()
+	noLogger := log.NewEmpty()
+	noLogger.Logger.Out = io.Discard
+	type testDevice struct {
+		ID            string
+		CoreStatus    *iotcore.Status
+		DevauthStatus *model.Status
+
+		DeleteDeviceError error // decommisssionIoTCoreDevice
+		UpsertDeviceError error
+		GetDeviceError    error
+	}
+	type testCase struct {
+		Name string
+
+		Devices     []testDevice
+		Integration model.Integration
+		FailEarly   bool
+
+		DataStore func(t *testing.T, self *testCase) *storeMocks.DataStore
+		Core      func(t *testing.T, self *testCase) *coreMocks.Client
+
+		GetDevicesError error
+		SaveEventError  error
+
+		Error error
+	}
+	iotStatusPtr := func(s iotcore.Status) *iotcore.Status {
+		return &s
+	}
+	testCases := []testCase{{
+		Name: "ok/10 devices in all cases",
+
+		Devices: []testDevice{{
+			ID:            "38e5ebfb-963d-4ac2-8f5e-d51b2df1fa6e",
+			DevauthStatus: statusPtr(model.StatusAccepted),
+			CoreStatus:    nil,
+		}, {
+			ID:            "72334767-ff25-48ef-ae10-9dcf4f98587d",
+			DevauthStatus: statusPtr(model.StatusAccepted),
+			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+		}, {
+			ID:            "1280cb45-e941-47fb-922e-8dc55006d127",
+			DevauthStatus: statusPtr(model.StatusAccepted),
+			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+		}, {
+			ID:            "6b7ed385-91ca-4499-a118-3e6b863a9082",
+			DevauthStatus: statusPtr(model.StatusAccepted),
+			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+		}, {
+			ID:            "4e8e5b20-5558-486c-891c-41e3a4d309a4",
+			DevauthStatus: statusPtr(model.StatusAccepted),
+			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
+		}, {
+			ID:            "49900bc3-9f2b-4b84-ad0d-bec7313b866b",
+			DevauthStatus: statusPtr(model.StatusRejected),
+			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
+		}, {
+			ID:            "3146cc4d-21eb-4f67-bdb8-96e3222b1b4b",
+			DevauthStatus: statusPtr(model.StatusRejected),
+			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+		}, {
+			ID:            "02d9ab3e-ca1c-4a61-bf06-b23a224935d4",
+			DevauthStatus: statusPtr(model.StatusNoAuth),
+			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
+		}, {
+			ID:            "a4a32db1-047d-4b4b-9f4a-b86a6c16ab90",
+			DevauthStatus: nil,
+			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+		}, {
+			ID:            "1434a240-e556-4acf-b96d-ac66a20f82de",
+			DevauthStatus: nil,
+			CoreStatus:    nil,
+		}},
+		Integration: model.Integration{
+			ID:       uuid.New(),
+			Provider: model.ProviderIoTCore,
+			Credentials: model.Credentials{
+				Type: model.CredentialTypeAWS,
+				AWSCredentials: &model.AWSCredentials{
+					AccessKeyID:      &awsAccessKeyID,
+					SecretAccessKey:  &awsSecretAccessKey,
+					Region:           &awsRegion,
+					DevicePolicyName: &awsDevicePolicyName,
+				},
+			},
+		},
+	}, {
+		Name: "error/invalid credentials",
+
+		Integration: model.Integration{
+			ID:       uuid.New(),
+			Provider: model.ProviderIoTCore,
+			Credentials: model.Credentials{
+				Type: model.CredentialTypeSAS, // NOTE Invalid for provider
+				AWSCredentials: &model.AWSCredentials{
+					AccessKeyID:      &awsAccessKeyID,
+					SecretAccessKey:  &awsSecretAccessKey,
+					Region:           &awsRegion,
+					DevicePolicyName: &awsDevicePolicyName,
+				},
+			},
+		},
+		Error: ErrNoCredentials,
+	}, {
+		Name: "error/from device auth",
+
+		Devices: []testDevice{},
+		Integration: model.Integration{
+			ID:       uuid.New(),
+			Provider: model.ProviderIoTCore,
+			Credentials: model.Credentials{
+				Type: model.CredentialTypeAWS,
+				AWSCredentials: &model.AWSCredentials{
+					AccessKeyID:      &awsAccessKeyID,
+					SecretAccessKey:  &awsSecretAccessKey,
+					Region:           &awsRegion,
+					DevicePolicyName: &awsDevicePolicyName,
+				},
+			},
+		},
+		GetDevicesError: errors.New("internal error"),
+		Error:           errors.New("internal error"),
+	}, {
+		Name: "error/deleting device from IoT Core",
+
+		FailEarly: true,
+
+		Devices: []testDevice{{
+			ID:            "a4a32db1-047d-4b4b-9f4a-b86a6c16ab90",
+			DevauthStatus: nil,
+			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+
+			DeleteDeviceError: errors.New("internal error"),
+		}},
+		Integration: model.Integration{
+			ID:       uuid.New(),
+			Provider: model.ProviderIoTCore,
+			Credentials: model.Credentials{
+				Type: model.CredentialTypeAWS,
+				AWSCredentials: &model.AWSCredentials{
+					AccessKeyID:      &awsAccessKeyID,
+					SecretAccessKey:  &awsSecretAccessKey,
+					Region:           &awsRegion,
+					DevicePolicyName: &awsDevicePolicyName,
+				},
+			},
+		},
+	}, {
+		Name: "error/SaveEvent/deleting device from IoT Core",
+
+		FailEarly: true,
+
+		Devices: []testDevice{{
+			ID:            "a4a32db1-047d-4b4b-9f4a-b86a6c16ab90",
+			DevauthStatus: nil,
+			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+
+			DeleteDeviceError: errors.New("internal error"),
+		}},
+		Integration: model.Integration{
+			ID:       uuid.New(),
+			Provider: model.ProviderIoTCore,
+			Credentials: model.Credentials{
+				Type: model.CredentialTypeAWS,
+				AWSCredentials: &model.AWSCredentials{
+					AccessKeyID:      &awsAccessKeyID,
+					SecretAccessKey:  &awsSecretAccessKey,
+					Region:           &awsRegion,
+					DevicePolicyName: &awsDevicePolicyName,
+				},
+			},
+		},
+
+		SaveEventError: errors.New("internal error"),
+		Error:          errors.New("internal error"),
+	}, {
+		Name: "error/provisioning device to IoT Core",
+
+		FailEarly: true,
+
+		Devices: []testDevice{{
+			ID:            "38e5ebfb-963d-4ac2-8f5e-d51b2df1fa6e",
+			DevauthStatus: statusPtr(model.StatusAccepted),
+			CoreStatus:    nil,
+
+			UpsertDeviceError: errors.New("internal error"),
+		}},
+		Integration: model.Integration{
+			ID:       uuid.New(),
+			Provider: model.ProviderIoTCore,
+			Credentials: model.Credentials{
+				Type: model.CredentialTypeAWS,
+				AWSCredentials: &model.AWSCredentials{
+					AccessKeyID:      &awsAccessKeyID,
+					SecretAccessKey:  &awsSecretAccessKey,
+					Region:           &awsRegion,
+					DevicePolicyName: &awsDevicePolicyName,
+				},
+			},
+		},
+		Error: errors.New("internal error"),
+	}, {
+		Name: "error/retrieving device from IoT Core",
+
+		FailEarly: true,
+
+		Devices: []testDevice{{
+			ID:            "72334767-ff25-48ef-ae10-9dcf4f98587d",
+			DevauthStatus: statusPtr(model.StatusAccepted),
+			CoreStatus:    iotStatusPtr(iotcore.StatusEnabled),
+
+			GetDeviceError: errors.New("internal error"),
+		}},
+		Integration: model.Integration{
+			ID:       uuid.New(),
+			Provider: model.ProviderIoTCore,
+			Credentials: model.Credentials{
+				Type: model.CredentialTypeAWS,
+				AWSCredentials: &model.AWSCredentials{
+					AccessKeyID:      &awsAccessKeyID,
+					SecretAccessKey:  &awsSecretAccessKey,
+					Region:           &awsRegion,
+					DevicePolicyName: &awsDevicePolicyName,
+				},
+			},
+		},
+		Error: errors.New("internal error"),
+	}, {
+		Name: "error/updating IoT Core device status",
+
+		FailEarly: true,
+
+		Devices: []testDevice{{
+			ID:            "72334767-ff25-48ef-ae10-9dcf4f98587d",
+			DevauthStatus: statusPtr(model.StatusAccepted),
+			CoreStatus:    iotStatusPtr(iotcore.StatusDisabled),
+
+			UpsertDeviceError: errors.New("internal error"),
+		}},
+		Integration: model.Integration{
+			ID:       uuid.New(),
+			Provider: model.ProviderIoTCore,
+			Credentials: model.Credentials{
+				Type: model.CredentialTypeAWS,
+				AWSCredentials: &model.AWSCredentials{
+					AccessKeyID:      &awsAccessKeyID,
+					SecretAccessKey:  &awsSecretAccessKey,
+					Region:           &awsRegion,
+					DevicePolicyName: &awsDevicePolicyName,
+				},
+			},
+		},
+		Error: errors.New("internal error"),
+	}}
+	matchDev := func(expected iotcore.Device) func(*iotcore.Device) bool {
+		return func(actual *iotcore.Device) bool {
+			return actual != nil && reflect.DeepEqual(expected, *actual)
+		}
+	}
+	for i := range testCases {
+		tc := testCases[i]
+		t.Run(tc.Name, func(t *testing.T) {
+			t.Parallel()
+			ctx := log.WithContext(context.Background(), noLogger)
+
+			ds := new(storeMocks.DataStore)
+			core := new(coreMocks.Client)
+			client, rt := oas_mocks.NewMockRoundTripperClient(t)
+			wf := client.WorkflowsOtherAPI
+			da := client.DeviceAuthenticationInternalAPIAPI
+
+			defer ds.AssertExpectations(t)
+			defer core.AssertExpectations(t)
+
+			authSets := make([]openapi.Device, 0, len(tc.Devices))
+
+			// Initialize mock assertions
+			for _, dev := range tc.Devices {
+				if tc.GetDevicesError != nil {
+					break
+				}
+				if dev.DevauthStatus != nil {
+					authSets = append(authSets, openapi.Device{
+						Id:     types.Pointer(dev.ID),
+						Status: (*string)(dev.DevauthStatus),
+					})
+					awsEndpoint := "test_aws_endpoint"
+					// Generate a random "Thing" identity
+					cert, pkey := createSelfSignedCertificate(dev.ID)
+					iotDev := iotcore.Device{
+						ID:            dev.ID,
+						Name:          dev.ID,
+						CertificateID: uuid.NewString(),
+						Certificate:   cert,
+						PrivateKey:    pkey,
+						Endpoint:      &awsEndpoint,
+					}
+					if dev.CoreStatus != nil {
+						iotDev.Status = *dev.CoreStatus
+						core.On("GetDevice",
+							contextMatcher,
+							*tc.Integration.Credentials.AWSCredentials,
+							dev.ID).
+							Return(&iotDev, dev.GetDeviceError).
+							Once()
+						if dev.GetDeviceError != nil {
+							break
+						}
+						desiredStatus := iotcore.NewStatusFromMenderStatus(*dev.DevauthStatus)
+						desiredDev := iotDev
+						desiredDev.Status = desiredStatus
+						desiredDev.Endpoint = &awsEndpoint
+						if *dev.CoreStatus != desiredStatus {
+							// Status mismatch
+							core.On("UpsertDevice",
+								contextMatcher,
+								*tc.Integration.Credentials.
+									AWSCredentials,
+								dev.ID,
+								mock.MatchedBy(matchDev(iotcore.Device{
+									Status: desiredStatus,
+								})),
+								*tc.Integration.Credentials.
+									AWSCredentials.
+									DevicePolicyName).
+								Return(&desiredDev, dev.UpsertDeviceError).
+								Once()
+						}
+					} else {
+						iotDev.Status = iotcore.NewStatusFromMenderStatus(*dev.DevauthStatus)
+						iotDev.Endpoint = &awsEndpoint
+						// Provision device
+						core.On("GetDevice",
+							contextMatcher,
+							*tc.Integration.Credentials.AWSCredentials,
+							dev.ID).
+							Return(nil, iotcore.ErrDeviceNotFound).
+							Once()
+						core.On("UpsertDevice",
+							contextMatcher,
+							*tc.Integration.Credentials.AWSCredentials,
+							dev.ID,
+							mock.AnythingOfType("*iotcore.Device"),
+							mock.AnythingOfType("string")).
+							Return(&iotDev, dev.UpsertDeviceError).
+							Once()
+						if dev.UpsertDeviceError == nil {
+							expect := rt.EXPECT().
+								RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+									return path.Base(r.URL.Path) == "provision_external_device"
+								}))
+							expect.Run(func(request *http.Request) {
+								var body struct {
+									DeviceID      string            `json:"device_id"`
+									Configuration map[string]string `json:"configuration"`
+								}
+								err := json.NewDecoder(request.Body).
+									Decode(&body)
+								require.NoError(t, err)
+								assert.Equal(t, map[string]string{
+									confKeyAWSCertificate: iotDev.Certificate,
+									confKeyAWSPrivateKey:  iotDev.PrivateKey,
+									confKeyAWSEndpoint:    *iotDev.Endpoint,
+								}, body.Configuration)
+								assert.Equal(t, iotDev.ID, body.DeviceID)
+								w := httptest.NewRecorder()
+								w.Header().Set("Content-Type", "application/json")
+								w.WriteHeader(http.StatusCreated)
+								json.NewEncoder(w).Encode(openapi.StartWorkflow201Response{
+									Id: types.Pointer("1234"),
+								})
+								expect.Return(w.Result(), nil)
+							})
+						}
+					}
+				} else {
+					// Decommission device
+					ds.On("GetDevice",
+						contextMatcher,
+						dev.ID).
+						Return(&model.Device{
+							ID:             dev.ID,
+							IntegrationIDs: []uuid.UUID{tc.Integration.ID},
+						}, nil).
+						Once()
+
+					ds.On("GetIntegrations",
+						contextMatcher,
+						model.IntegrationFilter{}).
+						Return([]model.Integration{tc.Integration}, nil).
+						Once()
+
+					deviceID := dev.ID
+					// mock.MatchedBy function is executed twice for some reason
+					ds.On("SaveEvent",
+						contextMatcher,
+						mock.MatchedBy(func(actual model.Event) bool {
+							ret := model.EventTypeDeviceDecommissioned == actual.Type
+							if ret {
+								_, ret = actual.Data.(model.DeviceEvent)
+							}
+							if ret {
+								ret = deviceID == actual.Data.(model.DeviceEvent).ID
+							}
+							return ret
+						})).
+						Return(tc.SaveEventError).
+						Once()
+
+					var mockErr error = dev.DeleteDeviceError
+					if dev.CoreStatus == nil {
+						mockErr = iotcore.ErrDeviceNotFound
+					}
+					core.On("DeleteDevice",
+						contextMatcher,
+						*tc.Integration.Credentials.AWSCredentials,
+						dev.ID).
+						Return(mockErr).
+						Once()
+
+					ds.On("DeleteDevice",
+						contextMatcher,
+						dev.ID).
+						Return(nil).
+						Once()
+
+				}
+				if tc.SaveEventError != nil {
+					break
+				}
+			}
+
+			var deviceIDs []string
+			for _, dev := range tc.Devices {
+				deviceIDs = append(deviceIDs, dev.ID)
+			}
+
+			if tc.Devices != nil {
+				expect := rt.EXPECT().
+					RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+						return r.Method == http.MethodGet && path.Base(r.URL.Path) == "devices"
+					}))
+				expect.Run(func(request *http.Request) {
+					assert.Equal(t, deviceIDs, request.URL.Query()["id"], "invalid device IDs in query")
+					if tc.GetDevicesError != nil {
+						expect.Return(nil, tc.GetDevicesError)
+					} else {
+						w := httptest.NewRecorder()
+						w.Header().Set("Content-Type", "application/json")
+						w.WriteHeader(http.StatusOK)
+						json.NewEncoder(w).Encode(authSets)
+						expect.Return(w.Result(), nil)
+					}
+				})
+			}
+			app := New(ds, wf, da).WithIoTCore(core).(*app)
+			err := app.syncIoTCoreDevices(ctx, deviceIDs, tc.Integration, tc.FailEarly)
+			if tc.Error != nil {
+				if assert.Error(t, err) {
+					assert.Regexp(t, tc.Error.Error(), err.Error())
+				}
+			} else {
+				assert.NoError(t, err)
+			}
+		})
+	}
+}
