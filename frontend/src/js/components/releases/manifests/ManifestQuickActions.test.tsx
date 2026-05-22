@@ -12,8 +12,11 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
-import { screen } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import ManifestQuickActions from './ManifestQuickActions';
 
@@ -51,5 +54,28 @@ describe('ManifestQuickActions Component', () => {
     render(<ManifestQuickActions />, { preloadedState });
     expect(screen.getByLabelText('manifest-actions')).toBeInTheDocument();
     expect(screen.getByText(/1 Manifest selected/i)).toBeInTheDocument();
+  });
+
+  it('triggers manifest removal after confirming the dialog', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { removeManifests: removeManifestsSpy } = StoreThunks;
+    const manifestName = defaultState.releases.manifestsById.m1000.name;
+    const preloadedState = {
+      ...defaultState,
+      releases: {
+        ...defaultState.releases,
+        selectedManifest: manifestName
+      }
+    };
+    const { container } = render(<ManifestQuickActions />, { preloadedState });
+    await user.click(container.querySelector('.MuiSpeedDial-fab') as Element);
+    await user.click(screen.getByLabelText('delete'));
+    await waitFor(() => expect(screen.queryByRole('button', { name: /remove/i })).toBeInTheDocument());
+    await user.click(screen.getByRole('button', { name: /remove/i }));
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
+    expect(removeManifestsSpy).toHaveBeenCalledWith([manifestName]);
   });
 });

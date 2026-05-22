@@ -11,8 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { type ReactNode, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { type ReactNode, useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -23,10 +23,13 @@ import {
   SyncOutlined as SyncOutlinedIcon
 } from '@mui/icons-material';
 
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { BaseQuickActions, type QuickAction } from '@northern.tech/common-ui/QuickActions';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { getManifestsListState, getSelectedManifest, getSelectedManifests, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { removeManifests } from '@northern.tech/store/thunks';
 import type { Manifest } from '@northern.tech/types/MenderTypes';
 import { isEmpty } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
@@ -97,11 +100,12 @@ const defaultActions: ManifestAction[] = [
 ];
 
 export const ManifestQuickActions = () => {
+  const [confirmManifestDeletion, setConfirmManifestDeletion] = useState(false);
   const { selection: selectedRows } = useSelector(getManifestsListState);
   const selectedManifest = useSelector(getSelectedManifest);
   const selectedManifests = useSelector(getSelectedManifests);
   const userCapabilities = useSelector(getUserCapabilities);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const onCreateDeployment = useCallback(
@@ -119,7 +123,15 @@ export const ManifestQuickActions = () => {
 
   const onTagManifest = useCallback(() => dispatch(setSnackbar('Tagging Manifests is not yet supported')), [dispatch]);
 
-  const onDeleteManifest = useCallback(() => dispatch(setSnackbar('Deleting Manifests is not yet supported')), [dispatch]);
+  const onDeleteManifest = () => setConfirmManifestDeletion(true);
+
+  const onCancelDeletion = () => setConfirmManifestDeletion(false);
+
+  const onConfirmDeletion = useCallback(() => {
+    const names = !isEmpty(selectedManifest) ? [selectedManifest.name] : selectedManifests.map(({ name }) => name);
+    dispatch(removeManifests(names));
+    setConfirmManifestDeletion(false);
+  }, [dispatch, selectedManifest, selectedManifests]);
 
   const onDownloadManifest = useCallback(() => {
     dispatch(setSnackbar('Downloading Manifests is not yet supported'));
@@ -127,7 +139,10 @@ export const ManifestQuickActions = () => {
 
   const actionCallbacks: ActionCallbacks = { onCreateDeployment, onCopyManifest, onTagManifest, onDeleteManifest, onDownloadManifest };
 
-  const pluralized = pluralize('Manifest', !isEmpty(selectedManifest) ? 1 : selectedRows.length);
+  const manifestsToRemove = !isEmpty(selectedManifest) ? [selectedManifest] : selectedManifests;
+  const manifestLength = manifestsToRemove.length;
+  const isOne = manifestLength === 1;
+  const pluralized = pluralize('Manifest', manifestLength);
 
   const actions: QuickAction[] = defaultActions
     .filter(action => action.isApplicable({ userCapabilities, selectedRows, selectedManifest }))
@@ -138,7 +153,19 @@ export const ManifestQuickActions = () => {
       onClick: () => action({ ...actionCallbacks, selection: selectedRows })
     }));
 
-  return <BaseQuickActions actions={actions} ariaLabel="manifest-actions" label={`${selectedRows.length} ${pluralized} selected`} />;
+  return (
+    <>
+      <BaseQuickActions actions={actions} ariaLabel="manifest-actions" label={`${selectedRows.length} ${pluralized} selected`} />
+      <ConfirmModal
+        header={`Remove ${isOne ? 'Manifest' : `${manifestLength} Manifests`}?`}
+        description={`Are you sure you want to remove ${isOne ? 'the selected Manifest' : `the ${manifestLength} selected Manifests`}?`}
+        open={confirmManifestDeletion}
+        confirmButtonText="Remove"
+        close={onCancelDeletion}
+        onConfirm={onConfirmDeletion}
+      />
+    </>
+  );
 };
 
 export default ManifestQuickActions;

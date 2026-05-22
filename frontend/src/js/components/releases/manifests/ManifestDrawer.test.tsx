@@ -42,9 +42,7 @@ describe('AddManifestDrawer Component', () => {
     const dropzoneInput = baseElement.querySelector('.dropzone input') as HTMLInputElement;
     await user.upload(dropzoneInput, file);
 
-    await user.click(screen.getByRole('button', { name: /^edit$/i }));
     await user.type(screen.getByPlaceholderText(/add notes here/i), 'unit test note');
-    await user.click(screen.getByRole('button', { name: /^confirm$/i }));
     await user.type(screen.getByPlaceholderText(/add tags/i), 'unit-tag{enter}');
 
     await user.click(screen.getByRole('button', { name: /^upload$/i }));
@@ -97,6 +95,9 @@ name: missing-required-fields
     await user.upload(dropzoneInput, file);
 
     expect(await screen.findByDisplayValue('broken.yaml')).toBeInTheDocument();
+    expect(screen.getByText(/at api_version/)).toBeInTheDocument();
+    expect(screen.getByText(/at system_types_compatible/)).toBeInTheDocument();
+    expect(screen.getByText(/at component_types/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /^upload$/i })).toBeDisabled();
     expect(ReleasesThunks.uploadManifest).not.toHaveBeenCalled();
   });
