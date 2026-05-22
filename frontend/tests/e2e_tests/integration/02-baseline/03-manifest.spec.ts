@@ -20,7 +20,7 @@ import { isEnterpriseOrStaging } from '../../utils/commands';
 const manifestArtifactApiUrl =
   'https://api.github.com/repos/mendersoftware/mender-server-enterprise/contents/backend/services/deployments/tests/data/test.manifest.mender?ref=main';
 const manifestFileLocation = 'fixtures/test.manifest.mender';
-const manifestYamlFileLocation = 'fixtures/example.yaml';
+const manifestYamlFileLocation = 'fixtures/manifest.yaml';
 
 test.describe('Manifests', () => {
   test.beforeAll(async ({ baseUrl, browser }) => {
@@ -40,8 +40,17 @@ test.describe('Manifests', () => {
     if (response.ok) {
       const buffer = await response.arrayBuffer();
       fs.writeFileSync(manifestFileLocation, Buffer.from(buffer));
-      // Dump the yaml file (example.yaml) from the manfiest meder file
-      execSync(`mender-artifact dump --files fixtures/ ${manifestFileLocation}`, { stdio: ['inherit', 'pipe', 'pipe'] });
+      // Dump the yaml file (manifest.yaml) from the manifest mender file
+      try {
+        execSync(`mender-artifact dump --files fixtures/ ${manifestFileLocation}`, { stdio: ['inherit', 'pipe', 'pipe'] });
+      } catch (e) {
+        if (fs.existsSync(manifestYamlFileLocation)) {
+          console.warn('mender-artifact dump exited non-zero, other worker created the file, continuing.');
+        } else {
+          console.error(e instanceof Error ? e.message : String(e));
+          throw e;
+        }
+      }
     } else {
       console.warn(`Failed to download manifest artifact (${response.status}) - upload tests will be skipped`);
     }
@@ -88,7 +97,7 @@ test.describe('Manifests', () => {
     const targetRow = page.getByRole('row').filter({ has: targetCell });
     await targetRow.getByRole('checkbox').click();
     await page.click('.MuiSpeedDial-fab');
-    await page.getByLabel(/delete/i).click();
+    await page.getByRole('menuitem', { name: 'Delete Manifest' }).click();
     await expect(page.getByText(/are you sure you want to remove/i)).toBeVisible();
     await page.getByRole('button', { name: 'Remove', exact: true }).click();
     await expect(page.getByRole('cell', { name: 'e2e-tag' })).not.toBeVisible();
