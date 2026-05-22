@@ -55,8 +55,8 @@ type App interface {
 	SaveSessionRecording(ctx context.Context, id string, sessionBytes []byte) error
 	GetRecorder(sessionID string) Recorder
 	GetControlRecorder(sessionID string) Recorder
-	DownloadFile(ctx context.Context, userID string, deviceID string, path string) error
-	UploadFile(ctx context.Context, userID string, deviceID string, path string) error
+	DownloadFile(ctx context.Context, sess *model.Session, path string) error
+	UploadFile(ctx context.Context, sess *model.Session, path string) error
 	DeleteTenant(ctx context.Context, tenantID string) error
 	Shutdown(timeout time.Duration)
 	ShutdownDone()
@@ -283,32 +283,40 @@ func (a app) GetControlRecorder(sessionID string) Recorder {
 	return NewControlRecorder(sessionID, a.store)
 }
 
-func (a *app) DownloadFile(ctx context.Context, userID string, deviceID string, path string) error {
-	return a.submitFileTransferAuditlog(ctx, userID, deviceID, path,
-		workflows.ActionDownloadFile, "User downloaded a file from the device")
+func (a *app) DownloadFile(ctx context.Context, sess *model.Session, path string) error {
+	return a.submitFileTransferAuditlog(ctx,
+		workflows.ActionDownloadFile, sess, path,
+		"User downloaded a file from the device")
 }
 
-func (a *app) UploadFile(ctx context.Context, userID string, deviceID string, path string) error {
-	return a.submitFileTransferAuditlog(ctx, userID, deviceID, path,
-		workflows.ActionUploadFile, "User uploaded a file to the device")
+func (a *app) UploadFile(ctx context.Context, sess *model.Session, path string) error {
+	return a.submitFileTransferAuditlog(ctx,
+		workflows.ActionUploadFile, sess, path,
+		"User uploaded a file to the device")
 }
 
-func (a *app) submitFileTransferAuditlog(ctx context.Context, userID string, deviceID string,
-	path string, action workflows.Action, change string) error {
+func (a *app) submitFileTransferAuditlog(
+	ctx context.Context,
+	action workflows.Action,
+	sess *model.Session,
+	path string,
+	change string,
+) error {
 	if a.HaveAuditLogs {
 		err := a.workflows.SubmitAuditLog(ctx, workflows.AuditLog{
 			Action: action,
 			Actor: workflows.Actor{
-				ID:   userID,
+				ID:   sess.UserID,
 				Type: workflows.ActorUser,
 			},
 			Object: workflows.Object{
-				ID:   deviceID,
+				ID:   sess.UserID,
 				Type: workflows.ObjectDevice,
 			},
 			Change: change,
 			MetaData: map[string][]string{
-				"path": {path},
+				"path":       {path},
+				"session_id": {sess.ID},
 			},
 			EventTS: time.Now(),
 		})

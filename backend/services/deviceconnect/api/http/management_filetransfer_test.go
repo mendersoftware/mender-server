@@ -42,6 +42,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
 	app_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/app/mocks"
 	nats_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/nats/mocks"
+	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 )
 
 func string2pointer(v string) *string {
@@ -1283,10 +1284,22 @@ func TestManagementDownloadFile(t *testing.T) {
 					mock.MatchedBy(func(_ context.Context) bool {
 						return true
 					}),
-					tc.Identity.Subject,
-					tc.DeviceID,
+					mock.Anything,
 					mock.AnythingOfType("string"),
-				).Return(tc.AppDownloadFileErr)
+				).
+					Run(func(args mock.Arguments) {
+						var sess *model.Session
+						sessFace := args.Get(1)
+						if assert.IsType(t, sess, sessFace) {
+							sess = sessFace.(*model.Session)
+							if assert.NotNil(t, sess) {
+								assert.Equal(t, tc.DeviceID, sess.DeviceID)
+								assert.Equal(t, tc.Identity.Subject, sess.UserID)
+								assert.Equal(t, tc.Identity.Tenant, sess.TenantID)
+							}
+						}
+					}).
+					Return(tc.AppDownloadFileErr)
 			}
 
 			natsClient := nats_mocks.NewClient(t)
@@ -2210,10 +2223,21 @@ func TestManagementUploadFile(t *testing.T) {
 					mock.MatchedBy(func(_ context.Context) bool {
 						return true
 					}),
-					tc.Identity.Subject,
-					tc.DeviceID,
-					mock.AnythingOfType("string"),
-				).Return(tc.AppUploadFileErr)
+					mock.Anything,
+					mock.AnythingOfType("string")).
+					Run(func(args mock.Arguments) {
+						var sess *model.Session
+						sessFace := args.Get(1)
+						if assert.IsType(t, sess, sessFace) {
+							sess = sessFace.(*model.Session)
+							if assert.NotNil(t, sess) {
+								assert.Equal(t, tc.DeviceID, sess.DeviceID)
+								assert.Equal(t, tc.Identity.Subject, sess.UserID)
+								assert.Equal(t, tc.Identity.Tenant, sess.TenantID)
+							}
+						}
+					}).
+					Return(tc.AppUploadFileErr)
 			}
 
 			natsClient := &nats_mocks.Client{}

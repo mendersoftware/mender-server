@@ -685,8 +685,9 @@ func TestDownloadFile(t *testing.T) {
 					mock.AnythingOfType("workflows.AuditLog"),
 				).Return(tc.WorkflowsErr)
 			}
+			sess := model.NewSession("1234", tc.UserID, tc.DeviceID)
 
-			err := app.DownloadFile(ctx, tc.UserID, tc.DeviceID, tc.Path)
+			err := app.DownloadFile(ctx, &sess, tc.Path)
 			if tc.Err != nil {
 				assert.EqualError(t, err, tc.Err.Error())
 			} else {
@@ -757,8 +758,9 @@ func TestUploadFile(t *testing.T) {
 					mock.AnythingOfType("workflows.AuditLog"),
 				).Return(tc.WorkflowsErr)
 			}
+			sess := model.NewSession("1234", tc.UserID, tc.DeviceID)
 
-			err := app.UploadFile(ctx, tc.UserID, tc.DeviceID, tc.Path)
+			err := app.UploadFile(ctx, &sess, tc.Path)
 			if tc.Err != nil {
 				assert.EqualError(t, err, tc.Err.Error())
 			} else {

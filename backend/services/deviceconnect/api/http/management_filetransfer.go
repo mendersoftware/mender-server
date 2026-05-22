@@ -27,7 +27,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/vmihailenco/msgpack/v5"
 
@@ -488,13 +487,11 @@ func (h ManagementController) DownloadFile(c *gin.Context) {
 		return
 	}
 
-	tenantID := idata.Tenant
-	deviceID := c.Param("deviceId")
-	sessionID := uuid.NewString()
+	sess := model.NewSession(idata.Tenant, idata.Subject, c.Param("deviceId"))
 
-	srcAddr := fmt.Sprintf("%s:%s", tenantID, sessionID)
+	srcAddr := fmt.Sprintf("%s:%s", sess.TenantID, sess.ID)
 	ctxWithTimeout, cancel := context.WithTimeout(ctx, fileTransferTimeout)
-	conn, err := h.nats.Connect(ctxWithTimeout, srcAddr, deviceID)
+	conn, err := h.nats.Connect(ctxWithTimeout, srcAddr, sess.DeviceID)
 	cancel()
 	if err != nil {
 		switch {
@@ -512,12 +509,12 @@ func (h ManagementController) DownloadFile(c *gin.Context) {
 		_ = conn.Close(ctx)
 		cancel()
 	}()
-	if err := h.app.DownloadFile(ctx, idata.Subject, deviceID, *request.Path); err != nil {
+	if err := h.app.DownloadFile(ctx, &sess, *request.Path); err != nil {
 		rest.RenderInternalError(c, err)
 		return
 	}
 
-	h.downloadFileResponse(c, conn, idata.Subject, sessionID, request)
+	h.downloadFileResponse(c, conn, idata.Subject, sess.ID, request)
 }
 
 func (h ManagementController) uploadFileResponseHandleInboundMessages(
@@ -884,13 +881,11 @@ func (h ManagementController) UploadFile(c *gin.Context) {
 
 	defer request.File.Close()
 
-	tenantID := idata.Tenant
-	deviceID := c.Param("deviceId")
-	sessionID := uuid.NewString()
+	sess := model.NewSession(idata.Tenant, idata.Subject, c.Param("deviceId"))
 
-	srcAddr := fmt.Sprintf("%s:%s", tenantID, sessionID)
+	srcAddr := fmt.Sprintf("%s:%s", sess.TenantID, sess.ID)
 	ctxWithTimeout, cancel := context.WithTimeout(ctx, fileTransferTimeout)
-	conn, err := h.nats.Connect(ctxWithTimeout, srcAddr, deviceID)
+	conn, err := h.nats.Connect(ctxWithTimeout, srcAddr, sess.DeviceID)
 	cancel()
 	if err != nil {
 		switch {
@@ -909,8 +904,7 @@ func (h ManagementController) UploadFile(c *gin.Context) {
 		cancel()
 	}()
 
-	if err := h.app.UploadFile(ctx, idata.Subject, deviceID,
-		*request.Path); err != nil {
+	if err := h.app.UploadFile(ctx, &sess, *request.Path); err != nil {
 		l.Error(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": errors.Wrap(err, "bad request").Error(),
@@ -918,5 +912,5 @@ func (h ManagementController) UploadFile(c *gin.Context) {
 		return
 	}
 
-	h.uploadFileResponse(c, conn, request, *idata, sessionID)
+	h.uploadFileResponse(c, conn, request, *idata, sess.ID)
 }
