@@ -28,7 +28,7 @@ class ConfigurationDeploymentRequest(BaseModel):
     ConfigurationDeploymentRequest
     """ # noqa: E501
     name: StrictStr = Field(description="Name of the deployment")
-    configuration: StrictStr = Field(description="A string containing a configuration object. The deployments service will use it to generate configuration artifact for the device. The artifact will be generated when the device will ask for an update. ")
+    configuration: Dict[str, StrictStr] = Field(description="A string containing a configuration object. The deployments service will use it to generate configuration artifact for the device. The artifact will be generated when the device will ask for an update. ")
     __properties: ClassVar[List[str]] = ["name", "configuration"]
 
     model_config = ConfigDict(

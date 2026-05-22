@@ -25,7 +25,7 @@ type ConfigurationDeploymentRequest struct {
 	// Name of the deployment
 	Name string `json:"name"`
 	// A string containing a configuration object. The deployments service will use it to generate configuration artifact for the device. The artifact will be generated when the device will ask for an update. 
-	Configuration string `json:"configuration"`
+	Configuration map[string]string `json:"configuration"`
 }
 
 type _ConfigurationDeploymentRequest ConfigurationDeploymentRequest
@@ -34,7 +34,7 @@ type _ConfigurationDeploymentRequest ConfigurationDeploymentRequest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewConfigurationDeploymentRequest(name string, configuration string) *ConfigurationDeploymentRequest {
+func NewConfigurationDeploymentRequest(name string, configuration map[string]string) *ConfigurationDeploymentRequest {
 	this := ConfigurationDeploymentRequest{}
 	this.Name = name
 	this.Configuration = configuration
@@ -74,9 +74,9 @@ func (o *ConfigurationDeploymentRequest) SetName(v string) {
 }
 
 // GetConfiguration returns the Configuration field value
-func (o *ConfigurationDeploymentRequest) GetConfiguration() string {
+func (o *ConfigurationDeploymentRequest) GetConfiguration() map[string]string {
 	if o == nil {
-		var ret string
+		var ret map[string]string
 		return ret
 	}
 
@@ -85,7 +85,7 @@ func (o *ConfigurationDeploymentRequest) GetConfiguration() string {
 
 // GetConfigurationOk returns a tuple with the Configuration field value
 // and a boolean to check if the value has been set.
-func (o *ConfigurationDeploymentRequest) GetConfigurationOk() (*string, bool) {
+func (o *ConfigurationDeploymentRequest) GetConfigurationOk() (*map[string]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *ConfigurationDeploymentRequest) GetConfigurationOk() (*string, bool) {
 }
 
 // SetConfiguration sets field value
-func (o *ConfigurationDeploymentRequest) SetConfiguration(v string) {
+func (o *ConfigurationDeploymentRequest) SetConfiguration(v map[string]string) {
 	o.Configuration = v
 }
 

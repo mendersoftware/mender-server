@@ -7669,19 +7669,21 @@ components:
     ConfigurationDeploymentRequest:
       example:
         name: config-1.1
-        configuration: '{"foo":"bar"}'
+        configuration:
+          foo: bar
       properties:
         name:
           description: Name of the deployment
           type: string
         configuration:
-          description: |
-            A string containing a configuration object.
-            The deployments service will use it to generate configuration
-            artifact for the device.
-            The artifact will be generated when the device will ask
-            for an update.
-          type: string
+          allOf:
+            - $ref: '#/components/schemas/ManagementAPIConfiguration'
+            - description: |
+                A string containing a configuration object.
+                The deployments service will use it to generate configuration
+                artifact for the device.
+                The artifact will be generated when the device will ask
+                for an update.
       required:
         - configuration
         - name
@@ -8069,6 +8071,10 @@ components:
         - log
         - status
       type: object
+    ManagementAPIConfiguration:
+      type: object
+      additionalProperties:
+        type: string
     ErrorExt:
       description: Error descriptor with additional metadata.
       example:
@@ -9410,10 +9416,6 @@ components:
         deployment_id:
           type: string
           description: Deployment ID
-    ManagementAPIConfiguration:
-      type: object
-      additionalProperties:
-        type: string
     DeviceConfiguration:
       type: object
       properties:
