@@ -29,7 +29,10 @@ type Event struct {
 	// Creation timestamp
 	Time *time.Time `json:"time,omitempty"`
 	Data *DeviceAuthEvent `json:"data,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Event Event
 
 // NewEvent instantiates a new Event object
 // This constructor will assign default values to properties that have it defined,
@@ -233,7 +236,37 @@ func (o Event) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Data) {
 		toSerialize["data"] = o.Data
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *Event) UnmarshalJSON(data []byte) (err error) {
+	varEvent := _Event{}
+
+	err = json.Unmarshal(data, &varEvent)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Event(varEvent)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "delivery_statuses")
+		delete(additionalProperties, "time")
+		delete(additionalProperties, "data")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableEvent struct {

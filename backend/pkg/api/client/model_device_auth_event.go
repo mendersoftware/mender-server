@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -30,6 +29,7 @@ type DeviceAuthEvent struct {
 	AuthSets []AuthSet `json:"auth_sets,omitempty"`
 	// The time the device was initialized in Mender.
 	CreatedTs *time.Time `json:"created_ts,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeviceAuthEvent DeviceAuthEvent
@@ -192,6 +192,11 @@ func (o DeviceAuthEvent) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.CreatedTs) {
 		toSerialize["created_ts"] = o.CreatedTs
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -219,15 +224,23 @@ func (o *DeviceAuthEvent) UnmarshalJSON(data []byte) (err error) {
 
 	varDeviceAuthEvent := _DeviceAuthEvent{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeviceAuthEvent)
+	err = json.Unmarshal(data, &varDeviceAuthEvent)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeviceAuthEvent(varDeviceAuthEvent)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "auth_sets")
+		delete(additionalProperties, "created_ts")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

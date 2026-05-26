@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type DeviceUpdate struct {
 	Id string `json:"id"`
 	// Device object revision.
 	Revision int32 `json:"revision"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeviceUpdate DeviceUpdate
@@ -109,6 +109,11 @@ func (o DeviceUpdate) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
 	toSerialize["revision"] = o.Revision
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -137,15 +142,21 @@ func (o *DeviceUpdate) UnmarshalJSON(data []byte) (err error) {
 
 	varDeviceUpdate := _DeviceUpdate{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeviceUpdate)
+	err = json.Unmarshal(data, &varDeviceUpdate)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeviceUpdate(varDeviceUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "revision")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type HTTPHttp struct {
 	Url string `json:"url"`
 	// An optional secret used to verify the integrity of the payload. The string must be in hexadecimal format.
 	Secret *string `json:"secret,omitempty" validate:"regexp=[0-9a-f]{1,64}"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _HTTPHttp HTTPHttp
@@ -118,6 +118,11 @@ func (o HTTPHttp) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Secret) {
 		toSerialize["secret"] = o.Secret
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -145,15 +150,21 @@ func (o *HTTPHttp) UnmarshalJSON(data []byte) (err error) {
 
 	varHTTPHttp := _HTTPHttp{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varHTTPHttp)
+	err = json.Unmarshal(data, &varHTTPHttp)
 
 	if err != nil {
 		return err
 	}
 
 	*o = HTTPHttp(varHTTPHttp)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "url")
+		delete(additionalProperties, "secret")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

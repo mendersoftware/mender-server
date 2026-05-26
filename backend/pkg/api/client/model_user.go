@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -33,6 +32,7 @@ type User struct {
 	UpdatedTs *time.Time `json:"updated_ts,omitempty"`
 	// Timestamp of last successful login.
 	LoginTs *time.Time `json:"login_ts,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _User User
@@ -221,6 +221,11 @@ func (o User) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.LoginTs) {
 		toSerialize["login_ts"] = o.LoginTs
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -249,15 +254,24 @@ func (o *User) UnmarshalJSON(data []byte) (err error) {
 
 	varUser := _User{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUser)
+	err = json.Unmarshal(data, &varUser)
 
 	if err != nil {
 		return err
 	}
 
 	*o = User(varUser)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "created_ts")
+		delete(additionalProperties, "updated_ts")
+		delete(additionalProperties, "login_ts")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

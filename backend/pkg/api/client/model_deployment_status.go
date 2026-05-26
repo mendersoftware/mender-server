@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type DeploymentStatus struct {
 	Status string `json:"status"`
 	// Additional state information
 	Substate *string `json:"substate,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeploymentStatus DeploymentStatus
@@ -117,6 +117,11 @@ func (o DeploymentStatus) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Substate) {
 		toSerialize["substate"] = o.Substate
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -144,15 +149,21 @@ func (o *DeploymentStatus) UnmarshalJSON(data []byte) (err error) {
 
 	varDeploymentStatus := _DeploymentStatus{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeploymentStatus)
+	err = json.Unmarshal(data, &varDeploymentStatus)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeploymentStatus(varDeploymentStatus)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "substate")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

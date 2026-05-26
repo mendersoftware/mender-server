@@ -23,7 +23,10 @@ type DeploymentStatistics struct {
 	Status *Statistics `json:"status,omitempty"`
 	// Sum of sizes (in bytes) of all artifacts assigned to all device deployments, which are part of this deployment. If the same artifact is assigned to multiple device deployments, its size will be counted multiple times. 
 	TotalSize *int32 `json:"total_size,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeploymentStatistics DeploymentStatistics
 
 // NewDeploymentStatistics instantiates a new DeploymentStatistics object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o DeploymentStatistics) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.TotalSize) {
 		toSerialize["total_size"] = o.TotalSize
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeploymentStatistics) UnmarshalJSON(data []byte) (err error) {
+	varDeploymentStatistics := _DeploymentStatistics{}
+
+	err = json.Unmarshal(data, &varDeploymentStatistics)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeploymentStatistics(varDeploymentStatistics)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "total_size")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeploymentStatistics struct {

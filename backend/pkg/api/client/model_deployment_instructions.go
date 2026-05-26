@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type DeploymentInstructions struct {
 	// Deployment ID
 	Id string `json:"id"`
 	Artifact DeploymentInstructionsArtifact `json:"artifact"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeploymentInstructions DeploymentInstructions
@@ -108,6 +108,11 @@ func (o DeploymentInstructions) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
 	toSerialize["artifact"] = o.Artifact
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *DeploymentInstructions) UnmarshalJSON(data []byte) (err error) {
 
 	varDeploymentInstructions := _DeploymentInstructions{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeploymentInstructions)
+	err = json.Unmarshal(data, &varDeploymentInstructions)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeploymentInstructions(varDeploymentInstructions)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "artifact")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -9,6 +9,7 @@ additionalProperties:
   withGoMod: false
   generateInterfaces: true
   withCustomMiddlewareFunction: true
+  disallowAdditionalPropertiesIfNotPresent: false
 
 globalProperties:
   apiDocs: false

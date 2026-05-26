@@ -33,7 +33,10 @@ type AuthSet struct {
 	Status *string `json:"status,omitempty"`
 	// The creation timestamp of the authentication set.
 	Ts *time.Time `json:"ts,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _AuthSet AuthSet
 
 // NewAuthSet instantiates a new AuthSet object
 // This constructor will assign default values to properties that have it defined,
@@ -272,7 +275,38 @@ func (o AuthSet) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Ts) {
 		toSerialize["ts"] = o.Ts
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *AuthSet) UnmarshalJSON(data []byte) (err error) {
+	varAuthSet := _AuthSet{}
+
+	err = json.Unmarshal(data, &varAuthSet)
+
+	if err != nil {
+		return err
+	}
+
+	*o = AuthSet(varAuthSet)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "device_id")
+		delete(additionalProperties, "identity_data")
+		delete(additionalProperties, "pubkey")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "ts")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableAuthSet struct {

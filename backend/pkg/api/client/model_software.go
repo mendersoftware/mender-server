@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -32,6 +31,7 @@ type Software struct {
 	Tags []string `json:"tags,omitempty"`
 	// Additional information describing a Software limited to 1024 characters. 
 	Notes *string `json:"notes,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Software Software
@@ -220,6 +220,11 @@ func (o Software) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Notes) {
 		toSerialize["notes"] = o.Notes
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -248,15 +253,24 @@ func (o *Software) UnmarshalJSON(data []byte) (err error) {
 
 	varSoftware := _Software{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSoftware)
+	err = json.Unmarshal(data, &varSoftware)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Software(varSoftware)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "modified")
+		delete(additionalProperties, "kind")
+		delete(additionalProperties, "tags")
+		delete(additionalProperties, "notes")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

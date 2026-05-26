@@ -21,7 +21,10 @@ var _ MappedNullable = &DeploymentIdentifier{}
 // DeploymentIdentifier Deployment identifier
 type DeploymentIdentifier struct {
 	DeploymentIds []string `json:"deployment_ids,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeploymentIdentifier DeploymentIdentifier
 
 // NewDeploymentIdentifier instantiates a new DeploymentIdentifier object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o DeploymentIdentifier) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.DeploymentIds) {
 		toSerialize["deployment_ids"] = o.DeploymentIds
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeploymentIdentifier) UnmarshalJSON(data []byte) (err error) {
+	varDeploymentIdentifier := _DeploymentIdentifier{}
+
+	err = json.Unmarshal(data, &varDeploymentIdentifier)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeploymentIdentifier(varDeploymentIdentifier)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "deployment_ids")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeploymentIdentifier struct {

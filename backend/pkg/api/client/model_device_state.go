@@ -24,7 +24,10 @@ type DeviceState struct {
 	Desired map[string]interface{} `json:"desired,omitempty"`
 	// State reported by the device, this cannot be changed from the cloud.
 	Reported map[string]interface{} `json:"reported,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeviceState DeviceState
 
 // NewDeviceState instantiates a new DeviceState object
 // This constructor will assign default values to properties that have it defined,
@@ -123,7 +126,34 @@ func (o DeviceState) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Reported) {
 		toSerialize["reported"] = o.Reported
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeviceState) UnmarshalJSON(data []byte) (err error) {
+	varDeviceState := _DeviceState{}
+
+	err = json.Unmarshal(data, &varDeviceState)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeviceState(varDeviceState)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "desired")
+		delete(additionalProperties, "reported")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeviceState struct {

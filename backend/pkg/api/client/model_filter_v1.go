@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &FilterV1{}
 // FilterV1 Filter built based on devices targeted by the deployment. 
 type FilterV1 struct {
 	Terms []AttributeFilterPredicate `json:"terms"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _FilterV1 FilterV1
@@ -80,6 +80,11 @@ func (o FilterV1) MarshalJSON() ([]byte, error) {
 func (o FilterV1) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["terms"] = o.Terms
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *FilterV1) UnmarshalJSON(data []byte) (err error) {
 
 	varFilterV1 := _FilterV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varFilterV1)
+	err = json.Unmarshal(data, &varFilterV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = FilterV1(varFilterV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "terms")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

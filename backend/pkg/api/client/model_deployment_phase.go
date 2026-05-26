@@ -29,7 +29,10 @@ type DeploymentPhase struct {
 	StartTs *time.Time `json:"start_ts,omitempty"`
 	// Number of devices which already requested an update within this phase. 
 	DeviceCount *int32 `json:"device_count,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeploymentPhase DeploymentPhase
 
 // NewDeploymentPhase instantiates a new DeploymentPhase object
 // This constructor will assign default values to properties that have it defined,
@@ -198,7 +201,36 @@ func (o DeploymentPhase) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.DeviceCount) {
 		toSerialize["device_count"] = o.DeviceCount
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeploymentPhase) UnmarshalJSON(data []byte) (err error) {
+	varDeploymentPhase := _DeploymentPhase{}
+
+	err = json.Unmarshal(data, &varDeploymentPhase)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeploymentPhase(varDeploymentPhase)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "batch_size")
+		delete(additionalProperties, "start_ts")
+		delete(additionalProperties, "device_count")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeploymentPhase struct {

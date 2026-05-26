@@ -28,7 +28,10 @@ type JobObject struct {
 	Results []TaskResult `json:"results,omitempty"`
 	InsertTime *time.Time `json:"insert_time,omitempty"`
 	Version *string `json:"version,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _JobObject JobObject
 
 // NewJobObject instantiates a new JobObject object
 // This constructor will assign default values to properties that have it defined,
@@ -302,7 +305,39 @@ func (o JobObject) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Version) {
 		toSerialize["version"] = o.Version
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *JobObject) UnmarshalJSON(data []byte) (err error) {
+	varJobObject := _JobObject{}
+
+	err = json.Unmarshal(data, &varJobObject)
+
+	if err != nil {
+		return err
+	}
+
+	*o = JobObject(varJobObject)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "workflowName")
+		delete(additionalProperties, "inputParameters")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "results")
+		delete(additionalProperties, "insert_time")
+		delete(additionalProperties, "version")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableJobObject struct {

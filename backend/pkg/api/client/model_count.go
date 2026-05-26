@@ -22,7 +22,10 @@ var _ MappedNullable = &Count{}
 type Count struct {
 	// The count of requested items.
 	Count *int32 `json:"count,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Count Count
 
 // NewCount instantiates a new Count object
 // This constructor will assign default values to properties that have it defined,
@@ -86,7 +89,33 @@ func (o Count) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Count) {
 		toSerialize["count"] = o.Count
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *Count) UnmarshalJSON(data []byte) (err error) {
+	varCount := _Count{}
+
+	err = json.Unmarshal(data, &varCount)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Count(varCount)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "count")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCount struct {

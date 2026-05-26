@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &RemoveAGroup200Response{}
 type RemoveAGroup200Response struct {
 	// Number of devices for which the group was cleared sucessfully. 
 	UpdatedCount int32 `json:"updated_count"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _RemoveAGroup200Response RemoveAGroup200Response
@@ -81,6 +81,11 @@ func (o RemoveAGroup200Response) MarshalJSON() ([]byte, error) {
 func (o RemoveAGroup200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["updated_count"] = o.UpdatedCount
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -108,15 +113,20 @@ func (o *RemoveAGroup200Response) UnmarshalJSON(data []byte) (err error) {
 
 	varRemoveAGroup200Response := _RemoveAGroup200Response{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varRemoveAGroup200Response)
+	err = json.Unmarshal(data, &varRemoveAGroup200Response)
 
 	if err != nil {
 		return err
 	}
 
 	*o = RemoveAGroup200Response(varRemoveAGroup200Response)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "updated_count")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

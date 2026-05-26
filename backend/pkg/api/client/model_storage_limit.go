@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type StorageLimit struct {
 	Limit int32 `json:"limit"`
 	// Current storage usage in bytes. 
 	Usage int32 `json:"usage"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _StorageLimit StorageLimit
@@ -109,6 +109,11 @@ func (o StorageLimit) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["limit"] = o.Limit
 	toSerialize["usage"] = o.Usage
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -137,15 +142,21 @@ func (o *StorageLimit) UnmarshalJSON(data []byte) (err error) {
 
 	varStorageLimit := _StorageLimit{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varStorageLimit)
+	err = json.Unmarshal(data, &varStorageLimit)
 
 	if err != nil {
 		return err
 	}
 
 	*o = StorageLimit(varStorageLimit)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "limit")
+		delete(additionalProperties, "usage")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

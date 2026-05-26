@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &LastDeviceDeploymentsStatuses{}
 // LastDeviceDeploymentsStatuses struct for LastDeviceDeploymentsStatuses
 type LastDeviceDeploymentsStatuses struct {
 	DeviceDeploymentLastStatuses []LastDeviceDeployment `json:"device_deployment_last_statuses"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _LastDeviceDeploymentsStatuses LastDeviceDeploymentsStatuses
@@ -80,6 +80,11 @@ func (o LastDeviceDeploymentsStatuses) MarshalJSON() ([]byte, error) {
 func (o LastDeviceDeploymentsStatuses) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["device_deployment_last_statuses"] = o.DeviceDeploymentLastStatuses
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *LastDeviceDeploymentsStatuses) UnmarshalJSON(data []byte) (err error) {
 
 	varLastDeviceDeploymentsStatuses := _LastDeviceDeploymentsStatuses{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varLastDeviceDeploymentsStatuses)
+	err = json.Unmarshal(data, &varLastDeviceDeploymentsStatuses)
 
 	if err != nil {
 		return err
 	}
 
 	*o = LastDeviceDeploymentsStatuses(varLastDeviceDeploymentsStatuses)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "device_deployment_last_statuses")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

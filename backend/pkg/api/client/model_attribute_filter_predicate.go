@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -29,6 +28,7 @@ type AttributeFilterPredicate struct {
 	Type string `json:"type"`
 	// The value of the attribute to be used in filtering. Attribute type is implicit, inferred from the JSON type. Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
 	Value interface{} `json:"value"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AttributeFilterPredicate AttributeFilterPredicate
@@ -168,6 +168,11 @@ func (o AttributeFilterPredicate) ToMap() (map[string]interface{}, error) {
 	if o.Value != nil {
 		toSerialize["value"] = o.Value
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -198,15 +203,23 @@ func (o *AttributeFilterPredicate) UnmarshalJSON(data []byte) (err error) {
 
 	varAttributeFilterPredicate := _AttributeFilterPredicate{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAttributeFilterPredicate)
+	err = json.Unmarshal(data, &varAttributeFilterPredicate)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AttributeFilterPredicate(varAttributeFilterPredicate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "scope")
+		delete(additionalProperties, "attribute")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "value")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

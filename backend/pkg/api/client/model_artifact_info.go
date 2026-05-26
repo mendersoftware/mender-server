@@ -22,7 +22,10 @@ var _ MappedNullable = &ArtifactInfo{}
 type ArtifactInfo struct {
 	Format *string `json:"format,omitempty"`
 	Version *int32 `json:"version,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ArtifactInfo ArtifactInfo
 
 // NewArtifactInfo instantiates a new ArtifactInfo object
 // This constructor will assign default values to properties that have it defined,
@@ -121,7 +124,34 @@ func (o ArtifactInfo) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Version) {
 		toSerialize["version"] = o.Version
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ArtifactInfo) UnmarshalJSON(data []byte) (err error) {
+	varArtifactInfo := _ArtifactInfo{}
+
+	err = json.Unmarshal(data, &varArtifactInfo)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ArtifactInfo(varArtifactInfo)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "format")
+		delete(additionalProperties, "version")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableArtifactInfo struct {

@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type DeviceDeployment struct {
 	Id *string `json:"id,omitempty"`
 	Deployment DeploymentV1Internal `json:"deployment"`
 	Device DeviceWithImage `json:"device"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeviceDeployment DeviceDeployment
@@ -143,6 +143,11 @@ func (o DeviceDeployment) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["deployment"] = o.Deployment
 	toSerialize["device"] = o.Device
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -171,15 +176,22 @@ func (o *DeviceDeployment) UnmarshalJSON(data []byte) (err error) {
 
 	varDeviceDeployment := _DeviceDeployment{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeviceDeployment)
+	err = json.Unmarshal(data, &varDeviceDeployment)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeviceDeployment(varDeviceDeployment)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "deployment")
+		delete(additionalProperties, "device")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

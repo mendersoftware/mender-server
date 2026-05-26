@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type ArtifactUploadLink struct {
 	Id string `json:"id"`
 	Uri string `json:"uri"`
 	Expire time.Time `json:"expire"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ArtifactUploadLink ArtifactUploadLink
@@ -136,6 +136,11 @@ func (o ArtifactUploadLink) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["uri"] = o.Uri
 	toSerialize["expire"] = o.Expire
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *ArtifactUploadLink) UnmarshalJSON(data []byte) (err error) {
 
 	varArtifactUploadLink := _ArtifactUploadLink{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varArtifactUploadLink)
+	err = json.Unmarshal(data, &varArtifactUploadLink)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ArtifactUploadLink(varArtifactUploadLink)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "uri")
+		delete(additionalProperties, "expire")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

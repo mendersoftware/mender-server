@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type UserNewInternal struct {
 	Password string `json:"password"`
 	// This paramter is deprecated _since Thu Jul 6 2023_, the propagation of user information to tenantadm is disabled permanently. 
 	Propagate *bool `json:"propagate,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _UserNewInternal UserNewInternal
@@ -146,6 +146,11 @@ func (o UserNewInternal) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Propagate) {
 		toSerialize["propagate"] = o.Propagate
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -174,15 +179,22 @@ func (o *UserNewInternal) UnmarshalJSON(data []byte) (err error) {
 
 	varUserNewInternal := _UserNewInternal{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUserNewInternal)
+	err = json.Unmarshal(data, &varUserNewInternal)
 
 	if err != nil {
 		return err
 	}
 
 	*o = UserNewInternal(varUserNewInternal)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "propagate")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

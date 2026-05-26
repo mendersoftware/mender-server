@@ -24,7 +24,10 @@ type LastDeviceDeployment struct {
 	DeploymentId *string `json:"deployment_id,omitempty"`
 	DeviceDeploymentId *string `json:"device_deployment_id,omitempty"`
 	DeviceDeploymentStatus *string `json:"device_deployment_status,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _LastDeviceDeployment LastDeviceDeployment
 
 // NewLastDeviceDeployment instantiates a new LastDeviceDeployment object
 // This constructor will assign default values to properties that have it defined,
@@ -193,7 +196,36 @@ func (o LastDeviceDeployment) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.DeviceDeploymentStatus) {
 		toSerialize["device_deployment_status"] = o.DeviceDeploymentStatus
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *LastDeviceDeployment) UnmarshalJSON(data []byte) (err error) {
+	varLastDeviceDeployment := _LastDeviceDeployment{}
+
+	err = json.Unmarshal(data, &varLastDeviceDeployment)
+
+	if err != nil {
+		return err
+	}
+
+	*o = LastDeviceDeployment(varLastDeviceDeployment)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "device_id")
+		delete(additionalProperties, "deployment_id")
+		delete(additionalProperties, "device_deployment_id")
+		delete(additionalProperties, "device_deployment_status")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableLastDeviceDeployment struct {

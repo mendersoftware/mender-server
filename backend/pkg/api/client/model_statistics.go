@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -46,6 +45,7 @@ type Statistics struct {
 	PauseBeforeRebooting int32 `json:"pause_before_rebooting"`
 	// Number of deployments paused before commit phase.
 	PauseBeforeCommitting int32 `json:"pause_before_committing"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Statistics Statistics
@@ -389,6 +389,11 @@ func (o Statistics) ToMap() (map[string]interface{}, error) {
 	toSerialize["pause_before_installing"] = o.PauseBeforeInstalling
 	toSerialize["pause_before_rebooting"] = o.PauseBeforeRebooting
 	toSerialize["pause_before_committing"] = o.PauseBeforeCommitting
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -427,15 +432,31 @@ func (o *Statistics) UnmarshalJSON(data []byte) (err error) {
 
 	varStatistics := _Statistics{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varStatistics)
+	err = json.Unmarshal(data, &varStatistics)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Statistics(varStatistics)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "success")
+		delete(additionalProperties, "pending")
+		delete(additionalProperties, "downloading")
+		delete(additionalProperties, "rebooting")
+		delete(additionalProperties, "installing")
+		delete(additionalProperties, "failure")
+		delete(additionalProperties, "noartifact")
+		delete(additionalProperties, "already-installed")
+		delete(additionalProperties, "aborted")
+		delete(additionalProperties, "pause_before_installing")
+		delete(additionalProperties, "pause_before_rebooting")
+		delete(additionalProperties, "pause_before_committing")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

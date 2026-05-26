@@ -22,7 +22,10 @@ var _ MappedNullable = &DeviceWithImageImageMeta{}
 type DeviceWithImageImageMeta struct {
 	// Image description
 	Description *string `json:"description,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeviceWithImageImageMeta DeviceWithImageImageMeta
 
 // NewDeviceWithImageImageMeta instantiates a new DeviceWithImageImageMeta object
 // This constructor will assign default values to properties that have it defined,
@@ -86,7 +89,33 @@ func (o DeviceWithImageImageMeta) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Description) {
 		toSerialize["description"] = o.Description
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeviceWithImageImageMeta) UnmarshalJSON(data []byte) (err error) {
+	varDeviceWithImageImageMeta := _DeviceWithImageImageMeta{}
+
+	err = json.Unmarshal(data, &varDeviceWithImageImageMeta)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeviceWithImageImageMeta(varDeviceWithImageImageMeta)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "description")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeviceWithImageImageMeta struct {

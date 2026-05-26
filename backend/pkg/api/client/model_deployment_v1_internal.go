@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -33,6 +32,7 @@ type DeploymentV1Internal struct {
 	// An array of artifact's identifiers.
 	Artifacts []string `json:"artifacts,omitempty"`
 	Type *string `json:"type,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeploymentV1Internal DeploymentV1Internal
@@ -334,6 +334,11 @@ func (o DeploymentV1Internal) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -365,15 +370,28 @@ func (o *DeploymentV1Internal) UnmarshalJSON(data []byte) (err error) {
 
 	varDeploymentV1Internal := _DeploymentV1Internal{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeploymentV1Internal)
+	err = json.Unmarshal(data, &varDeploymentV1Internal)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeploymentV1Internal(varDeploymentV1Internal)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "created")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "artifact_name")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "finished")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "device_count")
+		delete(additionalProperties, "artifacts")
+		delete(additionalProperties, "type")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

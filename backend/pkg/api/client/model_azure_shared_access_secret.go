@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type AzureSharedAccessSecret struct {
 	// The credential type
 	Type string `json:"type"`
 	ConnectionString string `json:"connection_string"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AzureSharedAccessSecret AzureSharedAccessSecret
@@ -108,6 +108,11 @@ func (o AzureSharedAccessSecret) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["type"] = o.Type
 	toSerialize["connection_string"] = o.ConnectionString
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *AzureSharedAccessSecret) UnmarshalJSON(data []byte) (err error) {
 
 	varAzureSharedAccessSecret := _AzureSharedAccessSecret{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAzureSharedAccessSecret)
+	err = json.Unmarshal(data, &varAzureSharedAccessSecret)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AzureSharedAccessSecret(varAzureSharedAccessSecret)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "connection_string")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

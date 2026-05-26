@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -30,6 +29,7 @@ type EventDeliveryStatusesInner struct {
 	StatusCode *int32 `json:"status_code,omitempty"`
 	// An error message if the hook failed.
 	Error *string `json:"error,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _EventDeliveryStatusesInner EventDeliveryStatusesInner
@@ -183,6 +183,11 @@ func (o EventDeliveryStatusesInner) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Error) {
 		toSerialize["error"] = o.Error
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -211,15 +216,23 @@ func (o *EventDeliveryStatusesInner) UnmarshalJSON(data []byte) (err error) {
 
 	varEventDeliveryStatusesInner := _EventDeliveryStatusesInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varEventDeliveryStatusesInner)
+	err = json.Unmarshal(data, &varEventDeliveryStatusesInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = EventDeliveryStatusesInner(varEventDeliveryStatusesInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "integration_id")
+		delete(additionalProperties, "success")
+		delete(additionalProperties, "status_code")
+		delete(additionalProperties, "error")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

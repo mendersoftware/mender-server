@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &GetStatisticsInternal200Response{}
 // GetStatisticsInternal200Response struct for GetStatisticsInternal200Response
 type GetStatisticsInternal200Response struct {
 	DevicesByStatus DeviceStatusStatistics `json:"devices_by_status"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _GetStatisticsInternal200Response GetStatisticsInternal200Response
@@ -80,6 +80,11 @@ func (o GetStatisticsInternal200Response) MarshalJSON() ([]byte, error) {
 func (o GetStatisticsInternal200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["devices_by_status"] = o.DevicesByStatus
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *GetStatisticsInternal200Response) UnmarshalJSON(data []byte) (err error
 
 	varGetStatisticsInternal200Response := _GetStatisticsInternal200Response{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetStatisticsInternal200Response)
+	err = json.Unmarshal(data, &varGetStatisticsInternal200Response)
 
 	if err != nil {
 		return err
 	}
 
 	*o = GetStatisticsInternal200Response(varGetStatisticsInternal200Response)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "devices_by_status")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

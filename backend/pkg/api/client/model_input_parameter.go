@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &InputParameter{}
 type InputParameter struct {
 	Name string `json:"name"`
 	Value string `json:"value"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _InputParameter InputParameter
@@ -107,6 +107,11 @@ func (o InputParameter) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["value"] = o.Value
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *InputParameter) UnmarshalJSON(data []byte) (err error) {
 
 	varInputParameter := _InputParameter{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varInputParameter)
+	err = json.Unmarshal(data, &varInputParameter)
 
 	if err != nil {
 		return err
 	}
 
 	*o = InputParameter(varInputParameter)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "value")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

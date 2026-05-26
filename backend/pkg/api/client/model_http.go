@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type HTTP struct {
 	// The credential type
 	Type string `json:"type"`
 	Http HTTPHttp `json:"http"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _HTTP HTTP
@@ -108,6 +108,11 @@ func (o HTTP) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["type"] = o.Type
 	toSerialize["http"] = o.Http
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *HTTP) UnmarshalJSON(data []byte) (err error) {
 
 	varHTTP := _HTTP{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varHTTP)
+	err = json.Unmarshal(data, &varHTTP)
 
 	if err != nil {
 		return err
 	}
 
 	*o = HTTP(varHTTP)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "http")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -26,7 +26,10 @@ type UserUpdate struct {
 	Password *string `json:"password,omitempty"`
 	// Current password.
 	CurrentPassword *string `json:"current_password,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _UserUpdate UserUpdate
 
 // NewUserUpdate instantiates a new UserUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -160,7 +163,35 @@ func (o UserUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.CurrentPassword) {
 		toSerialize["current_password"] = o.CurrentPassword
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *UserUpdate) UnmarshalJSON(data []byte) (err error) {
+	varUserUpdate := _UserUpdate{}
+
+	err = json.Unmarshal(data, &varUserUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = UserUpdate(varUserUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "current_password")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUserUpdate struct {

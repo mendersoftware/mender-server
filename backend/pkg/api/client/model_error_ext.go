@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type ErrorExt struct {
 	// Request ID (same as in X-MEN-RequestID header).
 	RequestId *string `json:"request_id,omitempty"`
 	Metadata map[string]interface{} `json:"metadata,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ErrorExt ErrorExt
@@ -154,6 +154,11 @@ func (o ErrorExt) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Metadata) {
 		toSerialize["metadata"] = o.Metadata
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -181,15 +186,22 @@ func (o *ErrorExt) UnmarshalJSON(data []byte) (err error) {
 
 	varErrorExt := _ErrorExt{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varErrorExt)
+	err = json.Unmarshal(data, &varErrorExt)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ErrorExt(varErrorExt)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "error")
+		delete(additionalProperties, "request_id")
+		delete(additionalProperties, "metadata")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

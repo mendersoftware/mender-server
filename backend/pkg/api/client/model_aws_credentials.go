@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type AWSCredentials struct {
 	// The credential type
 	Type string `json:"type"`
 	Aws AWSCredentialsAws `json:"aws"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AWSCredentials AWSCredentials
@@ -108,6 +108,11 @@ func (o AWSCredentials) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["type"] = o.Type
 	toSerialize["aws"] = o.Aws
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *AWSCredentials) UnmarshalJSON(data []byte) (err error) {
 
 	varAWSCredentials := _AWSCredentials{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAWSCredentials)
+	err = json.Unmarshal(data, &varAWSCredentials)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AWSCredentials(varAWSCredentials)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "aws")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

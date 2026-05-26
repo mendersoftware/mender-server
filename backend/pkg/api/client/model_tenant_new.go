@@ -22,7 +22,10 @@ var _ MappedNullable = &TenantNew{}
 type TenantNew struct {
 	// ID of given tenant.
 	TenantId *string `json:"tenant_id,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _TenantNew TenantNew
 
 // NewTenantNew instantiates a new TenantNew object
 // This constructor will assign default values to properties that have it defined,
@@ -86,7 +89,33 @@ func (o TenantNew) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.TenantId) {
 		toSerialize["tenant_id"] = o.TenantId
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *TenantNew) UnmarshalJSON(data []byte) (err error) {
+	varTenantNew := _TenantNew{}
+
+	err = json.Unmarshal(data, &varTenantNew)
+
+	if err != nil {
+		return err
+	}
+
+	*o = TenantNew(varTenantNew)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "tenant_id")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableTenantNew struct {

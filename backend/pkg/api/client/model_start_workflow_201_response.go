@@ -22,7 +22,10 @@ var _ MappedNullable = &StartWorkflow201Response{}
 type StartWorkflow201Response struct {
 	Id *string `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _StartWorkflow201Response StartWorkflow201Response
 
 // NewStartWorkflow201Response instantiates a new StartWorkflow201Response object
 // This constructor will assign default values to properties that have it defined,
@@ -121,7 +124,34 @@ func (o StartWorkflow201Response) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *StartWorkflow201Response) UnmarshalJSON(data []byte) (err error) {
+	varStartWorkflow201Response := _StartWorkflow201Response{}
+
+	err = json.Unmarshal(data, &varStartWorkflow201Response)
+
+	if err != nil {
+		return err
+	}
+
+	*o = StartWorkflow201Response(varStartWorkflow201Response)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableStartWorkflow201Response struct {

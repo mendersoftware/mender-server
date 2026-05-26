@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -30,6 +29,7 @@ type ExternalDevice struct {
 	Provider string `json:"provider"`
 	// Optional custom ID data
 	IdData *string `json:"id_data,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ExternalDevice ExternalDevice
@@ -174,6 +174,11 @@ func (o ExternalDevice) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.IdData) {
 		toSerialize["id_data"] = o.IdData
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -203,15 +208,23 @@ func (o *ExternalDevice) UnmarshalJSON(data []byte) (err error) {
 
 	varExternalDevice := _ExternalDevice{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varExternalDevice)
+	err = json.Unmarshal(data, &varExternalDevice)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ExternalDevice(varExternalDevice)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "provider")
+		delete(additionalProperties, "id_data")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

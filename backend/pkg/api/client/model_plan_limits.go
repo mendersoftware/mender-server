@@ -23,7 +23,10 @@ type PlanLimits struct {
 	Devices *int32 `json:"devices,omitempty"`
 	Users *int32 `json:"users,omitempty"`
 	AuditLogsDays *int32 `json:"audit_logs_days,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _PlanLimits PlanLimits
 
 // NewPlanLimits instantiates a new PlanLimits object
 // This constructor will assign default values to properties that have it defined,
@@ -157,7 +160,35 @@ func (o PlanLimits) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.AuditLogsDays) {
 		toSerialize["audit_logs_days"] = o.AuditLogsDays
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *PlanLimits) UnmarshalJSON(data []byte) (err error) {
+	varPlanLimits := _PlanLimits{}
+
+	err = json.Unmarshal(data, &varPlanLimits)
+
+	if err != nil {
+		return err
+	}
+
+	*o = PlanLimits(varPlanLimits)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "devices")
+		delete(additionalProperties, "users")
+		delete(additionalProperties, "audit_logs_days")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullablePlanLimits struct {

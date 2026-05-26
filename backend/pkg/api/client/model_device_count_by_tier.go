@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type DeviceCountByTier struct {
 	Standard int32 `json:"standard"`
 	Micro int32 `json:"micro"`
 	System int32 `json:"system"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeviceCountByTier DeviceCountByTier
@@ -134,6 +134,11 @@ func (o DeviceCountByTier) ToMap() (map[string]interface{}, error) {
 	toSerialize["standard"] = o.Standard
 	toSerialize["micro"] = o.Micro
 	toSerialize["system"] = o.System
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -163,15 +168,22 @@ func (o *DeviceCountByTier) UnmarshalJSON(data []byte) (err error) {
 
 	varDeviceCountByTier := _DeviceCountByTier{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeviceCountByTier)
+	err = json.Unmarshal(data, &varDeviceCountByTier)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeviceCountByTier(varDeviceCountByTier)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "standard")
+		delete(additionalProperties, "micro")
+		delete(additionalProperties, "system")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

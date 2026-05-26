@@ -34,7 +34,10 @@ type SearchParams struct {
 	Sort []SortCriteria `json:"sort,omitempty"`
 	// List of attributes to select and return
 	Attributes []SelectAttribute `json:"attributes,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _SearchParams SearchParams
 
 // NewSearchParams instantiates a new SearchParams object
 // This constructor will assign default values to properties that have it defined,
@@ -308,7 +311,39 @@ func (o SearchParams) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Attributes) {
 		toSerialize["attributes"] = o.Attributes
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *SearchParams) UnmarshalJSON(data []byte) (err error) {
+	varSearchParams := _SearchParams{}
+
+	err = json.Unmarshal(data, &varSearchParams)
+
+	if err != nil {
+		return err
+	}
+
+	*o = SearchParams(varSearchParams)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "page")
+		delete(additionalProperties, "per_page")
+		delete(additionalProperties, "device_ids")
+		delete(additionalProperties, "text")
+		delete(additionalProperties, "filters")
+		delete(additionalProperties, "sort")
+		delete(additionalProperties, "attributes")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableSearchParams struct {

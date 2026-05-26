@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &Limit{}
 // Limit Limit definition
 type Limit struct {
 	Limit int32 `json:"limit"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Limit Limit
@@ -80,6 +80,11 @@ func (o Limit) MarshalJSON() ([]byte, error) {
 func (o Limit) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["limit"] = o.Limit
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *Limit) UnmarshalJSON(data []byte) (err error) {
 
 	varLimit := _Limit{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varLimit)
+	err = json.Unmarshal(data, &varLimit)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Limit(varLimit)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "limit")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

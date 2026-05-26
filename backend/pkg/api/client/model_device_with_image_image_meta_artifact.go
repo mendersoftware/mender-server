@@ -33,7 +33,10 @@ type DeviceWithImageImageMetaArtifact struct {
 	ArtifactDepends *map[string][]string `json:"artifact_depends,omitempty"`
 	// List of Clear Artifact provides.
 	ClearsArtifactProvides []string `json:"clears_artifact_provides,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeviceWithImageImageMetaArtifact DeviceWithImageImageMetaArtifact
 
 // NewDeviceWithImageImageMetaArtifact instantiates a new DeviceWithImageImageMetaArtifact object
 // This constructor will assign default values to properties that have it defined,
@@ -342,7 +345,40 @@ func (o DeviceWithImageImageMetaArtifact) ToMap() (map[string]interface{}, error
 	if !IsNil(o.ClearsArtifactProvides) {
 		toSerialize["clears_artifact_provides"] = o.ClearsArtifactProvides
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeviceWithImageImageMetaArtifact) UnmarshalJSON(data []byte) (err error) {
+	varDeviceWithImageImageMetaArtifact := _DeviceWithImageImageMetaArtifact{}
+
+	err = json.Unmarshal(data, &varDeviceWithImageImageMetaArtifact)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeviceWithImageImageMetaArtifact(varDeviceWithImageImageMetaArtifact)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "device_types_compatible")
+		delete(additionalProperties, "info")
+		delete(additionalProperties, "signed")
+		delete(additionalProperties, "updates")
+		delete(additionalProperties, "artifact_provides")
+		delete(additionalProperties, "artifact_depends")
+		delete(additionalProperties, "clears_artifact_provides")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeviceWithImageImageMetaArtifact struct {

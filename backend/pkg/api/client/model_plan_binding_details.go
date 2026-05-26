@@ -22,7 +22,10 @@ var _ MappedNullable = &PlanBindingDetails{}
 type PlanBindingDetails struct {
 	Plan *Plan `json:"plan,omitempty"`
 	Limits *PlanLimits `json:"limits,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _PlanBindingDetails PlanBindingDetails
 
 // NewPlanBindingDetails instantiates a new PlanBindingDetails object
 // This constructor will assign default values to properties that have it defined,
@@ -121,7 +124,34 @@ func (o PlanBindingDetails) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Limits) {
 		toSerialize["limits"] = o.Limits
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *PlanBindingDetails) UnmarshalJSON(data []byte) (err error) {
+	varPlanBindingDetails := _PlanBindingDetails{}
+
+	err = json.Unmarshal(data, &varPlanBindingDetails)
+
+	if err != nil {
+		return err
+	}
+
+	*o = PlanBindingDetails(varPlanBindingDetails)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "plan")
+		delete(additionalProperties, "limits")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullablePlanBindingDetails struct {

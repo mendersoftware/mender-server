@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type Integration struct {
 	Credentials Credentials `json:"credentials"`
 	// A short human readable description (max 1024 characters).
 	Description *string `json:"description,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Integration Integration
@@ -181,6 +181,11 @@ func (o Integration) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Description) {
 		toSerialize["description"] = o.Description
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -209,15 +214,23 @@ func (o *Integration) UnmarshalJSON(data []byte) (err error) {
 
 	varIntegration := _Integration{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varIntegration)
+	err = json.Unmarshal(data, &varIntegration)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Integration(varIntegration)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "provider")
+		delete(additionalProperties, "credentials")
+		delete(additionalProperties, "description")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

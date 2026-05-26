@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type FilterV2 struct {
 	// Name of the saved filter. 
 	Name string `json:"name"`
 	Terms []AttributeFilterPredicate `json:"terms,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _FilterV2 FilterV2
@@ -145,6 +145,11 @@ func (o FilterV2) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Terms) {
 		toSerialize["terms"] = o.Terms
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -173,15 +178,22 @@ func (o *FilterV2) UnmarshalJSON(data []byte) (err error) {
 
 	varFilterV2 := _FilterV2{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varFilterV2)
+	err = json.Unmarshal(data, &varFilterV2)
 
 	if err != nil {
 		return err
 	}
 
 	*o = FilterV2(varFilterV2)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "terms")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

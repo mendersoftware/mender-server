@@ -31,7 +31,10 @@ type ReleaseV2 struct {
 	Tags []string `json:"tags,omitempty"`
 	// Additional information describing a Release limited to 1024 characters. Please use the v2 API to set this field. 
 	Notes *string `json:"notes,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ReleaseV2 ReleaseV2
 
 // NewReleaseV2 instantiates a new ReleaseV2 object
 // This constructor will assign default values to properties that have it defined,
@@ -235,7 +238,37 @@ func (o ReleaseV2) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Notes) {
 		toSerialize["notes"] = o.Notes
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ReleaseV2) UnmarshalJSON(data []byte) (err error) {
+	varReleaseV2 := _ReleaseV2{}
+
+	err = json.Unmarshal(data, &varReleaseV2)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ReleaseV2(varReleaseV2)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "modified")
+		delete(additionalProperties, "artifacts")
+		delete(additionalProperties, "tags")
+		delete(additionalProperties, "notes")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableReleaseV2 struct {

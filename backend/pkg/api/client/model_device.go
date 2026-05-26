@@ -34,7 +34,10 @@ type Device struct {
 	AuthSets []AuthSet `json:"auth_sets,omitempty"`
 	// Devices that are part of ongoing decomissioning process will return True
 	Decommissioning *bool `json:"decommissioning,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Device Device
 
 // NewDevice instantiates a new Device object
 // This constructor will assign default values to properties that have it defined,
@@ -343,7 +346,40 @@ func (o Device) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Decommissioning) {
 		toSerialize["decommissioning"] = o.Decommissioning
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *Device) UnmarshalJSON(data []byte) (err error) {
+	varDevice := _Device{}
+
+	err = json.Unmarshal(data, &varDevice)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Device(varDevice)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "identity_data")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "created_ts")
+		delete(additionalProperties, "updated_ts")
+		delete(additionalProperties, "check_in_time")
+		delete(additionalProperties, "auth_sets")
+		delete(additionalProperties, "decommissioning")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDevice struct {

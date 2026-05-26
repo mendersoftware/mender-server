@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type DeviceAttribute struct {
 	// Attribute description.
 	Description *string `json:"description,omitempty"`
 	Value AttributeValue `json:"value"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeviceAttribute DeviceAttribute
@@ -145,6 +145,11 @@ func (o DeviceAttribute) ToMap() (map[string]interface{}, error) {
 		toSerialize["description"] = o.Description
 	}
 	toSerialize["value"] = o.Value
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -173,15 +178,22 @@ func (o *DeviceAttribute) UnmarshalJSON(data []byte) (err error) {
 
 	varDeviceAttribute := _DeviceAttribute{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeviceAttribute)
+	err = json.Unmarshal(data, &varDeviceAttribute)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeviceAttribute(varDeviceAttribute)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "value")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

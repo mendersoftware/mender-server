@@ -24,7 +24,10 @@ type DeviceAuthManagementSearchDevicesRequest struct {
 	Status []string `json:"status,omitempty"`
 	// Device ID filter. Can be a string for querying for a single device.
 	Id []string `json:"id,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeviceAuthManagementSearchDevicesRequest DeviceAuthManagementSearchDevicesRequest
 
 // NewDeviceAuthManagementSearchDevicesRequest instantiates a new DeviceAuthManagementSearchDevicesRequest object
 // This constructor will assign default values to properties that have it defined,
@@ -123,7 +126,34 @@ func (o DeviceAuthManagementSearchDevicesRequest) ToMap() (map[string]interface{
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeviceAuthManagementSearchDevicesRequest) UnmarshalJSON(data []byte) (err error) {
+	varDeviceAuthManagementSearchDevicesRequest := _DeviceAuthManagementSearchDevicesRequest{}
+
+	err = json.Unmarshal(data, &varDeviceAuthManagementSearchDevicesRequest)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeviceAuthManagementSearchDevicesRequest(varDeviceAuthManagementSearchDevicesRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "id")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeviceAuthManagementSearchDevicesRequest struct {

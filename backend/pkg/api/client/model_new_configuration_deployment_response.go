@@ -22,7 +22,10 @@ var _ MappedNullable = &NewConfigurationDeploymentResponse{}
 type NewConfigurationDeploymentResponse struct {
 	// Deployment ID
 	DeploymentId *string `json:"deployment_id,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _NewConfigurationDeploymentResponse NewConfigurationDeploymentResponse
 
 // NewNewConfigurationDeploymentResponse instantiates a new NewConfigurationDeploymentResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -86,7 +89,33 @@ func (o NewConfigurationDeploymentResponse) ToMap() (map[string]interface{}, err
 	if !IsNil(o.DeploymentId) {
 		toSerialize["deployment_id"] = o.DeploymentId
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *NewConfigurationDeploymentResponse) UnmarshalJSON(data []byte) (err error) {
+	varNewConfigurationDeploymentResponse := _NewConfigurationDeploymentResponse{}
+
+	err = json.Unmarshal(data, &varNewConfigurationDeploymentResponse)
+
+	if err != nil {
+		return err
+	}
+
+	*o = NewConfigurationDeploymentResponse(varNewConfigurationDeploymentResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "deployment_id")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableNewConfigurationDeploymentResponse struct {

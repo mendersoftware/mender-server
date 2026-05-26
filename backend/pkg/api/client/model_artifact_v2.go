@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -42,6 +41,7 @@ type ArtifactV2 struct {
 	Size *int32 `json:"size,omitempty"`
 	// Represents creation / last edition of any of the artifact properties. 
 	Modified time.Time `json:"modified"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ArtifactV2 ArtifactV2
@@ -448,6 +448,11 @@ func (o ArtifactV2) ToMap() (map[string]interface{}, error) {
 		toSerialize["size"] = o.Size
 	}
 	toSerialize["modified"] = o.Modified
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -479,15 +484,31 @@ func (o *ArtifactV2) UnmarshalJSON(data []byte) (err error) {
 
 	varArtifactV2 := _ArtifactV2{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varArtifactV2)
+	err = json.Unmarshal(data, &varArtifactV2)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ArtifactV2(varArtifactV2)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "device_types_compatible")
+		delete(additionalProperties, "info")
+		delete(additionalProperties, "signed")
+		delete(additionalProperties, "updates")
+		delete(additionalProperties, "artifact_provides")
+		delete(additionalProperties, "artifact_depends")
+		delete(additionalProperties, "clears_artifact_provides")
+		delete(additionalProperties, "size")
+		delete(additionalProperties, "modified")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

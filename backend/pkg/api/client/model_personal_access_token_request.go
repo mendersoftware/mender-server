@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type PersonalAccessTokenRequest struct {
 	Name string `json:"name"`
 	// Expiration time in seconds (maximum one year - 31536000s). If you omit it or set it to zero, the Personal Access Token will never expire. 
 	ExpiresIn *int32 `json:"expires_in,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PersonalAccessTokenRequest PersonalAccessTokenRequest
@@ -118,6 +118,11 @@ func (o PersonalAccessTokenRequest) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ExpiresIn) {
 		toSerialize["expires_in"] = o.ExpiresIn
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -145,15 +150,21 @@ func (o *PersonalAccessTokenRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varPersonalAccessTokenRequest := _PersonalAccessTokenRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPersonalAccessTokenRequest)
+	err = json.Unmarshal(data, &varPersonalAccessTokenRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PersonalAccessTokenRequest(varPersonalAccessTokenRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "expires_in")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

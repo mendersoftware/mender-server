@@ -23,7 +23,10 @@ type CompleteDirectUpload404Response struct {
 	Error *string `json:"error,omitempty"`
 	// Request identifier (Header: X-Men-Requestid)
 	RequestId *string `json:"request_id,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _CompleteDirectUpload404Response CompleteDirectUpload404Response
 
 // NewCompleteDirectUpload404Response instantiates a new CompleteDirectUpload404Response object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o CompleteDirectUpload404Response) ToMap() (map[string]interface{}, error)
 	if !IsNil(o.RequestId) {
 		toSerialize["request_id"] = o.RequestId
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *CompleteDirectUpload404Response) UnmarshalJSON(data []byte) (err error) {
+	varCompleteDirectUpload404Response := _CompleteDirectUpload404Response{}
+
+	err = json.Unmarshal(data, &varCompleteDirectUpload404Response)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CompleteDirectUpload404Response(varCompleteDirectUpload404Response)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "error")
+		delete(additionalProperties, "request_id")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCompleteDirectUpload404Response struct {

@@ -28,7 +28,10 @@ type Features struct {
 	Configuration *bool `json:"configuration,omitempty"`
 	Monitoring *bool `json:"monitoring,omitempty"`
 	Reporting *bool `json:"reporting,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Features Features
 
 // NewFeatures instantiates a new Features object
 // This constructor will assign default values to properties that have it defined,
@@ -337,7 +340,40 @@ func (o Features) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Reporting) {
 		toSerialize["reporting"] = o.Reporting
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *Features) UnmarshalJSON(data []byte) (err error) {
+	varFeatures := _Features{}
+
+	err = json.Unmarshal(data, &varFeatures)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Features(varFeatures)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "rbac")
+		delete(additionalProperties, "audit_logs")
+		delete(additionalProperties, "dynamic_groups")
+		delete(additionalProperties, "terminal")
+		delete(additionalProperties, "file_transfer")
+		delete(additionalProperties, "configuration")
+		delete(additionalProperties, "monitoring")
+		delete(additionalProperties, "reporting")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableFeatures struct {
