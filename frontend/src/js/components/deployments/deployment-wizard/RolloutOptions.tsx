@@ -14,12 +14,14 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { Checkbox, Collapse, FormControl, FormControlLabel, FormGroup } from '@mui/material';
+import { HelpOutlineOutlined as HelpIcon } from '@mui/icons-material';
+import { Checkbox, Collapse, FormControlLabel, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import Link from '@northern.tech/common-ui/Link';
 import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 import { BENEFITS } from '@northern.tech/store/constants';
@@ -106,36 +108,30 @@ export const RolloutOptions = ({ isEnterprise }) => {
 
 const maxDeploymentRetries = 100;
 
-export const Retries = ({ canRetry, commonClasses, hasNewRetryDefault = false, onSaveRetriesSetting }) => {
+export const Retries = ({ canManageUsers, canRetry, commonClasses, defaultRetries }) => {
   const { classes } = useStyles();
-
-  const onSaveRetriesSettingClick = (_, checked) => onSaveRetriesSetting(checked);
 
   return (
     <>
-      <div className="flexbox align-items-center margin-top-small margin-bottom-small">
-        <b className={canRetry ? '' : commonClasses.disabled}>Select the number of times each device will attempt to apply the update</b>
+      <div className="flexbox align-items-center">
+        <Typography className={canRetry ? '' : commonClasses.disabled} variant="subtitle1">
+          Set the number of times each device will attempt this update
+        </Typography>
         <InfoHintContainer>
           <EnterpriseNotification id={BENEFITS.retryDeployments.id} />
-          <DocsTooltip id={DOCSTIPS.phasedDeployments.id} />
         </InfoHintContainer>
       </div>
-      <FormControl disabled={!canRetry}>
-        <FormGroup row>
-          <NumberInput
-            id={deploymentFormSections.retries}
-            className={`margin-right ${classes.retryInput}`}
-            disabled={!canRetry}
-            min={1}
-            max={maxDeploymentRetries}
-          />
-          <FormControlLabel
-            className={classes.defaultBox}
-            control={<Checkbox checked={hasNewRetryDefault} onChange={onSaveRetriesSettingClick} />}
-            label="Save as default"
-          />
-        </FormGroup>
-      </FormControl>
+      <div className="flexbox align-items-center margin-top-x-small margin-bottom-small">
+        <NumberInput id={deploymentFormSections.retries} className={classes.retryInput} disabled={!canRetry} min={1} max={maxDeploymentRetries} showSteps />
+        <Tooltip arrow placement="top" title={`Default is ${defaultRetries}. This can be changed in the global settings`}>
+          <HelpIcon className="margin-left-x-small margin-right-x-small" color="action" />
+        </Tooltip>
+        {canManageUsers && (
+          <Link to="/settings/global-settings" target="_blank">
+            Change global settings
+          </Link>
+        )}
+      </div>
     </>
   );
 };

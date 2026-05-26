@@ -36,7 +36,8 @@ import {
   getOnboardingState,
   getReleaseListState,
   getReleasesById,
-  getTenantCapabilities
+  getTenantCapabilities,
+  getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { advanceOnboarding, createDeployment, getDeploymentsConfig, getRelease, getReleases } from '@northern.tech/store/thunks';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';
@@ -98,6 +99,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
   const devicesById = useSelector(getDevicesById);
   const { accepted: acceptedDeviceCount, pending: hasPending } = useSelector(getDeviceCountsByStatus);
   const hasDevices = !!acceptedDeviceCount;
+  const { canManageUsers } = useSelector(getUserCapabilities);
   const idAttribute = useSelector(getIdAttribute);
   const isEnterprise = useSelector(getIsEnterprise);
   const { needsDeploymentConfirmation: needsCheck, previousPhases = [], retries: previousRetries = 0 } = useSelector(getGlobalSettings);
@@ -108,7 +110,6 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
   const groupNames = useSelector(getGroupNames);
   const dispatch = useDispatch();
   const isCreating = useRef(false);
-  const [hasNewRetryDefault, setHasNewRetryDefault] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
@@ -183,8 +184,6 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     navigate(location); // lgtm [js/client-side-unvalidated-url-redirection]
   };
 
-  const onSaveRetriesSetting = hasNewRetryDefault => setHasNewRetryDefault(hasNewRetryDefault);
-
   const closeWizard = () => {
     cleanUpDeploymentsStatus();
     onDismiss();
@@ -221,7 +220,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     if (!isOnboardingComplete) {
       dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_RELEASE_TO_DEVICES));
     }
-    return dispatch(createDeployment({ newDeployment, hasNewRetryDefault }))
+    return dispatch(createDeployment({ newDeployment }))
       .then(() => {
         // successfully retrieved new deployment
         cleanUpDeploymentsStatus();
@@ -272,10 +271,10 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
+              <Retries canManageUsers={canManageUsers} canRetry={canRetry} commonClasses={classes} defaultRetries={previousRetries} />
               <DeviceLimit />
               <RolloutPatternSelection isEnterprise={isEnterprise} previousPhases={previousPhases} />
               <RolloutOptions isEnterprise={isEnterprise} />
-              <Retries canRetry={canRetry} commonClasses={classes} hasNewRetryDefault={hasNewRetryDefault} onSaveRetriesSetting={onSaveRetriesSetting} />
               <ForceDeploy />
               {hasDeltaEnabled && (
                 <FormCheckbox id={deploymentFormSections.delta} control={control} label="Generate and deploy Delta Artifacts where available" />
