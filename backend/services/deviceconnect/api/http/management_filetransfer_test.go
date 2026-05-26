@@ -28,7 +28,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/vmihailenco/msgpack/v5"
@@ -42,7 +41,6 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/ws/shell"
 	app_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/app/mocks"
 	nats_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/nats/mocks"
-	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 )
 
 func string2pointer(v string) *string {
@@ -1151,38 +1149,6 @@ func TestManagementDownloadFile(t *testing.T) {
 			HTTPStatus: http.StatusBadGateway,
 		},
 		{
-			Name:     "ko, failed to submit audit log",
-			DeviceID: "1234567890",
-			Identity: &identity.Identity{
-				Subject: "00000000-0000-0000-0000-000000000000",
-				Tenant:  "000000000000000000000000",
-				IsUser:  true,
-			},
-			Path: "/absolute/path",
-
-			AppDownloadFile:    true,
-			AppDownloadFileErr: errors.New("generic error"),
-			DeviceFunc: func(t *testing.T, client *nats_mocks.Client) {
-				conn := stream_mocks.NewConn(t)
-				client.On("Connect", contextMatcher, mock.MatchedBy(func(srcAddr string) bool {
-					var (
-						tenantID string
-						ok       bool
-					)
-					tenantID, _, ok = strings.Cut(srcAddr, ":")
-					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
-						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
-					Return(conn, nil).
-					Once()
-				conn.On("Close", contextMatcher).
-					Return(nil).
-					Once()
-			},
-
-			HTTPStatus: http.StatusInternalServerError,
-		},
-		{
 			Name:     "ko, bad request, relative path",
 			DeviceID: "1234567890",
 			Identity: &identity.Identity{
@@ -1278,29 +1244,6 @@ func TestManagementDownloadFile(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			t.Parallel()
 			app := app_mocks.NewApp(t)
-
-			if tc.AppDownloadFile {
-				app.On("DownloadFile",
-					mock.MatchedBy(func(_ context.Context) bool {
-						return true
-					}),
-					mock.Anything,
-					mock.AnythingOfType("string"),
-				).
-					Run(func(args mock.Arguments) {
-						var sess *model.Session
-						sessFace := args.Get(1)
-						if assert.IsType(t, sess, sessFace) {
-							sess = sessFace.(*model.Session)
-							if assert.NotNil(t, sess) {
-								assert.Equal(t, tc.DeviceID, sess.DeviceID)
-								assert.Equal(t, tc.Identity.Subject, sess.UserID)
-								assert.Equal(t, tc.Identity.Tenant, sess.TenantID)
-							}
-						}
-					}).
-					Return(tc.AppDownloadFileErr)
-			}
 
 			natsClient := nats_mocks.NewClient(t)
 			if tc.DeviceFunc != nil {
@@ -2016,45 +1959,6 @@ func TestManagementUploadFile(t *testing.T) {
 			HTTPStatus: http.StatusRequestTimeout,
 		},
 		{
-			Name:     "ko, failed to submit audit log",
-			DeviceID: "1234567890",
-			Identity: &identity.Identity{
-				Subject: "00000000-0000-0000-0000-000000000000",
-				Tenant:  "000000000000000000000000",
-				IsUser:  true,
-			},
-			Body: map[string][]string{
-				fieldUploadPath: {"/absolute/path"},
-				fieldUploadUID:  {"0"},
-				fieldUploadGID:  {"0"},
-				fieldUploadMode: {"0644"},
-			},
-			File: []byte("1234567890"),
-
-			AppUploadFile:    true,
-			AppUploadFileErr: errors.New("generic error"),
-			DeviceFunc: func(t *testing.T, client *nats_mocks.Client) {
-				conn := stream_mocks.NewConn(t)
-				client.On("Connect", contextMatcher, mock.MatchedBy(func(srcAddr string) bool {
-					var (
-						tenantID string
-						ok       bool
-					)
-					tenantID, _, ok = strings.Cut(srcAddr, ":")
-					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
-						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
-					Return(conn, nil).
-					Once()
-
-				conn.On("Close", contextMatcher).
-					Return(nil).
-					Once()
-			},
-
-			HTTPStatus: http.StatusInternalServerError,
-		},
-		{
 			Name:     "ko, bad request, missing file",
 			DeviceID: "1234567890",
 			Identity: &identity.Identity{
@@ -2217,28 +2121,6 @@ func TestManagementUploadFile(t *testing.T) {
 			t.Parallel()
 			app := &app_mocks.App{}
 			defer app.AssertExpectations(t)
-
-			if tc.AppUploadFile {
-				app.On("UploadFile",
-					mock.MatchedBy(func(_ context.Context) bool {
-						return true
-					}),
-					mock.Anything,
-					mock.AnythingOfType("string")).
-					Run(func(args mock.Arguments) {
-						var sess *model.Session
-						sessFace := args.Get(1)
-						if assert.IsType(t, sess, sessFace) {
-							sess = sessFace.(*model.Session)
-							if assert.NotNil(t, sess) {
-								assert.Equal(t, tc.DeviceID, sess.DeviceID)
-								assert.Equal(t, tc.Identity.Subject, sess.UserID)
-								assert.Equal(t, tc.Identity.Tenant, sess.TenantID)
-							}
-						}
-					}).
-					Return(tc.AppUploadFileErr)
-			}
 
 			natsClient := &nats_mocks.Client{}
 			defer natsClient.AssertExpectations(t)

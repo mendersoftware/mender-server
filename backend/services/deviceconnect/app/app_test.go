@@ -16,25 +16,17 @@ package app
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
-	"net/http"
-	"net/http/httptest"
-	"path"
 	"testing"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"github.com/stretchr/testify/require"
 
-	"github.com/mendersoftware/mender-server/pkg/api/client"
-	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	store_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/store/mocks"
@@ -50,7 +42,7 @@ func TestHealthCheck(t *testing.T) {
 		}),
 	).Return(err)
 
-	app := New(store, nil)
+	app := New(store)
 
 	ctx := context.Background()
 	res := app.HealthCheck(ctx)
@@ -73,7 +65,7 @@ func TestProvisionDevice(t *testing.T) {
 		deviceID,
 	).Return(err)
 
-	app := New(store, nil)
+	app := New(store)
 
 	ctx := context.Background()
 	res := app.ProvisionDevice(ctx, tenantID, &model.Device{ID: deviceID})
@@ -96,7 +88,7 @@ func TestDeleteDevice(t *testing.T) {
 		deviceID,
 	).Return(err)
 
-	app := New(store, nil)
+	app := New(store)
 
 	ctx := context.Background()
 	res := app.DeleteDevice(ctx, tenantID, deviceID)
@@ -138,7 +130,7 @@ func TestGetDevice(t *testing.T) {
 		deviceID,
 	).Return(device, nil)
 
-	app := New(store, nil)
+	app := New(store)
 
 	ctx := context.Background()
 	_, res := app.GetDevice(ctx, tenantID, "error")
@@ -172,7 +164,6 @@ func TestPrepareUserSession(t *testing.T) {
 
 		StoreAllocSessErr error
 
-		HaveAuditLogs         bool
 		WorkflowsError        error
 		StoreDeleteSessionErr error
 
@@ -244,23 +235,18 @@ func TestPrepareUserSession(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			ds := new(store_mocks.DataStore)
 			defer ds.AssertExpectations(t)
-			client, _ := oas_mocks.NewMockRoundTripperClient(t)
-			wf := client.WorkflowsOtherAPI
 			uuid.SetRand(tc.Rand)
 			defer uuid.SetRand(nil)
 			app := New(
 				ds,
-				wf, Config{HaveAuditLogs: tc.HaveAuditLogs},
+				Config{},
 			)
 			if tc.BadParameters {
 				goto execTest
 			}
 			ds.On("AllocateSession", tc.CTX, tc.Session).
 				Return(tc.StoreAllocSessErr)
-			if tc.StoreAllocSessErr != nil {
-				goto execTest
-			}
-			if !tc.HaveAuditLogs {
+			if tc.StoreAllocSessErr != nil || tc.Erre == nil {
 				goto execTest
 			}
 			ds.On("DeleteSession",
@@ -270,151 +256,6 @@ func TestPrepareUserSession(t *testing.T) {
 
 		execTest:
 			err := app.PrepareUserSession(tc.CTX, tc.Session)
-			if tc.Erre != nil {
-				if assert.Error(t, err) {
-					assert.Regexp(t,
-						tc.Erre.Error(),
-						err.Error(),
-					)
-				}
-			} else {
-				assert.NoError(t, err)
-			}
-		})
-	}
-}
-
-func TestLogUserSession(t *testing.T) {
-	testCases := []struct {
-		Name string
-
-		CTX     context.Context
-		Session *model.Session
-
-		Rand          io.Reader
-		BadParameters bool
-
-		HaveAuditLogs         bool
-		WorkflowsError        error
-		StoreDeleteSessionErr error
-
-		Erre error
-	}{{
-		Name: "ok, terminal",
-
-		CTX: context.Background(),
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			Types:    []string{model.SessionTypeTerminal},
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-
-		HaveAuditLogs:  true,
-		WorkflowsError: nil,
-	}, {
-		Name: "ok, port forward",
-
-		CTX: context.Background(),
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			Types:    []string{model.SessionTypePortForward},
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-
-		HaveAuditLogs:  true,
-		WorkflowsError: nil,
-	}, {
-		Name: "error, SubmitAuditLog http error",
-
-		CTX:           context.Background(),
-		HaveAuditLogs: true,
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			Types:    []string{model.SessionTypeTerminal},
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-		WorkflowsError: errors.New("http error"),
-		Erre: errors.New(
-			"^failed to submit audit log:.*http error$",
-		),
-	}, {
-		Name: "error, SubmitAuditLog http error and cleanup error",
-
-		CTX:           context.Background(),
-		HaveAuditLogs: true,
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			Types:    []string{model.SessionTypeTerminal},
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-		WorkflowsError:        errors.New("http error"),
-		StoreDeleteSessionErr: errors.New("store: internal error"),
-		Erre: errors.New(
-			"^failed to submit audit log:.*http error:.*failed to clean up " +
-				"session state: store: internal error$",
-		),
-	}}
-
-	for i := range testCases {
-		tc := testCases[i]
-		t.Run(tc.Name, func(t *testing.T) {
-			ds := new(store_mocks.DataStore)
-			defer ds.AssertExpectations(t)
-			apiClient, rt := oas_mocks.NewMockRoundTripperClient(t)
-			uuid.SetRand(tc.Rand)
-			defer uuid.SetRand(nil)
-			app := New(
-				ds,
-				apiClient.WorkflowsOtherAPI, Config{HaveAuditLogs: tc.HaveAuditLogs},
-			)
-			var call *oas_mocks.MockRoundTripper_RoundTrip_Call
-			if tc.BadParameters {
-				goto execTest
-			}
-			call = rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
-				return path.Base(r.URL.Path) == workflowSubmitAuditlog
-			}))
-			call.Run(func(request *http.Request) {
-				var body struct {
-					AuditLog  AuditLog `json:"auditlog"`
-					TenantID  string   `json:"tenant_id"`
-					RequestID string   `json:"request_id"`
-				}
-				err := json.NewDecoder(request.Body).
-					Decode(&body)
-				require.NoError(t, err, "failed to decode workflows request")
-				assert.NoError(t, body.AuditLog.Validate(), "invalid audit log")
-				assert.Equal(t, Action("open_"+tc.Session.Types[0]), body.AuditLog.Action)
-				if tc.WorkflowsError != nil {
-					call.Return(nil, tc.WorkflowsError)
-				} else {
-					w := httptest.NewRecorder()
-					w.Header().Set("Content-Type", "application/json")
-					w.WriteHeader(http.StatusCreated)
-					json.NewEncoder(w).Encode(client.StartWorkflow201Response{
-						Id: types.Pointer("1234"),
-					})
-					call.Return(w.Result(), nil)
-				}
-			}).Once()
-			if tc.WorkflowsError == nil {
-				goto execTest
-			}
-			ds.On("DeleteSession",
-				tc.CTX,
-				mock.AnythingOfType("string")).
-				Return(tc.Session, tc.StoreDeleteSessionErr)
-
-		execTest:
-			err := app.LogUserSession(tc.CTX, tc.Session, tc.Session.Types[0])
 			if tc.Erre != nil {
 				if assert.Error(t, err) {
 					assert.Regexp(t,
@@ -439,8 +280,7 @@ func TestFreeUserSession(t *testing.T) {
 		StoreDeleteSession    *model.Session
 		StoreDeleteSessionErr error
 
-		HaveAuditLogs bool
-		WorkflowsErr  error
+		WorkflowsErr error
 
 		Erre error
 	}{{
@@ -469,7 +309,6 @@ func TestFreeUserSession(t *testing.T) {
 			TenantID: "000000000000000000000000",
 			StartTS:  time.Now().Add(-time.Hour),
 		},
-		HaveAuditLogs: true,
 	}, {
 		Name: "ok, with audit logs port forward",
 
@@ -483,33 +322,14 @@ func TestFreeUserSession(t *testing.T) {
 			TenantID: "000000000000000000000000",
 			StartTS:  time.Now().Add(-time.Hour),
 		},
-		HaveAuditLogs: true,
 	}, {
 		Name: "error, store.DeleteSession internal error",
 
 		SessionID: "00000000-0000-0000-0000-000000000000",
 
-		HaveAuditLogs:         true,
 		StoreDeleteSessionErr: errors.New("store: internal error"),
 
 		Erre: errors.New("store: internal error$"),
-	}, {
-		Name: "error, SubmitAuditLogs http error",
-
-		SessionID: "00000000-0000-0000-0000-000000000000",
-
-		StoreDeleteSession: &model.Session{
-			ID:       "00000000-0000-0000-0000-000000000000",
-			DeviceID: "00000000-0000-0000-0000-000000000001",
-			UserID:   "00000000-0000-0000-0000-000000000002",
-			Types:    []string{model.SessionTypeTerminal},
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now().Add(-time.Hour),
-		},
-		HaveAuditLogs: true,
-		WorkflowsErr:  errors.New("http error"),
-
-		Erre: errors.New("http error$"),
 	}}
 
 	for i := range testCases {
@@ -518,8 +338,7 @@ func TestFreeUserSession(t *testing.T) {
 			t.Parallel()
 			ds := new(store_mocks.DataStore)
 			defer ds.AssertExpectations(t)
-			apiClient, rt := oas_mocks.NewMockRoundTripperClient(t)
-			app := New(ds, apiClient.WorkflowsOtherAPI, Config{HaveAuditLogs: tc.HaveAuditLogs})
+			app := New(ds, Config{})
 			ctx := context.Background()
 
 			sessTypes := []string{}
@@ -527,43 +346,11 @@ func TestFreeUserSession(t *testing.T) {
 				sessTypes = tc.StoreDeleteSession.Types
 			}
 
-			var call *oas_mocks.MockRoundTripper_RoundTrip_Call
-
 			ds.On("DeleteSession", ctx, tc.SessionID).
 				Return(tc.StoreDeleteSession, tc.StoreDeleteSessionErr)
-			if tc.StoreDeleteSessionErr != nil || !tc.HaveAuditLogs {
+			if tc.StoreDeleteSessionErr != nil {
 				goto execTest
 			}
-			call = rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
-				return path.Base(r.URL.Path) == workflowSubmitAuditlog
-			}))
-
-			for _, typ := range sessTypes {
-				call.Run(func(request *http.Request) {
-					var body struct {
-						AuditLog  AuditLog `json:"auditlog"`
-						TenantID  string   `json:"tenant_id"`
-						RequestID string   `json:"request_id"`
-					}
-					err := json.NewDecoder(request.Body).
-						Decode(&body)
-					require.NoError(t, err, "failed to decode workflows request")
-					assert.NoError(t, body.AuditLog.Validate(), "invalid audit log")
-					assert.Equal(t, Action("close_"+typ), body.AuditLog.Action)
-					if tc.WorkflowsErr != nil {
-						call.Return(nil, tc.WorkflowsErr)
-					} else {
-						w := httptest.NewRecorder()
-						w.Header().Set("Content-Type", "application/json")
-						w.WriteHeader(http.StatusCreated)
-						json.NewEncoder(w).Encode(client.StartWorkflow201Response{
-							Id: types.Pointer("1234"),
-						})
-						call.Return(w.Result(), nil)
-					}
-				}).Once()
-			}
-
 		execTest:
 			err := app.FreeUserSession(ctx, tc.SessionID, sessTypes)
 			if tc.Erre != nil {
@@ -606,7 +393,7 @@ func TestGetSessionRecording(t *testing.T) {
 				sessionId,
 				writer,
 			).Return(tc.DbGetSessionRecordingError)
-			app := New(store, nil)
+			app := New(store)
 
 			ctx := context.Background()
 			err := app.GetSessionRecording(ctx, sessionId, writer)
@@ -641,7 +428,7 @@ func TestSaveSessionRecording(t *testing.T) {
 				sessionId,
 				bytes,
 			).Return(tc.DbGetSessionRecordingError)
-			app := New(store, nil)
+			app := New(store)
 
 			ctx := context.Background()
 			err := app.SaveSessionRecording(ctx, sessionId, bytes)
@@ -664,202 +451,10 @@ func TestGetRecorder(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			sessionId := "00000000-0000-0000-0000-000000000000"
 			store := &store_mocks.DataStore{}
-			app := New(store, nil)
+			app := New(store)
 
 			r := app.GetRecorder(sessionId)
 			assert.NotNil(t, r)
-		})
-	}
-}
-
-func TestDownloadFile(t *testing.T) {
-	t.Parallel()
-
-	testCases := []struct {
-		Name string
-
-		UserID   string
-		DeviceID string
-		Path     string
-
-		HaveAuditLogs bool
-		WorkflowsErr  error
-
-		Err error
-	}{
-		{
-			Name: "ok",
-
-			UserID:   "00000000-0000-0000-0000-000000000000",
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			Path:     "/path/to/file",
-		},
-		{
-			Name: "ok, with audit logs",
-
-			UserID:        "00000000-0000-0000-0000-000000000000",
-			DeviceID:      "00000000-0000-0000-0000-000000000000",
-			Path:          "/path/to/file",
-			HaveAuditLogs: true,
-		},
-		{
-			Name: "ko, with audit logs",
-
-			UserID:        "00000000-0000-0000-0000-000000000000",
-			DeviceID:      "00000000-0000-0000-0000-000000000000",
-			Path:          "/path/to/file",
-			HaveAuditLogs: true,
-			WorkflowsErr:  errors.New("generic error"),
-
-			Err: errors.New(`failed to submit audit log for file transfer: ` +
-				`failed to submit audit log: ` +
-				`Post "https://hosted.mender.io/api/v1/workflow/emit_auditlog": ` +
-				`generic error`),
-		},
-	}
-
-	for i := range testCases {
-		tc := testCases[i]
-		t.Run(tc.Name, func(t *testing.T) {
-			ds := new(store_mocks.DataStore)
-			defer ds.AssertExpectations(t)
-
-			apiClient, rt := oas_mocks.NewMockRoundTripperClient(t)
-			app := New(ds, apiClient.WorkflowsOtherAPI, Config{HaveAuditLogs: tc.HaveAuditLogs})
-			ctx := context.Background()
-
-			if tc.HaveAuditLogs {
-				call := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
-					return path.Base(r.URL.Path) == workflowSubmitAuditlog
-				}))
-				call.Run(func(request *http.Request) {
-					var body struct {
-						AuditLog  AuditLog `json:"auditlog"`
-						TenantID  string   `json:"tenant_id"`
-						RequestID string   `json:"request_id"`
-					}
-					err := json.NewDecoder(request.Body).
-						Decode(&body)
-					require.NoError(t, err, "failed to decode workflows request")
-					assert.NoError(t, body.AuditLog.Validate(), "invalid audit log")
-					assert.Equal(t, ActionDownloadFile, body.AuditLog.Action)
-					if tc.WorkflowsErr != nil {
-						call.Return(nil, tc.WorkflowsErr)
-					} else {
-						w := httptest.NewRecorder()
-						w.Header().Set("Content-Type", "application/json")
-						w.WriteHeader(http.StatusCreated)
-						json.NewEncoder(w).Encode(client.StartWorkflow201Response{
-							Id: types.Pointer("1234"),
-						})
-						call.Return(w.Result(), nil)
-					}
-				}).Once()
-			}
-			sess := model.NewSession("1234", tc.UserID, tc.DeviceID)
-
-			err := app.DownloadFile(ctx, &sess, tc.Path)
-			if tc.Err != nil {
-				assert.EqualError(t, err, tc.Err.Error())
-			} else {
-				assert.NoError(t, err)
-			}
-		})
-	}
-}
-
-func TestUploadFile(t *testing.T) {
-	t.Parallel()
-
-	testCases := []struct {
-		Name string
-
-		UserID   string
-		DeviceID string
-		Path     string
-
-		HaveAuditLogs bool
-		WorkflowsErr  error
-
-		Err error
-	}{
-		{
-			Name: "ok",
-
-			UserID:   "00000000-0000-0000-0000-000000000000",
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			Path:     "/path/to/file",
-		},
-		{
-			Name: "ok, with audit logs",
-
-			UserID:        "00000000-0000-0000-0000-000000000000",
-			DeviceID:      "00000000-0000-0000-0000-000000000000",
-			Path:          "/path/to/file",
-			HaveAuditLogs: true,
-		},
-		{
-			Name: "ko, with audit logs",
-
-			UserID:        "00000000-0000-0000-0000-000000000000",
-			DeviceID:      "00000000-0000-0000-0000-000000000000",
-			Path:          "/path/to/file",
-			HaveAuditLogs: true,
-			WorkflowsErr:  errors.New("generic error"),
-
-			Err: errors.New(`failed to submit audit log for file transfer: ` +
-				`failed to submit audit log: ` +
-				`Post "https://hosted.mender.io/api/v1/workflow/emit_auditlog": ` +
-				`generic error`),
-		},
-	}
-
-	for i := range testCases {
-		tc := testCases[i]
-		t.Run(tc.Name, func(t *testing.T) {
-			ds := new(store_mocks.DataStore)
-			defer ds.AssertExpectations(t)
-
-			apiClient, rt := oas_mocks.NewMockRoundTripperClient(t)
-			app := New(ds, apiClient.WorkflowsOtherAPI, Config{HaveAuditLogs: tc.HaveAuditLogs})
-			ctx := context.Background()
-
-			if tc.HaveAuditLogs {
-				call := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
-					return path.Base(r.URL.Path) == workflowSubmitAuditlog
-				}))
-				call.Run(func(request *http.Request) {
-					var body struct {
-						AuditLog  AuditLog `json:"auditlog"`
-						TenantID  string   `json:"tenant_id"`
-						RequestID string   `json:"request_id"`
-					}
-					err := json.NewDecoder(request.Body).
-						Decode(&body)
-					require.NoError(t, err, "failed to decode workflows request")
-					assert.NoError(t, body.AuditLog.Validate(), "invalid audit log")
-					assert.Equal(t, ActionUploadFile, body.AuditLog.Action)
-					if tc.WorkflowsErr != nil {
-						call.Return(nil, tc.WorkflowsErr)
-					} else {
-						w := httptest.NewRecorder()
-						w.Header().Set("Content-Type", "application/json")
-						w.WriteHeader(http.StatusCreated)
-						json.NewEncoder(w).Encode(client.StartWorkflow201Response{
-							Id: types.Pointer("1234"),
-						})
-						call.Return(w.Result(), nil)
-					}
-				}).Once()
-			}
-			sess := model.NewSession("1234", tc.UserID, tc.DeviceID)
-
-			err := app.UploadFile(ctx, &sess, tc.Path)
-			if tc.Err != nil {
-				assert.EqualError(t, err, tc.Err.Error())
-			} else {
-				assert.NoError(t, err)
-			}
 		})
 	}
 }
@@ -868,7 +463,7 @@ func TestShutdown(t *testing.T) {
 	t.Parallel()
 	gracePeriod := 1 * time.Second
 
-	test := New(nil, nil, Config{})
+	test := New(nil, Config{})
 	test.Shutdown(gracePeriod)
 	test.ShutdownDone()
 
@@ -882,7 +477,7 @@ func TestShutdownCancels(t *testing.T) {
 	t.Parallel()
 	gracePeriod := 1 * time.Second
 
-	app := New(nil, nil, Config{})
+	app := New(nil, Config{})
 
 	// register shutdown cancels
 	c1 := false
@@ -948,7 +543,7 @@ func TestDeleteTenant(t *testing.T) {
 				}),
 				tc.tenantId,
 			).Return(tc.dbErr)
-			app := New(ds, nil, Config{})
+			app := New(ds, Config{})
 			err := app.DeleteTenant(ctx, tc.tenantId)
 
 			if tc.dbErr != nil {

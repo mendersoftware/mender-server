@@ -509,11 +509,6 @@ func (h ManagementController) DownloadFile(c *gin.Context) {
 		_ = conn.Close(ctx)
 		cancel()
 	}()
-	if err := h.app.DownloadFile(ctx, &sess, *request.Path); err != nil {
-		rest.RenderInternalError(c, err)
-		return
-	}
-
 	h.downloadFileResponse(c, conn, idata.Subject, sess.ID, request)
 }
 
@@ -862,7 +857,6 @@ func (h ManagementController) parseUploadFileRequest(c *gin.Context) (*model.Upl
 }
 
 func (h ManagementController) UploadFile(c *gin.Context) {
-	l := log.FromContext(c.Request.Context())
 	ctx := c.Request.Context()
 	idata := identity.FromContext(ctx)
 	if idata == nil || !idata.IsUser {
@@ -903,14 +897,6 @@ func (h ManagementController) UploadFile(c *gin.Context) {
 		_ = conn.Close(ctx)
 		cancel()
 	}()
-
-	if err := h.app.UploadFile(ctx, &sess, *request.Path); err != nil {
-		l.Error(err)
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": errors.Wrap(err, "bad request").Error(),
-		})
-		return
-	}
 
 	h.uploadFileResponse(c, conn, request, *idata, sess.ID)
 }

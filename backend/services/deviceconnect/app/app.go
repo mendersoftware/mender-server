@@ -16,21 +16,15 @@ package app
 
 import (
 	"context"
-	"fmt"
 	"io"
-	"maps"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	validation "github.com/go-ozzo/ozzo-validation/v4"
-	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
-	"github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/pkg/requestid"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
@@ -54,14 +48,11 @@ type App interface {
 	SetDeviceConnected(ctx context.Context, tenantID, deviceID string) (int64, error)
 	SetDeviceDisconnected(ctx context.Context, tenantID, deviceID string, version int64) error
 	PrepareUserSession(ctx context.Context, sess *model.Session) error
-	LogUserSession(ctx context.Context, sess *model.Session, sessionType string) error
 	FreeUserSession(ctx context.Context, sessionID string, sessionTypes []string) error
 	GetSessionRecording(ctx context.Context, id string, w io.Writer) (err error)
 	SaveSessionRecording(ctx context.Context, id string, sessionBytes []byte) error
 	GetRecorder(sessionID string) Recorder
 	GetControlRecorder(sessionID string) Recorder
-	DownloadFile(ctx context.Context, sess *model.Session, path string) error
-	UploadFile(ctx context.Context, sess *model.Session, path string) error
 	DeleteTenant(ctx context.Context, tenantID string) error
 	Shutdown(timeout time.Duration)
 	ShutdownDone()
@@ -72,28 +63,19 @@ type App interface {
 // app is an app object
 type app struct {
 	store            store.DataStore
-	workflows        client.WorkflowsOtherAPI
 	shutdownCancels  map[uint32]context.CancelFunc
 	shutdownCancelsM *sync.Mutex
 	shutdownDone     chan struct{}
 	Config
 }
 
-type Config struct {
-	HaveAuditLogs bool
-}
+type Config struct{}
 
 // NewApp initialize a new deviceconnect App
-func New(ds store.DataStore, wf client.WorkflowsOtherAPI, config ...Config) App {
+func New(ds store.DataStore, config ...Config) App {
 	conf := Config{}
-	for _, cfgIn := range config {
-		if cfgIn.HaveAuditLogs {
-			conf.HaveAuditLogs = true
-		}
-	}
 	return &app{
 		store:            ds,
-		workflows:        wf,
 		Config:           conf,
 		shutdownCancels:  make(map[uint32]context.CancelFunc),
 		shutdownCancelsM: &sync.Mutex{},
@@ -178,196 +160,15 @@ func (a *app) PrepareUserSession(
 	return nil
 }
 
-type Action string
-
-const (
-	ActionTerminalOpen     Action = "open_terminal"
-	ActionTerminalClose    Action = "close_terminal"
-	ActionPortForwardOpen  Action = "open_portforward"
-	ActionPortForwardClose Action = "close_portforward"
-	ActionDownloadFile     Action = "download_file"
-	ActionUploadFile       Action = "upload_file"
-)
-
-type ActorType string
-
-const (
-	ActorUser ActorType = "user"
-)
-
-type Actor struct {
-	ID             string    `json:"id"`
-	Type           ActorType `json:"type"`
-	Email          string    `json:"email,omitempty"`
-	DeviceIdentity string    `json:"identity_data,omitempty"`
-}
-
-func (a Actor) Validate() error {
-	err := validation.ValidateStruct(&a,
-		validation.Field(&a.ID, validation.Required),
-		validation.Field(&a.Type,
-			validation.In(ActorUser),
-			validation.Required,
-		),
-	)
-	if err != nil {
-		return err
-	}
-
-	switch a.Type {
-	case ActorUser:
-		err = validation.ValidateStruct(&a,
-			validation.Field(&a.Email, is.EmailFormat),
-			validation.Field(&a.DeviceIdentity, validation.Empty),
-		)
-	}
-	return err
-}
-
-type ObjectType string
-
-const ObjectDevice ObjectType = "device"
-
-type Object struct {
-	ID   string     `json:"id"`
-	Type ObjectType `json:"type"`
-}
-
-func (o Object) Validate() error {
-	err := validation.ValidateStruct(&o,
-		validation.Field(&o.ID, validation.Required),
-		validation.Field(&o.Type,
-			validation.Required,
-			validation.In(ObjectDevice),
-		),
-	)
-	return err
-}
-
-type AuditLog struct {
-	Action   Action              `json:"action"`
-	Actor    Actor               `json:"actor"`
-	Object   Object              `json:"object"`
-	Change   string              `json:"change,omitempty"`
-	MetaData map[string][]string `json:"meta,omitempty"`
-	EventTS  time.Time           `json:"time,omitempty"`
-}
-
-func (l AuditLog) Validate() error {
-	return validation.ValidateStruct(&l,
-		validation.Field(&l.Actor, validation.Required),
-		validation.Field(&l.Action, validation.In(
-			ActionTerminalOpen, ActionTerminalClose,
-			ActionPortForwardOpen, ActionPortForwardClose,
-			ActionDownloadFile, ActionUploadFile,
-		), validation.Required),
-		validation.Field(&l.Object, validation.Required),
-		validation.Field(&l.EventTS, validation.Required),
-	)
-}
-
-const workflowSubmitAuditlog = "emit_auditlog"
-
-func (a *app) submitAuditLog(
-	ctx context.Context,
-	action Action,
-	change string,
-	sess *model.Session,
-	extraMeta map[string][]string,
-) error {
-	if !a.HaveAuditLogs {
-		return nil
-	}
-	log := AuditLog{
-		Action: action,
-		Actor: Actor{
-			ID:   sess.UserID,
-			Type: ActorUser,
-		},
-		Object: Object{
-			ID:   sess.DeviceID,
-			Type: ObjectDevice,
-		},
-		Change: change,
-		MetaData: map[string][]string{
-			"session_id": {sess.ID},
-		},
-		EventTS: time.Now(),
-	}
-	maps.Copy(log.MetaData, extraMeta)
-	err := log.Validate()
-	if err != nil {
-		return err
-	}
-	//nolint:bodyclose
-	_, _, err = a.workflows.StartWorkflow(ctx, workflowSubmitAuditlog).
-		RequestBody(map[string]any{
-			"auditlog":   log,
-			"tenant_id":  sess.TenantID,
-			"request_id": requestid.FromContext(ctx),
-		}).
-		Execute()
-	if err != nil {
-		return fmt.Errorf("failed to submit audit log: %w", err)
-	}
-
-	return nil
-}
-
-// LogUserSession logs a new user session
-func (a *app) LogUserSession(
-	ctx context.Context,
-	sess *model.Session,
-	sessionType string,
-) error {
-	var change string
-	var action Action
-	if sessionType == model.SessionTypePortForward {
-		change = "User requested a new port forwarding session"
-		action = ActionPortForwardOpen
-	} else if sessionType == model.SessionTypeTerminal {
-		change = "User requested a new terminal session"
-		action = ActionTerminalOpen
-	} else {
-		return errors.New("unknown session type: " + sessionType)
-	}
-	err := a.submitAuditLog(ctx, action, change, sess, nil)
-	if err != nil {
-		_, e := a.store.DeleteSession(ctx, sess.ID)
-		if e != nil {
-			err = errors.Errorf(
-				"%s: failed to clean up session state: %s",
-				err.Error(), e.Error(),
-			)
-		}
-		return err
-	}
-	return nil
-}
-
 // FreeUserSession releases the session
 func (a *app) FreeUserSession(
 	ctx context.Context,
 	sessionID string,
 	sessionTypes []string,
 ) error {
-	sess, err := a.store.DeleteSession(ctx, sessionID)
+	_, err := a.store.DeleteSession(ctx, sessionID)
 	if err != nil {
 		return err
-	}
-	for _, sessionType := range sessionTypes {
-		var action Action
-		if sessionType == model.SessionTypePortForward {
-			action = ActionPortForwardClose
-		} else if sessionType == model.SessionTypeTerminal {
-			action = ActionTerminalClose
-		} else {
-			continue
-		}
-		err = a.submitAuditLog(ctx, action, "", sess, nil)
-		if err != nil {
-			return errors.Wrap(err, "failed to submit audit log")
-		}
 	}
 	return nil
 }
@@ -391,30 +192,10 @@ func (a app) GetControlRecorder(sessionID string) Recorder {
 }
 
 func (a *app) DownloadFile(ctx context.Context, sess *model.Session, path string) error {
-	return a.submitFileTransferAuditlog(ctx,
-		ActionDownloadFile, sess, path,
-		"User downloaded a file from the device")
+	return nil
 }
 
 func (a *app) UploadFile(ctx context.Context, sess *model.Session, path string) error {
-	return a.submitFileTransferAuditlog(ctx,
-		ActionUploadFile, sess, path,
-		"User uploaded a file to the device")
-}
-
-func (a *app) submitFileTransferAuditlog(
-	ctx context.Context,
-	action Action,
-	sess *model.Session,
-	path string,
-	change string,
-) error {
-	err := a.submitAuditLog(ctx, action, change, sess, map[string][]string{"path": {path}})
-	if err != nil {
-		return errors.Wrap(err,
-			"failed to submit audit log for file transfer",
-		)
-	}
 	return nil
 }
 

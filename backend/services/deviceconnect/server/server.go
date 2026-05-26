@@ -16,7 +16,6 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -24,8 +23,6 @@ import (
 
 	"golang.org/x/sys/unix"
 
-	pkgapi "github.com/mendersoftware/mender-server/pkg/api"
-	openapi "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
 
@@ -54,15 +51,8 @@ func InitAndRun(conf config.Reader, dataStore store.DataStore) error {
 	if err != nil {
 		return err
 	}
-	cfg, err := pkgapi.NewDefaultClientConfigurationFromURL(dconfig.SettingWorkflowsURL)
-	if err != nil {
-		return fmt.Errorf("failed to setup workflows client: %w", err)
-	}
-	apiClient := openapi.NewAPIClient(cfg)
 	deviceConnectApp := app.New(
-		dataStore, apiClient.WorkflowsOtherAPI, app.Config{
-			HaveAuditLogs: conf.GetBool(dconfig.SettingEnableAuditLogs),
-		},
+		dataStore, app.Config{},
 	)
 
 	gracefulShutdownTimeout := conf.GetDuration(dconfig.SettingGracefulShutdownTimeout)

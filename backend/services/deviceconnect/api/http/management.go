@@ -691,8 +691,6 @@ func (h ManagementController) connectServeWSProcessMessages(
 ) {
 	var err error
 	l := log.FromContext(ctx)
-	logTerminal := false
-	logPortForward := false
 	defer h.handleReadErrors(ctx, &err, s, errChan)
 
 	var data []byte
@@ -721,14 +719,6 @@ func (h ManagementController) connectServeWSProcessMessages(
 		switch m.Header.Proto {
 		case ws.ProtoTypeShell:
 			// send the audit log for remote terminal
-			if !logTerminal {
-				if err = h.app.LogUserSession(ctx, sess,
-					model.SessionTypeTerminal); err != nil {
-					return
-				}
-				sess.Types = append(sess.Types, model.SessionTypeTerminal)
-				logTerminal = true
-			}
 			// handle remote terminal-specific messages
 			switch m.Header.MsgType {
 			case shell.MessageTypeSpawnShell:
@@ -750,14 +740,6 @@ func (h ManagementController) connectServeWSProcessMessages(
 				controlBytes += sendResizeMessage(ctx, m, sess, controlRecorder)
 			}
 		case ws.ProtoTypePortForward:
-			if !logPortForward {
-				if err = h.app.LogUserSession(ctx, sess,
-					model.SessionTypePortForward); err != nil {
-					return
-				}
-				sess.Types = append(sess.Types, model.SessionTypePortForward)
-				logPortForward = true
-			}
 		}
 
 		err = s.Send(ctx, data)
