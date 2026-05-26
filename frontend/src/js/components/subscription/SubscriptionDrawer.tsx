@@ -140,7 +140,7 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
     try {
       setLoading(true);
       setError(false);
-      await dispatch(requestPlanUpgrade(order));
+      await dispatch(requestPlanUpgrade(order)).unwrap();
       setSuccessConfirmationShown(true);
     } catch (e) {
       console.error(e);
