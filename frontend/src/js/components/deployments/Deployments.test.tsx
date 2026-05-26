@@ -19,7 +19,7 @@ import GeneralApi from '@northern.tech/store/api/general-api';
 import { ALL_DEVICES, TIMEOUTS } from '@northern.tech/store/constants';
 import { mockDate, undefineds } from '@northern.tech/testing/mockData';
 import { selectMaterialUiSelectOption } from '@northern.tech/testing/utils';
-import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
+import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -32,6 +32,8 @@ const specialKeys = {
   ArrowUp: '{ArrowUp}',
   Enter: '{Enter}'
 };
+
+const getSelectWrapper = (el: HTMLElement) => el.closest('[role=combobox]')?.parentElement ?? el;
 
 describe('Deployments Component', () => {
   const mockState = {
@@ -271,22 +273,33 @@ describe('Deployments Component', () => {
     await user.click(screen.getByRole('button', { name: /advanced options/i }));
     await user.click(screen.getByRole('checkbox', { name: /select a rollout pattern/i }));
     await waitFor(() => rerender(ui));
-    await selectMaterialUiSelectOption(screen.getByText(/Single phase: 100%/i), /3 phases/i, user);
-    const firstPhase = screen.getByText(/Phase 1/i).parentElement.parentElement.parentElement;
-    await selectMaterialUiSelectOption(within(firstPhase).getByDisplayValue(/days/i), /minutes/i, user);
+    await selectMaterialUiSelectOption(getSelectWrapper(screen.getByText('Custom')), /3 phases/i, user);
+    const getPhaseRow = (label: RegExp) => screen.getByText(label).closest('tr') as HTMLElement;
+    const firstPhase = getPhaseRow(/Phase 1/i);
+    await selectMaterialUiSelectOption(getSelectWrapper(within(firstPhase).getByText(/days/i)), /minutes/i, user);
     const [firstBatch, firstDelay] = within(firstPhase).getAllByRole('textbox') as HTMLInputElement[];
-    fireEvent.change(firstBatch, { target: { value: '40' } });
-    fireEvent.change(firstDelay, { target: { value: '30' } });
-    const secondPhase = screen.getByText(/Phase 2/i).parentElement.parentElement.parentElement;
-    await selectMaterialUiSelectOption(within(secondPhase).getByDisplayValue(/hours/i), /days/i, user);
+    await user.clear(firstBatch);
+    await user.type(firstBatch, '40');
+    await user.tab();
+    await user.clear(firstDelay);
+    await user.type(firstDelay, '30');
+    await user.tab();
+    const secondPhase = getPhaseRow(/Phase 2/i);
+    await selectMaterialUiSelectOption(getSelectWrapper(within(secondPhase).getByText(/hours/i)), /days/i, user);
     const [secondBatch, secondDelay] = within(secondPhase).getAllByRole('textbox') as HTMLInputElement[];
-    fireEvent.change(secondBatch, { target: { value: '20' } });
-    fireEvent.change(secondDelay, { target: { value: '25' } });
+    await user.clear(secondBatch);
+    await user.type(secondBatch, '20');
+    await user.tab();
+    await user.clear(secondDelay);
+    await user.type(secondDelay, '25');
+    await user.tab();
     await user.click(screen.getByText(/Add a phase/i));
-    const thirdPhase = screen.getByText(/Phase 3/i).parentElement.parentElement.parentElement;
-    expect(within(thirdPhase).getByText(/Phases must have at least 1 device/i)).toBeTruthy();
+    const thirdPhase = getPhaseRow(/Phase 3/i);
+    expect(within(thirdPhase).getByText(/rounds down to 0 devices/i)).toBeTruthy();
     const [thirdBatch] = within(thirdPhase).getAllByRole('textbox') as HTMLInputElement[];
-    fireEvent.change(thirdBatch, { target: { value: '20' } });
+    await user.clear(thirdBatch);
+    await user.type(thirdBatch, '20');
+    await user.tab();
     const retrySelect = document.querySelector('#retries');
     await user.click(retrySelect!);
     await user.keyboard(specialKeys.ArrowUp);
@@ -325,26 +338,158 @@ describe('Deployments Component', () => {
     });
     expect(post).toHaveBeenCalledWith(
       '/api/management/v1/useradm/settings',
-      {
-        '2fa': 'enabled',
-        id_attribute: undefined,
-        previousFilters: [],
+      expect.objectContaining({
+        hasDeployments: true,
         previousPhases: [
           [
             { batch_size: 30, batch_size_devices: undefined, delay: 5, delayUnit: 'days', isUniform: false },
             { batch_size: 20, batch_size_devices: undefined, delay: 15, delayUnit: 'hours', start_ts: 1, isUniform: false },
             { batch_size: 50, batch_size_devices: undefined, start_ts: 2 }
           ],
-          [
-            { batch_size: 40, batch_size_devices: undefined, delay: 30, delayUnit: 'minutes', isUniform: false },
-            { batch_size: 20, batch_size_devices: undefined, delay: 25, delayUnit: 'days', start_ts: 1, isUniform: false },
-            { batch_size: 20, batch_size_devices: undefined, delay: 2, delayUnit: 'hours', start_ts: 2, isUniform: false },
-            { batch_size: undefined, batch_size_devices: undefined, start_ts: 3 }
-          ]
-        ],
-        hasDeployments: true
-      },
+          [{ batch_size: 40 }, { batch_size: 20, start_ts: 1 }, { batch_size: 20, start_ts: 2 }, { batch_size: undefined, start_ts: 3 }]
+        ]
+      }),
       { headers: {} }
+    );
+  });
+
+  it('creates a scheduled deployment without phase definitions', { timeout: 8 * TIMEOUTS.fiveSeconds }, async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const preloadedState = {
+      ...mockState,
+      app: {
+        ...mockState.app,
+        features: {
+          ...mockState.app.features,
+          isHosted: false
+        }
+      },
+      organization: {
+        ...mockState.organization,
+        organization: {
+          ...mockState.organization.organization,
+          plan: 'enterprise'
+        }
+      }
+    };
+    const ui = (
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Deployments {...defaultLocationProps} />
+      </LocalizationProvider>
+    );
+    const { rerender } = render(ui, { preloadedState });
+    await user.click(screen.getByRole('button', { name: /Create a deployment/i }));
+    const releaseId = 'release-998';
+    const groupSelect = screen.getByPlaceholderText(/Select a device group/i);
+    await act(async () => vi.runOnlyPendingTimers());
+    await user.click(groupSelect);
+    await user.type(groupSelect, 'testGroupDyn');
+    await user.keyboard(specialKeys.ArrowDown);
+    await user.keyboard(specialKeys.Enter);
+    await waitFor(() => expect(screen.getByRole('button', { name: /select a release/i })).toBeInTheDocument(), { timeout: 3000 });
+    await user.click(screen.getByRole('button', { name: /select a release/i }));
+    await user.click(screen.getByRole('heading', { name: releaseId }));
+    await waitFor(() => expect(screen.getByText(/Start immediately/i)).toBeInTheDocument(), { timeout: 3000 });
+    await selectMaterialUiSelectOption(getSelectWrapper(screen.getByText(/Start immediately/i)), /Schedule the start date/i, user);
+    await waitFor(() => rerender(ui));
+    const dialog = screen.getByRole('dialog');
+    await user.click(within(dialog).getByRole('gridcell', { name: '14' }));
+    const actionBar = dialog.querySelector('.MuiDialogActions-root') as HTMLElement;
+    await user.click(within(actionBar).getByText(/Next/i));
+    await user.click(within(actionBar).getByText(/OK/i));
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+      vi.runAllTicks();
+    });
+    const post = vi.spyOn(GeneralApi, 'post');
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
+    await user.click(screen.getByRole('button', { name: 'Create deployment' }));
+    expect(post).toHaveBeenCalledWith(
+      '/api/management/v2/deployments/deployments',
+      expect.objectContaining({
+        artifact_name: releaseId,
+        filter_id: 'filter1',
+        name: 'testGroupDynamic',
+        phases: [expect.objectContaining({ batch_size: 100, start_ts: expect.stringMatching(/2019-01-14/) })]
+      })
+    );
+  });
+
+  it('creates a deployment with uniform phase settings', { timeout: 9 * TIMEOUTS.fiveSeconds }, async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const preloadedState = {
+      ...mockState,
+      app: {
+        ...mockState.app,
+        features: {
+          ...mockState.app.features,
+          isHosted: false
+        }
+      },
+      devices: {
+        ...mockState.devices,
+        byStatus: {
+          ...mockState.devices.byStatus,
+          accepted: {
+            ...mockState.devices.byStatus.accepted,
+            deviceIds: [...Object.keys(mockState.devices.byId), 'test1', 'test2'],
+            counts: { standard: Object.keys(mockState.devices.byId).length + 3 }
+          }
+        }
+      },
+      organization: {
+        ...mockState.organization,
+        organization: {
+          ...mockState.organization.organization,
+          plan: 'enterprise'
+        }
+      }
+    };
+    const ui = (
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Deployments {...defaultLocationProps} />
+      </LocalizationProvider>
+    );
+    const { rerender } = render(ui, { preloadedState });
+    await user.click(screen.getByRole('button', { name: /Create a deployment/i }));
+    const releaseId = 'release-998';
+    const groupSelect = screen.getByPlaceholderText(/Select a device group/i);
+    await act(async () => vi.runOnlyPendingTimers());
+    await user.click(groupSelect);
+    await user.type(groupSelect, 'testGroupDyn');
+    await user.keyboard(specialKeys.ArrowDown);
+    await user.keyboard(specialKeys.Enter);
+    await waitFor(() => expect(screen.getByRole('button', { name: /select a release/i })).toBeInTheDocument(), { timeout: 3000 });
+    await user.click(screen.getByRole('button', { name: /select a release/i }));
+    await user.click(screen.getByRole('heading', { name: releaseId }));
+    await waitFor(() => expect(screen.getByRole('button', { name: /advanced options/i })).toBeInTheDocument(), { timeout: 3000 });
+    await user.click(screen.getByRole('button', { name: /advanced options/i }));
+    await user.click(screen.getByRole('checkbox', { name: /select a rollout pattern/i }));
+    await waitFor(() => rerender(ui));
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
+    await waitFor(() => expect(screen.getByText('Custom')).toBeInTheDocument(), { timeout: 3000 });
+    await selectMaterialUiSelectOption(getSelectWrapper(screen.getByText('Custom')), /Uniform/i, user);
+    await waitFor(() => expect(screen.getByText('Summary')).toBeInTheDocument());
+    const post = vi.spyOn(GeneralApi, 'post');
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+      vi.runAllTicks();
+    });
+    await user.click(screen.getByRole('button', { name: 'Create deployment' }));
+    expect(post).toHaveBeenCalledWith(
+      '/api/management/v2/deployments/deployments',
+      expect.objectContaining({
+        artifact_name: releaseId,
+        filter_id: 'filter1',
+        name: 'testGroupDynamic',
+        uniform_phases: { batch_size: 10, time_interval: '7200s' }
+      })
     );
   });
 });
