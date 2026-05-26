@@ -24,7 +24,10 @@ type TaskResult struct {
 	Cli *TaskResultCLI `json:"cli,omitempty"`
 	Request *TaskResultHTTPRequest `json:"request,omitempty"`
 	Response *TaskResultHTTPResponse `json:"response,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _TaskResult TaskResult
 
 // NewTaskResult instantiates a new TaskResult object
 // This constructor will assign default values to properties that have it defined,
@@ -193,7 +196,36 @@ func (o TaskResult) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Response) {
 		toSerialize["response"] = o.Response
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *TaskResult) UnmarshalJSON(data []byte) (err error) {
+	varTaskResult := _TaskResult{}
+
+	err = json.Unmarshal(data, &varTaskResult)
+
+	if err != nil {
+		return err
+	}
+
+	*o = TaskResult(varTaskResult)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "success")
+		delete(additionalProperties, "cli")
+		delete(additionalProperties, "request")
+		delete(additionalProperties, "response")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableTaskResult struct {

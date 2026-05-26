@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -29,6 +28,7 @@ type FilterPredicate struct {
 	Type string `json:"type"`
 	// The value of the attribute to be used in filtering.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed.  The $exists operator expects a boolean value: true means the specified attribute exists, false means the specified attribute doesn't exist.  The $regex operator expects a string as a Perl compatible regular expression (PCRE), automatically anchored by ^. If the regular expression is not valid, the filter will produce no results. If you need to specify options and flags, you can provide the full regex in the format of /regex/flags, for example `/[a-z]+/i`. 
 	Value AttributeValue `json:"value"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _FilterPredicate FilterPredicate
@@ -164,6 +164,11 @@ func (o FilterPredicate) ToMap() (map[string]interface{}, error) {
 	toSerialize["attribute"] = o.Attribute
 	toSerialize["type"] = o.Type
 	toSerialize["value"] = o.Value
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -194,15 +199,23 @@ func (o *FilterPredicate) UnmarshalJSON(data []byte) (err error) {
 
 	varFilterPredicate := _FilterPredicate{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varFilterPredicate)
+	err = json.Unmarshal(data, &varFilterPredicate)
 
 	if err != nil {
 		return err
 	}
 
 	*o = FilterPredicate(varFilterPredicate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "scope")
+		delete(additionalProperties, "attribute")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "value")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

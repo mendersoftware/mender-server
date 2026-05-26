@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type Workflow struct {
 	Schemaversion *int32 `json:"schemaversion,omitempty"`
 	Tasks []Task `json:"tasks"`
 	InputParameters []string `json:"inputParameters,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Workflow Workflow
@@ -242,6 +242,11 @@ func (o Workflow) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.InputParameters) {
 		toSerialize["inputParameters"] = o.InputParameters
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -271,15 +276,25 @@ func (o *Workflow) UnmarshalJSON(data []byte) (err error) {
 
 	varWorkflow := _Workflow{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varWorkflow)
+	err = json.Unmarshal(data, &varWorkflow)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Workflow(varWorkflow)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "version")
+		delete(additionalProperties, "schemaversion")
+		delete(additionalProperties, "tasks")
+		delete(additionalProperties, "inputParameters")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

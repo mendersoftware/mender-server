@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -31,6 +30,7 @@ type Attribute struct {
 	Scope Scope `json:"scope"`
 	// The date and time of last tag update in RFC3339 format.  Only applicable when scope is `tags`. 
 	Timestamp *time.Time `json:"timestamp,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Attribute Attribute
@@ -210,6 +210,11 @@ func (o Attribute) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Timestamp) {
 		toSerialize["timestamp"] = o.Timestamp
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -239,15 +244,24 @@ func (o *Attribute) UnmarshalJSON(data []byte) (err error) {
 
 	varAttribute := _Attribute{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAttribute)
+	err = json.Unmarshal(data, &varAttribute)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Attribute(varAttribute)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "value")
+		delete(additionalProperties, "scope")
+		delete(additionalProperties, "timestamp")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

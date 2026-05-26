@@ -22,7 +22,10 @@ var _ MappedNullable = &ReleaseUpdate{}
 type ReleaseUpdate struct {
 	// Release notes, limited to maximum length.
 	Notes *string `json:"notes,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ReleaseUpdate ReleaseUpdate
 
 // NewReleaseUpdate instantiates a new ReleaseUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -86,7 +89,33 @@ func (o ReleaseUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Notes) {
 		toSerialize["notes"] = o.Notes
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ReleaseUpdate) UnmarshalJSON(data []byte) (err error) {
+	varReleaseUpdate := _ReleaseUpdate{}
+
+	err = json.Unmarshal(data, &varReleaseUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ReleaseUpdate(varReleaseUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "notes")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableReleaseUpdate struct {

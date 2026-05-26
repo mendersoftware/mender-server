@@ -26,7 +26,10 @@ type DeviceInventory struct {
 	UpdatedTs *string `json:"updated_ts,omitempty"`
 	// A list of attribute descriptors.
 	Attributes []Attribute `json:"attributes,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeviceInventory DeviceInventory
 
 // NewDeviceInventory instantiates a new DeviceInventory object
 // This constructor will assign default values to properties that have it defined,
@@ -160,7 +163,35 @@ func (o DeviceInventory) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Attributes) {
 		toSerialize["attributes"] = o.Attributes
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeviceInventory) UnmarshalJSON(data []byte) (err error) {
+	varDeviceInventory := _DeviceInventory{}
+
+	err = json.Unmarshal(data, &varDeviceInventory)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeviceInventory(varDeviceInventory)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "updated_ts")
+		delete(additionalProperties, "attributes")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeviceInventory struct {

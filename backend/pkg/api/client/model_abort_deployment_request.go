@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &AbortDeploymentRequest{}
 // AbortDeploymentRequest struct for AbortDeploymentRequest
 type AbortDeploymentRequest struct {
 	Status string `json:"status"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AbortDeploymentRequest AbortDeploymentRequest
@@ -80,6 +80,11 @@ func (o AbortDeploymentRequest) MarshalJSON() ([]byte, error) {
 func (o AbortDeploymentRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["status"] = o.Status
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *AbortDeploymentRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varAbortDeploymentRequest := _AbortDeploymentRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAbortDeploymentRequest)
+	err = json.Unmarshal(data, &varAbortDeploymentRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AbortDeploymentRequest(varAbortDeploymentRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "status")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

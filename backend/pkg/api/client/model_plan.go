@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type Plan struct {
 	// Short information about the plan. 
 	DisplayName string `json:"display_name"`
 	Features Features `json:"features"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Plan Plan
@@ -136,6 +136,11 @@ func (o Plan) ToMap() (map[string]interface{}, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["display_name"] = o.DisplayName
 	toSerialize["features"] = o.Features
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *Plan) UnmarshalJSON(data []byte) (err error) {
 
 	varPlan := _Plan{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPlan)
+	err = json.Unmarshal(data, &varPlan)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Plan(varPlan)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "display_name")
+		delete(additionalProperties, "features")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

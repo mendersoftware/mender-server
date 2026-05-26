@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -29,6 +28,7 @@ type Task struct {
 	Requires []string `json:"requires,omitempty"`
 	Cli *CLIParams `json:"cli,omitempty"`
 	Http *HTTPParams `json:"http,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Task Task
@@ -287,6 +287,11 @@ func (o Task) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Http) {
 		toSerialize["http"] = o.Http
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -315,15 +320,26 @@ func (o *Task) UnmarshalJSON(data []byte) (err error) {
 
 	varTask := _Task{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTask)
+	err = json.Unmarshal(data, &varTask)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Task(varTask)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "retries")
+		delete(additionalProperties, "retryDelaySeconds")
+		delete(additionalProperties, "requires")
+		delete(additionalProperties, "cli")
+		delete(additionalProperties, "http")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

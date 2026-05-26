@@ -29,7 +29,10 @@ type ConnectionState struct {
 	UpdatedTs *time.Time `json:"updated_ts,omitempty"`
 	// Server-side timestamp of the device creation.
 	CreatedTs *time.Time `json:"created_ts,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ConnectionState ConnectionState
 
 // NewConnectionState instantiates a new ConnectionState object
 // This constructor will assign default values to properties that have it defined,
@@ -198,7 +201,36 @@ func (o ConnectionState) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.CreatedTs) {
 		toSerialize["created_ts"] = o.CreatedTs
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ConnectionState) UnmarshalJSON(data []byte) (err error) {
+	varConnectionState := _ConnectionState{}
+
+	err = json.Unmarshal(data, &varConnectionState)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ConnectionState(varConnectionState)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "device_id")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "updated_ts")
+		delete(additionalProperties, "created_ts")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableConnectionState struct {

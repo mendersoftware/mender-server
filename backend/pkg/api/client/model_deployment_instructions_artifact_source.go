@@ -25,7 +25,10 @@ type DeploymentInstructionsArtifactSource struct {
 	Uri *string `json:"uri,omitempty"`
 	// URL expiration time
 	Expire *time.Time `json:"expire,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeploymentInstructionsArtifactSource DeploymentInstructionsArtifactSource
 
 // NewDeploymentInstructionsArtifactSource instantiates a new DeploymentInstructionsArtifactSource object
 // This constructor will assign default values to properties that have it defined,
@@ -124,7 +127,34 @@ func (o DeploymentInstructionsArtifactSource) ToMap() (map[string]interface{}, e
 	if !IsNil(o.Expire) {
 		toSerialize["expire"] = o.Expire
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeploymentInstructionsArtifactSource) UnmarshalJSON(data []byte) (err error) {
+	varDeploymentInstructionsArtifactSource := _DeploymentInstructionsArtifactSource{}
+
+	err = json.Unmarshal(data, &varDeploymentInstructionsArtifactSource)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeploymentInstructionsArtifactSource(varDeploymentInstructionsArtifactSource)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "uri")
+		delete(additionalProperties, "expire")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeploymentInstructionsArtifactSource struct {

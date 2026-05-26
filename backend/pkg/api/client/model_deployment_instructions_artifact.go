@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type DeploymentInstructionsArtifact struct {
 	// Compatible device types
 	DeviceTypesCompatible []string `json:"device_types_compatible"`
 	ArtifactName string `json:"artifact_name"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeploymentInstructionsArtifact DeploymentInstructionsArtifact
@@ -171,6 +171,11 @@ func (o DeploymentInstructionsArtifact) ToMap() (map[string]interface{}, error) 
 	toSerialize["source"] = o.Source
 	toSerialize["device_types_compatible"] = o.DeviceTypesCompatible
 	toSerialize["artifact_name"] = o.ArtifactName
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -200,15 +205,23 @@ func (o *DeploymentInstructionsArtifact) UnmarshalJSON(data []byte) (err error) 
 
 	varDeploymentInstructionsArtifact := _DeploymentInstructionsArtifact{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeploymentInstructionsArtifact)
+	err = json.Unmarshal(data, &varDeploymentInstructionsArtifact)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeploymentInstructionsArtifact(varDeploymentInstructionsArtifact)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "source")
+		delete(additionalProperties, "device_types_compatible")
+		delete(additionalProperties, "artifact_name")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

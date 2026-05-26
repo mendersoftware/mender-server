@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type UserNew struct {
 	Email string `json:"email"`
 	// Password.
 	Password string `json:"password"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _UserNew UserNew
@@ -109,6 +109,11 @@ func (o UserNew) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["email"] = o.Email
 	toSerialize["password"] = o.Password
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -137,15 +142,21 @@ func (o *UserNew) UnmarshalJSON(data []byte) (err error) {
 
 	varUserNew := _UserNew{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUserNew)
+	err = json.Unmarshal(data, &varUserNew)
 
 	if err != nil {
 		return err
 	}
 
 	*o = UserNew(varUserNew)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "password")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

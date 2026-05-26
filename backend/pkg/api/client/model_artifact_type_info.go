@@ -22,7 +22,10 @@ var _ MappedNullable = &ArtifactTypeInfo{}
 type ArtifactTypeInfo struct {
 	// Note that for emtpy Artifacts, the type is 'null'
 	Type *string `json:"type,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ArtifactTypeInfo ArtifactTypeInfo
 
 // NewArtifactTypeInfo instantiates a new ArtifactTypeInfo object
 // This constructor will assign default values to properties that have it defined,
@@ -86,7 +89,33 @@ func (o ArtifactTypeInfo) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ArtifactTypeInfo) UnmarshalJSON(data []byte) (err error) {
+	varArtifactTypeInfo := _ArtifactTypeInfo{}
+
+	err = json.Unmarshal(data, &varArtifactTypeInfo)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ArtifactTypeInfo(varArtifactTypeInfo)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "type")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableArtifactTypeInfo struct {

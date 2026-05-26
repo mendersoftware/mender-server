@@ -24,7 +24,10 @@ type DirectUploadMetadata struct {
 	Size *int32 `json:"size,omitempty"`
 	// List of updates for this artifact.
 	Updates []Update `json:"updates,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DirectUploadMetadata DirectUploadMetadata
 
 // NewDirectUploadMetadata instantiates a new DirectUploadMetadata object
 // This constructor will assign default values to properties that have it defined,
@@ -123,7 +126,34 @@ func (o DirectUploadMetadata) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Updates) {
 		toSerialize["updates"] = o.Updates
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DirectUploadMetadata) UnmarshalJSON(data []byte) (err error) {
+	varDirectUploadMetadata := _DirectUploadMetadata{}
+
+	err = json.Unmarshal(data, &varDirectUploadMetadata)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DirectUploadMetadata(varDirectUploadMetadata)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "size")
+		delete(additionalProperties, "updates")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDirectUploadMetadata struct {

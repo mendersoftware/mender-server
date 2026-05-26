@@ -21,7 +21,10 @@ var _ MappedNullable = &WorkflowsCheckLiveliness200Response{}
 // WorkflowsCheckLiveliness200Response struct for WorkflowsCheckLiveliness200Response
 type WorkflowsCheckLiveliness200Response struct {
 	Status *string `json:"status,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _WorkflowsCheckLiveliness200Response WorkflowsCheckLiveliness200Response
 
 // NewWorkflowsCheckLiveliness200Response instantiates a new WorkflowsCheckLiveliness200Response object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o WorkflowsCheckLiveliness200Response) ToMap() (map[string]interface{}, er
 	if !IsNil(o.Status) {
 		toSerialize["status"] = o.Status
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *WorkflowsCheckLiveliness200Response) UnmarshalJSON(data []byte) (err error) {
+	varWorkflowsCheckLiveliness200Response := _WorkflowsCheckLiveliness200Response{}
+
+	err = json.Unmarshal(data, &varWorkflowsCheckLiveliness200Response)
+
+	if err != nil {
+		return err
+	}
+
+	*o = WorkflowsCheckLiveliness200Response(varWorkflowsCheckLiveliness200Response)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "status")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableWorkflowsCheckLiveliness200Response struct {

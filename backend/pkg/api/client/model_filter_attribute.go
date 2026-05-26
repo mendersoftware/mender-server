@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type FilterAttribute struct {
 	Scope Scope `json:"scope"`
 	// Number of occurrences of the attribute in the database.
 	Count int32 `json:"count"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _FilterAttribute FilterAttribute
@@ -136,6 +136,11 @@ func (o FilterAttribute) ToMap() (map[string]interface{}, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["scope"] = o.Scope
 	toSerialize["count"] = o.Count
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *FilterAttribute) UnmarshalJSON(data []byte) (err error) {
 
 	varFilterAttribute := _FilterAttribute{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varFilterAttribute)
+	err = json.Unmarshal(data, &varFilterAttribute)
 
 	if err != nil {
 		return err
 	}
 
 	*o = FilterAttribute(varFilterAttribute)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "scope")
+		delete(additionalProperties, "count")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

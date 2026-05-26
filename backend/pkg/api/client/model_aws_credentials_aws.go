@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type AWSCredentialsAws struct {
 	SecretAccessKey string `json:"secret_access_key"`
 	Region string `json:"region"`
 	DevicePolicyName string `json:"device_policy_name"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AWSCredentialsAws AWSCredentialsAws
@@ -161,6 +161,11 @@ func (o AWSCredentialsAws) ToMap() (map[string]interface{}, error) {
 	toSerialize["secret_access_key"] = o.SecretAccessKey
 	toSerialize["region"] = o.Region
 	toSerialize["device_policy_name"] = o.DevicePolicyName
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -191,15 +196,23 @@ func (o *AWSCredentialsAws) UnmarshalJSON(data []byte) (err error) {
 
 	varAWSCredentialsAws := _AWSCredentialsAws{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAWSCredentialsAws)
+	err = json.Unmarshal(data, &varAWSCredentialsAws)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AWSCredentialsAws(varAWSCredentialsAws)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "access_key_id")
+		delete(additionalProperties, "secret_access_key")
+		delete(additionalProperties, "region")
+		delete(additionalProperties, "device_policy_name")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

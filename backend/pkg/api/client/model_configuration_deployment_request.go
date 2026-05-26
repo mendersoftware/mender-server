@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type ConfigurationDeploymentRequest struct {
 	Name string `json:"name"`
 	// A string containing a configuration object. The deployments service will use it to generate configuration artifact for the device. The artifact will be generated when the device will ask for an update. 
 	Configuration map[string]string `json:"configuration"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ConfigurationDeploymentRequest ConfigurationDeploymentRequest
@@ -109,6 +109,11 @@ func (o ConfigurationDeploymentRequest) ToMap() (map[string]interface{}, error) 
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	toSerialize["configuration"] = o.Configuration
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -137,15 +142,21 @@ func (o *ConfigurationDeploymentRequest) UnmarshalJSON(data []byte) (err error) 
 
 	varConfigurationDeploymentRequest := _ConfigurationDeploymentRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varConfigurationDeploymentRequest)
+	err = json.Unmarshal(data, &varConfigurationDeploymentRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ConfigurationDeploymentRequest(varConfigurationDeploymentRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "configuration")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

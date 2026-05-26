@@ -21,7 +21,10 @@ var _ MappedNullable = &ArtifactUpdateV1{}
 // ArtifactUpdateV1 Artifact information update.
 type ArtifactUpdateV1 struct {
 	Description *string `json:"description,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ArtifactUpdateV1 ArtifactUpdateV1
 
 // NewArtifactUpdateV1 instantiates a new ArtifactUpdateV1 object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o ArtifactUpdateV1) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Description) {
 		toSerialize["description"] = o.Description
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ArtifactUpdateV1) UnmarshalJSON(data []byte) (err error) {
+	varArtifactUpdateV1 := _ArtifactUpdateV1{}
+
+	err = json.Unmarshal(data, &varArtifactUpdateV1)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ArtifactUpdateV1(varArtifactUpdateV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "description")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableArtifactUpdateV1 struct {

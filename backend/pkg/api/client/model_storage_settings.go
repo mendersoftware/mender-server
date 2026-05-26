@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -50,6 +49,7 @@ type StorageSettings struct {
 	AccountName *string `json:"account_name,omitempty"`
 	// Alias for 'secret' (Azure only).
 	AccountKey *string `json:"account_key,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _StorageSettings StorageSettings
@@ -544,6 +544,11 @@ func (o StorageSettings) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.AccountKey) {
 		toSerialize["account_key"] = o.AccountKey
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -573,15 +578,33 @@ func (o *StorageSettings) UnmarshalJSON(data []byte) (err error) {
 
 	varStorageSettings := _StorageSettings{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varStorageSettings)
+	err = json.Unmarshal(data, &varStorageSettings)
 
 	if err != nil {
 		return err
 	}
 
 	*o = StorageSettings(varStorageSettings)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "region")
+		delete(additionalProperties, "bucket")
+		delete(additionalProperties, "uri")
+		delete(additionalProperties, "external_uri")
+		delete(additionalProperties, "key")
+		delete(additionalProperties, "secret")
+		delete(additionalProperties, "token")
+		delete(additionalProperties, "force_path_style")
+		delete(additionalProperties, "use_accelerate")
+		delete(additionalProperties, "connection_string")
+		delete(additionalProperties, "container_name")
+		delete(additionalProperties, "account_name")
+		delete(additionalProperties, "account_key")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

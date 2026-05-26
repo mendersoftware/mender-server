@@ -24,7 +24,10 @@ type NewConfigurationDeployment struct {
 	Retries *int32 `json:"retries,omitempty"`
 	// A valid JSON object defining the update control map. *NOTE*: Available only in the Enterprise plan. 
 	UpdateControlMap map[string]interface{} `json:"update_control_map,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _NewConfigurationDeployment NewConfigurationDeployment
 
 // NewNewConfigurationDeployment instantiates a new NewConfigurationDeployment object
 // This constructor will assign default values to properties that have it defined,
@@ -127,7 +130,34 @@ func (o NewConfigurationDeployment) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.UpdateControlMap) {
 		toSerialize["update_control_map"] = o.UpdateControlMap
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *NewConfigurationDeployment) UnmarshalJSON(data []byte) (err error) {
+	varNewConfigurationDeployment := _NewConfigurationDeployment{}
+
+	err = json.Unmarshal(data, &varNewConfigurationDeployment)
+
+	if err != nil {
+		return err
+	}
+
+	*o = NewConfigurationDeployment(varNewConfigurationDeployment)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "retries")
+		delete(additionalProperties, "update_control_map")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableNewConfigurationDeployment struct {

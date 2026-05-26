@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -38,6 +37,7 @@ type DeviceWithImage struct {
 	// Additional state information
 	Substate *string `json:"substate,omitempty"`
 	Image *DeviceWithImageImage `json:"image,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeviceWithImage DeviceWithImage
@@ -427,6 +427,11 @@ func (o DeviceWithImage) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Image) {
 		toSerialize["image"] = o.Image
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -456,15 +461,30 @@ func (o *DeviceWithImage) UnmarshalJSON(data []byte) (err error) {
 
 	varDeviceWithImage := _DeviceWithImage{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeviceWithImage)
+	err = json.Unmarshal(data, &varDeviceWithImage)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeviceWithImage(varDeviceWithImage)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "created")
+		delete(additionalProperties, "started")
+		delete(additionalProperties, "finished")
+		delete(additionalProperties, "deleted")
+		delete(additionalProperties, "device_type")
+		delete(additionalProperties, "log")
+		delete(additionalProperties, "state")
+		delete(additionalProperties, "substate")
+		delete(additionalProperties, "image")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

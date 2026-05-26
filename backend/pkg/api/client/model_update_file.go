@@ -25,7 +25,10 @@ type UpdateFile struct {
 	Checksum *string `json:"checksum,omitempty"`
 	Size *int32 `json:"size,omitempty"`
 	Date *time.Time `json:"date,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _UpdateFile UpdateFile
 
 // NewUpdateFile instantiates a new UpdateFile object
 // This constructor will assign default values to properties that have it defined,
@@ -194,7 +197,36 @@ func (o UpdateFile) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Date) {
 		toSerialize["date"] = o.Date
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *UpdateFile) UnmarshalJSON(data []byte) (err error) {
+	varUpdateFile := _UpdateFile{}
+
+	err = json.Unmarshal(data, &varUpdateFile)
+
+	if err != nil {
+		return err
+	}
+
+	*o = UpdateFile(varUpdateFile)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "checksum")
+		delete(additionalProperties, "size")
+		delete(additionalProperties, "date")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUpdateFile struct {

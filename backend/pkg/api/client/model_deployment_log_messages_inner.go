@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type DeploymentLogMessagesInner struct {
 	Timestamp time.Time `json:"timestamp"`
 	Level string `json:"level"`
 	Message string `json:"message"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeploymentLogMessagesInner DeploymentLogMessagesInner
@@ -135,6 +135,11 @@ func (o DeploymentLogMessagesInner) ToMap() (map[string]interface{}, error) {
 	toSerialize["timestamp"] = o.Timestamp
 	toSerialize["level"] = o.Level
 	toSerialize["message"] = o.Message
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -164,15 +169,22 @@ func (o *DeploymentLogMessagesInner) UnmarshalJSON(data []byte) (err error) {
 
 	varDeploymentLogMessagesInner := _DeploymentLogMessagesInner{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeploymentLogMessagesInner)
+	err = json.Unmarshal(data, &varDeploymentLogMessagesInner)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeploymentLogMessagesInner(varDeploymentLogMessagesInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "timestamp")
+		delete(additionalProperties, "level")
+		delete(additionalProperties, "message")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

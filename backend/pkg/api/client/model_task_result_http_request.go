@@ -22,7 +22,10 @@ var _ MappedNullable = &TaskResultHTTPRequest{}
 type TaskResultHTTPRequest struct {
 	StatusCode *int32 `json:"statusCode,omitempty"`
 	Body *string `json:"body,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _TaskResultHTTPRequest TaskResultHTTPRequest
 
 // NewTaskResultHTTPRequest instantiates a new TaskResultHTTPRequest object
 // This constructor will assign default values to properties that have it defined,
@@ -121,7 +124,34 @@ func (o TaskResultHTTPRequest) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Body) {
 		toSerialize["body"] = o.Body
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *TaskResultHTTPRequest) UnmarshalJSON(data []byte) (err error) {
+	varTaskResultHTTPRequest := _TaskResultHTTPRequest{}
+
+	err = json.Unmarshal(data, &varTaskResultHTTPRequest)
+
+	if err != nil {
+		return err
+	}
+
+	*o = TaskResultHTTPRequest(varTaskResultHTTPRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "statusCode")
+		delete(additionalProperties, "body")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableTaskResultHTTPRequest struct {

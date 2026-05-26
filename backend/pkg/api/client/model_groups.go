@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &Groups{}
 type Groups struct {
 	// List of device's groups.
 	Groups []string `json:"groups"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _Groups Groups
@@ -81,6 +81,11 @@ func (o Groups) MarshalJSON() ([]byte, error) {
 func (o Groups) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["groups"] = o.Groups
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -108,15 +113,20 @@ func (o *Groups) UnmarshalJSON(data []byte) (err error) {
 
 	varGroups := _Groups{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGroups)
+	err = json.Unmarshal(data, &varGroups)
 
 	if err != nil {
 		return err
 	}
 
 	*o = Groups(varGroups)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "groups")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -22,7 +22,10 @@ var _ MappedNullable = &CLIParams{}
 type CLIParams struct {
 	Command []string `json:"command,omitempty"`
 	ExecutionTimeOut *int32 `json:"executionTimeOut,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _CLIParams CLIParams
 
 // NewCLIParams instantiates a new CLIParams object
 // This constructor will assign default values to properties that have it defined,
@@ -121,7 +124,34 @@ func (o CLIParams) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ExecutionTimeOut) {
 		toSerialize["executionTimeOut"] = o.ExecutionTimeOut
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *CLIParams) UnmarshalJSON(data []byte) (err error) {
+	varCLIParams := _CLIParams{}
+
+	err = json.Unmarshal(data, &varCLIParams)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CLIParams(varCLIParams)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "command")
+		delete(additionalProperties, "executionTimeOut")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCLIParams struct {

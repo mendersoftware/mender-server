@@ -29,7 +29,10 @@ type HTTPParams struct {
 	StatusCodes []int32 `json:"statusCodes,omitempty"`
 	ConnectionTimeOut *int32 `json:"connectionTimeOut,omitempty"`
 	ReadTimeOut *int32 `json:"readTimeOut,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _HTTPParams HTTPParams
 
 // NewHTTPParams instantiates a new HTTPParams object
 // This constructor will assign default values to properties that have it defined,
@@ -373,7 +376,41 @@ func (o HTTPParams) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ReadTimeOut) {
 		toSerialize["readTimeOut"] = o.ReadTimeOut
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *HTTPParams) UnmarshalJSON(data []byte) (err error) {
+	varHTTPParams := _HTTPParams{}
+
+	err = json.Unmarshal(data, &varHTTPParams)
+
+	if err != nil {
+		return err
+	}
+
+	*o = HTTPParams(varHTTPParams)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "uri")
+		delete(additionalProperties, "method")
+		delete(additionalProperties, "contentType")
+		delete(additionalProperties, "body")
+		delete(additionalProperties, "json")
+		delete(additionalProperties, "headers")
+		delete(additionalProperties, "statusCodes")
+		delete(additionalProperties, "connectionTimeOut")
+		delete(additionalProperties, "readTimeOut")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableHTTPParams struct {

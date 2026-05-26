@@ -22,7 +22,10 @@ var _ MappedNullable = &LoginOptions{}
 type LoginOptions struct {
 	// Generate a JWT token with no expiration date.
 	NoExpiry *bool `json:"no_expiry,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _LoginOptions LoginOptions
 
 // NewLoginOptions instantiates a new LoginOptions object
 // This constructor will assign default values to properties that have it defined,
@@ -86,7 +89,33 @@ func (o LoginOptions) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.NoExpiry) {
 		toSerialize["no_expiry"] = o.NoExpiry
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *LoginOptions) UnmarshalJSON(data []byte) (err error) {
+	varLoginOptions := _LoginOptions{}
+
+	err = json.Unmarshal(data, &varLoginOptions)
+
+	if err != nil {
+		return err
+	}
+
+	*o = LoginOptions(varLoginOptions)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "no_expiry")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableLoginOptions struct {

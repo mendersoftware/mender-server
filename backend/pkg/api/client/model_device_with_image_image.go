@@ -29,7 +29,10 @@ type DeviceWithImageImage struct {
 	Size *int32 `json:"size,omitempty"`
 	// Creation / last edition of any of the artifact properties
 	Modified *time.Time `json:"modified,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeviceWithImageImage DeviceWithImageImage
 
 // NewDeviceWithImageImage instantiates a new DeviceWithImageImage object
 // This constructor will assign default values to properties that have it defined,
@@ -233,7 +236,37 @@ func (o DeviceWithImageImage) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Modified) {
 		toSerialize["modified"] = o.Modified
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeviceWithImageImage) UnmarshalJSON(data []byte) (err error) {
+	varDeviceWithImageImage := _DeviceWithImageImage{}
+
+	err = json.Unmarshal(data, &varDeviceWithImageImage)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeviceWithImageImage(varDeviceWithImageImage)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "meta")
+		delete(additionalProperties, "meta_artifact")
+		delete(additionalProperties, "size")
+		delete(additionalProperties, "modified")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeviceWithImageImage struct {

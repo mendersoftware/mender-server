@@ -23,7 +23,10 @@ type StartBatchWorkflows201ResponseInner struct {
 	Id *string `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Error *string `json:"error,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _StartBatchWorkflows201ResponseInner StartBatchWorkflows201ResponseInner
 
 // NewStartBatchWorkflows201ResponseInner instantiates a new StartBatchWorkflows201ResponseInner object
 // This constructor will assign default values to properties that have it defined,
@@ -157,7 +160,35 @@ func (o StartBatchWorkflows201ResponseInner) ToMap() (map[string]interface{}, er
 	if !IsNil(o.Error) {
 		toSerialize["error"] = o.Error
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *StartBatchWorkflows201ResponseInner) UnmarshalJSON(data []byte) (err error) {
+	varStartBatchWorkflows201ResponseInner := _StartBatchWorkflows201ResponseInner{}
+
+	err = json.Unmarshal(data, &varStartBatchWorkflows201ResponseInner)
+
+	if err != nil {
+		return err
+	}
+
+	*o = StartBatchWorkflows201ResponseInner(varStartBatchWorkflows201ResponseInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "error")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableStartBatchWorkflows201ResponseInner struct {

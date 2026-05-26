@@ -27,7 +27,10 @@ type Update struct {
 	// Deprecated: Please use `metadata` instead. A list of objects of unknown structure as this is dependent of update type (also custom defined by user) 
 	// Deprecated
 	MetaData []map[string]interface{} `json:"meta_data,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Update Update
 
 // NewUpdate instantiates a new Update object
 // This constructor will assign default values to properties that have it defined,
@@ -199,7 +202,36 @@ func (o Update) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.MetaData) {
 		toSerialize["meta_data"] = o.MetaData
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *Update) UnmarshalJSON(data []byte) (err error) {
+	varUpdate := _Update{}
+
+	err = json.Unmarshal(data, &varUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Update(varUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "type_info")
+		delete(additionalProperties, "files")
+		delete(additionalProperties, "metadata")
+		delete(additionalProperties, "meta_data")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUpdate struct {

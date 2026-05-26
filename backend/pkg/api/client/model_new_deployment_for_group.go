@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type NewDeploymentForGroup struct {
 	ArtifactName string `json:"artifact_name"`
 	// Force the installation of the Artifact disabling the `already-installed` check.
 	ForceInstallation *bool `json:"force_installation,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _NewDeploymentForGroup NewDeploymentForGroup
@@ -146,6 +146,11 @@ func (o NewDeploymentForGroup) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ForceInstallation) {
 		toSerialize["force_installation"] = o.ForceInstallation
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -174,15 +179,22 @@ func (o *NewDeploymentForGroup) UnmarshalJSON(data []byte) (err error) {
 
 	varNewDeploymentForGroup := _NewDeploymentForGroup{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNewDeploymentForGroup)
+	err = json.Unmarshal(data, &varNewDeploymentForGroup)
 
 	if err != nil {
 		return err
 	}
 
 	*o = NewDeploymentForGroup(varNewDeploymentForGroup)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "artifact_name")
+		delete(additionalProperties, "force_installation")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

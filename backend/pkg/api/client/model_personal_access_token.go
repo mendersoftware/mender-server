@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -33,6 +32,7 @@ type PersonalAccessToken struct {
 	ExpirationDate time.Time `json:"expiration_date"`
 	// Server-side timestamp of the token creation. 
 	CreatedTs time.Time `json:"created_ts"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PersonalAccessToken PersonalAccessToken
@@ -203,6 +203,11 @@ func (o PersonalAccessToken) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["expiration_date"] = o.ExpirationDate
 	toSerialize["created_ts"] = o.CreatedTs
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -233,15 +238,24 @@ func (o *PersonalAccessToken) UnmarshalJSON(data []byte) (err error) {
 
 	varPersonalAccessToken := _PersonalAccessToken{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPersonalAccessToken)
+	err = json.Unmarshal(data, &varPersonalAccessToken)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PersonalAccessToken(varPersonalAccessToken)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "last_used")
+		delete(additionalProperties, "expiration_date")
+		delete(additionalProperties, "created_ts")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

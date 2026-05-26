@@ -28,7 +28,10 @@ type DeviceConfiguration struct {
 	DeploymentId *string `json:"deployment_id,omitempty"`
 	ReportedTs *time.Time `json:"reported_ts,omitempty"`
 	UpdatedTs *time.Time `json:"updated_ts,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeviceConfiguration DeviceConfiguration
 
 // NewDeviceConfiguration instantiates a new DeviceConfiguration object
 // This constructor will assign default values to properties that have it defined,
@@ -267,7 +270,38 @@ func (o DeviceConfiguration) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.UpdatedTs) {
 		toSerialize["updated_ts"] = o.UpdatedTs
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeviceConfiguration) UnmarshalJSON(data []byte) (err error) {
+	varDeviceConfiguration := _DeviceConfiguration{}
+
+	err = json.Unmarshal(data, &varDeviceConfiguration)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeviceConfiguration(varDeviceConfiguration)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "configured")
+		delete(additionalProperties, "reported")
+		delete(additionalProperties, "deployment_id")
+		delete(additionalProperties, "reported_ts")
+		delete(additionalProperties, "updated_ts")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeviceConfiguration struct {

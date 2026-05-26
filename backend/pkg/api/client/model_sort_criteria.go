@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type SortCriteria struct {
 	Scope Scope `json:"scope"`
 	// Sort order.
 	Order string `json:"order"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SortCriteria SortCriteria
@@ -136,6 +136,11 @@ func (o SortCriteria) ToMap() (map[string]interface{}, error) {
 	toSerialize["attribute"] = o.Attribute
 	toSerialize["scope"] = o.Scope
 	toSerialize["order"] = o.Order
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *SortCriteria) UnmarshalJSON(data []byte) (err error) {
 
 	varSortCriteria := _SortCriteria{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSortCriteria)
+	err = json.Unmarshal(data, &varSortCriteria)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SortCriteria(varSortCriteria)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "attribute")
+		delete(additionalProperties, "scope")
+		delete(additionalProperties, "order")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type AuthRequest struct {
 	Pubkey string `json:"pubkey"`
 	// Tenant token.
 	TenantToken *string `json:"tenant_token,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AuthRequest AuthRequest
@@ -146,6 +146,11 @@ func (o AuthRequest) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.TenantToken) {
 		toSerialize["tenant_token"] = o.TenantToken
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -174,15 +179,22 @@ func (o *AuthRequest) UnmarshalJSON(data []byte) (err error) {
 
 	varAuthRequest := _AuthRequest{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAuthRequest)
+	err = json.Unmarshal(data, &varAuthRequest)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AuthRequest(varAuthRequest)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id_data")
+		delete(additionalProperties, "pubkey")
+		delete(additionalProperties, "tenant_token")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -14,7 +14,6 @@ package client
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ var _ MappedNullable = &ArtifactLink{}
 type ArtifactLink struct {
 	Uri string `json:"uri"`
 	Expire time.Time `json:"expire"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ArtifactLink ArtifactLink
@@ -108,6 +108,11 @@ func (o ArtifactLink) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["uri"] = o.Uri
 	toSerialize["expire"] = o.Expire
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *ArtifactLink) UnmarshalJSON(data []byte) (err error) {
 
 	varArtifactLink := _ArtifactLink{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varArtifactLink)
+	err = json.Unmarshal(data, &varArtifactLink)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ArtifactLink(varArtifactLink)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "uri")
+		delete(additionalProperties, "expire")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

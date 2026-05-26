@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &DeviceStatusStatistics{}
 type DeviceStatusStatistics struct {
 	Accepted DeviceCountByTier `json:"accepted"`
 	Pending DeviceCountByTier `json:"pending"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeviceStatusStatistics DeviceStatusStatistics
@@ -107,6 +107,11 @@ func (o DeviceStatusStatistics) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["accepted"] = o.Accepted
 	toSerialize["pending"] = o.Pending
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *DeviceStatusStatistics) UnmarshalJSON(data []byte) (err error) {
 
 	varDeviceStatusStatistics := _DeviceStatusStatistics{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeviceStatusStatistics)
+	err = json.Unmarshal(data, &varDeviceStatusStatistics)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeviceStatusStatistics(varDeviceStatusStatistics)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "accepted")
+		delete(additionalProperties, "pending")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

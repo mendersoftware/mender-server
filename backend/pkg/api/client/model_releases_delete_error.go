@@ -26,7 +26,10 @@ type ReleasesDeleteError struct {
 	ActiveDeployments []string `json:"active_deployments,omitempty"`
 	// Request ID (same as in X-MEN-RequestID header).
 	RequestId *string `json:"request_id,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ReleasesDeleteError ReleasesDeleteError
 
 // NewReleasesDeleteError instantiates a new ReleasesDeleteError object
 // This constructor will assign default values to properties that have it defined,
@@ -160,7 +163,35 @@ func (o ReleasesDeleteError) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.RequestId) {
 		toSerialize["request_id"] = o.RequestId
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ReleasesDeleteError) UnmarshalJSON(data []byte) (err error) {
+	varReleasesDeleteError := _ReleasesDeleteError{}
+
+	err = json.Unmarshal(data, &varReleasesDeleteError)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ReleasesDeleteError(varReleasesDeleteError)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "error")
+		delete(additionalProperties, "active_deployments")
+		delete(additionalProperties, "request_id")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableReleasesDeleteError struct {

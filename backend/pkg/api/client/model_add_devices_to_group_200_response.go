@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type AddDevicesToGroup200Response struct {
 	UpdatedCount int32 `json:"updated_count"`
 	// Number of devices listed that matched a valid device id internally. 
 	MatchedCount int32 `json:"matched_count"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AddDevicesToGroup200Response AddDevicesToGroup200Response
@@ -109,6 +109,11 @@ func (o AddDevicesToGroup200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["updated_count"] = o.UpdatedCount
 	toSerialize["matched_count"] = o.MatchedCount
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -137,15 +142,21 @@ func (o *AddDevicesToGroup200Response) UnmarshalJSON(data []byte) (err error) {
 
 	varAddDevicesToGroup200Response := _AddDevicesToGroup200Response{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAddDevicesToGroup200Response)
+	err = json.Unmarshal(data, &varAddDevicesToGroup200Response)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AddDevicesToGroup200Response(varAddDevicesToGroup200Response)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "updated_count")
+		delete(additionalProperties, "matched_count")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

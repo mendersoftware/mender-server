@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &DeploymentLog{}
 type DeploymentLog struct {
 	// Array of log entries of a deployment
 	Messages []DeploymentLogMessagesInner `json:"messages"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DeploymentLog DeploymentLog
@@ -81,6 +81,11 @@ func (o DeploymentLog) MarshalJSON() ([]byte, error) {
 func (o DeploymentLog) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["messages"] = o.Messages
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -108,15 +113,20 @@ func (o *DeploymentLog) UnmarshalJSON(data []byte) (err error) {
 
 	varDeploymentLog := _DeploymentLog{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDeploymentLog)
+	err = json.Unmarshal(data, &varDeploymentLog)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DeploymentLog(varDeploymentLog)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "messages")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

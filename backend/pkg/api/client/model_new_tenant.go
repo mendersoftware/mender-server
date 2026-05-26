@@ -13,7 +13,6 @@ package client
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ var _ MappedNullable = &NewTenant{}
 type NewTenant struct {
 	// ID of new tenant.
 	TenantId string `json:"tenant_id"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _NewTenant NewTenant
@@ -81,6 +81,11 @@ func (o NewTenant) MarshalJSON() ([]byte, error) {
 func (o NewTenant) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["tenant_id"] = o.TenantId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -108,15 +113,20 @@ func (o *NewTenant) UnmarshalJSON(data []byte) (err error) {
 
 	varNewTenant := _NewTenant{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNewTenant)
+	err = json.Unmarshal(data, &varNewTenant)
 
 	if err != nil {
 		return err
 	}
 
 	*o = NewTenant(varNewTenant)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "tenant_id")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

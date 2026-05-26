@@ -23,7 +23,10 @@ type DeploymentStatusStatisticsList200ResponseInner struct {
 	// The deployment ID
 	Id *string `json:"id,omitempty"`
 	Stats *Statistics `json:"stats,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DeploymentStatusStatisticsList200ResponseInner DeploymentStatusStatisticsList200ResponseInner
 
 // NewDeploymentStatusStatisticsList200ResponseInner instantiates a new DeploymentStatusStatisticsList200ResponseInner object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o DeploymentStatusStatisticsList200ResponseInner) ToMap() (map[string]inte
 	if !IsNil(o.Stats) {
 		toSerialize["stats"] = o.Stats
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DeploymentStatusStatisticsList200ResponseInner) UnmarshalJSON(data []byte) (err error) {
+	varDeploymentStatusStatisticsList200ResponseInner := _DeploymentStatusStatisticsList200ResponseInner{}
+
+	err = json.Unmarshal(data, &varDeploymentStatusStatisticsList200ResponseInner)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DeploymentStatusStatisticsList200ResponseInner(varDeploymentStatusStatisticsList200ResponseInner)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "stats")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDeploymentStatusStatisticsList200ResponseInner struct {
