@@ -16,19 +16,26 @@ package app
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
+	"net/http/httptest"
+	"path"
 	"testing"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 
+	"github.com/mendersoftware/mender-server/pkg/api/client"
+	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows"
-	wf_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows/mocks"
+	"github.com/mendersoftware/mender-server/pkg/utils/types"
+
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	store_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/store/mocks"
 )
@@ -237,8 +244,8 @@ func TestPrepareUserSession(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			ds := new(store_mocks.DataStore)
 			defer ds.AssertExpectations(t)
-			wf := new(wf_mocks.Client)
-			defer wf.AssertExpectations(t)
+			client, _ := oas_mocks.NewMockRoundTripperClient(t)
+			wf := client.WorkflowsOtherAPI
 			uuid.SetRand(tc.Rand)
 			defer uuid.SetRand(nil)
 			app := New(
@@ -334,7 +341,7 @@ func TestLogUserSession(t *testing.T) {
 		},
 		WorkflowsError: errors.New("http error"),
 		Erre: errors.New(
-			"failed to submit audit log: http error",
+			"^failed to submit audit log:.*http error$",
 		),
 	}, {
 		Name: "error, SubmitAuditLog http error and cleanup error",
@@ -351,35 +358,53 @@ func TestLogUserSession(t *testing.T) {
 		WorkflowsError:        errors.New("http error"),
 		StoreDeleteSessionErr: errors.New("store: internal error"),
 		Erre: errors.New(
-			"failed to submit audit log: http error: failed to clean up " +
-				"session state: store: internal error",
+			"^failed to submit audit log:.*http error:.*failed to clean up " +
+				"session state: store: internal error$",
 		),
 	}}
-
-	validateAuditLog := mock.MatchedBy(func(log workflows.AuditLog) bool {
-		return assert.NoError(t, log.Validate())
-	})
 
 	for i := range testCases {
 		tc := testCases[i]
 		t.Run(tc.Name, func(t *testing.T) {
 			ds := new(store_mocks.DataStore)
 			defer ds.AssertExpectations(t)
-			wf := new(wf_mocks.Client)
-			defer wf.AssertExpectations(t)
+			apiClient, rt := oas_mocks.NewMockRoundTripperClient(t)
 			uuid.SetRand(tc.Rand)
 			defer uuid.SetRand(nil)
 			app := New(
 				ds,
-				wf, Config{HaveAuditLogs: tc.HaveAuditLogs},
+				apiClient.WorkflowsOtherAPI, Config{HaveAuditLogs: tc.HaveAuditLogs},
 			)
+			var call *oas_mocks.MockRoundTripper_RoundTrip_Call
 			if tc.BadParameters {
 				goto execTest
 			}
-			wf.On("SubmitAuditLog",
-				tc.CTX,
-				validateAuditLog).
-				Return(tc.WorkflowsError)
+			call = rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+				return path.Base(r.URL.Path) == workflowSubmitAuditlog
+			}))
+			call.Run(func(request *http.Request) {
+				var body struct {
+					AuditLog  AuditLog `json:"auditlog"`
+					TenantID  string   `json:"tenant_id"`
+					RequestID string   `json:"request_id"`
+				}
+				err := json.NewDecoder(request.Body).
+					Decode(&body)
+				require.NoError(t, err, "failed to decode workflows request")
+				assert.NoError(t, body.AuditLog.Validate(), "invalid audit log")
+				assert.Equal(t, Action("open_"+tc.Session.Types[0]), body.AuditLog.Action)
+				if tc.WorkflowsError != nil {
+					call.Return(nil, tc.WorkflowsError)
+				} else {
+					w := httptest.NewRecorder()
+					w.Header().Set("Content-Type", "application/json")
+					w.WriteHeader(http.StatusCreated)
+					json.NewEncoder(w).Encode(client.StartWorkflow201Response{
+						Id: types.Pointer("1234"),
+					})
+					call.Return(w.Result(), nil)
+				}
+			}).Once()
 			if tc.WorkflowsError == nil {
 				goto execTest
 			}
@@ -487,37 +512,60 @@ func TestFreeUserSession(t *testing.T) {
 		Erre: errors.New("http error$"),
 	}}
 
-	workflowsMatcher := func(sess *model.Session) func(workflows.AuditLog) bool {
-		return func(wf workflows.AuditLog) bool {
-			return true
-		}
-	}
 	for i := range testCases {
 		tc := testCases[i]
 		t.Run(tc.Name, func(t *testing.T) {
 			t.Parallel()
 			ds := new(store_mocks.DataStore)
-			wf := new(wf_mocks.Client)
 			defer ds.AssertExpectations(t)
-			defer wf.AssertExpectations(t)
-			app := New(ds, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
+			apiClient, rt := oas_mocks.NewMockRoundTripperClient(t)
+			app := New(ds, apiClient.WorkflowsOtherAPI, Config{HaveAuditLogs: tc.HaveAuditLogs})
 			ctx := context.Background()
+
+			sessTypes := []string{}
+			if tc.StoreDeleteSession != nil {
+				sessTypes = tc.StoreDeleteSession.Types
+			}
+
+			var call *oas_mocks.MockRoundTripper_RoundTrip_Call
 
 			ds.On("DeleteSession", ctx, tc.SessionID).
 				Return(tc.StoreDeleteSession, tc.StoreDeleteSessionErr)
 			if tc.StoreDeleteSessionErr != nil || !tc.HaveAuditLogs {
 				goto execTest
 			}
-			wf.On("SubmitAuditLog", ctx,
-				mock.MatchedBy(workflowsMatcher(tc.StoreDeleteSession))).
-				Return(tc.WorkflowsErr)
+			call = rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+				return path.Base(r.URL.Path) == workflowSubmitAuditlog
+			}))
+
+			for _, typ := range sessTypes {
+				call.Run(func(request *http.Request) {
+					var body struct {
+						AuditLog  AuditLog `json:"auditlog"`
+						TenantID  string   `json:"tenant_id"`
+						RequestID string   `json:"request_id"`
+					}
+					err := json.NewDecoder(request.Body).
+						Decode(&body)
+					require.NoError(t, err, "failed to decode workflows request")
+					assert.NoError(t, body.AuditLog.Validate(), "invalid audit log")
+					assert.Equal(t, Action("close_"+typ), body.AuditLog.Action)
+					if tc.WorkflowsErr != nil {
+						call.Return(nil, tc.WorkflowsErr)
+					} else {
+						w := httptest.NewRecorder()
+						w.Header().Set("Content-Type", "application/json")
+						w.WriteHeader(http.StatusCreated)
+						json.NewEncoder(w).Encode(client.StartWorkflow201Response{
+							Id: types.Pointer("1234"),
+						})
+						call.Return(w.Result(), nil)
+					}
+				}).Once()
+			}
 
 		execTest:
-			types := []string{}
-			if tc.StoreDeleteSession != nil {
-				types = tc.StoreDeleteSession.Types
-			}
-			err := app.FreeUserSession(ctx, tc.SessionID, types)
+			err := app.FreeUserSession(ctx, tc.SessionID, sessTypes)
 			if tc.Erre != nil {
 				if assert.Error(t, err) {
 					assert.Regexp(t,
@@ -663,7 +711,10 @@ func TestDownloadFile(t *testing.T) {
 			HaveAuditLogs: true,
 			WorkflowsErr:  errors.New("generic error"),
 
-			Err: errors.New("failed to submit audit log for file transfer: generic error"),
+			Err: errors.New(`failed to submit audit log for file transfer: ` +
+				`failed to submit audit log: ` +
+				`Post "https://hosted.mender.io/api/v1/workflow/emit_auditlog": ` +
+				`generic error`),
 		},
 	}
 
@@ -673,17 +724,37 @@ func TestDownloadFile(t *testing.T) {
 			ds := new(store_mocks.DataStore)
 			defer ds.AssertExpectations(t)
 
-			wf := new(wf_mocks.Client)
-			defer wf.AssertExpectations(t)
-
-			app := New(ds, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
+			apiClient, rt := oas_mocks.NewMockRoundTripperClient(t)
+			app := New(ds, apiClient.WorkflowsOtherAPI, Config{HaveAuditLogs: tc.HaveAuditLogs})
 			ctx := context.Background()
 
 			if tc.HaveAuditLogs {
-				wf.On("SubmitAuditLog",
-					ctx,
-					mock.AnythingOfType("workflows.AuditLog"),
-				).Return(tc.WorkflowsErr)
+				call := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+					return path.Base(r.URL.Path) == workflowSubmitAuditlog
+				}))
+				call.Run(func(request *http.Request) {
+					var body struct {
+						AuditLog  AuditLog `json:"auditlog"`
+						TenantID  string   `json:"tenant_id"`
+						RequestID string   `json:"request_id"`
+					}
+					err := json.NewDecoder(request.Body).
+						Decode(&body)
+					require.NoError(t, err, "failed to decode workflows request")
+					assert.NoError(t, body.AuditLog.Validate(), "invalid audit log")
+					assert.Equal(t, ActionDownloadFile, body.AuditLog.Action)
+					if tc.WorkflowsErr != nil {
+						call.Return(nil, tc.WorkflowsErr)
+					} else {
+						w := httptest.NewRecorder()
+						w.Header().Set("Content-Type", "application/json")
+						w.WriteHeader(http.StatusCreated)
+						json.NewEncoder(w).Encode(client.StartWorkflow201Response{
+							Id: types.Pointer("1234"),
+						})
+						call.Return(w.Result(), nil)
+					}
+				}).Once()
 			}
 			sess := model.NewSession("1234", tc.UserID, tc.DeviceID)
 
@@ -736,7 +807,10 @@ func TestUploadFile(t *testing.T) {
 			HaveAuditLogs: true,
 			WorkflowsErr:  errors.New("generic error"),
 
-			Err: errors.New("failed to submit audit log for file transfer: generic error"),
+			Err: errors.New(`failed to submit audit log for file transfer: ` +
+				`failed to submit audit log: ` +
+				`Post "https://hosted.mender.io/api/v1/workflow/emit_auditlog": ` +
+				`generic error`),
 		},
 	}
 
@@ -746,17 +820,37 @@ func TestUploadFile(t *testing.T) {
 			ds := new(store_mocks.DataStore)
 			defer ds.AssertExpectations(t)
 
-			wf := new(wf_mocks.Client)
-			defer wf.AssertExpectations(t)
-
-			app := New(ds, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
+			apiClient, rt := oas_mocks.NewMockRoundTripperClient(t)
+			app := New(ds, apiClient.WorkflowsOtherAPI, Config{HaveAuditLogs: tc.HaveAuditLogs})
 			ctx := context.Background()
 
 			if tc.HaveAuditLogs {
-				wf.On("SubmitAuditLog",
-					ctx,
-					mock.AnythingOfType("workflows.AuditLog"),
-				).Return(tc.WorkflowsErr)
+				call := rt.EXPECT().RoundTrip(mock.MatchedBy(func(r *http.Request) bool {
+					return path.Base(r.URL.Path) == workflowSubmitAuditlog
+				}))
+				call.Run(func(request *http.Request) {
+					var body struct {
+						AuditLog  AuditLog `json:"auditlog"`
+						TenantID  string   `json:"tenant_id"`
+						RequestID string   `json:"request_id"`
+					}
+					err := json.NewDecoder(request.Body).
+						Decode(&body)
+					require.NoError(t, err, "failed to decode workflows request")
+					assert.NoError(t, body.AuditLog.Validate(), "invalid audit log")
+					assert.Equal(t, ActionUploadFile, body.AuditLog.Action)
+					if tc.WorkflowsErr != nil {
+						call.Return(nil, tc.WorkflowsErr)
+					} else {
+						w := httptest.NewRecorder()
+						w.Header().Set("Content-Type", "application/json")
+						w.WriteHeader(http.StatusCreated)
+						json.NewEncoder(w).Encode(client.StartWorkflow201Response{
+							Id: types.Pointer("1234"),
+						})
+						call.Return(w.Result(), nil)
+					}
+				}).Once()
 			}
 			sess := model.NewSession("1234", tc.UserID, tc.DeviceID)
 
