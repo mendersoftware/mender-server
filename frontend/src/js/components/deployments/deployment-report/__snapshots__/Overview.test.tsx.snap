@@ -290,6 +290,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
           data-discover="true"
           href="/software/test"
           style="font-weight: 500;"
+          target="_blank"
         >
           test
           <svg
@@ -324,6 +325,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
           data-discover="true"
           href="/devices?inventory=group:eq:testGroup"
           style="font-weight: 500;"
+          target="_blank"
         >
           testGroup
           <svg
