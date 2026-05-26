@@ -50,6 +50,8 @@ export const delayDefaults = {
   delayUnit: delayUnits.hours
 };
 
+export const deviceCountTooltipThreshold = 1000;
+
 export const phaseLimits = {
   maxPerBatchPercentage: 99,
   fullBatchPercentage: 100,
