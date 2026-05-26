@@ -114,6 +114,14 @@ variables:
       - "true"
       - "false"
 
+  # Retries for internal Gitlab Runner job stages:
+  #   - https://docs.gitlab.com/ci/runners/configure_runners/#job-stages-attempts
+  # Used to workaround spurious 502s returned from gitlab.com during pipeline creation.
+  ARTIFACT_DOWNLOAD_ATTEMPTS: 2
+  EXECUTOR_JOB_SECTION_ATTEMPTS: 2
+  GET_SOURCES_ATTEMPTS: 2
+  RESTORE_CACHE_ATTEMPTS: 2
+
 include:
   - project: Northern.tech/Mender/mendertesting
     file:
