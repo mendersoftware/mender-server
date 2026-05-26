@@ -53,7 +53,7 @@ describe('ManifestQuickActions Component', () => {
     };
     render(<ManifestQuickActions />, { preloadedState });
     expect(screen.getByLabelText('manifest-actions')).toBeInTheDocument();
-    expect(screen.getByText(/1 Manifest selected/i)).toBeInTheDocument();
+    expect(screen.getByText(/Manifest actions/i)).toBeInTheDocument();
   });
 
   it('triggers manifest removal after confirming the dialog', async () => {

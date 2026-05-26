@@ -8,7 +8,7 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
     class="flexbox space-between"
   >
     <div
-      class="margin-bottom-small css-r1y5b9-title"
+      class="margin-bottom-x-small css-ytxlsu-title"
     >
       <h6
         class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"

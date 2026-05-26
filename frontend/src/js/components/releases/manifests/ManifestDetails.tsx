@@ -93,11 +93,14 @@ const ManifestInfo = ({ manifest }: { manifest: Manifest }) => {
   );
 };
 
-const ManifestNotes = ({ notes, onSave }: { notes: string; onSave: (notes: string) => void }) => (
-  <ContentSection title="Notes">
-    <EditableLongText contentFallback="Add notes here" original={notes} onChange={onSave} placeholder="Notes" />
-  </ContentSection>
-);
+const ManifestNotes = ({ notes, onSave }: { notes: string; onSave: (notes: string) => void }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  return (
+    <ContentSection title="Notes" postTitle={!isEditing && <EditButton onClick={() => setIsEditing(true)} />}>
+      <EditableLongText original={notes} onChange={onSave} placeholder="Notes" isEditing={isEditing} onEditToggle={setIsEditing} />
+    </ContentSection>
+  );
+};
 
 interface ManifestTagsProps {
   canManageReleases: boolean;

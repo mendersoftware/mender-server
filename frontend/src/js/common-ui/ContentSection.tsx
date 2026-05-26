@@ -25,7 +25,14 @@ interface ContentSectionProps {
 }
 
 const useStyles = makeStyles()(theme => ({
-  title: { display: 'grid', gridAutoFlow: 'column', gridAutoColumns: 'max-content', gap: theme.spacing(), alignItems: 'center' }
+  title: {
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gridAutoColumns: 'max-content',
+    gap: theme.spacing(),
+    alignItems: 'center',
+    minHeight: theme.spacing(5)
+  }
 }));
 
 export const ContentSection = ({ children, className = '', isAddOn = false, postTitle, title }: ContentSectionProps) => {
@@ -34,7 +41,7 @@ export const ContentSection = ({ children, className = '', isAddOn = false, post
   return (
     <div className={`margin-bottom margin-top-medium ${className}`}>
       <div className="flexbox space-between">
-        <div className={`margin-bottom-small ${classes.title}`}>
+        <div className={`margin-bottom-x-small ${classes.title}`}>
           <Typography variant="subtitle1">{title}</Typography>
           {postTitle}
         </div>

@@ -150,11 +150,14 @@ export const ReleaseQuickActions = ({ actionCallbacks }) => {
   );
 };
 
-const ReleaseNotes = ({ onChange, release: { notes = '' } }) => (
-  <ContentSection title="Release notes">
-    <EditableLongText contentFallback="Add release notes here" original={notes} onChange={onChange} placeholder="Release notes" />
-  </ContentSection>
-);
+const ReleaseNotes = ({ onChange, release: { notes = '' } }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  return (
+    <ContentSection title="Release notes" postTitle={!isEditing && <EditButton onClick={() => setIsEditing(true)} />}>
+      <EditableLongText original={notes} onChange={onChange} placeholder="Release notes" isEditing={isEditing} onEditToggle={setIsEditing} />
+    </ContentSection>
+  );
+};
 
 const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, userCapabilities }) => {
   const [isEditing, setIsEditing] = useState(false);

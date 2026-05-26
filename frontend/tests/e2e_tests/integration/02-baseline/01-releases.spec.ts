@@ -119,19 +119,15 @@ test.describe('Files', () => {
 
   test('allows release notes manipulation', async ({ page }) => {
     await page.getByText(/terminalimage/i).click();
-    await expect(page.getByRole('heading', { name: /Release notes/i })).toBeVisible();
+    const releaseNotesTitle = page.getByRole('heading', { name: /Release notes/i });
+    await expect(releaseNotesTitle).toBeVisible();
     const hasNotes = await page.getByText('foo notes');
     if (await hasNotes.isVisible()) {
       return;
     }
     // layout based locators are not an option here, since the edit button is also visible on the nearby tags section
-    // and the selector would get confused due to the proximity - so instead we loop over all the divs
-    await page
-      .locator('div')
-      .filter({ hasText: /^Add release notes here Edit$/i })
-      .getByRole('button')
-      .click();
-    const input = await page.getByPlaceholder(/release notes/i);
+    await releaseNotesTitle.locator('..').getByRole('button', { name: /edit/i }).click();
+    const input = await page.getByLabel(/release notes/i);
     await input.fill('foo notes');
     await page.getByRole('button', { name: 'confirm' }).click();
     await expect(input).not.toBeVisible();
