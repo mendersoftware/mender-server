@@ -25,7 +25,6 @@ func (s SoftwareTagsFilter) Validate() error {
 
 type Software struct {
 	ReleaseBase `bson:"inline"`
-	Kind        ReleaseKind `json:"kind" bson:"kind,omitempty"`
 }
 
 // custom marshal to include the kind in the response
