@@ -12,7 +12,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { Release } from '@northern.tech/store/releasesSlice';
-import type { Device, Filter, NewDeploymentPhaseTypeManagement, NewDeploymentTypeManagement } from '@northern.tech/types/MenderTypes';
+import type { Device, Filter, NewDeploymentTypeManagement } from '@northern.tech/types/MenderTypes';
+
+import type { RolloutMode, RolloutPattern } from './phases/constants';
+import type { PhaseDefinition } from './phases/utils';
 
 export type DeploymentSettings = Partial<{
   delta: boolean;
@@ -23,13 +26,19 @@ export type DeploymentSettings = Partial<{
   forceDeploy: boolean;
   group: string;
   maxDevices: number;
-  phases: Array<NewDeploymentPhaseTypeManagement>;
+  phases: Array<PhaseDefinition>;
   release: Release;
   retries: number;
+  rolloutMode: RolloutMode;
+  rolloutPattern: RolloutPattern;
   update_control_map: NewDeploymentTypeManagement['update_control_map'];
 }>;
 
-export type DeploymentFormValues = Pick<DeploymentSettings, 'delta' | 'forceDeploy' | 'maxDevices' | 'retries' | 'phases' | 'update_control_map'> & {
+export type DeploymentFormValues = Pick<
+  DeploymentSettings,
+  'delta' | 'forceDeploy' | 'maxDevices' | 'retries' | 'phases' | 'update_control_map' | 'rolloutMode' | 'rolloutPattern'
+> & {
   group: string | null;
   release: Release | null;
+  startTime?: string;
 };
