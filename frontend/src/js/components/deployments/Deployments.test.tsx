@@ -287,9 +287,8 @@ describe('Deployments Component', () => {
     expect(within(thirdPhase).getByText(/Phases must have at least 1 device/i)).toBeTruthy();
     const [thirdBatch] = within(thirdPhase).getAllByRole('textbox') as HTMLInputElement[];
     fireEvent.change(thirdBatch, { target: { value: '20' } });
-    await user.click(screen.getByRole('checkbox', { name: /save as default/i }));
     const retrySelect = document.querySelector('#retries');
-    await user.click(retrySelect);
+    await user.click(retrySelect!);
     await user.keyboard(specialKeys.ArrowUp);
     await user.tab();
     await act(async () => {

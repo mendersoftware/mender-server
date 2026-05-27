@@ -108,8 +108,10 @@ export const GlobalSettings = () => {
   const userCapabilities = useSelector(getUserCapabilities);
   const [channelSettings, setChannelSettings] = useState(notificationChannelSettings);
   const [currentInterval, setCurrentInterval] = useState<number | null>(offlineThresholdSettings.interval);
+  const [currentRetries, setCurrentRetries] = useState<number | null>(Number(settings.retries ?? 0));
   const [showDeltaConfig, setShowDeltaConfig] = useState(false);
   const debouncedOfflineThreshold = useDebounce(currentInterval, TIMEOUTS.threeSeconds);
+  const debouncedRetries = useDebounce(currentRetries, TIMEOUTS.threeSeconds);
   const timer = useRef(false);
   const { classes } = useStyles();
   const { aiFeatures = {}, needsDeploymentConfirmation = false } = settings;
@@ -120,6 +122,7 @@ export const GlobalSettings = () => {
   const { hasDelta: hasDeltaArtifactGeneration } = useSelector(state => state.deployments.config) ?? {};
   const { hasAiEnabled } = useSelector(getFeatures);
   const isPreview = useSelector(getIsPreview);
+  const canPersistSettings = window.sessionStorage.getItem(settingsKeys.initialized) && timer.current && canManageUsers;
 
   const isValidInterval = (value: number | null): value is number => value != null && value > 0 && value <= maxOfflineIntervalDays;
   const intervalErrorText = isValidInterval(currentInterval) ? '' : 'Please enter a valid number between 1 and 1000.';
@@ -134,11 +137,22 @@ export const GlobalSettings = () => {
   }, [offlineThresholdSettings.interval]);
 
   useEffect(() => {
-    if (!window.sessionStorage.getItem(settingsKeys.initialized) || !timer.current || !canManageUsers || !isValidInterval(debouncedOfflineThreshold)) {
+    setCurrentRetries(Number(settings.retries ?? 0));
+  }, [settings.retries]);
+
+  useEffect(() => {
+    if (!canPersistSettings || !isValidInterval(debouncedOfflineThreshold)) {
       return;
     }
     dispatchedSaveGlobalSettings({ offlineThreshold: { interval: debouncedOfflineThreshold, intervalUnit: DEVICE_ONLINE_CUTOFF.intervalName }, notify: true });
-  }, [canManageUsers, debouncedOfflineThreshold, dispatchedSaveGlobalSettings]);
+  }, [canPersistSettings, debouncedOfflineThreshold, dispatchedSaveGlobalSettings]);
+
+  useEffect(() => {
+    if (!canPersistSettings) {
+      return;
+    }
+    dispatchedSaveGlobalSettings({ retries: Number(debouncedRetries), notify: true });
+  }, [canPersistSettings, debouncedRetries, dispatchedSaveGlobalSettings]);
 
   useEffect(() => {
     dispatch(getGlobalSettings());
@@ -191,6 +205,23 @@ export const GlobalSettings = () => {
             value={needsDeploymentConfirmation}
           />
         )}
+        {canManageUsers && (
+          <SettingsItem
+            title="Default update attempts"
+            description="Set the default number of times each device will attempt an update. This can be overridden when creating a new deployment."
+            secondary={
+              <NumberField
+                allowOutOfRange={false}
+                min={0}
+                max={100}
+                className={`margin-top-x-small ${classes.offlineThresholdInput}`}
+                onValueChange={setCurrentRetries}
+                showSteps
+                value={currentRetries}
+              />
+            }
+          />
+        )}
         {canManageReleases && (
           <div>
             <div className="flexbox align-items-center">
@@ -238,6 +269,7 @@ export const GlobalSettings = () => {
             max={maxOfflineIntervalDays}
             className={classes.offlineThresholdInput}
             onValueChange={onChangeOfflineInterval}
+            showSteps
             error={!!intervalErrorText}
             value={currentInterval}
             helperText={intervalErrorText}

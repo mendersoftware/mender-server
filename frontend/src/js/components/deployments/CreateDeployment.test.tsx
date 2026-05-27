@@ -52,8 +52,8 @@ const deploymentCreationTime = defaultState.deployments.byId.d1.created;
 
 describe('CreateDeployment Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<CreateDeployment deploymentObject={{}} onValuesChange={vi.fn()} />, { preloadedState });
-    const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
+    const { baseElement } = render(<CreateDeployment deploymentObject={{}} onValuesChange={vi.fn()} open />, { preloadedState });
+    const view = baseElement.getElementsByClassName('MuiDrawer-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
@@ -71,7 +71,7 @@ describe('CreateDeployment Component', () => {
         groupNames: ['testGroup', 'testGroupDynamic'],
         hasDynamicGroups: true,
         open: true,
-        previousRetries: 0,
+        defaultRetries: 0,
         releases: Object.keys(defaultState.releases.byId),
         releasesById: defaultState.releases.byId
       };

@@ -169,6 +169,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   data-discover="true"
                   href="/software/r1"
                   style="font-weight: 500;"
+                  target="_blank"
                 >
                   r1
                   <svg
@@ -203,6 +204,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   data-discover="true"
                   href="/devices"
                   style="font-weight: 500;"
+                  target="_blank"
                 >
                   test deployment
                   <svg
@@ -1192,6 +1194,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   data-discover="true"
                   href="/software"
                   style="font-weight: 500;"
+                  target="_blank"
                 >
                   <svg
                     aria-hidden="true"
@@ -1225,6 +1228,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
                   data-discover="true"
                   href="/devices"
                   style="font-weight: 500;"
+                  target="_blank"
                 >
                   Test
                   <svg
