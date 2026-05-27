@@ -19,6 +19,8 @@ import { getDeviceCountsByStatus, getDevicesById, getGroupData } from '@northern
 import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
 import { getGroupDevices } from '@northern.tech/store/thunks';
 import type { Device, Filter } from '@northern.tech/types/MenderTypes';
+import dayjs from 'dayjs';
+import validator from 'validator';
 
 import type { DeploymentFormValues } from './types';
 
@@ -30,7 +32,21 @@ export const deploymentFormSections: Record<keyof DeploymentFormValues, string> 
   phases: 'phases',
   release: 'release',
   retries: 'retries',
+  rolloutMode: 'rolloutMode',
+  startTime: 'startTime',
+  uniform_phases: 'uniform_phases',
   update_control_map: 'update_control_map'
+};
+
+export const getPhaseStartTime = (phases, index, startDate) => {
+  const startingDate = typeof startDate === 'string' && validator.isISO8601(startDate) ? startDate : undefined;
+  if (index < 1) {
+    return startDate?.toISOString ? startDate.toISOString() : startingDate;
+  } else if (phases[index].start_ts && typeof phases[index].start_ts === 'string' && validator.isISO8601(phases[index].start_ts)) {
+    return phases[index].start_ts;
+  }
+  const newStartTime = phases.slice(0, index).reduce((accu, phase) => dayjs(accu).add(phase.delay, phase.delayUnit), startingDate);
+  return newStartTime.toISOString();
 };
 
 export type DeploymentDerivedState = {
