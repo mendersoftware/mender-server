@@ -31,6 +31,9 @@ interface RolloutPhasesParams {
   totalSuccessCount: number;
 }
 
+const devicesToPercentage = (devices: number, numberDevices: number): number =>
+  numberDevices > 0 ? Math.max(1, Math.min(99, Math.round((devices / numberDevices) * 100))) : 10;
+
 // to display failures per phase we have to approximate the failure count per phase by keeping track of the failures we display in previous phases and
 // deduct the phase failures from the remainder - so if we have a total of 5 failures reported and are in the 3rd phase, with each phase before reporting
 // 3 successful deployments -> the 3rd phase should end up with 1 failure so far
@@ -46,7 +49,8 @@ export const getDisplayableRolloutPhases = ({
     (accu, phase, index) => {
       const displayablePhase = { ...phase };
       // ongoing phases might not have a device_count yet - so we calculate it
-      let expectedDeviceCountInPhase = Math.floor((totalDeviceCount / 100) * displayablePhase.batch_size) || displayablePhase.batch_size;
+      let expectedDeviceCountInPhase =
+        displayablePhase.batch_size_devices || Math.floor((totalDeviceCount / 100) * displayablePhase.batch_size) || displayablePhase.batch_size;
       // for phases with more successes than phase.device_count or more failures than phase.device_count we have to guess what phase to put them in =>
       // because of that we have to limit per phase success/ failure counts to the phase.device_count and split the progress between those with a bias for success,
       // therefore we have to track the remaining width and work with it - until we get per phase success & failure information
@@ -66,8 +70,13 @@ export const getDisplayableRolloutPhases = ({
       }
       displayablePhase.offset = accu.countedBatch;
       const remainingWidth = 100 - accu.countedBatch; // countedBatch should be the summarized percentages of the phases so far
-      displayablePhase.width = index === phases.length - 1 ? remainingWidth : displayablePhase.batch_size;
-      accu.countedBatch += displayablePhase.batch_size;
+      displayablePhase.width =
+        index === phases.length - 1
+          ? remainingWidth
+          : displayablePhase.batch_size_devices
+            ? devicesToPercentage(displayablePhase.batch_size_devices, totalDeviceCount)
+            : displayablePhase.batch_size;
+      accu.countedBatch += displayablePhase.batch_size_devices || displayablePhase.batch_size;
       accu.countedFailures += possiblePhaseFailures;
       accu.countedSuccesses += possiblePhaseSuccesses;
       accu.displayablePhases.push(displayablePhase);
@@ -77,7 +86,7 @@ export const getDisplayableRolloutPhases = ({
   ).displayablePhases;
 
 export const getDeploymentPhasesInfo = (deployment: Deployment) => {
-  const { created, device_count = 0, id, phases: deploymentPhases = [], max_devices = 0 } = deployment;
+  const { created, device_count = 0, id, phases: deploymentPhases = [], uniform_phases, max_devices = 0 } = deployment;
   const {
     inprogress: currentProgressCount,
     successes: totalSuccessCount,
@@ -85,7 +94,11 @@ export const getDeploymentPhasesInfo = (deployment: Deployment) => {
   } = groupDeploymentStats(deployment, deploymentPhases.length < 2);
   const totalDeviceCount = Math.max(device_count, max_devices);
 
-  const phases = deploymentPhases.length ? deploymentPhases : [{ id, device_count: totalSuccessCount, batch_size: 100, start_ts: created }];
+  const phases = deploymentPhases.length
+    ? deploymentPhases
+    : uniform_phases
+      ? [uniform_phases]
+      : [{ id, device_count: totalSuccessCount, batch_size: 100, start_ts: created }];
   return {
     currentProgressCount,
     phases,
