@@ -22,6 +22,8 @@ import type { Device, Filter } from '@northern.tech/types/MenderTypes';
 import dayjs from 'dayjs';
 import validator from 'validator';
 
+import { delayDefaults, phaseLimits, rolloutModes, rolloutPatterns } from './phases/constants';
+import { delayToSeconds } from './phases/utils';
 import type { DeploymentFormValues } from './types';
 
 export const deploymentFormSections: { [K in keyof DeploymentFormValues]-?: K } = {
@@ -47,6 +49,39 @@ export const getPhaseStartTime = (phases, index, startDate) => {
   }
   const newStartTime = phases.slice(0, index).reduce((accu, phase) => dayjs(accu).add(phase.delay, phase.delayUnit), startingDate);
   return newStartTime.toISOString();
+};
+
+// the form tracks a single list of phase definitions with one batch size each - only here they split back into the
+// api's custom phases (the definitions + a closing remainder phase) or the repeating uniform phase definition
+export const buildPhasePayload = ({
+  phases = [],
+  rolloutMode,
+  rolloutPattern,
+  startTime
+}: Pick<DeploymentFormValues, 'phases' | 'rolloutMode' | 'rolloutPattern' | 'startTime'>) => {
+  const batchKey = rolloutMode === rolloutModes.device_count.key ? rolloutModes.device_count.batchKey : rolloutModes.percentage.batchKey;
+  if (phases.length && rolloutPattern === rolloutPatterns.uniform.key) {
+    const [{ batchSize, delay = delayDefaults.delay, delayUnit = delayDefaults.delayUnit }] = phases;
+    return {
+      phases: undefined,
+      uniform_phases: { [batchKey]: batchSize, time_interval: delayToSeconds(delay, delayUnit), ...(startTime ? { start_ts: startTime } : {}) }
+    };
+  }
+  if (phases.length) {
+    const withFinalPhase = [...phases, {}];
+    return {
+      uniform_phases: undefined,
+      phases: withFinalPhase.map(({ batchSize }, i) => ({
+        start_ts: getPhaseStartTime(withFinalPhase, i, startTime),
+        ...(i < phases.length ? { [batchKey]: batchSize } : {})
+      }))
+    };
+  }
+  if (startTime) {
+    // if there is no phased rollout, a single full size phase carries the start time
+    return { phases: [{ batch_size: phaseLimits.fullBatchPercentage, start_ts: startTime }], uniform_phases: undefined };
+  }
+  return { phases: undefined, uniform_phases: undefined };
 };
 
 export type DeploymentDerivedState = {
