@@ -783,7 +783,7 @@ test:staging-deployment:firefox:
 
 publish:backend:coverage:
   stage: publish
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/base-alpine:master
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/golang:${GOLANG_VERSION}-alpine
   needs:
     - job: test:backend:unit
       artifacts: true
@@ -806,10 +806,9 @@ publish:backend:coverage:
       when: on_success
   allow_failure: true
   before_script:
+    - apk add curl
     - curl -Os https://cli.codecov.io/latest/alpine/codecov
     - chmod +x codecov
-    - curl -L "https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz" | tar -C /usr/local -xz
-    - export PATH="$PATH:/usr/local/go/bin"
   script:
     - PR_FLAG=$(echo "${CI_COMMIT_BRANCH}" | grep -q '^pr_' && echo "--pr $(echo "${CI_COMMIT_BRANCH}" | sed 's/^pr_//')" || echo "")
     - for coverdir in $(find ${GOCOVERDIR} -mindepth 1 -maxdepth 1 -type d); do
