@@ -45,6 +45,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
         name: Annotated[Optional[List[StrictStr]], Field(description="Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.")] = None,
         name_prefix: Annotated[Optional[StrictStr], Field(description="Software name prefix filter. Mutually exclusive with `name`.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Software kind filter.")] = None,
+        tag: Annotated[Optional[List[StrictStr]], Field(description="Filter the software based on their associated tags and only return software that have at least one matching tag (i.e. OR matching).")] = None,
         update_type: Annotated[Optional[StrictStr], Field(description="Update type filter.")] = None,
         page: Annotated[Optional[StrictInt], Field(description="Starting page.")] = None,
         per_page: Annotated[Optional[Annotated[int, Field(le=500, strict=True)]], Field(description="Maximum number of results per page.")] = None,
@@ -72,6 +73,8 @@ class DeploymentsV1alpha1ManagementAPIApi:
         :type name_prefix: str
         :param kind: Software kind filter.
         :type kind: str
+        :param tag: Filter the software based on their associated tags and only return software that have at least one matching tag (i.e. OR matching).
+        :type tag: List[str]
         :param update_type: Update type filter.
         :type update_type: str
         :param page: Starting page.
@@ -106,6 +109,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
             name=name,
             name_prefix=name_prefix,
             kind=kind,
+            tag=tag,
             update_type=update_type,
             page=page,
             per_page=per_page,
@@ -139,6 +143,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
         name: Annotated[Optional[List[StrictStr]], Field(description="Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.")] = None,
         name_prefix: Annotated[Optional[StrictStr], Field(description="Software name prefix filter. Mutually exclusive with `name`.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Software kind filter.")] = None,
+        tag: Annotated[Optional[List[StrictStr]], Field(description="Filter the software based on their associated tags and only return software that have at least one matching tag (i.e. OR matching).")] = None,
         update_type: Annotated[Optional[StrictStr], Field(description="Update type filter.")] = None,
         page: Annotated[Optional[StrictInt], Field(description="Starting page.")] = None,
         per_page: Annotated[Optional[Annotated[int, Field(le=500, strict=True)]], Field(description="Maximum number of results per page.")] = None,
@@ -166,6 +171,8 @@ class DeploymentsV1alpha1ManagementAPIApi:
         :type name_prefix: str
         :param kind: Software kind filter.
         :type kind: str
+        :param tag: Filter the software based on their associated tags and only return software that have at least one matching tag (i.e. OR matching).
+        :type tag: List[str]
         :param update_type: Update type filter.
         :type update_type: str
         :param page: Starting page.
@@ -200,6 +207,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
             name=name,
             name_prefix=name_prefix,
             kind=kind,
+            tag=tag,
             update_type=update_type,
             page=page,
             per_page=per_page,
@@ -233,6 +241,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
         name: Annotated[Optional[List[StrictStr]], Field(description="Software name filter. Can be repeated to query a set of entries. Mutually exclusive with `name_prefix`.")] = None,
         name_prefix: Annotated[Optional[StrictStr], Field(description="Software name prefix filter. Mutually exclusive with `name`.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Software kind filter.")] = None,
+        tag: Annotated[Optional[List[StrictStr]], Field(description="Filter the software based on their associated tags and only return software that have at least one matching tag (i.e. OR matching).")] = None,
         update_type: Annotated[Optional[StrictStr], Field(description="Update type filter.")] = None,
         page: Annotated[Optional[StrictInt], Field(description="Starting page.")] = None,
         per_page: Annotated[Optional[Annotated[int, Field(le=500, strict=True)]], Field(description="Maximum number of results per page.")] = None,
@@ -260,6 +269,8 @@ class DeploymentsV1alpha1ManagementAPIApi:
         :type name_prefix: str
         :param kind: Software kind filter.
         :type kind: str
+        :param tag: Filter the software based on their associated tags and only return software that have at least one matching tag (i.e. OR matching).
+        :type tag: List[str]
         :param update_type: Update type filter.
         :type update_type: str
         :param page: Starting page.
@@ -294,6 +305,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
             name=name,
             name_prefix=name_prefix,
             kind=kind,
+            tag=tag,
             update_type=update_type,
             page=page,
             per_page=per_page,
@@ -322,6 +334,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
         name,
         name_prefix,
         kind,
+        tag,
         update_type,
         page,
         per_page,
@@ -336,6 +349,7 @@ class DeploymentsV1alpha1ManagementAPIApi:
 
         _collection_formats: Dict[str, str] = {
             'name': 'multi',
+            'tag': 'multi',
         }
 
         _path_params: Dict[str, str] = {}
@@ -360,6 +374,10 @@ class DeploymentsV1alpha1ManagementAPIApi:
         if kind is not None:
             
             _query_params.append(('kind', kind))
+            
+        if tag is not None:
+            
+            _query_params.append(('tag', tag))
             
         if update_type is not None:
             
