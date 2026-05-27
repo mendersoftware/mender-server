@@ -60,16 +60,6 @@ const (
 	// SettingDebugLogDefault is the default value for the debug log enabling
 	SettingDebugLogDefault = false
 
-	// SettingWorkflowsURL sets the base URL for the workflows orchestrator.
-	SettingWorkflowsURL = "workflows_url"
-	// SettingWorkflowsURLDefault sets the default workflows URL.
-	SettingWorkflowsURLDefault = "http://mender-workflows-server:8080"
-
-	// SettingEnableAuditLogs enables/disables audit logging.
-	SettingEnableAuditLogs = "enable_audit"
-	// SettingEnableAuditLogsDefault is disabled by default.
-	SettingEnableAuditLogsDefault = false
-
 	// SettingLogExpireSec is the config key for how long logs will be
 	// retained in the database.
 	SettingRecordingExpireSec     = "recording_expire_seconds"
@@ -104,8 +94,6 @@ var (
 		{Key: SettingDbSSL, Value: SettingDbSSLDefault},
 		{Key: SettingDbSSLSkipVerify, Value: SettingDbSSLSkipVerifyDefault},
 		{Key: SettingDebugLog, Value: SettingDebugLogDefault},
-		{Key: SettingWorkflowsURL, Value: SettingWorkflowsURLDefault},
-		{Key: SettingEnableAuditLogs, Value: SettingEnableAuditLogsDefault},
 		{Key: SettingRecordingExpireSec, Value: SettingRecordingExpireDefault},
 		{Key: SettingWSAllowedOrigins, Value: SettingWSAllowedOriginsDefault},
 		{Key: SettingGracefulShutdownTimeout, Value: SettingGracefulShutdownTimeoutDefault},

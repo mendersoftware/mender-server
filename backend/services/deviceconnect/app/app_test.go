@@ -27,8 +27,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
-	"github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows"
-	wf_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows/mocks"
+
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	store_mocks "github.com/mendersoftware/mender-server/services/deviceconnect/store/mocks"
 )
@@ -43,7 +42,7 @@ func TestHealthCheck(t *testing.T) {
 		}),
 	).Return(err)
 
-	app := New(store, nil)
+	app := New(store)
 
 	ctx := context.Background()
 	res := app.HealthCheck(ctx)
@@ -66,7 +65,7 @@ func TestProvisionDevice(t *testing.T) {
 		deviceID,
 	).Return(err)
 
-	app := New(store, nil)
+	app := New(store)
 
 	ctx := context.Background()
 	res := app.ProvisionDevice(ctx, tenantID, &model.Device{ID: deviceID})
@@ -89,7 +88,7 @@ func TestDeleteDevice(t *testing.T) {
 		deviceID,
 	).Return(err)
 
-	app := New(store, nil)
+	app := New(store)
 
 	ctx := context.Background()
 	res := app.DeleteDevice(ctx, tenantID, deviceID)
@@ -131,7 +130,7 @@ func TestGetDevice(t *testing.T) {
 		deviceID,
 	).Return(device, nil)
 
-	app := New(store, nil)
+	app := New(store)
 
 	ctx := context.Background()
 	_, res := app.GetDevice(ctx, tenantID, "error")
@@ -165,7 +164,6 @@ func TestPrepareUserSession(t *testing.T) {
 
 		StoreAllocSessErr error
 
-		HaveAuditLogs         bool
 		WorkflowsError        error
 		StoreDeleteSessionErr error
 
@@ -237,23 +235,18 @@ func TestPrepareUserSession(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			ds := new(store_mocks.DataStore)
 			defer ds.AssertExpectations(t)
-			wf := new(wf_mocks.Client)
-			defer wf.AssertExpectations(t)
 			uuid.SetRand(tc.Rand)
 			defer uuid.SetRand(nil)
 			app := New(
 				ds,
-				wf, Config{HaveAuditLogs: tc.HaveAuditLogs},
+				Config{},
 			)
 			if tc.BadParameters {
 				goto execTest
 			}
 			ds.On("AllocateSession", tc.CTX, tc.Session).
 				Return(tc.StoreAllocSessErr)
-			if tc.StoreAllocSessErr != nil {
-				goto execTest
-			}
-			if !tc.HaveAuditLogs {
+			if tc.StoreAllocSessErr != nil || tc.Erre == nil {
 				goto execTest
 			}
 			ds.On("DeleteSession",
@@ -263,133 +256,6 @@ func TestPrepareUserSession(t *testing.T) {
 
 		execTest:
 			err := app.PrepareUserSession(tc.CTX, tc.Session)
-			if tc.Erre != nil {
-				if assert.Error(t, err) {
-					assert.Regexp(t,
-						tc.Erre.Error(),
-						err.Error(),
-					)
-				}
-			} else {
-				assert.NoError(t, err)
-			}
-		})
-	}
-}
-
-func TestLogUserSession(t *testing.T) {
-	testCases := []struct {
-		Name string
-
-		CTX     context.Context
-		Session *model.Session
-
-		Rand          io.Reader
-		BadParameters bool
-
-		HaveAuditLogs         bool
-		WorkflowsError        error
-		StoreDeleteSessionErr error
-
-		Erre error
-	}{{
-		Name: "ok, terminal",
-
-		CTX: context.Background(),
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			Types:    []string{model.SessionTypeTerminal},
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-
-		HaveAuditLogs:  true,
-		WorkflowsError: nil,
-	}, {
-		Name: "ok, port forward",
-
-		CTX: context.Background(),
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			Types:    []string{model.SessionTypePortForward},
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-
-		HaveAuditLogs:  true,
-		WorkflowsError: nil,
-	}, {
-		Name: "error, SubmitAuditLog http error",
-
-		CTX:           context.Background(),
-		HaveAuditLogs: true,
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			Types:    []string{model.SessionTypeTerminal},
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-		WorkflowsError: errors.New("http error"),
-		Erre: errors.New(
-			"failed to submit audit log: http error",
-		),
-	}, {
-		Name: "error, SubmitAuditLog http error and cleanup error",
-
-		CTX:           context.Background(),
-		HaveAuditLogs: true,
-		Session: &model.Session{
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			UserID:   "00000000-0000-0000-0000-000000000001",
-			Types:    []string{model.SessionTypeTerminal},
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now(),
-		},
-		WorkflowsError:        errors.New("http error"),
-		StoreDeleteSessionErr: errors.New("store: internal error"),
-		Erre: errors.New(
-			"failed to submit audit log: http error: failed to clean up " +
-				"session state: store: internal error",
-		),
-	}}
-
-	validateAuditLog := mock.MatchedBy(func(log workflows.AuditLog) bool {
-		return assert.NoError(t, log.Validate())
-	})
-
-	for i := range testCases {
-		tc := testCases[i]
-		t.Run(tc.Name, func(t *testing.T) {
-			ds := new(store_mocks.DataStore)
-			defer ds.AssertExpectations(t)
-			wf := new(wf_mocks.Client)
-			defer wf.AssertExpectations(t)
-			uuid.SetRand(tc.Rand)
-			defer uuid.SetRand(nil)
-			app := New(
-				ds,
-				wf, Config{HaveAuditLogs: tc.HaveAuditLogs},
-			)
-			if tc.BadParameters {
-				goto execTest
-			}
-			wf.On("SubmitAuditLog",
-				tc.CTX,
-				validateAuditLog).
-				Return(tc.WorkflowsError)
-			if tc.WorkflowsError == nil {
-				goto execTest
-			}
-			ds.On("DeleteSession",
-				tc.CTX,
-				mock.AnythingOfType("string")).
-				Return(tc.Session, tc.StoreDeleteSessionErr)
-
-		execTest:
-			err := app.LogUserSession(tc.CTX, tc.Session, tc.Session.Types[0])
 			if tc.Erre != nil {
 				if assert.Error(t, err) {
 					assert.Regexp(t,
@@ -414,8 +280,7 @@ func TestFreeUserSession(t *testing.T) {
 		StoreDeleteSession    *model.Session
 		StoreDeleteSessionErr error
 
-		HaveAuditLogs bool
-		WorkflowsErr  error
+		WorkflowsErr error
 
 		Erre error
 	}{{
@@ -444,7 +309,6 @@ func TestFreeUserSession(t *testing.T) {
 			TenantID: "000000000000000000000000",
 			StartTS:  time.Now().Add(-time.Hour),
 		},
-		HaveAuditLogs: true,
 	}, {
 		Name: "ok, with audit logs port forward",
 
@@ -458,66 +322,37 @@ func TestFreeUserSession(t *testing.T) {
 			TenantID: "000000000000000000000000",
 			StartTS:  time.Now().Add(-time.Hour),
 		},
-		HaveAuditLogs: true,
 	}, {
 		Name: "error, store.DeleteSession internal error",
 
 		SessionID: "00000000-0000-0000-0000-000000000000",
 
-		HaveAuditLogs:         true,
 		StoreDeleteSessionErr: errors.New("store: internal error"),
 
 		Erre: errors.New("store: internal error$"),
-	}, {
-		Name: "error, SubmitAuditLogs http error",
-
-		SessionID: "00000000-0000-0000-0000-000000000000",
-
-		StoreDeleteSession: &model.Session{
-			ID:       "00000000-0000-0000-0000-000000000000",
-			DeviceID: "00000000-0000-0000-0000-000000000001",
-			UserID:   "00000000-0000-0000-0000-000000000002",
-			Types:    []string{model.SessionTypeTerminal},
-			TenantID: "000000000000000000000000",
-			StartTS:  time.Now().Add(-time.Hour),
-		},
-		HaveAuditLogs: true,
-		WorkflowsErr:  errors.New("http error"),
-
-		Erre: errors.New("http error$"),
 	}}
 
-	workflowsMatcher := func(sess *model.Session) func(workflows.AuditLog) bool {
-		return func(wf workflows.AuditLog) bool {
-			return true
-		}
-	}
 	for i := range testCases {
 		tc := testCases[i]
 		t.Run(tc.Name, func(t *testing.T) {
 			t.Parallel()
 			ds := new(store_mocks.DataStore)
-			wf := new(wf_mocks.Client)
 			defer ds.AssertExpectations(t)
-			defer wf.AssertExpectations(t)
-			app := New(ds, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
+			app := New(ds, Config{})
 			ctx := context.Background()
+
+			sessTypes := []string{}
+			if tc.StoreDeleteSession != nil {
+				sessTypes = tc.StoreDeleteSession.Types
+			}
 
 			ds.On("DeleteSession", ctx, tc.SessionID).
 				Return(tc.StoreDeleteSession, tc.StoreDeleteSessionErr)
-			if tc.StoreDeleteSessionErr != nil || !tc.HaveAuditLogs {
+			if tc.StoreDeleteSessionErr != nil {
 				goto execTest
 			}
-			wf.On("SubmitAuditLog", ctx,
-				mock.MatchedBy(workflowsMatcher(tc.StoreDeleteSession))).
-				Return(tc.WorkflowsErr)
-
 		execTest:
-			types := []string{}
-			if tc.StoreDeleteSession != nil {
-				types = tc.StoreDeleteSession.Types
-			}
-			err := app.FreeUserSession(ctx, tc.SessionID, types)
+			err := app.FreeUserSession(ctx, tc.SessionID, sessTypes)
 			if tc.Erre != nil {
 				if assert.Error(t, err) {
 					assert.Regexp(t,
@@ -558,7 +393,7 @@ func TestGetSessionRecording(t *testing.T) {
 				sessionId,
 				writer,
 			).Return(tc.DbGetSessionRecordingError)
-			app := New(store, nil)
+			app := New(store)
 
 			ctx := context.Background()
 			err := app.GetSessionRecording(ctx, sessionId, writer)
@@ -593,7 +428,7 @@ func TestSaveSessionRecording(t *testing.T) {
 				sessionId,
 				bytes,
 			).Return(tc.DbGetSessionRecordingError)
-			app := New(store, nil)
+			app := New(store)
 
 			ctx := context.Background()
 			err := app.SaveSessionRecording(ctx, sessionId, bytes)
@@ -616,154 +451,10 @@ func TestGetRecorder(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			sessionId := "00000000-0000-0000-0000-000000000000"
 			store := &store_mocks.DataStore{}
-			app := New(store, nil)
+			app := New(store)
 
 			r := app.GetRecorder(sessionId)
 			assert.NotNil(t, r)
-		})
-	}
-}
-
-func TestDownloadFile(t *testing.T) {
-	t.Parallel()
-
-	testCases := []struct {
-		Name string
-
-		UserID   string
-		DeviceID string
-		Path     string
-
-		HaveAuditLogs bool
-		WorkflowsErr  error
-
-		Err error
-	}{
-		{
-			Name: "ok",
-
-			UserID:   "00000000-0000-0000-0000-000000000000",
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			Path:     "/path/to/file",
-		},
-		{
-			Name: "ok, with audit logs",
-
-			UserID:        "00000000-0000-0000-0000-000000000000",
-			DeviceID:      "00000000-0000-0000-0000-000000000000",
-			Path:          "/path/to/file",
-			HaveAuditLogs: true,
-		},
-		{
-			Name: "ko, with audit logs",
-
-			UserID:        "00000000-0000-0000-0000-000000000000",
-			DeviceID:      "00000000-0000-0000-0000-000000000000",
-			Path:          "/path/to/file",
-			HaveAuditLogs: true,
-			WorkflowsErr:  errors.New("generic error"),
-
-			Err: errors.New("failed to submit audit log for file transfer: generic error"),
-		},
-	}
-
-	for i := range testCases {
-		tc := testCases[i]
-		t.Run(tc.Name, func(t *testing.T) {
-			ds := new(store_mocks.DataStore)
-			defer ds.AssertExpectations(t)
-
-			wf := new(wf_mocks.Client)
-			defer wf.AssertExpectations(t)
-
-			app := New(ds, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
-			ctx := context.Background()
-
-			if tc.HaveAuditLogs {
-				wf.On("SubmitAuditLog",
-					ctx,
-					mock.AnythingOfType("workflows.AuditLog"),
-				).Return(tc.WorkflowsErr)
-			}
-
-			err := app.DownloadFile(ctx, tc.UserID, tc.DeviceID, tc.Path)
-			if tc.Err != nil {
-				assert.EqualError(t, err, tc.Err.Error())
-			} else {
-				assert.NoError(t, err)
-			}
-		})
-	}
-}
-
-func TestUploadFile(t *testing.T) {
-	t.Parallel()
-
-	testCases := []struct {
-		Name string
-
-		UserID   string
-		DeviceID string
-		Path     string
-
-		HaveAuditLogs bool
-		WorkflowsErr  error
-
-		Err error
-	}{
-		{
-			Name: "ok",
-
-			UserID:   "00000000-0000-0000-0000-000000000000",
-			DeviceID: "00000000-0000-0000-0000-000000000000",
-			Path:     "/path/to/file",
-		},
-		{
-			Name: "ok, with audit logs",
-
-			UserID:        "00000000-0000-0000-0000-000000000000",
-			DeviceID:      "00000000-0000-0000-0000-000000000000",
-			Path:          "/path/to/file",
-			HaveAuditLogs: true,
-		},
-		{
-			Name: "ko, with audit logs",
-
-			UserID:        "00000000-0000-0000-0000-000000000000",
-			DeviceID:      "00000000-0000-0000-0000-000000000000",
-			Path:          "/path/to/file",
-			HaveAuditLogs: true,
-			WorkflowsErr:  errors.New("generic error"),
-
-			Err: errors.New("failed to submit audit log for file transfer: generic error"),
-		},
-	}
-
-	for i := range testCases {
-		tc := testCases[i]
-		t.Run(tc.Name, func(t *testing.T) {
-			ds := new(store_mocks.DataStore)
-			defer ds.AssertExpectations(t)
-
-			wf := new(wf_mocks.Client)
-			defer wf.AssertExpectations(t)
-
-			app := New(ds, wf, Config{HaveAuditLogs: tc.HaveAuditLogs})
-			ctx := context.Background()
-
-			if tc.HaveAuditLogs {
-				wf.On("SubmitAuditLog",
-					ctx,
-					mock.AnythingOfType("workflows.AuditLog"),
-				).Return(tc.WorkflowsErr)
-			}
-
-			err := app.UploadFile(ctx, tc.UserID, tc.DeviceID, tc.Path)
-			if tc.Err != nil {
-				assert.EqualError(t, err, tc.Err.Error())
-			} else {
-				assert.NoError(t, err)
-			}
 		})
 	}
 }
@@ -772,7 +463,7 @@ func TestShutdown(t *testing.T) {
 	t.Parallel()
 	gracePeriod := 1 * time.Second
 
-	test := New(nil, nil, Config{})
+	test := New(nil, Config{})
 	test.Shutdown(gracePeriod)
 	test.ShutdownDone()
 
@@ -786,7 +477,7 @@ func TestShutdownCancels(t *testing.T) {
 	t.Parallel()
 	gracePeriod := 1 * time.Second
 
-	app := New(nil, nil, Config{})
+	app := New(nil, Config{})
 
 	// register shutdown cancels
 	c1 := false
@@ -852,7 +543,7 @@ func TestDeleteTenant(t *testing.T) {
 				}),
 				tc.tenantId,
 			).Return(tc.dbErr)
-			app := New(ds, nil, Config{})
+			app := New(ds, Config{})
 			err := app.DeleteTenant(ctx, tc.tenantId)
 
 			if tc.dbErr != nil {

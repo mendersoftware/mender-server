@@ -26,7 +26,6 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 
-	"github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
 )
@@ -49,14 +48,11 @@ type App interface {
 	SetDeviceConnected(ctx context.Context, tenantID, deviceID string) (int64, error)
 	SetDeviceDisconnected(ctx context.Context, tenantID, deviceID string, version int64) error
 	PrepareUserSession(ctx context.Context, sess *model.Session) error
-	LogUserSession(ctx context.Context, sess *model.Session, sessionType string) error
 	FreeUserSession(ctx context.Context, sessionID string, sessionTypes []string) error
 	GetSessionRecording(ctx context.Context, id string, w io.Writer) (err error)
 	SaveSessionRecording(ctx context.Context, id string, sessionBytes []byte) error
 	GetRecorder(sessionID string) Recorder
 	GetControlRecorder(sessionID string) Recorder
-	DownloadFile(ctx context.Context, userID string, deviceID string, path string) error
-	UploadFile(ctx context.Context, userID string, deviceID string, path string) error
 	DeleteTenant(ctx context.Context, tenantID string) error
 	Shutdown(timeout time.Duration)
 	ShutdownDone()
@@ -67,28 +63,19 @@ type App interface {
 // app is an app object
 type app struct {
 	store            store.DataStore
-	workflows        workflows.Client
 	shutdownCancels  map[uint32]context.CancelFunc
 	shutdownCancelsM *sync.Mutex
 	shutdownDone     chan struct{}
 	Config
 }
 
-type Config struct {
-	HaveAuditLogs bool
-}
+type Config struct{}
 
 // NewApp initialize a new deviceconnect App
-func New(ds store.DataStore, wf workflows.Client, config ...Config) App {
+func New(ds store.DataStore, config ...Config) App {
 	conf := Config{}
-	for _, cfgIn := range config {
-		if cfgIn.HaveAuditLogs {
-			conf.HaveAuditLogs = true
-		}
-	}
 	return &app{
 		store:            ds,
-		workflows:        wf,
 		Config:           conf,
 		shutdownCancels:  make(map[uint32]context.CancelFunc),
 		shutdownCancelsM: &sync.Mutex{},
@@ -173,94 +160,15 @@ func (a *app) PrepareUserSession(
 	return nil
 }
 
-// LogUserSession logs a new user session
-func (a *app) LogUserSession(
-	ctx context.Context,
-	sess *model.Session,
-	sessionType string,
-) error {
-	if !a.HaveAuditLogs {
-		return nil
-	}
-	var change string
-	var action workflows.Action
-	if sessionType == model.SessionTypePortForward {
-		change = "User requested a new port forwarding session"
-		action = workflows.ActionPortForwardOpen
-	} else if sessionType == model.SessionTypeTerminal {
-		change = "User requested a new terminal session"
-		action = workflows.ActionTerminalOpen
-	} else {
-		return errors.New("unknown session type: " + sessionType)
-	}
-	err := a.workflows.SubmitAuditLog(ctx, workflows.AuditLog{
-		Action: action,
-		Actor: workflows.Actor{
-			ID:   sess.UserID,
-			Type: workflows.ActorUser,
-		},
-		Object: workflows.Object{
-			ID:   sess.DeviceID,
-			Type: workflows.ObjectDevice,
-		},
-		Change: change,
-		MetaData: map[string][]string{
-			"session_id": {sess.ID},
-		},
-		EventTS: time.Now(),
-	})
-	if err != nil {
-		err = errors.Wrap(err, "failed to submit audit log")
-		_, e := a.store.DeleteSession(ctx, sess.ID)
-		if e != nil {
-			err = errors.Errorf(
-				"%s: failed to clean up session state: %s",
-				err.Error(), e.Error(),
-			)
-		}
-		return err
-	}
-	return nil
-}
-
 // FreeUserSession releases the session
 func (a *app) FreeUserSession(
 	ctx context.Context,
 	sessionID string,
 	sessionTypes []string,
 ) error {
-	sess, err := a.store.DeleteSession(ctx, sessionID)
+	_, err := a.store.DeleteSession(ctx, sessionID)
 	if err != nil {
 		return err
-	}
-	if a.HaveAuditLogs {
-		for _, sessionType := range sessionTypes {
-			var action workflows.Action
-			if sessionType == model.SessionTypePortForward {
-				action = workflows.ActionPortForwardClose
-			} else if sessionType == model.SessionTypeTerminal {
-				action = workflows.ActionTerminalClose
-			} else {
-				continue
-			}
-			err = a.workflows.SubmitAuditLog(ctx, workflows.AuditLog{
-				Action: action,
-				Actor: workflows.Actor{
-					ID:   sess.UserID,
-					Type: workflows.ActorUser,
-				},
-				Object: workflows.Object{
-					ID:   sess.DeviceID,
-					Type: workflows.ObjectDevice,
-				},
-				MetaData: map[string][]string{
-					"session_id": {sess.ID},
-				},
-			})
-			if err != nil {
-				return errors.Wrap(err, "failed to submit audit log")
-			}
-		}
 	}
 	return nil
 }
@@ -283,41 +191,11 @@ func (a app) GetControlRecorder(sessionID string) Recorder {
 	return NewControlRecorder(sessionID, a.store)
 }
 
-func (a *app) DownloadFile(ctx context.Context, userID string, deviceID string, path string) error {
-	return a.submitFileTransferAuditlog(ctx, userID, deviceID, path,
-		workflows.ActionDownloadFile, "User downloaded a file from the device")
+func (a *app) DownloadFile(ctx context.Context, sess *model.Session, path string) error {
+	return nil
 }
 
-func (a *app) UploadFile(ctx context.Context, userID string, deviceID string, path string) error {
-	return a.submitFileTransferAuditlog(ctx, userID, deviceID, path,
-		workflows.ActionUploadFile, "User uploaded a file to the device")
-}
-
-func (a *app) submitFileTransferAuditlog(ctx context.Context, userID string, deviceID string,
-	path string, action workflows.Action, change string) error {
-	if a.HaveAuditLogs {
-		err := a.workflows.SubmitAuditLog(ctx, workflows.AuditLog{
-			Action: action,
-			Actor: workflows.Actor{
-				ID:   userID,
-				Type: workflows.ActorUser,
-			},
-			Object: workflows.Object{
-				ID:   deviceID,
-				Type: workflows.ObjectDevice,
-			},
-			Change: change,
-			MetaData: map[string][]string{
-				"path": {path},
-			},
-			EventTS: time.Now(),
-		})
-		if err != nil {
-			return errors.Wrap(err,
-				"failed to submit audit log for file transfer",
-			)
-		}
-	}
+func (a *app) UploadFile(ctx context.Context, sess *model.Session, path string) error {
 	return nil
 }
 

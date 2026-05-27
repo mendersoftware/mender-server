@@ -20,6 +20,7 @@ import (
 	"time"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/google/uuid"
 )
 
 // Values for the session status attribute
@@ -71,6 +72,16 @@ type Session struct {
 	TenantID           string      `json:"tenant_id" bson:"tenant_id"`
 	BytesRecordedMutex *sync.Mutex `json:"-" bson:"-"`
 	BytesRecorded      int         `json:"bytes_transferred" bson:"bytes_transferred"`
+}
+
+func NewSession(tenantID, userID, deviceID string) Session {
+	return Session{
+		ID:                 uuid.NewString(),
+		TenantID:           tenantID,
+		UserID:             userID,
+		DeviceID:           deviceID,
+		BytesRecordedMutex: new(sync.Mutex),
+	}
 }
 
 func (sess Session) Subject(tenantID string) string {

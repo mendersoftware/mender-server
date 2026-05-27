@@ -71,17 +71,17 @@ func (_m *App) DeleteTenant(ctx context.Context, tenantID string) error {
 	return r0
 }
 
-// DownloadFile provides a mock function with given fields: ctx, userID, deviceID, path
-func (_m *App) DownloadFile(ctx context.Context, userID string, deviceID string, path string) error {
-	ret := _m.Called(ctx, userID, deviceID, path)
+// DownloadFile provides a mock function with given fields: ctx, sess, path
+func (_m *App) DownloadFile(ctx context.Context, sess *model.Session, path string) error {
+	ret := _m.Called(ctx, sess, path)
 
 	if len(ret) == 0 {
 		panic("no return value specified for DownloadFile")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, string) error); ok {
-		r0 = rf(ctx, userID, deviceID, path)
+	if rf, ok := ret.Get(0).(func(context.Context, *model.Session, string) error); ok {
+		r0 = rf(ctx, sess, path)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -364,17 +364,17 @@ func (_m *App) UnregisterShutdownCancel(_a0 uint32) {
 	_m.Called(_a0)
 }
 
-// UploadFile provides a mock function with given fields: ctx, userID, deviceID, path
-func (_m *App) UploadFile(ctx context.Context, userID string, deviceID string, path string) error {
-	ret := _m.Called(ctx, userID, deviceID, path)
+// UploadFile provides a mock function with given fields: ctx, sess, path
+func (_m *App) UploadFile(ctx context.Context, sess *model.Session, path string) error {
+	ret := _m.Called(ctx, sess, path)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UploadFile")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, string) error); ok {
-		r0 = rf(ctx, userID, deviceID, path)
+	if rf, ok := ret.Get(0).(func(context.Context, *model.Session, string) error); ok {
+		r0 = rf(ctx, sess, path)
 	} else {
 		r0 = ret.Error(0)
 	}

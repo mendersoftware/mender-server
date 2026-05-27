@@ -29,7 +29,6 @@ import (
 	api "github.com/mendersoftware/mender-server/services/deviceconnect/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/client/nats"
-	"github.com/mendersoftware/mender-server/services/deviceconnect/client/workflows"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceconnect/config"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
 )
@@ -52,13 +51,8 @@ func InitAndRun(conf config.Reader, dataStore store.DataStore) error {
 	if err != nil {
 		return err
 	}
-	wflows := workflows.NewClient(
-		config.Config.GetString(dconfig.SettingWorkflowsURL),
-	)
 	deviceConnectApp := app.New(
-		dataStore, wflows, app.Config{
-			HaveAuditLogs: conf.GetBool(dconfig.SettingEnableAuditLogs),
-		},
+		dataStore, app.Config{},
 	)
 
 	gracefulShutdownTimeout := conf.GetDuration(dconfig.SettingGracefulShutdownTimeout)
