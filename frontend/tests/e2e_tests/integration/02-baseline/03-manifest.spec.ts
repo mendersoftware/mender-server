@@ -91,6 +91,34 @@ test.describe('Manifests', () => {
     await page.getByLabel(/close/i).click();
     await expect(page.getByText(`Manifest information for`)).not.toBeVisible();
   });
+
+  test('allows editing manifest notes', async ({ page }) => {
+    await page.getByRole('cell', { name: 'test' }).click();
+    await expect(page.getByText('Manifest information for')).toBeVisible();
+    const drawer = page.locator('.MuiDrawer-paper');
+    const editButtons = drawer.getByRole('button', { name: 'Edit' });
+    await editButtons.first().click();
+    const textField = drawer.getByRole('textbox');
+    await textField.fill('e2e updated notes');
+    await drawer.getByLabel(/confirm/i).click();
+    await expect(page.getByText(/Manifest details were updated successfully/i)).toBeVisible();
+    await page.getByLabel(/close/i).click();
+  });
+
+  test('allows editing manifest tags', async ({ page }) => {
+    await page.getByRole('cell', { name: 'test' }).click();
+    await expect(page.getByText('Manifest information for')).toBeVisible();
+    const drawer = page.locator('.MuiDrawer-paper');
+    const editButtons = drawer.getByRole('button', { name: 'Edit' });
+    await editButtons.nth(1).click();
+    const tagsInput = drawer.locator('#tags-chip-select');
+    await tagsInput.fill('e2e-new-tag');
+    await tagsInput.press('Enter');
+    await drawer.getByLabel(/confirm/i).click();
+    await expect(page.getByText(/Manifest details were updated successfully/i)).toBeVisible();
+    await page.getByLabel(/close/i).click();
+  });
+
   test('allows removing an uploaded manifest', async ({ page }) => {
     const targetCell = page.getByRole('cell', { name: 'e2e-tag' });
     await expect(targetCell).toBeVisible();

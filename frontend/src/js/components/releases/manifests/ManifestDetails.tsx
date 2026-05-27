@@ -32,9 +32,9 @@ import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/Two
 import storeActions from '@northern.tech/store/actions';
 import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS, SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
-import { getReleaseTags, getSelectedManifest, getUserCapabilities } from '@northern.tech/store/selectors';
+import { getManifestTags, getSelectedManifest, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
-import { getDevicesByStatus, selectManifest, selectRelease } from '@northern.tech/store/thunks';
+import { getDevicesByStatus, selectManifest, selectRelease, updateManifestInfo } from '@northern.tech/store/thunks';
 import type { Manifest, ManifestComponent } from '@northern.tech/types/MenderTypes';
 import { customSort, toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
@@ -254,7 +254,7 @@ export const ComponentTypesTable = ({ componentTypes }: ComponentTypesTableProps
 export const ManifestDetails = () => {
   const dispatch = useAppDispatch();
   const manifest = useAppSelector(getSelectedManifest) as Manifest;
-  const existingTags = useAppSelector(getReleaseTags);
+  const existingTags = useAppSelector(getManifestTags);
   const userCapabilities = useAppSelector(getUserCapabilities);
 
   const { name: manifestName, manifest: manifestContent, notes = '', tags = [] } = manifest;
@@ -268,14 +268,11 @@ export const ManifestDetails = () => {
 
   const onCloseClick = () => dispatch(selectManifest(null));
 
-  const onNotesChanged = useCallback((_: string) => dispatch(setSnackbar('Updating manifest notes is not yet supported')), [dispatch]);
+  const onNotesChanged = useCallback((notes: string) => dispatch(updateManifestInfo({ name: manifestName, info: { notes } })), [dispatch, manifestName]);
 
   const onTagSelectionChanged = useCallback(
-    (_: string[]): Promise<void> => {
-      dispatch(setSnackbar('Updating manifest tags is not yet supported'));
-      return Promise.resolve();
-    },
-    [dispatch]
+    (tags: string[]): Promise<void> => dispatch(updateManifestInfo({ name: manifestName, info: { tags } })).unwrap(),
+    [dispatch, manifestName]
   );
 
   return (
