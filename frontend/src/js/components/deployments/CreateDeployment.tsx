@@ -45,7 +45,7 @@ import pluralize from 'pluralize';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import DeviceLimit from './deployment-wizard/DeviceLimit';
-import { RolloutPatternSelection, getPhaseStartTime, validatePhases } from './deployment-wizard/PhaseSettings';
+import { RolloutPatternSelection, getPhaseStartTime } from './deployment-wizard/PhaseSettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/RolloutOptions';
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
@@ -232,7 +232,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
       });
   };
 
-  const disabled = isCreating.current || !(release && (deploymentDeviceCount || !!filter || group)) || !validatePhases(phases, deploymentDeviceCount);
+  const disabled = isCreating.current || !(release && (deploymentDeviceCount || !!filter || group));
 
   const hasReleases = !!Object.keys(releasesById).length;
   return (
