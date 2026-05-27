@@ -12,10 +12,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { defaultState, render } from '@/testUtils';
-import { SORTING_OPTIONS } from '@northern.tech/store/constants';
+import { SORTING_OPTIONS, TIMEOUTS } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { screen, waitFor } from '@testing-library/react';
-import { timeouts } from 'tests/e2e_tests/utils/constants';
 
 import ManifestsList from './ManifestsList';
 
@@ -72,6 +71,6 @@ describe('ManifestsList Component', () => {
 
   it('renders the table with manifest data', async () => {
     render(<ManifestsList onFileUploadClick={vi.fn()} />, { preloadedState: enterpriseState });
-    await waitFor(() => expect(screen.getByText('m1000')).toBeInTheDocument(), { timeout: timeouts.oneSecond });
+    await waitFor(() => expect(screen.getByText('m1000')).toBeInTheDocument(), { timeout: TIMEOUTS.oneSecond });
   });
 });

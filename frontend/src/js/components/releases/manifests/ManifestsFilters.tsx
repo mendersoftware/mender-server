@@ -19,24 +19,25 @@ import { Typography } from '@mui/material';
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
-import { getManifestsListState, getReleaseTags } from '@northern.tech/store/selectors';
+import { getManifestTags, getManifestsListState } from '@northern.tech/store/selectors';
 import { setManifestsListState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
 export const ManifestsFilters = ({ classes }: { classes: Record<string, string> }) => {
-  const { searchTerm = '', searchTotal, total } = useSelector(getManifestsListState);
-  const existingTags = useSelector(getReleaseTags);
+  const { selectedTags = [], searchTerm = '', searchTotal, total } = useSelector(getManifestsListState);
+  const existingTags = useSelector(getManifestTags);
   const dispatch = useDispatch();
 
   const manifestSearchUpdated = useCallback(searchTerm => dispatch(setManifestsListState({ searchTerm })), [dispatch]);
-  const onFiltersChange = useCallback(({ name }) => dispatch(setManifestsListState({ searchTerm: name })), [dispatch]);
+
+  const onFiltersChange = useCallback(({ name, tags }) => dispatch(setManifestsListState({ selectedTags: tags, searchTerm: name })), [dispatch]);
 
   return (
     <>
       <Filters
         className={classes.container}
         onChange={onFiltersChange}
-        initialValues={{ name: searchTerm, tags: [] }}
+        initialValues={{ name: searchTerm, tags: selectedTags }}
         defaultValues={{ name: '', tags: [] }}
         filters={[
           {
@@ -55,14 +56,13 @@ export const ManifestsFilters = ({ classes }: { classes: Record<string, string> 
             componentProps: {
               options: existingTags,
               placeholder: 'Select tags',
-              selection: [],
-              disabled: true
+              selection: selectedTags
             }
           }
         ]}
       />
       <Typography variant="caption" className={classes.searchNote}>
-        {searchTerm && searchTotal !== total ? `Filtered from ${total} ${pluralize('Manifest', total)}` : ''}
+        {(searchTerm || selectedTags.length > 0) && searchTotal !== total ? `Filtered from ${total} ${pluralize('Manifest', total)}` : ''}
       </Typography>
     </>
   );
