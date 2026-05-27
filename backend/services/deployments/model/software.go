@@ -45,6 +45,7 @@ type SoftwareFilter struct {
 	NamePrefix string      `json:"name_prefix"`
 	Kind       ReleaseKind `json:"kind"`
 	UpdateType string      `json:"update_type"`
+	Tags       []string    `json:"tags"`
 	Page       int         `json:"page"`
 	PerPage    int         `json:"per_page"`
 	Sort       string      `json:"sort"`
