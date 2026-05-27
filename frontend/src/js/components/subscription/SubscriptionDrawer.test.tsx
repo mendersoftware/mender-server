@@ -212,7 +212,12 @@ describe('Subscription Drawer component', () => {
     expect(screen.getByText(/Upgrade your subscription/i)).toBeVisible();
     expect(screen.getByText(/ok@ok.ok/i)).toBeVisible();
     await waitFor(() => expect(screen.queryByRole('button', { name: /confirm subscription/i })).toBeVisible(), { timeout: TIMEOUTS.fiveSeconds });
-    await user.click(screen.getByRole('button', { name: /confirm subscription/i }));
+    const confirmButton = screen.getByRole('button', { name: /confirm subscription/i });
+    await user.click(confirmButton);
     expect(requestPlanUpgrade).toHaveBeenCalledWith(newOrder);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(TIMEOUTS.threeSeconds + 1);
+    });
+    expect(confirmButton).not.toBeDisabled();
   });
 });
