@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -30,7 +30,7 @@ import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { getManifestTags } from '@northern.tech/store/releasesSlice/selectors';
-import { generateManifest, uploadManifest } from '@northern.tech/store/releasesSlice/thunks';
+import { checkReleasesExistence, generateManifest, uploadManifest } from '@northern.tech/store/releasesSlice/thunks';
 import { useAppDispatch } from '@northern.tech/store/store';
 import type { ManifestContent } from '@northern.tech/types/MenderTypes';
 import { parse } from 'yaml';
@@ -109,9 +109,21 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
   const [backendErrorMessage, setBackendErrorMessage] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [parsedManifest, setParsedManifest] = useState<ManifestContent | null>(null);
+  const [existingReleases, setExistingReleases] = useState<Record<string, boolean>>({});
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const existingTags = useSelector(getManifestTags);
+
+  useEffect(() => {
+    if (!parsedManifest?.component_types) {
+      return;
+    }
+    const artifactNames = Object.values(parsedManifest.component_types)
+      .filter(({ artifact_name }) => !!artifact_name)
+      .map(({ artifact_name }) => artifact_name);
+    const uniqueNames = [...new Set(artifactNames)];
+    dispatch(checkReleasesExistence(uniqueNames)).unwrap().then(setExistingReleases);
+  }, [dispatch, parsedManifest?.component_types]);
 
   const defaultValues: ManifestFormValues = { tags: [], description: '' };
   const methods = useForm<ManifestFormValues>({ mode: 'onChange', defaultValues });
@@ -236,7 +248,9 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
           <ContentSection title="Tags">
             <ChipSelect className={classes.input} options={existingTags} name="tags" placeholder="Add Tags" forcePopupIcon={existingTags.length !== 0} />
           </ContentSection>
-          {parsedManifest?.component_types && <ComponentTypesTable componentTypes={parsedManifest.component_types} />}
+          {parsedManifest?.component_types && (
+            <ComponentTypesTable componentTypes={parsedManifest.component_types} existingReleases={existingReleases} isCreation />
+          )}
           {backendErrorMessage && (
             <Alert slotProps={{ message: { className: 'capitalized-start' } }} className="margin-top-medium capitalized-start" severity="error">
               {backendErrorMessage}

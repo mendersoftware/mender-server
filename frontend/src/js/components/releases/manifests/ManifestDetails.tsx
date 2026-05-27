@@ -34,7 +34,7 @@ import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS, SORTING_OPTIONS } from '@no
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getManifestTags, getSelectedManifest, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
-import { getDevicesByStatus, selectManifest, selectRelease, updateManifestInfo } from '@northern.tech/store/thunks';
+import { checkReleasesExistence, getDevicesByStatus, selectManifest, selectRelease, updateManifestInfo } from '@northern.tech/store/thunks';
 import type { Manifest, ManifestComponent } from '@northern.tech/types/MenderTypes';
 import { customSort, toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
@@ -153,10 +153,14 @@ const ManifestTags = ({ existingTags, tags, canManageReleases, onSave }: Manifes
 
 interface ComponentTypesTableProps {
   componentTypes: Record<string, ManifestComponent>;
+  existingReleases?: Record<string, boolean>;
+  isCreation?: boolean;
 }
 
+type ColumnExtras = { existingReleases?: Record<string, boolean>; isCreation?: boolean; onReleaseClick: (name: string) => void };
+
 type ManifestColumnDefinition = Omit<ColumnDefinition, 'render'> & {
-  render: (item: ManifestComponent & { type: string }, { onReleaseClick }: { onReleaseClick: (name: string) => void }) => ReactNode | string;
+  render: (item: ManifestComponent & { type: string }, extras: ColumnExtras) => ReactNode | string;
   sortProp: string;
 };
 
@@ -173,8 +177,24 @@ const columns: ManifestColumnDefinition[] = [
     title: 'Release',
     sortable: true,
     sortProp: 'artifact_name',
-    render: ({ artifact_name, artifact_path }, { onReleaseClick }) =>
-      artifact_name ? <Link onClick={() => onReleaseClick(artifact_name)}>{artifact_name}</Link> : artifact_path || '-'
+    render: ({ artifact_name, artifact_path }, { onReleaseClick, existingReleases, isCreation }) => {
+      if (artifact_name) {
+        if (existingReleases && existingReleases[artifact_name]) {
+          return <Link onClick={() => onReleaseClick(artifact_name)}>{artifact_name}</Link>;
+        } else if (isCreation) {
+          return (
+            <>
+              <Typography>{artifact_name}</Typography>
+              <Typography color="warning" variant="caption">
+                This Release is not available. You need to upload it to Releases before it can be deployed.
+              </Typography>
+            </>
+          );
+        }
+        return artifact_name;
+      }
+      return artifact_path || '-';
+    }
   },
   {
     key: 'order',
@@ -186,7 +206,7 @@ const columns: ManifestColumnDefinition[] = [
   }
 ];
 
-export const ComponentTypesTable = ({ componentTypes }: ComponentTypesTableProps) => {
+export const ComponentTypesTable = ({ componentTypes, existingReleases, isCreation = false }: ComponentTypesTableProps) => {
   const [sortCol, setSortCol] = useState('');
   const [sortDown, setSortDown] = useState(false);
   const [page, setPage] = useState(1);
@@ -217,7 +237,7 @@ export const ComponentTypesTable = ({ componentTypes }: ComponentTypesTableProps
     dispatch(selectManifest(null));
   };
 
-  const mappedColumns = columns.map(column => ({ ...column, extras: { onReleaseClick } }));
+  const mappedColumns = columns.map(column => ({ ...column, extras: { onReleaseClick, existingReleases, isCreation } }));
 
   if (!total) {
     return (
@@ -258,6 +278,18 @@ export const ManifestDetails = () => {
   const userCapabilities = useAppSelector(getUserCapabilities);
 
   const { name: manifestName, manifest: manifestContent, notes = '', tags = [] } = manifest;
+  const [existingReleases, setExistingReleases] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    if (!manifestContent?.component_types) {
+      return;
+    }
+    const artifactNames = Object.values(manifestContent.component_types)
+      .map(c => c.artifact_name)
+      .filter((name): name is string => !!name);
+    const uniqueNames = [...new Set(artifactNames)];
+    dispatch(checkReleasesExistence(uniqueNames)).unwrap().then(setExistingReleases);
+  }, [dispatch, manifestContent?.component_types]);
 
   const copyLinkToClipboard = () => {
     copy(
@@ -307,7 +339,7 @@ export const ManifestDetails = () => {
         <ManifestNotes notes={notes} onSave={onNotesChanged} />
         <ManifestTags existingTags={existingTags} tags={tags} canManageReleases={userCapabilities.canManageReleases} onSave={onTagSelectionChanged} />
       </ColumnWidthProvider>
-      {manifestContent?.component_types && <ComponentTypesTable componentTypes={manifestContent.component_types} />}
+      {manifestContent?.component_types && <ComponentTypesTable componentTypes={manifestContent.component_types} existingReleases={existingReleases} />}
       <ManifestQuickActions />
     </BaseDrawer>
   );
