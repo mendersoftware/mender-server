@@ -20,17 +20,20 @@ import { Button, DialogContent, Divider, TextField, Typography } from '@mui/mate
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
+import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
-import type { Release } from '@northern.tech/store/releasesSlice';
-import { getReleaseListState, getReleaseTags, getReleasesById, getUpdateTypes } from '@northern.tech/store/selectors';
+import { BENEFITS } from '@northern.tech/store/constants';
+import type { SoftwareKind } from '@northern.tech/store/releasesSlice';
+import { getFeatures, getIsEnterprise, getSoftwareById, getSoftwareListState, getSoftwareTags, getUpdateTypes } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { getReleases } from '@northern.tech/store/thunks';
+import { getSoftware } from '@northern.tech/store/thunks';
+import type { Software } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
-import { ReleaseItem } from './ReleaseItem';
+import { SoftwareItem } from './ReleaseItem';
 
 const useStyles = makeStyles()(theme => ({
   resultsContainer: {
@@ -46,33 +49,48 @@ const useStyles = makeStyles()(theme => ({
     height: '75vh'
   }
 }));
-interface ReleaseArtifactFilterProps {
+interface SoftwareArtifactFilterProps {
+  kind?: SoftwareKind;
   onClose: () => void;
-  onSelect: (release: Release) => void;
+  onSelect: (item: Software) => void;
   open: boolean;
-  selectedRelease: string;
+  selectedSoftware?: string;
 }
-export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
-  const { open, onClose, onSelect, selectedRelease } = props;
+
+type SoftwareKindOption = { key: SoftwareKind; title: string };
+const softwareKindOptions: Record<SoftwareKind, SoftwareKindOption> = {
+  release: { key: 'release', title: 'Release' },
+  manifest: { key: 'manifest', title: 'Manifest' }
+};
+
+export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
+  const { open, onClose, onSelect, selectedSoftware, kind } = props;
   const { classes } = useStyles();
-  const [initialValues] = useState({ tags: [], type: null, searchTerm: '' });
+  const [initialValues] = useState<{ kind: SoftwareKind | null; searchTerm: string; tags: string[]; type: string | null }>({
+    tags: [],
+    type: null,
+    searchTerm: '',
+    kind: kind ?? null
+  });
   const [filterCount, setFilterCount] = useState(0);
   const dispatch = useAppDispatch();
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
-  const existingTags = useSelector(getReleaseTags);
+  const existingTags = useSelector(getSoftwareTags);
   const updateTypes = useSelector(getUpdateTypes);
-  const { searchedIds: releases } = useSelector(getReleaseListState);
-  const releasesById = useSelector(getReleasesById);
+  const { softwareIds } = useSelector(getSoftwareListState);
+  const softwareById = useSelector(getSoftwareById);
+  const isEnterprise = useSelector(getIsEnterprise);
+  const { hasManifestsEnabled } = useSelector(getFeatures);
   const methods = useForm({ mode: 'onChange', defaultValues: initialValues });
   const { formState, reset, setFocus } = methods;
-  const filterValues = useWatch({ control: methods.control, name: ['tags', 'type', 'searchTerm'] });
+  const filterValues = useWatch({ control: methods.control, name: ['tags', 'type', 'searchTerm', 'kind'] });
+  const selectedKind = useWatch({ control: methods.control, name: 'kind' });
   const debouncedFilters = useDebounce(filterValues, 500);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
+  const softwareItems: Software[] = softwareIds.map(id => softwareById[id]).filter((item): item is Software => Boolean(item));
 
-  const releaseItems = releases.map(rel => releasesById[rel]);
-
-  const onSelectRelease = (release: Release) => {
-    onSelect(release);
+  const onSelectSoftware = (item: Software) => {
+    onSelect(item);
     onClose();
   };
 
@@ -89,17 +107,26 @@ export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
   }, [open, setFocus]);
 
   useEffect(() => {
-    const [tags, type, searchTerm] = debouncedFilters;
-    setFilterCount(tags.length + !!type);
-    dispatch(getReleases({ page: 1, perPage: 100, searchTerm, searchOnly: true, selectedTags: tags, type }));
+    const [tags, type, searchTerm, debouncedKind] = debouncedFilters;
+    setFilterCount(tags.length + Number(debouncedKind !== softwareKindOptions.manifest.key && !!type) + Number(!!debouncedKind));
+    dispatch(
+      getSoftware({
+        page: 1,
+        perPage: 100,
+        searchTerm,
+        kind: debouncedKind ?? undefined,
+        selectedTags: tags,
+        type: debouncedKind === softwareKindOptions.manifest.key ? undefined : (type ?? undefined)
+      })
+    );
   }, [debouncedFilters, dispatch]);
   const { isDirty } = formState;
 
   return (
-    <BaseDialog open={open} title="Select a Release" onClose={() => onCloseModal()}>
+    <BaseDialog open={open} title="Select software" onClose={() => onCloseModal()}>
       <DialogContent className={`${classes.dialogContainer} flexbox column`}>
         <Typography variant="body2" className="margin-bottom-small">
-          Filter and browse all available Releases. Use the filters below to narrow down your search.
+          Filter and browse all available software. Use the filters below to narrow down your search.
         </Typography>
         <div className="flexbox space-between">
           <div className="flexbox align-items-center">
@@ -113,7 +140,7 @@ export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
               endIcon={showAdvancedFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
             >
-              Advanced filter ({filterCount})
+              Advanced filter {filterCount ? `(${filterCount})` : null}
             </Button>
           </div>
           {isDirty && (
@@ -126,49 +153,65 @@ export const ReleaseArtifactFilter = (props: ReleaseArtifactFilterProps) => {
           <form noValidate>
             {showAdvancedFilters && (
               <div className="two-columns margin-top-small">
+                {hasManifestsEnabled && (
+                  <div className="flexbox column">
+                    <div className="flexbox align-items-center margin-bottom-x-small">
+                      <Typography variant="subtitle2">Software type</Typography>
+                      <EnterpriseNotification className="margin-left-small" id={BENEFITS.manifests.id} />
+                    </div>
+                    <ControlledAutoComplete
+                      name="kind"
+                      disabled={!!kind}
+                      options={Object.keys(softwareKindOptions) as SoftwareKind[]}
+                      getOptionLabel={(value: SoftwareKind) => softwareKindOptions[value].title}
+                      getOptionDisabled={(option: SoftwareKind) => option === softwareKindOptions.manifest.key && !isEnterprise}
+                      renderInput={params => <TextField {...params} label="Select type" placeholder="Select type" />}
+                    />
+                  </div>
+                )}
                 <div className="flexbox column">
                   <Typography variant="subtitle2" className="margin-bottom-x-small">
                     Tags
                   </Typography>
-                  <ChipSelect label="" name="tags" placeholder="Type or Select tags..." options={existingTags} />
+                  <ChipSelect label="" name="tags" placeholder="Enter or Select tags..." options={existingTags} />
                 </div>
-                <div className="flexbox column">
-                  <Typography variant="subtitle2" className="margin-bottom-x-small">
-                    Contains Artifact type
-                  </Typography>
-                  <ControlledAutoComplete
-                    name="type"
-                    options={updateTypes}
-                    renderInput={params => <TextField {...params} label="Select type..." placeholder="Select a type" />}
-                  />
-                </div>
+                {selectedKind !== softwareKindOptions.manifest.key && (
+                  <div className={`flexbox column ${hasManifestsEnabled ? 'margin-top-small' : ''}`}>
+                    <Typography variant="subtitle2" className="margin-bottom-x-small">
+                      Contains Artifact type
+                    </Typography>
+                    <ControlledAutoComplete
+                      name="type"
+                      options={updateTypes}
+                      renderInput={params => <TextField {...params} label="Select Artifact type" placeholder="Select type" />}
+                    />
+                  </div>
+                )}
               </div>
             )}
             <div className="flexbox column margin-top-small margin-bottom-small">
-              <Typography variant="subtitle2" className="margin-bottom-x-small">
-                Release name
-              </Typography>
-              <ControlledSearch asFormField clearButtonOnHover name="searchTerm" placeholder="Search Releases..." />
+              <ControlledSearch asFormField clearButtonOnHover name="searchTerm" placeholder="Search software name..." />
             </div>
           </form>
         </FormProvider>
         <Divider />
         <Typography className="margin-top-small" variant="body1">
-          Results ({releaseItems.length})
+          Results ({softwareItems.length})
         </Typography>
         <div className={classes.resultsContainer} id="deployment-release-container">
-          {releaseItems.length > 0 ? (
-            releaseItems.map(item => (
-              <ReleaseItem key={item.name + item.modified} selected={selectedRelease === item.name} release={item} onClick={onSelectRelease} />
+          {softwareItems.length > 0 ? (
+            softwareItems.map(item => (
+              <SoftwareItem key={item.name + item.modified} selected={selectedSoftware === item.name} software={item} onClick={onSelectSoftware} />
             ))
           ) : (
             <div className="flexbox column align-items-center margin-top-small">
-              <Typography>No Releases were found.</Typography>
+              <Typography>No results to display.</Typography>
               <Typography className="margin-top-small">
-                Try adjusting the filters, or{' '}
+                Try adjusting the filters, or go to{' '}
                 <Link to="/software" color="inherit">
-                  Upload a new Release
-                </Link>
+                  Software
+                </Link>{' '}
+                to manage uploads
               </Typography>
             </div>
           )}
