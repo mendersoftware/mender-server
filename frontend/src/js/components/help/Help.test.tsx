@@ -37,7 +37,7 @@ const preloadedState = {
       hasMonitor: true,
       isEnterprise: true
     },
-    versionInformation: { latestRelease: helpProps.versions }
+    versionInformation: { version: '1.2.3' }
   },
   organization: {
     ...defaultState.organization,

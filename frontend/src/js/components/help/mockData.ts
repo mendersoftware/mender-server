@@ -19,18 +19,5 @@ export const helpProps = {
     hasDeviceConfig: true,
     hasMonitor: true
   },
-  tokens: [],
-  versions: {
-    repos: {
-      'mender-artifact': '3.8.0',
-      'mender-binary-delta': '1.3.1',
-      'mender-cli': '1.8.0',
-      'mender-configure-module': '1.0.4',
-      'mender-connect': '2.0.2',
-      'mender-convert': '3.0.0',
-      'mender-gateway': '1.0.0',
-      'monitor-client': '1.2.0'
-    },
-    releaseDate: '2003-01-01'
-  }
+  tokens: []
 };

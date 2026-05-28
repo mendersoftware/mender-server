@@ -37,7 +37,7 @@ describe('MyOrganization Component', () => {
           isEnterprise: true,
           isHosted: true
         },
-        versionInformation: { Integration: '1.2.3' }
+        versionInformation: { version: '1.2.3' }
       },
       devices: {
         ...defaultState.devices,
