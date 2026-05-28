@@ -93,7 +93,7 @@ const ManifestInfo = ({ manifest }: { manifest: Manifest }) => {
   );
 };
 
-const ManifestNotes = ({ notes, onSave }: { notes: string; onSave: (notes: string) => void }) => {
+const ManifestNotes = ({ notes, onSave }: { notes: string; onSave: (notes: string) => Promise<void> }) => {
   const [isEditing, setIsEditing] = useState(false);
   return (
     <ContentSection title="Notes" postTitle={!isEditing && <EditButton onClick={() => setIsEditing(true)} />}>
@@ -268,10 +268,13 @@ export const ManifestDetails = () => {
 
   const onCloseClick = () => dispatch(selectManifest(null));
 
-  const onNotesChanged = useCallback((notes: string) => dispatch(updateManifestInfo({ name: manifestName, info: { notes } })), [dispatch, manifestName]);
+  const onNotesChanged = useCallback(
+    (notes: string) => dispatch(updateManifestInfo({ name: manifestName, info: { notes } })).unwrap(),
+    [dispatch, manifestName]
+  );
 
   const onTagSelectionChanged = useCallback(
-    (tags: string[]): Promise<void> => dispatch(updateManifestInfo({ name: manifestName, info: { tags } })).unwrap(),
+    (tags: string[]) => dispatch(updateManifestInfo({ name: manifestName, info: { tags } })).unwrap(),
     [dispatch, manifestName]
   );
 
