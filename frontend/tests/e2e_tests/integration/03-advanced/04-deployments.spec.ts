@@ -51,16 +51,16 @@ test.describe('Deployments', () => {
     const releaseName = 'mender-demo-artifact';
     await navbar.getByRole('link', { name: /deployments/i }).click();
     await page.click(`button:has-text('Create a deployment')`);
-    await page.getByRole('button', { name: 'Select a release' }).click();
+    await page.getByRole('button', { name: 'Select software' }).click();
 
-    await page.getByRole('button', { name: 'Advanced filter (0)' }).click();
-    await page.getByRole('combobox', { name: 'Type or Select tags...' }).click();
+    await page.getByRole('button', { name: 'Advanced filter' }).click();
+    await page.getByRole('combobox', { name: 'Enter or Select tags...' }).click();
     await page.getByRole('option', { name: 'sometag' }).click();
     await page.waitForTimeout(timeouts.default);
     await expect(locateReleaseByName(page, releaseName)).toBeVisible();
 
     await page.getByRole('button', { name: 'Clear all' }).click();
-    await page.getByRole('combobox', { name: 'Select type...' }).click();
+    await page.getByRole('combobox', { name: 'Select Artifact type' }).click();
     await page.getByRole('option', { name: 'directory' }).click();
     await page.waitForTimeout(timeouts.default);
     await expect(locateReleaseByName(page, releaseName)).toBeVisible();
@@ -70,8 +70,11 @@ test.describe('Deployments', () => {
   test('ensure release page filters are not used on deployment creation', async ({ page }) => {
     await page.getByPlaceholder(/select tags/i).fill(`${releaseTag.toLowerCase()},`);
     await navbar.getByRole('link', { name: /deployments/i }).click();
-    await page.getByRole('button', { name: /create a deployment/i }).first().click();
-    await page.getByRole('button', { name: 'Select a release' }).click();
+    await page
+      .getByRole('button', { name: /create a deployment/i })
+      .first()
+      .click();
+    await page.getByRole('button', { name: 'Select software' }).click();
     await expect(locateReleaseByName(page, 'mender-demo-artifact')).toBeVisible();
   });
   test('allows shortcut deployments', async ({ page }) => {
