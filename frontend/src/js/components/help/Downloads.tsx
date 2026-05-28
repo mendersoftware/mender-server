@@ -18,10 +18,9 @@ import { ArrowDropDown, ExpandMore, FileDownloadOutlined as FileDownloadIcon, La
 import { Accordion, AccordionDetails, AccordionSummary, Chip, Menu, MenuItem, Typography } from '@mui/material';
 
 import CommonDocsLink from '@northern.tech/common-ui/DocsLink';
-import Time from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import { canAccess } from '@northern.tech/store/constants';
-import { getCurrentSession, getCurrentUser, getIsEnterprise, getTenantCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
+import { getCurrentSession, getCurrentUser, getIsEnterprise, getTenantCapabilities } from '@northern.tech/store/selectors';
 import { detectOsIdentifier, toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import Cookies from 'universal-cookie';
@@ -48,21 +47,19 @@ const architectures = {
 const defaultArchitectures = [architectures.armhf, architectures.arm64, architectures.amd64];
 const defaultOSVersions = ['debian+bookworm', 'debian+trixie', 'ubuntu+jammy', 'ubuntu+noble'];
 
-const getVersion = (versions, id) => versions[id] || 'master';
-
 const downloadLocations = {
   public: 'https://downloads.mender.io',
   private: 'https://downloads.customer.mender.io/content/hosted'
 };
 
-const defaultLocationFormatter = ({ os, tool, versionInfo }) => {
+const defaultLocationFormatter = ({ os, tool }) => {
   const { id, location = downloadLocations.public, osList = [], title } = tool;
-  let locations = [{ location: `${location}/${id}/${getVersion(versionInfo, id)}/linux/${id}`, title }];
+  let locations = [{ location: `${location}/${id}/master/linux/${id}`, title }];
   if (osList.length) {
     locations = osList.reduce((accu, supportedOs) => {
       const title = Object.entries(osMap).find(entry => entry[1] === supportedOs)[0];
       accu.push({
-        location: `${location}/${id}/${getVersion(versionInfo, id)}/${supportedOs}/${id}`,
+        location: `${location}/${id}/master/${supportedOs}/${id}`,
         title,
         isUserOs: osMap[os] === supportedOs
       });
@@ -77,41 +74,40 @@ const defaultLocationFormatter = ({ os, tool, versionInfo }) => {
  * new urls are not like https://downloads.customer.mender.io/content/hosted/repos/debian/pool/main/m/mender-monitor/mender-monitor_1.3.0-1%2Bdebian%2Bbuster_all.deb anymore.
  * and should be like https://downloads.customer.mender.io/content/hosted/mender-monitor/debian/1.3.0/mender-monitor_1.3.0-1%2Bdebian%2Bbuster_all.deb
  */
-const locationFormatter = ({ location, id, packageName, packageId, os, arch, versionInfo }) => {
+const locationFormatter = ({ location, id, packageName, packageId, os, arch }) => {
   const isPackageMonitorOrGateway = packageId === menderGateway || packageId === menderMonitor;
-  const version = getVersion(versionInfo, id);
   return isPackageMonitorOrGateway
-    ? `${location}/${packageId}/debian/${version}/${encodeURIComponent(`${packageId}_${version}-1+${os}_${arch}.deb`)}`
-    : `${location}/repos/debian/pool/main/${id[0]}/${packageName || packageId || id}/${encodeURIComponent(`${packageId}_${version}-1+${os}_${arch}.deb`)}`;
+    ? `${location}/${packageId}/debian/master/${encodeURIComponent(`${packageId}_master-1+${os}_${arch}.deb`)}`
+    : `${location}/repos/debian/pool/main/${id[0]}/${packageName || packageId || id}/${encodeURIComponent(`${packageId}_master-1+${os}_${arch}.deb`)}`;
 };
 
-const osArchLocationReducer = ({ archList, location = downloadLocations.public, packageName, packageId, id, osList, versionInfo }) =>
+const osArchLocationReducer = ({ archList, location = downloadLocations.public, packageName, packageId, id, osList }) =>
   osList.reduce((accu, os) => {
     const osArchitectureLocations = archList.map(arch => ({
-      location: locationFormatter({ location, id, packageName, packageId, os, arch, versionInfo }),
+      location: locationFormatter({ location, id, packageName, packageId, os, arch }),
       title: `${os} - ${arch}`
     }));
     accu.push(...osArchitectureLocations);
     return accu;
   }, []);
 
-const multiArchLocationFormatter = ({ tool, versionInfo }) => {
+const multiArchLocationFormatter = ({ tool }) => {
   const { id, packageId: packageName, packageExtras = [] } = tool;
   const packageId = packageName || id;
-  const locations = osArchLocationReducer({ ...tool, packageId, versionInfo });
+  const locations = osArchLocationReducer({ ...tool, packageId });
   const extraLocations = packageExtras.reduce((accu, extra) => {
-    accu[extra.packageId] = osArchLocationReducer({ ...tool, ...extra, packageName: packageId, versionInfo });
+    accu[extra.packageId] = osArchLocationReducer({ ...tool, ...extra, packageName: packageId });
     return accu;
   }, {});
   return { locations, ...extraLocations };
 };
 
-const nonOsLocationFormatter = ({ tool, versionInfo }) => {
+const nonOsLocationFormatter = ({ tool }) => {
   const { id, location = downloadLocations.public, title } = tool;
   return {
     locations: [
       {
-        location: `${location}/${id}/${getVersion(versionInfo, id)}/${id}-${getVersion(versionInfo, id)}.tar.xz`,
+        location: `${location}/${id}/master/${id}-master.tar.xz`,
         title
       }
     ]
@@ -210,10 +206,10 @@ const tools = [
   {
     id: 'mender-convert',
     title: 'Mender Convert',
-    getLocations: ({ versionInfo }) => ({
+    getLocations: () => ({
       locations: [
         {
-          location: `https://github.com/mendersoftware/mender-convert/archive/refs/tags/${getVersion(versionInfo, 'mender-convert')}.zip`,
+          location: 'https://github.com/mendersoftware/mender-convert/archive/refs/tags/master.zip',
           title: 'Mender Convert'
         }
       ]
@@ -287,20 +283,15 @@ const DownloadableComponents = ({ locations, onMenuClick, token }) => {
   ));
 };
 
-const DownloadSection = ({ item, isEnterprise, onMenuClick, os, token, versionInformation }) => {
+const DownloadSection = ({ item, isEnterprise, onMenuClick, os, token }) => {
   const [open, setOpen] = useState(false);
   const { id, getLocations, packageId, title } = item;
-  const { locations, ...extraLocations } = getLocations({ isEnterprise, tool: item, versionInfo: versionInformation.repos, os });
+  const { locations, ...extraLocations } = getLocations({ isEnterprise, tool: item, os });
 
   return (
     <Accordion className="margin-bottom-small" square expanded={open} onChange={() => setOpen(toggle)}>
       <AccordionSummary expandIcon={<ExpandMore />}>
-        <div>
-          <Typography variant="subtitle2">{title}</Typography>
-          <Typography variant="caption" className="muted">
-            Updated: {<Time format="YYYY-MM-DD" value={versionInformation.releaseDate} />}
-          </Typography>
-        </div>
+        <Typography variant="subtitle2">{title}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <div>
@@ -327,7 +318,6 @@ export const Downloads = () => {
   const { token } = useSelector(getCurrentSession);
   const isEnterprise = useSelector(getIsEnterprise);
   const tenantCapabilities = useSelector(getTenantCapabilities);
-  const { latestRelease: versions = { repos: {}, releaseDate: '' } } = useSelector(getVersionInformation);
 
   const availableTools = useMemo(
     () =>
@@ -362,7 +352,7 @@ export const Downloads = () => {
       <h2>Downloads</h2>
       <p>To get the most out of Mender, download the tools listed below.</p>
       {availableTools.map(tool => (
-        <DownloadSection key={tool.id} item={tool} isEnterprise={isEnterprise} onMenuClick={handleToggle} os={os} token={token} versionInformation={versions} />
+        <DownloadSection key={tool.id} item={tool} isEnterprise={isEnterprise} onMenuClick={handleToggle} os={os} token={token} />
       ))}
       <Menu id="download-options-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleToggle} variant="menu">
         {copyOptions.map(option => (

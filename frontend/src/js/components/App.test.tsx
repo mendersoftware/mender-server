@@ -31,7 +31,7 @@ const preloadedState = {
     ...defaultState.app,
     trackerCode: 'testtracker',
     versionInformation: {
-      Integration: 'next'
+      version: 'next'
     }
   },
   deployments: {
@@ -61,8 +61,7 @@ describe('App Component', () => {
   it(
     'renders correctly',
     async () => {
-      vi.spyOn(window.mender_environment, 'integrationVersion', 'get').mockImplementation(() => 'next');
-      // vi.replaceProperty(window.mender_environment, 'integrationVersion', 'next');
+      vi.spyOn(window.mender_environment, 'version', 'get').mockImplementation(() => 'next');
 
       const ui = <App />;
       const { asFragment, rerender } = render(ui, {
