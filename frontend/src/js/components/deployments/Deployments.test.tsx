@@ -331,15 +331,15 @@ describe('Deployments Component', () => {
         previousFilters: [],
         previousPhases: [
           [
-            { batch_size: 30, delay: 5, delayUnit: 'days' },
-            { batch_size: 20, delay: 15, delayUnit: 'hours', start_ts: 1 },
-            { batch_size: 50, start_ts: 2 }
+            { batch_size: 30, batch_size_devices: undefined, delay: 5, delayUnit: 'days', isUniform: false },
+            { batch_size: 20, batch_size_devices: undefined, delay: 15, delayUnit: 'hours', start_ts: 1, isUniform: false },
+            { batch_size: 50, batch_size_devices: undefined, start_ts: 2 }
           ],
           [
-            { batch_size: 40, delay: 30, delayUnit: 'minutes' },
-            { batch_size: 20, delay: 25, delayUnit: 'days', start_ts: 1 },
-            { batch_size: 20, delay: 2, delayUnit: 'hours', start_ts: 2 },
-            { batch_size: undefined, start_ts: 3 }
+            { batch_size: 40, batch_size_devices: undefined, delay: 30, delayUnit: 'minutes', isUniform: false },
+            { batch_size: 20, batch_size_devices: undefined, delay: 25, delayUnit: 'days', start_ts: 1, isUniform: false },
+            { batch_size: 20, batch_size_devices: undefined, delay: 2, delayUnit: 'hours', start_ts: 2, isUniform: false },
+            { batch_size: undefined, batch_size_devices: undefined, start_ts: 3 }
           ]
         ],
         hasDeployments: true

@@ -78,7 +78,17 @@ const EmptyState = ({ className = '', isFiltering, onFileUploadClick }: { classN
 export const ManifestsList = ({ className = '', onFileUploadClick }: { className?: string; onFileUploadClick: () => void }) => {
   const tableRef = useRef<HTMLDivElement>(null);
   const manifestsListState = useSelector(getManifestsListState);
-  const { isLoading, page = defaultPage, perPage = defaultPerPage, searchTerm, sort = {}, searchTotal, selection: selectedRows, total } = manifestsListState;
+  const {
+    isLoading,
+    page = defaultPage,
+    perPage = defaultPerPage,
+    searchTerm,
+    selectedTags = [],
+    sort = {},
+    searchTotal,
+    selection: selectedRows,
+    total
+  } = manifestsListState;
   const hasManifests = useSelector(getHasManifests);
   const manifests = useSelector(getManifestsList);
   const selectedManifests = useSelector(getSelectedManifests);
@@ -111,7 +121,7 @@ export const ManifestsList = ({ className = '', onFileUploadClick }: { className
 
   const onSelectionChange = useCallback((selection: number[] = []) => dispatch(setManifestsListState({ selection })), [dispatch]);
 
-  const isFiltering = !!searchTerm;
+  const isFiltering = !!(searchTerm || selectedTags.length);
   const potentialTotal = isFiltering ? searchTotal : total;
 
   if (!isEnterprise) {

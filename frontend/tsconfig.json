@@ -3,7 +3,6 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "baseUrl": ".",
     "paths": {
       // should be removed once utils package is published
       "@northern.tech/common-ui/*": ["src/js/common-ui/*"],
