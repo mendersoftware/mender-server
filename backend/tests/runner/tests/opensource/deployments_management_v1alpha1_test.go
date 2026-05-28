@@ -222,7 +222,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		require.NoError(u.T(), err)
 	})
 
-	u.Run("Failure/NamePrefix&ExactName", func() {
+	u.Run("Failure/FilterNamePrefix&ExactName", func() {
 		ctx := u.T().Context()
 		_, res, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
@@ -259,7 +259,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		assert.Len(u.T(), softwares, 0)
 	})
 
-	u.Run("Success/Kind&Name", func() {
+	u.Run("Success/FilterKind&Name", func() {
 		ctx := u.T().Context()
 		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
@@ -269,6 +269,27 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		require.NoError(u.T(), err)
 
 		err = compareSoftwares(softwares, allSoftwares[2])
+		require.NoError(u.T(), err)
+	})
+
+	u.Run("Success/FilterTags", func() {
+		ctx := common.JWTAuthContext(u.T().Context(), u.JWT)
+		tags := []string{"tag1"}
+
+		_, err := u.APIClient.DeploymentsV2ManagementAPIAPI.
+			AssignReleaseTags(ctx, allSoftwares[0].Name).
+			RequestBody(tags).
+			Execute()
+		require.NoError(u.T(), err)
+
+		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+			GetDeploymentSoftware(ctx).
+			Kind(*client.PtrString(dmodel.ReleaseKindRelease)).
+			Tag(tags).
+			Execute()
+		require.NoError(u.T(), err)
+
+		err = compareSoftwares(softwares, allSoftwares[0])
 		require.NoError(u.T(), err)
 	})
 
@@ -301,7 +322,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		assert.Contains(u.T(), actualLinkHeaders, expectedFirstLink)
 	})
 
-	u.Run("Success/UpdateType", func() {
+	u.Run("Success/FilterUpdateType", func() {
 		ctx := u.T().Context()
 		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).

@@ -61,6 +61,7 @@ type ApiGetDeploymentSoftwareRequest struct {
 	name *[]string
 	namePrefix *string
 	kind *string
+	tag *[]string
 	updateType *string
 	page *int32
 	perPage *int32
@@ -82,6 +83,12 @@ func (r ApiGetDeploymentSoftwareRequest) NamePrefix(namePrefix string) ApiGetDep
 // Software kind filter.
 func (r ApiGetDeploymentSoftwareRequest) Kind(kind string) ApiGetDeploymentSoftwareRequest {
 	r.kind = &kind
+	return r
+}
+
+// Filter the software based on their associated tags and only return software that have at least one matching tag (i.e. OR matching).
+func (r ApiGetDeploymentSoftwareRequest) Tag(tag []string) ApiGetDeploymentSoftwareRequest {
+	r.tag = &tag
 	return r
 }
 
@@ -167,6 +174,17 @@ func (a *DeploymentsV1alpha1ManagementAPIAPIService) GetDeploymentSoftwareExecut
 	}
 	if r.kind != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "kind", r.kind, "form", "")
+	}
+	if r.tag != nil {
+		t := *r.tag
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "tag", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "tag", t, "form", "multi")
+		}
 	}
 	if r.updateType != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "update_type", r.updateType, "form", "")

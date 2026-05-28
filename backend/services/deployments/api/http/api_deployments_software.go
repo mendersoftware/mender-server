@@ -3,6 +3,7 @@ package http
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
@@ -55,6 +56,11 @@ func getSoftwareFilter(c *gin.Context) *model.SoftwareFilter {
 
 	if kind := c.Query("kind"); kind != "" {
 		filter.Kind = model.ReleaseKind(kind)
+	}
+
+	filter.Tags = c.QueryArray(ParamTag)
+	for i, t := range filter.Tags {
+		filter.Tags[i] = strings.ToLower(t)
 	}
 
 	return filter

@@ -73,6 +73,10 @@ func (db *DataStoreMongo) ListSoftware(
 			fltr[StorageKeyReleaseArtifactsUpdateTypes] = filter.UpdateType
 		}
 
+		if len(filter.Tags) > 0 {
+			fltr[StorageKeyReleaseTags] = bson.M{"$in": filter.Tags}
+		}
+
 		sortField, sortOrder := getReleaseSortFieldAndOrder(filter.Sort)
 		if sortField == "" || sortField == "name" {
 			sortField = StorageKeyReleaseName

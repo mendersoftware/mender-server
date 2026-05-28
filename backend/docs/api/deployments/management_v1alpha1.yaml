@@ -38,6 +38,17 @@ paths:
               - release
               - manifest
             type: string
+        - description: |-
+            Filter the software based on their associated tags and only return
+            software that have at least one matching tag (i.e. OR matching).
+          explode: true
+          in: query
+          name: tag
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
         - description: Update type filter.
           in: query
           name: update_type
