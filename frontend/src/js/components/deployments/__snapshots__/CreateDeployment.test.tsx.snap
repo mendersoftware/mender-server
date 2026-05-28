@@ -2942,7 +2942,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
         </div>
       </div>
       <h4>
-        Select a Release to deploy
+        Select software to deploy
       </h4>
       <div
         class="emotion-18"
@@ -2958,7 +2958,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
             <span
               class="emotion-21 text-overflow"
             >
-              Select a release
+              Select software
             </span>
             <span
               class="MuiButton-icon MuiButton-endIcon emotion-22"
@@ -17810,7 +17810,7 @@ exports[`CreateDeployment Component > smaller components > renders Software corr
 
 <div>
   <h4>
-    Select a Release to deploy
+    Select software to deploy
   </h4>
   <div
     class="test"
@@ -17826,7 +17826,7 @@ exports[`CreateDeployment Component > smaller components > renders Software corr
         <span
           class="emotion-2 text-overflow"
         >
-          Select a release
+          Select software
         </span>
         <span
           class="MuiButton-icon MuiButton-endIcon emotion-3"
@@ -18058,7 +18058,7 @@ exports[`CreateDeployment Component > smaller components > renders Software corr
 
 <div>
   <h4>
-    Select a Release to deploy
+    Select software to deploy
   </h4>
   <div
     class="test"
@@ -18074,7 +18074,7 @@ exports[`CreateDeployment Component > smaller components > renders Software corr
         <span
           class="emotion-2 text-overflow"
         >
-          Select a release
+          Select software
         </span>
         <span
           class="MuiButton-icon MuiButton-endIcon emotion-3"
