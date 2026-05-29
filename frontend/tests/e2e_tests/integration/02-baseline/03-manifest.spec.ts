@@ -103,7 +103,7 @@ test.describe('Manifests', () => {
     await drawer.getByLabel(/confirm/i).click();
     await expect(page.getByText(/Manifest details were updated successfully/i)).toBeVisible();
     await expect(drawer.getByLabel(/confirm/i)).not.toBeVisible();
-    await expect(page.getByText('e2e updated notes')).toBeVisible();
+    await expect(drawer.getByText('e2e updated notes')).toBeVisible();
     await page.getByLabel(/close/i).click();
   });
 
@@ -119,7 +119,7 @@ test.describe('Manifests', () => {
     await drawer.getByLabel(/confirm/i).click();
     await expect(page.getByText(/Manifest details were updated successfully/i)).toBeVisible();
     await expect(editButton).toBeVisible();
-    await expect(page.getByText('e2e-new-tag')).toBeVisible();
+    await expect(drawer.getByText('e2e-new-tag')).toBeVisible();
     await page.getByLabel(/close/i).click();
   });
 
