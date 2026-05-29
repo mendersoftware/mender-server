@@ -319,6 +319,7 @@ services:
       WORKFLOWS_SERVER_ADDR: workflows:8080
       WOKRFLOWS_MENDER_URL: https://docker.mender.io
       HAVE_DEVICECONFIG: "1"
+      HAVE_DEVICECONNECT: "1"
 
   workflows:
     build:
