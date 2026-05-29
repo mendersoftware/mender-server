@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Delete as DeleteIcon, ExpandLess, ExpandMore, Launch as LaunchIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
@@ -23,6 +23,7 @@ import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import { Link } from '@northern.tech/common-ui/Link';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { editArtifact, getArtifactInstallCount, getArtifactUrl } from '@northern.tech/store/thunks';
 import { createDownload, extractSoftware, extractSoftwareItem, isEmpty, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
@@ -93,7 +94,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
   const [showProvidesDepends, setShowProvidesDepends] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { canManageReleases } = useSelector(getUserCapabilities);
 
@@ -121,7 +122,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artifact.id, artifact.installCount, dispatch, open, softwareVersions.length]);
 
-  const onDescriptionChanged = useCallback(description => dispatch(editArtifact({ id: artifact.id, body: { description } })), [artifact.id, dispatch]);
+  const onDescriptionChanged = useCallback(description => dispatch(editArtifact({ id: artifact.id, body: { description } })).unwrap(), [artifact.id, dispatch]);
 
   const onDownloadClick = useCallback(async () => {
     const filename = artifact.name ? `${artifact.name}.mender` : 'artifact.mender';

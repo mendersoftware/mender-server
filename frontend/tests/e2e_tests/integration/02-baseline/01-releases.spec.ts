@@ -138,15 +138,12 @@ test.describe('Files', () => {
     const alreadyTagged = await page.getByText(selectors.releaseTags).isVisible();
     test.skip(alreadyTagged, 'looks like the release was tagged already');
     await page.getByText(/demo-artifact/i).click();
-    await expect(page.getByRole('heading', { name: /Release notes/i })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'some' })).not.toBeVisible();
+    const drawer = page.locator('.MuiDrawer-paper');
+    await expect(drawer.getByRole('heading', { name: /Release notes/i })).toBeVisible();
+    await expect(drawer.getByRole('button', { name: 'some' })).not.toBeVisible();
     // layout based locators are not an option here, since the edit button is also visible on the nearby release notes section
     // and the selector would get confused due to the proximity - so instead we loop over all the divs
-    const theDiv = await page
-      .locator('div')
-      .filter({ has: page.getByRole('heading', { name: /tags/i }), hasNotText: /notes/i })
-      .filter({ has: page.getByRole('button', { name: /edit/i }) });
-    const editButton = await theDiv.getByRole('button', { name: /edit/i });
+    const editButton = drawer.getByRole('heading', { name: 'Tags' }).locator('..').getByRole('button', { name: /edit/i });
     await editButton.click();
     const input = await page.getByPlaceholder(/enter release tags/i);
     await input.pressSequentially('some,tags', { delay: 300 });

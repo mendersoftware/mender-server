@@ -28,7 +28,7 @@ const MAX_ROWS = 4;
 interface EditableLongTextProps {
   fullWidth?: boolean;
   isEditing?: boolean;
-  onChange: (value: string) => void;
+  onChange: (value: string) => Promise<void>;
   onEditToggle?: (editing: boolean) => void;
   original: string;
   placeholder?: string;
@@ -73,9 +73,12 @@ export const EditableLongText = ({ fullWidth, isEditing: isEditingProp, onChange
       }
       if (isEditing) {
         // save change
-        onChange(value);
+        return onChange(value)
+          .then(() => setEditing(false))
+          .catch(() => setEditing(true));
+      } else {
+        setEditing(!isEditing);
       }
-      setEditing(!isEditing);
     },
     [isEditing, onChange, setEditing, value]
   );
