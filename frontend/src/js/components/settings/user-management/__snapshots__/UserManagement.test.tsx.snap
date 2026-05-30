@@ -2,13 +2,174 @@
 
 exports[`UserManagement Component > renders correctly 1`] = `
 .emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  letter-spacing: 0.0075em;
+}
+
+.emotion-1 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  min-width: 64px;
+  padding: 6px 16px;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: var(--variant-containedColor);
+  background-color: var(--variant-containedBg);
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
+  --variant-containedColor: #fff;
+  --variant-containedBg: #1976d2;
+  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-1::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-1.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-1 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-1:hover {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-1.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-1::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
+.emotion-1:hover {
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+@media (hover: none) {
+  .emotion-1:hover {
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+  }
+}
+
+.emotion-1:active {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
+}
+
+.emotion-1.Mui-focusVisible {
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-1.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (hover: hover) {
+  .emotion-1:hover {
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
+  }
+}
+
+.emotion-1.MuiButton-loading {
+  color: transparent;
+}
+
+.emotion-2 {
+  display: inherit;
+  margin-right: 8px;
+  margin-left: -4px;
+}
+
+.emotion-2>*:nth-of-type(1) {
+  font-size: 20px;
+}
+
+.emotion-3 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+}
+
+.emotion-4 {
   display: table;
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.emotion-0 caption {
+.emotion-4 caption {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -20,42 +181,42 @@ exports[`UserManagement Component > renders correctly 1`] = `
   caption-side: bottom;
 }
 
-.emotion-1 {
+.emotion-5 {
   display: table-header-group;
 }
 
-.emotion-1 .columnHeader {
+.emotion-5 .columnHeader {
   display: table-cell;
 }
 
-.emotion-1 .columnHeader .sortIcon {
+.emotion-5 .columnHeader .sortIcon {
   margin-bottom: -6px;
 }
 
-.emotion-1 .nonSortable {
+.emotion-5 .nonSortable {
   cursor: initial;
 }
 
-.emotion-2 {
+.emotion-6 {
   color: inherit;
   display: table-row;
   vertical-align: middle;
   outline: 0;
 }
 
-.emotion-2.MuiTableRow-hover:hover {
+.emotion-6.MuiTableRow-hover:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-2.Mui-selected {
+.emotion-6.Mui-selected {
   background-color: rgba(25, 118, 210, 0.08);
 }
 
-.emotion-2.Mui-selected:hover {
+.emotion-6.Mui-selected:hover {
   background-color: rgba(25, 118, 210, 0.12);
 }
 
-.emotion-3 {
+.emotion-7 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -71,11 +232,11 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-weight: 500;
 }
 
-.emotion-8 {
+.emotion-12 {
   display: table-row-group;
 }
 
-.emotion-10 {
+.emotion-14 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
@@ -89,7 +250,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.87);
 }
 
-.emotion-13 {
+.emotion-17 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -98,7 +259,7 @@ exports[`UserManagement Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-16 {
+.emotion-20 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -157,37 +318,37 @@ exports[`UserManagement Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-16::-moz-focus-inner {
+.emotion-20::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-16.Mui-disabled {
+.emotion-20.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-16 {
+  .emotion-20 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-16:hover {
+.emotion-20:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-16.Mui-disabled {
+.emotion-20.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-16.Mui-disabled {
+.emotion-20.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-16:hover {
+  .emotion-20:hover {
     --variant-containedBg: #01579b;
     --variant-textBg: rgba(2, 136, 209, 0.04);
     --variant-outlinedBorder: #0288d1;
@@ -195,11 +356,11 @@ exports[`UserManagement Component > renders correctly 1`] = `
   }
 }
 
-.emotion-16.MuiButton-loading {
+.emotion-20.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-19 {
+.emotion-23 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -236,12 +397,12 @@ exports[`UserManagement Component > renders correctly 1`] = `
   border: 1px solid #bdbdbd;
 }
 
-.emotion-19.Mui-disabled {
+.emotion-23.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-19 .MuiChip-avatar {
+.emotion-23 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -250,12 +411,12 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-19 .MuiChip-deleteIcon {
+.emotion-23 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -263,11 +424,11 @@ exports[`UserManagement Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-19 .MuiChip-deleteIcon:hover {
+.emotion-23 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-19 .MuiChip-avatar {
+.emotion-23 .MuiChip-avatar {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -275,72 +436,55 @@ exports[`UserManagement Component > renders correctly 1`] = `
   font-size: 0.625rem;
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   font-size: 18px;
   margin-left: 4px;
   margin-right: -4px;
 }
 
-.emotion-19 .MuiChip-deleteIcon {
+.emotion-23 .MuiChip-deleteIcon {
   font-size: 16px;
   margin-right: 4px;
   margin-left: -4px;
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-19.MuiChip-clickable:hover {
+.emotion-23.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-19.Mui-focusVisible {
+.emotion-23.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-19 .MuiChip-avatar {
+.emotion-23 .MuiChip-avatar {
   margin-left: 4px;
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-19 .MuiChip-deleteIcon {
+.emotion-23 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-19 .MuiChip-avatar {
+.emotion-23 .MuiChip-avatar {
   margin-left: 2px;
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   margin-left: 2px;
 }
 
-.emotion-19 .MuiChip-deleteIcon {
+.emotion-23 .MuiChip-deleteIcon {
   margin-right: 3px;
 }
 
-.emotion-20 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.5rem;
-}
-
-.emotion-21 {
+.emotion-25 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -354,218 +498,73 @@ exports[`UserManagement Component > renders correctly 1`] = `
   padding-right: 7px;
 }
 
-.emotion-28 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  max-width: 100%;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-size: 0.8125rem;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 1.5;
-  color: rgba(0, 0, 0, 0.87);
-  background-color: rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
-  white-space: nowrap;
-  -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  cursor: unset;
-  outline: 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  border: 0;
-  padding: 0;
-  vertical-align: middle;
-  box-sizing: border-box;
-  background-color: #1976d2;
-  color: #fff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
-}
-
-.emotion-28::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-28.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-28 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-28.Mui-disabled {
-  opacity: 0.38;
-  pointer-events: none;
-}
-
-.emotion-28 .MuiChip-avatar {
-  margin-left: 5px;
-  margin-right: -6px;
-  width: 24px;
-  height: 24px;
-  color: #616161;
-  font-size: 0.75rem;
-}
-
-.emotion-28 .MuiChip-icon {
-  margin-left: 5px;
-  margin-right: -6px;
-}
-
-.emotion-28 .MuiChip-deleteIcon {
-  -webkit-tap-highlight-color: transparent;
-  color: rgba(0, 0, 0, 0.26);
-  font-size: 22px;
-  cursor: pointer;
-  margin: 0 5px 0 -6px;
-}
-
-.emotion-28 .MuiChip-deleteIcon:hover {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-.emotion-28 .MuiChip-avatar {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-28 .MuiChip-deleteIcon {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.emotion-28 .MuiChip-deleteIcon:hover,
-.emotion-28 .MuiChip-deleteIcon:active {
-  color: #fff;
-}
-
-.emotion-28 .MuiChip-icon {
-  color: #616161;
-}
-
-.emotion-28 .MuiChip-icon {
-  color: inherit;
-}
-
-.emotion-28:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-28.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.emotion-28:active {
-  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-.emotion-28:hover,
-.emotion-28.Mui-focusVisible {
-  background-color: #1565c0;
-}
-
-.emotion-30 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 12px;
-  padding-right: 12px;
-  white-space: nowrap;
-}
-
 <div>
   <div
-    class="flexbox centered space-between"
-    style="margin-left: 20px;"
+    class="flexbox space-between align-items-center margin-bottom-medium"
   >
-    <h2>
+    <h6
+      class="MuiTypography-root MuiTypography-h6 emotion-0"
+    >
       Users
-    </h2>
+    </h6>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-icon MuiButton-startIcon emotion-2"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
+          data-testid="AddIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+          />
+        </svg>
+      </span>
+      Add new user
+    </button>
   </div>
   <table
-    class="MuiTable-root margin-bottom emotion-0"
+    class="MuiTable-root margin-bottom emotion-4"
   >
     <thead
-      class="MuiTableHead-root emotion-1"
+      class="MuiTableHead-root emotion-5"
     >
       <tr
-        class="MuiTableRow-root MuiTableRow-head emotion-2"
+        class="MuiTableRow-root MuiTableRow-head emotion-6"
       >
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
           scope="col"
         >
           Email
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
           scope="col"
         >
           Date created
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
           scope="col"
         >
           Last updated
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
           scope="col"
         >
           Role
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-7"
           scope="col"
         >
           Manage
@@ -573,20 +572,20 @@ exports[`UserManagement Component > renders correctly 1`] = `
       </tr>
     </thead>
     <tbody
-      class="MuiTableBody-root emotion-8"
+      class="MuiTableBody-root emotion-12"
     >
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-2"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-6"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
           <span>
             a@b.com
           </span>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
           <time
             datetime="2019-01-01T10:30:00+00:00"
@@ -595,24 +594,24 @@ exports[`UserManagement Component > renders correctly 1`] = `
           </time>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-13"
+            class="MuiTypography-root MuiTypography-body2 emotion-17"
           >
             -
           </p>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
           Admin
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-16"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-20"
             tabindex="0"
             type="button"
           >
@@ -621,19 +620,19 @@ exports[`UserManagement Component > renders correctly 1`] = `
         </td>
       </tr>
       <tr
-        class="MuiTableRow-root MuiTableRow-hover clickable emotion-2"
+        class="MuiTableRow-root MuiTableRow-hover clickable emotion-6"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
           <span>
             a2@b.com
           </span>
           <div
-            class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault margin-left-small emotion-19"
+            class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault margin-left-small emotion-23"
           >
             <svg
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-20"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-3"
               data-testid="CheckIcon"
               focusable="false"
               role="img"
@@ -647,14 +646,14 @@ exports[`UserManagement Component > renders correctly 1`] = `
               </title>
             </svg>
             <span
-              class="MuiChip-label emotion-21"
+              class="MuiChip-label emotion-25"
             >
               2FA
             </span>
           </div>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
           <time
             datetime="2019-01-01T12:30:00+00:00"
@@ -663,24 +662,24 @@ exports[`UserManagement Component > renders correctly 1`] = `
           </time>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-13"
+            class="MuiTypography-root MuiTypography-body2 emotion-17"
           >
             -
           </p>
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
           Admin
         </td>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-10"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-16"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-20"
             tabindex="0"
             type="button"
           >
@@ -690,27 +689,5 @@ exports[`UserManagement Component > renders correctly 1`] = `
       </tr>
     </tbody>
   </table>
-  <div
-    class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-28"
-    role="button"
-    tabindex="0"
-  >
-    <svg
-      aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-20"
-      data-testid="AddIcon"
-      focusable="false"
-      viewBox="0 0 24 24"
-    >
-      <path
-        d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
-      />
-    </svg>
-    <span
-      class="MuiChip-label emotion-30"
-    >
-      Add new user
-    </span>
-  </div>
 </div>
 `;

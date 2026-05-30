@@ -16,15 +16,12 @@ import { useSelector } from 'react-redux';
 
 // material ui
 import { Add as AddIcon } from '@mui/icons-material';
-import { Chip } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
-import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
-import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { Loader } from '@northern.tech/common-ui/Loader';
-import type { UiRoleDefinition } from '@northern.tech/store/constants';
 import { BENEFITS, emptyRole, settingsKeys } from '@northern.tech/store/constants';
 import {
   getGroupsByIdWithoutUngrouped,
@@ -36,7 +33,10 @@ import {
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { createRole, editRole, getDynamicGroups, getExistingReleaseTags, getGroups, getRoles, removeRole } from '@northern.tech/store/thunks';
+import type { UiRoleDefinition } from '@northern.tech/utils/constants';
 
+import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
+import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import RoleDefinition from './RoleDefinition';
 
 const columns = [
@@ -103,15 +103,19 @@ export const RoleManagement = () => {
 
   return (
     <div>
-      <div className="flexbox align-items-center">
-        <h2 style={{ marginLeft: 20 }}>Roles</h2>
-        <InfoHintContainer>
+      <div className="flexbox space-between align-items-center margin-bottom-medium">
+        <div className="flexbox align-items-center">
+          <Typography variant="h6">Roles</Typography>
+          <MenderHelpTooltip className="margin-left-small" id={HELPTOOLTIPS.rbacRoles.id} />
+        </div>
+        <div className="flexbox align-items-center">
           <EnterpriseNotification id={BENEFITS.rbac.id} />
-          <DocsTooltip id={DOCSTIPS.rbac.id} />
-        </InfoHintContainer>
+          <Button color="primary" startIcon={<AddIcon />} onClick={addRole} disabled={!isEnterprise} variant="contained">
+            Add a role
+          </Button>
+        </div>
       </div>
       {rolesInitialized ? <DetailsTable columns={columns} items={items} onItemClick={onEditRole} /> : <Loader show={true} />}
-      <Chip color="primary" icon={<AddIcon />} label="Add a role" onClick={addRole} disabled={!isEnterprise} />
       <RoleDefinition
         adding={adding}
         editing={editing}

@@ -239,6 +239,13 @@ const WebhookSecret = () => (
 
 const SsoMetadata = () => <>Submit the metadata document from your Identity Provider</>;
 
+const RbacRoles = () => (
+  <>
+    Roles allow administrators to define and manage user permissions, and create custom roles with precise control over features such as device access, release
+    management, user administration, and audit logs.
+  </>
+);
+
 const ReleaseName = () => (
   <>
     If a Release with this name already exists, this new Artifact may be grouped into a Release with other Artifacts of the same name - so long as they are
@@ -341,6 +348,7 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   nameTagTip: { id: 'nameTagTip', Component: NameTagTip },
   phasedPausedDeployments: { id: 'phasedPausedDeployments', Component: PhasedPausedDeployments },
   planUpgradeEmail: { id: 'planUpgradeEmail', Component: PlanUpgradeEmail },
+  rbacRoles: { id: 'rbacRoles', Component: RbacRoles },
   releaseName: { id: 'releaseName', Component: ReleaseName },
   resetHistory: { id: 'resetHistory', Component: ResetHistory },
   ssoMetadata: { id: 'ssoMetadata', Component: SsoMetadata },
