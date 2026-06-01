@@ -14,6 +14,7 @@
 import type { ReactNode } from 'react';
 
 import { Typography } from '@mui/material';
+import { FormControlLabel, Switch } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 type SettingsItemClasses = {
@@ -76,3 +77,23 @@ export const SettingsItem = ({ classes = defaultClasses, description, notificati
     </div>
   );
 };
+
+export interface ToggleSettingsItemProps extends SettingsItemProps {
+  checked: boolean;
+  disabled?: boolean;
+  onClick: () => void;
+}
+
+export const ToggleSettingsItem = ({ checked, disabled = false, onClick, title, ...rest }: ToggleSettingsItemProps) => (
+  <SettingsItem
+    title={
+      <FormControlLabel
+        className="align-self-start margin-left-none margin-top-none"
+        control={<Switch className="margin-left-small" checked={checked} onChange={onClick} disabled={disabled} />}
+        label={title}
+        labelPlacement="start"
+      />
+    }
+    {...rest}
+  />
+);
