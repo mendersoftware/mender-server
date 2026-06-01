@@ -29,7 +29,7 @@ import {
   getUserCapabilities,
   getUsersList
 } from '@northern.tech/store/selectors';
-import { addUserToCurrentTenant, createUser, editUser, getUserList, passwordResetStart, removeUser } from '@northern.tech/store/thunks';
+import { addUserToCurrentTenant, createUser, editUser, getUserList, removeUser } from '@northern.tech/store/thunks';
 
 import { EmailVerificationWarning } from '../EmailVerificationWarning';
 import { UserDefinition } from './UserDefinition';
@@ -113,7 +113,7 @@ export const UserManagement = () => {
     setRemoveDialog(false);
   };
 
-  const submit = async (userData, type, id, passwordResetEmail) => {
+  const submit = async (userData, type, id) => {
     try {
       if (userData) {
         if (id) {
@@ -121,9 +121,6 @@ export const UserManagement = () => {
         } else {
           await props[actions[type]](userData).unwrap();
         }
-      }
-      if (passwordResetEmail) {
-        dispatch(passwordResetStart(passwordResetEmail));
       }
       dialogDismiss();
     } catch {
