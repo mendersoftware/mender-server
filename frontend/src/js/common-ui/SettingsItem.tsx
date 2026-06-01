@@ -27,13 +27,12 @@ export interface SettingsItemProps {
   classes?: SettingsItemClasses;
   description?: string | ReactNode;
   notification?: ReactNode;
-  onTitleClick?: () => void;
   secondary?: string | ReactNode;
   sideBarContent?: ReactNode;
   title: string | ReactNode;
 }
 
-export const maxWidth = 500;
+export const maxWidth = 750;
 
 const useStyles = makeStyles()(({ spacing }) => ({
   base: { gap: spacing(1) },
@@ -51,19 +50,26 @@ const useStyles = makeStyles()(({ spacing }) => ({
 
 const defaultClasses: SettingsItemClasses = { base: '', content: '', main: '' };
 
-export const SettingsItem = ({ classes = defaultClasses, description, notification, onTitleClick, secondary, sideBarContent, title }: SettingsItemProps) => {
+export const SettingsItemTitle = ({ title }: Pick<SettingsItemProps, 'title'>) =>
+  typeof title === 'string' ? (
+    <Typography className="capitalized-start" variant="subtitle1">
+      {title}
+    </Typography>
+  ) : (
+    title
+  );
+
+export const SettingsItem = ({ classes = defaultClasses, description, notification, secondary, sideBarContent, title }: SettingsItemProps) => {
   const { classes: localClasses } = useStyles();
   return (
     <div className={`flexbox column settings-item-base ${localClasses.base} margin-top-small ${classes.base ?? ''}`}>
       <div className={`flexbox column settings-item-content ${localClasses.base} ${localClasses.content} ${classes.content ?? ''}`}>
-        {typeof title === 'string' ? (
-          <Typography className={onTitleClick ? 'clickable' : ''} variant="subtitle1" onClick={onTitleClick}>
-            {title}
+        <SettingsItemTitle title={title} />
+        {description && (
+          <Typography className="capitalized-start" variant="body2">
+            {description}
           </Typography>
-        ) : (
-          title
         )}
-        {description && <Typography variant="body2">{description}</Typography>}
         {(secondary || sideBarContent) && (
           <div className={`settings-item-main-content ${localClasses.mainContent} ${classes.main ?? ''}`}>
             <Typography variant="body2" component="div">
@@ -90,7 +96,7 @@ export const ToggleSettingsItem = ({ checked, disabled = false, onClick, title, 
       <FormControlLabel
         className="align-self-start margin-left-none margin-top-none"
         control={<Switch className="margin-left-small" checked={checked} onChange={onClick} disabled={disabled} />}
-        label={title}
+        label={<SettingsItemTitle title={title} />}
         labelPlacement="start"
       />
     }
