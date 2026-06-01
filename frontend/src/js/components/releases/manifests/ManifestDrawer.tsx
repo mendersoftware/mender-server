@@ -332,10 +332,10 @@ export const AddManifestDrawer = ({ copyFromManifest, onClose, open }: AddManife
             />
           )}
 
-          <ContentSection title="Notes">
+          <ContentSection className="margin-bottom-medium" title="Notes">
             <TextInput id="description" hint="Add notes here" InputLabelProps={{ shrink: true }} InputProps={{ multiline: true, maxRows: 4 }} />
           </ContentSection>
-          <ContentSection title="Tags">
+          <ContentSection className="margin-bottom-medium" title="Tags">
             <ChipSelect className={classes.input} options={existingTags} name="tags" placeholder="Add Tags" forcePopupIcon={existingTags.length !== 0} />
           </ContentSection>
           {parsedManifest?.component_types && (
