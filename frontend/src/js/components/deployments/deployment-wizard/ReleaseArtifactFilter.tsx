@@ -107,6 +107,9 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
   }, [open, setFocus]);
 
   useEffect(() => {
+    if (!open) {
+      return;
+    }
     const [tags, type, searchTerm, debouncedKind] = debouncedFilters;
     setFilterCount(tags.length + Number(debouncedKind !== softwareKindOptions.manifest.key && !!type) + Number(!!debouncedKind));
     dispatch(
@@ -119,7 +122,7 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
         type: debouncedKind === softwareKindOptions.manifest.key ? undefined : (type ?? undefined)
       })
     );
-  }, [debouncedFilters, dispatch]);
+  }, [open, debouncedFilters, dispatch]);
   const { isDirty } = formState;
 
   return (
