@@ -44,6 +44,8 @@ import { getIsEnterprise } from '@northern.tech/store/selectors';
 import pluralize from 'pluralize';
 import validator from 'validator';
 
+import { SETTINGS_INPUT_WIDTH } from '../constants';
+
 const { isUUID } = validator;
 
 const useStyles = makeStyles()(theme => ({
@@ -101,8 +103,8 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
 
   return (
     <div className="flexbox column">
-      <div className="flexbox margin-top-small" style={{ alignItems: 'flex-end' }}>
-        <FormControl id="roles-form" style={{ maxWidth: 400 }}>
+      <div className="flexbox margin-top-small align-items-center">
+        <FormControl id="roles-form" style={{ maxWidth: SETTINGS_INPUT_WIDTH }}>
           <InputLabel id="roles-selection-label">Roles</InputLabel>
           <Select
             label="Roles"
