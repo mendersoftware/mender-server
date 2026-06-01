@@ -14,38 +14,57 @@
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
-import { Typography } from '@mui/material';
+import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { Button, Typography, formHelperTextClasses } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import type { ColumnDefinition } from '@northern.tech/common-ui/DetailsTable';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { Link } from '@northern.tech/common-ui/Link';
 import Pagination from '@northern.tech/common-ui/Pagination';
+import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 import storeActions from '@northern.tech/store/actions';
 import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { selectManifest, selectRelease } from '@northern.tech/store/thunks';
-import type { ManifestComponent } from '@northern.tech/types/MenderTypes';
+import type { ManifestComponent, Software } from '@northern.tech/types/MenderTypes';
 import { customSort, toggle } from '@northern.tech/utils/helpers';
+
+import { SoftwareArtifactFilter } from '../../deployments/deployment-wizard/ReleaseArtifactFilter';
 
 const { setActiveTab } = storeActions;
 
-interface ComponentTypesTableProps {
-  componentTypes: Record<string, ManifestComponent>;
-  editable?: boolean;
-  onChange?: (componentTypes: Record<string, ManifestComponent>) => void;
-}
+const useStyles = makeStyles()(() => ({
+  orderInput: {
+    [`& .${formHelperTextClasses.root}`]: {
+      alignSelf: 'flex-end',
+      width: 'max-content',
+      whiteSpace: 'nowrap'
+    }
+  }
+}));
 
 interface ComponentTypesTableProps {
   componentTypes: Record<string, ManifestComponent>;
   existingReleases?: Record<string, boolean>;
   isCreation?: boolean;
+  isEditable?: boolean;
+  onChange?: (componentTypes: Record<string, ManifestComponent>) => void;
 }
 
-type ColumnExtras = { existingReleases?: Record<string, boolean>; isCreation?: boolean; onReleaseClick: (name: string) => void };
+type ColumnExtras = {
+  classes: Record<string, string>;
+  existingReleases?: Record<string, boolean>;
+  isCreation?: boolean;
+  isEditable: boolean;
+  onOrderChange: (type: string, order: number) => void;
+  onReleaseClick: (name: string) => void;
+  onReleaseEdit: (type: string) => void;
+};
 
 type ManifestColumnDefinition = Omit<ColumnDefinition, 'render'> & {
-  render: (item: ManifestComponent & { type: string }, { onReleaseClick }: { onReleaseClick: (name: string) => void }) => ReactNode | string;
+  render: (item: ManifestComponent & { type: string }, extras: ColumnExtras) => ReactNode | string;
   sortProp: string;
 };
 
@@ -62,7 +81,14 @@ const columns: ManifestColumnDefinition[] = [
     title: 'Release',
     sortable: true,
     sortProp: 'artifact_name',
-    render: ({ artifact_name, artifact_path }, { onReleaseClick, existingReleases, isCreation }) => {
+    render: ({ type, artifact_name, artifact_path }, { isEditable, onReleaseClick, existingReleases, isCreation, onReleaseEdit }) => {
+      if (isEditable) {
+        return (
+          <Button size="large" color="neutral" variant="outlined" endIcon={<ExpandMoreIcon />} onClick={() => onReleaseEdit(type)}>
+            <span className={`text-overflow`}>{artifact_name || artifact_path || '-'}</span>
+          </Button>
+        );
+      }
       if (artifact_name) {
         if (existingReleases && existingReleases[artifact_name]) {
           return <Link onClick={() => onReleaseClick(artifact_name)}>{artifact_name}</Link>;
@@ -87,16 +113,36 @@ const columns: ManifestColumnDefinition[] = [
     sortable: true,
     sortProp: 'update_strategy.order',
     cellProps: { align: 'right' },
-    render: ({ update_strategy }) => update_strategy?.order ?? '-'
+    render: ({ type, update_strategy }, { isEditable, onOrderChange, classes }) =>
+      isEditable ? (
+        <NumberInput
+          className={classes.orderInput}
+          width={72}
+          showSteps
+          id={type}
+          size="small"
+          defaultValue={update_strategy?.order ?? null}
+          rules={{
+            required: 'Order is required',
+            min: { value: 1, message: 'Values must be from 1 to 100' },
+            max: { value: 100, message: 'Values must be from 1 to 100' }
+          }}
+          onBlur={value => value && onOrderChange(type, value)}
+        />
+      ) : (
+        (update_strategy?.order ?? '-')
+      )
   }
 ];
 
-export const ComponentTypesTable = ({ componentTypes }: ComponentTypesTableProps) => {
+export const ComponentTypesTable = ({ componentTypes, existingReleases, isCreation, isEditable = false, onChange }: ComponentTypesTableProps) => {
   const [sortCol, setSortCol] = useState('');
   const [sortDown, setSortDown] = useState(false);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
+  const [editingType, setEditingType] = useState<string | null>(null);
   const dispatch = useAppDispatch();
+  const { classes } = useStyles();
 
   const { items, total } = useMemo(() => {
     const entries = Object.entries(componentTypes).map(([type, content]) => ({ type, ...content }));
@@ -122,7 +168,23 @@ export const ComponentTypesTable = ({ componentTypes }: ComponentTypesTableProps
     dispatch(selectManifest(null));
   };
 
-  const mappedColumns = columns.map(column => ({ ...column, extras: { onReleaseClick } }));
+  const onOrderChange = (type: string, order: number) => {
+    const component = componentTypes[type];
+    onChange?.({ ...componentTypes, [type]: { ...component, update_strategy: { ...component.update_strategy, order } } });
+  };
+
+  const onReleaseSelect = (item: Software) => {
+    if (editingType) {
+      const { artifact_path: _artifact_path, ...component } = componentTypes[editingType];
+      onChange?.({ ...componentTypes, [editingType]: { ...component, artifact_name: item.name } });
+    }
+    setEditingType(null);
+  };
+
+  const mappedColumns = columns.map(column => ({
+    ...column,
+    extras: { isEditable, onReleaseClick, onReleaseEdit: setEditingType, onOrderChange, existingReleases, isCreation, classes }
+  }));
 
   if (!total) {
     return (
@@ -152,6 +214,13 @@ export const ComponentTypesTable = ({ componentTypes }: ComponentTypesTableProps
           page={page}
         />
       </div>
+      <SoftwareArtifactFilter
+        kind="release"
+        open={!!editingType}
+        selectedSoftware={editingType ? componentTypes[editingType]?.artifact_name : undefined}
+        onClose={() => setEditingType(null)}
+        onSelect={onReleaseSelect}
+      />
     </ContentSection>
   );
 };
