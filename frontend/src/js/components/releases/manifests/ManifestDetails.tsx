@@ -216,7 +216,7 @@ export const ManifestDetails = ({ onCopy }: { onCopy?: (name: string) => void })
         <ManifestTags existingTags={existingTags} tags={tags} canManageReleases={userCapabilities.canManageReleases} onSave={onTagSelectionChanged} />
       </ColumnWidthProvider>
       {manifestContent?.component_types && <ComponentTypesTable componentTypes={manifestContent.component_types} existingReleases={existingReleases} />}
-      <ManifestQuickActions />
+      <ManifestQuickActions onCopy={onCopy} />
     </BaseDrawer>
   );
 };

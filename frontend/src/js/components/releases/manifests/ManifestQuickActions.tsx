@@ -99,7 +99,7 @@ const defaultActions: ManifestAction[] = [
   }
 ];
 
-export const ManifestQuickActions = () => {
+export const ManifestQuickActions = ({ onCopy }: { onCopy?: (name: string) => void }) => {
   const [confirmManifestDeletion, setConfirmManifestDeletion] = useState(false);
   const { selection: selectedRows } = useSelector(getManifestsListState);
   const selectedManifest = useSelector(getSelectedManifest);
@@ -119,7 +119,12 @@ export const ManifestQuickActions = () => {
     [navigate, selectedManifests]
   );
 
-  const onCopyManifest = useCallback(() => dispatch(setSnackbar('Creating a copy from a Manifest is not yet supported')), [dispatch]);
+  const onCopyManifest = useCallback(() => {
+    const name = !isEmpty(selectedManifest) ? selectedManifest.name : selectedManifests[0]?.name;
+    if (name) {
+      onCopy?.(name);
+    }
+  }, [onCopy, selectedManifest, selectedManifests]);
 
   const onTagManifest = useCallback(() => dispatch(setSnackbar('Tagging Manifests is not yet supported')), [dispatch]);
 
