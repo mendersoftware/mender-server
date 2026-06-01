@@ -27,7 +27,7 @@ export interface SettingsItemProps {
   description?: string | ReactNode;
   notification?: ReactNode;
   onTitleClick?: () => void;
-  secondary: string | ReactNode;
+  secondary?: string | ReactNode;
   sideBarContent?: ReactNode;
   title: string | ReactNode;
 }
@@ -63,12 +63,14 @@ export const SettingsItem = ({ classes = defaultClasses, description, notificati
           title
         )}
         {description && <Typography variant="body2">{description}</Typography>}
-        <div className={`settings-item-main-content ${localClasses.mainContent} ${classes.main ?? ''}`}>
-          <Typography variant="body2" component="div">
-            {secondary}
-          </Typography>
-          {sideBarContent}
-        </div>
+        {(secondary || sideBarContent) && (
+          <div className={`settings-item-main-content ${localClasses.mainContent} ${classes.main ?? ''}`}>
+            <Typography variant="body2" component="div">
+              {secondary}
+            </Typography>
+            {sideBarContent}
+          </div>
+        )}
       </div>
       {notification}
     </div>
