@@ -11,13 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 import { Close, UploadFile } from '@mui/icons-material';
-import { Alert, Button, IconButton, InputAdornment, TextField, Typography, alpha } from '@mui/material';
+import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { Alert, Button, FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup, TextField, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { mdiCloudUploadOutline } from '@mdi/js';
@@ -30,14 +31,16 @@ import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { getManifestTags } from '@northern.tech/store/releasesSlice/selectors';
-import { checkReleasesExistence, generateManifest, uploadManifest } from '@northern.tech/store/releasesSlice/thunks';
+import { checkReleasesExistence, generateManifest, getManifest, getSoftware, uploadManifest } from '@northern.tech/store/releasesSlice/thunks';
 import { useAppDispatch } from '@northern.tech/store/store';
-import type { ManifestContent } from '@northern.tech/types/MenderTypes';
-import { parse } from 'yaml';
+import { getExistingSoftwareTags } from '@northern.tech/store/thunks';
+import type { ManifestContent, Software } from '@northern.tech/types/MenderTypes';
+import { parse, stringify } from 'yaml';
 import * as z from 'zod';
 
+import { SoftwareArtifactFilter } from '../../deployments/deployment-wizard/ReleaseArtifactFilter';
 import { isMenderArtifact } from '../dialogs/AddArtifact';
-import { ComponentTypesTable } from './ManifestDetails';
+import { ComponentTypesTable } from './ComponentTypesTable';
 
 const MenderManifestSizeLimit = 1024 ** 2;
 const genericUploadErrorMessage = 'The Manifest could not be uploaded. Check that the .mender file contains a valid .yaml Manifest';
@@ -95,16 +98,27 @@ const validateFile = async (file: File) => {
   return { ok: true };
 };
 type AddManifestDrawerProps = {
+  copyFromManifest?: string;
   onClose: () => void;
   open: boolean;
 };
 
 type ManifestFormValues = {
   description: string;
+  name: string;
   tags: string[];
 };
 
-export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => {
+type Mode = 'upload' | 'copy';
+type ModeInfo = { key: Mode; title: string };
+const modes: Record<Mode, ModeInfo> = {
+  upload: { key: 'upload', title: 'Upload' },
+  copy: { key: 'copy', title: 'Copy Existing' }
+};
+
+export const AddManifestDrawer = ({ copyFromManifest, onClose, open }: AddManifestDrawerProps) => {
+  const [mode, setMode] = useState<Mode>(modes.upload.key);
+  const [copyReleaseOpen, setCopyReleaseOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [backendErrorMessage, setBackendErrorMessage] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -113,7 +127,6 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const existingTags = useSelector(getManifestTags);
-
   useEffect(() => {
     if (!parsedManifest?.component_types) {
       return;
@@ -125,9 +138,34 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
     dispatch(checkReleasesExistence(uniqueNames)).unwrap().then(setExistingReleases);
   }, [dispatch, parsedManifest?.component_types]);
 
-  const defaultValues: ManifestFormValues = { tags: [], description: '' };
+  const defaultValues: ManifestFormValues = { tags: [], description: '', name: '' };
   const methods = useForm<ManifestFormValues>({ mode: 'onChange', defaultValues });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, setValue } = methods;
+
+  useEffect(() => {
+    dispatch(getSoftware());
+    dispatch(getExistingSoftwareTags());
+  }, [dispatch]);
+
+  const loadCopyManifest = useCallback(
+    (name: string) =>
+      dispatch(getManifest(name))
+        .unwrap()
+        .then(manifest => {
+          setParsedManifest(manifest?.manifest || null);
+          setValue('name', `${name}(copy)`);
+        }),
+    [dispatch, setValue]
+  );
+  const onSelectCopy = (item: Software) => loadCopyManifest(item.name);
+
+  useEffect(() => {
+    if (open && copyFromManifest) {
+      setMode(modes.copy.key);
+      loadCopyManifest(copyFromManifest);
+    }
+  }, [open, copyFromManifest, loadCopyManifest]);
+
   const onReset = () => {
     setSelectedFile(null);
     setErrorMessage('');
@@ -158,81 +196,133 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
     }
   };
   const onSubmit = (formData: ManifestFormValues) => {
-    if (!selectedFile) return;
-    const { name } = selectedFile;
-    let action = uploadManifest({ file: selectedFile, meta: formData });
-    if (isYaml(name)) {
-      action = generateManifest({ file: selectedFile, meta: formData });
-    }
+    const file =
+      mode === modes.copy.key && parsedManifest
+        ? new File([stringify({ ...parsedManifest, name: formData.name })], `${formData.name}.yaml`, { type: 'application/yaml' })
+        : selectedFile;
+    if (!file) return;
+    const action = isYaml(file.name) ? generateManifest({ file, meta: formData }) : uploadManifest({ file, meta: formData });
     dispatch(action)
       .unwrap()
       .then(() => onDrawerClose())
       .catch(e => setBackendErrorMessage(typeof e === 'string' ? e : (e?.message ?? genericUploadErrorMessage)));
   };
 
+  const onComponentTypesChange = (component_types: ManifestContent['component_types']) =>
+    setParsedManifest(current => (current ? { ...current, component_types } : current));
+
+  const fileUploadInput = (
+    <>
+      {selectedFile ? (
+        <TextField
+          fullWidth
+          label="File"
+          className={classes.input}
+          value={selectedFile.name}
+          error={!!errorMessage}
+          helperText={
+            errorMessage &&
+            errorMessage.split('\n').map((line, index) => (
+              <span key={index} className="flexbox">
+                {line}
+              </span>
+            ))
+          }
+          slotProps={{
+            input: {
+              readOnly: true,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <UploadFile />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={onReset} size="small" aria-label="Remove file">
+                    <Close fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              )
+            }
+          }}
+        />
+      ) : (
+        <Dropzone
+          multiple={false}
+          onDrop={onDrop}
+          accept={{
+            'application/octet-stream': ['.mender'],
+            'application/yaml': ['.yaml', '.yml']
+          }}
+        >
+          {({ getRootProps, getInputProps, isDragActive }) => (
+            <div {...getRootProps({ className: `dropzone onboard ${classes.dropzone}${isDragActive ? ' active' : ''}` })}>
+              <input {...getInputProps()} />
+              <div className="flexbox centered">
+                <MaterialDesignIcon fontSize="medium" path={mdiCloudUploadOutline} className="margin-right-x-small" />
+                <Typography>
+                  Drag here or <Link>browse</Link> to upload a file
+                </Typography>
+              </div>
+            </div>
+          )}
+        </Dropzone>
+      )}
+      <Typography className="margin-top-x-small" color="textSecondary" variant="body2">
+        Upload a Manifest (.yaml), or an Artifact (.mender) containing a Manifest. <DocsTextLink id={DOCSTIPS.orchestratorManifest.id} />
+      </Typography>
+    </>
+  );
   return (
     <BaseDrawer open={open} size="md" onClose={onDrawerClose} slotProps={{ header: { title: 'Upload a Manifest' } }}>
+      <RadioGroup row className="margin-bottom-medium" value={mode} onChange={(_, newMode) => setMode(newMode as Mode)}>
+        {Object.values(modes).map(({ key, title }) => (
+          <FormControlLabel value={key} control={<Radio />} label={title} key={key} />
+        ))}
+      </RadioGroup>
       <FormProvider {...methods}>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          {selectedFile ? (
-            <TextField
-              fullWidth
-              label="File"
-              className={classes.input}
-              value={selectedFile.name}
-              error={!!errorMessage}
-              helperText={
-                errorMessage &&
-                errorMessage.split('\n').map((line, index) => (
-                  <span key={index} className="flexbox">
-                    {line}
-                  </span>
-                ))
-              }
-              slotProps={{
-                input: {
-                  readOnly: true,
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <UploadFile />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={onReset} size="small" aria-label="Remove file">
-                        <Close fontSize="small" />
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }
-              }}
-            />
+          {mode === modes.upload.key ? (
+            fileUploadInput
           ) : (
-            <Dropzone
-              multiple={false}
-              onDrop={onDrop}
-              accept={{
-                'application/octet-stream': ['.mender'],
-                'application/yaml': ['.yaml', '.yml']
-              }}
-            >
-              {({ getRootProps, getInputProps, isDragActive }) => (
-                <div {...getRootProps({ className: `dropzone onboard ${classes.dropzone}${isDragActive ? ' active' : ''}` })}>
-                  <input {...getInputProps()} />
-                  <div className="flexbox centered">
-                    <MaterialDesignIcon fontSize="medium" path={mdiCloudUploadOutline} className="margin-right-x-small" />
-                    <Typography>
-                      Drag here or <Link>browse</Link> to upload a file
-                    </Typography>
-                  </div>
-                </div>
+            <>
+              {copyReleaseOpen ? (
+                <SoftwareArtifactFilter
+                  selectedSoftware={parsedManifest?.name}
+                  kind="manifest"
+                  open={copyReleaseOpen}
+                  onClose={() => setCopyReleaseOpen(false)}
+                  onSelect={item => onSelectCopy(item)}
+                />
+              ) : (
+                <>
+                  <Button
+                    size="large"
+                    color="neutral"
+                    variant="outlined"
+                    endIcon={copyReleaseOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    onClick={() => setCopyReleaseOpen(!copyReleaseOpen)}
+                  >
+                    <span className="text-overflow">{parsedManifest?.name ?? 'Select a Manifest'}</span>
+                  </Button>
+                  <Typography className="margin-top-x-small" color="textSecondary" variant="body2">
+                    Use an existing Manifest as a template. You can edit the details before saving it as new.
+                  </Typography>
+                  <TwoColumnData
+                    className="margin-top-medium margin-bottom-medium"
+                    data={{
+                      'Compatible types': parsedManifest?.system_types_compatible?.join(', ') || '-'
+                    }}
+                  />
+                </>
               )}
-            </Dropzone>
+              <ContentSection className="margin-bottom-medium" title="Name">
+                <TextInput id="name" required validations="trim,isLength:1" />
+              </ContentSection>
+            </>
           )}
-          <Typography className="margin-top-x-small" color="textSecondary" variant="body2">
-            Upload a Manifest (.yaml), or an Artifact (.mender) containing a Manifest. <DocsTextLink id={DOCSTIPS.orchestratorManifest.id} />
-          </Typography>
-          {parsedManifest?.name && (
+
+          {mode === modes.upload.key && parsedManifest?.name && (
             <TwoColumnData
               className="margin-top-medium margin-bottom-medium"
               data={{
@@ -249,7 +339,13 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
             <ChipSelect className={classes.input} options={existingTags} name="tags" placeholder="Add Tags" forcePopupIcon={existingTags.length !== 0} />
           </ContentSection>
           {parsedManifest?.component_types && (
-            <ComponentTypesTable componentTypes={parsedManifest.component_types} existingReleases={existingReleases} isCreation />
+            <ComponentTypesTable
+              componentTypes={parsedManifest.component_types}
+              isEditable={mode === modes.copy.key}
+              onChange={onComponentTypesChange}
+              existingReleases={existingReleases}
+              isCreation
+            />
           )}
           {backendErrorMessage && (
             <Alert slotProps={{ message: { className: 'capitalized-start' } }} className="margin-top-medium capitalized-start" severity="error">
@@ -257,8 +353,13 @@ export const AddManifestDrawer = ({ onClose, open }: AddManifestDrawerProps) => 
             </Alert>
           )}
           <div className="margin-top">
-            <Button onClick={onClose}>Cancel</Button>
-            <Button type="submit" className="margin-left-small" variant="contained" disabled={!!errorMessage || !selectedFile}>
+            <Button onClick={onDrawerClose}>Cancel</Button>
+            <Button
+              type="submit"
+              className="margin-left-small"
+              variant="contained"
+              disabled={!!errorMessage || (mode === modes.copy.key ? !parsedManifest : !selectedFile)}
+            >
               Upload
             </Button>
           </div>
