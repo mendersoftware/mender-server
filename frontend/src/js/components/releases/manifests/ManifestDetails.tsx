@@ -11,8 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { ReactNode } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Typography } from '@mui/material';
@@ -22,28 +21,25 @@ import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/Confirm';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
-import type { ColumnDefinition } from '@northern.tech/common-ui/DetailsTable';
-import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
-import { Link } from '@northern.tech/common-ui/Link';
-import Pagination from '@northern.tech/common-ui/Pagination';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
-import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS, SORTING_OPTIONS } from '@northern.tech/store/constants';
+import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getManifestTags, getSelectedManifest, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
-import { checkReleasesExistence, getDevicesByStatus, selectManifest, selectRelease, updateManifestInfo } from '@northern.tech/store/thunks';
-import type { Manifest, ManifestComponent } from '@northern.tech/types/MenderTypes';
-import { customSort, toggle } from '@northern.tech/utils/helpers';
+import { checkReleasesExistence, getDevicesByStatus, selectManifest, updateManifestInfo } from '@northern.tech/store/thunks';
+import type { Manifest } from '@northern.tech/types/MenderTypes';
+import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 
 import { SignatureSign } from '../utils';
+import { ComponentTypesTable } from './ComponentTypesTable';
 import { ManifestQuickActions } from './ManifestQuickActions';
 
-const { setActiveTab, setSnackbar } = storeActions;
+const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
   tagSelect: { marginRight: theme.spacing(2), maxWidth: 350 }
@@ -151,127 +147,7 @@ const ManifestTags = ({ existingTags, tags, canManageReleases, onSave }: Manifes
   );
 };
 
-interface ComponentTypesTableProps {
-  componentTypes: Record<string, ManifestComponent>;
-  existingReleases?: Record<string, boolean>;
-  isCreation?: boolean;
-}
-
-type ColumnExtras = { existingReleases?: Record<string, boolean>; isCreation?: boolean; onReleaseClick: (name: string) => void };
-
-type ManifestColumnDefinition = Omit<ColumnDefinition, 'render'> & {
-  render: (item: ManifestComponent & { type: string }, extras: ColumnExtras) => ReactNode | string;
-  sortProp: string;
-};
-
-const columns: ManifestColumnDefinition[] = [
-  {
-    key: 'type',
-    title: 'Type',
-    sortable: true,
-    sortProp: 'type',
-    render: ({ type }) => type || '-'
-  },
-  {
-    key: 'release',
-    title: 'Release',
-    sortable: true,
-    sortProp: 'artifact_name',
-    render: ({ artifact_name, artifact_path }, { onReleaseClick, existingReleases, isCreation }) => {
-      if (artifact_name) {
-        if (existingReleases && existingReleases[artifact_name]) {
-          return <Link onClick={() => onReleaseClick(artifact_name)}>{artifact_name}</Link>;
-        } else if (isCreation) {
-          return (
-            <>
-              <Typography>{artifact_name}</Typography>
-              <Typography color="warning" variant="caption">
-                This Release is not available. You need to upload it to Releases before it can be deployed.
-              </Typography>
-            </>
-          );
-        }
-        return artifact_name;
-      }
-      return artifact_path || '-';
-    }
-  },
-  {
-    key: 'order',
-    title: 'Order',
-    sortable: true,
-    sortProp: 'update_strategy.order',
-    cellProps: { align: 'right' },
-    render: ({ update_strategy }) => update_strategy?.order ?? '-'
-  }
-];
-
-export const ComponentTypesTable = ({ componentTypes, existingReleases, isCreation = false }: ComponentTypesTableProps) => {
-  const [sortCol, setSortCol] = useState('');
-  const [sortDown, setSortDown] = useState(false);
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
-  const dispatch = useAppDispatch();
-
-  const { items, total } = useMemo(() => {
-    const entries = Object.entries(componentTypes).map(([type, content]) => ({ type, ...content }));
-    const sorted = sortCol ? [...entries].sort(customSort(sortDown, columns.find(({ key }) => key === sortCol)!.sortProp, true)) : entries;
-    const start = (page - 1) * perPage;
-    return { items: sorted.slice(start, start + perPage), total: entries.length };
-  }, [componentTypes, sortCol, sortDown, page, perPage]);
-
-  const onChangeSorting = key => {
-    setSortDown(toggle);
-    setSortCol(key);
-    setPage(1);
-  };
-
-  const onChangePagination = (newPage, newPerPage = perPage) => {
-    setPage(newPage);
-    setPerPage(newPerPage);
-  };
-
-  const onReleaseClick = release => {
-    dispatch(setActiveTab('releases'));
-    dispatch(selectRelease(release));
-    dispatch(selectManifest(null));
-  };
-
-  const mappedColumns = columns.map(column => ({ ...column, extras: { onReleaseClick, existingReleases, isCreation } }));
-
-  if (!total) {
-    return (
-      <ContentSection title="Component types:">
-        <Typography variant="body2" className="margin-top-small">
-          No component types defined
-        </Typography>
-      </ContentSection>
-    );
-  }
-
-  return (
-    <ContentSection title="Component types:">
-      <DetailsTable
-        columns={mappedColumns}
-        items={items}
-        onChangeSorting={onChangeSorting}
-        sort={{ key: sortCol, direction: sortDown ? SORTING_OPTIONS.desc : SORTING_OPTIONS.asc }}
-      />
-      <div className="flexbox">
-        <Pagination
-          className="margin-top-none"
-          count={total}
-          rowsPerPage={perPage}
-          onChangePage={onChangePagination}
-          onChangeRowsPerPage={newPerPage => onChangePagination(1, newPerPage)}
-          page={page}
-        />
-      </div>
-    </ContentSection>
-  );
-};
-
-export const ManifestDetails = () => {
+export const ManifestDetails = ({ onCopy }: { onCopy?: (name: string) => void }) => {
   const dispatch = useAppDispatch();
   const manifest = useAppSelector(getSelectedManifest) as Manifest;
   const existingTags = useAppSelector(getManifestTags);
