@@ -26,11 +26,13 @@ import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeploymentsConfig, saveDeltaDeploymentsConfig } from '@northern.tech/store/thunks';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
+import { SETTINGS_CONTENT_MAX_WIDTH } from './constants';
+
 const useStyles = makeStyles()(theme => ({
   buttonWrapper: { '&.button-wrapper': { justifyContent: 'start', alignItems: 'center' } },
   formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), marginLeft: theme.spacing(2), maxWidth: 300 },
   memoryFormWrapper: { gap: theme.spacing(4), marginLeft: 0 },
-  info: { maxWidth: 750 },
+  info: { maxWidth: SETTINGS_CONTENT_MAX_WIDTH },
   memoryTitle: { alignItems: 'baseline' },
   optionText: { display: 'block' }
 }));

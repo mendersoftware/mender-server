@@ -31,6 +31,7 @@ import { editUser, saveUserSettings, verifyEmailStart } from '@northern.tech/sto
 import { toggle } from '@northern.tech/utils/helpers';
 
 import AccessTokenManagement from '../AccessTokenManagement';
+import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH } from '../constants';
 import TwoFactorAuthSetup from './TwoFactorAuthSetup';
 import { UserId, getUserSSOState } from './UserDefinition';
 import { EmailVerificationConfirmation } from './twofactorauth-steps/EmailVerification';
@@ -38,10 +39,10 @@ import { EmailVerificationConfirmation } from './twofactorauth-steps/EmailVerifi
 const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
-  formField: { width: 400, maxWidth: '100%' },
+  formField: { width: SETTINGS_INPUT_WIDTH, maxWidth: '100%' },
   jwt: { maxWidth: '70%' },
   oauthIcon: { fontSize: '36px', marginRight: 10 },
-  widthLimit: { maxWidth: 750 },
+  widthLimit: { maxWidth: SETTINGS_CONTENT_MAX_WIDTH },
   sessionTokenSection: { marginTop: theme.spacing(6) }
 }));
 export const notificationMap = {

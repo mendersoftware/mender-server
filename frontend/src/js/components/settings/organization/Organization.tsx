@@ -29,6 +29,7 @@ import { changeSsoConfig, deleteSsoConfig, downloadLicenseReport, getSsoConfigs,
 import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 
+import { SETTINGS_CONTENT_MAX_WIDTH } from '../constants';
 import { SSOConfig } from './SSOConfig';
 
 const { setSnackbar } = storeActions;
@@ -142,7 +143,7 @@ export const Organization = () => {
     });
 
   return (
-    <div style={{ maxWidth: 750 }}>
+    <div style={{ maxWidth: SETTINGS_CONTENT_MAX_WIDTH }}>
       <Typography variant="h6">My organization</Typography>
       <div className={`flexbox column ${classes.orgInfo}`}>
         <SettingsItem title="Organization ID" secondary={tenantId} sideBarContent={<CopyTextToClipboard notify={false} token={tenantId} />} />

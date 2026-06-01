@@ -35,6 +35,7 @@ import relativeTime from 'dayjs/plugin/relativeTime.js';
 import pluralize from 'pluralize';
 
 import { PlanExpanded } from '../PlanExpanded';
+import { SETTINGS_CONTENT_MAX_WIDTH } from '../constants';
 import CancelRequestDialog from '../dialogs/CancelRequest';
 import { BillingDetails } from './BillingDetails';
 
@@ -243,7 +244,7 @@ export const Billing = () => {
   };
 
   return (
-    <div style={{ maxWidth: 750 }}>
+    <div style={{ maxWidth: SETTINGS_CONTENT_MAX_WIDTH }}>
       <Typography variant="h6">Billing</Typography>
       <div className="flexbox column">
         <SettingsItem
