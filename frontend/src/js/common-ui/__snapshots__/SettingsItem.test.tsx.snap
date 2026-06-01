@@ -6,7 +6,7 @@ exports[`SettingsItem Component > renders correctly with string title 1`] = `
 }
 
 .emotion-2>* {
-  max-width: 500px;
+  max-width: 750px;
 }
 
 .emotion-3 {
@@ -24,7 +24,7 @@ exports[`SettingsItem Component > renders correctly with string title 1`] = `
   -ms-flex-align: baseline;
   align-items: baseline;
   display: grid;
-  grid-template-columns: 500px 1fr;
+  grid-template-columns: 750px 1fr;
   grid-column-gap: 16px;
   max-width: initial;
 }
@@ -45,7 +45,7 @@ exports[`SettingsItem Component > renders correctly with string title 1`] = `
     class="flexbox column settings-item-content emotion-0 emotion-2 "
   >
     <h6
-      class="MuiTypography-root MuiTypography-subtitle1 emotion-3"
+      class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-3"
     >
       Current plan
     </h6>
@@ -60,5 +60,341 @@ exports[`SettingsItem Component > renders correctly with string title 1`] = `
     </div>
   </div>
   upgrade now!
+</div>
+`;
+
+exports[`SettingsItem Component > renders correctly without secondary 1`] = `
+.emotion-0 {
+  gap: 8px;
+}
+
+.emotion-2>* {
+  max-width: 750px;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-4 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+<div
+  class="flexbox column settings-item-base emotion-0 margin-top-small "
+>
+  <div
+    class="flexbox column settings-item-content emotion-0 emotion-2 "
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-3"
+    >
+      Title only
+    </h6>
+    <p
+      class="MuiTypography-root MuiTypography-body2 capitalized-start emotion-4"
+    >
+      Just a description
+    </p>
+  </div>
+</div>
+`;
+
+exports[`ToggleSettingsItem Component > renders correctly 1`] = `
+.emotion-0 {
+  gap: 8px;
+}
+
+.emotion-2>* {
+  max-width: 750px;
+}
+
+.emotion-3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+  margin-left: -11px;
+  margin-right: 16px;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  margin-right: -11px;
+  margin-left: 16px;
+}
+
+.emotion-3.Mui-disabled {
+  cursor: default;
+}
+
+.emotion-3 .MuiFormControlLabel-label.Mui-disabled {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 58px;
+  height: 38px;
+  overflow: hidden;
+  padding: 12px;
+  box-sizing: border-box;
+  position: relative;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  z-index: 0;
+  vertical-align: middle;
+}
+
+@media print {
+  .emotion-4 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  padding: 9px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  color: #fff;
+  -webkit-transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,-webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-5::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-5.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-5 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-5.Mui-checked {
+  -webkit-transform: translateX(20px);
+  -moz-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+.emotion-5.Mui-disabled {
+  color: #f5f5f5;
+}
+
+.emotion-5.Mui-checked+.MuiSwitch-track {
+  opacity: 0.5;
+}
+
+.emotion-5.Mui-disabled+.MuiSwitch-track {
+  opacity: 0.12;
+}
+
+.emotion-5 .MuiSwitch-input {
+  left: -100%;
+  width: 300%;
+}
+
+.emotion-5:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+@media (hover: none) {
+  .emotion-5:hover {
+    background-color: transparent;
+  }
+}
+
+.emotion-5.Mui-checked {
+  color: #1976d2;
+}
+
+.emotion-5.Mui-checked:hover {
+  background-color: rgba(25, 118, 210, 0.04);
+}
+
+@media (hover: none) {
+  .emotion-5.Mui-checked:hover {
+    background-color: transparent;
+  }
+}
+
+.emotion-5.Mui-checked.Mui-disabled {
+  color: rgb(167, 202, 237);
+}
+
+.emotion-5.Mui-checked+.MuiSwitch-track {
+  background-color: #1976d2;
+}
+
+.emotion-6 {
+  cursor: inherit;
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+.emotion-7 {
+  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+  background-color: currentColor;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.emotion-8 {
+  height: 100%;
+  width: 100%;
+  border-radius: 7px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  z-index: -1;
+  -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #000;
+  opacity: 0.38;
+}
+
+.emotion-9 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-10 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-11 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+<div
+  class="flexbox column settings-item-base emotion-0 margin-top-small "
+>
+  <div
+    class="flexbox column settings-item-content emotion-0 emotion-2 "
+  >
+    <label
+      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementStart align-self-start margin-left-none margin-top-none emotion-3"
+    >
+      <span
+        class="MuiSwitch-root MuiSwitch-sizeMedium margin-left-small emotion-4"
+      >
+        <span
+          class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary emotion-5"
+        >
+          <input
+            class="PrivateSwitchBase-input MuiSwitch-input emotion-6"
+            role="switch"
+            type="checkbox"
+          />
+          <span
+            class="MuiSwitch-thumb emotion-7"
+          />
+        </span>
+        <span
+          class="MuiSwitch-track emotion-8"
+        />
+      </span>
+      <span
+        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-9"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-10"
+        >
+          Test toggle
+        </h6>
+      </span>
+    </label>
+    <p
+      class="MuiTypography-root MuiTypography-body2 capitalized-start emotion-11"
+    >
+      A test description
+    </p>
+  </div>
 </div>
 `;

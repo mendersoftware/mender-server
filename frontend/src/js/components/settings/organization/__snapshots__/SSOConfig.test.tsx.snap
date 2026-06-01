@@ -9,12 +9,12 @@ exports[`SamlConfig Component > renders correctly 1`] = `
   -webkit-column-gap: 16px;
   column-gap: 16px;
   display: grid;
-  grid-template-columns: minmax(max-content, 500px) max-content max-content;
+  grid-template-columns: minmax(max-content, 750px) max-content max-content;
   position: relative;
 }
 
 .emotion-0.has-sso {
-  grid-template-columns: 455px 1fr;
+  grid-template-columns: 705px 1fr;
 }
 
 .emotion-1 {
@@ -129,7 +129,7 @@ exports[`SamlConfig Component > renders correctly 1`] = `
 }
 
 .emotion-3 {
-  max-width: 500px;
+  max-width: 750px;
 }
 
 .emotion-3 .MuiListItemText-primary {

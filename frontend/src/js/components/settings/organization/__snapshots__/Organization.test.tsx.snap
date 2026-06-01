@@ -19,7 +19,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
 }
 
 .emotion-4>* {
-  max-width: 500px;
+  max-width: 750px;
 }
 
 .emotion-5 {
@@ -37,7 +37,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
   -ms-flex-align: baseline;
   align-items: baseline;
   display: grid;
-  grid-template-columns: 500px 1fr;
+  grid-template-columns: 750px 1fr;
   grid-column-gap: 16px;
   max-width: initial;
 }
@@ -438,7 +438,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             class="flexbox column settings-item-content emotion-2 emotion-4 "
           >
             <h6
-              class="MuiTypography-root MuiTypography-subtitle1 emotion-5"
+              class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-5"
             >
               Organization ID
             </h6>
@@ -484,7 +484,7 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             class="flexbox column settings-item-content emotion-2 emotion-4 "
           >
             <h6
-              class="MuiTypography-root MuiTypography-subtitle1 emotion-5"
+              class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-5"
             >
               Organization name
             </h6>
@@ -530,12 +530,12 @@ exports[`MyOrganization Component > renders correctly 1`] = `
             class="flexbox column settings-item-content emotion-2 emotion-4 "
           >
             <h6
-              class="MuiTypography-root MuiTypography-subtitle1 emotion-5"
+              class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-5"
             >
               Organization token
             </h6>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-7"
+              class="MuiTypography-root MuiTypography-body2 capitalized-start emotion-7"
             >
               The token is unique for your organization and ensures that only devices that you own are able to connect to your account.
             </p>

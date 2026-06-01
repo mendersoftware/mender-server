@@ -17,7 +17,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { SettingsItem } from './SettingsItem';
+import { SettingsItem, ToggleSettingsItem } from './SettingsItem';
 
 describe('SettingsItem Component', () => {
   it('renders correctly with string title', async () => {
@@ -27,11 +27,27 @@ describe('SettingsItem Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  it('calls onTitleClick when title is clicked', async () => {
+  it('renders correctly without secondary', async () => {
+    const { baseElement } = render(<SettingsItem title="Title only" description="Just a description" />);
+    const view = baseElement.firstChild.firstChild;
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+});
+
+describe('ToggleSettingsItem Component', () => {
+  it('renders correctly', async () => {
+    const { baseElement } = render(<ToggleSettingsItem title="Test toggle" checked={false} onClick={vi.fn()} description="A test description" />);
+    const view = baseElement.firstChild.firstChild;
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+
+  it('calls onClick when switch is clicked', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const onClick = vi.fn();
-    render(<SettingsItem title="Clickable title" secondary="content" onTitleClick={onClick} />);
-    await user.click(screen.getByText('Clickable title'));
+    render(<ToggleSettingsItem title="Clickable toggle" checked={false} onClick={onClick} />);
+    await user.click(screen.getByText('Clickable toggle'));
     expect(onClick).toHaveBeenCalled();
   });
 });
