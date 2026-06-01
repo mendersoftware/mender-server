@@ -179,7 +179,7 @@ describe('Deployments Component', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: /select software/i })).toBeInTheDocument(), { timeout: 3000 });
     const releaseSelect = screen.getByRole('button', { name: /select software/i });
     await user.click(releaseSelect);
-    await user.click(screen.getByRole('heading', { name: releaseId }));
+    await user.click(await screen.findByRole('heading', { name: releaseId }, { timeout: 3000 }));
     const groupSelect = screen.getByPlaceholderText(/Select a device group/i);
     await user.click(groupSelect);
     await user.type(groupSelect, 'testGroupDyn');
@@ -268,7 +268,7 @@ describe('Deployments Component', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: /select software/i })).toBeInTheDocument(), { timeout: 3000 });
     const releaseSelect = screen.getByRole('button', { name: /select software/i });
     await user.click(releaseSelect);
-    await user.click(screen.getByRole('heading', { name: releaseId }));
+    await user.click(await screen.findByRole('heading', { name: releaseId }, { timeout: 3000 }));
     await waitFor(() => expect(screen.getByRole('button', { name: /advanced options/i })).toBeInTheDocument(), { timeout: 3000 });
     await user.click(screen.getByRole('button', { name: /advanced options/i }));
     await user.click(screen.getByRole('checkbox', { name: /select a rollout pattern/i }));
