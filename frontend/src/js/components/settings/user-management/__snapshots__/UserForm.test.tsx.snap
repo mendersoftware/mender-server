@@ -1844,8 +1844,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                   class="flexbox column"
                 >
                   <div
-                    class="flexbox margin-top-small"
-                    style="align-items: flex-end;"
+                    class="flexbox margin-top-small align-items-center"
                   >
                     <div
                       class="MuiFormControl-root emotion-7"
@@ -3834,8 +3833,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                   class="flexbox column"
                 >
                   <div
-                    class="flexbox margin-top-small"
-                    style="align-items: flex-end;"
+                    class="flexbox margin-top-small align-items-center"
                   >
                     <div
                       class="MuiFormControl-root emotion-7"
