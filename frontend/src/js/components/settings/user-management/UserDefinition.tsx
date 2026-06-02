@@ -14,33 +14,33 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 // material ui
-import { Button, Checkbox, Divider, FormControl, FormControlLabel, FormHelperText, InputLabel, TextField, textFieldClasses } from '@mui/material';
+import { Alert, Button, Divider, FormControl, FormHelperText, TextField, Typography, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import { ColumnWidthProvider, SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
-import { uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
+import { rolesByName, uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
-import { isEmpty, toggle } from '@northern.tech/utils/helpers';
+import type { User } from '@northern.tech/types/MenderTypes';
+import { isEmpty } from '@northern.tech/utils/helpers';
 import validator from 'validator';
 
 import { OAuth2Providers, genericProvider } from '../../login/OAuth2Providers';
 import { EmailVerificationWarning } from '../EmailVerificationWarning';
+import { SETTINGS_FORM_MAX_WIDTH, SETTINGS_INPUT_WIDTH } from '../constants';
 import { UserRolesSelect } from './UserForm';
 
 const useStyles = makeStyles()(theme => ({
-  actionButtons: { justifyContent: 'flex-end' },
   divider: { marginTop: theme.spacing(4) },
   leftButton: { marginRight: theme.spacing(2) },
   oauthIcon: { fontSize: 36, marginRight: 10 },
   userIdWrapper: {
-    // the following 2 lines are required to align the CopyTextToClipboard with the tenant token without sacrificing consistent behaviour
-    marginBottom: theme.spacing(-3),
-    '.copy-button': { marginBottom: theme.spacing(-1) },
-    [`.${textFieldClasses.root}`]: { width: 400 }
+    marginBottom: theme.spacing(-7),
+    '.copy-button': { marginTop: theme.spacing(0.25) },
+    [`.${textFieldClasses.root}`]: { width: SETTINGS_INPUT_WIDTH }
   },
-  widthLimit: { marginTop: theme.spacing(3), maxWidth: 620, [`.${textFieldClasses.root}`]: { width: 400 } }
+  widthLimit: { maxWidth: SETTINGS_FORM_MAX_WIDTH, [`.${textFieldClasses.root}`]: { width: SETTINGS_INPUT_WIDTH } }
 }));
 
 export const getUserSSOState = user => {
@@ -63,16 +63,26 @@ const scopedPermissionAreas = {
 export const UserId = ({ className = '', userId }) => {
   const { classes } = useStyles();
   return (
-    <div className={`flexbox space-between ${classes.userIdWrapper} ${className}`}>
-      <TextField label="User ID" key={userId} disabled defaultValue={userId} />
-      <div className="flexbox align-items-center copy-button">
+    <div className={`flexbox ${classes.userIdWrapper} ${className}`}>
+      <TextField className="margin-right-small" label="User ID" key={userId} disabled defaultValue={userId} />
+      <div className="copy-button">
         <CopyTextToClipboard token={userId} />
       </div>
     </div>
   );
 };
 
-export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }) => {
+interface UserDefinitionProps {
+  currentUser: User & { verified?: boolean };
+  isEnterprise: boolean;
+  onCancel: () => void;
+  onRemove: (user: User) => void;
+  onSubmit: (userData: (User & { roles?: string[] }) | null, type: string, id: string) => void;
+  roles: { name: string; value?: string }[];
+  selectedUser: User & { roles?: string[] };
+}
+
+export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }: UserDefinitionProps) => {
   const { email = '', id } = selectedUser;
 
   const { classes } = useStyles();
@@ -80,7 +90,6 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
   const [nameError, setNameError] = useState(false);
   const [hadRoleChanges, setHadRoleChanges] = useState(false);
   const [selectedRoles, setSelectedRoles] = useState([]);
-  const [shouldResetPassword, setShouldResetPassword] = useState(false);
   const [currentEmail, setCurrentEmail] = useState('');
   const rolesById = useMemo(
     () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
@@ -111,14 +120,12 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
 
   const onSubmitClick = () => {
     if (id && !hadRoleChanges && email === currentEmail) {
-      return onSubmit(null, 'edit', id, shouldResetPassword ? email : null);
+      return onSubmit(null, 'edit', id);
     }
     const changedRoles = hadRoleChanges ? { roles: selectedRoles } : {};
     const submissionData = { ...selectedUser, ...changedRoles, email: currentEmail };
-    return onSubmit(submissionData, 'edit', id, shouldResetPassword ? currentEmail : null);
+    return onSubmit(submissionData, 'edit', id);
   };
-
-  const togglePasswordReset = () => setShouldResetPassword(toggle);
 
   const { areas, ...scopedAreas } = useMemo(() => {
     const emptySelection = { areas: {}, groups: {}, releases: {} };
@@ -162,8 +169,11 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
       }}
     >
       {userNotVerified && <EmailVerificationWarning className="margin-top-small" action="change another user’s email" />}
-      <UserId className={classes.widthLimit} userId={id} />
-      <FormControl className={classes.widthLimit}>
+      <Typography className="margin-top" variant="subtitle1">
+        User ID
+      </Typography>
+      <UserId className={`margin-top-medium ${classes.widthLimit}`} userId={id} />
+      <FormControl className={`margin-top-medium ${classes.widthLimit}`}>
         <TextField
           label="Email"
           id="email"
@@ -174,7 +184,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         />
         {nameError && <FormHelperText className="warning">Please enter a valid email address</FormHelperText>}
       </FormControl>
-      {isOAuth2 ? (
+      {isOAuth2 && (
         <div className="flexbox margin-top-small margin-bottom">
           <div className={classes.oauthIcon}>{provider.icon}</div>
           <div className="info">
@@ -183,18 +193,22 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
             They can connect to {provider.name} to update their login settings.
           </div>
         </div>
-      ) : (
-        <FormControlLabel
-          control={<Checkbox checked={shouldResetPassword} onChange={togglePasswordReset} />}
-          label="Send an email to the user containing a link to reset the password"
-        />
       )}
+      <Typography className="margin-top" variant="subtitle1">
+        Roles
+      </Typography>
       <UserRolesSelect disabled={!isEnterprise} currentUser={currentUser} onSelect={onRolesSelect} roles={roles} user={selectedUser} />
+      {!isEnterprise && (
+        <Alert className={`margin-top-small ${classes.widthLimit}`} severity="warning">
+          Role-base access control (RBAC) is not available in your current plan. All users will have full administrative access
+          {selectedRoles.includes(rolesByName.admin) ? ', and the permissions shown below apply to all users' : ''}.
+        </Alert>
+      )}
       <ColumnWidthProvider>
         {!!(hasScopedPermissionsDefined || !isEmpty(areas)) && (
-          <InputLabel className="margin-top" shrink>
+          <Typography className="margin-top margin-bottom-small" variant="subtitle1">
             Role permissions
-          </InputLabel>
+          </Typography>
         )}
         <SynchronizedTwoColumnData className={rolesClasses} data={areas} />
         {Object.entries(scopedAreas).reduce((accu, [area, areaPermissions]) => {
@@ -203,9 +217,9 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
           }
           accu.push(
             <Fragment key={area}>
-              <InputLabel className="margin-top-small" shrink>
+              <Typography className="margin-top-medium margin-bottom-small" variant="subtitle1">
                 {scopedPermissionAreas[area]}
-              </InputLabel>
+              </Typography>
               <SynchronizedTwoColumnData className={rolesClasses} data={areaPermissions} />
             </Fragment>
           );
@@ -213,11 +227,11 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         }, [])}
       </ColumnWidthProvider>
       <Divider className={classes.divider} />
-      <div className={`flexbox centered margin-top ${classes.actionButtons}`}>
+      <div className="flexbox margin-top-small">
         <Button className={classes.leftButton} onClick={onCancel}>
           Cancel
         </Button>
-        <Button variant="contained" disabled={isSubmitDisabled} target="_blank" onClick={onSubmitClick}>
+        <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick}>
           Save
         </Button>
       </div>

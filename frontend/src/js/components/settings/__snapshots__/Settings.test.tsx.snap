@@ -120,11 +120,11 @@ exports[`Settings Component > renders correctly 1`] = `
 }
 
 .emotion-26 {
-  margin-bottom: -24px;
+  margin-bottom: -56px;
 }
 
 .emotion-26 .copy-button {
-  margin-bottom: -8px;
+  margin-top: 2px;
 }
 
 .emotion-26 .MuiTextField-root {
@@ -1213,10 +1213,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
         My profile
       </h2>
       <div
-        class="flexbox space-between emotion-26 margin-bottom-none"
+        class="flexbox emotion-26 margin-bottom-none"
       >
         <div
-          class="MuiFormControl-root MuiTextField-root emotion-27"
+          class="MuiFormControl-root MuiTextField-root margin-right-small emotion-27"
         >
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-28"
@@ -1252,7 +1252,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-30:focus::-ms-input-
           </div>
         </div>
         <div
-          class="flexbox align-items-center copy-button"
+          class="copy-button"
         >
           <div>
             <button

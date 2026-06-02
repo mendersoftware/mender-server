@@ -61,8 +61,6 @@ describe('UserManagement Component', () => {
     expect(screen.getByText(/enter a valid email address/i)).toBeInTheDocument();
     await user.type(input, '.com');
     expect(screen.queryByText(/enter a valid email address/i)).not.toBeInTheDocument();
-    await user.click(screen.getByRole('checkbox', { name: /reset the password/i }));
-    await user.click(screen.getByRole('checkbox', { name: /reset the password/i }));
     const selectButton = screen.getByLabelText(/roles/i).parentNode.querySelector('[role=combobox]');
     await user.click(selectButton);
     let listbox = document.body.querySelector(dropDownSelector);
