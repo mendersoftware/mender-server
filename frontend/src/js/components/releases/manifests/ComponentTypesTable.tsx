@@ -118,6 +118,7 @@ const columns: ManifestColumnDefinition[] = [
         <NumberInput
           className={classes.orderInput}
           width={72}
+          max={100}
           showSteps
           id={type}
           size="small"
