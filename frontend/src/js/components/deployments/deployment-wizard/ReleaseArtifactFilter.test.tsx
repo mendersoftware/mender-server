@@ -15,11 +15,13 @@ import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 
-import { ReleaseArtifactFilter } from './ReleaseArtifactFilter';
+import { SoftwareArtifactFilter } from './ReleaseArtifactFilter';
 
 describe('ReleaseArtifactFilter Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<ReleaseArtifactFilter selectedRelease={defaultState.releases.byId.r1.name} open={true} onSelect={vi.fn} onClose={vi.fn} />);
+    const { baseElement } = render(
+      <SoftwareArtifactFilter selectedSoftware={defaultState.releases.byId.r1.name} open={true} onSelect={vi.fn} onClose={vi.fn} />
+    );
     expect(baseElement).toMatchSnapshot();
     expect(baseElement).toEqual(expect.not.stringMatching(undefineds));
   });

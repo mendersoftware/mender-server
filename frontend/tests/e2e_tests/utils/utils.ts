@@ -16,8 +16,8 @@ import type { Page } from '@playwright/test';
 import { timeouts } from './constants.ts';
 
 export const selectReleaseByName = async (page: Page, name: string) => {
-  await page.getByRole('button', { name: 'Select a release' }).click();
-  await page.getByRole('textbox', { name: 'Search releases...' }).fill(name);
+  await page.getByRole('button', { name: 'Select software' }).click();
+  await page.getByRole('textbox', { name: 'Search software name...' }).fill(name);
   await page.waitForTimeout(timeouts.default);
   return locateReleaseByName(page, name).click();
 };

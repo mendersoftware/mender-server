@@ -28,7 +28,7 @@ import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIO
 import { formatDeviceSearch } from '@northern.tech/store/locationutils';
 import { getDeviceLimits } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { getExistingReleaseTags, getSystemDevices, getUpdateTypes } from '@northern.tech/store/thunks';
+import { getExistingSoftwareTags, getSystemDevices, getUpdateTypes } from '@northern.tech/store/thunks';
 import { stringToBoolean } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
@@ -36,7 +36,7 @@ import validator from 'validator';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
-import { ReleaseArtifactFilter } from './ReleaseArtifactFilter';
+import { SoftwareArtifactFilter } from './ReleaseArtifactFilter';
 import type { DeploymentFormValues } from './types';
 import { deploymentFormSections, useDerivedData } from './utils';
 
@@ -221,38 +221,41 @@ export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDyna
 
 const MCU_ARTIFACT_SIZE_LIMIT = 5 * 1024 ** 2;
 
-export const Software = ({ commonClasses, initialDevices = [], releaseRef, releaseSelectionLocked, releases, releasesById }) => {
+export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, releases, releasesById }) => {
   const [releaseFilterOpened, setReleaseFilterOpened] = useState(false);
   const [showSizeWarning, setShowSizeWarning] = useState(false);
   const deviceLimits = useSelector(getDeviceLimits);
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const { watch, setValue } = useFormContext<DeploymentFormValues>();
-  const { devices } = useDerivedData(watch, initialDevices);
 
   const deploymentRelease = watch(deploymentFormSections.release);
-  const device = devices.length ? devices[0] : undefined;
+  // resolve the full Release from releasesById to get artifacts/device_types_compatible
+  const selectedRelease = deploymentRelease?.name ? releasesById[deploymentRelease.name] : undefined;
   const hasMicroDevicesOnly = deviceLimits.micro !== 0 && !(deviceLimits.standard && deviceLimits.system);
 
   useEffect(() => {
-    dispatch(getExistingReleaseTags());
+    dispatch(getExistingSoftwareTags());
     dispatch(getUpdateTypes());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (hasMicroDevicesOnly) {
+      setShowSizeWarning(Boolean(selectedRelease?.artifacts?.some(({ size }) => size > MCU_ARTIFACT_SIZE_LIMIT)));
+    }
+  }, [hasMicroDevicesOnly, selectedRelease]);
+
   const releaseItems = releases.map(rel => releasesById[rel]);
   const onReleaseSelectionChange = useCallback(
-    release => {
-      if (release !== deploymentRelease) {
-        setValue(deploymentFormSections.release, release);
-      }
-      if (hasMicroDevicesOnly) {
-        setShowSizeWarning(release?.artifacts.some(({ size }) => size > MCU_ARTIFACT_SIZE_LIMIT));
+    software => {
+      if (software !== deploymentRelease) {
+        setValue(deploymentFormSections.release, software);
       }
     },
-    [deploymentRelease, hasMicroDevicesOnly, setValue]
+    [deploymentRelease, setValue]
   );
 
-  const releaseDeviceTypes = (deploymentRelease && deploymentRelease.device_types_compatible) ?? [];
+  const releaseDeviceTypes = selectedRelease?.device_types_compatible ?? [];
   const devicetypesInfo = (
     <Tooltip title={<p>{releaseDeviceTypes.join(', ')}</p>} placement="bottom">
       <Link>
@@ -263,18 +266,16 @@ export const Software = ({ commonClasses, initialDevices = [], releaseRef, relea
 
   return (
     <>
-      <h4>Select a Release to deploy</h4>
+      <h4>Select software to deploy</h4>
       <div className={commonClasses.columns}>
         <div ref={releaseRef} className={classes.selection}>
           {releaseSelectionLocked ? (
-            <TextField value={deploymentRelease?.name} label="Release" disabled className={classes.infoStyle} />
+            <TextField value={deploymentRelease?.name} label="Software" disabled className={classes.infoStyle} />
           ) : (
             <>
-              <ReleaseArtifactFilter
-                device={device}
-                releases={releaseItems}
+              <SoftwareArtifactFilter
                 onSelect={onReleaseSelectionChange}
-                selectedRelease={deploymentRelease?.name}
+                selectedSoftware={deploymentRelease?.name}
                 open={releaseFilterOpened}
                 onClose={() => setReleaseFilterOpened(false)}
               />
@@ -286,14 +287,14 @@ export const Software = ({ commonClasses, initialDevices = [], releaseRef, relea
                 endIcon={releaseFilterOpened ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 onClick={() => setReleaseFilterOpened(!releaseFilterOpened)}
               >
-                <span className={`${classes.releaseSelectText} text-overflow`}>{deploymentRelease?.name ?? 'Select a release'}</span>
+                <span className={`${classes.releaseSelectText} text-overflow`}>{deploymentRelease?.name ?? 'Select software'}</span>
               </Button>
             </>
           )}
           {!releaseItems.length ? (
             <ReleasesWarning lacksReleases />
           ) : (
-            !!releaseDeviceTypes.length && <InfoText style={{ marginBottom: 0 }}>This Release is compatible with {devicetypesInfo}.</InfoText>
+            !!releaseDeviceTypes.length && <InfoText style={{ marginBottom: 0 }}>This software is compatible with {devicetypesInfo}.</InfoText>
           )}
         </div>
         <div className="margin-left-small">

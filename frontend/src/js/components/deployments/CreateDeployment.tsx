@@ -255,7 +255,6 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
               />
               <Software
                 commonClasses={classes}
-                initialDevices={deploymentObject.devices}
                 releaseRef={releaseRef}
                 releaseSelectionLocked={deploymentObject.releaseSelectionLocked}
                 releases={releases}
