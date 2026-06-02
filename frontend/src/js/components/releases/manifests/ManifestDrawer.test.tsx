@@ -68,6 +68,7 @@ component_types:
     update_strategy:
       order: 1
 `;
+    File.prototype.text = vi.fn().mockResolvedValue(yamlContent);
     const file = new File([yamlContent], 'test.yaml', { type: 'application/yaml' });
     const dropzoneInput = baseElement.querySelector('.dropzone input') as HTMLInputElement;
     await user.upload(dropzoneInput, file);
@@ -90,6 +91,7 @@ component_types:
     const invalidYaml = `kind: manifest
 name: missing-required-fields
 `;
+    File.prototype.text = vi.fn().mockResolvedValue(invalidYaml);
     const file = new File([invalidYaml], 'broken.yaml', { type: 'application/yaml' });
     const dropzoneInput = baseElement.querySelector('.dropzone input') as HTMLInputElement;
     await user.upload(dropzoneInput, file);
