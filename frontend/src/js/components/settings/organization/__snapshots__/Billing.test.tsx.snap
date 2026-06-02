@@ -15,7 +15,7 @@ exports[`Billing Component > renders correctly 1`] = `
 }
 
 .emotion-3>* {
-  max-width: 500px;
+  max-width: 750px;
 }
 
 .emotion-4 {
@@ -33,7 +33,7 @@ exports[`Billing Component > renders correctly 1`] = `
   -ms-flex-align: baseline;
   align-items: baseline;
   display: grid;
-  grid-template-columns: 500px 1fr;
+  grid-template-columns: 750px 1fr;
   grid-column-gap: 16px;
   max-width: initial;
 }
@@ -520,7 +520,7 @@ exports[`Billing Component > renders correctly 1`] = `
             class="flexbox column settings-item-content emotion-1 emotion-3 "
           >
             <h6
-              class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+              class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-4"
             >
               Current plan
             </h6>
@@ -559,7 +559,7 @@ exports[`Billing Component > renders correctly 1`] = `
             class="flexbox column settings-item-content emotion-1 emotion-3 "
           >
             <h6
-              class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+              class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-4"
             >
               Current Add-ons
             </h6>
@@ -584,7 +584,7 @@ exports[`Billing Component > renders correctly 1`] = `
               class="flexbox column settings-item-content emotion-1 emotion-3 "
             >
               <h6
-                class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+                class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-4"
               >
                 Upgrade now
               </h6>

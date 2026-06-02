@@ -21,9 +21,8 @@ import { makeStyles } from 'tss-react/mui';
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { Link } from '@northern.tech/common-ui/Link';
-import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
+import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
-import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
 import { NumberField } from '@northern.tech/common-ui/forms/NumberField';
 import { BENEFITS, DEVICE_ONLINE_CUTOFF, TIMEOUTS, alertChannels, settingsKeys } from '@northern.tech/store/constants';
 import {
@@ -84,14 +83,16 @@ export const IdAttributeSelection = ({ attributes, onSave, selectedAttribute = '
             </DocsTextLink>
           </>
         }
+        secondary={
+          <Select className="margin-top-x-small" value={selectedAttribute} onChange={onChangeIdAttribute}>
+            {attributes.map(item => (
+              <MenuItem key={item.value} value={item.value}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+        }
       />
-      <Select className="margin-top-x-small" value={selectedAttribute} onChange={onChangeIdAttribute}>
-        {attributes.map(item => (
-          <MenuItem key={item.value} value={item.value}>
-            {item.label}
-          </MenuItem>
-        ))}
-      </Select>
     </div>
   );
 };
@@ -180,7 +181,7 @@ export const GlobalSettings = () => {
 
   const onChangeOfflineInterval = (value: number | null) => setCurrentInterval(value);
 
-  const toggleDeploymentConfirmation = ({ target: { checked } }) => dispatchedSaveGlobalSettings({ needsDeploymentConfirmation: checked });
+  const toggleDeploymentConfirmation = () => dispatchedSaveGlobalSettings({ needsDeploymentConfirmation: !needsDeploymentConfirmation });
 
   const onEditDeltaClick = () => setShowDeltaConfig(true);
 
@@ -198,11 +199,11 @@ export const GlobalSettings = () => {
       <div className={classes.formWrapper}>
         <IdAttributeSelection attributes={attributes} onSave={saveAttributeSetting} selectedAttribute={selectedAttribute} />
         {canManageUsers && (
-          <ToggleSetting
+          <ToggleSettingsItem
             title="Deployments confirmation"
-            description="Always require confirmation on deployment creation"
+            description="Always require confirmation on deployment creation."
             onClick={toggleDeploymentConfirmation}
-            value={needsDeploymentConfirmation}
+            checked={needsDeploymentConfirmation}
           />
         )}
         {canManageUsers && (
@@ -223,79 +224,90 @@ export const GlobalSettings = () => {
           />
         )}
         {canManageReleases && (
-          <div>
-            <div className="flexbox align-items-center">
-              <Typography variant="subtitle1">Delta Artifacts generation</Typography>
-              <EnterpriseNotification className="margin-left-small" id={BENEFITS.deltaGeneration.id} />
-            </div>
-            <Button
-              className="margin-top-x-small"
-              disabled={!(isEnterprise && hasDeltaArtifactGeneration)}
-              onClick={onEditDeltaClick}
-              variant="text"
-              endIcon={<EditIcon />}
-            >
-              Edit configuration
-            </Button>
-            {!isEnterprise && (
-              <Typography className="margin-top-small" variant="body2">
-                Automatic delta artifacts generation is not enabled in your account. If you want to start using this feature, <SupportLink variant="ourTeam" />{' '}
-                or <Link to="/subscription">upgrade</Link>
-                {isTrial ? '' : ' to Mender Enterprise'}.
-              </Typography>
-            )}
-          </div>
+          <SettingsItem
+            title={
+              <div className="flexbox align-items-center">
+                <Typography variant="subtitle1">Delta Artifacts generation</Typography>
+                <EnterpriseNotification className="margin-left-small" id={BENEFITS.deltaGeneration.id} />
+              </div>
+            }
+            secondary={
+              <Button
+                className="margin-top-x-small"
+                disabled={!(isEnterprise && hasDeltaArtifactGeneration)}
+                onClick={onEditDeltaClick}
+                variant="text"
+                endIcon={<EditIcon />}
+              >
+                Edit configuration
+              </Button>
+            }
+            notification={
+              !isEnterprise && (
+                <Typography className="margin-top-small" variant="body2">
+                  Automatic delta artifacts generation is not enabled in your account. If you want to start using this feature,{' '}
+                  <SupportLink variant="ourTeam" /> or <Link to="/subscription">upgrade</Link>
+                  {isTrial ? '' : ' to Mender Enterprise'}.
+                </Typography>
+              )
+            }
+          />
         )}
         {isAdmin &&
           hasMonitor &&
           Object.keys(alertChannels).map(channel => (
-            <ToggleSetting
+            <ToggleSettingsItem
               key={channel}
-              value={channelSettings[channel].enabled}
+              checked={channelSettings[channel].enabled}
               onClick={() => onNotificationSettingsClick(channel)}
               title={`${channel} notifications`}
-              description={`${channel} notifications for deployment and monitoring issues for all users`}
+              description={`${channel} notifications for deployment and monitoring issues for all users.`}
             />
           ))}
-        <div>
-          <Typography className="margin-bottom-small" variant="subtitle1">
-            Offline threshold
-          </Typography>
-          <Typography className="margin-bottom-small" variant="body2">
-            Choose how long (days) a device can go without reporting to the server before it is considered &quot;offline&quot;
-          </Typography>
-          <NumberField
-            min={1}
-            max={maxOfflineIntervalDays}
-            className={classes.offlineThresholdInput}
-            onValueChange={onChangeOfflineInterval}
-            showSteps
-            error={!!intervalErrorText}
-            value={currentInterval}
-            helperText={intervalErrorText}
-          />
-        </div>
+        <SettingsItem
+          title="Offline threshold"
+          description='Choose how long (days) a device can go without reporting to the server before it is considered "offline".'
+          secondary={
+            <NumberField
+              min={1}
+              max={maxOfflineIntervalDays}
+              className={classes.offlineThresholdInput}
+              onValueChange={onChangeOfflineInterval}
+              showSteps
+              error={!!intervalErrorText}
+              value={currentInterval}
+              helperText={intervalErrorText}
+            />
+          }
+        />
         {(isPreview || hasAiEnabled) && (
-          <div>
-            <ToggleSetting
-              value={isAiEnabled}
-              onClick={() => onToggleAiClick(isAiEnabled)}
-              title={
-                <div className="flexbox align-items-center">
-                  <AutoAwesomeIcon className="margin-right-x-small" fontSize="small" color={isAiEnabled ? 'secondary' : 'inherit'} />
-                  <Typography variant="subtitle1">AI features (experimental)</Typography>
-                </div>
-              }
-              description="Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 10 requests per day. "
-            />
-            <FormControlLabel
-              control={
-                <Checkbox key={`aiEnabled-${isAiTrainingEnabled}`} disabled={!isAiEnabled} checked={isAiTrainingEnabled} onChange={onToggleAiTrainingClick} />
-              }
-              label="Allow us to use data for training"
-            />
-            <Typography variant="body2">This allows us to enhance the responses you get, collect your feedback, and refine the AI model.</Typography>
-          </div>
+          <ToggleSettingsItem
+            checked={isAiEnabled}
+            onClick={() => onToggleAiClick(isAiEnabled)}
+            title={
+              <div className="flexbox align-items-center">
+                <AutoAwesomeIcon className="margin-right-x-small" fontSize="small" color={isAiEnabled ? 'secondary' : 'inherit'} />
+                <Typography variant="subtitle1">AI features (experimental)</Typography>
+              </div>
+            }
+            description="Enable AI features for all users. We'll try to remove any sensitive details, such as URLs and timestamps, before sending your data for AI analysis. AI features are rate limited to 10 requests per day."
+            secondary={
+              <>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      key={`aiEnabled-${isAiTrainingEnabled}`}
+                      disabled={!isAiEnabled}
+                      checked={isAiTrainingEnabled}
+                      onChange={onToggleAiTrainingClick}
+                    />
+                  }
+                  label="Allow us to use data for training"
+                />
+                <Typography variant="body2">This allows us to enhance the responses you get, collect your feedback, and refine the AI model.</Typography>
+              </>
+            }
+          />
         )}
       </div>
       <ArtifactGenerationSettings open={showDeltaConfig} onClose={() => setShowDeltaConfig(false)} />
