@@ -23,7 +23,7 @@ export const genericProvider = {
 export const OAuth2Providers = [
   {
     id: 'github',
-    name: 'Github',
+    name: 'GitHub',
     icon: <MaterialDesignIcon path={mdiGithub} />
   },
   {
