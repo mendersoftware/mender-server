@@ -55,6 +55,7 @@ describe('UserManagement Component', () => {
     await user.click(screen.getByRole('button', { name: /delete user/i }));
     expect(screen.queryByText(/delete the user with email/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /cancel/i }));
+    await act(async () => jest.runOnlyPendingTimers());
     await user.click(list[list.length - 1]);
     const input = screen.getByDisplayValue(defaultState.users.byId[userId].email);
     await user.clear(input);
