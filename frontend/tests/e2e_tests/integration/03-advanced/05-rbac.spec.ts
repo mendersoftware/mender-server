@@ -121,7 +121,7 @@ test.describe('RBAC functionality', () => {
       await page.getByPlaceholder(/Password/i).click();
       await page.getByPlaceholder(/Password/i).fill(password);
       if (isEnterpriseOrStaging(environment)) {
-        await page.getByRole('combobox', { name: /admin/i }).click();
+        await page.getByRole('combobox', { name: /Roles/i }).click();
         // first we need to deselect the default admin role
         await page.getByRole('option', { name: 'Admin' }).click();
         await page.getByRole('option', { name: role }).scrollIntoViewIfNeeded();
