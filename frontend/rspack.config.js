@@ -27,12 +27,11 @@ export default (env, argv) => {
         ]
       : [
           new ESLintPlugin({
-            configType: 'flat',
             extensions: ['js', 'ts', 'tsx'],
-            failOnWarning: false,
-            failOnError: false,
-            emitWarning: true,
-            emitError: true
+            severity: {
+              error: 'warning',
+              warning: 'warning'
+            }
           }),
           new ReactRefreshRspackPlugin()
         ];
