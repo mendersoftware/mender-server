@@ -160,7 +160,7 @@ exports[`GlobalSettings Component renders correctly 1`] = `
     class="flexbox center-aligned margin-top-small"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-1"
+      class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-1"
       disabled=""
       tabindex="-1"
       type="submit"

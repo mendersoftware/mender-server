@@ -147,7 +147,7 @@ exports[`Groups Component renders GroupItem correctly 1`] = `
 }
 
 <div
-  class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected emotion-0"
+  class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected emotion-0"
   role="button"
   tabindex="0"
 >
@@ -420,7 +420,7 @@ exports[`Groups Component renders correctly 1`] = `
     class="MuiList-root MuiList-padding emotion-0"
   >
     <div
-      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected emotion-1"
+      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters Mui-selected emotion-1"
       role="button"
       tabindex="0"
     >
@@ -447,7 +447,7 @@ exports[`Groups Component renders correctly 1`] = `
       />
     </li>
     <div
-      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters MuiListItemButton-root grouplist MuiListItemButton-gutters emotion-1"
+      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters emotion-1"
       role="button"
       tabindex="0"
     >
@@ -474,7 +474,7 @@ exports[`Groups Component renders correctly 1`] = `
       />
     </li>
     <div
-      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters MuiListItemButton-root grouplist MuiListItemButton-gutters emotion-1"
+      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters emotion-1"
       role="button"
       tabindex="0"
     >
@@ -489,7 +489,7 @@ exports[`Groups Component renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters MuiListItemButton-root grouplist MuiListItemButton-gutters emotion-1"
+      class="MuiButtonBase-root MuiListItemButton-root grouplist MuiListItemButton-gutters emotion-1"
       role="button"
       style="margin-top: 30px;"
       tabindex="0"

@@ -277,6 +277,12 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-11::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-11:hover {
     --variant-containedBg: rgb(35, 85, 94);
@@ -639,6 +645,12 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-29::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-29:hover {
     --variant-containedBg: rgb(35, 85, 94);
@@ -721,7 +733,7 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
               </div>
             </div>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-11"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary emotion-11"
               style="padding: 5px;"
               tabindex="0"
               type="button"
@@ -840,7 +852,7 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
     style="max-width: fit-content;"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-29"
+      class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-29"
       disabled=""
       download="test.mender"
       tabindex="-1"
@@ -866,7 +878,7 @@ exports[`ArtifactDetails Component renders correctly 1`] = `
       Download Artifact
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-29"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-29"
       tabindex="0"
       type="button"
     >

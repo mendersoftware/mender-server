@@ -661,7 +661,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
           class="emotion-10"
         >
           <button
-            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-secondary Mui-disabled MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-secondary emotion-11"
+            class="MuiButtonBase-root Mui-disabled MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-secondary emotion-11"
             disabled=""
             style="margin-bottom: 10px;"
             tabindex="-1"
@@ -691,14 +691,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-2:focus::-ms-input-p
       style="justify-content: flex-end;"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary margin-right-small emotion-14"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary margin-right-small emotion-14"
         tabindex="0"
         type="button"
       >
         Save
       </button>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-15"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-15"
         tabindex="0"
         type="button"
       >

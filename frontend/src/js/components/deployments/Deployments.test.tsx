@@ -136,6 +136,7 @@ describe('Deployments Component', () => {
     await waitFor(() => rerender(ui));
     const inprogressDeployments = screen.getByText(/in progress now/i).parentElement.parentElement;
     const deployment = within(inprogressDeployments).getAllByText(/test deployment/i)[0].parentElement.parentElement;
+    await act(async () => jest.runOnlyPendingTimers());
     await user.click(within(deployment).getByRole('button', { name: /Abort/i }));
     await waitFor(() => rerender(ui));
     await waitFor(() => expect(screen.getByText(/Confirm abort/i)).toBeInTheDocument());

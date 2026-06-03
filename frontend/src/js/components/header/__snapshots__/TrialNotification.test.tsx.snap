@@ -107,6 +107,12 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-1::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-1:hover {
     --variant-containedBg: rgb(35, 85, 94);
@@ -160,7 +166,7 @@ exports[`DeviceNotifications Component renders correctly 1`] = `
     Trial plan
   </div>
   <a
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
     data-discover="true"
     href="/settings/upgrade"
     tabindex="0"
@@ -292,6 +298,12 @@ exports[`DeviceNotifications Component renders correctly with an expiration date
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-1::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-1:hover {
     --variant-containedBg: rgb(35, 85, 94);
@@ -345,7 +357,7 @@ exports[`DeviceNotifications Component renders correctly with an expiration date
     Trial plan
   </div>
   <a
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
     data-discover="true"
     href="/settings/upgrade"
     tabindex="0"

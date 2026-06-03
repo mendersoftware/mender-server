@@ -68,7 +68,7 @@ describe('Roles Component', () => {
       await selectMaterialUiSelectOption(releaseSelect, ALL_RELEASES, user);
 
       const permissionSelect = within(collapse).getByDisplayValue(ALL_DEVICES).parentElement?.parentElement?.parentElement;
-      const selectButton = within(within(permissionSelect).getByText(/read/i).parentElement).getByRole('combobox');
+      const selectButton = within(within(permissionSelect).getByText(/read/i).parentElement).getByRole('combobox', { hidden: true });
       expect(selectButton).not.toBeDisabled();
       // Open the select dropdown
       // Get the dropdown element. We don't use getByRole() because it includes <select>s too.

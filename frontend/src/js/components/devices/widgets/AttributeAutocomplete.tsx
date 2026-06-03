@@ -139,12 +139,14 @@ export const AttributeAutoComplete = ({ attributes, disabled = false, filter = e
       id="filter-selection"
       includeInputInList={true}
       onChange={(e, changedValue) => {
-        const { inputValue, key = changedValue, scope } = changedValue || {};
+        // a free-solo custom entry arrives as a plain string, a picked custom option as an object carrying inputValue
+        const inputValue = typeof changedValue === 'string' ? changedValue : changedValue?.inputValue;
         if (inputValue) {
           // only circumvent updateFilterKey if we deal with a custom attribute - those will be treated as inventory attributes
           setKey(inputValue);
           return setScope(emptyFilter.scope);
         }
+        const { key, scope } = changedValue || {};
         updateFilterKey(key, scope);
       }}
       options={options}
