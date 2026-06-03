@@ -19,7 +19,10 @@ import { getDeviceCountsByStatus, getDevicesById, getGroupData } from '@northern
 import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
 import { getGroupDevices } from '@northern.tech/store/thunks';
 import type { Device, Filter } from '@northern.tech/types/MenderTypes';
+import dayjs from 'dayjs';
+import validator from 'validator';
 
+import { rolloutModes } from './phases/constants';
 import type { DeploymentFormValues } from './types';
 
 export const deploymentFormSections: Record<keyof DeploymentFormValues, string> = {
@@ -30,7 +33,53 @@ export const deploymentFormSections: Record<keyof DeploymentFormValues, string> 
   phases: 'phases',
   release: 'release',
   retries: 'retries',
+  rolloutMode: 'rolloutMode',
+  startTime: 'startTime',
+  uniform_phases: 'uniform_phases',
   update_control_map: 'update_control_map'
+};
+
+export const getPhaseStartTime = (phases, index, startDate) => {
+  const startingDate = typeof startDate === 'string' && validator.isISO8601(startDate) ? startDate : undefined;
+  if (index < 1) {
+    return startDate?.toISOString ? startDate.toISOString() : startingDate;
+  } else if (phases[index].start_ts && typeof phases[index].start_ts === 'string' && validator.isISO8601(phases[index].start_ts)) {
+    return phases[index].start_ts;
+  }
+  const newStartTime = phases.slice(0, index).reduce((accu, phase) => dayjs(accu).add(phase.delay, phase.delayUnit), startingDate);
+  return newStartTime.toISOString();
+};
+
+export const buildPhasePayload = ({
+  phases = [],
+  rolloutMode,
+  startTime,
+  uniform_phases
+}: Pick<DeploymentFormValues, 'phases' | 'rolloutMode' | 'startTime' | 'uniform_phases'>) => {
+  if (uniform_phases) {
+    return {
+      phases: undefined,
+      uniform_phases: startTime ? { ...uniform_phases, start_ts: startTime } : uniform_phases
+    };
+  }
+  if (phases.length) {
+    return {
+      uniform_phases: undefined,
+      phases: phases.map((phase, i, origPhases) => {
+        const { batch_size, batch_size_devices, start_ts: _st, delay: _d, delayUnit: _du, ...rest } = phase;
+        return {
+          ...rest,
+          start_ts: getPhaseStartTime(origPhases, i, startTime),
+          ...(rolloutMode === rolloutModes.device_count.key ? { batch_size_devices } : { batch_size })
+        };
+      })
+    };
+  }
+  if (startTime) {
+    // if there is no existing phase, set phase and start time
+    return { phases: [{ batch_size: 100, start_ts: startTime }], uniform_phases: undefined };
+  }
+  return { phases: undefined, uniform_phases: undefined };
 };
 
 export type DeploymentDerivedState = {

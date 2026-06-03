@@ -45,12 +45,13 @@ import pluralize from 'pluralize';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import DeviceLimit from './deployment-wizard/DeviceLimit';
-import { RolloutPatternSelection, getPhaseStartTime, validatePhases } from './deployment-wizard/PhaseSettings';
+import { RolloutPatternSelection } from './deployment-wizard/PhaseSettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/RolloutOptions';
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
+import { rolloutModes } from './deployment-wizard/phases/constants';
 import type { DeploymentFormValues } from './deployment-wizard/types';
-import { deploymentFormSections, useDerivedData } from './deployment-wizard/utils';
+import { buildPhasePayload, deploymentFormSections, useDerivedData } from './deployment-wizard/utils';
 
 const useStyles = makeStyles()(theme => ({
   accordion: {
@@ -88,6 +89,8 @@ export const defaultValues: DeploymentFormValues = {
   maxDevices: 0,
   retries: 1,
   phases: [],
+  rolloutMode: rolloutModes.percentage.key,
+  uniform_phases: undefined,
   update_control_map: { states: {} }
 };
 
@@ -132,9 +135,12 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     }
   }, [dispatch, isEnterprise, isHosted]);
 
-  const { group, phases, release } = formValues;
+  const { group, release } = formValues;
   useEffect(() => {
     if (open) {
+      const inferredMode =
+        deploymentObject.rolloutMode ??
+        (deploymentObject.phases?.some(({ batch_size_devices }) => batch_size_devices !== null) ? rolloutModes.device_count.key : rolloutModes.percentage.key);
       reset({
         group: deploymentObject.group ?? defaultValues.group,
         release: deploymentObject.release ?? defaultValues.release,
@@ -143,6 +149,9 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
         maxDevices: deploymentObject.maxDevices ?? defaultValues.maxDevices,
         retries: (deploymentObject.retries ?? previousRetries ?? 0) + 1,
         phases: deploymentObject.phases ?? defaultValues.phases,
+        rolloutMode: inferredMode,
+        startTime: deploymentObject.startTime ?? defaultValues.startTime,
+        uniform_phases: deploymentObject.uniform_phases ?? defaultValues.uniform_phases,
         update_control_map: deploymentObject.update_control_map ?? defaultValues.update_control_map
       });
     }
@@ -159,6 +168,9 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
       maxDevices: formValues.maxDevices,
       retries: formValues.retries - 1,
       phases: formValues.phases,
+      startTime: formValues.startTime,
+      rolloutMode: formValues.rolloutMode,
+      uniform_phases: formValues.uniform_phases,
       update_control_map: formValues.update_control_map
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -194,10 +206,10 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
       return setIsChecking(true);
     }
     isCreating.current = true;
-    const { delta, forceDeploy = false, maxDevices, phases, release, update_control_map } = formValues;
+    const { delta, forceDeploy = false, maxDevices, phases, release, rolloutMode, startTime, uniform_phases, update_control_map } = formValues;
     const retries = (formValues.retries ?? 1) - 1;
-    const startTime = phases?.length ? phases[0].start_ts : undefined;
     const retrySetting = canRetry && retries ? { retries } : {};
+    const phasePayload = buildPhasePayload({ phases, rolloutMode, startTime, uniform_phases });
     const newDeployment = {
       artifact_name: release.name,
       autogenerate_delta: delta ? delta : undefined,
@@ -207,12 +219,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
       group: group === ALL_DEVICES || devices.length ? undefined : group,
       max_devices: maxDevices ? maxDevices : undefined,
       name: devices[0]?.id || (group ? decodeURIComponent(group) : ALL_DEVICES),
-      phases: phases.length
-        ? phases.map((phase, i, origPhases) => {
-            phase.start_ts = getPhaseStartTime(origPhases, i, startTime);
-            return phase;
-          })
-        : undefined,
+      ...phasePayload,
       ...retrySetting,
       force_installation: forceDeploy,
       update_control_map: !isEmpty(update_control_map.states) ? update_control_map : undefined
@@ -232,7 +239,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
       });
   };
 
-  const disabled = isCreating.current || !(release && (deploymentDeviceCount || !!filter || group)) || !validatePhases(phases, deploymentDeviceCount);
+  const disabled = isCreating.current || !(release && (deploymentDeviceCount || !!filter || group));
 
   const hasReleases = !!Object.keys(releasesById).length;
   return (

@@ -38,19 +38,9 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
   const { classes } = useStyles();
   const { watch, setValue } = useFormContext();
 
-  const phases = watch(deploymentFormSections.phases) || [];
+  const startTime = watch(deploymentFormSections.startTime);
 
-  const handleStartTimeChange = value => {
-    // if there is no existing phase, set phase and start time
-    if (!phases.length) {
-      setValue(deploymentFormSections.phases, [{ batch_size: 100, start_ts: value, delay: 0 }]);
-    } else {
-      //if there are existing phases, set the first phases to the new start time and adjust later phases in different function
-      const newPhases = [...phases];
-      newPhases[0] = { ...newPhases[0], start_ts: value };
-      setValue(deploymentFormSections.phases, newPhases);
-    }
-  };
+  const handleStartTimeChange = (value?: string) => setValue(deploymentFormSections.startTime, value);
 
   const handleStartChange = event => {
     // To be used with updated datetimepicker to open programmatically
@@ -61,15 +51,12 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
     }
   };
 
-  const start_time = phases.length ? phases[0].start_ts : undefined;
-
-  const startTime = dayjs(start_time);
   return (
     <>
       <h4 className={`margin-top-none ${canSchedule ? '' : commonClasses.disabled}`}>Select a start time</h4>
       <div className={commonClasses.columns}>
         <FormControl className={classes.pickerStyle} disabled={!canSchedule}>
-          <Select className={classes.textField} onChange={handleStartChange} value={start_time ? 'custom' : 0}>
+          <Select className={classes.textField} onChange={handleStartChange} value={startTime ? 'custom' : 0}>
             <MenuItem value={0}>Start immediately</MenuItem>
             <MenuItem value="custom">Schedule the start date &amp; time</MenuItem>
           </Select>
@@ -79,7 +66,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
           <MenderHelpTooltip id={HELPTOOLTIPS.scheduleDeployment.id} />
         </InfoHintContainer>
       </div>
-      {Boolean(isPickerOpen || start_time) && (
+      {Boolean(isPickerOpen || startTime) && (
         <FormControl className={classes.pickerStyle} disabled={!canSchedule}>
           <DateTimePicker
             ampm={false}
@@ -91,7 +78,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
             disabled={!canSchedule}
             onChange={date => handleStartTimeChange(date.toISOString())}
             slotProps={{ textField: { style: { minWidth: 400 } } }}
-            value={startTime}
+            value={dayjs(startTime)}
           />
         </FormControl>
       )}

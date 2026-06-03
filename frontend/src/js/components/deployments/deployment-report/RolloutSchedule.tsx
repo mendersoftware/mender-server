@@ -25,7 +25,9 @@ import durationDayJs from 'dayjs/plugin/duration';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import pluralize from 'pluralize';
 
-import { getPhaseDeviceCount, getPhaseStartTime, getRemainderPercent } from '../deployment-wizard/PhaseSettings';
+import { rolloutModes } from '../deployment-wizard/phases/constants';
+import { getPhaseDeviceCount, getRemainder } from '../deployment-wizard/phases/utils';
+import { getPhaseStartTime } from '../deployment-wizard/utils';
 import { RolloutProgressBar } from '../progress/RolloutProgressBar';
 import { SubstateProgressBar } from '../progress/SubstateProgressBar';
 import { getDeploymentPhasesInfo } from '../progress/usePhaseProgress';
@@ -82,13 +84,16 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
       )}
       <div className="deployment-phases-report margin-top margin-bottom" style={{ gridTemplateColumns: `repeat(auto-fit, ${maxPhaseWidth}px)` }}>
         {phases.map((phase, index) => {
-          const batchSize = phase.batch_size || getRemainderPercent(phases);
-          const deviceCount = getPhaseDeviceCount(totalDeviceCount, batchSize, batchSize, index === phases.length - 1);
+          const isPercentageMode = phase.hasOwnProperty(rolloutModes.percentage.batchKey);
+          const batchSize = isPercentageMode
+            ? phase.batch_size || getRemainder({ phases, numberDevices: totalDeviceCount, rolloutMode: rolloutModes.percentage.key })
+            : phase.batch_size_devices || getRemainder({ phases, numberDevices: totalDeviceCount, rolloutMode: rolloutModes.device_count.key });
+          const deviceCount = isPercentageMode ? getPhaseDeviceCount(totalDeviceCount, batchSize, batchSize, index === phases.length - 1) : batchSize;
           const deviceCountText = !filter ? ` (${deviceCount} ${pluralize('device', deviceCount)})` : '';
           const startTime = phase.start_ts ?? getPhaseStartTime(phases, index, start_time);
           const phaseObject = {
             'Phase start time': <Time value={startTime} />,
-            'Batch size': `${batchSize}%${deviceCountText}`
+            'Batch size': isPercentageMode ? `${batchSize}%${deviceCountText}` : batchSize
           };
           let phaseTitle = status !== DEPLOYMENT_STATES.scheduled ? <Typography variant="caption">Complete</Typography> : null;
           let isCurrentPhase = false;

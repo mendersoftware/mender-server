@@ -63,6 +63,7 @@ const useStyles = makeStyles()(theme => ({
 export const DOCSTIPS = {
   deviceConfig: { id: 'deviceConfig', path: 'add-ons/configure' },
   deviceIdentity: { id: 'deviceIdentity', path: 'client-installation/identity' },
+  dynamicDeployments: { id: 'dynamicDeployments', path: 'overview/deployment#phased-rollouts-and-dynamic-groups' },
   dynamicGroups: { id: 'dynamicGroups', path: 'overview/device-group#dynamic-group' },
   hostedRegions: { id: 'hostedRegions', path: 'general/hosted-mender-regions' },
   limitedDeployments: { id: 'limitedDeployments', path: 'overview/deployment#deployment-to-dynamic-groups' },
