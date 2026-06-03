@@ -621,7 +621,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           class="relative"
         >
           <a
-            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-3"
+            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary absolute emotion-3"
             data-discover="true"
             href="/devices/pending"
             tabindex="0"

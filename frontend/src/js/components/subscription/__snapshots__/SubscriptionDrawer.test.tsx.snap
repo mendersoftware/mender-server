@@ -1368,6 +1368,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-56:focus::-ms-input-
   <div
     aria-modal="true"
     class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight emotion-2"
+    data-mui-focusable=""
     role="dialog"
     style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12); min-width: 50vw;"
     tabindex="-1"
@@ -1757,7 +1758,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-56:focus::-ms-input-
         class="button-wrapper emotion-62 emotion-63"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-64"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-64"
           tabindex="0"
           type="submit"
         >
@@ -1791,7 +1792,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-56:focus::-ms-input-
           class="flexbox center-aligned margin-top-small"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-68"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-68"
             style="margin-right: 15px;"
             tabindex="0"
             type="reset"
@@ -1799,7 +1800,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-56:focus::-ms-input-
             Cancel
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-69"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary emotion-69"
             tabindex="0"
             type="submit"
           >
