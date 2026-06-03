@@ -937,7 +937,7 @@ exports[`Roles Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -962,7 +962,7 @@ exports[`Roles Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -987,7 +987,7 @@ exports[`Roles Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -1012,7 +1012,7 @@ exports[`Roles Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -1037,7 +1037,7 @@ exports[`Roles Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >
@@ -1062,7 +1062,7 @@ exports[`Roles Component > renders correctly 1`] = `
           class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-19"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-22"
             tabindex="0"
             type="button"
           >

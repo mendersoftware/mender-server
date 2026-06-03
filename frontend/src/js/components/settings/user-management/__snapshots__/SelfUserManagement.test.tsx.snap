@@ -369,6 +369,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-8::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 .emotion-8.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -824,13 +830,18 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   height: 100%;
   width: 100%;
   border-radius: 7px;
-  box-sizing: border-box;
-  border: 1px solid transparent;
   z-index: -1;
   -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #000;
   opacity: 0.38;
+}
+
+@media (forced-colors: active) {
+  .emotion-27 {
+    box-sizing: border-box;
+    border: 1px solid ButtonBorder;
+  }
 }
 
 .emotion-28 {
@@ -1069,7 +1080,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     >
       <div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-8"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-8"
           tabindex="0"
           type="button"
         >
@@ -1256,7 +1267,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     >
       <div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-8"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-8"
           tabindex="0"
           type="button"
         >
@@ -1292,7 +1303,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
       Personal access token management
     </p>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-40"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-40"
       tabindex="0"
       type="button"
     >

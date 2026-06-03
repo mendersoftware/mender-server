@@ -412,7 +412,7 @@ exports[`TwoFactorAuthSetup Component > renders correctly 1`] = `
     Two-factor authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in.
   </p>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-7"
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-7"
     tabindex="0"
     type="button"
   >

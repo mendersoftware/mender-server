@@ -804,7 +804,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                   <div />
                 </div>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
                   tabindex="0"
                   type="button"
                 >
@@ -820,21 +820,21 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                   class="action-buttons flexbox"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
                     tabindex="0"
                     type="button"
                   >
                     Accept
                   </button>
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
                     tabindex="0"
                     type="button"
                   >
                     Reject
                   </button>
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
                     tabindex="0"
                     type="button"
                   >
@@ -905,7 +905,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                   <div />
                 </div>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
                   tabindex="0"
                   type="button"
                 >
@@ -921,7 +921,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                   class="action-buttons flexbox"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+                    class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
                     disabled=""
                     tabindex="-1"
                     type="button"
@@ -929,14 +929,14 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                     Accept
                   </button>
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
                     tabindex="0"
                     type="button"
                   >
                     Reject
                   </button>
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
                     tabindex="0"
                     type="button"
                   >
@@ -980,7 +980,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
       class="flexbox relative emotion-44"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary emotion-45"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary emotion-45"
         tabindex="0"
         type="button"
       >

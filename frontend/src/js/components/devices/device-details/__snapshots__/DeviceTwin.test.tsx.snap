@@ -275,6 +275,12 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-6::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-6:hover {
     --variant-containedBg: #1565c0;
@@ -397,7 +403,7 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
         style="align-items: flex-start; justify-content: flex-end;"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-5"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-5"
           tabindex="0"
           type="button"
         >
@@ -429,7 +435,7 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
           </div>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-6"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-6"
           tabindex="0"
           type="button"
         >

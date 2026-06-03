@@ -603,7 +603,7 @@ exports[`Billing Component > renders correctly 1`] = `
             class="flexbox align-items-center margin-top-x-small"
           >
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorInfo margin-right-small emotion-21"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorInfo margin-right-small emotion-21"
               href="https://mender.io/pricing/plans"
               rel="noopener noreferrer"
               tabindex="0"
@@ -627,7 +627,7 @@ exports[`Billing Component > renders correctly 1`] = `
               </span>
             </a>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeSmall MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-sizeSmall MuiButton-colorSecondary emotion-24"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeSmall MuiButton-colorSecondary emotion-24"
               data-discover="true"
               href="/subscription"
               tabindex="0"
@@ -692,7 +692,7 @@ exports[`Billing Component > renders correctly 1`] = `
         </p>
         <div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-33"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-33"
             tabindex="0"
             type="button"
           >

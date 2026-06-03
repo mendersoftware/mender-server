@@ -1616,8 +1616,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
       aria-labelledby="_r_X_"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm MuiDialog-paperFullWidth emotion-3"
+      data-mui-focusable=""
       role="dialog"
       style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
+      tabindex="-1"
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
@@ -1787,7 +1789,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                       class="pass-buttons"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-29"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-29"
                         tabindex="0"
                         type="button"
                       >
@@ -1866,7 +1868,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                           aria-disabled="true"
                           aria-expanded="false"
                           aria-haspopup="listbox"
-                          aria-labelledby="roles-selection-label roles-selector-0"
+                          aria-labelledby="roles-selection-label"
                           aria-required="true"
                           class="MuiSelect-select MuiSelect-outlined Mui-disabled MuiSelect-multiple MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-38"
                           id="roles-selector-0"
@@ -1967,7 +1969,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
             class="button-wrapper emotion-49 "
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-50"
+              class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-50"
               disabled=""
               tabindex="-1"
               type="submit"
@@ -3605,8 +3607,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
       aria-labelledby="_r_X_"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm MuiDialog-paperFullWidth emotion-3"
+      data-mui-focusable=""
       role="dialog"
       style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
+      tabindex="-1"
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
@@ -3776,7 +3780,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                       class="pass-buttons"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-29"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-29"
                         tabindex="0"
                         type="button"
                       >
@@ -3855,7 +3859,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                           aria-disabled="true"
                           aria-expanded="false"
                           aria-haspopup="listbox"
-                          aria-labelledby="roles-selection-label roles-selector-0"
+                          aria-labelledby="roles-selection-label"
                           aria-required="true"
                           class="MuiSelect-select MuiSelect-outlined Mui-disabled MuiSelect-multiple MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-38"
                           id="roles-selector-0"
@@ -3956,7 +3960,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
             class="button-wrapper emotion-49 "
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-50"
+              class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-50"
               disabled=""
               tabindex="-1"
               type="submit"

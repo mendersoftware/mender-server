@@ -35,7 +35,7 @@ import {
   uiPermissionsByArea,
   uiPermissionsById
 } from '@northern.tech/store/constants';
-import { deepCompare, toggle } from '@northern.tech/utils/helpers';
+import { deepCompare } from '@northern.tech/utils/helpers';
 import type { AsyncThunkAction } from '@reduxjs/toolkit';
 
 import type { ItemScope, ItemSelectionType, ScopedUiPermissions } from './PermissionsItems';
@@ -334,8 +334,6 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
     onCancel();
   };
 
-  const onToggleRemoveDialog = () => setRemoveDialog(toggle);
-
   return (
     <BaseDrawer
       open={adding || editing}
@@ -349,7 +347,7 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
               className={`flexbox align-items-center ${classes.roleDeletion}`}
               color="error"
               disabled={!!rolesById[selectedRole.value]}
-              onClick={onToggleRemoveDialog}
+              onClick={() => setRemoveDialog(true)}
               variant="outlined"
             >
               Delete role
@@ -380,7 +378,7 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
         description={`Are you sure you want to delete the role ${selectedRole.name}?`}
         toType={selectedRole.name}
         open={removeDialog}
-        close={onToggleRemoveDialog}
+        close={() => setRemoveDialog(false)}
         onConfirm={onRemoveRole}
       />
     </BaseDrawer>

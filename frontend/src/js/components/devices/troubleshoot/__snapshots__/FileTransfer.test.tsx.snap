@@ -752,7 +752,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
           </div>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-20"
+          class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-20"
           disabled=""
           tabindex="-1"
           type="button"

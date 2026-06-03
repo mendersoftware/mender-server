@@ -217,6 +217,12 @@ exports[`ReleaseArtifactFilter Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-8::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 .emotion-8.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -942,8 +948,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
         aria-labelledby="_r_X_"
         aria-modal="true"
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-3"
+        data-mui-focusable=""
         role="dialog"
         style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
+        tabindex="-1"
       >
         <h2
           class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
@@ -971,7 +979,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-17:focus::-ms-input-
                 Filters
               </p>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorNeutral margin-left-small emotion-8"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorNeutral margin-left-small emotion-8"
                 tabindex="0"
                 type="button"
               >

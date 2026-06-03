@@ -2190,7 +2190,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-126"
+                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-126"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -2748,7 +2748,7 @@ exports[`Subscription Summary component > renders correctly 1`] = `
       </div>
     </div>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-22"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-22"
       tabindex="0"
       type="button"
     >

@@ -1191,6 +1191,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-30::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 .emotion-30.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -1439,7 +1445,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-27:focus::-ms-input-
           </div>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo Mui-disabled MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo align-self-start margin-bottom-small emotion-30"
+          class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo align-self-start margin-bottom-small emotion-30"
           disabled=""
           tabindex="-1"
           type="button"

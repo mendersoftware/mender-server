@@ -426,8 +426,10 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
       aria-labelledby="_r_X_"
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthXs emotion-3"
+      data-mui-focusable=""
       role="dialog"
       style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
+      tabindex="-1"
     >
       <h2
         class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-4"
@@ -520,7 +522,7 @@ exports[`Subscription Confirmation component > renders correctly 1`] = `
                  
               </p>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary emotion-18"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary emotion-18"
                 tabindex="0"
                 type="button"
               >
@@ -2729,7 +2731,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-126"
+                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-fullWidth margin-top-small emotion-126"
                 disabled=""
                 tabindex="-1"
                 type="button"

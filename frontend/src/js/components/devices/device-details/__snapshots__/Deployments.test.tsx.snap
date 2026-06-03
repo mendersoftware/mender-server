@@ -1178,7 +1178,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-37:focus::-ms-input-
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-21"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-29"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-29"
               tabindex="0"
               type="button"
             >
@@ -1223,7 +1223,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-37:focus::-ms-input-
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="_r_X_ _r_X_"
+              aria-labelledby="_r_X_"
               class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input emotion-37"
               id="_r_X_"
               role="combobox"
@@ -1306,7 +1306,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-37:focus::-ms-input-
     class="flexbox margin-top relative emotion-45"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-46"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-46"
       tabindex="0"
       type="button"
     >

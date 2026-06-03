@@ -576,7 +576,7 @@ exports[`Devices Component > renders correctly 1`] = `
           1
         </h5>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-19"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-19"
           tabindex="0"
           type="button"
         >
@@ -593,7 +593,7 @@ exports[`Devices Component > renders correctly 1`] = `
       class="flexbox centered"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-20"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-20"
         style="max-width: 200px;"
         tabindex="0"
         type="button"
