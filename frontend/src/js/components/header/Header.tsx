@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router';
 
 import { AccountCircle as AccountCircleIcon, ExitToApp as ExitIcon, ExpandMore } from '@mui/icons-material';
 import {

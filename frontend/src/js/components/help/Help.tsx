@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, useLocation, useParams } from 'react-router-dom';
+import { Navigate, useLocation, useParams } from 'react-router';
 
 import { Launch as LaunchIcon } from '@mui/icons-material';
 import { ListItemIcon, useTheme } from '@mui/material';

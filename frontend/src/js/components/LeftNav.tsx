@@ -13,7 +13,7 @@
 //    limitations under the License.
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 
 // material ui
 import { List, ListItem, ListItemText, darken, getOverlayAlpha, lighten, listClasses } from '@mui/material';

@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 import { Button, Chip, DialogActions, DialogContent, List, ListItem, Typography, lighten } from '@mui/material';

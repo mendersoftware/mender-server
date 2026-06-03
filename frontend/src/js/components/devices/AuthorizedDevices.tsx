@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 // material ui
 import { Delete as DeleteIcon, FilterList as FilterListIcon, Lock, SyncOutlined } from '@mui/icons-material';

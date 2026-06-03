@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { Clear as ClearIcon, Settings, Square } from '@mui/icons-material';
 import { IconButton, LinearProgress, linearProgressClasses } from '@mui/material';

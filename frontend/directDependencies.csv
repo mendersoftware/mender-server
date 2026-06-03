@@ -81,7 +81,7 @@
 "react-idle-timer","MIT","https://github.com/supremetechnopriest/react-idle-timer"
 "react-linkify","MIT","https://github.com/tasti/react-linkify"
 "react-redux","MIT","https://github.com/reduxjs/react-redux"
-"react-router-dom","MIT","https://github.com/remix-run/react-router"
+"react-router","MIT","https://github.com/remix-run/react-router"
 "react","MIT","https://github.com/facebook/react"
 "redux-mock-store","MIT","https://github.com/arnaudbenard/redux-mock-store"
 "redux-thunk","MIT","https://github.com/reduxjs/redux-thunk"

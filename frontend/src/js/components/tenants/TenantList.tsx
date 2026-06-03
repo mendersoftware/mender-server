@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import { Alert, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';

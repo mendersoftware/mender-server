@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router';
 
 import { Button, Chip } from '@mui/material';
 import { makeStyles, withStyles } from 'tss-react/mui';

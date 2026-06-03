@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 
 import { render } from '@/testUtils';
 import { TIMEOUTS } from '@northern.tech/store/constants';
