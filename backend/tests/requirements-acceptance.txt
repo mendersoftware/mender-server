@@ -1,10 +1,10 @@
-boto3==1.43.2
-certifi >= 2026.4.22
+boto3==1.43.20
+certifi >= 2026.5.20
 chardet >= 6.0.0.post1
-cryptography==47.0.0
+cryptography==48.0.0
 docker==7.1.0
 flaky==3.8.1
-idna >= 3.13
+idna >= 3.18
 jsonschema<5.0
 msgpack >= 1.1.2
 opensearch-py >= 3.2.0, < 4.0.0
@@ -14,13 +14,13 @@ pytz
 pytest-ordering==0.6
 pytest==9.0.3
 PyYAML==6.0.3
-redis==7.4.0
+redis==8.0.0
 redo==3.0.0
-requests==2.33.1
+requests==2.34.2
 semver==3.0.4
-stripe==15.1.0
-tornado==6.5.5
+stripe==15.2.0
+tornado==6.5.6
 urllib3==2.7.0
 websocket_client >= 1.9.0
-pydantic==2.13.3
-pyjwt==2.12.1
+pydantic==2.13.4
+pyjwt==2.13.0
