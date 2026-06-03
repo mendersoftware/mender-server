@@ -132,6 +132,8 @@ describe('Deployments Component', () => {
     await waitFor(() => expect(screen.getByText(/Cancel/i)).toBeInTheDocument());
     await act(async () => vi.runOnlyPendingTimers());
     await user.click(screen.getByRole('button', { name: /Cancel/i }));
+    // let the dismissed creation dialog finish unmounting
+    await act(async () => vi.runOnlyPendingTimers());
     await waitFor(() => rerender(ui));
     const inprogressDeployments = screen.getByText(/in progress now/i).parentElement.parentElement;
     const deployment = within(inprogressDeployments).getAllByText(/test deployment/i)[0].parentElement;
