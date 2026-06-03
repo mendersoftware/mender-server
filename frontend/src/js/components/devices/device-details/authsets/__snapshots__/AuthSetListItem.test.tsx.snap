@@ -457,7 +457,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
           </div>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
           tabindex="0"
           type="button"
         >
@@ -473,7 +473,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
           class="action-buttons flexbox"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+            class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
             disabled=""
             tabindex="-1"
             type="button"
@@ -481,14 +481,14 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
             Accept
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
             tabindex="0"
             type="button"
           >
             Reject
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
             tabindex="0"
             type="button"
           >
@@ -525,14 +525,14 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
             class="MuiAccordionActions-root MuiAccordionActions-spacing margin-right-small emotion-14"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-right-small emotion-4"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-right-small emotion-4"
               tabindex="0"
               type="button"
             >
               Cancel
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-16"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-16"
               tabindex="0"
               type="button"
             >

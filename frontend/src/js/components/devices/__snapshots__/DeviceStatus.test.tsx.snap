@@ -164,6 +164,13 @@ exports[`DeviceStatus Component > renders correctly 1`] = `
   background-color: rgba(0, 0, 0, 0.12);
 }
 
+@media (forced-colors: active) {
+  .emotion-1 {
+    box-sizing: border-box;
+    border: 1px solid ButtonBorder;
+  }
+}
+
 .emotion-1.MuiChip-icon {
   font-size: x-small;
 }

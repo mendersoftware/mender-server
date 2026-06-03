@@ -102,6 +102,12 @@ exports[`TerminalSession Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-1::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-1:hover {
     --variant-containedBg: #1565c0;
@@ -452,7 +458,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
       class="flexbox margin-top-small margin-bottom-small"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
         tabindex="0"
         type="button"
       >
@@ -474,7 +480,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         Play
       </button>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
         tabindex="0"
         type="button"
       >
@@ -496,7 +502,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
         Replay
       </button>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
+        class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
         disabled=""
         tabindex="-1"
         type="button"

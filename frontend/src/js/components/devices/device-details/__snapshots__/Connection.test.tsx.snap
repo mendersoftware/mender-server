@@ -264,7 +264,7 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
           target="_blank"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
             tabindex="0"
             type="button"
           >
@@ -287,7 +287,7 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
           </button>
         </a>
         <a
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
           data-discover="true"
           href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           tabindex="0"
@@ -1201,7 +1201,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
           target="_blank"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
             tabindex="0"
             type="button"
           >
@@ -1224,7 +1224,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
           </button>
         </a>
         <a
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
           data-discover="true"
           href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           tabindex="0"
@@ -1496,7 +1496,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
             class="emotion-13"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-14"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-14"
               tabindex="0"
               type="button"
             >
@@ -1507,7 +1507,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
             class="flexbox space-between emotion-15"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
               tabindex="0"
               type="button"
             >
@@ -1515,7 +1515,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                Terminal
             </button>
             <a
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
               data-discover="true"
               href="/auditlog?objectType=device&objectId=a1&startDate=2016-01-01T00:00:00.000Z"
               tabindex="0"
@@ -1689,7 +1689,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-14"
+                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-14"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -1998,7 +1998,7 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
           target="_blank"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
             tabindex="0"
             type="button"
           >
@@ -2021,7 +2021,7 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
           </button>
         </a>
         <a
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-3"
           data-discover="true"
           href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
           tabindex="0"
@@ -2400,7 +2400,7 @@ exports[`tiny DeviceConnection components > renders PortForwardLink correctly 1`
     target="_blank"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
       tabindex="0"
       type="button"
     >

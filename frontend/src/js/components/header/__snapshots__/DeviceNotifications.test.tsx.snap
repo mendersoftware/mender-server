@@ -474,7 +474,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
            pending
         </p>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary padding-bottom-none padding-top-none emotion-8"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary padding-bottom-none padding-top-none emotion-8"
           tabindex="0"
           type="button"
         >
@@ -583,7 +583,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
       </div>
     </div>
     <a
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
       data-discover="true"
       href="/settings/subscription"
       tabindex="0"
@@ -693,6 +693,12 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
 
 .emotion-1.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-1::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 @media (hover: hover) {
@@ -814,6 +820,12 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   transform-origin: 0% 0%;
 }
 
+@media (forced-colors: active) {
+  .emotion-6 {
+    border: 1px solid ButtonBorder;
+  }
+}
+
 .emotion-6.MuiBadge-invisible {
   -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
   -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
@@ -833,7 +845,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
@@ -976,6 +988,12 @@ exports[`DeviceNotifications Component > renders correctly at limit 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-1::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-1:hover {
     --variant-containedBg: #1565c0;
@@ -1099,6 +1117,12 @@ exports[`DeviceNotifications Component > renders correctly at limit 1`] = `
   transform-origin: 0% 0%;
 }
 
+@media (forced-colors: active) {
+  .emotion-6 {
+    border: 1px solid ButtonBorder;
+  }
+}
+
 .emotion-6.MuiBadge-invisible {
   -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
   -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
@@ -1118,7 +1142,7 @@ exports[`DeviceNotifications Component > renders correctly at limit 1`] = `
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
@@ -1261,6 +1285,12 @@ exports[`DeviceNotifications Component > renders correctly close to limits 1`] =
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-1::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-1:hover {
     --variant-containedBg: #1565c0;
@@ -1384,6 +1414,12 @@ exports[`DeviceNotifications Component > renders correctly close to limits 1`] =
   transform-origin: 0% 0%;
 }
 
+@media (forced-colors: active) {
+  .emotion-6 {
+    border: 1px solid ButtonBorder;
+  }
+}
+
 .emotion-6.MuiBadge-invisible {
   -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
   -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
@@ -1403,7 +1439,7 @@ exports[`DeviceNotifications Component > renders correctly close to limits 1`] =
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
@@ -1546,6 +1582,12 @@ exports[`DeviceNotifications Component > renders correctly with limits 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-1::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-1:hover {
     --variant-containedBg: #1565c0;
@@ -1665,6 +1707,12 @@ exports[`DeviceNotifications Component > renders correctly with limits 1`] = `
   transform-origin: 0% 0%;
 }
 
+@media (forced-colors: active) {
+  .emotion-6 {
+    border: 1px solid ButtonBorder;
+  }
+}
+
 .emotion-6.MuiBadge-invisible {
   -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
   -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
@@ -1684,7 +1732,7 @@ exports[`DeviceNotifications Component > renders correctly with limits 1`] = `
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >
@@ -1827,6 +1875,12 @@ exports[`DeviceNotifications Component > renders correctly without limits 1`] = 
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-1::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-1:hover {
     --variant-containedBg: #1565c0;
@@ -1946,6 +2000,12 @@ exports[`DeviceNotifications Component > renders correctly without limits 1`] = 
   transform-origin: 0% 0%;
 }
 
+@media (forced-colors: active) {
+  .emotion-6 {
+    border: 1px solid ButtonBorder;
+  }
+}
+
 .emotion-6.MuiBadge-invisible {
   -webkit-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
   -moz-transform: scale(0) translate(var(--Badge-translateX), var(--Badge-translateY));
@@ -1965,7 +2025,7 @@ exports[`DeviceNotifications Component > renders correctly without limits 1`] = 
       class="MuiBadge-root emotion-0"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center false emotion-1"
         tabindex="0"
         type="button"
       >

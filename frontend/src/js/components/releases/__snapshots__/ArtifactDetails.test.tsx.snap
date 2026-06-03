@@ -119,6 +119,12 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-4::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-4:hover {
     --variant-containedBg: #f5f5f5;
@@ -441,6 +447,12 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-51::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 .emotion-51.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -543,6 +555,12 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-54::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 .emotion-54.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -587,7 +605,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
             text
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-4"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-4"
             style="padding: 5px;"
             tabindex="0"
             type="button"
@@ -904,7 +922,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
     style="max-width: fit-content;"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral emotion-51"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral emotion-51"
       tabindex="0"
       type="button"
     >
@@ -926,7 +944,7 @@ exports[`ArtifactDetails Component > renders correctly 1`] = `
       Download Artifact
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-54"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-54"
       tabindex="0"
       type="button"
     >
@@ -1068,6 +1086,12 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
 
 .emotion-4.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-4::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 @media (hover: hover) {
@@ -1399,6 +1423,12 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-38::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 .emotion-38.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -1501,6 +1531,12 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-41::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 .emotion-41.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -1545,7 +1581,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
             text
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-4"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-4"
             style="padding: 5px;"
             tabindex="0"
             type="button"
@@ -1765,7 +1801,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
     style="max-width: fit-content;"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral emotion-38"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral emotion-38"
       tabindex="0"
       type="button"
     >
@@ -1787,7 +1823,7 @@ exports[`ArtifactDetails Component > renders correctly without software 1`] = `
       Download Artifact
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-41"
+      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-41"
       tabindex="0"
       type="button"
     >

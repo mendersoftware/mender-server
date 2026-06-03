@@ -187,10 +187,14 @@ exports[`EnterpriseNotification Component > works as expected 1`] = `
 
 .MuiTooltip-popper[data-popper-placement*="left"] .emotion-0 {
   transform-origin: right center;
+  -webkit-margin-end: 14px;
+  margin-inline-end: 14px;
 }
 
 .MuiTooltip-popper[data-popper-placement*="right"] .emotion-0 {
   transform-origin: left center;
+  -webkit-margin-start: 14px;
+  margin-inline-start: 14px;
 }
 
 .MuiTooltip-popper[data-popper-placement*="top"] .emotion-0 {
@@ -201,14 +205,6 @@ exports[`EnterpriseNotification Component > works as expected 1`] = `
 .MuiTooltip-popper[data-popper-placement*="bottom"] .emotion-0 {
   transform-origin: center top;
   margin-top: 14px;
-}
-
-.MuiTooltip-popper[data-popper-placement*="left"] .emotion-0 {
-  margin-right: 14px;
-}
-
-.MuiTooltip-popper[data-popper-placement*="right"] .emotion-0 {
-  margin-left: 14px;
 }
 
 .emotion-0 info {
@@ -427,7 +423,7 @@ exports[`EnterpriseNotification Component > works as expected 1`] = `
     class="flexbox space-between margin-top-small"
   >
     <a
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorSecondary emotion-1"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorSecondary emotion-1"
       data-discover="true"
       href="/subscription"
       tabindex="0"
@@ -435,7 +431,7 @@ exports[`EnterpriseNotification Component > works as expected 1`] = `
       Upgrade now
     </a>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-2"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-2"
       tabindex="0"
       type="button"
     >

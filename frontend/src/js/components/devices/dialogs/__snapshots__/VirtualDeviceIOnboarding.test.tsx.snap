@@ -136,6 +136,12 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-5::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-5:hover {
     --variant-containedBg: #f5f5f5;
@@ -208,7 +214,7 @@ exports[`VirtualDeviceOnboarding Component > renders correctly 1`] = `
     class="emotion-4 "
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit emotion-5"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeLarge MuiButton-colorInherit emotion-5"
       tabindex="0"
       title="Copy to clipboard"
       type="button"

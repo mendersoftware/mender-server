@@ -603,7 +603,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
           </div>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-25"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-25"
           tabindex="0"
           type="button"
         >
@@ -773,7 +773,7 @@ exports[`InProgressDeployments Component > renders correctly 1`] = `
           </span>
         </p>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-25"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-25"
           tabindex="0"
           type="button"
         >

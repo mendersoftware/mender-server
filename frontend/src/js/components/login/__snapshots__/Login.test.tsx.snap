@@ -170,6 +170,12 @@ exports[`Login Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-6::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 .emotion-6.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -1494,7 +1500,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
           class="flexbox centered"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-6"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-6"
             tabindex="0"
             type="button"
           >
@@ -1515,7 +1521,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
             Github
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-6"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-6"
             tabindex="0"
             type="button"
           >
@@ -1536,7 +1542,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
             Google
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-6"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral margin-left-x-small margin-right-x-small emotion-6"
             tabindex="0"
             type="button"
           >
@@ -1786,7 +1792,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
             </span>
           </label>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary full-width emotion-55"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary full-width emotion-55"
             tabindex="0"
             type="submit"
           >
@@ -1803,7 +1809,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
           Don't have an account?
         </p>
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-58"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary flexbox align-items-center emotion-58"
           data-discover="true"
           href="/signup"
           tabindex="0"

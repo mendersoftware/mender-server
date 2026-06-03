@@ -266,6 +266,12 @@ exports[`ReleaseDetails Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-14::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-14:hover {
     --variant-containedBg: #f5f5f5;
@@ -1065,6 +1071,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-100::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 .emotion-100.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -1165,6 +1177,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 
 .emotion-103.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-103::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-103.Mui-disabled {
@@ -1557,6 +1575,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
 <div
   aria-modal="true"
   class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper emotion-0"
+  data-mui-focusable=""
   role="dialog"
   style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
   tabindex="-1"
@@ -1672,7 +1691,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
           Release notes
         </h6>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-14"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-14"
           style="padding: 5px;"
           tabindex="0"
           type="button"
@@ -1720,7 +1739,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
           Tags
         </h6>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-14"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-14"
           style="padding: 5px;"
           tabindex="0"
           type="button"
@@ -1995,7 +2014,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
                               test description
                             </div>
                             <button
-                              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-14"
+                              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-14"
                               style="padding: 5px;"
                               tabindex="0"
                               type="button"
@@ -2329,7 +2348,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
                       style="max-width: fit-content;"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral emotion-100"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral emotion-100"
                         tabindex="0"
                         type="button"
                       >
@@ -2351,7 +2370,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
                         Download Artifact
                       </button>
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-103"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-103"
                         tabindex="0"
                         type="button"
                       >
@@ -2488,7 +2507,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
                               test description
                             </div>
                             <button
-                              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-14"
+                              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorInherit emotion-14"
                               style="padding: 5px;"
                               tabindex="0"
                               type="button"
@@ -2822,7 +2841,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
                       style="max-width: fit-content;"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral emotion-100"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorNeutral emotion-100"
                         tabindex="0"
                         type="button"
                       >
@@ -2844,7 +2863,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
                         Download Artifact
                       </button>
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-103"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-103"
                         tabindex="0"
                         type="button"
                       >
@@ -2892,7 +2911,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="release-actions"
-        class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiSpeedDial-fab emotion-180"
+        class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiSpeedDial-fab emotion-180"
         style="transform: none; transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         tabindex="0"
         type="button"
@@ -2933,7 +2952,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
           </span>
           <button
             aria-labelledby="release-actions-action-0-label"
-            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiSpeedDialAction-fab MuiSpeedDialAction-fabClosed emotion-186"
+            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiSpeedDialAction-fab MuiSpeedDialAction-fabClosed emotion-186"
             role="menuitem"
             style="transition-delay: 60ms;"
             tabindex="-1"
@@ -2966,7 +2985,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-26:focus::-ms-input-
           </span>
           <button
             aria-labelledby="release-actions-action-1-label"
-            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiSpeedDialAction-fab MuiSpeedDialAction-fabClosed emotion-186"
+            class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiSpeedDialAction-fab MuiSpeedDialAction-fabClosed emotion-186"
             role="menuitem"
             style="transition-delay: 30ms;"
             tabindex="-1"

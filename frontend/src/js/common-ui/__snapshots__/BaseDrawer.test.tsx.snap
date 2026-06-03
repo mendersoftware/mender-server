@@ -220,6 +220,7 @@ exports[`BaseDrawer Component > renders correctly with ReactNode title 1`] = `
     <div
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper emotion-2"
+      data-mui-focusable=""
       role="dialog"
       style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
       tabindex="-1"
@@ -498,6 +499,7 @@ exports[`BaseDrawer Component > renders correctly with string title 1`] = `
     <div
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper emotion-2"
+      data-mui-focusable=""
       role="dialog"
       style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
       tabindex="-1"
@@ -772,6 +774,7 @@ exports[`BaseDrawer Component > renders notification slot 1`] = `
     <div
       aria-modal="true"
       class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper emotion-2"
+      data-mui-focusable=""
       role="dialog"
       style="--Paper-shadow: 0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12);"
       tabindex="-1"

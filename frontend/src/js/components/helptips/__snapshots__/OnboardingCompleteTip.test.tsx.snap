@@ -45,10 +45,14 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
 
 .MuiTooltip-popper[data-popper-placement*="left"] .emotion-2 {
   transform-origin: right center;
+  -webkit-margin-end: 14px;
+  margin-inline-end: 14px;
 }
 
 .MuiTooltip-popper[data-popper-placement*="right"] .emotion-2 {
   transform-origin: left center;
+  -webkit-margin-start: 14px;
+  margin-inline-start: 14px;
 }
 
 .MuiTooltip-popper[data-popper-placement*="top"] .emotion-2 {
@@ -59,14 +63,6 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
 .MuiTooltip-popper[data-popper-placement*="bottom"] .emotion-2 {
   transform-origin: center top;
   margin-top: 14px;
-}
-
-.MuiTooltip-popper[data-popper-placement*="left"] .emotion-2 {
-  margin-right: 14px;
-}
-
-.MuiTooltip-popper[data-popper-placement*="right"] .emotion-2 {
-  margin-left: 14px;
 }
 
 .emotion-2 info {
@@ -107,7 +103,6 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
   -webkit-text-decoration: none;
   text-decoration: none;
   color: inherit;
-  background-color: #fff;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
   font-size: 0.875rem;
@@ -148,10 +143,6 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
-}
-
-.emotion-3:hover {
-  background-color: #fff;
 }
 
 .emotion-3:hover {
@@ -352,7 +343,7 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
           class="margin-bottom-small margin-top-small"
         >
           <a
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary button emotion-3"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary button emotion-3"
             href="http://192.168.10.141:85/index.html?source=http%3A%2F%2Ftest.com"
             tabindex="0"
             target="_blank"
@@ -372,7 +363,7 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
             style="flex-grow: 1;"
           />
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary emotion-4"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary emotion-4"
             tabindex="0"
             type="button"
           >

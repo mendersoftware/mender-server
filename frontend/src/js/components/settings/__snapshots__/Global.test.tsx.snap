@@ -535,13 +535,18 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
   height: 100%;
   width: 100%;
   border-radius: 7px;
-  box-sizing: border-box;
-  border: 1px solid transparent;
   z-index: -1;
   -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #000;
   opacity: 0.38;
+}
+
+@media (forced-colors: active) {
+  .emotion-26 {
+    box-sizing: border-box;
+    border: 1px solid ButtonBorder;
+  }
 }
 
 .emotion-27 {
@@ -1507,7 +1512,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
             class="MuiTypography-root MuiTypography-body2 emotion-1"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-x-small emotion-55"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-x-small emotion-55"
               tabindex="0"
               type="button"
             >

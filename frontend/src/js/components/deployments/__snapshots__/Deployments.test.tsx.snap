@@ -748,7 +748,7 @@ exports[`Deployments Component > renders correctly 1`] = `
         Deployments
       </h5>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-1"
         style="height: 100%;"
         tabindex="0"
         type="button"
@@ -1032,7 +1032,7 @@ exports[`Deployments Component > renders correctly 1`] = `
               </div>
             </div>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
               tabindex="0"
               type="button"
             >
@@ -1132,7 +1132,7 @@ exports[`Deployments Component > renders correctly 1`] = `
               </div>
             </div>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
               tabindex="0"
               type="button"
             >
@@ -1231,7 +1231,7 @@ exports[`Deployments Component > renders correctly 1`] = `
               </span>
             </p>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
               tabindex="0"
               type="button"
             >
@@ -1508,7 +1508,7 @@ exports[`Deployments Component > renders correctly 1`] = `
               </div>
             </div>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
               tabindex="0"
               type="button"
             >
@@ -1608,7 +1608,7 @@ exports[`Deployments Component > renders correctly 1`] = `
               </div>
             </div>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
               tabindex="0"
               type="button"
             >
@@ -1707,7 +1707,7 @@ exports[`Deployments Component > renders correctly 1`] = `
               </span>
             </p>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorPrimary nowrap emotion-35"
               tabindex="0"
               type="button"
             >

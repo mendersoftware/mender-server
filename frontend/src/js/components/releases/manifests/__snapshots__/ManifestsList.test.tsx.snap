@@ -715,7 +715,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-19:focus::-ms-input-
           <div
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby="_r_X_ _r_X_"
+            aria-labelledby="_r_X_"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input emotion-19"
             id="_r_X_"
             role="combobox"

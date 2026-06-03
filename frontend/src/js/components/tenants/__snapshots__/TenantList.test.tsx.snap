@@ -629,7 +629,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
               class="padding-bottom-small padding-top-small"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-7"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-7"
                 tabindex="0"
                 type="button"
               >
@@ -662,7 +662,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
               class="padding-bottom-small padding-top-small"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-7"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo nowrap emotion-7"
                 tabindex="0"
                 type="button"
               >
@@ -696,7 +696,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
               <div
                 aria-expanded="false"
                 aria-haspopup="listbox"
-                aria-labelledby="_r_X_ _r_X_"
+                aria-labelledby="_r_X_"
                 class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input emotion-14"
                 id="_r_X_"
                 role="combobox"

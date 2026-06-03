@@ -192,7 +192,7 @@ exports[`DeviceStatusNotification Component > renders correctly 1`] = `
       pending authorization
     </div>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary padding-bottom-none padding-top-none emotion-4"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary padding-bottom-none padding-top-none emotion-4"
       tabindex="0"
       type="button"
     >
