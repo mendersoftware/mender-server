@@ -346,6 +346,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-6::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
+}
+
 @media (hover: hover) {
   .emotion-6:hover {
     --variant-containedBg: rgb(65, 10, 46);
@@ -595,7 +601,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
           class="flexbox centered filter-header "
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-6"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorSecondary emotion-6"
             style="background-color: transparent;"
             tabindex="0"
             type="button"
@@ -619,7 +625,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-1:focus::-ms-input-p
           </button>
         </div>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-9"
           style="text-transform: none;"
           tabindex="0"
           type="button"

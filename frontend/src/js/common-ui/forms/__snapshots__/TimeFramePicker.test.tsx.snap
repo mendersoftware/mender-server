@@ -956,7 +956,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
     class="button-wrapper emotion-22 "
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-23"
+      class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-23"
       disabled=""
       tabindex="-1"
       type="submit"
@@ -1076,6 +1076,11 @@ exports[`TimeframePicker Component renders correctly 1`] = `
   border-radius: 4px;
 }
 
+.emotion-2.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  cursor: default;
+}
+
 .emotion-2:hover .MuiPickersOutlinedInput-notchedOutline {
   border-color: rgba(10, 10, 11, 0.78);
 }
@@ -1097,10 +1102,6 @@ exports[`TimeframePicker Component renders correctly 1`] = `
 
 .emotion-2.Mui-disabled .MuiPickersOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-2.Mui-disabled * {
-  color: rgba(0, 0, 0, 0.26);
 }
 
 .emotion-2.Mui-focused:not(.Mui-error) .MuiPickersOutlinedInput-notchedOutline {

@@ -264,7 +264,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
               <div
                 aria-invalid="false"
                 aria-labelledby=":ra:-label"
-                class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd css-id2red-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+                class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd css-i49d1g-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
                 role="group"
               >
                 <div
@@ -394,7 +394,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
               <div
                 aria-invalid="false"
                 aria-labelledby=":rd:-label"
-                class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd css-id2red-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
+                class="MuiPickersInputBase-root MuiPickersOutlinedInput-root MuiPickersInputBase-colorPrimary MuiPickersInputBase-adornedEnd css-i49d1g-MuiPickersInputBase-root-MuiPickersOutlinedInput-root"
                 role="group"
               >
                 <div
@@ -539,7 +539,7 @@ exports[`Auditlogs Component renders correctly 1`] = `
         </div>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary css-kvtsny-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorSecondary css-kvtsny-MuiButtonBase-root-MuiButton-root"
         style="margin-left: 15px;"
         tabindex="0"
         type="button"
