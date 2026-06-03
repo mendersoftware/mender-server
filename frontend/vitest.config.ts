@@ -30,6 +30,7 @@ const isolatedTestFiles = [
   'login/PasswordReset.test.tsx',
   'releases/Releases.test.tsx',
   'releases/dialogs/AddArtifact.test.tsx',
+  'releases/manifests/ManifestDrawer.test.tsx',
   'releases/manifests/ManifestQuickActions.test.tsx',
   'settings/AccessTokenManagement.test.tsx',
   'settings/ArtifactGeneration.test.tsx',
