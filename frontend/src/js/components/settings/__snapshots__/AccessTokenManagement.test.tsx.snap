@@ -881,8 +881,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   aria-labelledby="_r_o_"
   aria-modal="true"
   class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-0"
+  data-mui-focusable=""
   role="dialog"
   style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
+  tabindex="-1"
 >
   <h2
     class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
@@ -1038,7 +1040,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
     class="MuiDialogActions-root MuiDialogActions-spacing emotion-20"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-21"
+      class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-21"
       disabled=""
       tabindex="-1"
       type="button"
@@ -1233,8 +1235,10 @@ exports[`AccessTokenManagement Component > renders AccessTokenRevocationDialog c
   aria-labelledby="_r_u_"
   aria-modal="true"
   class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm emotion-0"
+  data-mui-focusable=""
   role="dialog"
   style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
+  tabindex="-1"
 >
   <h2
     class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
@@ -1255,14 +1259,14 @@ exports[`AccessTokenManagement Component > renders AccessTokenRevocationDialog c
     class="MuiDialogActions-root MuiDialogActions-spacing emotion-3"
   >
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
       tabindex="0"
       type="button"
     >
       Cancel
     </button>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-4"
       tabindex="0"
       type="button"
     >
@@ -1381,7 +1385,7 @@ exports[`AccessTokenManagement Component > renders correctly 1`] = `
     Personal access token management
   </p>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary emotion-1"
     tabindex="0"
     type="button"
   >

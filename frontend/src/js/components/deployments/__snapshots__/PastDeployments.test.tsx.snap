@@ -649,6 +649,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   border-radius: 4px;
 }
 
+.emotion-25.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  cursor: default;
+}
+
 .emotion-25:hover .MuiPickersOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.87);
 }
@@ -670,10 +675,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
 
 .emotion-25.Mui-disabled .MuiPickersOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-25.Mui-disabled * {
-  color: rgba(0, 0, 0, 0.26);
 }
 
 .emotion-25.Mui-focused:not(.Mui-error) .MuiPickersOutlinedInput-notchedOutline {
@@ -2285,7 +2286,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-76:focus::-ms-input-
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-70"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary emotion-70"
             tabindex="0"
             type="button"
           >

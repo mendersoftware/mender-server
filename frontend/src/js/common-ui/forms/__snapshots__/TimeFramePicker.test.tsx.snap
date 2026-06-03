@@ -125,6 +125,11 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
   border-radius: 4px;
 }
 
+.emotion-4.Mui-disabled {
+  color: rgba(0, 0, 0, 0.26);
+  cursor: default;
+}
+
 .emotion-4:hover .MuiPickersOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.87);
 }
@@ -146,10 +151,6 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
 
 .emotion-4.Mui-disabled .MuiPickersOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-4.Mui-disabled * {
-  color: rgba(0, 0, 0, 0.26);
 }
 
 .emotion-4.Mui-focused:not(.Mui-error) .MuiPickersOutlinedInput-notchedOutline {
