@@ -18,7 +18,7 @@ test:frontend:lint:
   script:
     - cd frontend
     - npm ci --cache .npm --prefer-offline
-    - cd tests/e2e_tests && npm ci && cd ../..
+    - cd tests/e2e_tests && PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm ci && cd ../..
     - npm run lint
   tags:
     - k8s
