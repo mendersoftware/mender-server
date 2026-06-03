@@ -328,7 +328,6 @@ export const RoleDefinition: FunctionComponent<RoleDefinitionProps> = ({
   };
 
   const onRemoveRole = () => {
-    setRemoveDialog(false);
     removeRole(roleName);
     onCancel();
   };
