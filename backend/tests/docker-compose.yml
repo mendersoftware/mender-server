@@ -13,6 +13,7 @@ services:
     working_dir: /testing
     environment:
         PYTEST_ADDOPTS: "${PYTEST_ADDOPTS:-}"
+        PYTHONDONTWRITEBYTECODE: "1"
     entrypoint:
       - pytest
       - --tb=long
