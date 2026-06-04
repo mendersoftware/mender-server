@@ -2008,9 +2008,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
         <div
           class="clickable slightly-smaller"
           data-mui-internal-clone-element="true"
-        >
-          Version: next
-        </div>
+        />
         <a
           class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-43"
           href="https://docs.mender.io/release-information/release-notes-changelog/mender-server"
@@ -4529,9 +4527,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
       <div
         class="clickable slightly-smaller"
         data-mui-internal-clone-element="true"
-      >
-        Version: next
-      </div>
+      />
       <a
         class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-43"
         href="https://docs.mender.io/release-information/release-notes-changelog/mender-server"

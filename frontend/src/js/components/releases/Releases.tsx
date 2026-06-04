@@ -14,7 +14,7 @@
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import { CloudUpload } from '@mui/icons-material';
 import { Button, Tab, Tabs, Typography } from '@mui/material';

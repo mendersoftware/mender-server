@@ -11,9 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 
 // material ui
 import { List, ListItem, ListItemText, darken, getOverlayAlpha, lighten, listClasses } from '@mui/material';
@@ -24,7 +24,7 @@ import { Link } from '@northern.tech/common-ui/Link';
 import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
-import { getFeatures, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
+import { getFeatures, getIsPreview, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
 import { isDarkMode } from '@northern.tech/store/utils';
 import copy from 'copy-to-clipboard';
 
@@ -81,25 +81,17 @@ const useStyles = makeStyles()(theme => ({
       zIndex: 2
     }
   },
-  lowerList: { gap: theme.spacing(), paddingLeft: theme.spacing(5), paddingRight: theme.spacing(2) },
-  versions: { display: 'grid', gridTemplateColumns: 'max-content max-content', columnGap: theme.spacing() }
+  lowerList: { gap: theme.spacing(), paddingLeft: theme.spacing(5), paddingRight: theme.spacing(2) }
 }));
-
-const linkables = {
-  'Integration': 'integration',
-  'Mender-Artifact': 'mender-artifact',
-  'Server': 'mender-server'
-};
 
 const VersionInfo = () => {
   const [clicks, setClicks] = useState(0);
   const timer = useRef();
-  const { classes } = useStyles();
 
   const dispatch = useDispatch();
   const { isHosted } = useSelector(getFeatures);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { latestRelease, ...versionInformation } = useSelector(getVersionInformation);
+  const versionInformation = useSelector(getVersionInformation);
+  const isPreview = useSelector(getIsPreview);
 
   useEffect(
     () => () => {
@@ -113,46 +105,22 @@ const VersionInfo = () => {
     dispatch(setSnackbar('Version information copied to clipboard'));
   };
 
-  const versions = (
-    <div className={classes.versions}>
-      {Object.entries(versionInformation).reduce((accu, [key, version]) => {
-        if (version) {
-          accu.push(
-            <React.Fragment key={key}>
-              {linkables[key] ? (
-                <Link href={`https://github.com/mendersoftware/${linkables[key]}/tree/${version}`} external>
-                  {key}
-                </Link>
-              ) : (
-                <div>{key}</div>
-              )}
-              <div className="align-right text-overflow" title={version}>
-                {version}
-              </div>
-            </React.Fragment>
-          );
-        }
-        return accu;
-      }, [])}
-    </div>
-  );
-
   const onClick = () => {
     setClicks(clicks + 1);
     clearTimeout(timer.current);
     timer.current = setTimeout(() => setClicks(0), TIMEOUTS.threeSeconds);
     if (clicks > 5) {
-      dispatch(setVersionInformation({ Integration: 'next' }));
+      dispatch(setVersionInformation({ version: 'next' }));
     }
     onVersionClick();
   };
 
-  let title = versionInformation.Integration ? `Version: ${versionInformation.Integration}` : '';
-  if (isHosted && versionInformation.Integration !== 'next') {
+  let title = versionInformation.version ? `Version: ${versionInformation.version}` : '';
+  if (isHosted && !isPreview) {
     title = 'Version: latest';
   }
   return (
-    <MenderTooltip arrow title={versions} placement="top">
+    <MenderTooltip arrow title={versionInformation.version} placement="top">
       <div className="clickable slightly-smaller" onClick={onClick}>
         {title}
       </div>

@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 import { makeStyles } from 'tss-react/mui';
 

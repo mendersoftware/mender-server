@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router';
 
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Error as ErrorIcon, Refresh as RefreshIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';

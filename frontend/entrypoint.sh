@@ -55,15 +55,7 @@ cat >/var/www/mender-gui/dist/env.js <<EOF
     trackerCode: "$TRACKER_CODE",
     recaptchaSiteKey: "$RECAPTCHA_SITE_KEY",
     stripeAPIKey: "$STRIPE_API_KEY",
-    integrationVersion: "$INTEGRATION_VERSION",
-    menderArtifactVersion: "$MENDER_ARTIFACT_VERSION",
-    metaMenderVersion: "$META_MENDER_VERSION",
-    services: {
-      deploymentsVersion: "$MENDER_DEPLOYMENTS_VERSION",
-      deviceauthVersion: "$MENDER_DEVICEAUTH_VERSION",
-      guiVersion: "${GIT_COMMIT_TAG:-local_local}",
-      inventoryVersion: "$MENDER_INVENTORY_VERSION"
-    },
+    version: "${GIT_COMMIT_TAG:-latest_local}",
     demoArtifactPort: "$DEMO_ARTIFACT_PORT",
     disableOnboarding: "$DISABLE_ONBOARDING"
   }

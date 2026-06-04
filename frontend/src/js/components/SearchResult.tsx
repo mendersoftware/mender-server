@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { Close as CloseIcon } from '@mui/icons-material';
 // material ui

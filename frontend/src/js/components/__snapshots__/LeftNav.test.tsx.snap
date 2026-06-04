@@ -225,9 +225,7 @@ exports[`LeftNav Component > renders correctly 1`] = `
     <div
       class="clickable slightly-smaller"
       data-mui-internal-clone-element="true"
-    >
-      Version: latest
-    </div>
+    />
     <a
       class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways emotion-18"
       href="https://docs.mender.io/release-information/release-notes-changelog/hosted-mender"

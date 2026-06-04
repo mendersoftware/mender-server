@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Provider } from 'react-redux';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router';
 
 import { defaultState, render } from '@/testUtils';
 import { getConfiguredStore } from '@northern.tech/store/store';
@@ -37,7 +37,7 @@ const preloadedState = {
       hasMonitor: true,
       isEnterprise: true
     },
-    versionInformation: { latestRelease: helpProps.versions }
+    versionInformation: { version: '1.2.3' }
   },
   organization: {
     ...defaultState.organization,

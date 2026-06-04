@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router';
 
 import { ChevronRight, InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { Button, Tooltip, Typography, formControlClasses, typographyClasses } from '@mui/material';

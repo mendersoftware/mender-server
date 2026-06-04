@@ -14,7 +14,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIdleTimer, workerTimers } from 'react-idle-timer';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, useLocation, useNavigate } from 'react-router';
 
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';

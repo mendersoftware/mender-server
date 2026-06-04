@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router';
 
 // material ui
 import { Error as ErrorIcon, OpenInNew } from '@mui/icons-material';

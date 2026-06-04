@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { type ReactNode, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import {
   FileCopyOutlined as FileCopyOutlinedIcon,

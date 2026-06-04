@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router';
 
 import { Mail as MailIcon } from '@mui/icons-material';
 import { Button, CircularProgress, IconButton, Typography, alpha } from '@mui/material';

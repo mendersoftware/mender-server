@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { ReactElement } from 'react';
-import { Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from 'react-router';
 
 import AuditLogs from '../components/auditlogs/AuditLogs';
 import Dashboard from '../components/dashboard/Dashboard';

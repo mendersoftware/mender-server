@@ -14,7 +14,7 @@
 import type { MouseEvent } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router';
 
 // material ui
 import {
