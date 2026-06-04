@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import { Alert, Button, Chip, TextField, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
 import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
@@ -27,7 +28,7 @@ import storeActions from '@northern.tech/store/actions';
 import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { editUser, saveUserSettings, verifyEmailStart } from '@northern.tech/store/thunks';
+import { editUser, passwordResetStart, saveUserSettings, verifyEmailStart } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import AccessTokenManagement from '../AccessTokenManagement';
@@ -60,6 +61,8 @@ export const SelfUserManagement = () => {
 
   const { isHosted } = useSelector(getFeatures);
   const isEnterprise = useSelector(getIsEnterprise);
+  const [confirmUnlink, setConfirmUnlink] = useState(false);
+  const [resetNotice, setResetNotice] = useState(false);
   const canHave2FA = isEnterprise || isHosted;
   const currentUser = useSelector(getCurrentUser);
   const { isOAuth2, provider } = getUserSSOState(currentUser);
@@ -83,6 +86,12 @@ export const SelfUserManagement = () => {
     }
   };
 
+  const handleUnlinkConfirmed = () => {
+    dispatch(passwordResetStart(email))
+      .unwrap()
+      .then(() => setResetNotice(true));
+  };
+
   const handleEmail = () => setEditEmail(toggle);
 
   const toggleMode = () => {
@@ -100,7 +109,35 @@ export const SelfUserManagement = () => {
   const needsVerification = currentUser.email && !currentUser.verified;
   return (
     <div className={`margin-top-small ${classes.widthLimit}`}>
-      <h2 className="margin-top-small">My profile</h2>
+      <Typography variant="h6" className="margin-top-small">
+        My profile
+      </Typography>
+      {resetNotice && (
+        <Alert className="margin-bottom-small" severity="warning" onClose={() => setResetNotice(false)}>
+          We&rsquo;ve sent a reset password link. Please check your email.
+        </Alert>
+      )}
+
+      {isOAuth2 && (
+        <Alert severity="info" className="margin-top-small margin-bottom-small">
+          Your Mender account is currently linked to your {provider.name} account. If you unlink these accounts, your Mender account password will be reset, and
+          you will then be able to change your email address or login method.
+        </Alert>
+      )}
+      {confirmUnlink && (
+        <ConfirmModal
+          open
+          header={`Unlink your ${provider.name} account`}
+          description={
+            <>
+              Please confirm that you would like to unlink your account. If you proceed, we’ll send an email to <b>{email}</b> with instructions for resetting
+              your Mender account password.
+            </>
+          }
+          onConfirm={handleUnlinkConfirmed}
+          close={() => setConfirmUnlink(false)}
+        />
+      )}
       {needsVerification && (
         <Alert severity="warning" className="margin-bottom">
           Enhance your account security. We recommend you complete these essential steps:{' '}
@@ -116,7 +153,7 @@ export const SelfUserManagement = () => {
         </Alert>
       )}
       {confirmationShown && <EmailVerificationConfirmation onClose={() => setConfirmationShown(false)} email={email} />}
-      <UserId className="margin-bottom-none" userId={userId} />
+      <UserId className="margin-bottom-none margin-top-small" userId={userId} />
       {!editEmail && email ? (
         <>
           <div className="flexbox space-between margin-bottom-small">
@@ -184,19 +221,16 @@ export const SelfUserManagement = () => {
             </Form>
           </>
         ))}
-      <ToggleSetting className="margin-top" title="Enable dark theme" onClick={toggleMode} value={isDarkMode} />
       {!isOAuth2 ? (
         canHave2FA && <TwoFactorAuthSetup setShowNotice={setShowNotice} needsVerification={needsVerification} />
       ) : (
-        <div className="flexbox margin-top">
-          <div className={classes.oauthIcon}>{provider.icon}</div>
-          <div className="info">
-            You are logging in using your <strong>{provider.name}</strong> account.
-            <br />
-            Please connect to {provider.name} to update your login settings.
-          </div>
+        <div className="margin-top-x-small">
+          <Button color="neutral" variant="outlined" startIcon={provider.icon} onClick={() => setConfirmUnlink(true)}>
+            Unlink from {provider.name}
+          </Button>
         </div>
       )}
+      <ToggleSetting className="margin-top" title="Enable dark theme" onClick={toggleMode} value={isDarkMode} />
       <div className={`flexbox space-between ${classes.sessionTokenSection}`}>
         <div className={classes.jwt}>
           <div className="help-content">Session token</div>

@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import type { FormEvent } from 'react';
+import type { FormEvent, ReactNode } from 'react';
 import { useState } from 'react';
 
 import type { DialogProps } from '@mui/material';
@@ -23,12 +23,12 @@ interface ConfirmModalProps {
   className?: string;
   close: () => void;
   confirmButtonText?: string;
-  description: string;
+  description: ReactNode;
   header: string;
   maxWidth?: DialogProps['maxWidth'];
   onConfirm: () => void;
   open: boolean;
-  toType: string;
+  toType?: string;
 }
 export const ConfirmModal = (props: ConfirmModalProps) => {
   const { close, onConfirm, className = '', toType, header, description, open, maxWidth = 'xs', confirmButtonText = 'Confirm' } = props;
