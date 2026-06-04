@@ -113,7 +113,7 @@ export default defineConfig(
         },
         server: {
           deps: {
-            inline: [/@northern\.tech\/store/]
+            inline: [/@northern\.tech\/store/, /@northern\.tech\/testing/]
           }
         },
         env: {
