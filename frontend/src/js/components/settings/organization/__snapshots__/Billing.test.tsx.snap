@@ -514,7 +514,7 @@ exports[`Billing Component > renders correctly 1`] = `
         class="flexbox column"
       >
         <div
-          class="flexbox column settings-item-base emotion-1 margin-top-small "
+          class="flexbox column settings-item-base emotion-1 margin-top "
         >
           <div
             class="flexbox column settings-item-content emotion-1 emotion-3 "
@@ -553,7 +553,7 @@ exports[`Billing Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="flexbox column settings-item-base emotion-1 margin-top-small "
+          class="flexbox column settings-item-base emotion-1 margin-top "
         >
           <div
             class="flexbox column settings-item-content emotion-1 emotion-3 "
@@ -578,7 +578,7 @@ exports[`Billing Component > renders correctly 1`] = `
           class="padding-small padding-top-none margin-top margin-bottom emotion-13"
         >
           <div
-            class="flexbox column settings-item-base emotion-1 margin-top-small "
+            class="flexbox column settings-item-base emotion-1 margin-top "
           >
             <div
               class="flexbox column settings-item-content emotion-1 emotion-3 "

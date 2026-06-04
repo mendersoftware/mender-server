@@ -39,7 +39,7 @@ exports[`SettingsItem Component > renders correctly with string title 1`] = `
 }
 
 <div
-  class="flexbox column settings-item-base emotion-0 margin-top-small "
+  class="flexbox column settings-item-base emotion-0 margin-top "
 >
   <div
     class="flexbox column settings-item-content emotion-0 emotion-2 "
@@ -91,7 +91,7 @@ exports[`SettingsItem Component > renders correctly without secondary 1`] = `
 }
 
 <div
-  class="flexbox column settings-item-base emotion-0 margin-top-small "
+  class="flexbox column settings-item-base emotion-0 margin-top "
 >
   <div
     class="flexbox column settings-item-content emotion-0 emotion-2 "
@@ -358,7 +358,7 @@ exports[`ToggleSettingsItem Component > renders correctly 1`] = `
 }
 
 <div
-  class="flexbox column settings-item-base emotion-0 margin-top-small "
+  class="flexbox column settings-item-base emotion-0 margin-top "
 >
   <div
     class="flexbox column settings-item-content emotion-0 emotion-2 "

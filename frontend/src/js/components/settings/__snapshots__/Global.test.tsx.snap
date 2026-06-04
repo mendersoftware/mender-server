@@ -27,7 +27,6 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  gap: 32px;
 }
 
 .emotion-3 {
@@ -1222,7 +1221,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
     Global settings
   </h6>
   <p
-    class="MuiTypography-root MuiTypography-body2 margin-top-x-small margin-bottom-large emotion-1"
+    class="MuiTypography-root MuiTypography-body2 margin-top-x-small emotion-1"
   >
     Global settings are applied organization-wide. Modifying these settings will affect all users.
   </p>
@@ -1233,7 +1232,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
       style="max-width: 750px;"
     >
       <div
-        class="flexbox column settings-item-base emotion-3 margin-top-small "
+        class="flexbox column settings-item-base emotion-3 margin-top "
       >
         <div
           class="flexbox column settings-item-content emotion-3 emotion-5 "
@@ -1320,7 +1319,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
       </div>
     </div>
     <div
-      class="flexbox column settings-item-base emotion-3 margin-top-small "
+      class="flexbox column settings-item-base emotion-3 margin-top "
     >
       <div
         class="flexbox column settings-item-content emotion-3 emotion-5 "
@@ -1365,7 +1364,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
       </div>
     </div>
     <div
-      class="flexbox column settings-item-base emotion-3 margin-top-small "
+      class="flexbox column settings-item-base emotion-3 margin-top "
     >
       <div
         class="flexbox column settings-item-content emotion-3 emotion-5 "
@@ -1491,7 +1490,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
       </div>
     </div>
     <div
-      class="flexbox column settings-item-base emotion-3 margin-top-small "
+      class="flexbox column settings-item-base emotion-3 margin-top "
     >
       <div
         class="flexbox column settings-item-content emotion-3 emotion-5 "
@@ -1538,7 +1537,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
       </div>
     </div>
     <div
-      class="flexbox column settings-item-base emotion-3 margin-top-small "
+      class="flexbox column settings-item-base emotion-3 margin-top "
     >
       <div
         class="flexbox column settings-item-content emotion-3 emotion-5 "
@@ -1664,7 +1663,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
       </div>
     </div>
     <div
-      class="flexbox column settings-item-base emotion-3 margin-top-small "
+      class="flexbox column settings-item-base emotion-3 margin-top "
     >
       <div
         class="flexbox column settings-item-content emotion-3 emotion-5 "

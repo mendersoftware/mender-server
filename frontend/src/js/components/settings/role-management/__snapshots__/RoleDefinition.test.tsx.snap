@@ -212,7 +212,7 @@ exports[`Roles Component > renders correctly 1`] = `
 }
 
 .emotion-7 .MuiSelect-root {
-  min-width: 400px;
+  min-width: 550px;
 }
 
 .emotion-7 .permission-scope-select {
@@ -234,7 +234,7 @@ exports[`Roles Component > renders correctly 1`] = `
   margin: 0;
   border: 0;
   vertical-align: top;
-  max-width: 400px;
+  max-width: 550px;
 }
 
 .emotion-10 {
