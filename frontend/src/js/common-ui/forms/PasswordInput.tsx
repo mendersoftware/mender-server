@@ -14,7 +14,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
-import { CheckCircle as CheckIcon, Visibility as VisibilityIcon, VisibilityOff as VisibilityOffIcon } from '@mui/icons-material';
+import { Visibility as VisibilityIcon, VisibilityOff as VisibilityOffIcon } from '@mui/icons-material';
 import { Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
@@ -35,12 +35,8 @@ const PasswordGenerateButtons = ({ clearPass, edit, generatePass, disabled }) =>
 
 const SCORE_THRESHOLD = 3;
 
-const PasswordGenerationControls = ({ score, feedback }) => (
+const PasswordGenerationControls = ({ feedback }) => (
   <>
-    <div className="help-text" id="pass-strength">
-      Strength: <meter max={4} min={0} value={score} high={3.9} optimum={4} low={2.5} />
-      {score > SCORE_THRESHOLD ? <CheckIcon className="fadeIn green" style={{ height: 18, marginTop: -3, marginBottom: -3 }} /> : null}
-    </div>
     {!!feedback.length && (
       <p className="help-text">
         {feedback.map((message, index) => (
@@ -72,7 +68,6 @@ export const PasswordInput = ({
   required,
   validations = ''
 }) => {
-  const [score, setScore] = useState(0);
   const [visible, setVisible] = useState(false);
   const [copied, setCopied] = useState(false);
   const [feedback, setFeedback] = useState([]);
@@ -109,13 +104,11 @@ export const PasswordInput = ({
       }
       // always calculate score to always give feedback on a cleared input
       const { default: zxcvbn } = await import(/* webpackChunkName: "zxcvbn" */ 'zxcvbn');
-      const strength = zxcvbn(value);
-      const score = strength.score;
-      setScore(score);
+      const { score, feedback } = zxcvbn(value);
       if (!create || (!required && !value)) {
         return isValid || errortext;
       }
-      setFeedback(strength.feedback.suggestions || []);
+      setFeedback(feedback.suggestions || []);
       return (score > SCORE_THRESHOLD && isValid) || errortext;
     },
     [clearErrors, create, disabled, errorKey, id, required, setError, validations]
@@ -211,7 +204,7 @@ export const PasswordInput = ({
       {copied ? <div className="green fadeIn margin-bottom-small">Copied to clipboard</div> : null}
       {create && (
         <>
-          <PasswordGenerationControls feedback={feedback} score={score} />
+          <PasswordGenerationControls feedback={feedback} />
           {generate && required && <PasswordGenerateButtons disabled={disabled} clearPass={clearPassClick} edit={edit} generatePass={generatePassClick} />}
         </>
       )}
