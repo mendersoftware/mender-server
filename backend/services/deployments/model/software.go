@@ -25,17 +25,33 @@ func (s SoftwareTagsFilter) Validate() error {
 
 type Software struct {
 	ReleaseBase `bson:"inline"`
+	Artifacts   []Image `json:"-" bson:"artifacts"`
 }
 
-// custom marshal to include the kind in the response
+// custom marshal to include the kind and compatible_types in the response
 func (s Software) MarshalJSON() ([]byte, error) {
+	var compatible_types []string
+	for _, a := range s.Artifacts {
+		compatible_types = append(
+			compatible_types,
+			a.DeviceTypesCompatible...,
+		)
+	}
+
 	type Alias Software
 	return json.Marshal(&struct {
 		Alias
 		Kind ReleaseKind `json:"kind"` // expose Kind
+		// CompatibleTypes is the external name adopted by `mender-artifact`
+		// for what is still `device_types_compatible` in the actual artifact
+		// format. The reason for the name change is that `device_types_compatible``
+		// can also hold `system_types_compatible` in the case where the Software
+		// (aka Artifact) is a Manifest
+		CompatibleTypes []string `json:"compatible_types"`
 	}{
-		Alias: (Alias)(s),
-		Kind:  s.ReleaseBase.Kind,
+		Alias:           (Alias)(s),
+		Kind:            s.ReleaseBase.Kind,
+		CompatibleTypes: compatible_types,
 	})
 }
 
