@@ -8821,6 +8821,15 @@ components:
           description: Last modification time for the Software.
           format: date-time
           type: string
+        compatible_types:
+          description: |
+            The "types" compatible with at least one of the Artifacts of 
+            the Software.  If the kind of Software is 'release', these types are 
+            "device types" while they are "system types" in the case of 'manifest'
+            Software kind.
+          type: array
+          items:
+            type: string
         kind:
           enum:
             - release

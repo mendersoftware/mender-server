@@ -30,10 +30,11 @@ class Software(BaseModel):
     """ # noqa: E501
     name: StrictStr = Field(description="The name of the Software.")
     modified: Optional[datetime] = Field(default=None, description="Last modification time for the Software.")
+    compatible_types: Optional[List[StrictStr]] = Field(default=None, description="The \"types\" compatible with at least one of the Artifacts of  the Software.  If the kind of Software is 'release', these types are  \"device types\" while they are \"system types\" in the case of 'manifest' Software kind. ")
     kind: StrictStr
     tags: Optional[List[StrictStr]] = Field(default=None, description="Tags assigned to the Software used for filtering. Each tag must be valid a ASCII string and contain only lowercase and uppercase letters, digits, underscores, periods and hyphens.")
     notes: Optional[StrictStr] = Field(default=None, description="Additional information describing a Software limited to 1024 characters. ")
-    __properties: ClassVar[List[str]] = ["name", "modified", "kind", "tags", "notes"]
+    __properties: ClassVar[List[str]] = ["name", "modified", "compatible_types", "kind", "tags", "notes"]
 
     @field_validator('kind')
     def kind_validate_enum(cls, value):
@@ -95,6 +96,7 @@ class Software(BaseModel):
         _obj = cls.model_validate({
             "name": obj.get("name"),
             "modified": obj.get("modified"),
+            "compatible_types": obj.get("compatible_types"),
             "kind": obj.get("kind"),
             "tags": obj.get("tags"),
             "notes": obj.get("notes")
