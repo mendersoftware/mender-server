@@ -142,6 +142,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 			})
 
 		}
+
 		// create a release with update type
 		name := fmt.Sprintf("test-not-a-manifest-%s", uuid.NewString())
 		i := handlers.NewModuleImage("definitely-not-a-manifest")
@@ -184,6 +185,36 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		// there shoud be minimum 3 softwares.
 		require.True(u.T(), len(softwares) > 2)
 		require.NotEmpty(u.T(), res.Header.Get("X-Total-Count"))
+	})
+
+	u.Run("Success/CompatibleTypes", func() {
+		var (
+			ctx     = common.JWTAuthContext(u.T().Context(), u.JWT)
+			require = require.New(u.T())
+		)
+
+		// add second artifact to first release
+		i := handlers.NewModuleImage("single-file")
+		artifact, err := createArtifact(
+			allSoftwares[0].Name,
+			u.T(),
+			withModuleImage(i),
+			withCompatibleDevices([]string{"device-type-2"}),
+		)
+		require.NoError(err)
+		_, err = u.uploadArtifact(ctx, artifact, nil)
+		require.NoError(err)
+
+		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
+			GetDeploymentSoftware(ctx).
+			Name([]string{allSoftwares[0].Name}).
+			Execute()
+		require.NoError(err)
+		require.Len(softwares, 1, "expected one software to be returned")
+		require.ElementsMatch(
+			[]string{"device-type-1", "device-type-2"},
+			softwares[0].GetCompatibleTypes(),
+		)
 	})
 
 	u.Run("Success/FilterExactName", func() {
@@ -345,13 +376,9 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 	u.Run("Success/Sort", func() {
 		ctx := u.T().Context()
-		createdOrder := []client.Software{
-			allSoftwares[0], allSoftwares[1],
-		}
-		reversedOrder := []client.Software{
-			allSoftwares[1], allSoftwares[0],
-		}
+
 		// name:asc is the default, we don't need to test it
+		nameDescOrder := []client.Software{allSoftwares[1], allSoftwares[0]}
 		softwares, _, err := u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Sort("name:desc").
@@ -359,7 +386,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 			Execute()
 		require.NoError(u.T(), err)
 
-		err = compareSoftwares(softwares, reversedOrder...)
+		err = compareSoftwares(softwares, nameDescOrder...)
 		require.NoError(u.T(), err)
 
 		softwares, _, err = u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
@@ -369,9 +396,11 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 			Execute()
 		require.NoError(u.T(), err)
 
-		err = compareSoftwares(softwares, createdOrder...)
+		updatedOrder := []client.Software{allSoftwares[1], allSoftwares[0]}
+		err = compareSoftwares(softwares, updatedOrder...)
 		require.NoError(u.T(), err)
 
+		updatedDescOrder := []client.Software{allSoftwares[0], allSoftwares[1]}
 		softwares, _, err = u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			Sort("modified:desc").
@@ -379,7 +408,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 			Execute()
 		require.NoError(u.T(), err)
 
-		err = compareSoftwares(softwares, reversedOrder...)
+		err = compareSoftwares(softwares, updatedDescOrder...)
 		require.NoError(u.T(), err)
 	})
 }
