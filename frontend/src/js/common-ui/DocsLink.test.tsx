@@ -26,7 +26,7 @@ describe('DocsTextLink Component', () => {
   });
 
   it('renders custom children', () => {
-    render(<DocsTextLink id="rbac">Read the docs</DocsTextLink>);
+    render(<DocsTextLink id="releases">Read the docs</DocsTextLink>);
     expect(screen.getByText('Read the docs')).toBeInTheDocument();
   });
 });
