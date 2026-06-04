@@ -260,13 +260,13 @@ export const DeviceGroups = () => {
 
   const onShowDeviceStateClick = state => {
     dispatch(selectGroup());
-    dispatch(setDeviceListState({ state }));
+    dispatch(setDeviceListState({ state, filterSelection: undefined }));
   };
 
   const onGroupSelect = groupName => {
     setGroupRemoved('');
     dispatch(selectGroup({ group: groupName }));
-    dispatch(setDeviceListState({ page: 1, refreshTrigger: !refreshTrigger, selection: [] }));
+    dispatch(setDeviceListState({ page: 1, refreshTrigger: !refreshTrigger, selection: [], filterSelection: undefined }));
   };
 
   const toggleGroupRemoval = () => setRemoveGroup(toggle);
