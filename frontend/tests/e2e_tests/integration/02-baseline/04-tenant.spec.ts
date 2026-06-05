@@ -80,7 +80,7 @@ test.describe('Tenant Functionality', () => {
     await page.locator('#mui-component-select-tenantManagement').click();
     await page.getByRole('option', { name: 'Manage' }).click();
     await page.locator('#menu-tenantManagement > .MuiBackdrop-root').click();
-    await page.getByRole('button', { name: /Submit/i }).click();
+    await page.getByRole('button', { name: /save/i }).click();
     await expect(page.getByText('SP_tenant_role')).toBeVisible();
   });
   test('remove a tenant Role', async ({ baseUrl, page }) => {

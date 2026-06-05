@@ -74,8 +74,8 @@ test.describe('RBAC functionality', () => {
       await dialog.locator(`[id="mui-component-select-groups.0.uiPermissions"]`).click();
       await page.getByText('Configure').click();
       await page.press('body', 'Escape');
-      await dialog.getByRole('button', { name: /submit/i }).scrollIntoViewIfNeeded();
-      await dialog.getByRole('button', { name: /submit/i }).click();
+      await dialog.getByRole('button', { name: /save/i }).scrollIntoViewIfNeeded();
+      await dialog.getByRole('button', { name: /save/i }).click();
       await page.getByText(/role was created/i).waitFor();
     });
     test('allows role creation for release tags', async ({ page }) => {
@@ -100,8 +100,8 @@ test.describe('RBAC functionality', () => {
           await page.getByRole('option', { name: permission }).click();
         }
         await page.press('body', 'Escape');
-        await dialog.getByRole('button', { name: /submit/i }).scrollIntoViewIfNeeded();
-        await dialog.getByRole('button', { name: /submit/i }).click();
+        await dialog.getByRole('button', { name: /save/i }).scrollIntoViewIfNeeded();
+        await dialog.getByRole('button', { name: /save/i }).click();
         await page.getByText('The role was created successfully.').waitFor();
         await page.waitForTimeout(timeouts.default);
       }
