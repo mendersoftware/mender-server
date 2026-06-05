@@ -17,14 +17,14 @@ import type { FieldValues, UseFormSetValue } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 
 // material ui
-import { Button, Divider, InputLabel } from '@mui/material';
+import { Button, Divider, Typography, selectClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import Form from '@northern.tech/common-ui/forms/Form';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import type { PermissionsArea, UiPermission, UiRoleDefinition } from '@northern.tech/store/constants';
+import type { PermissionsArea, UiPermission } from '@northern.tech/store/constants';
 import {
   ALL_DEVICES,
   ALL_RELEASES,
@@ -35,19 +35,32 @@ import {
   uiPermissionsByArea,
   uiPermissionsById
 } from '@northern.tech/store/constants';
+import type { UiRoleDefinition } from '@northern.tech/utils/constants';
 import { deepCompare } from '@northern.tech/utils/helpers';
 import type { AsyncThunkAction } from '@reduxjs/toolkit';
 
+import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH } from '../constants';
 import type { ItemScope, ItemSelectionType, ScopedUiPermissions } from './PermissionsItems';
 import { ItemSelection, PermissionsItem, emptyItemSelection } from './PermissionsItems';
 import type { PermissionsSelectionBaseProps } from './PermissionsSelect';
 
 const useStyles = makeStyles()(theme => ({
-  buttons: { '&.flexbox.centered': { justifyContent: 'flex-end' } },
   roleDeletion: { marginRight: theme.spacing(2) },
-  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(2), paddingTop: theme.spacing(4) },
-  permissionSelect: { marginLeft: theme.spacing(-1.5) },
-  permissionsTitle: { marginBottom: theme.spacing(-1), minHeight: theme.spacing(3) }
+  formWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(3),
+    paddingTop: theme.spacing(4),
+    maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
+    [`.${selectClasses.root}`]: {
+      minWidth: SETTINGS_INPUT_WIDTH
+    },
+    '.permission-scope-select': {
+      minWidth: 220,
+      marginRight: theme.spacing(2)
+    }
+  },
+  inputWidth: { maxWidth: SETTINGS_INPUT_WIDTH }
 }));
 
 type FormValues = FieldValues & {
@@ -216,31 +229,35 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
 
   return (
     <>
-      <TextInput
-        className="margin-top-none"
-        disabled={disableEdit || editing}
-        id="name"
-        label="Name"
-        required
-        validations="isAlphanumericLocator,isLength:1:256"
-        value={name}
-      />
-      <TextInput className="margin-top-none" disabled={disableEdit} label="Description" id="description" InputProps={{ multiline: true }} hint="-" />
-      <InputLabel className={`margin-top ${classes.permissionsTitle}`} shrink>
-        Permissions
-      </InputLabel>
+      <div>
+        <Typography variant="subtitle1">Name</Typography>
+        <TextInput
+          className={classes.inputWidth}
+          disabled={disableEdit || editing}
+          id="name"
+          label="Name"
+          required
+          validations="isAlphanumericLocator,isLength:1:256"
+          value={name}
+        />
+      </div>
+      <div>
+        <Typography variant="subtitle1">Description</Typography>
+        <TextInput className={classes.inputWidth} disabled={disableEdit} label="Description" id="description" InputProps={{ multiline: true }} hint="-" />
+      </div>
+      <Typography variant="subtitle1">Permissions</Typography>
       {isServiceProvider ? (
         <ServiceProviderPermissionSelection disabled={disableEdit} />
       ) : (
         <DefaultPermissionSelection disabled={disableEdit} groups={stateGroups} releases={stateReleases} setValue={setValue} />
       )}
-      <Divider className="margin-top-large" />
-      <div className={`flexbox centered margin-top ${classes.buttons}`}>
+      <Divider className="margin-top-medium" />
+      <div className="flexbox">
         <Button className="margin-right" onClick={onCancel}>
-          Cancel
+          {disableEdit ? 'Close' : 'Cancel'}
         </Button>
         <Button variant="contained" type="submit" disabled={isSubmitDisabled}>
-          Submit
+          Save
         </Button>
       </div>
     </>

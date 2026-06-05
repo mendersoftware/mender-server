@@ -56,11 +56,9 @@ interface IPermissionsItem extends PermissionsSelectionBaseProps {
   area: PermissionsArea;
 }
 
-const formWidth = 500;
-
 export const PermissionsItem: FunctionComponent<IPermissionsItem> = ({ area, disabled }) => (
-  <div className="two-columns align-items-center margin-left-small" style={{ maxWidth: formWidth }}>
-    <PermissionsAreaTitle title={area.title} explanation={area.explanation} />
+  <div>
+    <PermissionsAreaTitle className="margin-bottom-small" title={area.title} explanation={area.explanation} />
     <PermissionsSelect disabled={disabled} options={area.uiPermissions} permissionsArea={area} unscoped />
   </div>
 );
@@ -108,6 +106,7 @@ const ScopeSelect: FunctionComponent<IScopedPermissionSelect> = ({ disabled, per
         control={control}
         render={({ field }) => (
           <Select
+            className="permission-scope-select"
             disabled={disabled}
             label={label}
             labelId={`${key}-scope-selection-select-label`}
@@ -153,8 +152,8 @@ const ScopedPermissionsItem: FunctionComponent<Omit<IScopedPermissionSelect, 'na
 
   const disabled = disableEdit || itemSelection.disableEdit;
   return (
-    <div className={`margin-left-small ${classes.scopedPermissionItem}`}>
-      <div className="two-columns align-items-center" style={{ maxWidth: formWidth }}>
+    <div className={classes.scopedPermissionItem}>
+      <div className="flexbox align-items-center">
         <ScopeSelect
           disabled={disabled}
           permissionsArea={permissionsArea}
@@ -206,8 +205,8 @@ export const ItemSelection: FunctionComponent<IItemSelection> = ({ disabled, opt
   );
 
   return (
-    <>
-      <PermissionsAreaTitle className="margin-left-small margin-top-small" explanation={explanation} title={title} />
+    <div>
+      <PermissionsAreaTitle className="margin-bottom-small" explanation={explanation} title={title} />
       {controlledFields.map((field, index) => (
         <ScopedPermissionsItem
           key={field.id}
@@ -219,6 +218,6 @@ export const ItemSelection: FunctionComponent<IItemSelection> = ({ disabled, opt
           onChange={onItemPermissionSelectChange}
         />
       ))}
-    </>
+    </div>
   );
 };

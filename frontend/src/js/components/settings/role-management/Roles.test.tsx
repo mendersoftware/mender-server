@@ -76,7 +76,7 @@ describe('Roles Component', () => {
     let listItem = within(listbox).getByText(/read/i);
     await user.click(listItem);
 
-    const submitButton = screen.getByRole('button', { name: /submit/i, hidden: true });
+    const submitButton = screen.getByRole('button', { name: /save/i, hidden: true });
     expect(submitButton).toBeDisabled();
     listItem = within(listbox).getByText(/deploy/i);
     await user.click(listItem);
