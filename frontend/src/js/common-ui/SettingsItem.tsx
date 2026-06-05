@@ -17,6 +17,8 @@ import { Typography } from '@mui/material';
 import { FormControlLabel, Switch } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { SETTINGS_CONTENT_MAX_WIDTH } from '../components/settings/constants';
+
 type SettingsItemClasses = {
   base: string;
   content: string;
@@ -32,7 +34,7 @@ export interface SettingsItemProps {
   title: string | ReactNode;
 }
 
-export const maxWidth = 750;
+export const maxWidth = SETTINGS_CONTENT_MAX_WIDTH;
 
 const useStyles = makeStyles()(({ spacing }) => ({
   base: { gap: spacing(1) },
