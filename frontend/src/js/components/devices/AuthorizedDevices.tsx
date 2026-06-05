@@ -259,7 +259,15 @@ export const Authorized = ({
     newState => {
       changeLocation(newState);
       dispatch(
-        setDeviceListState({ state: newState, page: 1, refreshTrigger: !refreshTrigger, shouldSelectDevices: true, forceRefresh: false, fetchAuth: false })
+        setDeviceListState({
+          state: newState,
+          page: 1,
+          refreshTrigger: !refreshTrigger,
+          shouldSelectDevices: true,
+          forceRefresh: false,
+          fetchAuth: false,
+          filterSelection: undefined
+        })
       );
     },
     [dispatch, changeLocation, refreshTrigger]
@@ -384,7 +392,9 @@ export const Authorized = ({
         updatedFilters.push({ key: 'tier', scope: 'system', operator: DEVICE_FILTERING_OPTIONS.$eq.key, value: tier });
       }
       dispatch(setDeviceFilters(updatedFilters));
-      dispatch(setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true, fetchAuth: false }));
+      dispatch(
+        setDeviceListState({ selectedId: undefined, page: 1, shouldSelectDevices: true, forceRefresh: true, fetchAuth: false, filterSelection: undefined })
+      );
     },
     [dispatch, filters]
   );
