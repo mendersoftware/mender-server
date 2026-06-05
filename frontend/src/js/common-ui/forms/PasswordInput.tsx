@@ -66,7 +66,8 @@ export const PasswordInput = ({
   onClear,
   placeholder,
   required,
-  validations = ''
+  validations = '',
+  width = 400
 }) => {
   const [visible, setVisible] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -164,7 +165,7 @@ export const PasswordInput = ({
           control={control}
           rules={{ required, validate }}
           render={({ field: { value, onChange, onBlur, ref }, fieldState: { error } }) => (
-            <FormControl className={required ? 'required' : ''} error={Boolean((error || errors[errorKey])?.message)} style={{ width: 400 }}>
+            <FormControl className={required ? 'required' : ''} error={Boolean((error || errors[errorKey])?.message)} style={{ width }}>
               <InputLabel htmlFor={id} {...InputLabelProps}>
                 {label}
               </InputLabel>
