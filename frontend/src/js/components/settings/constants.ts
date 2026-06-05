@@ -14,4 +14,4 @@
 
 export const SETTINGS_CONTENT_MAX_WIDTH = 750;
 export const SETTINGS_FORM_MAX_WIDTH = 620;
-export const SETTINGS_INPUT_WIDTH = 400;
+export const SETTINGS_INPUT_WIDTH = 550;
