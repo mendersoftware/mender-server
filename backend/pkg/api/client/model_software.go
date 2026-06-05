@@ -26,6 +26,8 @@ type Software struct {
 	Name string `json:"name"`
 	// Last modification time for the Software.
 	Modified *time.Time `json:"modified,omitempty"`
+	// The \"types\" compatible with at least one of the Artifacts of  the Software.  If the kind of Software is 'release', these types are  \"device types\" while they are \"system types\" in the case of 'manifest' Software kind. 
+	CompatibleTypes []string `json:"compatible_types,omitempty"`
 	Kind string `json:"kind"`
 	// Tags assigned to the Software used for filtering. Each tag must be valid a ASCII string and contain only lowercase and uppercase letters, digits, underscores, periods and hyphens.
 	Tags []string `json:"tags,omitempty"`
@@ -109,6 +111,38 @@ func (o *Software) HasModified() bool {
 // SetModified gets a reference to the given time.Time and assigns it to the Modified field.
 func (o *Software) SetModified(v time.Time) {
 	o.Modified = &v
+}
+
+// GetCompatibleTypes returns the CompatibleTypes field value if set, zero value otherwise.
+func (o *Software) GetCompatibleTypes() []string {
+	if o == nil || IsNil(o.CompatibleTypes) {
+		var ret []string
+		return ret
+	}
+	return o.CompatibleTypes
+}
+
+// GetCompatibleTypesOk returns a tuple with the CompatibleTypes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Software) GetCompatibleTypesOk() ([]string, bool) {
+	if o == nil || IsNil(o.CompatibleTypes) {
+		return nil, false
+	}
+	return o.CompatibleTypes, true
+}
+
+// HasCompatibleTypes returns a boolean if a field has been set.
+func (o *Software) HasCompatibleTypes() bool {
+	if o != nil && !IsNil(o.CompatibleTypes) {
+		return true
+	}
+
+	return false
+}
+
+// SetCompatibleTypes gets a reference to the given []string and assigns it to the CompatibleTypes field.
+func (o *Software) SetCompatibleTypes(v []string) {
+	o.CompatibleTypes = v
 }
 
 // GetKind returns the Kind field value
@@ -213,6 +247,9 @@ func (o Software) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Modified) {
 		toSerialize["modified"] = o.Modified
 	}
+	if !IsNil(o.CompatibleTypes) {
+		toSerialize["compatible_types"] = o.CompatibleTypes
+	}
 	toSerialize["kind"] = o.Kind
 	if !IsNil(o.Tags) {
 		toSerialize["tags"] = o.Tags
@@ -266,6 +303,7 @@ func (o *Software) UnmarshalJSON(data []byte) (err error) {
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "modified")
+		delete(additionalProperties, "compatible_types")
 		delete(additionalProperties, "kind")
 		delete(additionalProperties, "tags")
 		delete(additionalProperties, "notes")
