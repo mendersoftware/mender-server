@@ -32,7 +32,7 @@ export const DrawerTitle: FunctionComponent<DrawerTitleProps> = ({ onClose, onLi
       </Typography>
       {onLinkCopy && (
         <Tooltip title="Copy link">
-          <IconButton onClick={onLinkCopy} size="large">
+          <IconButton className="margin-left-x-small" onClick={onLinkCopy} size="large">
             <LinkIcon />
           </IconButton>
         </Tooltip>

@@ -34,7 +34,7 @@ import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import FileSize from '@northern.tech/common-ui/FileSize';
 import { BaseQuickActions, type QuickAction } from '@northern.tech/common-ui/QuickActions';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
-import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
@@ -50,7 +50,6 @@ import pluralize from 'pluralize';
 import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 import Artifact from './Artifact';
-import RemoveArtifactDialog from './dialogs/RemoveArtifact';
 
 const { setSnackbar } = storeActions;
 
@@ -313,11 +312,7 @@ export const ReleaseDetails = () => {
       slotProps={{
         paper: { ref: drawerRef },
         header: {
-          title: (
-            <>
-              Release information for <div className="margin-left-small margin-right-small">{releaseName}</div>
-            </>
-          ),
+          title: `Release information for ${releaseName}`,
           onLinkCopy: copyLinkToClipboard,
           preCloser: (
             <>
@@ -331,7 +326,6 @@ export const ReleaseDetails = () => {
       }}
     >
       <ColumnWidthProvider>
-        <TwoColumnData data={{ Name: release.name }} />
         <ReleaseNotes onChange={onReleaseNotesChanged} release={release} />
         <ReleaseTags existingTags={existingTags} onChange={onTagSelectionChanged} release={release} userCapabilities={userCapabilities} />
         <ArtifactsList
