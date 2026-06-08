@@ -29,6 +29,7 @@ import { makeStyles } from 'tss-react/mui';
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/Confirm';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import FileSize from '@northern.tech/common-ui/FileSize';
@@ -335,13 +336,26 @@ export const ReleaseDetails = () => {
           setShowRemoveArtifactDialog={setShowRemoveArtifactDialog}
         />
       </ColumnWidthProvider>
-      <RemoveArtifactDialog
-        artifact={selectedArtifact}
+      <ConfirmModal
+        header="Remove this artifact?"
+        description="Are you sure you want to remove this artifact?"
+        confirmButtonText="Remove"
         open={!!showRemoveDialog}
-        onCancel={() => setShowRemoveArtifactDialog(false)}
-        onRemove={() => onRemoveArtifact(selectedArtifact)}
+        close={() => setShowRemoveArtifactDialog(false)}
+        onConfirm={() => onRemoveArtifact(selectedArtifact)}
       />
-      <RemoveArtifactDialog open={!!confirmReleaseDeletion} onRemove={onDeleteRelease} onCancel={onToggleReleaseDeletion} release={release} />
+      <ConfirmModal
+        header="Remove this release?"
+        description={
+          <>
+            All artifacts in the <i>{release.name}</i> release will be removed. Are you sure?
+          </>
+        }
+        confirmButtonText="Remove"
+        open={!!confirmReleaseDeletion}
+        close={onToggleReleaseDeletion}
+        onConfirm={onDeleteRelease}
+      />
       <ReleaseQuickActions actionCallbacks={{ onCreateDeployment, onDeleteRelease: onToggleReleaseDeletion }} />
     </BaseDrawer>
   );
