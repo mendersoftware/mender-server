@@ -127,6 +127,16 @@ func (i *DevAuthApiHandlers) SubmitAuthRequestHandler(c *gin.Context) {
 		return
 	}
 
+	err = utils.VerifyAuthReqSign(signature, authreq.PubKeyStruct, body)
+	if err != nil {
+		rest.RenderErrorWithMessage(c,
+			http.StatusUnauthorized,
+			errors.Cause(err),
+			"signature verification failed",
+		)
+		return
+	}
+
 	token, err := i.app.SubmitAuthRequest(ctx, &authreq)
 	if err != nil {
 		switch {
@@ -150,15 +160,6 @@ func (i *DevAuthApiHandlers) SubmitAuthRequestHandler(c *gin.Context) {
 
 	switch err {
 	case nil:
-		err = utils.VerifyAuthReqSign(signature, authreq.PubKeyStruct, body)
-		if err != nil {
-			rest.RenderErrorWithMessage(c,
-				http.StatusUnauthorized,
-				errors.Cause(err),
-				"signature verification failed",
-			)
-			return
-		}
 		c.Header("Content-Type", "application/jwt")
 		_, _ = c.Writer.Write([]byte(token))
 		return
