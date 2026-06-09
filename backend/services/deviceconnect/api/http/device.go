@@ -298,9 +298,8 @@ func (h DeviceController) handleManagementMessages(
 			for {
 				data, err := s.Recv(ctx)
 				if err != nil {
-					if !errors.Is(err, io.EOF) {
+					if !errors.Is(err, io.EOF) && !errors.Is(err, stream.ErrClosed) {
 						l.Errorf("fatal error on channel: %s", err.Error())
-					} else {
 						select {
 						case errChan <- err:
 						default:
