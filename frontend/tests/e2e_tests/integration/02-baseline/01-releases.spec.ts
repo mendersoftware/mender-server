@@ -70,7 +70,7 @@ test.describe('Files', () => {
     test.describe.configure({ retries: 2 });
     test('allows artifact downloads', async ({ page, request }) => {
       await page.getByText(/mender-demo-artifact/i).click();
-      await page.click('.expandButton');
+      await page.locator('.MuiAccordionSummary-expandIconWrapper').first().click();
       const downloadButton = page.getByText(/download artifact/i);
       await expect(downloadButton).toBeVisible();
       const downloadPromise = page.waitForEvent('download');
@@ -145,7 +145,7 @@ test.describe('Files', () => {
     // and the selector would get confused due to the proximity - so instead we loop over all the divs
     const editButton = drawer.getByRole('heading', { name: 'Tags' }).locator('..').getByRole('button', { name: /edit/i });
     await editButton.click();
-    const input = await page.getByPlaceholder(/enter release tags/i);
+    const input = await page.getByPlaceholder(/add release tags/i);
     await input.pressSequentially('some,tags', { delay: 300 });
     await page.getByRole('button', { name: 'confirm' }).click();
     await page.waitForTimeout(timeouts.oneSecond);
@@ -172,12 +172,12 @@ test.describe('Files', () => {
         }
         await foundTag.getByLabel('tags-delete').click();
       }
-      const input = await page.getByPlaceholder(/enter release tags/i);
+      const input = await page.getByPlaceholder(/add release tags/i);
       await page.getByRole('button', { name: 'confirm' }).click();
       await expect(input).not.toBeVisible();
       await editButton.click();
     }
-    await page.getByPlaceholder(/enter release tags/i).pressSequentially(releaseTag, { delay: 100 });
+    await page.getByPlaceholder(/add release tags/i).pressSequentially(releaseTag, { delay: 100 });
     await page.getByRole('button', { name: 'confirm' }).click();
     await page.getByLabel(/close/i).click();
     await page.waitForTimeout(timeouts.default);
