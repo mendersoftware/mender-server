@@ -22,6 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import { Link } from '@northern.tech/common-ui/Link';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import type { Artifact } from '@northern.tech/store/releasesSlice';
 import { getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { editArtifact, getArtifactInstallCount, getArtifactUrl } from '@northern.tech/store/thunks';
@@ -85,8 +86,12 @@ const DevicesLink = ({ artifact: { installCount }, softwareItem: { key, name, ve
     </Link>
   );
 };
-
-export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) => {
+interface ArtifactDetails {
+  artifact: Artifact;
+  open: boolean;
+  showRemoveArtifactDialog: () => void;
+}
+export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }: ArtifactDetails) => {
   const { classes } = useStyles();
   const [showPayloads, setShowPayloads] = useState(false);
   const [showProvidesDepends, setShowProvidesDepends] = useState(false);
@@ -98,14 +103,12 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
 
   const softwareVersions = useMemo(() => {
     const { software } = extractSoftware(artifact.artifact_provides);
-    return software.reduce((accu, item) => {
-      const infoItems = item[0].split('.');
-      if (infoItems[infoItems.length - 1] !== 'version') {
-        return accu;
-      }
-      accu.push({ key: infoItems[0], name: infoItems.slice(1, infoItems.length - 1).join('.'), version: item[1], nestingLevel: infoItems.length });
-      return accu;
-    }, []);
+    return software
+      .filter(([path]) => path.endsWith('.version'))
+      .map(([path, version]) => {
+        const parts = path.split('.');
+        return { key: parts[0], name: parts.slice(1, -1).join('.'), version, nestingLevel: parts.length };
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(artifact.artifact_provides)]);
 
@@ -113,7 +116,8 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
     if (artifact.installCount || !open || softwareVersions.length > 1) {
       return;
     }
-    const { version } = softwareVersions.sort((a, b) => a.nestingLevel - b.nestingLevel).reduce((accu, item) => accu ?? item, undefined) ?? {};
+    const sorted = [...softwareVersions].sort((a, b) => a.nestingLevel - b.nestingLevel);
+    const { version } = sorted[0] ?? {};
     if (version) {
       dispatch(getArtifactInstallCount(artifact.id));
     }
@@ -150,7 +154,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
 
   const artifactMetaInfo = [
     { key: 'depends', title: 'Depends', content: transformArtifactCapabilities(artifact.artifact_depends) },
-    { key: 'clears', title: 'Clears', content: transformArtifactCapabilities(artifact.artifact_clears) },
+    { key: 'clears', title: 'Clears', content: transformArtifactCapabilities(artifact.clears_artifact_provides) },
     { key: 'provides', title: 'Provides', content: transformArtifactCapabilities(artifact.artifact_provides) },
     { key: 'metadata', title: 'Artifact metadata', content: transformArtifactMetadata(artifact.metaData) }
   ];
