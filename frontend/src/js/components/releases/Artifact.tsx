@@ -12,43 +12,33 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 // material ui
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import { ExpandMore } from '@mui/icons-material';
+import { Accordion, AccordionDetails, AccordionSummary, accordionSummaryClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import ArtifactDetails from './ArtifactDetails';
 
-const useStyles = makeStyles()(theme => ({
-  accordion: {
-    border: '1px solid',
-    borderColor: theme.palette.grey[500],
-    width: '100%'
-  },
-  index: {
-    color: theme.palette.grey[500],
-    marginTop: theme.spacing(2.5)
+const useStyles = makeStyles()(() => ({
+  summary: {
+    minHeight: 40,
+    padding: '0 8px',
+    '&.Mui-expanded': { minHeight: 40 },
+    [`& .${accordionSummaryClasses.content}`]: { margin: 0, '&.Mui-expanded': { margin: 0 } }
   }
 }));
 
 export const Artifact = ({ artifact, className, columns, expanded, index, onRowSelection, showRemoveArtifactDialog }) => {
   const { classes } = useStyles();
-
   return (
-    <div className="flexbox">
-      <div className={`${classes.index} margin-right-small`}>{index + 1}</div>
-      <Accordion className={`${classes.accordion} ${className}`} square expanded={expanded} onChange={onRowSelection}>
-        <AccordionSummary classes={{ content: 'repo-item' }}>
-          {columns.map(({ name, render: Component }) => (
-            <Component key={name} artifact={artifact} />
-          ))}
-          {expanded ? <ExpandLess className="expandButton" /> : <ExpandMore className="expandButton" />}
-        </AccordionSummary>
-        <AccordionDetails>
-          <ArtifactDetails artifact={artifact} open={expanded} showRemoveArtifactDialog={showRemoveArtifactDialog} />
-        </AccordionDetails>
-      </Accordion>
-    </div>
+    <Accordion className={`${className} padding-none`} variant="outlined" expanded={expanded} onChange={onRowSelection}>
+      <AccordionSummary className={classes.summary} expandIcon={<ExpandMore />} classes={{ content: 'repo-item' }}>
+        {columns.map(({ name, render: Component }) => (
+          <Component key={name} artifact={artifact} index={index + 1 + 8} />
+        ))}
+      </AccordionSummary>
+      <AccordionDetails>
+        <ArtifactDetails artifact={artifact} open={expanded} showRemoveArtifactDialog={showRemoveArtifactDialog} />
+      </AccordionDetails>
+    </Accordion>
   );
 };
-
-export default Artifact;
