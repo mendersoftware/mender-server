@@ -151,6 +151,7 @@ test.describe('Devices', () => {
     await page.getByRole('button', { name: /filters/i }).click();
     await page.getByText(/professional/i).waitFor({ state: 'hidden' }); // assume once the plan indicator tag is gone, filters can be used without problems
     await page.getByLabel(/attribute/i).fill('mem_total_kB');
+    await page.keyboard.press('Enter');
     await page.getByText(/equals/i).click();
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('option', { name: '>', exact: true }).click();
@@ -166,6 +167,7 @@ test.describe('Devices', () => {
     test.setTimeout(2 * timeouts.fifteenSeconds);
     await page.getByRole('button', { name: /filters/i }).click();
     await page.getByLabel(/attribute/i).fill(rootfs);
+    await page.keyboard.press('Enter');
     await page.getByText(/equals/i).click();
     await page.waitForTimeout(timeouts.default);
     await page.getByRole('option', { name: `doesn't exist`, exact: true }).click();
