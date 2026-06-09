@@ -20,6 +20,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 )
 
@@ -28,13 +29,29 @@ func RenderError(c *gin.Context, code int, err error) {
 }
 
 func RenderErrorWithMessage(c *gin.Context, code int, err error, apiMessage string) {
+	// Wrap the private function to give equal call depth.
+	renderErrorWithMessage(c, code, err, apiMessage)
+}
+
+func renderErrorWithMessage(c *gin.Context, code int, err error, apiMessage string) {
 	ctx := c.Request.Context()
 	_ = c.Error(err)
 	err = &Error{
 		Err:       apiMessage,
 		RequestID: requestid.FromContext(ctx),
 	}
-	c.JSON(code, err)
+	if c.Writer.Written() {
+		// Skip 4
+		// = rest.Render*
+		// + rest.renderErrorWithMessage
+		// + log.CollectTrace
+		// + runtime.Callers
+		log.FromContext(ctx).
+			WithField("trace", log.CollectTrace(4)).
+			Error("response already written")
+	} else {
+		c.JSON(code, err)
+	}
 }
 
 func RenderInternalError(c *gin.Context, err error) {
