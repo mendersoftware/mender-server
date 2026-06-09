@@ -15,8 +15,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material ui
-import { Delete as DeleteIcon, ExpandLess, ExpandMore, Launch as LaunchIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Divider, Typography } from '@mui/material';
+import { Delete as DeleteIcon, ExpandMore, Launch as LaunchIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, CircularProgress, Divider, Typography, accordionSummaryClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
@@ -33,12 +33,10 @@ import ArtifactPayload from './ArtifactPayload';
 import { SignatureSign } from './utils';
 
 const useStyles = makeStyles()(() => ({
-  accordPanel1: {
-    padding: '0 15px',
-    marginBottom: 30,
-    [`&.Mui-expanded`]: {
-      marginBottom: 30
-    }
+  summary: {
+    minHeight: 40,
+    '&.Mui-expanded': { minHeight: 40 },
+    [`& .${accordionSummaryClasses.content}`]: { margin: 0, '&.Mui-expanded': { margin: 0 } }
   }
 }));
 
@@ -159,56 +157,57 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
   const hasMetaInfo = artifactMetaInfo.some(item => !isEmpty(item.content));
   const { installCount } = artifact;
   return (
-    <div className={artifact.name == null ? 'muted' : null}>
+    <div className={`margin-left-small ${artifact.name == null ? 'muted' : ''}`}>
       <SynchronizedTwoColumnData
-        className="margin-bottom-small"
+        className="margin-bottom-medium"
         data={{
           'Description': <EditableLongText fullWidth original={artifact.description} onChange={onDescriptionChanged} />,
-          'Signed': <SignatureSign isSigned={artifact.signed} />
+          ...(installCount !== undefined &&
+            softwareVersions.length === 1 && {
+              'Installed on': (
+                <DevicesLink artifact={artifact} softwareItem={softwareItem} title={`installed on ${installCount} ${pluralize('device', installCount)}`} />
+              )
+            }),
+          'Signature': <SignatureSign isSigned={!!artifact.signed} />
         }}
       />
-
-      {installCount !== undefined && softwareVersions.length === 1 && (
-        <SynchronizedTwoColumnData
-          className="margin-bottom-small"
-          data={{
-            'Installed on': (
-              <DevicesLink artifact={artifact} softwareItem={softwareItem} title={`installed on ${installCount} ${pluralize('device', installCount)}`} />
-            )
-          }}
-        />
-      )}
       <ArtifactMetadataList metaInfo={softwareInformation} />
-      <Accordion square expanded={showPayloads} onChange={() => setShowPayloads(toggle)} className={classes.accordPanel1}>
-        <AccordionSummary className="flexbox align-items-center">
-          <Typography>Artifact contents</Typography>
-          <div style={{ marginLeft: 'auto' }}>{showPayloads ? <ExpandLess /> : <ExpandMore />}</div>
-        </AccordionSummary>
-        <AccordionDetails>
-          {showPayloads &&
-            !!artifact.updates.length &&
-            artifact.updates.map((update, index) => <ArtifactPayload index={index} payload={update} key={`artifact-update-${index}`} />)}
-        </AccordionDetails>
-      </Accordion>
-      {hasMetaInfo && (
-        <Accordion square expanded={showProvidesDepends} onChange={() => setShowProvidesDepends(!showProvidesDepends)} className={classes.accordPanel1}>
-          <AccordionSummary className="flexbox align-items-center">
-            <Typography>Provides and Depends</Typography>
-            <div style={{ marginLeft: 'auto' }}>{showProvidesDepends ? <ExpandLess /> : <ExpandMore />}</div>
+      <div>
+        <Accordion expanded={showPayloads} onChange={() => setShowPayloads(toggle)} className="padding-none">
+          <AccordionSummary expandIcon={<ExpandMore />} className={classes.summary}>
+            <Typography variant="subtitle2">Artifact contents</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {artifactMetaInfo
-              .filter(({ content }) => !isEmpty(content))
-              .map(({ key, title, content }) => (
-                <div key={key}>
-                  <Typography variant="subtitle2">{title}</Typography>
-                  <Divider className="margin-top-small margin-bottom-small" />
-                  <SynchronizedTwoColumnData data={content} />
+            {showPayloads &&
+              !!artifact.updates?.length &&
+              artifact.updates.map((update, index) => (
+                <div key={`artifact-update-${index}`}>
+                  {index > 0 && <Divider className="margin-top margin-bottom-x-small" />}
+                  {artifact.updates.length > 0 && <Typography variant="subtitle2" className="margin-bottom-small">{`Payload ${index + 1}`}</Typography>}
+                  <ArtifactPayload payload={update} />
                 </div>
               ))}
           </AccordionDetails>
         </Accordion>
-      )}
+        {hasMetaInfo && (
+          <Accordion expanded={showProvidesDepends} onChange={() => setShowProvidesDepends(!showProvidesDepends)} className="padding-none">
+            <AccordionSummary expandIcon={<ExpandMore />} className={classes.summary}>
+              <Typography variant="subtitle2">Provides and Depends</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {artifactMetaInfo
+                .filter(({ content }) => !isEmpty(content))
+                .map(({ key, title, content }) => (
+                  <div key={key} className="margin-bottom">
+                    <Typography variant="subtitle2">{title}</Typography>
+                    <Divider className="margin-top-small margin-bottom-small" />
+                    <SynchronizedTwoColumnData data={content} />
+                  </div>
+                ))}
+            </AccordionDetails>
+          </Accordion>
+        )}
+      </div>
       <div className="two-columns margin-top-small" style={{ maxWidth: 'fit-content' }}>
         {canManageReleases && (
           <>
@@ -222,7 +221,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }) =>
               Download Artifact
             </Button>
             <Button onClick={showRemoveArtifactDialog} variant="outlined" color="error" startIcon={<DeleteIcon className="red auth" />}>
-              Remove this Artifact?
+              Remove Artifact
             </Button>
           </>
         )}
