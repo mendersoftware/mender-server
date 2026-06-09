@@ -75,7 +75,12 @@ func (a AccessLogger) LogFunc(
 		lc.addFields(logCtx)
 	}
 	if r := recover(); r != nil {
-		trace := log.CollectTrace()
+		// Skip 4
+		// = accesslog.LogFunc
+		// + log.CollectTrace
+		// + runtime.Callers
+		// + runtime.gopanic
+		trace := log.CollectTrace(4)
 		logCtx["trace"] = trace
 		logCtx["panic"] = r
 
