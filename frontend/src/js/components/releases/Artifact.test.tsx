@@ -15,7 +15,7 @@ import { render } from '@/testUtils';
 import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { undefineds } from '@northern.tech/testing/mockData';
 
-import Artifact from './Artifact';
+import { Artifact } from './Artifact';
 import { columns } from './ReleaseDetails';
 
 describe('Artifact Component', () => {
@@ -35,6 +35,7 @@ describe('Artifact Component', () => {
           }}
           index={0}
           columns={columns}
+          className="test-class"
         />
       </ColumnWidthProvider>
     );

@@ -5,7 +5,7 @@ exports[`Deployments Component > renders correctly 1`] = `
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: max-content;
-  gap: 8px;
+  gap: 12px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -1005,7 +1005,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-37:focus::-ms-input-
 }
 
 <div
-  class="margin-bottom margin-top-medium margin-bottom"
+  class="margin-bottom-medium margin-top-small margin-bottom"
 >
   <div
     class="flexbox space-between"
