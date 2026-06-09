@@ -33,7 +33,7 @@ export const Artifact = ({ artifact, className, columns, expanded, index, onRowS
     <Accordion className={`${className} padding-none`} variant="outlined" expanded={expanded} onChange={onRowSelection}>
       <AccordionSummary className={classes.summary} expandIcon={<ExpandMore />} classes={{ content: 'repo-item' }}>
         {columns.map(({ name, render: Component }) => (
-          <Component key={name} artifact={artifact} index={index + 1 + 8} />
+          <Component key={name} artifact={artifact} index={index + 1} />
         ))}
       </AccordionSummary>
       <AccordionDetails>

@@ -187,7 +187,7 @@ export const ArtifactDetails = ({ artifact, open, showRemoveArtifactDialog }: Ar
               artifact.updates.map((update, index) => (
                 <div key={`artifact-update-${index}`}>
                   {index > 0 && <Divider className="margin-top margin-bottom-x-small" />}
-                  {artifact.updates.length > 0 && <Typography variant="subtitle2" className="margin-bottom-small">{`Payload ${index + 1}`}</Typography>}
+                  {artifact.updates.length > 1 && <Typography variant="subtitle2" className="margin-bottom-small">{`Payload ${index + 1}`}</Typography>}
                   <ArtifactPayload payload={update} />
                 </div>
               ))}
