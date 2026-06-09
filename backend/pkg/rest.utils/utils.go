@@ -24,13 +24,7 @@ import (
 )
 
 func RenderError(c *gin.Context, code int, err error) {
-	ctx := c.Request.Context()
-	_ = c.Error(err)
-	err = &Error{
-		Err:       err.Error(),
-		RequestID: requestid.FromContext(ctx),
-	}
-	c.JSON(code, err)
+	RenderErrorWithMessage(c, code, err, err.Error())
 }
 
 func RenderErrorWithMessage(c *gin.Context, code int, err error, apiMessage string) {
@@ -44,31 +38,23 @@ func RenderErrorWithMessage(c *gin.Context, code int, err error, apiMessage stri
 }
 
 func RenderInternalError(c *gin.Context, err error) {
-	msg := "internal error"
-	if err != nil {
-		RenderErrorWithMessage(c,
-			http.StatusInternalServerError,
-			err, msg,
-		)
-		return
+	const msg = "internal error"
+	if err == nil {
+		err = errors.New(msg)
 	}
-	RenderError(c,
+	RenderErrorWithMessage(c,
 		http.StatusInternalServerError,
-		errors.New(msg),
+		err, msg,
 	)
 }
 
 func RenderUnavailable(c *gin.Context, err error) {
-	msg := "service unavailable"
-	if err != nil {
-		RenderErrorWithMessage(c,
-			http.StatusServiceUnavailable,
-			err, msg,
-		)
-		return
+	const msg = "service unavailable"
+	if err == nil {
+		err = errors.New(msg)
 	}
-	RenderError(c,
+	RenderErrorWithMessage(c,
 		http.StatusServiceUnavailable,
-		errors.New(msg),
+		err, msg,
 	)
 }
