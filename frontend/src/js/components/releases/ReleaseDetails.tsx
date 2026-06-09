@@ -50,15 +50,18 @@ import pluralize from 'pluralize';
 
 import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../helptips/MenderTooltip';
-import Artifact from './Artifact';
+import { Artifact } from './Artifact';
 
 const { setSnackbar } = storeActions;
 
-const DeviceTypeCompatibility = ({ artifact }) => {
+const DeviceTypeCompatibility = ({ artifact, index }) => {
+  const { classes } = useStyles();
   const compatible = artifact.artifact_depends ? artifact.artifact_depends.device_type.join(', ') : artifact.device_types_compatible.join(', ');
   return (
     <Tooltip title={compatible} placement="top-start">
-      <div className="text-overflow">{compatible}</div>
+      <Typography className={`text-overflow ${classes.compatibility}`}>
+        <span className={classes.index}>{index}.</span> {compatible}
+      </Typography>
     </Tooltip>
   );
 };
@@ -69,7 +72,7 @@ export const columns = [
     name: 'device_types',
     sortable: false,
     render: DeviceTypeCompatibility,
-    tooltip: <MenderHelpTooltip id={HELPTOOLTIPS.expandArtifact.id} className="margin-left-small" />
+    tooltip: <MenderHelpTooltip id={HELPTOOLTIPS.expandArtifact.id} className="margin-left-small margin-bottom-small" />
   },
   {
     title: 'Type',
@@ -108,21 +111,23 @@ const defaultActions = [
 
 const useStyles = makeStyles()(theme => ({
   releaseRepoItem: {
-    paddingBottom: theme.spacing(2),
-    '&.repo-header': {
-      paddingLeft: theme.spacing(6),
-      paddingRight: theme.spacing(4),
-      fontSize: '0.8rem'
-    },
     '&.repo-item, .repo-item': {
       alignItems: 'center',
       display: 'grid',
-      gridTemplateColumns: `2fr 1fr 1fr 1fr ${theme.spacing(6)}`,
-      gridColumnGap: 20,
-      margin: 0
+      gridTemplateColumns: `2fr 1fr 1fr 1fr`,
+      gridColumnGap: 20
     }
   },
-  tagSelect: { marginRight: theme.spacing(2), maxWidth: 350 }
+  columnHeaderTitle: { fontWeight: theme.typography.fontWeightMedium },
+  compatibility: { fontWeight: theme.typography.fontWeightMedium },
+  tagSelect: { marginRight: theme.spacing(2), maxWidth: 350 },
+  notesEditing: { maxWidth: 510 },
+  index: {
+    display: 'inline-block',
+    minWidth: '2ch',
+    textAlign: 'right',
+    fontVariantNumeric: 'tabular-nums'
+  }
 }));
 
 export const ReleaseQuickActions = ({ actionCallbacks }) => {
@@ -146,16 +151,19 @@ export const ReleaseQuickActions = ({ actionCallbacks }) => {
     <BaseQuickActions
       actions={actions}
       ariaLabel="release-actions"
-      label={selectedSingleRelease ? 'Release actions' : `${selectedRows.length} ${pluralized} selected`}
+      label={selectedSingleRelease ? 'Release action' : `${selectedRows.length} ${pluralized} selected`}
     />
   );
 };
 
 const ReleaseNotes = ({ onChange, release: { notes = '' } }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const { classes } = useStyles();
   return (
     <ContentSection title="Release notes" postTitle={!isEditing && <EditButton onClick={() => setIsEditing(true)} />}>
-      <EditableLongText original={notes} onChange={onChange} placeholder="Release notes" isEditing={isEditing} onEditToggle={setIsEditing} />
+      <div className={isEditing ? classes.notesEditing : 'full-width'}>
+        <EditableLongText original={notes} onChange={onChange} placeholder="Release notes" isEditing={isEditing} onEditToggle={setIsEditing} fullWidth />
+      </div>
     </ContentSection>
   );
 };
@@ -188,12 +196,12 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, user
         <FormProvider {...methods}>
           <form noValidate>
             <ChipSelect
-              className={classes.tagSelect}
               disabled={!isEditing}
+              className={classes.tagSelect}
               label=""
               name="tags"
               options={existingTags}
-              placeholder={isEditing ? 'Enter release tags' : canManageReleases ? '' : 'No tags yet'}
+              placeholder={isEditing ? 'Add release tags' : canManageReleases ? '' : 'No tags yet'}
             />
           </form>
         </FormProvider>
@@ -236,35 +244,38 @@ const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setSh
 
   return (
     <ContentSection title="Artifacts in this Release:">
-      <div className={`${classes.releaseRepoItem} repo-item repo-header`}>
+      <div className={`${classes.releaseRepoItem} repo-item margin-right-medium margin-left-small`}>
         {columns.map(item => (
           <div className="columnHeader" key={item.name} onClick={() => sortColumn(item)}>
             <Tooltip title={item.title} placement="top-start">
-              {item.title}
+              <Typography className={`${classes.columnHeaderTitle} margin-bottom-small`} variant="body2">
+                {item.title}
+              </Typography>
             </Tooltip>
-            {item.sortable ? <SortIcon className={`sortIcon ${sortCol === item.name ? 'selected' : ''} ${sortDown.toString()}`} /> : null}
+            {item.sortable ? <SortIcon className={`margin-bottom-small sortIcon ${sortCol === item.name ? 'selected' : ''} ${sortDown.toString()}`} /> : null}
             {item.tooltip}
           </div>
         ))}
-        <div />
       </div>
-      {items.map((artifact, index) => {
-        const expanded = selectedArtifact?.id === artifact.id;
-        return (
-          <Artifact
-            key={`repository-item-${index}`}
-            artifact={artifact}
-            className={classes.releaseRepoItem}
-            columns={columns}
-            expanded={expanded}
-            index={index}
-            onRowSelection={() => onRowSelection(artifact)}
-            // this will be run after expansion + collapse and both need some time to fully settle
-            // otherwise the measurements are off
-            showRemoveArtifactDialog={setShowRemoveArtifactDialog}
-          />
-        );
-      })}
+      <div>
+        {items.map((artifact, index) => {
+          const expanded = selectedArtifact?.id === artifact.id;
+          return (
+            <Artifact
+              key={`repository-item-${index}`}
+              artifact={artifact}
+              className={classes.releaseRepoItem}
+              columns={columns}
+              expanded={expanded}
+              index={index}
+              onRowSelection={() => onRowSelection(artifact)}
+              // this will be run after expansion + collapse and both need some time to fully settle
+              // otherwise the measurements are off
+              showRemoveArtifactDialog={setShowRemoveArtifactDialog}
+            />
+          );
+        })}
+      </div>
     </ContentSection>
   );
 };
@@ -340,7 +351,7 @@ export const ReleaseDetails = () => {
         header="Remove this artifact?"
         description="Are you sure you want to remove this artifact?"
         confirmButtonText="Remove"
-        open={!!showRemoveDialog}
+        open={showRemoveDialog}
         close={() => setShowRemoveArtifactDialog(false)}
         onConfirm={() => onRemoveArtifact(selectedArtifact)}
       />
@@ -352,7 +363,7 @@ export const ReleaseDetails = () => {
           </>
         }
         confirmButtonText="Remove"
-        open={!!confirmReleaseDeletion}
+        open={confirmReleaseDeletion}
         close={onToggleReleaseDeletion}
         onConfirm={onDeleteRelease}
       />
