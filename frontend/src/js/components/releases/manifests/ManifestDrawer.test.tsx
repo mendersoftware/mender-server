@@ -25,6 +25,7 @@ vi.mock('@northern.tech/store/releasesSlice/thunks', { spy: true });
 describe('AddManifestDrawer Component', () => {
   beforeEach(() => {
     vi.mocked(ReleasesThunks.uploadManifest).mockClear();
+    vi.mocked(ReleasesThunks.generateManifest).mockClear();
   });
 
   it('renders correctly', async () => {
@@ -49,7 +50,7 @@ describe('AddManifestDrawer Component', () => {
 
     expect(ReleasesThunks.uploadManifest).toHaveBeenCalledWith({
       file: expect.objectContaining({ name: 'test.mender' }),
-      meta: { description: 'unit test note', tags: ['unit-tag'] }
+      meta: { description: 'unit test note', name: '', tags: ['unit-tag'] }
     });
   });
 
@@ -78,9 +79,9 @@ component_types:
 
     await user.click(screen.getByRole('button', { name: /^upload$/i }));
 
-    expect(ReleasesThunks.uploadManifest).toHaveBeenCalledWith({
+    expect(ReleasesThunks.generateManifest).toHaveBeenCalledWith({
       file: expect.objectContaining({ name: 'test.yaml' }),
-      meta: { description: '', tags: [] }
+      meta: { description: '', name: '', tags: [] }
     });
   });
 

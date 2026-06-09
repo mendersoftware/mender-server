@@ -11,8 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Typography } from '@mui/material';
 
@@ -25,10 +25,12 @@ import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { DEVICE_LIST_DEFAULTS, SORTING_OPTIONS } from '@northern.tech/store/constants';
 import { getExistingManifestTags } from '@northern.tech/store/releasesSlice/thunks';
 import { getHasManifests, getIsEnterprise, getManifestsList, getManifestsListState, getSelectedManifests } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getManifests, selectManifest, setManifestsListState } from '@northern.tech/store/thunks';
 import type { Manifest } from '@northern.tech/types/MenderTypes';
 
 import { ManifestDetails } from './ManifestDetails';
+import { AddManifestDrawer } from './ManifestDrawer';
 import { ManifestQuickActions } from './ManifestQuickActions';
 
 const columns = [
@@ -93,7 +95,8 @@ export const ManifestsList = ({ className = '', onFileUploadClick }: { className
   const manifests = useSelector(getManifestsList);
   const selectedManifests = useSelector(getSelectedManifests);
   const isEnterprise = useSelector(getIsEnterprise);
-  const dispatch = useDispatch();
+  const [copySourceName, setCopySourceName] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
   const { key: attribute, direction } = sort;
 
@@ -108,6 +111,14 @@ export const ManifestsList = ({ className = '', onFileUploadClick }: { className
   }, [dispatch, isEnterprise]);
 
   const onSelect = useCallback((id: string) => dispatch(selectManifest(id)), [dispatch]);
+
+  const onCopy = useCallback(
+    (name: string) => {
+      setCopySourceName(name);
+      dispatch(selectManifest(null));
+    },
+    [dispatch]
+  );
 
   const onChangeSorting = (sortKey: string) => {
     let sort = { key: sortKey, direction: direction === SORTING_OPTIONS.asc ? SORTING_OPTIONS.desc : SORTING_OPTIONS.asc };
@@ -161,10 +172,11 @@ export const ManifestsList = ({ className = '', onFileUploadClick }: { className
             />
             <Loader show={isLoading} small />
           </div>
-          {selectedManifests?.length > 0 && <ManifestQuickActions />}
+          {selectedManifests?.length > 0 && <ManifestQuickActions onCopy={onCopy} />}
         </>
       )}
-      <ManifestDetails />
+      <ManifestDetails onCopy={onCopy} />
+      <AddManifestDrawer open={!!copySourceName} copyFromManifest={copySourceName ?? undefined} onClose={() => setCopySourceName(null)} />
     </div>
   );
 };

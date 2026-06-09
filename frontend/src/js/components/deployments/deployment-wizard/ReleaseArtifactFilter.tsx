@@ -72,7 +72,6 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
     searchTerm: '',
     kind: kind ?? null
   });
-  const [filterCount, setFilterCount] = useState(0);
   const dispatch = useAppDispatch();
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const existingTags = useSelector(getSoftwareTags);
@@ -96,6 +95,7 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
 
   const onCloseModal = () => {
     setShowAdvancedFilters(false);
+    reset();
     onClose();
   };
 
@@ -107,8 +107,10 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
   }, [open, setFocus]);
 
   useEffect(() => {
+    if (!open) {
+      return;
+    }
     const [tags, type, searchTerm, debouncedKind] = debouncedFilters;
-    setFilterCount(tags.length + Number(debouncedKind !== softwareKindOptions.manifest.key && !!type) + Number(!!debouncedKind));
     dispatch(
       getSoftware({
         page: 1,
@@ -119,8 +121,10 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
         type: debouncedKind === softwareKindOptions.manifest.key ? undefined : (type ?? undefined)
       })
     );
-  }, [debouncedFilters, dispatch]);
+  }, [open, debouncedFilters, dispatch]);
   const { isDirty } = formState;
+  const [tags, type, _, debouncedKind] = debouncedFilters;
+  const filterCount = tags.length + Number(debouncedKind !== softwareKindOptions.manifest.key && !!type) + Number(!!debouncedKind);
 
   return (
     <BaseDialog open={open} title="Select software" onClose={() => onCloseModal()}>

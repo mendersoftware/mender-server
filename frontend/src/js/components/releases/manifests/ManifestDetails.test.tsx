@@ -20,7 +20,8 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { ComponentTypesTable, ManifestDetails } from './ManifestDetails';
+import { ComponentTypesTable } from './ComponentTypesTable';
+import { ManifestDetails } from './ManifestDetails';
 
 const preloadedState = {
   ...defaultState,
