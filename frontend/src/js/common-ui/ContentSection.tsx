@@ -29,7 +29,7 @@ const useStyles = makeStyles()(theme => ({
     display: 'grid',
     gridAutoFlow: 'column',
     gridAutoColumns: 'max-content',
-    gap: theme.spacing(),
+    gap: theme.spacing(1.5),
     alignItems: 'center',
     minHeight: theme.spacing(5)
   }
@@ -39,7 +39,7 @@ export const ContentSection = ({ children, className = '', isAddOn = false, post
   const { classes } = useStyles();
 
   return (
-    <div className={`margin-bottom margin-top-medium ${className}`}>
+    <div className={`margin-bottom-medium margin-top-small ${className}`}>
       <div className="flexbox space-between">
         <div className={`margin-bottom-x-small ${classes.title}`}>
           <Typography variant="subtitle1">{title}</Typography>
