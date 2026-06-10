@@ -16,7 +16,16 @@ import * as fs from 'fs';
 
 import test from '../fixtures/fixtures';
 import { isEnterpriseOrStaging, isLoggedIn, login, prepareNewPage, startDockerClient, tenantTokenRetrieval } from '../utils/commands';
-import { allowedToFailPath, emptyStorageState, selectors, spStoragePath, storageFolder, storagePath, switchTenantStoragePath, timeouts } from '../utils/constants';
+import {
+  allowedToFailPath,
+  emptyStorageState,
+  selectors,
+  spStoragePath,
+  storageFolder,
+  storagePath,
+  switchTenantStoragePath,
+  timeouts
+} from '../utils/constants';
 import { poll } from '../utils/utils';
 
 test.describe('Test setup', () => {
@@ -104,6 +113,7 @@ test.describe('Test setup', () => {
       baseUrl,
       context,
       environment,
+      isRemote,
       password,
       request,
       username
@@ -119,7 +129,7 @@ test.describe('Test setup', () => {
         await page.goto(`${baseUrl}ui/settings`);
       }
       const token = await tenantTokenRetrieval(baseUrl, page);
-      if (environment === 'staging') {
+      if (isRemote) {
         await startDockerClient(baseUrl, token);
       }
       await context.storageState({ path: storagePath });

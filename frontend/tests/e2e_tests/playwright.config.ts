@@ -31,7 +31,7 @@ export const contextArgs = {
 
 export const launchOptions: LaunchOptions = {
   ...contextArgs,
-  args: process.env.TEST_ENVIRONMENT === 'staging' ? [] : ['--disable-dev-shm-usage', '--disable-web-security'],
+  args: process.env.BASE_URL ? [] : ['--disable-dev-shm-usage', '--disable-web-security'],
   slowMo: 50
   // to ease running the test locally and "headful" uncomment and modify the below option to match your preferred browser installation
   // this might also require adjusting the `runWith` call at the bottom of the file
