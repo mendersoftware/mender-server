@@ -23,6 +23,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/mendersoftware/mender-server/pkg/addons"
+	"github.com/mendersoftware/mender-server/pkg/api/client"
 	ctxhttpheader "github.com/mendersoftware/mender-server/pkg/context/httpheader"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -34,7 +35,6 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
 	"github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
@@ -116,7 +116,7 @@ type App interface {
 type DevAuth struct {
 	db          store.DataStore
 	invClient   inventory.Client
-	cOrch       orchestrator.ClientRunner
+	cOrch       client.WorkflowsOtherAPI
 	jwt         jwt.Handler
 	jwtFallback jwt.Handler
 	config      Config
@@ -138,7 +138,7 @@ type Config struct {
 	HaveAddons bool
 }
 
-func NewDevAuth(d store.DataStore, co orchestrator.ClientRunner,
+func NewDevAuth(d store.DataStore, co client.WorkflowsOtherAPI,
 	jwt jwt.Handler, config Config,
 ) *DevAuth {
 	// initialize checker using an empty merge (returns nil on validate)
@@ -167,10 +167,12 @@ func (d *DevAuth) HealthCheck(ctx context.Context) error {
 	if err != nil {
 		return errors.Wrap(err, "Inventory service unhealthy")
 	}
-	err = d.cOrch.CheckHealth(ctx)
+	//nolint:bodyclose
+	_, err = d.cOrch.WorkflowsCheckHealth(ctx).Execute()
 	if err != nil {
 		return errors.Wrap(err, "Workflows service unhealthy")
 	}
+
 	return nil
 }
 
@@ -195,14 +197,16 @@ func (d *DevAuth) setDeviceIdentity(ctx context.Context, dev *model.Device, tena
 	if err != nil {
 		return errors.New("internal error: cannot marshal attributes into json")
 	}
-	if err := d.cOrch.SubmitUpdateDeviceInventoryJob(
-		ctx,
-		orchestrator.UpdateDeviceInventoryReq{
-			RequestId:  requestid.FromContext(ctx),
-			DeviceId:   dev.Id,
-			Scope:      "identity",
-			Attributes: string(attrJson),
-		}); err != nil {
+	//nolint:bodyclose
+	_, _, err = d.cOrch.StartWorkflow(ctx, "update_device_inventory").
+		RequestBody(map[string]interface{}{
+			"request_id": requestid.FromContext(ctx),
+			"tenant_id":  "",
+			"device_id":  dev.Id,
+			"scope":      "identity",
+			"attributes": string(attrJson),
+		}).Execute()
+	if err != nil {
 		return errors.Wrap(err, "failed to start device inventory update job")
 	}
 	return nil
@@ -401,15 +405,16 @@ func (d *DevAuth) handlePreAuthDevice(
 		}
 
 		// submit device accepted job
-		if err := d.cOrch.SubmitProvisionDeviceJob(
-			ctx,
-			orchestrator.ProvisionDeviceReq{
-				RequestId: reqId,
-				DeviceID:  aset.DeviceId,
-				TenantID:  tenantID,
-				Device:    dev,
-				Status:    dev.Status,
-			}); err != nil {
+		//nolint:bodyclose
+		_, _, err := d.cOrch.StartWorkflow(ctx, "provision_device").
+			RequestBody(map[string]interface{}{
+				"request_id": reqId,
+				"device_id":  aset.DeviceId,
+				"tenant_id":  tenantID,
+				"device":     dev,
+				"status":     dev.Status,
+			}).Execute()
+		if err != nil {
 			return nil, errors.Wrap(err, "submit device provisioning job error")
 		}
 	}
@@ -480,16 +485,19 @@ func (d *DevAuth) updateDeviceStatus(
 	if idData != nil {
 		tenantId = idData.Tenant
 	}
-	req := orchestrator.UpdateDeviceStatusReq{
-		RequestId: requestid.FromContext(ctx),
-		Devices: []model.DeviceInventoryUpdate{{
-			Id:       dev.Id,
-			Revision: dev.Revision + 1,
-		}},
-		TenantId: tenantId,
-		Status:   status,
-	}
-	if err := d.cOrch.SubmitUpdateDeviceStatusJob(ctx, req); err != nil {
+	//nolint:bodyclose
+	_, _, err = d.cOrch.StartWorkflow(ctx, "update_device_status").
+		RequestBody(map[string]interface{}{
+			"request_id": requestid.FromContext(ctx),
+			"devices": []model.DeviceInventoryUpdate{{
+				Id:       dev.Id,
+				Revision: dev.Revision + 1,
+			}},
+			"tenant_id":     tenantId,
+			"device_status": status,
+		}).Execute()
+
+	if err != nil {
 		return errors.Wrap(err, "update device status job error")
 	}
 
@@ -670,13 +678,14 @@ func (d *DevAuth) DecommissionDevice(ctx context.Context, devID string) error {
 	}
 
 	// submit device decommissioning job
-	if err := d.cOrch.SubmitDeviceDecommisioningJob(
-		ctx,
-		orchestrator.DecommissioningReq{
-			DeviceId:  devID,
-			RequestId: reqId,
-			TenantID:  tenantID,
-		}); err != nil {
+	//nolint:bodyclose
+	_, _, err = d.cOrch.StartWorkflow(ctx, "decommission_device").
+		RequestBody(map[string]interface{}{
+			"device_id":  devID,
+			"request_id": reqId,
+			"tenant_id":  tenantID,
+		}).Execute()
+	if err != nil {
 		return errors.Wrap(err, "submit device decommissioning job error")
 	}
 
@@ -762,13 +771,16 @@ func (d *DevAuth) DeleteAuthSet(ctx context.Context, devID string, authId string
 		if idData != nil {
 			tenantID = idData.Tenant
 		}
-		req := orchestrator.UpdateDeviceStatusReq{
-			RequestId: requestid.FromContext(ctx),
-			Devices:   []model.DeviceInventoryUpdate{{Id: devID}},
-			TenantId:  tenantID,
-			Status:    "decommissioned",
-		}
-		if err = d.cOrch.SubmitUpdateDeviceStatusJob(ctx, req); err != nil {
+
+		//nolint:bodyclose
+		_, _, err := d.cOrch.StartWorkflow(ctx, "update_device_status").
+			RequestBody(map[string]interface{}{
+				"request_id":    requestid.FromContext(ctx),
+				"devices":       []model.DeviceInventoryUpdate{{Id: devID}},
+				"tenant_id":     tenantID,
+				"device_status": "decommissioned",
+			}).Execute()
+		if err != nil {
 			return errors.Wrap(err, "update device status job error")
 		}
 
@@ -843,15 +855,16 @@ func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_i
 	}
 
 	// submit device accepted job
-	if err := d.cOrch.SubmitProvisionDeviceJob(
-		ctx,
-		orchestrator.ProvisionDeviceReq{
-			RequestId: reqId,
-			DeviceID:  aset.DeviceId,
-			TenantID:  tenantID,
-			Device:    dev,
-			Status:    dev.Status,
-		}); err != nil {
+	//nolint:bodyclose
+	_, _, err = d.cOrch.StartWorkflow(ctx, "provision_device").
+		RequestBody(map[string]interface{}{
+			"request_id": reqId,
+			"device_id":  aset.DeviceId,
+			"tenant_id":  tenantID,
+			"device":     dev,
+			"status":     dev.Status,
+		}).Execute()
+	if err != nil {
 		return errors.Wrap(err, "submit device provisioning job error")
 	}
 
@@ -1032,16 +1045,18 @@ func (d *DevAuth) PreauthorizeDevice(
 		tenantId = idData.Tenant
 	}
 
-	wfReq := orchestrator.UpdateDeviceStatusReq{
-		RequestId: requestid.FromContext(ctx),
-		Devices: []model.DeviceInventoryUpdate{{
-			Id:       dev.Id,
-			Revision: dev.Revision,
-		}},
-		TenantId: tenantId,
-		Status:   dev.Status,
-	}
-	if err = d.cOrch.SubmitUpdateDeviceStatusJob(ctx, wfReq); err != nil {
+	//nolint:bodyclose
+	_, _, err = d.cOrch.StartWorkflow(ctx, "update_device_status").
+		RequestBody(map[string]interface{}{
+			"request_id": requestid.FromContext(ctx),
+			"devices": []model.DeviceInventoryUpdate{{
+				Id:       dev.Id,
+				Revision: dev.Revision,
+			}},
+			"tenant_id":     tenantId,
+			"device_status": dev.Status,
+		}).Execute()
+	if err != nil {
 		return nil, errors.Wrap(err, "update device status job error")
 	}
 
@@ -1583,15 +1598,16 @@ func (d *DevAuth) syncCheckInTime(
 	if err != nil {
 		return errors.New("internal error: cannot marshal attributes into json")
 	}
-	if err := d.cOrch.SubmitUpdateDeviceInventoryJob(
-		ctx,
-		orchestrator.UpdateDeviceInventoryReq{
-			RequestId:  requestid.FromContext(ctx),
-			TenantId:   tenantId,
-			DeviceId:   deviceId,
-			Scope:      InventoryScopeSystem,
-			Attributes: string(attrJson),
-		}); err != nil {
+	//nolint:bodyclose
+	_, _, err = d.cOrch.StartWorkflow(ctx, "update_device_inventory").
+		RequestBody(map[string]interface{}{
+			"request_id": requestid.FromContext(ctx),
+			"tenant_id":  tenantId,
+			"device_id":  deviceId,
+			"scope":      InventoryScopeSystem,
+			"attributes": string(attrJson),
+		}).Execute()
+	if err != nil {
 		return errors.Wrap(err, "failed to start device inventory update job")
 	}
 	return nil
