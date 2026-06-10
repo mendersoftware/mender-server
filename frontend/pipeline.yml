@@ -142,7 +142,10 @@ test:frontend:docs-links:hosted:
 
 build:frontend:docker:
   extends: .template:build:docker
-  # no rules as the job have to build every time for the review jobs
+  rules:
+    - if: '$RUN_REVIEW_E2E == "true"'
+      when: never
+    - when: on_success
   script:
     - cd frontend
     - docker build ${DOCKER_BUILDARGS}
