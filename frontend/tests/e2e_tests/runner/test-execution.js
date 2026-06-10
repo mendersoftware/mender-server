@@ -142,11 +142,9 @@ const setupQemuClient = async (config, currentProcesses) => {
 export const runTests = async (config, currentProcesses) => {
   console.log(chalk.blue('🧪 Running Tests\n'));
 
-  if (config.local || config.environment === environments.staging) {
-    if (config.local) {
-      // Self-signed certs are used in local/docker test environments
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-    }
+  if (config.local) {
+    // Self-signed certs are used in local/docker test environments
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     const testScript = config.visual ? 'test-visual-new' : 'test';
     const { username, password } = config.credentials;
     console.log(`   Active credentials: ${username} / ${password}`);

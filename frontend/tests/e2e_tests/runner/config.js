@@ -48,12 +48,14 @@ const getCredentials = config => {
 
 export const createConfig = (options = {}) => {
   const visual = options.visual || options.executionMode === 'visual' || false;
-  const hasBaseUrl = !!(options.baseUrl || process.env.BASE_URL);
+  const environment = options.environment || process.env.TEST_ENVIRONMENT || defaults.environment;
+  const baseUrl = options.baseUrl || process.env.BASE_URL || (environment === environments.staging ? 'https://staging.hosted.mender.io/' : undefined);
+  const hasBaseUrl = !!baseUrl;
   const local = options.local || visual || hasBaseUrl || options.executionMode === 'local' || false;
 
   const baseConfig = {
-    baseUrl: options.baseUrl || process.env.BASE_URL,
-    environment: options.environment || process.env.TEST_ENVIRONMENT || defaults.environment,
+    baseUrl,
+    environment,
     guiRepository,
     interactive: options.interactive || false,
     local,
@@ -68,6 +70,12 @@ export const createConfig = (options = {}) => {
     tenantToken: null,
     clientIp: null
   };
+
+  if (hasBaseUrl) {
+    const configForRemoteTests = { ...baseConfig };
+    configForRemoteTests.credentials = getCredentials(configForRemoteTests);
+    return configForRemoteTests;
+  }
 
   const composeFiles = [join(serverRoot, 'docker-compose.yml'), join(guiRepository, 'tests/e2e_tests/docker-compose.e2e-tests.yml')];
 
