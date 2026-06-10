@@ -349,7 +349,14 @@ review:deploy:
 
     - echo "Generating Helm values file..."
     - apt-get update && apt-get install -y gettext-base
-    - envsubst < compose/k8s/review-values.yaml.tpl > /tmp/review-values.yaml
+    - |
+      if [ "${REVIEW_APPS_ENTERPRISE}" == "true" ]; then
+        echo "Configuring enterprise setup"
+        envsubst < compose/k8s/review-values.enterprise.yaml.tpl > /tmp/review-values.yaml
+      else
+        echo "Configuring OS setup"
+        envsubst < compose/k8s/review-values.yaml.tpl > /tmp/review-values.yaml
+      fi
     - echo "Generated Helm values:"
     - cat /tmp/review-values.yaml
 
@@ -364,7 +371,12 @@ review:deploy:
 
     - echo "Creating initial tenant and user..."
     - chmod +x ./compose/k8s/create-initial-user.sh
-    - ./compose/k8s/create-initial-user.sh
+    - |
+      if [ "${REVIEW_APPS_ENTERPRISE}" == "true" ]; then
+        ./compose/k8s/create-initial-user.sh --enterprise
+      else
+        ./compose/k8s/create-initial-user.sh
+      fi
 
     - echo "=== Deployment Information ==="
     - echo "URL - https://${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"

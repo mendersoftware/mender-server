@@ -1,7 +1,11 @@
 #!/bin/bash
 
-# Post-install script to create initial  user for Mender Review Apps
+# Post-install script to create initial user (and tenant for enterprise) for Mender Review Apps
 # This script runs after Helm chart installation completes
+#
+# Usage:
+#   ./create-initial-user.sh               # OSS mode
+#   ./create-initial-user.sh --enterprise   # Enterprise mode (creates tenant + user)
 
 set -e  # Exit on error
 set -u  # Exit on undefined variable
@@ -24,6 +28,11 @@ log_warn() {
 log_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
+
+ENTERPRISE=false
+if [ "${1:-}" = "--enterprise" ]; then
+    ENTERPRISE=true
+fi
 
 # Required environment variables
 REQUIRED_VARS=(
@@ -51,46 +60,78 @@ ADMIN_PASSWORD="${REVIEW_APP_ADMIN_PASSWORD:-${RANDOM_PASSWORD}}"
 
 log_info "Generated credentials for this review app deployment"
 
-log_info "Waiting for useradm pod to be ready..."
+# Wait for a pod matching the given label to be created and ready
+wait_for_pod() {
+    local component="$1"
+    local pod=""
 
-# Wait for the useradm pod to be created (up to 2 minutes)
-USERADM_POD=""
-for i in {1..12}; do
-    USERADM_POD=$(kubectl get pods -n "${NAMESPACE}" -l app.kubernetes.io/component=useradm -o custom-columns=POD:metadata.name --no-headers 2>/dev/null | head -n1 || true)
-    if [ -n "$USERADM_POD" ]; then
-        break
-    fi
-    if [ $i -eq 12 ]; then
-        log_error "Timeout waiting for useradm pod to be created"
+    log_info "Waiting for ${component} pod to be ready..."
+
+    for i in {1..12}; do
+        pod=$(kubectl get pods -n "${NAMESPACE}" -l "app.kubernetes.io/component=${component}" -o custom-columns=POD:metadata.name --no-headers 2>/dev/null | head -n1 || true)
+        if [ -n "$pod" ]; then
+            break
+        fi
+        if [ $i -eq 12 ]; then
+            log_error "Timeout waiting for ${component} pod to be created"
+            exit 1
+        fi
+        sleep 10
+    done
+
+    # Wait for the pod to become ready (up to 5 minutes)
+    if ! kubectl wait --for=condition=ready pod/"${pod}" -n "${NAMESPACE}" --timeout=300s; then
+        log_error "Timeout waiting for ${component} pod ${pod} to be ready"
         exit 1
     fi
-    sleep 10
-done
 
-# Wait for the pod to become ready (up to 5 minutes)
-if ! kubectl wait --for=condition=ready pod/"${USERADM_POD}" -n "${NAMESPACE}" --timeout=300s; then
-    log_error "Timeout waiting for useradm pod ${USERADM_POD} to be ready"
-    exit 1
+    log_info "${component} pod is ready: ${pod}"
+    echo "${pod}"
+}
+
+if [ "$ENTERPRISE" = true ]; then
+    TENANT_NAME="${REVIEW_APP_TENANT_NAME:-review-${RANDOM_SUFFIX}}"
+
+    POD=$(wait_for_pod "tenantadm")
+
+    log_info "Creating initial tenant and admin user..."
+    log_info "Tenant name:    ${TENANT_NAME}"
+    log_info "Admin username: ${ADMIN_USERNAME}"
+
+    TENANT_ID=$(kubectl exec -n "${NAMESPACE}" "${POD}" -- \
+        tenantadm create-org \
+        --name "${TENANT_NAME}" \
+        --username "${ADMIN_USERNAME}" \
+        --password "${ADMIN_PASSWORD}" \
+        --addon "configure" \
+        --addon "monitor" \
+        --addon "troubleshoot" \
+        --plan "enterprise" 2>&1 | tail -n1)
+
+    if [ -z "$TENANT_ID" ]; then
+        log_error "Failed to create tenant"
+        exit 1
+    fi
+
+    log_info "Tenant created successfully with ID: ${TENANT_ID}"
+else
+    POD=$(wait_for_pod "useradm")
+
+    log_info "Creating initial user..."
+    log_info "Admin username: ${ADMIN_USERNAME}"
+
+    USER_ID=$(kubectl exec -n "${NAMESPACE}" "${POD}" -- \
+        useradm create-user \
+        --username "${ADMIN_USERNAME}" \
+        --password "${ADMIN_PASSWORD}" 2>&1 | tail -n1)
+
+    if [ -z "$USER_ID" ]; then
+        log_error "Failed to create user"
+        exit 1
+    fi
+
+    log_info "User created successfully with ID: ${USER_ID}"
 fi
-
-log_info "useradm pod is ready: ${USERADM_POD}"
-
-log_info "Creating initial user..."
-
-# Create initial user
-log_info "Admin username: ${ADMIN_USERNAME}"
-
-USER_ID=$(kubectl exec -n "${NAMESPACE}" "${USERADM_POD}" -- \
-    useradm create-user \
-    --username "${ADMIN_USERNAME}" \
-    --password "${ADMIN_PASSWORD}" 2>&1 | tail -n1)
-
-if [ -z "$USER_ID" ]; then
-    log_error "Failed to create user"
-    exit 1
-fi
-
-log_info "User created successfully with ID: ${USER_ID}"
 
 # Wait a moment for workflows to execute
 sleep 2
@@ -98,9 +139,16 @@ sleep 2
 # Display success message with login credentials
 echo ""
 echo "========================================="
-echo -e "${GREEN}Initial User Created Successfully!${NC}"
-echo "========================================="
-echo "User ID:         ${USER_ID}"
+if [ "$ENTERPRISE" = true ]; then
+    echo -e "${GREEN}Initial Tenant and User Created Successfully!${NC}"
+    echo "========================================="
+    echo "Tenant Name:     ${TENANT_NAME}"
+    echo "Tenant ID:       ${TENANT_ID}"
+else
+    echo -e "${GREEN}Initial User Created Successfully!${NC}"
+    echo "========================================="
+    echo "User ID:         ${USER_ID}"
+fi
 echo "Admin Username:  ${ADMIN_USERNAME}"
 echo "Admin Password:  ${ADMIN_PASSWORD}"
 echo "========================================="
