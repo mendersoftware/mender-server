@@ -271,12 +271,19 @@ func (h DeviceController) handleManagementMessages(
 	errChan chan<- error,
 ) {
 	l := log.FromContext(ctx)
+	streamErr := make(chan error, 1)
 	defer close(errChan)
 	for {
 		s, err := listener.Accept(ctx)
 		if err != nil {
-			if errors.Is(err, stream.ErrClosed) {
-				return
+			if errors.Is(err, stream.ErrClosed) ||
+				errors.Is(err, context.Canceled) {
+				select {
+				case err = <-streamErr:
+				// Listener was closed by sub routine
+				default:
+					return
+				}
 			}
 			l.Errorf("error accepting connections: %s", err.Error())
 			select {
@@ -298,10 +305,13 @@ func (h DeviceController) handleManagementMessages(
 			for {
 				data, err := s.Recv(ctx)
 				if err != nil {
-					if !errors.Is(err, io.EOF) && !errors.Is(err, stream.ErrClosed) {
+					if !errors.Is(err, io.EOF) &&
+						!errors.Is(err, stream.ErrClosed) &&
+						!errors.Is(err, context.Canceled) {
 						l.Errorf("fatal error on channel: %s", err.Error())
 						select {
-						case errChan <- err:
+						case streamErr <- err:
+							_ = listener.Close(ctx)
 						default:
 						}
 					}
@@ -311,7 +321,8 @@ func (h DeviceController) handleManagementMessages(
 				if err != nil {
 					l.Errorf("fatal error writing to websocket: %s", err.Error())
 					select {
-					case errChan <- err:
+					case streamErr <- err:
+						_ = listener.Close(ctx)
 					default:
 					}
 					return
