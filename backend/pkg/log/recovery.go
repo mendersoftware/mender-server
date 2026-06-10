@@ -15,17 +15,12 @@ var (
 	ErrPanic = errors.New("recovered from panic")
 )
 
-func CollectTrace() string {
+func CollectTrace(skip int) string {
 	var (
 		trace     [MaxTraceback]uintptr
 		traceback strings.Builder
 	)
-	// Skip 4
-	// = accesslog.LogFunc
-	// + accesslog.collectTrace
-	// + runtime.Callers
-	// + runtime.gopanic
-	n := runtime.Callers(4, trace[:])
+	n := runtime.Callers(skip, trace[:])
 	frames := runtime.CallersFrames(trace[:n])
 	for frame, more := frames.Next(); frame.PC != 0 &&
 		n >= 0; frame, more = frames.Next() {
@@ -73,7 +68,11 @@ func (l *Logger) SimpleRecovery(opts ...*RecoveryOption) {
 	if r == nil {
 		return
 	}
-	trace := CollectTrace()
+	// = log.SimpleRecovery
+	// + log.CollectTrace
+	// + runtime.Callers
+	// + runtime.gopanic
+	trace := CollectTrace(4)
 	var err error
 	var opt *RecoveryOption
 	if len(opts) > 0 {

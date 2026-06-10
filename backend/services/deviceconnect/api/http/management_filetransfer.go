@@ -256,6 +256,7 @@ func (h ManagementController) handleResponseError(c *gin.Context, err error) {
 			statusCode = http.StatusRequestTimeout
 		default:
 			rest.RenderInternalError(c, err)
+			return
 		}
 		rest.RenderError(c, statusCode, err)
 	} else {
