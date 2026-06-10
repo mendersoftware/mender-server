@@ -86,7 +86,7 @@ const actorMap = {
   device: 'id'
 };
 
-export const UserDescriptor = (item, index) => <div key={`${item.time}-${index} `}>{item.actor[actorMap[item.actor.type]]}</div>;
+export const UserDescriptor = (item, index) => <div key={`${item.time}-${index}`}>{item.actor[actorMap[item.actor.type]]}</div>;
 export const ActionDescriptor = (item, index) => (
   <div className="uppercased" key={`${item.time}-${index}`}>
     {item.action}
