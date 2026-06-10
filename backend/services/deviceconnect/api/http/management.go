@@ -18,6 +18,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net"
 	"net/http"
 	"strconv"
 	"sync"
@@ -332,7 +333,7 @@ func writerFinalizer(conn *websocket.Conn, e *error, l *log.Logger) {
 			if closeErr.Code == websocket.CloseNormalClosure {
 				return
 			}
-		} else {
+		} else if !errors.Is(err, net.ErrClosed) && !errors.Is(err, context.Canceled) {
 			errClose := conn.WriteControl(websocket.CloseMessage,
 				websocket.FormatCloseMessage(websocket.CloseInternalServerErr, "internal error"),
 				time.Now().Add(writeWait),
