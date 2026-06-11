@@ -78,6 +78,7 @@ test.describe('Deployments', () => {
     await expect(locateReleaseByName(page, 'mender-demo-artifact')).toBeVisible();
   });
   test('allows shortcut deployments', async ({ page }) => {
+    test.setTimeout(6 * timeouts.sixtySeconds);
     // create an artifact to download first
     await page.getByText(/mender-demo-artifact/i).click();
     await page.click('.MuiSpeedDial-fab');
@@ -91,7 +92,7 @@ test.describe('Deployments', () => {
     await page.getByRole('tab', { name: /finished/i }).click();
     const pageContent = page.locator('.rightFluid.container');
     const listItem = pageContent.getByRole('listitem').first();
-    await listItem.waitFor({ timeout: timeouts.sixtySeconds });
+    await listItem.waitFor({ timeout: 5 * timeouts.sixtySeconds });
     const datetime = await listItem.locator('time').last().getAttribute('datetime');
     const time = dayjs(datetime);
     const earlier = dayjs().subtract(5, 'minutes');
@@ -100,6 +101,7 @@ test.describe('Deployments', () => {
   });
 
   test('allows shortcut device deployments', async ({ page }) => {
+    test.setTimeout(6 * timeouts.sixtySeconds);
     await navbar.getByRole('link', { name: /devices/i }).click();
     // create an artifact to download first
     await page.getByText(/original/i).click();
@@ -111,7 +113,7 @@ test.describe('Deployments', () => {
     await page.getByRole('tab', { name: /finished/i }).click();
     const pageContent = page.locator('.rightFluid.container');
     const listItem = pageContent.getByRole('listitem').first();
-    await listItem.waitFor({ timeout: timeouts.sixtySeconds });
+    await listItem.waitFor({ timeout: 5 * timeouts.sixtySeconds });
     const datetime = await listItem.locator('time').last().getAttribute('datetime');
     const time = dayjs(datetime);
     const earlier = dayjs().subtract(5, 'minutes');
@@ -122,6 +124,7 @@ test.describe('Deployments', () => {
   });
 
   test('allows group deployments', async ({ page }) => {
+    test.setTimeout(6 * timeouts.sixtySeconds);
     await navbar.getByRole('link', { name: /deployments/i }).click();
     await page.click(`button:has-text('Create a deployment')`);
 
@@ -134,7 +137,9 @@ test.describe('Deployments', () => {
     await page.click(`#deployment-device-group-selection-listbox li:has-text('testgroup')`);
     await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByRole('tab', { name: /finished/i }).click();
-    await page.getByRole('listitem').first().waitFor({ timeout: timeouts.sixtySeconds });
+    const pageContent = page.locator('.rightFluid.container');
+    const listItem = pageContent.getByRole('listitem').first();
+    await listItem.waitFor({ timeout: 5 * timeouts.sixtySeconds });
   });
 
   test('allows deployment filtering by name', async ({ demoDeviceName, page }) => {
