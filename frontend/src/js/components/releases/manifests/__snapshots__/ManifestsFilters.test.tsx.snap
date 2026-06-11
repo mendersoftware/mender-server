@@ -575,63 +575,41 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
   border-radius: inherit;
 }
 
-<form
-  class="margin-bottom margin-top flexbox space-between emotion-0 test-container"
-  novalidate=""
+.emotion-17 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+}
+
+<div
+  style="pointer-events: none;"
 >
-  <div
-    class="emotion-1"
+  <form
+    class="margin-bottom margin-top flexbox space-between emotion-0 test-container"
+    novalidate=""
   >
     <div
-      class="filter-item"
+      class="emotion-1"
     >
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small emotion-2"
-      >
-        Manifest name
-      </h6>
       <div
-        class="MuiFormControl-root MuiTextField-root emotion-3"
+        class="filter-item"
       >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small emotion-2"
+        >
+          Manifest name
+        </h6>
         <div
-          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart emotion-4"
+          class="MuiFormControl-root MuiTextField-root emotion-3"
         >
           <div
-            class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-5"
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart emotion-4"
           >
-            <span
-              aria-hidden="true"
-              class="notranslate"
-            >
-              ​
-            </span>
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeSmall emotion-6"
-              data-testid="SearchIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
-              />
-            </svg>
-          </div>
-          <input
-            aria-invalid="false"
-            class="MuiInputBase-input MuiOutlinedInput-input emotion-7"
-            id="_r_X_"
-            name="name"
-            placeholder="Starts with"
-            type="text"
-            value=""
-          />
-          <fieldset
-            aria-hidden="true"
-            class="MuiOutlinedInput-notchedOutline emotion-8"
-          >
-            <legend
-              class="emotion-9"
+            <div
+              class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined MuiInputAdornment-sizeSmall emotion-5"
             >
               <span
                 aria-hidden="true"
@@ -639,40 +617,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
               >
                 ​
               </span>
-            </legend>
-          </fieldset>
-        </div>
-      </div>
-    </div>
-    <div
-      class="filter-item"
-    >
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small emotion-2"
-      >
-        Tags
-      </h6>
-      <div
-        class="MuiAutocomplete-root emotion-11"
-        name="tags"
-      >
-        <div
-          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-12"
-        >
-          <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot emotion-13"
-          >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-colorDisabled MuiSvgIcon-fontSizeSmall emotion-6"
+                data-testid="SearchIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                />
+              </svg>
+            </div>
             <input
-              aria-autocomplete="list"
-              aria-expanded="false"
               aria-invalid="false"
-              autocapitalize="none"
-              autocomplete="off"
-              class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-14"
-              id="tags-chip-select"
-              placeholder="Select tags"
-              role="combobox"
-              spellcheck="false"
+              class="MuiInputBase-input MuiOutlinedInput-input emotion-7"
+              id="_r_X_"
+              name="name"
+              placeholder="Starts with"
               type="text"
               value=""
             />
@@ -694,7 +656,61 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-14:focus::-ms-input-
           </div>
         </div>
       </div>
+      <div
+        class="filter-item"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle2 margin-top-small margin-bottom-small emotion-2"
+        >
+          Tags
+        </h6>
+        <div
+          class="MuiAutocomplete-root emotion-11"
+          name="tags"
+        >
+          <div
+            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root emotion-12"
+          >
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot emotion-13"
+            >
+              <input
+                aria-autocomplete="list"
+                aria-expanded="false"
+                aria-invalid="false"
+                autocapitalize="none"
+                autocomplete="off"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused emotion-14"
+                id="tags-chip-select"
+                placeholder="Select tags"
+                role="combobox"
+                spellcheck="false"
+                type="text"
+                value=""
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline emotion-8"
+              >
+                <legend
+                  class="emotion-9"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="notranslate"
+                  >
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
+  <span
+    class="MuiTypography-root MuiTypography-caption test-search-note emotion-17"
+  />
+</div>
 `;

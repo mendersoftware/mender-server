@@ -18,14 +18,16 @@ import { Typography } from '@mui/material';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
+import ClickFilter from '@northern.tech/common-ui/forms/ClickFilter';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
-import { getManifestTags, getManifestsListState } from '@northern.tech/store/selectors';
+import { getIsEnterprise, getManifestTags, getManifestsListState } from '@northern.tech/store/selectors';
 import { setManifestsListState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
 export const ManifestsFilters = ({ classes }: { classes: Record<string, string> }) => {
   const { selectedTags = [], searchTerm = '', searchTotal, total } = useSelector(getManifestsListState);
   const existingTags = useSelector(getManifestTags);
+  const isEnterprise = useSelector(getIsEnterprise);
   const dispatch = useDispatch();
 
   const manifestSearchUpdated = useCallback(searchTerm => dispatch(setManifestsListState({ searchTerm })), [dispatch]);
@@ -33,7 +35,7 @@ export const ManifestsFilters = ({ classes }: { classes: Record<string, string> 
   const onFiltersChange = useCallback(({ name, tags }) => dispatch(setManifestsListState({ selectedTags: tags, searchTerm: name })), [dispatch]);
 
   return (
-    <>
+    <ClickFilter disabled={!isEnterprise}>
       <Filters
         className={classes.container}
         onChange={onFiltersChange}
@@ -64,7 +66,7 @@ export const ManifestsFilters = ({ classes }: { classes: Record<string, string> 
       <Typography variant="caption" className={classes.searchNote}>
         {(searchTerm || selectedTags.length > 0) && searchTotal !== total ? `Filtered from ${total} ${pluralize('Manifest', total)}` : ''}
       </Typography>
-    </>
+    </ClickFilter>
   );
 };
 
