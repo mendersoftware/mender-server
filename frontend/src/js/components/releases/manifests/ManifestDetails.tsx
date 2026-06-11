@@ -168,9 +168,7 @@ export const ManifestDetails = ({ onCopy }: { onCopy?: (name: string) => void })
   }, [dispatch, manifestContent?.component_types]);
 
   const copyLinkToClipboard = () => {
-    copy(
-      `${window.location.origin}/ui${generateReleasesPath({ pageState: { selectedRelease: manifestName } })}?${formatReleases({ pageState: { tab: 'manifests' } })}`
-    );
+    copy(`${window.location.origin}/ui${generateReleasesPath({ pageState: {} })}?${formatReleases({ pageState: { tab: 'manifests', id: manifestName } })}`);
     dispatch(setSnackbar('Link copied to clipboard'));
   };
 
