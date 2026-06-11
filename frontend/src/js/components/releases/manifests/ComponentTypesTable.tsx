@@ -48,7 +48,6 @@ const useStyles = makeStyles()(() => ({
 interface ComponentTypesTableProps {
   componentTypes: Record<string, ManifestComponent>;
   existingReleases?: Record<string, boolean>;
-  isCreation?: boolean;
   isEditable?: boolean;
   onChange?: (componentTypes: Record<string, ManifestComponent>) => void;
 }
@@ -56,7 +55,6 @@ interface ComponentTypesTableProps {
 type ColumnExtras = {
   classes: Record<string, string>;
   existingReleases?: Record<string, boolean>;
-  isCreation?: boolean;
   isEditable: boolean;
   onOrderChange: (type: string, order: number) => void;
   onReleaseClick: (name: string) => void;
@@ -81,7 +79,7 @@ const columns: ManifestColumnDefinition[] = [
     title: 'Release',
     sortable: true,
     sortProp: 'artifact_name',
-    render: ({ type, artifact_name, artifact_path }, { isEditable, onReleaseClick, existingReleases, isCreation, onReleaseEdit }) => {
+    render: ({ type, artifact_name, artifact_path }, { isEditable, onReleaseClick, existingReleases, onReleaseEdit }) => {
       if (isEditable) {
         return (
           <Button size="large" color="neutral" variant="outlined" endIcon={<ExpandMoreIcon />} onClick={() => onReleaseEdit(type)}>
@@ -92,7 +90,7 @@ const columns: ManifestColumnDefinition[] = [
       if (artifact_name) {
         if (existingReleases && existingReleases[artifact_name]) {
           return <Link onClick={() => onReleaseClick(artifact_name)}>{artifact_name}</Link>;
-        } else if (isCreation) {
+        } else {
           return (
             <>
               <Typography>{artifact_name}</Typography>
@@ -102,7 +100,6 @@ const columns: ManifestColumnDefinition[] = [
             </>
           );
         }
-        return artifact_name;
       }
       return artifact_path || '-';
     }
@@ -136,7 +133,7 @@ const columns: ManifestColumnDefinition[] = [
   }
 ];
 
-export const ComponentTypesTable = ({ componentTypes, existingReleases, isCreation, isEditable = false, onChange }: ComponentTypesTableProps) => {
+export const ComponentTypesTable = ({ componentTypes, existingReleases, isEditable = false, onChange }: ComponentTypesTableProps) => {
   const [sortCol, setSortCol] = useState('');
   const [sortDown, setSortDown] = useState(false);
   const [page, setPage] = useState(1);
@@ -184,7 +181,7 @@ export const ComponentTypesTable = ({ componentTypes, existingReleases, isCreati
 
   const mappedColumns = columns.map(column => ({
     ...column,
-    extras: { isEditable, onReleaseClick, onReleaseEdit: setEditingType, onOrderChange, existingReleases, isCreation, classes }
+    extras: { isEditable, onReleaseClick, onReleaseEdit: setEditingType, onOrderChange, existingReleases, classes }
   }));
 
   if (!total) {
