@@ -34,7 +34,6 @@ import (
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
@@ -115,7 +114,7 @@ type App interface {
 
 type DevAuth struct {
 	db          store.DataStore
-	invClient   inventory.Client
+	invClient   client.DeviceInventoryInternalAPIAPI
 	cOrch       client.WorkflowsOtherAPI
 	jwt         jwt.Handler
 	jwtFallback jwt.Handler
@@ -133,12 +132,12 @@ type Config struct {
 	// Default tenant token to use when the client supplies none. Can be
 	// empty
 	DefaultTenantToken string
-	InventoryAddr      string
 
 	HaveAddons bool
 }
 
 func NewDevAuth(d store.DataStore, co client.WorkflowsOtherAPI,
+	inv client.DeviceInventoryInternalAPIAPI,
 	jwt jwt.Handler, config Config,
 ) *DevAuth {
 	// initialize checker using an empty merge (returns nil on validate)
@@ -149,7 +148,7 @@ func NewDevAuth(d store.DataStore, co client.WorkflowsOtherAPI,
 
 	return &DevAuth{
 		db:        d,
-		invClient: inventory.NewClient(config.InventoryAddr, false),
+		invClient: inv,
 		cOrch:     co,
 		jwt:       jwt,
 		config:    config,
@@ -163,7 +162,9 @@ func (d *DevAuth) HealthCheck(ctx context.Context) error {
 	if err != nil {
 		return errors.Wrap(err, "error reaching MongoDB")
 	}
-	err = d.invClient.CheckHealth(ctx)
+	//nolint:bodyclose
+	_, err = d.invClient.InventoryInternalCheckHealth(ctx).
+		Execute()
 	if err != nil {
 		return errors.Wrap(err, "Inventory service unhealthy")
 	}

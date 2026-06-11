@@ -81,13 +81,21 @@ func RunServer(c config.Reader) error {
 	cfg.HTTPClient = &http.Client{Timeout: time.Duration(30) * time.Second}
 	wflows := client.NewAPIClient(cfg).WorkflowsOtherAPI
 
+	inventoryCfg, err := oas.NewDefaultClientConfigurationFromURL(
+		c.GetString(dconfig.SettingInventoryAddr),
+	)
+	if err != nil {
+		return fmt.Errorf("error creating inventory client config: %w", err)
+	}
+	inv := client.NewAPIClient(inventoryCfg)
+
 	devauth := devauth.NewDevAuth(db,
 		wflows,
+		inv.DeviceInventoryInternalAPIAPI,
 		jwtHandler,
 		devauth.Config{
 			Issuer:         c.GetString(dconfig.SettingJWTIssuer),
 			ExpirationTime: int64(c.GetInt(dconfig.SettingJWTExpirationTimeout)),
-			InventoryAddr:  config.Config.GetString(dconfig.SettingInventoryAddr),
 		})
 
 	if jwtFallbackHandler != nil {

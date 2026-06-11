@@ -2,15 +2,15 @@ package cmd
 
 import (
 	"context"
-	"errors"
 	"fmt"
+	"net/http"
 	"strconv"
 	"time"
 
 	"golang.org/x/time/rate"
 
+	"github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/log"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store/mongo"
 )
@@ -62,7 +62,7 @@ func fixupIDData2InventoryData(idData map[string]any) {
 func MaintenanceSyncDeviceInventory(
 	ctx context.Context,
 	db *mongo.DataStoreMongo,
-	inv inventory.Client,
+	inv client.DeviceInventoryInternalAPIAPI,
 	rateLimit *rate.Limiter,
 ) error {
 	var totalCount int64
@@ -91,12 +91,16 @@ func MaintenanceSyncDeviceInventory(
 			dev.IdDataStruct["status"] = dev.Status
 		}
 		fixupIDData2InventoryData(dev.IdDataStruct)
-		err := inv.SetDeviceIdentityIfUnmodifiedSince(
-			ctx, dev.TenantID,
-			dev.Id, dev.IdDataStruct,
-			startTS,
-		)
-		if errors.Is(err, inventory.ErrPreconditionsFailed) {
+		attributes, err := GetInventoryAttributes(dev.IdDataStruct)
+		if err != nil {
+			return err
+		}
+		//nolint:bodyclose
+		rsp, err := inv.UpdateInventoryForADeviceScopeWise(ctx, dev.TenantID, dev.Id).
+			Attribute(attributes).
+			IfUnmodifiedSince(startTS.In(time.FixedZone("GMT", 0)).Format(time.RFC1123)).
+			Execute()
+		if rsp != nil && rsp.StatusCode == http.StatusPreconditionFailed {
 			err = nil
 		}
 		if err != nil {

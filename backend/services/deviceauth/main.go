@@ -23,11 +23,12 @@ import (
 	"github.com/urfave/cli"
 	"golang.org/x/time/rate"
 
+	oas "github.com/mendersoftware/mender-server/pkg/api"
+	"github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/version"
 
-	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cmd"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store/mongo"
@@ -272,8 +273,13 @@ func cmdPropagateStatusesInventory(args *cli.Context) error {
 		return err
 	}
 
-	inv := config.Config.GetString(dconfig.SettingInventoryAddr)
-	c := cinv.NewClient(inv, false)
+	inventoryCfg, err := oas.NewDefaultClientConfigurationFromURL(
+		config.Config.GetString(dconfig.SettingInventoryAddr),
+	)
+	if err != nil {
+		return err
+	}
+	c := client.NewAPIClient(inventoryCfg).DeviceInventoryInternalAPIAPI
 
 	err = cmd.PropagateStatusesInventory(db,
 		c,
@@ -298,8 +304,13 @@ func cmdPropagateInventory(args *cli.Context) error {
 		return err
 	}
 
-	inv := config.Config.GetString(dconfig.SettingInventoryAddr)
-	c := cinv.NewClient(inv, false)
+	inventoryCfg, err := oas.NewDefaultClientConfigurationFromURL(
+		config.Config.GetString(dconfig.SettingInventoryAddr),
+	)
+	if err != nil {
+		return err
+	}
+	c := client.NewAPIClient(inventoryCfg).DeviceInventoryInternalAPIAPI
 	rateLimiter := rate.NewLimiter(rate.Limit(args.Float64("rate-limit")), 1)
 	err = cmd.MaintenanceSyncDeviceInventory(ctx, db, c, rateLimiter)
 	if err != nil {
@@ -314,8 +325,13 @@ func cmdPropagateIdDataInventory(args *cli.Context) error {
 		return err
 	}
 
-	inv := config.Config.GetString(dconfig.SettingInventoryAddr)
-	c := cinv.NewClient(inv, false)
+	inventoryCfg, err := oas.NewDefaultClientConfigurationFromURL(
+		config.Config.GetString(dconfig.SettingInventoryAddr),
+	)
+	if err != nil {
+		return err
+	}
+	c := client.NewAPIClient(inventoryCfg).DeviceInventoryInternalAPIAPI
 
 	err = cmd.PropagateIdDataInventory(db,
 		c,
