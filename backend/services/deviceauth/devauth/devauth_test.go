@@ -17,6 +17,7 @@ package devauth
 import (
 	"context"
 	"fmt"
+	"io"
 	"net/http"
 	"testing"
 	"time"
@@ -31,11 +32,11 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/mendersoftware/mender-server/pkg/api/client"
+	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
 	mcache "github.com/mendersoftware/mender-server/services/deviceauth/cache/mocks"
 	minv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory/mocks"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
-	morchestrator "github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	mjwt "github.com/mendersoftware/mender-server/services/deviceauth/jwt/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
@@ -44,6 +45,13 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 	mtesting "github.com/mendersoftware/mender-server/services/deviceauth/utils/testing"
 	uto "github.com/mendersoftware/mender-server/services/deviceauth/utils/to"
+)
+
+var (
+	mockResponseOK = &http.Response{
+		StatusCode: http.StatusOK,
+		Body:       io.NopCloser(nil),
+	}
 )
 
 func TestHealthCheck(t *testing.T) {
@@ -79,7 +87,7 @@ func TestHealthCheck(t *testing.T) {
 			defer cancel()
 
 			db := &mstore.DataStore{}
-			wf := &morchestrator.ClientRunner{}
+			wf := oas_mocks.NewMockWorkflowsOtherAPI(t)
 			inv := &minv.Client{}
 			devauth := NewDevAuth(db, wf, nil, Config{})
 			devauth.invClient = inv
@@ -87,8 +95,17 @@ func TestHealthCheck(t *testing.T) {
 			default:
 				fallthrough
 			case tc.WorkflowsError != nil:
-				wf.On("CheckHealth", ctx).
-					Return(tc.WorkflowsError)
+				req := client.ApiWorkflowsCheckHealthRequest{
+					ApiService: wf,
+				}
+				wf.EXPECT().
+					WorkflowsCheckHealth(ctx).
+					Return(req).
+					Once()
+				wf.EXPECT().
+					WorkflowsCheckHealthExecute(req).
+					Return(mockResponseOK, tc.WorkflowsError).
+					Once()
 				fallthrough
 			case tc.InventoryError != nil:
 				inv.On("CheckHealth", ctx).
@@ -121,7 +138,6 @@ func TestHealthCheck(t *testing.T) {
 			}
 			db.AssertExpectations(t)
 			inv.AssertExpectations(t)
-			wf.AssertExpectations(t)
 		})
 	}
 }
@@ -538,19 +554,32 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 				Tenant: "foobar",
 			}
 			ctx = identity.WithContext(ctx, id)
-			co := morchestrator.ClientRunner{}
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
+			req := client.ApiStartWorkflowRequest{
+				ApiService: co,
+			}
 			if tc.updateDeviceStatus {
-				co.On("SubmitUpdateDeviceStatusJob", mock.Anything,
-					mock.AnythingOfType("orchestrator.UpdateDeviceStatusReq")).
-					Return(nil)
+				co.EXPECT().
+					StartWorkflow(mtesting.ContextMatcher(), "update_device_status").
+					Return(req).
+					Once()
+				co.EXPECT().
+					StartWorkflowExecute(mock.Anything).
+					Return(nil, mockResponseOK, nil).
+					Once()
 			}
 			if tc.updateDeviceInventory {
-				co.On("SubmitUpdateDeviceInventoryJob", ctxMatcher,
-					mock.AnythingOfType("orchestrator.UpdateDeviceInventoryReq")).
-					Return(nil)
+				co.EXPECT().
+					StartWorkflow(mtesting.ContextMatcher(), "update_device_inventory").
+					Return(req).
+					Once()
+				co.EXPECT().
+					StartWorkflowExecute(mock.Anything).
+					Return(nil, mockResponseOK, nil).
+					Once()
 			}
 
-			devauth := NewDevAuth(&db, &co, &jwth, tc.config)
+			devauth := NewDevAuth(&db, co, &jwth, tc.config)
 
 			res, err := devauth.SubmitAuthRequest(ctx, &tc.inReq)
 
@@ -561,7 +590,6 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 			} else {
 				assert.NoError(t, err)
 			}
-			co.AssertExpectations(t)
 		})
 	}
 }
@@ -597,7 +625,7 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 		dev                *model.Device
 		dbGetDeviceByIdErr error
 
-		coSubmitProvisionDeviceJobErr error
+		expectedWorkflows map[string]error
 
 		res string
 		err error
@@ -620,6 +648,10 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 				Status: model.DevStatusPending,
 			},
 			res: dummyToken,
+			expectedWorkflows: map[string]error{
+				"provision_device":        nil,
+				"update_device_inventory": nil,
+			},
 		},
 		{
 			desc: "ok: device during decommissioning",
@@ -702,8 +734,10 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 				Id:     dummyDevId,
 				Status: model.DevStatusPending,
 			},
-			coSubmitProvisionDeviceJobErr: errors.New("workflows failed"),
-			err:                           errors.New("submit device provisioning job error: workflows failed"),
+			expectedWorkflows: map[string]error{
+				"provision_device": errors.New("workflows failed"),
+			},
+			err: errors.New("submit device provisioning job error: workflows failed"),
 		},
 		{
 			desc: "ok: preauthorized set is auto-accepted, device was already accepted",
@@ -724,6 +758,11 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			},
 			//coSubmitProvisionDeviceJobErr: errors.New("workflows shouldn't be called"), // MEN-6961: we accept preauth at all times
 			res: "dummytoken",
+			expectedWorkflows: map[string]error{
+				"update_device_status":    nil,
+				"provision_device":        nil,
+				"update_device_inventory": nil,
+			},
 		},
 		{
 			desc: "error: cannot get device status",
@@ -828,19 +867,24 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 				mock.AnythingOfType("*jwt.Token"),
 			).Return(dummyToken, nil)
 
-			co := morchestrator.ClientRunner{}
-			co.On("SubmitProvisionDeviceJob", ctxMatcher,
-				mock.AnythingOfType("orchestrator.ProvisionDeviceReq")).
-				Return(tc.coSubmitProvisionDeviceJobErr)
-			co.On("SubmitUpdateDeviceStatusJob", ctxMatcher,
-				mock.AnythingOfType("orchestrator.UpdateDeviceStatusReq")).
-				Return(nil)
-			co.On("SubmitUpdateDeviceInventoryJob", ctxMatcher,
-				mock.AnythingOfType("orchestrator.UpdateDeviceInventoryReq")).
-				Return(nil)
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
+
+			req := client.ApiStartWorkflowRequest{
+				ApiService: co,
+			}
+			for name, err := range tc.expectedWorkflows {
+				co.EXPECT().
+					StartWorkflow(mtesting.ContextMatcher(), name).
+					Return(req).
+					Once()
+				co.EXPECT().
+					StartWorkflowExecute(mock.Anything).
+					Return(nil, mockResponseOK, err).
+					Once()
+			}
 
 			// setup devauth
-			devauth := NewDevAuth(&db, &co, &jwth, Config{})
+			devauth := NewDevAuth(&db, co, &jwth, Config{})
 
 			// test
 			res, err := devauth.SubmitAuthRequest(context.Background(), &inReq)
@@ -984,18 +1028,29 @@ func TestDevAuthPreauthorizeDevice(t *testing.T) {
 				}
 			}
 
-			co := morchestrator.ClientRunner{}
-			defer co.AssertExpectations(t)
-
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
+			req := client.ApiStartWorkflowRequest{
+				ApiService: co,
+			}
 			if tc.updateDeviceStatus {
-				co.On("SubmitUpdateDeviceStatusJob", ctxMatcher,
-					mock.AnythingOfType("orchestrator.UpdateDeviceStatusReq")).
-					Return(nil)
+				co.EXPECT().
+					StartWorkflow(mtesting.ContextMatcher(), "update_device_status").
+					Return(req).
+					Once()
+				co.EXPECT().
+					StartWorkflowExecute(mock.Anything).
+					Return(nil, mockResponseOK, nil).
+					Once()
 			}
 			if tc.updateDeviceInventory {
-				co.On("SubmitUpdateDeviceInventoryJob", ctxMatcher,
-					mock.AnythingOfType("orchestrator.UpdateDeviceInventoryReq")).
-					Return(nil)
+				co.EXPECT().
+					StartWorkflow(mtesting.ContextMatcher(), "update_device_inventory").
+					Return(req).
+					Once()
+				co.EXPECT().
+					StartWorkflowExecute(mock.Anything).
+					Return(nil, mockResponseOK, nil).
+					Once()
 			}
 
 			if tc.err == ErrDeviceExists {
@@ -1013,7 +1068,7 @@ func TestDevAuthPreauthorizeDevice(t *testing.T) {
 					},
 					tc.getDevByIdErr)
 			}
-			devauth := NewDevAuth(&db, &co, nil, Config{})
+			devauth := NewDevAuth(&db, co, nil, Config{})
 			dev, err := devauth.PreauthorizeDevice(context.Background(), tc.req)
 
 			if tc.err != nil {
@@ -1027,7 +1082,6 @@ func TestDevAuthPreauthorizeDevice(t *testing.T) {
 			} else {
 				assert.Nil(t, dev)
 			}
-			co.AssertExpectations(t)
 			db.AssertExpectations(t)
 		})
 	}
@@ -1055,8 +1109,6 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 		dbUpdateRevokeAuthSetsErr error
 
 		dbGetErr error
-
-		coSubmitProvisionDeviceJobErr error
 
 		outErr string
 	}{
@@ -1108,9 +1160,8 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 				Id:     dummyDevID,
 				Status: model.DevStatusPending,
 			},
-			coSubmitProvisionDeviceJobErr: errors.New("workflows shouldn't be called"),
-			dbLimit:                       &model.Limit{Value: 5},
-			dbCount:                       4,
+			dbLimit: &model.Limit{Value: 5},
+			dbCount: 4,
 		},
 		{
 			aset: &model.AuthSet{
@@ -1122,9 +1173,8 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 				Id:     dummyAuthID,
 				Status: model.DevStatusAccepted,
 			},
-			coSubmitProvisionDeviceJobErr: errors.New("workflows shouldn't be called"),
-			dbLimit:                       &model.Limit{Value: 5},
-			dbCount:                       4,
+			dbLimit: &model.Limit{Value: 5},
+			dbCount: 4,
 		},
 		{
 			aset: &model.AuthSet{
@@ -1226,8 +1276,7 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 				Id:     dummyDevID,
 				Status: model.DevStatusPending,
 			},
-			coSubmitProvisionDeviceJobErr: errors.New("workflows failed"),
-			outErr:                        "submit device provisioning job error: workflows failed",
+			outErr: "submit device provisioning job error: workflows failed",
 		},
 		{
 			dbLimit: &model.Limit{Value: model.LimitUnlimited},
@@ -1309,15 +1358,7 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 					}).Return(tc.dbUpdateErr)
 			}
 
-			co := morchestrator.ClientRunner{}
-			co.On("SubmitProvisionDeviceJob", context.Background(),
-				mock.AnythingOfType("orchestrator.ProvisionDeviceReq")).
-				Return(tc.coSubmitProvisionDeviceJobErr)
-			co.On("SubmitUpdateDeviceStatusJob", context.Background(),
-				mock.AnythingOfType("orchestrator.UpdateDeviceStatusReq")).
-				Return(nil)
-
-			devauth := NewDevAuth(&db, &co, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, Config{})
 			err := devauth.AcceptDeviceAuth(
 				context.Background(), dummyDevID, dummyAuthID)
 
@@ -1450,12 +1491,9 @@ func TestDevAuthRejectDevice(t *testing.T) {
 			db.On("GetDeviceById", ctx,
 				mock.AnythingOfType("string")).Return(&model.Device{}, nil)
 
-			co := morchestrator.ClientRunner{}
-			co.On("SubmitUpdateDeviceStatusJob", ctx,
-				mock.AnythingOfType("orchestrator.UpdateDeviceStatusReq")).
-				Return(nil)
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
 
-			devauth := NewDevAuth(&db, &co, nil, Config{})
+			devauth := NewDevAuth(&db, co, nil, Config{})
 
 			c := &mcache.Cache{}
 			if tc.withCache {
@@ -1619,6 +1657,7 @@ func TestDevAuthResetDevice(t *testing.T) {
 		aset             *model.AuthSet
 		dbErr            error
 		dbDelDevTokenErr error
+		submitJob        bool
 
 		outErr string
 	}{
@@ -1627,6 +1666,7 @@ func TestDevAuthResetDevice(t *testing.T) {
 				Id:       dummyAuthID,
 				DeviceId: dummyDevID,
 			},
+			submitJob:        true,
 			dbDelDevTokenErr: nil,
 		},
 		{
@@ -1683,12 +1723,22 @@ func TestDevAuthResetDevice(t *testing.T) {
 			db.On("GetDeviceById", context.Background(),
 				mock.AnythingOfType("string")).Return(&model.Device{}, nil)
 
-			co := morchestrator.ClientRunner{}
-			co.On("SubmitUpdateDeviceStatusJob", context.Background(),
-				mock.AnythingOfType("orchestrator.UpdateDeviceStatusReq")).
-				Return(nil)
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
+			if tc.submitJob {
+				req := client.ApiStartWorkflowRequest{
+					ApiService: co,
+				}
+				co.EXPECT().
+					StartWorkflow(mtesting.ContextMatcher(), "update_device_status").
+					Return(req).
+					Once()
+				co.EXPECT().
+					StartWorkflowExecute(mock.Anything).
+					Return(nil, mockResponseOK, nil).
+					Once()
+			}
 
-			devauth := NewDevAuth(&db, &co, nil, Config{})
+			devauth := NewDevAuth(&db, co, nil, Config{})
 			err := devauth.ResetDeviceAuth(
 				context.Background(), dummyDevID, dummyAuthID,
 			)
@@ -1895,10 +1945,20 @@ func TestDevAuthVerifyToken(t *testing.T) {
 
 			db := &mstore.DataStore{}
 			ja := &mjwt.Handler{}
-			co := &morchestrator.ClientRunner{}
-			co.On("SubmitUpdateDeviceInventoryJob", context.Background(),
-				mock.AnythingOfType("orchestrator.UpdateDeviceInventoryReq")).
-				Return(nil)
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
+			if tc.willUpdateDevice {
+				req := client.ApiStartWorkflowRequest{
+					ApiService: co,
+				}
+				co.EXPECT().
+					StartWorkflow(mtesting.ContextMatcher(), "update_device_inventory").
+					Return(req).
+					Once()
+				co.EXPECT().
+					StartWorkflowExecute(mock.Anything).
+					Return(nil, mockResponseOK, nil).
+					Once()
+			}
 
 			devauth := NewDevAuth(db, co, ja, Config{})
 			if tc.jwtHandlerFallback {
@@ -2108,16 +2168,25 @@ func TestDevAuthVerifyTokenWithCache(t *testing.T) {
 			db := &mstore.DataStore{}
 			ja := &mjwt.Handler{}
 			c := &mcache.Cache{}
-			co := &morchestrator.ClientRunner{}
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
 
 			devauth := NewDevAuth(db, co, ja, Config{})
 			devauth = devauth.WithCache(c)
 
 			devauth = devauth.WithClock(mclock)
-
-			co.On("SubmitUpdateDeviceInventoryJob", ctx,
-				mock.AnythingOfType("orchestrator.UpdateDeviceInventoryReq")).
-				Return(nil)
+			if tc.willUpdateDevice {
+				req := client.ApiStartWorkflowRequest{
+					ApiService: co,
+				}
+				co.EXPECT().
+					StartWorkflow(mtesting.ContextMatcher(), "update_device_inventory").
+					Return(req).
+					Once()
+				co.EXPECT().
+					StartWorkflowExecute(mock.Anything).
+					Return(nil, mockResponseOK, nil).
+					Once()
+			}
 
 			ja.On("FromJWT", tc.tokenString).Return(
 				func(s string) *jwt.Token {
@@ -2227,6 +2296,7 @@ func TestDevAuthDecommissionDevice(t *testing.T) {
 		withCache      bool
 		cacheDeleteErr error
 
+		submitJob                          bool
 		coSubmitDeviceDecommisioningJobErr error
 		coAuthorization                    string
 
@@ -2247,17 +2317,20 @@ func TestDevAuthDecommissionDevice(t *testing.T) {
 		{
 			devId: oid.NewUUIDv5("devId3").String(),
 
+			submitJob:                          true,
 			coSubmitDeviceDecommisioningJobErr: errors.New("SubmitDeviceDecommisioningJob Error"),
 			outErr:                             "submit device decommissioning job error: SubmitDeviceDecommisioningJob Error",
 		},
 		{
 			devId:           oid.NewUUIDv5("devId4").String(),
+			submitJob:       true,
 			coAuthorization: "Bearer foobar",
 		},
 		{
 			devId:           oid.NewUUIDv5("devId4").String(),
 			withCache:       true,
 			tenant:          "acme",
+			submitJob:       true,
 			coAuthorization: "Bearer foobar",
 		},
 		{
@@ -2301,13 +2374,26 @@ func TestDevAuthDecommissionDevice(t *testing.T) {
 				}, "Authorization")
 			}
 
-			co := morchestrator.ClientRunner{}
-			co.On("SubmitDeviceDecommisioningJob", ctx,
-				orchestrator.DecommissioningReq{
-					DeviceId: tc.devId,
-					TenantID: tc.tenant,
-				}).
-				Return(tc.coSubmitDeviceDecommisioningJobErr)
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
+
+			if tc.submitJob {
+				req := client.ApiStartWorkflowRequest{
+					ApiService: co,
+				}.RequestBody(map[string]interface{}{
+					"device_id":  tc.devId,
+					"tenant_id":  tc.tenant,
+					"request_id": "",
+				})
+				co.EXPECT().
+					StartWorkflow(ctx, "decommission_device").
+					Return(req).
+					Once()
+				co.EXPECT().
+					StartWorkflowExecute(req).
+					Return(nil, mockResponseOK, tc.coSubmitDeviceDecommisioningJobErr).
+					Once()
+
+			}
 
 			db := mstore.DataStore{}
 			db.On("UpdateDevice", ctx,
@@ -2320,7 +2406,7 @@ func TestDevAuthDecommissionDevice(t *testing.T) {
 				mock.AnythingOfType("model.Device"),
 				mock.AnythingOfType("model.DeviceUpdate")).Return(nil)
 
-			devauth := NewDevAuth(&db, &co, nil, Config{})
+			devauth := NewDevAuth(&db, co, nil, Config{})
 			c := &mcache.Cache{}
 
 			if tc.withCache {
@@ -2426,15 +2512,7 @@ func TestTestDevAuthDeleteDevice(t *testing.T) {
 				tc.devId).Return(
 				tc.dbDeleteDeviceErr)
 
-			co := morchestrator.ClientRunner{}
-			co.On("SubmitDeviceDecommisioningJob", ctx,
-				orchestrator.DecommissioningReq{
-					DeviceId: tc.devId,
-					TenantID: tc.tenant,
-				}).
-				Return(tc.coSubmitDeviceDecommisioningJobErr)
-
-			devauth := NewDevAuth(&db, &co, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, Config{})
 
 			err := devauth.DeleteDevice(ctx, tc.devId)
 			if tc.outErr != "" {
@@ -2801,6 +2879,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 		dbGetDeviceStatusErr        error
 		dbUpdateDeviceErr           error
 
+		submitJob       bool
 		orchestratorErr error
 
 		authSet *model.AuthSet
@@ -2830,11 +2909,13 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 			devId:                   oid.NewUUIDv5("devId4").String(),
 			authId:                  oid.NewUUIDv5("authId4").String(),
 			authSet:                 &model.AuthSet{Status: model.DevStatusPending},
+			submitJob:               true,
 			dbDeleteTokenByDevIdErr: errors.New("DeleteTokenByDevId Error"),
 		},
 		{
 			devId:                   oid.NewUUIDv5("devId5").String(),
 			authId:                  oid.NewUUIDv5("authId5").String(),
+			submitJob:               true,
 			dbDeleteTokenByDevIdErr: store.ErrTokenNotFound,
 		},
 		{
@@ -2847,6 +2928,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 			devId:             oid.NewUUIDv5("devId8").String(),
 			authId:            oid.NewUUIDv5("authId8").String(),
 			authSet:           &model.AuthSet{Status: model.DevStatusPreauth},
+			submitJob:         true,
 			dbGetDeviceStatus: "decommissioned",
 			dbDeleteDeviceErr: errors.New("DeleteDevice Error"),
 			outErr:            "DeleteDevice Error",
@@ -2855,6 +2937,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 			devId:             oid.NewUUIDv5("devId8").String(),
 			authId:            oid.NewUUIDv5("authId8").String(),
 			authSet:           &model.AuthSet{Status: model.DevStatusPreauth},
+			submitJob:         true,
 			dbGetDeviceStatus: "decommissioned",
 			orchestratorErr:   errors.New("orchestrator error"),
 			outErr:            "update device status job error: orchestrator error",
@@ -2863,6 +2946,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 		{
 			devId:             oid.NewUUIDv5("devId9").String(),
 			authId:            oid.NewUUIDv5("authId9").String(),
+			submitJob:         true,
 			dbDeleteDeviceErr: errors.New("DeleteDevice Error"),
 		},
 		{
@@ -2874,17 +2958,20 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 		{
 			devId:             oid.NewUUIDv5("devId11").String(),
 			authId:            oid.NewUUIDv5("authId11").String(),
+			submitJob:         true,
 			dbUpdateDeviceErr: errors.New("Update Device Error"),
 			outErr:            "failed to update device status: Update Device Error",
 		},
 		{
 			devId:             oid.NewUUIDv5("devId12").String(),
 			authId:            oid.NewUUIDv5("authId12").String(),
+			submitJob:         true,
 			dbGetDeviceStatus: "accepted",
 		},
 		{
 			devId:             oid.NewUUIDv5("devId12").String(),
 			authId:            oid.NewUUIDv5("authId12").String(),
+			submitJob:         true,
 			withCache:         true,
 			tenant:            "acme",
 			dbGetDeviceStatus: "accepted",
@@ -2892,6 +2979,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 		{
 			devId:                oid.NewUUIDv5("devId12").String(),
 			authId:               oid.NewUUIDv5("authId12").String(),
+			submitJob:            true,
 			dbGetDeviceStatusErr: store.ErrAuthSetNotFound,
 		},
 		{
@@ -2953,22 +3041,38 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 			db.On("GetDeviceById", ctx,
 				mock.AnythingOfType("string")).Return(&model.Device{Id: tc.devId}, nil)
 
-			co := morchestrator.ClientRunner{}
-			co.On("SubmitUpdateDeviceStatusJob", ctx,
-				mock.MatchedBy(
-					func(req orchestrator.UpdateDeviceStatusReq) bool {
-						if tc.dbGetDeviceStatusErr == store.ErrAuthSetNotFound {
-							assert.Equal(t, tc.devId, req.Devices[0].Id)
-							assert.Equal(t, "noauth", req.Status)
-							return true
-						} else {
-							assert.Equal(t, tc.devId, req.Devices[0].Id)
-							assert.Equal(t, tc.dbGetDeviceStatus, req.Status)
-							return true
-						}
-					})).Return(tc.orchestratorErr)
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
+			status := tc.dbGetDeviceStatus
+			var revision uint = 1
+			if tc.dbGetDeviceStatusErr == store.ErrAuthSetNotFound {
+				status = "noauth"
+			}
+			if tc.dbGetDeviceStatus == "decommissioned" {
+				revision = 0
+			}
+			if tc.submitJob {
+				req := client.ApiStartWorkflowRequest{
+					ApiService: co,
+				}.RequestBody(map[string]interface{}{
+					"device_status": status,
+					"devices": []model.DeviceInventoryUpdate{{
+						Id:       tc.devId,
+						Revision: revision,
+					}},
+					"request_id": "",
+					"tenant_id":  tc.tenant,
+				})
+				co.EXPECT().
+					StartWorkflow(mtesting.ContextMatcher(), "update_device_status").
+					Return(req).
+					Once()
+				co.EXPECT().
+					StartWorkflowExecute(req).
+					Return(nil, mockResponseOK, tc.orchestratorErr).
+					Once()
+			}
 
-			devauth := NewDevAuth(&db, &co, nil, Config{})
+			devauth := NewDevAuth(&db, co, nil, Config{})
 
 			c := &mcache.Cache{}
 			if tc.withCache {
