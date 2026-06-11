@@ -36,7 +36,6 @@ import (
 	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
 	mcache "github.com/mendersoftware/mender-server/services/deviceauth/cache/mocks"
-	minv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	mjwt "github.com/mendersoftware/mender-server/services/deviceauth/jwt/mocks"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
@@ -88,8 +87,8 @@ func TestHealthCheck(t *testing.T) {
 
 			db := &mstore.DataStore{}
 			wf := oas_mocks.NewMockWorkflowsOtherAPI(t)
-			inv := &minv.Client{}
-			devauth := NewDevAuth(db, wf, nil, Config{})
+			inv := oas_mocks.NewMockDeviceInventoryInternalAPIAPI(t)
+			devauth := NewDevAuth(db, wf, inv, nil, Config{})
 			devauth.invClient = inv
 			switch {
 			default:
@@ -108,8 +107,17 @@ func TestHealthCheck(t *testing.T) {
 					Once()
 				fallthrough
 			case tc.InventoryError != nil:
-				inv.On("CheckHealth", ctx).
-					Return(tc.InventoryError)
+				req := client.ApiInventoryInternalCheckHealthRequest{
+					ApiService: inv,
+				}
+				inv.EXPECT().
+					InventoryInternalCheckHealth(ctx).
+					Return(req).
+					Once()
+				inv.EXPECT().
+					InventoryInternalCheckHealthExecute(req).
+					Return(mockResponseOK, tc.InventoryError).
+					Once()
 				fallthrough
 			case tc.DataStoreError != nil:
 				db.On("Ping", ctx).
@@ -137,7 +145,6 @@ func TestHealthCheck(t *testing.T) {
 				assert.NoError(t, err)
 			}
 			db.AssertExpectations(t)
-			inv.AssertExpectations(t)
 		})
 	}
 }
@@ -579,7 +586,7 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 					Once()
 			}
 
-			devauth := NewDevAuth(&db, co, &jwth, tc.config)
+			devauth := NewDevAuth(&db, co, nil, &jwth, tc.config)
 
 			res, err := devauth.SubmitAuthRequest(ctx, &tc.inReq)
 
@@ -884,7 +891,7 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			}
 
 			// setup devauth
-			devauth := NewDevAuth(&db, co, &jwth, Config{})
+			devauth := NewDevAuth(&db, co, nil, &jwth, Config{})
 
 			// test
 			res, err := devauth.SubmitAuthRequest(context.Background(), &inReq)
@@ -1068,7 +1075,7 @@ func TestDevAuthPreauthorizeDevice(t *testing.T) {
 					},
 					tc.getDevByIdErr)
 			}
-			devauth := NewDevAuth(&db, co, nil, Config{})
+			devauth := NewDevAuth(&db, co, nil, nil, Config{})
 			dev, err := devauth.PreauthorizeDevice(context.Background(), tc.req)
 
 			if tc.err != nil {
@@ -1358,7 +1365,7 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 					}).Return(tc.dbUpdateErr)
 			}
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 			err := devauth.AcceptDeviceAuth(
 				context.Background(), dummyDevID, dummyAuthID)
 
@@ -1493,7 +1500,7 @@ func TestDevAuthRejectDevice(t *testing.T) {
 
 			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
 
-			devauth := NewDevAuth(&db, co, nil, Config{})
+			devauth := NewDevAuth(&db, co, nil, nil, Config{})
 
 			c := &mcache.Cache{}
 			if tc.withCache {
@@ -1611,7 +1618,7 @@ func TestDevAuthRevokeToken(t *testing.T) {
 
 			c := &mcache.Cache{}
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 
 			if tc.withCache {
 				devauth = devauth.WithCache(c)
@@ -1738,7 +1745,7 @@ func TestDevAuthResetDevice(t *testing.T) {
 					Once()
 			}
 
-			devauth := NewDevAuth(&db, co, nil, Config{})
+			devauth := NewDevAuth(&db, co, nil, nil, Config{})
 			err := devauth.ResetDeviceAuth(
 				context.Background(), dummyDevID, dummyAuthID,
 			)
@@ -1960,7 +1967,7 @@ func TestDevAuthVerifyToken(t *testing.T) {
 					Once()
 			}
 
-			devauth := NewDevAuth(db, co, ja, Config{})
+			devauth := NewDevAuth(db, co, nil, ja, Config{})
 			if tc.jwtHandlerFallback {
 				jaFallback := &mjwt.Handler{}
 				jaFallback.On("Validate", tc.tokenString).Return(tc.fallbackValidateErr)
@@ -2170,7 +2177,7 @@ func TestDevAuthVerifyTokenWithCache(t *testing.T) {
 			c := &mcache.Cache{}
 			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
 
-			devauth := NewDevAuth(db, co, ja, Config{})
+			devauth := NewDevAuth(db, co, nil, ja, Config{})
 			devauth = devauth.WithCache(c)
 
 			devauth = devauth.WithClock(mclock)
@@ -2406,7 +2413,7 @@ func TestDevAuthDecommissionDevice(t *testing.T) {
 				mock.AnythingOfType("model.Device"),
 				mock.AnythingOfType("model.DeviceUpdate")).Return(nil)
 
-			devauth := NewDevAuth(&db, co, nil, Config{})
+			devauth := NewDevAuth(&db, co, nil, nil, Config{})
 			c := &mcache.Cache{}
 
 			if tc.withCache {
@@ -2512,7 +2519,7 @@ func TestTestDevAuthDeleteDevice(t *testing.T) {
 				tc.devId).Return(
 				tc.dbDeleteDeviceErr)
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 
 			err := devauth.DeleteDevice(ctx, tc.devId)
 			if tc.outErr != "" {
@@ -2571,7 +2578,7 @@ func TestDevAuthSetTenantLimit(t *testing.T) {
 				tc.limit).
 				Return(tc.dbPutLimitErr)
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 			err := devauth.SetTenantLimit(ctx, tc.tenantId, tc.limit)
 
 			if tc.outErr != "" {
@@ -2623,7 +2630,7 @@ func TestDevAuthDeleteTenantLimit(t *testing.T) {
 				tc.limit).
 				Return(tc.dbPutLimitErr)
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 			err := devauth.DeleteTenantLimit(ctx, tc.tenantId, tc.limit)
 
 			if tc.outErr != "" {
@@ -2698,7 +2705,7 @@ func TestDevAuthGetLimit(t *testing.T) {
 				mock.AnythingOfType("model.Device"),
 				mock.AnythingOfType("model.DeviceUpdate")).Return(nil)
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 			limit, err := devauth.GetLimit(ctx, tc.inName)
 
 			if tc.outErr != nil {
@@ -2783,7 +2790,7 @@ func TestDevAuthGetTenantLimit(t *testing.T) {
 				Run(verifyCtx).
 				Return(tc.dbLimit, tc.dbErr)
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 			limit, err := devauth.GetTenantLimit(ctx, tc.inName, tc.inTenant)
 
 			if tc.outErr != nil {
@@ -2846,7 +2853,7 @@ func TestDevAuthGetDevCountByStatus(t *testing.T) {
 			db := mstore.DataStore{}
 			db.On("GetDevCountByStatus", ctx, tc.status).Return(tc.dbCnt, tc.dbErr)
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 			cnt, err := devauth.GetDevCountByStatus(ctx, tc.status)
 
 			if tc.err != nil {
@@ -3072,7 +3079,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 					Once()
 			}
 
-			devauth := NewDevAuth(&db, co, nil, Config{})
+			devauth := NewDevAuth(&db, co, nil, nil, Config{})
 
 			c := &mcache.Cache{}
 			if tc.withCache {
@@ -3181,7 +3188,7 @@ func TestDeleteTokens(t *testing.T) {
 				c.AssertNotCalled(t, "FlushDB")
 			}
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 			devauth = devauth.WithCache(c)
 
 			err := devauth.DeleteTokens(ctx, tc.tenantId, tc.deviceId)
@@ -3255,7 +3262,7 @@ func TestGetTenantDeviceStatus(t *testing.T) {
 				tc.deviceId,
 			).Return(tc.dev, tc.dbGetDeviceByIdErr)
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 			status, err := devauth.GetTenantDeviceStatus(ctx, tc.tenantId, tc.deviceId)
 
 			if tc.outErr != nil {
@@ -3347,7 +3354,7 @@ func TestDevAuthGetDeviceWithCache(t *testing.T) {
 			).Return(tc.dbGetAuthSetsForDevice, nil)
 			defer db.AssertExpectations(t)
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 
 			c := &mcache.Cache{}
 			devauth = devauth.WithCache(c)
@@ -3449,7 +3456,7 @@ func TestDevAuthGetDevicesWithCache(t *testing.T) {
 			).Return(tc.dbGetAuthSetsForDevice, nil)
 			defer db.AssertExpectations(t)
 
-			devauth := NewDevAuth(&db, nil, nil, Config{})
+			devauth := NewDevAuth(&db, nil, nil, nil, Config{})
 
 			c := &mcache.Cache{}
 			devauth = devauth.WithCache(c)
