@@ -45,7 +45,9 @@ export const ChipSelect = ({
       return setValue('');
     }
     const lastIndex = value.lastIndexOf(',');
-    const possibleSelection = value.substring(0, lastIndex).split(',').filter(duplicateFilter);
+    const commaSeparatedValues = value.substring(0, lastIndex).split(',');
+    const tagWorthyValues = commaSeparatedValues.flatMap(potentialTag => potentialTag.trim().split(/\s+/)).filter(Boolean);
+    const possibleSelection = tagWorthyValues.filter(duplicateFilter);
     const currentValue = value.substring(lastIndex + 1);
     const selection = getValues(name);
     const nextSelection = unionizeStrings(selection, possibleSelection);
@@ -55,7 +57,7 @@ export const ChipSelect = ({
 
   const onTextInputLeave = (value, setCurrentSelection) => {
     const selection = getValues(name);
-    const nextSelection = unionizeStrings(selection, [value]);
+    const nextSelection = unionizeStrings(selection, [].concat(value.trim().split(/\s+/)).filter(Boolean));
     setCurrentSelection(nextSelection);
     setValue('');
   };
