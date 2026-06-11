@@ -103,15 +103,8 @@ describe('ComponentTypesTable', () => {
     expect(link.closest('a, button')).toBeTruthy();
   });
 
-  it('renders plain text for releases when existingReleases marks them as non-existent and not in creation mode', () => {
-    render(<ComponentTypesTable componentTypes={componentTypes} existingReleases={{ 'existing-release': false, 'missing-release': false }} />);
-    expect(screen.getByText('existing-release')).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'existing-release' })).not.toBeInTheDocument();
-    expect(screen.queryByText(/not available/i)).not.toBeInTheDocument();
-  });
-
-  it('renders a warning for non-existent releases during creation', () => {
-    render(<ComponentTypesTable componentTypes={componentTypes} existingReleases={{ 'existing-release': true, 'missing-release': false }} isCreation />);
+  it('renders a warning for non-existent releases', () => {
+    render(<ComponentTypesTable componentTypes={componentTypes} existingReleases={{ 'existing-release': true, 'missing-release': false }} />);
     expect(screen.getByRole('button', { name: 'existing-release' })).toBeInTheDocument();
     expect(screen.getByText(/not available/i)).toBeInTheDocument();
     expect(screen.getByText('missing-release')).toBeInTheDocument();

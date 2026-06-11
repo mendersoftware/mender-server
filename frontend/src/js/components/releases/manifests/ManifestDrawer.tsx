@@ -344,7 +344,6 @@ export const AddManifestDrawer = ({ copyFromManifest, onClose, open }: AddManife
               isEditable={mode === modes.copy.key}
               onChange={onComponentTypesChange}
               existingReleases={existingReleases}
-              isCreation
             />
           )}
           {backendErrorMessage && (
