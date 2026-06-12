@@ -103,10 +103,12 @@ export const ChipSelect = ({
               fullWidth
               slotProps={{
                 ...params.slotProps,
+                input: { ...params.slotProps.input, disableUnderline: true },
                 htmlInput: { ...params.slotProps.htmlInput, value }
               }}
               key={`${name}-input`}
               label={label}
+              disabled={disabled}
               variant={disabled ? 'standard' : 'outlined'}
               onBlur={e => onTextInputLeave(e.target.value, formOnChange)}
               onChange={e => onTextInputChange(e.target.value, 'input', formOnChange)}
