@@ -1349,7 +1349,7 @@ func TestDevAuthAcceptDevice(t *testing.T) {
 				mock.AnythingOfType("model.DeviceUpdate")).Return(nil)
 			db.On("GetDeviceStatus", context.Background(),
 				dummyDevID).Return(
-				"accpted", nil)
+				"accepted", nil)
 
 			if tc.aset != nil {
 				// for rejecting all auth sets
@@ -1491,7 +1491,7 @@ func TestDevAuthRejectDevice(t *testing.T) {
 				Return(tc.dbDelDevTokenErr)
 			db.On("GetDeviceStatus", ctx,
 				dummyDevID).
-				Return("accpted", nil)
+				Return("accepted", nil)
 			db.On("UpdateDevice", ctx,
 				dummyDevID,
 				mock.AnythingOfType("model.DeviceUpdate")).Return(nil)
@@ -1718,7 +1718,7 @@ func TestDevAuthResetDevice(t *testing.T) {
 				tc.dbDelDevTokenErr)
 			db.On("GetDeviceStatus", context.Background(),
 				dummyDevID).Return(
-				"accpted", nil)
+				"accepted", nil)
 			db.On("UpdateDevice", context.Background(),
 				func() interface{} {
 					if tc.aset != nil {
