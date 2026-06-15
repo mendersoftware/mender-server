@@ -16,9 +16,10 @@ paths:
         including active and historical. If both 'status' and 'query' are
         not specified, all devices are listed.
 
-        DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the "search" query
-          behavior. Please use the v2 /deployments/deployments endpoint instead.
-          In the new endpoint, we replaced search parameter with the "id" and "name" parameters.
+      x-deprecated-description: |
+        _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the "search" query
+        behavior. Please use the v2 /deployments/deployments endpoint instead.
+        In the new endpoint, we replaced search parameter with the "id" and "name" parameters.
       operationId: Deployments V1 List Deployments
       parameters:
       - description: Deployment status filter.
@@ -397,6 +398,10 @@ paths:
   /api/management/v1/deployments/deployments/{deployment_id}/devices:
     get:
       deprecated: true
+      x-deprecated-description: |
+        _since Wed May 19 2021_ this end-point is deprecated because it doesn't support
+        pagination and will be removed in the future, please use the
+        /deployments/{deployment_id}/devices/list end-point instead.
       operationId: List All Devices in Deployment
       parameters:
       - description: Deployment identifier.
@@ -423,9 +428,7 @@ paths:
       security:
       - ManagementJWT: []
       summary: |
-        DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support
-        pagination and will be removed in the future, please use the
-        /deployments/{deployment_id}/devices/list end-point instead.
+        please use the /deployments/{deployment_id}/devices/list end-point instead.
       tags:
       - Management API
   /api/management/v1/deployments/deployments/{deployment_id}/devices/list:
@@ -694,7 +697,8 @@ paths:
       description: |
         Returns a collection of releases, allows filtering by release name.
 
-        DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support
+      x-deprecated-description: |
+        _since Wed May 19 2021_ this end-point is deprecated because it doesn't support
         pagination and will be removed in the future, please use the
         /deployments/releases/list end-point instead.
       operationId: List Releases
@@ -835,7 +839,8 @@ paths:
         Returns a collection of releases, allows filtering by release name and sorting
         by name or last modification date.
 
-        DEPRECATED: _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response
+      x-deprecated-description: |
+        _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response
         body and lack of support for advanced filters and sorting, we have deprecated this
         endpoint. Please use the v2 /deployments/releases end-point instead.
       operationId: Deployments V1 List Releases with pagination
@@ -1013,7 +1018,8 @@ paths:
       description: |
         Returns a collection of all artifacts.
 
-        DEPRECATED: _since Oct 18 2021_ this end-point is deprecated because it doesn't support
+      x-deprecated-description: |
+        _since Oct 18 2021_ this end-point is deprecated because it doesn't support
         pagination and will be removed in the future, please use the
         /artifacts/list end-point instead.
       operationId: List Artifacts
@@ -1102,7 +1108,8 @@ paths:
       description: |
         Returns a collection of all artifacts.
 
-        DEPRECATED: _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues.
+      x-deprecated-description: |
+        _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues.
         Please use the v2 /artifacts endpoint instead.
         In the new endpoint, we support exact and prefix matching for the various fields
       operationId: Deployments V1 List Artifacts with pagination
