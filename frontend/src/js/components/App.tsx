@@ -65,6 +65,8 @@ const { setShowConnectingDialog, setSnackbar } = storeActions;
 const cache = createCache({ key: 'mui', prepend: true });
 
 const activationPath = '/activate';
+const passwordResetOrAuthUnlinkPath = '/password';
+const alwaysPublicPaths = [activationPath, passwordResetOrAuthUnlinkPath];
 const trackingBlacklist = [/\/password\/.+/i];
 const timeout = maxSessionAge * 1000; // 15 minutes idle time
 const cookies = new Cookies();
@@ -239,7 +241,7 @@ export const AppRoot = () => {
       <WrappedBaseline enableColorScheme />
       <GlobalStyles styles={globalCssVars} />
       <>
-        {token && !pathname.startsWith(activationPath) ? (
+        {token && !alwaysPublicPaths.some(path => pathname.startsWith(path)) ? (
           <div id="app">
             <Header isDarkMode={isDarkMode} />
             <LeftNav />
