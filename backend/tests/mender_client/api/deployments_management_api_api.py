@@ -2930,7 +2930,7 @@ class DeploymentsManagementAPIApi:
     ) -> List[ArtifactV1]:
         """(Deprecated) List known artifacts 
 
-        Returns a collection of all artifacts.  DEPRECATED: _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues. Please use the v2 /artifacts endpoint instead. In the new endpoint, we support exact and prefix matching for the various fields 
+        Returns a collection of all artifacts. 
 
         :param name: Artifact name filter.
         :type name: str
@@ -3020,7 +3020,7 @@ class DeploymentsManagementAPIApi:
     ) -> ApiResponse[List[ArtifactV1]]:
         """(Deprecated) List known artifacts 
 
-        Returns a collection of all artifacts.  DEPRECATED: _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues. Please use the v2 /artifacts endpoint instead. In the new endpoint, we support exact and prefix matching for the various fields 
+        Returns a collection of all artifacts. 
 
         :param name: Artifact name filter.
         :type name: str
@@ -3110,7 +3110,7 @@ class DeploymentsManagementAPIApi:
     ) -> RESTResponseType:
         """(Deprecated) List known artifacts 
 
-        Returns a collection of all artifacts.  DEPRECATED: _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues. Please use the v2 /artifacts endpoint instead. In the new endpoint, we support exact and prefix matching for the various fields 
+        Returns a collection of all artifacts. 
 
         :param name: Artifact name filter.
         :type name: str
@@ -3289,7 +3289,7 @@ class DeploymentsManagementAPIApi:
     ) -> List[DeploymentV1]:
         """(Deprecated) Find all deployments
 
-        Returns a filtered collection of deployments in the system, including active and historical. If both 'status' and 'query' are not specified, all devices are listed.  DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the \"search\" query   behavior. Please use the v2 /deployments/deployments endpoint instead.   In the new endpoint, we replaced search parameter with the \"id\" and \"name\" parameters. 
+        Returns a filtered collection of deployments in the system, including active and historical. If both 'status' and 'query' are not specified, all devices are listed. 
 
         :param status: Deployment status filter.
         :type status: str
@@ -3388,7 +3388,7 @@ class DeploymentsManagementAPIApi:
     ) -> ApiResponse[List[DeploymentV1]]:
         """(Deprecated) Find all deployments
 
-        Returns a filtered collection of deployments in the system, including active and historical. If both 'status' and 'query' are not specified, all devices are listed.  DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the \"search\" query   behavior. Please use the v2 /deployments/deployments endpoint instead.   In the new endpoint, we replaced search parameter with the \"id\" and \"name\" parameters. 
+        Returns a filtered collection of deployments in the system, including active and historical. If both 'status' and 'query' are not specified, all devices are listed. 
 
         :param status: Deployment status filter.
         :type status: str
@@ -3487,7 +3487,7 @@ class DeploymentsManagementAPIApi:
     ) -> RESTResponseType:
         """(Deprecated) Find all deployments
 
-        Returns a filtered collection of deployments in the system, including active and historical. If both 'status' and 'query' are not specified, all devices are listed.  DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the \"search\" query   behavior. Please use the v2 /deployments/deployments endpoint instead.   In the new endpoint, we replaced search parameter with the \"id\" and \"name\" parameters. 
+        Returns a filtered collection of deployments in the system, including active and historical. If both 'status' and 'query' are not specified, all devices are listed. 
 
         :param status: Deployment status filter.
         :type status: str
@@ -3682,7 +3682,7 @@ class DeploymentsManagementAPIApi:
     ) -> List[ReleaseV1]:
         """(Deprecated) List releases with pagination 
 
-        Returns a collection of releases, allows filtering by release name and sorting by name or last modification date.  DEPRECATED: _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response body and lack of support for advanced filters and sorting, we have deprecated this endpoint. Please use the v2 /deployments/releases end-point instead. 
+        Returns a collection of releases, allows filtering by release name and sorting by name or last modification date. 
 
         :param name: Release name filter.
         :type name: str
@@ -3776,7 +3776,7 @@ class DeploymentsManagementAPIApi:
     ) -> ApiResponse[List[ReleaseV1]]:
         """(Deprecated) List releases with pagination 
 
-        Returns a collection of releases, allows filtering by release name and sorting by name or last modification date.  DEPRECATED: _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response body and lack of support for advanced filters and sorting, we have deprecated this endpoint. Please use the v2 /deployments/releases end-point instead. 
+        Returns a collection of releases, allows filtering by release name and sorting by name or last modification date. 
 
         :param name: Release name filter.
         :type name: str
@@ -3870,7 +3870,7 @@ class DeploymentsManagementAPIApi:
     ) -> RESTResponseType:
         """(Deprecated) List releases with pagination 
 
-        Returns a collection of releases, allows filtering by release name and sorting by name or last modification date.  DEPRECATED: _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response body and lack of support for advanced filters and sorting, we have deprecated this endpoint. Please use the v2 /deployments/releases end-point instead. 
+        Returns a collection of releases, allows filtering by release name and sorting by name or last modification date. 
 
         :param name: Release name filter.
         :type name: str
@@ -4966,7 +4966,7 @@ class DeploymentsManagementAPIApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[DeviceWithImage]:
-        """(Deprecated) DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /deployments/{deployment_id}/devices/list end-point instead. 
+        """(Deprecated) please use the /deployments/{deployment_id}/devices/list end-point instead. 
 
 
         :param deployment_id: Deployment identifier. (required)
@@ -5036,7 +5036,7 @@ class DeploymentsManagementAPIApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[DeviceWithImage]]:
-        """(Deprecated) DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /deployments/{deployment_id}/devices/list end-point instead. 
+        """(Deprecated) please use the /deployments/{deployment_id}/devices/list end-point instead. 
 
 
         :param deployment_id: Deployment identifier. (required)
@@ -5106,7 +5106,7 @@ class DeploymentsManagementAPIApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """(Deprecated) DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /deployments/{deployment_id}/devices/list end-point instead. 
+        """(Deprecated) please use the /deployments/{deployment_id}/devices/list end-point instead. 
 
 
         :param deployment_id: Deployment identifier. (required)
@@ -5240,7 +5240,7 @@ class DeploymentsManagementAPIApi:
     ) -> List[ArtifactV1]:
         """(Deprecated) List all the artifacts 
 
-        Returns a collection of all artifacts.  DEPRECATED: _since Oct 18 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /artifacts/list end-point instead. 
+        Returns a collection of all artifacts. 
 
         :param name: Release name filter.
         :type name: str
@@ -5318,7 +5318,7 @@ class DeploymentsManagementAPIApi:
     ) -> ApiResponse[List[ArtifactV1]]:
         """(Deprecated) List all the artifacts 
 
-        Returns a collection of all artifacts.  DEPRECATED: _since Oct 18 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /artifacts/list end-point instead. 
+        Returns a collection of all artifacts. 
 
         :param name: Release name filter.
         :type name: str
@@ -5396,7 +5396,7 @@ class DeploymentsManagementAPIApi:
     ) -> RESTResponseType:
         """(Deprecated) List all the artifacts 
 
-        Returns a collection of all artifacts.  DEPRECATED: _since Oct 18 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /artifacts/list end-point instead. 
+        Returns a collection of all artifacts. 
 
         :param name: Release name filter.
         :type name: str
@@ -6135,7 +6135,7 @@ class DeploymentsManagementAPIApi:
     ) -> List[ReleaseV1]:
         """(Deprecated) List releases 
 
-        Returns a collection of releases, allows filtering by release name.  DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /deployments/releases/list end-point instead. 
+        Returns a collection of releases, allows filtering by release name. 
 
         :param name: Release name filter.
         :type name: str
@@ -6217,7 +6217,7 @@ class DeploymentsManagementAPIApi:
     ) -> ApiResponse[List[ReleaseV1]]:
         """(Deprecated) List releases 
 
-        Returns a collection of releases, allows filtering by release name.  DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /deployments/releases/list end-point instead. 
+        Returns a collection of releases, allows filtering by release name. 
 
         :param name: Release name filter.
         :type name: str
@@ -6299,7 +6299,7 @@ class DeploymentsManagementAPIApi:
     ) -> RESTResponseType:
         """(Deprecated) List releases 
 
-        Returns a collection of releases, allows filtering by release name.  DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /deployments/releases/list end-point instead. 
+        Returns a collection of releases, allows filtering by release name. 
 
         :param name: Release name filter.
         :type name: str
