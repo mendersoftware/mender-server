@@ -35,7 +35,7 @@ import { checkReleasesExistence, generateManifest, getManifest, getSoftware, upl
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getExistingSoftwareTags } from '@northern.tech/store/thunks';
 import type { ManifestContent, Software } from '@northern.tech/types/MenderTypes';
-import { parse, stringify } from 'yaml';
+import { parseAllDocuments, stringify } from 'yaml';
 import * as z from 'zod';
 
 import { SoftwareArtifactFilter } from '../../deployments/deployment-wizard/ReleaseArtifactFilter';
@@ -83,12 +83,15 @@ const validateFile = async (file: File) => {
     return { ok: false, message: 'Manifest Artifacts must be smaller than 1MB' };
   } else if (isYaml(name)) {
     const text = await file.text();
-    let parsed;
-    try {
-      parsed = parse(text);
-    } catch (e) {
-      return { ok: false, message: e instanceof Error ? e.message : String(e) };
+    const docs = parseAllDocuments(text);
+    if (docs.length !== 1) {
+      return { ok: false, message: 'Only single-document .yaml Manifests are supported' };
     }
+    const doc = docs[0];
+    if (doc.errors.length) {
+      return { ok: false, message: doc.errors.map(e => e.message).join('\n') };
+    }
+    const parsed = doc.toJS();
     const result = ManifestContentSchema.safeParse(parsed);
     if (!result.success) {
       return { ok: false, message: z.prettifyError(result.error) };

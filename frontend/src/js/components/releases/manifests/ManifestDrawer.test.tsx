@@ -22,6 +22,18 @@ import { AddManifestDrawer } from './ManifestDrawer';
 
 vi.mock('@northern.tech/store/releasesSlice/thunks', { spy: true });
 
+const yamlContent = `api_version: v1
+kind: manifest
+name: my-manifest
+system_types_compatible:
+  - device-type-a
+  - device-type-b
+component_types:
+  rootfs:
+    update_strategy:
+      order: 1
+`;
+
 describe('AddManifestDrawer Component', () => {
   beforeEach(() => {
     vi.mocked(ReleasesThunks.uploadManifest).mockClear();
@@ -58,17 +70,6 @@ describe('AddManifestDrawer Component', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { baseElement } = render(<AddManifestDrawer open onClose={vi.fn()} />);
 
-    const yamlContent = `api_version: v1
-kind: manifest
-name: my-manifest
-system_types_compatible:
-  - device-type-a
-  - device-type-b
-component_types:
-  rootfs:
-    update_strategy:
-      order: 1
-`;
     File.prototype.text = vi.fn().mockResolvedValue(yamlContent);
     const file = new File([yamlContent], 'test.yaml', { type: 'application/yaml' });
     const dropzoneInput = baseElement.querySelector('.dropzone input') as HTMLInputElement;
@@ -83,6 +84,26 @@ component_types:
       file: expect.objectContaining({ name: 'test.yaml' }),
       meta: { description: '', name: '', tags: [] }
     });
+  });
+
+  it('shows an error when a multi-document YAML is uploaded', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { baseElement } = render(<AddManifestDrawer open onClose={vi.fn()} />);
+
+    const multiDocYaml = `---
+${yamlContent}
+---
+kind: manifest
+name: missing-required-fields
+`;
+    File.prototype.text = vi.fn().mockResolvedValue(multiDocYaml);
+    const file = new File([multiDocYaml], 'multi.yaml', { type: 'application/yaml' });
+    const dropzoneInput = baseElement.querySelector('.dropzone input') as HTMLInputElement;
+    await user.upload(dropzoneInput, file);
+
+    expect(await screen.findByDisplayValue('multi.yaml')).toBeInTheDocument();
+    expect(screen.getByText(/only single-document/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^upload$/i })).toBeDisabled();
   });
 
   it('shows a validation error when an invalid YAML manifest is uploaded', async () => {
