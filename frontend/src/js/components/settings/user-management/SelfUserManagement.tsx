@@ -14,13 +14,13 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Alert, Button, Chip, TextField, Typography } from '@mui/material';
+import { Alert, Button, Chip, TextField, Typography, formControlClasses, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
-import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
+import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
@@ -39,13 +39,18 @@ import { EmailVerificationConfirmation } from './twofactorauth-steps/EmailVerifi
 
 const { setSnackbar } = storeActions;
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles()(() => ({
   formField: { width: SETTINGS_INPUT_WIDTH, maxWidth: '100%' },
-  jwt: { maxWidth: '70%' },
   oauthIcon: { fontSize: '36px', marginRight: 10 },
-  widthLimit: { maxWidth: SETTINGS_CONTENT_MAX_WIDTH },
-  sessionTokenSection: { marginTop: theme.spacing(6) }
+  widthLimit: { maxWidth: SETTINGS_CONTENT_MAX_WIDTH, [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: SETTINGS_INPUT_WIDTH } },
+  buttonReset: { '.button-wrapper': { justifyContent: 'start' } },
+  columnWidths: {
+    '&.settings-item-main-content': {
+      gridTemplateColumns: `${SETTINGS_INPUT_WIDTH}px 1fr`
+    }
+  }
 }));
+
 export const notificationMap = {
   email: 'Email successfully verified.',
   enabled2fa: 'Two-factor authentication successfully enabled.'
@@ -153,26 +158,24 @@ export const SelfUserManagement = () => {
         </Alert>
       )}
       {confirmationShown && <EmailVerificationConfirmation onClose={() => setConfirmationShown(false)} email={email} />}
-      <UserId className="margin-bottom-none margin-top-small" userId={userId} />
+      <UserId className="margin-top-small" userId={userId} />
       {!editEmail && email ? (
         <>
-          <div className="flexbox space-between margin-bottom-small">
-            <div className="flexbox align-items-center">
-              <TextField className={classes.formField} label="Email" key={email} disabled defaultValue={email} />
-              <Chip
-                size="small"
-                label={needsVerification ? 'Not verified' : 'Verified'}
-                variant="outlined"
-                color={needsVerification ? 'warning' : 'success'}
-                className="margin-left-x-small"
-              />
-            </div>
-            {!isOAuth2 && (
-              <Button color="primary" id="change_email" onClick={handleEmail}>
-                Change email
-              </Button>
-            )}
+          <div className="flexbox align-items-center">
+            <TextField className={classes.formField} label="Email" key={email} disabled defaultValue={email} />
+            <Chip
+              size="small"
+              label={needsVerification ? 'Not verified' : 'Verified'}
+              variant="outlined"
+              color={needsVerification ? 'warning' : 'success'}
+              className="margin-left-small"
+            />
           </div>
+          {!isOAuth2 && (
+            <Button className="margin-top-x-small" color="primary" id="change_email" onClick={handleEmail}>
+              Change email address
+            </Button>
+          )}
           {needsVerification && (
             <Button className="margin-top-x-small" variant="contained" color="primary" onClick={startVerification}>
               Verify
@@ -180,47 +183,66 @@ export const SelfUserManagement = () => {
           )}
         </>
       ) : (
-        <Form defaultValues={{ email }} onSubmit={editSubmit} handleCancel={handleEmail} submitLabel="Save" showButtons={editEmail}>
-          <TextInput hint="Email" id="email" label="Email" validations="isLength:1,isEmail,trim" />
+        <Form
+          className={classes.buttonReset}
+          defaultValues={{ email }}
+          onSubmit={editSubmit}
+          handleCancel={handleEmail}
+          submitLabel="Save"
+          showButtons={editEmail}
+        >
+          <TextInput hint="Email" id="email" label="Email" validations="isLength:1,isEmail,trim" width="" />
           <PasswordInput
             className="margin-top-x-small"
             id="current_password"
             label="Current password *"
             validations={`isLength:8:256,isNot:${email}`}
-            required={true}
+            width=""
           />
         </Form>
       )}
-      {!isOAuth2 &&
-        (!editPass ? (
-          <form className="flexbox space-between margin-top">
-            <TextField className={classes.formField} label="Password" key="password-placeholder" disabled defaultValue="********" type="password" />
-            <Button color="primary" id="change_password" onClick={handlePass}>
-              Change password
-            </Button>
-          </form>
-        ) : (
-          <>
-            <h3 className="margin-top">Change password</h3>
-            <Form onSubmit={editSubmit} handleCancel={handlePass} submitLabel="Save" showButtons={editPass}>
-              <PasswordInput
-                className="margin-bottom-x-small"
-                id="current_password"
-                label="Current password *"
-                validations={`isLength:8:256,isNot:${email}`}
-                required
-              />
-              <PasswordInput id="password" label="Password *" validations={`isLength:8:256,isNot:${email}`} create generate required />
-              <PasswordInput
-                className="margin-top-x-small"
-                id="password_confirmation"
-                label="Confirm password *"
-                validations={`isLength:8:256,isNot:${email}`}
-                required
-              />
-            </Form>
-          </>
-        ))}
+      {!isOAuth2 && (
+        <SettingsItem
+          title="Password"
+          secondary={
+            !editPass ? (
+              <div className="flexbox column">
+                <TextField className={classes.formField} label="Password" disabled defaultValue="********" type="password" />
+                <Button className="margin-top-x-small align-self-start" color="primary" onClick={handlePass}>
+                  Change password
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Form
+                  classes={{ buttonWrapper: 'justify-content-start margin-top-x-small' }}
+                  onSubmit={editSubmit}
+                  handleCancel={handlePass}
+                  submitLabel="Save changes"
+                  showButtons={editPass}
+                >
+                  <PasswordInput
+                    className="margin-bottom-medium"
+                    id="current_password"
+                    label="Current password *"
+                    validations={`isLength:8:256,isNot:${email}`}
+                    width=""
+                  />
+                  <PasswordInput id="password" label="New password *" validations={`isLength:8:256,isNot:${email}`} create width="" />
+                  <PasswordInput
+                    className="margin-top-x-small"
+                    id="password_confirmation"
+                    label="Confirm new password *"
+                    validations={`isLength:8:256,isNot:${email}`}
+                    width=""
+                  />
+                </Form>
+              </>
+            )
+          }
+        />
+      )}
+      <ToggleSettingsItem classes={{ base: 'margin-top-large' }} title="Enable dark theme" onClick={toggleMode} checked={isDarkMode} />
       {!isOAuth2 ? (
         canHave2FA && <TwoFactorAuthSetup setShowNotice={setShowNotice} needsVerification={needsVerification} />
       ) : (
@@ -230,10 +252,10 @@ export const SelfUserManagement = () => {
           </Button>
         </div>
       )}
-      <ToggleSetting className="margin-top" title="Enable dark theme" onClick={toggleMode} value={isDarkMode} />
-      <div className={`flexbox space-between ${classes.sessionTokenSection}`}>
-        <div className={classes.jwt}>
-          <div className="help-content">Session token</div>
+      <SettingsItem
+        classes={{ base: 'margin-top-large', main: classes.columnWidths }}
+        title="Session token"
+        secondary={
           <ExpandableAttribute
             component="div"
             disableGutters
@@ -241,19 +263,17 @@ export const SelfUserManagement = () => {
             secondary={token}
             textClasses={{ secondary: 'inventory-text tenant-token-text' }}
           />
-        </div>
-        <div className="flexbox align-items-center">
-          <CopyTextToClipboard token={token} />
-        </div>
-      </div>
+        }
+        sideBarContent={<CopyTextToClipboard token={token} />}
+      />
       <AccessTokenManagement />
       {isEnterprise && hasTracking && (
-        <ToggleSetting
-          className="margin-top"
+        <ToggleSettingsItem
+          classes={{ base: 'margin-top-large' }}
           description="Enable usage data and errors to be sent to help us improve our service."
           title="Help us improve Mender"
           onClick={() => dispatch(saveUserSettings({ trackingConsentGiven: !hasTrackingConsent }))}
-          value={!!hasTrackingConsent}
+          checked={!!hasTrackingConsent}
         />
       )}
     </div>
