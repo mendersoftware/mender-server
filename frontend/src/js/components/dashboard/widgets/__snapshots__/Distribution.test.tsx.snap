@@ -293,7 +293,7 @@ exports[`Distribution Component > renders correctly 1`] = `
         >
           <div
             class="clickable emotion-7 indicating"
-            title="undefined"
+            title="raspotifyInstaller"
           >
             <svg
               aria-hidden="true"
@@ -310,7 +310,7 @@ exports[`Distribution Component > renders correctly 1`] = `
             <div
               class="text-overflow"
             >
-              undefined
+              raspotifyInstaller
             </div>
             <div>
               2

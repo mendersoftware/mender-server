@@ -466,12 +466,12 @@ exports[`Devices Component > renders correctly 1`] = `
         >
           <div
             class="clickable emotion-7 "
-            title="undefined"
+            title="raspotifyInstaller"
           >
             <div
               class="text-overflow"
             >
-              undefined
+              raspotifyInstaller
             </div>
             <div>
               2
@@ -484,7 +484,7 @@ exports[`Devices Component > renders correctly 1`] = `
           <div
             class="clickable flexbox column barchart"
             style="justify-content: center;"
-            title="undefined"
+            title="raspotifyInstaller"
           >
             <span
               aria-valuemax="100"
@@ -1731,12 +1731,12 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
         >
           <div
             class="clickable emotion-7 "
-            title="undefined"
+            title="-"
           >
             <div
               class="text-overflow"
             >
-              undefined
+              -
             </div>
             <div>
               2
@@ -1749,7 +1749,7 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
           <div
             class="clickable flexbox column barchart"
             style="justify-content: center;"
-            title="undefined"
+            title="-"
           >
             <span
               aria-valuemax="100"
