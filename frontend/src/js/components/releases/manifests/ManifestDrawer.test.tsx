@@ -30,6 +30,7 @@ system_types_compatible:
   - device-type-b
 component_types:
   rootfs:
+    artifact_name: something
     update_strategy:
       order: 1
 `;

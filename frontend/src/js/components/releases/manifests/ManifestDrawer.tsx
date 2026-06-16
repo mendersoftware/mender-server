@@ -52,11 +52,15 @@ const ManifestContentSchema = z.object({
   system_types_compatible: z.array(z.string()),
   component_types: z.record(
     z.string(),
-    z.object({
-      artifact_name: z.string().optional(),
-      artifact_path: z.string().optional(),
-      update_strategy: z.object({ order: z.number() })
-    })
+    z
+      .object({
+        artifact_name: z.string().optional(),
+        artifact_path: z.string().optional(),
+        update_strategy: z.object({ order: z.number() })
+      })
+      .refine(data => data.artifact_name || data.artifact_path, {
+        message: 'At least one of artifact_name or artifact_path must be provided'
+      })
   )
 }) satisfies z.ZodType<ManifestContent>;
 
