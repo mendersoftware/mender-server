@@ -38,8 +38,6 @@ import { getAuditLogs, getAuditLogsCsvLink, getUserList, setAuditlogsState } fro
 import { createDownload, getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 
-import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
-import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 import AuditLogsFilter from './AuditLogsFilter';
 import AuditLogsList from './AuditLogsList';
 import AuditlogsView from './AuditlogsView';
@@ -284,7 +282,6 @@ export const AuditLogs = () => {
       {!hasAuditlogs && (
         <div className={`dashboard-placeholder flexbox ${classes.upgradeNote}`}>
           <DefaultUpgradeNotification className="margin-right-small" />
-          <MenderHelpTooltip id={HELPTOOLTIPS.auditlogExplanation.id} />
         </div>
       )}
       <EventDetailsDrawer
