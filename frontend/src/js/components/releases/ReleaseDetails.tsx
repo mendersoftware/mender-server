@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
@@ -37,6 +36,7 @@ import { BaseQuickActions, type QuickAction } from '@northern.tech/common-ui/Qui
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
@@ -170,42 +170,32 @@ const ReleaseNotes = ({ onChange, release: { notes = '' } }) => {
 
 const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, userCapabilities }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [initialValues] = useState({ tags });
+  const [resetTrigger, setResetTrigger] = useState(false);
   const { classes } = useStyles();
   const { canManageReleases } = userCapabilities;
+  const submitRef = useRef();
 
-  const methods = useForm({ mode: 'onChange', defaultValues: initialValues });
-  const { setValue, getValues } = methods;
-
-  useEffect(() => {
-    if (!initialValues.tags.length) {
-      setValue('tags', tags);
-    }
-  }, [initialValues.tags, setValue, tags]);
-
-  const onToggleEdit = useCallback(() => {
-    setValue('tags', tags);
+  const onToggleEdit = () => {
     setIsEditing(toggle);
-  }, [setValue, tags]);
+    setResetTrigger(toggle);
+  };
 
-  const onSave = () => onChange(getValues('tags')).then(() => setIsEditing(false));
+  const onSave = useCallback(data => onChange(data.tags).then(() => setIsEditing(false)), [onChange]);
 
   return (
     <ContentSection title="Tags" postTitle={!isEditing && canManageReleases && <EditButton onClick={onToggleEdit} />}>
-      <div className="flexbox" style={{ alignItems: 'center' }}>
-        <FormProvider {...methods}>
-          <form noValidate>
-            <ChipSelect
-              disabled={!isEditing}
-              className={classes.tagSelect}
-              label=""
-              name="tags"
-              options={existingTags}
-              placeholder={isEditing ? 'Add release tags' : canManageReleases ? '' : 'No tags yet'}
-            />
-          </form>
-        </FormProvider>
-        {isEditing && <ConfirmationButtons onConfirm={onSave} onCancel={onToggleEdit} />}
+      <div className="flexbox align-items-center">
+        <Form key={resetTrigger} onSubmit={onSave} defaultValues={{ tags }} submitRef={submitRef}>
+          <ChipSelect
+            className={classes.tagSelect}
+            disabled={!isEditing}
+            label=""
+            name="tags"
+            options={existingTags}
+            placeholder={isEditing ? 'Enter release tags' : canManageReleases ? '' : 'No tags yet'}
+          />
+        </Form>
+        {isEditing && <ConfirmationButtons onConfirm={() => submitRef.current?.()} onCancel={onToggleEdit} />}
       </div>
     </ContentSection>
   );

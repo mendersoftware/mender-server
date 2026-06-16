@@ -11,8 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -24,6 +23,7 @@ import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
@@ -107,41 +107,31 @@ interface ManifestTagsProps {
 
 const ManifestTags = ({ existingTags, tags, canManageReleases, onSave }: ManifestTagsProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [initialValues] = useState({ tags });
+  const [resetTrigger, setResetTrigger] = useState(false);
   const { classes } = useStyles();
+  const submitRef = useRef<() => void>();
 
-  const methods = useForm({ mode: 'onChange', defaultValues: initialValues });
-  const { setValue, getValues } = methods;
-
-  useEffect(() => {
-    if (!initialValues.tags.length) {
-      setValue('tags', tags);
-    }
-  }, [initialValues.tags, setValue, tags]);
-
-  const onToggleEdit = useCallback(() => {
-    setValue('tags', tags);
+  const onToggleEdit = () => {
     setIsEditing(toggle);
-  }, [setValue, tags]);
+    setResetTrigger(toggle);
+  };
 
-  const onSubmit = () => onSave(getValues('tags')).then(() => setIsEditing(false));
+  const onSubmit = useCallback((data: { tags: string[] }) => onSave(data.tags).then(() => setIsEditing(false)), [onSave]);
 
   return (
     <ContentSection title="Tags" postTitle={!isEditing && canManageReleases && <EditButton onClick={onToggleEdit} />}>
-      <div className="flexbox" style={{ alignItems: 'center' }}>
-        <FormProvider {...methods}>
-          <form noValidate>
-            <ChipSelect
-              className={classes.tagSelect}
-              disabled={!isEditing}
-              label=""
-              name="tags"
-              options={existingTags}
-              placeholder={isEditing ? 'Enter manifest tags' : canManageReleases ? '' : 'No tags yet'}
-            />
-          </form>
-        </FormProvider>
-        {isEditing && <ConfirmationButtons onConfirm={onSubmit} onCancel={onToggleEdit} />}
+      <div className="flexbox align-items-center">
+        <Form key={resetTrigger} onSubmit={onSubmit} defaultValues={{ tags }} submitRef={submitRef}>
+          <ChipSelect
+            className={classes.tagSelect}
+            disabled={!isEditing}
+            label=""
+            name="tags"
+            options={existingTags}
+            placeholder={isEditing ? 'Enter manifest tags' : canManageReleases ? '' : 'No tags yet'}
+          />
+        </Form>
+        {isEditing && <ConfirmationButtons onConfirm={() => submitRef.current?.()} onCancel={onToggleEdit} />}
       </div>
     </ContentSection>
   );
