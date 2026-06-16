@@ -84,7 +84,7 @@ export const Filters = ({ className = '', defaultValues, filters = [], initialVa
 
   return (
     <FormProvider {...methods}>
-      <form className={`margin-bottom margin-top-medium flexbox space-between ${classes.container} ${className}`} noValidate>
+      <form className={`margin-bottom margin-top flexbox space-between ${classes.container} ${className}`} noValidate>
         <div className={classes.filters}>
           {filters.map(({ key, title, Component, componentProps }) => (
             <div className="filter-item" key={key}>

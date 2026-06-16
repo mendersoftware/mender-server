@@ -12,6 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Sort as SortIcon } from '@mui/icons-material';
+import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
@@ -29,24 +30,16 @@ const useStyles = makeStyles()(theme => ({
       gridColumnGap: theme.spacing(4),
       padding: `5px ${theme.spacing(2)}`,
       borderBottom: `1px solid ${theme.palette.border?.main ?? theme.palette.divider}`,
-      height: theme.spacing(6),
       minHeight: theme.spacing(6),
-      maxHeight: theme.spacing(6),
+      maxHeight: theme.spacing(12),
       alignItems: 'center',
-      '&:last-of-type': {
-        borderBottom: 'transparent'
-      },
       '& > *': {
         display: 'flex',
         alignItems: 'center',
-        maxHeight: theme.spacing(6),
+        maxHeight: theme.spacing(12),
         overflow: 'hidden'
       },
-      '> .text-overflow': {
-        display: 'block'
-      },
       '&.auditlogs-list-item-header': {
-        borderBottom: 'transparent',
         cursor: 'initial',
         padding: `10px ${theme.spacing(2)}`,
         position: 'relative'
@@ -71,7 +64,7 @@ export const AuditLogsList = ({
   return (
     !!items.length && (
       <div className={`fadeIn deploy-table-contain auditlogs-list ${classes.auditlogsList}`}>
-        <div className="auditlogs-list-item auditlogs-list-item-header muted">
+        <div className="auditlogs-list-item auditlogs-list-item-header">
           {auditLogColumns.map((column, index) => (
             <div
               className="columnHeader"
@@ -79,8 +72,8 @@ export const AuditLogsList = ({
               onClick={() => (column.sortable ? onChangeSorting() : null)}
               style={column.sortable ? {} : { cursor: 'initial' }}
             >
-              {column.title}
-              {column.sortable ? <SortIcon className={`sortIcon selected ${(sort.direction === SORTING_OPTIONS.desc).toString()}`} /> : null}
+              <Typography variant="subtitle1">{column.title}</Typography>
+              {column.sortable ? <SortIcon className={`sortIcon ${(sort.direction === SORTING_OPTIONS.desc).toString()}`} /> : null}
             </div>
           ))}
           <div />
@@ -100,7 +93,7 @@ export const AuditLogsList = ({
             );
           })}
         </div>
-        <div className="flexbox margin-top">
+        <div>
           <Pagination
             className="margin-top-none"
             count={count}

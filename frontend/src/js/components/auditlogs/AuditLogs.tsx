@@ -50,14 +50,6 @@ const useStyles = makeStyles()(() => ({
   upgradeNote: { marginTop: '5vh', placeSelf: 'center' }
 }));
 
-const isUserOptionEqualToValue = ({ email, id }, value) => id === value || email === value || email === value?.email;
-
-const isUserOptionEqualToValue = ({ email, id }, value) => id === value || email === value || email === value?.email;
-
-const isUserOptionEqualToValue = ({ email, id }, value) => id === value || email === value || email === value?.email;
-
-const isUserOptionEqualToValue = ({ email, id }, value) => id === value || email === value || email === value?.email;
-
 const locationDefaults = { sort: { direction: SORTING_OPTIONS.desc } };
 
 export const AuditLogs = () => {
@@ -226,8 +218,7 @@ export const AuditLogs = () => {
       if (!isInitialized.current) {
         return;
       }
-      const selectedUser = Object.values(users).find(item => isUserOptionEqualToValue(item, user));
-      dispatch(setAuditlogsState({ page: 1, detail, startDate, endDate, user: selectedUser, type }));
+      dispatch(setAuditlogsState({ page: 1, detail, startDate, endDate, user: users[user], type }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, JSON.stringify(users)]
