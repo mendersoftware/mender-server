@@ -15,12 +15,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material ui
-import { Alert, Button, Collapse, DialogActions, DialogContent, MenuItem, Select, Typography } from '@mui/material';
+import { Alert, Button, Collapse, DialogActions, DialogContent, MenuItem, Select, Typography, formControlClasses, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
-import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
-import { ToggleSetting } from '@northern.tech/common-ui/ToggleSetting';
+import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import storeActions from '@northern.tech/store/actions';
 import { SSO_TYPES } from '@northern.tech/store/constants';
@@ -29,14 +28,19 @@ import { changeSsoConfig, deleteSsoConfig, downloadLicenseReport, getSsoConfigs,
 import { createFileDownload, toggle } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 
-import { SETTINGS_CONTENT_MAX_WIDTH } from '../constants';
+import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH } from '../constants';
 import { SSOConfig } from './SSOConfig';
 
 const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(() => ({
   ssoSelect: { minWidth: 265 },
-  tenantToken: { wordWrap: 'break-word' }
+  tenantToken: { wordWrap: 'break-word' },
+  widthLimit: {
+    maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
+    [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: SETTINGS_INPUT_WIDTH },
+    ['.settings-item-main-content']: { gridTemplateColumns: `${SETTINGS_CONTENT_MAX_WIDTH}px max-content` }
+  }
 }));
 
 // unlike the ExpandableAttribute, the token should not be visible by default - thus a separate component
@@ -142,9 +146,9 @@ export const Organization = () => {
     });
 
   return (
-    <div style={{ maxWidth: SETTINGS_CONTENT_MAX_WIDTH }}>
+    <div className={`margin-top-small ${classes.widthLimit}`}>
       <Typography variant="h6">My organization</Typography>
-      <div className={`flexbox column ${classes.orgInfo}`}>
+      <div className="flexbox column">
         <SettingsItem title="Organization ID" secondary={tenantId} sideBarContent={<CopyTextToClipboard notify={false} token={tenantId} />} />
         <SettingsItem title="Organization name" secondary={orgName} sideBarContent={<CopyTextToClipboard notify={false} token={orgName} />} />
         <SettingsItem
@@ -163,51 +167,48 @@ export const Organization = () => {
           }
         />
         {isEnterprise && isAdmin && (
-          <ToggleSetting
-            className="margin-bottom-small"
+          <ToggleSettingsItem
             title="Enable Single Sign-On"
+            secondary={
+              <div className="flexbox column">
+                {isConfiguringSSO && (
+                  <div>
+                    <Select className={classes.ssoSelect} displayEmpty onChange={onSsoSelect} value={selectedSsoItem?.type || ''}>
+                      <MenuItem value="">Select type</MenuItem>
+                      {Object.values(SSO_TYPES).map(item => (
+                        <MenuItem key={item.type} value={item.type}>
+                          <div className="capitalized-start">{item.title}</div>
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </div>
+                )}
+                {isResettingSSO && !isConfiguringSSO && (
+                  <div className="flexbox align-items-center">
+                    <Button onClick={onCancelSSOSettings}>Cancel</Button>
+                    <Button onClick={onSaveSSOSettings} disabled={!hasSingleSignOn} variant="contained">
+                      Save
+                    </Button>
+                  </div>
+                )}
+              </div>
+            }
             onClick={onSSOClick}
-            value={!isResettingSSO && (hasSingleSignOn || isConfiguringSSO)}
+            checked={!isResettingSSO && (hasSingleSignOn || isConfiguringSSO)}
           />
         )}
       </div>
-
-      {isConfiguringSSO && (
-        <div>
-          <Select className={classes.ssoSelect} displayEmpty onChange={onSsoSelect} value={selectedSsoItem?.type || ''}>
-            <MenuItem value="">Select type</MenuItem>
-            {Object.values(SSO_TYPES).map(item => (
-              <MenuItem key={item.type} value={item.type}>
-                <div className="capitalized-start">{item.title}</div>
-              </MenuItem>
-            ))}
-          </Select>
-        </div>
-      )}
-
-      <div className="flexbox align-items-center">
-        {isResettingSSO && !isConfiguringSSO && (
-          <>
-            <Button onClick={onCancelSSOSettings}>Cancel</Button>
-            <Button onClick={onSaveSSOSettings} disabled={!hasSingleSignOn} variant="contained">
-              Save
-            </Button>
-          </>
-        )}
-      </div>
       {selectedSsoItem && (
-        <div className="margin-top">
-          <Collapse className="margin-left-large" in={isConfiguringSSO}>
-            <SSOConfig
-              ssoItem={selectedSsoItem}
-              config={ssoConfig}
-              onSave={onSaveSSOSettings}
-              onCancel={onCancelSSOSettings}
-              setSnackbar={dispatchedSetSnackbar}
-              token={token}
-            />
-          </Collapse>
-        </div>
+        <Collapse className="margin-top" in={isConfiguringSSO}>
+          <SSOConfig
+            ssoItem={selectedSsoItem}
+            config={ssoConfig}
+            onSave={onSaveSSOSettings}
+            onCancel={onCancelSSOSettings}
+            setSnackbar={dispatchedSetSnackbar}
+            token={token}
+          />
+        </Collapse>
       )}
       {(canPreview || !isHosted) && isEnterprise && isAdmin && (
         <Button className="margin-top" onClick={onDownloadReportClick} variant="contained">
