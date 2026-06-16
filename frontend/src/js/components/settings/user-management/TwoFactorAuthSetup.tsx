@@ -106,7 +106,7 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
   return (
     <>
       <SettingsItem
-        classes={{ base: 'margin-top-large', content: classes.columnWidths }}
+        classes={{ content: classes.columnWidths }}
         title={
           <div className="flexbox align-items-center">
             <Typography

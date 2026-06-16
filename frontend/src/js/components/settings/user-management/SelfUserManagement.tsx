@@ -242,7 +242,7 @@ export const SelfUserManagement = () => {
           }
         />
       )}
-      <ToggleSettingsItem classes={{ base: 'margin-top-large' }} title="Enable dark theme" onClick={toggleMode} checked={isDarkMode} />
+      <ToggleSettingsItem title="Enable dark theme" onClick={toggleMode} checked={isDarkMode} />
       {!isOAuth2 ? (
         canHave2FA && <TwoFactorAuthSetup setShowNotice={setShowNotice} needsVerification={needsVerification} />
       ) : (
@@ -253,7 +253,7 @@ export const SelfUserManagement = () => {
         </div>
       )}
       <SettingsItem
-        classes={{ base: 'margin-top-large', main: classes.columnWidths }}
+        classes={{ main: classes.columnWidths }}
         title="Session token"
         secondary={
           <ExpandableAttribute
@@ -269,7 +269,6 @@ export const SelfUserManagement = () => {
       <AccessTokenManagement />
       {isEnterprise && hasTracking && (
         <ToggleSettingsItem
-          classes={{ base: 'margin-top-large' }}
           description="Enable usage data and errors to be sent to help us improve our service."
           title="Help us improve Mender"
           onClick={() => dispatch(saveUserSettings({ trackingConsentGiven: !hasTrackingConsent }))}

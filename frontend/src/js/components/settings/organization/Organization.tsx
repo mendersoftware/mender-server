@@ -34,8 +34,7 @@ import { SSOConfig } from './SSOConfig';
 
 const { setSnackbar } = storeActions;
 
-const useStyles = makeStyles()(({ spacing }) => ({
-  orgInfo: { gap: spacing(2) },
+const useStyles = makeStyles()(() => ({
   ssoSelect: { minWidth: 265 },
   tenantToken: { wordWrap: 'break-word' }
 }));
