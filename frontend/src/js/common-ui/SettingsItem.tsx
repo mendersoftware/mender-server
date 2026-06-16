@@ -64,7 +64,7 @@ export const SettingsItemTitle = ({ title }: Pick<SettingsItemProps, 'title'>) =
 export const SettingsItem = ({ classes = defaultClasses, description, notification, secondary, sideBarContent, title }: SettingsItemProps) => {
   const { classes: localClasses } = useStyles();
   return (
-    <div className={`flexbox column settings-item-base ${localClasses.base} margin-top-small ${classes.base ?? ''}`}>
+    <div className={`flexbox column settings-item-base ${localClasses.base} margin-top ${classes.base ?? ''}`}>
       <div className={`flexbox column settings-item-content ${localClasses.base} ${localClasses.content} ${classes.content ?? ''}`}>
         <SettingsItemTitle title={title} />
         {description && (
