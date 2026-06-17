@@ -64,7 +64,7 @@ func NewClientWithDefaults(url string) (Client, error) {
 			o.MaxReconnect = -1
 			o.ReconnectBufSize = reconnectBufSize
 			o.ReconnectWait = reconnectWaitTime
-			o.RetryOnFailedConnect = true
+			o.RetryOnFailedConnect = false
 			o.ClosedCB = func(_ *natsio.Conn) {
 				l.Info("nats client closed the connection")
 			}
