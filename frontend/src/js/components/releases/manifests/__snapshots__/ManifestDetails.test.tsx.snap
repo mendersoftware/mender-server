@@ -1438,7 +1438,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-60:focus::-ms-input-
       class="flexbox align-items-center"
     >
       <div
-        class="MuiTypography-root MuiTypography-subtitle1 capitalized-start flexbox align-items-center emotion-1"
+        class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-1"
       >
         Manifest information for m1000
       </div>
