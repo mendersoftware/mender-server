@@ -1,6 +1,7 @@
 # API server listen address
 # Defauls to: ":8080" which will listen on all avalable interfaces.
-listen: :8080
+# listen: :8080
+
 # Private key path - used for JWT signing
 # Defaults to: /etc/useradm/rsa/private.pem
 # Overwrite with environment variable: USERADM_SERVER_PRIV_KEY_PATH
