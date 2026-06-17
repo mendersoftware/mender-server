@@ -20,7 +20,6 @@ import { withStyles } from 'tss-react/mui';
 
 import { isDarkMode } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
-import type { PositioningStrategy } from '@popperjs/core';
 
 export const MenderTooltip = withStyles(Tooltip, ({ palette, shadows, spacing }) => ({
   arrow: {
@@ -79,20 +78,6 @@ export const MenderTooltipClickable = ({
   const hide = () => setOpen(false);
 
   const Component = tooltipComponent as typeof Tooltip;
-  const extraProps = onboarding
-    ? {
-        PopperProps: {
-          disablePortal: true,
-          popperOptions: {
-            strategy: 'fixed' as PositioningStrategy,
-            modifiers: [
-              { name: 'flip', enabled: false },
-              { name: 'preventOverflow', enabled: true, options: { boundary: window, altBoundary: false } }
-            ]
-          }
-        }
-      }
-    : {};
   return (
     <ClickAwayListener onClickAway={hide}>
       <Component
@@ -102,7 +87,6 @@ export const MenderTooltipClickable = ({
         disableHoverListener
         disableTouchListener
         onOpen={() => setOpen(true)}
-        {...extraProps}
         {...remainingProps}
       >
         <div onClick={toggleVisibility}>{children}</div>
