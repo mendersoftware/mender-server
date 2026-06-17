@@ -355,7 +355,10 @@ const OnboardingComponent = ({
       );
     }
     if (hasDevices && (deploymentDeviceCount || devices?.length) && deploymentRelease) {
-      const buttonAnchor = getAnchor(deploymentAnchor.current, 2);
+      const buttonAnchor = {
+        top: deploymentAnchor.current.parentElement.offsetTop + deploymentAnchor.current.offsetHeight / 2,
+        left: deploymentAnchor.current.parentElement.offsetLeft + deploymentAnchor.current.offsetLeft + deploymentAnchor.current.offsetWidth
+      };
       onboardingComponent = getOnboardingComponentFor(
         onboardingSteps.SCHEDULING_RELEASE_TO_DEVICES,
         { ...onboardingState, selectedDevice: devices.length ? devices[0] : undefined, selectedGroup: group, selectedRelease: deploymentRelease },
