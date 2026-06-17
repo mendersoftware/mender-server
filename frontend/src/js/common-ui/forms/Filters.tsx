@@ -77,6 +77,11 @@ export const Filters = ({ className = '', defaultValues, filters = [], initialVa
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(debouncedValues), onChange]);
 
+  const handleClear = () => {
+    reset();
+    onChange(defaultValues);
+  };
+
   return (
     <FormProvider {...methods}>
       <form className={`margin-bottom margin-top flexbox space-between ${classes.container} ${className}`} noValidate>
@@ -93,7 +98,7 @@ export const Filters = ({ className = '', defaultValues, filters = [], initialVa
         {isDirty && (
           <div>
             <Typography className="margin-top-small margin-bottom-small" color="textSecondary" variant="subtitle2">{`\u{200B}`}</Typography>
-            <Button className={`nowrap ${classes.filterReset}`} color="info" onClick={() => reset()} variant="outlined">
+            <Button className={`nowrap ${classes.filterReset}`} color="info" onClick={handleClear} variant="outlined">
               Clear filter
             </Button>
           </div>

@@ -9,7 +9,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
       class="flexbox align-items-center"
     >
       <h5
-        class="MuiTypography-root MuiTypography-h5 margin-bottom-small css-16xl4zq-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-h5 css-16xl4zq-MuiTypography-root"
       >
         Audit log
       </h5>
@@ -53,46 +53,56 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               Performed by
             </h6>
             <div
-              class="MuiAutocomplete-root css-1tlcqt-MuiAutocomplete-root"
-              name="user"
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiSelect-root css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+              style="width: 240px;"
             >
               <div
-                class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-18jp67o-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                role="combobox"
+                tabindex="0"
               >
-                <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
+                <span
+                  class="muted"
                 >
-                  <input
-                    aria-autocomplete="list"
-                    aria-expanded="false"
-                    aria-invalid="false"
-                    autocapitalize="none"
-                    autocomplete="off"
-                    class="MuiInputBase-input MuiOutlinedInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-                    id="_r_X_"
-                    placeholder="Select a user"
-                    role="combobox"
-                    spellcheck="false"
-                    type="text"
-                    value=""
-                  />
-                  <fieldset
-                    aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
-                  >
-                    <legend
-                      class="css-1nf2c5d-MuiNotchedOutlined-root"
-                    >
-                      <span
-                        aria-hidden="true"
-                        class="notranslate"
-                      >
-                        ​
-                      </span>
-                    </legend>
-                  </fieldset>
-                </div>
+                  Select a user
+                </span>
               </div>
+              <input
+                aria-hidden="true"
+                aria-invalid="false"
+                class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+                id="_r_X_"
+                tabindex="-1"
+                value=""
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon css-1rfqz7c-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
+                data-testid="ArrowDropDownIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-1nf2c5d-MuiNotchedOutlined-root"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="notranslate"
+                  >
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
             </div>
           </div>
           <div
@@ -601,48 +611,72 @@ exports[`Auditlogs Component > renders correctly 1`] = `
       </button>
     </div>
     <div
-      class="fadeIn deploy-table-contain auditlogs-list css-1yc7te8-auditlogsList"
+      class="fadeIn deploy-table-contain auditlogs-list css-1ngqj13-auditlogsList"
     >
       <div
-        class="auditlogs-list-item auditlogs-list-item-header muted"
+        class="auditlogs-list-item auditlogs-list-item-header"
       >
         <div
           class="columnHeader"
           style="cursor: initial;"
         >
-          Performed by
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
+          >
+            Performed by
+          </h6>
         </div>
         <div
           class="columnHeader"
           style="cursor: initial;"
         >
-          Action
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
+          >
+            Action
+          </h6>
         </div>
         <div
           class="columnHeader"
           style="cursor: initial;"
         >
-          Type
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
+          >
+            Type
+          </h6>
         </div>
         <div
           class="columnHeader"
           style="cursor: initial;"
         >
-          Changed
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
+          >
+            Changed
+          </h6>
         </div>
         <div
           class="columnHeader"
           style="cursor: initial;"
         >
-          More details
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
+          >
+            More details
+          </h6>
         </div>
         <div
           class="columnHeader"
         >
-          Time
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
+          >
+            Time
+          </h6>
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon selected false css-1umw9bq-MuiSvgIcon-root"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium sortIcon false css-1umw9bq-MuiSvgIcon-root"
             data-testid="SortIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -660,27 +694,36 @@ exports[`Auditlogs Component > renders correctly 1`] = `
         <div
           class="auditlogs-list-item clickable"
         >
-          <div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          >
             string@example.com
-          </div>
-          <div
-            class="uppercased"
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 uppercased css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
           >
             create
-          </div>
-          <div
-            class="capitalized"
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 capitalized css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
           >
             User
-          </div>
-          <div>
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          >
             user@acme.com
-          </div>
-          <div
-            class="text-overflow"
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
           >
             change1
-          </div>
+          </p>
           <time
             datetime="2019-01-01T12:10:22+00:00"
           >
@@ -697,22 +740,30 @@ exports[`Auditlogs Component > renders correctly 1`] = `
         <div
           class="auditlogs-list-item clickable"
         >
-          <div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          >
             string
-          </div>
-          <div
-            class="uppercased"
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 uppercased css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
           >
             create
-          </div>
-          <div
-            class="capitalized"
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 capitalized css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
           >
             Deployment
-          </div>
-          <div>
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          >
             production
-          </div>
+          </p>
           <a
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
             data-discover="true"
@@ -736,19 +787,24 @@ exports[`Auditlogs Component > renders correctly 1`] = `
         <div
           class="auditlogs-list-item clickable"
         >
-          <div>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
+          >
             string@example.com
-          </div>
-          <div
-            class="uppercased"
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 uppercased css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
           >
             open_terminal
-          </div>
-          <div
-            class="capitalized"
+          </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 capitalized css-rizt0-MuiTypography-root"
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
           >
             Device
-          </div>
+          </p>
           <div
             class="css-z9m6tn-container"
             style="display: grid;"
@@ -776,9 +832,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
           </button>
         </div>
       </div>
-      <div
-        class="flexbox margin-top"
-      >
+      <div>
         <div
           class="MuiTablePagination-root flexbox margin-top margin-top-none css-7mt0f-MuiTablePagination-root"
         >
@@ -914,25 +968,6 @@ exports[`Auditlogs Component > renders correctly 1`] = `
           Upgrade
         </a>
          to enable it
-      </div>
-      <div
-        class="relative flexbox css-19k6xox-iconWrapper  "
-        data-mui-internal-clone-element="true"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium css-1wdgt7t-MuiSvgIcon-root-icon"
-          data-testid="HelpIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 17h-2v-2h2zm2.07-7.75-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25"
-          />
-        </svg>
-        <div
-          class="css-1q5xlof-iconAura "
-        />
       </div>
     </div>
   </div>

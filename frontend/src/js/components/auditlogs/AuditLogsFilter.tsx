@@ -17,6 +17,7 @@ import { TextField } from '@mui/material';
 
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
 import ClickFilter from '@northern.tech/common-ui/forms/ClickFilter';
+import { ControlledSelect } from '@northern.tech/common-ui/forms/ControlledSelect';
 import Filters from '@northern.tech/common-ui/forms/Filters';
 import TimeframePicker from '@northern.tech/common-ui/forms/TimeframePicker';
 import { getISOStringBoundaries } from '@northern.tech/utils/helpers';
@@ -36,8 +37,6 @@ const renderOption = (props, option) => {
     </li>
   );
 };
-const isUserOptionEqualToValue = ({ email, id }, value) => id === value || email === value || email === value?.email;
-
 const autoSelectProps = {
   autoSelect: true,
   filterSelectedOptions: true,
@@ -83,7 +82,9 @@ export const AuditLogsFilter = ({
   return (
     <ClickFilter disabled={disabled}>
       <Filters
-        initialValues={{ startDate, endDate, user, type, detail }}
+        topSpacing="margin-top-medium"
+        bottomSpacing="margin-bottom-small"
+        initialValues={{ startDate, endDate, user: user?.id ?? user ?? '', type, detail }}
         defaultValues={{ startDate: today, endDate: tonight, user: '', type: null, detail: '' }}
         fieldResetTrigger={detailsReset}
         dirtyField={dirtyField}
@@ -92,13 +93,12 @@ export const AuditLogsFilter = ({
           {
             key: 'user',
             title: 'Performed by',
-            Component: ControlledAutoComplete,
+            Component: ControlledSelect,
             componentProps: {
-              ...autoSelectProps,
-              freeSolo: true,
-              isOptionEqualToValue: isUserOptionEqualToValue,
+              labelAttribute: 'email',
               options: Object.values(users),
-              renderInput: params => <TextField {...params} placeholder="Select a user" />
+              placeholder: 'Select a user',
+              selectionAttribute: 'id'
             }
           },
           {

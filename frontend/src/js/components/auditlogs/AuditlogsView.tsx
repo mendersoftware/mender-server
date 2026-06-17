@@ -16,12 +16,10 @@ import { Button, Typography } from '@mui/material';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Loader from '@northern.tech/common-ui/Loader';
 
-export const AuditlogsView = ({ total, csvLoading, createCsvDownload, infoHintComponent = null, auditLogsFilter, children }) => (
+export const AuditlogsView = ({ total, csvLoading, createCsvDownload, infoHintComponent, auditLogsFilter, children }) => (
   <div className="fadeIn margin-right">
     <div className="flexbox align-items-center">
-      <Typography className="margin-bottom-small" variant="h5">
-        Audit log
-      </Typography>
+      <Typography variant="h5">Audit log</Typography>
       <InfoHintContainer>{infoHintComponent}</InfoHintContainer>
     </div>
     {auditLogsFilter}

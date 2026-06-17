@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import { Typography } from '@mui/material';
@@ -30,14 +30,14 @@ import {
   getGroupNames,
   getIsServiceProvider,
   getTenantCapabilities,
-  getUserCapabilities
+  getUserCapabilities,
+  getUsersById
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getAuditLogs, getAuditLogsCsvLink, getUserList, setAuditlogsState } from '@northern.tech/store/thunks';
 import { createDownload, getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import dayjs from 'dayjs';
 
-import { HELPTOOLTIPS } from '../helptips/HelpTooltips';
-import { MenderHelpTooltip } from '../helptips/MenderTooltip';
 import AuditLogsFilter from './AuditLogsFilter';
 import AuditLogsList from './AuditLogsList';
 import AuditlogsView from './AuditlogsView';
@@ -46,36 +46,19 @@ import EventDetailsDrawer from './EventDetailsDrawer';
 import EventDetailsDrawerContentMap from './EventDetailsDrawerContentMap';
 import EventDetailsFallbackComponent from './eventdetails/FallbackComponent';
 
-const useStyles = makeStyles()(theme => ({
-  filters: {
-    backgroundColor: theme.palette.background.lightgrey,
-    padding: '0px 25px 5px',
-    display: 'grid',
-    gridTemplateColumns: '400px 250px 250px 1fr',
-    gridColumnGap: theme.spacing(2),
-    gridRowGap: theme.spacing(2)
-  },
-  filterReset: { alignSelf: 'flex-end', marginBottom: 5 },
-  timeframe: { gridColumnStart: 2, gridColumnEnd: 4, marginLeft: 7.5 },
-  typeDetails: { marginRight: 15, marginTop: theme.spacing(2) },
+const useStyles = makeStyles()(() => ({
   upgradeNote: { marginTop: '5vh', placeSelf: 'center' }
 }));
-
-const isUserOptionEqualToValue = ({ email, id }, value) => id === value || email === value || email === value?.email;
 
 const locationDefaults = { sort: { direction: SORTING_OPTIONS.desc } };
 
 export const AuditLogs = () => {
   const [csvLoading, setCsvLoading] = useState(false);
-
+  const [detailsReset, setDetailsReset] = useState('');
+  const [dirtyField, setDirtyField] = useState('');
   const [date] = useState(getISOStringBoundaries(new Date()));
-  const { start: today, end: tonight } = date;
+  const [auditLogsTypes, setAuditLogsTypes] = useState(AUDIT_LOGS_TYPES);
 
-  const isInitialized = useRef();
-  const location = useLocation();
-  const [locationParams, setLocationParams, { shouldInitializeFromUrl }] = useLocationParams('auditlogs', { today, tonight, defaults: locationDefaults });
-  const { classes } = useStyles();
-  const dispatch = useDispatch();
   const events = useSelector(getAuditLog);
   const eventItem = useSelector(getAuditLogEntry);
   const { isHosted } = useSelector(getFeatures);
@@ -83,15 +66,22 @@ export const AuditLogs = () => {
   const selectionState = useSelector(getAuditLogSelectionState);
   const userCapabilities = useSelector(getUserCapabilities);
   const tenantCapabilities = useSelector(getTenantCapabilities);
-  const users = useSelector(state => state.users.byId);
-  const { canReadUsers } = userCapabilities;
-  const { hasAuditlogs } = tenantCapabilities;
-  const [detailsReset, setDetailsReset] = useState('');
-  const [dirtyField, setDirtyField] = useState('');
+  const users = useSelector(getUsersById);
   const { token } = useSelector(getCurrentSession);
   const isSP = useSelector(getIsServiceProvider);
+
+  const { start: today, end: tonight } = date;
+  const location = useLocation();
+  const [locationParams, setLocationParams, { shouldInitializeFromUrl }] = useLocationParams('auditlogs', { today, tonight, defaults: locationDefaults });
+
+  const isInitialized = useRef();
+
+  const { classes } = useStyles();
+  const dispatch = useAppDispatch();
+  const { canReadUsers } = userCapabilities;
+  const { hasAuditlogs } = tenantCapabilities;
   const { detail, perPage, endDate, user, sort, startDate, type, total, isLoading } = selectionState;
-  const [auditLogsTypes, setAuditLogsTypes] = useState(AUDIT_LOGS_TYPES);
+
   const timers = useRef({ init: null, detailsReset: null, dirtyField: null });
 
   useEffect(() => {
@@ -228,8 +218,7 @@ export const AuditLogs = () => {
       if (!isInitialized.current) {
         return;
       }
-      const selectedUser = Object.values(users).find(item => isUserOptionEqualToValue(item, user));
-      dispatch(setAuditlogsState({ page: 1, detail, startDate, endDate, user: selectedUser, type }));
+      dispatch(setAuditlogsState({ page: 1, detail, startDate, endDate, user: users[user], type }));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, JSON.stringify(users)]
@@ -238,7 +227,6 @@ export const AuditLogs = () => {
   return (
     <AuditlogsView
       createCsvDownload={createCsvDownload}
-      hasAuditlogs={hasAuditlogs}
       total={total}
       csvLoading={csvLoading}
       infoHintComponent={<EnterpriseNotification id={BENEFITS.auditlog.id} />}
@@ -285,7 +273,6 @@ export const AuditLogs = () => {
       {!hasAuditlogs && (
         <div className={`dashboard-placeholder flexbox ${classes.upgradeNote}`}>
           <DefaultUpgradeNotification className="margin-right-small" />
-          <MenderHelpTooltip id={HELPTOOLTIPS.auditlogExplanation.id} />
         </div>
       )}
       <EventDetailsDrawer

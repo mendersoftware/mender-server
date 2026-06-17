@@ -13,11 +13,12 @@
 //    limitations under the License.
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import { Link } from '@northern.tech/common-ui/Link';
+import TextOverflowMultiline from '@northern.tech/common-ui/TextOverflowMultiline';
 import Time from '@northern.tech/common-ui/Time';
 import { DEPLOYMENT_ROUTES, auditlogTypes, canAccess } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
 
-const ArtifactLink = ({ item }) => <Link to={generateReleasesPath({ pageState: { selectedRelease: item.object.artifact.name } })}>View artifact</Link>;
+const ArtifactLink = ({ item }) => <Link to={generateReleasesPath({ pageState: { selectedRelease: item.object.artifact.name } })}>View software</Link>;
 const DeploymentLink = ({ item }) => <Link to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</Link>;
 const DeviceLink = ({ item }) => <Link to={`/devices?id=${item.object.id}`}>View device</Link>;
 const DeviceRejectedLink = ({ item }) => <Link to={`/devices/rejected?id=${item.object.id}`}>View device</Link>;
@@ -26,7 +27,7 @@ const ChangeFallback = props => {
   const {
     item: { change = '-' }
   } = props;
-  return <div className="text-overflow">{change}</div>;
+  return <TextOverflowMultiline>{change}</TextOverflowMultiline>;
 };
 
 const FallbackFormatter = props => {
@@ -39,11 +40,11 @@ const FallbackFormatter = props => {
   return <div>{result}</div>;
 };
 
-const ArtifactFormatter = ({ artifact }) => <div>{artifact.name}</div>;
-const DeploymentFormatter = ({ deployment }) => <div>{deployment.name}</div>;
+const ArtifactFormatter = ({ artifact }) => <TextOverflowMultiline>{artifact.name}</TextOverflowMultiline>;
+const DeploymentFormatter = ({ deployment }) => <TextOverflowMultiline>{deployment.name}</TextOverflowMultiline>;
 const DeviceFormatter = ({ id }) => <DeviceIdentityDisplay device={{ id }} />;
-const UserFormatter = ({ user }) => <div>{user.email}</div>;
-const TenantFormatter = ({ tenant }) => <div>{tenant.name}</div>;
+const UserFormatter = ({ user }) => <TextOverflowMultiline>{user.email}</TextOverflowMultiline>;
+const TenantFormatter = ({ tenant }) => <TextOverflowMultiline>{tenant.name}</TextOverflowMultiline>;
 
 const defaultAccess = canAccess;
 const changeMap = {
@@ -86,16 +87,18 @@ const actorMap = {
   device: 'id'
 };
 
-export const UserDescriptor = (item, index) => <div key={`${item.time}-${index} `}>{item.actor[actorMap[item.actor.type]]}</div>;
+export const UserDescriptor = (item, index) => (
+  <TextOverflowMultiline key={`${item.time}-${index}`}>{item.actor[actorMap[item.actor.type]]}</TextOverflowMultiline>
+);
 export const ActionDescriptor = (item, index) => (
-  <div className="uppercased" key={`${item.time}-${index}`}>
+  <TextOverflowMultiline className="uppercased" key={`${item.time}-${index}`}>
     {item.action}
-  </div>
+  </TextOverflowMultiline>
 );
 export const TypeDescriptor = (item, index) => (
-  <div className="capitalized" key={`${item.time}-${index}`}>
+  <TextOverflowMultiline className="capitalized" key={`${item.time}-${index}`}>
     {auditlogTypes[item.object.type]?.title ?? item.object.type}
-  </div>
+  </TextOverflowMultiline>
 );
 export const ChangeDescriptor = (item, index) => {
   const FormatterComponent = mapChangeToContent(item).actionFormatter;

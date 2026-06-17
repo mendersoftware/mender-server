@@ -163,8 +163,6 @@ const TwoFactorNote = () => (
   </>
 );
 
-const AuditlogExplanation = () => <>The audit log shows the history of changes made to your Devices, Artifacts, Deployments, and user management.</>;
-
 const DashboardWidget = () => (
   <>Add dashboard widgets to visualize the software distribution or geographical location of all your devices, or a group of your devices.</>
 );
@@ -313,7 +311,6 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   addGroup: { id: 'addGroup', Component: AddGroup },
   artifactUpload: { id: 'artifactUpload', Component: ArtifactUpload },
   attributeLimit: { id: 'attributeLimit', Component: AttributeLimit },
-  auditlogExplanation: { id: 'auditlogExplanation', Component: AuditlogExplanation },
   authButton: { id: 'authButton', Component: AuthButton },
   authExplainButton: { id: 'authExplainButton', Component: AuthExplainButton },
   configureAddOnTip: { id: 'configureAddOnTip', Component: ConfigureAddOnTip },

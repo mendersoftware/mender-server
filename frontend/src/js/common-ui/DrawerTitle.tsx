@@ -27,7 +27,7 @@ export interface DrawerTitleProps {
 export const DrawerTitle: FunctionComponent<DrawerTitleProps> = ({ onClose, onLinkCopy, postTitle, preCloser, title }) => (
   <div className="flexbox margin-bottom-small space-between relative">
     <div className="flexbox align-items-center">
-      <Typography className="capitalized-start flexbox align-items-center" component="div" variant="subtitle1">
+      <Typography className={`capitalized-start ${typeof title === 'string' ? '' : 'flexbox align-items-center'}`} component="div" variant="subtitle1">
         {title}
       </Typography>
       {onLinkCopy && (
