@@ -1,13 +1,13 @@
 # API server listen address
 # Defauls to: ":8080" which will listen on all avalable interfaces.
-listen: :8080
+# listen: :8080
 
 # Database configuration
 # MongoDB is required to run the service
 # Format: [mongodb://][user:pass@]host1[:port1][,host2[:port2],...][?options]
 # Format doc: https://docs.mongodb.com/manual/reference/connection-string/
 # Defaults to: "mongo-inventory"
-mongo: mongo-inventory:27017
+# mongo: mongo-inventory:27017
 
 # Enable SSL for mongo connections
 # Defaults to: false
