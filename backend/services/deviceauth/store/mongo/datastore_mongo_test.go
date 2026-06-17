@@ -35,6 +35,7 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
+	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	mongostore "github.com/mendersoftware/mender-server/pkg/mongo/v2"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
@@ -42,6 +43,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
 
+	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
@@ -409,6 +411,9 @@ func TestStoreAddDevice(t *testing.T) {
 	ctx := identity.WithContext(context.Background(), &identity.Identity{
 		Tenant: "foo",
 	})
+	// needed for 1.6.0 -> 1.7.0
+	config.Config.Set(dconfig.SettingInventoryAddr, "http://mock-inventory:8080/")
+
 	d := getDb(ctx)
 	d.MigrateTenant(ctx, DbName, DbVersion)
 
@@ -969,6 +974,8 @@ func TestStoreMigrate(t *testing.T) {
 		t.Run(fmt.Sprintf("tc: %s", name), func(t *testing.T) {
 			db.Wipe()
 			db := NewDataStoreMongoWithClient(db.Client())
+			// needed for 1.6.0 -> 1.7.0
+			config.Config.Set(dconfig.SettingInventoryAddr, "http://mock-inventory:8080/")
 
 			// set up automigration
 			if tc.automigrate {

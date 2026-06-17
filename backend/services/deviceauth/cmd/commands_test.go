@@ -16,7 +16,9 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"io"
 	"math/rand"
+	"net/http"
 	"testing"
 	"time"
 
@@ -25,12 +27,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/mendersoftware/mender-server/pkg/api/client"
+	oas_mocks "github.com/mendersoftware/mender-server/pkg/api/client/mocks"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
-
-	minv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory/mocks"
 
 	//dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
@@ -416,24 +418,33 @@ func TestPropagateStatusesInventory(t *testing.T) {
 				)
 			}
 
-			c := &minv.Client{}
+			c := oas_mocks.NewMockDeviceInventoryInternalAPIAPI(t)
 
-			if tc.cmdDryRun == false {
-				devices := make([]model.DeviceInventoryUpdate, len(tc.devices))
-				for n, d := range tc.devices {
-					devices[n].Id = d.Id
-					for _, status := range model.DevStatuses {
-						c.On("SetDeviceStatus",
-							mock.Anything,
-							mock.AnythingOfType("string"),
-							devices,
-							status).Return(tc.setStatus)
+			if tc.cmdDryRun {
+				c.EXPECT().
+					InventoryInternalCheckHealthExecute(mock.Anything).
+					Times(0)
+			} else {
+				if tc.errDbTenants == nil && tc.errDbDevices == nil {
+					devices := make([]client.DeviceUpdate, len(tc.devices))
+					for n, d := range tc.devices {
+						devices[n].Id = d.Id
+						for _, status := range model.DevStatuses {
+							req := client.ApiUpdateStatusOfDevicesRequest{
+								ApiService: c,
+							}.DeviceUpdate(devices)
+							c.EXPECT().
+								UpdateStatusOfDevices(mock.Anything, mock.AnythingOfType("string"), status).
+								Return(req)
+							c.EXPECT().
+								UpdateStatusOfDevicesExecute(req).
+								Return(&http.Response{
+									StatusCode: http.StatusOK,
+									Body:       io.NopCloser(nil),
+								}, tc.setStatus)
+						}
 					}
 				}
-			}
-
-			if tc.cmdDryRun == true {
-				c.AssertNotCalled(t, "SetDeviceStatus")
 			}
 
 			err := PropagateStatusesInventory(db, c, tc.cmdTenant, tc.forcedVersion, tc.cmdDryRun)

@@ -25,6 +25,8 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/sys/unix"
 
+	oas "github.com/mendersoftware/mender-server/pkg/api"
+	"github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	rate1 "github.com/mendersoftware/mender-server/pkg/config/rate.limits"
 	"github.com/mendersoftware/mender-server/pkg/log"
@@ -33,7 +35,6 @@ import (
 
 	api_http "github.com/mendersoftware/mender-server/services/deviceauth/api/http"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
-	"github.com/mendersoftware/mender-server/services/deviceauth/client/orchestrator"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/devauth"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
@@ -70,19 +71,31 @@ func RunServer(c config.Reader) error {
 	if err != nil {
 		return err
 	}
-
-	orchClientConf := orchestrator.Config{
-		OrchestratorAddr: c.GetString(dconfig.SettingOrchestratorAddr),
-		Timeout:          time.Duration(30) * time.Second,
+	cfg, err := oas.NewDefaultClientConfigurationFromURL(
+		c.GetString(dconfig.SettingOrchestratorAddr),
+	)
+	if err != nil {
+		return fmt.Errorf("failed to initialize workflows client: %w", err)
 	}
 
+	cfg.HTTPClient = &http.Client{Timeout: time.Duration(30) * time.Second}
+	wflows := client.NewAPIClient(cfg).WorkflowsOtherAPI
+
+	inventoryCfg, err := oas.NewDefaultClientConfigurationFromURL(
+		c.GetString(dconfig.SettingInventoryAddr),
+	)
+	if err != nil {
+		return fmt.Errorf("error creating inventory client config: %w", err)
+	}
+	inv := client.NewAPIClient(inventoryCfg)
+
 	devauth := devauth.NewDevAuth(db,
-		orchestrator.NewClient(orchClientConf),
+		wflows,
+		inv.DeviceInventoryInternalAPIAPI,
 		jwtHandler,
 		devauth.Config{
 			Issuer:         c.GetString(dconfig.SettingJWTIssuer),
 			ExpirationTime: int64(c.GetInt(dconfig.SettingJWTExpirationTimeout)),
-			InventoryAddr:  config.Config.GetString(dconfig.SettingInventoryAddr),
 		})
 
 	if jwtFallbackHandler != nil {

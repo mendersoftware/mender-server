@@ -15,17 +15,20 @@ package mongo
 
 import (
 	"context"
+	"crypto/tls"
+	"net/http"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
+	"github.com/mendersoftware/mender-server/pkg/api"
+	"github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	ctxstore "github.com/mendersoftware/mender-server/pkg/store"
 
-	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 )
@@ -41,8 +44,21 @@ const (
 )
 
 func (m *migration_1_7_0) updateDevicesStatus(ctx context.Context, status string) error {
-	inv := config.Config.GetString(dconfig.SettingInventoryAddr)
-	c := cinv.NewClient(inv, true)
+	invAddr := config.Config.GetString(dconfig.SettingInventoryAddr)
+	inventoryCfg, err := api.NewDefaultClientConfigurationFromURL(
+		invAddr,
+	)
+	if err != nil {
+		return err
+	}
+
+	inventoryCfg.HTTPClient = &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+	}
+	c := client.NewAPIClient(inventoryCfg).DeviceInventoryInternalAPIAPI
+
 	collectionDevices := m.ms.client.Database(ctxstore.DbFromContext(m.ctx, DbName)).
 		Collection(DbDevicesColl)
 	opts := options.Find()
@@ -52,10 +68,10 @@ func (m *migration_1_7_0) updateDevicesStatus(ctx context.Context, status string
 		return err
 	}
 	id := identity.FromContext(m.ctx)
-	var deviceUpdates []model.DeviceInventoryUpdate
-	deviceUpdates = make([]model.DeviceInventoryUpdate, devicesBatchSize)
-	var i uint
-	i = 0
+	var deviceUpdates []client.DeviceUpdate
+	deviceUpdates = make([]client.DeviceUpdate, devicesBatchSize)
+
+	i := 0
 	for cur.Next(ctx) {
 		var d model.Device
 		err = cur.Decode(&d)
@@ -63,19 +79,24 @@ func (m *migration_1_7_0) updateDevicesStatus(ctx context.Context, status string
 			return err
 		}
 		if i >= devicesBatchSize {
-			err = c.SetDeviceStatus(ctx, id.Tenant, deviceUpdates, status)
+			//nolint:bodyclose
+			_, err := c.UpdateStatusOfDevices(ctx, id.Tenant, status).
+				DeviceUpdate(deviceUpdates).Execute()
 			if err != nil {
 				return err
 			}
-			deviceUpdates = make([]model.DeviceInventoryUpdate, devicesBatchSize)
+
+			deviceUpdates = make([]client.DeviceUpdate, devicesBatchSize)
 			i = 0
 		}
 		deviceUpdates[i].Id = d.Id
-		deviceUpdates[i].Revision = d.Revision
+		deviceUpdates[i].Revision = int32(d.Revision)
 		i++
 	}
 	if i >= 1 {
-		err = c.SetDeviceStatus(ctx, id.Tenant, deviceUpdates[:i], status)
+		//nolint:bodyclose
+		_, err := c.UpdateStatusOfDevices(ctx, id.Tenant, status).
+			DeviceUpdate(deviceUpdates[:i]).Execute()
 		if err != nil {
 			return err
 		}

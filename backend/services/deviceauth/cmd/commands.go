@@ -19,13 +19,13 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/pkg/config"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/migrate"
 	mstore "github.com/mendersoftware/mender-server/pkg/store"
 
-	cinv "github.com/mendersoftware/mender-server/services/deviceauth/client/inventory"
 	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
@@ -33,7 +33,11 @@ import (
 	"github.com/mendersoftware/mender-server/services/deviceauth/utils"
 )
 
-var NowUnixMilis = utils.UnixMilis
+var (
+	NowUnixMilis = utils.UnixMilis
+
+	ErrPreconditionsFailed = errors.New("preconditions failed")
+)
 
 func makeDataStoreConfig() mongo.DataStoreMongoConfig {
 	return mongo.DataStoreMongoConfig{
@@ -174,7 +178,7 @@ func decommissioningCleanupExecute(db *mongo.DataStoreMongo, tenantId string) er
 
 func PropagateStatusesInventory(
 	db store.DataStore,
-	c cinv.Client,
+	c client.DeviceInventoryInternalAPIAPI,
 	tenant string,
 	migrationVersion string,
 	dryRun bool,
@@ -204,7 +208,8 @@ func PropagateStatusesInventory(
 	return errReturned
 }
 
-func PropagateIdDataInventory(db store.DataStore, c cinv.Client, tenant string, dryRun bool) error {
+func PropagateIdDataInventory(db store.DataStore, c client.DeviceInventoryInternalAPIAPI,
+	tenant string, dryRun bool) error {
 	var err error
 
 	l := log.NewEmpty()
@@ -237,7 +242,7 @@ const (
 func updateDevicesStatus(
 	ctx context.Context,
 	db store.DataStore,
-	c cinv.Client,
+	c client.DeviceInventoryInternalAPIAPI,
 	tenant string,
 	status string,
 	dryRun bool,
@@ -259,15 +264,17 @@ func updateDevicesStatus(
 			break
 		}
 
-		deviceUpdates := make([]model.DeviceInventoryUpdate, len(devices))
+		deviceUpdates := make([]client.DeviceUpdate, len(devices))
 
 		for i, d := range devices {
 			deviceUpdates[i].Id = d.Id
-			deviceUpdates[i].Revision = d.Revision
+			deviceUpdates[i].Revision = int32(d.Revision)
 		}
 
 		if !dryRun {
-			err = c.SetDeviceStatus(ctx, tenant, deviceUpdates, status)
+			//nolint:bodyclose
+			_, err := c.UpdateStatusOfDevices(ctx, tenant, status).
+				DeviceUpdate(deviceUpdates).Execute()
 			if err != nil {
 				return err
 			}
@@ -285,7 +292,7 @@ func updateDevicesStatus(
 func updateDevicesIdData(
 	ctx context.Context,
 	db store.DataStore,
-	c cinv.Client,
+	c client.DeviceInventoryInternalAPIAPI,
 	tenant string,
 	dryRun bool,
 ) error {
@@ -308,7 +315,14 @@ func updateDevicesIdData(
 				// identity scope since it stands for status of a device
 				// (as in: accepted, rejected, preauthorized)
 				d.IdDataStruct["status"] = d.Status
-				err := c.SetDeviceIdentity(ctx, tenant, d.Id, d.IdDataStruct)
+				attributes, err := GetInventoryAttributes(d.IdDataStruct)
+				if err != nil {
+					return err
+				}
+				//nolint:bodyclose
+				_, err = c.UpdateInventoryForADeviceScopeWise(ctx, tenant, d.Id).
+					Attribute(attributes).
+					Execute()
 				if err != nil {
 					return err
 				}
@@ -325,7 +339,7 @@ func updateDevicesIdData(
 
 func tryPropagateStatusesInventoryForTenant(
 	db store.DataStore,
-	c cinv.Client,
+	c client.DeviceInventoryInternalAPIAPI,
 	tenant string,
 	migrationVersion string,
 	dryRun bool,
@@ -385,7 +399,7 @@ func tryPropagateStatusesInventoryForTenant(
 
 func tryPropagateIdDataInventoryForTenant(
 	db store.DataStore,
-	c cinv.Client,
+	c client.DeviceInventoryInternalAPIAPI,
 	tenant string,
 	dryRun bool,
 ) error {
@@ -408,4 +422,51 @@ func tryPropagateIdDataInventoryForTenant(
 	}
 
 	return err
+}
+
+func mapValueToAttribute(value interface{}) (client.AttributeValue, error) {
+	attr := client.AttributeValue{}
+	if value == nil {
+		return attr, nil
+	}
+	switch v := value.(type) {
+	case float32:
+		attr.Float32 = &v
+	case string:
+		attr.String = &v
+	case []float32:
+		attr.ArrayOfFloat32 = &v
+	case []string:
+		attr.ArrayOfString = &v
+	default:
+		return attr, fmt.Errorf("unsupported type: %T", value)
+
+	}
+	return attr, nil
+}
+
+func GetInventoryAttributes(idData map[string]interface{}) ([]client.Attribute, error) {
+	if len(idData) == 0 {
+		return nil, errors.New("no attributes to update")
+	}
+
+	attributes := make([]client.Attribute, len(idData))
+	i := 0
+
+	for name, value := range idData {
+		attrVal, err := mapValueToAttribute(value)
+		if err != nil {
+			return nil, err
+		}
+
+		attributes[i] = client.Attribute{
+			Name:        name,
+			Description: nil,
+			Value:       attrVal,
+			Scope:       "identity",
+		}
+		i++
+	}
+
+	return attributes, nil
 }
