@@ -29,8 +29,9 @@ import {
   tenantTokenRetrieval
 } from '../../utils/commands';
 import { emptyStorageState, selectors, storagePath, timeouts } from '../../utils/constants';
+import type { Email } from '../../utils/email.ts';
 import { setupEmailClient } from '../../utils/email.ts';
-import { selectDeviceLimitInput } from '../../utils/utils.ts';
+import { poll, selectDeviceLimitInput } from '../../utils/utils.ts';
 
 test.describe('Settings', () => {
   test.describe('2FA setup', () => {
@@ -156,10 +157,21 @@ test.describe('Settings', () => {
     test('password change triggers email notification', async ({ username, environment }) => {
       test.skip(!isEnterpriseOrStaging(environment), 'test requires enterprise or staging environment');
       const emailClient = setupEmailClient(username, environment);
-      if (emailClient) {
-        const emails = await emailClient.getEmails({ to: username, unread: true });
-        expect(emails.find(email => email.subject === 'Your password has changed')).toBeDefined();
+      if (!emailClient) {
+        return;
       }
+      const maxAttempts = 5;
+      const foundEmail = await poll({
+        callback: async (): Promise<Email | undefined> => {
+          const emails = await emailClient.getEmails({ to: username, unread: true });
+          const email = emails.find(email => email.subject === 'Your password has changed');
+          return Promise.resolve(email);
+        },
+        message: `Couldn't find the password change notification after ${maxAttempts} attempts`,
+        delay: timeouts.fiveSeconds,
+        maxAttempts
+      });
+      expect(foundEmail).toBeDefined();
     });
 
     test('allows changing the password back', async ({ baseUrl, browserName, browser, password, request, username }) => {
