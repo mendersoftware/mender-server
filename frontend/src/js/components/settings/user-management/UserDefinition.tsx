@@ -36,7 +36,6 @@ const useStyles = makeStyles()(theme => ({
   leftButton: { marginRight: theme.spacing(2) },
   oauthIcon: { fontSize: 36, marginRight: 10 },
   userIdWrapper: {
-    marginBottom: theme.spacing(-7),
     '.copy-button': { marginTop: theme.spacing(0.25) },
     [`.${textFieldClasses.root}`]: { width: SETTINGS_INPUT_WIDTH }
   },
@@ -63,10 +62,10 @@ const scopedPermissionAreas = {
 export const UserId = ({ className = '', userId }) => {
   const { classes } = useStyles();
   return (
-    <div className={`flexbox ${classes.userIdWrapper} ${className}`}>
+    <div className={`flexbox margin-bottom-small ${classes.userIdWrapper} ${className}`}>
       <TextField className="margin-right-small" label="User ID" key={userId} disabled defaultValue={userId} />
       <div className="copy-button">
-        <CopyTextToClipboard token={userId} />
+        <CopyTextToClipboard notify={false} token={userId} />
       </div>
     </div>
   );

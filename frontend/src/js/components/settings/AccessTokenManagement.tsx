@@ -34,6 +34,7 @@ import {
 import { makeStyles } from 'tss-react/mui';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
+import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import Time, { RelativeTime } from '@northern.tech/common-ui/Time';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { canAccess as canShow } from '@northern.tech/store/constants';
@@ -242,35 +243,37 @@ export const AccessTokenManagement = () => {
 
   return (
     <>
-      <div className={`flexbox space-between margin-top-small ${tokens.length ? classes.accessTokens : ''}`}>
-        <p className="help-content">Personal access token management</p>
-        <Button onClick={toggleGenerateClick}>Generate a token</Button>
-      </div>
-      {!!tokens.length && (
-        <Table className={classes.accessTokens}>
-          <TableHead>
-            <TableRow>
-              {columns.map(column => (
-                <TableCell key={column.id} padding={column.disablePadding ? 'none' : 'normal'}>
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tokens
-              .slice()
-              .sort(customSort(true, creationTimeAttribute))
-              .map(token => (
-                <TableRow key={token.id} hover>
+      <SettingsItem
+        title="Personal access token management"
+        description={<Button onClick={toggleGenerateClick}>Generate a token</Button>}
+        secondary={
+          !!tokens.length && (
+            <Table className={classes.accessTokens}>
+              <TableHead>
+                <TableRow>
                   {columns.map(column => (
-                    <TableCell key={column.id}>{column.render({ onRevokeTokenClick, token })}</TableCell>
+                    <TableCell key={column.id} padding={column.disablePadding ? 'none' : 'normal'}>
+                      {column.label}
+                    </TableCell>
                   ))}
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      )}
+              </TableHead>
+              <TableBody>
+                {tokens
+                  .slice()
+                  .sort(customSort(true, creationTimeAttribute))
+                  .map(token => (
+                    <TableRow key={token.id} hover>
+                      {columns.map(column => (
+                        <TableCell key={column.id}>{column.render({ onRevokeTokenClick, token })}</TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          )
+        }
+      />
       {showGeneration && (
         <AccessTokenCreationDialog
           onCancel={toggleGenerateClick}

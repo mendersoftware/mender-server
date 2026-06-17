@@ -14,20 +14,30 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Alert, Button, Chip, Collapse } from '@mui/material';
+import { Alert, Button, Chip, Collapse, Switch, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
-import InfoText from '@northern.tech/common-ui/InfoText';
+import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import storeActions from '@northern.tech/store/actions';
 import { twoFAStates } from '@northern.tech/store/constants';
 import { getCurrentUser, getHas2FA } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { disableUser2fa, enableUser2fa, get2FAQRCode, verify2FA, verifyEmailStart } from '@northern.tech/store/thunks';
 
+import { SETTINGS_INPUT_WIDTH } from '../constants';
 import AuthSetup from './twofactorauth-steps/AuthSetup';
 import EmailVerification from './twofactorauth-steps/EmailVerification';
 
 const { setSnackbar } = storeActions;
+
+const useStyles = makeStyles()(() => ({
+  columnWidths: {
+    '&.settings-item-content': {
+      width: SETTINGS_INPUT_WIDTH
+    }
+  }
+}));
 
 export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
   const currentUser = useSelector(getCurrentUser);
@@ -38,6 +48,7 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
   const [is2FAEnabled, setIs2FAEnabled] = useState(has2FA);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const dispatch = useAppDispatch();
+  const { classes } = useStyles();
 
   useEffect(() => {
     if ((currentUser.verified || currentUser.email?.endsWith('@example.com')) && is2FAEnabled && !has2FA) {
@@ -93,34 +104,56 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
   }, [currentUser.email, currentUser.verified, dispatch, handle2FAState, has2FA, is2FAEnabled, showEmailVerification]);
 
   return (
-    <div className="margin-top">
-      <div className="flexbox align-items-center">
-        <p className="help-content">Two Factor authentication</p>
-        <Chip
-          size="small"
-          label={has2FA ? 'Enabled' : 'Not enabled'}
-          variant="outlined"
-          color={has2FA ? 'success' : 'warning'}
-          className="margin-left-x-small"
-        />
-      </div>
-      {!has2FA && !needsVerification && (
-        <Alert severity="warning">Two-factor authentication is not enabled yet. Enable it now to prevent unauthorized access.</Alert>
-      )}
-      <InfoText style={{ width: '75%' }} className="margin-top-x-small margin-bottom-x-small">
-        Two-factor authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in.
-      </InfoText>
-      {!showEmailVerification &&
-        !qrExpanded &&
-        (has2FA ? (
-          <Button variant="outlined" color="error" onClick={() => setConfirmDisable(true)}>
-            Disable 2FA
-          </Button>
-        ) : (
-          <Button variant="contained" color="primary" onClick={onToggle2FAClick}>
-            Set up
-          </Button>
-        ))}
+    <>
+      <SettingsItem
+        classes={{ content: classes.columnWidths }}
+        title={
+          <div className="flexbox align-items-center">
+            <Typography
+              className={`capitalized-start margin-right-x-small ${has2FA ? '' : 'clickable'}`}
+              onClick={has2FA ? undefined : onToggle2FAClick}
+              variant="subtitle1"
+            >
+              {has2FA ? '' : 'Enable '}Two Factor authentication
+            </Typography>
+            {has2FA ? (
+              <Chip size="small" label="Enabled" variant="outlined" color="success" className="margin-left-x-small" />
+            ) : (
+              <Switch className="margin-left-small" checked={!!has2FA || qrExpanded} onChange={onToggle2FAClick} />
+            )}
+          </div>
+        }
+        description="Two-factor authentication adds a second layer of protection to your account by asking for an additional verification code each time you log in."
+        secondary={
+          <>
+            {showEmailVerification ? (
+              <EmailVerification email={currentUser.email} verifyEmailStart={() => dispatch(verifyEmailStart()).unwrap()} />
+            ) : (
+              <>
+                {!qrExpanded && has2FA && (
+                  <Button variant="outlined" color="error" onClick={() => setConfirmDisable(true)}>
+                    Disable 2FA
+                  </Button>
+                )}
+              </>
+            )}
+            <Collapse in={qrExpanded} timeout="auto" unmountOnExit>
+              <AuthSetup
+                setShowNotice={setShowNotice}
+                currentUser={currentUser}
+                handle2FAState={handle2FAState}
+                has2FA={has2FA}
+                qrImage={qrImage}
+                verify2FA={data => dispatch(verify2FA(data))}
+                onClose={() => setQrExpanded(false)}
+              />
+            </Collapse>
+            {!has2FA && !qrExpanded && !needsVerification && (
+              <Alert severity="warning">Two-factor authentication is not enabled yet. Enable it now to prevent unauthorized access.</Alert>
+            )}
+          </>
+        }
+      />
       <ConfirmModal
         open={confirmDisable}
         description="Are you sure you want to turn off 2FA? This will make your account less secure."
@@ -129,19 +162,7 @@ export const TwoFactorAuthSetup = ({ needsVerification, setShowNotice }) => {
         confirmButtonText="Disable 2FA"
         onConfirm={onToggle2FAClick}
       />
-      {showEmailVerification && <EmailVerification email={currentUser.email} verifyEmailStart={() => dispatch(verifyEmailStart()).unwrap()} />}
-      <Collapse in={qrExpanded} timeout="auto" unmountOnExit>
-        <AuthSetup
-          setShowNotice={setShowNotice}
-          currentUser={currentUser}
-          handle2FAState={handle2FAState}
-          has2FA={has2FA}
-          qrImage={qrImage}
-          verify2FA={data => dispatch(verify2FA(data))}
-          onClose={() => setQrExpanded(false)}
-        />
-      </Collapse>
-    </div>
+    </>
   );
 };
 

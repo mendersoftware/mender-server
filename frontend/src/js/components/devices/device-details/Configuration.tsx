@@ -201,7 +201,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
       clearInterval(deploymentTimer.current);
       setIsRefreshing(false);
     };
-  }, [deployment_id, isRefreshing]);
+  }, [deployment_id, dispatch, isRefreshing]);
 
   useEffect(() => {
     if (deployment.status === DEPLOYMENT_STATES.finished) {

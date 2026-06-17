@@ -1797,20 +1797,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                       </button>
                     </div>
                   </div>
-                  <div
-                    class="help-text"
-                    id="pass-strength"
-                  >
-                    Strength: 
-                    <meter
-                      high="3.9"
-                      low="2.5"
-                      max="4"
-                      min="0"
-                      optimum="4"
-                      value="0"
-                    />
-                  </div>
                 </div>
                 <label
                   class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-30"
@@ -1851,7 +1837,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                     <div
                       class="MuiFormControl-root emotion-7"
                       id="roles-form"
-                      style="max-width: 400px;"
+                      style="max-width: 550px;"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-8"
@@ -3788,20 +3774,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                       </button>
                     </div>
                   </div>
-                  <div
-                    class="help-text"
-                    id="pass-strength"
-                  >
-                    Strength: 
-                    <meter
-                      high="3.9"
-                      low="2.5"
-                      max="4"
-                      min="0"
-                      optimum="4"
-                      value="0"
-                    />
-                  </div>
                 </div>
                 <label
                   class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-30"
@@ -3842,7 +3814,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-38:focus::-ms-input-
                     <div
                       class="MuiFormControl-root emotion-7"
                       id="roles-form"
-                      style="max-width: 400px;"
+                      style="max-width: 550px;"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-8"

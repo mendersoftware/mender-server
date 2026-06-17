@@ -46,8 +46,8 @@ import ArtifactGenerationSettings from './ArtifactGeneration';
 const maxWidth = 750;
 const maxOfflineIntervalDays = 1000;
 
-const useStyles = makeStyles()(theme => ({
-  formWrapper: { display: 'flex', flexDirection: 'column', gap: theme.spacing(4) },
+const useStyles = makeStyles()(() => ({
+  formWrapper: { display: 'flex', flexDirection: 'column' },
   offlineThresholdInput: { [`& .${outlinedInputClasses.root}`]: { width: 120 } }
 }));
 
@@ -193,7 +193,7 @@ export const GlobalSettings = () => {
   return (
     <div style={{ maxWidth }} className="margin-top-small">
       <Typography variant="h6">Global settings</Typography>
-      <Typography className="margin-top-x-small margin-bottom-large" variant="body2">
+      <Typography className="margin-top-x-small" variant="body2">
         Global settings are applied organization-wide. Modifying these settings will affect all users.
       </Typography>
       <div className={classes.formWrapper}>

@@ -44,9 +44,9 @@ test.describe('Settings', () => {
       }
       test.skip(tfaSecret, 'looks like the account is already 2fa enabled, continue with the remaining tests');
       await page.goto(`${baseUrl}ui/settings/my-profile`);
-      await page.getByRole('button', { name: /set up/i }).click();
-      await page.waitForSelector('.margin-top img');
-      const qrCode = await page.$eval('.margin-top img', (el: HTMLImageElement) => el.src);
+      await page.getByText(/Enable Two Factor authentication/i).click();
+      await page.waitForSelector('.MuiCollapse-root img');
+      const qrCode = await page.$eval('.MuiCollapse-root img', (el: HTMLImageElement) => el.src);
       const png = PNG.sync.read(Buffer.from(qrCode.slice('data:image/png;base64,'.length), 'base64'));
       const decodedQr = jsQR(png.data, png.width, png.height);
       const qrData = new URLSearchParams(decodedQr.data);
@@ -135,13 +135,10 @@ test.describe('Settings', () => {
       await page.getByRole('menuitem', { name: 'My profile' }).click();
       await page.getByRole('button', { name: /change password/i }).click();
       expect(await page.$eval(selectors.password, (el: HTMLInputElement) => el.value)).toBeFalsy();
-      await page.getByRole('button', { exact: true, name: 'Generate' }).click();
-      await page.click(selectors.passwordCurrent, { clickCount: 3 });
       await page.fill(selectors.passwordCurrent, password);
       const typedCurrentPassword = await page.$eval(selectors.passwordCurrent, (el: HTMLInputElement) => el.value);
       expect(typedCurrentPassword === password);
-      expect(await page.$eval(selectors.password, (el: HTMLInputElement) => el.value)).toBeTruthy();
-      await page.click(selectors.password, { clickCount: 3 });
+      await page.click(selectors.password);
       await page.fill(selectors.password, replacementPassword);
       const typedPassword = await page.$eval(selectors.password, (el: HTMLInputElement) => el.value);
       expect(typedPassword === replacementPassword);

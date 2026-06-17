@@ -1016,20 +1016,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
           />
         </div>
       </div>
-      <div
-        class="help-text"
-        id="pass-strength"
-      >
-        Strength: 
-        <meter
-          high="3.9"
-          low="2.5"
-          max="4"
-          min="0"
-          optimum="4"
-          value="0"
-        />
-      </div>
     </div>
     <div>
       <div

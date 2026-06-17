@@ -17,6 +17,8 @@ import { Typography } from '@mui/material';
 import { FormControlLabel, Switch } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { SETTINGS_CONTENT_MAX_WIDTH } from '../components/settings/constants';
+
 type SettingsItemClasses = {
   base: string;
   content: string;
@@ -32,7 +34,7 @@ export interface SettingsItemProps {
   title: string | ReactNode;
 }
 
-export const maxWidth = 750;
+export const maxWidth = SETTINGS_CONTENT_MAX_WIDTH;
 
 const useStyles = makeStyles()(({ spacing }) => ({
   base: { gap: spacing(1) },
@@ -62,7 +64,7 @@ export const SettingsItemTitle = ({ title }: Pick<SettingsItemProps, 'title'>) =
 export const SettingsItem = ({ classes = defaultClasses, description, notification, secondary, sideBarContent, title }: SettingsItemProps) => {
   const { classes: localClasses } = useStyles();
   return (
-    <div className={`flexbox column settings-item-base ${localClasses.base} margin-top-small ${classes.base ?? ''}`}>
+    <div className={`flexbox column settings-item-base ${localClasses.base} margin-top ${classes.base ?? ''}`}>
       <div className={`flexbox column settings-item-content ${localClasses.base} ${localClasses.content} ${classes.content ?? ''}`}>
         <SettingsItemTitle title={title} />
         {description && (

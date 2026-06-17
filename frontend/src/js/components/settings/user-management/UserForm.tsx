@@ -223,7 +223,7 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
               autocomplete="off"
               create
               edit={false}
-              generate
+              generate // this is the last place this is used, make sure to remove the related input parts when this too gets changed
               InputLabelProps={{ shrink: true }}
               label={<PasswordLabel />}
               placeholder="Password"

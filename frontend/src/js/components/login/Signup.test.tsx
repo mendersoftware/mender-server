@@ -51,7 +51,6 @@ describe('Signup Component', () => {
     await user.type(passwordInput, 'mysecretpassword!123');
     expect(screen.getByRole('button', { name: /sign up/i })).toBeDisabled();
     await user.type(passwordConfirmationInput, 'mysecretpassword!123');
-    expect(container.querySelector('#pass-strength > meter')).toBeVisible();
     await act(async () => {
       vi.runAllTicks();
       vi.runAllTimers();
