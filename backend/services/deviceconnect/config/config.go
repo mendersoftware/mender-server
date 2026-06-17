@@ -27,7 +27,7 @@ const (
 	// SettingNatsURI is the config key for the nats uri
 	SettingNatsURI = "nats_uri"
 	// SettingNatsURIDefault is the default value for the nats uri
-	SettingNatsURIDefault = "nats://localhost:4222"
+	SettingNatsURIDefault = "nats://mender-nats:4222"
 
 	// SettingMongo is the config key for the mongo URL
 	SettingMongo = "mongo_url"
