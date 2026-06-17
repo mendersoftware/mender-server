@@ -11,11 +11,38 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import type { ReactNode, RefObject } from 'react';
+import type { Control, FieldValues, RegisterOptions } from 'react-hook-form';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import type { InputLabelProps as MuiInputLabelProps, OutlinedInputProps } from '@mui/material';
 import { FormControl, FormHelperText, InputLabel, OutlinedInput } from '@mui/material';
 
 import { runValidations } from './Form';
+
+export type CommonTextInputProps = {
+  autocomplete: string;
+  className: string;
+  control: Control<FieldValues>;
+  disabled: boolean;
+  InputLabelProps: Partial<MuiInputLabelProps>;
+  InputProps: Partial<OutlinedInputProps>;
+  label: ReactNode;
+  required: boolean;
+  validations: string;
+  width: number | string | null;
+};
+
+type TextInputProps = {
+  controlRef?: RefObject<HTMLInputElement | null>;
+  helperText?: string;
+  hint?: string;
+  id: string;
+  numericValidations?: RegisterOptions;
+  requiredRendered?: boolean;
+  type?: string;
+  value?: string;
+} & Partial<CommonTextInputProps>;
 
 export const TextInput = ({
   autocomplete,
@@ -36,7 +63,7 @@ export const TextInput = ({
   requiredRendered = true,
   width = 400,
   helperText = ''
-}) => {
+}: TextInputProps) => {
   const {
     clearErrors,
     formState: { errors },
