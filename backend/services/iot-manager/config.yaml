@@ -2,19 +2,19 @@
 # Defauls to: ":8080" which will listen on all avalable interfaces.
 # Overwrite with environment variable: IOT_MANAGER_LISTEN
 
-listen: :8080
+# listen: :8080
 
 # Mongodb connection string
 # Defaults to: "mongodb://localhost"
 # Overwrite with environment variable: IOT_MANAGER_MONGO_URL
 
-mongo_url: mongodb://mender-mongo:27017
+# mongo_url: mongodb://mender-mongo:27017
 
 # Mongodb database name
 # Defaults to: "iot_manager"
 # Overwrite with environment variable: IOT_MANAGER_MONGO_DBNAME
 
-mongo_dbname: iot_manager
+# mongo_dbname: iot_manager
 
 # Enable SSL for mongo connections
 # Defaults to: false
@@ -45,7 +45,6 @@ mongo_dbname: iot_manager
 
 # mongo_password: secret
 
-
 # AES encryption key
 # 32 bytes long key used to encrypt and decrypt sensitive data stored
 # in the database; encryption is disabled if the key is empty. The value
@@ -55,7 +54,6 @@ mongo_dbname: iot_manager
 
 # aes_encryption_key:
 
-
 # AES encryption fallback key
 # fallback key used when performing key-rotation; if set, it will be used
 # as fallback key to decrypt the data stored in the database if the primary
@@ -64,7 +62,6 @@ mongo_dbname: iot_manager
 # Overwrite with environment variable: IOT_MANAGER_AES_ENCRYPTION_FALLBACK_KEY
 
 # aes_encryption_fallback_key:
-
 
 # Workflows URL
 # Overwrites the URL to the workflows service.
