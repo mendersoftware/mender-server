@@ -13,10 +13,13 @@
 //    limitations under the License.
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import dayjs from 'dayjs';
 
 import TrialNotification from './TrialNotification';
 
-describe('DeviceNotifications Component', () => {
+describe('TrialNotification Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<TrialNotification iconClassName="" sectionClassName="" />);
     const view = baseElement.firstChild.firstChild;
@@ -29,5 +32,19 @@ describe('DeviceNotifications Component', () => {
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+
+  it('warns about the remaining time when the trial expires soon', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    render(<TrialNotification expiration={dayjs().add(10, 'day').toISOString()} sectionClassName="" />);
+    await user.hover(screen.getByRole('button', { name: /trial plan/i }));
+    expect(await screen.findByText(/your trial ends in/i)).toBeInTheDocument();
+  });
+
+  it('shows the default message when the trial is not expiring soon', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    render(<TrialNotification expiration={dayjs().add(1, 'year').toISOString()} sectionClassName="" />);
+    await user.hover(screen.getByRole('button', { name: /trial plan/i }));
+    expect(await screen.findByText(/free to try for 12 months/i)).toBeInTheDocument();
   });
 });
