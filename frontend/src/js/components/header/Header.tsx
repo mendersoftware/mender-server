@@ -389,13 +389,7 @@ export const Header = ({ isDarkMode }) => {
           <Link to="/">
             <img id="logo" src={headerLogo} />
           </Link>
-          {organization.trial && (
-            <TrialNotification
-              expiration={organization.trial_expiration}
-              iconClassName={classes.demoAnnouncementIcon}
-              sectionClassName={classes.demoTrialAnnouncement}
-            />
-          )}
+          {organization.trial && <TrialNotification expiration={organization.trial_expiration} sectionClassName={classes.demoTrialAnnouncement} />}
         </div>
         {isSp ? (
           <>

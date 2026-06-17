@@ -11,50 +11,46 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Link as RouterLink } from 'react-router';
+import { useNavigate } from 'react-router';
 
-import { Chip } from '@mui/material';
+import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
+import { Chip, Tooltip } from '@mui/material';
 
-import { Link } from '@northern.tech/common-ui/Link';
-import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 import pluralize from 'pluralize';
 
 dayjs.extend(durationDayJs);
 
-const TrialInformation = () => (
-  <>
-    <h3>Trial plan</h3>
-    <p>You&apos;re using the trial version of Mender – it&apos;s free for up to 10 devices for 12 months.</p>
-    <p>
-      <Link to="/subscription">Upgrade to a plan</Link> to add more devices and continue using Mender after the trial expires.
-    </p>
-    <p>
-      Or compare the plans at{' '}
-      <Link href="https://mender.io/plans/pricing" external>
-        mender.io/plans/pricing
-      </Link>
-      .
-    </p>
-  </>
-);
-
+const TrialInformation = ({ expiresSoon, label }) =>
+  expiresSoon ? (
+    <>
+      You’re using the trial version of Mender. Your trial ends in <b>{label}</b>. Upgrade now to keep managing your devices without interruption.
+    </>
+  ) : (
+    <>You’re using the trial version of Mender. It’s free to try for 12 months.</>
+  );
 const TrialNotification = ({ sectionClassName, expiration }) => {
+  const navigate = useNavigate();
   const expirationDate = dayjs(expiration);
   const duration = dayjs.duration(expirationDate.diff(dayjs()));
-  const daysLeft = Math.floor(duration.asDays());
+  const days = Math.floor(duration.asDays());
+  const months = Math.floor(duration.asMonths());
+  const expiresSoon = months < 4;
+
+  const label = days > 30 ? `${months} ${pluralize('months', months)}` : `${days} ${pluralize('day', days)}`;
   return (
     <div className={`flexbox centered ${sectionClassName}`}>
-      <MenderTooltipClickable className="flexbox align-items-center margin-right-small" disableHoverListener={false} title={<TrialInformation />}>
-        <Chip className="clickable" component={RouterLink} label="Trial plan" size="small" to="/subscription" variant="outlined" />
-      </MenderTooltipClickable>
-
-      {expiration && daysLeft <= 100 && daysLeft >= 0 && (
-        <div className="muted">
-          You have {daysLeft} {pluralize('day', daysLeft)} remaining on the trial plan
-        </div>
-      )}
+      <Tooltip arrow title={<TrialInformation expiresSoon={expiresSoon} label={label} />}>
+        <Chip
+          color={expiresSoon ? 'error' : 'default'}
+          icon={expiresSoon ? <InfoOutlinedIcon /> : undefined}
+          label="Trial plan"
+          size="small"
+          onClick={() => navigate('/subscription')}
+          variant="outlined"
+        />
+      </Tooltip>
     </div>
   );
 };
