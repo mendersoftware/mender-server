@@ -503,7 +503,7 @@ exports[`ExpandedDevice Component > renders correctly 1`] = `
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: max-content;
-  gap: 8px;
+  gap: 12px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -1485,7 +1485,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
   letter-spacing: 0.00938em;
   background: #fff;
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.87);
   padding: 8px 16px;
   border-radius: 4px;
   margin-right: 8px;
@@ -1884,7 +1884,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
           </div>
           <button
             aria-label="Copy link"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-5"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-x-small emotion-5"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
@@ -2077,7 +2077,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
         </div>
       </div>
       <div
-        class="margin-bottom margin-top-medium "
+        class="margin-bottom-medium margin-top-small "
       >
         <div
           class="flexbox space-between"
@@ -2268,7 +2268,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
         </div>
       </div>
       <div
-        class="margin-bottom margin-top-medium "
+        class="margin-bottom-medium margin-top-small "
       >
         <div
           class="flexbox space-between"
@@ -2483,7 +2483,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
         </div>
       </div>
       <div
-        class="margin-bottom margin-top-medium "
+        class="margin-bottom-medium margin-top-small "
       >
         <div
           class="flexbox space-between"

@@ -852,7 +852,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
           </div>
           <button
             aria-label="Copy link"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-4"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-x-small emotion-4"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"

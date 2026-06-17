@@ -1,21 +1,13 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ArtifactPayload Component > renders correctly 1`] = `
-.emotion-0 {
-  background: rgb(255, 255, 255);
-  margin: 0;
-  padding: 10px;
-  position: absolute;
-  top: -20px;
-}
-
-.emotion-1.two-columns.column-data {
+.emotion-0.two-columns.column-data {
   grid-template-columns: max-content minmax(auto, 650px);
   max-width: initial;
   row-gap: 8px;
 }
 
-.emotion-2 {
+.emotion-1 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
@@ -24,7 +16,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
   letter-spacing: 0.00714em;
 }
 
-.emotion-3 {
+.emotion-2 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -33,7 +25,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-7 {
+.emotion-6 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -44,19 +36,12 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
   border-bottom-width: thin;
 }
 
-<div
-  class="file-details"
->
-  <h4
-    class="emotion-0"
-  >
-    Payload 
-  </h4>
+<div>
   <div
-    class="break-all two-columns emotion-1 column-data margin-top margin-bottom"
+    class="break-all two-columns emotion-0 column-data margin-bottom-small"
   >
     <h6
-      class="MuiTypography-root MuiTypography-subtitle2 key emotion-2"
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
       style="white-space: nowrap;"
     >
       Type
@@ -65,7 +50,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
       class="flexbox align-items-center "
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-3"
+        class="MuiTypography-root MuiTypography-body2 emotion-2"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="test"
       >
@@ -73,7 +58,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
       </p>
     </div>
     <h6
-      class="MuiTypography-root MuiTypography-subtitle2 key emotion-2"
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-1"
       style="white-space: nowrap;"
     >
       Total Size (uncompressed)
@@ -82,7 +67,7 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
       class="flexbox align-items-center "
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-3"
+        class="MuiTypography-root MuiTypography-body2 emotion-2"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="0 Bytes"
       >
@@ -90,16 +75,14 @@ exports[`ArtifactPayload Component > renders correctly 1`] = `
       </p>
     </div>
   </div>
-  <div
-    class="file-meta"
-  >
+  <div>
     <h6
-      class="MuiTypography-root MuiTypography-subtitle2 emotion-2"
+      class="MuiTypography-root MuiTypography-subtitle2 emotion-1"
     >
       Files
     </h6>
     <hr
-      class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-7"
+      class="MuiDivider-root MuiDivider-fullWidth margin-top-small margin-bottom-small emotion-6"
     />
     <p>
       There are no files in this Artifact

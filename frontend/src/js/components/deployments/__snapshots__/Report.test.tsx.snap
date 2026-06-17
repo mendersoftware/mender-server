@@ -40,7 +40,7 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
             Deployment 
             details
             <div
-              class="margin-left-small margin-right-small"
+              class="margin-left-x-small"
             >
               ID: 
               d1
@@ -48,7 +48,7 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
           </div>
           <button
             aria-label="Copy link"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-x-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
@@ -1066,7 +1066,7 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
             Deployment 
             details
             <div
-              class="margin-left-small margin-right-small"
+              class="margin-left-x-small"
             >
               ID: 
               d3
@@ -1074,7 +1074,7 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
           </div>
           <button
             aria-label="Copy link"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-154kngp-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge margin-left-x-small css-154kngp-MuiButtonBase-root-MuiIconButton-root"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"

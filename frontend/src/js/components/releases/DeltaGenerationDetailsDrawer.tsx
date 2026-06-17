@@ -245,7 +245,7 @@ export const DeltaGenerationDetailsDrawer = ({ jobId, onClose, open }: DeltaGene
           title: (
             <>
               Delta Artifact information
-              <div className="margin-left-small margin-right-small">ID: {jobId}</div>
+              <div className="margin-left-small">ID: {jobId}</div>
             </>
           ),
           onLinkCopy: copyLinkToClipboard

@@ -63,7 +63,7 @@ describe('Releases Component', () => {
     await user.click(screen.getAllByText(defaultState.releases.byId.r1.name)[0]);
     await user.click(screen.getByText(/testtype/i));
     expect(screen.queryByText(defaultState.releases.byId.r1.artifacts[0].description)).toBeVisible();
-    await user.click(screen.getByRole('button', { name: /Remove this/i }));
+    await user.click(screen.getByRole('button', { name: /Remove Artifact/i }));
     await waitFor(() => expect(screen.queryByRole('button', { name: /Cancel/i })).toBeInTheDocument());
     await user.click(screen.getByRole('button', { name: /Cancel/i }));
     await waitFor(() => expect(screen.queryByRole('button', { name: /Cancel/i })).not.toBeInTheDocument());

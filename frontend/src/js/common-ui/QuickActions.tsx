@@ -56,7 +56,7 @@ const useStyles = makeStyles()(theme => ({
   label: {
     background: isDarkMode(theme.palette.mode) ? lighten(theme.palette.background.paper, getOverlayAlpha(6)) : theme.palette.common.white,
     boxShadow: isDarkMode(theme.palette.mode) ? 'none' : theme.shadows[6],
-    color: theme.palette.action?.active,
+    color: theme.palette.text.primary,
     padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
     borderRadius: theme.spacing(0.5),
     marginRight: theme.spacing(1),

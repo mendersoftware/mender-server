@@ -11,8 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Divider, Table, TableBody, TableCell, TableHead, TableRow, Typography, lighten } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
+import { Divider, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import FileSize from '@northern.tech/common-ui/FileSize';
@@ -22,23 +21,9 @@ import { getFormattedSize } from '@northern.tech/utils/helpers';
 
 const METADATA_SPACING = 2;
 
-const useStyles = makeStyles()(theme => ({
-  table: {
-    background: 'transparent'
-  },
-  payloadHeader: {
-    background: lighten(theme.palette.background.paper, 0.25),
-    margin: 0,
-    padding: 10,
-    position: 'absolute',
-    top: -20
-  }
-}));
-
 const attributes = ['Name', 'Checksum', 'Build date', 'Size (uncompressed)'];
 
-export const ArtifactPayload = ({ index, payload: { files: payloadFiles, meta_data = {}, type_info } }) => {
-  const { classes } = useStyles();
+export const ArtifactPayload = ({ payload: { files: payloadFiles, meta_data = {}, type_info } }) => {
   const files = payloadFiles || [];
   const summedSize = files.reduce((accu, item) => accu + item.size, 0);
   const metaDataObject = meta_data;
@@ -47,20 +32,21 @@ export const ArtifactPayload = ({ index, payload: { files: payloadFiles, meta_da
     'Total Size (uncompressed)': getFormattedSize(summedSize)
   };
   return (
-    <div className="file-details">
-      <h4 className={classes.payloadHeader}>Payload {index}</h4>
-      <SynchronizedTwoColumnData className="margin-top margin-bottom" data={metaData} />
-      <div className="file-meta">
+    <div>
+      <SynchronizedTwoColumnData className="margin-bottom-small" data={metaData} />
+      <div>
         {Object.keys(metaDataObject).length ? (
           <div>
-            <h4>Update Metadata</h4>
+            <Typography variant="subtitle2" className="margin-bottom-small">
+              Update Metadata
+            </Typography>
             <CopyCode code={JSON.stringify(metaDataObject, null, METADATA_SPACING)} size="medium" />
           </div>
         ) : null}
         <Typography variant="subtitle2">Files</Typography>
         <Divider className="margin-top-small margin-bottom-small" />
         {files.length ? (
-          <Table className={classes.table}>
+          <Table>
             <TableHead>
               <TableRow>
                 {attributes.map((item, index) => (
@@ -70,7 +56,7 @@ export const ArtifactPayload = ({ index, payload: { files: payloadFiles, meta_da
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody className={classes.table}>
+            <TableBody>
               {files.map((file, index) => (
                 <TableRow key={index}>
                   <TableCell>{file.name}</TableCell>

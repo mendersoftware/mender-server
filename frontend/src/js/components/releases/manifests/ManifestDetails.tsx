@@ -191,11 +191,7 @@ export const ManifestDetails = ({ onCopy }: { onCopy?: (name: string) => void })
       size="md"
       slotProps={{
         header: {
-          title: (
-            <>
-              Manifest information for <span className="margin-left-small">{manifestName}</span>
-            </>
-          ),
+          title: `Manifest information for ${manifestName}`,
           onLinkCopy: copyLinkToClipboard,
           preCloser: (
             <>

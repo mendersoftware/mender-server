@@ -52,10 +52,10 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
       }}
     >
       <DialogContent>
-        <DialogContentText className="margin-bottom-small">{description}</DialogContentText>
+        <DialogContentText>{description}</DialogContentText>
         {toType && (
           <>
-            <DialogContentText className="margin-bottom-small">Type &#39;{toType}&#39; below to continue</DialogContentText>
+            <DialogContentText className="margin-top-small margin-bottom-small">Type &#39;{toType}&#39; below to continue</DialogContentText>
             <TextField
               value={inputValue}
               onChange={e => setInputValue(e.target.value)}

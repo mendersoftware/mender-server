@@ -5,7 +5,7 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: max-content;
-  gap: 8px;
+  gap: 12px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -243,7 +243,7 @@ exports[`DeviceConnection Component > renders correctly 1`] = `
 
 <div>
   <div
-    class="margin-bottom margin-top-medium "
+    class="margin-bottom-medium margin-top-small "
   >
     <div
       class="flexbox space-between"
@@ -342,7 +342,7 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: max-content;
-  gap: 8px;
+  gap: 12px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -1180,7 +1180,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-32:focus::-ms-input-
 
 <div>
   <div
-    class="margin-bottom margin-top-medium "
+    class="margin-bottom-medium margin-top-small "
   >
     <div
       class="flexbox space-between"
@@ -1710,7 +1710,7 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: max-content;
-  gap: 8px;
+  gap: 12px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -1977,7 +1977,7 @@ exports[`DeviceConnection Component > renders correctly when disconnected 1`] = 
 
 <div>
   <div
-    class="margin-bottom margin-top-medium "
+    class="margin-bottom-medium margin-top-small "
   >
     <div
       class="flexbox space-between"

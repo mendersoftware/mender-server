@@ -422,7 +422,7 @@ exports[`AddManifestDrawer Component > renders correctly 1`] = `
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: max-content;
-  gap: 8px;
+  gap: 12px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -1437,7 +1437,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
       </a>
     </p>
     <div
-      class="margin-bottom margin-top-medium margin-bottom-medium"
+      class="margin-bottom-medium margin-top-small margin-bottom-medium"
     >
       <div
         class="flexbox space-between"
@@ -1501,7 +1501,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
       </div>
     </div>
     <div
-      class="margin-bottom margin-top-medium margin-bottom-medium"
+      class="margin-bottom-medium margin-top-small margin-bottom-medium"
     >
       <div
         class="flexbox space-between"
