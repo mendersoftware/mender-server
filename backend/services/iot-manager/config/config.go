@@ -32,7 +32,7 @@ const (
 	// SettingDbName is the config key for the mongo database name
 	SettingDbName = "mongo_dbname"
 	// SettingDbNameDefault is the default value for the mongo database name
-	SettingDbNameDefault = "iot-manager"
+	SettingDbNameDefault = "iot_manager"
 
 	// SettingDbSSL is the config key for the mongo SSL setting
 	SettingDbSSL = "mongo_ssl"

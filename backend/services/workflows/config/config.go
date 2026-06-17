@@ -136,6 +136,7 @@ var (
 		{Key: SettingDbSSLSkipVerify, Value: SettingDbSSLSkipVerifyDefault},
 		{Key: SettingSMTPHost, Value: SettingSMTPHostDefault},
 		{Key: SettingSMTPAuthMechanism, Value: SettingSMTPAuthMechanismDefault},
+		{Key: SettingWorkflowsPath, Value: "/etc/workflows/definitions"},
 		{Key: SettingConcurrency, Value: SettingConcurrencyDefault},
 		{Key: SettingDebugLog, Value: SettingDebugLogDefault},
 		{Key: SettingNatsConsumerAckWait, Value: SettingNatsConsumerAckWaitDefault},
