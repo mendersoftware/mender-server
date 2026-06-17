@@ -50,8 +50,6 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components > renders AuditlogExplanation correctly 1`] = `The audit log shows the history of changes made to your Devices, Artifacts, Deployments, and user management.`;
-
 exports[`Helptooltips Components > renders AuthButton correctly 1`] = `
 NodeList [
   <h3>

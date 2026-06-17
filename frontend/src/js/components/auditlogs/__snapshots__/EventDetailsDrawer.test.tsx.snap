@@ -179,7 +179,7 @@ exports[`EventDetailsDrawer Component > renders correctly 1`] = `
       class="flexbox align-items-center"
     >
       <div
-        class="MuiTypography-root MuiTypography-subtitle1 capitalized-start flexbox align-items-center emotion-1"
+        class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-1"
       >
         created user
       </div>

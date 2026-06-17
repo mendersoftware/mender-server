@@ -511,7 +511,7 @@ exports[`BaseDrawer Component > renders correctly with string title 1`] = `
           class="flexbox align-items-center"
         >
           <div
-            class="MuiTypography-root MuiTypography-subtitle1 capitalized-start flexbox align-items-center emotion-3"
+            class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-3"
           >
             Test Drawer
           </div>
@@ -786,7 +786,7 @@ exports[`BaseDrawer Component > renders notification slot 1`] = `
           class="flexbox align-items-center"
         >
           <div
-            class="MuiTypography-root MuiTypography-subtitle1 capitalized-start flexbox align-items-center emotion-3"
+            class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-3"
           >
             Test
           </div>

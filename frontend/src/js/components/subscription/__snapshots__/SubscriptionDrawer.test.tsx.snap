@@ -1495,7 +1495,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
         class="flexbox align-items-center"
       >
         <div
-          class="MuiTypography-root MuiTypography-subtitle1 capitalized-start flexbox align-items-center emotion-3"
+          class="MuiTypography-root MuiTypography-subtitle1 capitalized-start emotion-3"
         >
           Subscribe to Mender Basic
         </div>
