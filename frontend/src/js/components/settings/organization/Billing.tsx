@@ -103,7 +103,7 @@ export const PlanDescriptor = ({
   if (isTrial) {
     return (
       <>
-        You&apos;re currently on the <b>Trial plan</b>, with your trial expiring in {dayjs().from(dayjs(trialExpiration), true)}.
+        You&apos;re currently on the <b>Trial plan</b> (Ends on {dayjs(trialExpiration).format('MMM D, YYYY')}).
         <br />
         {deviceLimitNote}
       </>
