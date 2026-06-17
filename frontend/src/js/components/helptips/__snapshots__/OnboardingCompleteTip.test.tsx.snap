@@ -300,7 +300,6 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
       aria-labelledby="deployments-past-completed"
       class="tooltip onboard-icon onboard-tip"
       data-mui-internal-clone-element="true"
-      popperprops="[object Object]"
     >
       <svg
         aria-hidden="true"
@@ -314,61 +313,61 @@ exports[`OnboardingCompleteTip Component > renders correctly 1`] = `
         />
       </svg>
     </div>
-  </div>
-  <div
-    class="MuiPopper-root MuiTooltip-popper MuiTooltip-popperInteractive emotion-1"
-    data-popper-escaped=""
-    data-popper-placement="bottom"
-    data-popper-reference-hidden=""
-    id="deployments-past-completed"
-    role="tooltip"
-    style="position: absolute; top: 0px; left: 0px; margin: 0px; right: auto; bottom: auto; transform: translate(0px, 0px);"
-  >
     <div
-      class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementBottom emotion-2"
-      style="opacity: 1; transform: scale(1, 1); transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      class="MuiPopper-root MuiTooltip-popper MuiTooltip-popperInteractive emotion-1"
+      data-popper-escaped=""
+      data-popper-placement="bottom"
+      data-popper-reference-hidden=""
+      id="deployments-past-completed"
+      role="tooltip"
+      style="position: fixed; top: 0px; left: 0px; margin: 0px; right: auto; bottom: auto; transform: translate(0px, 0px);"
     >
       <div
-        class="content"
+        class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementBottom emotion-2"
+        style="opacity: 1; transform: scale(1, 1); transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
-        <b>
-          <p>
-            Fantastic! You completed your first deployment!
-          </p>
-          <p>
-            Your deployment is finished and your device is now running the updated software.
-          </p>
-        </b>
         <div
-          class="margin-bottom-small margin-top-small"
+          class="content"
         >
-          <a
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary button emotion-3"
-            href="http://192.168.10.141:85/index.html?source=http%3A%2F%2Ftest.com"
-            tabindex="0"
-            target="_blank"
-          >
-            Go to http://192.168.10.141:85
-          </a>
-          <br />
-          and you should see the demo web application actually being run on the device.
-        </div>
-        <p>
-          NOTE: if you have local network restrictions, you may need to check them if you have difficulty loading the page.
-        </p>
-        <div
-          class="flexbox"
-        >
+          <b>
+            <p>
+              Fantastic! You completed your first deployment!
+            </p>
+            <p>
+              Your deployment is finished and your device is now running the updated software.
+            </p>
+          </b>
           <div
-            style="flex-grow: 1;"
-          />
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary emotion-4"
-            tabindex="0"
-            type="button"
+            class="margin-bottom-small margin-top-small"
           >
-            Close
-          </button>
+            <a
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary button emotion-3"
+              href="http://192.168.10.141:85/index.html?source=http%3A%2F%2Ftest.com"
+              tabindex="0"
+              target="_blank"
+            >
+              Go to http://192.168.10.141:85
+            </a>
+            <br />
+            and you should see the demo web application actually being run on the device.
+          </div>
+          <p>
+            NOTE: if you have local network restrictions, you may need to check them if you have difficulty loading the page.
+          </p>
+          <div
+            class="flexbox"
+          >
+            <div
+              style="flex-grow: 1;"
+            />
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorSecondary emotion-4"
+              tabindex="0"
+              type="button"
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>
