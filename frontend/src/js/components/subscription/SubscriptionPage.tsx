@@ -730,7 +730,7 @@ export const SubscriptionPage = () => {
   if (!isLoaded) {
     return (
       <div className="flexbox centered">
-        <Loader show />;
+        <Loader show />
       </div>
     );
   }
