@@ -23,8 +23,19 @@ import copy from 'copy-to-clipboard';
 import generator from 'generate-password-browser';
 
 import { runValidations } from './Form';
+import type { CommonTextInputProps } from './TextInput';
 
-const PasswordGenerateButtons = ({ clearPass, edit, generatePass, disabled }) => (
+const PasswordGenerateButtons = ({
+  clearPass,
+  edit,
+  generatePass,
+  disabled
+}: {
+  clearPass: () => void;
+  disabled?: boolean;
+  edit?: boolean;
+  generatePass: () => void;
+}) => (
   <div className="pass-buttons">
     <Button onClick={generatePass} disabled={disabled}>
       Generate
@@ -35,7 +46,7 @@ const PasswordGenerateButtons = ({ clearPass, edit, generatePass, disabled }) =>
 
 const SCORE_THRESHOLD = 3;
 
-const PasswordGenerationControls = ({ feedback }) => (
+const PasswordGenerationControls = ({ feedback }: { feedback: string[] }) => (
   <>
     {!!feedback.length && (
       <p className="help-text">
@@ -49,6 +60,16 @@ const PasswordGenerationControls = ({ feedback }) => (
     )}
   </>
 );
+
+type PasswordInputProps = {
+  create?: boolean;
+  defaultValue?: string;
+  edit?: boolean;
+  generate?: boolean;
+  id: string;
+  onClear?: () => void;
+  placeholder?: string;
+} & Partial<CommonTextInputProps>;
 
 export const PasswordInput = ({
   autocomplete,
@@ -68,7 +89,7 @@ export const PasswordInput = ({
   required,
   validations = '',
   width = 400
-}) => {
+}: PasswordInputProps) => {
   const [visible, setVisible] = useState(false);
   const [copied, setCopied] = useState(false);
   const [feedback, setFeedback] = useState([]);

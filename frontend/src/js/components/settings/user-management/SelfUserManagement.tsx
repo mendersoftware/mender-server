@@ -191,13 +191,13 @@ export const SelfUserManagement = () => {
           submitLabel="Save"
           showButtons={editEmail}
         >
-          <TextInput hint="Email" id="email" label="Email" validations="isLength:1,isEmail,trim" width="" />
+          <TextInput hint="Email" id="email" label="Email" validations="isLength:1,isEmail,trim" width={null} />
           <PasswordInput
             className="margin-top-x-small"
             id="current_password"
             label="Current password *"
             validations={`isLength:8:256,isNot:${email}`}
-            width=""
+            width={null}
           />
         </Form>
       )}
@@ -226,15 +226,15 @@ export const SelfUserManagement = () => {
                     id="current_password"
                     label="Current password *"
                     validations={`isLength:8:256,isNot:${email}`}
-                    width=""
+                    width={null}
                   />
-                  <PasswordInput id="password" label="New password *" validations={`isLength:8:256,isNot:${email}`} create width="" />
+                  <PasswordInput id="password" label="New password *" validations={`isLength:8:256,isNot:${email}`} create width={null} />
                   <PasswordInput
                     className="margin-top-x-small"
                     id="password_confirmation"
                     label="Confirm new password *"
                     validations={`isLength:8:256,isNot:${email}`}
-                    width=""
+                    width={null}
                   />
                 </Form>
               </>

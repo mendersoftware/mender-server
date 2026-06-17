@@ -23,6 +23,7 @@ import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/Mender
 import { DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getDemoDeviceAddress } from '@northern.tech/store/selectors';
 import { getDeviceById, getDevicesByStatus, setOnboardingComplete } from '@northern.tech/store/thunks';
+import type { PositioningStrategy } from '@popperjs/core';
 
 export const CompletionButton = withStyles(Button, ({ palette }) => ({
   root: {
@@ -57,7 +58,19 @@ export const OnboardingCompleteTip = ({ anchor, targetUrl }) => {
       onboarding
       startOpen
       style={anchor}
-      PopperProps={{ style: { marginLeft: -30, marginTop: -20 } }}
+      slotProps={{
+        popper: {
+          disablePortal: true,
+          popperOptions: {
+            strategy: 'fixed' as PositioningStrategy,
+            modifiers: [
+              { name: 'flip', enabled: false },
+              { name: 'preventOverflow', enabled: true, options: { boundary: window, altBoundary: false } }
+            ]
+          },
+          style: { marginLeft: -30, marginTop: -20 }
+        }
+      }}
       title={
         <div className="content">
           <b>

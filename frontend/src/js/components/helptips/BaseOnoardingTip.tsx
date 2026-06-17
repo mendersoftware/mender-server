@@ -112,15 +112,17 @@ export const BaseOnboardingTooltip = ({ anchor = { left: 0, top: 0 }, icon, chil
       onClose={hide}
       open={open}
       placement={orientation.placement}
-      PopperProps={{
-        className: classes.root,
-        disablePortal: true,
-        popperOptions: {
-          strategy: 'fixed',
-          modifiers: [
-            { name: 'flip', enabled: false },
-            { name: 'preventOverflow', enabled: true, options: { boundary: window, altBoundary: false } }
-          ]
+      slotProps={{
+        popper: {
+          className: classes.root,
+          disablePortal: true,
+          popperOptions: {
+            strategy: 'fixed',
+            modifiers: [
+              { name: 'flip', enabled: false },
+              { name: 'preventOverflow', enabled: true, options: { boundary: window, altBoundary: false } }
+            ]
+          }
         }
       }}
       title={children}
