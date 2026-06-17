@@ -1,7 +1,39 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`DeviceNotifications Component > renders correctly 1`] = `
+exports[`TrialNotification Component > renders correctly 1`] = `
 .emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -34,8 +66,34 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   vertical-align: middle;
   box-sizing: border-box;
   height: 24px;
+  background-color: #d32f2f;
+  color: #fff;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
   background-color: transparent;
   border: 1px solid #bdbdbd;
+  color: #d32f2f;
+  border: 1px solid rgba(211, 47, 47, 0.7);
+}
+
+.emotion-0::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-0.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-0 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
 }
 
 .emotion-0.Mui-disabled {
@@ -89,8 +147,38 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   margin-left: -4px;
 }
 
+.emotion-0 .MuiChip-deleteIcon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.emotion-0 .MuiChip-deleteIcon:hover,
+.emotion-0 .MuiChip-deleteIcon:active {
+  color: #fff;
+}
+
 .emotion-0 .MuiChip-icon {
   color: #616161;
+}
+
+.emotion-0 .MuiChip-icon {
+  color: inherit;
+}
+
+.emotion-0:hover {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-0.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.emotion-0:active {
+  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-0:hover,
+.emotion-0.Mui-focusVisible {
+  background-color: #c62828;
 }
 
 .emotion-0.MuiChip-clickable:hover {
@@ -125,7 +213,41 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   margin-right: 3px;
 }
 
+.emotion-0.MuiChip-clickable:hover {
+  background-color: rgba(211, 47, 47, 0.04);
+}
+
+.emotion-0.Mui-focusVisible {
+  background-color: rgba(211, 47, 47, 0.12);
+}
+
+.emotion-0 .MuiChip-deleteIcon {
+  color: rgba(211, 47, 47, 0.7);
+}
+
+.emotion-0 .MuiChip-deleteIcon:hover,
+.emotion-0 .MuiChip-deleteIcon:active {
+  color: #d32f2f;
+}
+
 .emotion-1 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+}
+
+.emotion-2 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -143,26 +265,65 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   class="flexbox centered "
 >
   <div
-    class="flexbox align-items-center margin-right-small"
+    class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorError MuiChip-clickable emotion-0"
     data-mui-internal-clone-element="true"
+    role="button"
+    tabindex="0"
   >
-    <a
-      class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault clickable emotion-0"
-      data-discover="true"
-      href="/subscription"
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-1"
+      data-testid="InfoOutlinedIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <span
-        class="MuiChip-label emotion-1"
-      >
-        Trial plan
-      </span>
-    </a>
+      <path
+        d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+      />
+    </svg>
+    <span
+      class="MuiChip-label emotion-2"
+    >
+      Trial plan
+    </span>
   </div>
 </div>
 `;
 
-exports[`DeviceNotifications Component > renders correctly with an expiration date 1`] = `
+exports[`TrialNotification Component > renders correctly with an expiration date 1`] = `
 .emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -195,8 +356,34 @@ exports[`DeviceNotifications Component > renders correctly with an expiration da
   vertical-align: middle;
   box-sizing: border-box;
   height: 24px;
+  background-color: #d32f2f;
+  color: #fff;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
   background-color: transparent;
   border: 1px solid #bdbdbd;
+  color: #d32f2f;
+  border: 1px solid rgba(211, 47, 47, 0.7);
+}
+
+.emotion-0::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-0.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-0 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
 }
 
 .emotion-0.Mui-disabled {
@@ -250,8 +437,38 @@ exports[`DeviceNotifications Component > renders correctly with an expiration da
   margin-left: -4px;
 }
 
+.emotion-0 .MuiChip-deleteIcon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.emotion-0 .MuiChip-deleteIcon:hover,
+.emotion-0 .MuiChip-deleteIcon:active {
+  color: #fff;
+}
+
 .emotion-0 .MuiChip-icon {
   color: #616161;
+}
+
+.emotion-0 .MuiChip-icon {
+  color: inherit;
+}
+
+.emotion-0:hover {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-0.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.emotion-0:active {
+  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+}
+
+.emotion-0:hover,
+.emotion-0.Mui-focusVisible {
+  background-color: #c62828;
 }
 
 .emotion-0.MuiChip-clickable:hover {
@@ -286,7 +503,41 @@ exports[`DeviceNotifications Component > renders correctly with an expiration da
   margin-right: 3px;
 }
 
+.emotion-0.MuiChip-clickable:hover {
+  background-color: rgba(211, 47, 47, 0.04);
+}
+
+.emotion-0.Mui-focusVisible {
+  background-color: rgba(211, 47, 47, 0.12);
+}
+
+.emotion-0 .MuiChip-deleteIcon {
+  color: rgba(211, 47, 47, 0.7);
+}
+
+.emotion-0 .MuiChip-deleteIcon:hover,
+.emotion-0 .MuiChip-deleteIcon:active {
+  color: #d32f2f;
+}
+
 .emotion-1 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+}
+
+.emotion-2 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -304,29 +555,27 @@ exports[`DeviceNotifications Component > renders correctly with an expiration da
   class="flexbox centered "
 >
   <div
-    class="flexbox align-items-center margin-right-small"
+    class="MuiButtonBase-root MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorError MuiChip-clickable emotion-0"
     data-mui-internal-clone-element="true"
+    role="button"
+    tabindex="0"
   >
-    <a
-      class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault clickable emotion-0"
-      data-discover="true"
-      href="/subscription"
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-1"
+      data-testid="InfoOutlinedIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <span
-        class="MuiChip-label emotion-1"
-      >
-        Trial plan
-      </span>
-    </a>
-  </div>
-  <div
-    class="muted"
-  >
-    You have 
-    18
-     
-    days
-     remaining on the trial plan
+      <path
+        d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+      />
+    </svg>
+    <span
+      class="MuiChip-label emotion-2"
+    >
+      Trial plan
+    </span>
   </div>
 </div>
 `;
