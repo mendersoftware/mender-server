@@ -107,6 +107,20 @@ name: missing-required-fields
     expect(screen.getByRole('button', { name: /^upload$/i })).toBeDisabled();
   });
 
+  it('shows an error when an empty YAML manifest is uploaded', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { baseElement } = render(<AddManifestDrawer open onClose={vi.fn()} />);
+
+    File.prototype.text = vi.fn().mockResolvedValue('');
+    const file = new File([''], 'empty.yaml', { type: 'application/yaml' });
+    const dropzoneInput = baseElement.querySelector('.dropzone input') as HTMLInputElement;
+    await user.upload(dropzoneInput, file);
+
+    expect(await screen.findByDisplayValue('empty.yaml')).toBeInTheDocument();
+    expect(screen.getByText(/the manifest file is empty/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^upload$/i })).toBeDisabled();
+  });
+
   it('shows a validation error when an invalid YAML manifest is uploaded', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { baseElement } = render(<AddManifestDrawer open onClose={vi.fn()} />);

@@ -88,7 +88,10 @@ const validateFile = async (file: File) => {
   } else if (isYaml(name)) {
     const text = await file.text();
     const docs = parseAllDocuments(text);
-    if (docs.length !== 1) {
+    if (docs.length === 0) {
+      return { ok: false, message: 'The Manifest file is empty.' };
+    }
+    if (docs.length > 1) {
       return { ok: false, message: 'Only single-document .yaml Manifests are supported' };
     }
     const doc = docs[0];
