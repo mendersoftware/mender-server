@@ -12,10 +12,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { OAuth2Client } from 'google-auth-library';
-import type { gmail_v1} from 'googleapis';
+import type { gmail_v1 } from 'googleapis';
 import { google } from 'googleapis';
 
-interface Email {
+export interface Email {
   body: string;
   from: string;
   id: string;
