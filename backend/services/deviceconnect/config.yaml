@@ -2,25 +2,25 @@
 # Defauls to: ":8080" which will listen on all avalable interfaces.
 # Overwrite with environment variable: DEVICECONNECT_LISTEN
 
-listen: :8080
+# listen: :8080
 
 # NATS uri
 # Defauls to: "nats://localhost:4222"
 # Overwrite with environment variable: DEVICECONNECT_NATS_URI
 
-nats_uri: "nats://mender-nats:4222"
+# nats_uri: "nats://mender-nats:4222"
 
 # Mongodb connection string
 # Defaults to: "mongodb://localhost"
 # Overwrite with environment variable: DEVICECONNECT_MONGO_URL
 
-mongo_url: mongodb://mender-mongo:27017
+# mongo_url: mongodb://mender-mongo:27017
 
 # Mongodb database name
 # Defaults to: "deviceconnect"
 # Overwrite with environment variable: DEVICECONNECT_MONGO_DBNAME
 
-mongo_dbname: deviceconnect
+# mongo_dbname: deviceconnect
 
 # Enable SSL for mongo connections
 # Defaults to: false
