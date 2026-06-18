@@ -39,7 +39,6 @@ import { parseAllDocuments, stringify } from 'yaml';
 import * as z from 'zod';
 
 import { SoftwareArtifactFilter } from '../../deployments/deployment-wizard/ReleaseArtifactFilter';
-import { isMenderArtifact } from '../dialogs/AddArtifact';
 import { ComponentTypesTable } from './ComponentTypesTable';
 
 const MenderManifestSizeLimit = 1024 ** 2;
@@ -83,7 +82,7 @@ const useStyles = makeStyles()(theme => ({
 const isYaml = (filename: string) => filename.endsWith('.yaml') || filename.endsWith('.yml');
 const validateFile = async (file: File) => {
   const { size, name } = file;
-  if (isMenderArtifact(name) && size > MenderManifestSizeLimit) {
+  if (size > MenderManifestSizeLimit) {
     return { ok: false, message: 'Manifest Artifacts must be smaller than 1MB' };
   } else if (isYaml(name)) {
     const text = await file.text();
