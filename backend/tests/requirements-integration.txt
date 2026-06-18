@@ -3,7 +3,7 @@ azure-iot-hub-api==0.2.2
 boto3==1.43.20
 certifi==2026.5.20
 cffi==2.0.0
-cryptography==47.0.0
+cryptography==48.0.1
 docker==7.1.0
 execnet==2.1.2
 filelock==3.29.0
