@@ -65,50 +65,67 @@ func MaintenanceSyncDeviceInventory(
 	inv client.DeviceInventoryInternalAPIAPI,
 	rateLimit *rate.Limiter,
 ) error {
-	var totalCount int64
-	startTS := time.Now().Add(-time.Second)
-	logger := log.FromContext(ctx)
-	for dev, err := range db.ListAllDevices(ctx,
-		"tenant_id",
-		model.DevKeyId,
-		model.DevKeyIdDataStruct,
-		model.DevKeyStatus,
-	) {
-		if err != nil {
-			return fmt.Errorf("error listing all devices: %w", err)
-		}
-		if rateLimit != nil {
-			err = rateLimit.Wait(ctx)
+	var (
+		lastDeviceID *string
+		totalCount   int64
+
+		logger = log.FromContext(ctx)
+	)
+	for deviceCount := 0; true; deviceCount = 0 {
+		batchStartTS := time.Now().
+			Add(-time.Second) // One second of jitter
+		for dev, err := range db.ListAllDevices(ctx,
+			lastDeviceID,
+			1000,
+			"tenant_id",
+			model.DevKeyId,
+			model.DevKeyIdDataStruct,
+			model.DevKeyStatus,
+		) {
+			deviceCount++
+			if err != nil {
+				return fmt.Errorf("error listing all devices: %w", err)
+			}
+			if rateLimit != nil {
+				err = rateLimit.Wait(ctx)
+				if err != nil {
+					return err
+				}
+			}
+			if dev.IdDataStruct == nil {
+				dev.IdDataStruct = map[string]any{
+					"status": dev.Status,
+				}
+			} else {
+				dev.IdDataStruct["status"] = dev.Status
+			}
+			fixupIDData2InventoryData(dev.IdDataStruct)
+			fixupIDData2InventoryData(dev.IdDataStruct)
+			attributes, err := GetInventoryAttributes(dev.IdDataStruct)
 			if err != nil {
 				return err
 			}
-		}
-		if dev.IdDataStruct == nil {
-			dev.IdDataStruct = map[string]any{
-				"status": dev.Status,
+			//nolint:bodyclose
+			rsp, err := inv.UpdateInventoryForADeviceScopeWise(ctx, dev.TenantID, dev.Id).
+				Attribute(attributes).
+				IfUnmodifiedSince(batchStartTS.In(
+					time.FixedZone("GMT", 0),
+				).Format(time.RFC1123)).
+				Execute()
+			if rsp != nil && rsp.StatusCode == http.StatusPreconditionFailed {
+				err = nil
 			}
-		} else {
-			dev.IdDataStruct["status"] = dev.Status
+			if err != nil {
+				return fmt.Errorf("error updating inventory data: %w", err)
+			}
+			totalCount++
+			if totalCount%1000 == 0 {
+				logger.Infof("processed %d devices", totalCount)
+			}
+			lastDeviceID = &dev.Id
 		}
-		fixupIDData2InventoryData(dev.IdDataStruct)
-		attributes, err := GetInventoryAttributes(dev.IdDataStruct)
-		if err != nil {
-			return err
-		}
-		//nolint:bodyclose
-		rsp, err := inv.UpdateInventoryForADeviceScopeWise(ctx, dev.TenantID, dev.Id).
-			Attribute(attributes).
-			IfUnmodifiedSince(startTS.In(time.FixedZone("GMT", 0)).Format(time.RFC1123)).
-			Execute()
-		if rsp != nil && rsp.StatusCode == http.StatusPreconditionFailed {
-			err = nil
-		}
-		if err != nil {
-			return fmt.Errorf("error updating inventory data: %w", err)
-		}
-		totalCount++
-		if totalCount%1000 == 0 {
-			logger.Infof("processed %d devices", totalCount)
+		if deviceCount == 0 {
+			break
 		}
 	}
 	logger.Infof("finished processing %d devices", totalCount)
