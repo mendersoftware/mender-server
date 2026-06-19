@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 // material ui
@@ -20,7 +20,9 @@ import { Delete as DeleteIcon, FilterList as FilterListIcon, Lock, SyncOutlined 
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { defaultTextRender, getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
+import DocsLink from '@northern.tech/common-ui/DocsLink';
 import Loader from '@northern.tech/common-ui/Loader';
 import storeActions from '@northern.tech/store/actions';
 import {
@@ -43,16 +45,19 @@ import {
   getMappedDevicesList,
   getOnboardingState,
   getSelectedGroupInfo,
+  getTestDeviceCount,
   getUserCapabilities,
   getUserSettings,
   getUserSettingsInitialized
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import {
   advanceOnboarding,
   deleteAuthset,
   getIssueCountsByType,
   saveUserSettings,
   setDeviceListState,
+  setTestDeviceStatus,
   updateDevicesAuth,
   updateUserColumnSettings
 } from '@northern.tech/store/thunks';
@@ -72,6 +77,7 @@ import { DeviceStateSelection } from './widgets/DeviceStateSelection';
 import Filters from './widgets/Filters';
 import DeviceIssuesSelection from './widgets/IssueSelection';
 import ListOptions from './widgets/ListOptions';
+import { TestDeviceLimit } from './widgets/TestDeviceLimit';
 import { TierSelection } from './widgets/TierSelection';
 
 const { setDeviceFilters, setSnackbar } = storeActions;
@@ -198,7 +204,8 @@ export const Authorized = ({
   const settingsInitialized = useSelector(getUserSettingsInitialized);
   const userCapabilities = useSelector(getUserCapabilities);
   const enabledTiers = useSelector(getEnabledTiers);
-  const dispatch = useDispatch();
+  const testDevicesCount = useSelector(getTestDeviceCount);
+  const dispatch = useAppDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
 
   const {
@@ -220,6 +227,7 @@ export const Authorized = ({
   const [showFilters, setShowFilters] = useState(false);
   const [showCustomization, setShowCustomization] = useState(false);
   const [selectedTier, setSelectedTier] = useState('');
+  const [pendingTestDevice, setPendingTestDevice] = useState(null);
   const deviceListRef = useRef();
   const timer = useRef();
   const navigate = useNavigate();
@@ -338,6 +346,20 @@ export const Authorized = ({
       handlePageChange(1);
     }
   };
+  const onSetTestDevice = (devices, isTestDevice) => setPendingTestDevice({ deviceId: devices[0].id, isTestDevice });
+
+  const onCancelTestDevice = () => setPendingTestDevice(null);
+
+  const onConfirmTestDevice = () => {
+    if (!pendingTestDevice) {
+      return;
+    }
+    return dispatch(setTestDeviceStatus({ deviceId: pendingTestDevice.deviceId, test_device: pendingTestDevice.isTestDevice }))
+      .unwrap()
+      .then(() => {
+        setPendingTestDevice(null);
+      });
+  };
 
   const onAuthorizationChange = (devices, changedState) => {
     const deviceIds = devicesToIds(devices);
@@ -442,7 +464,8 @@ export const Authorized = ({
     onCreateDeployment: onCreateDeploymentClick,
     onDeviceDismiss,
     onPromoteGateway: onMakeGatewayClick,
-    onRemoveDevicesFromGroup
+    onRemoveDevicesFromGroup,
+    onSetTestDevice
   };
 
   const listOptionHandlers = [{ key: 'customize', title: 'Customize', onClick: onToggleCustomizationClick }];
@@ -554,6 +577,33 @@ export const Authorized = ({
         open={showCustomization}
         onCancel={onToggleCustomizationClick}
         onSubmit={onChangeColumns}
+      />
+      <ConfirmModal
+        header={pendingTestDevice?.isTestDevice ? 'Set as test device?' : 'Remove as test device?'}
+        description={
+          <div>
+            {pendingTestDevice?.isTestDevice ? (
+              <>
+                <Typography>
+                  Enable up to 10 test devices to bypass rate limits and check in more frequently for faster testing. Adjust the polling intervals on the device
+                  configuration to match.{' '}
+                </Typography>
+                <DocsLink path="overview/limits" title="Learn more" />
+                <Typography className="margin-top-small">You can add or remove test devices up to 20 times a day.</Typography>
+              </>
+            ) : (
+              <Typography>
+                Are you sure you want to remove the test device status from this device? You can add or remove test devices up to 20 times a day.
+              </Typography>
+            )}
+            <TestDeviceLimit testDeviceUsed={testDevicesCount} className="margin-top-small" />
+          </div>
+        }
+        open={!!pendingTestDevice}
+        confirmButtonText={pendingTestDevice?.isTestDevice ? 'Set as test device' : 'Remove as test device'}
+        close={onCancelTestDevice}
+        onConfirm={onConfirmTestDevice}
+        isDanger={false}
       />
     </>
   );

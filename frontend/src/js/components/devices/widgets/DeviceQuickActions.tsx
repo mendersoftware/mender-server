@@ -23,6 +23,8 @@ import {
   SyncOutlined as SyncOutlinedIcon
 } from '@mui/icons-material';
 
+import { mdiFlaskOutline as TestIcon } from '@mdi/js';
+import { mdiFlaskOffOutline as TestOffIcon } from '@mdi/js';
 import { mdiTrashCanOutline as TrashCan } from '@mdi/js';
 import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { BaseQuickActions, type QuickAction } from '@northern.tech/common-ui/QuickActions';
@@ -34,6 +36,7 @@ import {
   getMappedDevicesList,
   getOnboardingState,
   getTenantCapabilities,
+  getTestDeviceCount,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -42,6 +45,7 @@ import pluralize from 'pluralize';
 
 import GatewayIcon from '../../../../assets/img/gateway.svg';
 import { getOnboardingComponentFor } from '../../../utils/onboardingManager';
+import { MAX_TEST_DEVICES } from './TestDeviceLimit';
 
 const defaultActions = {
   accept: {
@@ -75,6 +79,27 @@ const defaultActions = {
     action: ({ onAddDevicesToGroup, selection }) => onAddDevicesToGroup(selection),
     checkRelevance: ({ selectedGroup, userCapabilities: { canWriteDevices } }) => canWriteDevices && !selectedGroup
   },
+  setTestDevice: {
+    icon: <MaterialDesignIcon path={TestIcon} fontSize="small" />,
+    key: 'set-test-device',
+    title: () => 'Set as test device',
+    action: ({ onSetTestDevice, selection }) => onSetTestDevice(selection, true),
+    checkRelevance: ({ device, features: { hasDeviceFlags }, selectedCount, testDeviceCount, userCapabilities: { canWriteDevices } }) =>
+      hasDeviceFlags &&
+      selectedCount === 1 &&
+      canWriteDevices &&
+      device.status === DEVICE_STATES.accepted &&
+      !device?.flags?.test_device &&
+      testDeviceCount < MAX_TEST_DEVICES
+  },
+  removeTestDevice: {
+    icon: <MaterialDesignIcon path={TestOffIcon} fontSize="small" />,
+    key: 'remove-test-device',
+    title: () => 'Remove as test device',
+    action: ({ onSetTestDevice, selection }) => onSetTestDevice(selection, false),
+    checkRelevance: ({ device, features: { hasDeviceFlags }, selectedCount, userCapabilities: { canWriteDevices } }) =>
+      hasDeviceFlags && selectedCount === 1 && canWriteDevices && device.status === DEVICE_STATES.accepted && !!device?.flags?.test_device
+  },
   moveToGroup: {
     icon: <HeightOutlinedIcon className="rotated ninety" />,
     key: 'group-change',
@@ -83,7 +108,7 @@ const defaultActions = {
     checkRelevance: ({ selectedGroup, userCapabilities: { canWriteDevices } }) => canWriteDevices && !!selectedGroup
   },
   removeFromGroup: {
-    icon: <MaterialDesignIcon path={TrashCan} />,
+    icon: <MaterialDesignIcon path={TrashCan} fontSize="small" />,
     key: 'group-remove',
     title: pluralized => `Remove selected ${pluralized} from this group`,
     action: ({ onRemoveDevicesFromGroup, selection }) => onRemoveDevicesFromGroup(selection),
@@ -112,6 +137,7 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   const features = useSelector(getFeatures);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
+  const testDeviceCount = useSelector(getTestDeviceCount);
   const { selection: selectedRows } = useSelector(state => state.devices.deviceList);
   const singleDevice = useSelector(state => getDeviceById(state, deviceId));
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
@@ -132,10 +158,21 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
 
   const selectedDevices = deviceId ? [singleDevice] : selectedRows.map(row => devices[row]);
   const pluralized = pluralize('devices', selectedDevices.length);
-
   const actions: QuickAction[] = Object.values(defaultActions)
     .filter(action =>
-      selectedDevices.every(device => device && action.checkRelevance({ device, features, selectedGroup, tenantCapabilities, userCapabilities }))
+      selectedDevices.every(
+        device =>
+          device &&
+          action.checkRelevance({
+            device,
+            features,
+            selectedCount: selectedDevices.length,
+            selectedGroup,
+            tenantCapabilities,
+            testDeviceCount,
+            userCapabilities
+          })
+      )
     )
     .map(({ action, key, icon, title }) => ({
       key,
