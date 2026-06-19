@@ -11,18 +11,38 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { useSelector } from 'react-redux';
+
+import { Chip, Typography } from '@mui/material';
+
+import { mdiFlaskOutline as TestIcon } from '@mdi/js';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DeviceNameInput from '@northern.tech/common-ui/DeviceNameInput';
+import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import Time from '@northern.tech/common-ui/Time';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
+import { getTestDeviceCount } from '@northern.tech/store/selectors';
 
+import { TestDeviceLimit } from '../widgets/TestDeviceLimit';
 import AuthStatus from './AuthStatus';
 import DeviceTags from './DeviceTags';
 
-export const DeviceIdentity = ({ device, setSnackbar }) => {
-  const { created_ts, tier, id, identity_data = {}, status = DEVICE_STATES.accepted } = device;
+const TestDeviceTooltip = ({ testDeviceUsed }: { testDeviceUsed: number }) => (
+  <div style={{ maxWidth: 350 }}>
+    <TestDeviceLimit testDeviceUsed={testDeviceUsed} />
+    <Typography className="margin-top-small">
+      Enable up to 10 test devices to bypass rate limits and check in more frequently. Set or remove the ‘test device’ status from the <b>Device actions</b>{' '}
+      menu.
+    </Typography>
+  </div>
+);
 
+export const DeviceIdentity = ({ device, setSnackbar }) => {
+  const { created_ts, tier, id, identity_data = {}, status = DEVICE_STATES.accepted, flags = {} } = device;
+  const isTestDevice = !!flags.test_device;
+  const testDeviceCount = useSelector(getTestDeviceCount);
   const { mac, ...remainingIdentity } = identity_data;
 
   const content = {
@@ -38,7 +58,16 @@ export const DeviceIdentity = ({ device, setSnackbar }) => {
   }
 
   return (
-    <ContentSection title="Device identity">
+    <ContentSection
+      title="Device identity"
+      postTitle={
+        isTestDevice ? (
+          <MenderTooltipClickable title={<TestDeviceTooltip testDeviceUsed={testDeviceCount} />} arrow>
+            <Chip clickable label="Test device" size="small" icon={<MaterialDesignIcon path={TestIcon} />} />
+          </MenderTooltipClickable>
+        ) : null
+      }
+    >
       <TwoColumnData data={{ Name: <DeviceNameInput device={device} isHovered />, ...content }} setSnackbar={setSnackbar} />
     </ContentSection>
   );

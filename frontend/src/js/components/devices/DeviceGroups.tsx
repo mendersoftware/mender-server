@@ -42,6 +42,7 @@ import {
   addDynamicGroup,
   addStaticGroup,
   getDynamicGroup,
+  getTestDeviceCount,
   removeDevicesFromGroup,
   removeDynamicGroup,
   removeStaticGroup,
@@ -122,6 +123,10 @@ export const DeviceGroups = () => {
   });
 
   const { refreshTrigger, selectedId, state: selectedState } = deviceListState;
+
+  useEffect(() => {
+    dispatch(getTestDeviceCount());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isInitialized.current) {
