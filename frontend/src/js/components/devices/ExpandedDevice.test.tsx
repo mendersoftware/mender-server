@@ -11,6 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { tabsClasses } from '@mui/material';
+
 import { defaultState, render } from '@/testUtils';
 import { EXTERNAL_PROVIDER } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
@@ -66,5 +68,14 @@ describe('ExpandedDevice Component', () => {
     const view = baseElement;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+  it('keeps the detail tabs reachable on narrow viewports by making the tab strip scrollable', async () => {
+    // ME-683: a standard (non-scrollable) tab strip clips overflowing tabs (e.g. Troubleshoot) on
+    // mobile, where the drawer is width-constrained, leaving no way to reach them. The strip must be
+    // horizontally scrollable so every tab stays reachable regardless of the drawer width.
+    const { baseElement } = render(<ExpandedDevice deviceId={defaultState.devices.byId.a1.id} setDetailsTab={vi.fn} />, { preloadedState });
+    const scroller = baseElement.querySelector(`.${tabsClasses.scroller}`);
+    expect(scroller).not.toBeNull();
+    expect(scroller?.classList.contains(tabsClasses.scrollableX)).toBe(true);
   });
 });
