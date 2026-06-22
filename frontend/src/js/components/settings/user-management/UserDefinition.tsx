@@ -28,7 +28,7 @@ import validator from 'validator';
 
 import { OAuth2Providers, genericProvider } from '../../login/OAuth2Providers';
 import { EmailVerificationWarning } from '../EmailVerificationWarning';
-import { SETTINGS_FORM_MAX_WIDTH, SETTINGS_INPUT_WIDTH } from '../constants';
+import { SETTINGS_FORM_MAX_WIDTH, SETTINGS_INPUT_WIDTH, SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY } from '../constants';
 import { UserRolesSelect } from './UserForm';
 
 const useStyles = makeStyles()(theme => ({
@@ -36,10 +36,11 @@ const useStyles = makeStyles()(theme => ({
   leftButton: { marginRight: theme.spacing(2) },
   oauthIcon: { fontSize: 36, marginRight: 10 },
   userIdWrapper: {
-    '.copy-button': { marginTop: theme.spacing(0.25) },
-    [`.${textFieldClasses.root}`]: { width: SETTINGS_INPUT_WIDTH }
+    '.copy-button': { marginTop: theme.spacing(0.25), whiteSpace: 'nowrap' },
+    [`&.profile-settings .${textFieldClasses.root}`]: { minWidth: SETTINGS_INPUT_WIDTH },
+    maxWidth: SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY
   },
-  widthLimit: { maxWidth: SETTINGS_FORM_MAX_WIDTH, [`.${textFieldClasses.root}`]: { width: SETTINGS_INPUT_WIDTH } }
+  widthLimit: { maxWidth: SETTINGS_FORM_MAX_WIDTH, [`.${textFieldClasses.root}`]: { width: SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY } }
 }));
 
 export const getUserSSOState = user => {
