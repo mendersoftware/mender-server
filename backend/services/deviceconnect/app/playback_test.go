@@ -34,15 +34,21 @@ func TestPipeWriter(t *testing.T) {
 	select {
 	case actual := <-r.RecvChan():
 		assert.Equal(t, d, actual, "did not receive the data written to PipeWriter")
-	case err := <-errCh:
-		assert.NoError(t, err, "unexpected error from PipeWriter.Write")
 	case <-time.After(time.Second):
 		t.Fatal("timeout waiting for PipeWriter data")
 	}
 
+	// Drain errCh so we can re-use it below and avoid dangerous re-assignment
+	// (errCh = make(chan error, 1)) which is prone to data race
+	select {
+	case err := <-errCh:
+		assert.NoError(t, err, "unexpected error from PipeWriter.Write")
+	default:
+		t.Fatal("no error in error channel")
+	}
+
 	assert.NoError(t, r.Close())
 
-	errCh = make(chan error, 1)
 	go func() {
 		_, err := r.Write(d)
 		errCh <- err
