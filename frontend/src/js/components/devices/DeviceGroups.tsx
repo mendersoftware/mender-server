@@ -12,14 +12,15 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router';
 
-import { Alert, Typography } from '@mui/material';
+import { Alert, Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Link from '@northern.tech/common-ui/Link';
 import storeActions from '@northern.tech/store/actions';
-import { DEVICE_FILTERING_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
+import { DEVICE_FILTERING_OPTIONS, DEVICE_STATES, SORTING_OPTIONS, TIMEOUTS, emptyFilter, onboardingSteps } from '@northern.tech/store/constants';
 import { useLocationParams } from '@northern.tech/store/liststatehook';
 import {
   getCombinedLimit,
@@ -36,6 +37,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import {
   addDynamicGroup,
   addStaticGroup,
@@ -63,7 +65,7 @@ import CreateGroupExplainer from './group-management/CreateGroupExplainer';
 import RemoveGroup from './group-management/RemoveGroup';
 import DeviceAdditionWidget from './widgets/DeviceAdditionWidget';
 
-const { setDeviceFilters, setShowConnectingDialog } = storeActions;
+const { setDeviceFilters, setShowConnectingDialog, setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
   container: {
@@ -108,7 +110,7 @@ export const DeviceGroups = () => {
   const showDeviceConnectionDialog = useSelector(state => state.users.showConnectDeviceDialog);
   const onboardingState = useSelector(getOnboardingState);
   const isEnterprise = useSelector(getIsEnterprise);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isInitialized = useRef(false);
   const location = useLocation();
   const { classes } = useStyles();
@@ -218,7 +220,24 @@ export const DeviceGroups = () => {
 
   const createGroupFromDialog = (devices, group) => {
     const request = fromFilters ? dispatch(addDynamicGroup({ groupName: group, filterPredicates: filters })) : dispatch(addStaticGroup({ group, devices }));
-    return request.then(() => {
+    return request.unwrap().then(() => {
+      const successMessage = 'The group was updated successfully';
+      if (group === selectedGroup) {
+        dispatch(setSnackbar(successMessage));
+      } else {
+        dispatch(
+          setSnackbar({
+            action: (
+              <Button component={Link} to={`/devices?inventory=group:eq:${group}`}>
+                View group
+              </Button>
+            ),
+            autoHideDuration: TIMEOUTS.fiveSeconds,
+            message: successMessage,
+            preventClickToCopy: true
+          })
+        );
+      }
       // reached end of list
       setCreateGroupExplanation(false);
       setModifyGroupDialog(false);
