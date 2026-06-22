@@ -80,12 +80,17 @@ exports[`SelfUserManagement Component > renders correctly 1`] = `
   overflow: auto;
 }
 
-.emotion-6 .copy-button {
-  margin-top: 2px;
+.emotion-6 {
+  max-width: 400px;
 }
 
-.emotion-6 .MuiTextField-root {
-  width: 550px;
+.emotion-6 .copy-button {
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.emotion-6.profile-settings .MuiTextField-root {
+  min-width: 550px;
 }
 
 .emotion-7 {
@@ -1220,7 +1225,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
     </div>
   </div>
   <div
-    class="flexbox margin-bottom-small emotion-6 margin-top-small"
+    class="flexbox margin-bottom-small emotion-6 margin-top-small profile-settings"
   >
     <div
       class="MuiFormControl-root MuiTextField-root margin-right-small emotion-7"
