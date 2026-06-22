@@ -192,7 +192,7 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, user
             label=""
             name="tags"
             options={existingTags}
-            placeholder={isEditing ? 'Enter release tags' : canManageReleases ? '' : 'No tags yet'}
+            placeholder={isEditing ? 'Add release tags' : canManageReleases ? '' : 'No tags yet'}
           />
         </Form>
         {isEditing && <ConfirmationButtons onConfirm={() => submitRef.current?.()} onCancel={onToggleEdit} />}

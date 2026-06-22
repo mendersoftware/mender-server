@@ -36,7 +36,7 @@ const AddTagsDialogContent = ({ onClose }) => {
     <>
       <DialogContent>
         <Typography className="margin-bottom">Add tags to the selected Releases. If a Release already has the tag, it won’t be added again.</Typography>
-        <ChipSelect className={classes.tagSelect} label="" name={inputName} placeholder="Enter release tags" />
+        <ChipSelect className={classes.tagSelect} label="" name={inputName} placeholder="Add release tags" />
       </DialogContent>
       <DialogActions>
         <Button style={{ marginRight: 10 }} onClick={onClose}>

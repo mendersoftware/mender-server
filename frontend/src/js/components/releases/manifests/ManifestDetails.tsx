@@ -128,7 +128,7 @@ const ManifestTags = ({ existingTags, tags, canManageReleases, onSave }: Manifes
             label=""
             name="tags"
             options={existingTags}
-            placeholder={isEditing ? 'Enter manifest tags' : canManageReleases ? '' : 'No tags yet'}
+            placeholder={isEditing ? 'Add manifest tags' : canManageReleases ? '' : 'No tags yet'}
           />
         </Form>
         {isEditing && <ConfirmationButtons onConfirm={() => submitRef.current?.()} onCancel={onToggleEdit} />}
