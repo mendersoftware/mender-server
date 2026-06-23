@@ -120,7 +120,7 @@ const History = ({ className, items, onLogClick, page, perPage, setPage, setPerP
           ))}
         </TableBody>
       </Table>
-      <div className="flexbox space-between">
+      <div className="flexbox align-items-center space-between">
         <Pagination
           count={total}
           onChangePage={setPage}
@@ -129,7 +129,7 @@ const History = ({ className, items, onLogClick, page, perPage, setPage, setPerP
           rowsPerPage={perPage}
           rowsPerPageOptions={[10, 20]}
         />
-        {wasReset && <MenderHelpTooltip id={HELPTOOLTIPS.resetHistory.id} />}
+        {wasReset && <MenderHelpTooltip className="margin-top margin-bottom-none" id={HELPTOOLTIPS.resetHistory.id} />}
       </div>
     </div>
   );

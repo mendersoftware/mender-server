@@ -288,7 +288,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
               {!!gatewayIds.length && (
                 <GatewayConnectionNotification gatewayDevices={gatewayIds.map(gatewayId => devicesById[gatewayId])} onClick={scrollToDeviceSystem} />
               )}
-              <div className={`${isOffline ? 'red' : 'muted'} margin-left margin-right flexbox`}>
+              <div className={`${isOffline ? 'red' : 'muted'} margin-left margin-right flexbox align-items-center`}>
                 <div className="margin-right-small">Latest activity:</div>
                 <RelativeTime updateTime={device.check_in_time} />
               </div>
