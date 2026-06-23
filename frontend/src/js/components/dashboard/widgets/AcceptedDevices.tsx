@@ -36,7 +36,7 @@ export const AcceptedDevices = props => {
       key={type}
       title={
         limit > 0
-          ? `${Math.round(total / limit)}% used. To increase limits, go to Settings > Billing`
+          ? `${Math.round((total / limit) * 100)}% used. To increase limits, go to Settings > Billing`
           : `You have ${total} accepted ${type} ${pluralize('device', total)}`
       }
       slotProps={{
