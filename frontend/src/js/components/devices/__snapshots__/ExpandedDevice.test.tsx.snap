@@ -1935,7 +1935,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
             </div>
           </div>
           <div
-            class="muted margin-left margin-right flexbox"
+            class="muted margin-left margin-right flexbox align-items-center"
           >
             <div
               class="margin-right-small"
