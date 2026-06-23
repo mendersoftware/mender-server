@@ -57,10 +57,11 @@ const useStyles = makeStyles()(theme => ({
     [`&.${chipClasses.icon}`]: {
       fontSize: 'x-small'
     }
-  }
+  },
+  status: { display: 'flex', alignItems: 'center', gap: theme.spacing(), minWidth: 220 }
 }));
 
-const DeviceStatus = ({ device: { auth_sets = [], isOffline, monitor = {}, status: deviceStatus } }) => {
+const DeviceStatus = ({ device: { auth_sets = [], flags, isOffline, monitor = {}, status: deviceStatus } }) => {
   const { classes } = useStyles();
 
   let { color, icon, label } = statusTypes.default;
@@ -78,12 +79,17 @@ const DeviceStatus = ({ device: { auth_sets = [], isOffline, monitor = {}, statu
     ({ color, icon, label } = statusTypes.offline);
     notification = statusTypes.offline.notification.default;
   }
-  return label ? (
-    <Tooltip arrow title={notification} placement="bottom">
-      <Chip className="margin-right-small capitalized" size="small" color={color} icon={icon} label={label} variant="outlined" />
-    </Tooltip>
-  ) : (
-    <div className="margin-right-small capitalized">{deviceStatus}</div>
+  return (
+    <div className={classes.status}>
+      {label ? (
+        <Tooltip arrow title={notification} placement="bottom">
+          <Chip className="capitalized" size="small" color={color} icon={icon} label={label} variant="outlined" />
+        </Tooltip>
+      ) : (
+        <div className="capitalized">{deviceStatus}</div>
+      )}
+      {flags?.test_device && <Chip label="Test" size="small" />}
+    </div>
   );
 };
 
