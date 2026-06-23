@@ -146,6 +146,7 @@ test.describe('Files', () => {
     const editButton = drawer.getByRole('heading', { name: 'Tags' }).locator('..').getByRole('button', { name: /edit/i });
     await editButton.click();
     const input = await page.getByPlaceholder(/add release tags/i);
+    await input.focus();
     await input.pressSequentially('some,tags', { delay: 300 });
     await page.getByRole('button', { name: 'confirm' }).click();
     await page.waitForTimeout(timeouts.oneSecond);

@@ -1696,10 +1696,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-60:focus::-ms-input-
       </div>
     </div>
     <div
-      class="flexbox"
-      style="align-items: center;"
+      class="flexbox align-items-center"
     >
       <form
+        class=""
         novalidate=""
       >
         <div
