@@ -24,7 +24,7 @@ type Update struct {
 	Files []UpdateFile `json:"files,omitempty"`
 	// metadata is an object of unknown structure as this is dependent of update type (also custom defined by user)
 	Metadata *map[string]string `json:"metadata,omitempty"`
-	// Deprecated: Please use `metadata` instead. A list of objects of unknown structure as this is dependent of update type (also custom defined by user) 
+	// A list of objects of unknown structure as this is dependent of update type (also custom defined by user) 
 	// Deprecated
 	MetaData []map[string]interface{} `json:"meta_data,omitempty"`
 	AdditionalProperties map[string]interface{}

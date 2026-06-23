@@ -32,7 +32,7 @@ class Update(BaseModel):
     type_info: Optional[ArtifactTypeInfo] = None
     files: Optional[List[UpdateFile]] = None
     metadata: Optional[Dict[str, StrictStr]] = Field(default=None, description="metadata is an object of unknown structure as this is dependent of update type (also custom defined by user)")
-    meta_data: Optional[List[Dict[str, Any]]] = Field(default=None, description="Deprecated: Please use `metadata` instead. A list of objects of unknown structure as this is dependent of update type (also custom defined by user) ")
+    meta_data: Optional[List[Dict[str, Any]]] = Field(default=None, description="A list of objects of unknown structure as this is dependent of update type (also custom defined by user) ")
     __properties: ClassVar[List[str]] = ["type_info", "files", "metadata", "meta_data"]
 
     model_config = ConfigDict(

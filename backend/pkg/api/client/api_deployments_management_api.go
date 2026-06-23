@@ -192,10 +192,6 @@ If the limit value is 0 it means there is no limit for storage for logged in use
 
 	Returns a collection of all artifacts.
 
-DEPRECATED: _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues.
-Please use the v2 /artifacts endpoint instead.
-In the new endpoint, we support exact and prefix matching for the various fields
-
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiDeploymentsV1ListArtifactsWithPaginationRequest
@@ -216,10 +212,6 @@ In the new endpoint, we support exact and prefix matching for the various fields
 including active and historical. If both 'status' and 'query' are
 not specified, all devices are listed.
 
-DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the "search" query
-  behavior. Please use the v2 /deployments/deployments endpoint instead.
-  In the new endpoint, we replaced search parameter with the "id" and "name" parameters.
-
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiDeploymentsV1ListDeploymentsRequest
@@ -238,10 +230,6 @@ DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue w
 
 	Returns a collection of releases, allows filtering by release name and sorting
 by name or last modification date.
-
-DEPRECATED: _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response
-body and lack of support for advanced filters and sorting, we have deprecated this
-endpoint. Please use the v2 /deployments/releases end-point instead.
 
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -309,7 +297,7 @@ in text/plain format.
 	GetDeploymentLogForDeviceExecute(r ApiGetDeploymentLogForDeviceRequest) (string, *http.Response, error)
 
 	/*
-	ListAllDevicesInDeployment DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /deployments/{deployment_id}/devices/list end-point instead. 
+	ListAllDevicesInDeployment please use the /deployments/{deployment_id}/devices/list end-point instead. 
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param deploymentId Deployment identifier.
@@ -328,10 +316,6 @@ in text/plain format.
 	ListArtifacts List all the artifacts 
 
 	Returns a collection of all artifacts.
-
-DEPRECATED: _since Oct 18 2021_ this end-point is deprecated because it doesn't support
-pagination and will be removed in the future, please use the
-/artifacts/list end-point instead.
 
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -376,10 +360,6 @@ pagination and will be removed in the future, please use the
 	ListReleases List releases 
 
 	Returns a collection of releases, allows filtering by release name.
-
-DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support
-pagination and will be removed in the future, please use the
-/deployments/releases/list end-point instead.
 
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -2059,10 +2039,6 @@ DeploymentsV1ListArtifactsWithPagination List known artifacts
 
 Returns a collection of all artifacts.
 
-DEPRECATED: _since Tue Jul 22 2025_ we deprecated the endpoint due to performance issues.
-Please use the v2 /artifacts endpoint instead.
-In the new endpoint, we support exact and prefix matching for the various fields
-
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDeploymentsV1ListArtifactsWithPaginationRequest
@@ -2281,10 +2257,6 @@ DeploymentsV1ListDeployments Find all deployments
 Returns a filtered collection of deployments in the system,
 including active and historical. If both 'status' and 'query' are
 not specified, all devices are listed.
-
-DEPRECATED: _since Mon Oct 21 2024_ we deprecated the endpoint due to an issue with the "search" query
-  behavior. Please use the v2 /deployments/deployments endpoint instead.
-  In the new endpoint, we replaced search parameter with the "id" and "name" parameters.
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -2509,10 +2481,6 @@ DeploymentsV1ListReleasesWithPagination List releases with pagination
 
 Returns a collection of releases, allows filtering by release name and sorting
 by name or last modification date.
-
-DEPRECATED: _since Sep 24 2023_ due to a mismatch in the capitalization of the fields of the response
-body and lack of support for advanced filters and sorting, we have deprecated this
-endpoint. Please use the v2 /deployments/releases end-point instead.
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -3187,7 +3155,7 @@ func (r ApiListAllDevicesInDeploymentRequest) Execute() ([]DeviceWithImage, *htt
 }
 
 /*
-ListAllDevicesInDeployment DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support pagination and will be removed in the future, please use the /deployments/{deployment_id}/devices/list end-point instead. 
+ListAllDevicesInDeployment please use the /deployments/{deployment_id}/devices/list end-point instead. 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param deploymentId Deployment identifier.
@@ -3353,10 +3321,6 @@ func (r ApiListArtifactsRequest) Execute() ([]ArtifactV1, *http.Response, error)
 ListArtifacts List all the artifacts 
 
 Returns a collection of all artifacts.
-
-DEPRECATED: _since Oct 18 2021_ this end-point is deprecated because it doesn't support
-pagination and will be removed in the future, please use the
-/artifacts/list end-point instead.
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -3854,10 +3818,6 @@ func (r ApiListReleasesRequest) Execute() ([]ReleaseV1, *http.Response, error) {
 ListReleases List releases 
 
 Returns a collection of releases, allows filtering by release name.
-
-DEPRECATED: _since Wed May 19 2021_ this end-point is deprecated because it doesn't support
-pagination and will be removed in the future, please use the
-/deployments/releases/list end-point instead.
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().

@@ -226,9 +226,10 @@ components:
     MetadataAnyDeprecated:
       deprecated: true
       description: |
-        Deprecated: Please use `metadata` instead.
         A list of objects of unknown structure as this is dependent
         of update type (also custom defined by user)
+      x-deprecated-description: |
+        _Since Wed Oct 29 2025_ this object is deprecated. Please use `metadata` instead.
       items:
         type: object
       type: array
