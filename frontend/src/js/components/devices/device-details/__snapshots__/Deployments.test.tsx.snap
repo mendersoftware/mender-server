@@ -294,6 +294,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 
 .emotion-9 .deleted>.MuiTableCell-root,
 .emotion-9 .deleted a {
+  background: #03a9f4;
   color: #616161;
 }
 
@@ -1200,7 +1201,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-37:focus::-ms-input-
       </tbody>
     </table>
     <div
-      class="flexbox space-between"
+      class="flexbox align-items-center space-between"
     >
       <div
         class="MuiTablePagination-root flexbox margin-top emotion-32"

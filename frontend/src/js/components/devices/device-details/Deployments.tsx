@@ -28,6 +28,7 @@ import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates } from '@northern.tec
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getDeploymentById as getDeploymentByIdSelector, getFeatures, getIsPreview } from '@northern.tech/store/selectors';
 import { getDeviceDeployments, getDeviceLog, getSingleDeployment, resetDeviceDeployments } from '@northern.tech/store/thunks';
+import { isDarkMode } from '@northern.tech/store/utils';
 
 import LogDialog from '../../deployments/deployment-report/Log';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
@@ -44,7 +45,7 @@ const useStyles = makeStyles()(theme => ({
   table: {
     minHeight: '10vh',
     [`.deleted > .${tableCellClasses.root}, .deleted a`]: {
-      background: theme.palette.background.lightgrey,
+      background: isDarkMode(theme.palette.mode) ? theme.palette.info.dark : theme.palette.info.light,
       color: theme.palette.grey[700],
       [`.${buttonClasses.root}`]: { color: theme.palette.text.primary }
     }
@@ -119,7 +120,7 @@ const History = ({ className, items, onLogClick, page, perPage, setPage, setPerP
           ))}
         </TableBody>
       </Table>
-      <div className="flexbox space-between">
+      <div className="flexbox align-items-center space-between">
         <Pagination
           count={total}
           onChangePage={setPage}
@@ -128,7 +129,7 @@ const History = ({ className, items, onLogClick, page, perPage, setPage, setPerP
           rowsPerPage={perPage}
           rowsPerPageOptions={[10, 20]}
         />
-        {wasReset && <MenderHelpTooltip id={HELPTOOLTIPS.resetHistory.id} />}
+        {wasReset && <MenderHelpTooltip className="margin-top margin-bottom-none" id={HELPTOOLTIPS.resetHistory.id} />}
       </div>
     </div>
   );
