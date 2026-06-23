@@ -158,7 +158,7 @@ export const SelfUserManagement = () => {
         </Alert>
       )}
       {confirmationShown && <EmailVerificationConfirmation onClose={() => setConfirmationShown(false)} email={email} />}
-      <UserId className="margin-top-small" userId={userId} />
+      <UserId className="margin-top-small profile-settings" userId={userId} />
       {!editEmail && email ? (
         <>
           <div className="flexbox align-items-center">

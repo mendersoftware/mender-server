@@ -133,12 +133,17 @@ exports[`Settings Component > renders correctly 1`] = `
   letter-spacing: 0.0075em;
 }
 
-.emotion-27 .copy-button {
-  margin-top: 2px;
+.emotion-27 {
+  max-width: 400px;
 }
 
-.emotion-27 .MuiTextField-root {
-  width: 550px;
+.emotion-27 .copy-button {
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.emotion-27.profile-settings .MuiTextField-root {
+  min-width: 550px;
 }
 
 .emotion-28 {
@@ -1247,7 +1252,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
         My profile
       </h6>
       <div
-        class="flexbox margin-bottom-small emotion-27 margin-top-small"
+        class="flexbox margin-bottom-small emotion-27 margin-top-small profile-settings"
       >
         <div
           class="MuiFormControl-root MuiTextField-root margin-right-small emotion-28"

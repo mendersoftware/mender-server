@@ -17,7 +17,7 @@ import type { FieldValues, UseFormSetValue } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 
 // material ui
-import { Button, Divider, Typography, selectClasses } from '@mui/material';
+import { Button, Typography, selectClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
@@ -39,7 +39,7 @@ import type { UiRoleDefinition } from '@northern.tech/utils/constants';
 import { deepCompare } from '@northern.tech/utils/helpers';
 import type { AsyncThunkAction } from '@reduxjs/toolkit';
 
-import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH } from '../constants';
+import { SETTINGS_CONTENT_MAX_WIDTH, SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY } from '../constants';
 import type { ItemScope, ItemSelectionType, ScopedUiPermissions } from './PermissionsItems';
 import { ItemSelection, PermissionsItem, emptyItemSelection } from './PermissionsItems';
 import type { PermissionsSelectionBaseProps } from './PermissionsSelect';
@@ -52,15 +52,9 @@ const useStyles = makeStyles()(theme => ({
     gap: theme.spacing(3),
     paddingTop: theme.spacing(4),
     maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
-    [`.${selectClasses.root}`]: {
-      minWidth: SETTINGS_INPUT_WIDTH
-    },
-    '.permission-scope-select': {
-      minWidth: 220,
-      marginRight: theme.spacing(2)
-    }
+    [`.${selectClasses.root}`]: { minWidth: SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY }
   },
-  inputWidth: { maxWidth: SETTINGS_INPUT_WIDTH }
+  inputWidth: { maxWidth: SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY }
 }));
 
 type FormValues = FieldValues & {
@@ -230,7 +224,9 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
   return (
     <>
       <div>
-        <Typography variant="subtitle1">Name</Typography>
+        <Typography className="margin-bottom-small" variant="subtitle1">
+          Name
+        </Typography>
         <TextInput
           className={classes.inputWidth}
           disabled={disableEdit || editing}
@@ -242,16 +238,21 @@ export const FormContent: FunctionComponent<RoleDefinitionFormProps> = ({
         />
       </div>
       <div>
-        <Typography variant="subtitle1">Description</Typography>
+        <Typography className="margin-bottom-small" variant="subtitle1">
+          Description
+        </Typography>
         <TextInput className={classes.inputWidth} disabled={disableEdit} label="Description" id="description" InputProps={{ multiline: true }} hint="-" />
       </div>
-      <Typography variant="subtitle1">Permissions</Typography>
-      {isServiceProvider ? (
-        <ServiceProviderPermissionSelection disabled={disableEdit} />
-      ) : (
-        <DefaultPermissionSelection disabled={disableEdit} groups={stateGroups} releases={stateReleases} setValue={setValue} />
-      )}
-      <Divider className="margin-top-medium" />
+      <div>
+        <Typography className="margin-bottom-small margin-top-medium" variant="subtitle1">
+          Permissions
+        </Typography>
+        {isServiceProvider ? (
+          <ServiceProviderPermissionSelection disabled={disableEdit} />
+        ) : (
+          <DefaultPermissionSelection disabled={disableEdit} groups={stateGroups} releases={stateReleases} setValue={setValue} />
+        )}
+      </div>
       <div className="flexbox">
         <Button className="margin-right" onClick={onCancel}>
           {disableEdit ? 'Close' : 'Cancel'}
