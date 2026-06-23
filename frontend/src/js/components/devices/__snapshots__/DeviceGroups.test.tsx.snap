@@ -615,9 +615,11 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   12 days ago
                 </time>
               </div>
-              <div>
+              <div
+                class="css-lglc1i-status"
+              >
                 <div
-                  class="margin-right-small capitalized"
+                  class="capitalized"
                 >
                   accepted
                 </div>
@@ -682,9 +684,11 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                   12 days ago
                 </time>
               </div>
-              <div>
+              <div
+                class="css-lglc1i-status"
+              >
                 <div
-                  class="margin-right-small capitalized"
+                  class="capitalized"
                 >
                   accepted
                 </div>
