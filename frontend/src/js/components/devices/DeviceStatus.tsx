@@ -62,9 +62,8 @@ const useStyles = makeStyles()(theme => ({
 
 const DeviceStatus = ({ device: { auth_sets = [], isOffline, monitor = {}, status: deviceStatus } }) => {
   const { classes } = useStyles();
-  let color = statusTypes.default.color;
-  let label = statusTypes.default.label;
-  let icon = statusTypes.default.icon;
+
+  let { color, icon, label } = statusTypes.default;
   let notification = statusTypes.default.notification.default;
 
   const pendingAuthSetsCount = auth_sets.filter(item => item.status === DEVICE_STATES.pending).length;
@@ -72,15 +71,11 @@ const DeviceStatus = ({ device: { auth_sets = [], isOffline, monitor = {}, statu
     icon = <NumberIcon className={classes.numberIcon} value={pendingAuthSetsCount} />;
     notification = statusTypes.authRequests.notification[deviceStatus] ?? statusTypes.authRequests.notification[DEVICE_STATES.accepted];
     label = `new ${pluralize('request', pendingAuthSetsCount)}`;
-  } else if (Object.values(monitor).some(i => i)) {
-    color = statusTypes.monitor.color;
-    icon = statusTypes.monitor.icon;
-    label = statusTypes.monitor.label;
+  } else if (Object.values(monitor).some(Boolean)) {
+    ({ color, icon, label } = statusTypes.monitor);
     notification = statusTypes.monitor.notification.default;
   } else if (isOffline) {
-    color = statusTypes.offline.color;
-    icon = statusTypes.offline.icon;
-    label = statusTypes.offline.label;
+    ({ color, icon, label } = statusTypes.offline);
     notification = statusTypes.offline.notification.default;
   }
   return label ? (
