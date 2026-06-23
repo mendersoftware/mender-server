@@ -23,18 +23,11 @@ import { generateReleasesPath } from '@northern.tech/store/locationutils';
 
 import { getDeploymentTargetText, getDevicesLink } from '../deployment-wizard/SoftwareDevices';
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles()(() => ({
   chip: {
     opacity: 0.5,
     fontSize: '0.675rem',
     height: 18
-  },
-  statusWrapper: {
-    backgroundColor: theme.palette.background.lightgrey,
-    ['&:after']: {
-      borderRight: '20px solid',
-      borderRightColor: theme.palette.background.lightgrey
-    }
   }
 }));
 

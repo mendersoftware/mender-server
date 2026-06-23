@@ -28,6 +28,7 @@ import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates } from '@northern.tec
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
 import { getDeploymentById as getDeploymentByIdSelector, getFeatures, getIsPreview } from '@northern.tech/store/selectors';
 import { getDeviceDeployments, getDeviceLog, getSingleDeployment, resetDeviceDeployments } from '@northern.tech/store/thunks';
+import { isDarkMode } from '@northern.tech/store/utils';
 
 import LogDialog from '../../deployments/deployment-report/Log';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
@@ -44,7 +45,7 @@ const useStyles = makeStyles()(theme => ({
   table: {
     minHeight: '10vh',
     [`.deleted > .${tableCellClasses.root}, .deleted a`]: {
-      background: theme.palette.background.lightgrey,
+      background: isDarkMode(theme.palette.mode) ? theme.palette.info.dark : theme.palette.info.light,
       color: theme.palette.grey[700],
       [`.${buttonClasses.root}`]: { color: theme.palette.text.primary }
     }

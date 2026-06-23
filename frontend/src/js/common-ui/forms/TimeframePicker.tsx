@@ -14,7 +14,7 @@
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Typography, useTheme } from '@mui/material';
+import { Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { makeStyles } from 'tss-react/mui';
 
@@ -66,9 +66,6 @@ export const TimeframePicker = ({
   const [showsHelptext, setShowsHelptext] = useState(false);
   const { classes } = useStyles();
 
-  const theme = useTheme();
-  const isNextTheme = !theme.palette.background.lightgrey;
-
   const { control, setValue, watch, getValues } = useFormContext();
 
   const startDate = watch('startDate');
@@ -112,7 +109,7 @@ export const TimeframePicker = ({
               disableFuture
               slotProps={{
                 textField: {
-                  size: isNextTheme ? 'small' : 'medium',
+                  size: 'small',
                   slotProps: {
                     htmlInput: { 'aria-label': 'From' }
                   }
@@ -135,7 +132,7 @@ export const TimeframePicker = ({
               disableFuture
               slotProps={{
                 textField: {
-                  size: isNextTheme ? 'small' : 'medium',
+                  size: 'small',
                   slotProps: {
                     htmlInput: { 'aria-label': 'To' }
                   }
