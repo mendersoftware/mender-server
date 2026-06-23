@@ -8,6 +8,8 @@ MENDER_PUBLISH_REGISTRY ?= docker.io
 MENDER_PUBLISH_REPOSTIORY ?= mendersoftware
 MENDER_PUBLISH_TAG ?= $(MENDER_IMAGE_TAG)
 
+MIRROR_REGISTRY ?= docker.io
+
 SERVICES = $(subst services,,$(subst /,,$(sort $(dir $(wildcard services/*/)))))
 BUILD_TARGETS := $(addsuffix -build, $(SERVICES))
 TEST_TARGETS := $(addsuffix -test, $(SERVICES))
@@ -54,7 +56,7 @@ tests/mender_client: $(COMBINED_SPEC)
 	docker run --rm -t -v $(MAKEDIR):/work -w /work \
 		--ulimit nofile=65536:65536 \
 		-u $(shell id -u):$(shell id -g) \
-		openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} generate \
+		$(MIRROR_REGISTRY)/openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_VERSION} generate \
 		-g python -i $< \
 		-c $(dir $@).openapi-generator.yaml \
 		-o $(dir $@)

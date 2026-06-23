@@ -9,7 +9,7 @@ variables:
 
 test:frontend:lint:
   stage: test
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
+  image: ${MIRROR_REGISTRY}/library/${NODE_IMAGE}
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
       when: never
@@ -24,7 +24,7 @@ test:frontend:lint:
 
 test:frontend:prettier:
   stage: test
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
+  image: ${MIRROR_REGISTRY}/library/${NODE_IMAGE}
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
       when: never
@@ -38,7 +38,7 @@ test:frontend:prettier:
     - npm run format:check
 
 test:frontend:license-headers:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
+  image: ${MIRROR_REGISTRY}/denoland/deno:debian-2.0.2
   stage: test
   rules:
     - changes:
@@ -54,7 +54,7 @@ test:frontend:license-headers:
     - git diff --exit-code frontend/tests
 
 test:frontend:licenses:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
+  image: ${MIRROR_REGISTRY}/denoland/deno:debian-2.0.2
   stage: test
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
@@ -77,7 +77,7 @@ test:frontend:licenses:
 
 test:frontend:unit:
   stage: test
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
+  image: ${MIRROR_REGISTRY}/library/${NODE_IMAGE}
   rules:
     - changes:
         paths: ['frontend/**/*']
@@ -106,7 +106,7 @@ test:frontend:unit:
 
 test:frontend:docs-links:
   stage: test
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/${NODE_IMAGE}
+  image: ${MIRROR_REGISTRY}/library/${NODE_IMAGE}
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /^(staging|saas-[a-zA-Z0-9.]+)$/
       when: never
@@ -165,7 +165,7 @@ build:frontend:docker:
 
 .template:test:frontend:acceptance:
   stage: test
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/gui-e2e-testing:master
+  image: ${ECR_REGISTRY}/gitlab/northern.tech/mender/mender-test-containers/gui-e2e-testing:master
   extends: .build:base
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
@@ -181,7 +181,7 @@ build:frontend:docker:
       artifacts: false
       optional: true
   services:
-    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+    - name: ${MIRROR_REGISTRY}/library/docker:${DOCKER_VERSION}-dind
       alias: docker
   before_script:
     - !reference [.requires-docker]
@@ -250,7 +250,7 @@ test:frontend:acceptance:enterprise:qemu:
 
 publish:frontend:tests:
   stage: publish
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/base-alpine:master
+  image: ${ECR_REGISTRY}/gitlab/northern.tech/mender/mender-test-containers/base-alpine:master
   rules:
     - if: $CI_COMMIT_REF_PROTECTED == "true"
       when: on_success
@@ -277,7 +277,7 @@ publish:frontend:tests:
 
 publish:frontend:e2e-tests:
   stage: publish
-  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/base-alpine:master
+  image: ${ECR_REGISTRY}/gitlab/northern.tech/mender/mender-test-containers/base-alpine:master
   rules:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
@@ -353,7 +353,7 @@ publish:frontend:licenses:
         compare_to: '${RULES_CHANGES_COMPARE_TO_REF}'
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/denoland/deno:debian-2.0.2
+  image: ${MIRROR_REGISTRY}/denoland/deno:debian-2.0.2
   needs:
     - job: build:frontend:docker
       artifacts: true
@@ -366,7 +366,7 @@ publish:frontend:licenses:
       - frontend/licenses.md
 
 publish:frontend:sentry:finalize:
-  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/getsentry/sentry-cli
+  image: ${MIRROR_REGISTRY}/getsentry/sentry-cli
   stage: .post
   rules:
     - if: $SENTRY_AUTH_TOKEN == null
