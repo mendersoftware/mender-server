@@ -30,6 +30,12 @@ const filterOptionsByPlan = {
   enterprise: DEVICE_FILTERING_OPTIONS
 };
 
+const TEST_DEVICE_ATTRIBUTE = 'test_device';
+const testDeviceFilterOptions = {
+  [DEVICE_FILTERING_OPTIONS.$eq.key]: DEVICE_FILTERING_OPTIONS.$eq,
+  [DEVICE_FILTERING_OPTIONS.$ne.key]: DEVICE_FILTERING_OPTIONS.$ne
+};
+
 const filterNotifications = {
   name: <MenderHelpTooltip id={HELPTOOLTIPS.nameFilterTip.id} style={{ position: 'absolute', left: -50 }} />
 };
@@ -90,6 +96,11 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave
   const updateFilterKey = ({ key, scope }) => {
     setKey(key);
     setScope(scope);
+    //Special handing for test device flag
+    if (key === TEST_DEVICE_ATTRIBUTE) {
+      setValue('true');
+      setOperator(operator => (operator in testDeviceFilterOptions ? operator : DEVICE_FILTERING_OPTIONS.$eq.key));
+    }
   };
 
   const updateFilterOperator = ({ target: { value: changedOperator } }) => {
@@ -116,7 +127,8 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave
     onSave({ key, operator, scope, value });
   };
 
-  const filterOptions = plan ? filterOptionsByPlan[plan] : DEVICE_FILTERING_OPTIONS;
+  const isTestDeviceFilter = key === TEST_DEVICE_ATTRIBUTE;
+  const filterOptions = isTestDeviceFilter ? testDeviceFilterOptions : plan ? filterOptionsByPlan[plan] : DEVICE_FILTERING_OPTIONS;
   const operatorHelpMessage = (DEVICE_FILTERING_OPTIONS[operator] || {}).help || '';
   const showValue = typeof (filterOptions[operator] || {}).value === 'undefined';
   const isFilterDefined = Object.values({ key, operator, scope, ...(showValue ? { value } : {}) }).every(thing => !!thing);
@@ -142,7 +154,16 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave
               </MenuItem>
             ))}
           </Select>
-          {showValue && <TextField className={classes.valueFilter} label="Value" value={value} onChange={updateFilterValue} onKeyDown={onKeyDown} />}
+          {showValue && (
+            <TextField
+              className={classes.valueFilter}
+              label="Value"
+              value={value}
+              onChange={updateFilterValue}
+              onKeyDown={onKeyDown}
+              disabled={isTestDeviceFilter}
+            />
+          )}
         </div>
         {isFilterDefined && (
           <IconButton onClick={removeFilter} size="small">
