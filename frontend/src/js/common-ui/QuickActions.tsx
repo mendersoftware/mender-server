@@ -21,8 +21,11 @@ import { isDarkMode } from '@northern.tech/store/utils';
 import { toggle } from '@northern.tech/utils/helpers';
 
 export interface QuickAction {
+  action: (context: object & { selection: number[] }) => void;
+  checkRelevance?: (decisionData: object) => void;
   icon: ReactNode;
   key: string;
+  needsConfirmation?: boolean;
   onClick: () => void;
   title: ReactNode;
 }

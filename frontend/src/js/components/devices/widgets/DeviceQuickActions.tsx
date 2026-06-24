@@ -26,6 +26,7 @@ import {
 import { mdiFlaskOutline as TestIcon } from '@mdi/js';
 import { mdiFlaskOffOutline as TestOffIcon } from '@mdi/js';
 import { mdiTrashCanOutline as TrashCan } from '@mdi/js';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { BaseQuickActions, type QuickAction } from '@northern.tech/common-ui/QuickActions';
 import { DEVICE_STATES, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
@@ -47,7 +48,7 @@ import GatewayIcon from '../../../../assets/img/gateway.svg';
 import { getOnboardingComponentFor } from '../../../utils/onboardingManager';
 import { MAX_TEST_DEVICES } from './TestDeviceLimit';
 
-const defaultActions = {
+const defaultActions: Record<string, QuickAction> = {
   accept: {
     icon: <CheckCircleIcon className="green" />,
     key: 'accept',
@@ -62,7 +63,8 @@ const defaultActions = {
     title: pluralized => `Dismiss ${pluralized}`,
     action: ({ onDeviceDismiss, selection }) => onDeviceDismiss(selection),
     checkRelevance: ({ device, userCapabilities: { canWriteDevices } }) =>
-      canWriteDevices && [DEVICE_STATES.accepted, DEVICE_STATES.pending, DEVICE_STATES.preauth, DEVICE_STATES.rejected, 'noauth'].includes(device.status)
+      canWriteDevices && [DEVICE_STATES.accepted, DEVICE_STATES.pending, DEVICE_STATES.preauth, DEVICE_STATES.rejected, 'noauth'].includes(device.status),
+    needsConfirmation: true
   },
   reject: {
     icon: <HighlightOffOutlinedIcon className="red" />,
@@ -70,7 +72,8 @@ const defaultActions = {
     title: pluralized => `Reject ${pluralized}`,
     action: ({ onAuthorizationChange, selection }) => onAuthorizationChange(selection, DEVICE_STATES.rejected),
     checkRelevance: ({ device, userCapabilities: { canWriteDevices } }) =>
-      canWriteDevices && [DEVICE_STATES.accepted, DEVICE_STATES.pending].includes(device.status)
+      canWriteDevices && [DEVICE_STATES.accepted, DEVICE_STATES.pending].includes(device.status),
+    needsConfirmation: true
   },
   addToGroup: {
     icon: <AddCircleIcon className="green" />,
@@ -132,6 +135,25 @@ const defaultActions = {
   }
 };
 
+type ConfirmAction = {
+  description: (pluralized: string, selectedDevices: number[]) => string;
+  header: (pluralized: string) => string;
+};
+
+const confirmActions: Record<'dismiss' | 'reject' | 'default', ConfirmAction> = {
+  default: { description: () => '', header: () => '' },
+  dismiss: {
+    description: (pluralized, selectedDevices) =>
+      `Are you sure you want to dismiss ${selectedDevices.length} ${pluralized}? The ${pluralized} will be removed from the UI.`,
+    header: pluralized => `Dismiss ${pluralized}?`
+  },
+  reject: {
+    description: (pluralized, selectedDevices) =>
+      `Are you sure you want to reject ${selectedDevices.length} ${pluralized}? The ${pluralized} will be blocked from communicating with the Mender server.`,
+    header: pluralized => `Reject ${pluralized}?`
+  }
+};
+
 export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup }) => {
   const dispatch = useAppDispatch();
   const features = useSelector(getFeatures);
@@ -146,6 +168,7 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   const deploymentActionRef = useRef<HTMLDivElement>(null);
   const onboardingState = useSelector(getOnboardingState);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<{ key: string; selection: any[] } | null>(null);
   const timer = useRef();
 
   useEffect(() => {
@@ -158,12 +181,13 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
 
   const selectedDevices = deviceId ? [singleDevice] : selectedRows.map(row => devices[row]);
   const pluralized = pluralize('devices', selectedDevices.length);
+
   const actions: QuickAction[] = Object.values(defaultActions)
-    .filter(action =>
+    .filter(({ checkRelevance }) =>
       selectedDevices.every(
         device =>
           device &&
-          action.checkRelevance({
+          checkRelevance!({
             device,
             features,
             selectedCount: selectedDevices.length,
@@ -174,11 +198,17 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
           })
       )
     )
-    .map(({ action, key, icon, title }) => ({
+    .map(({ action, key, icon, needsConfirmation, title }) => ({
       key,
       icon,
       title: <div ref={key === 'create-deployment' ? deploymentActionRef : undefined}>{title(pluralized, selectedDevices.length)}</div>,
-      onClick: () => action({ ...actionCallbacks, selection: selectedDevices })
+      onClick: () => {
+        if (needsConfirmation) {
+          setConfirmAction({ key, selection: selectedDevices });
+        } else {
+          action({ ...actionCallbacks, selection: selectedDevices });
+        }
+      }
     }));
 
   const handleToggle = () => dispatch(advanceOnboarding(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING));
@@ -199,16 +229,34 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEVICES_DEPLOY_RELEASE_ONBOARDING, onboardingState, { anchor, place: 'left' }, null);
   }
 
+  const { description, header } = confirmAction?.key ? confirmActions[confirmAction.key] : confirmActions.default;
+  const headerText = header(pluralized, selectedDevices);
+
   return (
-    <BaseQuickActions
-      actions={actions}
-      ariaLabel="device-actions"
-      label={deviceId ? 'Device actions' : `${selectedDevices.length} ${pluralized} selected`}
-      onToggle={handleToggle}
-      onboardingComponent={onboardingComponent}
-      speedDialRef={deviceActionRef}
-      titleRef={deviceActionLabelRef}
-    />
+    <>
+      <BaseQuickActions
+        actions={actions}
+        ariaLabel="device-actions"
+        label={deviceId ? 'Device actions' : `${selectedDevices.length} ${pluralized} selected`}
+        onToggle={handleToggle}
+        onboardingComponent={onboardingComponent}
+        speedDialRef={deviceActionRef}
+        titleRef={deviceActionLabelRef}
+      />
+      <ConfirmModal
+        close={() => setConfirmAction(null)}
+        confirmButtonText={headerText}
+        description={description(pluralized, selectedDevices)}
+        header={headerText}
+        onConfirm={() => {
+          if (confirmAction) {
+            defaultActions[confirmAction.key].action({ ...actionCallbacks, selection: confirmAction.selection });
+          }
+          setConfirmAction(null);
+        }}
+        open={!!confirmAction}
+      />
+    </>
   );
 };
 
