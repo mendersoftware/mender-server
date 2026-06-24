@@ -1,5 +1,5 @@
 ARG REGISTRY=docker.io
-FROM --platform=$BUILDPLATFORM ${REGISTRY}/library/node:25.9.0-alpine3.22 AS base
+FROM --platform=$BUILDPLATFORM ${REGISTRY}/library/node:26.3.1-alpine3.24 AS base
 WORKDIR /usr/src/app
 RUN apk add --no-cache gzip
 COPY package-lock.json package.json ./
@@ -14,7 +14,7 @@ ENV SENTRY_URL=$SENTRY_URL
 RUN --mount=type=secret,id=sentryAuthToken export SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentryAuthToken) && npm run build
 RUN gzip -r -k dist/*
 
-FROM ${REGISTRY}/nginxinc/nginx-unprivileged:1.29.3-alpine3.22-slim AS unprivileged
+FROM ${REGISTRY}/nginxinc/nginx-unprivileged:1.31.2-alpine3.23-slim AS unprivileged
 EXPOSE 8090
 WORKDIR /var/www/mender-gui/dist
 ARG GIT_COMMIT_TAG
