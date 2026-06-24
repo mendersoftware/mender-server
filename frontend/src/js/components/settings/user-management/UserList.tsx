@@ -14,13 +14,19 @@
 import { useMemo } from 'react';
 
 // material ui
-import { Check as CheckIcon } from '@mui/icons-material';
 import { Chip } from '@mui/material';
 
 import DetailsIndicator from '@northern.tech/common-ui/DetailsIndicator';
 import DetailsTable from '@northern.tech/common-ui/DetailsTable';
-import Time, { RelativeTime } from '@northern.tech/common-ui/Time';
+import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { twoFAStates } from '@northern.tech/store/constants';
+
+const authChipProps = {
+  className: 'margin-left-x-small',
+  size: 'small',
+  variant: 'outlined',
+  color: 'warning'
+};
 
 const columnData = [
   {
@@ -31,13 +37,18 @@ const columnData = [
     render: user => (
       <>
         <span>{user.email}</span>
-        {user.tfa_status === twoFAStates.enabled && (
-          <Chip className="margin-left-small" icon={<CheckIcon titleAccess={`2FA ${twoFAStates.enabled}`} />} label="2FA" size="small" variant="outlined" />
-        )}
+        {!user.verified && <Chip {...authChipProps} label="Not verified" />}
+        {user.tfa_status !== twoFAStates.enabled && <Chip {...authChipProps} label="No 2FA" />}
       </>
     )
   },
-  { key: 'created_ts', disablePadding: false, title: 'Date created', enterpriseOnly: false, render: ({ created_ts }) => <Time value={created_ts} /> },
+  {
+    key: 'auth_type',
+    disablePadding: false,
+    title: 'Authentication',
+    enterpriseOnly: false,
+    render: ({ sso }) => (sso?.length ? 'SSO' : 'Password')
+  },
   {
     key: 'updated_ts',
     disablePadding: false,

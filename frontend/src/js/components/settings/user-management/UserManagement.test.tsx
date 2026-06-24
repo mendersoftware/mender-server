@@ -126,6 +126,7 @@ describe('UserManagement Component', () => {
     listbox = document.body.querySelector(dropDownSelector);
     const listItem = within(listbox).getByText(/releases/i);
     await user.click(listItem);
+    await user.click(screen.getByText(/sign-in & security/i));
     expect(screen.getByText(/the selected role may prevent/i)).toBeInTheDocument();
     await user.type(listbox, '{Escape}');
     expect(screen.getByRole('button', { name: /Save/i })).not.toBeDisabled();
