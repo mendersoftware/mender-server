@@ -23,7 +23,7 @@ import DeviceTags from './DeviceTags';
 export const DeviceIdentity = ({ device, setSnackbar }) => {
   const { created_ts, tier, id, identity_data = {}, status = DEVICE_STATES.accepted } = device;
 
-  const { mac, ...remainingIdentity } = identity_data;
+  const { mac, status: _status, ...remainingIdentity } = identity_data;
 
   const content = {
     ID: id || '-',
