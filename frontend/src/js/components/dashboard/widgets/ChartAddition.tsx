@@ -30,7 +30,6 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import Confirm from '@northern.tech/common-ui/Confirm';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import Form from '@northern.tech/common-ui/forms/Form';
@@ -198,12 +197,6 @@ export const ChartEditWidget = ({ groups, onSave, onCancel, selection: selection
     </Form>
   );
 };
-
-export const RemovalWidget = ({ onCancel, onClick }) => (
-  <div className="widget chart-widget relative">
-    <Confirm classes="flexbox centered confirmation-overlay" cancel={onCancel} action={onClick} style={{ justifyContent: 'center' }} type="chartRemoval" />
-  </div>
-);
 
 export const WidgetAdditionWidget = ({ onAdditionClick, ...remainder }) => {
   const [adding, setAdding] = useState(false);
