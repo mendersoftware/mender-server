@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import {
   AddCircle as AddCircleIcon,
   CheckCircle as CheckCircleIcon,
+  Delete as DeleteIcon,
   HeightOutlined as HeightOutlinedIcon,
   HighlightOffOutlined as HighlightOffOutlinedIcon,
   RemoveCircleOutlined as RemoveCircleOutlineIcon,
@@ -25,7 +26,6 @@ import {
 
 import { mdiFlaskOutline as TestIcon } from '@mdi/js';
 import { mdiFlaskOffOutline as TestOffIcon } from '@mdi/js';
-import { mdiTrashCanOutline as TrashCan } from '@mdi/js';
 import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { BaseQuickActions, type QuickAction } from '@northern.tech/common-ui/QuickActions';
 import { DEVICE_STATES, TIMEOUTS, UNGROUPED_GROUP, onboardingSteps } from '@northern.tech/store/constants';
@@ -108,7 +108,7 @@ const defaultActions = {
     checkRelevance: ({ selectedGroup, userCapabilities: { canWriteDevices } }) => canWriteDevices && !!selectedGroup
   },
   removeFromGroup: {
-    icon: <MaterialDesignIcon path={TrashCan} fontSize="small" />,
+    icon: <DeleteIcon fontSize="small" />,
     key: 'group-remove',
     title: pluralized => `Remove selected ${pluralized} from this group`,
     action: ({ onRemoveDevicesFromGroup, selection }) => onRemoveDevicesFromGroup(selection),

@@ -15,7 +15,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { Clear as ClearIcon, Settings, Square } from '@mui/icons-material';
+import { Delete as DeleteIcon, Settings, Square } from '@mui/icons-material';
 import { IconButton, LinearProgress, linearProgressClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -306,7 +306,7 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
               <Settings fontSize="small" />
             </IconButton>
             <IconButton onClick={toggleRemoving} size="small">
-              <ClearIcon fontSize="small" />
+              <DeleteIcon fontSize="small" />
             </IconButton>
           </div>
         </div>
