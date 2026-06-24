@@ -59,7 +59,7 @@ test.describe('Login', () => {
 
       // still on /login page plus an error is displayed
       await expect(page.getByRole('button', { name: /next/i })).toBeVisible();
-      await expect(page.getByText('Incorrect email address and / or password')).toBeVisible();
+      await expect(page.getByText('Incorrect email or password')).toBeVisible();
     });
 
     test('Does not log in without password', async ({ baseUrl, environment, page, username }) => {
@@ -74,7 +74,7 @@ test.describe('Login', () => {
       await page.waitForTimeout(timeouts.default);
       await page.getByRole('button', { name: /next/i }).click();
       if (environment === 'enterprise') {
-        await expect(page.getByText('Incorrect email address and / or password')).toBeVisible();
+        await expect(page.getByText('Incorrect email or password')).toBeVisible();
       }
     });
   });
