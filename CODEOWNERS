@@ -8,5 +8,6 @@ package-lock.json @mendersoftware/frontend-dependabot-reviewers
 docker-compose.yml @mendersoftware/backend-dependabot-reviewers
 compose/docker-compose.*.yml @mendersoftware/backend-dependabot-reviewers
 
-backend/Dockerfile* @mendersoftware/backend-dependabot-reviewers
+backend/**/Dockerfile* @mendersoftware/backend-dependabot-reviewers
 frontend/Dockerfile* @mendersoftware/frontend-dependabot-reviewers
+.gitlab-ci.yml @mendersoftware/backend-dependabot-reviewers
