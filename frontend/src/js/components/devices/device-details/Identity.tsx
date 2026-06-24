@@ -43,7 +43,7 @@ export const DeviceIdentity = ({ device, setSnackbar }) => {
   const { created_ts, tier, id, identity_data = {}, status = DEVICE_STATES.accepted, flags = {} } = device;
   const isTestDevice = !!flags.test_device;
   const testDeviceCount = useSelector(getTestDeviceCount);
-  const { mac, ...remainingIdentity } = identity_data;
+  const { mac, status: _status, ...remainingIdentity } = identity_data;
 
   const content = {
     ID: id || '-',
