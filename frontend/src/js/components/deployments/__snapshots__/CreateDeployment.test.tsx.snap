@@ -2478,6 +2478,67 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
 }
 
 .emotion-145 {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  background-color: transparent;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 6px 16px;
+  color: rgb(1, 67, 97);
+  background-color: rgb(229, 246, 253);
+}
+
+.emotion-145 .MuiAlert-icon {
+  color: #0288d1;
+}
+
+.emotion-146 {
+  margin-right: 12px;
+  padding: 7px 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+.emotion-147 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: inherit;
+}
+
+.emotion-148 {
+  padding: 8px 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.emotion-149 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -2514,12 +2575,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
   min-width: 88px;
 }
 
-.emotion-145.Mui-disabled {
+.emotion-149.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-145 .MuiChip-avatar {
+.emotion-149 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -2528,12 +2589,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
   font-size: 0.75rem;
 }
 
-.emotion-145 .MuiChip-icon {
+.emotion-149 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-145 .MuiChip-deleteIcon {
+.emotion-149 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -2541,56 +2602,56 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
   margin: 0 5px 0 -6px;
 }
 
-.emotion-145 .MuiChip-deleteIcon:hover {
+.emotion-149 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-145 .MuiChip-icon {
+.emotion-149 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-145.MuiChip-clickable:hover {
+.emotion-149.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-145.Mui-focusVisible {
+.emotion-149.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-145 .MuiChip-avatar {
+.emotion-149 .MuiChip-avatar {
   margin-left: 4px;
 }
 
-.emotion-145 .MuiChip-icon {
+.emotion-149 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-145 .MuiChip-deleteIcon {
+.emotion-149 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-147 {
+.emotion-151 {
   min-width: 120px;
 }
 
-.emotion-148 {
+.emotion-152 {
   height: 32px;
   padding-left: 8px;
   width: 100%;
 }
 
-.emotion-149 {
+.emotion-153 {
   background-color: rgba(0, 0, 0, 0.6);
   height: 3px;
   width: 100%;
   margin-right: -8px;
 }
 
-.emotion-149 svg {
+.emotion-153 svg {
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-176 {
+.emotion-180 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2647,33 +2708,33 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-176::-moz-focus-inner {
+.emotion-180::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-176.Mui-disabled {
+.emotion-180.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-176 {
+  .emotion-180 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-176:hover {
+.emotion-180:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-176.Mui-disabled {
+.emotion-180.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-176:hover {
+  .emotion-180:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -2681,11 +2742,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
   }
 }
 
-.emotion-176.MuiButton-loading {
+.emotion-180.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-177 {
+.emotion-181 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2742,57 +2803,57 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-177::-moz-focus-inner {
+.emotion-181::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-177.Mui-disabled {
+.emotion-181.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-177 {
+  .emotion-181 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-177:hover {
+.emotion-181:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-177.Mui-disabled {
+.emotion-181.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-177:hover {
+.emotion-181:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-177:hover {
+  .emotion-181:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-177:active {
+.emotion-181:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-177.Mui-focusVisible {
+.emotion-181.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-177.Mui-disabled {
+.emotion-181.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-177:hover {
+  .emotion-181:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -2800,7 +2861,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
   }
 }
 
-.emotion-177.MuiButton-loading {
+.emotion-181.MuiButton-loading {
   color: transparent;
 }
 
@@ -3823,6 +3884,32 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
                         class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-54"
                       >
                         <div
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-top-small margin-bottom-small emotion-145"
+                          role="alert"
+                          style="--Paper-shadow: none;"
+                        >
+                          <div
+                            class="MuiAlert-icon emotion-146"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-147"
+                              data-testid="InfoOutlinedIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+                              />
+                            </svg>
+                          </div>
+                          <div
+                            class="MuiAlert-message emotion-148"
+                          >
+                            Synchronized updates have been removed in Mender Client 4.0. Configuring pause states between update steps will have no effect on deployments targeting devices running Mender Client 4.0 or later.
+                          </div>
+                        </div>
+                        <div
                           class=""
                         >
                           <div
@@ -3833,7 +3920,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
                             >
                               <div
                                 aria-label="The Artifact is downloaded (streamed) to the inactive partition."
-                                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-145"
+                                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-149"
                                 data-mui-internal-clone-element="true"
                               >
                                 <span
@@ -3843,13 +3930,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
                                 </span>
                               </div>
                               <div
-                                class="flexbox column align-items-center emotion-147"
+                                class="flexbox column align-items-center emotion-151"
                               >
                                 <div
-                                  class="flexbox centered emotion-148"
+                                  class="flexbox centered emotion-152"
                                 >
                                   <div
-                                    class="emotion-149"
+                                    class="emotion-153"
                                   />
                                   <svg
                                     aria-hidden="true"
@@ -3865,7 +3952,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
                                 </div>
                               </div>
                               <div
-                                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-145"
+                                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-149"
                                 data-mui-internal-clone-element="true"
                               >
                                 <span
@@ -3875,13 +3962,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
                                 </span>
                               </div>
                               <div
-                                class="flexbox column align-items-center emotion-147"
+                                class="flexbox column align-items-center emotion-151"
                               >
                                 <div
-                                  class="flexbox centered emotion-148"
+                                  class="flexbox centered emotion-152"
                                 >
                                   <div
-                                    class="emotion-149"
+                                    class="emotion-153"
                                   />
                                   <svg
                                     aria-hidden="true"
@@ -3898,7 +3985,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
                               </div>
                               <div
                                 aria-label="The device will reboot and the installed update will be active when the device boots up again. As changes are not yet committed, the update is not persistent and the device will still roll back again on the next reboot."
-                                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-145"
+                                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-149"
                                 data-mui-internal-clone-element="true"
                               >
                                 <span
@@ -3908,13 +3995,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
                                 </span>
                               </div>
                               <div
-                                class="flexbox column align-items-center emotion-147"
+                                class="flexbox column align-items-center emotion-151"
                               >
                                 <div
-                                  class="flexbox centered emotion-148"
+                                  class="flexbox centered emotion-152"
                                 >
                                   <div
-                                    class="emotion-149"
+                                    class="emotion-153"
                                   />
                                   <svg
                                     aria-hidden="true"
@@ -3931,7 +4018,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
                               </div>
                               <div
                                 aria-label="If the update passes integrity checks, Mender will mark the update as successful and continue running from this partition. The commit makes the update persistent."
-                                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-145"
+                                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-149"
                                 data-mui-internal-clone-element="true"
                               >
                                 <span
@@ -4042,7 +4129,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
       class="margin-top relative"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-176"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-180"
         style="margin-right: 10px;"
         tabindex="0"
         type="button"
@@ -4050,7 +4137,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-96:focus::-ms-input-
         Cancel
       </button>
       <button
-        class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-177"
+        class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-181"
         disabled=""
         tabindex="-1"
         type="button"
@@ -9710,6 +9797,67 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
 }
 
 .emotion-19 {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  background-color: transparent;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 6px 16px;
+  color: rgb(1, 67, 97);
+  background-color: rgb(229, 246, 253);
+}
+
+.emotion-19 .MuiAlert-icon {
+  color: #0288d1;
+}
+
+.emotion-20 {
+  margin-right: 12px;
+  padding: 7px 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+.emotion-21 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: inherit;
+}
+
+.emotion-22 {
+  padding: 8px 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.emotion-23 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -9746,12 +9894,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   min-width: 88px;
 }
 
-.emotion-19.Mui-disabled {
+.emotion-23.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-19 .MuiChip-avatar {
+.emotion-23 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -9760,12 +9908,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 0.75rem;
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-19 .MuiChip-deleteIcon {
+.emotion-23 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -9773,65 +9921,65 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   margin: 0 5px 0 -6px;
 }
 
-.emotion-19 .MuiChip-deleteIcon:hover {
+.emotion-23 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-19.MuiChip-clickable:hover {
+.emotion-23.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-19.Mui-focusVisible {
+.emotion-23.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-19 .MuiChip-avatar {
+.emotion-23 .MuiChip-avatar {
   margin-left: 4px;
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-19 .MuiChip-deleteIcon {
+.emotion-23 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-21 {
+.emotion-25 {
   min-width: 120px;
 }
 
-.emotion-22 {
+.emotion-26 {
   height: 32px;
   padding-left: 8px;
   width: 100%;
 }
 
-.emotion-23 {
+.emotion-27 {
   background-color: rgba(0, 0, 0, 0.6);
   height: 3px;
   width: 100%;
   margin-right: -8px;
 }
 
-.emotion-23 svg {
+.emotion-27 svg {
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-39 {
+.emotion-43 {
   margin: auto;
   margin-left: 0;
 }
 
-.emotion-39:hover svg {
+.emotion-43:hover svg {
   color: #1565c0;
 }
 
-.emotion-40 {
+.emotion-44 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -9849,11 +9997,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   color: #1976d2;
 }
 
-.emotion-40.read {
+.emotion-44.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-41 {
+.emotion-45 {
   position: absolute;
   top: -4px;
   bottom: -4px;
@@ -9863,11 +10011,11 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   border-radius: 50%;
 }
 
-.emotion-41.read {
+.emotion-45.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-41:hover {
+.emotion-45:hover {
   border-color: #1565c0;
 }
 
@@ -9996,6 +10144,32 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
         class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-18"
       >
         <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-top-small margin-bottom-small emotion-19"
+          role="alert"
+          style="--Paper-shadow: none;"
+        >
+          <div
+            class="MuiAlert-icon emotion-20"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-21"
+              data-testid="InfoOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+              />
+            </svg>
+          </div>
+          <div
+            class="MuiAlert-message emotion-22"
+          >
+            Synchronized updates have been removed in Mender Client 4.0. Configuring pause states between update steps will have no effect on deployments targeting devices running Mender Client 4.0 or later.
+          </div>
+        </div>
+        <div
           class=""
         >
           <div
@@ -10006,7 +10180,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
             >
               <div
                 aria-label="The Artifact is downloaded (streamed) to the inactive partition."
-                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-19"
+                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-23"
                 data-mui-internal-clone-element="true"
               >
                 <span
@@ -10016,13 +10190,13 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column align-items-center emotion-21"
+                class="flexbox column align-items-center emotion-25"
               >
                 <div
-                  class="flexbox centered emotion-22"
+                  class="flexbox centered emotion-26"
                 >
                   <div
-                    class="emotion-23"
+                    class="emotion-27"
                   />
                   <svg
                     aria-hidden="true"
@@ -10038,7 +10212,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </div>
               </div>
               <div
-                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-19"
+                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-23"
                 data-mui-internal-clone-element="true"
               >
                 <span
@@ -10048,13 +10222,13 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column align-items-center emotion-21"
+                class="flexbox column align-items-center emotion-25"
               >
                 <div
-                  class="flexbox centered emotion-22"
+                  class="flexbox centered emotion-26"
                 >
                   <div
-                    class="emotion-23"
+                    class="emotion-27"
                   />
                   <svg
                     aria-hidden="true"
@@ -10071,7 +10245,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               </div>
               <div
                 aria-label="The device will reboot and the installed update will be active when the device boots up again. As changes are not yet committed, the update is not persistent and the device will still roll back again on the next reboot."
-                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-19"
+                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-23"
                 data-mui-internal-clone-element="true"
               >
                 <span
@@ -10081,13 +10255,13 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column align-items-center emotion-21"
+                class="flexbox column align-items-center emotion-25"
               >
                 <div
-                  class="flexbox centered emotion-22"
+                  class="flexbox centered emotion-26"
                 >
                   <div
-                    class="emotion-23"
+                    class="emotion-27"
                   />
                   <svg
                     aria-hidden="true"
@@ -10104,7 +10278,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               </div>
               <div
                 aria-label="If the update passes integrity checks, Mender will mark the update as successful and continue running from this partition. The commit makes the update persistent."
-                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-19"
+                class="MuiChip-root MuiChip-outlined Mui-disabled MuiChip-sizeMedium MuiChip-colorDefault emotion-23"
                 data-mui-internal-clone-element="true"
               >
                 <span
@@ -10120,12 +10294,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
             style="margin-top: -30px;"
           >
             <div
-              class="relative flexbox emotion-39  "
+              class="relative flexbox emotion-43  "
               data-mui-internal-clone-element="true"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-40"
+                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-44"
                 data-testid="HelpIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -10135,7 +10309,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 />
               </svg>
               <div
-                class="emotion-41 "
+                class="emotion-45 "
               />
             </div>
           </div>
@@ -10726,6 +10900,67 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
 }
 
 .emotion-19 {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  background-color: transparent;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 6px 16px;
+  color: rgb(1, 67, 97);
+  background-color: rgb(229, 246, 253);
+}
+
+.emotion-19 .MuiAlert-icon {
+  color: #0288d1;
+}
+
+.emotion-20 {
+  margin-right: 12px;
+  padding: 7px 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+.emotion-21 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: inherit;
+}
+
+.emotion-22 {
+  padding: 8px 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.emotion-23 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -10762,12 +10997,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   min-width: 88px;
 }
 
-.emotion-19.Mui-disabled {
+.emotion-23.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-19 .MuiChip-avatar {
+.emotion-23 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -10776,12 +11011,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 0.75rem;
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-19 .MuiChip-deleteIcon {
+.emotion-23 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -10789,63 +11024,63 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   margin: 0 5px 0 -6px;
 }
 
-.emotion-19 .MuiChip-deleteIcon:hover {
+.emotion-23 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-19.MuiChip-clickable:hover {
+.emotion-23.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-19.Mui-focusVisible {
+.emotion-23.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-19 .MuiChip-avatar {
+.emotion-23 .MuiChip-avatar {
   margin-left: 4px;
 }
 
-.emotion-19 .MuiChip-icon {
+.emotion-23 .MuiChip-icon {
   margin-left: 4px;
 }
 
-.emotion-19 .MuiChip-deleteIcon {
+.emotion-23 .MuiChip-deleteIcon {
   margin-right: 5px;
 }
 
-.emotion-21 {
+.emotion-25 {
   min-width: 120px;
 }
 
-.emotion-22 {
+.emotion-26 {
   height: 32px;
   padding-left: 8px;
   width: 100%;
 }
 
-.emotion-23 {
+.emotion-27 {
   background-color: rgba(0, 0, 0, 0.6);
   height: 3px;
   width: 100%;
   margin-right: -8px;
 }
 
-.emotion-23 svg {
+.emotion-27 svg {
   color: rgba(0, 0, 0, 0.6);
 }
 
-.emotion-25 {
+.emotion-29 {
   border-left: #9e9e9e dashed 1px;
   height: 48px;
   margin: 4px;
   margin-top: -10px;
 }
 
-.emotion-26 {
+.emotion-30 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -10921,28 +11156,28 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   margin-right: -24px;
 }
 
-.emotion-26::-moz-focus-inner {
+.emotion-30::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-26.Mui-disabled {
+.emotion-30.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-26 {
+  .emotion-30 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-26.Mui-disabled {
+.emotion-30.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-26 .MuiChip-avatar {
+.emotion-30 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -10951,12 +11186,12 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 0.75rem;
 }
 
-.emotion-26 .MuiChip-icon {
+.emotion-30 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-26 .MuiChip-deleteIcon {
+.emotion-30 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -10964,50 +11199,50 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   margin: 0 5px 0 -6px;
 }
 
-.emotion-26 .MuiChip-deleteIcon:hover {
+.emotion-30 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-26 .MuiChip-avatar {
+.emotion-30 .MuiChip-avatar {
   color: #fff;
   background-color: #1565c0;
 }
 
-.emotion-26 .MuiChip-deleteIcon {
+.emotion-30 .MuiChip-deleteIcon {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.emotion-26 .MuiChip-deleteIcon:hover,
-.emotion-26 .MuiChip-deleteIcon:active {
+.emotion-30 .MuiChip-deleteIcon:hover,
+.emotion-30 .MuiChip-deleteIcon:active {
   color: #fff;
 }
 
-.emotion-26 .MuiChip-icon {
+.emotion-30 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-26 .MuiChip-icon {
+.emotion-30 .MuiChip-icon {
   color: inherit;
 }
 
-.emotion-26:hover {
+.emotion-30:hover {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-26.Mui-focusVisible {
+.emotion-30.Mui-focusVisible {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.emotion-26:active {
+.emotion-30:active {
   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-26:hover,
-.emotion-26.Mui-focusVisible {
+.emotion-30:hover,
+.emotion-30.Mui-focusVisible {
   background-color: #1565c0;
 }
 
-.emotion-27 {
+.emotion-31 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -11024,7 +11259,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
   font-size: 1.5rem;
 }
 
-.emotion-51 {
+.emotion-55 {
   color: rgba(0, 0, 0, 0.38);
   margin: 15px 0;
 }
@@ -11153,6 +11388,32 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
         class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-18"
       >
         <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-top-small margin-bottom-small emotion-19"
+          role="alert"
+          style="--Paper-shadow: none;"
+        >
+          <div
+            class="MuiAlert-icon emotion-20"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-21"
+              data-testid="InfoOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+              />
+            </svg>
+          </div>
+          <div
+            class="MuiAlert-message emotion-22"
+          >
+            Synchronized updates have been removed in Mender Client 4.0. Configuring pause states between update steps will have no effect on deployments targeting devices running Mender Client 4.0 or later.
+          </div>
+        </div>
+        <div
           class=""
         >
           <div
@@ -11163,7 +11424,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
             >
               <div
                 aria-label="The Artifact is downloaded (streamed) to the inactive partition."
-                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-19"
+                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-23"
                 data-mui-internal-clone-element="true"
               >
                 <span
@@ -11173,13 +11434,13 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column align-items-center emotion-21"
+                class="flexbox column align-items-center emotion-25"
               >
                 <div
-                  class="flexbox centered emotion-22"
+                  class="flexbox centered emotion-26"
                 >
                   <div
-                    class="emotion-23"
+                    class="emotion-27"
                   />
                   <svg
                     aria-hidden="true"
@@ -11194,16 +11455,16 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                   </svg>
                 </div>
                 <div
-                  class="emotion-25"
+                  class="emotion-29"
                 />
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-26"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-30"
                   role="button"
                   tabindex="0"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-27"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-31"
                     data-testid="AddIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -11220,7 +11481,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </div>
               </div>
               <div
-                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-19"
+                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-23"
                 data-mui-internal-clone-element="true"
               >
                 <span
@@ -11230,13 +11491,13 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column align-items-center emotion-21"
+                class="flexbox column align-items-center emotion-25"
               >
                 <div
-                  class="flexbox centered emotion-22"
+                  class="flexbox centered emotion-26"
                 >
                   <div
-                    class="emotion-23"
+                    class="emotion-27"
                   />
                   <svg
                     aria-hidden="true"
@@ -11251,16 +11512,16 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                   </svg>
                 </div>
                 <div
-                  class="emotion-25"
+                  class="emotion-29"
                 />
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-26"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-30"
                   role="button"
                   tabindex="0"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-27"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-31"
                     data-testid="AddIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -11278,7 +11539,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               </div>
               <div
                 aria-label="The device will reboot and the installed update will be active when the device boots up again. As changes are not yet committed, the update is not persistent and the device will still roll back again on the next reboot."
-                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-19"
+                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-23"
                 data-mui-internal-clone-element="true"
               >
                 <span
@@ -11288,13 +11549,13 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                 </span>
               </div>
               <div
-                class="flexbox column align-items-center emotion-21"
+                class="flexbox column align-items-center emotion-25"
               >
                 <div
-                  class="flexbox centered emotion-22"
+                  class="flexbox centered emotion-26"
                 >
                   <div
-                    class="emotion-23"
+                    class="emotion-27"
                   />
                   <svg
                     aria-hidden="true"
@@ -11309,16 +11570,16 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
                   </svg>
                 </div>
                 <div
-                  class="emotion-25"
+                  class="emotion-29"
                 />
                 <div
-                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-26"
+                  class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-clickable emotion-30"
                   role="button"
                   tabindex="0"
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-27"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-icon emotion-31"
                     data-testid="AddIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -11336,7 +11597,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               </div>
               <div
                 aria-label="If the update passes integrity checks, Mender will mark the update as successful and continue running from this partition. The commit makes the update persistent."
-                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-19"
+                class="MuiChip-root MuiChip-outlined MuiChip-sizeMedium MuiChip-colorDefault emotion-23"
                 data-mui-internal-clone-element="true"
               >
                 <span
@@ -11347,7 +11608,7 @@ exports[`CreateDeployment Component > smaller components > renders RolloutOption
               </div>
             </div>
             <p
-              class="emotion-51 "
+              class="emotion-55 "
             >
               A 'pause' means each device will pause its update after completing the previous step, and wait for approval before continuing.
               <br />
