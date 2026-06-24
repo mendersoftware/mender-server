@@ -121,7 +121,7 @@ export const Deployments = () => {
   ]);
 
   useEffect(() => {
-    if (!location.state?.internal && (isInitialized.current || !shouldInitializeFromUrl)) {
+    if (!location.state?.internal && (isInitialized.current && !shouldInitializeFromUrl)) {
       isInitialized.current = true;
       return;
     }
