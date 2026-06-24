@@ -60,13 +60,11 @@ export const useDerivedData = (watch: UseFormWatch<DeploymentFormValues>, initia
     } else if (groups[group]) {
       dispatch(getGroupDevices({ group, perPage: 1 }))
         .unwrap()
-        .then(
-          ({
-            payload: {
-              group: { total }
-            }
-          }) => setDeploymentDeviceCount(total)
-        );
+        .then(result => {
+          const total = result?.payload?.group?.total ?? 0;
+          setDeploymentDeviceCount(total);
+        })
+        .catch(() => setDeploymentDeviceCount(0));
     } else if (!initialDevices.length) {
       setDeploymentDeviceCount(0);
     }
