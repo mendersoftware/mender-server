@@ -21,6 +21,13 @@ merge-to-enterprise:
     - GITHUB_ORG="${GITHUB_REPOSITORY_ENTERPRISE%%/*}"
     - PR_BRANCH="${GITHUB_REPOSITORY_OPEN_SOURCE##*/}/$CI_COMMIT_BRANCH"
   script:
+    # Skip if only frontend changes (frontend is synced directly by sync-frontend-to-enterprise)
+    - |
+      CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "$CI_COMMIT_SHA" 2>/dev/null) || true
+      if [ -n "$CHANGED_FILES" ] && ! echo "$CHANGED_FILES" | grep -qv '^frontend/'; then
+        echo "Only frontend changes detected, skipping backend merge"
+        exit 0
+      fi
     # Get author Github username
     - |
       wget "https://api.github.com/repos/$GITHUB_REPOSITORY_OPEN_SOURCE/commits/$CI_COMMIT_SHA" \
@@ -92,6 +99,110 @@ merge-to-enterprise:
           "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/issues/$PULL_NUMBER/comments"
         exit 0;
       fi
+    # Add author as a reviewer
+    - |
+      wget --post-data "{\"reviewers\": [\"$GITHUB_USER\"]}" \
+        --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+        --header "Accept: application/vnd.github+json" \
+        --header "Content-Type: application/json" \
+        --header "X-GitHub-Api-Version: 2022-11-28" \
+        "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/pulls/$PULL_NUMBER/requested_reviewers"
+
+sync-frontend-to-enterprise:
+  stage: ".pre"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: >-
+        $CI_PROJECT_NAME == "mender-server" &&
+        $CI_COMMIT_REF_PROTECTED == "true" &&
+        $CI_COMMIT_BRANCH != ""
+      when: always
+      allow_failure: true
+    - when: never
+  image: registry.gitlab.com/northern.tech/mender/mender-test-containers/base-alpine:master
+  variables:
+    GITHUB_REPOSITORY_ENTERPRISE: "mendersoftware/mender-server-enterprise"
+    GITHUB_REPOSITORY_OPEN_SOURCE: "mendersoftware/mender-server"
+  before_script:
+    - !reference [.qa-common-network-git-clone-retry, before_script]
+    - GIT_REMOTE="https://mender-test-bot:${GITHUB_BOT_TOKEN_REPO_FULL}@github.com/$GITHUB_REPOSITORY_ENTERPRISE"
+    - GITHUB_ORG="${GITHUB_REPOSITORY_ENTERPRISE%%/*}"
+    - PR_BRANCH="${GITHUB_REPOSITORY_OPEN_SOURCE##*/}/$CI_COMMIT_BRANCH/frontend"
+  script:
+    # Skip if no frontend changes in this commit
+    - |
+      CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "$CI_COMMIT_SHA" 2>/dev/null) || true
+      if [ -n "$CHANGED_FILES" ] && ! echo "$CHANGED_FILES" | grep -q '^frontend/'; then
+        echo "No frontend changes detected, skipping frontend sync"
+        exit 0
+      fi
+    # Get author Github username
+    - |
+      wget "https://api.github.com/repos/$GITHUB_REPOSITORY_OPEN_SOURCE/commits/$CI_COMMIT_SHA" \
+        --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+        --header "Accept: application/vnd.github+json" \
+        --header "X-GitHub-Api-Version: 2022-11-28" \
+        -O commit.json
+    - GITHUB_USER=$(jq -r .author.login commit.json)
+    # Fetch enterprise target branch and prepare frontend-only changes
+    - git fetch "$GIT_REMOTE" "$CI_COMMIT_BRANCH"
+    - git checkout -b frontend-sync FETCH_HEAD
+    - git rm -rf --quiet frontend/ 2>/dev/null || true
+    - git checkout "$CI_COMMIT_SHA" -- frontend/
+    - |
+      if git diff --cached --quiet; then
+        echo "Frontend already in sync"
+        exit 0
+      fi
+    - git -c user.name="mender-test-bot" -c user.email="mender-test-bot@users.noreply.github.com" commit -m "chore: sync frontend from ${GITHUB_REPOSITORY_OPEN_SOURCE##*/} ($CI_COMMIT_SHORT_SHA)"
+    # Fetch existing PR (if any)
+    - |
+      wget "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/pulls?head=$GITHUB_ORG:$PR_BRANCH&state=open" \
+        --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+        --header "Accept: application/vnd.github+json" \
+        --header "X-GitHub-Api-Version: 2022-11-28" \
+        -O- | jq -r 'first? // ""' > pull.json
+
+    - |
+      cat > pr_body.txt << EOF
+      This is an automated PR by @mender-test-bot syncing frontend changes.
+
+      > **Note**: if a backend merge PR exists for this branch (\`${GITHUB_REPOSITORY_OPEN_SOURCE##*/}/${CI_COMMIT_BRANCH}\`), coordinate merging both PRs together.
+
+      1. Review the frontend changes.
+      2. Move from draft to "Ready to review".
+      3. Merge the PR.
+      EOF
+    - |
+      cat > pr_request_body.json << EOF
+      {
+        "title": "Sync frontend from $PR_BRANCH to enterprise",
+        "draft": true,
+        "base": "$CI_COMMIT_BRANCH",
+        "head": "$GITHUB_ORG:$PR_BRANCH",
+        "body": $(cat pr_body.txt | jq -sR tostring),
+        "maintainer_can_modify": true
+      }
+      EOF
+
+    # Force push frontend changes to the PR branch (commits are recreated from
+    # the latest enterprise target each time, so fast-forward is not possible)
+    - git push -f "$GIT_REMOTE" "HEAD:refs/heads/$PR_BRANCH"
+
+    - |
+      if test -z "$(jq -r .number pull.json)"; then
+        wget --post-file pr_request_body.json \
+          --header "Authorization: Bearer $GITHUB_BOT_TOKEN_REPO_FULL" \
+          --header "Accept: application/vnd.github+json" \
+          --header "Content-Type: application/json" \
+          --header "X-GitHub-Api-Version: 2022-11-28" \
+          -O pull.json \
+          "https://api.github.com/repos/$GITHUB_REPOSITORY_ENTERPRISE/pulls"
+      else
+        echo "Pull request exists and updated: $(jq -r .url pull.json)"
+      fi
+    - PULL_NUMBER=$(jq -r .number pull.json)
     # Add author as a reviewer
     - |
       wget --post-data "{\"reviewers\": [\"$GITHUB_USER\"]}" \
