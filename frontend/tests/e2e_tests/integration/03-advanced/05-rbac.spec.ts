@@ -11,14 +11,31 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import type { Page } from '@playwright/test';
+
 import test, { expect } from '../../fixtures/fixtures';
 import { isEnterpriseOrStaging, prepareNewPage } from '../../utils/commands';
 import { releaseTag, selectors, timeouts } from '../../utils/constants';
+import { locateReleaseByName } from '../../utils/utils.ts';
+
+// A custom role with release-read + deploy must be able to list software when creating a deployment.
+// Regression: the /deployments/software endpoints had no RBAC permission-set entry, so every non-admin
+// role was rejected with "forbidden by role-based access control" when opening the software picker.
+const expectSoftwareListingAllowed = async (page: Page) => {
+  await page.locator('.leftFixed.leftNav').getByRole('link', { name: /deployments/i }).click();
+  await page
+    .getByRole('button', { name: /create a deployment/i })
+    .first()
+    .click();
+  await page.getByRole('button', { name: 'Select software' }).click();
+  // the picker must list software rather than fail with a forbidden error
+  await expect(locateReleaseByName(page, 'mender-demo-artifact')).toBeVisible();
+};
 
 const releaseRoles = [
-  { name: 'test-releases-role', permissions: ['Read'], tag: undefined },
-  { name: `test-manage-${releaseTag}-role`, permissions: ['Manage'], tag: releaseTag },
-  { name: `test-ro-${releaseTag}-role`, permissions: ['Read'], tag: releaseTag }
+  { name: 'test-releases-deploy-role', permissions: ['Read'], tag: undefined },
+  { name: `test-manage-${releaseTag}-deploy-role`, permissions: ['Manage'], tag: releaseTag },
+  { name: `test-ro-${releaseTag}-deploy-role`, permissions: ['Read'], tag: releaseTag }
 ];
 
 test.describe('RBAC functionality', () => {
@@ -89,6 +106,15 @@ test.describe('RBAC functionality', () => {
         await nameInput.press('Tab');
         // we need to check the entire page here, since the selection list is rendered in a portal, so likely outside
         // of the dialog tree
+        // grant deploy on a device group first (on the clean dialog) so the role can create deployments and reach the software picker
+        await dialog.getByLabel(/Search groups/i).click({ force: true });
+        await page.getByRole('option', { name: 'testgroup' }).click();
+        await dialog.locator(`[id="mui-component-select-groups.0.uiPermissions"]`).click();
+        await page.getByRole('option', { name: 'Deploy', exact: true }).click();
+        await page.press('body', 'Escape');
+        // wait for the permissions menu backdrop to fully close before opening the next dropdown,
+        // otherwise the click that should open the release-tags autocomplete gets swallowed by the backdrop
+        await page.waitForTimeout(timeouts.default);
         await dialog.getByLabel(/Search release tags/i).click({ force: true });
         if (tag) {
           await page.getByRole('option', { name: tag }).click();
@@ -156,6 +182,7 @@ test.describe('RBAC functionality', () => {
       await expect(page.getByRole('button', { name: /upload/i })).not.toBeVisible();
       await page.getByRole('checkbox').first().click();
       await expect(page.getByLabel(/release-actions/i)).not.toBeVisible();
+      await expectSoftwareListingAllowed(page);
       await page.context().close();
     });
     test('read-only tagged releases', async ({ baseUrl, browser, password, request, uniqueId }) => {
@@ -167,6 +194,7 @@ test.describe('RBAC functionality', () => {
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
       await expect(page.getByRole('button', { name: /upload/i })).not.toBeVisible();
+      await expectSoftwareListingAllowed(page);
       await page.context().close();
     });
     test('manage tagged releases', async ({ baseUrl, browser, password, request, uniqueId }) => {
@@ -178,6 +206,7 @@ test.describe('RBAC functionality', () => {
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role does have permission to upload artifacts, so the button should be visible
       await expect(page.getByRole('button', { name: /upload/i })).toBeVisible();
+      await expectSoftwareListingAllowed(page);
       await page.context().close();
     });
   });
