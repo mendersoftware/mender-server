@@ -94,7 +94,7 @@ exports[`UserList Component > renders correctly 1`] = `
         class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
         scope="col"
       >
-        Date created
+        Authentication
       </th>
       <th
         class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-3"
