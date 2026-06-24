@@ -17,7 +17,7 @@ import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
+import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/Confirm';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';

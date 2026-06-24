@@ -19,7 +19,7 @@ import { Close as CloseIcon, ExpandLess as ExpandLessIcon, ExpandMore as ExpandM
 import { Button, DialogContent, Divider, Typography, menuItemClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
+import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
