@@ -183,6 +183,8 @@ export const DeviceGroups = () => {
     } else if (filters.length) {
       // dispatch setDeviceFilters even when filters are empty, otherwise filter will not be reset
       dispatch(setDeviceFilters(filters));
+    } else if (selectedGroup) {
+      dispatch(selectGroup({ group: '' }));
     }
     // preset selectedIssues and selectedId with empty values, in case if remain properties are missing them
     const listState = { ...remainder };
