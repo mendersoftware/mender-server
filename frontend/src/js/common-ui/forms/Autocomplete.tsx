@@ -25,11 +25,18 @@ export const ControlledAutoComplete = ({ freeSolo, name, onChange, onInputChange
       name={name}
       render={({ field: { onChange: formOnChange, ref, value, ...field } }) => {
         const onChangeHandler = (_e, data) => formOnChange(data);
+        const onInputChangeHandler = (_e, data, reason) => {
+          if (reason === 'reset' && !_e) {
+            return;
+          }
+          formOnChange(data);
+        };
         const wrappedRenderInput = params => renderInput({ ...params, inputRef: ref });
         return (
           <Autocomplete
+            autoSelect={false}
             {...field}
-            {...(freeSolo ? { freeSolo: true, inputValue: value ?? '', onInputChange: onChangeHandler } : { value: value ?? null, onChange: onChangeHandler })}
+            {...(freeSolo ? { freeSolo: true, inputValue: value ?? '', onInputChange: onInputChangeHandler } : { value: value ?? null, onChange: onChangeHandler })}
             renderInput={wrappedRenderInput}
             {...remainder}
           />
