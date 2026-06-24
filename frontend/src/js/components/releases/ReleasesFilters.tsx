@@ -16,9 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { TextField, Typography } from '@mui/material';
 
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
+import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
 import { getReleaseListState, getReleaseTags, getUpdateTypes as getUpdateTypesSelector } from '@northern.tech/store/selectors';
 import { setReleasesListState } from '@northern.tech/store/thunks';

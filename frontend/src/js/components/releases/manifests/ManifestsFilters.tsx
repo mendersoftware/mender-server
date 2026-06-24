@@ -16,8 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Typography } from '@mui/material';
 
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
+import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import ClickFilter from '@northern.tech/common-ui/forms/ClickFilter';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
 import { getIsEnterprise, getManifestTags, getManifestsListState } from '@northern.tech/store/selectors';

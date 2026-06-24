@@ -23,12 +23,12 @@ import { makeStyles } from 'tss-react/mui';
 
 import { mdiCloudUploadOutline } from '@mdi/js';
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import Link from '@northern.tech/common-ui/Link';
 import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { getManifestTags } from '@northern.tech/store/releasesSlice/selectors';
 import { checkReleasesExistence, generateManifest, getManifest, getSoftware, uploadManifest } from '@northern.tech/store/releasesSlice/thunks';

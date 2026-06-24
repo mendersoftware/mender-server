@@ -26,7 +26,6 @@ import { Button, DialogActions, DialogContent, Tooltip, Typography } from '@mui/
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/Confirm';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
@@ -36,6 +35,7 @@ import { BaseQuickActions, type QuickAction } from '@northern.tech/common-ui/Qui
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';

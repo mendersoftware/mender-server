@@ -17,9 +17,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { FormControl, InputLabel, OutlinedInput, TextField, inputLabelClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';

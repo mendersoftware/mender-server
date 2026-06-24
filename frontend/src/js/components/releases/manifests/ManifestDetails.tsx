@@ -17,12 +17,12 @@ import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { ConfirmationButtons, EditButton } from '@northern.tech/common-ui/Confirm';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { EditableLongText } from '@northern.tech/common-ui/EditableLongText';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import storeActions from '@northern.tech/store/actions';
 import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS } from '@northern.tech/store/constants';
