@@ -116,7 +116,7 @@ export const PrivateSPRoutes = () => (
         <Route path=":tenantId" element={null} />
       </Route>
       <Route path={routeConfigs.subscription.path} element={<LimitChangeRequestForm />} />
-      <Route path="*" element={<Navigate to={routeConfigs.tenants.path} replace />} />
+      <Route path="*" element={<Navigate to={`/${routeConfigs.tenants.path}`} replace />} />
     </Route>
   </Routes>
 );
