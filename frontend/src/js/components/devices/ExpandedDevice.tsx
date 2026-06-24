@@ -298,7 +298,14 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
       }}
       notification={<DeviceNotifications alerts={latestAlerts} device={device} onClick={scrollToMonitor} />}
     >
-      <Tabs value={selectedTab} onChange={(e, tab) => setDetailsTab(tab)} textColor="primary">
+      <Tabs
+        value={selectedTab}
+        onChange={(e, tab) => setDetailsTab(tab)}
+        textColor="primary"
+        variant="scrollable"
+        scrollButtons="auto"
+        allowScrollButtonsMobile
+      >
         {availableTabs.map(item => (
           <Tab key={item.value} label={item.title({ integrations })} value={item.value} />
         ))}
