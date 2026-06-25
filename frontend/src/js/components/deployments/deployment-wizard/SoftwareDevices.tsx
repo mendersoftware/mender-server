@@ -254,12 +254,11 @@ export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, re
     },
     [deploymentRelease, setValue]
   );
-
-  const releaseDeviceTypes = selectedRelease?.device_types_compatible ?? [];
+  const compatibleTypes = deploymentRelease?.compatible_types || [];
   const devicetypesInfo = (
-    <Tooltip title={<p>{releaseDeviceTypes.join(', ')}</p>} placement="bottom">
+    <Tooltip title={<p>{compatibleTypes.join(', ')}</p>} placement="bottom">
       <Link>
-        {releaseDeviceTypes.length} device {pluralize('types', releaseDeviceTypes.length)}
+        {compatibleTypes.length} {deploymentRelease?.kind === 'manifest' ? 'system' : 'device'} {pluralize('types', compatibleTypes.length)}
       </Link>
     </Tooltip>
   );
@@ -294,7 +293,7 @@ export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, re
           {!releaseItems.length ? (
             <ReleasesWarning lacksReleases />
           ) : (
-            !!releaseDeviceTypes.length && <InfoText style={{ marginBottom: 0 }}>This software is compatible with {devicetypesInfo}.</InfoText>
+            !!compatibleTypes.length && <InfoText style={{ marginBottom: 0 }}>This software is compatible with {devicetypesInfo}.</InfoText>
           )}
         </div>
         <div className="margin-left-small">
