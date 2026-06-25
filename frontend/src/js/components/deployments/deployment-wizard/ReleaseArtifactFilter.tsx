@@ -16,7 +16,7 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 import { Close as CloseIcon, ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon, FilterList as FilterListIcon } from '@mui/icons-material';
-import { Button, DialogContent, Divider, TextField, Typography } from '@mui/material';
+import { Button, DialogContent, Divider, Typography, menuItemClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
@@ -24,7 +24,7 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
+import { ControlledSelect } from '@northern.tech/common-ui/forms/ControlledSelect';
 import { BENEFITS } from '@northern.tech/store/constants';
 import type { SoftwareKind } from '@northern.tech/store/releasesSlice';
 import { getFeatures, getIsEnterprise, getSoftwareTags, getUpdateTypes } from '@northern.tech/store/selectors';
@@ -47,6 +47,12 @@ const useStyles = makeStyles()(theme => ({
   },
   dialogContainer: {
     height: '75vh'
+  },
+  kindMenu: {
+    [`& .${menuItemClasses.root}.${menuItemClasses.disabled}`]: { opacity: 1 }
+  },
+  enterpriseChip: {
+    pointerEvents: 'auto'
   }
 }));
 interface SoftwareArtifactFilterProps {
@@ -57,7 +63,7 @@ interface SoftwareArtifactFilterProps {
   selectedSoftware?: string;
 }
 
-type SoftwareKindOption = { key: SoftwareKind; title: string };
+type SoftwareKindOption = { disabled?: boolean; key: SoftwareKind; title: string };
 const softwareKindOptions: Record<SoftwareKind, SoftwareKindOption> = {
   release: { key: 'release', title: 'Release' },
   manifest: { key: 'manifest', title: 'Manifest' }
@@ -123,6 +129,10 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
       .then(({ software }) => setSoftwareItems(software));
   }, [open, debouncedFilters, dispatch]);
   const { isDirty } = formState;
+  const kindOptions: SoftwareKindOption[] = Object.values(softwareKindOptions).map(option => ({
+    ...option,
+    disabled: option.key === softwareKindOptions.manifest.key && !isEnterprise
+  }));
   const [tags, type, _, debouncedKind] = debouncedFilters;
   const filterCount = tags.length + Number(debouncedKind !== softwareKindOptions.manifest.key && !!type) + Number(!!debouncedKind);
 
@@ -161,15 +171,28 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
                   <div className="flexbox column">
                     <div className="flexbox align-items-center margin-bottom-x-small">
                       <Typography variant="subtitle2">Software type</Typography>
-                      <EnterpriseNotification className="margin-left-small" id={BENEFITS.manifests.id} />
                     </div>
-                    <ControlledAutoComplete
+                    <ControlledSelect
+                      className={classes.kindMenu}
                       name="kind"
                       disabled={!!kind}
-                      options={Object.keys(softwareKindOptions) as SoftwareKind[]}
-                      getOptionLabel={(value: SoftwareKind) => softwareKindOptions[value].title}
-                      getOptionDisabled={(option: SoftwareKind) => option === softwareKindOptions.manifest.key && !isEnterprise}
-                      renderInput={params => <TextField {...params} label="Select type" placeholder="Select type" />}
+                      options={kindOptions}
+                      selectionAttribute="key"
+                      labelAttribute="title"
+                      placeholder="Select type"
+                      hideEmptyOption
+                      width={270}
+                      getOptionDisabled={(option: SoftwareKindOption) => option.disabled}
+                      renderOption={(option: SoftwareKindOption) => (
+                        <div className="flexbox align-items-center">
+                          <Typography className="margin-right-x-small" color={option.disabled ? 'textDisabled' : 'inherit'}>
+                            {option.title}
+                          </Typography>
+                          {option.key === softwareKindOptions.manifest.key && (
+                            <EnterpriseNotification className={classes.enterpriseChip} id={BENEFITS.manifests.id} size="small" />
+                          )}
+                        </div>
+                      )}
                     />
                   </div>
                 )}
@@ -184,10 +207,12 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
                     <Typography variant="subtitle2" className="margin-bottom-x-small">
                       Contains Artifact type
                     </Typography>
-                    <ControlledAutoComplete
+                    <ControlledSelect
                       name="type"
-                      options={updateTypes}
-                      renderInput={params => <TextField {...params} label="Select Artifact type" placeholder="Select type" />}
+                      options={updateTypes.map(updateType => ({ id: updateType, title: updateType }))}
+                      placeholder="Select Artifact type"
+                      hideEmptyOption
+                      width={270}
                     />
                   </div>
                 )}
