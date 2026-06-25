@@ -16,7 +16,7 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 import { Close as CloseIcon, ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon, FilterList as FilterListIcon } from '@mui/icons-material';
-import { Button, DialogContent, Divider, TextField, Typography } from '@mui/material';
+import { Button, DialogContent, Divider, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import ChipSelect from '@northern.tech/common-ui/ChipSelect';
@@ -24,7 +24,7 @@ import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotificat
 import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
+import { ControlledSelect } from '@northern.tech/common-ui/forms/ControlledSelect';
 import { BENEFITS } from '@northern.tech/store/constants';
 import type { SoftwareKind } from '@northern.tech/store/releasesSlice';
 import { getFeatures, getIsEnterprise, getSoftwareTags, getUpdateTypes } from '@northern.tech/store/selectors';
@@ -47,6 +47,16 @@ const useStyles = makeStyles()(theme => ({
   },
   dialogContainer: {
     height: '75vh'
+  },
+  kindOption: {
+    alignItems: 'center',
+    display: 'flex',
+    gap: theme.spacing(2),
+    justifyContent: 'space-between',
+    width: '100%'
+  },
+  enterpriseChip: {
+    pointerEvents: 'auto'
   }
 }));
 interface SoftwareArtifactFilterProps {
@@ -161,15 +171,29 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
                   <div className="flexbox column">
                     <div className="flexbox align-items-center margin-bottom-x-small">
                       <Typography variant="subtitle2">Software type</Typography>
-                      <EnterpriseNotification className="margin-left-small" id={BENEFITS.manifests.id} />
                     </div>
-                    <ControlledAutoComplete
+                    <ControlledSelect
                       name="kind"
                       disabled={!!kind}
-                      options={Object.keys(softwareKindOptions) as SoftwareKind[]}
-                      getOptionLabel={(value: SoftwareKind) => softwareKindOptions[value].title}
-                      getOptionDisabled={(option: SoftwareKind) => option === softwareKindOptions.manifest.key && !isEnterprise}
-                      renderInput={params => <TextField {...params} label="Select type" placeholder="Select type" />}
+                      options={Object.values(softwareKindOptions)}
+                      selectionAttribute="key"
+                      labelAttribute="title"
+                      placeholder="Select type"
+                      hideEmptyOption
+                      width={270}
+                      MenuProps={{ slotProps: { paper: { sx: { width: 270, '& .MuiMenuItem-root.Mui-disabled': { opacity: 1 } } } } }}
+                      getOptionDisabled={(option: SoftwareKindOption) => option.key === softwareKindOptions.manifest.key && !isEnterprise}
+                      renderOption={(option: SoftwareKindOption) => {
+                        const locked = option.key === softwareKindOptions.manifest.key && !isEnterprise;
+                        return (
+                          <span className={classes.kindOption}>
+                            <span className={locked ? 'muted' : undefined}>{option.title}</span>
+                            {option.key === softwareKindOptions.manifest.key && (
+                              <EnterpriseNotification className={classes.enterpriseChip} id={BENEFITS.manifests.id} size="small" />
+                            )}
+                          </span>
+                        );
+                      }}
                     />
                   </div>
                 )}
@@ -184,10 +208,12 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
                     <Typography variant="subtitle2" className="margin-bottom-x-small">
                       Contains Artifact type
                     </Typography>
-                    <ControlledAutoComplete
+                    <ControlledSelect
                       name="type"
-                      options={updateTypes}
-                      renderInput={params => <TextField {...params} label="Select Artifact type" placeholder="Select type" />}
+                      options={updateTypes.map(updateType => ({ id: updateType, title: updateType }))}
+                      placeholder="Select Artifact type"
+                      hideEmptyOption
+                      width={270}
                     />
                   </div>
                 )}
