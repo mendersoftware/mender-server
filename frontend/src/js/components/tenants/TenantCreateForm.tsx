@@ -187,7 +187,7 @@ export const DeviceLimitsInput = props => {
             width="550px"
           />
           {limit.limitReached && !isEdit && (
-            <FormHelperText className="margin-left-small">You have already allocated your overall limit of standard devices.</FormHelperText>
+            <FormHelperText className="margin-left-small">You have already allocated your overall limit of {limit.name} devices.</FormHelperText>
           )}
         </div>
       ))}
