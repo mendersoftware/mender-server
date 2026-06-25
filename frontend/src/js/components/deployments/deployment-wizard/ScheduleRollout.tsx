@@ -14,7 +14,7 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { FormControl, MenuItem, Select } from '@mui/material';
+import { FormControl, MenuItem, Select, Typography } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { makeStyles } from 'tss-react/mui';
 
@@ -66,7 +66,12 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
   const startTime = dayjs(start_time);
   return (
     <>
-      <h4 className={`margin-top-none ${canSchedule ? '' : commonClasses.disabled}`}>Select a start time</h4>
+      <div className="flexbox margin-bottom-x-small">
+        <Typography variant="subtitle1" className={canSchedule ? '' : commonClasses.disabled}>
+          Select a start time
+        </Typography>
+        <MenderHelpTooltip className="margin-left-small" id={HELPTOOLTIPS.scheduleDeployment.id} small />
+      </div>
       <div className={commonClasses.columns}>
         <FormControl className={classes.pickerStyle} disabled={!canSchedule}>
           <Select className={classes.textField} onChange={handleStartChange} value={start_time ? 'custom' : 0}>
@@ -76,7 +81,6 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
         </FormControl>
         <InfoHintContainer>
           <EnterpriseNotification id={BENEFITS.scheduledDeployments.id} />
-          <MenderHelpTooltip id={HELPTOOLTIPS.scheduleDeployment.id} />
         </InfoHintContainer>
       </div>
       {Boolean(isPickerOpen || start_time) && (

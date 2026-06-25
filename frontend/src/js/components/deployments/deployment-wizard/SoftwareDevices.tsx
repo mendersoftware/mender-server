@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 
 import { ErrorOutlined as ErrorOutlineIcon } from '@mui/icons-material';
 import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
-import { Alert, Button, TextField, Tooltip } from '@mui/material';
+import { Alert, Button, TextField, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
@@ -175,7 +175,9 @@ export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDyna
 
   return (
     <>
-      <h4 className="margin-top-none">Select a device group to target</h4>
+      <Typography variant="subtitle1" className="margin-bottom-x-small">
+        Select a device group to target
+      </Typography>
       <div ref={groupRef} className={classes.selection}>
         {deviceText ? (
           <TextField value={deviceText} label={pluralize('device', devices.length)} disabled className={classes.infoStyle} />
@@ -265,7 +267,10 @@ export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, re
 
   return (
     <>
-      <h4>Select software to deploy</h4>
+      <div className="flexbox align-items-center margin-bottom-x-small">
+        <Typography variant="subtitle1">Select software to deploy</Typography>
+        <MenderHelpTooltip className="margin-left-small" small id={HELPTOOLTIPS.groupDeployment.id} />
+      </div>
       <div className={commonClasses.columns}>
         <div ref={releaseRef} className={classes.selection}>
           {releaseSelectionLocked ? (
@@ -295,9 +300,6 @@ export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, re
           ) : (
             !!compatibleTypes.length && <InfoText style={{ marginBottom: 0 }}>This software is compatible with {devicetypesInfo}.</InfoText>
           )}
-        </div>
-        <div className="margin-left-small">
-          <MenderHelpTooltip id={HELPTOOLTIPS.groupDeployment.id} />
         </div>
       </div>
       {showSizeWarning && (
