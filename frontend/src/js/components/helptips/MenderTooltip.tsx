@@ -120,6 +120,7 @@ export interface HelpTooltipProps {
   id: string;
   setAllTooltipsReadState: (state: keyof typeof READ_STATES) => void;
   setTooltipReadState: (args: { id: string; persist: boolean; readState: string }) => void;
+  small?: boolean;
   tooltip: Omit<HelpTooltipComponent, 'id' | 'isRelevant' | 'readState'> & {
     isRelevant: (props: { device?: Device }) => boolean;
     readState: keyof typeof READ_STATES;
@@ -130,6 +131,7 @@ export const HelpTooltip = ({
   icon = undefined,
   id,
   className = '',
+  small = false,
   tooltip,
   device,
   setAllTooltipsReadState,
@@ -171,7 +173,7 @@ export const HelpTooltip = ({
       style={style}
       {...props}
     >
-      {icon || <HelpIcon className={`${classes.icon} ${iconClassName}`} color="primary" />}
+      {icon || <HelpIcon className={`${classes.icon} ${iconClassName}`} color="primary" fontSize={small ? 'small' : 'medium'} />}
       <div className={`${classes.iconAura} ${iconClassName}`} />
     </MenderTooltipClickable>
   );
