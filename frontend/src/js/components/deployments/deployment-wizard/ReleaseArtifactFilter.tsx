@@ -27,9 +27,9 @@ import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
 import { BENEFITS } from '@northern.tech/store/constants';
 import type { SoftwareKind } from '@northern.tech/store/releasesSlice';
-import { getFeatures, getIsEnterprise, getSoftwareById, getSoftwareListState, getSoftwareTags, getUpdateTypes } from '@northern.tech/store/selectors';
+import { getFeatures, getIsEnterprise, getSoftwareTags, getUpdateTypes } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { getSoftware } from '@northern.tech/store/thunks';
+import { getSoftwareList } from '@northern.tech/store/thunks';
 import type { Software } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
 
@@ -76,8 +76,7 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const existingTags = useSelector(getSoftwareTags);
   const updateTypes = useSelector(getUpdateTypes);
-  const { softwareIds } = useSelector(getSoftwareListState);
-  const softwareById = useSelector(getSoftwareById);
+  const [softwareItems, setSoftwareItems] = useState<Software[]>([]);
   const isEnterprise = useSelector(getIsEnterprise);
   const { hasManifestsEnabled } = useSelector(getFeatures);
   const methods = useForm({ mode: 'onChange', defaultValues: initialValues });
@@ -86,7 +85,6 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
   const selectedKind = useWatch({ control: methods.control, name: 'kind' });
   const debouncedFilters = useDebounce(filterValues, 500);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
-  const softwareItems: Software[] = softwareIds.map(id => softwareById[id]).filter((item): item is Software => Boolean(item));
 
   const onSelectSoftware = (item: Software) => {
     onSelect(item);
@@ -112,15 +110,17 @@ export const SoftwareArtifactFilter = (props: SoftwareArtifactFilterProps) => {
     }
     const [tags, type, searchTerm, debouncedKind] = debouncedFilters;
     dispatch(
-      getSoftware({
+      getSoftwareList({
         page: 1,
         perPage: 100,
         searchTerm,
         kind: debouncedKind ?? undefined,
         selectedTags: tags,
-        type: debouncedKind === softwareKindOptions.manifest.key ? undefined : (type ?? undefined)
+        type: debouncedKind === softwareKindOptions.manifest.key ? undefined : type || undefined
       })
-    );
+    )
+      .unwrap()
+      .then(({ software }) => setSoftwareItems(software));
   }, [open, debouncedFilters, dispatch]);
   const { isDirty } = formState;
   const [tags, type, _, debouncedKind] = debouncedFilters;
