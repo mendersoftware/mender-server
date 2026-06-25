@@ -44,16 +44,6 @@ exports[`smaller components > renders DeviceSoftware correctly 1`] = `
 </div>
 `;
 
-exports[`smaller components > renders DeviceStatusRenderer correctly 1`] = `
-<div>
-  <div
-    class="margin-right-small capitalized"
-  >
-    accepted
-  </div>
-</div>
-`;
-
 exports[`smaller components > renders DeviceTypes correctly 1`] = `
 <div
   title="raspberrypi4"

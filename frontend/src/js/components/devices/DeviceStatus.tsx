@@ -57,14 +57,14 @@ const useStyles = makeStyles()(theme => ({
     [`&.${chipClasses.icon}`]: {
       fontSize: 'x-small'
     }
-  }
+  },
+  status: { display: 'flex', alignItems: 'center', gap: theme.spacing(), minWidth: 220 }
 }));
 
-const DeviceStatus = ({ device: { auth_sets = [], isOffline, monitor = {}, status: deviceStatus } }) => {
+const DeviceStatus = ({ device: { auth_sets = [], flags, isOffline, monitor = {}, status: deviceStatus } }) => {
   const { classes } = useStyles();
-  let color = statusTypes.default.color;
-  let label = statusTypes.default.label;
-  let icon = statusTypes.default.icon;
+
+  let { color, icon, label } = statusTypes.default;
   let notification = statusTypes.default.notification.default;
 
   const pendingAuthSetsCount = auth_sets.filter(item => item.status === DEVICE_STATES.pending).length;
@@ -72,23 +72,24 @@ const DeviceStatus = ({ device: { auth_sets = [], isOffline, monitor = {}, statu
     icon = <NumberIcon className={classes.numberIcon} value={pendingAuthSetsCount} />;
     notification = statusTypes.authRequests.notification[deviceStatus] ?? statusTypes.authRequests.notification[DEVICE_STATES.accepted];
     label = `new ${pluralize('request', pendingAuthSetsCount)}`;
-  } else if (Object.values(monitor).some(i => i)) {
-    color = statusTypes.monitor.color;
-    icon = statusTypes.monitor.icon;
-    label = statusTypes.monitor.label;
+  } else if (Object.values(monitor).some(Boolean)) {
+    ({ color, icon, label } = statusTypes.monitor);
     notification = statusTypes.monitor.notification.default;
   } else if (isOffline) {
-    color = statusTypes.offline.color;
-    icon = statusTypes.offline.icon;
-    label = statusTypes.offline.label;
+    ({ color, icon, label } = statusTypes.offline);
     notification = statusTypes.offline.notification.default;
   }
-  return label ? (
-    <Tooltip arrow title={notification} placement="bottom">
-      <Chip className="margin-right-small capitalized" size="small" color={color} icon={icon} label={label} variant="outlined" />
-    </Tooltip>
-  ) : (
-    <div className="margin-right-small capitalized">{deviceStatus}</div>
+  return (
+    <div className={classes.status}>
+      {label ? (
+        <Tooltip arrow title={notification} placement="bottom">
+          <Chip className="capitalized" size="small" color={color} icon={icon} label={label} variant="outlined" />
+        </Tooltip>
+      ) : (
+        <div className="capitalized">{deviceStatus}</div>
+      )}
+      {flags?.test_device && <Chip label="Test" size="small" />}
+    </div>
   );
 };
 

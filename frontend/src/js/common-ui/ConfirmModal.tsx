@@ -25,14 +25,26 @@ interface ConfirmModalProps {
   confirmButtonText?: string;
   description: ReactNode;
   header: string;
+  isDanger?: boolean;
   maxWidth?: DialogProps['maxWidth'];
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<unknown>;
   open: boolean;
   toType?: string;
 }
 export const ConfirmModal = (props: ConfirmModalProps) => {
-  const { close, onConfirm, className = '', toType, header, description, open, maxWidth = 'xs', confirmButtonText = 'Confirm' } = props;
+  const { close, onConfirm, className = '', toType, header, description, open, maxWidth = 'xs', confirmButtonText = 'Confirm', isDanger = true } = props;
   const [inputValue, setInputValue] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await Promise.resolve(onConfirm());
+      close();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <BaseDialog
       title={header}
@@ -43,16 +55,12 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
       slotProps={{
         paper: {
           component: 'form',
-          onSubmit: (event: FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            onConfirm();
-            close();
-          }
+          onSubmit
         }
       }}
     >
       <DialogContent>
-        <DialogContentText>{description}</DialogContentText>
+        {typeof description === 'string' ? <DialogContentText>{description}</DialogContentText> : description}
         {toType && (
           <>
             <DialogContentText className="margin-top-small margin-bottom-small">Type &#39;{toType}&#39; below to continue</DialogContentText>
@@ -70,10 +78,10 @@ export const ConfirmModal = (props: ConfirmModalProps) => {
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={close} size="small">
+        <Button onClick={close} disabled={isSubmitting}>
           Cancel
         </Button>
-        <Button color="error" type="submit" variant="contained" disabled={!!toType && inputValue !== toType} size="small">
+        <Button color={isDanger ? 'error' : 'primary'} type="submit" variant="contained" loading={isSubmitting} disabled={!!toType && inputValue !== toType}>
           {confirmButtonText}
         </Button>
       </DialogActions>

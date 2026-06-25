@@ -60,12 +60,6 @@ export const DeviceCreationTime = ({ device }) =>
     '-'
   );
 
-export const DeviceStatusRenderer = ({ device }) => (
-  <div>
-    <DeviceStatus device={device} />
-  </div>
-);
-
 export const AcceptedEmptyState = ({ allCount }) => (
   <div className="dashboard-placeholder">
     <p>No devices found</p>
@@ -148,7 +142,7 @@ export const defaultHeaders = {
   deviceStatus: {
     title: 'Status',
     attribute: { name: 'status', scope: 'identity' },
-    component: DeviceStatusRenderer,
+    component: DeviceStatus,
     sortable: true,
     textRender: defaultTextRender
   },
