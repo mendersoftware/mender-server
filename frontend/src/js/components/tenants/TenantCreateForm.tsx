@@ -135,6 +135,7 @@ export const DeviceLimitsInput = props => {
         };
     return {
       ...limit,
+      quotaLeft,
       rules,
       maxPlaceholder: unlimited ? 'Device limit' : `Maximum: ${(quotaLeft || 0).toLocaleString()}`
     };
