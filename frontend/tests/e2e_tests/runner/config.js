@@ -55,6 +55,7 @@ export const createConfig = (options = {}) => {
 
   const baseConfig = {
     baseUrl,
+    composeFiles: [],
     environment,
     guiRepository,
     interactive: options.interactive || false,
