@@ -30,7 +30,7 @@
   "vulnerabilityAlerts": {
     "enabled": true,
     "schedule": ["at any time"],
-    "automerge": true,
+    "automerge": false,
     "automergeType": "pr",
     "labels": ["security"]
   },
