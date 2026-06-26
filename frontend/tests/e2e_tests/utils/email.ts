@@ -212,6 +212,9 @@ export const setupEmailClient = (username: string, environment: string): EmailCl
     const userId = username.replace(/(^[^+]+)(\+[^@]+)?(@.*)$/, '$1$3');
     return new GmailEmailClient(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, process.env.GOOGLE_REFRESH_TOKEN, userId);
   } else if (environment == 'enterprise') {
+    if (process.env.BASE_URL && !process.env.SMTP4DEV_URL) {
+      return null;
+    }
     const emailUrl = process.env.SMTP4DEV_URL ? process.env.SMTP4DEV_URL : 'http://localhost:8025';
     return new Smtp4devEmailClient({ baseUrl: emailUrl });
   } else {

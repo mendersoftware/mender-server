@@ -209,7 +209,10 @@ default:
 
 build:backend:docker:
   extends: .template:build:docker
-  # no rules as the job have to build every time for the review jobs
+  rules:
+    - if: '$RUN_REVIEW_E2E == "true"'
+      when: never
+    - when: on_success
   script:
     # FIXME: Only exporting deployments build stage to run unit tests
     #        We're assuming the images have consistent GOTOOLCHAIN.
@@ -319,7 +322,14 @@ review:deploy:
 
     - echo "Generating Helm values file..."
     - apt-get update && apt-get install -y gettext-base
-    - envsubst < compose/k8s/review-values.yaml.tpl > /tmp/review-values.yaml
+    - |
+      if [ "${REVIEW_APPS_ENTERPRISE}" == "true" ]; then
+        echo "Configuring enterprise setup"
+        envsubst < compose/k8s/review-values.enterprise.yaml.tpl > /tmp/review-values.yaml
+      else
+        echo "Configuring OS setup"
+        envsubst < compose/k8s/review-values.yaml.tpl > /tmp/review-values.yaml
+      fi
     - echo "Generated Helm values:"
     - cat /tmp/review-values.yaml
 
@@ -334,7 +344,12 @@ review:deploy:
 
     - echo "Creating initial tenant and user..."
     - chmod +x ./compose/k8s/create-initial-user.sh
-    - ./compose/k8s/create-initial-user.sh
+    - |
+      if [ "${REVIEW_APPS_ENTERPRISE}" == "true" ]; then
+        ./compose/k8s/create-initial-user.sh --enterprise
+      else
+        ./compose/k8s/create-initial-user.sh
+      fi
 
     - echo "=== Deployment Information ==="
     - echo "URL - https://${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
@@ -399,6 +414,37 @@ review:stop:
     - kubectl delete namespace ${NAMESPACE} --wait=true --timeout=10m || echo "Namespace not found or already deleted"
 
     - echo "Review app cleanup completed successfully!"
+
+review:e2e-tests:
+  stage: review
+  image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/mendersoftware/mender-test-containers:gui-e2e-testing
+  needs: []
+  rules:
+    - if: '$RUN_REVIEW_E2E == "true"'
+      when: always
+    - when: never
+  services:
+    - name: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/docker:${DOCKER_VERSION}-dind
+      alias: docker
+  variables:
+    CI: 1
+    BASE_URL: "${REVIEW_APPS_BASE_URL}"
+    STAGING_USER: "${REVIEW_APPS_ADMIN_USERNAME}"
+    STAGING_PASSWORD: "${REVIEW_APPS_ADMIN_PASSWORD}"
+  before_script:
+    - cd frontend/tests/e2e_tests
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npx playwright install chromium
+    # base url will rely on the env variable configured above
+    - npm run script -- --environment=${REVIEW_APPS_TEST_ENVIRONMENT} --project=chromium
+  artifacts:
+    expire_in: 2w
+    paths:
+      - frontend/tests/e2e_tests/test-results
+    when: always
+  tags:
+    - k8s
 
 test:backend:static:
   stage: test

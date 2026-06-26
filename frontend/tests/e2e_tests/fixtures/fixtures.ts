@@ -26,6 +26,7 @@ type TestFixtures = {
   demoDeviceName: string;
   demoDeviceSoftware: string;
   environment: TestEnvironment;
+  isRemote: boolean;
   page: Page;
   password: string;
   spTenantUsername: string;
@@ -48,7 +49,8 @@ const defaultConfig = {
   demoDeviceSoftware: 'original'
 };
 
-const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : coveredTest).extend<TestFixtures>({
+const test = (process.env.BASE_URL ? nonCoveredTest : coveredTest).extend<TestFixtures>({
+  isRemote: !!process.env.BASE_URL,
   page: async ({ baseUrl, page }, use) => {
     await page.goto(baseUrl);
     await page.waitForTimeout(timeouts.oneSecond);
@@ -59,32 +61,20 @@ const test = (process.env.TEST_ENVIRONMENT === 'staging' ? nonCoveredTest : cove
     const environment = (process.env.TEST_ENVIRONMENT ? process.env.TEST_ENVIRONMENT : 'os') as TestEnvironment;
     await use(environment);
   },
-  spTenantUsername: async ({ environment }, use) => {
-    let spTenantUsername = defaultConfig.spTenantUsername;
-    if (environment === 'staging') {
-      spTenantUsername = getPersistentLoginInfo().tenantUsername;
-    }
+  spTenantUsername: async ({ isRemote }, use) => {
+    const spTenantUsername = isRemote ? getPersistentLoginInfo().tenantUsername : defaultConfig.spTenantUsername;
     await use(spTenantUsername);
   },
-  uniqueId: async ({ environment }, use) => {
-    let uniqueId = '';
-    if (environment === 'staging') {
-      uniqueId = getPersistentLoginInfo().uniqueId;
-    }
+  uniqueId: async ({ isRemote }, use) => {
+    const uniqueId = isRemote ? getPersistentLoginInfo().uniqueId : '';
     await use(uniqueId);
   },
-  username: async ({ environment }, use) => {
-    let username = defaultConfig.username;
-    if (environment === 'staging') {
-      username = getPersistentLoginInfo().username;
-    }
+  username: async ({ isRemote }, use) => {
+    const username = isRemote ? getPersistentLoginInfo().username : defaultConfig.username;
     await use(username);
   },
-  password: async ({ environment }, use) => {
-    let password = defaultConfig.password;
-    if (environment === 'staging') {
-      password = getPersistentLoginInfo().password;
-    }
+  password: async ({ isRemote }, use) => {
+    const password = isRemote ? getPersistentLoginInfo().password : defaultConfig.password;
     await use(password);
   },
   baseUrl: async ({ environment }, use) => {
