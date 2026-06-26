@@ -48,6 +48,7 @@ export const ControlledSelect = ({
             transformOrigin: { vertical: 'top', horizontal: 'left' },
             slotProps: { paper: { className, sx: { minWidth: width } } }
           }}
+          slotProps={{ input: { 'aria-label': placeholder } }}
           {...remainder}
         >
           {placeholder && !hideEmptyOption && (
