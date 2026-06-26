@@ -41,7 +41,7 @@ export const DefaultUpgradeNotification = props => (
   </div>
 );
 
-const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id }) => {
+const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id, size = 'medium' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const { isEnterprise, plan: currentPlan } = tenantCapabilities;
@@ -86,7 +86,7 @@ const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id }) =>
       tooltipComponent={PlansTooltip}
       visibility={isOpen}
     >
-      <Chip className={className} onClick={yes} label={PLANS[requiredPlan].name} />
+      <Chip size={size} className={className} onClick={yes} label={PLANS[requiredPlan].name} />
     </MenderTooltipClickable>
   );
 };

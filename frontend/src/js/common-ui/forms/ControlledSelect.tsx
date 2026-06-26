@@ -15,7 +15,18 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { MenuItem, Select } from '@mui/material';
 
-export const ControlledSelect = ({ name, options = [], placeholder = '', selectionAttribute = 'id', labelAttribute = 'title', width = 240, ...remainder }) => {
+export const ControlledSelect = ({
+  name,
+  options = [],
+  placeholder = '',
+  hideEmptyOption = false,
+  selectionAttribute = 'id',
+  labelAttribute = 'title',
+  getOptionDisabled,
+  renderOption,
+  width = 240,
+  ...remainder
+}) => {
   const { control } = useFormContext();
   return (
     <Controller
@@ -33,18 +44,25 @@ export const ControlledSelect = ({ name, options = [], placeholder = '', selecti
           }}
           MenuProps={{
             anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
-            transformOrigin: { vertical: 'top', horizontal: 'left' }
+            transformOrigin: { vertical: 'top', horizontal: 'left' },
+            slotProps: { paper: { sx: { minWidth: width } } }
           }}
+          slotProps={{ input: { 'aria-label': placeholder } }}
           {...remainder}
         >
-          {placeholder && (
+          {placeholder && !hideEmptyOption && (
             <MenuItem dense={false} value="">
               <span className="muted">{placeholder}</span>
             </MenuItem>
           )}
           {options.map(option => (
-            <MenuItem dense={false} key={option[selectionAttribute]} value={option[selectionAttribute]}>
-              {option[labelAttribute]}
+            <MenuItem
+              dense={false}
+              key={option[selectionAttribute]}
+              value={option[selectionAttribute]}
+              disabled={getOptionDisabled ? getOptionDisabled(option) : undefined}
+            >
+              {renderOption ? renderOption(option) : option[labelAttribute]}
             </MenuItem>
           ))}
         </Select>
