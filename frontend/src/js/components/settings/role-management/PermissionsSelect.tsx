@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import type { FunctionComponent } from 'react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import type { PopoverProps } from '@mui/material';
@@ -87,6 +87,7 @@ export const PermissionsSelect: FunctionComponent<IPermissionsSelect> = ({
   permissionsArea,
   unscoped = false
 }) => {
+  const [open, setOpen] = useState(false);
   const { control, getValues } = useFormContext();
   const { classes } = useStyles();
   const selectedUiPermissions = name ? getValues(name) : getValues(permissionsArea.key);
@@ -95,6 +96,7 @@ export const PermissionsSelect: FunctionComponent<IPermissionsSelect> = ({
     setter =>
     ({ target: { value } }) => {
       if (value.includes('')) {
+        setOpen(false);
         return setter([]);
       }
       if (onChange) {
@@ -132,6 +134,9 @@ export const PermissionsSelect: FunctionComponent<IPermissionsSelect> = ({
             fullWidth
             MenuProps={menuProps}
             multiple
+            open={open}
+            onOpen={() => setOpen(true)}
+            onClose={() => setOpen(false)}
             renderValue={selection => renderSelectionValues(options, selection, permissionsArea, unscoped)}
             {...field}
             onChange={onInputChange(field.onChange)}
