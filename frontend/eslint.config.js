@@ -26,5 +26,10 @@ export default [
     rules: {
       'react-hooks/rules-of-hooks': 'off'
     }
+  },
+  {
+    settings: {
+      react: { version: '19' }
+    }
   }
 ];
