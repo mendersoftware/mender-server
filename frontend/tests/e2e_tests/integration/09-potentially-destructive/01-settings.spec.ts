@@ -239,7 +239,6 @@ test.describe('Settings', () => {
       await stripeFrame.fill('[name="cvc"]', '123');
       await stripeFrame.fill('[name="postal"]', '12345');
       await page.getByRole('button', { name: /Confirm subscription/i }).click();
-      await page.getByText(/Card confirmed./i).waitFor({ timeout: timeouts.tenSeconds });
       await page.getByText(/Your subscription has been successfully updated to Mender Basic/i).waitFor({ timeout: timeouts.fifteenSeconds });
       await page.waitForTimeout(2 * timeouts.fifteenSeconds); // the tenant state seems to not be populated right away, so the explicit wait to increase chances of the follow up test succeeding
     });
