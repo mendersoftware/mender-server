@@ -106,10 +106,6 @@ exports[`DeviceStatus Component > renders correctly 1`] = `
   color: #616161;
 }
 
-.emotion-1 .MuiChip-icon {
-  color: inherit;
-}
-
 .emotion-1.MuiChip-clickable:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
@@ -207,7 +203,7 @@ exports[`DeviceStatus Component > renders correctly 1`] = `
 >
   <div
     aria-label="This device has a new auth request. This can happen if the device's public key changes. Click on the row to see more details"
-    class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorText.primary capitalized emotion-1"
+    class="MuiChip-root MuiChip-outlined MuiChip-sizeSmall MuiChip-colorDefault capitalized emotion-1"
     data-mui-internal-clone-element="true"
   >
     <div

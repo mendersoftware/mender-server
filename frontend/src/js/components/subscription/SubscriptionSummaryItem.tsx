@@ -29,7 +29,7 @@ type SubscriptionSummaryItemProps = {
 export const SubscriptionSummaryItem = (props: SubscriptionSummaryItemProps) => {
   const { addons, previewPriceItem, isPreviewLoading, summaryLabel } = props;
   const disabled = previewPriceItem?.price === 0;
-  const textColor = disabled ? 'text.disabled' : 'text.primary';
+  const textColor = disabled ? 'textDisabled' : 'textPrimary';
   return (
     previewPriceItem && (
       <>

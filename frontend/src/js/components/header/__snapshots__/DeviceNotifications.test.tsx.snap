@@ -288,6 +288,17 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
   font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0.00714em;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.emotion-15 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-16 {
@@ -541,7 +552,7 @@ exports[`DeviceNotifications Component > popover renders correctly when opened 1
               </h6>
             </div>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-7"
+              class="MuiTypography-root MuiTypography-body2 emotion-15"
               data-testid="device-limit-standard"
             >
               100

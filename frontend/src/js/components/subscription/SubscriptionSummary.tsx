@@ -35,7 +35,7 @@ const NumberSkeleton = () => <Skeleton width={35} height={26} />;
 export const SubscriptionSummary = (props: SubscriptionSummaryProps) => {
   const { plan, addons: enabledAddons, title, isEnabled, isPreviewLoading, readOnly, onAction, previewPrice, deviceTypes } = props;
   const disabled = previewPrice.total === 0;
-  const textColor = disabled ? 'text.disabled' : 'text.primary';
+  const textColor = disabled ? 'textDisabled' : 'textPrimary';
   const outlinedProps = { variant: 'outlined' as const, className: 'padding' };
   return (
     <Card style={{ minWidth: '320px' }} {...(readOnly ? { elevation: 0 } : outlinedProps)}>

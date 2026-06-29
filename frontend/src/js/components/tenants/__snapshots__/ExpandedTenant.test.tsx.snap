@@ -678,6 +678,26 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
   border-radius: 4px;
 }
 
+.emotion-39 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.emotion-40 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  color: rgba(0, 0, 0, 0.87);
+}
+
 .emotion-41 {
   position: relative;
   overflow: hidden;
@@ -1108,13 +1128,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 class="flexbox"
               >
                 <h6
-                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-14"
+                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-39"
                 >
                   micro
                 </h6>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body2 emotion-16"
+                class="MuiTypography-root MuiTypography-body2 emotion-40"
                 data-testid="device-limit-micro"
               >
                 0
@@ -1164,13 +1184,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 class="flexbox"
               >
                 <h6
-                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-14"
+                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-39"
                 >
                   standard
                 </h6>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body2 emotion-16"
+                class="MuiTypography-root MuiTypography-body2 emotion-40"
                 data-testid="device-limit-standard"
               >
                 0
@@ -1220,13 +1240,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
                 class="flexbox"
               >
                 <h6
-                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-14"
+                  class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-39"
                 >
                   system
                 </h6>
               </div>
               <p
-                class="MuiTypography-root MuiTypography-body2 emotion-16"
+                class="MuiTypography-root MuiTypography-body2 emotion-40"
                 data-testid="device-limit-system"
               >
                 0
