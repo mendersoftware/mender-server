@@ -283,6 +283,71 @@ func TestDeviceConnect(t *testing.T) {
 	})
 }
 
+func TestDeviceConnectDeadPeerReaped(t *testing.T) {
+	prevPongWait := pongWait
+	prevWriteWait := writeWait
+	defer func() {
+		pongWait = prevPongWait
+		writeWait = prevWriteWait
+	}()
+	pongWait = 300 * time.Millisecond
+	writeWait = 300 * time.Millisecond
+
+	Identity := identity.Identity{
+		Subject:  "00000000-0000-0000-0000-000000000000",
+		Tenant:   "000000000000000000000000",
+		IsDevice: true,
+	}
+
+	app := &app_mocks.App{}
+	app.On("RegisterShutdownCancel",
+		mock.AnythingOfType("context.CancelFunc"),
+	).Return(uint32(1))
+	app.On("UnregisterShutdownCancel",
+		mock.AnythingOfType("uint32"),
+	).Return()
+	app.On("SetDeviceConnected",
+		mock.MatchedBy(func(_ context.Context) bool { return true }),
+		Identity.Tenant,
+		Identity.Subject,
+	).Return(int64(1), nil).Once()
+
+	disconnected := make(chan struct{})
+	app.On("SetDeviceDisconnected",
+		mock.MatchedBy(func(_ context.Context) bool { return true }),
+		Identity.Tenant,
+		Identity.Subject,
+		int64(1),
+	).Run(func(mock.Arguments) { close(disconnected) }).Return(nil).Once()
+
+	connCh := make(chan stream.Conn, 1)
+	listener := setupMockListener(t, connCh)
+	natsClient := nats_mocks.NewClient(t)
+	natsClient.On("Listen", Identity.Subject).
+		Return(listener, nil)
+
+	router, _ := NewRouter(app, natsClient, nil)
+	s := httptest.NewServer(router)
+	defer s.Close()
+
+	url := "ws" + strings.TrimPrefix(s.URL, "http")
+	headers := http.Header{}
+	headers.Set(headerAuthorization, "Bearer "+GenerateJWT(Identity))
+
+	conn, _, err := websocket.DefaultDialer.Dial(url+APIURLDevicesConnect, headers)
+	require.NoError(t, err)
+	defer conn.Close()
+
+	// Simulate an ungracefully-disconnected peer: never pong, send data, or
+	// close. Without the read deadline the server blocks in ReadMessage
+	// forever; with it the connection is reaped within ~pongWait.
+	select {
+	case <-disconnected:
+	case <-time.After(pongWait * 10):
+		t.Fatal("dead connection was not reaped: SetDeviceDisconnected not called")
+	}
+}
+
 func TestDeviceConnectFailures(t *testing.T) {
 	JWT := GenerateJWT(identity.Identity{
 		Subject:  "00000000-0000-0000-0000-000000000000",
