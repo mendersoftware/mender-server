@@ -124,6 +124,10 @@ exports[`Settings Component > renders correctly 1`] = `
   width: 550px;
 }
 
+.emotion-25 .required:after {
+  content: none;
+}
+
 .emotion-26 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;

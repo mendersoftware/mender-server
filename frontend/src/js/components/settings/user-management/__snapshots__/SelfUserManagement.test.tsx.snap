@@ -10,6 +10,10 @@ exports[`SelfUserManagement Component > renders correctly 1`] = `
   width: 550px;
 }
 
+.emotion-0 .required:after {
+  content: none;
+}
+
 .emotion-1 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;

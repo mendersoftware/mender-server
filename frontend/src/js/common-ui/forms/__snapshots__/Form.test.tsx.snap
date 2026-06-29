@@ -873,8 +873,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
             </legend>
           </fieldset>
         </div>
-        <p
-          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-14"
+        <div
+          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained flexbox align-items-center emotion-14"
         />
       </div>
     </div>

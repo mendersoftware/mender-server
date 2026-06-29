@@ -1663,8 +1663,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                   </legend>
                 </fieldset>
               </div>
-              <p
-                class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-29"
+              <div
+                class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained flexbox align-items-center emotion-29"
               />
             </div>
           </div>
@@ -1733,8 +1733,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-33:focus::-ms-input-
                   </legend>
                 </fieldset>
               </div>
-              <p
-                class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-29"
+              <div
+                class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained flexbox align-items-center emotion-29"
               />
             </div>
           </div>
