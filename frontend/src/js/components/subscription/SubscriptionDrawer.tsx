@@ -294,9 +294,9 @@ export const SubscriptionDrawer = (props: SubscriptionDrawerProps) => {
           <AlertTitle>Action required after upgrade</AlertTitle>
           <Typography>
             Upgrading your plan will invalidate existing{' '}
-            <DocsLink path="server-integration/using-the-apis#personal-access-tokens" title="Personal Access Tokens" />
-            (PATs) for all users for security reasons. After upgrade, you will need to generate new PATs for any scripts or integrations using these tokens. You
-            can manage your own PATs in <Link to="/settings/my-profile">your profile</Link>.
+            <DocsLink path="server-integration/using-the-apis#personal-access-tokens" title="Personal Access Tokens" /> (PATs) for all users for security
+            reasons. After upgrade, you will need to generate new PATs for any scripts or integrations using these tokens. You can manage your own PATs in{' '}
+            <Link to="/settings/my-profile">your profile</Link>.
           </Typography>
         </Alert>
       )}

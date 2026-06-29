@@ -1925,7 +1925,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-50:focus::-ms-input-
           >
             Personal Access Tokens
           </a>
-          (PATs) for all users for security reasons. After upgrade, you will need to generate new PATs for any scripts or integrations using these tokens. You can manage your own PATs in 
+           (PATs) for all users for security reasons. After upgrade, you will need to generate new PATs for any scripts or integrations using these tokens. You can manage your own PATs in
+           
           <a
             class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-70"
             data-discover="true"
