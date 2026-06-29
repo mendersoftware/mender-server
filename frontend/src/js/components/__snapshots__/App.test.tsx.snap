@@ -3645,12 +3645,22 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
   border-radius: 4px;
 }
 
+.emotion-54 {
+  margin: 0;
+  font-family: Red Hat Text;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  color: #1f1f20;
+}
+
 .emotion-55 {
   margin: 0;
   font-family: Red Hat Text;
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.43;
+  color: #1f1f20;
 }
 
 .emotion-56 {
@@ -4626,7 +4636,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
                           class="flexbox"
                         >
                           <h6
-                            class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-20"
+                            class="MuiTypography-root MuiTypography-subtitle2 capitalized-start emotion-54"
                           >
                             standard
                           </h6>

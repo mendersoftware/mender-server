@@ -130,6 +130,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0.00714em;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-8 {
@@ -139,6 +140,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .emotion-9 {
@@ -722,6 +724,15 @@ exports[`Dashboard Component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
+.emotion-28 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
+}
+
 .emotion-29 {
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -740,6 +751,15 @@ exports[`Dashboard Component > renders correctly 1`] = `
 
 .emotion-29>div:last-child {
   width: 100%;
+}
+
+.emotion-31 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 .emotion-33 {
@@ -1094,7 +1114,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           Recent deployments
         </h6>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-7"
+          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-28"
         >
           Pending
         </h6>
@@ -1106,7 +1126,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               class="MuiTypography-root MuiTypography-body1 emotion-3"
             />
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-8"
+              class="MuiTypography-root MuiTypography-body2 emotion-31"
               title="Test"
             >
               Test
@@ -1138,7 +1158,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-8"
+              class="MuiTypography-root MuiTypography-body2 emotion-31"
               title="test deployment"
             >
               test deployment
@@ -1170,7 +1190,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-8"
+              class="MuiTypography-root MuiTypography-body2 emotion-31"
               title="test deployment 2"
             >
               test deployment 2
@@ -1180,7 +1200,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             class=""
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-31"
             >
               <svg
                 aria-hidden="true"
@@ -1217,7 +1237,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-7"
+          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-28"
         >
           In Progress
         </h6>
@@ -1229,7 +1249,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               class="MuiTypography-root MuiTypography-body1 emotion-3"
             />
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-8"
+              class="MuiTypography-root MuiTypography-body2 emotion-31"
               title="Test"
             >
               Test
@@ -1261,7 +1281,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-8"
+              class="MuiTypography-root MuiTypography-body2 emotion-31"
               title="test deployment"
             >
               test deployment
@@ -1293,7 +1313,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
               r1
             </p>
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-8"
+              class="MuiTypography-root MuiTypography-body2 emotion-31"
               title="test deployment 2"
             >
               test deployment 2
@@ -1303,7 +1323,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
             class=""
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-31"
             >
               <svg
                 aria-hidden="true"
@@ -1340,7 +1360,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
           </div>
         </div>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-7"
+          class="MuiTypography-root MuiTypography-subtitle2 margin-bottom-none margin-top emotion-28"
         >
           Finished
         </h6>
@@ -1364,7 +1384,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   class="MuiTypography-root MuiTypography-body1 emotion-3"
                 />
                 <p
-                  class="MuiTypography-root MuiTypography-body2 emotion-8"
+                  class="MuiTypography-root MuiTypography-body2 emotion-31"
                   title="Test"
                 >
                   Test
@@ -1406,7 +1426,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   r1
                 </p>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 emotion-8"
+                  class="MuiTypography-root MuiTypography-body2 emotion-31"
                   title="test deployment"
                 >
                   test deployment
@@ -1448,7 +1468,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                   r1
                 </p>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 emotion-8"
+                  class="MuiTypography-root MuiTypography-body2 emotion-31"
                   title="test deployment 2"
                 >
                   test deployment 2
@@ -1458,7 +1478,7 @@ exports[`Dashboard Component > renders correctly 1`] = `
                 class="emotion-70"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-8"
+                  class="MuiTypography-root MuiTypography-body2 flexbox align-items-center emotion-31"
                 >
                   <svg
                     aria-hidden="true"

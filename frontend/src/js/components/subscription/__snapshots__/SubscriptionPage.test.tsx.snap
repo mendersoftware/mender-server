@@ -1200,6 +1200,26 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
   padding-right: 7px;
 }
 
+.emotion-117 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-118 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  color: rgba(0, 0, 0, 0.38);
+}
+
 .emotion-119 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -1207,6 +1227,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
   font-size: 0.875rem;
   line-height: 1.57;
   letter-spacing: 0.00714em;
+  color: rgba(0, 0, 0, 0.38);
 }
 
 .emotion-123 {
@@ -1220,6 +1241,25 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
   border-bottom-width: thin;
   margin-left: 16px;
   margin-right: 16px;
+}
+
+.emotion-124 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-125 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
 }
 
 .emotion-126 {
@@ -2130,12 +2170,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                 >
                   <div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-2"
+                      class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-117"
                     >
                       micro
                     </p>
                     <span
-                      class="MuiTypography-root MuiTypography-caption emotion-73"
+                      class="MuiTypography-root MuiTypography-caption emotion-118"
                     >
                       x 
                       0
@@ -2153,12 +2193,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                 >
                   <div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-2"
+                      class="MuiTypography-root MuiTypography-body1 capitalized-start emotion-117"
                     >
                       standard
                     </p>
                     <span
-                      class="MuiTypography-root MuiTypography-caption emotion-73"
+                      class="MuiTypography-root MuiTypography-caption emotion-118"
                     >
                       x 
                       0
@@ -2178,12 +2218,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-42:focus::-ms-input-
                   class="flexbox space-between margin-top-small"
                 >
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle1 emotion-4"
+                    class="MuiTypography-root MuiTypography-subtitle1 emotion-124"
                   >
                     Monthly price
                   </h6>
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle2 emotion-119"
+                    class="MuiTypography-root MuiTypography-subtitle2 emotion-125"
                   >
                     -
                   </h6>
