@@ -87,7 +87,7 @@ export const DeviceLimit = (props: DeviceLimitProps) => {
   const { className = '', type, limit, total, compact = false, serviceProvider = false, disabled = false, disablePadding = true } = props;
   const { warning, error, percentageUsed, color, unlimited } = getLimitStatus(total, limit);
   const { classes } = useStyles();
-  const textColor = disabled ? 'text.disabled' : 'text.primary';
+  const textColor = disabled ? 'textDisabled' : 'textPrimary';
   return (
     <Paper
       variant={disablePadding ? 'elevation' : 'outlined'}

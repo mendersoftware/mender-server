@@ -23,9 +23,9 @@ const NumberIcon = ({ className, value }) => <Avatar className={className}>{valu
 const WarningIcon = <ReportProblemOutlined fontSize="small" />;
 
 const statusTypes = {
-  default: { color: 'text.primary', icon: <ErrorIcon />, label: '', notification: { default: '' } },
+  default: { color: 'default', icon: <ErrorIcon />, label: '', notification: { default: '' } },
   authRequests: {
-    color: 'text.primary',
+    color: 'default',
     icon: <NumberIcon className="" value={null} />,
     label: '',
     notification: {
