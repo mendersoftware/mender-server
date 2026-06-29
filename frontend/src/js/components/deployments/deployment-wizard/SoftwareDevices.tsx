@@ -94,7 +94,8 @@ const deploymentFiltersToTargetText = ({ devicesById, filter, idAttribute }) => 
         return accu;
       }
       if (operator === DEVICE_FILTERING_OPTIONS.$in.key) {
-        const devices = value.map(deviceId => getDeviceIdentityText({ device: devicesById[deviceId], idAttribute }));
+        const values = Array.isArray(value) ? value : [value];
+        const devices = values.map(deviceId => getDeviceIdentityText({ device: devicesById[deviceId], idAttribute }));
         return [...accu, ...devices];
       }
       accu.push(getDeviceIdentityText({ device: devicesById[value], idAttribute }));
