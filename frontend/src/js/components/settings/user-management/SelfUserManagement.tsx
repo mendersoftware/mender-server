@@ -24,7 +24,6 @@ import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/Setti
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import storeActions from '@northern.tech/store/actions';
 import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -37,12 +36,14 @@ import TwoFactorAuthSetup from './TwoFactorAuthSetup';
 import { UserId, getUserSSOState } from './UserDefinition';
 import { EmailVerificationConfirmation } from './twofactorauth-steps/EmailVerification';
 
-const { setSnackbar } = storeActions;
-
 const useStyles = makeStyles()(() => ({
   formField: { width: SETTINGS_INPUT_WIDTH, maxWidth: '100%' },
   oauthIcon: { fontSize: '36px', marginRight: 10 },
-  widthLimit: { maxWidth: SETTINGS_CONTENT_MAX_WIDTH, [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: SETTINGS_INPUT_WIDTH } },
+  widthLimit: {
+    maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
+    [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: SETTINGS_INPUT_WIDTH },
+    '.required:after': { content: 'none' }
+  },
   buttonReset: { '.button-wrapper': { justifyContent: 'start' } },
   columnWidths: {
     '&.settings-item-main-content': {
@@ -79,16 +80,13 @@ export const SelfUserManagement = () => {
   const [showNotice, setShowNotice] = useState<string>('');
 
   const editSubmit = userData => {
-    if (userData.password != userData.password_confirmation) {
-      dispatch(setSnackbar(`The passwords don't match`));
-    } else {
-      dispatch(editUser({ ...userData, id: OWN_USER_ID }))
-        .unwrap()
-        .then(() => {
-          setEditEmail(false);
-          setEditPass(false);
-        });
-    }
+    dispatch(editUser({ ...userData, id: OWN_USER_ID }))
+      .unwrap()
+      .then(() => {
+        setEditEmail(false);
+        setEditPass(false);
+      })
+      .catch(() => {});
   };
 
   const handleUnlinkConfirmed = () => {
@@ -197,6 +195,7 @@ export const SelfUserManagement = () => {
             id="current_password"
             label="Current password *"
             validations={`isLength:8:256,isNot:${email}`}
+            required
             width={null}
           />
         </Form>
@@ -220,20 +219,16 @@ export const SelfUserManagement = () => {
                   handleCancel={handlePass}
                   submitLabel="Save changes"
                   showButtons={editPass}
+                  validationMode="onSubmit"
                 >
-                  <PasswordInput
-                    className="margin-bottom-medium"
-                    id="current_password"
-                    label="Current password *"
-                    validations={`isLength:8:256,isNot:${email}`}
-                    width={null}
-                  />
-                  <PasswordInput id="password" label="New password *" validations={`isLength:8:256,isNot:${email}`} create width={null} />
+                  <PasswordInput className="margin-bottom-medium" id="current_password" label="Current password *" required width={null} />
+                  <PasswordInput id="password" label="New password *" validations={`isLength:8:256,isNot:${email}`} create required width={null} />
                   <PasswordInput
                     className="margin-top-x-small"
                     id="password_confirmation"
                     label="Confirm new password *"
                     validations={`isLength:8:256,isNot:${email}`}
+                    required
                     width={null}
                   />
                 </Form>
