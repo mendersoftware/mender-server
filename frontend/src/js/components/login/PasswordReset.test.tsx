@@ -68,7 +68,7 @@ describe('PasswordReset Component', () => {
     await user.type(passwordConfirmationInput, goodPassword);
     await waitFor(() => rerender(ui));
     expect(screen.getByRole('button', { name: /Save password/i })).toBeDisabled();
-    expect(screen.getByText('The passwords you provided do not match, please check again.')).toBeVisible();
+    expect(screen.getByText(`Passwords don't match. Please try again.`)).toBeVisible();
     await user.clear(passwordInput);
     await user.type(passwordInput, goodPassword);
     await waitFor(() => rerender(ui));
