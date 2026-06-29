@@ -174,7 +174,8 @@ export default (env, argv) => {
     ],
     resolve: {
       alias: {
-        '@babel/runtime/helpers/esm': path.resolve(__dirname, 'node_modules/@babel/runtime/helpers/esm')
+        '@babel/runtime/helpers/esm': path.resolve(__dirname, 'node_modules/@babel/runtime/helpers/esm'),
+        'react-router$': require.resolve('react-router')
       },
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
       fallback: {

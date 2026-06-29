@@ -100,7 +100,8 @@ export default defineConfig(
             find: '@/testUtils',
             replacement: path.resolve(__dirname, 'tests', 'testUtils')
           }
-        ]
+        ],
+        dedupe: ['react-router']
       },
       server: {
         port: 80,
