@@ -17,7 +17,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { ExpandMore } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary, Button, FormGroup, Typography, accordionClasses, lighten } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  FormGroup,
+  Typography,
+  accordionClasses,
+  accordionSummaryClasses,
+  lighten
+} from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
@@ -59,6 +69,9 @@ const useStyles = makeStyles()(theme => ({
     '&:before': {
       display: 'none'
     },
+    [`& .${accordionSummaryClasses.content}`]: {
+      margin: theme.spacing(1, 0)
+    },
     [`&.${accordionClasses.expanded}`]: {
       margin: 'unset',
       marginTop: theme.spacing(4)
@@ -71,8 +84,7 @@ const useStyles = makeStyles()(theme => ({
     '&>p': {
       marginTop: theme.spacing(3)
     }
-  },
-  disabled: { color: theme.palette.text.disabled }
+  }
 }));
 
 const getAnchor = (element, heightAdjustment = 3) => ({
@@ -265,9 +277,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
           <ScheduleRollout canSchedule={canSchedule} commonClasses={classes} />
           <Accordion className={classes.accordion} square expanded={isExpanded} onChange={() => setIsExpanded(toggle)}>
             <AccordionSummary expandIcon={<ExpandMore />}>
-              <Typography className={classes.disabled} variant="subtitle2">
-                {isExpanded ? 'Hide' : 'Show'} advanced options
-              </Typography>
+              <Typography variant="subtitle2">{isExpanded ? 'Hide' : 'Show'} advanced options</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Retries canManageUsers={canManageUsers} canRetry={canRetry} commonClasses={classes} defaultRetries={previousRetries} />
