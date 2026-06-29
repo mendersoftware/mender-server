@@ -6,15 +6,15 @@
   "extends": [
     "config:recommended",
     ":gitSignOff",
-    ":rebaseStalePrs"
+    ":rebaseStalePrs",
+    ":semanticCommitTypeAll(chore)"
   ],
 
   // CODEOWNERS drives reviewer assignment. Keep CODEOWNERS complete.
   "reviewersFromCodeOwners": true,
 
-  // chore(deps): <desc>, matching the old Dependabot prefix. CI files get ci: below.
+  // chore(deps): <desc>, matching the old Dependabot prefix.
   "semanticCommits": "enabled",
-  "semanticCommitType": "chore",
   "semanticCommitScope": "deps",
 
   // Fallback window for weeks with no merges; the .pre CI job is the primary trigger.
@@ -89,10 +89,9 @@
   ],
 
   "packageRules": [
-    // GitLab CI image bumps -> ci: (keeps them out of the deps changelog section).
+    // GitLab CI image bumps
     {
       "matchManagers": ["gitlabci", "gitlabci-include"],
-      "semanticCommitType": "ci",
       "semanticCommitScope": ""
     },
 
