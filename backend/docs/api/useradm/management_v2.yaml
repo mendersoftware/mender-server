@@ -1,0 +1,62 @@
+openapi: 3.0.1
+info:
+  title: User Administration v2
+  description: |
+    An API for user administration and user authentication handling.
+  version: "2"
+tags:
+  - name: Management API
+paths:
+  /api/management/v2/useradm/users/me:
+    put:
+      tags:
+      - Management API
+      summary: Update own user information
+      operationId: Useradm V2 Update Own User Data
+      requestBody:
+        description: Updated user data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnUserUpdateV2'
+        required: true
+      responses:
+        "204":
+          description: User information updated.
+          content: {}
+        "400":
+          $ref: '../common/responses.yaml#/components/responses/InvalidRequestError'
+        "401":
+          $ref: '../common/responses.yaml#/components/responses/UnauthorizedError'
+        "404":
+          $ref: '../common/responses.yaml#/components/responses/NotFound'
+        "422":
+          description: |
+            The request data was structurally valid but failed business rules.
+            See the response body for specific validation errors.
+        "500":
+          $ref: '../common/responses.yaml#/components/responses/InternalServerError'
+      security:
+      - ManagementJWT: []
+
+components:
+  schemas:
+    OwnUserUpdateV2:
+      type: object
+      properties:
+        password:
+          type: string
+          description: New password.
+        current_password:
+          type: string
+          description: Current password.
+      description: Update user information.
+      example:
+        password: new password
+        current_password: old password
+  securitySchemes:
+    Login:
+      type: http
+      scheme: basic
+    ManagementJWT:
+      $ref: '../common/securitySchemes.yaml#/components/securitySchemes/ManagementJWT'

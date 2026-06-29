@@ -41,6 +41,7 @@ __all__ = [
     "IoTManagerInternalAPIApi",
     "IoTManagerManagementAPIApi",
     "UserAdministrationManagementAPIApi",
+    "UserAdministrationV2ManagementAPIApi",
     "UserAdministrationAndAuthenticationInternalAPIApi",
     "WorkflowsOtherApi",
     "ApiResponse",
@@ -140,6 +141,7 @@ __all__ = [
     "NewDeploymentForGroup",
     "NewDeviceInternalProvision",
     "NewTenant",
+    "OwnUserUpdateV2",
     "PersonalAccessToken",
     "PersonalAccessTokenRequest",
     "Plan",
@@ -204,6 +206,7 @@ from mender_client.api.device_inventory_filters_and_search_management_api_api im
 from mender_client.api.io_t_manager_internal_api_api import IoTManagerInternalAPIApi as IoTManagerInternalAPIApi
 from mender_client.api.io_t_manager_management_api_api import IoTManagerManagementAPIApi as IoTManagerManagementAPIApi
 from mender_client.api.user_administration_management_api_api import UserAdministrationManagementAPIApi as UserAdministrationManagementAPIApi
+from mender_client.api.user_administration_v2_management_api_api import UserAdministrationV2ManagementAPIApi as UserAdministrationV2ManagementAPIApi
 from mender_client.api.user_administration_and_authentication_internal_api_api import UserAdministrationAndAuthenticationInternalAPIApi as UserAdministrationAndAuthenticationInternalAPIApi
 from mender_client.api.workflows_other_api import WorkflowsOtherApi as WorkflowsOtherApi
 
@@ -307,6 +310,7 @@ from mender_client.models.new_deployment import NewDeployment as NewDeployment
 from mender_client.models.new_deployment_for_group import NewDeploymentForGroup as NewDeploymentForGroup
 from mender_client.models.new_device_internal_provision import NewDeviceInternalProvision as NewDeviceInternalProvision
 from mender_client.models.new_tenant import NewTenant as NewTenant
+from mender_client.models.own_user_update_v2 import OwnUserUpdateV2 as OwnUserUpdateV2
 from mender_client.models.personal_access_token import PersonalAccessToken as PersonalAccessToken
 from mender_client.models.personal_access_token_request import PersonalAccessTokenRequest as PersonalAccessTokenRequest
 from mender_client.models.plan import Plan as Plan

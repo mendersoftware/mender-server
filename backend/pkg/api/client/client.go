@@ -96,6 +96,8 @@ type APIClient struct {
 
 	UserAdministrationManagementAPIAPI UserAdministrationManagementAPIAPI
 
+	UserAdministrationV2ManagementAPIAPI UserAdministrationV2ManagementAPIAPI
+
 	WorkflowsOtherAPI WorkflowsOtherAPI
 }
 
@@ -138,6 +140,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.IoTManagerManagementAPIAPI = (*IoTManagerManagementAPIAPIService)(&c.common)
 	c.UserAdministrationAndAuthenticationInternalAPIAPI = (*UserAdministrationAndAuthenticationInternalAPIAPIService)(&c.common)
 	c.UserAdministrationManagementAPIAPI = (*UserAdministrationManagementAPIAPIService)(&c.common)
+	c.UserAdministrationV2ManagementAPIAPI = (*UserAdministrationV2ManagementAPIAPIService)(&c.common)
 	c.WorkflowsOtherAPI = (*WorkflowsOtherAPIService)(&c.common)
 
 	return c

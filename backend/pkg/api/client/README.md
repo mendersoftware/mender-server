@@ -260,6 +260,7 @@ Class | Method | HTTP request | Description
 *UserAdministrationManagementAPIAPI* | [**UpdateOwnUserData**](docs/UserAdministrationManagementAPIAPI.md#updateownuserdata) | **Put** /api/management/v1/useradm/users/me | Update own user information
 *UserAdministrationManagementAPIAPI* | [**UpdateUser**](docs/UserAdministrationManagementAPIAPI.md#updateuser) | **Put** /api/management/v1/useradm/users/{id} | Update user information
 *UserAdministrationManagementAPIAPI* | [**UpdateUserSettings**](docs/UserAdministrationManagementAPIAPI.md#updateusersettings) | **Post** /api/management/v1/useradm/settings | Set global user settings
+*UserAdministrationV2ManagementAPIAPI* | [**UseradmV2UpdateOwnUserData**](docs/UserAdministrationV2ManagementAPIAPI.md#useradmv2updateownuserdata) | **Put** /api/management/v2/useradm/users/me | Update own user information
 *WorkflowsOtherAPI* | [**JobStructure**](docs/WorkflowsOtherAPI.md#jobstructure) | **Get** /api/v1/jobs/{id} | Gets the job for the given id.
 *WorkflowsOtherAPI* | [**ListWorkflows**](docs/WorkflowsOtherAPI.md#listworkflows) | **Get** /api/v1/metadata/workflows | Get all workflow definitions
 *WorkflowsOtherAPI* | [**RegisterWorkflow**](docs/WorkflowsOtherAPI.md#registerworkflow) | **Post** /api/v1/metadata/workflows | Register a new workflow
@@ -359,6 +360,7 @@ Class | Method | HTTP request | Description
  - [NewDeploymentForGroup](docs/NewDeploymentForGroup.md)
  - [NewDeviceInternalProvision](docs/NewDeviceInternalProvision.md)
  - [NewTenant](docs/NewTenant.md)
+ - [OwnUserUpdateV2](docs/OwnUserUpdateV2.md)
  - [PersonalAccessToken](docs/PersonalAccessToken.md)
  - [PersonalAccessTokenRequest](docs/PersonalAccessTokenRequest.md)
  - [Plan](docs/Plan.md)

@@ -59,6 +59,8 @@ tags:
     x-displayName: Internal API
   - name: User_Administration_Management API
     x-displayName: Management API
+  - name: User_Administration_v2_Management API
+    x-displayName: Management API
   - name: Workflows_other
     x-displayName: other
 paths:
@@ -7140,6 +7142,37 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       security:
         - ManagementJWT: []
+  /api/management/v2/useradm/users/me:
+    put:
+      tags:
+        - User_Administration_v2_Management API
+      summary: Update own user information
+      operationId: Useradm V2 Update Own User Data
+      requestBody:
+        description: Updated user data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnUserUpdateV2'
+        required: true
+      responses:
+        '204':
+          description: User information updated.
+          content: {}
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          description: |
+            The request data was structurally valid but failed business rules.
+            See the response body for specific validation errors.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
   /status:
     get:
       summary: Check if service API is alive and serving requests
@@ -10295,6 +10328,19 @@ components:
           devices: 10
           users: 2
           audit_logs_days: 2
+    OwnUserUpdateV2:
+      type: object
+      properties:
+        password:
+          type: string
+          description: New password.
+        current_password:
+          type: string
+          description: Current password.
+      description: Update user information.
+      example:
+        password: new password
+        current_password: old password
     CLIParams:
       type: object
       properties:
@@ -10549,6 +10595,9 @@ x-tagGroups:
   - name: User Administration
     tags:
       - User_Administration_Management API
+  - name: User Administration v2
+    tags:
+      - User_Administration_v2_Management API
   - name: Workflows
     tags:
       - Workflows_other
