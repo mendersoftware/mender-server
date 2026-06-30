@@ -19,7 +19,10 @@ import { Autocomplete, Chip, TextField } from '@mui/material';
 
 import { duplicateFilter, unionizeStrings } from '@northern.tech/utils/helpers';
 
+import { TruncatedTagList } from './helpers';
+
 export const ChipSelect = ({
+  chipDisplay = true,
   className = '',
   name,
   disabled = false,
@@ -68,6 +71,7 @@ export const ChipSelect = ({
       name={name}
       render={({ field: { onChange: formOnChange, value: currentSelection, ref, ...props } }) => (
         <Autocomplete
+          autoSelect={false}
           id={`${name}-chip-select`}
           value={currentSelection}
           className={className}
@@ -76,26 +80,28 @@ export const ChipSelect = ({
           freeSolo={true}
           includeInputInList={true}
           multiple
-          // allow edits to the textinput without deleting existing device types by ignoring backspace
-          onChange={(e, value) => (e.key !== 'Backspace' ? formOnChange(value) : null)}
+          onChange={(e, value) => (!chipDisplay || e.key !== 'Backspace' ? formOnChange(value) : null)}
           onInputChange={(e, v, reason) => onTextInputChange(null, reason, formOnChange)}
           options={options}
           readOnly={disabled}
           ref={ref}
-          renderValue={(values, getItemProps) =>
-            values.map((option, index) => {
-              const { key, onDelete, ...tagProps } = getItemProps({ index });
-              return (
-                <Chip
-                  label={option}
-                  key={key}
-                  onDelete={onDelete}
-                  size="small"
-                  deleteIcon={<CancelIcon onClick={onDelete} aria-label={`${name}-delete`} />}
-                  {...tagProps}
-                />
-              );
-            })
+          renderValue={
+            chipDisplay
+              ? (values, getItemProps) =>
+                  values.map((option, index) => {
+                    const { key, onDelete, ...tagProps } = getItemProps({ index });
+                    return (
+                      <Chip
+                        label={option}
+                        key={key}
+                        onDelete={onDelete}
+                        size="small"
+                        deleteIcon={<CancelIcon onClick={onDelete} aria-label={`${name}-delete`} />}
+                        {...tagProps}
+                      />
+                    );
+                  })
+              : values => <TruncatedTagList values={values} />
           }
           renderInput={params => (
             <TextField

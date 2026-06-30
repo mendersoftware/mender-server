@@ -23,7 +23,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { mdiCloudUploadOutline } from '@mdi/js';
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
+import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import Link from '@northern.tech/common-ui/Link';

@@ -13,7 +13,15 @@
 //    limitations under the License.
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { Typography } from '@mui/material';
+
 import { render } from '@/testUtils';
+
+export const TruncatedTagList = ({ labelAttribute = 'title', values }) => (
+  <Typography className="text-overflow" noWrap>
+    {values.map(v => (typeof v === 'string' ? v : v[labelAttribute])).join(', ')}
+  </Typography>
+);
 
 export const formRenderWrapper = ui => {
   const Wrapper = ({ children }) => {
