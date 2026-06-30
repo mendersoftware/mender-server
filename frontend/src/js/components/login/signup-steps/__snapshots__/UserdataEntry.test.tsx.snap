@@ -1011,8 +1011,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
               </legend>
             </fieldset>
           </div>
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-19"
+          <div
+            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained flexbox align-items-center emotion-19"
           />
         </div>
       </div>
@@ -1081,8 +1081,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
               </legend>
             </fieldset>
           </div>
-          <p
-            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-19"
+          <div
+            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained flexbox align-items-center emotion-19"
           />
         </div>
       </div>
