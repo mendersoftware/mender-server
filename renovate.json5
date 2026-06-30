@@ -1,162 +1,178 @@
-// renovate.json5 - Mender dependency update configuration for mender-server
-// See Documentation/dependency-updates.md in mender-qa for the process.
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-
-  "extends": [
-    "config:recommended",
-    ":gitSignOff",
-    ":rebaseStalePrs",
-    ":semanticCommitTypeAll(chore)"
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    ':gitSignOff',
+    ':rebaseStalePrs',
+    ':semanticCommitTypeAll(chore)',
   ],
-
-  // CODEOWNERS drives reviewer assignment. Keep CODEOWNERS complete.
-  "reviewersFromCodeOwners": true,
-
-  // chore(deps): <desc>, matching the old Dependabot prefix.
-  "semanticCommits": "enabled",
-  "semanticCommitScope": "deps",
-
-  // Fallback window for weeks with no merges; the .pre CI job is the primary trigger.
-  "schedule": ["after 10pm on Monday", "before 6am on Tuesday"],
-
-  // Drain backlogs gradually. 10 concurrent because there are three base branches.
-  "prHourlyLimit": 2,
-  "prConcurrentLimit": 10,
-
-  "baseBranches": ["main", "4.0.x", "4.1.x"],
-
-  // Security PRs bypass the schedule and automerge when CI is green.
-  "vulnerabilityAlerts": {
-    "enabled": true,
-    "schedule": ["at any time"],
-    "automerge": false,
-    "automergeType": "pr",
-    "labels": ["security"]
+  reviewersFromCodeOwners: true,
+  semanticCommits: 'enabled',
+  semanticCommitScope: 'deps',
+  schedule: [
+    'after 10pm on Monday',
+    'before 6am on Tuesday',
+  ],
+  prHourlyLimit: 2,
+  prConcurrentLimit: 10,
+  baseBranchPatterns: [
+    'main',
+    '4.0.x',
+    '4.1.x',
+  ],
+  vulnerabilityAlerts: {
+    enabled: true,
+    schedule: [
+      'at any time',
+    ],
+    automerge: false,
+    automergeType: 'pr',
+    labels: [
+      'security',
+    ],
   },
-
-  // Mender-internal versions not visible to standard managers.
-  "customManagers": [
-    // MENDER_ARTIFACT_VERSION as a Dockerfile ARG (create-artifact-worker, tests).
+  customManagers: [
     {
-      "customType": "regex",
-      "managerFilePatterns": ["/Dockerfile/"],
-      "matchStrings": [
-        "MENDER_ARTIFACT_VERSION=\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
+      customType: 'regex',
+      managerFilePatterns: [
+        '/Dockerfile/',
       ],
-      "depNameTemplate": "mendersoftware/mender-artifact",
-      "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^v?(?<version>.*)$",
-      "versioningTemplate": "semver"
+      matchStrings: [
+        'MENDER_ARTIFACT_VERSION=\\s*["\']?(?<currentValue>[\\d\\.]+)["\']?',
+      ],
+      depNameTemplate: 'mendersoftware/mender-artifact',
+      datasourceTemplate: 'github-releases',
+      extractVersionTemplate: '^v?(?<version>.*)$',
+      versioningTemplate: 'semver',
     },
-    // DOCKER_VERSION as a .gitlab-ci.yml variable (currently tracked by nothing).
     {
-      "customType": "regex",
-      "managerFilePatterns": ["/.gitlab-ci.yml/"],
-      "matchStrings": [
-        "DOCKER_VERSION:[\\s\\S]*?value:\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
+      customType: 'regex',
+      managerFilePatterns: [
+        '/.gitlab-ci.yml/',
       ],
-      "depNameTemplate": "docker",
-      "datasourceTemplate": "docker",
-      "versioningTemplate": "docker"
+      matchStrings: [
+        'DOCKER_VERSION:[\\s\\S]*?value:\\s*["\']?(?<currentValue>[\\d\\.]+)["\']?',
+      ],
+      depNameTemplate: 'docker',
+      datasourceTemplate: 'docker',
+      versioningTemplate: 'docker',
     },
-    // frontend/pipeline.yml is a `local:` include, so the gitlabci manager does
-    // not scan it. These two regex managers track its pinned images directly -
-    // a custom manager is required because the ${MIRROR_REGISTRY} prefix and the
-    // NODE_IMAGE variable defeat the stock gitlabci manager.
-    //
-    // denoland/deno image, pinned as a literal tag.
     {
-      "customType": "regex",
-      "managerFilePatterns": ["/frontend/pipeline.yml/"],
-      "matchStrings": [
-        "denoland/deno:(?<currentValue>[^\\s\"']+)"
+      customType: 'regex',
+      managerFilePatterns: [
+        '/frontend/pipeline.yml/',
       ],
-      "depNameTemplate": "denoland/deno",
-      "datasourceTemplate": "docker",
-      "versioningTemplate": "docker"
+      matchStrings: [
+        'denoland/deno:(?<currentValue>[^\\s"\']+)',
+      ],
+      depNameTemplate: 'denoland/deno',
+      datasourceTemplate: 'docker',
+      versioningTemplate: 'docker',
     },
-    // NODE_IMAGE CI variable (value like node:24-alpine).
     {
-      "customType": "regex",
-      "managerFilePatterns": ["/frontend/pipeline.yml/"],
-      "matchStrings": [
-        "NODE_IMAGE:[\\s\\S]*?value:\\s*[\"']?(?<depName>[^:\"']+):(?<currentValue>[^\"']+)[\"']?"
+      customType: 'regex',
+      managerFilePatterns: [
+        '/frontend/pipeline.yml/',
       ],
-      "datasourceTemplate": "docker",
-      "versioningTemplate": "docker"
-    }
+      matchStrings: [
+        'NODE_IMAGE:[\\s\\S]*?value:\\s*["\']?(?<depName>[^:"\']+):(?<currentValue>[^"\']+)["\']?',
+      ],
+      datasourceTemplate: 'docker',
+      versioningTemplate: 'docker',
+    },
   ],
-
-  "packageRules": [
-    // GitLab CI image bumps
+  packageRules: [
     {
-      "matchManagers": ["gitlabci", "gitlabci-include"],
-      "semanticCommitScope": ""
-    },
-
-    // Go: one PR for all modules (covers backend/go.mod AND backend/tests/runner/go.mod).
-    {
-      "matchManagers": ["gomod"],
-      "groupName": "golang-dependencies",
-      "groupSlug": "golang-dependencies"
-    },
-
-    // Docker base images: one grouped PR. 9 services share golang:1.26.2; the
-    // native dockerfile manager resolves the `ARG REGISTRY` form Dependabot ignored.
-    {
-      "matchManagers": ["dockerfile"],
-      "groupName": "docker-base-images",
-      "groupSlug": "docker-base-images"
-    },
-
-    // docker-compose: root + compose/*.yml in one PR.
-    {
-      "matchManagers": ["docker-compose"],
-      "groupName": "docker-compose",
-      "groupSlug": "docker-compose"
-    },
-
-    // Python: one PR for all pip deps.
-    {
-      "matchManagers": ["pip_requirements", "pipenv", "poetry"],
-      "groupName": "python-dependencies",
-      "groupSlug": "python-dependencies"
-    },
-
-    // npm: four groups, matching the old Dependabot policy.
-    {
-      "matchManagers": ["npm"],
-      "matchDepTypes": ["devDependencies"],
-      "excludePackageNames": ["/^@playwright/", "/^playwright/"],
-      "groupName": "npm-dev-dependencies"
+      matchManagers: [
+        'gitlabci',
+        'gitlabci-include',
+      ],
+      semanticCommitScope: '',
     },
     {
-      "matchManagers": ["npm"],
-      "matchDepTypes": ["dependencies"],
-      "excludePackageNames": ["/^@emotion/", "/^@mui/"],
-      "groupName": "npm-prod-dependencies"
+      matchManagers: [
+        'gomod',
+      ],
+      groupName: 'golang-dependencies',
+      groupSlug: 'golang-dependencies',
     },
     {
-      "matchPackageNames": ["/^@emotion/", "/^@mui/"],
-      "groupName": "npm-mui"
+      matchManagers: [
+        'dockerfile',
+      ],
+      groupName: 'docker-base-images',
+      groupSlug: 'docker-base-images',
     },
     {
-      "matchPackageNames": ["/^@playwright/", "/^playwright/"],
-      "groupName": "playwright"
+      matchManagers: [
+        'docker-compose',
+      ],
+      groupName: 'docker-compose',
+      groupSlug: 'docker-compose',
     },
-
-    // Submodules are managed by release tooling.
     {
-      "matchManagers": ["git-submodules"],
-      "enabled": false
+      matchManagers: [
+        'pip_requirements',
+        'pipenv',
+        'poetry',
+      ],
+      groupName: 'python-dependencies',
+      groupSlug: 'python-dependencies',
     },
-
-    // No major bumps on maintenance branches - those need an explicit backport call.
     {
-      "matchBaseBranches": ["/^\\d+\\.\\d+\\.x$/"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
-    }
-  ]
+      matchManagers: [
+        'npm',
+      ],
+      matchDepTypes: [
+        'devDependencies',
+      ],
+      groupName: 'npm-dev-dependencies',
+      matchPackageNames: [
+        '!/^@playwright/',
+        '!/^playwright/',
+      ],
+    },
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchDepTypes: [
+        'dependencies',
+      ],
+      groupName: 'npm-prod-dependencies',
+      matchPackageNames: [
+        '!/^@emotion/',
+        '!/^@mui/',
+      ],
+    },
+    {
+      matchPackageNames: [
+        '/^@emotion/',
+        '/^@mui/',
+      ],
+      groupName: 'npm-mui',
+    },
+    {
+      matchPackageNames: [
+        '/^@playwright/',
+        '/^playwright/',
+      ],
+      groupName: 'playwright',
+    },
+    {
+      matchManagers: [
+        'git-submodules',
+      ],
+      enabled: false,
+    },
+    {
+      matchBaseBranches: [
+        '/^\\d+\\.\\d+\\.x$/',
+      ],
+      matchUpdateTypes: [
+        'major',
+      ],
+      enabled: false,
+    },
+  ],
 }
