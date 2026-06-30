@@ -523,9 +523,11 @@ test:backend:validate-open-api:
     - if: '$CI_COMMIT_REF_PROTECTED == "true"'
       when: on_success
   image: ${ECR_REGISTRY}/gitlab/northern.tech/mender/mender-test-containers/base-alpine:master
+  variables:
+    SPECTRAL_VERSION: "6.15.0"
   before_script:
     - curl -L https://raw.githubusercontent.com/stoplightio/spectral/master/scripts/install.sh -o install.sh
-    - sh install.sh
+    - sh install.sh $SPECTRAL_VERSION
   script:
     - |
       cat > .spectral.yaml << EOF
