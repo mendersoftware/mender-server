@@ -73,6 +73,7 @@ exports[`LogDialog Component > renders correctly 1`] = `
   margin: 32px;
   position: relative;
   overflow-y: auto;
+  outline: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

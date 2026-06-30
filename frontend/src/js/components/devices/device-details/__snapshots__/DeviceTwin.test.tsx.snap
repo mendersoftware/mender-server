@@ -275,12 +275,6 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-6::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 @media (hover: hover) {
   .emotion-6:hover {
     --variant-containedBg: #1565c0;
@@ -296,8 +290,18 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
 
 .emotion-7 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-7::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-7>*:nth-of-type(1) {

@@ -73,13 +73,13 @@ exports[`DeploymentReport Component > renders correctly 1`] = `
             aria-label="Devices that have not yet started the deployment will not start the deployment.
 Devices that have already completed the deployment are not affected by the abort.
 Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError css-ieabf5-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError css-1hz6i2n-MuiButtonBase-root-MuiButton-root"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon css-1sh91j5-MuiButton-startIcon"
+              class="MuiButton-icon MuiButton-startIcon css-1lxyhll-MuiButton-startIcon"
             >
               <svg
                 aria-hidden="true"
@@ -650,10 +650,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     role="progressbar"
                   >
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-1tp6vqc-MuiLinearProgress-bar1"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-ngux6i-MuiLinearProgress-bar1"
                     />
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-1btyq4i-MuiLinearProgress-bar2"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-jmsh5l-MuiLinearProgress-bar2"
                     />
                   </span>
                 </div>
@@ -940,10 +940,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
               role="progressbar"
             >
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-lcqqge-MuiLinearProgress-bar1"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-6brkbh-MuiLinearProgress-bar1"
               />
               <span
-                class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-lfb3c7-MuiLinearProgress-bar2"
+                class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-1d57sst-MuiLinearProgress-bar2"
               />
             </span>
           </div>
@@ -1099,13 +1099,13 @@ exports[`DeploymentReport Component > renders correctly for phased inprogress 1`
             aria-label="Devices that have not yet started the deployment will not start the deployment.
 Devices that have already completed the deployment are not affected by the abort.
 Devices that are in the middle of the deployment at the time of abort will finish deployment normally, but will perform a rollback."
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError css-ieabf5-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError css-1hz6i2n-MuiButtonBase-root-MuiButton-root"
             data-mui-internal-clone-element="true"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon css-1sh91j5-MuiButton-startIcon"
+              class="MuiButton-icon MuiButton-startIcon css-1lxyhll-MuiButton-startIcon"
             >
               <svg
                 aria-hidden="true"
@@ -1685,10 +1685,10 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     role="progressbar"
                   >
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-1tp6vqc-MuiLinearProgress-bar1"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-ngux6i-MuiLinearProgress-bar1"
                     />
                     <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-1btyq4i-MuiLinearProgress-bar2"
+                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-jmsh5l-MuiLinearProgress-bar2"
                     />
                   </span>
                 </div>

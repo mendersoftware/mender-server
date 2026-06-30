@@ -209,12 +209,12 @@ exports[`Devices Component > renders correctly 1`] = `
   left: 0;
   bottom: 0;
   top: 0;
-  -webkit-transition: -webkit-transform 0.2s linear;
-  transition: transform 0.2s linear;
+  -webkit-transition: -webkit-transform 0.2s linear 0ms;
+  transition: transform 0.2s linear 0ms;
   transform-origin: left;
   background-color: #1976d2;
-  -webkit-transition: -webkit-transform .4s linear;
-  transition: transform .4s linear;
+  -webkit-transition: -webkit-transform .4s linear 0ms;
+  transition: transform .4s linear 0ms;
 }
 
 .emotion-10 {
@@ -350,12 +350,6 @@ exports[`Devices Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-14::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 @media (hover: hover) {
   .emotion-14:hover {
     --variant-containedBg: #f5f5f5;
@@ -370,8 +364,18 @@ exports[`Devices Component > renders correctly 1`] = `
 
 .emotion-15 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-15::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-15>*:nth-of-type(1) {
@@ -838,12 +842,6 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-6::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 @media (hover: hover) {
   .emotion-6:hover {
     --variant-containedBg: #f5f5f5;
@@ -858,8 +856,18 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
 
 .emotion-7 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-7::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-7>*:nth-of-type(1) {
@@ -1095,12 +1103,6 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-4::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 @media (hover: hover) {
   .emotion-4:hover {
     --variant-containedBg: #f5f5f5;
@@ -1115,8 +1117,18 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
 
 .emotion-5 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-5::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-5>*:nth-of-type(1) {
@@ -1474,12 +1486,12 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
   left: 0;
   bottom: 0;
   top: 0;
-  -webkit-transition: -webkit-transform 0.2s linear;
-  transition: transform 0.2s linear;
+  -webkit-transition: -webkit-transform 0.2s linear 0ms;
+  transition: transform 0.2s linear 0ms;
   transform-origin: left;
   background-color: #1976d2;
-  -webkit-transition: -webkit-transform .4s linear;
-  transition: transform .4s linear;
+  -webkit-transition: -webkit-transform .4s linear 0ms;
+  transition: transform .4s linear 0ms;
 }
 
 .emotion-10 {
@@ -1615,12 +1627,6 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-14::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 @media (hover: hover) {
   .emotion-14:hover {
     --variant-containedBg: #f5f5f5;
@@ -1635,8 +1641,18 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
 
 .emotion-15 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-15::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-15>*:nth-of-type(1) {

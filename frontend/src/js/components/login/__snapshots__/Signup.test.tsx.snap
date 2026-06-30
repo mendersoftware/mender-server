@@ -302,12 +302,6 @@ exports[`Signup Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-12::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 .emotion-12.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -318,8 +312,18 @@ exports[`Signup Component > renders correctly 1`] = `
 
 .emotion-13 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-13::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-13>*:nth-of-type(1) {

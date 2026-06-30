@@ -130,8 +130,8 @@ exports[`Deployments Component > renders correctly 1`] = `
   left: 0;
   bottom: 0;
   top: 0;
-  -webkit-transition: -webkit-transform 0.2s linear;
-  transition: transform 0.2s linear;
+  -webkit-transition: -webkit-transform 0.2s linear 0ms;
+  transition: transform 0.2s linear 0ms;
   transform-origin: left;
   background-color: #1976d2;
   width: auto;
@@ -145,8 +145,8 @@ exports[`Deployments Component > renders correctly 1`] = `
   left: 0;
   bottom: 0;
   top: 0;
-  -webkit-transition: -webkit-transform 0.2s linear;
-  transition: transform 0.2s linear;
+  -webkit-transition: -webkit-transform 0.2s linear 0ms;
+  transition: transform 0.2s linear 0ms;
   transform-origin: left;
   --LinearProgressBar2-barColor: #1976d2;
   background-color: var(--LinearProgressBar2-barColor, currentColor);

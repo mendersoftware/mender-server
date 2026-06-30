@@ -379,12 +379,12 @@ exports[`RolloutProgressBar Component > renders correctly with list variant 1`] 
   left: 0;
   bottom: 0;
   top: 0;
-  -webkit-transition: -webkit-transform 0.2s linear;
-  transition: transform 0.2s linear;
+  -webkit-transition: -webkit-transform 0.2s linear 0ms;
+  transition: transform 0.2s linear 0ms;
   transform-origin: left;
   background-color: #1976d2;
-  -webkit-transition: -webkit-transform .4s linear;
-  transition: transform .4s linear;
+  -webkit-transition: -webkit-transform .4s linear 0ms;
+  transition: transform .4s linear 0ms;
 }
 
 .emotion-7 {
@@ -561,12 +561,12 @@ exports[`RolloutProgressBar Component > renders correctly with report variant 1`
   left: 0;
   bottom: 0;
   top: 0;
-  -webkit-transition: -webkit-transform 0.2s linear;
-  transition: transform 0.2s linear;
+  -webkit-transition: -webkit-transform 0.2s linear 0ms;
+  transition: transform 0.2s linear 0ms;
   transform-origin: left;
   background-color: #1976d2;
-  -webkit-transition: -webkit-transform .4s linear;
-  transition: transform .4s linear;
+  -webkit-transition: -webkit-transform .4s linear 0ms;
+  transition: transform .4s linear 0ms;
 }
 
 <div>

@@ -92,12 +92,6 @@ exports[`UserManagement Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-1::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 .emotion-1:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
@@ -137,8 +131,18 @@ exports[`UserManagement Component > renders correctly 1`] = `
 
 .emotion-2 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-2::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-2>*:nth-of-type(1) {

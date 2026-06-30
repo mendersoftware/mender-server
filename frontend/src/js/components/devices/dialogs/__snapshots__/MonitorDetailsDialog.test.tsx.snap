@@ -73,6 +73,7 @@ exports[`MonitorLogDialog Component > renders correctly 1`] = `
   margin: 32px;
   position: relative;
   overflow-y: auto;
+  outline: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -884,6 +885,7 @@ exports[`MonitorLogDialog Component > renders correctly for description only 1`]
   margin: 32px;
   position: relative;
   overflow-y: auto;
+  outline: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

@@ -271,12 +271,6 @@ exports[`ExpandedTenant > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-6::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 .emotion-6.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -296,8 +290,18 @@ exports[`ExpandedTenant > renders correctly 1`] = `
 
 .emotion-7 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-7::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-7>*:nth-of-type(1) {
@@ -720,12 +724,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-
   left: 0;
   bottom: 0;
   top: 0;
-  -webkit-transition: -webkit-transform 0.2s linear;
-  transition: transform 0.2s linear;
+  -webkit-transition: -webkit-transform 0.2s linear 0ms;
+  transition: transform 0.2s linear 0ms;
   transform-origin: left;
   background-color: #1976d2;
-  -webkit-transition: -webkit-transform .4s linear;
-  transition: transform .4s linear;
+  -webkit-transition: -webkit-transform .4s linear 0ms;
+  transition: transform .4s linear 0ms;
 }
 
 .emotion-43 {

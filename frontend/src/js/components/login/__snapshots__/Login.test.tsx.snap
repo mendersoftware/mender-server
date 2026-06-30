@@ -170,12 +170,6 @@ exports[`Login Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-6::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 .emotion-6.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -186,8 +180,18 @@ exports[`Login Component > renders correctly 1`] = `
 
 .emotion-7 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-7::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-7>*:nth-of-type(1) {

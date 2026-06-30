@@ -445,12 +445,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-13::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 .emotion-13.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -470,8 +464,18 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 
 .emotion-14 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-14::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-14>*:nth-of-type(1) {
@@ -999,12 +1003,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 
 .emotion-35.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
-}
-
-.emotion-35::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
 }
 
 .emotion-35.Mui-disabled {
