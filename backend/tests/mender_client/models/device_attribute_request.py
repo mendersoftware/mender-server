@@ -20,18 +20,18 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from mender_client.models.attribute import Attribute
+from mender_client.models.attribute_value_request import AttributeValueRequest
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DeviceInventory(BaseModel):
+class DeviceAttributeRequest(BaseModel):
     """
-    DeviceInventory
+    Attribute descriptor.
     """ # noqa: E501
-    id: Optional[StrictStr] = Field(default=None, description="Mender-assigned unique ID.")
-    updated_ts: Optional[StrictStr] = Field(default=None, description="Timestamp of the most recent attribute update.")
-    attributes: Optional[List[Attribute]] = Field(default=None, description="A list of attribute descriptors.")
-    __properties: ClassVar[List[str]] = ["id", "updated_ts", "attributes"]
+    name: StrictStr = Field(description="A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. ")
+    description: Optional[StrictStr] = Field(default=None, description="Attribute description.")
+    value: AttributeValueRequest
+    __properties: ClassVar[List[str]] = ["name", "description", "value"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +51,7 @@ class DeviceInventory(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DeviceInventory from a JSON string"""
+        """Create an instance of DeviceAttributeRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,18 +72,14 @@ class DeviceInventory(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in attributes (list)
-        _items = []
-        if self.attributes:
-            for _item_attributes in self.attributes:
-                if _item_attributes:
-                    _items.append(_item_attributes.to_dict())
-            _dict['attributes'] = _items
+        # override the default output from pydantic by calling `to_dict()` of value
+        if self.value:
+            _dict['value'] = self.value.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DeviceInventory from a dict"""
+        """Create an instance of DeviceAttributeRequest from a dict"""
         if obj is None:
             return None
 
@@ -91,9 +87,9 @@ class DeviceInventory(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "updated_ts": obj.get("updated_ts"),
-            "attributes": [Attribute.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None
+            "name": obj.get("name"),
+            "description": obj.get("description"),
+            "value": AttributeValueRequest.from_dict(obj["value"]) if obj.get("value") is not None else None
         })
         return _obj
 

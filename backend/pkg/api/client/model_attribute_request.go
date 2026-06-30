@@ -13,45 +13,50 @@ package client
 
 import (
 	"encoding/json"
+	"time"
 	"fmt"
 )
 
-// checks if the DeviceAttribute type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &DeviceAttribute{}
+// checks if the AttributeRequest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AttributeRequest{}
 
-// DeviceAttribute Attribute descriptor.
-type DeviceAttribute struct {
+// AttributeRequest struct for AttributeRequest
+type AttributeRequest struct {
 	// A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. 
 	Name string `json:"name"`
 	// Attribute description.
 	Description *string `json:"description,omitempty"`
-	Value AttributeValue `json:"value"`
+	Value AttributeValueRequest `json:"value"`
+	Scope Scope `json:"scope"`
+	// The date and time of last tag update in RFC3339 format.  Only applicable when scope is `tags`. 
+	Timestamp *time.Time `json:"timestamp,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _DeviceAttribute DeviceAttribute
+type _AttributeRequest AttributeRequest
 
-// NewDeviceAttribute instantiates a new DeviceAttribute object
+// NewAttributeRequest instantiates a new AttributeRequest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeviceAttribute(name string, value AttributeValue) *DeviceAttribute {
-	this := DeviceAttribute{}
+func NewAttributeRequest(name string, value AttributeValueRequest, scope Scope) *AttributeRequest {
+	this := AttributeRequest{}
 	this.Name = name
 	this.Value = value
+	this.Scope = scope
 	return &this
 }
 
-// NewDeviceAttributeWithDefaults instantiates a new DeviceAttribute object
+// NewAttributeRequestWithDefaults instantiates a new AttributeRequest object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewDeviceAttributeWithDefaults() *DeviceAttribute {
-	this := DeviceAttribute{}
+func NewAttributeRequestWithDefaults() *AttributeRequest {
+	this := AttributeRequest{}
 	return &this
 }
 
 // GetName returns the Name field value
-func (o *DeviceAttribute) GetName() string {
+func (o *AttributeRequest) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -62,7 +67,7 @@ func (o *DeviceAttribute) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *DeviceAttribute) GetNameOk() (*string, bool) {
+func (o *AttributeRequest) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -70,12 +75,12 @@ func (o *DeviceAttribute) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *DeviceAttribute) SetName(v string) {
+func (o *AttributeRequest) SetName(v string) {
 	o.Name = v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *DeviceAttribute) GetDescription() string {
+func (o *AttributeRequest) GetDescription() string {
 	if o == nil || IsNil(o.Description) {
 		var ret string
 		return ret
@@ -85,7 +90,7 @@ func (o *DeviceAttribute) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceAttribute) GetDescriptionOk() (*string, bool) {
+func (o *AttributeRequest) GetDescriptionOk() (*string, bool) {
 	if o == nil || IsNil(o.Description) {
 		return nil, false
 	}
@@ -93,7 +98,7 @@ func (o *DeviceAttribute) GetDescriptionOk() (*string, bool) {
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *DeviceAttribute) HasDescription() bool {
+func (o *AttributeRequest) HasDescription() bool {
 	if o != nil && !IsNil(o.Description) {
 		return true
 	}
@@ -102,14 +107,14 @@ func (o *DeviceAttribute) HasDescription() bool {
 }
 
 // SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *DeviceAttribute) SetDescription(v string) {
+func (o *AttributeRequest) SetDescription(v string) {
 	o.Description = &v
 }
 
 // GetValue returns the Value field value
-func (o *DeviceAttribute) GetValue() AttributeValue {
+func (o *AttributeRequest) GetValue() AttributeValueRequest {
 	if o == nil {
-		var ret AttributeValue
+		var ret AttributeValueRequest
 		return ret
 	}
 
@@ -118,7 +123,7 @@ func (o *DeviceAttribute) GetValue() AttributeValue {
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *DeviceAttribute) GetValueOk() (*AttributeValue, bool) {
+func (o *AttributeRequest) GetValueOk() (*AttributeValueRequest, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -126,11 +131,67 @@ func (o *DeviceAttribute) GetValueOk() (*AttributeValue, bool) {
 }
 
 // SetValue sets field value
-func (o *DeviceAttribute) SetValue(v AttributeValue) {
+func (o *AttributeRequest) SetValue(v AttributeValueRequest) {
 	o.Value = v
 }
 
-func (o DeviceAttribute) MarshalJSON() ([]byte, error) {
+// GetScope returns the Scope field value
+func (o *AttributeRequest) GetScope() Scope {
+	if o == nil {
+		var ret Scope
+		return ret
+	}
+
+	return o.Scope
+}
+
+// GetScopeOk returns a tuple with the Scope field value
+// and a boolean to check if the value has been set.
+func (o *AttributeRequest) GetScopeOk() (*Scope, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Scope, true
+}
+
+// SetScope sets field value
+func (o *AttributeRequest) SetScope(v Scope) {
+	o.Scope = v
+}
+
+// GetTimestamp returns the Timestamp field value if set, zero value otherwise.
+func (o *AttributeRequest) GetTimestamp() time.Time {
+	if o == nil || IsNil(o.Timestamp) {
+		var ret time.Time
+		return ret
+	}
+	return *o.Timestamp
+}
+
+// GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AttributeRequest) GetTimestampOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.Timestamp) {
+		return nil, false
+	}
+	return o.Timestamp, true
+}
+
+// HasTimestamp returns a boolean if a field has been set.
+func (o *AttributeRequest) HasTimestamp() bool {
+	if o != nil && !IsNil(o.Timestamp) {
+		return true
+	}
+
+	return false
+}
+
+// SetTimestamp gets a reference to the given time.Time and assigns it to the Timestamp field.
+func (o *AttributeRequest) SetTimestamp(v time.Time) {
+	o.Timestamp = &v
+}
+
+func (o AttributeRequest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -138,13 +199,17 @@ func (o DeviceAttribute) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o DeviceAttribute) ToMap() (map[string]interface{}, error) {
+func (o AttributeRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
 	if !IsNil(o.Description) {
 		toSerialize["description"] = o.Description
 	}
 	toSerialize["value"] = o.Value
+	toSerialize["scope"] = o.Scope
+	if !IsNil(o.Timestamp) {
+		toSerialize["timestamp"] = o.Timestamp
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -153,13 +218,14 @@ func (o DeviceAttribute) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *DeviceAttribute) UnmarshalJSON(data []byte) (err error) {
+func (o *AttributeRequest) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"name",
 		"value",
+		"scope",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -176,15 +242,15 @@ func (o *DeviceAttribute) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varDeviceAttribute := _DeviceAttribute{}
+	varAttributeRequest := _AttributeRequest{}
 
-	err = json.Unmarshal(data, &varDeviceAttribute)
+	err = json.Unmarshal(data, &varAttributeRequest)
 
 	if err != nil {
 		return err
 	}
 
-	*o = DeviceAttribute(varDeviceAttribute)
+	*o = AttributeRequest(varAttributeRequest)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -192,44 +258,46 @@ func (o *DeviceAttribute) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "description")
 		delete(additionalProperties, "value")
+		delete(additionalProperties, "scope")
+		delete(additionalProperties, "timestamp")
 		o.AdditionalProperties = additionalProperties
 	}
 
 	return err
 }
 
-type NullableDeviceAttribute struct {
-	value *DeviceAttribute
+type NullableAttributeRequest struct {
+	value *AttributeRequest
 	isSet bool
 }
 
-func (v NullableDeviceAttribute) Get() *DeviceAttribute {
+func (v NullableAttributeRequest) Get() *AttributeRequest {
 	return v.value
 }
 
-func (v *NullableDeviceAttribute) Set(val *DeviceAttribute) {
+func (v *NullableAttributeRequest) Set(val *AttributeRequest) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableDeviceAttribute) IsSet() bool {
+func (v NullableAttributeRequest) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableDeviceAttribute) Unset() {
+func (v *NullableAttributeRequest) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableDeviceAttribute(val *DeviceAttribute) *NullableDeviceAttribute {
-	return &NullableDeviceAttribute{value: val, isSet: true}
+func NewNullableAttributeRequest(val *AttributeRequest) *NullableAttributeRequest {
+	return &NullableAttributeRequest{value: val, isSet: true}
 }
 
-func (v NullableDeviceAttribute) MarshalJSON() ([]byte, error) {
+func (v NullableAttributeRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableDeviceAttribute) UnmarshalJSON(src []byte) error {
+func (v *NullableAttributeRequest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

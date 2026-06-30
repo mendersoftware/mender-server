@@ -55,8 +55,8 @@ It accepts optional filters and sort parameters as body parameters.
 	InventoryInternalV2SearchDeviceInventories(ctx context.Context, tenantId string) ApiInventoryInternalV2SearchDeviceInventoriesRequest
 
 	// InventoryInternalV2SearchDeviceInventoriesExecute executes the request
-	//  @return []DeviceInventory
-	InventoryInternalV2SearchDeviceInventoriesExecute(r ApiInventoryInternalV2SearchDeviceInventoriesRequest) ([]DeviceInventory, *http.Response, error)
+	//  @return []DeviceInventoryResponse
+	InventoryInternalV2SearchDeviceInventoriesExecute(r ApiInventoryInternalV2SearchDeviceInventoriesRequest) ([]DeviceInventoryResponse, *http.Response, error)
 }
 
 // DeviceInventoryFiltersAndSearchInternalAPIAPIService DeviceInventoryFiltersAndSearchInternalAPIAPI service
@@ -197,7 +197,7 @@ func (r ApiInventoryInternalV2SearchDeviceInventoriesRequest) SearchParams(searc
 	return r
 }
 
-func (r ApiInventoryInternalV2SearchDeviceInventoriesRequest) Execute() ([]DeviceInventory, *http.Response, error) {
+func (r ApiInventoryInternalV2SearchDeviceInventoriesRequest) Execute() ([]DeviceInventoryResponse, *http.Response, error) {
 	return r.ApiService.InventoryInternalV2SearchDeviceInventoriesExecute(r)
 }
 
@@ -222,13 +222,13 @@ func (a *DeviceInventoryFiltersAndSearchInternalAPIAPIService) InventoryInternal
 }
 
 // Execute executes the request
-//  @return []DeviceInventory
-func (a *DeviceInventoryFiltersAndSearchInternalAPIAPIService) InventoryInternalV2SearchDeviceInventoriesExecute(r ApiInventoryInternalV2SearchDeviceInventoriesRequest) ([]DeviceInventory, *http.Response, error) {
+//  @return []DeviceInventoryResponse
+func (a *DeviceInventoryFiltersAndSearchInternalAPIAPIService) InventoryInternalV2SearchDeviceInventoriesExecute(r ApiInventoryInternalV2SearchDeviceInventoriesRequest) ([]DeviceInventoryResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []DeviceInventory
+		localVarReturnValue  []DeviceInventoryResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryFiltersAndSearchInternalAPIAPIService.InventoryInternalV2SearchDeviceInventories")
