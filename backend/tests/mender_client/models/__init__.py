@@ -102,6 +102,7 @@ from mender_client.models.new_deployment import NewDeployment
 from mender_client.models.new_deployment_for_group import NewDeploymentForGroup
 from mender_client.models.new_device_internal_provision import NewDeviceInternalProvision
 from mender_client.models.new_tenant import NewTenant
+from mender_client.models.own_user_update_v2 import OwnUserUpdateV2
 from mender_client.models.personal_access_token import PersonalAccessToken
 from mender_client.models.personal_access_token_request import PersonalAccessTokenRequest
 from mender_client.models.plan import Plan

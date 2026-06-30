@@ -22,6 +22,7 @@ api_io_t_manager_internal_api.go
 api_io_t_manager_management_api.go
 api_user_administration_and_authentication_internal_api.go
 api_user_administration_management_api.go
+api_user_administration_v2_management_api.go
 api_workflows_other.go
 client.go
 configuration.go
@@ -113,6 +114,7 @@ model_new_deployment.go
 model_new_deployment_for_group.go
 model_new_device_internal_provision.go
 model_new_tenant.go
+model_own_user_update_v2.go
 model_personal_access_token.go
 model_personal_access_token_request.go
 model_plan.go
