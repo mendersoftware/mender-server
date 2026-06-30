@@ -3,7 +3,7 @@ variables:
   #       This namespace belongs to Gitlab CI/CD.
   #       https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
   DOCKER_VERSION:
-    value: "29.1"
+    value: "29.6"
     description: "Version of docker to use in pipelines"
   DOCKER_HOST:
     value: 'tcp://docker:2376'
