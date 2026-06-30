@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { HelpOutlineOutlined as HelpIcon } from '@mui/icons-material';
-import { Checkbox, Collapse, FormControlLabel, Tooltip, Typography } from '@mui/material';
+import { Alert, Checkbox, Collapse, FormControlLabel, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
@@ -100,6 +100,10 @@ export const RolloutOptions = ({ isEnterprise }) => {
         }
       />
       <Collapse in={isPaused} className={classes.wrapper}>
+        <Alert severity="info" className="margin-top-small margin-bottom-small">
+          Synchronized updates have been removed in Mender Client 4.0. Configuring pause states between update steps will have no effect on deployments
+          targeting devices running Mender Client 4.0 or later.
+        </Alert>
         <RolloutSteps disabled={phases.length > 1 || !isEnterprise} onStepChange={onStepChangeClick} release={release} steps={states} />
       </Collapse>
     </>
