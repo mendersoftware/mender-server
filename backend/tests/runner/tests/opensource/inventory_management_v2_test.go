@@ -148,14 +148,14 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 		devauthm   = d.APIClient.DeviceAuthenticationManagementAPIAPI
 	)
 
-	getDeviceInventory := func() (client.DeviceInventory, error) {
+	getDeviceInventory := func() (client.DeviceInventoryResponse, error) {
 		for range 10 {
 			filter := []client.FilterPredicate{
 				{
 					Scope:     client.IDENTITY,
 					Attribute: "mac",
 					Type:      "$eq",
-					Value: client.AttributeValue{
+					Value: client.AttributeValueRequest{
 						String: types.Pointer(mac),
 					},
 				},
@@ -167,7 +167,7 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 				Execute()
 
 			if err != nil {
-				return client.DeviceInventory{}, errors.Wrap(err, "failed to get device inventory")
+				return client.DeviceInventoryResponse{}, errors.Wrap(err, "failed to get device inventory")
 			}
 
 			if len(devices) > 0 {
@@ -176,7 +176,7 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 			time.Sleep(500 * time.Millisecond)
 		}
 
-		return client.DeviceInventory{}, errors.New("failed to get device inventory (no results)")
+		return client.DeviceInventoryResponse{}, errors.New("failed to get device inventory (no results)")
 	}
 
 	deviceInventory, err := getDeviceInventory()
@@ -213,7 +213,7 @@ func (d *InventoryManagementV2Suite) acceptWait(ctx context.Context, mac string)
 
 		accepted := slices.ContainsFunc(
 			deviceInventory.Attributes,
-			func(a client.Attribute) bool {
+			func(a client.AttributeResponse) bool {
 				if a.GetScope() != client.IDENTITY || a.GetName() != "status" {
 					return false
 				}
