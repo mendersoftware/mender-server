@@ -149,8 +149,8 @@ This method replaces all the tags with the new set:
 	GetDeviceInventory(ctx context.Context, id string) ApiGetDeviceInventoryRequest
 
 	// GetDeviceInventoryExecute executes the request
-	//  @return DeviceInventory
-	GetDeviceInventoryExecute(r ApiGetDeviceInventoryRequest) (*DeviceInventory, *http.Response, error)
+	//  @return DeviceInventoryResponse
+	GetDeviceInventoryExecute(r ApiGetDeviceInventoryRequest) (*DeviceInventoryResponse, *http.Response, error)
 
 	/*
 	GetDevicesInGroup List the devices belonging to a given group
@@ -201,8 +201,8 @@ GET /devices?attr_name_1=foo
 	ListDeviceInventories(ctx context.Context) ApiListDeviceInventoriesRequest
 
 	// ListDeviceInventoriesExecute executes the request
-	//  @return []DeviceInventory
-	ListDeviceInventoriesExecute(r ApiListDeviceInventoriesRequest) ([]DeviceInventory, *http.Response, error)
+	//  @return []DeviceInventoryResponse
+	ListDeviceInventoriesExecute(r ApiListDeviceInventoriesRequest) ([]DeviceInventoryResponse, *http.Response, error)
 
 	/*
 	ListGroups List all groups existing device groups
@@ -1252,7 +1252,7 @@ type ApiGetDeviceInventoryRequest struct {
 	id string
 }
 
-func (r ApiGetDeviceInventoryRequest) Execute() (*DeviceInventory, *http.Response, error) {
+func (r ApiGetDeviceInventoryRequest) Execute() (*DeviceInventoryResponse, *http.Response, error) {
 	return r.ApiService.GetDeviceInventoryExecute(r)
 }
 
@@ -1272,13 +1272,13 @@ func (a *DeviceInventoryManagementAPIAPIService) GetDeviceInventory(ctx context.
 }
 
 // Execute executes the request
-//  @return DeviceInventory
-func (a *DeviceInventoryManagementAPIAPIService) GetDeviceInventoryExecute(r ApiGetDeviceInventoryRequest) (*DeviceInventory, *http.Response, error) {
+//  @return DeviceInventoryResponse
+func (a *DeviceInventoryManagementAPIAPIService) GetDeviceInventoryExecute(r ApiGetDeviceInventoryRequest) (*DeviceInventoryResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *DeviceInventory
+		localVarReturnValue  *DeviceInventoryResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.GetDeviceInventory")
@@ -1583,7 +1583,7 @@ func (r ApiListDeviceInventoriesRequest) Group(group string) ApiListDeviceInvent
 	return r
 }
 
-func (r ApiListDeviceInventoriesRequest) Execute() ([]DeviceInventory, *http.Response, error) {
+func (r ApiListDeviceInventoriesRequest) Execute() ([]DeviceInventoryResponse, *http.Response, error) {
 	return r.ApiService.ListDeviceInventoriesExecute(r)
 }
 
@@ -1628,13 +1628,13 @@ func (a *DeviceInventoryManagementAPIAPIService) ListDeviceInventories(ctx conte
 }
 
 // Execute executes the request
-//  @return []DeviceInventory
-func (a *DeviceInventoryManagementAPIAPIService) ListDeviceInventoriesExecute(r ApiListDeviceInventoriesRequest) ([]DeviceInventory, *http.Response, error) {
+//  @return []DeviceInventoryResponse
+func (a *DeviceInventoryManagementAPIAPIService) ListDeviceInventoriesExecute(r ApiListDeviceInventoriesRequest) ([]DeviceInventoryResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []DeviceInventory
+		localVarReturnValue  []DeviceInventoryResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryManagementAPIAPIService.ListDeviceInventories")

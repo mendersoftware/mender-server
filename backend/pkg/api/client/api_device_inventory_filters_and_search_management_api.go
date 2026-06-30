@@ -75,8 +75,8 @@ combined using boolean `and` operator.
 	InventoryV2SearchDeviceInventories(ctx context.Context) ApiInventoryV2SearchDeviceInventoriesRequest
 
 	// InventoryV2SearchDeviceInventoriesExecute executes the request
-	//  @return []DeviceInventory
-	InventoryV2SearchDeviceInventoriesExecute(r ApiInventoryV2SearchDeviceInventoriesRequest) ([]DeviceInventory, *http.Response, error)
+	//  @return []DeviceInventoryResponse
+	InventoryV2SearchDeviceInventoriesExecute(r ApiInventoryV2SearchDeviceInventoriesRequest) ([]DeviceInventoryResponse, *http.Response, error)
 }
 
 // DeviceInventoryFiltersAndSearchManagementAPIAPIService DeviceInventoryFiltersAndSearchManagementAPIAPI service
@@ -336,7 +336,7 @@ func (r ApiInventoryV2SearchDeviceInventoriesRequest) SearchParams(searchParams 
 	return r
 }
 
-func (r ApiInventoryV2SearchDeviceInventoriesRequest) Execute() ([]DeviceInventory, *http.Response, error) {
+func (r ApiInventoryV2SearchDeviceInventoriesRequest) Execute() ([]DeviceInventoryResponse, *http.Response, error) {
 	return r.ApiService.InventoryV2SearchDeviceInventoriesExecute(r)
 }
 
@@ -360,13 +360,13 @@ func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) InventoryV2Sear
 }
 
 // Execute executes the request
-//  @return []DeviceInventory
-func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) InventoryV2SearchDeviceInventoriesExecute(r ApiInventoryV2SearchDeviceInventoriesRequest) ([]DeviceInventory, *http.Response, error) {
+//  @return []DeviceInventoryResponse
+func (a *DeviceInventoryFiltersAndSearchManagementAPIAPIService) InventoryV2SearchDeviceInventoriesExecute(r ApiInventoryV2SearchDeviceInventoriesRequest) ([]DeviceInventoryResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []DeviceInventory
+		localVarReturnValue  []DeviceInventoryResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceInventoryFiltersAndSearchManagementAPIAPIService.InventoryV2SearchDeviceInventories")

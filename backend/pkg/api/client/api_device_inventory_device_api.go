@@ -73,12 +73,12 @@ type DeviceInventoryDeviceAPIAPIService service
 type ApiAssignAttributesRequest struct {
 	ctx context.Context
 	ApiService DeviceInventoryDeviceAPIAPI
-	deviceAttribute *[]DeviceAttribute
+	deviceAttributeRequest *[]DeviceAttributeRequest
 }
 
 // A list of attribute descriptors.
-func (r ApiAssignAttributesRequest) DeviceAttribute(deviceAttribute []DeviceAttribute) ApiAssignAttributesRequest {
-	r.deviceAttribute = &deviceAttribute
+func (r ApiAssignAttributesRequest) DeviceAttributeRequest(deviceAttributeRequest []DeviceAttributeRequest) ApiAssignAttributesRequest {
+	r.deviceAttributeRequest = &deviceAttributeRequest
 	return r
 }
 
@@ -127,8 +127,8 @@ func (a *DeviceInventoryDeviceAPIAPIService) AssignAttributesExecute(r ApiAssign
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.deviceAttribute == nil {
-		return nil, reportError("deviceAttribute is required and must be specified")
+	if r.deviceAttributeRequest == nil {
+		return nil, reportError("deviceAttributeRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -149,7 +149,7 @@ func (a *DeviceInventoryDeviceAPIAPIService) AssignAttributesExecute(r ApiAssign
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.deviceAttribute
+	localVarPostBody = r.deviceAttributeRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
@@ -220,12 +220,12 @@ func (a *DeviceInventoryDeviceAPIAPIService) AssignAttributesExecute(r ApiAssign
 type ApiReplaceAttributesRequest struct {
 	ctx context.Context
 	ApiService DeviceInventoryDeviceAPIAPI
-	deviceAttribute *[]DeviceAttribute
+	deviceAttributeRequest *[]DeviceAttributeRequest
 }
 
 // A list of attribute descriptors.
-func (r ApiReplaceAttributesRequest) DeviceAttribute(deviceAttribute []DeviceAttribute) ApiReplaceAttributesRequest {
-	r.deviceAttribute = &deviceAttribute
+func (r ApiReplaceAttributesRequest) DeviceAttributeRequest(deviceAttributeRequest []DeviceAttributeRequest) ApiReplaceAttributesRequest {
+	r.deviceAttributeRequest = &deviceAttributeRequest
 	return r
 }
 
@@ -276,8 +276,8 @@ func (a *DeviceInventoryDeviceAPIAPIService) ReplaceAttributesExecute(r ApiRepla
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.deviceAttribute == nil {
-		return nil, reportError("deviceAttribute is required and must be specified")
+	if r.deviceAttributeRequest == nil {
+		return nil, reportError("deviceAttributeRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -298,7 +298,7 @@ func (a *DeviceInventoryDeviceAPIAPIService) ReplaceAttributesExecute(r ApiRepla
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.deviceAttribute
+	localVarPostBody = r.deviceAttributeRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
