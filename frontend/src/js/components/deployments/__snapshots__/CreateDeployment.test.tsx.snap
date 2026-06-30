@@ -13819,6 +13819,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   margin: 32px;
   position: relative;
   overflow-y: auto;
+  outline: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -15914,6 +15915,7 @@ exports[`CreateDeployment Component > smaller components > renders ScheduleRollo
   margin: 32px;
   position: relative;
   overflow-y: auto;
+  outline: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

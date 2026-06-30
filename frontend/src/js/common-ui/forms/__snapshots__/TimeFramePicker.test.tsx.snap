@@ -213,6 +213,16 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
   outline: none;
 }
 
+@supports (-webkit-app-region: drag) {
+  .MuiPickersInputBase-root:not(:focus-within) .emotion-8 {
+    -webkit-user-modify: read-only;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
 .emotion-18 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -775,7 +785,7 @@ exports[`TimeframePicker Component > renders correctly 1`] = `
                 aria-valuemax="31"
                 aria-valuemin="1"
                 aria-valuenow="13"
-                aria-valuetext="13th"
+                aria-valuetext="13"
                 autocapitalize="none"
                 autocorrect="off"
                 class="MuiPickersSectionList-sectionContent MuiPickersInputBase-sectionContent emotion-8"

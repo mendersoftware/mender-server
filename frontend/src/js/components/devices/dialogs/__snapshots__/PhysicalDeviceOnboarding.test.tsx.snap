@@ -1619,12 +1619,6 @@ exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders Ins
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-3::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 @media (hover: hover) {
   .emotion-3:hover {
     --variant-containedBg: #f5f5f5;
@@ -1639,8 +1633,18 @@ exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders Ins
 
 .emotion-4 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-4::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-4>*:nth-of-type(1) {

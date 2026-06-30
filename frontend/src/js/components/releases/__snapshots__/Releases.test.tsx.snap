@@ -88,12 +88,12 @@ exports[`Releases Component > renders correctly 1`] = `
           class="flexbox align-items-center"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-1q7dayk-MuiButtonBase-root-MuiButton-root-uploadButton"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-1ju8gut-MuiButtonBase-root-MuiButton-root-uploadButton"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-icon MuiButton-startIcon css-1sh91j5-MuiButton-startIcon"
+              class="MuiButton-icon MuiButton-startIcon css-1lxyhll-MuiButton-startIcon"
             >
               <svg
                 aria-hidden="true"

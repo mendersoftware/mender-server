@@ -102,12 +102,6 @@ exports[`TerminalSession Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-1::before {
-  content: "\\200b";
-  width: 0;
-  overflow: hidden;
-}
-
 @media (hover: hover) {
   .emotion-1:hover {
     --variant-containedBg: #1565c0;
@@ -123,8 +117,18 @@ exports[`TerminalSession Component > renders correctly 1`] = `
 
 .emotion-2 {
   display: inherit;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   margin-right: 8px;
   margin-left: -4px;
+}
+
+.emotion-2::before {
+  content: "\\200b";
+  width: 0;
+  overflow: hidden;
 }
 
 .emotion-2>*:nth-of-type(1) {

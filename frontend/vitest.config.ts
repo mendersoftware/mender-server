@@ -100,8 +100,7 @@ export default defineConfig(
             find: '@/testUtils',
             replacement: path.resolve(__dirname, 'tests', 'testUtils')
           }
-        ],
-        dedupe: ['react-router']
+        ]
       },
       server: {
         port: 80,
@@ -111,11 +110,6 @@ export default defineConfig(
         coverage: {
           reporter: ['json', 'lcov'],
           reportsDirectory: 'coverage'
-        },
-        server: {
-          deps: {
-            inline: [/@northern\.tech\/store/, /@northern\.tech\/testing/]
-          }
         },
         env: {
           BABEL_ENV: 'test',
