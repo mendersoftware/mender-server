@@ -221,6 +221,35 @@ func (u UserUpdate) Validate() error {
 	return nil
 }
 
+type OwnUserUpdateV2 struct {
+	// user password
+	Password string `json:"password,omitempty" bson:"password,omitempty"`
+
+	// user password
+	CurrentPassword string `json:"current_password,omitempty" bson:"-"`
+}
+
+func (u OwnUserUpdateV2) Validate() error {
+	if err := validation.ValidateStruct(&u,
+		validation.Field(&u.Password, validation.By(rules.Password)),
+	); err != nil {
+		return err
+	}
+
+	if len(u.Password) > 0 && len(u.Password) < MinPasswordLength {
+		return ErrPasswordTooShort
+	}
+
+	return nil
+}
+
+func (u OwnUserUpdateV2) ToUserUpdate() UserUpdate {
+	return UserUpdate{
+		Password:        u.Password,
+		CurrentPassword: u.CurrentPassword,
+	}
+}
+
 type UserFilter struct {
 	ID    []string `json:"id,omitempty"`
 	Email []Email  `json:"email,omitempty"`

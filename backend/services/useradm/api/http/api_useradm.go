@@ -418,6 +418,56 @@ func (u *UserAdmApiHandlers) UpdateUserHandler(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
+func (u *UserAdmApiHandlers) UpdateOwnUserHandler(c *gin.Context) {
+	ctx := c.Request.Context()
+	idty := identity.FromContext(ctx)
+
+	userUpdate, err := parseOwnUserUpdate(c)
+	if err != nil {
+		if err == model.ErrPasswordTooShort {
+			rest.RenderError(c, http.StatusUnprocessableEntity, err)
+		} else {
+			rest.RenderError(c, http.StatusBadRequest, err)
+		}
+		return
+	}
+
+	// extract the token used to update the user
+	if tokenStr, err := ExtractToken(c.Request); err == nil {
+		keyId := jwt.GetKeyId(tokenStr)
+		if _, ok := u.jwth[keyId]; !ok {
+			rest.RenderInternalError(c, err)
+			return
+		}
+
+		token, err := u.jwth[keyId].FromJWT(tokenStr)
+		if err != nil {
+			rest.RenderInternalError(c, err)
+			return
+		}
+		userUpdate.Token = token
+	}
+
+	err = u.userAdm.UpdateUser(ctx, idty.Subject, &userUpdate)
+	if err != nil {
+		switch err {
+		case store.ErrDuplicateEmail,
+			useradm.ErrCurrentPasswordMismatch,
+			useradm.ErrPassAndMailTooSimilar,
+			useradm.ErrCannotModifyPassword:
+			rest.RenderError(c, http.StatusUnprocessableEntity, err)
+		case store.ErrUserNotFound:
+			rest.RenderError(c, http.StatusNotFound, err)
+		case useradm.ErrETagMismatch:
+			rest.RenderError(c, http.StatusConflict, err)
+		default:
+			rest.RenderInternalError(c, err)
+		}
+	}
+
+	c.Status(http.StatusNoContent)
+}
+
 func (u *UserAdmApiHandlers) DeleteTenantUserHandler(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -730,4 +780,18 @@ func (u *UserAdmApiHandlers) GetPlanBindingHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, planBinding)
+}
+
+func parseOwnUserUpdate(c *gin.Context) (model.UserUpdate, error) {
+	update := model.OwnUserUpdateV2{}
+	//decode body
+	err := c.ShouldBindJSON(&update)
+	if err != nil {
+		return model.UserUpdate{}, errors.Wrap(err, "failed to decode request body")
+	}
+
+	if err := update.Validate(); err != nil {
+		return model.UserUpdate{}, err
+	}
+	return update.ToUserUpdate(), nil
 }
