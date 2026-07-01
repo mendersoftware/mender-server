@@ -239,6 +239,7 @@ func (h DeviceController) handleDeviceMessages(
 			errChan <- err
 			return
 		}
+		_ = conn.SetReadDeadline(time.Now().Add(pongWait))
 		var msg ws.ProtoMsg
 		err = msgpack.Unmarshal(data, &msg)
 		if err != nil {
@@ -354,13 +355,15 @@ func (h DeviceController) connectWSWriter(
 	pingPeriod := pongWait / 2
 	ticker := time.NewTicker(pingPeriod)
 	defer ticker.Stop()
+	_ = conn.SetReadDeadline(time.Now().Add(pongWait))
 	conn.SetPongHandler(func(string) error {
 		ticker.Reset(pingPeriod)
-		return nil
+		return conn.SetReadDeadline(time.Now().Add(pongWait))
 	})
 
 	conn.SetPingHandler(func(msg string) error {
 		ticker.Reset(pingPeriod)
+		_ = conn.SetReadDeadline(time.Now().Add(pongWait))
 		return conn.WriteControl(
 			websocket.PongMessage,
 			[]byte(msg),
