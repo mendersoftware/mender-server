@@ -22,9 +22,9 @@ from pydantic import StrictStr, Field
 from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
-ATTRIBUTEVALUE_ONE_OF_SCHEMAS = ["List[float]", "List[str]", "float", "str"]
+ATTRIBUTEVALUEREQUEST_ONE_OF_SCHEMAS = ["List[float]", "List[str]", "float", "str"]
 
-class AttributeValue(BaseModel):
+class AttributeValueRequest(BaseModel):
     """
     The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
     """
@@ -57,7 +57,7 @@ class AttributeValue(BaseModel):
 
     @field_validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = AttributeValue.model_construct()
+        instance = AttributeValueRequest.model_construct()
         error_messages = []
         match = 0
         # validate data type: str
@@ -86,10 +86,10 @@ class AttributeValue(BaseModel):
             error_messages.append(str(e))
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in AttributeValue with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in AttributeValueRequest with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in AttributeValue with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in AttributeValueRequest with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -143,10 +143,10 @@ class AttributeValue(BaseModel):
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into AttributeValue with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into AttributeValueRequest with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into AttributeValue with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into AttributeValueRequest with oneOf schemas: List[float], List[str], float, str. Details: " + ", ".join(error_messages))
         else:
             return instance
 

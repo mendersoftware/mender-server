@@ -17,45 +17,53 @@ import (
 	"gopkg.in/validator.v2"
 )
 
-// AttributeValue - The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
-type AttributeValue struct {
+// AttributeValueResponse - The current value of the attribute.  Attribute type is implicit, inferred from the JSON type.  Supported types: boolean, number, string, array of numbers, array of strings. Mixed arrays are not allowed. 
+type AttributeValueResponse struct {
 	ArrayOfFloat32 *[]float32
 	ArrayOfString *[]string
+	Bool *bool
 	Float32 *float32
 	String *string
 }
 
-// []float32AsAttributeValue is a convenience function that returns []float32 wrapped in AttributeValue
-func ArrayOfFloat32AsAttributeValue(v *[]float32) AttributeValue {
-	return AttributeValue{
+// []float32AsAttributeValueResponse is a convenience function that returns []float32 wrapped in AttributeValueResponse
+func ArrayOfFloat32AsAttributeValueResponse(v *[]float32) AttributeValueResponse {
+	return AttributeValueResponse{
 		ArrayOfFloat32: v,
 	}
 }
 
-// []stringAsAttributeValue is a convenience function that returns []string wrapped in AttributeValue
-func ArrayOfStringAsAttributeValue(v *[]string) AttributeValue {
-	return AttributeValue{
+// []stringAsAttributeValueResponse is a convenience function that returns []string wrapped in AttributeValueResponse
+func ArrayOfStringAsAttributeValueResponse(v *[]string) AttributeValueResponse {
+	return AttributeValueResponse{
 		ArrayOfString: v,
 	}
 }
 
-// float32AsAttributeValue is a convenience function that returns float32 wrapped in AttributeValue
-func Float32AsAttributeValue(v *float32) AttributeValue {
-	return AttributeValue{
+// boolAsAttributeValueResponse is a convenience function that returns bool wrapped in AttributeValueResponse
+func BoolAsAttributeValueResponse(v *bool) AttributeValueResponse {
+	return AttributeValueResponse{
+		Bool: v,
+	}
+}
+
+// float32AsAttributeValueResponse is a convenience function that returns float32 wrapped in AttributeValueResponse
+func Float32AsAttributeValueResponse(v *float32) AttributeValueResponse {
+	return AttributeValueResponse{
 		Float32: v,
 	}
 }
 
-// stringAsAttributeValue is a convenience function that returns string wrapped in AttributeValue
-func StringAsAttributeValue(v *string) AttributeValue {
-	return AttributeValue{
+// stringAsAttributeValueResponse is a convenience function that returns string wrapped in AttributeValueResponse
+func StringAsAttributeValueResponse(v *string) AttributeValueResponse {
+	return AttributeValueResponse{
 		String: v,
 	}
 }
 
 
 // Unmarshal JSON data into one of the pointers in the struct
-func (dst *AttributeValue) UnmarshalJSON(data []byte) error {
+func (dst *AttributeValueResponse) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
 	// try to unmarshal data into ArrayOfFloat32
@@ -90,6 +98,23 @@ func (dst *AttributeValue) UnmarshalJSON(data []byte) error {
 		}
 	} else {
 		dst.ArrayOfString = nil
+	}
+
+	// try to unmarshal data into Bool
+	err = newStrictDecoder(data).Decode(&dst.Bool)
+	if err == nil {
+		jsonBool, _ := json.Marshal(dst.Bool)
+		if string(jsonBool) == "{}" { // empty struct
+			dst.Bool = nil
+		} else {
+			if err = validator.Validate(dst.Bool); err != nil {
+				dst.Bool = nil
+			} else {
+				match++
+			}
+		}
+	} else {
+		dst.Bool = nil
 	}
 
 	// try to unmarshal data into Float32
@@ -130,25 +155,30 @@ func (dst *AttributeValue) UnmarshalJSON(data []byte) error {
 		// reset to nil
 		dst.ArrayOfFloat32 = nil
 		dst.ArrayOfString = nil
+		dst.Bool = nil
 		dst.Float32 = nil
 		dst.String = nil
 
-		return fmt.Errorf("data matches more than one schema in oneOf(AttributeValue)")
+		return fmt.Errorf("data matches more than one schema in oneOf(AttributeValueResponse)")
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(AttributeValue)")
+		return fmt.Errorf("data failed to match schemas in oneOf(AttributeValueResponse)")
 	}
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src AttributeValue) MarshalJSON() ([]byte, error) {
+func (src AttributeValueResponse) MarshalJSON() ([]byte, error) {
 	if src.ArrayOfFloat32 != nil {
 		return json.Marshal(&src.ArrayOfFloat32)
 	}
 
 	if src.ArrayOfString != nil {
 		return json.Marshal(&src.ArrayOfString)
+	}
+
+	if src.Bool != nil {
+		return json.Marshal(&src.Bool)
 	}
 
 	if src.Float32 != nil {
@@ -163,7 +193,7 @@ func (src AttributeValue) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *AttributeValue) GetActualInstance() (interface{}) {
+func (obj *AttributeValueResponse) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
@@ -173,6 +203,10 @@ func (obj *AttributeValue) GetActualInstance() (interface{}) {
 
 	if obj.ArrayOfString != nil {
 		return obj.ArrayOfString
+	}
+
+	if obj.Bool != nil {
+		return obj.Bool
 	}
 
 	if obj.Float32 != nil {
@@ -188,13 +222,17 @@ func (obj *AttributeValue) GetActualInstance() (interface{}) {
 }
 
 // Get the actual instance value
-func (obj AttributeValue) GetActualInstanceValue() (interface{}) {
+func (obj AttributeValueResponse) GetActualInstanceValue() (interface{}) {
 	if obj.ArrayOfFloat32 != nil {
 		return *obj.ArrayOfFloat32
 	}
 
 	if obj.ArrayOfString != nil {
 		return *obj.ArrayOfString
+	}
+
+	if obj.Bool != nil {
+		return *obj.Bool
 	}
 
 	if obj.Float32 != nil {
@@ -209,38 +247,38 @@ func (obj AttributeValue) GetActualInstanceValue() (interface{}) {
 	return nil
 }
 
-type NullableAttributeValue struct {
-	value *AttributeValue
+type NullableAttributeValueResponse struct {
+	value *AttributeValueResponse
 	isSet bool
 }
 
-func (v NullableAttributeValue) Get() *AttributeValue {
+func (v NullableAttributeValueResponse) Get() *AttributeValueResponse {
 	return v.value
 }
 
-func (v *NullableAttributeValue) Set(val *AttributeValue) {
+func (v *NullableAttributeValueResponse) Set(val *AttributeValueResponse) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableAttributeValue) IsSet() bool {
+func (v NullableAttributeValueResponse) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableAttributeValue) Unset() {
+func (v *NullableAttributeValueResponse) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableAttributeValue(val *AttributeValue) *NullableAttributeValue {
-	return &NullableAttributeValue{value: val, isSet: true}
+func NewNullableAttributeValueResponse(val *AttributeValueResponse) *NullableAttributeValueResponse {
+	return &NullableAttributeValueResponse{value: val, isSet: true}
 }
 
-func (v NullableAttributeValue) MarshalJSON() ([]byte, error) {
+func (v NullableAttributeValueResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableAttributeValue) UnmarshalJSON(src []byte) error {
+func (v *NullableAttributeValueResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

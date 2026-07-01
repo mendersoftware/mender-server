@@ -20,17 +20,17 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from mender_client.models.attribute_request import AttributeRequest
+from mender_client.models.attribute_response import AttributeResponse
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DeviceNew(BaseModel):
+class DeviceInventoryResponse(BaseModel):
     """
-    DeviceNew
+    DeviceInventoryResponse
     """ # noqa: E501
-    id: StrictStr = Field(description="Mender-assigned unique ID.")
+    id: Optional[StrictStr] = Field(default=None, description="Mender-assigned unique ID.")
     updated_ts: Optional[StrictStr] = Field(default=None, description="Timestamp of the most recent attribute update.")
-    attributes: Optional[List[AttributeRequest]] = Field(default=None, description="A list of attribute descriptors.")
+    attributes: Optional[List[AttributeResponse]] = Field(default=None, description="A list of attribute descriptors.")
     __properties: ClassVar[List[str]] = ["id", "updated_ts", "attributes"]
 
     model_config = ConfigDict(
@@ -51,7 +51,7 @@ class DeviceNew(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DeviceNew from a JSON string"""
+        """Create an instance of DeviceInventoryResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -83,7 +83,7 @@ class DeviceNew(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DeviceNew from a dict"""
+        """Create an instance of DeviceInventoryResponse from a dict"""
         if obj is None:
             return None
 
@@ -93,7 +93,7 @@ class DeviceNew(BaseModel):
         _obj = cls.model_validate({
             "id": obj.get("id"),
             "updated_ts": obj.get("updated_ts"),
-            "attributes": [AttributeRequest.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None
+            "attributes": [AttributeResponse.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None
         })
         return _obj
 

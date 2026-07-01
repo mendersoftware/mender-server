@@ -21,18 +21,18 @@ import json
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from mender_client.models.attribute_value import AttributeValue
+from mender_client.models.attribute_value_request import AttributeValueRequest
 from mender_client.models.scope import Scope
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Attribute(BaseModel):
+class AttributeRequest(BaseModel):
     """
-    Attribute
+    AttributeRequest
     """ # noqa: E501
     name: StrictStr = Field(description="A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. ")
     description: Optional[StrictStr] = Field(default=None, description="Attribute description.")
-    value: AttributeValue
+    value: AttributeValueRequest
     scope: Scope
     timestamp: Optional[datetime] = Field(default=None, description="The date and time of last tag update in RFC3339 format.  Only applicable when scope is `tags`. ")
     __properties: ClassVar[List[str]] = ["name", "description", "value", "scope", "timestamp"]
@@ -55,7 +55,7 @@ class Attribute(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Attribute from a JSON string"""
+        """Create an instance of AttributeRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -83,7 +83,7 @@ class Attribute(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Attribute from a dict"""
+        """Create an instance of AttributeRequest from a dict"""
         if obj is None:
             return None
 
@@ -93,7 +93,7 @@ class Attribute(BaseModel):
         _obj = cls.model_validate({
             "name": obj.get("name"),
             "description": obj.get("description"),
-            "value": AttributeValue.from_dict(obj["value"]) if obj.get("value") is not None else None,
+            "value": AttributeValueRequest.from_dict(obj["value"]) if obj.get("value") is not None else None,
             "scope": obj.get("scope"),
             "timestamp": obj.get("timestamp")
         })

@@ -14,7 +14,7 @@
 
 import pytest
 from mender_client import Configuration, ApiClient, api
-from mender_client.models.attribute import Attribute
+from mender_client.models.attribute_request import AttributeRequest
 import uuid
 import redo
 
@@ -76,12 +76,12 @@ class TestPatchAttributes:
             ApiClient(Configuration(host="http://inventory:8080"))
         )
         ts = [
-            Attribute.from_dict(
+            AttributeRequest.from_dict(
                 {"name": "mac", "scope": "identity", "value": "de:ad:be:ef:06:12"}
             )
         ]
         inventory_internal.update_inventory_for_a_device_scope_wise(
-            tenant_id="", device_id=device_id_to_update, attribute=ts
+            tenant_id="", device_id=device_id_to_update, attribute_request=ts
         )
 
         current_devices = inventory_management.list_device_inventories(
@@ -102,12 +102,12 @@ class TestPatchAttributes:
         assert found
 
         ts = [
-            Attribute.from_dict(
+            AttributeRequest.from_dict(
                 {"name": "mac", "scope": "identity", "value": "de:ad:be:ef:06:24"}
             )
         ]
         inventory_internal.update_inventory_for_a_device_scope_wise(
-            tenant_id="", device_id=device_id_to_update, attribute=ts
+            tenant_id="", device_id=device_id_to_update, attribute_request=ts
         )
 
         current_devices = inventory_management.list_device_inventories(
@@ -128,12 +128,12 @@ class TestPatchAttributes:
         assert found
 
         ts = [
-            Attribute.from_dict(
+            AttributeRequest.from_dict(
                 {"name": "newone", "scope": "system", "value": "brandnew"}
             )
         ]
         inventory_internal.update_inventory_for_a_device_scope_wise(
-            tenant_id="", device_id=device_id_to_update, attribute=ts
+            tenant_id="", device_id=device_id_to_update, attribute_request=ts
         )
 
         current_devices = inventory_management.list_device_inventories(

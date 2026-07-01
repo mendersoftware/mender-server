@@ -67,8 +67,8 @@ class ManagementClient:
 
     def inventoryAttribute(self, name, value, scope, description=None):
         """Create an Attribute with the value properly wrapped in AttributeValue."""
-        wrapped_value = mender_client.AttributeValue(value)
-        return mender_client.Attribute(
+        wrapped_value = mender_client.AttributeValueRequest(value)
+        return mender_client.AttributeRequest(
             name=name, value=wrapped_value, scope=scope, description=description
         )
 
@@ -308,10 +308,10 @@ class InternalApiClient:
                 else attr.get("description") if isinstance(attr, dict) else None
             )
 
-            # Create mender_client.Attribute with proper AttributeValue wrapper
-            internal_attr = mender_client.Attribute(
+            # Create mender_client.AttributeRequest with proper AttributeValueRequest wrapper
+            internal_attr = mender_client.AttributeRequest(
                 name=name,
-                value=mender_client.AttributeValue(raw_value),
+                value=mender_client.AttributeValueRequest(raw_value),
                 description=desc,
                 scope=mender_client.Scope.INVENTORY
             )

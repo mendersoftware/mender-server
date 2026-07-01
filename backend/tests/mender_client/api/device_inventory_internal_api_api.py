@@ -19,7 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import List, Optional
 from typing_extensions import Annotated
-from mender_client.models.attribute import Attribute
+from mender_client.models.attribute_request import AttributeRequest
 from mender_client.models.device_new import DeviceNew
 from mender_client.models.device_update import DeviceUpdate
 from mender_client.models.groups import Groups
@@ -1966,7 +1966,7 @@ class DeviceInventoryInternalAPIApi:
         tenant_id: Annotated[StrictStr, Field(description="ID of given tenant.")],
         device_id: Annotated[StrictStr, Field(description="ID of given device.")],
         scope: Annotated[StrictStr, Field(description="Scope of the inventory attributes.")],
-        attribute: Annotated[List[Attribute], Field(description="List of inventory attributes to set.")],
+        attribute_request: Annotated[List[AttributeRequest], Field(description="List of inventory attributes to set.")],
         if_unmodified_since: Annotated[Optional[StrictStr], Field(description="Skips updating the device if modified after the given RFC1123 timestamp.")] = None,
         _request_timeout: Union[
             None,
@@ -1991,8 +1991,8 @@ class DeviceInventoryInternalAPIApi:
         :type device_id: str
         :param scope: Scope of the inventory attributes. (required)
         :type scope: str
-        :param attribute: List of inventory attributes to set. (required)
-        :type attribute: List[Attribute]
+        :param attribute_request: List of inventory attributes to set. (required)
+        :type attribute_request: List[AttributeRequest]
         :param if_unmodified_since: Skips updating the device if modified after the given RFC1123 timestamp.
         :type if_unmodified_since: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2021,7 +2021,7 @@ class DeviceInventoryInternalAPIApi:
             tenant_id=tenant_id,
             device_id=device_id,
             scope=scope,
-            attribute=attribute,
+            attribute_request=attribute_request,
             if_unmodified_since=if_unmodified_since,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2052,7 +2052,7 @@ class DeviceInventoryInternalAPIApi:
         tenant_id: Annotated[StrictStr, Field(description="ID of given tenant.")],
         device_id: Annotated[StrictStr, Field(description="ID of given device.")],
         scope: Annotated[StrictStr, Field(description="Scope of the inventory attributes.")],
-        attribute: Annotated[List[Attribute], Field(description="List of inventory attributes to set.")],
+        attribute_request: Annotated[List[AttributeRequest], Field(description="List of inventory attributes to set.")],
         if_unmodified_since: Annotated[Optional[StrictStr], Field(description="Skips updating the device if modified after the given RFC1123 timestamp.")] = None,
         _request_timeout: Union[
             None,
@@ -2077,8 +2077,8 @@ class DeviceInventoryInternalAPIApi:
         :type device_id: str
         :param scope: Scope of the inventory attributes. (required)
         :type scope: str
-        :param attribute: List of inventory attributes to set. (required)
-        :type attribute: List[Attribute]
+        :param attribute_request: List of inventory attributes to set. (required)
+        :type attribute_request: List[AttributeRequest]
         :param if_unmodified_since: Skips updating the device if modified after the given RFC1123 timestamp.
         :type if_unmodified_since: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2107,7 +2107,7 @@ class DeviceInventoryInternalAPIApi:
             tenant_id=tenant_id,
             device_id=device_id,
             scope=scope,
-            attribute=attribute,
+            attribute_request=attribute_request,
             if_unmodified_since=if_unmodified_since,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2138,7 +2138,7 @@ class DeviceInventoryInternalAPIApi:
         tenant_id: Annotated[StrictStr, Field(description="ID of given tenant.")],
         device_id: Annotated[StrictStr, Field(description="ID of given device.")],
         scope: Annotated[StrictStr, Field(description="Scope of the inventory attributes.")],
-        attribute: Annotated[List[Attribute], Field(description="List of inventory attributes to set.")],
+        attribute_request: Annotated[List[AttributeRequest], Field(description="List of inventory attributes to set.")],
         if_unmodified_since: Annotated[Optional[StrictStr], Field(description="Skips updating the device if modified after the given RFC1123 timestamp.")] = None,
         _request_timeout: Union[
             None,
@@ -2163,8 +2163,8 @@ class DeviceInventoryInternalAPIApi:
         :type device_id: str
         :param scope: Scope of the inventory attributes. (required)
         :type scope: str
-        :param attribute: List of inventory attributes to set. (required)
-        :type attribute: List[Attribute]
+        :param attribute_request: List of inventory attributes to set. (required)
+        :type attribute_request: List[AttributeRequest]
         :param if_unmodified_since: Skips updating the device if modified after the given RFC1123 timestamp.
         :type if_unmodified_since: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2193,7 +2193,7 @@ class DeviceInventoryInternalAPIApi:
             tenant_id=tenant_id,
             device_id=device_id,
             scope=scope,
-            attribute=attribute,
+            attribute_request=attribute_request,
             if_unmodified_since=if_unmodified_since,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2219,7 +2219,7 @@ class DeviceInventoryInternalAPIApi:
         tenant_id,
         device_id,
         scope,
-        attribute,
+        attribute_request,
         if_unmodified_since,
         _request_auth,
         _content_type,
@@ -2230,7 +2230,7 @@ class DeviceInventoryInternalAPIApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            'Attribute': '',
+            'AttributeRequest': '',
         }
 
         _path_params: Dict[str, str] = {}
@@ -2255,8 +2255,8 @@ class DeviceInventoryInternalAPIApi:
             _header_params['If-Unmodified-Since'] = if_unmodified_since
         # process the form parameters
         # process the body parameter
-        if attribute is not None:
-            _body_params = attribute
+        if attribute_request is not None:
+            _body_params = attribute_request
 
 
         # set the HTTP header `Accept`
@@ -2308,7 +2308,7 @@ class DeviceInventoryInternalAPIApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="ID of given tenant.")],
         device_id: Annotated[StrictStr, Field(description="ID of given device.")],
-        attribute: Annotated[List[Attribute], Field(description="List of inventory attributes to set.")],
+        attribute_request: Annotated[List[AttributeRequest], Field(description="List of inventory attributes to set.")],
         if_unmodified_since: Annotated[Optional[StrictStr], Field(description="Skips updating the device if modified after the given RFC1123 timestamp.")] = None,
         _request_timeout: Union[
             None,
@@ -2331,8 +2331,8 @@ class DeviceInventoryInternalAPIApi:
         :type tenant_id: str
         :param device_id: ID of given device. (required)
         :type device_id: str
-        :param attribute: List of inventory attributes to set. (required)
-        :type attribute: List[Attribute]
+        :param attribute_request: List of inventory attributes to set. (required)
+        :type attribute_request: List[AttributeRequest]
         :param if_unmodified_since: Skips updating the device if modified after the given RFC1123 timestamp.
         :type if_unmodified_since: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2360,7 +2360,7 @@ class DeviceInventoryInternalAPIApi:
         _param = self._update_inventory_for_a_device_scope_wise_serialize(
             tenant_id=tenant_id,
             device_id=device_id,
-            attribute=attribute,
+            attribute_request=attribute_request,
             if_unmodified_since=if_unmodified_since,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2390,7 +2390,7 @@ class DeviceInventoryInternalAPIApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="ID of given tenant.")],
         device_id: Annotated[StrictStr, Field(description="ID of given device.")],
-        attribute: Annotated[List[Attribute], Field(description="List of inventory attributes to set.")],
+        attribute_request: Annotated[List[AttributeRequest], Field(description="List of inventory attributes to set.")],
         if_unmodified_since: Annotated[Optional[StrictStr], Field(description="Skips updating the device if modified after the given RFC1123 timestamp.")] = None,
         _request_timeout: Union[
             None,
@@ -2413,8 +2413,8 @@ class DeviceInventoryInternalAPIApi:
         :type tenant_id: str
         :param device_id: ID of given device. (required)
         :type device_id: str
-        :param attribute: List of inventory attributes to set. (required)
-        :type attribute: List[Attribute]
+        :param attribute_request: List of inventory attributes to set. (required)
+        :type attribute_request: List[AttributeRequest]
         :param if_unmodified_since: Skips updating the device if modified after the given RFC1123 timestamp.
         :type if_unmodified_since: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2442,7 +2442,7 @@ class DeviceInventoryInternalAPIApi:
         _param = self._update_inventory_for_a_device_scope_wise_serialize(
             tenant_id=tenant_id,
             device_id=device_id,
-            attribute=attribute,
+            attribute_request=attribute_request,
             if_unmodified_since=if_unmodified_since,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2472,7 +2472,7 @@ class DeviceInventoryInternalAPIApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="ID of given tenant.")],
         device_id: Annotated[StrictStr, Field(description="ID of given device.")],
-        attribute: Annotated[List[Attribute], Field(description="List of inventory attributes to set.")],
+        attribute_request: Annotated[List[AttributeRequest], Field(description="List of inventory attributes to set.")],
         if_unmodified_since: Annotated[Optional[StrictStr], Field(description="Skips updating the device if modified after the given RFC1123 timestamp.")] = None,
         _request_timeout: Union[
             None,
@@ -2495,8 +2495,8 @@ class DeviceInventoryInternalAPIApi:
         :type tenant_id: str
         :param device_id: ID of given device. (required)
         :type device_id: str
-        :param attribute: List of inventory attributes to set. (required)
-        :type attribute: List[Attribute]
+        :param attribute_request: List of inventory attributes to set. (required)
+        :type attribute_request: List[AttributeRequest]
         :param if_unmodified_since: Skips updating the device if modified after the given RFC1123 timestamp.
         :type if_unmodified_since: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2524,7 +2524,7 @@ class DeviceInventoryInternalAPIApi:
         _param = self._update_inventory_for_a_device_scope_wise_serialize(
             tenant_id=tenant_id,
             device_id=device_id,
-            attribute=attribute,
+            attribute_request=attribute_request,
             if_unmodified_since=if_unmodified_since,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2549,7 +2549,7 @@ class DeviceInventoryInternalAPIApi:
         self,
         tenant_id,
         device_id,
-        attribute,
+        attribute_request,
         if_unmodified_since,
         _request_auth,
         _content_type,
@@ -2560,7 +2560,7 @@ class DeviceInventoryInternalAPIApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            'Attribute': '',
+            'AttributeRequest': '',
         }
 
         _path_params: Dict[str, str] = {}
@@ -2583,8 +2583,8 @@ class DeviceInventoryInternalAPIApi:
             _header_params['If-Unmodified-Since'] = if_unmodified_since
         # process the form parameters
         # process the body parameter
-        if attribute is not None:
-            _body_params = attribute
+        if attribute_request is not None:
+            _body_params = attribute_request
 
 
         # set the HTTP header `Accept`
