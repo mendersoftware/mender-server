@@ -112,6 +112,14 @@ components:
           - $eq
           - $in
           - $nin
+          - $gt
+          - $gte
+          - $lt
+          - $lte
+          - $ltne
+          - $ne
+          - $exists
+          - $regex
         value:
           allOf:
             - $ref: "#/components/schemas/AttributeValue"
