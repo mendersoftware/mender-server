@@ -82,7 +82,7 @@ func TestSearchParams(t *testing.T) {
 					{
 						Scope:     "system",
 						Attribute: "attribute",
-						Type:      "$regex",
+						Type:      "$foo",
 						Value:     "value",
 					},
 				},

@@ -23,7 +23,20 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 )
 
-var validSelectors = []interface{}{"$eq", "$in", "$nin"}
+var validSelectors = []interface{}{
+	"$eq",
+	"$gt",
+	"$gte",
+	"$in",
+	"$lt",
+	"$lte",
+	"$ltne",
+	"$ne",
+	"$nin",
+	"$exists",
+	"$regex",
+}
+
 var validSortOrders = []interface{}{"asc", "desc"}
 var validScopes = []string{"system", "identity", "inventory", "monitor", "tags"}
 
