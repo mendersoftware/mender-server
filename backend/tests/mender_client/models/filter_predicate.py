@@ -38,8 +38,8 @@ class FilterPredicate(BaseModel):
     @field_validator('type')
     def type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['$eq', '$in', '$nin']):
-            raise ValueError("must be one of enum values ('$eq', '$in', '$nin')")
+        if value not in set(['$eq', '$in', '$nin', '$gt', '$gte', '$lt', '$lte', '$ltne', '$ne', '$exists', '$regex']):
+            raise ValueError("must be one of enum values ('$eq', '$in', '$nin', '$gt', '$gte', '$lt', '$lte', '$ltne', '$ne', '$exists', '$regex')")
         return value
 
     model_config = ConfigDict(
