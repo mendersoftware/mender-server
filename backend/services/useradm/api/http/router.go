@@ -11,9 +11,11 @@ import (
 
 const (
 	apiUrlManagementV1       = "/api/management/v1/useradm"
+	apiUrlManagementV2       = "/api/management/v2/useradm"
 	uriManagementAuthLogin   = "/auth/login"
 	uriManagementAuthLogout  = "/auth/logout"
 	uriManagementUser        = "/users/:id"
+	uriManagementUserMe      = "/users/me"
 	uriManagementUsers       = "/users"
 	uriManagementSettings    = "/settings"
 	uriManagementSettingsMe  = "/settings/me"
@@ -38,11 +40,13 @@ func MakeRouter(i *UserAdmApiHandlers) http.Handler {
 	router.Use(requestsize.Middleware(i.config.MaxRequestSize))
 
 	mgmt := router.Group(apiUrlManagementV1)
+	mgmtV2 := router.Group(apiUrlManagementV2)
 
 	mgmt.Group(".").Use(contenttype.CheckJSON()).
 		POST(uriManagementAuthLogin, i.AuthLoginHandler)
 
 	mgmt.Use(identity.Middleware())
+	mgmtV2.Use(identity.Middleware())
 
 	mgmt.GET(uriManagementUsers, i.GetUsersHandler)
 	mgmt.GET(uriManagementUser, i.GetUserHandler)
@@ -61,6 +65,9 @@ func MakeRouter(i *UserAdmApiHandlers) http.Handler {
 		POST(uriManagementSettings, i.SaveSettingsHandler).
 		POST(uriManagementSettingsMe, i.SaveSettingsMeHandler).
 		POST(uriManagementTokens, i.IssueTokenHandler)
+
+	mgmtV2.Group(".").Use(contenttype.CheckJSON()).
+		PUT(uriManagementUserMe, i.UpdateOwnUserHandler)
 
 	routing.AutogenOptionsRoutes(router,
 		routing.AllowHeaderOptionsGenerator)
