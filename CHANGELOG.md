@@ -1,4 +1,29 @@
 ---
+## 4.1.0 - 2026-07-01
+
+
+### Features
+
+
+- *(create-artifact-worker)* Update `mender-artifact` to latest v4.1.0
+([MEN-8337](https://northerntech.atlassian.net/browse/MEN-8337)) ([069da10](https://github.com/mendersoftware/mender-server/commit/069da103bf45f88a18a1517d46b3061c02380598)) 
+
+
+
+
+
+  Modifying also the integration to build the tool from source instead or
+  repurposing the upstream Debian package. This has the main advantage
+  that we can compile it statically (by disabling a feature that we don't
+  use) and that we have control of the compatibility aspects of the
+  binary.
+
+
+
+
+
+
+
 ## [4.0.2](https://github.com/mendersoftware/mender-server/compare/v4.0.1...v4.0.2) (2026-03-26)
 
 
