@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { Button, DialogActions, DialogContent } from '@mui/material';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import { getGroups, getSelectedGroupInfo } from '@northern.tech/store/selectors';
+import { getGroups } from '@northern.tech/store/selectors';
 
 import GroupDefinition from './GroupDefinition';
 
@@ -28,7 +28,6 @@ export const CreateGroup = ({ addListOfDevices, fromFilters, isCreation, onClose
   const [newGroup, setNewGroup] = useState('');
   const [title, setTitle] = useState(isCreationDynamic ? 'Create a new group' : `Add ${selectedDevices.length ? 'selected ' : ''}devices to group`);
 
-  const { selectedGroup } = useSelector(getSelectedGroupInfo);
   // ensure that existing dynamic groups are only listed if a dynamic group should be created
   const { dynamic, static: staticGroups } = useSelector(getGroups);
   const groups = fromFilters ? [...staticGroups.map(g => g.groupId), ...dynamic.map(g => g.groupId)] : staticGroups.map(g => g.groupId);
@@ -50,7 +49,6 @@ export const CreateGroup = ({ addListOfDevices, fromFilters, isCreation, onClose
           newGroup={newGroup}
           onInputChange={(invalidName, name, isModification) => onNameChange(invalidName, name, isModification)}
           selectedDevices={selectedDevices}
-          selectedGroup={selectedGroup}
         />
       </DialogContent>
       <DialogActions>

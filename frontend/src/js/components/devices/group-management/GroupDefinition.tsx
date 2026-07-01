@@ -54,7 +54,7 @@ export const validateGroupName = (encodedName: string, groups = [], selectedDevi
 
 const GroupOption = (props, option) => <li {...props}>{option.title}</li>;
 
-export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputChange, selectedDevices, selectedGroup }) => {
+export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputChange, selectedDevices }) => {
   const [errorText, setErrorText] = useState('');
 
   const validateName = (encodedName: string) => {
@@ -63,12 +63,7 @@ export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputCh
     onInputChange(invalid, name, isModification);
   };
 
-  const filteredGroups = groups
-    .filter(group => group !== selectedGroup)
-    .map(group => ({
-      value: group,
-      title: group
-    }));
+  const mappedGroups = groups.map(group => ({ value: group, title: group }));
   return (
     <>
       <Autocomplete
@@ -102,7 +97,7 @@ export const GroupDefinition = ({ isCreationDynamic, groups, newGroup, onInputCh
         }}
         handleHomeEndKeys
         inputValue={newGroup}
-        options={filteredGroups}
+        options={mappedGroups}
         onInputChange={(e, newValue) => validateName(newValue)}
         renderInput={params => <TextField {...params} label="Select a group, or type to create new" />}
         renderOption={GroupOption}
