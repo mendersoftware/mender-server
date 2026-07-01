@@ -25,7 +25,15 @@ import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
-import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
+import {
+  getCurrentSession,
+  getCurrentUser,
+  getFeatures,
+  getIsDarkMode,
+  getIsEnterprise,
+  getUserCapabilities,
+  getUserSettings
+} from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { editUser, passwordResetStart, saveUserSettings, verifyEmailStart } from '@northern.tech/store/thunks';
 import { toggle } from '@northern.tech/utils/helpers';
@@ -78,6 +86,7 @@ export const SelfUserManagement = () => {
   const isDarkMode = useSelector(getIsDarkMode);
   const { token } = useSelector(getCurrentSession);
   const [showNotice, setShowNotice] = useState<string>('');
+  const { canManageUsers } = useSelector(getUserCapabilities);
 
   const editSubmit = userData => {
     dispatch(editUser({ ...userData, id: OWN_USER_ID }))
@@ -261,7 +270,7 @@ export const SelfUserManagement = () => {
         }
         sideBarContent={<CopyTextToClipboard token={token} />}
       />
-      <AccessTokenManagement />
+      {canManageUsers && <AccessTokenManagement />}
       {isEnterprise && hasTracking && (
         <ToggleSettingsItem
           description="Enable usage data and errors to be sent to help us improve our service."
