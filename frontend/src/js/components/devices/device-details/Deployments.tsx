@@ -14,12 +14,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, buttonClasses, tableCellClasses } from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, buttonClasses, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
-import InfoHint from '@northern.tech/common-ui/InfoHint';
 import { Link } from '@northern.tech/common-ui/Link';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
@@ -54,14 +53,17 @@ const useStyles = makeStyles()(theme => ({
 
 const EmptyState = ({ isFiltered }) => (
   <>
-    <div className="flexbox column centered margin-large">
-      <p className="align-center muted">
-        No deployments were found.
+    <div className="flexbox column centered margin-top-large">
+      <Typography className="align-center">
+        No deployments were found
         <br />
         {isFiltered && <>Try adjusting the filters</>}
-      </p>
+      </Typography>
+      <Typography variant="body2" style={{ width: '500px' }} align="center" className="margin-top-x-small">
+        If this device is part of a pending or scheduled deployment, the deployment will only appear here once it has started and the device has reported its
+        update status to the server.
+      </Typography>
     </div>
-    <InfoHint content="If this device is part of a pending or scheduled deployment, the deployment will only appear here once it has started and the device has reported its update status to the server." />
   </>
 );
 
@@ -211,7 +213,7 @@ export const Deployments = ({ device }) => {
                 style={{ marginRight: 0 }}
               />
             )}
-            <Button onClick={onResetStart} variant="contained">
+            <Button color="error" variant="outlined" onClick={onResetStart}>
               Reset device deployment history
             </Button>
           </div>
