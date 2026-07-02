@@ -15,10 +15,10 @@ import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { vi } from 'vitest';
 
-import DeviceNotifications, { DeviceOfflineHeaderNotification, LastConnection, NoAlertsHeaderNotification, ServiceNotification } from './Notifications';
+import DeviceNotifications, { DeviceOfflineHeaderNotification, LastConnection, ServiceNotification } from './Notifications';
 
 describe('tiny components', () => {
-  [LastConnection, ServiceNotification, NoAlertsHeaderNotification, DeviceOfflineHeaderNotification].forEach(async Component => {
+  [LastConnection, ServiceNotification, DeviceOfflineHeaderNotification].forEach(async Component => {
     it(`renders ${Component.displayName || Component.name} correctly`, () => {
       const { baseElement } = render(
         <Component

@@ -180,6 +180,7 @@ export const HelpTooltip = ({
 };
 
 type MenderHelpTooltipProps = {
+  className?: string;
   deviceId?: string;
   id: string;
 } & Omit<HelpTooltipProps, 'setAllTooltipsReadState' | 'setTooltipReadState' | 'tooltip'>;
