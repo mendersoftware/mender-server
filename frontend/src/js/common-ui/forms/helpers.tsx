@@ -11,14 +11,3 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { FormProvider, useForm } from 'react-hook-form';
-
-import { render } from '@/testUtils';
-
-export const formRenderWrapper = ui => {
-  const Wrapper = ({ children }) => {
-    const methods = useForm();
-    return <FormProvider {...methods}>{children}</FormProvider>;
-  };
-  return render(<Wrapper>{ui}</Wrapper>);
-};

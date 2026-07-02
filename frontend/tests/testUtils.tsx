@@ -11,6 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { FormProvider, useForm } from 'react-hook-form';
+
 import { mockState as appMockState } from '@northern.tech/store/appSlice/mocks';
 import { mockState as deploymentsMockState } from '@northern.tech/store/deploymentsSlice/mocks';
 import { mockState as devicesMockState } from '@northern.tech/store/devicesSlice/mocks';
@@ -46,3 +48,11 @@ const customRender = (ui, options = {}) => {
 export * from '@northern.tech/testing/setupTests';
 
 export { customRender as render };
+
+export const formRenderWrapper = ui => {
+  const Wrapper = ({ children }) => {
+    const methods = useForm();
+    return <FormProvider {...methods}>{children}</FormProvider>;
+  };
+  return customRender(<Wrapper>{ui}</Wrapper>);
+};

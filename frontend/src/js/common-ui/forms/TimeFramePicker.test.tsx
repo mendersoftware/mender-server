@@ -16,12 +16,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-import { render } from '@/testUtils';
+import { formRenderWrapper, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { screen } from '@testing-library/react';
 
 import TimeframePicker from './TimeframePicker';
-import { formRenderWrapper } from './helpers';
 
 const testRender = ui => {
   const Wrapper = ({ children }) => {
