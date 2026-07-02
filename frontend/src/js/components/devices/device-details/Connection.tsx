@@ -12,10 +12,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
-import { InfoOutlined as InfoIcon, Launch as LaunchIcon } from '@mui/icons-material';
+import { Launch as LaunchIcon } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -38,6 +38,7 @@ import {
 } from '@northern.tech/store/constants';
 import { formatAuditlogs } from '@northern.tech/store/locationutils';
 import { getCurrentSession, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceFileDownloadLink } from '@northern.tech/store/thunks';
 import { createDownload } from '@northern.tech/utils/helpers';
 
@@ -46,12 +47,8 @@ import TroubleshootContent from '../troubleshoot/TerminalWrapper';
 
 const { setSnackbar } = storeActions;
 
-const useStyles = makeStyles()(theme => ({
-  buttonStyle: { textTransform: 'none', textAlign: 'left' },
-  connectionIcon: { marginRight: theme.spacing() },
+const useStyles = makeStyles()(() => ({
   content: { maxWidth: 1280 },
-  title: { marginRight: theme.spacing(0.5) },
-  troubleshootButton: { marginRight: theme.spacing(2) },
   tierNotice: { maxWidth: 500 }
 }));
 
@@ -77,50 +74,27 @@ export const PortForwardLink = () => (
   </MenderTooltip>
 );
 
-export const DeviceConnectionNote = ({ children }) => {
-  const { classes } = useStyles();
-  return (
-    <div className="flexbox muted">
-      <InfoIcon className={classes.connectionIcon} fontSize="small" />
-      <Typography className={classes.buttonStyle} variant="body1">
-        {children}
-      </Typography>
-    </div>
-  );
-};
-
 export const DeviceConnectionMissingNote = () => (
-  <DeviceConnectionNote>
-    The troubleshoot add-on does not seem to be enabled on this device.
+  <Typography className="align-center full-width margin-top-large">
+    The troubleshoot Add-on does not seem to be enabled on this device.
     <br />
     Please <DocsLink path="add-ons/remote-terminal" title="see the documentation" /> for a description on how it works and how to enable it.
-  </DeviceConnectionNote>
+  </Typography>
 );
 
 export const DeviceDisconnectedNote = ({ lastConnectionTs }) => (
-  <DeviceConnectionNote>
-    The troubleshoot add-on is not currently connected on this device, it was last connected on <Time value={lastConnectionTs} />.
+  <Typography className="align-center full-width margin-top-large">
+    The troubleshoot Add-on is not currently connected on this device, it was last connected on <Time value={lastConnectionTs} />.
     <br />
     Please <DocsLink path="add-ons/remote-terminal" title="see the documentation" /> for more information.
-  </DeviceConnectionNote>
+  </Typography>
 );
-
-export const TroubleshootButton = ({ disabled, item, onClick }) => {
-  const { classes } = useStyles();
-  return (
-    <Button className={classes.troubleshootButton} onClick={() => onClick(item.key)} disabled={disabled} startIcon={item.icon}>
-      <Typography className={classes.buttonStyle} variant="subtitle2">
-        {item.title}
-      </Typography>
-    </Button>
-  );
-};
 
 const deviceAuditlogType = AUDIT_LOGS_TYPES.find(type => type.value === 'device');
 
 const tabs = {
   terminal: {
-    title: 'Remote terminal',
+    title: '',
     value: 'terminal',
     canShow: ({ canTroubleshoot, canWriteDevices, groupsPermissions }, { group }) =>
       (canTroubleshoot && canWriteDevices) || checkPermissionsObject(groupsPermissions, uiPermissionsById.connect.value, group, ALL_DEVICES),
@@ -150,7 +124,7 @@ export const DeviceConnection = ({ device }) => {
   //TODO: move source of truth to store constants
   const tierEligible = tier !== 'micro';
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
 
   useEffect(() => {
@@ -230,7 +204,11 @@ export const DeviceConnection = ({ device }) => {
             {connectionStatus === DEVICE_CONNECT_STATES.disconnected && <DeviceDisconnectedNote lastConnectionTs={connect_updated_ts} />}
             {availableTabs.map(({ Component, title, value }) => (
               <div key={value}>
-                <h4 className="margin-top-large">{title}</h4>
+                {title && (
+                  <Typography variant="subtitle1" className="margin-top-large">
+                    {title}
+                  </Typography>
+                )}
                 <Component
                   device={device}
                   downloadPath={downloadPath}
@@ -250,7 +228,7 @@ export const DeviceConnection = ({ device }) => {
             ))}
           </div>
         ) : (
-          <div className={`margin-top flexbox centered align-center`}>
+          <div className="margin-top flexbox centered align-center">
             <Typography className={classes.tierNotice}>
               The Troubleshoot Add-on cannot be used with a Micro tier device. Please <DocsLink path="overview/device-tiers" title="see the documentation" /> to
               learn how to change a device to the Standard tier.
