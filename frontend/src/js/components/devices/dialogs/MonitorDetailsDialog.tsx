@@ -11,101 +11,92 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import React, { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import {
-  ArrowDropDown as ArrowDropDownIcon,
-  ArrowDropUp as ArrowDropUpIcon,
-  FileCopy as CopyPasteIcon,
-  ReportProblemOutlined as WarningIcon
-} from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary, Button, Collapse, DialogActions, DialogContent, IconButton, styled } from '@mui/material';
+import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
+import { Code } from '@northern.tech/common-ui/CopyCode';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
-import { TIMEOUTS } from '@northern.tech/store/constants';
-import { toggle } from '@northern.tech/utils/helpers';
 
-const CopyButton = ({ text, onCopy }) => (
-  <CopyToClipboard text={text} onCopy={onCopy}>
-    <IconButton size="small">
-      <CopyPasteIcon fontSize="small" />
-    </IconButton>
-  </CopyToClipboard>
-);
-
-const LogLine = ({ beExplicit, line, prefix }) => {
-  const [copied, setCopied] = useState(false);
-  const [hovering, setHovering] = useState(false);
-
-  const onCopied = () => {
-    setCopied(true);
-    setTimeout(() => setCopied(false), TIMEOUTS.threeSeconds);
-  };
-
-  const toggleHovering = () => setHovering(toggle);
-
-  const { line_number, data } = line;
-
-  return (
-    <React.Fragment key={line_number}>
-      <div className="log-line margin-right" onMouseLeave={toggleHovering} onMouseOver={setHovering}>
-        {prefix ? prefix : <div />}
-        {line_number !== undefined ? <code className={`align-right ${beExplicit ? 'red' : ''}`}>{line_number}</code> : <div />}
-        <code className={beExplicit ? 'red' : ''}>{data}</code>
-        {hovering && <CopyButton text={data} onCopy={onCopied} />}
-      </div>
-      <Collapse in={copied}>
-        <div className="margin-left-small green fadeIn">Copied to clipboard.</div>
-      </Collapse>
-    </React.Fragment>
-  );
-};
-
-const CustomAccordion = styled(Accordion)({
-  root: {
-    '&:before': {
-      display: 'none'
-    },
-    '&$expanded': {
-      backgroundColor: 'transparent',
-      margin: 0
-    }
+const useStyles = makeStyles()(theme => ({
+  container: {
+    position: 'relative',
+    maxHeight: 400,
+    overflowY: 'auto',
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
+    '& code': { padding: theme.spacing(0.5, 1.5) }
   },
-  expanded: {}
-});
+  row: {
+    display: 'flex',
+    borderInlineStart: '3px solid transparent'
+  },
+  matchRow: {
+    backgroundColor: alpha(theme.palette.error.main, 0.1),
+    borderInlineStart: `3px solid ${theme.palette.error.main}`,
+    '& code': { color: theme.palette.error.main, fontWeight: 500 }
+  },
+  gutter: {
+    flexShrink: 0,
+    minWidth: 52,
+    textAlign: 'right',
+    userSelect: 'none',
+    color: theme.palette.text.disabled,
+    borderInlineEnd: `1px solid ${theme.palette.divider}`
+  },
+  content: {
+    color: theme.palette.text.secondary,
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-all'
+  }
+}));
 
-const LogSection = ({ section = 'previous', lines }) => {
-  const [expanded, setExpanded] = useState(false);
-  const onToggle = () => setExpanded(toggle);
+const LogRow = ({ line, isMatch, ref }) => {
+  const { classes } = useStyles();
+  const { line_number, data } = line;
   return (
-    !!lines.length && (
-      <CustomAccordion square expanded={expanded} onChange={onToggle}>
-        <AccordionSummary style={{ paddingLeft: 0 }}>
-          {expanded ? <ArrowDropUpIcon className="margin-right-small" /> : <ArrowDropDownIcon className="margin-right-small" />}
-          <div>
-            show {section} {lines.length} lines
-          </div>
-        </AccordionSummary>
-        <AccordionDetails style={{ paddingLeft: 0, paddingRight: 0 }}>
-          {lines.map(item => (
-            <LogLine key={item.line_number} line={item} />
-          ))}
-        </AccordionDetails>
-      </CustomAccordion>
-    )
+    <div ref={ref} className={`${classes.row} ${isMatch ? classes.matchRow : ''}`}>
+      {line_number !== undefined && (
+        <Typography component="code" variant="code2" className={classes.gutter}>
+          {line_number}
+        </Typography>
+      )}
+      <Typography component="code" variant="code2" className={classes.content}>
+        {data}
+      </Typography>
+    </div>
   );
 };
 
-const LogContent = ({ lines_before = [], lines_after = [], line_matching = '' }) => (
-  <>
-    <LogSection section="previous" lines={lines_before} />
-    <LogLine beExplicit line={line_matching} prefix={<WarningIcon fontSize="small" />} />
-    <LogSection section="next" lines={lines_after} />
-  </>
-);
+const LogContent = ({ lines_before = [], lines_after = [], line_matching = {} }) => {
+  const { classes } = useStyles();
+  const containerRef = useRef(null);
+  const matchRef = useRef(null);
+  const rows = [...lines_before, line_matching, ...lines_after];
 
-const DescriptionContent = ({ description }) => <LogLine line={{ data: description }} />;
+  //scroll matching line into view
+  useEffect(() => {
+    const container = containerRef.current;
+    const match = matchRef.current;
+    if (container && match) {
+      container.scrollTop = match.offsetTop - (container.clientHeight - match.clientHeight) / 2;
+    }
+  }, []);
+
+  return (
+    <div ref={containerRef} className={classes.container}>
+      {rows.map(line => {
+        const isMatch = line.line_number === line_matching.line_number;
+        return <LogRow key={line.line_number} ref={isMatch ? matchRef : undefined} line={line} isMatch={isMatch} />;
+      })}
+    </div>
+  );
+};
+
+const DescriptionContent = ({ description }) => <Code>{description}</Code>;
 
 const detailTypes = {
   log: {
@@ -135,7 +126,7 @@ const exportLog = (name, lines) => {
 export const MonitorDetailsDialog = ({ alert, onClose }) => {
   const { name, subject = { details: {} } } = alert ?? {};
   const {
-    details: { lines_before = [], lines_after = [], line_matching = '' }
+    details: { description = '', lines_before = [], lines_after = [], line_matching = '' }
   } = subject;
 
   const lines = [...lines_before, line_matching, ...lines_after].filter(i => i);
@@ -148,6 +139,11 @@ export const MonitorDetailsDialog = ({ alert, onClose }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
+        {!lines.length && !!description && (
+          <CopyToClipboard text={description}>
+            <Button variant="contained">Copy to clipboard</Button>
+          </CopyToClipboard>
+        )}
         {!!lines.length && (
           <Button variant="contained" onClick={() => exportLog(name, lines)}>
             Export log
