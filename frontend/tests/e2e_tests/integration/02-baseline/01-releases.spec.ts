@@ -171,7 +171,7 @@ test.describe('Files', () => {
         if (!(await foundTag.isVisible())) {
           continue;
         }
-        await foundTag.getByLabel('tags-delete').click();
+        await foundTag.getByLabel(`${name}-delete`).click();
       }
       const input = await page.getByPlaceholder(/add release tags/i);
       await page.getByRole('button', { name: 'confirm' }).click();
