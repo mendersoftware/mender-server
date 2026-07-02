@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { Chip, Tab, Tabs, chipClasses } from '@mui/material';
+import { Chip, Tab, Tabs, Typography, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
@@ -196,7 +196,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
   const userCapabilities = useSelector(getUserCapabilities);
   const dispatch = useDispatch();
 
-  const { attributes = {}, isOffline, gatewayIds = [] } = device;
+  const { attributes = {}, gatewayIds = [] } = device;
   const { mender_is_gateway, mender_gateway_system_id } = attributes;
   const isGateway = stringToBoolean(mender_is_gateway);
 
@@ -288,10 +288,10 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
               {!!gatewayIds.length && (
                 <GatewayConnectionNotification gatewayDevices={gatewayIds.map(gatewayId => devicesById[gatewayId])} onClick={scrollToDeviceSystem} />
               )}
-              <div className={`${isOffline ? 'red' : 'muted'} margin-left margin-right flexbox align-items-center`}>
-                <div className="margin-right-small">Latest activity:</div>
-                <RelativeTime updateTime={device.check_in_time} />
-              </div>
+              <Typography variant="body2" className="flexbox align-items-center" color="textSecondary">
+                Latest activity:
+                <RelativeTime className="margin-left-small" updateTime={device.check_in_time} />
+              </Typography>
             </>
           )
         }
