@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 
 import { CheckCircleOutlined, CloudUploadOutlined as CloudUpload, Refresh as RefreshIcon } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { DiffEditor } from '@monaco-editor/react';
@@ -33,13 +34,10 @@ import pluralize from 'pluralize';
 const useStyles = makeStyles()(theme => ({
   buttonSpacer: { marginLeft: theme.spacing(2) },
   diffStatus: {
-    minHeight: 75,
-    display: 'grid',
-    gridTemplateColumns: 'min-content 300px max-content',
-    gridColumnGap: theme.spacing(2),
-    alignItems: 'center',
-    background: theme.palette.grey[100],
-    width: 'min-content'
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? alpha(theme.palette.grey[300], theme.palette.action.selectedOpacity)
+        : alpha(theme.palette.grey[400], theme.palette.action.hoverOpacity)
   }
 }));
 
@@ -52,9 +50,9 @@ export const LastSyncNote = ({ updateTime }) => (
 const NoDiffStatus = () => {
   const { classes } = useStyles();
   return (
-    <div className={`padding-small ${classes.diffStatus}`}>
-      <CheckCircleOutlined className="green" />
-      <div>No difference between desired and reported configuration</div>
+    <div className={`padding-medium flexbox ${classes.diffStatus}`}>
+      <CheckCircleOutlined className="green margin-right-medium" />
+      <Typography>No difference between desired and reported configuration</Typography>
     </div>
   );
 };
@@ -80,13 +78,12 @@ export const TwinSyncStatus = ({ diffCount, providerTitle, twinError, updateTime
   return !diffCount ? (
     <NoDiffStatus />
   ) : (
-    <div className={`padding-small ${classes.diffStatus}`}>
-      <CloudUpload />
-      <div>
-        <b>
-          Found {diffCount} {pluralize('difference', diffCount)}
-        </b>{' '}
-        between desired and reported configuration
+    <div className={`padding-medium flexbox space-between align-items-center ${classes.diffStatus}`}>
+      <div className="flexbox align-items-center">
+        <CloudUpload className="margin-small" />
+        <Typography className="margin-left-x-small">
+          Found {diffCount} {pluralize('difference', diffCount)} between desired and reported configuration
+        </Typography>
       </div>
       <LastSyncNote updateTime={updateTime} />
     </div>
@@ -189,27 +186,19 @@ export const DeviceTwin = ({ device, integration }) => {
   const widthStyle = { maxWidth: isSync ? maxWidth : 'initial' };
 
   return (
-    <ContentSection
-      postTitle={
-        <>
-          <LastSyncNote updateTime={updateTime} />
-          <Link to="/settings/integrations">Integration settings</Link>
-        </>
-      }
-      title={`${externalProvider.title} ${externalProvider.twinTitle}`}
-    >
+    <ContentSection postTitle={<Link to="/settings/integrations">Integration settings</Link>} title={`${externalProvider.title} ${externalProvider.twinTitle}`}>
       <div className="flexbox column">
         {initialized ? (
           <TwinSyncStatus diffCount={diffCount} providerTitle={externalProvider.title} twinError={twinError} updateTime={updateTime} />
         ) : (
           <Loader show />
         )}
-        <div style={widthStyle}>
+        <div className="margin-top-medium" style={widthStyle}>
           {!initialized || (!(isEmpty(reported) && isEmpty(configured)) && !isSync) ? (
             <>
               <div className="two-columns">
-                <h4>Desired configuration</h4>
-                <h4>Reported configuration</h4>
+                <Typography variant="subtitle1">Desired configuration</Typography>
+                <Typography variant="subtitle1">Reported configuration</Typography>
               </div>
               <div className={editorClasses.wrapper}>
                 <DiffEditor
@@ -231,14 +220,14 @@ export const DeviceTwin = ({ device, integration }) => {
             </>
           ) : (
             <>
-              <h4>{!deviceTwin.reported || isEditing ? 'Desired' : 'Reported'} configuration</h4>
+              <Typography variant="subtitle1">{!deviceTwin.reported || isEditing ? 'Desired' : 'Reported'} configuration</Typography>
               <CodeEditor language="json" readOnly={!isEditing} onMount={handleEditorDidMount} value={reported || configured} onChange={setUpdated} />
             </>
           )}
-          {!!errorMessage && <p className="warning">{errorMessage}</p>}
+          {!!errorMessage && <Typography className="warning">{errorMessage}</Typography>}
         </div>
-        <div className="two-columns margin-top" style={isSync ? { gridTemplateColumns: `${maxWidth}px 1fr` } : widthStyle}>
-          <div className="flexbox" style={{ alignItems: 'flex-start', justifyContent: 'flex-end' }}>
+        <div className="margin-top-small flexbox">
+          <div className="flexbox">
             {isEditing ? (
               <>
                 <Button onClick={onCancelClick}>Cancel</Button>
@@ -252,13 +241,13 @@ export const DeviceTwin = ({ device, integration }) => {
               </Button>
             )}
           </div>
-          <div className="flexbox" style={{ justifyContent: 'flex-end' }}>
-            <Loader show={isRefreshing} small table />
+          <div className="flexbox margin-left-small">
             {!isEditing && (
-              <Button onClick={onRefreshClick} startIcon={<RefreshIcon />}>
+              <Button className="margin-right-small" onClick={onRefreshClick} startIcon={<RefreshIcon />}>
                 Refresh
               </Button>
             )}
+            <Loader show={isRefreshing} small table />
           </div>
         </div>
       </div>
