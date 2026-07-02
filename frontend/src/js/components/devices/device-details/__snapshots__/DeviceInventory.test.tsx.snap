@@ -29,6 +29,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .emotion-3 {
@@ -48,6 +49,10 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.6);
   text-align: left;
   caption-side: bottom;
+}
+
+.emotion-3 .MuiTableCell-root {
+  padding: 8px 16px;
 }
 
 .emotion-4 {
@@ -257,6 +262,16 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   opacity: 1;
 }
 
+.emotion-16 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  font-weight: 500;
+}
+
 .emotion-17 {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -287,6 +302,15 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   text-align: left;
   padding: 16px;
   color: rgba(0, 0, 0, 0.87);
+}
+
+.emotion-20 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
 }
 
 <div
@@ -325,7 +349,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         class="MuiTableRow-root MuiTableRow-head emotion-5"
       >
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium bold emotion-6"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium emotion-6"
           scope="col"
         >
           <span
@@ -348,7 +372,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
           </span>
         </th>
         <th
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium bold emotion-9"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium emotion-9"
           scope="col"
         >
           <span
@@ -379,13 +403,13 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         class="MuiTableRow-root emotion-5"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-14"
         >
           <div
             class="flexbox align-items-center emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 bold emotion-2"
+              class="MuiTypography-root MuiTypography-body2 emotion-16"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="artifact_name"
             >
@@ -413,7 +437,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             class="flexbox align-items-center emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-2"
+              class="MuiTypography-root MuiTypography-body2 emotion-20"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="myapp"
             >
@@ -439,13 +463,13 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         class="MuiTableRow-root emotion-5"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-14"
         >
           <div
             class="flexbox align-items-center emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 bold emotion-2"
+              class="MuiTypography-root MuiTypography-body2 emotion-16"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="device_type"
             >
@@ -473,7 +497,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             class="flexbox align-items-center emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-2"
+              class="MuiTypography-root MuiTypography-body2 emotion-20"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="raspberrypi4"
             >
@@ -499,13 +523,13 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         class="MuiTableRow-root emotion-5"
       >
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold clickable emotion-14"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium clickable emotion-14"
         >
           <div
             class="flexbox align-items-center emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 bold emotion-2"
+              class="MuiTypography-root MuiTypography-body2 emotion-16"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="ipv4_wlan0"
             >
@@ -533,7 +557,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             class="flexbox align-items-center emotion-15"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 emotion-2"
+              class="MuiTypography-root MuiTypography-body2 emotion-20"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="192.168.10.141/24"
             >

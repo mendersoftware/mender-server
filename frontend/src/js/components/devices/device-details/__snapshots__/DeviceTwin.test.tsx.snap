@@ -24,15 +24,6 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
 
 .emotion-2 {
   margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
-}
-
-.emotion-3 {
-  margin: 0;
   font: inherit;
   line-height: inherit;
   letter-spacing: inherit;
@@ -43,38 +34,38 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   --Link-underlineColor: rgba(25, 118, 210, 0.4);
 }
 
-.emotion-3:hover {
+.emotion-2:hover {
   text-decoration-color: inherit;
 }
 
-.emotion-4 {
+.emotion-5 {
   border: 1px solid rgba(0, 0, 0, 0.54);
   border-radius: 4px;
 }
 
-.emotion-4>section {
+.emotion-5>section {
   min-height: 20lh;
 }
 
-.emotion-4 .monaco-editor,
-.emotion-4 .monaco-editor-background,
-.emotion-4 .monaco-editor .margin {
+.emotion-5 .monaco-editor,
+.emotion-5 .monaco-editor-background,
+.emotion-5 .monaco-editor .margin {
   background-color: transparent;
 }
 
-.emotion-4 .monaco-editor .view-overlays .current-line-exact {
+.emotion-5 .monaco-editor .view-overlays .current-line-exact {
   border: inherit;
 }
 
-.emotion-4.readOnly {
+.emotion-5.readOnly {
   border-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-4.readOnly .monaco-editor-background {
+.emotion-5.readOnly .monaco-editor-background {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
-.emotion-5 {
+.emotion-6 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -131,57 +122,57 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5::-moz-focus-inner {
+.emotion-6::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-5 {
+  .emotion-6 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-5:hover {
+.emotion-6:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-5:hover {
+.emotion-6:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-5:hover {
+  .emotion-6:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-5:active {
+.emotion-6:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-5.Mui-focusVisible {
+.emotion-6.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-5:hover {
+  .emotion-6:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -189,11 +180,11 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   }
 }
 
-.emotion-5.MuiButton-loading {
+.emotion-6.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-6 {
+.emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -250,33 +241,33 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-6::-moz-focus-inner {
+.emotion-7::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-7.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-6 {
+  .emotion-7 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-6:hover {
+.emotion-7:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-6.Mui-disabled {
+.emotion-7.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-6:hover {
+  .emotion-7:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -284,11 +275,11 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   }
 }
 
-.emotion-6.MuiButton-loading {
+.emotion-7.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-7 {
+.emotion-8 {
   display: inherit;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -298,17 +289,17 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
   margin-left: -4px;
 }
 
-.emotion-7::before {
+.emotion-8::before {
   content: "\\200b";
   width: 0;
   overflow: hidden;
 }
 
-.emotion-7>*:nth-of-type(1) {
+.emotion-8>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-8 {
+.emotion-9 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -339,18 +330,8 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
       >
         Azure IoT Hub Device Twin
       </h6>
-      <p
-        class="MuiTypography-root MuiTypography-body2 emotion-2"
-      >
-        Last synced: 
-        <time
-          datetime="2019-01-13T06:25:00+00:00"
-        >
-          2019-01-13 06:25
-        </time>
-      </p>
       <a
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-2"
         data-discover="true"
         href="/settings/integrations"
       >
@@ -382,32 +363,35 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
       </div>
     </div>
     <div
+      class="margin-top-medium"
       style="max-width: 800px;"
     >
       <div
         class="two-columns"
       >
-        <h4>
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 emotion-1"
+        >
           Desired configuration
-        </h4>
-        <h4>
+        </h6>
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 emotion-1"
+        >
           Reported configuration
-        </h4>
+        </h6>
       </div>
       <div
-        class="emotion-4"
+        class="emotion-5"
       />
     </div>
     <div
-      class="two-columns margin-top"
-      style="grid-template-columns: 800px 1fr;"
+      class="margin-top-small flexbox"
     >
       <div
         class="flexbox"
-        style="align-items: flex-start; justify-content: flex-end;"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-5"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-6"
           tabindex="0"
           type="button"
         >
@@ -415,9 +399,30 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
         </button>
       </div>
       <div
-        class="flexbox"
-        style="justify-content: flex-end;"
+        class="flexbox margin-left-small"
       >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-right-small emotion-7"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-icon MuiButton-startIcon emotion-8"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-9"
+              data-testid="RefreshIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"
+              />
+            </svg>
+          </span>
+          Refresh
+        </button>
         <div
           class="loaderContainer shrunk"
         >
@@ -438,28 +443,6 @@ exports[`DeviceTwin Component > renders correctly 1`] = `
             />
           </div>
         </div>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-6"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiButton-icon MuiButton-startIcon emotion-7"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
-              data-testid="RefreshIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"
-              />
-            </svg>
-          </span>
-          Refresh
-        </button>
       </div>
     </div>
   </div>
@@ -541,71 +524,7 @@ exports[`DeviceTwin Component > renders sub component TwinError correctly 1`] = 
 
 exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 1`] = `
 .emotion-0 {
-  min-height: 75px;
-  display: grid;
-  grid-template-columns: min-content 300px max-content;
-  grid-column-gap: 16px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background: #f5f5f5;
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-}
-
-.emotion-1 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.5rem;
-}
-
-<div
-  class="padding-small emotion-0"
->
-  <svg
-    aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium green emotion-1"
-    data-testid="CheckCircleOutlinedIcon"
-    focusable="false"
-    viewBox="0 0 24 24"
-  >
-    <path
-      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"
-    />
-  </svg>
-  <div>
-    No difference between desired and reported configuration
-  </div>
-</div>
-`;
-
-exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 2`] = `
-.emotion-0 {
-  min-height: 75px;
-  display: grid;
-  grid-template-columns: min-content 300px max-content;
-  grid-column-gap: 16px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background: #f5f5f5;
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
+  background-color: rgba(189, 189, 189, 0.04);
 }
 
 .emotion-1 {
@@ -629,37 +548,102 @@ exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 2
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+<div
+  class="padding-medium flexbox emotion-0"
+>
+  <svg
+    aria-hidden="true"
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium green margin-right-medium emotion-1"
+    data-testid="CheckCircleOutlinedIcon"
+    focusable="false"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"
+    />
+  </svg>
+  <p
+    class="MuiTypography-root MuiTypography-body1 emotion-2"
+  >
+    No difference between desired and reported configuration
+  </p>
+</div>
+`;
+
+exports[`DeviceTwin Component > renders sub component TwinSyncStatus correctly 2`] = `
+.emotion-0 {
+  background-color: rgba(189, 189, 189, 0.04);
+}
+
+.emotion-1 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
 }
 
 <div
-  class="padding-small emotion-0"
+  class="padding-medium flexbox space-between align-items-center emotion-0"
 >
-  <svg
-    aria-hidden="true"
-    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-1"
-    data-testid="CloudUploadOutlinedIcon"
-    focusable="false"
-    viewBox="0 0 24 24"
+  <div
+    class="flexbox align-items-center"
   >
-    <path
-      d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96M19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3M8 13h2.55v3h2.9v-3H16l-4-4z"
-    />
-  </svg>
-  <div>
-    <b>
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-small emotion-1"
+      data-testid="CloudUploadOutlinedIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96M19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3M8 13h2.55v3h2.9v-3H16l-4-4z"
+      />
+    </svg>
+    <p
+      class="MuiTypography-root MuiTypography-body1 margin-left-x-small emotion-2"
+    >
       Found 
       1
        
       difference
-    </b>
-     
-    between desired and reported configuration
+       between desired and reported configuration
+    </p>
   </div>
   <p
-    class="MuiTypography-root MuiTypography-body2 emotion-2"
+    class="MuiTypography-root MuiTypography-body2 emotion-3"
   >
     Last synced: 
     <time

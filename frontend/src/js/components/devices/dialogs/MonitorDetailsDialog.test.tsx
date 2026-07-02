@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
@@ -61,12 +61,7 @@ describe('MonitorLogDialog Component', () => {
   it('works as intended', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const ui = <LogDialog alert={alert} onClose={vi.fn} />;
-    const { rerender } = render(ui);
-    expect(screen.getByText(/show previous/i)).toBeInTheDocument();
-    expect(screen.getByText(/137/i)).not.toBeVisible();
-    await user.click(screen.getByText(/show previous/i));
-    await waitFor(() => rerender(ui));
-    expect(screen.getByText(/137/i)).toBeVisible();
+    render(ui);
     window.open = vi.fn();
     await user.click(screen.getByRole('button', { name: /export/i }));
     expect(window.open).toHaveBeenCalledWith(

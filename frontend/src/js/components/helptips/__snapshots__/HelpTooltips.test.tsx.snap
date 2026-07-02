@@ -140,6 +140,22 @@ exports[`Helptooltips Components > renders ConfigureAddOnTip correctly 1`] = `
   font-size: 0.875em;
 }
 
+.emotion-2 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-2:hover {
+  text-decoration-color: inherit;
+}
+
 <p>
   Mender deploys the configuration attributes using the same mechanisms as software updates. The configuration is stored as a JSON file at
    
@@ -156,6 +172,16 @@ exports[`Helptooltips Components > renders ConfigureAddOnTip correctly 1`] = `
     /usr/lib/mender-configure/apply-device-config.d/
   </code>
    are executed to apply the configuration attributes. To add a new configuration attribute, you simply need to input it in the UI and add a script to that directory that applies it accordingly.
+   
+  <a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-2"
+    href="https://docs.mender.io/add-ons/configure"
+    rel="noopener"
+    target="_blank"
+  >
+    Learn more
+  </a>
+   about Configure add-on.
 </p>
 `;
 

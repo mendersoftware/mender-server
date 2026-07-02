@@ -143,7 +143,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth margin-top-x-small margin-bottom-small css-1jpc804-MuiDivider-root"
+        class="MuiDivider-root MuiDivider-fullWidth margin-top-medium margin-bottom-small css-1jpc804-MuiDivider-root"
       />
       <div>
         <div
@@ -1169,7 +1169,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
         </div>
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth margin-top-x-small margin-bottom-small css-1jpc804-MuiDivider-root"
+        class="MuiDivider-root MuiDivider-fullWidth margin-top-medium margin-bottom-small css-1jpc804-MuiDivider-root"
       />
       <div>
         <div

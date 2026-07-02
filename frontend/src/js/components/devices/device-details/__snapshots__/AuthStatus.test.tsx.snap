@@ -81,8 +81,6 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   vertical-align: middle;
   box-sizing: border-box;
   height: 24px;
-  background-color: #1976d2;
-  color: #fff;
 }
 
 .emotion-4.Mui-disabled {
@@ -117,11 +115,6 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 }
 
 .emotion-4 .MuiChip-avatar {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-4 .MuiChip-avatar {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -141,21 +134,8 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   margin-left: -4px;
 }
 
-.emotion-4 .MuiChip-deleteIcon {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.emotion-4 .MuiChip-deleteIcon:hover,
-.emotion-4 .MuiChip-deleteIcon:active {
-  color: #fff;
-}
-
 .emotion-4 .MuiChip-icon {
   color: #616161;
-}
-
-.emotion-4 .MuiChip-icon {
-  color: inherit;
 }
 
 .emotion-5 {
@@ -169,10 +149,8 @@ exports[`AuthStatus Component > renders correctly 1`] = `
 }
 
 .emotion-6 {
-  background-color: rgb(255, 255, 255);
-  margin-bottom: 16px;
+  background-color: rgba(189, 189, 189, 0.04);
   min-width: 700px;
-  padding: 16px;
 }
 
 .emotion-7 {
@@ -198,7 +176,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   fill: currentColor;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: #1976d2;
 }
 
@@ -239,6 +217,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  margin: 0;
 }
 
 .emotion-11 {
@@ -260,6 +239,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   overflow-anchor: none;
+  border-inline: none;
 }
 
 .emotion-12::before {
@@ -307,8 +287,30 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   display: none;
 }
 
-.emotion-12$expanded {
-  margin: auto;
+.emotion-12:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-12:not(:last-of-type) {
+  border-bottom: none;
+}
+
+.emotion-12.Mui-expanded {
+  margin: 0;
+}
+
+.emotion-12 .MuiAccordionSummary-root {
+  height: auto;
+  min-height: 42px;
+}
+
+.emotion-12 .MuiAccordionSummary-root.Mui-expanded {
+  height: auto;
+  min-height: 42px;
+}
+
+.emotion-12 .MuiAccordionSummary-content.Mui-expanded {
+  margin: 0;
 }
 
 .emotion-12 .columns-5 .MuiAccordionSummary-content {
@@ -319,6 +321,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
+  min-height: 42px;
 }
 
 .emotion-13 {
@@ -553,18 +556,9 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   line-height: 1.5;
   letter-spacing: 0.00938em;
   font-weight: 500;
-  margin-left: auto;
 }
 
 .emotion-44 {
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-  margin-top: 16px;
-}
-
-.emotion-45 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -609,53 +603,59 @@ exports[`AuthStatus Component > renders correctly 1`] = `
   border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  padding: 6px 8px;
-  color: var(--variant-textColor);
-  background-color: var(--variant-textBg);
-  --variant-textColor: #9c27b0;
-  --variant-outlinedColor: #9c27b0;
-  --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
+  padding: 5px 15px;
+  border: 1px solid currentColor;
+  border-color: var(--variant-outlinedBorder, currentColor);
+  background-color: var(--variant-outlinedBg);
+  color: var(--variant-outlinedColor);
+  --variant-textColor: #d32f2f;
+  --variant-outlinedColor: #d32f2f;
+  --variant-outlinedBorder: rgba(211, 47, 47, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #9c27b0;
+  --variant-containedBg: #d32f2f;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-45::-moz-focus-inner {
+.emotion-44::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-45.Mui-disabled {
+.emotion-44.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-45 {
+  .emotion-44 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-45:hover {
+.emotion-44:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-45.Mui-disabled {
+.emotion-44.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-44.Mui-disabled {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 @media (hover: hover) {
-  .emotion-45:hover {
-    --variant-containedBg: #7b1fa2;
-    --variant-textBg: rgba(156, 39, 176, 0.04);
-    --variant-outlinedBorder: #9c27b0;
-    --variant-outlinedBg: rgba(156, 39, 176, 0.04);
+  .emotion-44:hover {
+    --variant-containedBg: #c62828;
+    --variant-textBg: rgba(211, 47, 47, 0.04);
+    --variant-outlinedBorder: #d32f2f;
+    --variant-outlinedBg: rgba(211, 47, 47, 0.04);
   }
 }
 
-.emotion-45.MuiButton-loading {
+.emotion-44.MuiButton-loading {
   color: transparent;
 }
 
@@ -691,30 +691,30 @@ exports[`AuthStatus Component > renders correctly 1`] = `
         />
       </svg>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary emotion-4"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-4"
       >
         <span
           class="MuiChip-label emotion-5"
         >
-          new request
+          New request
         </span>
       </div>
     </div>
   </div>
   <div
-    class="emotion-6"
+    class="emotion-6 padding-medium"
   >
     <div
       class="margin-bottom-small flexbox space-between"
     >
-      Authorization sets
+      Authentication sets
       <div
         class="relative flexbox emotion-7  margin-left-small"
         data-mui-internal-clone-element="true"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-8"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall emotion-8"
           data-testid="HelpIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -767,7 +767,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
         class="body relative"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-12"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-12"
           style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
           <h3
@@ -783,13 +783,13 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                 class="MuiAccordionSummary-content emotion-15"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary emotion-4"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-4"
                   style="justify-self: flex-start;"
                 >
                   <span
                     class="MuiChip-label emotion-5"
                   >
-                    new
+                    New
                   </span>
                 </div>
                 <div
@@ -803,14 +803,16 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                 >
                   <div />
                 </div>
-                <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
-                  tabindex="0"
-                  type="button"
-                >
-                  show
-                   key
-                </button>
+                <div>
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+                    tabindex="0"
+                    type="button"
+                  >
+                    Show
+                     key
+                  </button>
+                </div>
                 <time
                   datetime="2019-01-13T06:25:00+00:00"
                 >
@@ -861,11 +863,15 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                   <div
                     class="MuiAccordionDetails-root emotion-27"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 emotion-28"
+                    <div
+                      class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                     >
-                       Are you sure you want to continue?
-                    </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 margin-right emotion-28"
+                      >
+                         Are you sure you want to continue?
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -873,7 +879,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-12"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-12"
           style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
         >
           <h3
@@ -904,14 +910,16 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                 >
                   <div />
                 </div>
-                <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
-                  tabindex="0"
-                  type="button"
-                >
-                  show
-                   key
-                </button>
+                <div>
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
+                    tabindex="0"
+                    type="button"
+                  >
+                    Show
+                     key
+                  </button>
+                </div>
                 <time
                   datetime="2019-01-13T06:25:00+00:00"
                 >
@@ -963,11 +971,15 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                   <div
                     class="MuiAccordionDetails-root emotion-27"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 emotion-28"
+                    <div
+                      class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                     >
-                       Are you sure you want to continue?
-                    </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 margin-right emotion-28"
+                      >
+                         Are you sure you want to continue?
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -977,10 +989,10 @@ exports[`AuthStatus Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="flexbox relative emotion-44"
+      class="margin-top-small flexbox relative"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorSecondary emotion-45"
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-44"
         tabindex="0"
         type="button"
       >

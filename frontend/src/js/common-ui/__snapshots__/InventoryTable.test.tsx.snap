@@ -20,6 +20,10 @@ exports[`InventoryTable Component > renders correctly 1`] = `
   caption-side: bottom;
 }
 
+.emotion-0 .MuiTableCell-root {
+  padding: 8px 16px;
+}
+
 .emotion-1 {
   display: table-header-group;
 }
@@ -234,6 +238,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
+  font-weight: 500;
 }
 
 .emotion-14 {
@@ -268,6 +273,15 @@ exports[`InventoryTable Component > renders correctly 1`] = `
   color: rgba(0, 0, 0, 0.87);
 }
 
+.emotion-17 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
 <table
   class="MuiTable-root emotion-0"
 >
@@ -278,7 +292,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
       class="MuiTableRow-root MuiTableRow-head emotion-2"
     >
       <th
-        class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium bold emotion-3"
+        class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium emotion-3"
         scope="col"
       >
         <span
@@ -301,7 +315,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
         </span>
       </th>
       <th
-        class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium bold emotion-6"
+        class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium emotion-6"
         scope="col"
       >
         <span
@@ -332,13 +346,13 @@ exports[`InventoryTable Component > renders correctly 1`] = `
       class="MuiTableRow-root emotion-2"
     >
       <td
-        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold emotion-11"
+        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-11"
       >
         <div
           class="flexbox align-items-center emotion-12"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 bold emotion-13"
+            class="MuiTypography-root MuiTypography-body2 emotion-13"
             style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="hostname"
           >
@@ -366,7 +380,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
           class="flexbox align-items-center emotion-12"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-13"
+            class="MuiTypography-root MuiTypography-body2 emotion-17"
             style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="device-001"
           >
@@ -392,13 +406,13 @@ exports[`InventoryTable Component > renders correctly 1`] = `
       class="MuiTableRow-root emotion-2"
     >
       <td
-        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold emotion-11"
+        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-11"
       >
         <div
           class="flexbox align-items-center emotion-12"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 bold emotion-13"
+            class="MuiTypography-root MuiTypography-body2 emotion-13"
             style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="ipAddress"
           >
@@ -426,7 +440,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
           class="flexbox align-items-center emotion-12"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-13"
+            class="MuiTypography-root MuiTypography-body2 emotion-17"
             style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="192.168.1.100"
           >
@@ -452,13 +466,13 @@ exports[`InventoryTable Component > renders correctly 1`] = `
       class="MuiTableRow-root emotion-2"
     >
       <td
-        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium bold emotion-11"
+        class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium emotion-11"
       >
         <div
           class="flexbox align-items-center emotion-12"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 bold emotion-13"
+            class="MuiTypography-root MuiTypography-body2 emotion-13"
             style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="macAddress"
           >
@@ -486,7 +500,7 @@ exports[`InventoryTable Component > renders correctly 1`] = `
           class="flexbox align-items-center emotion-12"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-13"
+            class="MuiTypography-root MuiTypography-body2 emotion-17"
             style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="aa:bb:cc:dd:ee:ff"
           >

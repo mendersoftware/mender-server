@@ -119,226 +119,58 @@ exports[`MonitorLogDialog Component > renders correctly 1`] = `
 }
 
 .emotion-6 {
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.87);
-  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  box-shadow: var(--Paper-shadow);
-  background-image: var(--Paper-overlay);
   position: relative;
-  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  overflow-anchor: none;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
 }
 
-.emotion-6::before {
-  position: absolute;
-  left: 0;
-  top: -1px;
-  right: 0;
-  height: 1px;
-  content: "";
-  opacity: 1;
-  background-color: rgba(0, 0, 0, 0.12);
-  -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.emotion-6:first-of-type::before {
-  display: none;
-}
-
-.emotion-6.Mui-expanded::before {
-  opacity: 0;
-}
-
-.emotion-6.Mui-expanded:first-of-type {
-  margin-top: 0;
-}
-
-.emotion-6.Mui-expanded:last-of-type {
-  margin-bottom: 0;
-}
-
-.emotion-6.Mui-expanded+.emotion-6.Mui-expanded::before {
-  display: none;
-}
-
-.emotion-6.Mui-disabled {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-6.Mui-expanded {
-  margin: 16px 0;
-}
-
-.emotion-6 root:before {
-  display: none;
-}
-
-.emotion-6 root$expanded {
-  background-color: transparent;
-  margin: 0;
+.emotion-6 code {
+  padding: 4px 12px;
 }
 
 .emotion-7 {
-  all: unset;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  border-inline-start: 3px solid transparent;
 }
 
 .emotion-8 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
   margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  min-width: 52px;
+  text-align: right;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  min-height: 48px;
-  padding: 0px 16px;
-  -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.emotion-8::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-8.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-8 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-8.Mui-focusVisible {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.emotion-8.Mui-disabled {
-  opacity: 0.38;
-}
-
-.emotion-8:hover:not(.Mui-disabled) {
-  cursor: pointer;
-}
-
-.emotion-8.Mui-expanded {
-  min-height: 64px;
+  color: rgba(0, 0, 0, 0.38);
+  border-inline-end: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .emotion-9 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  text-align: start;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  margin: 12px 0;
-  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
-.emotion-9.Mui-expanded {
-  margin: 20px 0;
+.emotion-14 {
+  background-color: rgba(211, 47, 47, 0.1);
+  border-inline-start: 3px solid #d32f2f;
 }
 
-.emotion-10 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.5rem;
+.emotion-14 code {
+  color: #d32f2f;
+  font-weight: 500;
 }
 
-.emotion-11 {
-  height: 0;
-  overflow: hidden;
-  -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  visibility: hidden;
-}
-
-.emotion-12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-}
-
-.emotion-13 {
-  width: 100%;
-}
-
-.emotion-15 {
-  padding: 8px 16px 16px;
-}
-
-.emotion-22 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.25rem;
-}
-
-.emotion-26 {
+.emotion-17 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -357,11 +189,11 @@ exports[`MonitorLogDialog Component > renders correctly 1`] = `
   flex: 0 0 auto;
 }
 
-.emotion-26>:not(style)~:not(style) {
+.emotion-17>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-27 {
+.emotion-18 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -418,33 +250,33 @@ exports[`MonitorLogDialog Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-27::-moz-focus-inner {
+.emotion-18::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-27.Mui-disabled {
+.emotion-18.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-27 {
+  .emotion-18 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-27:hover {
+.emotion-18:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-27.Mui-disabled {
+.emotion-18.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-27:hover {
+  .emotion-18:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -452,11 +284,11 @@ exports[`MonitorLogDialog Component > renders correctly 1`] = `
   }
 }
 
-.emotion-27.MuiButton-loading {
+.emotion-18.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-28 {
+.emotion-19 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -513,57 +345,57 @@ exports[`MonitorLogDialog Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-28::-moz-focus-inner {
+.emotion-19::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-28.Mui-disabled {
+.emotion-19.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-28 {
+  .emotion-19 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-28:hover {
+.emotion-19:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-28.Mui-disabled {
+.emotion-19.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-28:hover {
+.emotion-19:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-28:hover {
+  .emotion-19:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-28:active {
+.emotion-19:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-28.Mui-focusVisible {
+.emotion-19.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-28.Mui-disabled {
+.emotion-19.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-28:hover {
+  .emotion-19:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -571,7 +403,7 @@ exports[`MonitorLogDialog Component > renders correctly 1`] = `
   }
 }
 
-.emotion-28.MuiButton-loading {
+.emotion-19.MuiButton-loading {
   color: transparent;
 }
 
@@ -614,189 +446,64 @@ exports[`MonitorLogDialog Component > renders correctly 1`] = `
         style="min-width: 600px;"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-6"
-          style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
+          class="emotion-6"
         >
-          <h3
-            class="MuiAccordion-heading emotion-7"
-          >
-            <button
-              aria-expanded="false"
-              class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters emotion-8"
-              style="padding-left: 0px;"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiAccordionSummary-content emotion-9"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-right-small emotion-10"
-                  data-testid="ArrowDropDownIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="m7 10 5 5 5-5z"
-                  />
-                </svg>
-                <div>
-                  show 
-                  previous
-                   
-                  2
-                   lines
-                </div>
-              </span>
-            </button>
-          </h3>
           <div
-            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-11"
-            style="min-height: 0px;"
+            class="emotion-7 "
           >
-            <div
-              class="MuiCollapse-wrapper MuiCollapse-vertical emotion-12"
+            <code
+              class="MuiTypography-root MuiTypography-code2 emotion-8"
             >
-              <div
-                class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-13"
-              >
-                <div
-                  class="MuiAccordion-region emotion-14"
-                  role="region"
-                >
-                  <div
-                    class="MuiAccordionDetails-root emotion-15"
-                    style="padding-left: 0px; padding-right: 0px;"
-                  >
-                    <div
-                      class="log-line margin-right"
-                    >
-                      <div />
-                      <code
-                        class="align-right "
-                      >
-                        0
-                      </code>
-                      <code
-                        class=""
-                      >
-                        Jul 22 10:40:57 raspberrypi sshd[32031]: pam_unix(sshd:session): session closed for user root
-                      </code>
-                    </div>
-                    <div
-                      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-11"
-                      style="min-height: 0px;"
-                    >
-                      <div
-                        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-12"
-                      >
-                        <div
-                          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-13"
-                        >
-                          <div
-                            class="margin-left-small green fadeIn"
-                          >
-                            Copied to clipboard.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="log-line margin-right"
-                    >
-                      <div />
-                      <code
-                        class="align-right "
-                      >
-                        137
-                      </code>
-                      <code
-                        class=""
-                      >
-                        Jul 22 10:40:58 raspberrypi sshd[32031]: pam_unix(sshd:session): session closed for user root
-                      </code>
-                    </div>
-                    <div
-                      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-11"
-                      style="min-height: 0px;"
-                    >
-                      <div
-                        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-12"
-                      >
-                        <div
-                          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-13"
-                        >
-                          <div
-                            class="margin-left-small green fadeIn"
-                          >
-                            Copied to clipboard.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              0
+            </code>
+            <code
+              class="MuiTypography-root MuiTypography-code2 emotion-9"
+            >
+              Jul 22 10:40:57 raspberrypi sshd[32031]: pam_unix(sshd:session): session closed for user root
+            </code>
           </div>
-        </div>
-        <div
-          class="log-line margin-right"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-22"
-            data-testid="ReportProblemOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 5.99 19.53 19H4.47zM12 2 1 21h22zm1 14h-2v2h2zm0-6h-2v4h2z"
-            />
-          </svg>
-          <code
-            class="align-right red"
-          >
-            1234
-          </code>
-          <code
-            class="red"
-          >
-            Jul 22 10:40:56 raspberrypi sshd[32031]: pam_unix(sshd:session): session closed for user root
-          </code>
-        </div>
-        <div
-          class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-11"
-          style="min-height: 0px;"
-        >
           <div
-            class="MuiCollapse-wrapper MuiCollapse-vertical emotion-12"
+            class="emotion-7 "
           >
-            <div
-              class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-13"
+            <code
+              class="MuiTypography-root MuiTypography-code2 emotion-8"
             >
-              <div
-                class="margin-left-small green fadeIn"
-              >
-                Copied to clipboard.
-              </div>
-            </div>
+              137
+            </code>
+            <code
+              class="MuiTypography-root MuiTypography-code2 emotion-9"
+            >
+              Jul 22 10:40:58 raspberrypi sshd[32031]: pam_unix(sshd:session): session closed for user root
+            </code>
+          </div>
+          <div
+            class="emotion-7 emotion-14"
+          >
+            <code
+              class="MuiTypography-root MuiTypography-code2 emotion-8"
+            >
+              1234
+            </code>
+            <code
+              class="MuiTypography-root MuiTypography-code2 emotion-9"
+            >
+              Jul 22 10:40:56 raspberrypi sshd[32031]: pam_unix(sshd:session): session closed for user root
+            </code>
           </div>
         </div>
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-26"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-17"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-27"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-18"
           tabindex="0"
           type="button"
         >
           Close
         </button>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-28"
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-19"
           tabindex="0"
           type="button"
         >
@@ -931,26 +638,22 @@ exports[`MonitorLogDialog Component > renders correctly for description only 1`]
 }
 
 .emotion-6 {
-  height: 0;
-  overflow: hidden;
-  -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  visibility: hidden;
+  background-color: rgba(255, 255, 255, 0.04);
+  font-family: monospace;
+  color: rgba(0, 0, 0, 1);
+  border-radius: 4px;
+  padding: 16px;
+  overflow-y: auto;
+  position: relative;
+  white-space: pre-line;
+}
+
+.emotion-6 .copyable-content {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .emotion-7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-}
-
-.emotion-8 {
-  width: 100%;
-}
-
-.emotion-9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -969,11 +672,11 @@ exports[`MonitorLogDialog Component > renders correctly for description only 1`]
   flex: 0 0 auto;
 }
 
-.emotion-9>:not(style)~:not(style) {
+.emotion-7>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-10 {
+.emotion-8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1030,33 +733,33 @@ exports[`MonitorLogDialog Component > renders correctly for description only 1`]
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-10::-moz-focus-inner {
+.emotion-8::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-10.Mui-disabled {
+.emotion-8.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-10 {
+  .emotion-8 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-10:hover {
+.emotion-8:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-10.Mui-disabled {
+.emotion-8.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-10:hover {
+  .emotion-8:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -1064,7 +767,7 @@ exports[`MonitorLogDialog Component > renders correctly for description only 1`]
   }
 }
 
-.emotion-10.MuiButton-loading {
+.emotion-8.MuiButton-loading {
   color: transparent;
 }
 
@@ -1107,38 +810,14 @@ exports[`MonitorLogDialog Component > renders correctly for description only 1`]
         style="min-width: 600px;"
       >
         <div
-          class="log-line margin-right"
-        >
-          <div />
-          <div />
-          <code
-            class=""
-          />
-        </div>
-        <div
-          class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-6"
-          style="min-height: 0px;"
-        >
-          <div
-            class="MuiCollapse-wrapper MuiCollapse-vertical emotion-7"
-          >
-            <div
-              class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-8"
-            >
-              <div
-                class="margin-left-small green fadeIn"
-              >
-                Copied to clipboard.
-              </div>
-            </div>
-          </div>
-        </div>
+          class="emotion-6 "
+        />
       </div>
       <div
-        class="MuiDialogActions-root MuiDialogActions-spacing emotion-9"
+        class="MuiDialogActions-root MuiDialogActions-spacing emotion-7"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-8"
           tabindex="0"
           type="button"
         >

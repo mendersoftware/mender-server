@@ -42,84 +42,128 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
       </span>
     </div>
   </div>
-  <div
-    class="monitoring-alert column-data margin-bottom-x-small"
+  <table
+    class="MuiTable-root css-1to30oq-MuiTable-root-table"
   >
-    <svg
-      aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-1umw9bq-MuiSvgIcon-root"
-      data-testid="ErrorIcon"
-      focusable="false"
-      viewBox="0 0 24 24"
+    <tbody
+      class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
     >
-      <path
-        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
-      />
-    </svg>
-    <div
-      class="key muted"
-    >
-      <b>
-        SSH Daemon is not running
-      </b>
-    </div>
-    <div>
-      CRITICAL
-    </div>
-    <time
-      datetime="2021-07-23T12:22:36+00:00"
-    >
-      2021-07-23 12:22
-    </time>
-    <button
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button css-1yi5qyp-MuiTypography-root-MuiLink-root"
-    >
-      view 
-      details
-    </button>
-  </div>
-  <div>
-    <h4
-      class="muted"
+      <tr
+        class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+      >
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-1umw9bq-MuiSvgIcon-root"
+            data-testid="CancelIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12z"
+            />
+          </svg>
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+          style="width: 100%; white-space: normal;"
+        >
+          SSH Daemon is not running
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+        >
+          Critical
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+        >
+          <time
+            datetime="2021-07-23T12:22:36+00:00"
+          >
+            2021-07-23 12:22
+          </time>
+        </td>
+        <td
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+        >
+          <button
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button css-1yi5qyp-MuiTypography-root-MuiLink-root"
+          >
+            view 
+            details
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div
+    class="margin-top-large"
+  >
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle1 margin-bottom-small css-1i3tsf3-MuiTypography-root"
     >
       Alert history
-    </h4>
-    <div
-      class="monitoring-alert column-data "
+    </h6>
+    <table
+      class="MuiTable-root css-1to30oq-MuiTable-root-table"
     >
-      <svg
-        aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-1umw9bq-MuiSvgIcon-root"
-        data-testid="ErrorIcon"
-        focusable="false"
-        viewBox="0 0 24 24"
+      <tbody
+        class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
       >
-        <path
-          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
-        />
-      </svg>
-      <div
-        class="key muted"
-      >
-        <b>
-          SSH Daemon is not running
-        </b>
-      </div>
-      <div>
-        CRITICAL
-      </div>
-      <time
-        datetime="2021-07-23T12:22:36+00:00"
-      >
-        2021-07-23 12:22
-      </time>
-      <button
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button css-1yi5qyp-MuiTypography-root-MuiLink-root"
-      >
-        view 
-        details
-      </button>
-    </div>
+        <tr
+          class="MuiTableRow-root css-1xtozoh-MuiTableRow-root"
+        >
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1nljeyx-MuiTableCell-root-mutedIcon"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium red css-1umw9bq-MuiSvgIcon-root"
+              data-testid="CancelIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12z"
+              />
+            </svg>
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+            style="width: 100%; white-space: normal;"
+          >
+            SSH Daemon is not running
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+          >
+            Critical
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+          >
+            <time
+              datetime="2021-07-23T12:22:36+00:00"
+            >
+              2021-07-23 12:22
+            </time>
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+          >
+            <button
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button css-1yi5qyp-MuiTypography-root-MuiLink-root"
+            >
+              view 
+              details
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div
     class="flexbox margin-top"
@@ -226,35 +270,15 @@ exports[`DeviceMonitoring Component > renders correctly 1`] = `
 
 exports[`tiny components > renders DeviceMonitorsMissingNote correctly 1`] = `
 .emotion-0 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.25rem;
-  margin-right: 8px;
-}
-
-.emotion-1 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.5;
   letter-spacing: 0.00938em;
-  text-transform: none;
-  text-align: left;
 }
 
-.emotion-2 {
+.emotion-1 {
   margin: 0;
   font: inherit;
   line-height: inherit;
@@ -266,41 +290,26 @@ exports[`tiny components > renders DeviceMonitorsMissingNote correctly 1`] = `
   --Link-underlineColor: rgba(25, 118, 210, 0.4);
 }
 
-.emotion-2:hover {
+.emotion-1:hover {
   text-decoration-color: inherit;
 }
 
 <div>
-  <div
-    class="flexbox muted"
+  <p
+    class="MuiTypography-root MuiTypography-body1 align-center full-width margin-top-large emotion-0"
   >
-    <svg
-      aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-0"
-      data-testid="InfoOutlinedIcon"
-      focusable="false"
-      viewBox="0 0 24 24"
+    No alert monitor is currently configured for this device.
+    <br />
+    Please 
+    <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-1"
+      href="https://docs.mender.io/add-ons/monitor"
+      rel="noopener"
+      target="_blank"
     >
-      <path
-        d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
-      />
-    </svg>
-    <p
-      class="MuiTypography-root MuiTypography-body1 emotion-1"
-    >
-      No alert monitor is currently configured for this device.
-      <br />
-      Please 
-      <a
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-2"
-        href="https://docs.mender.io/add-ons/monitor"
-        rel="noopener"
-        target="_blank"
-      >
-        see the documentation
-      </a>
-       for a description on how to configure different kinds of monitors.
-    </p>
-  </div>
+      see the documentation
+    </a>
+     for a description on how to configure different kinds of monitors.
+  </p>
 </div>
 `;

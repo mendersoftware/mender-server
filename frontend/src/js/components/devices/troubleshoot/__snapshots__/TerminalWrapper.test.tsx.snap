@@ -16,12 +16,12 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
 }
 
 .emotion-1 {
-  gap: 24px;
-  margin-bottom: 8px;
-}
-
-.emotion-1>div {
-  gap: 16px;
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.57;
+  letter-spacing: 0.00714em;
 }
 
 .emotion-2 {
@@ -33,11 +33,7 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
   letter-spacing: 0.01071em;
 }
 
-.emotion-3 {
-  margin-top: 8px;
-}
-
-.emotion-4 {
+.emotion-8 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -82,57 +78,63 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
   border-radius: 4px;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  padding: 6px 8px;
-  color: var(--variant-textColor);
-  background-color: var(--variant-textBg);
-  --variant-textColor: #1976d2;
-  --variant-outlinedColor: #1976d2;
-  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
+  padding: 5px 15px;
+  border: 1px solid currentColor;
+  border-color: var(--variant-outlinedBorder, currentColor);
+  background-color: var(--variant-outlinedBg);
+  color: var(--variant-outlinedColor);
+  --variant-textColor: #d32f2f;
+  --variant-outlinedColor: #d32f2f;
+  --variant-outlinedBorder: rgba(211, 47, 47, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #1976d2;
+  --variant-containedBg: #d32f2f;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-4::-moz-focus-inner {
+.emotion-8::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-8.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-4 {
+  .emotion-8 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-4:hover {
+.emotion-8:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-8.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
+.emotion-8.Mui-disabled {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 @media (hover: hover) {
-  .emotion-4:hover {
-    --variant-containedBg: #1565c0;
-    --variant-textBg: rgba(25, 118, 210, 0.04);
-    --variant-outlinedBorder: #1976d2;
-    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
+  .emotion-8:hover {
+    --variant-containedBg: #c62828;
+    --variant-textBg: rgba(211, 47, 47, 0.04);
+    --variant-outlinedBorder: #d32f2f;
+    --variant-outlinedBg: rgba(211, 47, 47, 0.04);
   }
 }
 
-.emotion-4.MuiButton-loading {
+.emotion-8.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-5 {
+.emotion-9 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -187,54 +189,54 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5::-moz-focus-inner {
+.emotion-9::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-9.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-5 {
+  .emotion-9 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-5:hover {
+.emotion-9:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-9.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-5:hover {
+  .emotion-9:hover {
     --variant-containedBg: #f5f5f5;
     --variant-textBg: rgba(0, 0, 0, 0.04);
     --variant-outlinedBg: rgba(0, 0, 0, 0.04);
   }
 }
 
-.emotion-5.MuiButton-loading {
+.emotion-9.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-6 {
+.emotion-10 {
   display: inherit;
   margin-right: -4px;
   margin-left: 8px;
 }
 
-.emotion-6>*:nth-of-type(1) {
+.emotion-10>*:nth-of-type(1) {
   font-size: 20px;
 }
 
-.emotion-7 {
+.emotion-11 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -257,25 +259,33 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
       class="emotion-0 device-connected"
     >
       <div
-        class="flexbox emotion-1"
+        class="flexbox margin-top-x-small margin-bottom-x-small"
       >
         <div
-          class="flexbox"
+          class="flexbox "
         >
-          <div>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 emotion-1"
+          >
             Session status
+          </h6>
+          <div
+            class="MuiTypography-root MuiTypography-body2 margin-left-small emotion-2"
+          >
+            Connected
           </div>
-          <b>
-            connected
-          </b>
         </div>
         <div
-          class="flexbox"
+          class="flexbox margin-left-medium"
         >
-          <div>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 emotion-1"
+          >
             Connection start
-          </div>
-          <b>
+          </h6>
+          <div
+            class="MuiTypography-root MuiTypography-body2 margin-left-small emotion-2"
+          >
             <p
               class="MuiTypography-root MuiTypography-body2 emotion-2"
             >
@@ -285,17 +295,21 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
                 2019-01-13 13:00
               </time>
             </p>
-          </b>
+          </div>
         </div>
         <div
-          class="flexbox"
+          class="flexbox margin-left-medium"
         >
-          <div>
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle2 emotion-1"
+          >
             Duration
-          </div>
-          <b>
+          </h6>
+          <div
+            class="MuiTypography-root MuiTypography-body2 margin-left-small emotion-2"
+          >
             00:00:00
-          </b>
+          </div>
         </div>
       </div>
       <div
@@ -505,28 +519,27 @@ exports[`TroubleshootDialog Component > renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="flexbox space-between emotion-3"
+        class="flexbox margin-top-x-small"
       >
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorError emotion-8"
           tabindex="0"
           type="button"
         >
-          Disconnect
-           Terminal
+          Disconnect Terminal
         </button>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-5"
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-9"
           tabindex="0"
           type="button"
         >
           Quick commands
           <span
-            class="MuiButton-icon MuiButton-endIcon emotion-6"
+            class="MuiButton-icon MuiButton-endIcon emotion-10"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-11"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"

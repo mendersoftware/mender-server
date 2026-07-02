@@ -16,6 +16,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  margin: 0;
 }
 
 .emotion-1 {
@@ -37,6 +38,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   overflow-anchor: none;
+  border-inline: none;
 }
 
 .emotion-2::before {
@@ -84,8 +86,30 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   display: none;
 }
 
-.emotion-2$expanded {
-  margin: auto;
+.emotion-2:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-2:not(:last-of-type) {
+  border-bottom: none;
+}
+
+.emotion-2.Mui-expanded {
+  margin: 0;
+}
+
+.emotion-2 .MuiAccordionSummary-root {
+  height: auto;
+  min-height: 42px;
+}
+
+.emotion-2 .MuiAccordionSummary-root.Mui-expanded {
+  height: auto;
+  min-height: 42px;
+}
+
+.emotion-2 .MuiAccordionSummary-content.Mui-expanded {
+  margin: 0;
 }
 
 .emotion-2 .columns-5 .MuiAccordionSummary-content {
@@ -96,6 +120,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
+  min-height: 42px;
 }
 
 .emotion-3 {
@@ -230,8 +255,6 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   vertical-align: middle;
   box-sizing: border-box;
   height: 24px;
-  background-color: #1976d2;
-  color: #fff;
 }
 
 .emotion-6.Mui-disabled {
@@ -266,11 +289,6 @@ exports[`AuthsetList Component > renders correctly 1`] = `
 }
 
 .emotion-6 .MuiChip-avatar {
-  color: #fff;
-  background-color: #1565c0;
-}
-
-.emotion-6 .MuiChip-avatar {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -290,21 +308,8 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   margin-left: -4px;
 }
 
-.emotion-6 .MuiChip-deleteIcon {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.emotion-6 .MuiChip-deleteIcon:hover,
-.emotion-6 .MuiChip-deleteIcon:active {
-  color: #fff;
-}
-
 .emotion-6 .MuiChip-icon {
   color: #616161;
-}
-
-.emotion-6 .MuiChip-icon {
-  color: inherit;
 }
 
 .emotion-7 {
@@ -450,7 +455,6 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   line-height: 1.5;
   letter-spacing: 0.00938em;
   font-weight: 500;
-  margin-left: auto;
 }
 
 .emotion-26 {
@@ -509,7 +513,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
     class="body relative"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -525,13 +529,13 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiAccordionSummary-content emotion-5"
           >
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary emotion-6"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
               style="justify-self: flex-start;"
             >
               <span
                 class="MuiChip-label emotion-7"
               >
-                new
+                New
               </span>
             </div>
             <div
@@ -547,14 +551,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:48:34+00:00"
             >
@@ -605,11 +611,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -617,7 +627,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -633,13 +643,13 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiAccordionSummary-content emotion-5"
           >
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary emotion-6"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
               style="justify-self: flex-start;"
             >
               <span
                 class="MuiChip-label emotion-7"
               >
-                new
+                New
               </span>
             </div>
             <div
@@ -667,14 +677,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 micro
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:43:34+00:00"
             >
@@ -725,11 +737,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -737,7 +753,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -753,13 +769,13 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiAccordionSummary-content emotion-5"
           >
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary emotion-6"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
               style="justify-self: flex-start;"
             >
               <span
                 class="MuiChip-label emotion-7"
               >
-                new
+                New
               </span>
             </div>
             <div
@@ -775,14 +791,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:38:34+00:00"
             >
@@ -833,11 +851,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -845,7 +867,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -878,14 +900,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:47:34+00:00"
             >
@@ -937,11 +961,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -949,7 +977,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -994,14 +1022,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 micro
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:42:34+00:00"
             >
@@ -1053,11 +1083,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -1065,7 +1099,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -1098,14 +1132,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:37:34+00:00"
             >
@@ -1157,11 +1193,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -1169,7 +1209,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -1198,14 +1238,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:50:34+00:00"
             >
@@ -1257,11 +1299,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -1269,7 +1315,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -1298,14 +1344,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:49:34+00:00"
             >
@@ -1356,11 +1404,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -1368,7 +1420,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -1409,14 +1461,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 micro
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:45:34+00:00"
             >
@@ -1468,11 +1522,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -1480,7 +1538,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -1521,14 +1579,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 micro
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:44:34+00:00"
             >
@@ -1579,11 +1639,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -1591,7 +1655,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -1620,14 +1684,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:40:34+00:00"
             >
@@ -1679,11 +1745,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -1691,7 +1761,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters emotion-2"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation1 MuiAccordion-root MuiAccordion-gutters padding-none emotion-2"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
       <h3
@@ -1720,14 +1790,16 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 standard
               </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
-              tabindex="0"
-              type="button"
-            >
-              show
-               key
-            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                tabindex="0"
+                type="button"
+              >
+                Show
+                 key
+              </button>
+            </div>
             <time
               datetime="2020-09-21T12:39:34+00:00"
             >
@@ -1778,11 +1850,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               <div
                 class="MuiAccordionDetails-root emotion-17"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 emotion-18"
+                <div
+                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
-                   Are you sure you want to continue?
-                </p>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                  >
+                     Are you sure you want to continue?
+                  </p>
+                </div>
               </div>
             </div>
           </div>

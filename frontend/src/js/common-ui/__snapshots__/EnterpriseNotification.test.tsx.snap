@@ -260,11 +260,11 @@ exports[`EnterpriseNotification Component > works as expected 1`] = `
   padding: 6px 8px;
   color: var(--variant-textColor);
   background-color: var(--variant-textBg);
-  --variant-textColor: #9c27b0;
-  --variant-outlinedColor: #9c27b0;
-  --variant-outlinedBorder: rgba(156, 39, 176, 0.5);
+  --variant-textColor: #1976d2;
+  --variant-outlinedColor: #1976d2;
+  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
   --variant-containedColor: #fff;
-  --variant-containedBg: #9c27b0;
+  --variant-containedBg: #1976d2;
   padding: 4px 5px;
   font-size: 0.8125rem;
   -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -298,19 +298,15 @@ exports[`EnterpriseNotification Component > works as expected 1`] = `
 
 @media (hover: hover) {
   .emotion-1:hover {
-    --variant-containedBg: #7b1fa2;
-    --variant-textBg: rgba(156, 39, 176, 0.04);
-    --variant-outlinedBorder: #9c27b0;
-    --variant-outlinedBg: rgba(156, 39, 176, 0.04);
+    --variant-containedBg: #1565c0;
+    --variant-textBg: rgba(25, 118, 210, 0.04);
+    --variant-outlinedBorder: #1976d2;
+    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
   }
 }
 
 .emotion-1.MuiButton-loading {
   color: transparent;
-}
-
-.emotion-1:hover {
-  color: #9c27b0;
 }
 
 .emotion-2 {
@@ -423,7 +419,7 @@ exports[`EnterpriseNotification Component > works as expected 1`] = `
     class="flexbox space-between margin-top-small"
   >
     <a
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorSecondary emotion-1"
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary emotion-1"
       data-discover="true"
       href="/subscription"
       tabindex="0"
