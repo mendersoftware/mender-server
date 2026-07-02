@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useMemo, useState } from 'react';
 
-import { Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, TableSortLabel, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import type { SortCriteria } from '@northern.tech/types/MenderTypes';
@@ -22,9 +22,15 @@ import copy from 'copy-to-clipboard';
 
 import { CopyableText } from './CopyableText';
 
-const useStyles = makeStyles()(() => ({
+const useStyles = makeStyles()(theme => ({
+  table: {
+    [`.${tableCellClasses.root}`]: { padding: theme.spacing(1, 2) }
+  },
   attributeColumn: {
     width: '30%'
+  },
+  attributeText: {
+    fontWeight: 500
   },
   valueColumn: {
     width: '70%'
@@ -78,15 +84,15 @@ export const InventoryTable = ({ config, setSnackbar }: InventoryTableProps) => 
   );
 
   return (
-    <Table>
+    <Table className={classes.table}>
       <TableHead>
         <TableRow>
-          <TableCell className={`bold ${classes.attributeColumn}`}>
+          <TableCell className={classes.attributeColumn}>
             <TableSortLabel active={isSortedByAttribute} direction={sortDirection} onClick={() => onSort(columns.attribute)}>
               Attribute
             </TableSortLabel>
           </TableCell>
-          <TableCell className={`bold ${classes.valueColumn}`}>
+          <TableCell className={classes.valueColumn}>
             <TableSortLabel active={!isSortedByAttribute} direction={sortDirection} onClick={() => onSort(columns.value)}>
               Value
             </TableSortLabel>
@@ -96,8 +102,8 @@ export const InventoryTable = ({ config, setSnackbar }: InventoryTableProps) => 
       <TableBody>
         {sortedEntries.map(([attribute, value]) => (
           <TableRow key={attribute}>
-            <TableCell className={`bold ${classes.attributeColumn} ${setSnackbar ? 'clickable' : ''}`}>
-              <CopyableText onCopy={() => onCopy(attribute)} textClasses="bold" title={attribute}>
+            <TableCell className={`${classes.attributeColumn} ${setSnackbar ? 'clickable' : ''}`}>
+              <CopyableText onCopy={() => onCopy(attribute)} textClasses={classes.attributeText} title={attribute}>
                 {attribute}
               </CopyableText>
             </TableCell>
