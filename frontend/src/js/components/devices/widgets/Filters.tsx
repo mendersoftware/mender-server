@@ -52,7 +52,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
   const [newFilter, setNewFilter] = useState(emptyFilter);
 
   const dispatch = useDispatch();
-  const { hasFullFiltering, plan } = useSelector(getTenantCapabilities);
+  const { hasFullFiltering } = useSelector(getTenantCapabilities);
   const { canManageUsers } = useSelector(getUserCapabilities);
   const { groupFilters, selectedGroup } = useSelector(getSelectedGroupInfo);
   const attributes = useSelector(getFilterAttributes);
@@ -152,7 +152,7 @@ export const Filters = ({ className = '', onGroupClick, open }) => {
           </InfoHintContainer>
         </div>
         <div className="flexbox column">
-          <FilterItem attributes={attributes} onChange={setNewFilter} onSelect={applyPreviewFilter} onSave={updateFilter} plan={plan} reset={reset} />
+          <FilterItem attributes={attributes} onChange={setNewFilter} onSelect={applyPreviewFilter} onSave={updateFilter} reset={reset} />
           <Button
             className="align-self-start margin-bottom-small"
             color="info"

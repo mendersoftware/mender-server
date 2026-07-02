@@ -24,12 +24,6 @@ import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import AttributeAutoComplete from './AttributeAutocomplete';
 
-const filterOptionsByPlan = {
-  os: { [DEVICE_FILTERING_OPTIONS.$eq.key]: DEVICE_FILTERING_OPTIONS.$eq },
-  professional: DEVICE_FILTERING_OPTIONS,
-  enterprise: DEVICE_FILTERING_OPTIONS
-};
-
 const TEST_DEVICE_ATTRIBUTE = 'test_device';
 const testDeviceFilterOptions = {
   [DEVICE_FILTERING_OPTIONS.$eq.key]: DEVICE_FILTERING_OPTIONS.$eq,
@@ -59,7 +53,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave }) => {
+export const FilterItem = ({ attributes, onChange, onSelect, reset, onSave }) => {
   const [key, setKey] = useState(emptyFilter.key); // this refers to the selected filter with key as the id
   const [value, setValue] = useState(emptyFilter.value); // while this is the value that is applied with the filter
   const [operator, setOperator] = useState(emptyFilter.operator);
@@ -128,7 +122,7 @@ export const FilterItem = ({ attributes, onChange, onSelect, plan, reset, onSave
   };
 
   const isTestDeviceFilter = key === TEST_DEVICE_ATTRIBUTE;
-  const filterOptions = isTestDeviceFilter ? testDeviceFilterOptions : plan ? filterOptionsByPlan[plan] : DEVICE_FILTERING_OPTIONS;
+  const filterOptions = isTestDeviceFilter ? testDeviceFilterOptions : DEVICE_FILTERING_OPTIONS;
   const operatorHelpMessage = (DEVICE_FILTERING_OPTIONS[operator] || {}).help || '';
   const showValue = typeof (filterOptions[operator] || {}).value === 'undefined';
   const isFilterDefined = Object.values({ key, operator, scope, ...(showValue ? { value } : {}) }).every(thing => !!thing);
