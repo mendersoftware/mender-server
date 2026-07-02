@@ -30,8 +30,7 @@ import { getOfflineThresholdSettings, getTenantCapabilities } from '@northern.te
 import { getDeviceAlerts } from '@northern.tech/store/thunks';
 
 import MonitorDetailsDialog from '../dialogs/MonitorDetailsDialog';
-import { DeviceConnectionNote } from './Connection';
-import { DeviceOfflineHeaderNotification, NoAlertsHeaderNotification } from './Notifications';
+import { DeviceOfflineHeaderNotification } from './Notifications';
 
 const errorIcon = <ErrorIcon className="red" />;
 const successIcon = <CheckIcon className="green" />;
@@ -68,11 +67,11 @@ const { setAlertListState } = storeActions;
 const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 
 export const DeviceMonitorsMissingNote = () => (
-  <DeviceConnectionNote>
+  <Typography className="align-center full-width margin-top-large">
     No alert monitor is currently configured for this device.
     <br />
     Please <DocsLink path="add-ons/monitor" title="see the documentation" /> for a description on how to configure different kinds of monitors.
-  </DeviceConnectionNote>
+  </Typography>
 );
 
 const columns = [
@@ -137,7 +136,11 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
       isAddOn
       postTitle={
         <>
-          {!!monitors.length && <Time value={updated_ts} />}
+          {!!monitors.length && (
+            <>
+              Latest update: <Time value={updated_ts} />{' '}
+            </>
+          )}
           <EnterpriseNotification id={BENEFITS.deviceMonitor.id} />
         </>
       }
@@ -181,23 +184,19 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
           </div>
         </>
       ) : (
-        hasMonitorsDefined && (
-          <p className="muted margin-left-large" style={{ fontSize: 'larger' }}>
-            There are currently no issues reported
-          </p>
-        )
+        hasMonitorsDefined && <Typography className="margin-left-large">There are currently no issues reported</Typography>
       )}
     </ContentSection>
   );
 };
 
 export const MonitoringTab = ({ device }) => {
-  const [monitorDetails, setMonitorDetails] = useState();
+  const [monitorDetails, setMonitorDetails] = useState(null);
 
   return (
     <>
       <DeviceMonitoring device={device} onDetailsClick={setMonitorDetails} />
-      <MonitorDetailsDialog alert={monitorDetails} onClose={() => setMonitorDetails()} />
+      <MonitorDetailsDialog alert={monitorDetails} onClose={() => setMonitorDetails(null)} />
     </>
   );
 };
