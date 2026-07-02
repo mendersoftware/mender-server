@@ -3,39 +3,39 @@ module github.com/mendersoftware/mender-server
 go 1.25.0
 
 require (
-	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.21.1
-	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.7.0
-	github.com/alicebob/miniredis v2.5.0+incompatible
+	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.22.0
+	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.8.0
+	github.com/alicebob/miniredis v2.38.0+incompatible
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
-	github.com/aws/aws-sdk-go-v2 v1.41.10
-	github.com/aws/aws-sdk-go-v2/config v1.32.21
-	github.com/aws/aws-sdk-go-v2/credentials v1.19.20
-	github.com/aws/aws-sdk-go-v2/service/iot v1.75.1
-	github.com/aws/aws-sdk-go-v2/service/iotdataplane v1.33.2
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.103.0
-	github.com/aws/smithy-go v1.26.0
+	github.com/aws/aws-sdk-go-v2 v1.42.1
+	github.com/aws/aws-sdk-go-v2/config v1.32.27
+	github.com/aws/aws-sdk-go-v2/credentials v1.19.26
+	github.com/aws/aws-sdk-go-v2/service/iot v1.75.6
+	github.com/aws/aws-sdk-go-v2/service/iotdataplane v1.33.7
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.104.2
+	github.com/aws/smithy-go v1.27.3
 	github.com/gin-gonic/gin v1.12.0
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
 	github.com/go-viper/mapstructure/v2 v2.5.0
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/websocket v1.5.4-0.20250319132907-e064f32e3674
-	github.com/mendersoftware/mender-artifact v0.0.0-20250724101633-c5f6563a4bcf
+	github.com/mendersoftware/mender-artifact v0.0.0-20260701072107-246c77f05228
 	github.com/nats-io/nats.go v1.52.0
 	github.com/pkg/errors v0.9.1
-	github.com/redis/go-redis/v9 v9.20.0
+	github.com/redis/go-redis/v9 v9.21.0
 	github.com/sirupsen/logrus v1.9.4
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.11.1
-	github.com/thedevsaddam/gojsonq v2.3.0+incompatible
+	github.com/thedevsaddam/gojsonq v2.5.2+incompatible
 	github.com/urfave/cli v1.22.17
 	github.com/vmihailenco/msgpack/v5 v5.4.1
 	go.mongodb.org/mongo-driver v1.17.9
-	go.mongodb.org/mongo-driver/v2 v2.6.0
-	golang.org/x/crypto v0.51.0
-	golang.org/x/sys v0.44.0
-	golang.org/x/term v0.43.0
+	go.mongodb.org/mongo-driver/v2 v2.7.0
+	golang.org/x/crypto v0.53.0
+	golang.org/x/sys v0.46.0
+	golang.org/x/term v0.44.0
 	golang.org/x/time v0.15.0
 	gopkg.in/tomb.v2 v2.0.0-20161208151619-d5d1b5820637
 	gopkg.in/validator.v2 v2.0.1
