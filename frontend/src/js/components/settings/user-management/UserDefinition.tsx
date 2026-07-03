@@ -24,7 +24,7 @@ import { ColumnWidthProvider, SynchronizedTwoColumnData, TwoColumnData } from '@
 import { rolesByName, twoFAStates, uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
 import type { User } from '@northern.tech/types/MenderTypes';
-import { isEmpty } from '@northern.tech/utils/helpers';
+import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 
 import { OAuth2Providers, genericProvider } from '../../login/OAuth2Providers';
 import { EmailVerificationWarning } from '../EmailVerificationWarning';
@@ -94,6 +94,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
 
   const [hadRoleChanges, setHadRoleChanges] = useState(false);
   const [selectedRoles, setSelectedRoles] = useState([]);
+  const [isEditingRoles, setIsEditingRoles] = useState(false);
   const rolesById = useMemo(
     () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
     [roles]
@@ -113,11 +114,11 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
   };
 
   const onSubmitClick = () => {
-    if (id && !hadRoleChanges) {
-      return onSubmit(null, 'edit', id);
-    }
-    return onSubmit({ ...selectedUser, roles: selectedRoles }, 'edit', id);
+    onSubmit({ ...selectedUser, roles: selectedRoles }, 'edit', id);
+    setIsEditingRoles(false);
   };
+
+  const onRoleEditToggle = () => setIsEditingRoles(toggle);
 
   const { areas, ...scopedAreas } = useMemo(() => {
     const emptySelection = { areas: {}, groups: {}, releases: {} };
@@ -140,7 +141,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
 
   const hasScopedPermissionsDefined = Object.values(scopedAreas).some(permissions => !isEmpty(permissions));
   const userNotVerified = !currentUser.verified;
-  const isSubmitDisabled = !selectedRoles.length;
+  const isSubmitDisabled = !selectedRoles.length || !hadRoleChanges;
 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
   const rolesClasses = isEnterprise ? '' : 'muted';
@@ -193,7 +194,30 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         )}
       </ContentSection>
       <ContentSection title="Roles">
-        <UserRolesSelect disabled={!isEnterprise} currentUser={currentUser} onSelect={onRolesSelect} roles={roles} user={selectedUser} />
+        <UserRolesSelect
+          disabled={!(isEnterprise && isEditingRoles)}
+          currentUser={currentUser}
+          key={isEditingRoles}
+          onSelect={onRolesSelect}
+          roles={roles}
+          user={selectedUser}
+        />
+        <div className="flexbox margin-top-small">
+          {isEditingRoles ? (
+            <>
+              <Button className="margin-right-small" color="neutral" onClick={onRoleEditToggle} variant="outlined">
+                Cancel
+              </Button>
+              <Button color="secondary" variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick}>
+                Save changes
+              </Button>
+            </>
+          ) : (
+            <Button color="secondary" onClick={onRoleEditToggle}>
+              Change roles
+            </Button>
+          )}
+        </div>
         {!isEnterprise && (
           <Alert className={`margin-top-small ${classes.widthLimit}`} severity="warning">
             Role-base access control (RBAC) is not available in your current plan. All users will have full administrative access
@@ -224,14 +248,8 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         </ColumnWidthProvider>
       </ContentSection>
       <div className="flexbox margin-top-small">
-        <Button className="margin-right-small" onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick}>
-          Save
-        </Button>
         {currentUser.id !== id && (
-          <Button className="margin-left-small" color="error" onClick={onRemoveClick} variant="outlined">
+          <Button color="error" onClick={onRemoveClick} variant="outlined">
             Delete user
           </Button>
         )}

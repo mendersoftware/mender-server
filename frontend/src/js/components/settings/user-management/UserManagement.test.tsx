@@ -14,7 +14,7 @@
 import { defaultState, render } from '@/testUtils';
 import { TIMEOUTS, yes } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
-import { undefineds, userId } from '@northern.tech/testing/mockData';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -57,6 +57,7 @@ describe('UserManagement Component', () => {
     // let the dismissed delete dialog finish unmounting before reopening the drawer
     await act(async () => vi.runOnlyPendingTimers());
     await user.click(list[list.length - 1]);
+    await screen.getByRole('button', { name: /change roles/i }).click();
     const selectButton = screen.getByLabelText(/roles/i).parentNode.querySelector('[role=combobox]');
     await user.click(selectButton);
     let listbox = document.body.querySelector(dropDownSelector);
@@ -109,6 +110,7 @@ describe('UserManagement Component', () => {
     render(<UserManagement />, { preloadedState });
     const list = screen.getAllByText(/view details/i);
     await user.click(list[list.length - 1]);
+    await screen.getByRole('button', { name: /change roles/i }).click();
     const selectButton = screen.getByLabelText(/roles/i).parentNode.querySelector('[role=combobox]');
     await user.click(selectButton);
     let listbox = document.body.querySelector(dropDownSelector);
