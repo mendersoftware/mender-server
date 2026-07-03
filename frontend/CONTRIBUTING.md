@@ -23,27 +23,30 @@ To ensure consistency, maintainability, and quality in our frontend codebase, we
 
 - **Prettier:** We use Prettier to enforce a consistent code style. Our configuration is defined in [`.prettierrc.mjs`](./.prettierrc.mjs).
 - **Enforcement:** Code style is automatically checked in our CI pipeline. Pull requests with formatting issues will fail checks.
-- **How to Apply:** Before committing your changes, please run the formatting command:
+- **How to Apply:** Before committing, auto-fix what the tooling can and verify the rest. Note that `npm run lint-fix` only applies ESLint autofixes — it does **not** reformat with Prettier, and some ESLint issues still need fixing by hand:
   ```bash
-  npm run lint-fix
+  npm run lint-fix                                          # apply ESLint autofixes
+  npx prettier --write "src/js/**/*.{js,ts,jsx,tsx,less}"  # apply Prettier formatting
+  npm run format:check                                      # verify formatting
   ```
-  Consider configuring your editor to format on save using the project's Prettier configuration.
+  The easiest way to stay consistent is to configure your editor to format on save using the project's Prettier configuration.
 
 ### 2. Naming Conventions
 
 - **Descriptive Names:** Variables, functions, components, and file names should be descriptive and clearly convey their purpose. Avoid abbreviations unless they are widely understood (e.g., `id`, `url`, `http`).
 - **Consistency:**
   - **Variables & Functions:** Use `camelCase` (e.g., `isLoading`, `fetchDeviceDetails`).
-  - **React Components:** Use `PascalCase` for component names and filenames (e.g., `DeviceList.js`, `function DeviceList(...)`).
+  - **React Components:** Use `PascalCase` for component names and filenames (e.g., `DeviceList.tsx`, `function DeviceList(...)`).
   - **Constants:** Use `UPPER_SNAKE_CASE` for true constants (e.g., `MAX_LOGIN_ATTEMPTS`).
-  - **CSS/SCSS classes:** Use kebab-case (e.g., `.device-list-item`). Follow existing patterns where applicable.
+  - **CSS/SCSS classes:** Use kebab-case (e.g., `.device-list-item`).
+  - **Follow existing patterns** in the surrounding code where applicable.
 
 ### 3. Testing
 
 We aim for a high degree of confidence in our frontend application through testing. Our testing philosophy is heavily inspired by Kent C. Dodds' principles, particularly the Testing Trophy and the practices promoted by React Testing Library.
 
 - **Testing Trophy Focus:**
-  - **(Few) End-to-End Tests:** Cover critical user flows using tools like Cypress (if applicable). These are valuable but slower and more brittle.
+  - **(Few) End-to-End Tests:** Cover critical user flows. Our end-to-end tests are built with [Playwright](https://playwright.dev/) and live in [`tests/e2e_tests/`](./tests/e2e_tests/) — see its [README](./tests/e2e_tests/README.md) for how to run them. These are valuable but slower and more brittle.
   - **(Many) Integration Tests:** **This is where the bulk of our testing effort should be.** Use React Testing Library to test components within the context they are used, verifying interactions and rendered output from a user's perspective. Test the integration between several units/components.
   - **(Some) Unit Tests:** Use for pure functions, complex logic, utility functions, or hooks that can be tested in isolation without a UI. Avoid unit-testing component implementation details.
 - **React Testing Library (RTL) Best Practices:**
@@ -58,12 +61,17 @@ We aim for a high degree of confidence in our frontend application through testi
     - **External Dependencies:** Browser APIs not available in the test environment (e.g., `localStorage`, `matchMedia`) might need mocking.
     - **True Unit Tests:** When isolating a complex algorithm or utility function.
 - **Test Location & Execution:**
-  - Tests typically reside alongside the code using `.test.ts` extensions. Follow the existing project structure.
-  - Run the tests using:
+  - Unit and integration tests reside alongside the code they cover (`.test.ts` / `.test.tsx`). Follow the existing project structure.
+  - Run the unit and integration tests with:
     ```bash
     npm run test
     ```
-  - Ensure all tests pass before submitting your pull request.
+  - The end-to-end (Playwright) tests are run separately from [`tests/e2e_tests/`](./tests/e2e_tests/) — see that directory's [README](./tests/e2e_tests/README.md).
+  - Ensure the relevant tests pass before submitting your pull request.
+
+### 4. Shared packages
+
+Several frontend building blocks — the state store, themes, shared UI components, and the ESLint / Prettier / TypeScript configuration — are published as the `@northern.tech/*` packages this app depends on, and are developed in the [`NorthernTechHQ/nt-gui`](https://github.com/NorthernTechHQ/nt-gui) repository. If your change belongs in one of those shared packages, please contribute it there rather than in this directory.
 
 ## Pull Request Process
 
