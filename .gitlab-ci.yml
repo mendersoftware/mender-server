@@ -297,15 +297,14 @@ review:deploy:
     - echo "URL - https://${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
   script:
     - echo "Authenticating to AWS using OIDC..."
-    - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s"
-      $(/usr/bin/env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_SESSION_TOKEN --
-      aws sts assume-role-with-web-identity
-      --role-arn ${REVIEW_APPS_AWS_ASSUME_ROLE_ARN}
-      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
-      --web-identity-token ${GITLAB_OIDC_TOKEN}
-      --duration-seconds 3600
-      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
-      --output text))
+    - export $(aws sts assume-role-with-web-identity \
+      --role-arn ${REVIEW_APPS_AWS_ASSUME_ROLE_ARN} \
+      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}" \
+      --web-identity-token ${GITLAB_OIDC_TOKEN} \
+      --duration-seconds 3600 \
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' \
+      --output text | awk '{printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s", $1, $2, $3}')
+    - aws sts get-caller-identity
     - echo "Successfully authenticated to AWS"
 
     - echo "Configuring kubectl for EKS cluster ${REVIEW_APPS_EKS_CLUSTER_NAME}..."
@@ -388,15 +387,14 @@ review:stop:
     - echo "Cleaning up review app - ${RELEASE_NAME} in namespace ${NAMESPACE}"
 
     - echo "Authenticating to AWS using OIDC..."
-    - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s"
-      $(/usr/bin/env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_SESSION_TOKEN --
-      aws sts assume-role-with-web-identity
-      --role-arn ${REVIEW_APPS_AWS_ASSUME_ROLE_ARN}
-      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
-      --web-identity-token ${GITLAB_OIDC_TOKEN}
-      --duration-seconds 3600
-      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
-      --output text))
+    - export $(aws sts assume-role-with-web-identity \
+      --role-arn ${REVIEW_APPS_AWS_ASSUME_ROLE_ARN} \
+      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}" \
+      --web-identity-token ${GITLAB_OIDC_TOKEN} \
+      --duration-seconds 3600 \
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' \
+      --output text | awk '{printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s", $1, $2, $3}')
+    - aws sts get-caller-identity
 
     - echo "Configuring kubectl for EKS cluster ${REVIEW_APPS_EKS_CLUSTER_NAME}..."
     - aws eks update-kubeconfig --name ${REVIEW_APPS_EKS_CLUSTER_NAME} --region ${REVIEW_APPS_AWS_REGION}
