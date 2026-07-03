@@ -55,8 +55,8 @@ log_info "All required environment variables are set"
 RANDOM_SUFFIX=$(openssl rand -hex 4)
 RANDOM_PASSWORD=$(openssl rand -base64 16 | tr -d "=+/" | cut -c1-16)
 
-ADMIN_USERNAME="${REVIEW_APP_ADMIN_USERNAME:-admin-${RANDOM_SUFFIX}@mender.local}"
-ADMIN_PASSWORD="${REVIEW_APP_ADMIN_PASSWORD:-${RANDOM_PASSWORD}}"
+ADMIN_USERNAME="${REVIEW_APPS_ADMIN_USERNAME:-admin-${RANDOM_SUFFIX}@mender.local}"
+ADMIN_PASSWORD="${REVIEW_APPS_ADMIN_PASSWORD:-${RANDOM_PASSWORD}}"
 
 log_info "Generated credentials for this review app deployment"
 
