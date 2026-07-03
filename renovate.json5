@@ -110,9 +110,10 @@
       "groupSlug": "docker-base-images"
     },
 
-    // docker-compose: root + compose/*.yml in one PR.
+    // docker-compose: root + compose/*.yml + nested compose files in one PR.
     {
       "matchManagers": ["docker-compose"],
+      "matchFileNames": ["**/docker-compose+(.*.|.)+(yml|yaml)"],
       "groupName": "docker-compose",
       "groupSlug": "docker-compose"
     },
