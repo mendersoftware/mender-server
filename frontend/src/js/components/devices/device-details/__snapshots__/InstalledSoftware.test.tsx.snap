@@ -30,19 +30,28 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
 }
 
 .emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-4 {
   border-left: solid 1px;
   border-left-color: #9e9e9e;
   padding-bottom: 16px;
   margin-bottom: -16px;
 }
 
-.emotion-4.two-columns.column-data {
+.emotion-5.two-columns.column-data {
   grid-template-columns: max-content minmax(auto, 650px);
   max-width: initial;
   row-gap: 8px;
 }
 
-.emotion-5 {
+.emotion-6 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -77,12 +86,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   height: 24px;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-5 .MuiChip-avatar {
+.emotion-6 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -91,12 +100,12 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-5 .MuiChip-icon {
+.emotion-6 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-5 .MuiChip-deleteIcon {
+.emotion-6 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -104,11 +113,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-5 .MuiChip-deleteIcon:hover {
+.emotion-6 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-5 .MuiChip-avatar {
+.emotion-6 .MuiChip-avatar {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -116,23 +125,23 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   font-size: 0.625rem;
 }
 
-.emotion-5 .MuiChip-icon {
+.emotion-6 .MuiChip-icon {
   font-size: 18px;
   margin-left: 4px;
   margin-right: -4px;
 }
 
-.emotion-5 .MuiChip-deleteIcon {
+.emotion-6 .MuiChip-deleteIcon {
   font-size: 16px;
   margin-right: 4px;
   margin-left: -4px;
 }
 
-.emotion-5 .MuiChip-icon {
+.emotion-6 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-6 {
+.emotion-7 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -142,7 +151,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   padding-right: 8px;
 }
 
-.emotion-7>svg {
+.emotion-8>svg {
   cursor: pointer;
   fill: rgba(0, 0, 0, 0.54);
   opacity: 0;
@@ -150,20 +159,11 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
   transition: opacity 0.2s ease-in-out;
 }
 
-.emotion-7:hover>svg {
+.emotion-8:hover>svg {
   opacity: 1;
 }
 
-.emotion-8 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
-}
-
-.emotion-9 {
+.emotion-10 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -203,32 +203,32 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
     <div
       class="margin-top-small "
     >
-      <div
-        class="muted"
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
         Root filesystem
-      </div>
+      </p>
       <div
-        class="emotion-3"
+        class="emotion-4"
       >
         <div
-          class="break-all two-columns emotion-4 column-data  margin-left-small margin-top-small"
+          class="break-all two-columns emotion-5 column-data  margin-left-small margin-top-small"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label emotion-6"
+              class="MuiChip-label emotion-7"
             >
               version
             </span>
           </div>
           <div
-            class="flexbox align-items-center emotion-7"
+            class="flexbox align-items-center emotion-8"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+              class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="stablev1-beta-final-v0"
             >
@@ -237,7 +237,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -249,20 +249,20 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label emotion-6"
+              class="MuiChip-label emotion-7"
             >
               checksum
             </span>
           </div>
           <div
-            class="flexbox align-items-center emotion-7"
+            class="flexbox align-items-center emotion-8"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+              class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="12341143"
             >
@@ -271,7 +271,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -290,43 +290,43 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         <div
           class="margin-top-small "
         >
-          <div
-            class="muted"
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-3"
           >
             update-module
-          </div>
+          </p>
           <div
             class="emotion-2"
           >
             <div
               class="margin-top-small "
             >
-              <div
-                class="muted"
+              <p
+                class="MuiTypography-root MuiTypography-body2 emotion-3"
               >
                 single-files
-              </div>
+              </p>
               <div
                 class=""
               >
                 <div
-                  class="break-all two-columns emotion-4 column-data margin-bottom-small margin-left-small margin-top-small"
+                  class="break-all two-columns emotion-5 column-data margin-bottom-small margin-left-small margin-top-small"
                 >
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
                     style="justify-self: end;"
                   >
                     <span
-                      class="MuiChip-label emotion-6"
+                      class="MuiChip-label emotion-7"
                     >
                       version
                     </span>
                   </div>
                   <div
-                    class="flexbox align-items-center emotion-7"
+                    class="flexbox align-items-center emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+                      class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
                       style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="13"
                     >
@@ -335,7 +335,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     <svg
                       aria-hidden="true"
                       aria-label="Copy to clipboard"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
                       data-mui-internal-clone-element="true"
                       data-testid="FileCopyOutlinedIcon"
                       focusable="false"
@@ -347,20 +347,20 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     </svg>
                   </div>
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
                     style="justify-self: end;"
                   >
                     <span
-                      class="MuiChip-label emotion-6"
+                      class="MuiChip-label emotion-7"
                     >
                       mender_update_module
                     </span>
                   </div>
                   <div
-                    class="flexbox align-items-center emotion-7"
+                    class="flexbox align-items-center emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+                      class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
                       style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="single-file-multi"
                     >
@@ -369,7 +369,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     <svg
                       aria-hidden="true"
                       aria-label="Copy to clipboard"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
                       data-mui-internal-clone-element="true"
                       data-testid="FileCopyOutlinedIcon"
                       focusable="false"
@@ -386,32 +386,32 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <div
               class="margin-top-small "
             >
-              <div
-                class="muted"
+              <p
+                class="MuiTypography-root MuiTypography-body2 emotion-3"
               >
                 delta-module
-              </div>
+              </p>
               <div
                 class=""
               >
                 <div
-                  class="break-all two-columns emotion-4 column-data margin-bottom-small margin-left-small margin-top-small"
+                  class="break-all two-columns emotion-5 column-data margin-bottom-small margin-left-small margin-top-small"
                 >
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
                     style="justify-self: end;"
                   >
                     <span
-                      class="MuiChip-label emotion-6"
+                      class="MuiChip-label emotion-7"
                     >
                       version
                     </span>
                   </div>
                   <div
-                    class="flexbox align-items-center emotion-7"
+                    class="flexbox align-items-center emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+                      class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
                       style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="13"
                     >
@@ -420,7 +420,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     <svg
                       aria-hidden="true"
                       aria-label="Copy to clipboard"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
                       data-mui-internal-clone-element="true"
                       data-testid="FileCopyOutlinedIcon"
                       focusable="false"
@@ -432,20 +432,20 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     </svg>
                   </div>
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
                     style="justify-self: end;"
                   >
                     <span
-                      class="MuiChip-label emotion-6"
+                      class="MuiChip-label emotion-7"
                     >
                       mender_update_module
                     </span>
                   </div>
                   <div
-                    class="flexbox align-items-center emotion-7"
+                    class="flexbox align-items-center emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+                      class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
                       style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                       title="custom-delta-updater"
                     >
@@ -454,7 +454,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                     <svg
                       aria-hidden="true"
                       aria-label="Copy to clipboard"
-                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+                      class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
                       data-mui-internal-clone-element="true"
                       data-testid="FileCopyOutlinedIcon"
                       focusable="false"
@@ -473,32 +473,32 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         <div
           class="margin-top-small "
         >
-          <div
-            class="muted"
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-3"
           >
             directory
-          </div>
+          </p>
           <div
             class=""
           >
             <div
-              class="break-all two-columns emotion-4 column-data margin-bottom-small margin-left-small margin-top-small"
+              class="break-all two-columns emotion-5 column-data margin-bottom-small margin-left-small margin-top-small"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label emotion-6"
+                  class="MuiChip-label emotion-7"
                 >
                   version
                 </span>
               </div>
               <div
-                class="flexbox align-items-center emotion-7"
+                class="flexbox align-items-center emotion-8"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+                  class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
                   style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="mender-demo-artifact-3.4.0"
                 >
@@ -507,7 +507,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
                   data-mui-internal-clone-element="true"
                   data-testid="FileCopyOutlinedIcon"
                   focusable="false"
@@ -526,32 +526,32 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
     <div
       class="margin-top-small "
     >
-      <div
-        class="muted"
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
         test
-      </div>
+      </p>
       <div
-        class="emotion-3"
+        class="emotion-4"
       >
         <div
-          class="break-all two-columns emotion-4 column-data  margin-left-small margin-top-small"
+          class="break-all two-columns emotion-5 column-data  margin-left-small margin-top-small"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label emotion-6"
+              class="MuiChip-label emotion-7"
             >
               version
             </span>
           </div>
           <div
-            class="flexbox align-items-center emotion-7"
+            class="flexbox align-items-center emotion-8"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+              class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="test-2"
             >
@@ -560,7 +560,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -577,32 +577,32 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
     <div
       class="margin-top-small "
     >
-      <div
-        class="muted"
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
         a.whole.lot.of.dots
-      </div>
+      </p>
       <div
-        class="emotion-3"
+        class="emotion-4"
       >
         <div
-          class="break-all two-columns emotion-4 column-data  margin-left-small margin-top-small"
+          class="break-all two-columns emotion-5 column-data  margin-left-small margin-top-small"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label emotion-6"
+              class="MuiChip-label emotion-7"
             >
               version
             </span>
           </div>
           <div
-            class="flexbox align-items-center emotion-7"
+            class="flexbox align-items-center emotion-8"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+              class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="test-3"
             >
@@ -611,7 +611,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -623,20 +623,20 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label emotion-6"
+              class="MuiChip-label emotion-7"
             >
               more
             </span>
           </div>
           <div
-            class="flexbox align-items-center emotion-7"
+            class="flexbox align-items-center emotion-8"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+              class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="test-4"
             >
@@ -645,7 +645,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -662,32 +662,32 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
     <div
       class="margin-top-small "
     >
-      <div
-        class="muted"
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
         even.more.dots.than.before
-      </div>
+      </p>
       <div
-        class="emotion-3"
+        class="emotion-4"
       >
         <div
-          class="break-all two-columns emotion-4 column-data  margin-left-small margin-top-small"
+          class="break-all two-columns emotion-5 column-data  margin-left-small margin-top-small"
         >
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label emotion-6"
+              class="MuiChip-label emotion-7"
             >
               version
             </span>
           </div>
           <div
-            class="flexbox align-items-center emotion-7"
+            class="flexbox align-items-center emotion-8"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+              class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="test-5"
             >
@@ -696,7 +696,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -708,20 +708,20 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             </svg>
           </div>
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
             style="justify-self: end;"
           >
             <span
-              class="MuiChip-label emotion-6"
+              class="MuiChip-label emotion-7"
             >
               more
             </span>
           </div>
           <div
-            class="flexbox align-items-center emotion-7"
+            class="flexbox align-items-center emotion-8"
           >
             <p
-              class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+              class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
               style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               title="test-6"
             >
@@ -730,7 +730,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
             <svg
               aria-hidden="true"
               aria-label="Copy to clipboard"
-              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+              class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
               data-mui-internal-clone-element="true"
               data-testid="FileCopyOutlinedIcon"
               focusable="false"
@@ -747,43 +747,43 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
     <div
       class="margin-top-small "
     >
-      <div
-        class="muted"
+      <p
+        class="MuiTypography-root MuiTypography-body2 emotion-3"
       >
         uefi-firmware
-      </div>
+      </p>
       <div
         class="emotion-2"
       >
         <div
           class="margin-top-small "
         >
-          <div
-            class="muted"
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-3"
           >
             GUID-edk2
-          </div>
+          </p>
           <div
             class=""
           >
             <div
-              class="break-all two-columns emotion-4 column-data margin-bottom-small margin-left-small margin-top-small"
+              class="break-all two-columns emotion-5 column-data margin-bottom-small margin-left-small margin-top-small"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label emotion-6"
+                  class="MuiChip-label emotion-7"
                 >
                   name
                 </span>
               </div>
               <div
-                class="flexbox align-items-center emotion-7"
+                class="flexbox align-items-center emotion-8"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+                  class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
                   style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="4123rfsad"
                 >
@@ -792,7 +792,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
                   data-mui-internal-clone-element="true"
                   data-testid="FileCopyOutlinedIcon"
                   focusable="false"
@@ -804,20 +804,20 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </svg>
               </div>
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label emotion-6"
+                  class="MuiChip-label emotion-7"
                 >
                   version
                 </span>
               </div>
               <div
-                class="flexbox align-items-center emotion-7"
+                class="flexbox align-items-center emotion-8"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+                  class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
                   style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="v5"
                 >
@@ -826,7 +826,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
                   data-mui-internal-clone-element="true"
                   data-testid="FileCopyOutlinedIcon"
                   focusable="false"
@@ -843,32 +843,32 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
         <div
           class="margin-top-small "
         >
-          <div
-            class="muted"
+          <p
+            class="MuiTypography-root MuiTypography-body2 emotion-3"
           >
             GUID.edk2
-          </div>
+          </p>
           <div
             class=""
           >
             <div
-              class="break-all two-columns emotion-4 column-data margin-bottom-small margin-left-small margin-top-small"
+              class="break-all two-columns emotion-5 column-data margin-bottom-small margin-left-small margin-top-small"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label emotion-6"
+                  class="MuiChip-label emotion-7"
                 >
                   checksum
                 </span>
               </div>
               <div
-                class="flexbox align-items-center emotion-7"
+                class="flexbox align-items-center emotion-8"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+                  class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
                   style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="1232415512"
                 >
@@ -877,7 +877,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
                   data-mui-internal-clone-element="true"
                   data-testid="FileCopyOutlinedIcon"
                   focusable="false"
@@ -889,20 +889,20 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </svg>
               </div>
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label emotion-6"
+                  class="MuiChip-label emotion-7"
                 >
                   name
                 </span>
               </div>
               <div
-                class="flexbox align-items-center emotion-7"
+                class="flexbox align-items-center emotion-8"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+                  class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
                   style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="a2124"
                 >
@@ -911,7 +911,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
                   data-mui-internal-clone-element="true"
                   data-testid="FileCopyOutlinedIcon"
                   focusable="false"
@@ -923,20 +923,20 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 </svg>
               </div>
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-5"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-6"
                 style="justify-self: end;"
               >
                 <span
-                  class="MuiChip-label emotion-6"
+                  class="MuiChip-label emotion-7"
                 >
                   version
                 </span>
               </div>
               <div
-                class="flexbox align-items-center emotion-7"
+                class="flexbox align-items-center emotion-8"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 clickable emotion-8"
+                  class="MuiTypography-root MuiTypography-body2 clickable emotion-3"
                   style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
                   title="v1"
                 >
@@ -945,7 +945,7 @@ exports[`DeviceInventory Component > renders correctly 1`] = `
                 <svg
                   aria-hidden="true"
                   aria-label="Copy to clipboard"
-                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-9"
+                  class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeSmall margin-left-x-small emotion-10"
                   data-mui-internal-clone-element="true"
                   data-testid="FileCopyOutlinedIcon"
                   focusable="false"

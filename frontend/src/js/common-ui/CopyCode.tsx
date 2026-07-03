@@ -63,15 +63,19 @@ type CodeVariant = 'code1' | 'code2';
 interface CodeProps {
   children: ReactNode;
   className?: string;
+  noBackground?: boolean;
   size?: CodeSize;
   style?: CSSProperties;
 }
 
-export const Code = ({ className = '', children, size = 'full', style = {} }: CodeProps) => {
+export const Code = ({ className = '', children, size = 'full', style = {}, noBackground = false }: CodeProps) => {
   const { classes } = useStyles();
   const maxHeight = sizeMaxHeights[size];
   return (
-    <div className={`${classes.code} ${className}`} style={{ ...style, ...(maxHeight ? { maxHeight } : {}) }}>
+    <div
+      className={`${classes.code} ${className}`}
+      style={{ ...style, ...(maxHeight ? { maxHeight } : {}), ...(noBackground ? { background: 'transparent' } : {}) }}
+    >
       {children}
     </div>
   );
@@ -89,13 +93,14 @@ export const InlineCode = ({ children, variant = 'code1', ...props }: Typography
 
 interface CopyCodeProps {
   code: string;
+  noBackground?: boolean;
   onCopy?: () => void;
   size?: CodeSize;
   variant?: CodeVariant;
   withDescription?: boolean;
 }
 
-export const CopyCode = ({ code, onCopy, size = 'full', variant = 'code1', withDescription }: CopyCodeProps) => {
+export const CopyCode = ({ code, onCopy, size = 'full', variant = 'code1', withDescription, noBackground }: CopyCodeProps) => {
   const [copied, setCopied] = useState(false);
   const { classes } = useStyles();
 
@@ -109,7 +114,7 @@ export const CopyCode = ({ code, onCopy, size = 'full', variant = 'code1', withD
 
   return (
     <>
-      <Code size={size}>
+      <Code size={size} noBackground={noBackground}>
         <CopyToClipboard text={code} onCopy={onCopied}>
           {withDescription ? (
             <Button color="inherit" size="large" variant="text" className={classes.button} startIcon={<CopyPasteIcon />} title="Copy to clipboard">

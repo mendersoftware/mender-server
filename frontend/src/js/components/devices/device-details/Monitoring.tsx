@@ -14,7 +14,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CheckCircle as CheckIcon, Error as ErrorIcon, Help as HelpIcon, Warning as WarningIcon } from '@mui/icons-material';
+import { CheckCircle as CheckIcon, Cancel as ErrorIcon, Help as HelpIcon, Warning as WarningIcon } from '@mui/icons-material';
+import { Table, TableBody, TableCell, TableRow, Typography, tableCellClasses } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -28,8 +30,7 @@ import { getOfflineThresholdSettings, getTenantCapabilities } from '@northern.te
 import { getDeviceAlerts } from '@northern.tech/store/thunks';
 
 import MonitorDetailsDialog from '../dialogs/MonitorDetailsDialog';
-import { DeviceConnectionNote } from './Connection';
-import { DeviceOfflineHeaderNotification, NoAlertsHeaderNotification } from './Notifications';
+import { DeviceOfflineHeaderNotification } from './Notifications';
 
 const errorIcon = <ErrorIcon className="red" />;
 const successIcon = <CheckIcon className="green" />;
@@ -45,38 +46,65 @@ const monitoringSeverities = {
 };
 
 const severityMap = {
-  [monitoringSeverities.CRITICAL]: { className: 'red', icon: errorIcon },
-  [monitoringSeverities.CRITICAL_FLAPPING]: { className: '', icon: errorIcon },
-  [monitoringSeverities.OK]: { className: '', icon: successIcon },
-  [monitoringSeverities.UNKNOWN]: { className: '', icon: questionIcon },
-  [monitoringSeverities.WARNING]: { className: '', icon: warningIcon }
+  [monitoringSeverities.CRITICAL]: { className: 'red', icon: errorIcon, label: 'Critical' },
+  [monitoringSeverities.CRITICAL_FLAPPING]: { className: '', icon: errorIcon, label: 'Critical flapping' },
+  [monitoringSeverities.OK]: { className: '', icon: successIcon, label: 'OK' },
+  [monitoringSeverities.UNKNOWN]: { className: '', icon: questionIcon, label: 'Unknown' },
+  [monitoringSeverities.WARNING]: { className: '', icon: warningIcon, label: 'Warning' }
 };
+
+const useStyles = makeStyles()(() => ({
+  table: {
+    width: 'auto',
+    maxWidth: 900,
+    [`.${tableCellClasses.root}`]: { borderBottom: 'none', whiteSpace: 'nowrap' }
+  },
+  mutedIcon: { opacity: 0.5 }
+}));
 
 const { setAlertListState } = storeActions;
 
 const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
 
 export const DeviceMonitorsMissingNote = () => (
-  <DeviceConnectionNote>
+  <Typography className="align-center full-width margin-top-large">
     No alert monitor is currently configured for this device.
     <br />
     Please <DocsLink path="add-ons/monitor" title="see the documentation" /> for a description on how to configure different kinds of monitors.
-  </DeviceConnectionNote>
+  </Typography>
 );
 
-const MonitoringAlert = ({ alert, className = '', onDetailsClick, style }) => {
-  const { description, lines_before = [], lines_after = [], line_matching = '' } = alert.subject.details;
-  const lines = [...lines_before, line_matching, ...lines_after].filter(i => i);
+const columns = [
+  { key: 'icon', Component: ({ alert }) => (severityMap[alert.level] ?? severityMap[monitoringSeverities.UNKNOWN]).icon },
+  { key: 'name', Component: ({ alert }) => alert.name, style: { width: '100%', whiteSpace: 'normal' } },
+  { key: 'level', Component: ({ alert }) => (severityMap[alert.level] ?? severityMap[monitoringSeverities.UNKNOWN]).label },
+  { key: 'time', Component: ({ alert }) => <Time value={alert.timestamp} /> },
+  {
+    key: 'details',
+    Component: ({ alert, onDetailsClick }) => {
+      const { description, lines_before = [], lines_after = [], line_matching = '' } = alert.subject.details ?? {};
+      const lines = [...lines_before, line_matching, ...lines_after].filter(i => i);
+      return (lines.length || description) && <Link onClick={() => onDetailsClick(alert)}>view {lines.length ? 'log' : 'details'}</Link>;
+    }
+  }
+];
+
+const MonitoringAlerts = ({ alerts, onDetailsClick, muted = false }) => {
+  const { classes } = useStyles();
   return (
-    <div className={`monitoring-alert column-data ${className}`} style={style}>
-      {(severityMap[alert.level] ?? severityMap[monitoringSeverities.UNKNOWN]).icon}
-      <div className="key muted">
-        <b>{alert.name}</b>
-      </div>
-      <div>{alert.level}</div>
-      <Time value={alert.timestamp} />
-      {(lines.length || description) && <Link onClick={() => onDetailsClick(alert)}>view {lines.length ? 'log' : 'details'}</Link>}
-    </div>
+    <Table className={classes.table} size="small">
+      <TableBody>
+        {alerts.map(alert => (
+          <TableRow key={alert.id}>
+            {columns.map(({ key, Component, style }) => (
+              <TableCell key={key} className={muted && key === 'icon' ? classes.mutedIcon : undefined} style={style}>
+                <Component alert={alert} onDetailsClick={onDetailsClick} />
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 
@@ -108,7 +136,11 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
       isAddOn
       postTitle={
         <>
-          {!!monitors.length && <Time value={updated_ts} />}
+          {!!monitors.length && (
+            <>
+              Latest update: <Time value={updated_ts} />{' '}
+            </>
+          )}
           <EnterpriseNotification id={BENEFITS.deviceMonitor.id} />
         </>
       }
@@ -116,10 +148,15 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
     >
       {hasMonitorsDefined || isOffline ? (
         <>
-          {hasMonitorsDefined && !latestAlerts.length && <NoAlertsHeaderNotification />}
-          {latestAlerts.map(alert => (
-            <MonitoringAlert className="margin-bottom-x-small" alert={alert} key={alert.id} onDetailsClick={onDetailsClick} />
-          ))}
+          {hasMonitorsDefined && !latestAlerts.length && (
+            <div className="flexbox align-items-center">
+              <CheckIcon className="green" />
+              <Typography variant="subtitle1" className="margin-left-x-small">
+                No reported issues
+              </Typography>
+            </div>
+          )}
+          {!!latestAlerts.length && <MonitoringAlerts alerts={latestAlerts} onDetailsClick={onDetailsClick} />}
           {isOffline && <DeviceOfflineHeaderNotification offlineThresholdSettings={offlineThresholdSettings} />}
         </>
       ) : (
@@ -127,11 +164,11 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
       )}
       {alerts.length ? (
         <>
-          <div>
-            <h4 className="muted">Alert history</h4>
-            {alerts.map(alert => (
-              <MonitoringAlert alert={alert} key={alert.id} onDetailsClick={onDetailsClick} />
-            ))}
+          <div className="margin-top-large">
+            <Typography className="margin-bottom-small" variant="subtitle1">
+              Alert history
+            </Typography>
+            <MonitoringAlerts alerts={alerts} onDetailsClick={onDetailsClick} muted />
           </div>
           <div className="flexbox margin-top">
             {alertCount > paginationCutoff && (
@@ -147,23 +184,19 @@ export const DeviceMonitoring = ({ device, onDetailsClick }) => {
           </div>
         </>
       ) : (
-        hasMonitorsDefined && (
-          <p className="muted margin-left-large" style={{ fontSize: 'larger' }}>
-            There are currently no issues reported
-          </p>
-        )
+        hasMonitorsDefined && <Typography className="margin-left-large">There are currently no issues reported</Typography>
       )}
     </ContentSection>
   );
 };
 
 export const MonitoringTab = ({ device }) => {
-  const [monitorDetails, setMonitorDetails] = useState();
+  const [monitorDetails, setMonitorDetails] = useState(null);
 
   return (
     <>
       <DeviceMonitoring device={device} onDetailsClick={setMonitorDetails} />
-      <MonitorDetailsDialog alert={monitorDetails} onClose={() => setMonitorDetails()} />
+      <MonitorDetailsDialog alert={monitorDetails} onClose={() => setMonitorDetails(null)} />
     </>
   );
 };

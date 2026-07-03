@@ -15,7 +15,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
-import { Button, Divider, IconButton, InputAdornment, Tab, Tabs, TextField, Tooltip } from '@mui/material';
+import { Button, Divider, IconButton, InputAdornment, Tab, Tabs, TextField, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { Link } from '@northern.tech/common-ui/Link';
@@ -103,8 +103,7 @@ export const FileTransfer = ({
 
   const fileInputProps = {
     error: !isValidDestination,
-    fullWidth: true,
-    InputLabelProps: { shrink: true }
+    fullWidth: true
   };
 
   return (
@@ -118,9 +117,9 @@ export const FileTransfer = ({
       {currentTab === 'upload' ? (
         <div className={classes.column}>
           <div>
-            <p className="margin-top">
-              <b>Upload a file to the device</b>
-            </p>
+            <Typography variant="subtitle2" className="margin-top-medium margin-bottom-x-small">
+              Upload a file to the device
+            </Typography>
             <FileUpload
               enableContentReading={false}
               fileNameSelection={file?.name}
@@ -133,9 +132,9 @@ export const FileTransfer = ({
               }
             />
           </div>
-          <p className="margin-top margin-bottom-none">
-            <b>Destination directory on the device where the file will be transferred</b>
-          </p>
+          <Typography variant="subtitle2" className="margin-top margin-bottom-x-small">
+            Destination directory on the device where the file will be transferred
+          </Typography>
           <div className={classes.inputWrapper}>
             <TextField
               {...fileInputProps}
@@ -144,19 +143,20 @@ export const FileTransfer = ({
               placeholder="Example: /opt/installed-by-single-file"
               value={uploadPath}
               slotProps={{
-                input: { endAdornment: <CopyPasteButton onClick={onPasteUploadClick} /> }
+                input: { endAdornment: <CopyPasteButton onClick={onPasteUploadClick} /> },
+                inputLabel: { shrink: true }
               }}
             />
-            <Button variant="contained" disabled={!(file && uploadPath && isValidDestination)} onClick={onUploadClick}>
+            <Button variant="outlined" color="info" disabled={!(file && uploadPath && isValidDestination)} onClick={onUploadClick}>
               Upload
             </Button>
           </div>
         </div>
       ) : (
         <div>
-          <p className="margin-top margin-bottom-none">
-            <b>Path to the file on the device</b>
-          </p>
+          <Typography variant="subtitle2" className="margin-top margin-bottom-x-small">
+            Path to the file on the device
+          </Typography>
           <div className={classes.inputWrapper}>
             <TextField
               {...fileInputProps}
@@ -165,15 +165,11 @@ export const FileTransfer = ({
               placeholder="Example: /home/mender/"
               value={downloadPath}
               slotProps={{
-                input: { endAdornment: <CopyPasteButton onClick={onPasteDownloadClick} /> }
+                input: { endAdornment: <CopyPasteButton onClick={onPasteDownloadClick} /> },
+                inputLabel: { shrink: true }
               }}
             />
-            <Button
-              variant="contained"
-              disabled={!(downloadPath && isValidDestination)}
-              onClick={() => onDownload(downloadPath)}
-              style={{ alignSelf: 'flex-end' }}
-            >
+            <Button variant="outlined" color="info" disabled={!(downloadPath && isValidDestination)} onClick={() => onDownload(downloadPath)}>
               Download
             </Button>
           </div>

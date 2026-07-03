@@ -12,15 +12,17 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
-import { Button, lighten } from '@mui/material';
+import { Button } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
 import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, onboardingSteps } from '@northern.tech/store/constants';
 import { getCombinedLimit, getDeviceCountsByStatus, getLimitMaxed, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, deleteAuthset, updateDeviceAuth } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
@@ -30,19 +32,19 @@ import { DeviceLimitWarning } from '../../dialogs/PreauthDialog';
 import Authsetlist from './AuthSetList';
 
 const useStyles = makeStyles()(theme => ({
-  decommission: { justifyContent: 'flex-end', marginTop: theme.spacing(2) },
   wrapper: {
-    backgroundColor: lighten(theme.palette.background.paper, 0.25),
-    marginBottom: theme.spacing(2),
-    minWidth: 700,
-    padding: theme.spacing(2)
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? alpha(theme.palette.grey[300], theme.palette.action.selectedOpacity)
+        : alpha(theme.palette.grey[400], theme.palette.action.hoverOpacity),
+    minWidth: 700
   }
 }));
 
 export const Authsets = ({ decommission, device, listRef }) => {
-  const [confirmDecommission, setConfirmDecomission] = useState(false);
+  const [confirmDecommission, setConfirmDecommission] = useState(false);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { accepted: acceptedDevices } = useSelector(getDeviceCountsByStatus);
   const deviceLimit = useSelector(getCombinedLimit);
   const limitMaxed = useSelector(getLimitMaxed);
@@ -57,14 +59,14 @@ export const Authsets = ({ decommission, device, listRef }) => {
     const request =
       status === DEVICE_DISMISSAL_STATE ? dispatch(deleteAuthset({ deviceId, authId })) : dispatch(updateDeviceAuth({ deviceId, authId, status }));
     // on finish, change "loading" back to null
-    return request.then(() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING))).finally(() => setLoading(null));
+    return request.then(() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING))).finally(() => setLoading(false));
   };
 
   return (
-    <div className={classes.wrapper}>
+    <div className={`${classes.wrapper} padding-medium`}>
       <div className="margin-bottom-small flexbox space-between">
-        {status === DEVICE_STATES.pending ? `Authorization ${pluralize('request', auth_sets.length)}` : 'Authorization sets'}
-        <MenderHelpTooltip id={HELPTOOLTIPS.authExplainButton.id} className="margin-left-small" />
+        {status === DEVICE_STATES.pending ? `Authentication ${pluralize('request', auth_sets.length)}` : 'Authentication sets'}
+        <MenderHelpTooltip id={HELPTOOLTIPS.authExplainButton.id} small className="margin-left-small" />
       </div>
       <Authsetlist
         limitMaxed={limitMaxed}
@@ -77,11 +79,16 @@ export const Authsets = ({ decommission, device, listRef }) => {
       />
       {limitMaxed && <DeviceLimitWarning acceptedDevices={acceptedDevices} deviceLimit={deviceLimit} hasContactInfo />}
       {![DEVICE_STATES.preauth, DEVICE_STATES.pending].includes(device.status) && canManageDevices && (
-        <div className={`flexbox relative ${classes.decommission}`}>
+        <div className="margin-top-small flexbox relative">
           {confirmDecommission ? (
-            <Confirm action={() => decommission(device.id)} cancel={() => setConfirmDecomission(false)} classes="margin-top-small" type="decommissioning" />
+            <Confirm
+              action={() => decommission(device.id)}
+              cancel={() => setConfirmDecommission(false)}
+              classes="margin-top-x-small margin-bottom-x-small"
+              type="decommissioning"
+            />
           ) : (
-            <Button color="secondary" onClick={setConfirmDecomission}>
+            <Button color="error" variant="outlined" onClick={() => setConfirmDecommission(true)}>
               Decommission device
             </Button>
           )}

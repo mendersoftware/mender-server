@@ -49,7 +49,7 @@ export const AuthStatus = ({ decommission, device }) => {
   }
 
   const statusIcon = states[status] ? states[status] : states.default;
-  const requestNotification = !!hasPending && <Chip size="small" label="new request" color="primary" />;
+  const requestNotification = !!hasPending && <Chip size="small" label="New request" />;
   let onboardingComponent;
   if (listRef.current?.querySelector('.action-buttons')) {
     const anchor = {

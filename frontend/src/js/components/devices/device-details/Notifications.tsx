@@ -11,8 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-material';
-import { Alert } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { Link } from '@northern.tech/common-ui/Link';
@@ -23,53 +22,33 @@ const useStyles = makeStyles()(theme => ({
   textSpacing: {
     marginLeft: theme.spacing(0.5),
     marginRight: theme.spacing(0.5)
-  },
-  downButton: {
-    marginBottom: theme.spacing(-0.5)
   }
 }));
-
-export const BaseNotification = ({ children, severity, onClick }) => (
-  <Alert severity={severity} onClick={onClick} className={onClick ? 'clickable' : ''}>
-    <div className="flexbox align-items-center">{children}</div>
-  </Alert>
-);
-
 export const LastConnection = ({ check_in_time }) => {
   const { classes } = useStyles();
 
   return check_in_time ? (
-    <BaseNotification severity="warning">
+    <Alert severity="warning">
       Device has not connected to the server since <Time className={classes.textSpacing} value={check_in_time} />
-    </BaseNotification>
+    </Alert>
   ) : (
-    <BaseNotification severity="info">The device has never connected to the server</BaseNotification>
+    <Alert severity="info">The device has never connected to the server</Alert>
   );
 };
 
-export const ServiceNotification = ({ alerts, onClick }) => {
-  const { classes } = useStyles();
-
-  return (
-    <BaseNotification onClick={onClick} severity="error">
-      {alerts.length} {pluralize('service', alerts.length)} reported issues. View details in the <Link className={classes.textSpacing}>monitoring section</Link>{' '}
-      below
-      <Link className={classes.textSpacing}>
-        <ScrollDownIcon className={classes.downButton} fontSize="small" />
-      </Link>
-    </BaseNotification>
-  );
-};
-
-export const NoAlertsHeaderNotification = () => <BaseNotification severity="success">No reported issues</BaseNotification>;
+export const ServiceNotification = ({ alerts, onClick }) => (
+  <Alert onClick={onClick} severity="error" className="clickable margin-top-x-small">
+    {alerts.length} {pluralize('service', alerts.length)} reported issues. View the details in the <Link>monitoring section</Link> below
+  </Alert>
+);
 
 export const DeviceOfflineHeaderNotification = ({ offlineThresholdSettings }) => (
-  <BaseNotification severity="error">
-    <div className="key muted margin-right-small">
-      <b>Device offline</b>
-    </div>
-    Last check-in over {offlineThresholdSettings.interval} {pluralize(offlineThresholdSettings.intervalUnit, offlineThresholdSettings.interval)} ago
-  </BaseNotification>
+  <Alert severity="warning" className="margin-top-small margin-bottom-small">
+    <Typography variant="body2" className="margin-right-small">
+      Device may be offline: last check-in over {offlineThresholdSettings.interval}{' '}
+      {pluralize(offlineThresholdSettings.intervalUnit, offlineThresholdSettings.interval)} ago
+    </Typography>
+  </Alert>
 );
 
 export const DeviceNotifications = ({ alerts, device, onClick }) => {

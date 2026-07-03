@@ -64,7 +64,7 @@ const BaseDrawer = ({ children, className = '', notification, onClose, open, siz
     >
       {headerProps && <DrawerTitle {...headerProps} onClose={handleHeaderClose} />}
       {notification}
-      <Divider className="margin-top-x-small margin-bottom-small" />
+      <Divider className={`${notification ? 'margin-top-medium' : 'margin-top-x-small'} margin-bottom-small`} />
       {children}
     </SizedDrawer>
   );

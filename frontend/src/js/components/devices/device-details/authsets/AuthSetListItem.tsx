@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 
 import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 // material ui
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Chip, Divider, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Chip, Divider, Tooltip, Typography } from '@mui/material';
 
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import Loader from '@northern.tech/common-ui/Loader';
@@ -86,7 +86,7 @@ const AuthSetStatus = ({ authset, device }) => {
     return <div className="capitalized">Active</div>;
   }
   if (authset.status === DEVICE_STATES.pending) {
-    return <Chip size="small" label="new" color="primary" style={{ justifySelf: 'flex-start' }} />;
+    return <Chip size="small" label="New" style={{ justifySelf: 'flex-start' }} />;
   }
   return <div />;
 };
@@ -185,23 +185,25 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
   };
 
   const toggleKey = () => onShowKey(!showKey);
-  const key = <Button onClick={toggleKey}>{showKey ? 'hide' : 'show'} key</Button>;
+  const key = <Button onClick={toggleKey}>{showKey ? 'Hide' : 'Show'} key</Button>;
   const content = showKey ? (
-    <div>
-      <CopyCode code={endKey} />
-      <Divider className={classes.divider} />
+    <div className="full-width">
+      <div className={classes.fitContent}>
+        <CopyCode code={endKey} noBackground />
+      </div>
+      <Divider className="margin-bottom-x-small" />
       <div title="SHA256">
         <Typography>Checksum</Typography>
         <Typography variant="body2">{keyHash}</Typography>
       </div>
     </div>
   ) : (
-    <Typography className={classes.confirmMessage}>
+    <Typography className={`${classes.confirmMessage} margin-right`}>
       {loading === authset.id ? 'Updating status' : `${confirmMessage} Are you sure you want to continue?`}
     </Typography>
   );
   return (
-    <Accordion className={classes.accordion} square expanded={isExpanded}>
+    <Accordion className={`${classes.accordion} padding-none`} square expanded={isExpanded}>
       <AccordionSummary component="div" className={`columns-${columns.length}`}>
         <AuthSetStatus authset={authset} device={device} />
         <div className="capitalized">{authset.status}</div>
@@ -211,7 +213,7 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
             <div>{authset.tier}</div>
           </div>
         </Tooltip>
-        {key}
+        <div>{key}</div>
         <Time value={formatTime(authset.ts)} />
         {loading === authset.id ? (
           <div>
@@ -230,23 +232,21 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
           />
         )}
       </AccordionSummary>
-      <AccordionDetails>{content}</AccordionDetails>
-      {isExpanded && !showKey && (
-        <AccordionActions className="margin-right-small">
-          {loading === authset.id ? (
-            <Loader table={true} waiting={true} show={true} style={{ height: '4px' }} />
-          ) : (
-            <>
-              <Button className="margin-right-small" onClick={onCancelConfirm}>
+      <AccordionDetails>
+        <div className="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small">
+          {content}
+          {isExpanded && !showKey && loading !== authset.id && (
+            <div className="flexbox">
+              <Button color="info" variant="outlined" onClick={onCancelConfirm}>
                 Cancel
               </Button>
-              <Button variant="contained" onClick={() => onConfirm(newStatus)}>
+              <Button className="margin-left-x-small" variant="contained" onClick={() => onConfirm(newStatus)}>
                 Confirm
               </Button>
-            </>
+            </div>
           )}
-        </AccordionActions>
-      )}
+        </div>
+      </AccordionDetails>
     </Accordion>
   );
 };

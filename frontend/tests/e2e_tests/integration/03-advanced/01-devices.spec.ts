@@ -118,7 +118,7 @@ test.describe('Devices', () => {
     await expect(slideOut.getByText('1-1 of 1')).toBeVisible();
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await page.getByText(/device information/i).waitFor();
-    await expect(page.getByText(/Authorization sets/i)).toBeVisible();
+    await expect(page.getByText(/Authentication sets/i)).toBeVisible();
     await page.click('[aria-label="close"]');
     await expect(page.getByText(/table options/i)).toBeVisible();
     await page.locator('.leftFixed.leftNav').getByRole('link', { name: 'Software', exact: true }).click();

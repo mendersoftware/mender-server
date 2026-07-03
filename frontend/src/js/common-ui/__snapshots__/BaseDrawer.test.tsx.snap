@@ -820,7 +820,7 @@ exports[`BaseDrawer Component > renders notification slot 1`] = `
         Alert!
       </div>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth margin-top-x-small margin-bottom-small emotion-6"
+        class="MuiDivider-root MuiDivider-fullWidth margin-top-medium margin-bottom-small emotion-6"
       />
       <div>
         Content

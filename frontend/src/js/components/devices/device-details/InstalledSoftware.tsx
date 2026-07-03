@@ -11,6 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Typography } from '@mui/material';
 import { deepmerge } from '@mui/utils';
 import { makeStyles } from 'tss-react/mui';
 
@@ -105,7 +106,7 @@ export const extractSoftwareInformation = (attributes = {}, sort = true) => {
 
 const SoftwareLayer = ({ classes, layer, isNested, overviewOnly, setSnackbar }) => (
   <div className={`margin-top-small ${overviewOnly ? classes.paddingOnly : ''}`}>
-    <div className="muted">{layer.title}</div>
+    <Typography variant="body2">{layer.title}</Typography>
     {!isEmpty(layer.content) && (
       <div className={isNested || overviewOnly ? '' : classes.topLevelBorder}>
         <TwoColumnData

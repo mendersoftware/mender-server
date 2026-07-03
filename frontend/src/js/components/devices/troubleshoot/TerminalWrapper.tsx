@@ -13,10 +13,10 @@
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
-import { Button } from '@mui/material';
+import { Button, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Loader from '@northern.tech/common-ui/Loader';
@@ -24,6 +24,7 @@ import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { BEGINNING_OF_TIME, TIMEOUTS } from '@northern.tech/store/constants';
 import { getCurrentSession, getFeatures, getIsPreview, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useSession } from '@northern.tech/store/sockethook';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { triggerDeviceUpdate } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
@@ -36,9 +37,7 @@ import Terminal from './Terminal';
 dayjs.extend(durationDayJs);
 
 const useStyles = makeStyles()(theme => ({
-  connectionActions: { marginTop: theme.spacing() },
-  connectionButton: { background: theme.palette.background.terminal, display: 'grid', placeContent: 'center' },
-  sessionInfo: { gap: theme.spacing(3), marginBottom: theme.spacing(), '&>div': { gap: theme.spacing(2) } },
+  connectionButton: { background: alpha(theme.palette.grey[900], 0.25), display: 'grid', placeContent: 'center' },
   terminalContent: {
     display: 'grid',
     gridTemplateRows: `max-content 0 minmax(${theme.spacing(60)}, 1fr) max-content`,
@@ -53,7 +52,6 @@ const useStyles = makeStyles()(theme => ({
 const SessionInfo = ({ socketInitialized, startTime }) => {
   const [elapsed, setElapsed] = useState(dayjs());
   const timer = useRef();
-  const { classes } = useStyles();
 
   useEffect(() => {
     clearInterval(timer.current);
@@ -67,19 +65,21 @@ const SessionInfo = ({ socketInitialized, startTime }) => {
   }, [socketInitialized]);
 
   return (
-    <div className={`flexbox ${classes.sessionInfo}`}>
+    <div className="flexbox margin-top-x-small margin-bottom-x-small">
       {[
-        { key: 'status', title: 'Session status', content: socketInitialized ? 'connected' : 'disconnected' },
+        { key: 'status', title: 'Session status', content: socketInitialized ? 'Connected' : 'Disconnected' },
         { key: 'start', title: 'Connection start', content: <MaybeTime value={startTime} /> },
         {
           key: 'duration',
           title: 'Duration',
-          content: startTime ? `${dayjs.duration(elapsed.diff(dayjs(startTime))).format('HH:mm:ss', { trim: false })}` : '-'
+          content: startTime ? `${dayjs.duration(elapsed.diff(dayjs(startTime))).format('HH:mm:ss')}` : '-'
         }
-      ].map(({ key, title, content }) => (
-        <div key={key} className="flexbox">
-          <div>{title}</div>
-          <b>{content}</b>
+      ].map(({ key, title, content }, index) => (
+        <div key={key} className={`flexbox ${index ? 'margin-left-medium' : ''}`}>
+          <Typography variant="subtitle2">{title}</Typography>
+          <Typography component="div" className="margin-left-small" variant="body2">
+            {content}
+          </Typography>
         </div>
       ))}
     </div>
@@ -113,7 +113,7 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
   const { canAuditlog } = useSelector(getUserCapabilities);
   const canPreview = useSelector(getIsPreview);
   const { token } = useSelector(getCurrentSession);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onMessageReceived = useCallback(message => {
     if (!termRef.current.terminal.current) {
@@ -291,15 +291,23 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
       {!socketInitialized && (
         <div className={classes.connectionButton}>
           <Button variant="contained" onClick={onConnectionToggle}>
-            Connect Terminal
+            Connect to device
           </Button>
         </div>
       )}
-      <div className={`flexbox space-between ${classes.connectionActions}`}>
-        <Button onClick={onConnectionToggle}>{socketInitialized ? 'Disconnect' : 'Connect'} Terminal</Button>
+      <div className="flexbox margin-top-x-small">
+        <Button disabled={!socketInitialized} color="error" variant="outlined" onClick={onConnectionToggle}>
+          Disconnect Terminal
+        </Button>
+
         {canAuditlog && hasAuditlogs && (
-          <Button component={RouterLink} to={`/auditlog?objectType=device&objectId=${device.id}&startDate=${BEGINNING_OF_TIME}`}>
-            View Session Logs for this device
+          <Button
+            color="inherit"
+            className="margin-left-medium"
+            component={RouterLink}
+            to={`/auditlog?objectType=device&objectId=${device.id}&startDate=${BEGINNING_OF_TIME}`}
+          >
+            View device session log
           </Button>
         )}
         {socketInitialized && !!commandHandlers.length && <ListOptions options={commandHandlers} title="Quick commands" />}

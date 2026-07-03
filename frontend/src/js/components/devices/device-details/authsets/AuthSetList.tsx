@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useState } from 'react';
 
-import { accordionDetailsClasses, accordionSummaryClasses } from '@mui/material';
+import { accordionClasses, accordionDetailsClasses, accordionSummaryClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DEVICE_STATES, canAccess } from '@northern.tech/store/constants';
@@ -31,19 +31,30 @@ const useStyles = makeStyles()(theme => ({
       display: 'grid',
       gridColumnGap: theme.spacing(2),
       gridTemplateColumns: '0.5fr 1fr 1.5fr 2fr 2fr 2fr',
-      alignItems: 'center'
+      alignItems: 'center',
+      margin: 0
     }
   },
   accordion: {
+    borderInline: 'none',
     '&:before': { display: 'none' },
-    '&$expanded': { margin: 'auto' },
+    '&:hover': { borderColor: theme.palette.divider },
+    '&:not(:last-of-type)': { borderBottom: 'none' },
+    [`&.${accordionClasses.expanded}`]: { margin: 0 },
+    [`.${accordionSummaryClasses.root}`]: {
+      height: 'auto',
+      minHeight: theme.spacing(5.25),
+      [`&.${accordionSummaryClasses.expanded}`]: { height: 'auto', minHeight: theme.spacing(5.25) }
+    },
+    [`.${accordionSummaryClasses.content}`]: {
+      [`&.${accordionSummaryClasses.expanded}`]: { margin: 0 }
+    },
     [`.columns-5 .${accordionSummaryClasses.content}`]: {
       gridTemplateColumns: fiveColumns
     },
-    [`.${accordionDetailsClasses.root}`]: { flexDirection: 'row' }
+    [`.${accordionDetailsClasses.root}`]: { flexDirection: 'row', minHeight: theme.spacing(5.25) }
   },
-  confirmMessage: { fontWeight: 500, marginLeft: 'auto' },
-  divider: { marginTop: theme.spacing(), marginBottom: theme.spacing() },
+  confirmMessage: { fontWeight: 500 },
   fitContent: { width: 'fit-content' },
   header: {
     padding: theme.spacing(2),

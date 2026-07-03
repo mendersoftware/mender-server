@@ -21,7 +21,7 @@ import { extractSoftware } from '@northern.tech/utils/helpers';
 import DeviceInventoryLoader from './DeviceInventoryLoader';
 
 export const LastChangedNote = ({ updateTime }) => (
-  <Typography variant="body2">
+  <Typography variant="body2" color="textSecondary">
     Last changed: <Time value={updateTime} />
   </Typography>
 );

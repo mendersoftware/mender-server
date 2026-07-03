@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
 import { Button, Chip } from '@mui/material';
-import { makeStyles, withStyles } from 'tss-react/mui';
+import { withStyles } from 'tss-react/mui';
 
 import { ADDONS, BENEFITS, PLANS } from '@northern.tech/store/constants';
 import { getTenantCapabilities } from '@northern.tech/store/selectors';
@@ -24,10 +24,6 @@ import { yes } from '@northern.tech/utils/helpers';
 
 import { Link } from './Link';
 import MenderTooltip, { MenderTooltipClickable } from './helptips/MenderTooltip';
-
-const useStyles = makeStyles()(({ palette }) => ({
-  link: { ['&:hover']: { color: palette.secondary.main } }
-}));
 
 const PlansTooltip = withStyles(MenderTooltip, () => ({
   tooltip: {
@@ -47,7 +43,6 @@ const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id, size
   const { isEnterprise, plan: currentPlan } = tenantCapabilities;
   const { benefit, requiredAddon = '', requiredPlan = PLANS.os.id } = BENEFITS[id];
   const hasAddon = requiredAddon ? ADDONS[requiredAddon].needs.every(need => tenantCapabilities[need]) : false;
-  const { classes } = useStyles();
 
   const currentPlanIndex = Object.keys(PLANS).indexOf(currentPlan);
   const requiredPlanIndex = Object.keys(PLANS).indexOf(requiredPlan);
@@ -58,7 +53,7 @@ const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id, size
   }
   const content = requiredAddon ? (
     <>
-      Add the <b>{ADDONS[requiredAddon].title}</b> add-on to {benefit}.
+      Add the <b>{ADDONS[requiredAddon].title}</b> Add-on to {benefit}.
     </>
   ) : (
     <>
@@ -74,7 +69,7 @@ const EnterpriseNotification = ({ className = '', id = BENEFITS.default.id, size
         <>
           {content}
           <div className="flexbox space-between margin-top-small">
-            <Button className={classes.link} color="secondary" component={RouterLink} size="small" to="/subscription">
+            <Button color="primary" component={RouterLink} size="small" to="/subscription">
               Upgrade now
             </Button>
             <Button color="inherit" onClick={() => setIsOpen(false)} size="small" variant="text">

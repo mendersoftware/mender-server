@@ -12,18 +12,16 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
 import { Block as BlockIcon, CheckCircle as CheckCircleIcon, Error as ErrorIcon, Refresh as RefreshIcon, SaveAlt as SaveAltIcon } from '@mui/icons-material';
-import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, FormHelperText, Typography } from '@mui/material';
 
 import Confirm, { EditButton } from '@northern.tech/common-ui/Confirm';
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
-import { DOCSTIPS, DocsTooltip } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
-import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -32,6 +30,7 @@ import KeyValueEditor from '@northern.tech/common-ui/forms/KeyValueEditor';
 import storeActions from '@northern.tech/store/actions';
 import { BENEFITS, DEPLOYMENT_ROUTES, DEPLOYMENT_STATES, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { getDeviceConfigDeployment, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import {
   abortDeployment,
   applyDeviceConfig,
@@ -51,10 +50,6 @@ import ConfigImportDialog from './ConfigImportDialog';
 
 const { setSnackbar } = storeActions;
 
-const buttonStyle = { marginLeft: 30 };
-const iconStyle = { margin: 12 };
-const textStyle = { textTransform: 'capitalize', textAlign: 'left' };
-
 const defaultReportTimeStamp = '0001-01-01T00:00:00Z';
 
 const maxDeploymentsChecks = 128;
@@ -71,13 +66,11 @@ const configHelpTipsMap = {
 };
 
 export const ConfigUpToDateNote = ({ updated_ts = defaultReportTimeStamp }) => (
-  <div className="flexbox margin-small">
-    <CheckCircleIcon className="green" style={iconStyle} />
+  <div className="flexbox margin-small align-items-center">
+    <CheckCircleIcon className="green margin-right-medium" />
     <div>
-      <Typography variant="subtitle2" style={textStyle}>
-        Configuration up-to-date on the device
-      </Typography>
-      <Typography variant="caption" className="muted" style={textStyle}>
+      <Typography variant="body2">Configuration Up-To-Date on the device</Typography>
+      <Typography color="textSecondary" variant="body2">
         Updated: {<Time value={updated_ts} />}
       </Typography>
     </div>
@@ -85,63 +78,66 @@ export const ConfigUpToDateNote = ({ updated_ts = defaultReportTimeStamp }) => (
 );
 
 export const ConfigEmptyNote = ({ updated_ts = '' }) => (
-  <div className="flexbox column margin-small">
-    <Typography variant="subtitle2">The device appears to either have an empty configuration or not to have reported a configuration yet.</Typography>
-    <Typography variant="caption" className="muted" style={textStyle}>
-      Updated: {<Time value={updated_ts} />}
+  <div className="flexbox column margin-small align-items-center full-width">
+    <Typography variant="body1" className="margin-bottom-x-small">
+      No configurations were found
+    </Typography>
+    <Typography variant="body2" className="align-center" style={{ width: '500px' }}>
+      The device appears to either have an empty configuration or not to have reported a configuration yet. Updated: {<Time value={updated_ts} />}
     </Typography>
   </div>
 );
 
 export const ConfigEditingActions = ({ canSetDefault, isSetAsDefault, onSetAsDefaultChange, onSubmit, onCancel }) => (
-  <>
+  <div className="flexbox column">
     {canSetDefault && (
-      <div style={{ maxWidth: 275 }}>
+      <div className="flexbox column">
         <FormControlLabel
           control={<Checkbox color="primary" checked={isSetAsDefault} onChange={onSetAsDefaultChange} size="small" />}
           label="Save as default configuration"
-          style={{ marginTop: 0 }}
         />
-        <div className="muted">You can import these key value pairs when configuring other devices</div>
+        <FormHelperText className="margin-top-none" style={{ marginLeft: 30 }}>
+          You can import these key value pairs when configuring other devices
+        </FormHelperText>
       </div>
     )}
-    <Button variant="contained" onClick={onSubmit} style={buttonStyle}>
-      Save and apply to device
-    </Button>
-    <Button onClick={onCancel} style={buttonStyle}>
-      Cancel changes
-    </Button>
-  </>
+    <div className="margin-top-small">
+      <Button variant="contained" onClick={onSubmit}>
+        Save and apply to device
+      </Button>
+      <Button className="margin-left-small" variant="outlined" color="neutral" onClick={onCancel}>
+        Cancel changes
+      </Button>
+    </div>
+  </div>
 );
 
 export const ConfigUpdateNote = ({ isUpdatingConfig, isAccepted }) => (
   <div>
-    <Typography variant="subtitle2" style={textStyle}>
+    <Typography variant="body2">
       {!isAccepted
         ? 'Configuration will be applied once the device is connected'
         : isUpdatingConfig
           ? 'Updating configuration on device...'
           : 'Configuration could not be updated on device'}
     </Typography>
-    <Typography variant="caption" className="muted" style={textStyle}>
-      Status: {isUpdatingConfig || !isAccepted ? 'pending' : 'failed'}
-    </Typography>
+    <Typography variant="caption">Status: {isUpdatingConfig || !isAccepted ? 'pending' : 'failed'}</Typography>
   </div>
 );
 
 export const ConfigUpdateFailureActions = ({ hasLog, onSubmit, onCancel, setShowLog }) => (
   <>
     {hasLog && (
-      <Button onClick={setShowLog} style={buttonStyle}>
+      <Button onClick={setShowLog} className="margin-left-medium">
         View log
       </Button>
     )}
-    <Button onClick={onSubmit} startIcon={<RefreshIcon fontSize="small" />} style={buttonStyle}>
+    <Button variant="outlined" className="margin-left-medium" onClick={onSubmit} startIcon={<RefreshIcon fontSize="small" />}>
       Retry
     </Button>
-    <Link className="margin-left-large" onClick={onCancel}>
-      cancel changes
-    </Link>
+    <Button variant="outlined" color="neutral" className="margin-left-medium" onClick={onCancel}>
+      Cancel changes
+    </Button>
   </>
 );
 
@@ -163,7 +159,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
   const [updateFailed, setUpdateFailed] = useState();
   const [updateLog, setUpdateLog] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const deploymentTimer = useRef(null);
   const deploymentCheckCount = useRef(0);
 
@@ -343,9 +339,9 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     const hasLog = deployment.devices && deployment.devices[device.id]?.log;
     footer = (
       <>
-        <div className="flexbox">
+        <div className="flexbox align-items-center padding-small">
           {isUpdatingConfig && <Loader show={true} style={{ marginRight: 15, marginTop: -15 }} />}
-          {updateFailed && <ErrorIcon className="red" style={iconStyle} />}
+          {updateFailed && <ErrorIcon className="red margin-right-medium" />}
           <ConfigUpdateNote isUpdatingConfig={isUpdatingConfig} isAccepted={status === DEVICE_STATES.accepted} />
         </div>
         {updateFailed ? (
@@ -354,13 +350,13 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
           <Confirm cancel={onAbortClick} action={onCancel} type="abort" classes="margin-left-large" />
         ) : (
           <>
-            <Button color="secondary" onClick={onAbortClick} startIcon={<BlockIcon fontSize="small" />} style={buttonStyle}>
+            <Button color="secondary" onClick={onAbortClick} startIcon={<BlockIcon fontSize="small" />} className="margin-left-medium">
               Abort update
             </Button>
             <Button
               component={RouterLink}
               to={`/deployments/${deployment.status || DEPLOYMENT_ROUTES.active.key}?open=true&id=${deployment_id}`}
-              style={buttonStyle}
+              className="margin-left-medium"
             >
               View deployment
             </Button>
@@ -383,17 +379,16 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
       isAddOn
       postTitle={
         <>
+          <InfoHintContainer className="flexbox center-aligned">
+            <EnterpriseNotification id={BENEFITS.deviceConfiguration.id} />
+            <MenderHelpTooltip id={HELPTOOLTIPS.configureAddOnTip.id} small />
+          </InfoHintContainer>
           {hasDeviceConfig && !(isEditingConfig || isUpdatingConfig) && <EditButton onClick={onStartEdit} />}
           {isEditingConfig && (
             <Button onClick={onStartImportClick} disabled={isUpdatingConfig} startIcon={<SaveAltIcon />}>
               Import configuration
             </Button>
           )}
-          <InfoHintContainer className="flexbox center-aligned">
-            <EnterpriseNotification id={BENEFITS.deviceConfiguration.id} />
-            <MenderHelpTooltip id={HELPTOOLTIPS.configureAddOnTip.id} style={{ marginTop: 5 }} />
-            <DocsTooltip id={DOCSTIPS.deviceConfig.id} />
-          </InfoHintContainer>
         </>
       }
       title="Device configuration"
