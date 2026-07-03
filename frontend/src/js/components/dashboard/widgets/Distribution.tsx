@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router';
 
 import { Delete as DeleteIcon, Settings, Square } from '@mui/icons-material';
 import { IconButton, LinearProgress, linearProgressClasses } from '@mui/material';
+import { PieChart as MuiPieChart } from '@mui/x-charts/PieChart';
 import { makeStyles } from 'tss-react/mui';
 
 import Confirm from '@northern.tech/common-ui/Confirm';
@@ -27,7 +28,6 @@ import { useAppDispatch } from '@northern.tech/store/store';
 import { getReportDataWithoutBackendSupport, updateReportData } from '@northern.tech/store/thunks';
 import { ensureVersionString } from '@northern.tech/store/utils';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';
-import { VictoryBar, VictoryContainer, VictoryPie, VictoryStack } from 'victory';
 
 import BaseWidget from './BaseWidget';
 import { ChartEditWidget, Header } from './ChartAddition';
@@ -40,6 +40,7 @@ const createColorClassName = hexColor => `color-${hexColor.slice(1)}`;
 
 const useStyles = makeStyles()(theme => ({
   indicator: { fontSize: 10, minWidth: 'initial', marginLeft: 4 },
+  pieChart: { aspectRatio: '1 / 1', maxWidth: 200, width: '100%' },
   legendItem: {
     alignItems: 'center',
     display: 'grid',
@@ -65,45 +66,29 @@ const useStyles = makeStyles()(theme => ({
       ...Object.values(chartColorPalette).reduce(
         (accu, color) => ({
           ...accu,
-          [`.${createColorClassName(color)} .${linearProgressClasses.barColorPrimary}`]: { backgroundColor: color }
+          [`.${createColorClassName(color)} .${linearProgressClasses.bar}`]: { backgroundColor: color }
         }),
         {
-          [`.${createColorClassName(theme.palette.grey[400])} .${linearProgressClasses.barColorPrimary}`]: { backgroundColor: theme.palette.grey[400] }
+          [`.${createColorClassName(theme.palette.grey[400])} .${linearProgressClasses.bar}`]: { backgroundColor: theme.palette.grey[400] }
         }
       )
     }
   }
 }));
 
-const ChartLegend = ({ classes, data, events = [], showIndicators = true }) => {
-  const { eventHandlers = {} } = events[0];
-  const { onClick } = eventHandlers;
-  return (
-    <div className="flexbox column">
-      {data.map(({ fill, x, title, tip, value }) => (
-        <div
-          className={`clickable ${classes.legendItem} ${showIndicators ? 'indicating' : ''}`}
-          key={x}
-          onClick={e => onClick(e, { datum: { x } })}
-          title={tip}
-        >
-          {showIndicators && <Square className={classes.indicator} style={{ fill }} />}
-          <div className="text-overflow">{title}</div>
-          <div>{value.toLocaleString()}</div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const VictoryBarChart = ({ data, totals, ...remainder }) => (
-  <VictoryStack {...remainder} animate={{ duration: 700, onLoad: { duration: 700 } }} horizontal padding={{ left: 0, right: 0, top: 0, bottom: 15 }}>
-    <VictoryBar alignment="start" barWidth={16} sortKey={['y']} sortOrder="ascending" data={data} />
-    <VictoryBar alignment="start" barWidth={16} sortKey={['y']} sortOrder="descending" data={totals} />
-  </VictoryStack>
+const ChartLegend = ({ classes, data, onClick, showIndicators = true }) => (
+  <div className="flexbox column">
+    {data.map(({ fill, x, title, tip, value }) => (
+      <div className={`clickable ${classes.legendItem} ${showIndicators ? 'indicating' : ''}`} key={x} onClick={() => onClick(x)} title={tip}>
+        {showIndicators && <Square className={classes.indicator} style={{ fill }} />}
+        <div className="text-overflow">{title}</div>
+        <div>{value.toLocaleString()}</div>
+      </div>
+    ))}
+  </div>
 );
 
-const BarChart = ({ data, events }) => {
+const BarChart = ({ data, onClick }) => {
   const [chartData, setChartData] = useState([]);
   const timer = useRef();
 
@@ -117,12 +102,10 @@ const BarChart = ({ data, events }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(data)]);
 
-  const { eventHandlers = {} } = events[0];
-  const { onClick } = eventHandlers;
   return (
     <div className="flexbox column">
       {chartData.map(({ fill, x, y, tip }) => (
-        <div className="clickable flexbox column barchart" key={x} onClick={e => onClick(e, { datum: { x } })} title={tip} style={{ justifyContent: 'center' }}>
+        <div className="clickable flexbox column barchart" key={x} onClick={() => onClick(x)} title={tip} style={{ justifyContent: 'center' }}>
           <LinearProgress className={createColorClassName(fill)} variant="determinate" value={y} style={{ height: 8 }} />
         </div>
       ))}
@@ -132,36 +115,37 @@ const BarChart = ({ data, events }) => {
 
 const ChartContainer = ({ className, children }) => <div className={className}>{children}</div>;
 
-const BarChartContainer = ({ classes = {}, data, events, ...remainder }) => (
+const BarChartContainer = ({ classes, data, onClick }) => (
   <ChartContainer className={classes.wrapper}>
-    <ChartLegend classes={classes} data={data} events={events} showIndicators={false} />
-    <BarChart {...remainder} data={data} events={events} />
+    <ChartLegend classes={classes} data={data} onClick={onClick} showIndicators={false} />
+    <BarChart data={data} onClick={onClick} />
   </ChartContainer>
 );
 
-const PieChart = props => <VictoryPie {...props} padding={{ left: 0, right: 0, top: 0, bottom: 15 }} />;
-
-const PieChartContainer = ({ classes = {}, ...chartProps }) => (
-  <ChartContainer className={classes.wrapper}>
-    <ChartLegend {...chartProps} classes={classes} />
-    <PieChart {...chartProps} containerComponent={<VictoryContainer />} />
-  </ChartContainer>
+const PieChart = ({ classes, data, onClick }) => (
+  <div className={classes.pieChart}>
+    <MuiPieChart
+      className="clickable"
+      hideLegend
+      onItemClick={(e, { dataIndex }) => onClick(data[dataIndex].x)}
+      series={[{ data: data.map(({ fill, title, value, x }) => ({ color: fill, id: x, label: title, value })) }]}
+    />
+  </div>
 );
 
-const VictoryBarChartContainer = ({ classes = {}, ...chartProps }) => (
+const PieChartContainer = ({ classes, ...chartProps }) => (
   <ChartContainer className={classes.wrapper}>
     <ChartLegend {...chartProps} classes={classes} />
-    <VictoryBarChart {...chartProps} />
+    <PieChart {...chartProps} classes={classes} />
   </ChartContainer>
 );
 
 const chartTypeComponentMap = {
   [chartTypes.bar.key]: BarChartContainer,
-  [`${chartTypes.bar.key}-alternative`]: VictoryBarChartContainer,
   [chartTypes.pie.key]: PieChartContainer
 };
 
-const initDistribution = ({ data, theme }) => {
+const initDistribution = ({ data }) => {
   const { items, otherCount, total } = data;
   const numberOfItems = items.length > chartColorPalette.length ? chartColorPalette.length - 1 : items.length;
   const colors = chartColorPalette.slice(0, numberOfItems).reverse();
@@ -187,9 +171,7 @@ const initDistribution = ({ data, theme }) => {
     });
   }
   distribution.sort((pairA, pairB) => pairB.y - pairA.y);
-  // y: formatValue(item.y, total)
-  const totals = distribution.map(({ x, y }) => ({ value: total, x, y: 100 - y, fill: theme.palette.grey[400] }));
-  return { distribution, totals };
+  return distribution;
 };
 
 interface DistributionReport {
@@ -226,7 +208,7 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
   const [editing, setEditing] = useState(false);
   const [removing, setRemoving] = useState(false);
   const navigate = useNavigate();
-  const { classes, theme } = useStyles();
+  const { classes } = useStyles();
   const reportsData = useSelector(getDeviceReports);
   const groupsById = useSelector(getGroupsById);
   const dispatch = useAppDispatch();
@@ -247,16 +229,16 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
     dispatch(updateReportData(reportIndex));
   }, [dispatch, reportIndex, group, hasData, hasGroupDefinition]);
 
-  const { distribution, totals } = useMemo(() => {
+  const distribution = useMemo(() => {
     if (isEmpty(report)) {
-      return { distribution: [], totals: [] };
+      return [];
     }
-    return initDistribution({ data: report, theme });
+    return initDistribution({ data: report });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(report), JSON.stringify(selection)]);
 
   const onSliceClick = useCallback(
-    (e, { datum: { x: target } }) => {
+    target => {
       if (target === seriesOther) {
         return;
       }
@@ -280,11 +262,7 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
   const chartProps = {
     classes,
     data: distribution,
-    domainPadding: 0,
-    events: [{ target: 'data', eventHandlers: { onClick: onSliceClick } }],
-    standalone: true,
-    style: { data: { fill: ({ datum }) => datum.fill } },
-    labels: () => null
+    onClick: onSliceClick
   };
   const couldHaveDevices = !group || groupsById[group]?.deviceIds.length;
   if (editing) {
@@ -321,8 +299,8 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
           <div>{group || ALL_DEVICES}</div>
         </div>
       </div>
-      {distribution.length || totals.length ? (
-        <Chart {...chartProps} totals={totals} />
+      {distribution.length ? (
+        <Chart {...chartProps} />
       ) : couldHaveDevices ? (
         <div className="muted flexbox centered">There are no devices that match the selected criteria.</div>
       ) : (
