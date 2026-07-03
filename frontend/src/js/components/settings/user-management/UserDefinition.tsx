@@ -87,7 +87,7 @@ const authChipProps = {
   color: 'warning'
 };
 
-export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }: UserDefinitionProps) => {
+export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser = {} }: UserDefinitionProps) => {
   const { email = '', id } = selectedUser;
 
   const { classes } = useStyles();

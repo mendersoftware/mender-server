@@ -27,6 +27,7 @@ import {
   getOrganization,
   getRelevantRoles,
   getUserCapabilities,
+  getUsersById,
   getUsersList
 } from '@northern.tech/store/selectors';
 import { addUserToCurrentTenant, createUser, editUser, getUserList, removeUser } from '@northern.tech/store/thunks';
@@ -57,6 +58,7 @@ export const UserManagement = () => {
   const currentUser = useSelector(getCurrentUser);
   const roles = useSelector(getRelevantRoles);
   const users = useSelector(getUsersList);
+  const usersById = useSelector(getUsersById);
   const { trial: isTrial } = useSelector(getOrganization);
   const props = {
     canManageUsers,
@@ -105,6 +107,8 @@ export const UserManagement = () => {
     }
   };
 
+  const selectedUser = user.id ? usersById[user.id] : undefined;
+
   return (
     <div>
       <div className="flexbox space-between align-items-center margin-bottom-medium">
@@ -123,7 +127,7 @@ export const UserManagement = () => {
         onCancel={dialogDismiss}
         onSubmit={submit}
         roles={roles}
-        selectedUser={user}
+        selectedUser={selectedUser}
       />
       <ConfirmModal
         header="Delete user?"

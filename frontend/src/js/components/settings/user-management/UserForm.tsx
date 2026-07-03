@@ -58,15 +58,19 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
     () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
     [roles]
   );
-  const [selectedRoleIds, setSelectedRoleIds] = useState(
-    (user.roles || [rolesByName.admin]).reduce((accu, roleId) => {
-      const foundRole = relevantRolesById[roleId];
-      if (foundRole) {
-        accu.push(roleId);
-      }
-      return accu;
-    }, [])
-  );
+  const [selectedRoleIds, setSelectedRoleIds] = useState([]);
+
+  useEffect(() => {
+    setSelectedRoleIds(
+      (user.roles || [rolesByName.admin]).reduce((accu, roleId) => {
+        const foundRole = relevantRolesById[roleId];
+        if (foundRole) {
+          accu.push(roleId);
+        }
+        return accu;
+      }, [])
+    );
+  }, [user.roles, relevantRolesById]);
 
   const onInputChange = ({ target: { value } }) => {
     const { roles = [] } = user;
