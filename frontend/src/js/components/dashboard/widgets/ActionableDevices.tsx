@@ -93,15 +93,8 @@ export const ActionableDevices = props => {
   const { issues } = props;
 
   const relevantIssues = useMemo(
-    () =>
-      issueTypes.reduce((accu, item) => {
-        if (issues[item.key] || item.alwaysShown) {
-          accu.push({ ...item, count: issues[item.key]?.count || 0 });
-        }
-        return accu;
-      }, []),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(issues)]
+    () => issueTypes.filter(item => issues[item.key] || item.alwaysShown).map(item => ({ ...item, count: issues[item.key]?.count || 0 })),
+    [issues]
   );
 
   const widgetMain = (

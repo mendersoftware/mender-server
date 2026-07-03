@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { BarChart as BarChartIcon } from '@mui/icons-material';
 import { Typography } from '@mui/material';
@@ -29,6 +29,7 @@ import {
   getIsEnterprise,
   getUserSettingsInitialized
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceAttributes, getReportDataWithoutBackendSupport, saveUserSettings } from '@northern.tech/store/thunks';
 import { isEmpty } from '@northern.tech/utils/helpers';
 
@@ -114,9 +115,9 @@ export const SoftwareDistribution = () => {
   const hasUserSettingsInitialized = useSelector(getUserSettingsInitialized);
   const deviceRetrievalLimit = useSelector(state => state.deployments.deploymentDeviceLimit);
   const reportsData = useSelector(getDeviceReports);
-  const hasReportsData = reportsData.reduce((accu, report) => accu && !isEmpty(report), true);
+  const hasReportsData = reportsData.every(report => !isEmpty(report));
   const [visibleCount, setVisibleCount] = useState(hasReportsData ? reportsData.length : 1);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const hasTooManyDevices = checkRequestLimitReached(reports, deviceRetrievalLimit, total);
 
   useEffect(() => {

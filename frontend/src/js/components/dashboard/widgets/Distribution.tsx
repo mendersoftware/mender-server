@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { Delete as DeleteIcon, Settings, Square } from '@mui/icons-material';
@@ -23,6 +23,7 @@ import Confirm from '@northern.tech/common-ui/Confirm';
 import Loader from '@northern.tech/common-ui/Loader';
 import { ALL_DEVICES, TIMEOUTS, chartTypes, rootfsImageVersion, softwareIndicator, softwareTitleMap } from '@northern.tech/store/constants';
 import { getDeviceReports, getGroupsById } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getReportDataWithoutBackendSupport, updateReportData } from '@northern.tech/store/thunks';
 import { ensureVersionString } from '@northern.tech/store/utils';
 import { chartColorPalette } from '@northern.tech/themes/Mender';
@@ -163,20 +164,17 @@ const initDistribution = ({ data, theme }) => {
   const { items, otherCount, total } = data;
   const numberOfItems = items.length > chartColorPalette.length ? chartColorPalette.length - 1 : items.length;
   const colors = chartColorPalette.slice(0, numberOfItems).reverse();
-  const distribution = items.slice(0, colors.length).reduce(
-    (accu, { key, count }, index) => [
-      {
-        x: key || '-',
-        y: (count / total) * 100, //value,
-        title: key || '-',
-        tip: key || '-',
-        fill: chartColorPalette[index],
-        value: count
-      },
-      ...accu
-    ],
-    []
-  );
+  const distribution = items
+    .slice(0, colors.length)
+    .map(({ key, count }, index) => ({
+      x: key || '-',
+      y: (count / total) * 100,
+      title: key || '-',
+      tip: key || '-',
+      fill: chartColorPalette[index],
+      value: count
+    }))
+    .reverse();
   if (items.length > chartColorPalette.length || otherCount) {
     distribution.splice(0, 0, {
       x: seriesOther,
@@ -230,7 +228,7 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
   const { classes, theme } = useStyles();
   const reportsData = useSelector(getDeviceReports);
   const groupsById = useSelector(getGroupsById);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const hasGroupDefinition = !!groupsById[group];
   const report = reportsData[reportIndex];
   const hasData = !isEmpty(report);
@@ -295,7 +293,7 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
     return <BaseWidget className="chart-widget flexbox centered" main={<Loader show />} />;
   }
   return (
-    <div className="widget chart-widget">
+    <div className="widget chart-widget relative">
       {removing && (
         <Confirm
           classes="flexbox centered confirmation-overlay"

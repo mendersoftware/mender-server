@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Typography } from '@mui/material';
 
@@ -28,6 +28,7 @@ import {
   getRecentDeployments,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeploymentsByStatus } from '@northern.tech/store/thunks';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, setRetryTimer } from '@northern.tech/utils/retrytimer';
@@ -48,7 +49,7 @@ const stateMap = {
 };
 
 export const Deployments = ({ className = '', clickHandle }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const setSnackbarDispatched = useCallback(message => dispatch(setSnackbar(message)), [dispatch]);
   const { canDeploy } = useSelector(getUserCapabilities);
   const { total: deploymentsCount, ...deployments } = useSelector(getRecentDeployments);
@@ -59,8 +60,8 @@ export const Deployments = ({ className = '', clickHandle }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
   const deploymentsRef = useRef<HTMLDivElement | null>(null);
-  const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
-  const timeoutTimer = useRef<ReturnType<typeof setTimeout> | undefined>();
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const timeoutTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const getDeployments = useCallback(
     () =>
@@ -105,21 +106,17 @@ export const Deployments = ({ className = '', clickHandle }) => {
           </Typography>
           {deploymentsCount ? (
             <>
-              {Object.entries(stateMap).reduce((accu, [key, Component]) => {
-                if (!deployments[key]) {
-                  return accu;
-                }
-                accu.push(
+              {Object.entries(stateMap)
+                .filter(([key]) => deployments[key])
+                .map(([key, Component]) => (
                   <React.Fragment key={key}>
                     <Typography variant="subtitle2" className="margin-bottom-none margin-top">
                       {deploymentDisplayStates[key]}
                     </Typography>
                     <Component deployments={deployments[key]} devicesById={devicesById} idAttribute={idAttribute} state={key} onClick={clickHandle} />
                   </React.Fragment>
-                );
-                return accu;
-              }, [])}
-              <Link className="margin-top margin-bottom-large" to="/deployments">
+                ))}
+              <Link className="margin-bottom-large" to="/deployments">
                 See all deployments
               </Link>
             </>
