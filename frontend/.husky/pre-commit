@@ -1,0 +1,6 @@
+# Git runs hooks from the repository root, and core.hooksPath is repo-wide.
+# This is a Go + JS monorepo, so only run the frontend checks when the frontend
+# dependencies are installed — this keeps backend-only commits from being blocked.
+[ -d frontend/node_modules ] || exit 0
+
+cd frontend && npx lint-staged
