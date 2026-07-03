@@ -128,16 +128,12 @@
     "url": "git+https://github.com/mendersoftware/gui.git"
   },
   "type": "module",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "post-commit": "sh ${MENDER_TESTING}/check_commits.sh"
-    }
-  },
   "scripts": {
+    "prepare": "husky",
     "build": "rspack --mode production",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
+    "format": "prettier --write \"src/js/**/*.{js,ts,jsx,tsx,less}\"",
     "format:check": "prettier --check \"src/js/**/*.{js,ts,jsx,tsx,less}\"",
     "serve": "rspack serve --mode development",
     "serve:mocked": "MOCKS=true rspack serve --mode development",
@@ -154,6 +150,9 @@
   },
   "homepage": "https://mender.io/",
   "lint-staged": {
-    "*.js": "eslint --cache --fix"
+    "*.{js,ts,jsx,tsx}": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
   }
 }
