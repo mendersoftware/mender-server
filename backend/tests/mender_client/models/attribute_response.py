@@ -18,29 +18,24 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List
-from mender_client.models.attribute_value_request import AttributeValueRequest
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
+from mender_client.models.attribute_value_response import AttributeValueResponse
 from mender_client.models.scope import Scope
 from typing import Optional, Set
 from typing_extensions import Self
 
-class FilterPredicate(BaseModel):
+class AttributeResponse(BaseModel):
     """
-    Attribute filter predicate
+    Attribute descriptor.
     """ # noqa: E501
+    name: StrictStr = Field(description="A human readable, unique attribute ID, e.g. 'device_type', 'ip_addr', 'cpu_load', etc. ")
+    description: Optional[StrictStr] = Field(default=None, description="Attribute description.")
+    value: AttributeValueResponse
     scope: Scope
-    attribute: StrictStr = Field(description="Name of the attribute to be queried for filtering. ")
-    type: StrictStr = Field(description="Type or operator of the filter predicate.")
-    value: AttributeValueRequest = Field(description="The value of the attribute to be used in filtering.  Attribute type is implicit, inferred from the JSON type.  Supported types: number, string, array of numbers, array of strings. Mixed arrays are not allowed.  The $exists operator expects a boolean value: true means the specified attribute exists, false means the specified attribute doesn't exist.  The $regex operator expects a string as a Perl compatible regular expression (PCRE), automatically anchored by ^. If the regular expression is not valid, the filter will produce no results. If you need to specify options and flags, you can provide the full regex in the format of /regex/flags, for example `/[a-z]+/i`. ")
-    __properties: ClassVar[List[str]] = ["scope", "attribute", "type", "value"]
-
-    @field_validator('type')
-    def type_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['$eq', '$in', '$nin', '$gt', '$gte', '$lt', '$lte', '$ltne', '$ne', '$exists', '$regex']):
-            raise ValueError("must be one of enum values ('$eq', '$in', '$nin', '$gt', '$gte', '$lt', '$lte', '$ltne', '$ne', '$exists', '$regex')")
-        return value
+    timestamp: Optional[datetime] = Field(default=None, description="The date and time of last tag update in RFC3339 format.  Only applicable when scope is `tags`. ")
+    __properties: ClassVar[List[str]] = ["name", "description", "value", "scope", "timestamp"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -60,7 +55,7 @@ class FilterPredicate(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of FilterPredicate from a JSON string"""
+        """Create an instance of AttributeResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -88,7 +83,7 @@ class FilterPredicate(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of FilterPredicate from a dict"""
+        """Create an instance of AttributeResponse from a dict"""
         if obj is None:
             return None
 
@@ -96,10 +91,11 @@ class FilterPredicate(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "name": obj.get("name"),
+            "description": obj.get("description"),
+            "value": AttributeValueResponse.from_dict(obj["value"]) if obj.get("value") is not None else None,
             "scope": obj.get("scope"),
-            "attribute": obj.get("attribute"),
-            "type": obj.get("type"),
-            "value": AttributeValueRequest.from_dict(obj["value"]) if obj.get("value") is not None else None
+            "timestamp": obj.get("timestamp")
         })
         return _obj
 

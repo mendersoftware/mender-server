@@ -15,41 +15,41 @@ import (
 	"encoding/json"
 )
 
-// checks if the DeviceInventory type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &DeviceInventory{}
+// checks if the DeviceInventoryRequest type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DeviceInventoryRequest{}
 
-// DeviceInventory struct for DeviceInventory
-type DeviceInventory struct {
+// DeviceInventoryRequest struct for DeviceInventoryRequest
+type DeviceInventoryRequest struct {
 	// Mender-assigned unique ID.
 	Id *string `json:"id,omitempty"`
 	// Timestamp of the most recent attribute update.
 	UpdatedTs *string `json:"updated_ts,omitempty"`
 	// A list of attribute descriptors.
-	Attributes []Attribute `json:"attributes,omitempty"`
+	Attributes []AttributeRequest `json:"attributes,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
-type _DeviceInventory DeviceInventory
+type _DeviceInventoryRequest DeviceInventoryRequest
 
-// NewDeviceInventory instantiates a new DeviceInventory object
+// NewDeviceInventoryRequest instantiates a new DeviceInventoryRequest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeviceInventory() *DeviceInventory {
-	this := DeviceInventory{}
+func NewDeviceInventoryRequest() *DeviceInventoryRequest {
+	this := DeviceInventoryRequest{}
 	return &this
 }
 
-// NewDeviceInventoryWithDefaults instantiates a new DeviceInventory object
+// NewDeviceInventoryRequestWithDefaults instantiates a new DeviceInventoryRequest object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewDeviceInventoryWithDefaults() *DeviceInventory {
-	this := DeviceInventory{}
+func NewDeviceInventoryRequestWithDefaults() *DeviceInventoryRequest {
+	this := DeviceInventoryRequest{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *DeviceInventory) GetId() string {
+func (o *DeviceInventoryRequest) GetId() string {
 	if o == nil || IsNil(o.Id) {
 		var ret string
 		return ret
@@ -59,7 +59,7 @@ func (o *DeviceInventory) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceInventory) GetIdOk() (*string, bool) {
+func (o *DeviceInventoryRequest) GetIdOk() (*string, bool) {
 	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *DeviceInventory) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *DeviceInventory) HasId() bool {
+func (o *DeviceInventoryRequest) HasId() bool {
 	if o != nil && !IsNil(o.Id) {
 		return true
 	}
@@ -76,12 +76,12 @@ func (o *DeviceInventory) HasId() bool {
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *DeviceInventory) SetId(v string) {
+func (o *DeviceInventoryRequest) SetId(v string) {
 	o.Id = &v
 }
 
 // GetUpdatedTs returns the UpdatedTs field value if set, zero value otherwise.
-func (o *DeviceInventory) GetUpdatedTs() string {
+func (o *DeviceInventoryRequest) GetUpdatedTs() string {
 	if o == nil || IsNil(o.UpdatedTs) {
 		var ret string
 		return ret
@@ -91,7 +91,7 @@ func (o *DeviceInventory) GetUpdatedTs() string {
 
 // GetUpdatedTsOk returns a tuple with the UpdatedTs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceInventory) GetUpdatedTsOk() (*string, bool) {
+func (o *DeviceInventoryRequest) GetUpdatedTsOk() (*string, bool) {
 	if o == nil || IsNil(o.UpdatedTs) {
 		return nil, false
 	}
@@ -99,7 +99,7 @@ func (o *DeviceInventory) GetUpdatedTsOk() (*string, bool) {
 }
 
 // HasUpdatedTs returns a boolean if a field has been set.
-func (o *DeviceInventory) HasUpdatedTs() bool {
+func (o *DeviceInventoryRequest) HasUpdatedTs() bool {
 	if o != nil && !IsNil(o.UpdatedTs) {
 		return true
 	}
@@ -108,14 +108,14 @@ func (o *DeviceInventory) HasUpdatedTs() bool {
 }
 
 // SetUpdatedTs gets a reference to the given string and assigns it to the UpdatedTs field.
-func (o *DeviceInventory) SetUpdatedTs(v string) {
+func (o *DeviceInventoryRequest) SetUpdatedTs(v string) {
 	o.UpdatedTs = &v
 }
 
 // GetAttributes returns the Attributes field value if set, zero value otherwise.
-func (o *DeviceInventory) GetAttributes() []Attribute {
+func (o *DeviceInventoryRequest) GetAttributes() []AttributeRequest {
 	if o == nil || IsNil(o.Attributes) {
-		var ret []Attribute
+		var ret []AttributeRequest
 		return ret
 	}
 	return o.Attributes
@@ -123,7 +123,7 @@ func (o *DeviceInventory) GetAttributes() []Attribute {
 
 // GetAttributesOk returns a tuple with the Attributes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DeviceInventory) GetAttributesOk() ([]Attribute, bool) {
+func (o *DeviceInventoryRequest) GetAttributesOk() ([]AttributeRequest, bool) {
 	if o == nil || IsNil(o.Attributes) {
 		return nil, false
 	}
@@ -131,7 +131,7 @@ func (o *DeviceInventory) GetAttributesOk() ([]Attribute, bool) {
 }
 
 // HasAttributes returns a boolean if a field has been set.
-func (o *DeviceInventory) HasAttributes() bool {
+func (o *DeviceInventoryRequest) HasAttributes() bool {
 	if o != nil && !IsNil(o.Attributes) {
 		return true
 	}
@@ -139,12 +139,12 @@ func (o *DeviceInventory) HasAttributes() bool {
 	return false
 }
 
-// SetAttributes gets a reference to the given []Attribute and assigns it to the Attributes field.
-func (o *DeviceInventory) SetAttributes(v []Attribute) {
+// SetAttributes gets a reference to the given []AttributeRequest and assigns it to the Attributes field.
+func (o *DeviceInventoryRequest) SetAttributes(v []AttributeRequest) {
 	o.Attributes = v
 }
 
-func (o DeviceInventory) MarshalJSON() ([]byte, error) {
+func (o DeviceInventoryRequest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -152,7 +152,7 @@ func (o DeviceInventory) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o DeviceInventory) ToMap() (map[string]interface{}, error) {
+func (o DeviceInventoryRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
@@ -171,16 +171,16 @@ func (o DeviceInventory) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *DeviceInventory) UnmarshalJSON(data []byte) (err error) {
-	varDeviceInventory := _DeviceInventory{}
+func (o *DeviceInventoryRequest) UnmarshalJSON(data []byte) (err error) {
+	varDeviceInventoryRequest := _DeviceInventoryRequest{}
 
-	err = json.Unmarshal(data, &varDeviceInventory)
+	err = json.Unmarshal(data, &varDeviceInventoryRequest)
 
 	if err != nil {
 		return err
 	}
 
-	*o = DeviceInventory(varDeviceInventory)
+	*o = DeviceInventoryRequest(varDeviceInventoryRequest)
 
 	additionalProperties := make(map[string]interface{})
 
@@ -194,38 +194,38 @@ func (o *DeviceInventory) UnmarshalJSON(data []byte) (err error) {
 	return err
 }
 
-type NullableDeviceInventory struct {
-	value *DeviceInventory
+type NullableDeviceInventoryRequest struct {
+	value *DeviceInventoryRequest
 	isSet bool
 }
 
-func (v NullableDeviceInventory) Get() *DeviceInventory {
+func (v NullableDeviceInventoryRequest) Get() *DeviceInventoryRequest {
 	return v.value
 }
 
-func (v *NullableDeviceInventory) Set(val *DeviceInventory) {
+func (v *NullableDeviceInventoryRequest) Set(val *DeviceInventoryRequest) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableDeviceInventory) IsSet() bool {
+func (v NullableDeviceInventoryRequest) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableDeviceInventory) Unset() {
+func (v *NullableDeviceInventoryRequest) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableDeviceInventory(val *DeviceInventory) *NullableDeviceInventory {
-	return &NullableDeviceInventory{value: val, isSet: true}
+func NewNullableDeviceInventoryRequest(val *DeviceInventoryRequest) *NullableDeviceInventoryRequest {
+	return &NullableDeviceInventoryRequest{value: val, isSet: true}
 }
 
-func (v NullableDeviceInventory) MarshalJSON() ([]byte, error) {
+func (v NullableDeviceInventoryRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableDeviceInventory) UnmarshalJSON(src []byte) error {
+func (v *NullableDeviceInventoryRequest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

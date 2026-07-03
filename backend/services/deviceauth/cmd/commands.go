@@ -321,7 +321,7 @@ func updateDevicesIdData(
 				}
 				//nolint:bodyclose
 				_, err = c.UpdateInventoryForADeviceScopeWise(ctx, tenant, d.Id).
-					Attribute(attributes).
+					AttributeRequest(attributes).
 					Execute()
 				if err != nil {
 					return err
@@ -424,8 +424,8 @@ func tryPropagateIdDataInventoryForTenant(
 	return err
 }
 
-func mapValueToAttribute(value interface{}) (client.AttributeValue, error) {
-	attr := client.AttributeValue{}
+func mapValueToAttribute(value interface{}) (client.AttributeValueRequest, error) {
+	attr := client.AttributeValueRequest{}
 	if value == nil {
 		return attr, nil
 	}
@@ -445,12 +445,12 @@ func mapValueToAttribute(value interface{}) (client.AttributeValue, error) {
 	return attr, nil
 }
 
-func GetInventoryAttributes(idData map[string]interface{}) ([]client.Attribute, error) {
+func GetInventoryAttributes(idData map[string]interface{}) ([]client.AttributeRequest, error) {
 	if len(idData) == 0 {
 		return nil, errors.New("no attributes to update")
 	}
 
-	attributes := make([]client.Attribute, len(idData))
+	attributes := make([]client.AttributeRequest, len(idData))
 	i := 0
 
 	for name, value := range idData {
@@ -459,7 +459,7 @@ func GetInventoryAttributes(idData map[string]interface{}) ([]client.Attribute, 
 			return nil, err
 		}
 
-		attributes[i] = client.Attribute{
+		attributes[i] = client.AttributeRequest{
 			Name:        name,
 			Description: nil,
 			Value:       attrVal,

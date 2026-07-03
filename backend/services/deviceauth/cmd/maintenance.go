@@ -97,7 +97,7 @@ func MaintenanceSyncDeviceInventory(
 		}
 		//nolint:bodyclose
 		rsp, err := inv.UpdateInventoryForADeviceScopeWise(ctx, dev.TenantID, dev.Id).
-			Attribute(attributes).
+			AttributeRequest(attributes).
 			IfUnmodifiedSince(startTS.In(time.FixedZone("GMT", 0)).Format(time.RFC1123)).
 			Execute()
 		if rsp != nil && rsp.StatusCode == http.StatusPreconditionFailed {

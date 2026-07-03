@@ -190,8 +190,8 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 		InputDeploymentStorageInsertError error
 		InputImagesByNameError            error
 
-		InvDevices        []client.DeviceInventory
-		InvDevicesPageTwo []client.DeviceInventory
+		InvDevices        []client.DeviceInventoryResponse
+		InvDevicesPageTwo []client.DeviceInventoryResponse
 		TotalCount        int
 		SearchError       error
 		GetFilterError    error
@@ -235,7 +235,7 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 				Group:        "group",
 			},
 
-			InvDevices: []client.DeviceInventory{
+			InvDevices: []client.DeviceInventoryResponse{
 				{
 					Id: types.Pointer("b532b01a-9313-404f-8d19-e7fcbe5cc347"),
 				},
@@ -251,12 +251,12 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 				Group:        "group",
 			},
 
-			InvDevices: []client.DeviceInventory{
+			InvDevices: []client.DeviceInventoryResponse{
 				{
 					Id: types.Pointer("b532b01a-9313-404f-8d19-e7fcbe5cc347"),
 				},
 			},
-			InvDevicesPageTwo: []client.DeviceInventory{
+			InvDevicesPageTwo: []client.DeviceInventoryResponse{
 				{
 					Id: types.Pointer("b532b01a-9313-404f-8d19-e7fcbe5cc348"),
 				},
@@ -355,7 +355,7 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 			}
 
 			if testCase.InputConstructor != nil && testCase.InputConstructor.Group != "" && len(testCase.InputConstructor.Devices) == 0 {
-				for page, devices := range [][]client.DeviceInventory{testCase.InvDevices, testCase.InvDevicesPageTwo} {
+				for page, devices := range [][]client.DeviceInventoryResponse{testCase.InvDevices, testCase.InvDevicesPageTwo} {
 					if page == 1 && len(devices) == 0 {
 						break
 					}
@@ -368,7 +368,7 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 								Scope:     InventoryIdentityScope,
 								Attribute: InventoryStatusAttributeName,
 								Type:      "$eq",
-								Value: client.AttributeValue{
+								Value: client.AttributeValueRequest{
 									String: types.Pointer(InventoryStatusAccepted),
 								},
 							},
@@ -376,7 +376,7 @@ func TestDeploymentModelCreateDeployment(t *testing.T) {
 								Scope:     InventoryGroupScope,
 								Attribute: InventoryGroupAttributeName,
 								Type:      "$eq",
-								Value: client.AttributeValue{
+								Value: client.AttributeValueRequest{
 									String: types.Pointer(testCase.InputConstructor.Group),
 								},
 							},
@@ -1780,7 +1780,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 				Scope:     client.Scope("identity"),
 				Attribute: "mac",
 				Type:      "$eq",
-				Value: client.AttributeValue{
+				Value: client.AttributeValueRequest{
 					String: types.Pointer("my-device"),
 				},
 			}},
@@ -1792,7 +1792,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 		inv.EXPECT().
 			InventoryInternalV2SearchDeviceInventoriesExecute(req).
 			Return(
-				[]client.DeviceInventory{
+				[]client.DeviceInventoryResponse{
 					{Id: types.Pointer("device-uuid-123")},
 				},
 				&http.Response{
@@ -1924,7 +1924,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 				Scope:     client.Scope("identity"),
 				Attribute: "mac",
 				Type:      "$eq",
-				Value: client.AttributeValue{
+				Value: client.AttributeValueRequest{
 					String: types.Pointer("unknown-device"),
 				},
 			}},
@@ -1936,7 +1936,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 		inv.EXPECT().
 			InventoryInternalV2SearchDeviceInventoriesExecute(req).
 			Return(
-				[]client.DeviceInventory{},
+				[]client.DeviceInventoryResponse{},
 				&http.Response{
 					StatusCode: 200,
 					Header: http.Header{
@@ -1985,7 +1985,7 @@ func TestLookupDeploymentFallback(t *testing.T) {
 		inv.EXPECT().
 			InventoryInternalV2SearchDeviceInventoriesExecute(mock.Anything).
 			Return(
-				[]client.DeviceInventory{},
+				[]client.DeviceInventoryResponse{},
 				&http.Response{
 					StatusCode: 200,
 					Header: http.Header{

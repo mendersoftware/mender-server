@@ -1046,13 +1046,13 @@ type ApiUpdateInventoryForADeviceRequest struct {
 	tenantId string
 	deviceId string
 	scope string
-	attribute *[]Attribute
+	attributeRequest *[]AttributeRequest
 	ifUnmodifiedSince *string
 }
 
 // List of inventory attributes to set.
-func (r ApiUpdateInventoryForADeviceRequest) Attribute(attribute []Attribute) ApiUpdateInventoryForADeviceRequest {
-	r.attribute = &attribute
+func (r ApiUpdateInventoryForADeviceRequest) AttributeRequest(attributeRequest []AttributeRequest) ApiUpdateInventoryForADeviceRequest {
+	r.attributeRequest = &attributeRequest
 	return r
 }
 
@@ -1110,8 +1110,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceExecute(
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.attribute == nil {
-		return nil, reportError("attribute is required and must be specified")
+	if r.attributeRequest == nil {
+		return nil, reportError("attributeRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -1135,7 +1135,7 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceExecute(
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "If-Unmodified-Since", r.ifUnmodifiedSince, "simple", "")
 	}
 	// body params
-	localVarPostBody = r.attribute
+	localVarPostBody = r.attributeRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
@@ -1208,13 +1208,13 @@ type ApiUpdateInventoryForADeviceScopeWiseRequest struct {
 	ApiService DeviceInventoryInternalAPIAPI
 	tenantId string
 	deviceId string
-	attribute *[]Attribute
+	attributeRequest *[]AttributeRequest
 	ifUnmodifiedSince *string
 }
 
 // List of inventory attributes to set.
-func (r ApiUpdateInventoryForADeviceScopeWiseRequest) Attribute(attribute []Attribute) ApiUpdateInventoryForADeviceScopeWiseRequest {
-	r.attribute = &attribute
+func (r ApiUpdateInventoryForADeviceScopeWiseRequest) AttributeRequest(attributeRequest []AttributeRequest) ApiUpdateInventoryForADeviceScopeWiseRequest {
+	r.attributeRequest = &attributeRequest
 	return r
 }
 
@@ -1270,8 +1270,8 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceScopeWis
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.attribute == nil {
-		return nil, reportError("attribute is required and must be specified")
+	if r.attributeRequest == nil {
+		return nil, reportError("attributeRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -1295,7 +1295,7 @@ func (a *DeviceInventoryInternalAPIAPIService) UpdateInventoryForADeviceScopeWis
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "If-Unmodified-Since", r.ifUnmodifiedSince, "simple", "")
 	}
 	// body params
-	localVarPostBody = r.attribute
+	localVarPostBody = r.attributeRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err

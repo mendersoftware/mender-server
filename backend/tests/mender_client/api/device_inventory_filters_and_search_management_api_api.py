@@ -19,7 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field
 from typing import List, Optional
 from typing_extensions import Annotated
-from mender_client.models.device_inventory import DeviceInventory
+from mender_client.models.device_inventory_response import DeviceInventoryResponse
 from mender_client.models.filter_attribute import FilterAttribute
 from mender_client.models.get_statistics_internal200_response import GetStatisticsInternal200Response
 from mender_client.models.search_params import SearchParams
@@ -556,7 +556,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[DeviceInventory]:
+    ) -> List[DeviceInventoryResponse]:
         """Search devices based on inventory attributes
 
         Returns a paged collection of devices and their attributes.  If multiple filter predicates are specified, the filters are combined using boolean `and` operator. 
@@ -594,7 +594,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DeviceInventory]",
+            '200': "List[DeviceInventoryResponse]",
             '400': "Error",
             '500': "Error",
         }
@@ -625,7 +625,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[DeviceInventory]]:
+    ) -> ApiResponse[List[DeviceInventoryResponse]]:
         """Search devices based on inventory attributes
 
         Returns a paged collection of devices and their attributes.  If multiple filter predicates are specified, the filters are combined using boolean `and` operator. 
@@ -663,7 +663,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DeviceInventory]",
+            '200': "List[DeviceInventoryResponse]",
             '400': "Error",
             '500': "Error",
         }
@@ -732,7 +732,7 @@ class DeviceInventoryFiltersAndSearchManagementAPIApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DeviceInventory]",
+            '200': "List[DeviceInventoryResponse]",
             '400': "Error",
             '500': "Error",
         }
