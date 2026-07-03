@@ -124,11 +124,10 @@
       "groupSlug": "python-dependencies"
     },
 
-    // npm: four groups, matching the old Dependabot policy.
+    // npm: five groups, matching the old Dependabot policy.
     {
       "matchManagers": ["npm"],
       "matchDepTypes": ["devDependencies"],
-      "excludePackageNames": ["/^@playwright/", "/^playwright/"],
       "groupName": "npm-dev-dependencies"
     },
     {
@@ -142,8 +141,14 @@
       "groupName": "npm-mui"
     },
     {
+      "matchFileNames": ["frontend/tests/e2e_tests/package.json"],
       "matchPackageNames": ["/^@playwright/", "/^playwright/"],
       "groupName": "playwright"
+    },
+    {
+      "matchFileNames": ["frontend/tests/e2e_tests/package.json"],
+      "excludePackageNames": ["/^@playwright/", "/^playwright/"],
+      "groupName": "test-dependencies"
     },
 
     // Submodules are managed by release tooling.
