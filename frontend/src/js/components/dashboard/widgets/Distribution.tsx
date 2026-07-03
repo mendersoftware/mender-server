@@ -26,7 +26,6 @@ import { getDeviceReports, getGroupsById } from '@northern.tech/store/selectors'
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getReportDataWithoutBackendSupport, updateReportData } from '@northern.tech/store/thunks';
 import { ensureVersionString } from '@northern.tech/store/utils';
-import { chartColorPalette } from '@northern.tech/themes/Mender';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { VictoryBar, VictoryContainer, VictoryPie, VictoryStack } from 'victory';
 
@@ -34,6 +33,8 @@ import BaseWidget from './BaseWidget';
 import { ChartEditWidget, Header } from './ChartAddition';
 
 const seriesOther = '__OTHER__';
+
+export const chartColorPalette = ['#1d8faf', '#a31773', '#00859e', '#14cfda', '#9bfff0', '#d5d5d5'];
 
 const createColorClassName = hexColor => `color-${hexColor.slice(1)}`;
 

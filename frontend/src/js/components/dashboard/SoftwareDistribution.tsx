@@ -79,7 +79,7 @@ const listSoftware = attributes => {
 };
 
 const DeviceDataLimitWarning = () => (
-  <div className="dashboard margin-bottom-large">
+  <div className="dashboard flexbox margin-bottom-large">
     <Typography variant="subtitle2">Device and Group Limit Exceeded</Typography>
     <Typography variant="caption">
       Your current number of devices and groups exceeds the limits of our present implementation. To ensure you continue to gain optimal insights and to better
@@ -151,7 +151,7 @@ export const SoftwareDistribution = () => {
 
   if (!isEnterprise) {
     return (
-      <div className="dashboard margin-bottom-large">
+      <div className="dashboard flexbox margin-bottom-large">
         <ChartAdditionWidget groups={groups} onAdditionClick={addCurrentSelection} software={software} />
       </div>
     );
@@ -161,13 +161,13 @@ export const SoftwareDistribution = () => {
   }
   if (!hasUserSettingsInitialized) {
     return (
-      <div className="dashboard margin-bottom-large">
+      <div className="dashboard flexbox margin-bottom-large">
         <BaseWidget className="chart-widget flexbox centered" main={<Loader show style={{ width: '100%' }} />} />
       </div>
     );
   }
   return hasDevices ? (
-    <div className="dashboard margin-bottom-large">
+    <div className="dashboard flexbox margin-bottom-large">
       {reports.slice(0, visibleCount).map((report, index) => (
         <DistributionReport
           key={`report-${report.group}-${index}`}
@@ -178,14 +178,14 @@ export const SoftwareDistribution = () => {
         />
       ))}
       {visibleCount < reports.length && (
-        <div className="widget chart-widget flexbox centered">
+        <div className="widget chart-widget relative flexbox centered">
           <Loader show style={{ width: '100%' }} />
         </div>
       )}
       <ChartAdditionWidget groups={groups} onAdditionClick={addCurrentSelection} software={software} />
     </div>
   ) : (
-    <div className="dashboard-placeholder margin-top-large">
+    <div className="align-center margin-top-large">
       <BarChartIcon style={{ transform: 'scale(5)' }} />
       <p className="margin-top-large">Software distribution charts will appear here once you connected a device. </p>
     </div>

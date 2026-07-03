@@ -91,7 +91,7 @@ export const Devices = ({ clickHandle }) => {
   const shouldShowActionableDevices = plan !== 'os';
   return (
     <>
-      <div className="dashboard" ref={anchor}>
+      <div className="dashboard flexbox" ref={anchor}>
         <AcceptedDevices devicesCount={acceptedDevicesCount} onClick={clickHandle} />
         {!!acceptedDevicesCount && shouldShowActionableDevices && <ActionableDevices issues={availableIssueOptions} />}
         {!!pendingDevicesCount && !acceptedDevicesCount && (

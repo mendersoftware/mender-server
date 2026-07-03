@@ -27,10 +27,13 @@ const useStyles = makeStyles()(theme => ({
     '&.heading-lined span': {
       padding: 0,
       minWidth: 70,
-      background: theme.palette.background.default
+      background: theme.palette.background.default,
+      position: 'absolute'
     },
     '.group-border': {
-      background: theme.palette.divider
+      background: theme.palette.divider,
+      width: '100%',
+      height: 1
     }
   },
   list: {
@@ -43,7 +46,13 @@ const useStyles = makeStyles()(theme => ({
 export const GroupsSubheader = ({ heading }) => {
   const { classes } = useStyles();
   return (
-    <ListSubheader classes={{ root: 'heading-lined' }} className={classes.header} disableGutters disableSticky key="static-groups-sub">
+    <ListSubheader
+      classes={{ root: 'heading-lined' }}
+      className={`flexbox align-items-center relative ${classes.header}`}
+      disableGutters
+      disableSticky
+      key="static-groups-sub"
+    >
       <span>{heading}</span>
       <div className="group-border" />
     </ListSubheader>

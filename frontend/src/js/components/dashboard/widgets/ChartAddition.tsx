@@ -183,7 +183,7 @@ export const ChartEditWidget = ({ groups, onSave, onCancel, selection: selection
       handleCancel={onCancel}
       showButtons
       submitLabel="Save"
-      className="widget chart-widget"
+      className="widget chart-widget relative"
     >
       <Header chartType={emptyChartSelection.chartType} />
       <div className={classes.formWrapper}>
@@ -211,7 +211,7 @@ export const WidgetAdditionWidget = ({ onAdditionClick, ...remainder }) => {
   return adding ? (
     <ChartEditWidget {...remainder} onSave={addCurrentSelection} onCancel={onCancelClick} />
   ) : (
-    <div className="widget">
+    <div className="widget clickable relative">
       <InfoHintContainer className="" style={{ alignItems: 'end' }}>
         <EnterpriseNotification id={BENEFITS.dashboard.id} />
         <MenderHelpTooltip id={HELPTOOLTIPS.dashboardWidget.id} />

@@ -96,7 +96,7 @@ export const Deployments = ({ className = '', clickHandle }) => {
     onboardingComponent = getOnboardingComponentFor(onboardingSteps.DEPLOYMENTS_PAST_COMPLETED, onboardingState, { anchor });
   }
   return (
-    <div className={`${className} deployments`}>
+    <div className={`${className} deployments relative`}>
       {loading ? (
         <Loader show={loading} fade={true} />
       ) : (
