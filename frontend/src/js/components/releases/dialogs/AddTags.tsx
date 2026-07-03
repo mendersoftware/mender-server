@@ -17,8 +17,8 @@ import { useDispatch } from 'react-redux';
 import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import ChipSelect from '@northern.tech/common-ui/ChipSelect';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
 import { setReleaseTags, setReleasesListState } from '@northern.tech/store/thunks';
 

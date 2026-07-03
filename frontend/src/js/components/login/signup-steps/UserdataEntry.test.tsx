@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { formRenderWrapper } from '@northern.tech/common-ui/forms/helpers';
+import { formRenderWrapper } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act } from '@testing-library/react';
 import { vi } from 'vitest';
