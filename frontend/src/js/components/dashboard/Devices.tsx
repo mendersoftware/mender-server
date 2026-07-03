@@ -46,7 +46,7 @@ export const Devices = ({ clickHandle }) => {
   const dispatch = useDispatch();
   const availableIssueOptions = useSelector(getAvailableIssueOptionsByType);
   const { canManageDevices } = useSelector(getUserCapabilities);
-  const { hasReporting, plan } = useSelector(getTenantCapabilities);
+  const { plan } = useSelector(getTenantCapabilities);
   const onboardingState = useSelector(getOnboardingState);
   const { accepted: acceptedDevicesCount, pending: pendingDevicesCount } = useSelector(getDeviceCountsByStatus);
 
@@ -93,7 +93,7 @@ export const Devices = ({ clickHandle }) => {
       <div className="dashboard" ref={anchor}>
         <AcceptedDevices devicesCount={acceptedDevicesCount} onClick={clickHandle} />
         {!!acceptedDevicesCount && shouldShowActionableDevices && <ActionableDevices issues={availableIssueOptions} />}
-        {!!pendingDevicesCount && !(acceptedDevicesCount && hasReporting) && (
+        {!!pendingDevicesCount && !acceptedDevicesCount && (
           <PendingDevices
             advanceOnboarding={step => dispatch(advanceOnboarding(step))}
             innerRef={pendingsRef}

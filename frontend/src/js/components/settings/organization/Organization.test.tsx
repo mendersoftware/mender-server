@@ -33,7 +33,6 @@ describe('MyOrganization Component', () => {
         ...defaultState.app,
         features: {
           ...defaultState.app.features,
-          hasReporting: true,
           isEnterprise: true,
           isHosted: true
         },
