@@ -14,7 +14,7 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 // material ui
-import { Alert, Button, Chip, TextField, Typography, textFieldClasses } from '@mui/material';
+import { Alert, Button, Chip, FormControl, FormHelperText, TextField, Typography, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
@@ -93,7 +93,7 @@ const authChipProps = {
   color: 'warning'
 };
 
-export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }: UserDefinitionProps) => {
+export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser = {} }: UserDefinitionProps) => {
   const { email = '', id } = selectedUser;
 
   const { classes } = useStyles();
@@ -152,11 +152,14 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
   };
 
   const onPasswordResetConfirmed = () =>
-    dispatch(passwordResetStart(selectedUser.email))
+    dispatch(passwordResetStart(email))
       .unwrap()
-      .then(() => dispatch(setSnackbar(`A password reset email was sent to ${selectedUser.email}.`)));
+      .then(() => dispatch(setSnackbar(`A password reset email was sent to ${email}.`)));
 
-  const onSubmitClick = () => onSubmit({ ...selectedUser, roles: selectedRoles }, 'edit', id);
+  const onSubmitClick = () => {
+    onSubmit({ ...selectedUser, roles: selectedRoles }, 'edit', id);
+    setIsEditingRoles(false);
+  };
 
   const { areas, ...scopedAreas } = useMemo(() => {
     const emptySelection = { areas: {}, groups: {}, releases: {} };
@@ -209,10 +212,10 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
   };
 
   return (
-    <BaseDrawer onClose={onCancel} open={!!id} size="md" slotProps={{ header: { title: `User information for ${selectedUser.email}` } }}>
+    <BaseDrawer onClose={onCancel} open={!!id} size="md" slotProps={{ header: { title: `User information for ${email}` } }}>
       {hasMultitenancy && userNotVerified && <EmailVerificationWarning className="margin-top-small" action="change another user’s email" />}
       <ContentSection title="Sign-in & security">
-        <TwoColumnData data={hasMultitenancy ? signInData : { 'User ID': selectedUser.id }} setSnackbar={setSnackbar} />
+        <TwoColumnData data={hasMultitenancy ? signInData : { 'User ID': id }} setSnackbar={setSnackbar} />
 
         {!hasMultitenancy && (
           <>
@@ -224,7 +227,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
               <div className="flexbox margin-top-small">
                 {isEditingEmail ? (
                   <>
-                    <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onCancelEmailChanges}>
+                    <Button color="info" variant="outlined" className="margin-right-small" onClick={onCancelEmailChanges}>
                       Cancel
                     </Button>
                     <Button variant="contained" disabled={emailInvalid || currentEmail === email} onClick={onEmailSubmitClick}>
@@ -249,7 +252,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
               header="Send password reset link?"
               description={
                 <>
-                  We&rsquo;ll send an email to <b>{selectedUser.email}</b> with instructions for resetting their Mender account password.
+                  We&rsquo;ll send an email to <b>{email}</b> with instructions for resetting their Mender account password.
                 </>
               }
               isDanger={false}
@@ -283,7 +286,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
           <div className="flexbox margin-top-small">
             {isEditingRoles ? (
               <>
-                <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onCancelRoleChanges}>
+                <Button color="info" variant="outlined" className="margin-right-small" onClick={onCancelRoleChanges}>
                   Cancel
                 </Button>
                 <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick} color="secondary">
@@ -291,7 +294,9 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
                 </Button>
               </>
             ) : (
-              <Button onClick={() => setIsEditingRoles(true)}>Change roles</Button>
+              <Button color="secondary" onClick={() => setIsEditingRoles(true)}>
+                Change roles
+              </Button>
             )}
           </div>
         )}

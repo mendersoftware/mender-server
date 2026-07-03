@@ -58,8 +58,7 @@ describe('UserManagement Component', () => {
     // let the dismissed delete dialog finish unmounting before reopening the drawer
     await act(async () => vi.runOnlyPendingTimers());
     await user.click(list[list.length - 1]);
-    const changeRolesButton = screen.getByRole('button', { name: /change roles/i });
-    await user.click(changeRolesButton);
+    await screen.getByRole('button', { name: /change roles/i }).click();
     const selectButton = screen.getByLabelText(/roles/i).parentNode.querySelector('[role=combobox]');
     await user.click(selectButton);
     let listbox = document.body.querySelector(dropDownSelector);
@@ -113,8 +112,7 @@ describe('UserManagement Component', () => {
     const list = screen.getAllByText(/view details/i);
     await user.click(list[list.length - 1]);
     expect(screen.getByLabelText(/roles/i).parentNode.querySelector('[role=combobox]')).toHaveAttribute('aria-disabled', 'true');
-    const changeRolesButton = screen.getByRole('button', { name: /change roles/i });
-    await user.click(changeRolesButton);
+    await screen.getByRole('button', { name: /change roles/i }).click();
     const selectButton = screen.getByLabelText(/roles/i).parentNode.querySelector('[role=combobox]');
     await user.click(selectButton);
     let listbox = document.body.querySelector(dropDownSelector);
