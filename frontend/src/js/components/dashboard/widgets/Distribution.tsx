@@ -19,6 +19,7 @@ import { Delete as DeleteIcon, Settings, Square } from '@mui/icons-material';
 import { IconButton, LinearProgress, linearProgressClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import Confirm from '@northern.tech/common-ui/Confirm';
 import Loader from '@northern.tech/common-ui/Loader';
 import { ALL_DEVICES, TIMEOUTS, chartTypes, rootfsImageVersion, softwareIndicator, softwareTitleMap } from '@northern.tech/store/constants';
 import { getDeviceReports, getGroupsById } from '@northern.tech/store/selectors';
@@ -29,7 +30,7 @@ import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import { VictoryBar, VictoryContainer, VictoryPie, VictoryStack } from 'victory';
 
 import BaseWidget from './BaseWidget';
-import { ChartEditWidget, Header, RemovalWidget } from './ChartAddition';
+import { ChartEditWidget, Header } from './ChartAddition';
 
 const seriesOther = '__OTHER__';
 
@@ -287,9 +288,6 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
     labels: () => null
   };
   const couldHaveDevices = !group || groupsById[group]?.deviceIds.length;
-  if (removing) {
-    return <RemovalWidget onCancel={toggleRemoving} onClick={onClick} />;
-  }
   if (editing) {
     return <ChartEditWidget groups={groupsById} onSave={onSaveClick} onCancel={onToggleEditClick} selection={selection} software={softwareTree} />;
   }
@@ -298,6 +296,15 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
   }
   return (
     <div className="widget chart-widget">
+      {removing && (
+        <Confirm
+          classes="flexbox centered confirmation-overlay"
+          cancel={toggleRemoving}
+          action={onClick}
+          style={{ justifyContent: 'center' }}
+          type="chartRemoval"
+        />
+      )}
       <div className="margin-bottom-small">
         <div className="flexbox space-between margin-bottom-small">
           <Header chartType={chartType} />
