@@ -80,7 +80,7 @@ wait_for_pod() {
     done
 
     # Wait for the pod to become ready (up to 5 minutes)
-    if ! kubectl wait --for=condition=ready pod/"${pod}" -n "${NAMESPACE}" --timeout=300s; then
+    if ! kubectl wait --for=condition=ready pod/"${pod}" -n "${NAMESPACE}" --timeout=300s >&2; then
         log_error "Timeout waiting for ${component} pod ${pod} to be ready"
         exit 1
     fi
