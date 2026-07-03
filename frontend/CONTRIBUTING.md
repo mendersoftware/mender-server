@@ -23,13 +23,13 @@ To ensure consistency, maintainability, and quality in our frontend codebase, we
 
 - **Prettier:** We use Prettier to enforce a consistent code style. Our configuration is defined in [`.prettierrc.mjs`](./.prettierrc.mjs).
 - **Enforcement:** Code style is automatically checked in our CI pipeline. Pull requests with formatting issues will fail checks.
-- **How to Apply:** Before committing, auto-fix what the tooling can and verify the rest. Note that `npm run lint-fix` only applies ESLint autofixes — it does **not** reformat with Prettier, and some ESLint issues still need fixing by hand:
+- **How to Apply:** A pre-commit hook (husky + `lint-staged`, set up when you run `npm install`) automatically runs ESLint `--fix` and Prettier on your staged files, so formatting is normally handled for you on commit. To run the tooling manually across the sources:
   ```bash
-  npm run lint-fix                                          # apply ESLint autofixes
-  npx prettier --write "src/js/**/*.{js,ts,jsx,tsx,less}"  # apply Prettier formatting
-  npm run format:check                                      # verify formatting
+  npm run lint-fix      # apply ESLint autofixes (some issues still need fixing by hand)
+  npm run format        # apply Prettier formatting
+  npm run format:check  # verify formatting
   ```
-  The easiest way to stay consistent is to configure your editor to format on save using the project's Prettier configuration.
+  Configuring your editor to format on save using the project's Prettier configuration is the easiest way to stay consistent.
 
 ### 2. Naming Conventions
 
