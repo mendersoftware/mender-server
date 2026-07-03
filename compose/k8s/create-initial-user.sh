@@ -18,15 +18,15 @@ NC='\033[0m' # No Color
 
 # Function to print colored messages
 log_info() {
-    echo -e "${GREEN}[INFO]${NC} $1"
+    echo -e "${GREEN}[INFO]${NC} $1" >&2
 }
 
 log_warn() {
-    echo -e "${YELLOW}[WARN]${NC} $1"
+    echo -e "${YELLOW}[WARN]${NC} $1" >&2
 }
 
 log_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
+    echo -e "${RED}[ERROR]${NC} $1" >&2
 }
 
 ENTERPRISE=false
@@ -55,8 +55,8 @@ log_info "All required environment variables are set"
 RANDOM_SUFFIX=$(openssl rand -hex 4)
 RANDOM_PASSWORD=$(openssl rand -base64 16 | tr -d "=+/" | cut -c1-16)
 
-ADMIN_USERNAME="${REVIEW_APP_ADMIN_USERNAME:-admin-${RANDOM_SUFFIX}@mender.local}"
-ADMIN_PASSWORD="${REVIEW_APP_ADMIN_PASSWORD:-${RANDOM_PASSWORD}}"
+ADMIN_USERNAME="${REVIEW_APPS_ADMIN_USERNAME:-admin-${RANDOM_SUFFIX}@mender.local}"
+ADMIN_PASSWORD="${REVIEW_APPS_ADMIN_PASSWORD:-${RANDOM_PASSWORD}}"
 
 log_info "Generated credentials for this review app deployment"
 
@@ -80,7 +80,7 @@ wait_for_pod() {
     done
 
     # Wait for the pod to become ready (up to 5 minutes)
-    if ! kubectl wait --for=condition=ready pod/"${pod}" -n "${NAMESPACE}" --timeout=300s; then
+    if ! kubectl wait --for=condition=ready pod/"${pod}" -n "${NAMESPACE}" --timeout=300s >&2; then
         log_error "Timeout waiting for ${component} pod ${pod} to be ready"
         exit 1
     fi
@@ -93,6 +93,7 @@ if [ "$ENTERPRISE" = true ]; then
     TENANT_NAME="${REVIEW_APP_TENANT_NAME:-review-${RANDOM_SUFFIX}}"
 
     POD=$(wait_for_pod "tenantadm")
+    USERADM_POD=$(wait_for_pod "useradm")
 
     log_info "Creating initial tenant and admin user..."
     log_info "Tenant name:    ${TENANT_NAME}"
