@@ -200,9 +200,11 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
     const roleData = hadRoleChanges ? { roles: selectedRoles } : {};
     if (isAddingExistingUser) {
       const { email: userId } = data;
-      return submit(userId, 'add');
+      submit(userId, 'add');
+      return closeDialog();
     }
-    return submit({ ...remainder, ...roleData, password }, 'create');
+    submit({ ...remainder, ...roleData, password }, 'create');
+    closeDialog();
   };
 
   return (

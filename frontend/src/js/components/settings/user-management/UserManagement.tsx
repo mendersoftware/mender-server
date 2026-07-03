@@ -115,14 +115,11 @@ export const UserManagement = () => {
 
   const submit = async (userData, type, id) => {
     try {
-      if (userData) {
-        if (id) {
-          await props[actions[type]](id, userData).unwrap();
-        } else {
-          await props[actions[type]](userData).unwrap();
-        }
+      if (id) {
+        await props[actions[type]](id, userData).unwrap();
+      } else {
+        await props[actions[type]](userData).unwrap();
       }
-      dialogDismiss();
     } catch {
       // error already handled in thunk - leave open
     }
