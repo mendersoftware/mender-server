@@ -93,6 +93,7 @@ if [ "$ENTERPRISE" = true ]; then
     TENANT_NAME="${REVIEW_APP_TENANT_NAME:-review-${RANDOM_SUFFIX}}"
 
     POD=$(wait_for_pod "tenantadm")
+    USERADM_POD=$(wait_for_pod "useradm")
 
     log_info "Creating initial tenant and admin user..."
     log_info "Tenant name:    ${TENANT_NAME}"
