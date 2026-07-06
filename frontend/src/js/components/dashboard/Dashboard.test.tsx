@@ -13,12 +13,12 @@
 //    limitations under the License.
 import { Route, Routes } from 'react-router';
 
-import { defaultState, render } from '@/testUtils';
-import { TIMEOUTS } from '@northern.tech/store/constants';
-import { actions as deviceActions } from '@northern.tech/store/devicesSlice';
+import { defaultState, render, server } from '@/testUtils';
+import { TIMEOUTS, inventoryApiUrlV2 } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { HttpResponse, http } from 'msw';
 import { vi } from 'vitest';
 
 import { Dashboard } from './Dashboard';
@@ -51,6 +51,17 @@ describe('Dashboard Component', () => {
   });
 
   it('allows navigating to pending devices', async () => {
+    // the dashboard refreshes device counts from the backend on render, so the mocked response has to align with the accepted-devices-free scenario
+    server.use(
+      http.get(`${inventoryApiUrlV2}/statistics`, () =>
+        HttpResponse.json({
+          devices_by_status: {
+            accepted: { micro: 0, standard: 0, system: 0 },
+            pending: { micro: 0, standard: 1, system: 0 }
+          }
+        })
+      )
+    );
     const preloadedState = {
       ...defaultState,
       devices: {
@@ -68,9 +79,8 @@ describe('Dashboard Component', () => {
         <Route path="/devices/pending" element={<div>pendings route</div>} />
       </Routes>
     );
-    const { rerender, store } = render(ui, { preloadedState });
+    const { rerender } = render(ui, { preloadedState });
     await waitFor(() => rerender(ui));
-    await act(() => store.dispatch({ type: deviceActions.setDevicesCountByStatus.type, payload: { status: 'accepted', countsPerTier: { total: 0 } } }));
     await user.click(screen.getByText(/pending devices/i));
     await waitFor(() => screen.queryByText(/pendings route/i));
     expect(screen.getByText(/pendings route/i)).toBeVisible();

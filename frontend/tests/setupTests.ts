@@ -48,7 +48,7 @@ process.on('unhandledRejection', err => {
 });
 
 // Setup requests interception
-const server = setupServer(...handlers);
+export const server = setupServer(...handlers);
 
 // ensure consistent snapshots across dev machines and CI
 // - module loading order prevents this from fitting into the regular hooks

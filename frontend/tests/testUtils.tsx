@@ -48,6 +48,7 @@ const customRender = (ui, options = {}) => {
 
 export * from '@northern.tech/testing/setupTests';
 
+export { server } from './setupTests';
 export { customRender as render };
 
 export const formRenderWrapper = (ui: ReactNode, formConfig?: object) => {
