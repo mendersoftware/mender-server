@@ -856,20 +856,20 @@ func TestShutdownCancels(t *testing.T) {
 
 	// register shutdown cancels
 	c1 := false
-	app.RegisterShutdownCancel(func() {
+	app.RegisterConnectionCancelHandle("", func() {
 		c1 = true
-	})
+	}, false)
 
 	c2 := false
-	app.RegisterShutdownCancel(func() {
+	app.RegisterConnectionCancelHandle("", func() {
 		c2 = true
-	})
+	}, false)
 
 	c3 := false
-	id := app.RegisterShutdownCancel(func() {
+	id := app.RegisterConnectionCancelHandle("", func() {
 		c3 = true
-	})
-	app.UnregisterShutdownCancel(id)
+	}, false)
+	app.UnregisterConnectionCancelHandle(id)
 
 	t1 := time.Now()
 	app.Shutdown(gracePeriod)

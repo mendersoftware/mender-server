@@ -178,8 +178,8 @@ func (h DeviceController) Connect(c *gin.Context) {
 
 	// register the websocket for graceful shutdown
 	ctxWithCancel, cancel := context.WithCancel(ctx)
-	registerID := h.app.RegisterShutdownCancel(cancel)
-	defer h.app.UnregisterShutdownCancel(registerID)
+	handle := h.app.RegisterConnectionCancelHandle(idata.Subject, cancel, true)
+	defer h.app.UnregisterConnectionCancelHandle(handle)
 
 	// websocketWriter is responsible for closing the websocket
 	//nolint:errcheck
@@ -321,6 +321,11 @@ func (h DeviceController) ConnectServeWS(
 				)
 			}
 		}
+
+		// The context might be canceled, create a new one
+		ctx, cancel := context.WithTimeout(context.WithoutCancel(ctx), 5*time.Second)
+		defer cancel()
+
 		// update the device status on websocket closing
 		eStatus := h.app.SetDeviceDisconnected(
 			ctx, id.Tenant,
