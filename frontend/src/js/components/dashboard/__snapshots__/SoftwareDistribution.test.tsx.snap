@@ -142,31 +142,31 @@ exports[`Devices Component > renders correctly 1`] = `
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-bdbdbd .undefined {
+.emotion-6 .barchart .color-bdbdbd .MuiLinearProgress-bar {
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-1d8faf .undefined {
+.emotion-6 .barchart .color-1d8faf .MuiLinearProgress-bar {
   background-color: #1d8faf;
 }
 
-.emotion-6 .barchart .color-a31773 .undefined {
+.emotion-6 .barchart .color-a31773 .MuiLinearProgress-bar {
   background-color: #a31773;
 }
 
-.emotion-6 .barchart .color-00859e .undefined {
+.emotion-6 .barchart .color-00859e .MuiLinearProgress-bar {
   background-color: #00859e;
 }
 
-.emotion-6 .barchart .color-14cfda .undefined {
+.emotion-6 .barchart .color-14cfda .MuiLinearProgress-bar {
   background-color: #14cfda;
 }
 
-.emotion-6 .barchart .color-9bfff0 .undefined {
+.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-bar {
   background-color: #9bfff0;
 }
 
-.emotion-6 .barchart .color-d5d5d5 .undefined {
+.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-bar {
   background-color: #d5d5d5;
 }
 
@@ -384,10 +384,10 @@ exports[`Devices Component > renders correctly 1`] = `
 
 <div>
   <div
-    class="dashboard margin-bottom-large"
+    class="dashboard flexbox margin-bottom-large"
   >
     <div
-      class="widget chart-widget"
+      class="widget chart-widget relative"
     >
       <div
         class="margin-bottom-small"
@@ -508,7 +508,7 @@ exports[`Devices Component > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="widget"
+      class="widget clickable relative"
     >
       <div
         class="flexbox align-items-center  emotion-10"
@@ -893,10 +893,10 @@ exports[`Devices Component > renders correctly for non-enterprise 1`] = `
 
 <div>
   <div
-    class="dashboard margin-bottom-large"
+    class="dashboard flexbox margin-bottom-large"
   >
     <div
-      class="widget"
+      class="widget clickable relative"
     >
       <div
         class="flexbox align-items-center  emotion-0"
@@ -1154,10 +1154,10 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
 
 <div>
   <div
-    class="dashboard margin-bottom-large"
+    class="dashboard flexbox margin-bottom-large"
   >
     <div
-      class="widget chart-widget flexbox centered"
+      class="widget chart-widget relative flexbox centered"
     >
       <div
         class="loaderContainer"
@@ -1182,7 +1182,7 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
       </div>
     </div>
     <div
-      class="widget"
+      class="widget clickable relative"
     >
       <div
         class="flexbox align-items-center  emotion-0"
@@ -1242,10 +1242,10 @@ exports[`Devices Component > renders correctly for too many devices 1`] = `
 exports[`Devices Component > renders correctly while waiting for initialization 1`] = `
 <div>
   <div
-    class="dashboard margin-bottom-large"
+    class="dashboard flexbox margin-bottom-large"
   >
     <div
-      class="widget chart-widget flexbox centered"
+      class="widget clickable relative chart-widget flexbox centered"
     >
       <div
         class="flexbox margin-top-x-small"
@@ -1419,31 +1419,31 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-bdbdbd .undefined {
+.emotion-6 .barchart .color-bdbdbd .MuiLinearProgress-bar {
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-1d8faf .undefined {
+.emotion-6 .barchart .color-1d8faf .MuiLinearProgress-bar {
   background-color: #1d8faf;
 }
 
-.emotion-6 .barchart .color-a31773 .undefined {
+.emotion-6 .barchart .color-a31773 .MuiLinearProgress-bar {
   background-color: #a31773;
 }
 
-.emotion-6 .barchart .color-00859e .undefined {
+.emotion-6 .barchart .color-00859e .MuiLinearProgress-bar {
   background-color: #00859e;
 }
 
-.emotion-6 .barchart .color-14cfda .undefined {
+.emotion-6 .barchart .color-14cfda .MuiLinearProgress-bar {
   background-color: #14cfda;
 }
 
-.emotion-6 .barchart .color-9bfff0 .undefined {
+.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-bar {
   background-color: #9bfff0;
 }
 
-.emotion-6 .barchart .color-d5d5d5 .undefined {
+.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-bar {
   background-color: #d5d5d5;
 }
 
@@ -1661,10 +1661,10 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
 
 <div>
   <div
-    class="dashboard margin-bottom-large"
+    class="dashboard flexbox margin-bottom-large"
   >
     <div
-      class="widget chart-widget"
+      class="widget chart-widget relative"
     >
       <div
         class="margin-bottom-small"
@@ -1785,7 +1785,7 @@ exports[`Devices Component > renders correctly without data retrieval 1`] = `
       </div>
     </div>
     <div
-      class="widget"
+      class="widget clickable relative"
     >
       <div
         class="flexbox align-items-center  emotion-10"

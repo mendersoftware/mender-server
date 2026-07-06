@@ -329,7 +329,7 @@ exports[`ChartAdditionWidget Component > renders correctly 1`] = `
 <body>
   <div>
     <div
-      class="widget"
+      class="widget clickable relative"
     >
       <div
         class="flexbox align-items-center  emotion-0"

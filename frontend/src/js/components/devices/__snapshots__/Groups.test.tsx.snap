@@ -177,14 +177,17 @@ exports[`Groups Component > renders GroupsSubheader correctly 1`] = `
   padding: 0;
   min-width: 70px;
   background: #fff;
+  position: absolute;
 }
 
 .emotion-0 .group-border {
   background: rgba(0, 0, 0, 0.12);
+  width: 100%;
+  height: 1px;
 }
 
 <li
-  class="MuiListSubheader-root heading-lined emotion-0"
+  class="MuiListSubheader-root heading-lined flexbox align-items-center relative emotion-0"
 >
   <span>
     test
@@ -376,10 +379,13 @@ exports[`Groups Component > renders correctly 1`] = `
   padding: 0;
   min-width: 70px;
   background: #fff;
+  position: absolute;
 }
 
 .emotion-5 .group-border {
   background: rgba(0, 0, 0, 0.12);
+  width: 100%;
+  height: 1px;
 }
 
 .emotion-13 {
@@ -540,7 +546,7 @@ exports[`Groups Component > renders correctly 1`] = `
       </div>
     </div>
     <li
-      class="MuiListSubheader-root heading-lined emotion-5"
+      class="MuiListSubheader-root heading-lined flexbox align-items-center relative emotion-5"
     >
       <span>
         Dynamic
@@ -565,7 +571,7 @@ exports[`Groups Component > renders correctly 1`] = `
       </div>
     </div>
     <li
-      class="MuiListSubheader-root heading-lined emotion-5"
+      class="MuiListSubheader-root heading-lined flexbox align-items-center relative emotion-5"
     >
       <span>
         Static

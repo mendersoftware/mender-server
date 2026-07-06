@@ -142,31 +142,31 @@ exports[`Distribution Component > renders correctly 1`] = `
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-bdbdbd .undefined {
+.emotion-6 .barchart .color-bdbdbd .MuiLinearProgress-bar {
   background-color: #bdbdbd;
 }
 
-.emotion-6 .barchart .color-1d8faf .undefined {
+.emotion-6 .barchart .color-1d8faf .MuiLinearProgress-bar {
   background-color: #1d8faf;
 }
 
-.emotion-6 .barchart .color-a31773 .undefined {
+.emotion-6 .barchart .color-a31773 .MuiLinearProgress-bar {
   background-color: #a31773;
 }
 
-.emotion-6 .barchart .color-00859e .undefined {
+.emotion-6 .barchart .color-00859e .MuiLinearProgress-bar {
   background-color: #00859e;
 }
 
-.emotion-6 .barchart .color-14cfda .undefined {
+.emotion-6 .barchart .color-14cfda .MuiLinearProgress-bar {
   background-color: #14cfda;
 }
 
-.emotion-6 .barchart .color-9bfff0 .undefined {
+.emotion-6 .barchart .color-9bfff0 .MuiLinearProgress-bar {
   background-color: #9bfff0;
 }
 
-.emotion-6 .barchart .color-d5d5d5 .undefined {
+.emotion-6 .barchart .color-d5d5d5 .MuiLinearProgress-bar {
   background-color: #d5d5d5;
 }
 
@@ -207,10 +207,112 @@ exports[`Distribution Component > renders correctly 1`] = `
   margin-left: 4px;
 }
 
+.emotion-9 {
+  aspect-ratio: 1/1;
+  max-width: 200px;
+  width: 100%;
+}
+
+.emotion-10 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "chart";
+  -webkit-box-pack: safe center;
+  -ms-flex-pack: safe center;
+  -webkit-justify-content: safe center;
+  justify-content: safe center;
+  justify-items: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 100%;
+  min-height: 0;
+}
+
+.emotion-10:has(.MuiChartsToolbar-root) {
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "toolbar" "chart";
+}
+
+.emotion-10 .MuiChartsToolbar-root {
+  grid-area: toolbar;
+  justify-self: center;
+}
+
+.emotion-11 {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  grid-area: chart;
+}
+
+.emotion-11:focus {
+  outline: none;
+}
+
+.emotion-12 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.emotion-14 {
+  transition-property: opacity,fill,filter;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.66, 0, 0.34, 1);
+}
+
+.emotion-16 {
+  fill: rgba(0, 0, 0, 0.87);
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+  -webkit-animation-name: animate-opacity;
+  animation-name: animate-opacity;
+  -webkit-animation-duration: 0s;
+  animation-duration: 0s;
+  -webkit-animation-timing-function: cubic-bezier(0.66, 0, 0.34, 1);
+  animation-timing-function: cubic-bezier(0.66, 0, 0.34, 1);
+  transition-duration: 300ms;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.66, 0, 0.34, 1);
+}
+
+.emotion-16.MuiPieChart-animate {
+  -webkit-animation-duration: 300ms;
+  animation-duration: 300ms;
+}
+
 <body>
   <div>
     <div
-      class="widget chart-widget"
+      class="widget chart-widget relative"
     >
       <div
         class="margin-bottom-small"
@@ -318,35 +420,92 @@ exports[`Distribution Component > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="VictoryContainer"
-          style="width: 100%; height: 100%; pointer-events: none; touch-action: none; position: relative;"
+          class="emotion-9"
         >
-          <svg
-            height="400"
-            role="img"
-            style="width: 100%; height: 100%; pointer-events: all;"
-            viewBox="0 0 400 400"
-            width="400"
-          >
-            <g>
-              <path
-                d="M1.1787225441793275e-14,-192.5A192.5,192.5,0,1,1,-1.1787225441793275e-14,192.5A192.5,192.5,0,1,1,1.1787225441793275e-14,-192.5Z"
-                role="presentation"
-                shape-rendering="auto"
-                style="fill: rgb(29, 143, 175); padding: 10px; stroke: transparent; stroke-width: 1;"
-                transform="translate(200, 192.5)"
-              />
-            </g>
-          </svg>
           <div
-            style="width: 100%; height: 100%; z-index: 99; position: absolute; top: 0px; left: 0px;"
+            class="clickable emotion-10"
           >
-            <svg
-              height="400"
-              style="width: 100%; height: 100%; overflow: visible;"
-              viewBox="0 0 400 400"
-              width="400"
-            />
+            <div
+              class="MuiChartsSurface-root MuiChartsSurface-root emotion-11"
+              role="none"
+            >
+              <div
+                role="none"
+                style="border-width: 0px; width: 100%; height: 100%; overflow: hidden; position: absolute; inset: 0px; padding: 0px; outline: none; pointer-events: none;"
+                tabindex="0"
+              >
+                <div
+                  id="voiceover-_r_X_-1"
+                  style="display: none;"
+                />
+                <div
+                  id="voiceover-_r_X_-2"
+                  style="display: none;"
+                />
+                <div
+                  aria-labelledby="voiceover-_r_X_-1"
+                  role="img"
+                  style="width: 100%; height: 100%; outline: none;"
+                />
+                <div
+                  aria-labelledby="voiceover-_r_X_-2"
+                  role="img"
+                  style="width: 100%; height: 100%; outline: none;"
+                />
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiChartsSvgLayer-root emotion-12"
+                viewBox="0 0 100 100"
+              >
+                <g
+                  class="MuiPieChart-root"
+                >
+                  <g
+                    class="MuiPieChart-series"
+                    data-series="auto-generated-id-0"
+                    transform="translate(50, 50)"
+                  >
+                    <g
+                      class="emotion-13"
+                    >
+                      <path
+                        class="MuiPieChart-arc emotion-14"
+                        cursor="pointer"
+                        d="M0,45L0,0Z"
+                        data-index="0"
+                        fill="#1d8faf"
+                        filter="none"
+                        opacity="1"
+                        stroke="#fff"
+                        stroke-linejoin="round"
+                        stroke-width="1"
+                        visibility="hidden"
+                      />
+                    </g>
+                  </g>
+                  <g
+                    class="MuiPieChart-seriesLabels"
+                    data-series="auto-generated-id-0"
+                    transform="translate(50, 50)"
+                  >
+                    <g
+                      class="emotion-15"
+                    >
+                      <text
+                        class="MuiPieChart-arcLabel MuiPieChart-animate emotion-16"
+                        opacity="1"
+                        x="1.3777276490407724e-15"
+                        y="22.5"
+                      />
+                    </g>
+                  </g>
+                </g>
+              </svg>
+              <div
+                style="position: absolute; left: 0px; top: 0px; pointer-events: none; opacity: 0; width: 1px; height: 1px;"
+              />
+            </div>
           </div>
         </div>
       </div>

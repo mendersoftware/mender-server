@@ -99,7 +99,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           </div>
         </div>
         <li
-          class="MuiListSubheader-root heading-lined css-uz96tk-MuiListSubheader-root-header"
+          class="MuiListSubheader-root heading-lined flexbox align-items-center relative css-w9m8c6-MuiListSubheader-root-header"
         >
           <span>
             Dynamic
@@ -124,7 +124,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
           </div>
         </div>
         <li
-          class="MuiListSubheader-root heading-lined css-uz96tk-MuiListSubheader-root-header"
+          class="MuiListSubheader-root heading-lined flexbox align-items-center relative css-w9m8c6-MuiListSubheader-root-header"
         >
           <span>
             Static

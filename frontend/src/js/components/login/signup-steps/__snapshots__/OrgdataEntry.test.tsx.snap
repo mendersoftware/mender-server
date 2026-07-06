@@ -671,6 +671,9 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
 
 .emotion-31 span {
   background: #fff;
+  padding: 10px 16px 10px 0;
+  position: absolute;
+  top: -19px;
 }
 
 .emotion-32 {
@@ -897,7 +900,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
     </div>
   </form>
   <div
-    class="dashboard-header emotion-31 margin-top-large flexbox centered"
+    class="margin-bottom-large relative emotion-31 margin-top-large flexbox centered"
   >
     <span
       class="MuiTypography-root MuiTypography-body2 emotion-32"

@@ -180,104 +180,7 @@ exports[`Devices Component > renders correctly 1`] = `
   fill: #fff;
 }
 
-.emotion-19 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.75;
-  letter-spacing: 0.02857em;
-  text-transform: uppercase;
-  min-width: 64px;
-  padding: 6px 16px;
-  border: 0;
-  border-radius: 4px;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  padding: 6px 8px;
-  color: var(--variant-textColor);
-  background-color: var(--variant-textBg);
-  --variant-textColor: #1976d2;
-  --variant-outlinedColor: #1976d2;
-  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
-  --variant-containedColor: #fff;
-  --variant-containedBg: #1976d2;
-  padding: 4px 5px;
-  font-size: 0.8125rem;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.emotion-19::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-19.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-19 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-19:hover {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-19.Mui-disabled {
-  color: rgba(0, 0, 0, 0.26);
-}
-
-@media (hover: hover) {
-  .emotion-19:hover {
-    --variant-containedBg: #1565c0;
-    --variant-textBg: rgba(25, 118, 210, 0.04);
-    --variant-outlinedBorder: #1976d2;
-    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
-  }
-}
-
-.emotion-19.MuiButton-loading {
-  color: transparent;
-}
-
-.emotion-20 {
+.emotion-16 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -332,44 +235,44 @@ exports[`Devices Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-20::-moz-focus-inner {
+.emotion-16::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-20.Mui-disabled {
+.emotion-16.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-20 {
+  .emotion-16 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-20:hover {
+.emotion-16:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-20.Mui-disabled {
+.emotion-16.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-20:hover {
+  .emotion-16:hover {
     --variant-containedBg: #f5f5f5;
     --variant-textBg: rgba(0, 0, 0, 0.04);
     --variant-outlinedBg: rgba(0, 0, 0, 0.04);
   }
 }
 
-.emotion-20.MuiButton-loading {
+.emotion-16.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-21 {
+.emotion-17 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -387,13 +290,13 @@ exports[`Devices Component > renders correctly 1`] = `
 }
 
 <div
-  class="dashboard"
+  class="dashboard flexbox"
 >
   <div
-    class="widget "
+    class="widget clickable relative "
   >
     <p
-      class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader align-items-center emotion-0"
+      class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader full-width align-items-center emotion-0"
     >
       Accepted devices 
       <svg
@@ -474,10 +377,10 @@ exports[`Devices Component > renders correctly 1`] = `
     </div>
   </div>
   <div
-    class="widget emotion-8"
+    class="widget clickable relative emotion-8"
   >
     <p
-      class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader align-items-center emotion-0"
+      class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader full-width align-items-center emotion-0"
     >
       Devices with issues
     </p>
@@ -533,61 +436,6 @@ exports[`Devices Component > renders correctly 1`] = `
     </div>
   </div>
   <div
-    class="widget "
-  >
-    <p
-      class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader align-items-center emotion-0"
-    >
-      Pending devices
-      <svg
-        aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-1"
-        data-testid="PendingOutlinedIcon"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
-        />
-        <circle
-          cx="7"
-          cy="12"
-          r="1.5"
-        />
-        <circle
-          cx="12"
-          cy="12"
-          r="1.5"
-        />
-        <circle
-          cx="17"
-          cy="12"
-          r="1.5"
-        />
-      </svg>
-    </p>
-    <div
-      class="flexbox margin-top-x-small"
-    >
-      <div
-        class="flexbox column full-width"
-      >
-        <h5
-          class="MuiTypography-root MuiTypography-h5 emotion-2"
-        >
-          1
-        </h5>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary align-self-start margin-top-x-small emotion-19"
-          tabindex="0"
-          type="button"
-        >
-          View devices
-        </button>
-      </div>
-    </div>
-  </div>
-  <div
     class="widget"
   >
     <div />
@@ -595,14 +443,14 @@ exports[`Devices Component > renders correctly 1`] = `
       class="flexbox centered"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-20"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorInherit emotion-16"
         style="max-width: 200px;"
         tabindex="0"
         type="button"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-right-x-small emotion-21"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium margin-right-x-small emotion-17"
           data-testid="AddIcon"
           focusable="false"
           viewBox="0 0 24 24"

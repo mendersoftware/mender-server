@@ -136,10 +136,10 @@ exports[`PendingDevices Component > renders correctly 1`] = `
 <body>
   <div>
     <div
-      class="widget "
+      class="widget clickable relative "
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader align-items-center emotion-0"
+        class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader full-width align-items-center emotion-0"
       >
         Pending devices
         <svg

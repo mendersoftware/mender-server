@@ -294,7 +294,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </button>
         </div>
         <div
-          class="dashboard-header css-ww9esm-border css-zr8z23-header"
+          class="margin-bottom-large relative css-14nuuu4-border css-zr8z23-header"
         >
           <span
             class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -462,7 +462,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </div>
         </div>
         <div
-          class="dashboard-header css-ww9esm-border css-zr8z23-header"
+          class="margin-bottom-large relative css-14nuuu4-border css-zr8z23-header"
         >
           <span
             class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -837,7 +837,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </div>
         </div>
         <div
-          class="dashboard-header css-ww9esm-border margin-top-large css-zr8z23-header"
+          class="margin-bottom-large relative css-14nuuu4-border margin-top-large css-zr8z23-header"
         >
           <span
             class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1319,7 +1319,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </button>
         </div>
         <div
-          class="dashboard-header css-ww9esm-border css-zr8z23-header"
+          class="margin-bottom-large relative css-14nuuu4-border css-zr8z23-header"
         >
           <span
             class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1486,7 +1486,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </div>
         </div>
         <div
-          class="dashboard-header css-ww9esm-border css-zr8z23-header"
+          class="margin-bottom-large relative css-14nuuu4-border css-zr8z23-header"
         >
           <span
             class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
@@ -1848,7 +1848,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </div>
         </div>
         <div
-          class="dashboard-header css-ww9esm-border margin-top-large css-zr8z23-header"
+          class="margin-bottom-large relative css-14nuuu4-border margin-top-large css-zr8z23-header"
         >
           <span
             class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
