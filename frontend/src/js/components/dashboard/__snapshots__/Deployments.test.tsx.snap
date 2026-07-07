@@ -176,20 +176,29 @@ exports[`Deployments Component > renders correctly 1`] = `
   align-self: flex-end;
 }
 
-.emotion-20 {
+.emotion-17 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+}
+
+.emotion-21 {
   background: #fff;
   border-radius: 4px;
   padding: 4px;
 }
 
-.emotion-20>.flexbox {
+.emotion-21>.flexbox {
   -webkit-box-pack: space-evenly;
   -ms-flex-pack: space-evenly;
   -webkit-justify-content: space-evenly;
   justify-content: space-evenly;
 }
 
-.emotion-24 {
+.emotion-25 {
   margin: 0;
   font: inherit;
   line-height: inherit;
@@ -201,12 +210,12 @@ exports[`Deployments Component > renders correctly 1`] = `
   --Link-underlineColor: rgba(25, 118, 210, 0.4);
 }
 
-.emotion-24:hover {
+.emotion-25:hover {
   text-decoration-color: inherit;
 }
 
 <div
-  class=" deployments"
+  class=" deployments relative"
 >
   <div
     class="dashboard flexbox column"
@@ -325,7 +334,7 @@ exports[`Deployments Component > renders correctly 1`] = `
         class="emotion-16 margin-bottom-x-small"
       >
         <time
-          class="muted slightly-smaller"
+          class="MuiTypography-root MuiTypography-caption slightly-smaller align-right emotion-17"
           datetime="2019-01-13T13:00:00+00:00"
         >
           2019-01-13 13:00
@@ -347,7 +356,7 @@ exports[`Deployments Component > renders correctly 1`] = `
             </p>
           </div>
           <div
-            class="emotion-20"
+            class="emotion-21"
           >
             <span
               class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate emotion-11"
@@ -365,7 +374,7 @@ exports[`Deployments Component > renders correctly 1`] = `
       </div>
     </div>
     <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways margin-top margin-bottom-large emotion-24"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways margin-bottom-large emotion-25"
       data-discover="true"
       href="/deployments"
     >

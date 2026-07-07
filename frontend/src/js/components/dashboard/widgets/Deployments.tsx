@@ -92,7 +92,7 @@ export const CompletedDeployments = ({ deployments, ...props }: Omit<DeploymentW
     <div className={classes.finishedWrapper}>
       {deployments.map(deployment => (
         <div className={`${classes.wrapper} margin-bottom-x-small`} key={deployment.id}>
-          <Time className="muted slightly-smaller" value={deployment.finished} />
+          <Time Component={Typography} component="time" className="slightly-smaller align-right" variant="caption" value={deployment.finished} />
           <BaseDeploymentWidget deployment={deployment} {...props} />
         </div>
       ))}

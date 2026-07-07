@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { BarChart as BarChartIcon } from '@mui/icons-material';
 import { Typography } from '@mui/material';
@@ -29,6 +29,7 @@ import {
   getIsEnterprise,
   getUserSettingsInitialized
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceAttributes, getReportDataWithoutBackendSupport, saveUserSettings } from '@northern.tech/store/thunks';
 import { isEmpty } from '@northern.tech/utils/helpers';
 
@@ -78,7 +79,7 @@ const listSoftware = attributes => {
 };
 
 const DeviceDataLimitWarning = () => (
-  <div className="dashboard margin-bottom-large">
+  <div className="dashboard flexbox margin-bottom-large">
     <Typography variant="subtitle2">Device and Group Limit Exceeded</Typography>
     <Typography variant="caption">
       Your current number of devices and groups exceeds the limits of our present implementation. To ensure you continue to gain optimal insights and to better
@@ -114,9 +115,9 @@ export const SoftwareDistribution = () => {
   const hasUserSettingsInitialized = useSelector(getUserSettingsInitialized);
   const deviceRetrievalLimit = useSelector(state => state.deployments.deploymentDeviceLimit);
   const reportsData = useSelector(getDeviceReports);
-  const hasReportsData = reportsData.reduce((accu, report) => accu && !isEmpty(report), true);
+  const hasReportsData = reportsData.every(report => !isEmpty(report));
   const [visibleCount, setVisibleCount] = useState(hasReportsData ? reportsData.length : 1);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const hasTooManyDevices = checkRequestLimitReached(reports, deviceRetrievalLimit, total);
 
   useEffect(() => {
@@ -150,7 +151,7 @@ export const SoftwareDistribution = () => {
 
   if (!isEnterprise) {
     return (
-      <div className="dashboard margin-bottom-large">
+      <div className="dashboard flexbox margin-bottom-large">
         <ChartAdditionWidget groups={groups} onAdditionClick={addCurrentSelection} software={software} />
       </div>
     );
@@ -160,13 +161,13 @@ export const SoftwareDistribution = () => {
   }
   if (!hasUserSettingsInitialized) {
     return (
-      <div className="dashboard margin-bottom-large">
+      <div className="dashboard flexbox margin-bottom-large">
         <BaseWidget className="chart-widget flexbox centered" main={<Loader show style={{ width: '100%' }} />} />
       </div>
     );
   }
   return hasDevices ? (
-    <div className="dashboard margin-bottom-large">
+    <div className="dashboard flexbox margin-bottom-large">
       {reports.slice(0, visibleCount).map((report, index) => (
         <DistributionReport
           key={`report-${report.group}-${index}`}
@@ -177,14 +178,14 @@ export const SoftwareDistribution = () => {
         />
       ))}
       {visibleCount < reports.length && (
-        <div className="widget chart-widget flexbox centered">
+        <div className="widget chart-widget relative flexbox centered">
           <Loader show style={{ width: '100%' }} />
         </div>
       )}
       <ChartAdditionWidget groups={groups} onAdditionClick={addCurrentSelection} software={software} />
     </div>
   ) : (
-    <div className="dashboard-placeholder margin-top-large">
+    <div className="align-center margin-top-large">
       <BarChartIcon style={{ transform: 'scale(5)' }} />
       <p className="margin-top-large">Software distribution charts will appear here once you connected a device. </p>
     </div>

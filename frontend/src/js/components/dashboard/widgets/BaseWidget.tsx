@@ -14,9 +14,9 @@
 import { Typography } from '@mui/material';
 
 export const BaseWidget = ({ className = '', header, innerRef, main, onClick }) => (
-  <div className={`widget ${className}`} onClick={onClick} ref={ref => (innerRef ? (innerRef.current = ref) : null)}>
+  <div className={`widget clickable relative ${className}`} onClick={onClick} ref={ref => (innerRef ? (innerRef.current = ref) : null)}>
     {!!header && (
-      <Typography className="flexbox widgetHeader align-items-center" variant="body1">
+      <Typography className="flexbox widgetHeader full-width align-items-center" variant="body1">
         {header}
       </Typography>
     )}

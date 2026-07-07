@@ -18,7 +18,10 @@ const useStyles = makeStyles()(theme => ({
   border: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     span: {
-      background: theme.palette.background.default
+      background: theme.palette.background.default,
+      padding: `10px ${theme.spacing(2)} 10px 0`,
+      position: 'absolute',
+      top: -19
     }
   },
   groupBorder: {
@@ -32,7 +35,7 @@ const useStyles = makeStyles()(theme => ({
 const LinedHeader = ({ className = '', heading, innerStyle = {}, innerRef, style = {} }) => {
   const { classes } = useStyles();
   return (
-    <div className={`dashboard-header ${classes.border} ${className}`} ref={innerRef} style={style}>
+    <div className={`margin-bottom-large relative ${classes.border} ${className}`} ref={innerRef} style={style}>
       <Typography variant="body2" style={innerStyle} component="span">
         {heading}
       </Typography>

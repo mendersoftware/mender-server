@@ -100,10 +100,10 @@ exports[`AcceptedDevices Component > renders correctly 1`] = `
 }
 
 <div
-  class="widget "
+  class="widget clickable relative "
 >
   <p
-    class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader align-items-center emotion-0"
+    class="MuiTypography-root MuiTypography-body1 flexbox widgetHeader full-width align-items-center emotion-0"
   >
     Accepted devices 
     <svg

@@ -11,6 +11,7 @@
     "@monaco-editor/react": "4.7.0",
     "@mui/icons-material": "9.2.0",
     "@mui/material": "9.2.0",
+    "@mui/x-charts": "9.8.0",
     "@mui/x-date-pickers": "9.8.0",
     "@northern.tech/store": "0.39.0",
     "@northern.tech/themes": "0.16.8",
@@ -50,7 +51,6 @@
     "universal-cookie": "8.1.2",
     "uuid": "14.0.1",
     "validator": "13.15.35",
-    "victory": "37.3.6",
     "yaml": "^2.9.0",
     "zod": "4.4.3",
     "zxcvbn": "4.4.2"

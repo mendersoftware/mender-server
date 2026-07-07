@@ -149,6 +149,9 @@ exports[`Login Component > renders correctly 1`] = `
 
 .emotion-11 span {
   background: #fff;
+  padding: 10px 16px 10px 0;
+  position: absolute;
+  top: -19px;
 }
 
 .emotion-12 {
@@ -900,7 +903,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
       </a>
     </div>
     <div
-      class="dashboard-header emotion-11 margin-top-large flexbox centered"
+      class="margin-bottom-large relative emotion-11 margin-top-large flexbox centered"
     >
       <span
         class="MuiTypography-root MuiTypography-body2 emotion-12"

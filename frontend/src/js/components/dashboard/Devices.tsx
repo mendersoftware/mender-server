@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { Add as AddIcon } from '@mui/icons-material';
@@ -26,6 +26,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, getAllDeviceCounts, getIssueCountsByType } from '@northern.tech/store/thunks';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 
@@ -43,10 +44,10 @@ export const Devices = ({ clickHandle }) => {
   const anchor = useRef();
   const pendingsRef = useRef();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const availableIssueOptions = useSelector(getAvailableIssueOptionsByType);
   const { canManageDevices } = useSelector(getUserCapabilities);
-  const { hasReporting, plan } = useSelector(getTenantCapabilities);
+  const { plan } = useSelector(getTenantCapabilities);
   const onboardingState = useSelector(getOnboardingState);
   const { accepted: acceptedDevicesCount, pending: pendingDevicesCount } = useSelector(getDeviceCountsByStatus);
 
@@ -90,10 +91,10 @@ export const Devices = ({ clickHandle }) => {
   const shouldShowActionableDevices = plan !== 'os';
   return (
     <>
-      <div className="dashboard" ref={anchor}>
+      <div className="dashboard flexbox" ref={anchor}>
         <AcceptedDevices devicesCount={acceptedDevicesCount} onClick={clickHandle} />
         {!!acceptedDevicesCount && shouldShowActionableDevices && <ActionableDevices issues={availableIssueOptions} />}
-        {!!pendingDevicesCount && !(acceptedDevicesCount && hasReporting) && (
+        {!!pendingDevicesCount && !acceptedDevicesCount && (
           <PendingDevices
             advanceOnboarding={step => dispatch(advanceOnboarding(step))}
             innerRef={pendingsRef}

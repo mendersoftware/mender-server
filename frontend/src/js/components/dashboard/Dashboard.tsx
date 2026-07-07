@@ -34,7 +34,29 @@ const useStyles = makeStyles()(theme => ({
     columnGap: theme.spacing(6),
     display: 'flex',
     flexWrap: 'wrap',
-    marginBottom: theme.spacing(6)
+    marginBottom: theme.spacing(6),
+    '.dashboard': {
+      columnGap: theme.spacing(4),
+      rowGap: theme.spacing(4),
+      flexWrap: 'wrap',
+      '.widget': {
+        borderRadius: 4,
+        border: `1px solid ${theme.palette.mode === 'light' ? theme.palette.grey[300] : theme.palette.grey[500]}`,
+        display: 'grid',
+        gridTemplateRows: 'max-content 1fr',
+        minWidth: 250,
+        maxWidth: '15vw',
+        minHeight: 180,
+        padding: theme.spacing(2, 3),
+        '&.chart-widget': {
+          padding: theme.spacing(2),
+          width: '19vw',
+          minHeight: 235,
+          maxWidth: 'initial',
+          minWidth: 375
+        }
+      }
+    }
   },
   left: {
     flexGrow: 1,
