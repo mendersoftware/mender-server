@@ -60,15 +60,20 @@ type App interface {
 	DeleteTenant(ctx context.Context, tenantID string) error
 	Shutdown(timeout time.Duration)
 	ShutdownDone()
-	RegisterShutdownCancel(context.CancelFunc) uint32
-	UnregisterShutdownCancel(uint32)
+	RegisterConnectionCancelHandle(id string, cancel context.CancelFunc, exclusive bool) uint32
+	UnregisterConnectionCancelHandle(handleID uint32)
+}
+
+type cancelHandle struct {
+	id     string
+	cancel context.CancelFunc
 }
 
 // app is an app object
 type app struct {
 	store            store.DataStore
 	workflows        workflows.Client
-	shutdownCancels  map[uint32]context.CancelFunc
+	shutdownCancels  map[uint32]*cancelHandle
 	shutdownCancelsM *sync.Mutex
 	shutdownDone     chan struct{}
 	Config
@@ -90,7 +95,7 @@ func New(ds store.DataStore, wf workflows.Client, config ...Config) App {
 		store:            ds,
 		workflows:        wf,
 		Config:           conf,
-		shutdownCancels:  make(map[uint32]context.CancelFunc),
+		shutdownCancels:  make(map[uint32]*cancelHandle),
 		shutdownCancelsM: &sync.Mutex{},
 		shutdownDone:     make(chan struct{}),
 	}
@@ -334,8 +339,8 @@ func (a *app) Shutdown(timeout time.Duration) {
 	a.shutdownCancelsM.Lock()
 	defer a.shutdownCancelsM.Unlock()
 	ticker := time.NewTicker(timeout / time.Duration(len(a.shutdownCancels)+1))
-	for _, cancel := range a.shutdownCancels {
-		cancel()
+	for _, handle := range a.shutdownCancels {
+		handle.cancel()
 		<-ticker.C
 	}
 	<-ticker.C
@@ -348,18 +353,30 @@ func (a *app) ShutdownDone() {
 
 var shutdownID uint32
 
-func (a *app) RegisterShutdownCancel(cancel context.CancelFunc) uint32 {
+func (a *app) RegisterConnectionCancelHandle(
+	id string,
+	cancel context.CancelFunc,
+	exclusive bool,
+) uint32 {
 	a.shutdownCancelsM.Lock()
 	defer a.shutdownCancelsM.Unlock()
-	id := atomic.AddUint32(&shutdownID, 1)
-	a.shutdownCancels[id] = cancel
-	return id
+	if exclusive {
+		for handleID, handle := range a.shutdownCancels {
+			if handle.id == id {
+				handle.cancel()
+				delete(a.shutdownCancels, handleID)
+			}
+		}
+	}
+	handleID := atomic.AddUint32(&shutdownID, 1)
+	a.shutdownCancels[handleID] = &cancelHandle{id: id, cancel: cancel}
+	return handleID
 }
 
-func (a *app) UnregisterShutdownCancel(id uint32) {
+func (a *app) UnregisterConnectionCancelHandle(handleID uint32) {
 	a.shutdownCancelsM.Lock()
 	defer a.shutdownCancelsM.Unlock()
-	delete(a.shutdownCancels, id)
+	delete(a.shutdownCancels, handleID)
 }
 
 func (d *app) DeleteTenant(ctx context.Context, tenantID string) error {
