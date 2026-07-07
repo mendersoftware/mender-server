@@ -37,7 +37,7 @@ const (
 	localhost = "127.0.0.1"
 )
 
-type Config struct {
+type ComposeEnvironmentConfig struct {
 	ProjectName                 string
 	SkipCleanup                 bool
 	SkipCleanupOnFailure        bool
@@ -45,21 +45,24 @@ type Config struct {
 	PrintServiceStatusOnFailure string
 }
 
+var _ TestEnvironment = &ComposeEnvironment{}
+
 type ComposeEnvironment struct {
-	config Config
+	config ComposeEnvironmentConfig
 
 	serverURL string
 	apiClient *oapiclient.APIClient
 	project   *types.Project
 }
 
-func NewComposeEnvironment(config Config) *ComposeEnvironment {
+func NewComposeEnvironment(config ComposeEnvironmentConfig) *ComposeEnvironment {
 	return &ComposeEnvironment{
 		config: config,
 	}
 }
 
 func (c *ComposeEnvironment) Setup(t *testing.T) {
+	t.Logf("Using docker compose testing environment: '%s'", c.config.ProjectName)
 	var (
 		ctx     = t.Context()
 		require = require.New(t)
@@ -83,7 +86,7 @@ func (c *ComposeEnvironment) Setup(t *testing.T) {
 	require.NoError(err, "")
 
 	if !projectAlreadyRunning {
-		t.Logf("Creating docker compose environment")
+		t.Logf("Docker compose environment '%s' is not running. Creating...", c.config.ProjectName)
 		err = compose.Up(
 			ctx,
 			c.project,
@@ -99,8 +102,8 @@ func (c *ComposeEnvironment) Setup(t *testing.T) {
 
 		t.Logf("Successfully created docker compose environment")
 	} else {
+		t.Logf("Docker compose environment '%s' is already running", c.config.ProjectName)
 		c.config.SkipCleanup = true // we don't want to spin down the existing environment
-		t.Logf("Using existing docker compose environment '%s'", c.config.ProjectName)
 	}
 
 	c.serverURL = "traefik"
@@ -217,8 +220,7 @@ func (c *ComposeEnvironment) Teardown(t *testing.T) {
 			t.Logf("failed to gather container logs: %s", err)
 		}
 	}
-
-	t.Logf("Tearing down project: %s", name)
+	t.Logf("Tearing down docker compose testing environment: '%s'", c.config.ProjectName)
 	err = compose.Down(ctx, name, api.DownOptions{
 		// Remove volume(s) so the tests can run from a clean
 		// state every time
