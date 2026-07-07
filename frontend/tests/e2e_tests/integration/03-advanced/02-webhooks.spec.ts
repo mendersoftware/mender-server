@@ -84,8 +84,12 @@ test.describe('Webhooks Functionality', () => {
   test('shows webhook details for inventory events', async ({ baseUrl, environment, page }, { retry }) => {
     test.skip(environment !== 'enterprise');
     await page.goto(`${baseUrl}ui/settings/integrations`);
+    // the activity list renders as empty until the initial events fetch resolves, so take the baseline
+    // count from the response instead of the DOM
+    const eventsResponse = page.waitForResponse(/\/api\/management\/v1\/iot-manager\/events/);
     await page.getByText(/view details/i).click();
-    const inventoryChangeCount = (await page.getByText(/inventory changed/).all()).length;
+    const events = await (await eventsResponse).json();
+    const inventoryChangeCount = events.filter(({ type }) => type === 'device-inventory-changed').length;
     await page.getByLabel(/close/i).click();
 
     await page.getByRole('link', { name: /Devices/i }).click();
@@ -100,8 +104,12 @@ test.describe('Webhooks Functionality', () => {
 
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
-    const newInventoryChangeCount = (await page.getByText(/inventory changed/).all()).length;
-    expect(newInventoryChangeCount).toBeGreaterThan(inventoryChangeCount);
+    // the event is delivered asynchronously (NATS -> iot-manager) and the activity list only re-polls
+    // periodically, so retry the count until the new event shows up
+    await expect(async () => {
+      const newInventoryChangeCount = (await page.getByText(/inventory changed/).all()).length;
+      expect(newInventoryChangeCount).toBeGreaterThan(inventoryChangeCount);
+    }).toPass({ timeout: 3 * timeouts.tenSeconds });
     await page
       .getByText(/inventory changed/)
       .first()
