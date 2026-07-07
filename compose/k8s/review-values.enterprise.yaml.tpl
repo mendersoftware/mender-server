@@ -19,6 +19,15 @@ global:
 # (registry.mender.io/mender-server-enterprise). Only the gui image is
 # overridden to use the CI-built frontend from this pipeline.
 default:
+  image:
+    registry: "${CI_REGISTRY}"
+    repository: "northern.tech/mender/${CI_PROJECT_NAME}"
+    tag: "build-${CI_COMMIT_SHA}"
+
+  # Image pull secrets for GitLab registry
+  imagePullSecrets:
+    - name: gitlab-registry
+
   affinity:
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
