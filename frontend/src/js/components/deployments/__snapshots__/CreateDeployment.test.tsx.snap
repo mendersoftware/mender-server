@@ -3409,7 +3409,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-98:focus::-ms-input-
                     />
                     <svg
                       aria-hidden="true"
-                      aria-label="Default is 0. This can be changed in the global settings"
+                      aria-label="Default is 1. This can be changed in the global settings"
                       class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeMedium margin-left-x-small margin-right-x-small emotion-75"
                       data-mui-internal-clone-element="true"
                       data-testid="HelpOutlineOutlinedIcon"
@@ -8462,7 +8462,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
     />
     <svg
       aria-hidden="true"
-      aria-label="Default is 0. This can be changed in the global settings"
+      aria-label="Default is 1. This can be changed in the global settings"
       class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeMedium margin-left-x-small margin-right-x-small emotion-16"
       data-mui-internal-clone-element="true"
       data-testid="HelpOutlineOutlinedIcon"
@@ -9237,7 +9237,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-p
     />
     <svg
       aria-hidden="true"
-      aria-label="Default is 0. This can be changed in the global settings"
+      aria-label="Default is 1. This can be changed in the global settings"
       class="MuiSvgIcon-root MuiSvgIcon-colorAction MuiSvgIcon-fontSizeMedium margin-left-x-small margin-right-x-small emotion-16"
       data-mui-internal-clone-element="true"
       data-testid="HelpOutlineOutlinedIcon"
