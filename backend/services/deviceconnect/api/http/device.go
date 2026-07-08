@@ -176,8 +176,8 @@ func (h DeviceController) Connect(c *gin.Context) {
 	// register the websocket for graceful shutdown
 	ctxWithCancel, cancel := context.WithCancel(ctx)
 	defer cancel()
-	registerID := h.app.RegisterShutdownCancel(cancel)
-	defer h.app.UnregisterShutdownCancel(registerID)
+	handle := h.app.RegisterConnectionCancelHandle(idata.Subject, cancel, true)
+	defer h.app.UnregisterConnectionCancelHandle(handle)
 
 	var version int64
 	version, err = h.app.SetDeviceConnected(ctx, idata.Tenant, idata.Subject)
