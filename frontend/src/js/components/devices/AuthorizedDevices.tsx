@@ -350,6 +350,11 @@ export const Authorized = ({
 
   const onCancelTestDevice = () => setPendingTestDevice(null);
 
+  const onTestDeviceLimitNavigate = () => {
+    setPendingTestDevice(null);
+    onCloseExpandedDevice();
+  };
+
   const onConfirmTestDevice = () => {
     if (!pendingTestDevice) {
       return;
@@ -596,7 +601,7 @@ export const Authorized = ({
                 Are you sure you want to remove the test device status from this device? You can add or remove test devices up to 20 times a day.
               </Typography>
             )}
-            <TestDeviceLimit testDeviceUsed={testDevicesCount} className="margin-top-small" />
+            <TestDeviceLimit testDeviceUsed={testDevicesCount} className="margin-top-small" onNavigate={onTestDeviceLimitNavigate} />
           </div>
         }
         open={!!pendingTestDevice}
