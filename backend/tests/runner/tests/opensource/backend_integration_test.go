@@ -11,7 +11,7 @@ import (
 
 type BackendIntegrationSuite struct {
 	suite.Suite
-	environment *common.ComposeEnvironment
+	environment common.TestEnvironment
 
 	user   common.User
 	tenant common.Tenant
@@ -34,10 +34,9 @@ func (i *BackendIntegrationSuite) TearDownSuite() {
 }
 
 func TestOpenSource(t *testing.T) {
-	config := common.ConfigFromEnv()
+	environment, err := common.ResolveTestEnvironment()
+	require.NoError(t, err, "failed to resolve test environment")
 	suite.Run(t, &BackendIntegrationSuite{
-		environment: common.NewComposeEnvironment(
-			config,
-		),
+		environment: environment,
 	})
 }
