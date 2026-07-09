@@ -57,6 +57,7 @@ RANDOM_PASSWORD=$(openssl rand -base64 16 | tr -d "=+/" | cut -c1-16)
 
 ADMIN_USERNAME="${REVIEW_APPS_ADMIN_USERNAME:-admin-${RANDOM_SUFFIX}@mender.local}"
 ADMIN_PASSWORD="${REVIEW_APPS_ADMIN_PASSWORD:-${RANDOM_PASSWORD}}"
+echo "MENDER_USER=${ADMIN_USERNAME}:${ADMIN_PASSWORD}" > /tmp/review.env
 
 log_info "Generated credentials for this review app deployment"
 
