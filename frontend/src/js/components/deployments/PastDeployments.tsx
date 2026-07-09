@@ -22,7 +22,7 @@ import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocompl
 import Filters from '@northern.tech/common-ui/forms/Filters';
 import TimeframePicker from '@northern.tech/common-ui/forms/TimeframePicker';
 import storeActions from '@northern.tech/store/actions';
-import { BEGINNING_OF_TIME, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, onboardingSteps } from '@northern.tech/store/constants';
+import { BEGINNING_OF_TIME, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, deploymentSubstates, onboardingSteps } from '@northern.tech/store/constants';
 import {
   getDeploymentsSelectionState,
   getDevicesById,
@@ -34,6 +34,7 @@ import {
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, getDeploymentsByStatus, setDeploymentsState } from '@northern.tech/store/thunks';
+import { statCollector } from '@northern.tech/store/utils';
 import { dateRangeToUnix, getISOStringBoundaries } from '@northern.tech/utils/helpers';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import { clearAllRetryTimers, clearRetryTimer, setRetryTimer } from '@northern.tech/utils/retrytimer';
@@ -58,6 +59,15 @@ const headers: ColumnHeader[] = [
 ];
 
 const type = DEPLOYMENT_STATES.finished;
+
+const failureIndicators = [
+  deploymentSubstates.failure,
+  deploymentSubstates.aborted,
+  deploymentSubstates.noartifact,
+  deploymentSubstates.alreadyInstalled,
+  deploymentSubstates.artifact_too_big,
+  deploymentSubstates.incompatible_tier
+];
 
 export const Past = props => {
   const { createClick, isShowingDetails } = props;
@@ -156,15 +166,7 @@ export const Past = props => {
     if (!past.length || onboardingState.complete) {
       return;
     }
-    const pastDeploymentsFailed = past.reduce(
-      (accu, item) =>
-        item.status === 'failed' ||
-        (item.statistics?.status &&
-          item.statistics.status.noartifact + item.statistics.status.failure + item.statistics.status['already-installed'] + item.statistics.status.aborted >
-            0) ||
-        accu,
-      false
-    );
+    const pastDeploymentsFailed = past.some(({ status, statistics }) => status === 'failed' || statCollector(failureIndicators, statistics?.status ?? {}) > 0);
     let onboardingStep = onboardingSteps.DEPLOYMENTS_PAST;
     if (pastDeploymentsFailed) {
       onboardingStep = onboardingSteps.DEPLOYMENTS_PAST_COMPLETED_FAILURE;

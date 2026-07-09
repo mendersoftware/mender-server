@@ -77,7 +77,12 @@ const useStyles = makeStyles()(theme => ({
   phaseInfo: { marginBottom: theme.spacing() }
 }));
 
-const shortCircuitIndicators = [deploymentSubstates.alreadyInstalled, deploymentSubstates.noartifact];
+const shortCircuitIndicators = [
+  deploymentSubstates.alreadyInstalled,
+  deploymentSubstates.noartifact,
+  deploymentSubstates.incompatible_tier,
+  deploymentSubstates.artifact_too_big
+];
 
 interface SubstatePhase {
   failures: number;
