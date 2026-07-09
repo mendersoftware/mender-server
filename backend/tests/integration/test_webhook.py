@@ -168,55 +168,68 @@ class TestInventoryWebhooks:
         self._create_webhooks(user, new_uuid, scopes=["deviceauth"])
         dev = self._prepare_device(user)
         submit_inventory(self.new_attributes, dev.token)
+        time.sleep(EVENT_PROPAGATION_TIMEOUT_S)
         decommission_device(user.token, dev.id)
         time.sleep(EVENT_PROPAGATION_TIMEOUT_S)
         target_webhook_path = "/webhook/deviceauth/" + new_uuid
         all_requests = self.mocked_http.request_get_all(target_webhook_path)
+        events = self._get_events(user)
+
+        # Assert what we can in terms of events/request structure, amount and order.
+        #
+        # What we're testing here is inherently random in ordering as the source of most
+        # events/requests is multiple asynchronous workflow workers that run concurrently.
+        # The only exception is decommissioning which we know will be last.
+        #
+        # In addition, there's a decent chance (1 in 10 runs or so) of the two concurrent
+        # device-status-updates (pending and accepted) triggering a write conflict in
+        # inventory (known as "the sync issue" colloquially) which means that we can have
+        # either 3 or 4 events/requests (3 if there's a conflict, 4 otherwise), so the best
+        # we can do is assert that there's _at least_ 3 events.
+
+        # We have 2 for provision/decommission and 1 _or_ 2 for status updated
+        minimum_events_count = 3
+
+        assert len(all_requests) >= minimum_events_count
+        assert len(events) >= minimum_events_count
+        assert len(events) == len(all_requests)
+
         expected_data_fields_by_type = {
             "device-status-changed": ["id", "status"],
             "device-status-changed": ["id", "status"],
             "device-provisioned": ["id", "status", "auth_sets", "created_ts"],
             "device-decommissioned": ["id"],
         }
-        i = 0
-        for event_type in [
-            "device-status-changed",
-            "device-status-changed",
-            "device-provisioned",
-            "device-decommissioned",
-        ]:
-            assert all_requests[i]["type"] == event_type
-            assert "time" in all_requests[i]
+        for request in all_requests:
+            assert "time" in request
+            assert "type" in request
+
+            event_type = request["type"]
+            assert event_type in expected_data_fields_by_type
             for field in expected_data_fields_by_type[event_type]:
-                assert field in all_requests[i]["data"]
-            i = i + 1
-        i = 0
-        for device_status in ["pending", "accepted", "accepted"]:
-            assert all_requests[i]["data"]["status"] == device_status
-            assert all_requests[i]["data"]["id"] == dev.id
-            i = i + 1
-        expected_events_count = (
-            4  # we have two for status of the device, and provision and decommission
-        )
-        assert len(all_requests) == expected_events_count
+                assert field in request["data"]
 
-        events = self._get_events(user)
-        assert len(events) == expected_events_count
-        i = 4
-        for event_type in [
-            "device-status-changed",
-            "device-status-changed",
-            "device-provisioned",
-            "device-decommissioned",
-        ]:
-            i = i - 1
-            assert events[i]["type"] == event_type
+            if event_type != "device-decommissioned":
+                assert request["data"]["status"] in ["pending", "accepted"]
+                assert request["data"]["id"] == dev.id
 
-        # lets get events by integration id
+        # The first/last event/request should always be decommission.
+        # Note that requests is ordered the opposite direction of events
+        assert events[0]["type"] == "device-decommissioned"
+        assert all_requests[len(events)-1]["type"] == events[0]["type"]
+
+        # For the remaining events/requests we can't reliably know the order
+        # or the amount (could be 3 or 4)
+        event_types = ["device-status-changed","device-provisioned"]
+        for i in range (1, len(events)):
+            assert events[i]["type"] in event_types
+            assert all_requests[len(events)-1-i]["type"] in event_types
+
+        # Lets get events by integration id
         integrations = self._get_integrations(user)
         assert len(integrations) > 0
         integration_id = integrations[0]["id"]
         events = self._get_events(user, integration_id=integration_id)
-        assert len(events) == expected_events_count
+        assert len(events) >= minimum_events_count
         events = self._get_events(user, integration_id=str(uuid.uuid4()))
         assert len(events) == 0
