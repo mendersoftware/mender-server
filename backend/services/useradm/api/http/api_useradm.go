@@ -413,6 +413,7 @@ func (u *UserAdmApiHandlers) UpdateUserHandler(c *gin.Context) {
 		default:
 			rest.RenderInternalError(c, err)
 		}
+		return
 	}
 
 	c.Status(http.StatusNoContent)
@@ -463,6 +464,7 @@ func (u *UserAdmApiHandlers) UpdateOwnUserHandler(c *gin.Context) {
 		default:
 			rest.RenderInternalError(c, err)
 		}
+		return
 	}
 
 	c.Status(http.StatusNoContent)
