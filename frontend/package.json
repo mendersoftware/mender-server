@@ -16,7 +16,6 @@
     "@northern.tech/store": "0.39.0",
     "@northern.tech/themes": "0.16.8",
     "@northern.tech/utils": "0.13.0",
-    "@redux-devtools/extension": "4.0.0",
     "@reduxjs/toolkit": "2.12.0",
     "@sentry/react": "^10.58.0",
     "@stripe/react-stripe-js": "6.7.0",

@@ -18,7 +18,6 @@
 "@northern.tech/types","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
 "@northern.tech/typescript-config","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
 "@northern.tech/utils","Apache-2.0","https://github.com/NorthernTechHQ/nt-gui"
-"@redux-devtools/extension","MIT","https://github.com/reduxjs/redux-devtools"
 "@reduxjs/toolkit","MIT","https://github.com/reduxjs/redux-toolkit"
 "@rspack/cli","MIT","https://github.com/web-infra-dev/rspack"
 "@rspack/core","MIT","https://github.com/web-infra-dev/rspack"
