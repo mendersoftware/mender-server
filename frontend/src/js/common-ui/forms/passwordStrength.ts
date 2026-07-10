@@ -14,6 +14,10 @@
 import type { ZxcvbnFactory } from '@zxcvbn-ts/core';
 
 let instancePromise: Promise<ZxcvbnFactory> | undefined;
+const PASSWORD_CHARSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+export const generatePassword = (length = 16) =>
+  Array.from(crypto.getRandomValues(new Uint32Array(length)), n => PASSWORD_CHARSET[n % PASSWORD_CHARSET.length]).join('');
 
 const initInstance = async () => {
   const [{ ZxcvbnFactory }, { adjacencyGraphs, dictionary: commonDictionary }, { dictionary: enDictionary, translations }] = await Promise.all([

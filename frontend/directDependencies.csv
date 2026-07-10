@@ -59,7 +59,6 @@
 "esbuild-loader","MIT","https://github.com/privatenumber/esbuild-loader"
 "eslint-rspack-plugin","MIT","https://github.com/rstackjs/eslint-rspack-plugin"
 "eslint","MIT","https://github.com/eslint/eslint"
-"generate-password-browser","MIT","https://github.com/oliver-la/generate-password-browser"
 "globals","MIT","https://github.com/sindresorhus/globals"
 "husky","MIT","https://github.com/typicode/husky"
 "jsdom","MIT","https://github.com/jsdom/jsdom"

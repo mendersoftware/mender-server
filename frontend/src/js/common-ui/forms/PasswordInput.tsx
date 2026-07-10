@@ -31,11 +31,10 @@ import { makeStyles } from 'tss-react/mui';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
-import generator from 'generate-password-browser';
 
 import { runValidations } from './Form';
 import type { CommonTextInputProps } from './TextInput';
-import { checkPasswordStrength } from './passwordStrength';
+import { checkPasswordStrength, generatePassword } from './passwordStrength';
 
 const PasswordGenerateButtons = ({
   clearPass,
@@ -166,7 +165,7 @@ export const PasswordInput = ({
   };
 
   const generatePassClick = () => {
-    const password = generator.generate({ length: 16, numbers: true });
+    const password = generatePassword();
     setValue(id, password);
     const form = getValues();
     if (form.hasOwnProperty(`${id}_confirmation`)) {
