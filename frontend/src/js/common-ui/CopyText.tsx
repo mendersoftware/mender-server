@@ -12,13 +12,13 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useRef, useState } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { FileCopy as CopyPasteIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS, yes } from '@northern.tech/store/constants';
+import copy from 'copy-to-clipboard';
 
 const useStyles = makeStyles()(() => ({
   copyNotification: { height: 15 }
@@ -38,6 +38,7 @@ export const CopyTextToClipboard = ({ notify = true, onCopy = yes, token }: Copy
   useEffect(() => () => clearTimeout(timer.current), []);
 
   const onCopied = () => {
+    copy(token);
     setCopied(true);
     onCopy();
     timer.current = setTimeout(() => setCopied(false), TIMEOUTS.fiveSeconds);
@@ -45,11 +46,9 @@ export const CopyTextToClipboard = ({ notify = true, onCopy = yes, token }: Copy
 
   return (
     <div>
-      <CopyToClipboard text={token} onCopy={onCopied}>
-        <Button color="info" variant="outlined" startIcon={<CopyPasteIcon />}>
-          Copy to clipboard
-        </Button>
-      </CopyToClipboard>
+      <Button color="info" variant="outlined" startIcon={<CopyPasteIcon />} onClick={onCopied}>
+        Copy to clipboard
+      </Button>
       {notify && <p className={classes.copyNotification}>{copied && <span className="green fadeIn">Copied to clipboard.</span>}</p>}
     </div>
   );
