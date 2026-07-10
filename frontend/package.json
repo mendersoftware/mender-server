@@ -105,8 +105,7 @@
     "vite-plugin-svgr": "^5.2.0",
     "vitest": "^4.0.12",
     "vm-browserify": "1.1.2",
-    "webpack-license-plugin": "^4.5.1",
-    "yarn": "1.22.22"
+    "webpack-license-plugin": "^4.5.1"
   },
   "overrides": {
     "tss-react": {
