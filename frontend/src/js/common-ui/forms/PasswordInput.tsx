@@ -35,6 +35,7 @@ import generator from 'generate-password-browser';
 
 import { runValidations } from './Form';
 import type { CommonTextInputProps } from './TextInput';
+import { checkPasswordStrength } from './passwordStrength';
 
 const PasswordGenerateButtons = ({
   clearPass,
@@ -126,8 +127,7 @@ export const PasswordInput = ({
       let isStrong = false;
       let isWarningIcon = false;
       if (create && value && isValid) {
-        const { default: zxcvbn } = await import(/* webpackChunkName: "zxcvbn" */ 'zxcvbn');
-        const { score, feedback } = zxcvbn(value);
+        const { score, feedback } = await checkPasswordStrength(value);
         const suggestions = feedback.suggestions || [];
         if (score <= SCORE_THRESHOLD || feedback.warning || suggestions.length) {
           isValid = false;
