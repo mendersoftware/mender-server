@@ -296,13 +296,10 @@ review:deploy:
     - echo "URL - https://${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
   script:
     - echo "Authenticating to AWS using OIDC..."
-    - export $(aws sts assume-role-with-web-identity \
-      --role-arn ${REVIEW_APPS_AWS_ASSUME_ROLE_ARN} \
-      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}" \
-      --web-identity-token ${GITLAB_OIDC_TOKEN} \
-      --duration-seconds 3600 \
-      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' \
-      --output text | awk '{printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s", $1, $2, $3}')
+    - read -r ACCESS_KEY SECRET_KEY SESSION_TOKEN <<< $(aws sts assume-role-with-web-identity --role-arn "${REVIEW_APPS_AWS_ASSUME_ROLE_ARN}" --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}" --web-identity-token ${GITLAB_OIDC_TOKEN} --duration-seconds 3600 --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output text)
+    - export AWS_ACCESS_KEY_ID="${ACCESS_KEY}"
+    - export AWS_SECRET_ACCESS_KEY="${SECRET_KEY}"
+    - export AWS_SESSION_TOKEN="${SESSION_TOKEN}"
     - aws sts get-caller-identity
     - echo "Successfully authenticated to AWS"
 
@@ -362,6 +359,11 @@ review:deploy:
     - echo "=== Ingress ==="
     - kubectl get ingress -n ${NAMESPACE}
     - echo "Review app deployed successfully!"
+    - cp /tmp/review.env ${CI_PROJECT_DIR}/review.env
+  artifacts:
+    reports:
+      dotenv: review.env
+
 review:stop:
   stage: review
   image: ${ECR_REGISTRY}/gitlab/northern.tech/mender/mender-test-containers/aws-k8s-toolbox:master
@@ -386,13 +388,10 @@ review:stop:
     - echo "Cleaning up review app - ${RELEASE_NAME} in namespace ${NAMESPACE}"
 
     - echo "Authenticating to AWS using OIDC..."
-    - export $(aws sts assume-role-with-web-identity \
-      --role-arn ${REVIEW_APPS_AWS_ASSUME_ROLE_ARN} \
-      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}" \
-      --web-identity-token ${GITLAB_OIDC_TOKEN} \
-      --duration-seconds 3600 \
-      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' \
-      --output text | awk '{printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s", $1, $2, $3}')
+    - read -r ACCESS_KEY SECRET_KEY SESSION_TOKEN <<< $(aws sts assume-role-with-web-identity --role-arn "${REVIEW_APPS_AWS_ASSUME_ROLE_ARN}" --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}" --web-identity-token ${GITLAB_OIDC_TOKEN} --duration-seconds 3600 --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output text)
+    - export AWS_ACCESS_KEY_ID="${ACCESS_KEY}"
+    - export AWS_SECRET_ACCESS_KEY="${SECRET_KEY}"
+    - export AWS_SESSION_TOKEN="${SESSION_TOKEN}"
     - aws sts get-caller-identity
 
     - echo "Configuring kubectl for EKS cluster ${REVIEW_APPS_EKS_CLUSTER_NAME}..."
@@ -691,6 +690,35 @@ test:backend:integration:ng:
     when: always
     paths:
       - ${GOCOVERDIR}/integration-ng
+
+test:review:backend:integration:ng:
+  image: ${MIRROR_REGISTRY}/library/docker:${DOCKER_VERSION}-cli
+  needs:
+    - job: review:deploy
+      artifacts: true
+  stage: test
+  extends: .build:base
+  rules:
+    - if: '$CI_COMMIT_REF_PROTECTED != "true"'
+      when: manual
+      allow_failure: true
+  before_script:
+    - apk add make bash git curl jq
+    # Install go
+    - curl -L "https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz" | tar -C /usr/local -xz
+    - export PATH="$PATH:/usr/local/go/bin"
+    - export GOPATH="/go"
+  script:
+    - export SERVER_URL="https://${REVIEW_APPS_PROJECT_PREFIX}-${CI_COMMIT_REF_SLUG}.${REVIEW_APPS_DOMAIN}"
+    - export TEST_ENVIRONMENT=external
+    # the rest of the required viariables are set in the compose/k8s/create-initial-user.sh abd passed via dotenv
+    - export USER=${MENDER_USER}
+    - make -C backend test-integration-ng
+
+  after_script:
+    - export MANTRA_PROJECT_NAME="review_backend_integration_ng_enterprise"
+    - !reference [.mantra-push-results]
+
 
 test:backend:integration:compat:
   extends: .template:test:backend:integration
