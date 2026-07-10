@@ -49,7 +49,6 @@
 "child_process","ISC","https://github.com/npm/security-holder"
 "clean-webpack-plugin","MIT","https://github.com/johnagan/clean-webpack-plugin"
 "copy-to-clipboard","MIT","https://github.com/sudodoki/copy-to-clipboard"
-"core-js","MIT","https://github.com/zloirock/core-js"
 "crypto-browserify","MIT","https://github.com/browserify/crypto-browserify"
 "css-loader","MIT","https://github.com/webpack/css-loader"
 "dayjs","MIT","https://github.com/iamkun/dayjs"
