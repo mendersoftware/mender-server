@@ -147,7 +147,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
   }, [selectedRoles, rolesById]);
 
   const hasScopedPermissionsDefined = Object.values(scopedAreas).some(permissions => !isEmpty(permissions));
-  const userNotVerified = !currentUser.verified;
+  const userNotVerified = isEnterprise && !currentUser.verified;
   const isSubmitDisabled = !selectedRoles.length;
 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);

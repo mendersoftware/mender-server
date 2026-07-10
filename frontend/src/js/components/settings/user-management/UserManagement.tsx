@@ -78,6 +78,7 @@ export const UserManagement = () => {
   const roles = useSelector(getRelevantRoles);
   const users = useSelector(getUsersList);
   const { trial: isTrial } = useSelector(getOrganization);
+  const emailVerificationRequired = isEnterprise && !currentUser.verified;
   const props = {
     canManageUsers,
     addUser: id => dispatch(addUserToCurrentTenant(id)),
@@ -132,11 +133,11 @@ export const UserManagement = () => {
     <div>
       <div className="flexbox space-between align-items-center margin-bottom-medium">
         <Typography variant="h6">Users</Typography>
-        <Button color="primary" startIcon={<AddIcon />} onClick={setShowCreate} disabled={!currentUser.verified} variant="contained">
+        <Button color="primary" startIcon={<AddIcon />} onClick={setShowCreate} disabled={emailVerificationRequired} variant="contained">
           Add new user
         </Button>
       </div>
-      {!currentUser.verified && <EmailVerificationWarning action="add a new user" />}
+      {emailVerificationRequired && <EmailVerificationWarning action="add a new user" />}
       <UserList {...props} editUser={openEdit} />
       {showCreate && <UserForm {...props} closeDialog={dialogDismiss} submit={submit} />}
       <UserDefinition
