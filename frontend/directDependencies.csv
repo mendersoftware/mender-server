@@ -46,7 +46,6 @@
 "autoprefixer","MIT","https://github.com/postcss/autoprefixer"
 "axios","MIT","https://github.com/axios/axios"
 "buffer","MIT","https://github.com/feross/buffer"
-"child_process","ISC","https://github.com/npm/security-holder"
 "clean-webpack-plugin","MIT","https://github.com/johnagan/clean-webpack-plugin"
 "copy-to-clipboard","MIT","https://github.com/sudodoki/copy-to-clipboard"
 "crypto-browserify","MIT","https://github.com/browserify/crypto-browserify"
