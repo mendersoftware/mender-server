@@ -17,6 +17,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
 
 import { TIMEOUTS, emptyFilter } from '@northern.tech/store/constants';
+import { getAttributeScopeLabel } from '@northern.tech/store/utils';
 
 import { defaultHeaders } from '../BaseDevices';
 import { getFilterLabelByKey } from './Filters';
@@ -34,7 +35,7 @@ const FilterOption = ({ key, ...props }, option) => {
     content = (
       <div className="flexbox align-items-center space-between full-width">
         <div>{content}</div>
-        <div className="muted slightly-smaller">({option.scope})</div>
+        <div className="muted slightly-smaller">({getAttributeScopeLabel(option)})</div>
       </div>
     );
   }
