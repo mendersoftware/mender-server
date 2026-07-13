@@ -14,7 +14,7 @@
 import { defaultState, render } from '@/testUtils';
 import { TIMEOUTS, yes } from '@northern.tech/store/constants';
 import * as StoreThunks from '@northern.tech/store/thunks';
-import { undefineds, userId } from '@northern.tech/testing/mockData';
+import { undefineds } from '@northern.tech/testing/mockData';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -57,12 +57,7 @@ describe('UserManagement Component', () => {
     // let the dismissed delete dialog finish unmounting before reopening the drawer
     await act(async () => vi.runOnlyPendingTimers());
     await user.click(list[list.length - 1]);
-    const input = screen.getByDisplayValue(defaultState.users.byId[userId].email);
-    await user.clear(input);
-    await user.type(input, 'test@test');
-    expect(screen.getByText(/enter a valid email address/i)).toBeInTheDocument();
-    await user.type(input, '.com');
-    expect(screen.queryByText(/enter a valid email address/i)).not.toBeInTheDocument();
+    await screen.getByRole('button', { name: /change roles/i }).click();
     const selectButton = screen.getByLabelText(/roles/i).parentNode.querySelector('[role=combobox]');
     await user.click(selectButton);
     let listbox = document.body.querySelector(dropDownSelector);
@@ -115,6 +110,7 @@ describe('UserManagement Component', () => {
     render(<UserManagement />, { preloadedState });
     const list = screen.getAllByText(/view details/i);
     await user.click(list[list.length - 1]);
+    await screen.getByRole('button', { name: /change roles/i }).click();
     const selectButton = screen.getByLabelText(/roles/i).parentNode.querySelector('[role=combobox]');
     await user.click(selectButton);
     let listbox = document.body.querySelector(dropDownSelector);
@@ -126,7 +122,7 @@ describe('UserManagement Component', () => {
     listbox = document.body.querySelector(dropDownSelector);
     const listItem = within(listbox).getByText(/releases/i);
     await user.click(listItem);
-    await user.click(screen.getByDisplayValue(defaultState.users.byId[userId].email));
+    await user.click(screen.getByText(/sign-in & security/i));
     expect(screen.getByText(/the selected role may prevent/i)).toBeInTheDocument();
     await user.type(listbox, '{Escape}');
     expect(screen.getByRole('button', { name: /Save/i })).not.toBeDisabled();

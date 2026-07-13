@@ -16,9 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Add as AddIcon } from '@mui/icons-material';
 // material ui
-import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
-import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import storeActions from '@northern.tech/store/actions';
 import {
   getCurrentUser,
@@ -27,6 +27,7 @@ import {
   getOrganization,
   getRelevantRoles,
   getUserCapabilities,
+  getUsersById,
   getUsersList
 } from '@northern.tech/store/selectors';
 import { addUserToCurrentTenant, createUser, editUser, getUserList, removeUser } from '@northern.tech/store/thunks';
@@ -45,26 +46,6 @@ const actions = {
   remove: 'removeUser'
 };
 
-const DeleteUserDialog = ({ dismiss, open, submit, user }) => (
-  <BaseDialog title="Delete user?" open={open} onClose={dismiss}>
-    <DialogContent style={{ overflow: 'hidden' }}>
-      Are you sure you want to delete the user with email{' '}
-      <b>
-        <i>{user.email}</i>
-      </b>
-      ?
-    </DialogContent>
-    <DialogActions>
-      <Button style={{ marginRight: 10 }} onClick={dismiss}>
-        Cancel
-      </Button>
-      <Button variant="contained" color="primary" onClick={() => submit(user, 'remove', user.id)}>
-        Delete user
-      </Button>
-    </DialogActions>
-  </BaseDialog>
-);
-
 export const UserManagement = () => {
   const [showCreate, setShowCreate] = useState(false);
   const [removeDialog, setRemoveDialog] = useState(false);
@@ -77,6 +58,7 @@ export const UserManagement = () => {
   const currentUser = useSelector(getCurrentUser);
   const roles = useSelector(getRelevantRoles);
   const users = useSelector(getUsersList);
+  const usersById = useSelector(getUsersById);
   const { trial: isTrial } = useSelector(getOrganization);
   const props = {
     canManageUsers,
@@ -115,18 +97,17 @@ export const UserManagement = () => {
 
   const submit = async (userData, type, id) => {
     try {
-      if (userData) {
-        if (id) {
-          await props[actions[type]](id, userData).unwrap();
-        } else {
-          await props[actions[type]](userData).unwrap();
-        }
+      if (id) {
+        await props[actions[type]](id, userData).unwrap();
+      } else {
+        await props[actions[type]](userData).unwrap();
       }
-      dialogDismiss();
     } catch {
       // error already handled in thunk - leave open
     }
   };
+
+  const selectedUser = user.id ? usersById[user.id] : undefined;
 
   return (
     <div>
@@ -146,9 +127,20 @@ export const UserManagement = () => {
         onCancel={dialogDismiss}
         onSubmit={submit}
         roles={roles}
-        selectedUser={user}
+        selectedUser={selectedUser}
       />
-      <DeleteUserDialog dismiss={dialogDismiss} open={removeDialog} submit={submit} user={user} />
+      <ConfirmModal
+        header="Delete user?"
+        description={
+          <>
+            Are you sure you want to delete the user with email <b>{user.email}</b>?
+          </>
+        }
+        confirmButtonText="Delete user"
+        open={removeDialog}
+        close={dialogDismiss}
+        onConfirm={() => submit(user, 'remove', user.id)}
+      />
     </div>
   );
 };
