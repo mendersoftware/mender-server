@@ -343,7 +343,6 @@ func (d *DevAuth) handlePreAuthDevice(
 	ctx context.Context,
 	aset *model.AuthSet,
 ) (*model.AuthSet, error) {
-	var deviceAlreadyAccepted bool
 	// check the device status
 	// if the device status is accepted then do not trigger provisioning workflow
 	// this needs to be checked before changing authentication set status
@@ -351,6 +350,7 @@ func (d *DevAuth) handlePreAuthDevice(
 	if err != nil {
 		return nil, err
 	}
+	deviceAlreadyAccepted := dev.Status == model.DevStatusAccepted
 
 	// check if the device is in the decommissioning state
 	if dev.Decommissioning {
@@ -360,7 +360,7 @@ func (d *DevAuth) handlePreAuthDevice(
 	}
 
 	currentStatus := dev.Status
-	if dev.Status != model.DevStatusAccepted {
+	if !deviceAlreadyAccepted {
 		// auth set is ok for auto-accepting, check device limit
 		allow, err := d.canAcceptDevice(ctx)
 		if err != nil {
@@ -824,14 +824,18 @@ func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_i
 		return err
 	}
 
-	// possible race, consider accept-count-unaccept pattern if that's problematic
-	allow, err := d.canAcceptDevice(ctx)
-	if err != nil {
-		return err
-	}
+	deviceAlreadyAccepted := dev.Status == model.DevStatusAccepted
 
-	if !allow {
-		return ErrMaxDeviceCountReached
+	if !deviceAlreadyAccepted {
+		// possible race, consider accept-count-unaccept pattern if that's problematic
+		allow, err := d.canAcceptDevice(ctx)
+		if err != nil {
+			return err
+		}
+
+		if !allow {
+			return ErrMaxDeviceCountReached
+		}
 	}
 
 	if err := d.setAuthSetStatus(ctx, device_id, auth_id, model.DevStatusAccepted); err != nil {
