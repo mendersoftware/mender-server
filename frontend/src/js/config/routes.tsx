@@ -50,6 +50,7 @@ export const routeConfigs: RouteConfigs = {
   dashboard: { path: '', element: <Dashboard />, title: 'Dashboard' },
   deployments: { path: 'deployments', element: <Deployments />, title: 'Deployments' },
   devices: { path: 'devices', element: <Devices />, title: 'Devices' },
+  emailChange: { path: 'email-change/:secretHash', element: <Activate />, title: 'Email change' },
   help: { path: 'help', element: <Help />, title: 'Help & support' },
   login: { path: 'login', element: <Login />, title: 'Tenants', isPublic: true },
   password: { path: 'password', element: <Password />, title: 'Tenants', isPublic: true },
@@ -124,6 +125,7 @@ export const PrivateSPRoutes = () => (
 export const PublicRoutes = () => (
   <Routes>
     <Route path={routeConfigs.activate.path} element={routeConfigs.activate.element} />
+    <Route path={routeConfigs.emailChange.path} element={routeConfigs.emailChange.element} />
     <Route path={routeConfigs.linkOauth.path} element={routeConfigs.linkOauth.element} />
 
     <Route path={routeConfigs.password.path} element={routeConfigs.password.element} />

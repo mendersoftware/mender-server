@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link as RouterLink, useParams } from 'react-router';
 
 import { Mail as MailIcon } from '@mui/icons-material';
@@ -22,7 +22,8 @@ import { makeStyles } from 'tss-react/mui';
 import { Link } from '@northern.tech/common-ui/Link';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { getCurrentSession } from '@northern.tech/store/selectors';
-import { verifyEmailComplete } from '@northern.tech/store/thunks';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { completeEmailChange, verifyEmailComplete } from '@northern.tech/store/thunks';
 
 import { PasswordScreenContainer } from './Password';
 
@@ -45,7 +46,8 @@ const useStyles = makeStyles()(theme => ({
 
 const errorsByStatus: Record<number, string> = {
   410: 'This link has expired',
-  400: 'This link is invalid'
+  400: 'This link is invalid',
+  409: 'This email change request can no longer be completed'
 };
 
 const getErrorForStatus = (status: number, data?: { error?: string }) => {
@@ -54,7 +56,7 @@ const getErrorForStatus = (status: number, data?: { error?: string }) => {
   return { error, details };
 };
 
-const ActivateError = ({ errorDetails, isLoggedIn }: { errorDetails: string; isLoggedIn?: string }) => (
+const ActivateError = ({ errorDetails, isLoggedIn }: { errorDetails: string; isLoggedIn: boolean }) => (
   <>
     {errorDetails && <Typography>{errorDetails}</Typography>}
     <Typography>
@@ -63,7 +65,7 @@ const ActivateError = ({ errorDetails, isLoggedIn }: { errorDetails: string; isL
   </>
 );
 
-const ActivateSuccess = ({ isLoggedIn }: { isLoggedIn?: string }) => (
+const ActivateSuccess = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
   <>
     <Typography>Your new email address has been successfully confirmed.</Typography>
     <Button className="margin-top-small" variant="contained" component={RouterLink} to={isLoggedIn ? '/dashboard' : '/login'}>
@@ -76,19 +78,20 @@ export const Activate = () => {
   const [isVerifying, setIsVerifying] = useState(true);
   const [error, setError] = useState('');
   const [errorDetails, setErrorDetails] = useState('');
-  const { code } = useParams();
-  const dispatch = useDispatch();
+  const { code, secretHash } = useParams();
+  const dispatch = useAppDispatch();
   const { token: storedToken } = getSessionInfo();
-  const { token: isLoggedIn = storedToken } = useSelector(getCurrentSession);
+  const { token = storedToken } = useSelector(getCurrentSession);
+  const isLoggedIn = !!token;
   const { classes } = useStyles();
 
   useEffect(() => {
-    if (!code) {
+    if (!code && !secretHash) {
       setIsVerifying(false);
       setError('Verification code is missing');
       return;
     }
-    dispatch(verifyEmailComplete(code))
+    dispatch(secretHash ? completeEmailChange(secretHash) : verifyEmailComplete(code))
       .unwrap()
       .then(() => setIsVerifying(false))
       .catch(e => {
@@ -97,7 +100,7 @@ export const Activate = () => {
         setErrorDetails(details);
         setIsVerifying(false);
       });
-  }, [code, dispatch]);
+  }, [code, dispatch, secretHash]);
 
   if (isVerifying) {
     return (
