@@ -24,20 +24,26 @@ import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { DEVICE_STATES } from '@northern.tech/store/constants';
 import { getTestDeviceCount } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { setDeviceListState } from '@northern.tech/store/thunks';
 
 import { TestDeviceLimit } from '../widgets/TestDeviceLimit';
 import AuthStatus from './AuthStatus';
 import DeviceTags from './DeviceTags';
 
-const TestDeviceTooltip = ({ testDeviceUsed }: { testDeviceUsed: number }) => (
-  <div style={{ maxWidth: 350 }}>
-    <TestDeviceLimit testDeviceUsed={testDeviceUsed} />
-    <Typography className="margin-top-small">
-      Enable up to 10 test devices to bypass rate limits and check in more frequently. Set or remove the ‘test device’ status from the <b>Device actions</b>{' '}
-      menu.
-    </Typography>
-  </div>
-);
+const TestDeviceTooltip = ({ testDeviceUsed }: { testDeviceUsed: number }) => {
+  const dispatch = useAppDispatch();
+  const onNavigate = () => dispatch(setDeviceListState({ selectedId: undefined, detailsTab: '' }));
+  return (
+    <div style={{ maxWidth: 350 }}>
+      <TestDeviceLimit testDeviceUsed={testDeviceUsed} onNavigate={onNavigate} />
+      <Typography className="margin-top-small">
+        Enable up to 10 test devices to bypass rate limits and check in more frequently. Set or remove the ‘test device’ status from the <b>Device actions</b>{' '}
+        menu.
+      </Typography>
+    </div>
+  );
+};
 
 export const DeviceIdentity = ({ device, setSnackbar }) => {
   const { created_ts, tier, id, identity_data = {}, status = DEVICE_STATES.accepted, flags = {} } = device;

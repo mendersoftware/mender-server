@@ -17,15 +17,17 @@ import Link from '@northern.tech/common-ui/Link';
 
 export const MAX_TEST_DEVICES = 10;
 
-export const TestDeviceLimit = (props: { className?: string; testDeviceUsed: number }) => {
-  const { testDeviceUsed, className = '' } = props;
+export const TestDeviceLimit = (props: { className?: string; onNavigate?: () => void; testDeviceUsed: number }) => {
+  const { testDeviceUsed, className = '', onNavigate } = props;
   return (
     <div className={className}>
       <div className="flexbox space-between margin-bottom-x-small">
         <Typography>
           {testDeviceUsed}/{MAX_TEST_DEVICES} test devices set
         </Typography>
-        <Link to="/devices/accepted?system=test_device:eq:true">View all</Link>
+        <Link to="/devices/accepted?system=test_device:eq:true" onClick={onNavigate}>
+          View all
+        </Link>
       </div>
       <LinearProgress variant="determinate" value={(testDeviceUsed / MAX_TEST_DEVICES) * 100} />
     </div>
