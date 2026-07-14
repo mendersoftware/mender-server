@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useRef } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
@@ -20,6 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { Code } from '@northern.tech/common-ui/CopyCode';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import copy from 'copy-to-clipboard';
 
 const useStyles = makeStyles()(theme => ({
   container: {
@@ -140,9 +140,9 @@ export const MonitorDetailsDialog = ({ alert, onClose }) => {
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
         {!lines.length && !!description && (
-          <CopyToClipboard text={description}>
-            <Button variant="contained">Copy to clipboard</Button>
-          </CopyToClipboard>
+          <Button variant="contained" onClick={() => copy(description)}>
+            Copy to clipboard
+          </Button>
         )}
         {!!lines.length && (
           <Button variant="contained" onClick={() => exportLog(name, lines)}>

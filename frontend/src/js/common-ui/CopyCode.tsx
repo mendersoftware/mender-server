@@ -13,7 +13,6 @@
 //    limitations under the License.
 import type { CSSProperties, ReactNode } from 'react';
 import { useState } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { ContentCopy as CopyPasteIcon } from '@mui/icons-material';
 import { Button, IconButton, Typography, type TypographyProps } from '@mui/material';
@@ -21,6 +20,7 @@ import { alpha } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import copy from 'copy-to-clipboard';
 
 const sizeMaxHeights = {
   small: 200,
@@ -104,7 +104,8 @@ export const CopyCode = ({ code, onCopy, size = 'full', variant = 'code1', withD
   const [copied, setCopied] = useState(false);
   const { classes } = useStyles();
 
-  const onCopied = (_text: string, result: boolean) => {
+  const onCopied = () => {
+    const result = copy(code);
     setCopied(result);
     setTimeout(() => setCopied(false), TIMEOUTS.fiveSeconds);
     if (onCopy) {
@@ -115,17 +116,23 @@ export const CopyCode = ({ code, onCopy, size = 'full', variant = 'code1', withD
   return (
     <>
       <Code size={size} noBackground={noBackground}>
-        <CopyToClipboard text={code} onCopy={onCopied}>
-          {withDescription ? (
-            <Button color="inherit" size="large" variant="text" className={classes.button} startIcon={<CopyPasteIcon />} title="Copy to clipboard">
-              Copy to clipboard
-            </Button>
-          ) : (
-            <IconButton className={classes.button} size="large" title="Copy to clipboard">
-              <CopyPasteIcon />
-            </IconButton>
-          )}
-        </CopyToClipboard>
+        {withDescription ? (
+          <Button
+            color="inherit"
+            size="large"
+            variant="text"
+            className={classes.button}
+            startIcon={<CopyPasteIcon />}
+            title="Copy to clipboard"
+            onClick={onCopied}
+          >
+            Copy to clipboard
+          </Button>
+        ) : (
+          <IconButton className={classes.button} size="large" title="Copy to clipboard" onClick={onCopied}>
+            <CopyPasteIcon />
+          </IconButton>
+        )}
         <Typography component="code" variant={variant} className="copyable-content">
           {code}
         </Typography>

@@ -12,12 +12,12 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useState } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { Button, DialogActions, DialogContent } from '@mui/material';
 
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { createFileDownload } from '@northern.tech/utils/helpers';
+import copy from 'copy-to-clipboard';
 
 import { Code } from '../CopyCode';
 
@@ -49,9 +49,15 @@ export const LogDialog = ({ context = {}, logData = '', onClose, type = 'deviceL
         <div style={wrapperStyle}>
           <Button onClick={onClose}>Cancel</Button>
         </div>
-        <CopyToClipboard style={wrapperStyle} text={logData} onCopy={() => setCopied(true)}>
-          <Button>Copy to clipboard</Button>
-        </CopyToClipboard>
+        <Button
+          style={wrapperStyle}
+          onClick={() => {
+            copy(logData);
+            setCopied(true);
+          }}
+        >
+          Copy to clipboard
+        </Button>
         <Button variant="contained" onClick={exportLog}>
           Export log
         </Button>
