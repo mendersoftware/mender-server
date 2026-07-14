@@ -66,16 +66,16 @@
     "@rspack/core": "^2.0.8",
     "@rspack/dev-server": "^2.0.3",
     "@rspack/plugin-react-refresh": "^2.0.2",
-    "@sentry/webpack-plugin": "^5.3.0",
+    "@sentry/webpack-plugin": "^5.4.0",
     "@svgr/webpack": "8.1.0",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "^16.3.1",
     "@testing-library/user-event": "14.6.1",
-    "@types/node": "^25.9.3",
+    "@types/node": "^25.9.5",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@types/validator": "^13.15.10",
-    "@vitejs/plugin-react": "^6.0.2",
+    "@vitejs/plugin-react": "^6.0.3",
     "@vitest/coverage-v8": "^4.1.9",
     "assert": "2.1.0",
     "autoprefixer": "10.5.2",
@@ -109,6 +109,7 @@
     "yarn": "1.22.22"
   },
   "overrides": {
+    "@babel/plugin-transform-runtime": "^7.29.7",
     "tss-react": {
       "@mui/material": "$@mui/material"
     }
