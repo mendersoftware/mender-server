@@ -22,7 +22,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/thedevsaddam/gojsonq"
+	"github.com/thedevsaddam/gojsonq/v2"
 
 	"github.com/mendersoftware/mender-server/services/workflows/model"
 	"github.com/mendersoftware/mender-server/services/workflows/utils"

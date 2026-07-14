@@ -17,7 +17,7 @@ package processor
 import (
 	"strings"
 
-	"github.com/thedevsaddam/gojsonq"
+	"github.com/thedevsaddam/gojsonq/v2"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 
