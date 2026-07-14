@@ -71,6 +71,7 @@ const ActivateSuccess = ({ isLoggedIn }: { isLoggedIn: boolean }) => (
     <Button className="margin-top-small" variant="contained" component={RouterLink} to={isLoggedIn ? '/dashboard' : '/login'}>
       Continue to {isLoggedIn ? 'dashboard' : 'login'}
     </Button>
+    <Typography className="margin-top">If you didn&#39;t make this change, please contact support.</Typography>
   </>
 );
 
