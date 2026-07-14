@@ -11,20 +11,18 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import Linkify from 'react-linkify';
-
 import { render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
+import Linkify from 'linkify-react';
 import { vi } from 'vitest';
 
 import Announcement from './Announcement';
 
-vi.mock('react-linkify');
+vi.mock('linkify-react');
 
 describe('Announcement Component', () => {
   it('renders correctly', async () => {
-    Linkify.default = vi.fn();
-    Linkify.default.mockReturnValue(null);
+    vi.mocked(Linkify).mockReturnValue(null);
     const { baseElement } = render(<Announcement errorIconClassName="" iconClassName="" sectionClassName="" />);
     const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
