@@ -44,6 +44,25 @@ const preloadedState = {
   }
 };
 
+const enterpriseState = {
+  ...defaultState,
+  app: {
+    ...defaultState.app,
+    features: {
+      ...defaultState.app.features,
+      isEnterprise: true
+    }
+  },
+  devices: {
+    ...defaultState.devices,
+    filters: [],
+    deviceList: {
+      ...defaultState.devices.deviceList,
+      deviceIds: []
+    }
+  }
+};
+
 const renderWithRouter = (ui: React.ReactElement, { route = '/', preloadedState: state = preloadedState } = {}) => {
   const store = getConfiguredStore({ preloadedState: state });
   const Wrapper = ({ children }) => (
@@ -73,25 +92,6 @@ describe('DeviceGroups Component', () => {
     const deviceIds = [preloadedState.devices.byId.a1.id, preloadedState.devices.byId.b1.id];
     const route = `/ui/devices?id=${deviceIds[0]}&id=${deviceIds[1]}`;
 
-    const enterpriseState = {
-      ...defaultState,
-      app: {
-        ...defaultState.app,
-        features: {
-          ...defaultState.app.features,
-          isEnterprise: true
-        }
-      },
-      devices: {
-        ...defaultState.devices,
-        filters: [],
-        deviceList: {
-          ...defaultState.devices.deviceList,
-          deviceIds: []
-        }
-      }
-    };
-
     const { store } = renderWithRouter(<DeviceGroups />, { route, preloadedState: enterpriseState });
 
     await waitFor(() => {
@@ -100,6 +100,60 @@ describe('DeviceGroups Component', () => {
       expect(idFilter).toBeDefined();
       expect(idFilter!.scope).toBe(ATTRIBUTE_SCOPES.inventory);
       expect(idFilter!.value).toEqual(deviceIds);
+    });
+  });
+
+  it('applies orchestrator manifest filter from an inventory scoped URL with the full key and inventory scope', async () => {
+    const route = '/ui/devices?inventory=mender-orchestrator-manifest.component_type:eq:rtos';
+
+    const { store } = renderWithRouter(<DeviceGroups />, { route, preloadedState: enterpriseState });
+
+    await waitFor(() => {
+      const manifestFilter = store.getState().devices.filters.find(filter => filter.key === 'mender-orchestrator-manifest.component_type');
+      expect(manifestFilter).toBeDefined();
+      expect(manifestFilter!.scope).toBe(ATTRIBUTE_SCOPES.inventory);
+      expect(manifestFilter!.operator).toBe(DEVICE_FILTERING_OPTIONS.$eq.key);
+      expect(manifestFilter!.value).toEqual('rtos');
+    });
+  });
+
+  it('applies orchestrator manifest filter from a system scoped URL with the full key and inventory scope', async () => {
+    const route = '/ui/devices?system=mender-orchestrator-manifest.component_type:eq:rtos';
+
+    const { store } = renderWithRouter(<DeviceGroups />, { route, preloadedState: enterpriseState });
+
+    await waitFor(() => {
+      const manifestFilter = store.getState().devices.filters.find(filter => filter.key === 'mender-orchestrator-manifest.component_type');
+      expect(manifestFilter).toBeDefined();
+      expect(manifestFilter!.scope).toBe(ATTRIBUTE_SCOPES.inventory);
+      expect(manifestFilter!.operator).toBe(DEVICE_FILTERING_OPTIONS.$eq.key);
+      expect(manifestFilter!.value).toEqual('rtos');
+    });
+  });
+
+  it('applies system scope filter from a default scoped URL', async () => {
+    const route = '/ui/devices?default=created_ts:eq:123';
+
+    const { store } = renderWithRouter(<DeviceGroups />, { route, preloadedState: enterpriseState });
+
+    await waitFor(() => {
+      const systemFilter = store.getState().devices.filters.find(filter => filter.key === 'created_ts');
+      expect(systemFilter).toBeDefined();
+      expect(systemFilter!.scope).toBe(ATTRIBUTE_SCOPES.system);
+      expect(systemFilter!.value).toEqual('123');
+    });
+  });
+
+  it('applies system scope filter from a legacy system scoped URL', async () => {
+    const route = '/ui/devices?system=created_ts:eq:123';
+
+    const { store } = renderWithRouter(<DeviceGroups />, { route, preloadedState: enterpriseState });
+
+    await waitFor(() => {
+      const systemFilter = store.getState().devices.filters.find(filter => filter.key === 'created_ts');
+      expect(systemFilter).toBeDefined();
+      expect(systemFilter!.scope).toBe(ATTRIBUTE_SCOPES.system);
+      expect(systemFilter!.value).toEqual('123');
     });
   });
 });
