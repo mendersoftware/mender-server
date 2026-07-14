@@ -101,6 +101,7 @@ describe('UserManagement Component', () => {
     expect(submitButton).toBeEnabled();
     const passwordInput = screen.getByPlaceholderText(/password/i);
     await user.clear(passwordInput);
+    // enterprise: password is optional, so clearing it still allows submit
     expect(submitButton).toBeEnabled();
     await user.click(submitButton);
     await act(async () => {
@@ -108,6 +109,31 @@ describe('UserManagement Component', () => {
       vi.runAllTicks();
     });
     await waitFor(() => expect(createUserSpy).toHaveBeenCalled(), { timeout: 3000 });
+  });
+
+  it('requires a password and disables the reset-link checkbox on OS (non-enterprise)', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const osState = {
+      ...defaultState,
+      app: {
+        ...defaultState.app,
+        features: {
+          ...defaultState.app.features,
+          isEnterprise: false
+        }
+      }
+    };
+    render(<UserManagement />, { preloadedState: osState });
+    const userCreationButton = screen.getByRole('button', { name: /add new user/i });
+    await user.click(userCreationButton);
+    // the reset-password checkbox must be disabled on OS
+    const checkbox = screen.getByRole('checkbox', { name: /send an email to the user/i });
+    expect(checkbox).toBeDisabled();
+    // filling only the email (no password) must leave submit disabled
+    const submitButton = screen.getByRole('button', { name: /create user/i });
+    const input = screen.getByPlaceholderText(/email/i);
+    await user.type(input, 'test@test.com');
+    expect(submitButton).toBeDisabled();
   });
 
   it('allows role adjustments', async () => {
