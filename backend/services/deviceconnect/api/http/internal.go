@@ -74,7 +74,7 @@ func (h InternalController) sendMenderCommand(c *gin.Context, msgType string) {
 
 func sendMenderCommand(ctx context.Context, nc nats.Client, tenantID, deviceID, cmd string) error {
 	recvAddr := fmt.Sprintf("%s:cmd%s", tenantID, uuid.NewString())
-	s, err := nc.Connect(ctx, recvAddr, deviceID)
+	s, err := nc.Connect(ctx, recvAddr, tenantID+":"+deviceID)
 	if err != nil {
 		return err
 	}

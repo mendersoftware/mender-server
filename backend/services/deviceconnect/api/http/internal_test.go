@@ -300,7 +300,7 @@ func TestInternalSendInventory(t *testing.T) {
 				natsClient.On("Connect",
 					contextMatcher,
 					mock.MatchedBy(func(s string) bool { return strings.HasPrefix(s, tc.TenantID+":cmd") }),
-					tc.DeviceID,
+					tc.TenantID+":"+tc.DeviceID,
 				).
 					Return(func(
 						ctx context.Context, localAddr, remoteAddr string,

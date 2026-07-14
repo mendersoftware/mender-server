@@ -249,7 +249,7 @@ func TestManagementConnect(t *testing.T) {
 	if !t.Run("dial and connect", func(t *testing.T) {
 		natsClient.On("Connect", contextMatcher, mock.MatchedBy(func(s string) bool {
 			return strings.HasPrefix(s, Identity.Tenant)
-		}), "1234567890").
+		}), Identity.Tenant+":1234567890").
 			Return(streamConn, nil)
 
 		url := "ws" + strings.TrimPrefix(s.URL, "http")
@@ -659,7 +659,7 @@ func TestManagementConnectFailures(t *testing.T) {
 					mock.MatchedBy(func(s string) bool {
 						return strings.HasPrefix(s, tc.Identity.Tenant)
 					}),
-					tc.DeviceID).
+					tc.Identity.Tenant+":"+tc.DeviceID).
 					Return(conn, err).
 					Once()
 			}

@@ -136,7 +136,7 @@ func (h DeviceController) Connect(c *gin.Context) {
 		return
 	}
 
-	listener, err := h.nats.Listen(idata.Subject)
+	listener, err := h.nats.Listen(idata.Tenant + ":" + idata.Subject)
 	if err != nil {
 		_ = c.Error(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
