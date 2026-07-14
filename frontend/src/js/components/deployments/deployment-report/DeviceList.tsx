@@ -75,6 +75,7 @@ const stateInfoMap: Record<string, StateInfoEntry> = {
   failure: { title: 'Fail', progress: 100, color: statusColorMap.error, icon: ErrorIcon },
   noartifact: { title: 'No compatible artifact found', progress: 0, icon: CancelIcon },
   artifact_too_big: { title: 'Skipped', progress: 0, icon: CancelIcon },
+  incompatible_tier: { title: 'Incompatible tier', progress: 0, icon: CancelIcon },
   success: { title: 'Success', progress: 100, color: statusColorMap.success, icon: CheckIcon }
 };
 
