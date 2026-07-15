@@ -11,23 +11,35 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useFormState } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-import { Alert, Button, Chip, TextField, Typography, formControlClasses, textFieldClasses } from '@mui/material';
+import { Alert, Button, Chip, DialogActions, DialogContent, TextField, Typography, formControlClasses, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import ExpandableAttribute from '@northern.tech/common-ui/ExpandableAttribute';
 import { SettingsItem, ToggleSettingsItem } from '@northern.tech/common-ui/SettingsItem';
+import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import Form from '@northern.tech/common-ui/forms/Form';
 import PasswordInput from '@northern.tech/common-ui/forms/PasswordInput';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import { DARK_MODE, LIGHT_MODE, OWN_USER_ID } from '@northern.tech/store/constants';
 import { getCurrentSession, getCurrentUser, getFeatures, getIsDarkMode, getIsEnterprise, getUserSettings } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { editUser, passwordResetStart, saveUserSettings, verifyEmailStart } from '@northern.tech/store/thunks';
+import {
+  cancelEmailChange,
+  editUser,
+  getPendingEmailChange,
+  initiateEmailChange,
+  passwordResetStart,
+  saveUserSettings,
+  verifyEmailStart
+} from '@northern.tech/store/thunks';
+import '@northern.tech/types/MenderTypes';
+import type { PendingEmailChange } from '@northern.tech/types/MenderTypes';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import AccessTokenManagement from '../AccessTokenManagement';
@@ -36,21 +48,32 @@ import TwoFactorAuthSetup from './TwoFactorAuthSetup';
 import { UserId, getUserSSOState } from './UserDefinition';
 import { EmailVerificationConfirmation } from './twofactorauth-steps/EmailVerification';
 
-const useStyles = makeStyles()(() => ({
+const useStyles = makeStyles()(theme => ({
   formField: { width: SETTINGS_INPUT_WIDTH, maxWidth: '100%' },
   oauthIcon: { fontSize: '36px', marginRight: 10 },
+  alert: { width: SETTINGS_INPUT_WIDTH },
   widthLimit: {
     maxWidth: SETTINGS_CONTENT_MAX_WIDTH,
     [`.${textFieldClasses.root},.${formControlClasses.root}`]: { width: SETTINGS_INPUT_WIDTH },
     '.required:after': { content: 'none' }
   },
-  buttonReset: { '.button-wrapper': { justifyContent: 'start' } },
+  buttonReset: { '.button-wrapper': { justifyContent: 'start', marginTop: theme.spacing(1.5) } },
+  requiredReset: { '.required:after': { content: 'none' } },
   columnWidths: {
     '&.settings-item-main-content': {
       gridTemplateColumns: `${SETTINGS_INPUT_WIDTH}px 1fr`
     }
   }
 }));
+
+const PasswordConfirmButton = () => {
+  const { isValid } = useFormState();
+  return (
+    <Button variant="contained" type="submit" disabled={!isValid}>
+      Confirm
+    </Button>
+  );
+};
 
 export const notificationMap = {
   email: 'Email successfully verified.',
@@ -60,6 +83,8 @@ export const notificationMap = {
 export const SelfUserManagement = () => {
   const [editEmail, setEditEmail] = useState(false);
   const [editPass, setEditPass] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState('');
+  const [pendingChange, setPendingChange] = useState<PendingEmailChange | null>(null);
   const [confirmationShown, setConfirmationShown] = useState(false);
 
   const { classes } = useStyles();
@@ -78,6 +103,8 @@ export const SelfUserManagement = () => {
   const isDarkMode = useSelector(getIsDarkMode);
   const { token } = useSelector(getCurrentSession);
   const [showNotice, setShowNotice] = useState<string>('');
+  const { hasMultitenancy } = useSelector(getFeatures);
+  const isOsInstallation = !isEnterprise && !hasMultitenancy;
 
   const editSubmit = userData => {
     dispatch(editUser({ ...userData, id: OWN_USER_ID }))
@@ -87,6 +114,37 @@ export const SelfUserManagement = () => {
         setEditPass(false);
       })
       .catch(() => {});
+  };
+  const onEmailSubmit = ({ email }) => setPendingEmail(email);
+
+  const fetchPendingEmailChange = useCallback(
+    () =>
+      dispatch(getPendingEmailChange())
+        .unwrap()
+        .then(change => setPendingChange(change)),
+    [dispatch]
+  );
+  const onCancelEmailChange = () => {
+    dispatch(cancelEmailChange()).then(() => setPendingChange(null));
+  };
+  const onConfirmEmailChange = ({ current_password }) => {
+    //Open source user use basic user change functionality
+    if (isOsInstallation) {
+      dispatch(editUser({ email: pendingEmail, current_password, id: OWN_USER_ID }))
+        .unwrap()
+        .then(() => {
+          setEditEmail(false);
+        });
+    } else {
+      dispatch(initiateEmailChange({ email: pendingEmail, current_password }))
+        .unwrap()
+        .then(() => {
+          fetchPendingEmailChange();
+          setPendingEmail('');
+          setEditEmail(false);
+        })
+        .catch(() => {});
+    }
   };
 
   const handleUnlinkConfirmed = () => {
@@ -108,6 +166,12 @@ export const SelfUserManagement = () => {
       .then(() => setConfirmationShown(true));
   };
   const handlePass = () => setEditPass(toggle);
+
+  useEffect(() => {
+    if (!isOsInstallation) {
+      fetchPendingEmailChange();
+    }
+  }, [fetchPendingEmailChange, isOsInstallation]);
 
   const needsVerification = currentUser.email && !currentUser.verified;
   return (
@@ -141,7 +205,7 @@ export const SelfUserManagement = () => {
           close={() => setConfirmUnlink(false)}
         />
       )}
-      {needsVerification && (
+      {needsVerification && !editEmail && !pendingChange && (
         <Alert severity="warning" className="margin-bottom">
           Enhance your account security. We recommend you complete these essential steps:{' '}
           <ul className="margin-none padding-left">
@@ -156,11 +220,21 @@ export const SelfUserManagement = () => {
         </Alert>
       )}
       {confirmationShown && <EmailVerificationConfirmation onClose={() => setConfirmationShown(false)} email={email} />}
+      {pendingChange && (
+        <Alert className={`${classes.alert} margin-top-small`} severity="warning">
+          There is a pending email change to {pendingChange.new_email} Click the verification link in the email to complete changes.
+        </Alert>
+      )}
       <UserId className="margin-top-small profile-settings" userId={userId} />
-      {!editEmail && email ? (
+      {email && (
         <>
+          {editEmail && (
+            <Alert severity="info" className={`${classes.alert} margin-bottom-small`}>
+              For security reasons, changes to your email address require verification. The update won’t be finalized until the new address is confirmed.
+            </Alert>
+          )}
           <div className="flexbox align-items-center">
-            <TextField className={classes.formField} label="Email" key={email} disabled defaultValue={email} />
+            <TextField className={classes.formField} label={editEmail ? 'Current email address' : 'Your email'} key={email} disabled defaultValue={email} />
             <Chip
               size="small"
               label={needsVerification ? 'Not verified' : 'Verified'}
@@ -169,36 +243,61 @@ export const SelfUserManagement = () => {
               className="margin-left-small"
             />
           </div>
-          {!isOAuth2 && (
-            <Button className="margin-top-x-small" color="primary" id="change_email" onClick={handleEmail}>
-              Change email address
+          <div className="flexbox column" style={{ alignItems: 'flex-start' }}>
+            {needsVerification && !editEmail && (
+              <Button component="div" className="margin-top-x-small" variant="contained" color="primary" onClick={startVerification}>
+                Verify
+              </Button>
+            )}
+
+            {!isOAuth2 && !editEmail && !pendingChange && (
+              <Button className="margin-top-x-small" color="primary" id="change_email" onClick={handleEmail}>
+                Change email address
+              </Button>
+            )}
+          </div>
+          {pendingChange && (
+            <Button className="margin-top-small" onClick={() => onCancelEmailChange()} color="error">
+              Cancel change request
             </Button>
           )}
-          {needsVerification && (
-            <Button className="margin-top-x-small" variant="contained" color="primary" onClick={startVerification}>
-              Verify
-            </Button>
+
+          {editEmail && (
+            <Form
+              className={`${classes.buttonReset} margin-top-medium`}
+              defaultValues={{ email }}
+              onSubmit={onEmailSubmit}
+              handleCancel={handleEmail}
+              submitLabel="Save changes"
+              showButtons={editEmail}
+            >
+              <TextInput
+                hint="Email"
+                id="email"
+                label="New email address"
+                helperText="Ensure to enter your new email address correctly."
+                validations="isLength:1,isEmail,trim"
+                width={null}
+              />
+            </Form>
+          )}
+          {!!pendingEmail && (
+            <BaseDialog open title="Confirm email change" onClose={() => setPendingEmail('')}>
+              <Form className={classes.requiredReset} onSubmit={onConfirmEmailChange} showButtons={false}>
+                <DialogContent>
+                  <Typography className="margin-bottom-small">Please enter your password to continue.</Typography>
+                  <PasswordInput id="current_password" label="Password" required />
+                </DialogContent>
+                <DialogActions>
+                  <Button variant="outlined" color="info" onClick={() => setPendingEmail('')}>
+                    Cancel
+                  </Button>
+                  <PasswordConfirmButton />
+                </DialogActions>
+              </Form>
+            </BaseDialog>
           )}
         </>
-      ) : (
-        <Form
-          className={classes.buttonReset}
-          defaultValues={{ email }}
-          onSubmit={editSubmit}
-          handleCancel={handleEmail}
-          submitLabel="Save"
-          showButtons={editEmail}
-        >
-          <TextInput hint="Email" id="email" label="Email" validations="isLength:1,isEmail,trim" width={null} />
-          <PasswordInput
-            className="margin-top-x-small"
-            id="current_password"
-            label="Current password *"
-            validations={`isLength:8:256,isNot:${email}`}
-            required
-            width={null}
-          />
-        </Form>
       )}
       {!isOAuth2 && (
         <SettingsItem
