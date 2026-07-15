@@ -164,7 +164,11 @@ func (h ManagementController) Connect(c *gin.Context) {
 		Types:              []string{},
 	}
 
-	s, err := h.nats.Connect(ctx, session.TenantID+":"+session.ID, session.DeviceID)
+	s, err := h.nats.Connect(
+		ctx,
+		session.TenantID+":"+session.ID,
+		session.TenantID+":"+session.DeviceID,
+	)
 	if err != nil {
 		if errors.Is(err, stream.ErrConnectionRefused) {
 			rest.RenderErrorWithMessage(c, http.StatusNotFound, err,

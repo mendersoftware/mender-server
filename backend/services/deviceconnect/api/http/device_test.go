@@ -129,7 +129,7 @@ func TestDeviceConnect(t *testing.T) {
 	connCh := make(chan stream.Conn, 1)
 	listener := setupMockListener(t, connCh)
 	natsClient := nats_mocks.NewClient(t)
-	natsClient.On("Listen", Identity.Subject).
+	natsClient.On("Listen", Identity.Tenant+":"+Identity.Subject).
 		Return(listener, nil)
 
 	router, _ := NewRouter(app, natsClient, nil)

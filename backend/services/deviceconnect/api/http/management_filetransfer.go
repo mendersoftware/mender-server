@@ -492,7 +492,7 @@ func (h ManagementController) DownloadFile(c *gin.Context) {
 
 	srcAddr := fmt.Sprintf("%s:%s", sess.TenantID, sess.ID)
 	ctxWithTimeout, cancel := context.WithTimeout(ctx, fileTransferTimeout)
-	conn, err := h.nats.Connect(ctxWithTimeout, srcAddr, sess.DeviceID)
+	conn, err := h.nats.Connect(ctxWithTimeout, srcAddr, sess.TenantID+":"+sess.DeviceID)
 	cancel()
 	if err != nil {
 		switch {
@@ -880,7 +880,7 @@ func (h ManagementController) UploadFile(c *gin.Context) {
 
 	srcAddr := fmt.Sprintf("%s:%s", sess.TenantID, sess.ID)
 	ctxWithTimeout, cancel := context.WithTimeout(ctx, fileTransferTimeout)
-	conn, err := h.nats.Connect(ctxWithTimeout, srcAddr, sess.DeviceID)
+	conn, err := h.nats.Connect(ctxWithTimeout, srcAddr, sess.TenantID+":"+sess.DeviceID)
 	cancel()
 	if err != nil {
 		switch {

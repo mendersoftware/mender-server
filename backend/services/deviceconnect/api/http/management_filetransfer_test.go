@@ -99,7 +99,7 @@ func TestManagementDownloadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 				conn.On("Close", contextMatcher).
@@ -258,7 +258,7 @@ func TestManagementDownloadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 				conn.On("Close", contextMatcher).
@@ -433,7 +433,7 @@ func TestManagementDownloadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 				conn.On("Close", contextMatcher).
@@ -534,7 +534,7 @@ func TestManagementDownloadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 				conn.On("Close", contextMatcher).
@@ -638,7 +638,7 @@ func TestManagementDownloadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 				conn.On("Close", contextMatcher).
@@ -799,7 +799,7 @@ func TestManagementDownloadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 				conn.On("Close", contextMatcher).
@@ -853,7 +853,7 @@ func TestManagementDownloadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 				conn.On("Close", contextMatcher).
@@ -979,7 +979,7 @@ func TestManagementDownloadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 				conn.On("Close", contextMatcher).
@@ -1110,7 +1110,7 @@ func TestManagementDownloadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 				conn.On("Close", contextMatcher).
@@ -1220,7 +1220,7 @@ func TestManagementDownloadFile(t *testing.T) {
 					tenantID, _, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(nil, stream.ErrConnectionRefused).
 					Once()
 			},
@@ -1328,7 +1328,7 @@ func TestManagementUploadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 
@@ -1446,7 +1446,7 @@ func TestManagementUploadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 
@@ -1562,7 +1562,7 @@ func TestManagementUploadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 
@@ -1643,7 +1643,7 @@ func TestManagementUploadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 
@@ -1749,7 +1749,7 @@ func TestManagementUploadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 
@@ -1880,7 +1880,7 @@ func TestManagementUploadFile(t *testing.T) {
 					tenantID, _, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(func(ctx context.Context, _, _ string) (stream.Conn, error) {
 						select {
 						case <-ctx.Done():
@@ -1923,7 +1923,7 @@ func TestManagementUploadFile(t *testing.T) {
 					tenantID, sessionID, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(conn, nil).
 					Once()
 
@@ -2076,7 +2076,7 @@ func TestManagementUploadFile(t *testing.T) {
 					tenantID, _, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(nil, stream.ErrConnectionRefused).
 					Once()
 			},
@@ -2107,7 +2107,7 @@ func TestManagementUploadFile(t *testing.T) {
 					tenantID, _, ok = strings.Cut(srcAddr, ":")
 					return assert.Truef(t, ok, "unexpected srcAddr format: %s", srcAddr) &&
 						assert.Equal(t, "000000000000000000000000", tenantID)
-				}), "1234567890").
+				}), "000000000000000000000000:1234567890").
 					Return(nil, fmt.Errorf("generic error")).
 					Once()
 			},
