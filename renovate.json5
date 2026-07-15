@@ -24,7 +24,7 @@
   "prHourlyLimit": 2,
   "prConcurrentLimit": 10,
 
-  "baseBranches": ["main", "4.0.x", "4.1.x"],
+  "baseBranchPatterns": ["main", "4.0.x", "4.1.x"],
 
   // Security PRs bypass the schedule and automerge when CI is green.
   "vulnerabilityAlerts": {
@@ -134,7 +134,7 @@
     {
       "matchManagers": ["npm"],
       "matchDepTypes": ["dependencies"],
-      "excludePackageNames": ["/^@emotion/", "/^@mui/"],
+      "matchPackageNames": ["!/^@emotion/", "!/^@mui/"],
       "groupName": "npm-prod-dependencies"
     },
     {
@@ -148,7 +148,7 @@
     },
     {
       "matchFileNames": ["frontend/tests/e2e_tests/package.json"],
-      "excludePackageNames": ["/^@playwright/", "/^playwright/"],
+      "matchPackageNames": ["!/^@playwright/", "!/^playwright/"],
       "groupName": "test-dependencies"
     },
 
