@@ -173,17 +173,17 @@ func (stream *natsStream) handleMessage(ctx context.Context, msg *nats.Msg) erro
 		return stream.term()
 
 	case strings.HasPrefix(msgType, "data"):
-		err := msg.Respond(nil)
-		if err != nil {
-			return fmt.Errorf("failed to ack message: %w", err)
-		}
 		_, seqNumStr, _ := cutLast(msg.Subject, ":")
 		seqNum, _ := strconv.ParseUint(seqNumStr, 10, 32)
 		diff := stream.remoteSeq - uint32(seqNum)
 		if diff == 0 {
-			stream.remoteSeq++
 			select {
 			case stream.recvChan <- msg.Data:
+				stream.remoteSeq++
+				err := msg.Respond(nil)
+				if err != nil {
+					return fmt.Errorf("failed to ack message: %w", err)
+				}
 			default:
 			}
 			return nil
