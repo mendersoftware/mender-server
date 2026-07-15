@@ -264,7 +264,8 @@ export const DistributionReport = ({ onClick, onSave, selection = {}, software: 
     data: distribution,
     onClick: onSliceClick
   };
-  const couldHaveDevices = !group || groupsById[group]?.deviceIds.length;
+  const { deviceIds = [], filters = [] } = groupsById[group] || {};
+  const couldHaveDevices = !group || deviceIds.length > 0 || filters.length > 0;
   if (editing) {
     return <ChartEditWidget groups={groupsById} onSave={onSaveClick} onCancel={onToggleEditClick} selection={selection} software={softwareTree} />;
   }
