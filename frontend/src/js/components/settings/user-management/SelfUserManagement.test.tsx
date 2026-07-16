@@ -14,8 +14,9 @@
 import { defaultState, render } from '@/testUtils';
 import { getSessionInfo } from '@northern.tech/store/auth';
 import { TIMEOUTS, yes } from '@northern.tech/store/constants';
+import * as StoreThunks from '@northern.tech/store/thunks';
 import { undefineds } from '@northern.tech/testing/mockData';
-import { act, screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -54,7 +55,7 @@ describe('SelfUserManagement Component', () => {
     const { rerender } = render(ui, { preloadedState });
 
     await user.click(screen.getByRole('button', { name: /email/i }));
-    const input = screen.getByDisplayValue(defaultState.users.byId.a1.email);
+    const input = screen.getByLabelText(/new email address/i);
     await user.clear(input);
     await user.type(input, 'test@test');
     expect(screen.getByText(/enter a valid email address/i)).toBeInTheDocument();
@@ -81,5 +82,51 @@ describe('SelfUserManagement Component', () => {
     await user.click(screen.getByRole('button', { name: /Save/i }));
     await waitFor(() => rerender(ui));
     await act(async () => vi.runAllTicks());
+  });
+
+  it('changes the email through editUser on OS installations', async () => {
+    const { editUser: editUserSpy } = StoreThunks;
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const preloadedState = {
+      ...defaultState,
+      app: { ...defaultState.app, features: { ...defaultState.app.features, isEnterprise: false, hasMultitenancy: false } }
+    };
+    render(<SelfUserManagement />, { preloadedState });
+
+    await user.click(screen.getByRole('button', { name: /change email address/i }));
+    const input = screen.getByLabelText(/new email address/i);
+    await user.clear(input);
+    await user.type(input, 'test@test.com');
+    await user.click(screen.getByRole('button', { name: /save changes/i }));
+    const dialog = await screen.findByRole('dialog');
+    await user.type(within(dialog).getByLabelText(/password/i), 'mysecretpassword');
+    await user.click(within(dialog).getByRole('button', { name: /confirm/i }));
+    await act(async () => vi.runAllTicks());
+    await waitFor(() =>
+      expect(editUserSpy).toHaveBeenCalledWith(expect.objectContaining({ email: 'test@test.com', current_password: 'mysecretpassword' }))
+    );
+  });
+
+  it('initiates a verified email change on enterprise/hosted installations', async () => {
+    const { initiateEmailChange: initiateEmailChangeSpy } = StoreThunks;
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const preloadedState = {
+      ...defaultState,
+      app: { ...defaultState.app, features: { ...defaultState.app.features, isEnterprise: true, hasMultitenancy: true } }
+    };
+    render(<SelfUserManagement />, { preloadedState });
+
+    await user.click(screen.getByRole('button', { name: /change email address/i }));
+    const input = screen.getByLabelText(/new email address/i);
+    await user.clear(input);
+    await user.type(input, 'updated@example.com');
+    await user.click(screen.getByRole('button', { name: /save changes/i }));
+    const dialog = await screen.findByRole('dialog');
+    await user.type(within(dialog).getByLabelText(/password/i), 'mysecretpassword');
+    await user.click(within(dialog).getByRole('button', { name: /confirm/i }));
+    await act(async () => vi.runAllTicks());
+    await waitFor(() =>
+      expect(initiateEmailChangeSpy).toHaveBeenCalledWith({ email: 'updated@example.com', current_password: 'mysecretpassword' })
+    );
   });
 });
