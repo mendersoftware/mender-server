@@ -113,6 +113,70 @@ class TestInternalApiDeviceCreate:
 
         self._verify_inventory(inventory_attributes, dev.attributes)
 
+    def test_patch_attributes_scope(
+        self,
+        internal_client,
+        management_client,
+        clean_db,
+        inventory_attributes,
+    ):
+        devid = "".join([format(i, "02x") for i in os.urandom(128)])
+        r = internal_client.create_device(
+            device_id=devid, attributes=inventory_attributes
+        )
+        assert r.status_code == 201
+
+        r = internal_client.update_attributes_scope(
+            device_id=devid,
+            scope="identity",
+            attributes=[{"name": "mac", "value": "de:ad:be:ef:06:12"}],
+        )
+        assert r.status_code == 200
+
+        dev = management_client.getDevice(device_id=devid)
+
+        found = any(
+            attribute.name == "mac"
+            and attribute.value.actual_instance == "de:ad:be:ef:06:12"
+            and attribute.scope == "identity"
+            for attribute in dev.attributes
+        )
+        assert found
+
+        # re-update the same scoped attribute to a new value
+        r = internal_client.update_attributes_scope(
+            device_id=devid,
+            scope="identity",
+            attributes=[{"name": "mac", "value": "de:ad:be:ef:06:24"}],
+        )
+        assert r.status_code == 200
+
+        dev = management_client.getDevice(device_id=devid)
+        found = any(
+            attribute.name == "mac"
+            and attribute.value.actual_instance == "de:ad:be:ef:06:24"
+            and attribute.scope == "identity"
+            for attribute in dev.attributes
+        )
+        assert found
+
+        # add a brand-new attribute under a different scope
+        r = internal_client.update_attributes_scope(
+            device_id=devid,
+            scope="system",
+            attributes=[{"name": "newone", "value": "banana"}],
+        )
+        assert r.status_code == 200
+
+        dev = management_client.getDevice(device_id=devid)
+        found = any(
+            attribute.name == "newone"
+            and attribute.value.actual_instance == "banana"
+            and attribute.scope == "system"
+            for attribute in dev.attributes
+        )
+        assert found
+
     def _verify_inventory(self, expected, inventory):
         # Helper to extract raw value from AttributeV1Value wrapper
         def get_raw_value(val):

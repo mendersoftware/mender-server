@@ -280,6 +280,31 @@ class InternalApiClient:
         )
         return Response(status_code=r.status_code, data=r.data)
 
+    def update_attributes_scope(self, device_id, scope, attributes, tenant_id=""):
+        # Convert attributes to the internal API format using mender_client.Attribute
+        converted_attrs = []
+        for attr in attributes:
+            name = attr.get("name") if isinstance(attr, dict) else attr.name
+            value = attr.get("value") if isinstance(attr, dict) else attr.value
+            desc = (
+                attr.get("description") if isinstance(attr, dict) else attr.description
+            )
+            converted_attrs.append(
+                mender_client.AttributeRequest(
+                    name=name,
+                    value=mender_client.AttributeValueRequest(value),
+                    description=desc,
+                    scope=scope,
+                )
+            )
+        r = self.client.update_inventory_for_a_device_with_http_info(
+            tenant_id=tenant_id,
+            device_id=device_id,
+            scope=scope,
+            attribute_request=converted_attrs,
+        )
+        return Response(status_code=r.status_code, data=r.data)
+
     def create_device(self, device_id, attributes, description="test device"):
         # Convert attributes to the internal API format using mender_client.Attribute
         # The internal Attribute model has: name, description, value (AttributeValue)
