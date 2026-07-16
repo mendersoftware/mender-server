@@ -1405,7 +1405,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
                   inputmode="numeric"
                   spellcheck="false"
                   type="text"
-                  value="0"
+                  value="1"
                 />
                 <div
                   class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-41"
@@ -1478,12 +1478,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-40:focus::-ms-input-
             <input
               aria-hidden="true"
               max="100"
-              min="0"
+              min="1"
               step="1"
               style="clip-path: inset(50%); overflow: hidden; white-space: nowrap; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px; position: fixed; top: 0px; left: 0px;"
               tabindex="-1"
               type="number"
-              value="0"
+              value="1"
             />
           </div>
         </div>

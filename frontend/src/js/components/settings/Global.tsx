@@ -109,10 +109,11 @@ export const GlobalSettings = () => {
   const userCapabilities = useSelector(getUserCapabilities);
   const [channelSettings, setChannelSettings] = useState(notificationChannelSettings);
   const [currentInterval, setCurrentInterval] = useState<number | null>(offlineThresholdSettings.interval);
-  const [currentRetries, setCurrentRetries] = useState<number | null>(Number(settings.retries ?? 0));
+  // settings & the deployments API store retries; the UI presents attempts = retries + 1
+  const [currentAttempts, setCurrentAttempts] = useState<number | null>(Number(settings.retries ?? 0) + 1);
   const [showDeltaConfig, setShowDeltaConfig] = useState(false);
   const debouncedOfflineThreshold = useDebounce(currentInterval, TIMEOUTS.threeSeconds);
-  const debouncedRetries = useDebounce(currentRetries, TIMEOUTS.threeSeconds);
+  const debouncedAttempts = useDebounce(currentAttempts, TIMEOUTS.threeSeconds);
   const timer = useRef(false);
   const { classes } = useStyles();
   const { aiFeatures = {}, needsDeploymentConfirmation = false } = settings;
@@ -138,7 +139,7 @@ export const GlobalSettings = () => {
   }, [offlineThresholdSettings.interval]);
 
   useEffect(() => {
-    setCurrentRetries(Number(settings.retries ?? 0));
+    setCurrentAttempts(Number(settings.retries ?? 0) + 1);
   }, [settings.retries]);
 
   useEffect(() => {
@@ -149,11 +150,11 @@ export const GlobalSettings = () => {
   }, [canPersistSettings, debouncedOfflineThreshold, dispatchedSaveGlobalSettings]);
 
   useEffect(() => {
-    if (!canPersistSettings) {
+    if (!canPersistSettings || debouncedAttempts == null || debouncedAttempts < 1) {
       return;
     }
-    dispatchedSaveGlobalSettings({ retries: Number(debouncedRetries), notify: true });
-  }, [canPersistSettings, debouncedRetries, dispatchedSaveGlobalSettings]);
+    dispatchedSaveGlobalSettings({ retries: Number(debouncedAttempts) - 1, notify: true });
+  }, [canPersistSettings, debouncedAttempts, dispatchedSaveGlobalSettings]);
 
   useEffect(() => {
     dispatch(getGlobalSettings());
@@ -213,12 +214,12 @@ export const GlobalSettings = () => {
             secondary={
               <NumberField
                 allowOutOfRange={false}
-                min={0}
+                min={1}
                 max={100}
                 className={`margin-top-x-small ${classes.offlineThresholdInput}`}
-                onValueChange={setCurrentRetries}
+                onValueChange={setCurrentAttempts}
                 showSteps
-                value={currentRetries}
+                value={currentAttempts}
               />
             }
           />

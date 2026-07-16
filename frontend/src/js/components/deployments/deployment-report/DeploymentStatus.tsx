@@ -51,7 +51,7 @@ export const DeploymentPhaseNotification = ({ className = '', deployment = {}, o
 
 export const DeploymentStatus = ({ className = '', deployment = {} }) => {
   const { classes } = useStyles();
-  const { finished, max_devices, retries = 1, status = 'pending', statistics = {} } = deployment;
+  const { finished, max_devices, retries = 0, status = 'pending', statistics = {} } = deployment;
   const { status: stats = {} } = statistics;
   const phaseStats = groupDeploymentStats(deployment, true);
 
@@ -101,7 +101,7 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
       </div>
       <SynchronizedTwoColumnData
         className="margin-bottom"
-        data={{ 'Update attempts per device': retries, 'Maximum number of devices': max_devices || 'N/A' }}
+        data={{ 'Update attempts per device': retries + 1, 'Maximum number of devices': max_devices || 'N/A' }}
         style={{ gridTemplateColumns: 'max-content 1fr' }}
       />
     </>
