@@ -130,7 +130,13 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
   const deploymentAnchor = useRef();
   const { classes } = useStyles();
   const methods = useForm<DeploymentFormValues>({ mode: 'onChange', defaultValues: defaultValues });
-  const { control, reset, watch } = methods;
+  const {
+    control,
+    formState: { dirtyFields },
+    reset,
+    setValue,
+    watch
+  } = methods;
   const formValues = watch();
   const { deploymentDeviceCount, deploymentDeviceIds, devices, filter } = useDerivedData(watch, deploymentObject.devices);
 
@@ -161,7 +167,17 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, reset]);
 
-  // Notify parent of form value changes for URL param sync
+  // the global settings can arrive after the form was initialized, so keep the retries default in sync until an
+  // explicit value was passed in or the user changed the field
+  useEffect(() => {
+    if (!open || deploymentObject.retries != null || dirtyFields.retries) {
+      return;
+    }
+    setValue('retries', previousRetries + 1);
+  }, [deploymentObject.retries, dirtyFields.retries, open, previousRetries, setValue]);
+
+  // Notify parent of form value changes for URL param sync - retries is deliberately left out, as it is never
+  // restored from the URL and a round-tripped value would shadow the global settings default on form initialization
   useEffect(() => {
     onValuesChange?.({
       group: formValues.group,
@@ -169,7 +185,6 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
       delta: formValues.delta,
       forceDeploy: formValues.forceDeploy,
       maxDevices: formValues.maxDevices,
-      retries: formValues.retries - 1,
       phases: formValues.phases,
       update_control_map: formValues.update_control_map
     });
