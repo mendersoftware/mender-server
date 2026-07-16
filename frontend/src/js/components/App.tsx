@@ -68,7 +68,7 @@ const activationPath = '/activate';
 const emailChangePath = '/email-change';
 const passwordResetOrAuthUnlinkPath = '/password';
 const alwaysPublicPaths = [activationPath, emailChangePath, passwordResetOrAuthUnlinkPath];
-const trackingBlacklist = [/\/password\/.+/i];
+const trackingBlacklist = [/\/password\/.+/i, /\/activate\/.+/i, /\/email-change\/.+/i];
 const timeout = maxSessionAge * 1000; // 15 minutes idle time
 const cookies = new Cookies();
 
