@@ -1,0 +1,43 @@
+{
+  "cookies": [
+    {
+      "name": "609eb906-25da-4368-b992-d465100f529f-onboarded",
+      "value": "true",
+      "domain": "docker.mender.io",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookieconsent_status",
+      "value": "allow",
+      "domain": "docker.mender.io",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://docker.mender.io",
+      "localStorage": [
+        {
+          "name": "onboardingComplete",
+          "value": "true"
+        },
+        {
+          "name": "JWT",
+          "value": "{\"token\":\"eyJhbGciOiJSUzI1NiIsImtpZCI6MCwidHlwIjoiSldUIn0.eyJqdGkiOiJlNDkyMDMwZS01NDU5LTQzMzEtYmY3ZS1hODdiN2FjMDljZmMiLCJzdWIiOiI2MDllYjkwNi0yNWRhLTQzNjgtYjk5Mi1kNDY1MTAwZjUyOWYiLCJleHAiOjE3ODMwNzY5MzgsImlhdCI6MTc4MjQ3MjEzOCwibWVuZGVyLnRlbmFudCI6IjY5N2EzMDcwYTA2MDk0NGVkN2UwOTQxNiIsIm1lbmRlci51c2VyIjp0cnVlLCJpc3MiOiJtZW5kZXIudXNlcmFkbSIsInNjcCI6Im1lbmRlci4qIiwibWVuZGVyLnBsYW4iOiJlbnRlcnByaXNlIiwibWVuZGVyLnRyaWFsIjpmYWxzZSwibWVuZGVyLmFkZG9ucyI6W3sibmFtZSI6InRyb3VibGVzaG9vdCIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6ImNvbmZpZ3VyZSIsImVuYWJsZWQiOnRydWV9LHsibmFtZSI6Im1vbml0b3IiLCJlbmFibGVkIjp0cnVlfV0sIm5iZiI6MTc4MjQ3MjEzOH0.QUvvTRGEdVq4fIxbCEOGrs9rs0BReSrqeBwP6DAgNfLOKvJ_TotyHWcSnB0GmZJZDEK0fMkj63tK1_dGTkJYPVELiQoCHpUujRlxqh6m0xOln3J63TQT9rzZbwGyYv62lO00FxDnSRJtbAcna02Ob1t5BN5XKrLH0NWQI2hYyrrwxH4itSA-yFenNlqp5DZKfaVr76QNa7JlHXxsY1t6sQsyc4bOPvpiXB3J4HmgmAxX292mL91ZnEHLtzN5AfiCi3gqAOParJgf2Lq8mNdUWQ16pjOoQmxzvVhDB6nzRcIUGNE3ANSPZq8g7f55cbV3Ybes0aB4NWW1ILOOqmjbzA\"}"
+        },
+        {
+          "name": "609eb906-25da-4368-b992-d465100f529f-column-widths",
+          "value": "[]"
+        }
+      ]
+    }
+  ]
+}
