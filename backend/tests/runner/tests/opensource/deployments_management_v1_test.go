@@ -56,24 +56,29 @@ func (s *DeploymentsManagementV1Suite) SetupTest() {
 }
 
 func (s *DeploymentsManagementV1Suite) TestUploadArtifact() {
-	s.Run("Success/MissingTypeInfo", func() {
-		// Ensuring server backwards compatibility with artifacts created with
-		// older versions of mender-artifact. Ref:
-		// 	 https://github.com/mendersoftware/mender-artifact/commit/c25764218c6e48677ab0b5b1736ccaf531c62e42
-		var (
-			ctx     = common.JWTAuthContext(s.T().Context(), s.JWT)
-			require = require.New(s.T())
-		)
-		file, err := os.Open("../data/missing-type-info.mender")
-		require.NoError(err)
-		r, err := s.APIClient.DeploymentsManagementAPIAPI.
-			UploadArtifact(ctx).
-			Artifact(file).
-			Execute()
-		require.NoError(err)
-		require.NotNil(r)
-		require.Equal(http.StatusCreated, r.StatusCode)
-	})
+	s.Run("Success/MissingTypeInfo", s.testUploadArtifactMissingTypeInfo)
+	s.Run("Success/SelectionAlreadyInstalled", s.testUploadArtifactSelectionAlreadyInstalled)
+	s.Run("Success/DependsProvidesValid", s.testUploadArtifactDependsProvidesValid)
+	s.Run("Success/ProvidesDependsIgnoredInOpenSource", s.testUploadArtifactProvidesDependsIgnoredInOpenSource)
+}
+
+func (s *DeploymentsManagementV1Suite) testUploadArtifactMissingTypeInfo() {
+	// Ensuring server backwards compatibility with artifacts created with
+	// older versions of mender-artifact. Ref:
+	// 	 https://github.com/mendersoftware/mender-artifact/commit/c25764218c6e48677ab0b5b1736ccaf531c62e42
+	var (
+		ctx     = common.JWTAuthContext(s.T().Context(), s.JWT)
+		require = require.New(s.T())
+	)
+	file, err := os.Open("../data/missing-type-info.mender")
+	require.NoError(err)
+	r, err := s.APIClient.DeploymentsManagementAPIAPI.
+		UploadArtifact(ctx).
+		Artifact(file).
+		Execute()
+	require.NoError(err)
+	require.NotNil(r)
+	require.Equal(http.StatusCreated, r.StatusCode)
 }
 
 func (s *DeploymentsManagementV1Suite) TestRegularDeployment() {
