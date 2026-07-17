@@ -1230,6 +1230,15 @@ func (d *DevAuth) VerifyToken(ctx context.Context, raw string) error {
 	// decommissioning
 	dev, err := d.db.GetDeviceById(ctx, auth.DeviceId)
 	if err != nil {
+		if err == store.ErrDevNotFound {
+			// apparently the auth set is an orphan and should be deleted
+			l.Warnf("Delete orphan authentication set with id: %s for device with id: %s",
+				auth.Id, auth.DeviceId)
+			if err := d.deleteAuthSet(ctx, auth); err != nil {
+				return err
+			}
+			return jwt.ErrTokenInvalid
+		}
 		return err
 	}
 	if dev.Decommissioning {
