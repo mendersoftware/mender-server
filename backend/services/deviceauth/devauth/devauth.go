@@ -736,19 +736,27 @@ func (d *DevAuth) DeleteAuthSet(ctx context.Context, devID string, authId string
 		return err
 	}
 
+	// If the auth set status is 'preauthorized' and this is the only auth set
+	// for this device, the device is deleted from deviceauth.
+	// We cannot start the decommission_device workflow because
+	// we don't provision devices until they are accepted. Still, we need to
+	// remove the device from the inventory service because we index pre-authorized
+	// devices for consumption via filtering APIs. To trigger the deletion
+	// from the inventory service, we start the status update workflow with the
+	// special value "decommissioned", which will cause the deletion of the
+	// device from the inventory service's database.
 	if authSet.Status == model.DevStatusPreauth {
-		// if the auth set status is 'preauthorized', the device is deleted from
-		// deviceauth. We cannot start the decommission_device workflow because
-		// we don't provision devices until they are accepted. Still, we need to
-		// remove the device from the inventory service because we index pre-authorized
-		// devices for consumption via filtering APIs. To trigger the deletion
-		// from the inventory service, we start the status update workflow with the
-		// special value "decommissioned", which will cause the deletion of the
-		// device from the inventory service's database
-		if err := d.deletePreauthDevice(ctx, authSet.DeviceId); err != nil {
-			return err
+		authSets, err := d.db.GetAuthSetsForDevice(ctx, authSet.DeviceId)
+		if err != nil {
+			return errors.Wrap(err, "db get auth sets error")
 		}
-		return nil
+		if len(authSets) == 0 {
+			err = d.deletePreauthDevice(ctx, authSet.DeviceId)
+			if err != nil {
+				return errors.Wrap(err, "failed to delete preauthorized device")
+			}
+			return nil
+		}
 	}
 
 	return d.updateDeviceStatus(ctx, devID, "", authSet.Status)
