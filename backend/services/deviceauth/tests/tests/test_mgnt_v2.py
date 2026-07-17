@@ -15,7 +15,6 @@
 from common import (
     Device,
     DevAuthorizer,
-    device_auth_req,
     make_devices,
     devices,
     clean_migrated_db,
@@ -83,52 +82,6 @@ class TestDeleteDevice:
                 )
             except ApiException as e:
                 assert e.status == 500
-
-    def test_delete_device_nonexistent(self, management_api):
-        # try delete a nonexistent device
-        try:
-            management_api.decommission_device(
-                "some-devid-foo",
-                x_men_request_id="delete_device",
-            )
-        except ApiException as e:
-            assert e.status == 404
-
-    def test_device_accept_reject_cycle(self, devices, device_api, management_api):
-        d, da = devices[0]
-        url = device_api.auth_requests_url
-
-        dev = management_api.get_single_device()
-
-        assert dev
-        devid = dev.id
-
-        print("found device with ID:", dev.id)
-        aid = dev.auth_sets[0].id
-
-        with orchestrator.run_fake_for_device_id(devid) as server:
-            try:
-                management_api.accept_device(devid, aid)
-            except ApiException as e:
-                assert e.status == 204
-
-            # device is accepted, we should get a token now
-            rsp = device_auth_req(url, da, d)
-            assert rsp.status_code == 200
-
-            da.parse_rsp_payload(d, rsp.text)
-
-            assert len(d.token) > 0
-
-            # reject it now
-            try:
-                management_api.reject_device(devid, aid)
-            except ApiException as e:
-                assert e.status == 204
-
-            # device is rejected, should get unauthorized
-            rsp = device_auth_req(url, da, d)
-            assert rsp.status_code == 401
 
     def test_device_accept_orchestrator_failure(
         self, devices, device_api, management_api

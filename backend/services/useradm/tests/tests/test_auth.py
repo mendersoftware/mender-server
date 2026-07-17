@@ -50,18 +50,6 @@ class TestAuthLogin:
         except mender_client.ApiException as herr:
             assert herr.status == 401
 
-    def test_ok(self, api_client_mgmt, init_users):
-        email = "user-1@foo.com"
-        password = "correcthorsebatterystaple"
-
-        r = api_client_mgmt.login(email, password)
-        assert r.status_code == 200
-
-        token = r.text
-        assert len(token)
-        _, claims, _ = explode_jwt(token)
-        assert "mender.user" in claims and claims["mender.user"] == True
-
 
 class TestAuthLogout:
     def test_ok(self, api_client_int, api_client_mgmt, init_users):

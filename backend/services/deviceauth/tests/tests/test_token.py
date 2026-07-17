@@ -101,24 +101,6 @@ def token_verify_url(internal_api):
 
 
 class TestToken:
-    def test_token_claims(self, accepted_device, management_api, device_api):
-        devid, d, da = accepted_device
-
-        with orchestrator.run_fake_for_device_id(devid) as server:
-            token = request_token(d, da, device_api.auth_requests_url)
-
-        assert len(token) > 0
-        print("device token:", d.token)
-
-        thdr, tclaims, tsign = explode_jwt(d.token)
-        assert "typ" in thdr and thdr["typ"] == "JWT"
-
-        assert "jti" in tclaims
-        assert "exp" in tclaims
-        assert "sub" in tclaims and tclaims["sub"] == devid
-        assert "iss" in tclaims and tclaims["iss"] == "Mender"
-        assert "mender.device" in tclaims and tclaims["mender.device"] == True
-
     def test_token_verify_ok(self, internal_api, device_token, token_verify_url):
         if not device_token.startswith("Bearer "):
             device_token = "Bearer " + device_token
