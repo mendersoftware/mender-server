@@ -1339,7 +1339,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
             for="_r_X_"
             id="_r_X_-label"
           >
-            Email
+            Your email
           </label>
           <div
             class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl emotion-30"
@@ -1360,7 +1360,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
                 class="emotion-33"
               >
                 <span>
-                  Email
+                  Your email
                 </span>
               </legend>
             </fieldset>
@@ -1376,14 +1376,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-31:focus::-ms-input-
           </span>
         </div>
       </div>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-x-small emotion-45"
-        id="change_email"
-        tabindex="0"
-        type="button"
+      <div
+        class="flexbox column"
+        style="align-items: flex-start;"
       >
-        Change email address
-      </button>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-x-small emotion-45"
+          id="change_email"
+          tabindex="0"
+          type="button"
+        >
+          Change email address
+        </button>
+      </div>
       <div
         class="flexbox column settings-item-base emotion-46 margin-top "
       >

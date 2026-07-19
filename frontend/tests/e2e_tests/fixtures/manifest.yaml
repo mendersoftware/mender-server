@@ -1,0 +1,21 @@
+api_version: "mender/v1"
+kind: "manifest"
+name: "electric-vehicle-software-v3.2.3"
+system_types_compatible: ["electric-vehicle-2026"]
+
+component_types:
+  telematics_control_unit:
+    artifact_name: tcu-firmware-v2.4.1
+    update_strategy:
+      order: 30
+
+  ecu_brake_controller:
+    artifact_path: /artifacts/brake-ecu-firmware-v1.8.3.mender
+    artifact_name: brake-ecu-firmware-v1.8.3
+    update_strategy:
+      order: 10
+
+  seat_heating:
+    artifact_name: seat-heating-fw-v1.2.0
+    update_strategy:
+      order: 20
