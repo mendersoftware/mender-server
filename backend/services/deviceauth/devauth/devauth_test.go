@@ -2949,7 +2949,6 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 			orchestratorErr:   errors.New("orchestrator error"),
 			outErr:            "update device status job error: orchestrator error",
 		},
-
 		{
 			devId:             oid.NewUUIDv5("devId9").String(),
 			authId:            oid.NewUUIDv5("authId9").String(),
@@ -2979,7 +2978,6 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 			devId:             oid.NewUUIDv5("devId12").String(),
 			authId:            oid.NewUUIDv5("authId12").String(),
 			submitJob:         true,
-			withCache:         true,
 			tenant:            "acme",
 			dbGetDeviceStatus: "accepted",
 		},
@@ -2992,6 +2990,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 		{
 			devId:          oid.NewUUIDv5("devId12").String(),
 			authId:         oid.NewUUIDv5("authId12").String(),
+			authSet:        &model.AuthSet{Status: model.DevStatusAccepted},
 			withCache:      true,
 			tenant:         "acme",
 			cacheDeleteErr: errors.New("redis error"),
@@ -3000,6 +2999,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 		{
 			devId:     oid.NewUUIDv5("devId12").String(),
 			authId:    oid.NewUUIDv5("authId12").String(),
+			authSet:   &model.AuthSet{Status: model.DevStatusAccepted},
 			withCache: true,
 			outErr:    "failed to delete token for c410d383-c9cd-5c98-9aeb-87166c5920f2 from cache: can't unpack tenant identity data from context",
 		},

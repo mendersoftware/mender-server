@@ -729,11 +729,6 @@ func (d *DevAuth) DeleteAuthSet(ctx context.Context, devID string, authId string
 		"%s for the device with id: %s",
 		authId, devID)
 
-	err := d.cacheDeleteToken(ctx, devID)
-	if err != nil {
-		return errors.Wrapf(err, "failed to delete token for %s from cache", devID)
-	}
-
 	// retrieve device authentication set to check its status
 	authSet, err := d.db.GetAuthSetById(ctx, authId)
 	if err != nil {
@@ -757,6 +752,10 @@ func (d *DevAuth) DeleteAuthSet(ctx context.Context, devID string, authId string
 		); err != nil && err != store.ErrTokenNotFound {
 			return errors.Wrap(err,
 				"db delete device tokens error")
+		}
+		err := d.cacheDeleteToken(ctx, devID)
+		if err != nil {
+			return errors.Wrapf(err, "failed to delete token for %s from cache", devID)
 		}
 	} else if authSet.Status == model.DevStatusPreauth {
 		// if the auth set status is 'preauthorized', the device is deleted from
