@@ -461,7 +461,7 @@ func (d *DevAuth) updateDeviceStatus(
 	currentStatus string,
 ) error {
 	newStatus, err := d.db.GetDeviceStatus(ctx, devId)
-	if currentStatus == newStatus {
+	if err == nil && currentStatus == newStatus {
 		return nil
 	}
 	if status == "" {
