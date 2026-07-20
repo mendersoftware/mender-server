@@ -3,6 +3,7 @@ package common
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 )
@@ -18,7 +19,12 @@ import (
 // Returns nil on success, fn's error if it aborted the loop, ctx.Err() if
 // ctx was done, or a timeout error if the budget ran out without success.
 func RetryUntil(ctx context.Context, timeout, period time.Duration, fn func() (bool, error)) error {
-	deadline := time.Now().Add(timeout)
+	ctx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	ticker := time.NewTicker(period)
+	defer ticker.Stop()
+
 	for {
 		ok, err := fn()
 		if err != nil {
@@ -27,14 +33,14 @@ func RetryUntil(ctx context.Context, timeout, period time.Duration, fn func() (b
 		if ok {
 			return nil
 		}
-		if time.Now().After(deadline) {
-			return fmt.Errorf("timed out after %s waiting for condition", timeout)
-		}
 
 		select {
 		case <-ctx.Done():
+			if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+				return fmt.Errorf("timed out after %s waiting for condition", timeout)
+			}
 			return ctx.Err()
-		case <-time.After(period):
+		case <-ticker.C:
 		}
 	}
 }
