@@ -226,9 +226,22 @@ func (m *streamMap) Delete(conn stream.Conn) {
 	sm.Delete(conn.RemoteAddr())
 }
 
+// WSConn is the subset of *websocket.Conn used by the connection routines.
+//
+//go:generate ../../../../utils/mockgen.sh
+type WSConn interface {
+	ReadMessage() (messageType int, p []byte, err error)
+	WriteMessage(messageType int, data []byte) error
+	WriteControl(messageType int, data []byte, deadline time.Time) error
+	SetReadDeadline(t time.Time) error
+	SetPongHandler(h func(appData string) error)
+	SetPingHandler(h func(appData string) error)
+	Close() error
+}
+
 func (h DeviceController) handleDeviceMessages(
 	ctx context.Context,
-	conn *websocket.Conn,
+	conn WSConn,
 	sessions *streamMap,
 	errChan chan<- error,
 ) {
@@ -236,6 +249,10 @@ func (h DeviceController) handleDeviceMessages(
 	for {
 		_, data, err := conn.ReadMessage()
 		if err != nil {
+			errChan <- err
+			return
+		}
+		if err = conn.SetReadDeadline(time.Now().Add(pongWait)); err != nil {
 			errChan <- err
 			return
 		}
@@ -264,7 +281,7 @@ func (h DeviceController) handleDeviceMessages(
 
 func (h DeviceController) handleManagementMessages(
 	ctx context.Context,
-	conn *websocket.Conn,
+	conn WSConn,
 	listener stream.Listener,
 	sessions *streamMap,
 	ticker *time.Ticker,
@@ -339,7 +356,7 @@ func (h DeviceController) handleManagementMessages(
 // protocol violation occurs, the routine closes the connection.
 func (h DeviceController) connectWSWriter(
 	ctx context.Context,
-	conn *websocket.Conn,
+	conn WSConn,
 	listener stream.Listener,
 ) (err error) {
 	l := log.FromContext(ctx)
@@ -354,19 +371,11 @@ func (h DeviceController) connectWSWriter(
 	pingPeriod := pongWait / 2
 	ticker := time.NewTicker(pingPeriod)
 	defer ticker.Stop()
-	conn.SetPongHandler(func(string) error {
-		ticker.Reset(pingPeriod)
-		return nil
-	})
-
-	conn.SetPingHandler(func(msg string) error {
-		ticker.Reset(pingPeriod)
-		return conn.WriteControl(
-			websocket.PongMessage,
-			[]byte(msg),
-			time.Now().Add(writeWait),
-		)
-	})
+	if err = conn.SetReadDeadline(time.Now().Add(pongWait)); err != nil {
+		return err
+	}
+	conn.SetPongHandler(newPongHandler(conn, ticker, pingPeriod))
+	conn.SetPingHandler(newPingHandler(conn, ticker, pingPeriod))
 	acceptErr := make(chan error, 1)
 	errChan := make(chan error, 1)
 	sessions := new(streamMap)
@@ -389,11 +398,40 @@ func (h DeviceController) connectWSWriter(
 	}
 }
 
-func websocketPing(conn *websocket.Conn) error {
+func websocketPing(conn WSConn) error {
 	pongWaitString := strconv.Itoa(int(pongWait.Seconds()))
 	return conn.WriteControl(
 		websocket.PingMessage,
 		[]byte(pongWaitString),
 		time.Now().Add(writeWait),
 	)
+}
+
+func newPongHandler(
+	conn WSConn,
+	ticker *time.Ticker,
+	pingPeriod time.Duration,
+) func(string) error {
+	return func(string) error {
+		ticker.Reset(pingPeriod)
+		return conn.SetReadDeadline(time.Now().Add(pongWait))
+	}
+}
+
+func newPingHandler(
+	conn WSConn,
+	ticker *time.Ticker,
+	pingPeriod time.Duration,
+) func(string) error {
+	return func(msg string) error {
+		ticker.Reset(pingPeriod)
+		if err := conn.SetReadDeadline(time.Now().Add(pongWait)); err != nil {
+			return err
+		}
+		return conn.WriteControl(
+			websocket.PongMessage,
+			[]byte(msg),
+			time.Now().Add(writeWait),
+		)
+	}
 }

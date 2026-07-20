@@ -327,7 +327,7 @@ func (h ManagementController) Playback(c *gin.Context) {
 	}
 }
 
-func writerFinalizer(conn *websocket.Conn, e *error, l *log.Logger) {
+func writerFinalizer(conn WSConn, e *error, l *log.Logger) {
 	err := *e
 	if err != nil {
 		var closeErr *websocket.CloseError
