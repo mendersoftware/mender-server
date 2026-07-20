@@ -546,7 +546,6 @@ test:backend:unit:
   needs:
     - job: build:backend:docker
       artifacts: false
-  resource_group: test_backend_unit
   rules:
     - changes:
         paths: ["backend/**/*.go", "backend/go.mod", ".gitlab-ci.yml"]
