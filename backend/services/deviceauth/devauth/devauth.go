@@ -461,7 +461,7 @@ func (d *DevAuth) updateDeviceStatus(
 	currentStatus string,
 ) error {
 	newStatus, err := d.db.GetDeviceStatus(ctx, devId)
-	if currentStatus == newStatus {
+	if err == nil && currentStatus == newStatus {
 		return nil
 	}
 	if status == "" {
@@ -723,12 +723,6 @@ func (d *DevAuth) DeleteDevice(ctx context.Context, devID string) error {
 
 // Deletes device authentication set, and optionally the device.
 func (d *DevAuth) DeleteAuthSet(ctx context.Context, devID string, authId string) error {
-	l := log.FromContext(ctx)
-
-	l.Warnf("Delete authentication set with id: "+
-		"%s for the device with id: %s",
-		authId, devID)
-
 	// retrieve device authentication set to check its status
 	authSet, err := d.db.GetAuthSetById(ctx, authId)
 	if err != nil {
@@ -738,61 +732,89 @@ func (d *DevAuth) DeleteAuthSet(ctx context.Context, devID string, authId string
 		return errors.Wrap(err, "db get auth set error")
 	}
 
+	if err := d.deleteAuthSet(ctx, authSet); err != nil {
+		return err
+	}
+
+	// If the auth set status is 'preauthorized' and this is the only auth set
+	// for this device, the device is deleted from deviceauth.
+	// We cannot start the decommission_device workflow because
+	// we don't provision devices until they are accepted. Still, we need to
+	// remove the device from the inventory service because we index pre-authorized
+	// devices for consumption via filtering APIs. To trigger the deletion
+	// from the inventory service, we start the status update workflow with the
+	// special value "decommissioned", which will cause the deletion of the
+	// device from the inventory service's database.
+	if authSet.Status == model.DevStatusPreauth {
+		authSets, err := d.db.GetAuthSetsForDevice(ctx, authSet.DeviceId)
+		if err != nil {
+			return errors.Wrap(err, "db get auth sets error")
+		}
+		if len(authSets) == 0 {
+			err = d.deletePreauthDevice(ctx, authSet.DeviceId)
+			if err != nil {
+				return errors.Wrap(err, "failed to delete preauthorized device")
+			}
+			return nil
+		}
+	}
+
+	return d.updateDeviceStatus(ctx, devID, "", authSet.Status)
+}
+
+func (d *DevAuth) deletePreauthDevice(ctx context.Context, devId string) error {
+	tenantId := ""
+	idData := identity.FromContext(ctx)
+	if idData != nil {
+		tenantId = idData.Tenant
+	}
+
+	//nolint:bodyclose
+	_, _, err := d.cOrch.StartWorkflow(ctx, "update_device_status").
+		RequestBody(map[string]interface{}{
+			"request_id":    requestid.FromContext(ctx),
+			"devices":       []model.DeviceInventoryUpdate{{Id: devId}},
+			"tenant_id":     tenantId,
+			"device_status": "decommissioned",
+		}).Execute()
+	if err != nil {
+		return errors.Wrap(err, "failed to start update device status job")
+	}
+
+	// delete device
+	err = d.db.DeleteDevice(ctx, devId)
+
+	return err
+}
+
+func (d *DevAuth) deleteAuthSet(ctx context.Context, authSet *model.AuthSet) error {
+	l := log.FromContext(ctx)
+
+	l.Warnf("Delete authentication set with id: "+
+		"%s for the device with id: %s",
+		authSet.Id, authSet.DeviceId)
+
 	// delete device authorization set
-	if err := d.db.DeleteAuthSetForDevice(ctx, devID, authId); err != nil {
+	if err := d.db.DeleteAuthSetForDevice(ctx, authSet.DeviceId, authSet.Id); err != nil {
 		return err
 	}
 
 	// if the device authentication set is accepted delete device tokens
 	if authSet.Status == model.DevStatusAccepted {
 		// If string is not a valid UUID there's no token.
-		devOID := oid.FromString(devID)
+		devOID := oid.FromString(authSet.DeviceId)
 		if err := d.db.DeleteTokenByDevId(
 			ctx, devOID,
 		); err != nil && err != store.ErrTokenNotFound {
 			return errors.Wrap(err,
 				"db delete device tokens error")
 		}
-		err := d.cacheDeleteToken(ctx, devID)
+		err := d.cacheDeleteToken(ctx, authSet.DeviceId)
 		if err != nil {
-			return errors.Wrapf(err, "failed to delete token for %s from cache", devID)
+			return errors.Wrapf(err, "failed to delete token for %s from cache", authSet.DeviceId)
 		}
-	} else if authSet.Status == model.DevStatusPreauth {
-		// if the auth set status is 'preauthorized', the device is deleted from
-		// deviceauth. We cannot start the decommission_device workflow because
-		// we don't provision devices until they are accepted. Still, we need to
-		// remove the device from the inventory service because we index pre-authorized
-		// devices for consumption via filtering APIs. To trigger the deletion
-		// from the inventory service, we start the status update workflow with the
-		// special value "decommissioned", which will cause the deletion of the
-		// device from the inventory service's database
-		tenantID := ""
-		idData := identity.FromContext(ctx)
-		if idData != nil {
-			tenantID = idData.Tenant
-		}
-
-		//nolint:bodyclose
-		_, _, err := d.cOrch.StartWorkflow(ctx, "update_device_status").
-			RequestBody(map[string]interface{}{
-				"request_id":    requestid.FromContext(ctx),
-				"devices":       []model.DeviceInventoryUpdate{{Id: devID}},
-				"tenant_id":     tenantID,
-				"device_status": "decommissioned",
-			}).Execute()
-		if err != nil {
-			return errors.Wrap(err, "update device status job error")
-		}
-
-		// delete device
-		if err := d.db.DeleteDevice(ctx, devID); err != nil {
-			return err
-		}
-
-		return nil
 	}
-
-	return d.updateDeviceStatus(ctx, devID, "", authSet.Status)
+	return nil
 }
 
 func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_id string) error {
@@ -1208,6 +1230,15 @@ func (d *DevAuth) VerifyToken(ctx context.Context, raw string) error {
 	// decommissioning
 	dev, err := d.db.GetDeviceById(ctx, auth.DeviceId)
 	if err != nil {
+		if err == store.ErrDevNotFound {
+			// apparently the auth set is an orphan and should be deleted
+			l.Warnf("Delete orphan authentication set with id: %s for device with id: %s",
+				auth.Id, auth.DeviceId)
+			if err := d.deleteAuthSet(ctx, auth); err != nil {
+				return err
+			}
+			return jwt.ErrTokenInvalid
+		}
 		return err
 	}
 	if dev.Decommissioning {

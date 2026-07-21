@@ -2880,11 +2880,12 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 		dbGetAuthSetByIdErr         error
 		dbDeleteTokenByDevIdErr     error
 		dbDeleteAuthSetForDeviceErr error
-		dbGetAuthSetsForDeviceErr   error
 		dbDeleteDeviceErr           error
 		dbGetDeviceStatus           string
 		dbGetDeviceStatusErr        error
 		dbUpdateDeviceErr           error
+		dbGetAuthSetsForDevice      []model.AuthSet
+		dbGetAuthSetsForDeviceErr   error
 
 		submitJob       bool
 		orchestratorErr error
@@ -2906,102 +2907,192 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 			outErr:              store.ErrAuthSetNotFound.Error(),
 		},
 		{
-			devId:                   oid.NewUUIDv5("devId3").String(),
-			authId:                  oid.NewUUIDv5("authId3").String(),
-			authSet:                 &model.AuthSet{Status: model.DevStatusAccepted},
+			devId:  oid.NewUUIDv5("devId3").String(),
+			authId: oid.NewUUIDv5("authId3").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId3").String(),
+				DeviceId: oid.NewUUIDv5("devId3").String(),
+				Status:   model.DevStatusAccepted,
+			},
 			dbDeleteTokenByDevIdErr: errors.New("DeleteTokenByDevId Error"),
 			outErr:                  "db delete device tokens error: DeleteTokenByDevId Error",
 		},
 		{
-			devId:                   oid.NewUUIDv5("devId4").String(),
-			authId:                  oid.NewUUIDv5("authId4").String(),
-			authSet:                 &model.AuthSet{Status: model.DevStatusPending},
+			devId:  oid.NewUUIDv5("devId4").String(),
+			authId: oid.NewUUIDv5("authId4").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId4").String(),
+				DeviceId: oid.NewUUIDv5("devId4").String(),
+				Status:   model.DevStatusPending,
+			},
 			submitJob:               true,
 			dbDeleteTokenByDevIdErr: errors.New("DeleteTokenByDevId Error"),
 		},
 		{
-			devId:                   oid.NewUUIDv5("devId5").String(),
-			authId:                  oid.NewUUIDv5("authId5").String(),
+			devId:  oid.NewUUIDv5("devId5").String(),
+			authId: oid.NewUUIDv5("authId5").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId5").String(),
+				DeviceId: oid.NewUUIDv5("devId5").String(),
+				Status:   model.DevStatusAccepted,
+			},
 			submitJob:               true,
 			dbDeleteTokenByDevIdErr: store.ErrTokenNotFound,
 		},
 		{
-			devId:                       oid.NewUUIDv5("devId6").String(),
-			authId:                      oid.NewUUIDv5("authId6").String(),
+			devId:  oid.NewUUIDv5("devId6").String(),
+			authId: oid.NewUUIDv5("authId6").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId6").String(),
+				DeviceId: oid.NewUUIDv5("devId6").String(),
+			},
 			dbDeleteAuthSetForDeviceErr: errors.New("DeleteAuthSetsForDevice Error"),
 			outErr:                      "DeleteAuthSetsForDevice Error",
 		},
 		{
-			devId:             oid.NewUUIDv5("devId8").String(),
-			authId:            oid.NewUUIDv5("authId8").String(),
-			authSet:           &model.AuthSet{Status: model.DevStatusPreauth},
+			devId:  oid.NewUUIDv5("devId8").String(),
+			authId: oid.NewUUIDv5("authId8").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId8").String(),
+				DeviceId: oid.NewUUIDv5("devId8").String(),
+				Status:   model.DevStatusPreauth,
+			},
 			submitJob:         true,
 			dbGetDeviceStatus: "decommissioned",
 			dbDeleteDeviceErr: errors.New("DeleteDevice Error"),
-			outErr:            "DeleteDevice Error",
+			outErr:            "failed to delete preauthorized device: DeleteDevice Error",
 		},
 		{
-			devId:             oid.NewUUIDv5("devId8").String(),
-			authId:            oid.NewUUIDv5("authId8").String(),
-			authSet:           &model.AuthSet{Status: model.DevStatusPreauth},
+			devId:  oid.NewUUIDv5("devId8").String(),
+			authId: oid.NewUUIDv5("authId8").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId8").String(),
+				DeviceId: oid.NewUUIDv5("devId8").String(),
+				Status:   model.DevStatusPreauth,
+			},
 			submitJob:         true,
 			dbGetDeviceStatus: "decommissioned",
 			orchestratorErr:   errors.New("orchestrator error"),
-			outErr:            "update device status job error: orchestrator error",
+			outErr:            "failed to delete preauthorized device: failed to start update device status job: orchestrator error",
 		},
 		{
-			devId:             oid.NewUUIDv5("devId9").String(),
-			authId:            oid.NewUUIDv5("authId9").String(),
+			devId:  oid.NewUUIDv5("devId9").String(),
+			authId: oid.NewUUIDv5("authId9").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId9").String(),
+				DeviceId: oid.NewUUIDv5("devId9").String(),
+				Status:   model.DevStatusPreauth,
+			},
 			submitJob:         true,
+			dbGetDeviceStatus: "decommissioned",
 			dbDeleteDeviceErr: errors.New("DeleteDevice Error"),
+			outErr:            "failed to delete preauthorized device: DeleteDevice Error",
 		},
 		{
-			devId:                oid.NewUUIDv5("devId10").String(),
-			authId:               oid.NewUUIDv5("authId10").String(),
+			devId:  oid.NewUUIDv5("devId10").String(),
+			authId: oid.NewUUIDv5("authId10").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId10").String(),
+				DeviceId: oid.NewUUIDv5("devId10").String(),
+			},
 			dbGetDeviceStatusErr: errors.New("Get Device Status Error"),
 			outErr:               "Cannot determine device status: Get Device Status Error",
 		},
 		{
-			devId:             oid.NewUUIDv5("devId11").String(),
-			authId:            oid.NewUUIDv5("authId11").String(),
+			devId:  oid.NewUUIDv5("devId11").String(),
+			authId: oid.NewUUIDv5("authId11").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId11").String(),
+				DeviceId: oid.NewUUIDv5("devId11").String(),
+				Status:   model.DevStatusPending,
+			},
 			submitJob:         true,
 			dbUpdateDeviceErr: errors.New("Update Device Error"),
 			outErr:            "failed to update device status: Update Device Error",
 		},
 		{
-			devId:             oid.NewUUIDv5("devId12").String(),
-			authId:            oid.NewUUIDv5("authId12").String(),
+			devId:  oid.NewUUIDv5("devId12").String(),
+			authId: oid.NewUUIDv5("authId12").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId12").String(),
+				DeviceId: oid.NewUUIDv5("devId12").String(),
+			},
 			submitJob:         true,
 			dbGetDeviceStatus: "accepted",
 		},
 		{
-			devId:             oid.NewUUIDv5("devId12").String(),
-			authId:            oid.NewUUIDv5("authId12").String(),
+			devId:  oid.NewUUIDv5("devId12").String(),
+			authId: oid.NewUUIDv5("authId12").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId12").String(),
+				DeviceId: oid.NewUUIDv5("devId12").String(),
+			},
 			submitJob:         true,
 			tenant:            "acme",
 			dbGetDeviceStatus: "accepted",
 		},
 		{
-			devId:                oid.NewUUIDv5("devId12").String(),
-			authId:               oid.NewUUIDv5("authId12").String(),
+			devId:  oid.NewUUIDv5("devId12").String(),
+			authId: oid.NewUUIDv5("authId12").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId12").String(),
+				DeviceId: oid.NewUUIDv5("devId12").String(),
+				Status:   model.DevStatusPending,
+			},
 			submitJob:            true,
 			dbGetDeviceStatusErr: store.ErrAuthSetNotFound,
 		},
 		{
-			devId:          oid.NewUUIDv5("devId12").String(),
-			authId:         oid.NewUUIDv5("authId12").String(),
-			authSet:        &model.AuthSet{Status: model.DevStatusAccepted},
+			devId:  oid.NewUUIDv5("devId12").String(),
+			authId: oid.NewUUIDv5("authId12").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId12").String(),
+				DeviceId: oid.NewUUIDv5("devId12").String(),
+				Status:   model.DevStatusAccepted,
+			},
 			withCache:      true,
 			tenant:         "acme",
 			cacheDeleteErr: errors.New("redis error"),
 			outErr:         "failed to delete token for c410d383-c9cd-5c98-9aeb-87166c5920f2 from cache: redis error",
 		},
 		{
-			devId:     oid.NewUUIDv5("devId12").String(),
-			authId:    oid.NewUUIDv5("authId12").String(),
-			authSet:   &model.AuthSet{Status: model.DevStatusAccepted},
+			devId:  oid.NewUUIDv5("devId12").String(),
+			authId: oid.NewUUIDv5("authId12").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId12").String(),
+				DeviceId: oid.NewUUIDv5("devId12").String(),
+				Status:   model.DevStatusAccepted,
+			},
 			withCache: true,
 			outErr:    "failed to delete token for c410d383-c9cd-5c98-9aeb-87166c5920f2 from cache: can't unpack tenant identity data from context",
+		},
+		{
+			devId:  oid.NewUUIDv5("devId16").String(),
+			authId: oid.NewUUIDv5("authId16").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId16").String(),
+				DeviceId: oid.NewUUIDv5("devId16").String(),
+				Status:   model.DevStatusPreauth,
+			},
+			dbGetDeviceStatus:         "decommissioned",
+			dbGetAuthSetsForDeviceErr: errors.New("GetAuthSetsForDevice Error"),
+			outErr:                    "db get auth sets error: GetAuthSetsForDevice Error",
+		},
+		{
+			devId:  oid.NewUUIDv5("devId16").String(),
+			authId: oid.NewUUIDv5("authId16").String(),
+			authSet: &model.AuthSet{
+				Id:       oid.NewUUIDv5("authId16").String(),
+				DeviceId: oid.NewUUIDv5("devId16").String(),
+				Status:   model.DevStatusPreauth,
+			},
+			dbGetDeviceStatus: "pending",
+			dbGetAuthSetsForDevice: []model.AuthSet{
+				{
+					Id: "foo",
+				},
+			},
+			submitJob: true,
 		},
 	}
 
@@ -3047,6 +3138,12 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 				mock.AnythingOfType("model.DeviceUpdate")).Return(tc.dbUpdateDeviceErr)
 			db.On("GetDeviceById", ctx,
 				mock.AnythingOfType("string")).Return(&model.Device{Id: tc.devId}, nil)
+			db.On("GetAuthSetsForDevice",
+				ctx,
+				tc.devId,
+			).Return(
+				tc.dbGetAuthSetsForDevice,
+				tc.dbGetAuthSetsForDeviceErr)
 
 			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
 			status := tc.dbGetDeviceStatus
@@ -3108,7 +3205,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 				assert.EqualError(t, err, tc.outErr)
 			} else {
 				assert.NoError(t, err)
-				if authSet.Status == model.DevStatusPreauth {
+				if authSet.Status == model.DevStatusPreauth && len(tc.dbGetAuthSetsForDevice) == 0 {
 					db.AssertCalled(t, "DeleteDevice", tc.devId)
 				} else {
 					db.AssertNotCalled(t, "DeleteDevice", tc.devId)
