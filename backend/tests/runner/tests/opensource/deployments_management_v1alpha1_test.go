@@ -9,8 +9,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/mendersoftware/mender-artifact/artifact"
-	"github.com/mendersoftware/mender-artifact/awriter"
 	"github.com/mendersoftware/mender-artifact/handlers"
 	"github.com/mendersoftware/mender-server/pkg/api/client"
 	dmodel "github.com/mendersoftware/mender-server/services/deployments/model"
@@ -47,8 +45,8 @@ func (u *DeploymentsManagementV1Alpha1Suite) SetupTest() {
 
 	require.NoError(err)
 	require.NotNil(r)
-	require.NotZero(len(token))
-	require.Equal(200, r.StatusCode)
+	require.NotEmpty(token)
+	require.Equal(http.StatusOK, r.StatusCode)
 	u.JWT = token
 }
 
@@ -146,7 +144,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		// create a release with update type
 		name := fmt.Sprintf("test-not-a-manifest-%s", uuid.NewString())
 		i := handlers.NewModuleImage("definitely-not-a-manifest")
-		artifact, err := createArtifact(name, t, withModuleImage(i))
+		artifact, err := common.CreateArtifact(name, t, common.WithModuleImage(i))
 		require.NoError(err)
 		res, err := u.uploadArtifact(ctx, artifact, client.PtrString("don't trust me? check it yourself!"))
 		require.NoError(err)
@@ -195,11 +193,11 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 
 		// add second artifact to first release
 		i := handlers.NewModuleImage("single-file")
-		artifact, err := createArtifact(
+		artifact, err := common.CreateArtifact(
 			allSoftwares[0].Name,
 			u.T(),
-			withModuleImage(i),
-			withCompatibleDevices([]string{"device-type-2"}),
+			common.WithModuleImage(i),
+			common.WithCompatibleDevices([]string{"device-type-2"}),
 		)
 		require.NoError(err)
 		_, err = u.uploadArtifact(ctx, artifact, nil)
@@ -367,6 +365,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) TestListSoftware() {
 		softwares, _, err = u.APIClient.DeploymentsV1alpha1ManagementAPIAPI.
 			GetDeploymentSoftware(common.JWTAuthContext(ctx, u.JWT)).
 			UpdateType("single-file").
+			NamePrefix("test-list-software"). // filter so we dont collide with other tests
 			Execute()
 		require.NoError(u.T(), err)
 
@@ -445,13 +444,13 @@ func (u *DeploymentsManagementV1Alpha1Suite) createReleaseArtifact(
 	}
 	// Wait for the async processing to complete
 	created := false
-	for range 5 {
+	for range 15 {
 		_, res, err := u.APIClient.DeploymentsV2ManagementAPIAPI.GetReleaseWithGivenName(ctx, name).Execute()
 		if err != nil {
 			if http.StatusNotFound != res.StatusCode {
 				return nil, errors.New("unexpected status code from get release")
 			}
-			time.Sleep(200 * time.Millisecond)
+			time.Sleep(time.Second)
 			continue
 		}
 		created = true
@@ -468,6 +467,7 @@ func (u *DeploymentsManagementV1Alpha1Suite) uploadArtifact(
 	artifact *os.File,
 	description *string,
 ) (*http.Response, error) {
+	defer artifact.Close()
 
 	req := u.APIClient.DeploymentsManagementAPIAPI.
 		UploadArtifact(ctx).
@@ -481,77 +481,4 @@ func (u *DeploymentsManagementV1Alpha1Suite) uploadArtifact(
 		return nil, errors.New("got no response from upload artifact")
 	}
 	return r, err
-}
-
-type modifyArtifactArgsOpt func(args *awriter.WriteArtifactArgs)
-
-func withCompatibleDevices(compatibleDevices []string) modifyArtifactArgsOpt {
-	return func(args *awriter.WriteArtifactArgs) {
-		args.Depends.CompatibleDevices = compatibleDevices
-	}
-}
-
-func withUpdates(updates []handlers.Composer) modifyArtifactArgsOpt {
-	return func(args *awriter.WriteArtifactArgs) {
-		args.Updates.Updates = updates
-	}
-}
-
-func withModuleImage(module *handlers.ModuleImage) modifyArtifactArgsOpt {
-	return func(args *awriter.WriteArtifactArgs) {
-		args.TypeInfoV3.Type = module.GetUpdateType()
-		args.Updates.Updates = []handlers.Composer{module}
-	}
-}
-func createArtifact(
-	name string,
-	fs interface{ TempDir() string },
-	artifactArgsOpts ...modifyArtifactArgsOpt,
-) (*os.File, error) {
-
-	artifactDst := path.Join(fs.TempDir(), fmt.Sprintf("%s.mender", name))
-	file, err := os.Create(artifactDst)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create %s", artifactDst)
-	}
-
-	w := awriter.NewWriter(file, artifact.NewCompressorGzip())
-	i := handlers.NewModuleImage("foo")
-
-	args := &awriter.WriteArtifactArgs{
-		Format:  "mender",
-		Version: 3,
-		Name:    name,
-		Provides: &artifact.ArtifactProvides{
-			ArtifactName: name,
-		},
-		Depends: &artifact.ArtifactDepends{
-			CompatibleDevices: []string{"foo"},
-		},
-		TypeInfoV3: &artifact.TypeInfoV3{
-			Type:             i.GetUpdateType(),
-			ArtifactProvides: artifact.TypeInfoProvides{"foo": "bar"},
-			ArtifactDepends:  artifact.TypeInfoDepends{"foo": "bar"},
-		},
-		Updates: &awriter.Updates{
-			Updates: []handlers.Composer{i},
-		},
-	}
-
-	for _, opt := range artifactArgsOpts {
-		opt(args)
-	}
-
-	err = w.WriteArtifact(args)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to write manifest artifact")
-	}
-
-	// Seek to the start of the file so the caller can read it
-	_, err = file.Seek(0, 0)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to prepare %s for reading", artifactDst)
-	}
-
-	return file, nil
 }
