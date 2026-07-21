@@ -53,6 +53,7 @@ type ComposeEnvironment struct {
 	serverURL string
 	apiClient *oapiclient.APIClient
 	project   *types.Project
+	compose   api.Compose
 }
 
 func NewComposeEnvironment(config ComposeEnvironmentConfig) *ComposeEnvironment {
@@ -70,6 +71,7 @@ func (c *ComposeEnvironment) Setup(t *testing.T) {
 
 	compose, err := createComposeService(io.Discard)
 	require.NoError(err, "failed to create compose service")
+	c.compose = compose
 
 	stacks, err := compose.List(ctx, api.ListOptions{All: true})
 	projectAlreadyRunning := slices.ContainsFunc(stacks, func(s api.Stack) bool {
@@ -122,7 +124,10 @@ func (c *ComposeEnvironment) Setup(t *testing.T) {
 		// The server URL can't be resolved through DNS so we
 		// resolve it manually here. This is essentially the same
 		// as adding `[localhost] [host]` to `/etc/hosts`.
-		if host == c.serverURL {
+		// The storage-proxy hostnames (e.g. s3.docker.mender.io in
+		// presigned artifact download links) are served by the same
+		// traefik instance, so rewrite those too.
+		if host == c.serverURL || strings.HasSuffix(host, ".docker.mender.io") {
 			host = localhost
 		}
 
@@ -393,6 +398,12 @@ func loadComposeProject(ctx context.Context, compose api.Compose, projectName st
 	}
 
 	return project, func() { os.Remove(source) }, nil
+}
+
+// HealthCheck asserts every service's internal health endpoint responds,
+// the same check Setup performs after bringing the environment up.
+func (c *ComposeEnvironment) HealthCheck(ctx context.Context) error {
+	return healthCheckComposeEnvironment(ctx, c.compose, c.project)
 }
 
 func healthCheckComposeEnvironment(ctx context.Context, compose api.Compose, project *types.Project) error {
