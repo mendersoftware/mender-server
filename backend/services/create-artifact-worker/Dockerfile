@@ -43,7 +43,7 @@ RUN \
   BUILDFLAGS="${BUILDFLAGS}" && \
   mkdir /var/cache/create-artifact-worker
 
-FROM alpine:3.23.4
+FROM alpine:3.23.5
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534:65534
