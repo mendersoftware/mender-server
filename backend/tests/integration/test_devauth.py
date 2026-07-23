@@ -1101,13 +1101,15 @@ class TestAuthsetMgmtBase:
             # authset should be gone
             dev.authsets.remove(aset)
 
-            # removing preauth authset - the device should be completely gone
-            if dev.status == "preauthorized":
+            # removing the preauth authset deletes the whole device only if it
+            # was the device's last authset; if other authsets remain
+            # the device stays and its status is recomputed from those
+            if dev.status == "preauthorized" and len(dev.authsets) == 0:
                 r = devauthm.with_auth(utoken).call(
                     "GET", deviceauth.URL_DEVICE, path_params={"id": dev.id}
                 )
                 assert r.status_code == 404
-                return
+                continue
             else:
                 # in other cases the device remains
                 dev.status = self.compute_dev_status(dev.authsets)
