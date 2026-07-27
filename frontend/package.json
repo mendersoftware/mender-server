@@ -31,7 +31,7 @@
     "jwt-decode": "4.0.0",
     "linkify-react": "4.3.3",
     "md5": "2.3.0",
-    "msgpack5": "6.0.2",
+    "msgpackr": "2.0.4",
     "mui-markdown": "^2.1.1",
     "pluralize": "8.0.0",
     "react": "^19.2.7",

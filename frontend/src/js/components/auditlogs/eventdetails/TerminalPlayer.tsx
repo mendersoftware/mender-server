@@ -20,11 +20,10 @@ import { makeStyles } from 'tss-react/mui';
 import XTerm from '@northern.tech/common-ui/xterm';
 import { DEVICE_MESSAGE_PROTOCOLS as MessageProtocols, DEVICE_MESSAGE_TYPES as MessageTypes, TIMEOUTS, deviceConnect } from '@northern.tech/store/constants';
 import { blobToString, byteArrayToString, createFileDownload, toggle } from '@northern.tech/utils/helpers';
-import msgpack5 from 'msgpack5';
+import { decode } from 'msgpackr';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
-const MessagePack = msgpack5();
 
 let socket = null;
 let buffer = [];
@@ -196,7 +195,7 @@ export const TerminalPlayer = ({ className, item, sessionInitialized, token }) =
         const {
           hdr: { proto, typ, props = {} },
           body
-        } = MessagePack.decode(data);
+        } = decode(new Uint8Array(data));
         if (proto !== MessageProtocols.Shell) {
           return;
         }
