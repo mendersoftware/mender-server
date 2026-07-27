@@ -44,21 +44,18 @@ const checkDownloadedReplayForSecret = async (path, secret) => {
     }
     const { hadContent, containedSecret } = candidates.reduce(
       (accu, { content: encodedText }) => {
-        const jsonContent = Buffer.from(encodedText, 'base64').toString();
-        if (jsonContent === 'undefined') {
-          // pure delay entries will have undefined content, ignore those
+        if (!encodedText) {
+          // pure delay entries have no content, ignore those
           return accu;
         }
-        let content;
         let decodedContent;
         try {
-          content = JSON.parse(jsonContent);
-          decodedContent = String.fromCharCode(...content.data);
+          decodedContent = JSON.parse(Buffer.from(encodedText, 'base64').toString());
         } catch (error) {
           console.log('checkDownloadedReplayForSecret', error);
           console.log('checkDownloadedReplayForSecret - encodedText', encodedText);
         }
-        return { hadContent: accu.hadContent || !!decodedContent, containedSecret: accu.containedSecret || decodedContent.includes(secret) };
+        return { hadContent: accu.hadContent || !!decodedContent, containedSecret: accu.containedSecret || !!decodedContent?.includes(secret) };
       },
       { hadContent: false, containedSecret: false }
     );
