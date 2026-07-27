@@ -24,10 +24,12 @@
     "@xterm/addon-search": "0.16.0",
     "@xterm/addon-web-links": "0.12.0",
     "@xterm/xterm": "6.0.0",
+    "@zxcvbn-ts/core": "4.1.2",
+    "@zxcvbn-ts/language-common": "4.1.2",
+    "@zxcvbn-ts/language-en": "4.1.1",
     "axios": "1.18.1",
     "copy-to-clipboard": "4.0.2",
     "dayjs": "^1.11.21",
-    "generate-password-browser": "1.1.0",
     "jwt-decode": "4.0.0",
     "linkify-react": "4.3.3",
     "md5": "2.3.0",
@@ -50,8 +52,7 @@
     "uuid": "14.0.1",
     "validator": "13.15.35",
     "yaml": "^2.9.0",
-    "zod": "4.4.3",
-    "zxcvbn": "4.4.2"
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@emotion/jest": "11.14.2",

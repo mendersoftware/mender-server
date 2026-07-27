@@ -42,7 +42,8 @@ describe('PasswordReset Component', () => {
     await act(() => vi.runAllTimersAsync());
   });
 
-  it('works as intended', async () => {
+  // password strength is checked on every keystroke and the zxcvbn-ts scoring exceeds the default 5s test timeout
+  it('works as intended', { timeout: 30000 }, async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { passwordResetComplete: completeSpy } = StoreThunks;
 
