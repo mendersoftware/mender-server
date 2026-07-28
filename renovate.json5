@@ -6,15 +6,14 @@
   "extends": [
     "config:recommended",
     ":gitSignOff",
-    ":rebaseStalePrs",
-    ":semanticCommitTypeAll(chore)"
+    ":rebaseStalePrs"
   ],
 
   // CODEOWNERS drives reviewer assignment. Keep CODEOWNERS complete.
   "reviewersFromCodeOwners": true,
 
-  // chore(deps): <desc>, matching the old Dependabot prefix.
   "semanticCommits": "enabled",
+  "semanticCommitType": "fix",
   "semanticCommitScope": "deps",
 
   // Fallback window for weeks with no merges; the .pre CI job is the primary trigger.
@@ -89,17 +88,24 @@
   ],
 
   "packageRules": [
-    // GitLab CI image bumps
     {
       "matchManagers": ["gitlabci", "gitlabci-include"],
+      "semanticCommitType": "chore",
       "semanticCommitScope": ""
     },
 
-    // Go: one PR for all modules (covers backend/go.mod AND backend/tests/runner/go.mod).
     {
       "matchManagers": ["gomod"],
+      "matchFileNames": ["backend/go.mod"],
       "groupName": "golang-dependencies",
       "groupSlug": "golang-dependencies"
+    },
+    {
+      "matchManagers": ["gomod"],
+      "matchFileNames": ["backend/tests/runner/go.mod"],
+      "groupName": "golang-test-dependencies",
+      "groupSlug": "golang-test-dependencies",
+      "semanticCommitType": "chore"
     },
 
     // Docker base images: one grouped PR. 9 services share golang:1.26.2; the
@@ -110,6 +116,14 @@
       "groupSlug": "docker-base-images"
     },
 
+    {
+      "matchManagers": ["dockerfile"],
+      "matchFileNames": ["backend/tests/Dockerfile.*"],
+      "groupName": "docker-test-images",
+      "groupSlug": "docker-test-images",
+      "semanticCommitType": "chore"
+    },
+
     // docker-compose: root + compose/*.yml + nested compose files in one PR.
     {
       "matchManagers": ["docker-compose"],
@@ -117,19 +131,25 @@
       "groupName": "docker-compose",
       "groupSlug": "docker-compose"
     },
-
-    // Python: one PR for all pip deps.
+    {
+      "matchManagers": ["docker-compose"],
+      "matchFileNames": ["**/tests/**", "compose/docker-compose.smtp4dev.yml"],
+      "groupName": "docker-compose-test",
+      "groupSlug": "docker-compose-test",
+      "semanticCommitType": "chore"
+    },
     {
       "matchManagers": ["pip_requirements", "pipenv", "poetry"],
       "groupName": "python-dependencies",
-      "groupSlug": "python-dependencies"
+      "groupSlug": "python-dependencies",
+      "semanticCommitType": "chore"
     },
 
-    // npm: five groups, matching the old Dependabot policy.
     {
       "matchManagers": ["npm"],
       "matchDepTypes": ["devDependencies"],
-      "groupName": "npm-dev-dependencies"
+      "groupName": "npm-dev-dependencies",
+      "semanticCommitType": "chore"
     },
     {
       "matchManagers": ["npm"],
@@ -144,12 +164,14 @@
     {
       "matchFileNames": ["frontend/tests/e2e_tests/package.json"],
       "matchPackageNames": ["/^@playwright/", "/^playwright/"],
-      "groupName": "playwright"
+      "groupName": "playwright",
+      "semanticCommitType": "chore"
     },
     {
       "matchFileNames": ["frontend/tests/e2e_tests/package.json"],
       "matchPackageNames": ["!/^@playwright/", "!/^playwright/"],
-      "groupName": "test-dependencies"
+      "groupName": "test-dependencies",
+      "semanticCommitType": "chore"
     },
 
     // Submodules are managed by release tooling.
