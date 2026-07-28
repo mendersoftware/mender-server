@@ -1,4 +1,13 @@
 ---
+## 4.1.3 - 2026-07-28
+
+
+### Dependency updates
+
+- *(deps)* Updated golang dependencies
+- *(deps)* Upgrade container image golang to 1.26.5
+- *(deps)* Upgrade container image alpine to 3.23.5
+
 ## 4.1.2 - 2026-07-09
 
 
