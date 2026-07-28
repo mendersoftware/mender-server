@@ -88,8 +88,7 @@ const generateHtml = (versions, content) => {
         <button id="stop" class="disabled" disabled onclick="handleStop()">Stop</button>
       </div>
       <script>
-        const byteArrayToString = body => String.fromCharCode(...body);
-        const transfer = '${JSON.stringify(content.map(item => ({ delay: item.delay, content: btoa(JSON.stringify(item.content)) })))}';
+        const transfer = '${JSON.stringify(content.map(item => ({ delay: item.delay, content: item.content && btoa(JSON.stringify(byteArrayToString(item.content))) })))}';
         const content = JSON.parse(transfer);
         let contentIndex = 0;
         let timer;
@@ -125,8 +124,7 @@ const generateHtml = (versions, content) => {
           if (item.delay) {
             delay = item.delay;
           } else if (item.content) {
-            const buffer = JSON.parse(atob(item.content));
-            term.write(byteArrayToString(buffer.data || []))
+            term.write(JSON.parse(atob(item.content)))
           }
           timer = setTimeout(processContent, delay)
         };
