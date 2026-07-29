@@ -122,7 +122,10 @@ func (c *ComposeEnvironment) Setup(t *testing.T) {
 		// The server URL can't be resolved through DNS so we
 		// resolve it manually here. This is essentially the same
 		// as adding `[localhost] [host]` to `/etc/hosts`.
-		if host == c.serverURL {
+		// The storage-proxy hostnames (e.g. s3.docker.mender.io in
+		// presigned artifact download links) are served by the same
+		// traefik instance, so rewrite those too.
+		if host == c.serverURL || strings.HasSuffix(host, ".docker.mender.io") {
 			host = localhost
 		}
 

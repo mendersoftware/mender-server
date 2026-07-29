@@ -1,8 +1,13 @@
 package opensource
 
 import (
+	"encoding/base64"
+	"encoding/json"
+	"strings"
+
 	oapiclient "github.com/mendersoftware/mender-server/pkg/api/client"
 	"github.com/mendersoftware/mender-server/tests/runner/tests/common"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 )
@@ -38,6 +43,7 @@ func (u *UseradmManagementV1Suite) SetupSuite() {
 
 func (u *UseradmManagementV1Suite) TestLogin() {
 	require := require.New(u.T())
+	assert := assert.New(u.T())
 	ctx := common.BasicAuthContext(u.T().Context(), u.User)
 
 	token, r, err := u.APIClient.UserAdministrationManagementAPIAPI.Login(ctx).Execute()
@@ -45,6 +51,15 @@ func (u *UseradmManagementV1Suite) TestLogin() {
 	require.NotNil(r)
 	require.Equal(200, r.StatusCode)
 	require.NotZero(len(token))
+
+	// G9: mender.user claim (python test_auth.py::TestAuthLogin::test_ok L64)
+	parts := strings.Split(token, ".")
+	require.Len(parts, 3)
+	payloadRaw, err := base64.RawStdEncoding.DecodeString(parts[1])
+	require.NoError(err)
+	var payload map[string]any
+	require.NoError(json.Unmarshal(payloadRaw, &payload))
+	assert.Equal(true, payload["mender.user"])
 }
 
 func (u *UseradmManagementV1Suite) TestMe() {
