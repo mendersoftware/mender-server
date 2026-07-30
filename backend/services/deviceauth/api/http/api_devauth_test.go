@@ -19,6 +19,7 @@ import (
 	"crypto"
 	"encoding/json"
 	"fmt"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -32,6 +33,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/requestid"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	rtest "github.com/mendersoftware/mender-server/pkg/testing/rest"
+	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	mt "github.com/mendersoftware/mender-server/pkg/testing"
 
@@ -2280,6 +2282,92 @@ func TestApiGetTenantDevicesV2(t *testing.T) {
 
 			apih := makeMockApiHandler(t, da, nil)
 			runTestRequest(t, apih, tc.req, tc.code, tc.body)
+		})
+	}
+}
+
+func TestDevAuthApiHandlers_UpdateDeviceInternal(t *testing.T) {
+	tests := []struct {
+		name string // description of this test case
+		// Named input parameters for receiver constructor.
+		devAuth  func(t *testing.T) devauth.App
+		deviceID string
+		tenantID string
+		body     any
+		options  []Option
+
+		StatusCode int
+	}{{
+		name:     "ok/provisioned",
+		deviceID: "ce8e187e-a18d-4aca-a471-3c8c712cbef8",
+		body:     model.DeviceUpdate{Provisioned: types.Pointer(true)},
+
+		devAuth: func(t *testing.T) devauth.App {
+			app := mocks.NewApp(t)
+			app.On("UpdateDevice",
+				mtest.ContextMatcher(),
+				"ce8e187e-a18d-4aca-a471-3c8c712cbef8",
+				model.DeviceUpdate{Provisioned: types.Pointer(true)}).
+				Return(nil)
+			return app
+		},
+		StatusCode: http.StatusNoContent,
+	}, {
+		name:     "not found",
+		deviceID: "ce8e187e-a18d-4aca-a471-3c8c712cbef8",
+		body:     struct{}{},
+
+		devAuth: func(t *testing.T) devauth.App {
+			app := mocks.NewApp(t)
+			app.On("UpdateDevice",
+				mtest.ContextMatcher(), "ce8e187e-a18d-4aca-a471-3c8c712cbef8", model.DeviceUpdate{}).
+				Return(devauth.ErrDeviceNotFound)
+			return app
+		},
+		StatusCode: http.StatusNotFound,
+	}, {
+		name:     "temporary network error",
+		deviceID: "ce8e187e-a18d-4aca-a471-3c8c712cbef8",
+		body:     struct{}{},
+
+		devAuth: func(t *testing.T) devauth.App {
+			app := mocks.NewApp(t)
+			app.On("UpdateDevice",
+				mtest.ContextMatcher(), "ce8e187e-a18d-4aca-a471-3c8c712cbef8", model.DeviceUpdate{}).
+				Return(&net.OpError{Op: "test", Err: errors.New("test")})
+			return app
+		},
+		StatusCode: http.StatusServiceUnavailable,
+	}, {
+		name:     "internal error",
+		deviceID: "ce8e187e-a18d-4aca-a471-3c8c712cbef8",
+		body:     struct{}{},
+
+		devAuth: func(t *testing.T) devauth.App {
+			app := mocks.NewApp(t)
+			app.On("UpdateDevice",
+				mtest.ContextMatcher(), "ce8e187e-a18d-4aca-a471-3c8c712cbef8", model.DeviceUpdate{}).
+				Return(errors.New("internal error"))
+			return app
+		},
+		StatusCode: http.StatusInternalServerError,
+	}}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			h := NewRouter(tc.devAuth(t), nil, tc.options...)
+			b, err := json.Marshal(tc.body)
+			if err != nil {
+				t.Fatalf("invalid test case parameter body: %s", err.Error())
+			}
+			req, _ := http.NewRequest(http.MethodPatch,
+				"http://localhost/api/internal/v1/devauth"+
+					fmt.Sprintf("/tenants/%s/devices/%s",
+						tc.tenantID, tc.deviceID),
+				bytes.NewReader(b),
+			)
+			w := httptest.NewRecorder()
+			h.ServeHTTP(w, req)
+			assert.Equal(t, tc.StatusCode, w.Result().StatusCode, "unexpeted status code")
 		})
 	}
 }

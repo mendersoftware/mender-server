@@ -29,6 +29,7 @@ import (
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/mongo/v2/oid"
 	"github.com/mendersoftware/mender-server/pkg/ratelimits"
+	"github.com/mendersoftware/mender-server/pkg/utils/types"
 
 	"github.com/pkg/errors"
 
@@ -3578,6 +3579,50 @@ func TestDevAuthGetDevicesWithCache(t *testing.T) {
 				assert.Nil(t, devs[0].CheckInTime)
 			}
 
+		})
+	}
+}
+
+func TestDevAuth_UpdateDevice(t *testing.T) {
+	genericErr := errors.New("generic error")
+	tests := []struct {
+		name      string // description of this test case
+		deviceID  string
+		update    model.DeviceUpdate
+		updateErr error
+
+		resErr error
+	}{{
+		name:      "ok",
+		deviceID:  "7e3ad3ee-1217-4c30-bc2d-c0971783880a",
+		update:    model.DeviceUpdate{Provisioned: types.Pointer(true)},
+		updateErr: nil,
+		resErr:    nil,
+	}, {
+		name:      "not found error",
+		deviceID:  "7e3ad3ee-1217-4c30-bc2d-c0971783880a",
+		update:    model.DeviceUpdate{Provisioned: types.Pointer(true)},
+		updateErr: store.ErrDevNotFound,
+		resErr:    ErrDeviceNotFound,
+	}, {
+		name:      "generic error",
+		deviceID:  "7e3ad3ee-1217-4c30-bc2d-c0971783880a",
+		update:    model.DeviceUpdate{Provisioned: types.Pointer(true)},
+		updateErr: genericErr,
+		resErr:    genericErr,
+	}}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			datastore := mstore.NewDataStore(t)
+			datastore.On("UpdateDevice",
+				mtesting.ContextMatcher(), tt.deviceID, tt.update).
+				Return(tt.updateErr)
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
+			inv := oas_mocks.NewMockDeviceInventoryInternalAPIAPI(t)
+			jwt := mjwt.NewHandler(t)
+			d := NewDevAuth(datastore, co, inv, jwt, Config{})
+			err := d.UpdateDevice(t.Context(), tt.deviceID, tt.update)
+			assert.ErrorIs(t, err, tt.resErr)
 		})
 	}
 }
