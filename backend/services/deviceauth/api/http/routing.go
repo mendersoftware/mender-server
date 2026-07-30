@@ -179,6 +179,7 @@ func NewRouter(app devauth.App, db store.DataStore, options ...Option) http.Hand
 	intrnlAPIV1.GET(uriTenantDevices, d.GetTenantDevicesHandler)
 	intrnlAPIV1.GET(uriTenantDevicesCount, d.GetTenantDevicesCountHandler)
 	intrnlAPIV1.DELETE(uriTenantDevice, d.DeleteDeviceHandler)
+	intrnlAPIV1.PATCH(uriTenantDevice, d.UpdateDeviceInternal)
 
 	return router
 }

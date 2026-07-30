@@ -110,6 +110,7 @@ type App interface {
 	GetDevCountByStatus(ctx context.Context, status string) (int, error)
 
 	GetTenantDeviceStatus(ctx context.Context, tenantId, deviceId string) (*model.Status, error)
+	UpdateDevice(ctx context.Context, deviceID string, update model.DeviceUpdate) error
 }
 
 type DevAuth struct {
@@ -690,6 +691,18 @@ func (d *DevAuth) DecommissionDevice(ctx context.Context, devID string) error {
 		return errors.Wrap(err, "submit device decommissioning job error")
 	}
 
+	return err
+}
+
+func (d *DevAuth) UpdateDevice(
+	ctx context.Context,
+	deviceID string,
+	update model.DeviceUpdate,
+) error {
+	err := d.db.UpdateDevice(ctx, deviceID, update)
+	if errors.Is(err, store.ErrDevNotFound) {
+		err = ErrDeviceNotFound
+	}
 	return err
 }
 

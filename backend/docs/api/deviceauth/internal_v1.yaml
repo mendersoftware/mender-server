@@ -218,6 +218,40 @@ paths:
           $ref: ../common/responses.yaml#/components/responses/InternalServerError
         '503':
           $ref: ../common/responses.yaml#/components/responses/UnavailableError
+    patch:
+      operationId: Update device auth
+      tags:
+      - Internal API
+      summary: Update the device authentication data
+      parameters:
+      - name: tid
+        in: path
+        description: Tenant identifier.
+        required: true
+        schema:
+          type: string
+      - name: did
+        in: path
+        description: Device identifier.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UdpateDeviceAuth'
+      responses:
+        '204':
+          description: Success.
+        '400':
+          $ref: ../common/responses.yaml#/components/responses/InvalidRequestError
+        '404':
+          $ref: ../common/responses.yaml#/components/responses/NotFound
+        '500':
+          $ref: ../common/responses.yaml#/components/responses/InternalServerError
+
   /api/internal/v1/devauth/tenants/{tid}/devices/{did}/external:
     put:
       operationId: DeviceAuth Internal Set external identity
@@ -385,6 +419,12 @@ paths:
           $ref: ../common/responses.yaml#/components/responses/InternalServerError
 components:
   schemas:
+    UdpateDeviceAuth:
+      type: object
+      properties:
+        provisioned:
+          type: boolean
+          description: "If true, marks the device as provisioned"
     ExternalDevice:
       type: object
       description: External device descriptor
