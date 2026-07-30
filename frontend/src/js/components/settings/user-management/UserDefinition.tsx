@@ -95,6 +95,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
   const dispatch = useAppDispatch();
 
   const [hadRoleChanges, setHadRoleChanges] = useState(false);
+  const [isEditingRoles, setIsEditingRoles] = useState(false);
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [showResetConfirmation, setShowResetConfirmation] = useState(false);
   const rolesById = useMemo(
@@ -104,6 +105,8 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
 
   useEffect(() => {
     setSelectedRoles(selectedUser.roles || []);
+    setHadRoleChanges(false);
+    setIsEditingRoles(false);
   }, [selectedUser.roles]);
 
   const onRemoveClick = () => {
@@ -115,19 +118,18 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
     setHadRoleChanges(hadRoleChanges);
   };
 
+  const onCancelRoleChanges = () => {
+    setSelectedRoles(selectedUser.roles || []);
+    setHadRoleChanges(false);
+    setIsEditingRoles(false);
+  };
+
   const onPasswordResetConfirmed = () =>
     dispatch(passwordResetStart(selectedUser.email))
       .unwrap()
       .then(() => dispatch(setSnackbar(`A password reset email was sent to ${selectedUser.email}.`)));
 
-  const onSubmitClick = () => {
-    if (id && !hadRoleChanges) {
-      return onSubmit(null, 'edit', id);
-    }
-    const changedRoles = hadRoleChanges ? { roles: selectedRoles } : {};
-    const submissionData = { ...selectedUser, ...changedRoles };
-    return onSubmit(submissionData, 'edit', id);
-  };
+  const onSubmitClick = () => onSubmit({ ...selectedUser, roles: selectedRoles }, 'edit', id);
 
   const { areas, ...scopedAreas } = useMemo(() => {
     const emptySelection = { areas: {}, groups: {}, releases: {} };
@@ -150,7 +152,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
 
   const hasScopedPermissionsDefined = Object.values(scopedAreas).some(permissions => !isEmpty(permissions));
   const userNotVerified = !currentUser.verified;
-  const isSubmitDisabled = !selectedRoles.length;
+  const isSubmitDisabled = !selectedRoles.length || !hadRoleChanges;
 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
   const rolesClasses = isEnterprise ? '' : 'muted';
@@ -171,7 +173,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       }}
     >
       {hasMultitenancy && userNotVerified && <EmailVerificationWarning className="margin-top-small" action="change another user’s email" />}
-      <Typography className="margin-top" variant="subtitle1">
+      <Typography className="margin-top-x-small" variant="subtitle1">
         User ID
       </Typography>
       <TwoColumnData className="margin-top-small" setSnackbar={setSnackbar} data={{ Email: selectedUser.email, 'User ID': selectedUser.id }} />
@@ -209,7 +211,30 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       <Typography className="margin-top" variant="subtitle1">
         Roles
       </Typography>
-      <UserRolesSelect disabled={!isEnterprise} currentUser={currentUser} onSelect={onRolesSelect} roles={roles} user={selectedUser} />
+      <UserRolesSelect
+        key={`roles-select-${isEditingRoles}`}
+        disabled={!isEnterprise || !isEditingRoles}
+        currentUser={currentUser}
+        onSelect={onRolesSelect}
+        roles={roles}
+        user={selectedUser}
+      />
+      {isEnterprise && (
+        <div className="flexbox margin-top-small">
+          {isEditingRoles ? (
+            <>
+              <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onCancelRoleChanges}>
+                Cancel
+              </Button>
+              <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick}>
+                Save changes
+              </Button>
+            </>
+          ) : (
+            <Button onClick={() => setIsEditingRoles(true)}>Change roles</Button>
+          )}
+        </div>
+      )}
       {!isEnterprise && (
         <Alert className={`margin-top-small ${classes.widthLimit}`} severity="warning">
           Role-base access control (RBAC) is not available in your current plan. All users will have full administrative access
@@ -218,7 +243,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       )}
       <ColumnWidthProvider>
         {!!(hasScopedPermissionsDefined || !isEmpty(areas)) && (
-          <Typography className="margin-top margin-bottom-small" variant="subtitle1">
+          <Typography className="margin-top margin-bottom-x-small" variant="subtitle1">
             Role permissions
           </Typography>
         )}
@@ -229,7 +254,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
           }
           accu.push(
             <Fragment key={area}>
-              <Typography className="margin-top-medium margin-bottom-small" variant="subtitle1">
+              <Typography className="margin-top margin-bottom-x-small" variant="subtitle1">
                 {scopedPermissionAreas[area]}
               </Typography>
               <SynchronizedTwoColumnData className={rolesClasses} data={areaPermissions} />
