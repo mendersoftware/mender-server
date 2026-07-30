@@ -117,8 +117,12 @@ test.describe('Settings', () => {
 
     test('allows email changes', async ({ baseUrl, page }) => {
       await page.goto(`${baseUrl}ui/settings/my-profile`);
-      await page.getByRole('button', { name: /change email/i }).click();
-      await expect(page.getByLabel(/current password/i)).toBeVisible();
+      await page.getByRole('button', { name: /change email address/i }).click();
+      await page.getByLabel(/new email address/i).fill('updated@example.com');
+      await page.getByRole('button', { name: /save changes/i }).click();
+      const dialog = page.getByRole('dialog');
+      await expect(dialog).toBeVisible();
+      await expect(dialog.getByLabel(/password/i)).toBeVisible();
     });
   });
 });
