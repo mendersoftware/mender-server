@@ -95,6 +95,7 @@ export const AuditLogsFilter = ({
             title: 'Performed by',
             Component: ControlledSelect,
             componentProps: {
+              classes: { root: 'align-self-start' },
               labelAttribute: 'email',
               options: Object.values(users),
               placeholder: 'Select a user',
