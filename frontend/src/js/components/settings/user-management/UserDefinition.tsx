@@ -37,8 +37,6 @@ import { UserRolesSelect } from './UserForm';
 const { setSnackbar } = actions;
 
 const useStyles = makeStyles()(theme => ({
-  divider: { marginTop: theme.spacing(4) },
-  leftButton: { marginRight: theme.spacing(2) },
   oauthIcon: { fontSize: 36, marginRight: 10 },
   userIdWrapper: {
     '.copy-button': { marginTop: theme.spacing(0.25), whiteSpace: 'nowrap' },
@@ -163,12 +161,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       size="md"
       slotProps={{
         header: {
-          title: `User information for ${selectedUser.email}`,
-          preCloser: currentUser.id !== id && (
-            <Button className={`flexbox align-items-center ${classes.leftButton}`} color="error" onClick={onRemoveClick} variant="outlined">
-              Delete user
-            </Button>
-          )
+          title: `User information for ${selectedUser.email}`
         }
       }}
     >
@@ -263,15 +256,16 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
           return accu;
         }, [])}
       </ColumnWidthProvider>
-      <Divider className={classes.divider} />
-      <div className="flexbox margin-top-small">
-        <Button className={classes.leftButton} onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick}>
-          Save
-        </Button>
-      </div>
+      {currentUser.id !== id && (
+        <>
+          <Divider className="margin-top-large" />
+          <div className="margin-top-medium">
+            <Button color="error" onClick={onRemoveClick} variant="outlined">
+              Delete user
+            </Button>
+          </div>
+        </>
+      )}
     </BaseDrawer>
   );
 };
