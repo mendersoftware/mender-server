@@ -142,6 +142,7 @@ export const UserManagement = () => {
       {showCreate && <UserForm {...props} closeDialog={dialogDismiss} submit={submit} />}
       <UserDefinition
         currentUser={currentUser}
+        hasMultitenancy={hasMultitenancy}
         isEnterprise={isEnterprise}
         onRemove={openRemove}
         onCancel={dialogDismiss}

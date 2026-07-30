@@ -74,6 +74,7 @@ export const UserId = ({ className = '', userId }) => {
 
 interface UserDefinitionProps {
   currentUser: User & { verified?: boolean };
+  hasMultitenancy: boolean;
   isEnterprise: boolean;
   onCancel: () => void;
   onRemove: (user: User) => void;
@@ -82,7 +83,7 @@ interface UserDefinitionProps {
   selectedUser: User & { roles?: string[] };
 }
 
-export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }: UserDefinitionProps) => {
+export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }: UserDefinitionProps) => {
   const { email = '', id } = selectedUser;
 
   const { classes } = useStyles();
@@ -147,7 +148,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
   }, [selectedRoles, rolesById]);
 
   const hasScopedPermissionsDefined = Object.values(scopedAreas).some(permissions => !isEmpty(permissions));
-  const userNotVerified = isEnterprise && !currentUser.verified;
+  const userNotVerified = !currentUser.verified;
   const isSubmitDisabled = !selectedRoles.length;
 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
@@ -168,7 +169,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
         }
       }}
     >
-      {userNotVerified && <EmailVerificationWarning className="margin-top-small" action="change another user’s email" />}
+      {hasMultitenancy && userNotVerified && <EmailVerificationWarning className="margin-top-small" action="change another user’s email" />}
       <Typography className="margin-top" variant="subtitle1">
         User ID
       </Typography>
@@ -178,7 +179,7 @@ export const UserDefinition = ({ currentUser, isEnterprise, onCancel, onSubmit, 
           label="Email"
           id="email"
           value={currentEmail}
-          disabled={isOAuth2 || currentUser.id === id || userNotVerified}
+          disabled={isOAuth2 || currentUser.id === id || (hasMultitenancy && userNotVerified)}
           error={nameError}
           onChange={validateNameChange}
         />
