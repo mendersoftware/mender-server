@@ -14,22 +14,27 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 // material ui
-import { Alert, Button, Divider, FormControl, FormHelperText, TextField, Typography, textFieldClasses } from '@mui/material';
+import { Alert, Button, Divider, TextField, Typography, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
-import { ColumnWidthProvider, SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { ColumnWidthProvider, SynchronizedTwoColumnData, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import actions from '@northern.tech/store/actions';
 import { rolesByName, uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { passwordResetStart } from '@northern.tech/store/thunks';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
 import type { User } from '@northern.tech/types/MenderTypes';
 import { isEmpty } from '@northern.tech/utils/helpers';
-import validator from 'validator';
 
 import { OAuth2Providers, genericProvider } from '../../login/OAuth2Providers';
 import { EmailVerificationWarning } from '../EmailVerificationWarning';
 import { SETTINGS_FORM_MAX_WIDTH, SETTINGS_INPUT_WIDTH, SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY } from '../constants';
 import { UserRolesSelect } from './UserForm';
+
+const { setSnackbar } = actions;
 
 const useStyles = makeStyles()(theme => ({
   divider: { marginTop: theme.spacing(4) },
@@ -84,31 +89,22 @@ interface UserDefinitionProps {
 }
 
 export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }: UserDefinitionProps) => {
-  const { email = '', id } = selectedUser;
+  const { id } = selectedUser;
 
   const { classes } = useStyles();
+  const dispatch = useAppDispatch();
 
-  const [nameError, setNameError] = useState(false);
   const [hadRoleChanges, setHadRoleChanges] = useState(false);
   const [selectedRoles, setSelectedRoles] = useState([]);
-  const [currentEmail, setCurrentEmail] = useState('');
+  const [showResetConfirmation, setShowResetConfirmation] = useState(false);
   const rolesById = useMemo(
     () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
     [roles]
   );
 
   useEffect(() => {
-    setCurrentEmail(email);
-  }, [email]);
-
-  useEffect(() => {
     setSelectedRoles(selectedUser.roles || []);
   }, [selectedUser.roles]);
-
-  const validateNameChange = ({ target: { value } }) => {
-    setNameError(!validator.isEmail(value) || validator.isEmpty(value));
-    setCurrentEmail(value);
-  };
 
   const onRemoveClick = () => {
     onRemove(selectedUser);
@@ -119,12 +115,17 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
     setHadRoleChanges(hadRoleChanges);
   };
 
+  const onPasswordResetConfirmed = () =>
+    dispatch(passwordResetStart(selectedUser.email))
+      .unwrap()
+      .then(() => dispatch(setSnackbar(`A password reset email was sent to ${selectedUser.email}.`)));
+
   const onSubmitClick = () => {
-    if (id && !hadRoleChanges && email === currentEmail) {
+    if (id && !hadRoleChanges) {
       return onSubmit(null, 'edit', id);
     }
     const changedRoles = hadRoleChanges ? { roles: selectedRoles } : {};
-    const submissionData = { ...selectedUser, ...changedRoles, email: currentEmail };
+    const submissionData = { ...selectedUser, ...changedRoles };
     return onSubmit(submissionData, 'edit', id);
   };
 
@@ -160,7 +161,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       size="md"
       slotProps={{
         header: {
-          title: 'Edit user',
+          title: `User information for ${selectedUser.email}`,
           preCloser: currentUser.id !== id && (
             <Button className={`flexbox align-items-center ${classes.leftButton}`} color="error" onClick={onRemoveClick} variant="outlined">
               Delete user
@@ -173,18 +174,28 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       <Typography className="margin-top" variant="subtitle1">
         User ID
       </Typography>
-      <UserId className={`margin-top-medium ${classes.widthLimit}`} userId={id} />
-      <FormControl className={`margin-top-medium ${classes.widthLimit}`}>
-        <TextField
-          label="Email"
-          id="email"
-          value={currentEmail}
-          disabled={isOAuth2 || currentUser.id === id || (hasMultitenancy && userNotVerified)}
-          error={nameError}
-          onChange={validateNameChange}
-        />
-        {nameError && <FormHelperText className="warning">Please enter a valid email address</FormHelperText>}
-      </FormControl>
+      <TwoColumnData className="margin-top-small" setSnackbar={setSnackbar} data={{ Email: selectedUser.email, 'User ID': selectedUser.id }} />
+      {!isOAuth2 && (
+        <>
+          <div>
+            <Button className="margin-top-small" onClick={() => setShowResetConfirmation(true)}>
+              Send password reset link
+            </Button>
+          </div>
+          <ConfirmModal
+            header="Send password reset link?"
+            description={
+              <>
+                We&rsquo;ll send an email to <b>{selectedUser.email}</b> with instructions for resetting their Mender account password.
+              </>
+            }
+            isDanger={false}
+            open={showResetConfirmation}
+            close={() => setShowResetConfirmation(false)}
+            onConfirm={onPasswordResetConfirmed}
+          />
+        </>
+      )}
       {isOAuth2 && (
         <div className="flexbox margin-top-small margin-bottom">
           <div className={classes.oauthIcon}>{provider.icon}</div>
