@@ -344,7 +344,6 @@ func (d *DevAuth) handlePreAuthDevice(
 	ctx context.Context,
 	aset *model.AuthSet,
 ) (*model.AuthSet, error) {
-	var deviceAlreadyAccepted bool
 	// check the device status
 	// if the device status is accepted then do not trigger provisioning workflow
 	// this needs to be checked before changing authentication set status
@@ -399,7 +398,7 @@ func (d *DevAuth) handlePreAuthDevice(
 	dev.Status = model.DevStatusAccepted
 	dev.AuthSets = append(dev.AuthSets, *aset)
 
-	if !deviceAlreadyAccepted {
+	if !dev.Provisioned {
 		reqId := requestid.FromContext(ctx)
 		var tenantID string
 		if idty := identity.FromContext(ctx); idty != nil {
@@ -872,8 +871,8 @@ func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_i
 		return err
 	}
 
-	if dev.Status != model.DevStatusPending {
-		// Device already exist in all services
+	if dev.Provisioned {
+		// Device already provisioned
 		// We're done...
 		return nil
 	}
