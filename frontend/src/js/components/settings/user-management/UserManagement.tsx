@@ -72,13 +72,13 @@ export const UserManagement = () => {
   const dispatch = useDispatch();
 
   const { canManageUsers } = useSelector(getUserCapabilities);
-  const { isHosted } = useSelector(getFeatures);
+  const { hasMultitenancy, isHosted } = useSelector(getFeatures);
   const isEnterprise = useSelector(getIsEnterprise);
   const currentUser = useSelector(getCurrentUser);
   const roles = useSelector(getRelevantRoles);
   const users = useSelector(getUsersList);
   const { trial: isTrial } = useSelector(getOrganization);
-  const emailVerificationRequired = isEnterprise && !currentUser.verified;
+  const emailVerificationRequired = hasMultitenancy && !currentUser.verified;
   const props = {
     canManageUsers,
     addUser: id => dispatch(addUserToCurrentTenant(id)),
