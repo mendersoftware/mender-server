@@ -14,9 +14,10 @@
 import { Button, DialogActions, DialogContent, Divider } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import CopyCode from '@northern.tech/common-ui/CopyCode';
+import { Code } from '@northern.tech/common-ui/CopyCode';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import { createFileDownload } from '@northern.tech/utils/helpers';
+import copy from 'copy-to-clipboard';
 
 import { AiLogAnalysis } from './AiLogAnalysis';
 
@@ -28,6 +29,7 @@ const useStyles = makeStyles()(() => ({
     }
   },
   wrapper: {
+    minWidth: '500px',
     display: 'grid',
     '&.ai-enabled': {
       gridTemplateRows: 'minmax(70%, 1fr) min-content min-content',
@@ -47,10 +49,10 @@ export const LogDialog = ({ canAi, deployment, deviceId, onClose }) => {
   const exportLog = () => createFileDownload(logData, getFilename(context), '');
 
   return (
-    <BaseDialog open title="Deployment log for device" maxWidth="xl" onClose={onClose}>
+    <BaseDialog open title="Deployment log for device" maxWidth="lg" onClose={onClose}>
       <DialogContent className={`${classes.wrapper} ${canAi ? 'ai-enabled' : ''}`}>
         <div className={classes.codeContainer}>
-          <CopyCode code={logData} withDescription />
+          <Code className="copyable-content">{logData}</Code>
         </div>
         {canAi && (
           <>
@@ -61,6 +63,9 @@ export const LogDialog = ({ canAi, deployment, deviceId, onClose }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
+        <Button variant="outlined" color="info" onClick={() => copy(logData)}>
+          Copy to clipboard
+        </Button>
         <Button variant="contained" onClick={exportLog}>
           Export log
         </Button>
