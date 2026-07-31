@@ -11,6 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import type { Page } from '@playwright/test';
 import * as fs from 'fs';
 import md5 from 'md5';
 
@@ -20,6 +21,12 @@ import { expectedArtifactName, selectors, timeouts } from '../../utils/constants
 
 const fileName = `${expectedArtifactName}.mender`;
 const rootfs = 'rootfs-image.version';
+
+// rely on `.MuiCollapse-entered` as signal for animation completion to ensure the filters are actionable to prevent flakiness in slower CI browsers
+const openFilters = async (page: Page) => {
+  await page.getByRole('button', { name: /filters/i }).click();
+  await expect(page.locator('.filter-wrapper')).toHaveClass(/MuiCollapse-entered/);
+};
 
 test.describe('Devices', () => {
   let navbar;
@@ -128,7 +135,7 @@ test.describe('Devices', () => {
 
   test('can be filtered', async ({ browserName, demoDeviceSoftware, page }) => {
     test.setTimeout(2 * timeouts.fifteenSeconds);
-    await page.getByRole('button', { name: /filters/i }).click();
+    await openFilters(page);
     await page.getByLabel(/attribute/i).fill(rootfs);
     const nameInput = await page.getByLabel(/value/i);
     await nameInput.fill(demoDeviceSoftware);
@@ -148,7 +155,7 @@ test.describe('Devices', () => {
   test('can be filtered into non-existence by numerical comparison', async ({ environment, page }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
     test.setTimeout(timeouts.fifteenSeconds);
-    await page.getByRole('button', { name: /filters/i }).click();
+    await openFilters(page);
     await page.getByText(/professional/i).waitFor({ state: 'hidden' }); // assume once the plan indicator tag is gone, filters can be used without problems
     await page.getByLabel(/attribute/i).fill('mem_total_kB');
     await page.keyboard.press('Enter');
@@ -165,7 +172,7 @@ test.describe('Devices', () => {
   test('can be filtered into non-existence', async ({ environment, page }) => {
     test.skip(!isEnterpriseOrStaging(environment), 'not available in OS');
     test.setTimeout(2 * timeouts.fifteenSeconds);
-    await page.getByRole('button', { name: /filters/i }).click();
+    await openFilters(page);
     await page.getByLabel(/attribute/i).fill(rootfs);
     await page.keyboard.press('Enter');
     await page.getByText(/equals/i).click();
