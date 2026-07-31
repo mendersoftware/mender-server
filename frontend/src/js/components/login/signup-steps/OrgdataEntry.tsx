@@ -137,7 +137,7 @@ export const OrgDataEntry = (props: OrgDataProps) => {
         <Typography className="margin-bottom-small">Complete the options below to finish creating your Mender account</Typography>
         <OrgDataContent {...remainder} />
       </Form>
-      <LinedHeader className="margin-top-large flexbox centered" heading="OR" />
+      <LinedHeader centered className="margin-top-large" heading="OR" />
     </>
   );
 };

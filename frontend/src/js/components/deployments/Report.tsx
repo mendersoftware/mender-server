@@ -52,13 +52,7 @@ const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
   confirmation: { top: 0 },
-  divider: { marginTop: theme.spacing(2) },
-  header: {
-    ['&.dashboard-header span']: {
-      backgroundColor: theme.palette.background.paper,
-      backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15))'
-    }
-  }
+  divider: { marginTop: theme.spacing(2) }
 }));
 
 export const DeploymentAbortButton = ({ deployment, setAborting }) => (
@@ -292,25 +286,19 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
           <DeploymentOverview creator={creator} deployment={deployment} devicesById={devicesById} idAttribute={idAttribute} onScheduleClick={scrollToBottom} />
           {isConfigurationDeployment && (
             <>
-              <LinedHeader className={classes.header} heading="Configuration" />
+              <LinedHeader heading="Configuration" />
               <TwoColumnData chipLikeKey className="margin-top-small margin-bottom-large" data={config} />
             </>
           )}
-          <LinedHeader className={classes.header} heading="Status" />
+          <LinedHeader heading="Status" />
           <DeploymentStatus deployment={deployment} />
           {!!totalDeviceCount && (
             <>
-              <LinedHeader className={classes.header} heading="Devices" />
+              <LinedHeader heading="Devices" />
               <DeviceList {...props} viewLog={viewLog} />
             </>
           )}
-          <RolloutSchedule
-            deployment={deployment}
-            headerClass={classes.header}
-            onUpdateControlChange={onUpdateControlChange}
-            onAbort={abort}
-            innerRef={rolloutSchedule}
-          />
+          <RolloutSchedule deployment={deployment} onUpdateControlChange={onUpdateControlChange} onAbort={abort} innerRef={rolloutSchedule} />
         </ColumnWidthProvider>
         {Boolean(deviceId.length) && <LogDialog canAi={canAi} deviceId={deviceId} deployment={deployment} onClose={() => setDeviceId('')} />}
       </div>
