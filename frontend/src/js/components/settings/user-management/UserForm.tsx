@@ -184,7 +184,7 @@ const UserIdentifier = ({ userIdAllowed, onHasUserId }) => {
   );
 };
 
-export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterprise, roles, submit, isTrial }) => {
+export const UserForm = ({ closeDialog, currentUser, canManageUsers, hasMultitenancy, isEnterprise, roles, submit, isTrial }) => {
   const [hadRoleChanges, setHadRoleChanges] = useState(false);
   const [selectedRoles, setSelectedRoles] = useState();
   const [isAddingExistingUser, setIsAddingExistingUser] = useState(false);
@@ -224,12 +224,16 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, isEnterpris
               create
               edit={false}
               generate // this is the last place this is used, make sure to remove the related input parts when this too gets changed
-              InputLabelProps={{ shrink: true }}
-              label={<PasswordLabel />}
+              InputLabelProps={{ shrink: hasMultitenancy }}
+              label={hasMultitenancy ? <PasswordLabel /> : 'Password'}
               placeholder="Password"
+              required={!hasMultitenancy}
               validations="isLength:8:256"
             />
-            <FormCheckbox id="shouldResetPassword" label="Send an email to the user containing a link to reset the password" />
+            <div className="flexbox align-items-center">
+              <FormCheckbox id="shouldResetPassword" label="Send an email to the user containing a link to reset the password" disabled={!hasMultitenancy} />
+              <EnterpriseNotification className="margin-left-small" id={BENEFITS.default.id} />
+            </div>
             <UserRolesSelect currentUser={currentUser} disabled={!(canManageUsers && isEnterprise)} onSelect={onSelect} roles={roles} user={{}} />
           </Collapse>
         </Form>

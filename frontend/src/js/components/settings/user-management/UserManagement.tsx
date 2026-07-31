@@ -85,6 +85,7 @@ export const UserManagement = () => {
     createUser: userData => dispatch(createUser(userData)),
     currentUser,
     editUser: (id, userData) => dispatch(editUser({ ...userData, id })),
+    hasMultitenancy,
     isEnterprise,
     isHosted,
     removeUser: id => dispatch(removeUser(id)),
