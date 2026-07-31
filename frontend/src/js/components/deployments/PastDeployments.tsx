@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material ui
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 
 import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
@@ -263,14 +263,14 @@ export const Past = props => {
         )}
         {!(loading || past.length) && (
           <div className="dashboard-placeholder">
-            <p>No finished deployments were found.</p>
-            <p>
+            <Typography>No finished deployments were found.</Typography>
+            <Typography>
               Try adjusting the filters, or{' '}
               <Link component="span" className="clickable" onClick={createClick}>
                 Create a new deployment
               </Link>{' '}
               to get started
-            </p>
+            </Typography>
             <img src={historyImage} alt="Past" />
           </div>
         )}
