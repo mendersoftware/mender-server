@@ -119,7 +119,7 @@ require (
 	github.com/secure-systems-lab/go-securesystemslib v0.11.0 // indirect
 	github.com/shibumi/go-pathspec v1.3.0 // indirect
 	github.com/sigstore/sigstore v1.10.8 // indirect
-	github.com/sigstore/sigstore-go v1.2.0 // indirect
+	github.com/sigstore/sigstore-go v1.2.1 // indirect
 	github.com/sirupsen/logrus v1.9.4 // indirect
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966 // indirect
 	github.com/spf13/cobra v1.10.2 // indirect
