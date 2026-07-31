@@ -16,20 +16,7 @@ import { useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 import { InfoOutlined } from '@mui/icons-material';
-import {
-  Alert,
-  Checkbox,
-  Collapse,
-  DialogActions,
-  DialogContent,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  ListItemText,
-  MenuItem,
-  Select,
-  Tooltip
-} from '@mui/material';
+import { Alert, Checkbox, Collapse, DialogContent, FormControl, FormHelperText, InputLabel, ListItemText, MenuItem, Select, Tooltip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import DocsLink from '@northern.tech/common-ui/DocsLink';
@@ -238,7 +225,6 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, hasMultiten
           </Collapse>
         </Form>
       </DialogContent>
-      <DialogActions />
     </BaseDialog>
   );
 };
