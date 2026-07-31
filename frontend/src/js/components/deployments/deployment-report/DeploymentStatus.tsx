@@ -12,9 +12,10 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Pause as PauseIcon, ArrowDropDownCircleOutlined as ScrollDownIcon } from '@mui/icons-material';
-import { Typography, alpha } from '@mui/material';
+import { alpha, tableCellClasses, tableRowClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import DetailsTable from '@northern.tech/common-ui/DetailsTable';
 import { Link } from '@northern.tech/common-ui/Link';
 import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { deploymentDisplayStates, pauseMap } from '@northern.tech/store/constants';
@@ -25,8 +26,23 @@ const useStyles = makeStyles()(theme => ({
     backgroundColor: isDarkMode(theme.palette.mode) ? alpha(theme.palette.grey[300], theme.palette.action.selectedOpacity) : theme.palette.grey[50],
     borderRadius: theme.spacing(0.5)
   },
+  statusTable: {
+    [`.${tableCellClasses.root}`]: { whiteSpace: 'nowrap' },
+    [`.${tableCellClasses.body}`]: { borderBottom: 'none' },
+    [`.${tableRowClasses.root}.${tableRowClasses.hover}:hover`]: { backgroundColor: 'transparent' }
+  },
   scrollDown: { marginLeft: theme.spacing() }
 }));
+
+const nonPhaseStates = ['failure', 'finished', 'scheduled', 'success'];
+
+const statusColumns = [
+  { key: 'status', title: 'Status', cellProps: { style: { width: '100%' } }, render: ({ statusDescription }) => statusDescription },
+  { key: 'deviceCount', title: '# devices', cellProps: { align: 'right' }, render: ({ deviceCount }) => deviceCount },
+  ...Object.entries(deploymentDisplayStates)
+    .filter(([key]) => !nonPhaseStates.includes(key))
+    .map(([key, title]) => ({ key, title, cellProps: { align: 'right' }, render: ({ phaseStats }) => phaseStats[key].toLocaleString() }))
+];
 
 export const DeploymentPhaseNotification = ({ className = '', deployment = {}, onReviewClick }) => {
   const { classes } = useStyles();
@@ -62,7 +78,7 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
     </>
   );
   if (finished) {
-    statusDescription = <div>Finished {!!phaseStats.failure && <span className="failures">with failures</span>}</div>;
+    statusDescription = <div>Finished {!!phaseStats.failures && <span className="failures">with failures</span>}</div>;
   } else if (status === 'paused' && phaseStats.paused > 0) {
     // based on the order of the possible pause states we find the furthest possible and use that as the current pause state - if applicable
     const currentPauseState = Object.keys(pauseMap)
@@ -76,28 +92,15 @@ export const DeploymentStatus = ({ className = '', deployment = {} }) => {
   }
 
   const statsBasedDeviceCount = Object.values(phaseStats).reduce((sum, count) => sum + count, 0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { failure, finished: finishedDeployment, scheduled, success, ...phasesWithStats } = deploymentDisplayStates;
 
   return (
     <>
-      <div className={`${classes.progressStatus} flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium ${className}`}>
-        <div className="flexbox column">
-          <Typography className="margin-bottom-small">Status</Typography>
-          <Typography variant="body2">{statusDescription}</Typography>
-        </div>
-        <div className="flexbox space-between align-right">
-          <div className="flexbox column">
-            <Typography className="margin-bottom-small nowrap"># devices</Typography>
-            <Typography variant="body2">{statsBasedDeviceCount}</Typography>
-          </div>
-          {Object.entries(phasesWithStats).map(([key, phase]) => (
-            <div key={key} className="flexbox column margin-left-medium">
-              <Typography className="margin-bottom-small nowrap">{phase}</Typography>
-              <Typography variant="body2">{phaseStats[key].toLocaleString()}</Typography>
-            </div>
-          ))}
-        </div>
+      <div className={`padding-medium margin-bottom ${classes.progressStatus} ${className}`}>
+        <DetailsTable
+          className={`margin-bottom-none ${classes.statusTable}`}
+          columns={statusColumns}
+          items={[{ deviceCount: statsBasedDeviceCount, phaseStats, statusDescription }]}
+        />
       </div>
       <SynchronizedTwoColumnData
         className="margin-bottom"
