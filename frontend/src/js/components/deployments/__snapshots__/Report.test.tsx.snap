@@ -117,7 +117,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-bottom-small css-k1p3sh-MuiPaper-root-MuiAlert-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard css-k1p3sh-MuiPaper-root-MuiAlert-root"
         role="alert"
         style="--Paper-shadow: none;"
       >
@@ -137,7 +137,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </svg>
         </div>
         <div
-          class="MuiAlert-message css-zioonp-MuiAlert-message"
+          class="MuiAlert-message capitalized-start css-zioonp-MuiAlert-message"
         >
           Pending
         </div>
@@ -147,7 +147,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
       />
       <div>
         <div
-          class="margin-top-large margin-bottom-large"
+          class="margin-top-medium margin-bottom"
         >
           <div
             class="break-all two-columns css-7gpf1z-root column-data "
@@ -166,24 +166,12 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered css-1orsvah-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
                   data-discover="true"
                   href="/software/r1"
-                  style="font-weight: 500;"
                   target="_blank"
                 >
                   r1
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                    data-testid="LaunchIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                    />
-                  </svg>
                 </a>
               </div>
             </div>
@@ -200,35 +188,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                 style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered css-1orsvah-MuiTypography-root-MuiLink-root"
-                  data-discover="true"
-                  href="/devices"
-                  style="font-weight: 500;"
-                  target="_blank"
+                <div
+                  class="flexbox"
                 >
-                  test deployment
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                    data-testid="LaunchIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+                    data-discover="true"
+                    href="/devices"
+                    target="_blank"
                   >
-                    <path
-                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                    />
-                  </svg>
+                    test deployment
+                  </a>
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault margin-left uppercased css-pef06l-MuiChip-root-chip"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault margin-left-small css-fcxqx9-MuiChip-root"
                   >
                     <span
                       class="MuiChip-label css-eccknh-MuiChip-label"
                     >
-                      static
+                      Static
                     </span>
                   </div>
-                </a>
+                </div>
               </div>
             </div>
             <h6
@@ -271,7 +251,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-small css-1uent87-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -294,134 +274,131 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </button>
         </div>
         <div
-          class="margin-bottom-large relative css-14nuuu4-border css-zr8z23-header"
+          class="flexbox margin-bottom-small css-1uuwx03-header "
         >
-          <span
-            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
           >
             Status
-          </span>
+          </h6>
+          <hr
+            class="MuiDivider-root MuiDivider-fullWidth css-ycvyf8-MuiDivider-root-divider"
+          />
         </div>
         <div
-          class="css-15trp98-progressStatus flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium "
+          class="padding-medium margin-bottom css-15trp98-progressStatus "
         >
-          <div
-            class="flexbox column"
+          <table
+            class="MuiTable-root margin-bottom margin-bottom-none css-ktu37l-MuiTable-root-statusTable"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body1 margin-bottom-small css-rizt0-MuiTypography-root"
+            <thead
+              class="MuiTableHead-root css-f2jk7z-MuiTableHead-root-header"
             >
-              Status
-            </p>
-            <p
-              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              <tr
+                class="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
+              >
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1orzuox-MuiTableCell-root"
+                  scope="col"
+                  style="width: 100%;"
+                >
+                  Status
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  # devices
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  Skipped
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  Paused
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  Pending
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  In Progress
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  Success
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  Fail
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
             >
-              Pending
-               (awaiting devices)
-            </p>
-          </div>
-          <div
-            class="flexbox space-between align-right"
-          >
-            <div
-              class="flexbox column"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
+              <tr
+                class="MuiTableRow-root MuiTableRow-hover css-1xtozoh-MuiTableRow-root"
               >
-                # devices
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                1
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                Skipped
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                Paused
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                Pending
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                In Progress
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                1
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                Success
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                Fail
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-          </div>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+                  style="width: 100%;"
+                >
+                  Pending
+                   (awaiting devices)
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  1
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  1
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div
           class="break-all two-columns css-7gpf1z-root column-data margin-bottom"
@@ -462,13 +439,16 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </div>
         </div>
         <div
-          class="margin-bottom-large relative css-14nuuu4-border css-zr8z23-header"
+          class="flexbox margin-bottom-small css-1uuwx03-header "
         >
-          <span
-            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
           >
             Devices
-          </span>
+          </h6>
+          <hr
+            class="MuiDivider-root MuiDivider-fullWidth css-ycvyf8-MuiDivider-root-divider"
+          />
         </div>
         <table
           class="MuiTable-root margin-bottom css-taqie5-MuiTable-root-table"
@@ -608,61 +588,31 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
                 <div
-                  class="flexbox align-items-center margin-bottom-x-small"
+                  class="flexbox align-items-center"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-colorInfo MuiSvgIcon-fontSizeMedium margin-right-x-small css-ocq0ss-MuiSvgIcon-root"
-                    data-testid="PendingOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
-                    />
-                    <circle
-                      cx="7"
-                      cy="12"
-                      r="1.5"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="1.5"
-                    />
-                    <circle
-                      cx="17"
-                      cy="12"
-                      r="1.5"
-                    />
-                  </svg>
                   <p
                     class="MuiTypography-root MuiTypography-body2 capitalized-start css-7ctihp-MuiTypography-root"
                   >
                     installing
                   </p>
                 </div>
-                <div
-                  style="position: absolute; bottom: 0px; width: 100%; padding-right: 32px;"
+                <span
+                  class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate css-1txyin7-MuiLinearProgress-root"
+                  role="progressbar"
                 >
                   <span
-                    class="MuiLinearProgress-root MuiLinearProgress-colorInfo MuiLinearProgress-indeterminate css-hvup99-MuiLinearProgress-root"
-                    role="progressbar"
-                  >
-                    <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-ngux6i-MuiLinearProgress-bar1"
-                    />
-                    <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-jmsh5l-MuiLinearProgress-bar2"
-                    />
-                  </span>
-                </div>
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-6brkbh-MuiLinearProgress-bar1"
+                  />
+                  <span
+                    class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-1d57sst-MuiLinearProgress-bar2"
+                  />
+                </span>
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeSmall MuiButton-colorPrimary nowrap css-1ccsd5i-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeSmall MuiButton-colorInfo nowrap css-1nukzc3-MuiButtonBase-root-MuiButton-root"
                   tabindex="0"
                   type="button"
                 >
@@ -688,7 +638,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </tbody>
         </table>
         <div
-          class="flexbox space-between align-items-center margin-top"
+          class="flexbox space-between align-items-center"
         >
           <div
             class="flexbox"
@@ -813,37 +763,44 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <div
-            class="break-all two-columns css-7gpf1z-root column-data "
+            class="css-1q1zcpi-totalSize"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
-            >
-              Total download size
-            </h6>
             <div
-              class="flexbox align-items-center "
+              class="break-all two-columns css-7gpf1z-root column-data "
             >
-              <div
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                title="1234"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="white-space: nowrap;"
               >
-                <div>
-                  1.21 KB
+                Total download size
+              </h6>
+              <div
+                class="flexbox align-items-center "
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+                  title="1234"
+                >
+                  <div>
+                    1.21 KB
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div
-          class="margin-bottom-large relative css-14nuuu4-border margin-top-large css-zr8z23-header"
+          class="flexbox margin-bottom-small css-1uuwx03-header margin-top-large"
         >
-          <span
-            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
           >
             Schedule details
-          </span>
+          </h6>
+          <hr
+            class="MuiDivider-root MuiDivider-fullWidth css-ycvyf8-MuiDivider-root-divider"
+          />
         </div>
         <div
           class="flexbox"
@@ -1014,9 +971,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </div>
         </div>
       </div>
-      <hr
-        class="MuiDivider-root MuiDivider-fullWidth css-iu3zzr-MuiDivider-root-divider"
-      />
     </div>
     <div
       data-testid="sentinelEnd"
@@ -1143,7 +1097,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
         </div>
       </div>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard margin-bottom-small css-k1p3sh-MuiPaper-root-MuiAlert-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standard css-k1p3sh-MuiPaper-root-MuiAlert-root"
         role="alert"
         style="--Paper-shadow: none;"
       >
@@ -1163,7 +1117,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </svg>
         </div>
         <div
-          class="MuiAlert-message css-zioonp-MuiAlert-message"
+          class="MuiAlert-message capitalized-start css-zioonp-MuiAlert-message"
         >
           In Progress
         </div>
@@ -1173,7 +1127,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
       />
       <div>
         <div
-          class="margin-top-large margin-bottom-large"
+          class="margin-top-medium margin-bottom"
         >
           <div
             class="break-all two-columns css-7gpf1z-root column-data "
@@ -1192,24 +1146,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered css-1orsvah-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
                   data-discover="true"
                   href="/software"
-                  style="font-weight: 500;"
                   target="_blank"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                    data-testid="LaunchIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                    />
-                  </svg>
-                </a>
+                />
               </div>
             </div>
             <h6
@@ -1225,35 +1166,27 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                 style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered css-1orsvah-MuiTypography-root-MuiLink-root"
-                  data-discover="true"
-                  href="/devices"
-                  style="font-weight: 500;"
-                  target="_blank"
+                <div
+                  class="flexbox"
                 >
-                  Test
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small css-120dh41-MuiSvgIcon-root"
-                    data-testid="LaunchIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
+                    data-discover="true"
+                    href="/devices"
+                    target="_blank"
                   >
-                    <path
-                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-                    />
-                  </svg>
+                    Test
+                  </a>
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault margin-left uppercased css-pef06l-MuiChip-root-chip"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault margin-left-small css-fcxqx9-MuiChip-root"
                   >
                     <span
                       class="MuiChip-label css-eccknh-MuiChip-label"
                     >
-                      static
+                      Static
                     </span>
                   </div>
-                </a>
+                </div>
               </div>
             </div>
             <h6
@@ -1296,7 +1229,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top css-1uent87-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-small css-1uent87-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -1319,133 +1252,130 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </button>
         </div>
         <div
-          class="margin-bottom-large relative css-14nuuu4-border css-zr8z23-header"
+          class="flexbox margin-bottom-small css-1uuwx03-header "
         >
-          <span
-            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
           >
             Status
-          </span>
+          </h6>
+          <hr
+            class="MuiDivider-root MuiDivider-fullWidth css-ycvyf8-MuiDivider-root-divider"
+          />
         </div>
         <div
-          class="css-15trp98-progressStatus flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium "
+          class="padding-medium margin-bottom css-15trp98-progressStatus "
         >
-          <div
-            class="flexbox column"
+          <table
+            class="MuiTable-root margin-bottom margin-bottom-none css-ktu37l-MuiTable-root-statusTable"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body1 margin-bottom-small css-rizt0-MuiTypography-root"
+            <thead
+              class="MuiTableHead-root css-f2jk7z-MuiTableHead-root-header"
             >
-              Status
-            </p>
-            <p
-              class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+              <tr
+                class="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
+              >
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable css-1orzuox-MuiTableCell-root"
+                  scope="col"
+                  style="width: 100%;"
+                >
+                  Status
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  # devices
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  Skipped
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  Paused
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  Pending
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  In Progress
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  Success
+                </th>
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable css-to33az-MuiTableCell-root"
+                  scope="col"
+                >
+                  Fail
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
             >
-              In Progress
-            </p>
-          </div>
-          <div
-            class="flexbox space-between align-right"
-          >
-            <div
-              class="flexbox column"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
+              <tr
+                class="MuiTableRow-root MuiTableRow-hover css-1xtozoh-MuiTableRow-root"
               >
-                # devices
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                Skipped
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                Paused
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                Pending
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                In Progress
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                Success
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-            <div
-              class="flexbox column margin-left-medium"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap css-rizt0-MuiTypography-root"
-              >
-                Fail
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-              >
-                0
-              </p>
-            </div>
-          </div>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
+                  style="width: 100%;"
+                >
+                  In Progress
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative css-3ssuu9-MuiTableCell-root"
+                >
+                  0
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div
           class="break-all two-columns css-7gpf1z-root column-data margin-bottom"
@@ -1486,13 +1416,16 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </div>
         </div>
         <div
-          class="margin-bottom-large relative css-14nuuu4-border css-zr8z23-header"
+          class="flexbox margin-bottom-small css-1uuwx03-header "
         >
-          <span
-            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
           >
             Devices
-          </span>
+          </h6>
+          <hr
+            class="MuiDivider-root MuiDivider-fullWidth css-ycvyf8-MuiDivider-root-divider"
+          />
         </div>
         <table
           class="MuiTable-root margin-bottom css-taqie5-MuiTable-root-table"
@@ -1632,54 +1565,13 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
                 <div
-                  class="flexbox align-items-center margin-bottom-x-small"
+                  class="flexbox align-items-center"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-colorInfo MuiSvgIcon-fontSizeMedium margin-right-x-small css-ocq0ss-MuiSvgIcon-root"
-                    data-testid="PendingOutlinedIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
-                    />
-                    <circle
-                      cx="7"
-                      cy="12"
-                      r="1.5"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="1.5"
-                    />
-                    <circle
-                      cx="17"
-                      cy="12"
-                      r="1.5"
-                    />
-                  </svg>
                   <p
                     class="MuiTypography-root MuiTypography-body2 capitalized-start css-7ctihp-MuiTypography-root"
                   >
                     accepted
                   </p>
-                </div>
-                <div
-                  style="position: absolute; bottom: 0px; width: 100%; padding-right: 32px;"
-                >
-                  <span
-                    class="MuiLinearProgress-root MuiLinearProgress-colorInfo MuiLinearProgress-indeterminate css-hvup99-MuiLinearProgress-root"
-                    role="progressbar"
-                  >
-                    <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar1 css-ngux6i-MuiLinearProgress-bar1"
-                    />
-                    <span
-                      class="MuiLinearProgress-bar MuiLinearProgress-bar2 css-jmsh5l-MuiLinearProgress-bar2"
-                    />
-                  </span>
                 </div>
               </td>
               <td
@@ -1689,7 +1581,7 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </tbody>
         </table>
         <div
-          class="flexbox space-between align-items-center margin-top"
+          class="flexbox space-between align-items-center"
         >
           <div
             class="flexbox"
@@ -1813,37 +1705,44 @@ Devices that are in the middle of the deployment at the time of abort will finis
             </div>
           </div>
           <div
-            class="break-all two-columns css-7gpf1z-root column-data "
+            class="css-1q1zcpi-totalSize"
           >
-            <h6
-              class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
-              style="white-space: nowrap;"
-            >
-              Total download size
-            </h6>
             <div
-              class="flexbox align-items-center "
+              class="break-all two-columns css-7gpf1z-root column-data "
             >
-              <div
-                class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
-                style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                title="1234"
+              <h6
+                class="MuiTypography-root MuiTypography-subtitle2 key css-1ypmsg6-MuiTypography-root"
+                style="white-space: nowrap;"
               >
-                <div>
-                  1.21 KB
+                Total download size
+              </h6>
+              <div
+                class="flexbox align-items-center "
+              >
+                <div
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
+                  title="1234"
+                >
+                  <div>
+                    1.21 KB
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div
-          class="margin-bottom-large relative css-14nuuu4-border margin-top-large css-zr8z23-header"
+          class="flexbox margin-bottom-small css-1uuwx03-header margin-top-large"
         >
-          <span
-            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          <h6
+            class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
           >
             Schedule details
-          </span>
+          </h6>
+          <hr
+            class="MuiDivider-root MuiDivider-fullWidth css-ycvyf8-MuiDivider-root-divider"
+          />
         </div>
         <div
           class="flexbox"
@@ -2369,9 +2268,6 @@ Devices that are in the middle of the deployment at the time of abort will finis
           </div>
         </div>
       </div>
-      <hr
-        class="MuiDivider-root MuiDivider-fullWidth css-iu3zzr-MuiDivider-root-divider"
-      />
     </div>
     <div
       data-testid="sentinelEnd"

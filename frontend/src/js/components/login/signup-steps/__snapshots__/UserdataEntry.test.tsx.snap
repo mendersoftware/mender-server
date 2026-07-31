@@ -144,26 +144,28 @@ exports[`Login Component > renders correctly 1`] = `
 }
 
 .emotion-11 {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.emotion-11 span {
-  background: #fff;
-  padding: 10px 16px 10px 0;
-  position: absolute;
-  top: -19px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 16px;
 }
 
 .emotion-12 {
   margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
 }
 
-.emotion-13 {
+.emotion-15 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -179,7 +181,7 @@ exports[`Login Component > renders correctly 1`] = `
   vertical-align: top;
 }
 
-.emotion-14 {
+.emotion-16 {
   color: rgba(0, 0, 0, 0.6);
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -212,19 +214,19 @@ exports[`Login Component > renders correctly 1`] = `
   max-width: calc(100% - 24px);
 }
 
-.emotion-14.Mui-focused {
+.emotion-16.Mui-focused {
   color: #1976d2;
 }
 
-.emotion-14.Mui-disabled {
+.emotion-16.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-14.Mui-error {
+.emotion-16.Mui-error {
   color: #d32f2f;
 }
 
-.emotion-15 {
+.emotion-17 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -246,38 +248,38 @@ exports[`Login Component > renders correctly 1`] = `
   border-radius: 4px;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-17.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-15:hover .MuiOutlinedInput-notchedOutline {
+.emotion-17:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
-  .emotion-15:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-17:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-15.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-17.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
-.emotion-15.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-17.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #1976d2;
 }
 
-.emotion-15.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-17.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #d32f2f;
 }
 
-.emotion-15.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-17.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-16 {
+.emotion-18 {
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
@@ -298,80 +300,80 @@ exports[`Login Component > renders correctly 1`] = `
   padding: 16.5px 14px;
 }
 
-.emotion-16::-webkit-input-placeholder {
+.emotion-18::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-16::-moz-placeholder {
+.emotion-18::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-16::-ms-input-placeholder {
+.emotion-18::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-16:focus {
+.emotion-18:focus {
   outline: 0;
 }
 
-.emotion-16:invalid {
+.emotion-18:invalid {
   box-shadow: none;
 }
 
-.emotion-16::-webkit-search-decoration {
+.emotion-18::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-18::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-18::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-18::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-18:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-16.Mui-disabled {
+.emotion-18.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-16:-webkit-autofill {
+.emotion-18:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-16:-webkit-autofill {
+.emotion-18:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-17 {
+.emotion-19 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -389,7 +391,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-18 {
+.emotion-20 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -404,7 +406,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   white-space: nowrap;
 }
 
-.emotion-18>span {
+.emotion-20>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
@@ -412,7 +414,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   visibility: visible;
 }
 
-.emotion-19 {
+.emotion-21 {
   color: rgba(0, 0, 0, 0.6);
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -428,15 +430,15 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   margin-right: 14px;
 }
 
-.emotion-19.Mui-disabled {
+.emotion-21.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-19.Mui-error {
+.emotion-21.Mui-error {
   color: #d32f2f;
 }
 
-.emotion-22 {
+.emotion-24 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -459,38 +461,38 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   padding-right: 14px;
 }
 
-.emotion-22.Mui-disabled {
+.emotion-24.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-22:hover .MuiOutlinedInput-notchedOutline {
+.emotion-24:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
-  .emotion-22:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-24:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-22.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-24.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
-.emotion-22.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-24.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #1976d2;
 }
 
-.emotion-22.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-24.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #d32f2f;
 }
 
-.emotion-22.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-24.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-23 {
+.emotion-25 {
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
@@ -512,80 +514,80 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-16:focus::-ms-input-
   padding-right: 0;
 }
 
-.emotion-23::-webkit-input-placeholder {
+.emotion-25::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-23::-moz-placeholder {
+.emotion-25::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-23::-ms-input-placeholder {
+.emotion-25::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-23:focus {
+.emotion-25:focus {
   outline: 0;
 }
 
-.emotion-23:invalid {
+.emotion-25:invalid {
   box-shadow: none;
 }
 
-.emotion-23::-webkit-search-decoration {
+.emotion-25::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-23::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-23::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-23::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-25:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-23.Mui-disabled {
+.emotion-25.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-23:-webkit-autofill {
+.emotion-25:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-23:-webkit-autofill {
+.emotion-25:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-24 {
+.emotion-26 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -600,7 +602,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
   margin-left: 8px;
 }
 
-.emotion-25 {
+.emotion-27 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -648,42 +650,42 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
   font-size: 1.75rem;
 }
 
-.emotion-25::-moz-focus-inner {
+.emotion-27::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-25.Mui-disabled {
+.emotion-27.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-25 {
+  .emotion-27 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-25:hover {
+.emotion-27:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-25:hover {
+  .emotion-27:hover {
     background-color: transparent;
   }
 }
 
-.emotion-25.Mui-disabled {
+.emotion-27.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-25.MuiIconButton-loading {
+.emotion-27.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-26 {
+.emotion-28 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -700,7 +702,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
   font-size: 1.5rem;
 }
 
-.emotion-40 {
+.emotion-42 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -757,57 +759,57 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-40::-moz-focus-inner {
+.emotion-42::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-40.Mui-disabled {
+.emotion-42.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-40 {
+  .emotion-42 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-40:hover {
+.emotion-42:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-40.Mui-disabled {
+.emotion-42.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-40:hover {
+.emotion-42:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-40:hover {
+  .emotion-42:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-40:active {
+.emotion-42:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-40.Mui-focusVisible {
+.emotion-42.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-40.Mui-disabled {
+.emotion-42.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-40:hover {
+  .emotion-42:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -815,7 +817,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
   }
 }
 
-.emotion-40.MuiButton-loading {
+.emotion-42.MuiButton-loading {
   color: transparent;
 }
 
@@ -903,32 +905,37 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
       </a>
     </div>
     <div
-      class="margin-bottom-large relative emotion-11 margin-top-large flexbox centered"
+      class="flexbox margin-bottom-small emotion-11 margin-top-small"
     >
-      <span
-        class="MuiTypography-root MuiTypography-body2 emotion-12"
-        style="padding: 15px; top: -24px; font-weight: bold;"
+      <hr
+        class="MuiDivider-root MuiDivider-fullWidth emotion-12"
+      />
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1 emotion-1"
       >
         or your email address
-      </span>
+      </h6>
+      <hr
+        class="MuiDivider-root MuiDivider-fullWidth emotion-12"
+      />
     </div>
     <div
-      class="MuiFormControl-root required emotion-13"
+      class="MuiFormControl-root required emotion-15"
       style="width: 400px;"
     >
       <label
-        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-14"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-16"
         data-shrink="false"
         for="email"
       >
         Email *
       </label>
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-15"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-17"
       >
         <input
           aria-invalid="false"
-          class="MuiInputBase-input MuiOutlinedInput-input emotion-16"
+          class="MuiInputBase-input MuiOutlinedInput-input emotion-18"
           id="email"
           name="email"
           placeholder="Email *"
@@ -937,10 +944,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
         />
         <fieldset
           aria-hidden="true"
-          class="MuiOutlinedInput-notchedOutline emotion-17"
+          class="MuiOutlinedInput-notchedOutline emotion-19"
         >
           <legend
-            class="emotion-18"
+            class="emotion-20"
           >
             <span>
               Email *
@@ -949,7 +956,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
         </fieldset>
       </div>
       <p
-        class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-19"
+        class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-21"
       />
     </div>
     <div
@@ -959,23 +966,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
         class="password-wrapper"
       >
         <div
-          class="MuiFormControl-root required emotion-13"
+          class="MuiFormControl-root required emotion-15"
           style="width: 400px;"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-14"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-16"
             data-shrink="false"
             for="password"
           >
             Password *
           </label>
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-22"
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-24"
             required=""
           >
             <input
               aria-invalid="false"
-              class="MuiInputBase-input MuiOutlinedInput-input emotion-23"
+              class="MuiInputBase-input MuiOutlinedInput-input emotion-25"
               id="password"
               name="password"
               required=""
@@ -983,16 +990,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
               value=""
             />
             <div
-              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-24"
+              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-26"
             >
               <button
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-25"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-27"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-26"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
                   data-testid="VisibilityOffIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1005,10 +1012,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
             </div>
             <fieldset
               aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline emotion-17"
+              class="MuiOutlinedInput-notchedOutline emotion-19"
             >
               <legend
-                class="emotion-18"
+                class="emotion-20"
               >
                 <span>
                   Password *
@@ -1019,7 +1026,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
             </fieldset>
           </div>
           <div
-            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained flexbox align-items-center emotion-19"
+            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained flexbox align-items-center emotion-21"
           />
         </div>
       </div>
@@ -1029,23 +1036,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
         class="password-wrapper"
       >
         <div
-          class="MuiFormControl-root required emotion-13"
+          class="MuiFormControl-root required emotion-15"
           style="width: 400px;"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-14"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-16"
             data-shrink="false"
             for="password_confirmation"
           >
             Confirm password *
           </label>
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-22"
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-24"
             required=""
           >
             <input
               aria-invalid="false"
-              class="MuiInputBase-input MuiOutlinedInput-input emotion-23"
+              class="MuiInputBase-input MuiOutlinedInput-input emotion-25"
               id="password_confirmation"
               name="password_confirmation"
               required=""
@@ -1053,16 +1060,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
               value=""
             />
             <div
-              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-24"
+              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-26"
             >
               <button
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-25"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-27"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-26"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
                   data-testid="VisibilityOffIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1075,10 +1082,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
             </div>
             <fieldset
               aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline emotion-17"
+              class="MuiOutlinedInput-notchedOutline emotion-19"
             >
               <legend
-                class="emotion-18"
+                class="emotion-20"
               >
                 <span>
                   Confirm password *
@@ -1089,13 +1096,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-23:focus::-ms-input-
             </fieldset>
           </div>
           <div
-            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained flexbox align-items-center emotion-19"
+            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained flexbox align-items-center emotion-21"
           />
         </div>
       </div>
     </div>
     <button
-      class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary full-width margin-top-medium emotion-40"
+      class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary full-width margin-top-medium emotion-42"
       disabled=""
       tabindex="-1"
       type="submit"

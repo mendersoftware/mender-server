@@ -113,30 +113,150 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
 }
 
 .emotion-1 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-  letter-spacing: 0.00938em;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
-.emotion-2 {
-  margin: 0;
+.emotion-1 caption {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.43;
   letter-spacing: 0.01071em;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.6);
+  text-align: left;
+  caption-side: bottom;
 }
 
-.emotion-17.two-columns.column-data {
+.emotion-1 .MuiTableCell-root {
+  white-space: nowrap;
+}
+
+.emotion-1 .MuiTableCell-body {
+  border-bottom: none;
+}
+
+.emotion-1 .MuiTableRow-root.MuiTableRow-hover:hover {
+  background-color: transparent;
+}
+
+.emotion-2 {
+  display: table-header-group;
+}
+
+.emotion-2 .columnHeader {
+  display: table-cell;
+}
+
+.emotion-2 .columnHeader .sortIcon {
+  margin-bottom: -6px;
+}
+
+.emotion-2 .nonSortable {
+  cursor: initial;
+}
+
+.emotion-3 {
+  color: inherit;
+  display: table-row;
+  vertical-align: middle;
+  outline: 0;
+}
+
+.emotion-3.MuiTableRow-hover:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.emotion-3.Mui-selected {
+  background-color: rgba(25, 118, 210, 0.08);
+}
+
+.emotion-3.Mui-selected:hover {
+  background-color: rgba(25, 118, 210, 0.12);
+}
+
+.emotion-4 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+
+.emotion-5 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 1.5rem;
+  font-weight: 500;
+  text-align: right;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+}
+
+.emotion-12 {
+  display: table-row-group;
+}
+
+.emotion-14 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.emotion-15 {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  text-align: left;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+  text-align: right;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+}
+
+.emotion-22.two-columns.column-data {
   grid-template-columns: max-content minmax(auto, 650px);
   max-width: initial;
   row-gap: 8px;
 }
 
-.emotion-18 {
+.emotion-23 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
@@ -145,133 +265,136 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
   letter-spacing: 0.00714em;
 }
 
+.emotion-24 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
 <div>
   <div
-    class="emotion-0 flexbox space-between centered margin-bottom padding padding-left-medium padding-right-medium "
+    class="padding-medium margin-bottom emotion-0 "
   >
-    <div
-      class="flexbox column"
+    <table
+      class="MuiTable-root margin-bottom margin-bottom-none emotion-1"
     >
-      <p
-        class="MuiTypography-root MuiTypography-body1 margin-bottom-small emotion-1"
+      <thead
+        class="MuiTableHead-root emotion-2"
       >
-        Status
-      </p>
-      <p
-        class="MuiTypography-root MuiTypography-body2 emotion-2"
+        <tr
+          class="MuiTableRow-root MuiTableRow-head emotion-3"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium columnHeader nonSortable emotion-4"
+            scope="col"
+            style="width: 100%;"
+          >
+            Status
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable emotion-5"
+            scope="col"
+          >
+            # devices
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable emotion-5"
+            scope="col"
+          >
+            Skipped
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable emotion-5"
+            scope="col"
+          >
+            Paused
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable emotion-5"
+            scope="col"
+          >
+            Pending
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable emotion-5"
+            scope="col"
+          >
+            In Progress
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable emotion-5"
+            scope="col"
+          >
+            Success
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-alignRight MuiTableCell-sizeMedium columnHeader nonSortable emotion-5"
+            scope="col"
+          >
+            Fail
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="MuiTableBody-root emotion-12"
       >
-        Pending
-         (awaiting devices)
-      </p>
-    </div>
-    <div
-      class="flexbox space-between align-right"
-    >
-      <div
-        class="flexbox column"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
+        <tr
+          class="MuiTableRow-root MuiTableRow-hover emotion-3"
         >
-          # devices
-        </p>
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-2"
-        >
-          1
-        </p>
-      </div>
-      <div
-        class="flexbox column margin-left-medium"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
-        >
-          Skipped
-        </p>
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-2"
-        >
-          0
-        </p>
-      </div>
-      <div
-        class="flexbox column margin-left-medium"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
-        >
-          Paused
-        </p>
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-2"
-        >
-          0
-        </p>
-      </div>
-      <div
-        class="flexbox column margin-left-medium"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
-        >
-          Pending
-        </p>
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-2"
-        >
-          1
-        </p>
-      </div>
-      <div
-        class="flexbox column margin-left-medium"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
-        >
-          In Progress
-        </p>
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-2"
-        >
-          0
-        </p>
-      </div>
-      <div
-        class="flexbox column margin-left-medium"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
-        >
-          Success
-        </p>
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-2"
-        >
-          0
-        </p>
-      </div>
-      <div
-        class="flexbox column margin-left-medium"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body1 margin-bottom-small nowrap emotion-1"
-        >
-          Fail
-        </p>
-        <p
-          class="MuiTypography-root MuiTypography-body2 emotion-2"
-        >
-          0
-        </p>
-      </div>
-    </div>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative emotion-14"
+            style="width: 100%;"
+          >
+            Pending
+             (awaiting devices)
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative emotion-15"
+          >
+            1
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative emotion-15"
+          >
+            0
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative emotion-15"
+          >
+            0
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative emotion-15"
+          >
+            1
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative emotion-15"
+          >
+            0
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative emotion-15"
+          >
+            0
+          </td>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium relative emotion-15"
+          >
+            0
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div
-    class="break-all two-columns emotion-17 column-data margin-bottom"
+    class="break-all two-columns emotion-22 column-data margin-bottom"
   >
     <h6
-      class="MuiTypography-root MuiTypography-subtitle2 key emotion-18"
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-23"
       style="white-space: nowrap;"
     >
       Update attempts per device
@@ -280,7 +403,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
       class="flexbox align-items-center "
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-2"
+        class="MuiTypography-root MuiTypography-body2 emotion-24"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="1"
       >
@@ -288,7 +411,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
       </p>
     </div>
     <h6
-      class="MuiTypography-root MuiTypography-subtitle2 key emotion-18"
+      class="MuiTypography-root MuiTypography-subtitle2 key emotion-23"
       style="white-space: nowrap;"
     >
       Maximum number of devices
@@ -297,7 +420,7 @@ exports[`DeploymentStatus Component > renders correctly 1`] = `
       class="flexbox align-items-center "
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 emotion-2"
+        class="MuiTypography-root MuiTypography-body2 emotion-24"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
         title="N/A"
       >

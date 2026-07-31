@@ -2,32 +2,43 @@
 
 exports[`RolloutSchedule Component > renders correctly 1`] = `
 .emotion-0 {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.emotion-0 span {
-  background: #fff;
-  padding: 10px 16px 10px 0;
-  position: absolute;
-  top: -19px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 16px;
 }
 
 .emotion-1 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
 }
 
-.emotion-2.two-columns.column-data {
+.emotion-2 {
+  margin: 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-bottom-width: thin;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.emotion-3.two-columns.column-data {
   grid-template-columns: max-content minmax(auto, 650px);
   max-width: initial;
   row-gap: 8px;
 }
 
-.emotion-3 {
+.emotion-4 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 500;
@@ -36,7 +47,16 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   letter-spacing: 0.00714em;
 }
 
-.emotion-7 {
+.emotion-5 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -55,14 +75,14 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   margin-right: 32px;
 }
 
-.emotion-9 {
+.emotion-10 {
   -webkit-align-items: baseline;
   -webkit-box-align: baseline;
   -ms-flex-align: baseline;
   align-items: baseline;
 }
 
-.emotion-12 {
+.emotion-13 {
   background-color: #fff;
   padding: 10px 20px;
   border-radius: 4px;
@@ -72,60 +92,60 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   min-height: 70px;
 }
 
-.emotion-12 .progress-bar {
+.emotion-13 .progress-bar {
   height: 4px;
 }
 
-.emotion-12 .chart-container {
+.emotion-13 .chart-container {
   min-height: 70px;
 }
 
-.emotion-12 .progress-chart {
+.emotion-13 .progress-chart {
   min-height: 45px;
 }
 
-.emotion-12 .progress-step {
+.emotion-13 .progress-step {
   min-height: 45px;
 }
 
-.emotion-12 .progress-step,
-.emotion-12 .progress-step-total {
+.emotion-13 .progress-step,
+.emotion-13 .progress-step-total {
   position: absolute;
   border-right-style: none;
 }
 
-.emotion-12 .progress-step-total .progress-bar {
+.emotion-13 .progress-step-total .progress-bar {
   background-color: #fafafa;
 }
 
-.emotion-12 .progress-step-number {
+.emotion-13 .progress-step-number {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
   margin-top: -4px;
 }
 
-.emotion-12.no-background {
+.emotion-13.no-background {
   background: none;
 }
 
-.emotion-12.stepped-progress .progress-step-total {
+.emotion-13.stepped-progress .progress-step-total {
   margin-left: -0.25%;
   width: 100.5%;
 }
 
-.emotion-12.stepped-progress .progress-step-total .progress-bar {
+.emotion-13.stepped-progress .progress-step-total .progress-bar {
   background-color: #fff;
   border: 1px solid #424242;
   border-radius: 2px;
   height: 8px;
 }
 
-.emotion-12.stepped-progress .progress-step {
+.emotion-13.stepped-progress .progress-step {
   min-height: 20px;
 }
 
-.emotion-13 {
+.emotion-14 {
   position: relative;
   overflow: hidden;
   display: block;
@@ -135,13 +155,13 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
 }
 
 @media print {
-  .emotion-13 {
+  .emotion-14 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-14 {
+.emotion-15 {
   width: 100%;
   position: absolute;
   left: 0;
@@ -155,14 +175,14 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   transition: transform .4s linear 0ms;
 }
 
-.emotion-15 {
+.emotion-16 {
   max-width: 270px;
   border-radius: 5px;
   padding-top: 8px;
   padding-bottom: 24px;
 }
 
-.emotion-16 {
+.emotion-17 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -171,7 +191,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   letter-spacing: 0.03333em;
 }
 
-.emotion-17 {
+.emotion-18 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -211,12 +231,12 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   margin-top: 16px;
 }
 
-.emotion-17.Mui-disabled {
+.emotion-18.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-17 .MuiChip-avatar {
+.emotion-18 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -225,12 +245,12 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-17 .MuiChip-icon {
+.emotion-18 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-17 .MuiChip-deleteIcon {
+.emotion-18 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -238,11 +258,11 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-17 .MuiChip-deleteIcon:hover {
+.emotion-18 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-17 .MuiChip-avatar {
+.emotion-18 .MuiChip-avatar {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -250,23 +270,23 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
   font-size: 0.625rem;
 }
 
-.emotion-17 .MuiChip-icon {
+.emotion-18 .MuiChip-icon {
   font-size: 18px;
   margin-left: 4px;
   margin-right: -4px;
 }
 
-.emotion-17 .MuiChip-deleteIcon {
+.emotion-18 .MuiChip-deleteIcon {
   font-size: 16px;
   margin-right: 4px;
   margin-left: -4px;
 }
 
-.emotion-17 .MuiChip-icon {
+.emotion-18 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-18 {
+.emotion-19 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -278,22 +298,25 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
 
 <div>
   <div
-    class="margin-bottom-large relative emotion-0 margin-top-large undefined"
+    class="flexbox margin-bottom-small emotion-0 margin-top-large"
   >
-    <span
-      class="MuiTypography-root MuiTypography-body2 emotion-1"
+    <h6
+      class="MuiTypography-root MuiTypography-subtitle1 emotion-1"
     >
       Schedule details
-    </span>
+    </h6>
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth emotion-2"
+    />
   </div>
   <div
     class="flexbox"
   >
     <div
-      class="break-all two-columns emotion-2 column-data "
+      class="break-all two-columns emotion-3 column-data "
     >
       <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-3"
+        class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
         style="white-space: nowrap;"
       >
         Start time
@@ -302,7 +325,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
         class="flexbox align-items-center "
       >
         <div
-          class="MuiTypography-root MuiTypography-body2 emotion-1"
+          class="MuiTypography-root MuiTypography-body2 emotion-5"
           style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="2019-01-01T12:25:00.000Z"
         >
@@ -314,7 +337,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
         </div>
       </div>
       <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-3"
+        class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
         style="white-space: nowrap;"
       >
         Current phase
@@ -323,7 +346,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
         class="flexbox align-items-center "
       >
         <p
-          class="MuiTypography-root MuiTypography-body2 emotion-1"
+          class="MuiTypography-root MuiTypography-body2 emotion-5"
           style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="1"
         >
@@ -333,7 +356,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
     </div>
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-8"
       data-testid="ArrowForwardIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -343,10 +366,10 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
       />
     </svg>
     <div
-      class="break-all two-columns emotion-2 column-data emotion-9"
+      class="break-all two-columns emotion-3 column-data emotion-10"
     >
       <h6
-        class="MuiTypography-root MuiTypography-subtitle2 key emotion-3"
+        class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
         style="white-space: nowrap;"
       >
         End time
@@ -355,7 +378,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
         class="flexbox align-items-center "
       >
         <p
-          class="MuiTypography-root MuiTypography-body2 emotion-1"
+          class="MuiTypography-root MuiTypography-body2 emotion-5"
           style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           title="-"
         >
@@ -365,7 +388,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
     </div>
   </div>
   <div
-    class="relative flexbox column emotion-12 margin-top no-background"
+    class="relative flexbox column emotion-13 margin-top no-background"
   >
     <div
       class="chart-container"
@@ -380,11 +403,11 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
         aria-valuemax="100"
         aria-valuemin="0"
         aria-valuenow="0"
-        class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-13"
+        class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-determinate emotion-14"
         role="progressbar"
       >
         <span
-          class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-14"
+          class="MuiLinearProgress-bar MuiLinearProgress-bar1 emotion-15"
           style="transform: translateX(-100%);"
         />
       </span>
@@ -395,27 +418,27 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
     style="grid-template-columns: repeat(auto-fit, 270px);"
   >
     <div
-      class="flexbox column padding-small emotion-15 "
+      class="flexbox column padding-small emotion-16 "
     >
       <span
-        class="MuiTypography-root MuiTypography-caption emotion-16"
+        class="MuiTypography-root MuiTypography-caption emotion-17"
       >
         Complete
       </span>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-17"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault emotion-18"
       >
         <span
-          class="MuiChip-label emotion-18"
+          class="MuiChip-label emotion-19"
         >
           Phase 1
         </span>
       </div>
       <div
-        class="break-all two-columns emotion-2 column-data "
+        class="break-all two-columns emotion-3 column-data "
       >
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 key emotion-3"
+          class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
           style="white-space: nowrap;"
         >
           Phase start time
@@ -424,7 +447,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
           class="flexbox align-items-center "
         >
           <div
-            class="MuiTypography-root MuiTypography-body2 emotion-1"
+            class="MuiTypography-root MuiTypography-body2 emotion-5"
             style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="2019-01-01T12:25:00.000Z"
           >
@@ -436,7 +459,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
           </div>
         </div>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle2 key emotion-3"
+          class="MuiTypography-root MuiTypography-subtitle2 key emotion-4"
           style="white-space: nowrap;"
         >
           Batch size
@@ -445,7 +468,7 @@ exports[`RolloutSchedule Component > renders correctly 1`] = `
           class="flexbox align-items-center "
         >
           <p
-            class="MuiTypography-root MuiTypography-body2 emotion-1"
+            class="MuiTypography-root MuiTypography-body2 emotion-5"
             style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
             title="100% (1 device)"
           >
