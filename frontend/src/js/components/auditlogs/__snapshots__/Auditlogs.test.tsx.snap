@@ -53,7 +53,7 @@ exports[`Auditlogs Component > renders correctly 1`] = `
               Performed by
             </h6>
             <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiSelect-root css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiSelect-root align-self-start css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
               style="width: 240px;"
             >
               <div
