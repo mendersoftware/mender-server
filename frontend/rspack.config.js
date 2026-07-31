@@ -52,9 +52,6 @@ export default (env, argv) => {
   }
   return {
     devtool: 'source-map',
-    node: {
-      global: true
-    },
     devServer: {
       host: '0.0.0.0',
       port: 8080,
@@ -150,10 +147,8 @@ export default (env, argv) => {
           ...(mocksEnabled ? [{ from: 'node_modules/msw/lib/mockServiceWorker.js', to: 'mockServiceWorker.js' }] : [])
         ]
       }),
-      new rspack.ProvidePlugin({
-        process: 'process/browser',
-        Buffer: ['buffer', 'Buffer']
-      }),
+      // json-schema-ref-parser needs buffer when parsing the openapi document
+      ...(mocksEnabled ? [new rspack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'], process: 'process/browser' })] : []),
       new rspack.DefinePlugin({
         ENV: JSON.stringify(argv.mode),
         __MOCKS_ENABLED__: JSON.stringify(mocksEnabled),
@@ -177,13 +172,11 @@ export default (env, argv) => {
         '@babel/runtime/helpers/esm': path.resolve(__dirname, 'node_modules/@babel/runtime/helpers/esm')
       },
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      // only the mocked setup needs these: openapi-backend pulls in json-schema-ref-parser,
+      // which requires 'path', and @jsdevtools/ono, which imports 'util'
       fallback: {
-        assert: require.resolve('assert/'),
-        buffer: require.resolve('buffer/'),
         path: require.resolve('path-browserify'),
-        stream: require.resolve('stream-browserify'),
         util: require.resolve('util/'),
-        vm: require.resolve('vm-browserify'),
         'process/browser': require.resolve('process/browser')
       },
       tsConfig: path.resolve(__dirname, 'tsconfig.json')
