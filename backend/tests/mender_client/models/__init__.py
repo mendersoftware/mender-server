@@ -137,6 +137,7 @@ from mender_client.models.task_result_cli import TaskResultCLI
 from mender_client.models.task_result_http_request import TaskResultHTTPRequest
 from mender_client.models.task_result_http_response import TaskResultHTTPResponse
 from mender_client.models.tenant_new import TenantNew
+from mender_client.models.udpate_device_auth import UdpateDeviceAuth
 from mender_client.models.update import Update
 from mender_client.models.update_file import UpdateFile
 from mender_client.models.user import User
