@@ -97,7 +97,7 @@ services:
     depends_on:
       - workflows
     environment:
-      GENERATE_DELTA_DELPOYMENTS_URL: http://deployments:8080
+      GENERATE_DELTA_DEPLOYMENTS_URL: http://deployments:8080
       WORKFLOWS_MONGO_URL: "mongodb://mongo"
       WORKFLOWS_NATS_URI: "nats://nats"
 
