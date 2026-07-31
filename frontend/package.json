@@ -97,7 +97,7 @@
     "redux-mock-store": "1.5.5",
     "selfsigned": "^5.5.0",
     "stream-browserify": "3.0.0",
-    "typescript": "~7.0.0",
+    "typescript": "~6.0.3",
     "util": "0.12.5",
     "vite-plugin-svgr": "^5.2.0",
     "vitest": "^4.0.12",
