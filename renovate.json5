@@ -151,6 +151,11 @@
       "matchPackageNames": ["!/^@playwright/", "!/^playwright/"],
       "groupName": "test-dependencies"
     },
+    // Drop this rule once the frontend toolchain supports ts 7.
+    {
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "!/^7\\.0\\./"
+    },
 
     // Submodules are managed by release tooling.
     {
