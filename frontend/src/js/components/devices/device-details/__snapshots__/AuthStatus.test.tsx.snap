@@ -683,7 +683,6 @@ exports[`AuthStatus Component > renders correctly 1`] = `
         class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium green emotion-3"
         data-testid="CheckCircleIcon"
         focusable="false"
-        style="margin: 12px;"
         viewBox="0 0 24 24"
       >
         <path
@@ -864,7 +863,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                     class="MuiAccordionDetails-root emotion-27"
                   >
                     <div
-                      class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                      class="flexbox space-between align-items-center full-width margin-top-small"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 margin-right emotion-28"
@@ -972,7 +971,7 @@ exports[`AuthStatus Component > renders correctly 1`] = `
                     class="MuiAccordionDetails-root emotion-27"
                   >
                     <div
-                      class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                      class="flexbox space-between align-items-center full-width margin-top-small"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 margin-right emotion-28"
