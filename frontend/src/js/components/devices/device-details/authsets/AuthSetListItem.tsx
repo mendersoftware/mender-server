@@ -13,15 +13,16 @@
 //    limitations under the License.
 import { useEffect, useState } from 'react';
 
-import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
+import { Check as CheckIcon, FileCopyOutlined as CopyPasteIcon, InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material';
 // material ui
 import { Accordion, AccordionDetails, AccordionSummary, Button, Chip, Divider, Tooltip, Typography } from '@mui/material';
 
-import CopyCode from '@northern.tech/common-ui/CopyCode';
+import { Code } from '@northern.tech/common-ui/CopyCode';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
-import { DEVICE_DISMISSAL_STATE, DEVICE_STATES } from '@northern.tech/store/constants';
+import { DEVICE_DISMISSAL_STATE, DEVICE_STATES, TIMEOUTS } from '@northern.tech/store/constants';
 import { formatTime } from '@northern.tech/utils/helpers';
+import copy from 'copy-to-clipboard';
 
 const tierChangeTooltip = (newTier: string) =>
   `This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a ${newTier} device and contribute to your ${newTier} device tier limit.`;
@@ -120,6 +121,7 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
   const [newStatus, setNewStatus] = useState('');
   const [keyHash, setKeyHash] = useState('');
   const [endKey, setEndKey] = useState('');
+  const [copied, setCopied] = useState(false);
   const { tier } = device;
 
   const newTier = authset.tier !== tier;
@@ -184,12 +186,28 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
     return onConfirm(DEVICE_STATES.accepted);
   };
 
+  const onCopyKey = () => {
+    copy(endKey);
+    setCopied(true);
+    setTimeout(() => setCopied(false), TIMEOUTS.fiveSeconds);
+  };
+
   const toggleKey = () => onShowKey(!showKey);
   const key = <Button onClick={toggleKey}>{showKey ? 'Hide' : 'Show'} key</Button>;
   const content = showKey ? (
     <div className="full-width">
-      <div className={classes.fitContent}>
-        <CopyCode code={endKey} noBackground />
+      <div className={`${classes.fitContent} flexbox centered`}>
+        <Code style={{ padding: 0 }} noBackground>
+          <Typography variant="code1">{endKey.trim()}</Typography>
+        </Code>
+        {copied ? (
+          <Typography className="green fadeIn flexbox align-items-center margin-left-small">
+            <CheckIcon className="margin-right-x-small" fontSize="small" />
+            copied
+          </Typography>
+        ) : (
+          <CopyPasteIcon className="margin-left-small clickable" onClick={onCopyKey} />
+        )}
       </div>
       <Divider className="margin-bottom-x-small" />
       <div title="SHA256">
@@ -233,7 +251,7 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
         )}
       </AccordionSummary>
       <AccordionDetails>
-        <div className="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small">
+        <div className="flexbox space-between align-items-center full-width margin-top-small">
           {content}
           {isExpanded && !showKey && loading !== authset.id && (
             <div className="flexbox">
