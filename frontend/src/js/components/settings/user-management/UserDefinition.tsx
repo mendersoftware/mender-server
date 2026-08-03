@@ -14,7 +14,7 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 // material ui
-import { Alert, Button, Divider, TextField, Typography, textFieldClasses } from '@mui/material';
+import { Alert, Button, Divider, FormControl, FormHelperText, TextField, Typography, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
@@ -28,6 +28,7 @@ import { passwordResetStart } from '@northern.tech/store/thunks';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
 import type { User } from '@northern.tech/types/MenderTypes';
 import { isEmpty } from '@northern.tech/utils/helpers';
+import validator from 'validator';
 
 import { OAuth2Providers, genericProvider } from '../../login/OAuth2Providers';
 import { EmailVerificationWarning } from '../EmailVerificationWarning';
@@ -87,12 +88,15 @@ interface UserDefinitionProps {
 }
 
 export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }: UserDefinitionProps) => {
-  const { id } = selectedUser;
+  const { email = '', id } = selectedUser;
 
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
 
+  const [currentEmail, setCurrentEmail] = useState('');
+  const [emailInvalid, setEmailInvalid] = useState(false);
   const [hadRoleChanges, setHadRoleChanges] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isEditingRoles, setIsEditingRoles] = useState(false);
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [showResetConfirmation, setShowResetConfirmation] = useState(false);
@@ -102,10 +106,29 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
   );
 
   useEffect(() => {
+    setCurrentEmail(email);
+    setEmailInvalid(false);
+    setIsEditingEmail(false);
+  }, [email]);
+
+  useEffect(() => {
     setSelectedRoles(selectedUser.roles || []);
     setHadRoleChanges(false);
     setIsEditingRoles(false);
   }, [selectedUser.roles]);
+
+  const validateEmailChange = ({ target: { value } }) => {
+    setEmailInvalid(!validator.isEmail(value) || validator.isEmpty(value));
+    setCurrentEmail(value);
+  };
+
+  const onCancelEmailChanges = () => {
+    setCurrentEmail(email);
+    setEmailInvalid(false);
+    setIsEditingEmail(false);
+  };
+
+  const onEmailSubmitClick = () => onSubmit({ ...selectedUser, email: currentEmail }, 'edit', id);
 
   const onRemoveClick = () => {
     onRemove(selectedUser);
@@ -169,8 +192,36 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       <Typography className="margin-top-x-small" variant="subtitle1">
         User ID
       </Typography>
-      <TwoColumnData className="margin-top-small" setSnackbar={setSnackbar} data={{ Email: selectedUser.email, 'User ID': selectedUser.id }} />
-      {!isOAuth2 && (
+      <TwoColumnData
+        className="margin-top-small"
+        setSnackbar={setSnackbar}
+        data={hasMultitenancy ? { Email: email, 'User ID': selectedUser.id } : { 'User ID': selectedUser.id }}
+      />
+      {!hasMultitenancy && (
+        <>
+          <FormControl className={`margin-top-small ${classes.widthLimit}`}>
+            <TextField label="Email" id="email" value={currentEmail} disabled={!isEditingEmail} error={emailInvalid} onChange={validateEmailChange} />
+            {emailInvalid && <FormHelperText className="warning">Please enter a valid email address</FormHelperText>}
+          </FormControl>
+          {currentUser.id !== id && (
+            <div className="flexbox margin-top-small">
+              {isEditingEmail ? (
+                <>
+                  <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onCancelEmailChanges}>
+                    Cancel
+                  </Button>
+                  <Button variant="contained" disabled={emailInvalid || currentEmail === email} onClick={onEmailSubmitClick}>
+                    Save changes
+                  </Button>
+                </>
+              ) : (
+                <Button onClick={() => setIsEditingEmail(true)}>Change email</Button>
+              )}
+            </div>
+          )}
+        </>
+      )}
+      {hasMultitenancy && !isOAuth2 && (
         <>
           <div>
             <Button className="margin-top-small" onClick={() => setShowResetConfirmation(true)}>
