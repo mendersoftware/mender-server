@@ -107,10 +107,11 @@ export const GlobalSettings = () => {
   const settings = useSelector(getGlobalSettingsSelector);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
+  // settings & the deployments API store retries; the UI presents attempts = retries + 1
+  const persistedAttempts = Number(settings.retries ?? 0) + 1;
   const [channelSettings, setChannelSettings] = useState(notificationChannelSettings);
   const [currentInterval, setCurrentInterval] = useState<number | null>(offlineThresholdSettings.interval);
-  // settings & the deployments API store retries; the UI presents attempts = retries + 1
-  const [currentAttempts, setCurrentAttempts] = useState<number | null>(Number(settings.retries ?? 0) + 1);
+  const [currentAttempts, setCurrentAttempts] = useState<number | null>(persistedAttempts);
   const [showDeltaConfig, setShowDeltaConfig] = useState(false);
   const debouncedOfflineThreshold = useDebounce(currentInterval, TIMEOUTS.threeSeconds);
   const debouncedAttempts = useDebounce(currentAttempts, TIMEOUTS.threeSeconds);
@@ -139,21 +140,23 @@ export const GlobalSettings = () => {
   }, [offlineThresholdSettings.interval]);
 
   useEffect(() => {
-    setCurrentAttempts(Number(settings.retries ?? 0) + 1);
-  }, [settings.retries]);
+    setCurrentAttempts(persistedAttempts);
+  }, [persistedAttempts]);
 
   useEffect(() => {
-    if (!canPersistSettings || !isValidInterval(debouncedOfflineThreshold)) {
+    if (!canPersistSettings || !isValidInterval(debouncedOfflineThreshold) || debouncedOfflineThreshold === offlineThresholdSettings.interval) {
       return;
     }
     dispatchedSaveGlobalSettings({ offlineThreshold: { interval: debouncedOfflineThreshold, intervalUnit: DEVICE_ONLINE_CUTOFF.intervalName }, notify: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canPersistSettings, debouncedOfflineThreshold, dispatchedSaveGlobalSettings]);
 
   useEffect(() => {
-    if (!canPersistSettings || debouncedAttempts == null || debouncedAttempts < 1) {
+    if (!canPersistSettings || debouncedAttempts == null || debouncedAttempts < 1 || debouncedAttempts === persistedAttempts) {
       return;
     }
     dispatchedSaveGlobalSettings({ retries: Number(debouncedAttempts) - 1, notify: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canPersistSettings, debouncedAttempts, dispatchedSaveGlobalSettings]);
 
   useEffect(() => {
