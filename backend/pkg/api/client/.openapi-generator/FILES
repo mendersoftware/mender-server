@@ -149,6 +149,7 @@ model_task_result_cli.go
 model_task_result_http_request.go
 model_task_result_http_response.go
 model_tenant_new.go
+model_udpate_device_auth.go
 model_update.go
 model_update_file.go
 model_user.go

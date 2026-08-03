@@ -150,6 +150,7 @@ Class | Method | HTTP request | Description
 *DeviceAuthenticationInternalAPIAPI* | [**DeviceAuthInternalSetExternalIdentity**](docs/DeviceAuthenticationInternalAPIAPI.md#deviceauthinternalsetexternalidentity) | **Put** /api/internal/v1/devauth/tenants/{tid}/devices/{did}/external | Replace the external identity of a device.
 *DeviceAuthenticationInternalAPIAPI* | [**DeviceAuthInternalUpdateDeviceLimit**](docs/DeviceAuthenticationInternalAPIAPI.md#deviceauthinternalupdatedevicelimit) | **Put** /api/internal/v1/devauth/tenant/{tenant_id}/limits/max_devices | Update max device count limit
 *DeviceAuthenticationInternalAPIAPI* | [**DeviceAuthInternalVerifyJWT**](docs/DeviceAuthenticationInternalAPIAPI.md#deviceauthinternalverifyjwt) | **Post** /api/internal/v1/devauth/tokens/verify | Check the validity of a token
+*DeviceAuthenticationInternalAPIAPI* | [**UpdateDeviceAuth**](docs/DeviceAuthenticationInternalAPIAPI.md#updatedeviceauth) | **Patch** /api/internal/v1/devauth/tenants/{tid}/devices/{did} | Update the device authentication data
 *DeviceAuthenticationManagementAPIAPI* | [**DeviceAuthManagementCountDevices**](docs/DeviceAuthenticationManagementAPIAPI.md#deviceauthmanagementcountdevices) | **Get** /api/management/v2/devauth/devices/count | Count number of devices, optionally filtered by status.
 *DeviceAuthenticationManagementAPIAPI* | [**DeviceAuthManagementDecommissionDevice**](docs/DeviceAuthenticationManagementAPIAPI.md#deviceauthmanagementdecommissiondevice) | **Delete** /api/management/v2/devauth/devices/{id} | Remove device and associated authentication set
 *DeviceAuthenticationManagementAPIAPI* | [**DeviceAuthManagementGetAuthenticationStatus**](docs/DeviceAuthenticationManagementAPIAPI.md#deviceauthmanagementgetauthenticationstatus) | **Get** /api/management/v2/devauth/devices/{id}/auth/{aid}/status | Get the device authentication set status
@@ -395,6 +396,7 @@ Class | Method | HTTP request | Description
  - [TaskResultHTTPRequest](docs/TaskResultHTTPRequest.md)
  - [TaskResultHTTPResponse](docs/TaskResultHTTPResponse.md)
  - [TenantNew](docs/TenantNew.md)
+ - [UdpateDeviceAuth](docs/UdpateDeviceAuth.md)
  - [Update](docs/Update.md)
  - [UpdateFile](docs/UpdateFile.md)
  - [User](docs/User.md)

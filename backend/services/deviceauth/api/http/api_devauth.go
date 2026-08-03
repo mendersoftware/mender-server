@@ -16,6 +16,7 @@ package http
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -682,6 +683,33 @@ func (i *DevAuthApiHandlers) GetTenantDevicesCountHandler(c *gin.Context) {
 	c.Request = c.Request.WithContext(ctx)
 
 	i.GetDevicesCountHandler(c)
+}
+
+func (i *DevAuthApiHandlers) UpdateDeviceInternal(c *gin.Context) {
+	var update model.DeviceUpdate
+	ctx := c.Request.Context()
+	deviceID := c.Param("did")
+	tenantID := c.Param("tid")
+	ctx = identity.WithContext(ctx, &identity.Identity{
+		Subject: deviceID, Tenant: tenantID,
+	})
+	err := c.ShouldBindJSON(&update)
+	if err != nil {
+		rest.RenderError(c, http.StatusBadRequest,
+			fmt.Errorf("invalid request body: %w", err))
+		return
+	}
+	err = i.app.UpdateDevice(ctx, deviceID, update)
+	switch {
+	case err == nil:
+		c.Status(http.StatusNoContent)
+	case err == devauth.ErrDeviceNotFound:
+		c.Status(http.StatusNotFound)
+	case mredis.IsUnavailableErr(err):
+		rest.RenderUnavailable(c, err)
+	default:
+		rest.RenderInternalError(c, err)
+	}
 }
 
 func (i *DevAuthApiHandlers) DeleteDeviceHandler(c *gin.Context) {

@@ -8718,6 +8718,131 @@ func (_c *MockDeviceAuthenticationInternalAPIAPI_DeviceAuthInternalVerifyJWTExec
 	return _c
 }
 
+// UpdateDeviceAuth provides a mock function for the type MockDeviceAuthenticationInternalAPIAPI
+func (_mock *MockDeviceAuthenticationInternalAPIAPI) UpdateDeviceAuth(ctx context.Context, tid string, did string) client.ApiUpdateDeviceAuthRequest {
+	ret := _mock.Called(ctx, tid, did)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateDeviceAuth")
+	}
+
+	var r0 client.ApiUpdateDeviceAuthRequest
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) client.ApiUpdateDeviceAuthRequest); ok {
+		r0 = returnFunc(ctx, tid, did)
+	} else {
+		r0 = ret.Get(0).(client.ApiUpdateDeviceAuthRequest)
+	}
+	return r0
+}
+
+// MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuth_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateDeviceAuth'
+type MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuth_Call struct {
+	*mock.Call
+}
+
+// UpdateDeviceAuth is a helper method to define mock.On call
+//   - ctx context.Context
+//   - tid string
+//   - did string
+func (_e *MockDeviceAuthenticationInternalAPIAPI_Expecter) UpdateDeviceAuth(ctx interface{}, tid interface{}, did interface{}) *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuth_Call {
+	return &MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuth_Call{Call: _e.mock.On("UpdateDeviceAuth", ctx, tid, did)}
+}
+
+func (_c *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuth_Call) Run(run func(ctx context.Context, tid string, did string)) *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuth_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 string
+		if args[1] != nil {
+			arg1 = args[1].(string)
+		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
+		run(
+			arg0,
+			arg1,
+			arg2,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuth_Call) Return(apiUpdateDeviceAuthRequest client.ApiUpdateDeviceAuthRequest) *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuth_Call {
+	_c.Call.Return(apiUpdateDeviceAuthRequest)
+	return _c
+}
+
+func (_c *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuth_Call) RunAndReturn(run func(ctx context.Context, tid string, did string) client.ApiUpdateDeviceAuthRequest) *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuth_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateDeviceAuthExecute provides a mock function for the type MockDeviceAuthenticationInternalAPIAPI
+func (_mock *MockDeviceAuthenticationInternalAPIAPI) UpdateDeviceAuthExecute(r client.ApiUpdateDeviceAuthRequest) (*http.Response, error) {
+	ret := _mock.Called(r)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateDeviceAuthExecute")
+	}
+
+	var r0 *http.Response
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(client.ApiUpdateDeviceAuthRequest) (*http.Response, error)); ok {
+		return returnFunc(r)
+	}
+	if returnFunc, ok := ret.Get(0).(func(client.ApiUpdateDeviceAuthRequest) *http.Response); ok {
+		r0 = returnFunc(r)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*http.Response)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(client.ApiUpdateDeviceAuthRequest) error); ok {
+		r1 = returnFunc(r)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuthExecute_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateDeviceAuthExecute'
+type MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuthExecute_Call struct {
+	*mock.Call
+}
+
+// UpdateDeviceAuthExecute is a helper method to define mock.On call
+//   - r client.ApiUpdateDeviceAuthRequest
+func (_e *MockDeviceAuthenticationInternalAPIAPI_Expecter) UpdateDeviceAuthExecute(r interface{}) *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuthExecute_Call {
+	return &MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuthExecute_Call{Call: _e.mock.On("UpdateDeviceAuthExecute", r)}
+}
+
+func (_c *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuthExecute_Call) Run(run func(r client.ApiUpdateDeviceAuthRequest)) *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuthExecute_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 client.ApiUpdateDeviceAuthRequest
+		if args[0] != nil {
+			arg0 = args[0].(client.ApiUpdateDeviceAuthRequest)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuthExecute_Call) Return(response *http.Response, err error) *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuthExecute_Call {
+	_c.Call.Return(response, err)
+	return _c
+}
+
+func (_c *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuthExecute_Call) RunAndReturn(run func(r client.ApiUpdateDeviceAuthRequest) (*http.Response, error)) *MockDeviceAuthenticationInternalAPIAPI_UpdateDeviceAuthExecute_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // NewMockDeviceAuthenticationManagementAPIAPI creates a new instance of MockDeviceAuthenticationManagementAPIAPI. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewMockDeviceAuthenticationManagementAPIAPI(t interface {

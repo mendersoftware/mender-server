@@ -191,6 +191,19 @@ type DeviceAuthenticationInternalAPIAPI interface {
 
 	// DeviceAuthInternalVerifyJWTExecute executes the request
 	DeviceAuthInternalVerifyJWTExecute(r ApiDeviceAuthInternalVerifyJWTRequest) (*http.Response, error)
+
+	/*
+	UpdateDeviceAuth Update the device authentication data
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param tid Tenant identifier.
+	@param did Device identifier.
+	@return ApiUpdateDeviceAuthRequest
+	*/
+	UpdateDeviceAuth(ctx context.Context, tid string, did string) ApiUpdateDeviceAuthRequest
+
+	// UpdateDeviceAuthExecute executes the request
+	UpdateDeviceAuthExecute(r ApiUpdateDeviceAuthRequest) (*http.Response, error)
 }
 
 // DeviceAuthenticationInternalAPIAPIService DeviceAuthenticationInternalAPIAPI service
@@ -1934,6 +1947,150 @@ func (a *DeviceAuthenticationInternalAPIAPIService) DeviceAuthInternalVerifyJWTE
 			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 503 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiUpdateDeviceAuthRequest struct {
+	ctx context.Context
+	ApiService DeviceAuthenticationInternalAPIAPI
+	tid string
+	did string
+	udpateDeviceAuth *UdpateDeviceAuth
+}
+
+func (r ApiUpdateDeviceAuthRequest) UdpateDeviceAuth(udpateDeviceAuth UdpateDeviceAuth) ApiUpdateDeviceAuthRequest {
+	r.udpateDeviceAuth = &udpateDeviceAuth
+	return r
+}
+
+func (r ApiUpdateDeviceAuthRequest) Execute() (*http.Response, error) {
+	return r.ApiService.UpdateDeviceAuthExecute(r)
+}
+
+/*
+UpdateDeviceAuth Update the device authentication data
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param tid Tenant identifier.
+ @param did Device identifier.
+ @return ApiUpdateDeviceAuthRequest
+*/
+func (a *DeviceAuthenticationInternalAPIAPIService) UpdateDeviceAuth(ctx context.Context, tid string, did string) ApiUpdateDeviceAuthRequest {
+	return ApiUpdateDeviceAuthRequest{
+		ApiService: a,
+		ctx: ctx,
+		tid: tid,
+		did: did,
+	}
+}
+
+// Execute executes the request
+func (a *DeviceAuthenticationInternalAPIAPIService) UpdateDeviceAuthExecute(r ApiUpdateDeviceAuthRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPatch
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DeviceAuthenticationInternalAPIAPIService.UpdateDeviceAuth")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/internal/v1/devauth/tenants/{tid}/devices/{did}"
+	localVarPath = strings.Replace(localVarPath, "{"+"tid"+"}", url.PathEscape(parameterValueToString(r.tid, "tid")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"did"+"}", url.PathEscape(parameterValueToString(r.did, "did")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.udpateDeviceAuth == nil {
+		return nil, reportError("udpateDeviceAuth is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.udpateDeviceAuth
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return localVarHTTPResponse, err
+		}
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v Error
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
 			var v Error
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

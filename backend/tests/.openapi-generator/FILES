@@ -153,6 +153,7 @@ mender_client/models/task_result_cli.py
 mender_client/models/task_result_http_request.py
 mender_client/models/task_result_http_response.py
 mender_client/models/tenant_new.py
+mender_client/models/udpate_device_auth.py
 mender_client/models/update.py
 mender_client/models/update_file.py
 mender_client/models/user.py
