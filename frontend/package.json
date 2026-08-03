@@ -46,7 +46,6 @@
     "react-idle-timer": "5.7.3",
     "react-redux": "9.3.0",
     "react-router": "8.3.0",
-    "redux-thunk": "^3.1.0",
     "tss-react": "4.9.21",
     "universal-cookie": "8.1.2",
     "uuid": "14.0.1",
@@ -76,11 +75,9 @@
     "@types/validator": "^13.15.10",
     "@vitejs/plugin-react": "^6.0.3",
     "@vitest/coverage-v8": "^4.1.9",
-    "assert": "2.1.0",
     "autoprefixer": "10.5.4",
     "buffer": "6.0.3",
     "clean-webpack-plugin": "4.0.0",
-    "crypto-browserify": "3.12.1",
     "css-loader": "7.1.4",
     "esbuild-loader": "4.5.0",
     "eslint": "10.8.0",
@@ -95,17 +92,15 @@
     "prettier": "3.9.6",
     "process": "0.11.10",
     "redux-mock-store": "1.5.5",
+    "redux-thunk": "^3.1.0",
     "selfsigned": "^5.5.0",
-    "stream-browserify": "3.0.0",
     "typescript": "~6.0.3",
     "util": "0.12.5",
     "vite-plugin-svgr": "^5.2.0",
     "vitest": "^4.0.12",
-    "vm-browserify": "1.1.2",
     "webpack-license-plugin": "^4.5.1"
   },
   "overrides": {
-    "@babel/plugin-transform-runtime": "^8.0.0",
     "tss-react": {
       "@mui/material": "$@mui/material"
     }
