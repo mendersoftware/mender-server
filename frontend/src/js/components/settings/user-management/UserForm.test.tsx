@@ -24,7 +24,7 @@ describe('UserForm Component', () => {
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
   it('renders correctly for enterprise', async () => {
-    const { baseElement } = render(<UserForm currentUser={{}} roles={[]} isEnterprise />);
+    const { baseElement } = render(<UserForm currentUser={{}} roles={[]} hasMultitenancy isEnterprise />);
     const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));

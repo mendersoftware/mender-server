@@ -27,6 +27,7 @@ const preloadedState = {
     ...defaultState.app,
     features: {
       ...defaultState.app.features,
+      hasMultitenancy: true,
       isEnterprise: true
     }
   }
