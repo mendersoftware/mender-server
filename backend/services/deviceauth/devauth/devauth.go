@@ -17,6 +17,7 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/json"
+	"slices"
 	"strings"
 	"time"
 
@@ -34,6 +35,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
+	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
@@ -46,6 +48,8 @@ const (
 	MsgErrDevAuthBadRequest   = "dev auth: bad request"
 	InventoryScopeSystem      = "system"
 )
+
+const featureFlagProvision = "devauth:" + dconfig.SettingLegacyProvisionDevice
 
 var (
 	ErrDevAuthUnauthorized   = errors.New(MsgErrDevAuthUnauthorized)
@@ -400,8 +404,19 @@ func (d *DevAuth) handlePreAuthDevice(
 	dev.Status = model.DevStatusAccepted
 	dev.AuthSets = append(dev.AuthSets, *aset)
 
+	reqId := requestid.FromContext(ctx)
+	var (
+		tenantID             string
+		legacyProvisionEvent bool
+	)
+	if idty := identity.FromContext(ctx); idty != nil {
+		tenantID = idty.Tenant
+		legacyProvisionEvent = d.config.LegacyProvisionEvent || // global
+			slices.Contains(idty.FeatureFlags, featureFlagProvision) // tenant
+	}
+
 	workflowName := "provision_device"
-	if d.config.LegacyProvisionEvent {
+	if legacyProvisionEvent {
 		// NOTE: before Device.Provisioned flag was introduced, provision_device
 		// was always triggered.
 		if dev.Provisioned {
@@ -410,12 +425,6 @@ func (d *DevAuth) handlePreAuthDevice(
 	} else if dev.Provisioned {
 		// Device already provisioned, we're done...
 		return aset, nil
-	}
-
-	reqId := requestid.FromContext(ctx)
-	var tenantID string
-	if idty := identity.FromContext(ctx); idty != nil {
-		tenantID = idty.Tenant
 	}
 
 	// submit device accepted job
@@ -884,7 +893,16 @@ func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_i
 	}
 
 	workflowName := "provision_device"
-	if d.config.LegacyProvisionEvent {
+	var (
+		tenantID             string
+		legacyProvisionEvent bool
+	)
+	if idty := identity.FromContext(ctx); idty != nil {
+		tenantID = idty.Tenant
+		legacyProvisionEvent = d.config.LegacyProvisionEvent || // global
+			slices.Contains(idty.FeatureFlags, featureFlagProvision) // tenant
+	}
+	if legacyProvisionEvent {
 		// Legacy behavior: trigger provision_device event whenever
 		// device transitions from pending status.
 		if dev.Status != model.DevStatusPending {
@@ -904,18 +922,11 @@ func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_i
 	aset.Status = model.DevStatusAccepted
 	dev.AuthSets = []model.AuthSet{*aset}
 
-	reqId := requestid.FromContext(ctx)
-
-	var tenantID string
-	if idty := identity.FromContext(ctx); idty != nil {
-		tenantID = idty.Tenant
-	}
-
 	// submit device accepted job
 	//nolint:bodyclose
 	_, _, err = d.cOrch.StartWorkflow(ctx, workflowName).
 		RequestBody(map[string]interface{}{
-			"request_id": reqId,
+			"request_id": requestid.FromContext(ctx),
 			"device_id":  aset.DeviceId,
 			"tenant_id":  tenantID,
 			"device":     dev,
