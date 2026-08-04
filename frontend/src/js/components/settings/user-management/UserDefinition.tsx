@@ -18,9 +18,13 @@ import { Alert, Button, Divider, FormControl, FormHelperText, TextField, Typogra
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
-import { ColumnWidthProvider, SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { ColumnWidthProvider, SynchronizedTwoColumnData, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import actions from '@northern.tech/store/actions';
 import { rolesByName, uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { passwordResetStart } from '@northern.tech/store/thunks';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
 import type { User } from '@northern.tech/types/MenderTypes';
 import { isEmpty } from '@northern.tech/utils/helpers';
@@ -31,9 +35,9 @@ import { EmailVerificationWarning } from '../EmailVerificationWarning';
 import { SETTINGS_FORM_MAX_WIDTH, SETTINGS_INPUT_WIDTH, SETTINGS_INPUT_WIDTH_ROLES_AND_USERS_ONLY } from '../constants';
 import { UserRolesSelect } from './UserForm';
 
+const { setSnackbar } = actions;
+
 const useStyles = makeStyles()(theme => ({
-  divider: { marginTop: theme.spacing(4) },
-  leftButton: { marginRight: theme.spacing(2) },
   oauthIcon: { fontSize: 36, marginRight: 10 },
   userIdWrapper: {
     '.copy-button': { marginTop: theme.spacing(0.25), whiteSpace: 'nowrap' },
@@ -87,11 +91,15 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
   const { email = '', id } = selectedUser;
 
   const { classes } = useStyles();
+  const dispatch = useAppDispatch();
 
-  const [nameError, setNameError] = useState(false);
-  const [hadRoleChanges, setHadRoleChanges] = useState(false);
-  const [selectedRoles, setSelectedRoles] = useState([]);
   const [currentEmail, setCurrentEmail] = useState('');
+  const [emailInvalid, setEmailInvalid] = useState(false);
+  const [hadRoleChanges, setHadRoleChanges] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [isEditingRoles, setIsEditingRoles] = useState(false);
+  const [selectedRoles, setSelectedRoles] = useState([]);
+  const [showResetConfirmation, setShowResetConfirmation] = useState(false);
   const rolesById = useMemo(
     () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
     [roles]
@@ -99,16 +107,28 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
 
   useEffect(() => {
     setCurrentEmail(email);
+    setEmailInvalid(false);
+    setIsEditingEmail(false);
   }, [email]);
 
   useEffect(() => {
     setSelectedRoles(selectedUser.roles || []);
+    setHadRoleChanges(false);
+    setIsEditingRoles(false);
   }, [selectedUser.roles]);
 
-  const validateNameChange = ({ target: { value } }) => {
-    setNameError(!validator.isEmail(value) || validator.isEmpty(value));
+  const validateEmailChange = ({ target: { value } }) => {
+    setEmailInvalid(!validator.isEmail(value) || validator.isEmpty(value));
     setCurrentEmail(value);
   };
+
+  const onCancelEmailChanges = () => {
+    setCurrentEmail(email);
+    setEmailInvalid(false);
+    setIsEditingEmail(false);
+  };
+
+  const onEmailSubmitClick = () => onSubmit({ ...selectedUser, email: currentEmail }, 'edit', id);
 
   const onRemoveClick = () => {
     onRemove(selectedUser);
@@ -119,14 +139,18 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
     setHadRoleChanges(hadRoleChanges);
   };
 
-  const onSubmitClick = () => {
-    if (id && !hadRoleChanges && email === currentEmail) {
-      return onSubmit(null, 'edit', id);
-    }
-    const changedRoles = hadRoleChanges ? { roles: selectedRoles } : {};
-    const submissionData = { ...selectedUser, ...changedRoles, email: currentEmail };
-    return onSubmit(submissionData, 'edit', id);
+  const onCancelRoleChanges = () => {
+    setSelectedRoles(selectedUser.roles || []);
+    setHadRoleChanges(false);
+    setIsEditingRoles(false);
   };
+
+  const onPasswordResetConfirmed = () =>
+    dispatch(passwordResetStart(selectedUser.email))
+      .unwrap()
+      .then(() => dispatch(setSnackbar(`A password reset email was sent to ${selectedUser.email}.`)));
+
+  const onSubmitClick = () => onSubmit({ ...selectedUser, roles: selectedRoles }, 'edit', id);
 
   const { areas, ...scopedAreas } = useMemo(() => {
     const emptySelection = { areas: {}, groups: {}, releases: {} };
@@ -149,7 +173,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
 
   const hasScopedPermissionsDefined = Object.values(scopedAreas).some(permissions => !isEmpty(permissions));
   const userNotVerified = !currentUser.verified;
-  const isSubmitDisabled = !selectedRoles.length;
+  const isSubmitDisabled = !selectedRoles.length || !hadRoleChanges;
 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
   const rolesClasses = isEnterprise ? '' : 'muted';
@@ -160,31 +184,64 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       size="md"
       slotProps={{
         header: {
-          title: 'Edit user',
-          preCloser: currentUser.id !== id && (
-            <Button className={`flexbox align-items-center ${classes.leftButton}`} color="error" onClick={onRemoveClick} variant="outlined">
-              Delete user
-            </Button>
-          )
+          title: `User information for ${selectedUser.email}`
         }
       }}
     >
       {hasMultitenancy && userNotVerified && <EmailVerificationWarning className="margin-top-small" action="change another user’s email" />}
-      <Typography className="margin-top" variant="subtitle1">
+      <Typography className="margin-top-x-small" variant="subtitle1">
         User ID
       </Typography>
-      <UserId className={`margin-top-medium ${classes.widthLimit}`} userId={id} />
-      <FormControl className={`margin-top-medium ${classes.widthLimit}`}>
-        <TextField
-          label="Email"
-          id="email"
-          value={currentEmail}
-          disabled={isOAuth2 || currentUser.id === id || (hasMultitenancy && userNotVerified)}
-          error={nameError}
-          onChange={validateNameChange}
-        />
-        {nameError && <FormHelperText className="warning">Please enter a valid email address</FormHelperText>}
-      </FormControl>
+      <TwoColumnData
+        className="margin-top-small"
+        setSnackbar={setSnackbar}
+        data={hasMultitenancy ? { Email: email, 'User ID': selectedUser.id } : { 'User ID': selectedUser.id }}
+      />
+      {!hasMultitenancy && (
+        <>
+          <FormControl className={`margin-top-small ${classes.widthLimit}`}>
+            <TextField label="Email" id="email" value={currentEmail} disabled={!isEditingEmail} error={emailInvalid} onChange={validateEmailChange} />
+            {emailInvalid && <FormHelperText className="warning">Please enter a valid email address</FormHelperText>}
+          </FormControl>
+          {currentUser.id !== id && (
+            <div className="flexbox margin-top-small">
+              {isEditingEmail ? (
+                <>
+                  <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onCancelEmailChanges}>
+                    Cancel
+                  </Button>
+                  <Button variant="contained" disabled={emailInvalid || currentEmail === email} onClick={onEmailSubmitClick}>
+                    Save changes
+                  </Button>
+                </>
+              ) : (
+                <Button onClick={() => setIsEditingEmail(true)}>Change email</Button>
+              )}
+            </div>
+          )}
+        </>
+      )}
+      {hasMultitenancy && !isOAuth2 && (
+        <>
+          <div>
+            <Button className="margin-top-small" onClick={() => setShowResetConfirmation(true)}>
+              Send password reset link
+            </Button>
+          </div>
+          <ConfirmModal
+            header="Send password reset link?"
+            description={
+              <>
+                We&rsquo;ll send an email to <b>{selectedUser.email}</b> with instructions for resetting their Mender account password.
+              </>
+            }
+            isDanger={false}
+            open={showResetConfirmation}
+            close={() => setShowResetConfirmation(false)}
+            onConfirm={onPasswordResetConfirmed}
+          />
+        </>
+      )}
       {isOAuth2 && (
         <div className="flexbox margin-top-small margin-bottom">
           <div className={classes.oauthIcon}>{provider.icon}</div>
@@ -198,7 +255,30 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       <Typography className="margin-top" variant="subtitle1">
         Roles
       </Typography>
-      <UserRolesSelect disabled={!isEnterprise} currentUser={currentUser} onSelect={onRolesSelect} roles={roles} user={selectedUser} />
+      <UserRolesSelect
+        key={`roles-select-${isEditingRoles}`}
+        disabled={!isEnterprise || !isEditingRoles}
+        currentUser={currentUser}
+        onSelect={onRolesSelect}
+        roles={roles}
+        user={selectedUser}
+      />
+      {isEnterprise && (
+        <div className="flexbox margin-top-small">
+          {isEditingRoles ? (
+            <>
+              <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onCancelRoleChanges}>
+                Cancel
+              </Button>
+              <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick}>
+                Save changes
+              </Button>
+            </>
+          ) : (
+            <Button onClick={() => setIsEditingRoles(true)}>Change roles</Button>
+          )}
+        </div>
+      )}
       {!isEnterprise && (
         <Alert className={`margin-top-small ${classes.widthLimit}`} severity="warning">
           Role-base access control (RBAC) is not available in your current plan. All users will have full administrative access
@@ -207,7 +287,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
       )}
       <ColumnWidthProvider>
         {!!(hasScopedPermissionsDefined || !isEmpty(areas)) && (
-          <Typography className="margin-top margin-bottom-small" variant="subtitle1">
+          <Typography className="margin-top margin-bottom-x-small" variant="subtitle1">
             Role permissions
           </Typography>
         )}
@@ -218,7 +298,7 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
           }
           accu.push(
             <Fragment key={area}>
-              <Typography className="margin-top-medium margin-bottom-small" variant="subtitle1">
+              <Typography className="margin-top margin-bottom-x-small" variant="subtitle1">
                 {scopedPermissionAreas[area]}
               </Typography>
               <SynchronizedTwoColumnData className={rolesClasses} data={areaPermissions} />
@@ -227,15 +307,16 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
           return accu;
         }, [])}
       </ColumnWidthProvider>
-      <Divider className={classes.divider} />
-      <div className="flexbox margin-top-small">
-        <Button className={classes.leftButton} onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick}>
-          Save
-        </Button>
-      </div>
+      {currentUser.id !== id && (
+        <>
+          <Divider className="margin-top-large" />
+          <div className="margin-top-medium">
+            <Button color="error" onClick={onRemoveClick} variant="outlined">
+              Delete user
+            </Button>
+          </div>
+        </>
+      )}
     </BaseDrawer>
   );
 };

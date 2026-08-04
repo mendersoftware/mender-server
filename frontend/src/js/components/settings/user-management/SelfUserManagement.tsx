@@ -103,7 +103,7 @@ export const SelfUserManagement = () => {
   const { token } = useSelector(getCurrentSession);
   const [showNotice, setShowNotice] = useState<string>('');
   const { hasMultitenancy } = useSelector(getFeatures);
-  const isOsInstallation = !isEnterprise && !hasMultitenancy;
+  const isOsInstallation = !hasMultitenancy;
 
   const editSubmit = userData => {
     dispatch(editUser({ ...userData, id: OWN_USER_ID }))
