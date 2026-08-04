@@ -106,7 +106,7 @@ test.describe('Devices', () => {
     await page.click('[aria-label="create-deployment"]');
 
     await selectReleaseByName(page, 'snapshot-test');
-    await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
+    await triggerDeploymentCreation(page, expect(page.getByText(/Select software to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByText('finished').click();
     await page
       .getByRole('listitem')
@@ -124,7 +124,7 @@ test.describe('Devices', () => {
 
     await page.getByRole('button', { name: /advanced options/i }).click();
     await page.getByRole('checkbox', { name: /delta artifacts/i }).click();
-    await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
+    await triggerDeploymentCreation(page, expect(page.getByText(/Select software to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByRole('listitem').first().waitFor({ timeout: timeouts.sixtySeconds });
   });
 
