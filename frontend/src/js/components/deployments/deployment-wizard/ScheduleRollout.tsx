@@ -20,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import { defaultTimeFormat } from '@northern.tech/common-ui/Time';
 import { BENEFITS } from '@northern.tech/store/constants';
 import dayjs from 'dayjs';
 
@@ -78,10 +79,11 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
             onOpen={() => setIsPickerOpen(true)}
             onClose={() => setIsPickerOpen(false)}
             label="Starting at"
+            format={defaultTimeFormat}
             minDateTime={dayjs()}
             disabled={!canSchedule}
             onChange={date => handleStartTimeChange(date.toISOString())}
-            slotProps={{ textField: { style: { minWidth: 400 } } }}
+            slotProps={{ textField: { size: 'small', style: { minWidth: 400 } } }}
             value={dayjs(startTime)}
           />
         </FormControl>

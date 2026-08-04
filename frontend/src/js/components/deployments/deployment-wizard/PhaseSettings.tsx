@@ -14,26 +14,13 @@
 import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import {
-  Alert,
-  Checkbox,
-  Collapse,
-  FormControl,
-  FormControlLabel,
-  ListSubheader,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  Tooltip,
-  Typography,
-  alpha
-} from '@mui/material';
+import { Alert, Collapse, FormControl, FormControlLabel, ListSubheader, MenuItem, Radio, RadioGroup, Select, Tooltip, Typography, alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { BENEFITS } from '@northern.tech/store/constants';
 import { isDarkMode } from '@northern.tech/store/utils';
 
@@ -77,9 +64,7 @@ const getDefaultPhasesForPattern = (
     return null;
   }
   const minBatch =
-    deploymentDeviceCount < phaseDefaults.batchSize && !filter
-      ? Math.ceil((1 / deploymentDeviceCount) * phaseLimits.fullBatchPercentage)
-      : phaseDefaults.batchSize;
+    deploymentDeviceCount < phaseDefaults.batchSize ? Math.ceil((1 / deploymentDeviceCount) * phaseLimits.fullBatchPercentage) : phaseDefaults.batchSize;
   if (patternValue === rolloutPatterns.custom.key)
     return [{ batch_size: minBatch, delay: delayDefaults.delay, delayUnit: delayUnits.hours, ...phaseStart }, {}];
   return null;
@@ -120,14 +105,13 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
     setValue(deploymentFormSections.phases, defaultPhases ?? nextPhases);
   };
 
-  const onUsesPatternClick = useCallback(() => {
-    if (usesPattern) {
+  const onUsesPatternClick = useCallback(
+    ({ target: { checked } }: React.MouseEvent<HTMLButtonElement> & { target: HTMLInputElement }) => {
       const currentPhases = getValues(deploymentFormSections.phases) || [];
-      const singlePhase = currentPhases.length > 0 ? currentPhases.slice(0, 1) : [{ batch_size: phaseLimits.fullBatchPercentage }];
-      setValue(deploymentFormSections.phases, singlePhase);
-    } else {
-      const currentPhases = getValues(deploymentFormSections.phases) || [];
-      if (currentPhases.length < 2) {
+      if (!checked) {
+        const singlePhase = currentPhases.length > 0 ? currentPhases.slice(0, 1) : [{ batch_size: phaseLimits.fullBatchPercentage }];
+        setValue(deploymentFormSections.phases, singlePhase);
+      } else if (currentPhases.length < 2) {
         const startTime = configuredStartTime ?? (currentPhases.length ? currentPhases[0].start_ts : undefined);
         const defaultPhases = getDefaultPhasesForPattern(rolloutMode, rolloutPatterns.custom.key, numberDevices, deploymentDeviceCount, filter, {
           start_ts: startTime
@@ -136,9 +120,9 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
           setValue(deploymentFormSections.phases, defaultPhases);
         }
       }
-    }
-    setUsesPattern(!usesPattern);
-  }, [usesPattern, getValues, setValue, configuredStartTime, rolloutMode, numberDevices, deploymentDeviceCount, filter]);
+    },
+    [getValues, setValue, configuredStartTime, rolloutMode, numberDevices, deploymentDeviceCount, filter]
+  );
 
   const handleModeChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => setValue(deploymentFormSections.rolloutMode, value);
 
@@ -165,34 +149,39 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
   const { component: ActivePatternComponent } = rolloutPatterns[activePattern];
   return (
     <>
-      <FormControlLabel
-        control={<Checkbox color="primary" checked={usesPattern} disabled={!isEnterprise || numberDevices === 0} onChange={onUsesPatternClick} size="small" />}
+      <FormCheckbox
+        id={deploymentFormSections.usesPattern}
+        disabled={!isEnterprise || numberDevices === 0}
+        handleClick={onUsesPatternClick}
         label={
           <div className="flexbox align-items-center">
             Select a rollout pattern
-            <DocsTextLink className="margin-left-x-small" id={DOCSTIPS.phasedDeployments.id} />
             <InfoHintContainer>
               <EnterpriseNotification id={BENEFITS.phasedDeployments.id} />
+              <DocsTextLink id={DOCSTIPS.phasedDeployments.id} />
             </InfoHintContainer>
           </div>
         }
+        slotProps={{ checkbox: { className: 'margin-left-small', size: 'small' } }}
       />
       <Collapse className="margin-bottom-small" in={usesPattern}>
-        <FormControl className={classes.patternSelection}>
-          <Select onChange={handlePatternChange} value={activePattern} disabled={!isEnterprise}>
-            {(numberDevices > 1 || filter) && [
-              ...Object.values(rolloutPatterns).map(({ key, tip, title }) => (
-                <MenuItem key={key} divider value={key}>
-                  <Tooltip title={tip} placement="left">
-                    <div className="full-width">{title}</div>
-                  </Tooltip>
-                </MenuItem>
-              )),
-              <ListSubheader key="phaseSettingsSubheader">Recent patterns</ListSubheader>,
-              ...previousPhaseOptions
-            ]}
-          </Select>
-        </FormControl>
+        {numberDevices > 1 && (
+          <FormControl className={classes.patternSelection}>
+            <Select onChange={handlePatternChange} value={activePattern} disabled={!isEnterprise}>
+              {[
+                ...Object.values(rolloutPatterns).map(({ key, tip, title }) => (
+                  <MenuItem key={key} divider value={key}>
+                    <Tooltip title={tip} placement="left">
+                      <div className="full-width">{title}</div>
+                    </Tooltip>
+                  </MenuItem>
+                )),
+                <ListSubheader key="phaseSettingsSubheader">Recent patterns</ListSubheader>,
+                ...previousPhaseOptions
+              ]}
+            </Select>
+          </FormControl>
+        )}
         <div className={`margin-top-x-small padding-left-small padding-right-small padding-top-x-small padding-bottom-x-small ${classes.container}`}>
           <RadioGroup className="flexbox align-items-center margin-bottom-small margin-top-x-small" row value={rolloutMode} onChange={handleModeChange}>
             <Typography className="margin-right-x-small">Rollout phases:</Typography>
