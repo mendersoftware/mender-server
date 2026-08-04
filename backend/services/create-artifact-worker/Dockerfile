@@ -48,6 +48,7 @@ FROM ${REGISTRY}/library/alpine:3.24.1
 ARG TARGETARCH
 ARG TARGETOS
 ARG USER=65534:65534
+ARG MENDER_CLIENT_VERSION=5.1.0
 RUN apk add libc6-compat xz bash
 USER $USER
 
@@ -58,7 +59,7 @@ COPY --from=builder --chown=$USER \
   /var/cache/create-artifact-worker
 
 # Install mender-artifact
-ADD --chmod=0755 https://raw.githubusercontent.com/mendersoftware/mender/master/support/modules-artifact-gen/single-file-artifact-gen \
+ADD --chmod=0755 https://raw.githubusercontent.com/mendersoftware/mender/${MENDER_CLIENT_VERSION}/support/modules-artifact-gen/single-file-artifact-gen \
   /usr/bin/single-file-artifact-gen
 COPY --from=builder --chown=$USER \
   /build/mender-artifact \
