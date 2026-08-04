@@ -455,14 +455,7 @@ func (i *DevAuthApiHandlers) UpdateDeviceStatusHandler(c *gin.Context) {
 		return
 	}
 
-	switch status.Status {
-	case model.DevStatusAccepted:
-		err = i.app.AcceptDeviceAuth(ctx, devid, authid)
-	case model.DevStatusRejected:
-		err = i.app.RejectDeviceAuth(ctx, devid, authid)
-	case model.DevStatusPending:
-		err = i.app.ResetDeviceAuth(ctx, devid, authid)
-	}
+	err = i.app.SetAuthSetStatus(ctx, devid, authid, status.Status)
 	if err != nil {
 		switch err {
 		case store.ErrDevNotFound, store.ErrAuthSetNotFound:
