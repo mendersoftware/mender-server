@@ -38,11 +38,7 @@ const preloadedState = {
       ...defaultState.devices.byId,
       [defaultState.devices.byId.a1.id]: {
         ...defaultState.devices.byId.a1,
-        check_in_time: '2019-01-01T09:25:00.000Z',
-        attributes: {
-          ...defaultState.devices.byId.a1.attributes,
-          mender_is_gateway: true
-        }
+        check_in_time: '2019-01-01T09:25:00.000Z'
       }
     },
     groups: {

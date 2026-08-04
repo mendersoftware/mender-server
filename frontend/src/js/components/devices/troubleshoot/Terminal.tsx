@@ -27,7 +27,7 @@ export const options = {
 // only matching absolute paths, so: /here/there - but not ../here or ./here or here/there
 const unixPathRegex = new RegExp('(\\/([^\\0\\s!$`&*()\\[\\]+\'":;\\\\])+)');
 
-export const Terminal = ({ onDownloadClick, sendMessage, socketInitialized, textInput, xtermRef, ...xtermProps }) => {
+export const Terminal = ({ onDownloadClick, sendMessage, socketInitialized, xtermRef, ...xtermProps }) => {
   const [dimensions, setDimensions] = useState({});
   const [isVisible, setIsVisible] = useState(false);
   const [fitTrigger, setFitTrigger] = useState(false);
@@ -64,13 +64,6 @@ export const Terminal = ({ onDownloadClick, sendMessage, socketInitialized, text
     }
     setFitTrigger(toggle);
   }, [size, isVisible, socketInitialized]);
-
-  useEffect(() => {
-    if (!socketInitialized || !xtermRef.current.terminal || !textInput) {
-      return;
-    }
-    xtermRef.current.terminal.current.paste(textInput);
-  }, [socketInitialized, textInput, xtermRef]);
 
   const onData = useCallback(data => sendMessage({ typ: MessageTypes.Shell, body: data }), [sendMessage]);
 

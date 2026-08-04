@@ -28,8 +28,7 @@ import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIO
 import { formatDeviceSearch } from '@northern.tech/store/locationutils';
 import { getDeviceLimits } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { getExistingSoftwareTags, getSystemDevices, getUpdateTypes } from '@northern.tech/store/thunks';
-import { stringToBoolean } from '@northern.tech/utils/helpers';
+import { getExistingSoftwareTags, getUpdateTypes } from '@northern.tech/store/thunks';
 import { useWindowSize } from '@northern.tech/utils/resizehook';
 import pluralize from 'pluralize';
 import validator from 'validator';
@@ -60,10 +59,6 @@ export const getDevicesLink = ({ devices, filters = [], group, name, groupId }) 
   // older deployments won't have the filter set so we have to try to guess their targets based on other information
   if (devices.length && (!name || isUUID(name))) {
     devicesLink = `${devicesLink}?${devices.map(({ id }) => `id=${id}`).join('&')}`;
-    if (devices.length === 1) {
-      const { systemDeviceIds = [] } = devices[0];
-      devicesLink = `${devicesLink}${systemDeviceIds.map(id => `&id=${id}`).join('')}`;
-    }
   } else if (group) {
     devicesLink = `${devicesLink}?${formatDeviceSearch({ pageState: {}, filters, selectedGroup: group, groupId })}`;
   }
@@ -134,22 +129,11 @@ export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDyna
   const { classes } = useStyles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
-  const dispatch = useAppDispatch();
   const { watch } = useFormContext<DeploymentFormValues>();
 
   const group = watch(deploymentFormSections.group);
   const { deploymentDeviceCount, devices, filter } = useDerivedData(watch, initialDevices);
   const device = useMemo(() => (devices.length === 1 ? devices[0] : {}), [devices]);
-
-  useEffect(() => {
-    const { attributes = {} } = device;
-    const { mender_is_gateway } = attributes;
-    if (!device.id || !stringToBoolean(mender_is_gateway)) {
-      return;
-    }
-    dispatch(getSystemDevices({ id: device.id, perPage: 500 }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [device.id, device.attributes?.mender_is_gateway, dispatch]);
 
   const { deviceText, devicesLink, targetDeviceCount, targetDevicesText } = useMemo(() => {
     const devicesLink = getDevicesLink({ devices, group, filters: filter?.filters, groupId: filter?.id });
@@ -157,11 +141,8 @@ export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDyna
     let targetDeviceCount = deploymentDeviceCount;
     let targetDevicesText = `${deploymentDeviceCount} ${pluralize('devices', deploymentDeviceCount)}`;
     if (device?.id) {
-      const { attributes = {}, systemDeviceIds = [] } = device;
-      const { mender_is_gateway } = attributes;
-      deviceText = `${getDeviceIdentityText({ device, idAttribute })}${stringToBoolean(mender_is_gateway) ? ' (System)' : ''}`;
-      // here we hope the number of systemDeviceIds doesn't exceed the queried 500 and add the gateway device
-      targetDeviceCount = systemDeviceIds.length + 1;
+      deviceText = getDeviceIdentityText({ device, idAttribute });
+      targetDeviceCount = 1;
     } else if (group) {
       deviceText = '';
       targetDevicesText = 'All devices';

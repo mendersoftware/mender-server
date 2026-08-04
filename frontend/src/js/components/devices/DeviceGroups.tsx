@@ -29,7 +29,6 @@ import {
   getFeatures,
   getGroups as getGroupsSelector,
   getIsEnterprise,
-  getIsPreview,
   getLimitMaxed,
   getOnboardingState,
   getSelectedGroupInfo,
@@ -59,7 +58,6 @@ import AuthorizedDevices from './AuthorizedDevices';
 import DeviceStatusNotification from './DeviceStatusNotification';
 import Groups from './Groups';
 import { DeviceIdentityDialog } from './dialogs/DeviceIdentityDialog';
-import MakeGatewayDialog from './dialogs/MakeGatewayDialog';
 import PreauthDialog, { DeviceLimitWarning } from './dialogs/PreauthDialog';
 import CreateGroup from './group-management/CreateGroup';
 import CreateGroupExplainer from './group-management/CreateGroupExplainer';
@@ -88,7 +86,6 @@ export const DeviceGroups = () => {
   const [modifyGroupDialog, setModifyGroupDialog] = useState(false);
   const [openIdDialog, setOpenIdDialog] = useState(false);
   const [openPreauth, setOpenPreauth] = useState(false);
-  const [showMakeGateway, setShowMakeGateway] = useState(false);
   const [removeGroup, setRemoveGroup] = useState(false);
   const [groupRemoved, setGroupRemoved] = useState('');
   const [tmpDevices, setTmpDevices] = useState([]);
@@ -101,7 +98,6 @@ export const DeviceGroups = () => {
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const { groupNames, ...groupsByType } = useSelector(getGroupsSelector);
   const groups = groupNames;
-  const canPreview = useSelector(getIsPreview);
   const deviceLimit = useSelector(getCombinedLimit);
   const deviceListState = useSelector(state => state.devices.deviceList);
   const features = useSelector(getFeatures);
@@ -297,8 +293,6 @@ export const DeviceGroups = () => {
 
   const toggleGroupRemoval = () => setRemoveGroup(toggle);
 
-  const toggleMakeGatewayClick = () => setShowMakeGateway(toggle);
-
   const changeLocation = useCallback(
     (newLocation: string) => {
       isInitialized.current = false;
@@ -335,7 +329,6 @@ export const DeviceGroups = () => {
             <DeviceAdditionWidget
               features={features}
               onConnectClick={() => dispatch(setShowConnectingDialog(true))}
-              onMakeGatewayClick={toggleMakeGatewayClick}
               onPreauthClick={setOpenPreauth}
               tenantCapabilities={tenantCapabilities}
               innerRef={deviceConnectionRef}
@@ -361,7 +354,6 @@ export const DeviceGroups = () => {
             addDevicesToGroup={addDevicesToGroup}
             onGroupClick={onGroupClick}
             onGroupRemoval={toggleGroupRemoval}
-            onMakeGatewayClick={toggleMakeGatewayClick}
             onPreauthClick={setOpenPreauth}
             openSettingsDialog={openSettingsDialog}
             removeDevicesFromGroup={onRemoveDevicesFromGroup}
@@ -389,7 +381,6 @@ export const DeviceGroups = () => {
             onCancel={() => setOpenPreauth(false)}
           />
         )}
-        {showMakeGateway && <MakeGatewayDialog isPreRelease={canPreview} onCancel={toggleMakeGatewayClick} />}
       </div>
     </>
   );

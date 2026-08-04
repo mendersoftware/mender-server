@@ -13,39 +13,31 @@
 //    limitations under the License.
 import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
 
-import { Chip, Tab, Tabs, Typography, chipClasses } from '@mui/material';
+import { Tab, Tabs, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
-import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { RelativeTime } from '@northern.tech/common-ui/Time';
-import { MenderTooltipClickable } from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_STATES, EXTERNAL_PROVIDER, TIMEOUTS, yes } from '@northern.tech/store/constants';
 import {
   getDeviceConfigDeployment,
   getDeviceTwinIntegrations,
-  getDevicesById,
   getGlobalSettings,
   getSelectedGroupInfo,
   getTenantCapabilities,
   getUserCapabilities,
   getUserSettings
 } from '@northern.tech/store/selectors';
-import { decommissionDevice, getDeviceInfo, getGatewayDevices, saveGlobalSettings } from '@northern.tech/store/thunks';
-import { getDemoDeviceAddress, stringToBoolean } from '@northern.tech/utils/helpers';
+import { decommissionDevice, getDeviceInfo, saveGlobalSettings } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 
-import GatewayConnectionIcon from '../../../assets/img/gateway-connection.svg';
-import GatewayIcon from '../../../assets/img/gateway.svg';
 import DeviceConfiguration from './device-details/Configuration';
 import TroubleshootTab from './device-details/Connection';
 import Deployments from './device-details/Deployments';
 import DeviceInventory from './device-details/DeviceInventory';
-import DeviceSystem from './device-details/DeviceSystem';
 import { IntegrationTab } from './device-details/DeviceTwin';
 import { IdentityTab } from './device-details/Identity';
 import InstalledSoftware from './device-details/InstalledSoftware';
@@ -56,69 +48,12 @@ import DeviceQuickActions from './widgets/DeviceQuickActions';
 const { setSnackbar } = storeActions;
 
 const useStyles = makeStyles()(theme => ({
-  gatewayChip: {
-    backgroundColor: theme.palette.grey[400],
-    color: theme.palette.grey[900],
-    path: {
-      fill: theme.palette.grey[900]
-    },
-    [`.${chipClasses.icon}`]: {
-      marginLeft: 10,
-      width: 20
-    },
-    [`.${chipClasses.icon}.connected`]: {
-      transform: 'scale(1.3)',
-      width: 15
-    }
-  },
   deviceConnection: {
     marginRight: theme.spacing(2)
   }
 }));
 
 const refreshDeviceLength = TIMEOUTS.refreshDefault;
-
-const GatewayConnectionNotification = ({ gatewayDevices, onClick }) => {
-  const { classes } = useStyles();
-
-  const onGatewayClick = () => {
-    const query =
-      gatewayDevices.length > 1 ? gatewayDevices.map(device => `id=${device.id}`).join('&') : `id=${gatewayDevices[0].id}&open=true&tab=device-system`;
-    onClick(query);
-  };
-
-  return (
-    <MenderTooltipClickable
-      placement="bottom"
-      title={
-        <div style={{ maxWidth: 350 }}>
-          Connected to{' '}
-          {gatewayDevices.length > 1 ? 'multiple devices' : <DeviceIdentityDisplay device={gatewayDevices[0]} isEditable={false} hasAdornment={false} />}
-        </div>
-      }
-    >
-      <Chip className={classes.gatewayChip} icon={<GatewayConnectionIcon className="connected" />} label="Connected to gateway" onClick={onGatewayClick} />
-    </MenderTooltipClickable>
-  );
-};
-
-const GatewayNotification = ({ device, onClick }) => {
-  const ipAddress = getDemoDeviceAddress([device]);
-  const { classes } = useStyles();
-  return (
-    <MenderTooltipClickable
-      placement="bottom"
-      title={
-        <div style={{ maxWidth: 350 }}>
-          For information about connecting other devices to this gateway, please refer to the{' '}
-          <DocsLink path="get-started/mender-gateway" title="Mender Gateway documentation" />. This device is reachable via <i>{ipAddress}</i>.
-        </div>
-      }
-    >
-      <Chip className={classes.gatewayChip} icon={<GatewayIcon />} label="Gateway" onClick={onClick} />
-    </MenderTooltipClickable>
-  );
-};
 
 const deviceStatusCheck = ({ device: { status = DEVICE_STATES.accepted } }, states = [DEVICE_STATES.accepted]) => states.includes(status);
 
@@ -171,18 +106,11 @@ const tabs = [
     },
     value: 'device-twin',
     isApplicable: ({ integrations, ...rest }) => !!integrations.length && deviceStatusCheck(rest, [DEVICE_STATES.accepted, DEVICE_STATES.preauth])
-  },
-  {
-    component: DeviceSystem,
-    title: () => 'System',
-    value: 'system',
-    isApplicable: ({ device: { attributes = {} } }) => stringToBoolean(attributes?.mender_is_gateway ?? '')
   }
 ];
 
 export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsTab, tabSelection }) => {
   const timer = useRef();
-  const navigate = useNavigate();
   const { classes } = useStyles();
 
   const { latest: latestAlerts = [] } = useSelector(state => state.monitor.alerts.byDeviceId[deviceId]) || {};
@@ -190,15 +118,10 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
   const { columnSelection = [] } = useSelector(getUserSettings);
   const { defaultDeviceConfig: defaultConfig } = useSelector(getGlobalSettings);
   const { device, deviceConfigDeployment } = useSelector(state => getDeviceConfigDeployment(state, deviceId));
-  const devicesById = useSelector(getDevicesById);
   const integrations = useSelector(getDeviceTwinIntegrations);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
   const dispatch = useDispatch();
-
-  const { attributes = {}, gatewayIds = [] } = device;
-  const { mender_is_gateway, mender_gateway_system_id } = attributes;
-  const isGateway = stringToBoolean(mender_is_gateway);
 
   useEffect(() => {
     clearInterval(timer.current);
@@ -212,13 +135,6 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
     };
   }, [deviceId, device.status, dispatch]);
 
-  useEffect(() => {
-    if (!(device.id && mender_gateway_system_id)) {
-      return;
-    }
-    dispatch(getGatewayDevices(device.id));
-  }, [device.id, dispatch, mender_gateway_system_id]);
-
   // close expanded device
   const onDecommissionDevice = deviceId => dispatch(decommissionDevice({ deviceId })).finally(onClose);
 
@@ -231,13 +147,6 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
   const scrollToMonitor = () => setDetailsTab('monitor');
 
   const selectedStaticGroup = selectedGroup && !groupFilters.length ? selectedGroup : undefined;
-
-  const scrollToDeviceSystem = target => {
-    if (target) {
-      return navigate(`/devices?${target}`, { state: { internal: true } });
-    }
-    return setDetailsTab('device-system');
-  };
 
   const onCloseClick = useCallback(() => {
     if (deviceId) {
@@ -280,19 +189,13 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
       size="lg"
       slotProps={{
         header: {
-          title: <>Device information for {<DeviceIdentityDisplay device={device} isEditable={false} hasAdornment={false} style={{ marginLeft: 4 }} />}</>,
+          title: <>Device information for {<DeviceIdentityDisplay device={device} isEditable={false} style={{ marginLeft: 4 }} />}</>,
           onLinkCopy: copyLinkToClipboard,
           preCloser: (
-            <>
-              {isGateway && <GatewayNotification device={device} onClick={() => scrollToDeviceSystem()} />}
-              {!!gatewayIds.length && (
-                <GatewayConnectionNotification gatewayDevices={gatewayIds.map(gatewayId => devicesById[gatewayId])} onClick={scrollToDeviceSystem} />
-              )}
-              <Typography variant="body2" className="flexbox align-items-center" color="textSecondary">
-                Latest activity:
-                <RelativeTime className="margin-left-small" updateTime={device.check_in_time} />
-              </Typography>
-            </>
+            <Typography variant="body2" className="flexbox align-items-center" color="textSecondary">
+              Latest activity:
+              <RelativeTime className="margin-left-small" updateTime={device.check_in_time} />
+            </Typography>
           )
         }
       }}

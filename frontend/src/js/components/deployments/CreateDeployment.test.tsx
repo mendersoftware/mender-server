@@ -66,7 +66,6 @@ describe('CreateDeployment Component', () => {
         commonClasses: { columns: 'test' },
         deploymentObject: { phases: [{ batch_size: 0 }] },
         getReleases: getReleasesMock,
-        getSystemDevices: vi.fn(),
         groups: defaultState.devices.groups.byId,
         groupNames: ['testGroup', 'testGroupDynamic'],
         hasDynamicGroups: true,

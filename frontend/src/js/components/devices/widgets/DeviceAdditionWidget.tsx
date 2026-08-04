@@ -24,7 +24,7 @@ const useStyles = makeStyles()(() => ({
   buttonStyle: { textTransform: 'none' }
 }));
 
-export const DeviceAdditionWidget = ({ features, innerRef, onConnectClick, onMakeGatewayClick, onPreauthClick, tenantCapabilities }) => {
+export const DeviceAdditionWidget = ({ features, innerRef, onConnectClick, onPreauthClick, tenantCapabilities }) => {
   const [anchorEl, setAnchorEl] = useState();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { classes } = useStyles();
@@ -32,12 +32,6 @@ export const DeviceAdditionWidget = ({ features, innerRef, onConnectClick, onMak
   const options = [
     { action: onConnectClick, title: 'Connect a new device', value: 'connect', canAccess },
     { action: onPreauthClick, title: 'Preauthorize a device', value: 'preauth', canAccess },
-    {
-      action: onMakeGatewayClick,
-      title: 'Promote a device to gateway',
-      value: 'makegateway',
-      canAccess: ({ features, tenantCapabilities }) => features.isHosted && tenantCapabilities.isEnterprise
-    },
     {
       component: DocsLink,
       path: 'client-installation/overview',

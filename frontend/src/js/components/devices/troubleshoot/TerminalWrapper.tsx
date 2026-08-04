@@ -22,7 +22,7 @@ import { makeStyles } from 'tss-react/mui';
 import Loader from '@northern.tech/common-ui/Loader';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { BEGINNING_OF_TIME, TIMEOUTS } from '@northern.tech/store/constants';
-import { getCurrentSession, getFeatures, getIsPreview, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
+import { getCurrentSession, getTenantCapabilities, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useSession } from '@northern.tech/store/sockethook';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { triggerDeviceUpdate } from '@northern.tech/store/thunks';
@@ -30,7 +30,6 @@ import dayjs from 'dayjs';
 import durationDayJs from 'dayjs/plugin/duration';
 
 import Tracking from '../../../tracking';
-import { getCode } from '../dialogs/MakeGatewayDialog';
 import ListOptions from '../widgets/ListOptions';
 import Terminal from './Terminal';
 
@@ -99,7 +98,6 @@ const DeviceUpdateTitle = ({ loading, title }) => {
 };
 
 export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUploadPath, setFile, setSnackbar, setSocketInitialized, socketInitialized }) => {
-  const [terminalInput, setTerminalInput] = useState('');
   const [startTime, setStartTime] = useState();
   const [snackbarAlreadySet, setSnackbarAlreadySet] = useState(false);
   const [isAwaitingCheckInUpdate, setIsAwaitingCheckInUpdate] = useState(false);
@@ -108,10 +106,8 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
   const { classes } = useStyles();
   const termRef = useRef({ terminal: React.createRef(), terminalRef: React.createRef() });
 
-  const { isHosted } = useSelector(getFeatures);
-  const { hasAuditlogs, isEnterprise } = useSelector(getTenantCapabilities);
+  const { hasAuditlogs } = useSelector(getTenantCapabilities);
   const { canAuditlog } = useSelector(getUserCapabilities);
-  const canPreview = useSelector(getIsPreview);
   const { token } = useSelector(getCurrentSession);
   const dispatch = useAppDispatch();
 
@@ -231,11 +227,6 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
     }
   };
 
-  const onMakeGatewayClick = () => {
-    const code = getCode(canPreview);
-    setTerminalInput(code);
-  };
-
   const onTriggerUpdateClick = useCallback(() => {
     setIsAwaitingCheckInUpdate(true);
     dispatch(triggerDeviceUpdate({ id: device.id, type: 'deploymentUpdate' }));
@@ -257,7 +248,7 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
     }
   };
 
-  const commonCommandHandlers = [
+  const commandHandlers = [
     { key: 'updateCheck', onClick: onTriggerUpdateClick, title: <DeviceUpdateTitle title="Trigger update check" loading={isAwaitingCheckInUpdate} /> },
     {
       key: 'inventoryUpdate',
@@ -265,10 +256,6 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
       title: <DeviceUpdateTitle title="Request inventory update" loading={isAwaitingInventoryUpdate} />
     }
   ];
-  const commandHandlers =
-    isHosted && isEnterprise
-      ? [{ key: 'gatewayPromotion', onClick: onMakeGatewayClick, title: 'Promote to Mender gateway' }, ...commonCommandHandlers]
-      : commonCommandHandlers;
 
   const visibilityToggle = !socketInitialized ? { maxHeight: 0, overflow: 'hidden' } : {};
   return (
@@ -282,7 +269,6 @@ export const TroubleshootContent = ({ device, onDownload, setSocketClosed, setUp
               sendMessage={sendMessage}
               socketInitialized={socketInitialized}
               style={{ position: 'absolute', width: '100%', height: '100%', ...visibilityToggle }}
-              textInput={terminalInput}
               xtermRef={termRef}
             />
           </div>

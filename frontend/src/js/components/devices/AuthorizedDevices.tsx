@@ -179,7 +179,6 @@ export const Authorized = ({
   addDevicesToGroup,
   onGroupClick,
   onGroupRemoval,
-  onMakeGatewayClick,
   onPreauthClick,
   openSettingsDialog,
   removeDevicesFromGroup,
@@ -468,7 +467,6 @@ export const Authorized = ({
     onAuthorizationChange,
     onCreateDeployment: onCreateDeploymentClick,
     onDeviceDismiss,
-    onPromoteGateway: onMakeGatewayClick,
     onRemoveDevicesFromGroup,
     onSetTestDevice
   };
