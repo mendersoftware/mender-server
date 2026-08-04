@@ -585,15 +585,17 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 class="css-z9m6tn-container"
                 style="display: grid;"
               >
-                <div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                >
                   a1
-                </div>
+                </p>
               </div>
               <div
                 title="raspberrypi4"
               >
                 <div
-                  class="text-overflow"
+                  class="MuiTypography-root MuiTypography-body2 text-overflow css-7ctihp-MuiTypography-root"
                 >
                   raspberrypi4
                 </div>
@@ -602,7 +604,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 title="-"
               >
                 <div
-                  class="text-overflow"
+                  class="MuiTypography-root MuiTypography-body2 text-overflow css-7ctihp-MuiTypography-root"
                 >
                   -
                 </div>
@@ -618,11 +620,11 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               <div
                 class="css-lglc1i-status"
               >
-                <div
-                  class="capitalized"
+                <p
+                  class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
                 >
                   accepted
-                </div>
+                </p>
               </div>
             </div>
             <div
@@ -654,15 +656,17 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 class="css-z9m6tn-container"
                 style="display: grid;"
               >
-                <div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                >
                   b1
-                </div>
+                </p>
               </div>
               <div
                 title="qemux86-64"
               >
                 <div
-                  class="text-overflow"
+                  class="MuiTypography-root MuiTypography-body2 text-overflow css-7ctihp-MuiTypography-root"
                 >
                   qemux86-64
                 </div>
@@ -671,7 +675,7 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
                 title="-"
               >
                 <div
-                  class="text-overflow"
+                  class="MuiTypography-root MuiTypography-body2 text-overflow css-7ctihp-MuiTypography-root"
                 >
                   -
                 </div>
@@ -687,11 +691,11 @@ exports[`DeviceGroups Component > renders correctly 1`] = `
               <div
                 class="css-lglc1i-status"
               >
-                <div
-                  class="capitalized"
+                <p
+                  class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
                 >
                   accepted
-                </div>
+                </p>
               </div>
             </div>
           </div>

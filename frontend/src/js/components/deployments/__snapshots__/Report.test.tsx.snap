@@ -535,9 +535,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     class="css-z9m6tn-container"
                     style="display: grid;"
                   >
-                    <div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                    >
                       a1
-                    </div>
+                    </p>
                   </div>
                 </a>
               </td>
@@ -1512,9 +1514,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
                     class="css-z9m6tn-container"
                     style="display: grid;"
                   >
-                    <div>
+                    <p
+                      class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                    >
                       a1
-                    </div>
+                    </p>
                   </div>
                 </a>
               </td>

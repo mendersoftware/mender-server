@@ -323,12 +323,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
 }
 
 .emotion-8 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-9 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
 
-.emotion-9 {
+.emotion-10 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -385,33 +400,33 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-9::-moz-focus-inner {
+.emotion-10::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-9.Mui-disabled {
+.emotion-10.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-9 {
+  .emotion-10 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-9:hover {
+.emotion-10:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-9.Mui-disabled {
+.emotion-10.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-9:hover {
+  .emotion-10:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -419,11 +434,11 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   }
 }
 
-.emotion-9.MuiButton-loading {
+.emotion-10.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-13 {
+.emotion-15 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -431,7 +446,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   visibility: hidden;
 }
 
-.emotion-14 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -439,15 +454,15 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-15 {
+.emotion-17 {
   width: 100%;
 }
 
-.emotion-17 {
+.emotion-19 {
   padding: 8px 16px 16px;
 }
 
-.emotion-18 {
+.emotion-20 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -457,7 +472,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
   font-weight: 500;
 }
 
-.emotion-26 {
+.emotion-29 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -538,13 +553,13 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 New
               </span>
             </div>
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               pending
-            </div>
+            </p>
             <div
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <div>
@@ -553,7 +568,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -562,6 +577,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:48:34+00:00"
             >
               2020-09-21 12:48
@@ -570,21 +586,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -595,27 +611,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -652,19 +668,19 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 New
               </span>
             </div>
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               pending
-            </div>
+            </p>
             <div
               aria-label="This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a micro device and contribute to your micro device tier limit."
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-26"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-29"
                 data-testid="InfoOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -679,7 +695,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -688,6 +704,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:43:34+00:00"
             >
               2020-09-21 12:43
@@ -696,21 +713,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -721,27 +738,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -778,13 +795,13 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 New
               </span>
             </div>
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               pending
-            </div>
+            </p>
             <div
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <div>
@@ -793,7 +810,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -802,6 +819,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:38:34+00:00"
             >
               2020-09-21 12:38
@@ -810,21 +828,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -835,27 +853,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -882,18 +900,18 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           <span
             class="MuiAccordionSummary-content emotion-5"
           >
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               Active
-            </div>
-            <div
-              class="capitalized"
+            </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               accepted
-            </div>
+            </p>
             <div
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <div>
@@ -902,7 +920,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -911,6 +929,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:47:34+00:00"
             >
               2020-09-21 12:47
@@ -919,7 +938,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -927,14 +946,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -945,27 +964,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -992,24 +1011,24 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           <span
             class="MuiAccordionSummary-content emotion-5"
           >
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               Active
-            </div>
-            <div
-              class="capitalized"
+            </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               accepted
-            </div>
+            </p>
             <div
               aria-label="This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a micro device and contribute to your micro device tier limit."
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-26"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-29"
                 data-testid="InfoOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1024,7 +1043,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1033,6 +1052,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:42:34+00:00"
             >
               2020-09-21 12:42
@@ -1041,7 +1061,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -1049,14 +1069,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1067,27 +1087,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -1114,18 +1134,18 @@ exports[`AuthsetList Component > renders correctly 1`] = `
           <span
             class="MuiAccordionSummary-content emotion-5"
           >
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               Active
-            </div>
-            <div
-              class="capitalized"
+            </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               accepted
-            </div>
+            </p>
             <div
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <div>
@@ -1134,7 +1154,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1143,6 +1163,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:37:34+00:00"
             >
               2020-09-21 12:37
@@ -1151,7 +1172,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -1159,14 +1180,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1177,27 +1198,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -1225,13 +1246,13 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiAccordionSummary-content emotion-5"
           >
             <div />
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               rejected
-            </div>
+            </p>
             <div
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <div>
@@ -1240,7 +1261,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1249,6 +1270,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:50:34+00:00"
             >
               2020-09-21 12:50
@@ -1257,14 +1279,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -1272,7 +1294,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1283,27 +1305,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -1331,13 +1353,13 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiAccordionSummary-content emotion-5"
           >
             <div />
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               preauth
-            </div>
+            </p>
             <div
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <div>
@@ -1346,7 +1368,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1355,6 +1377,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:49:34+00:00"
             >
               2020-09-21 12:49
@@ -1363,21 +1386,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1388,27 +1411,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -1436,19 +1459,19 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiAccordionSummary-content emotion-5"
           >
             <div />
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               rejected
-            </div>
+            </p>
             <div
               aria-label="This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a micro device and contribute to your micro device tier limit."
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-26"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-29"
                 data-testid="InfoOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1463,7 +1486,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1472,6 +1495,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:45:34+00:00"
             >
               2020-09-21 12:45
@@ -1480,14 +1504,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -1495,7 +1519,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1506,27 +1530,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -1554,19 +1578,19 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiAccordionSummary-content emotion-5"
           >
             <div />
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               preauth
-            </div>
+            </p>
             <div
               aria-label="This has a different tier than the currently active authentication set. If you accept this authentication set, this device will become a micro device and contribute to your micro device tier limit."
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-26"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-right-x-small muted emotion-29"
                 data-testid="InfoOutlinedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -1581,7 +1605,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1590,6 +1614,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:44:34+00:00"
             >
               2020-09-21 12:44
@@ -1598,21 +1623,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1623,27 +1648,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -1671,13 +1696,13 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiAccordionSummary-content emotion-5"
           >
             <div />
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               rejected
-            </div>
+            </p>
             <div
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <div>
@@ -1686,7 +1711,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1695,6 +1720,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:40:34+00:00"
             >
               2020-09-21 12:40
@@ -1703,14 +1729,14 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 disabled=""
                 tabindex="-1"
                 type="button"
@@ -1718,7 +1744,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1729,27 +1755,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>
@@ -1777,13 +1803,13 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             class="MuiAccordionSummary-content emotion-5"
           >
             <div />
-            <div
-              class="capitalized"
+            <p
+              class="MuiTypography-root MuiTypography-body2 capitalized emotion-8"
             >
               preauth
-            </div>
+            </p>
             <div
-              class="capitalized clickable flexbox align-items-center emotion-8"
+              class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center emotion-9"
               data-mui-internal-clone-element="true"
             >
               <div>
@@ -1792,7 +1818,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
             </div>
             <div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1801,6 +1827,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               </button>
             </div>
             <time
+              class="MuiTypography-root MuiTypography-body2 emotion-8"
               datetime="2020-09-21T12:39:34+00:00"
             >
               2020-09-21 12:39
@@ -1809,21 +1836,21 @@ exports[`AuthsetList Component > renders correctly 1`] = `
               class="action-buttons flexbox"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Accept
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
                 Reject
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-9"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-10"
                 tabindex="0"
                 type="button"
               >
@@ -1834,27 +1861,27 @@ exports[`AuthsetList Component > renders correctly 1`] = `
         </div>
       </h3>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-13"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-15"
         style="min-height: 0px;"
       >
         <div
-          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-14"
+          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-16"
         >
           <div
-            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-15"
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-17"
           >
             <div
-              class="MuiAccordion-region emotion-16"
+              class="MuiAccordion-region emotion-18"
               role="region"
             >
               <div
-                class="MuiAccordionDetails-root emotion-17"
+                class="MuiAccordionDetails-root emotion-19"
               >
                 <div
                   class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-18"
+                    class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
                   >
                      Are you sure you want to continue?
                   </p>

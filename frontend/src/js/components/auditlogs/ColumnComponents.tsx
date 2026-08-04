@@ -11,6 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Typography } from '@mui/material';
+
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import { Link } from '@northern.tech/common-ui/Link';
 import TextOverflowMultiline from '@northern.tech/common-ui/TextOverflowMultiline';
@@ -27,7 +29,7 @@ const ChangeFallback = props => {
   const {
     item: { change = '-' }
   } = props;
-  return <TextOverflowMultiline>{change}</TextOverflowMultiline>;
+  return <TextOverflowMultiline variant="body2">{change}</TextOverflowMultiline>;
 };
 
 const FallbackFormatter = props => {
@@ -37,14 +39,14 @@ const FallbackFormatter = props => {
   } catch (error) {
     console.log(error);
   }
-  return <div>{result}</div>;
+  return <Typography variant="body2">{result}</Typography>;
 };
 
-const ArtifactFormatter = ({ artifact }) => <TextOverflowMultiline>{artifact.name}</TextOverflowMultiline>;
-const DeploymentFormatter = ({ deployment }) => <TextOverflowMultiline>{deployment.name}</TextOverflowMultiline>;
+const ArtifactFormatter = ({ artifact }) => <TextOverflowMultiline variant="body2">{artifact.name}</TextOverflowMultiline>;
+const DeploymentFormatter = ({ deployment }) => <TextOverflowMultiline variant="body2">{deployment.name}</TextOverflowMultiline>;
 const DeviceFormatter = ({ id }) => <DeviceIdentityDisplay device={{ id }} />;
-const UserFormatter = ({ user }) => <TextOverflowMultiline>{user.email}</TextOverflowMultiline>;
-const TenantFormatter = ({ tenant }) => <TextOverflowMultiline>{tenant.name}</TextOverflowMultiline>;
+const UserFormatter = ({ user }) => <TextOverflowMultiline variant="body2">{user.email}</TextOverflowMultiline>;
+const TenantFormatter = ({ tenant }) => <TextOverflowMultiline variant="body2">{tenant.name}</TextOverflowMultiline>;
 
 const defaultAccess = canAccess;
 const changeMap = {
@@ -88,15 +90,17 @@ const actorMap = {
 };
 
 export const UserDescriptor = (item, index) => (
-  <TextOverflowMultiline key={`${item.time}-${index}`}>{item.actor[actorMap[item.actor.type]]}</TextOverflowMultiline>
+  <TextOverflowMultiline key={`${item.time}-${index}`} variant="body2">
+    {item.actor[actorMap[item.actor.type]]}
+  </TextOverflowMultiline>
 );
 export const ActionDescriptor = (item, index) => (
-  <TextOverflowMultiline className="uppercased" key={`${item.time}-${index}`}>
+  <TextOverflowMultiline className="uppercased" key={`${item.time}-${index}`} variant="body2">
     {item.action}
   </TextOverflowMultiline>
 );
 export const TypeDescriptor = (item, index) => (
-  <TextOverflowMultiline className="capitalized" key={`${item.time}-${index}`}>
+  <TextOverflowMultiline className="capitalized" key={`${item.time}-${index}`} variant="body2">
     {auditlogTypes[item.object.type]?.title ?? item.object.type}
   </TextOverflowMultiline>
 );
@@ -109,4 +113,4 @@ export const ChangeDetailsDescriptor = (item, index, userCapabilities) => {
   const key = `${item.time}-${index}`;
   return accessCheck(userCapabilities) ? <Comp key={key} item={item} /> : <div key={key} />;
 };
-export const TimeWrapper = (item, index) => <Time key={`${item.time}-${index}`} value={item.time} />;
+export const TimeWrapper = (item, index) => <Time key={`${item.time}-${index}`} value={item.time} Component={Typography} component="time" variant="body2" />;

@@ -11,11 +11,20 @@ exports[`smaller components > renders AcceptedEmptyState correctly 1`] = `
 `;
 
 exports[`smaller components > renders DefaultAttributeRenderer correctly 1`] = `
+.emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
 <div
   title="dc:a6:32:12:ad:bf"
 >
   <div
-    class="text-overflow"
+    class="MuiTypography-root MuiTypography-body2 text-overflow emotion-0"
   >
     dc:a6:32:12:ad:bf
   </div>
@@ -33,11 +42,20 @@ exports[`smaller components > renders DeviceCreationTime correctly 1`] = `
 `;
 
 exports[`smaller components > renders DeviceSoftware correctly 1`] = `
+.emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
 <div
   title="-"
 >
   <div
-    class="text-overflow"
+    class="MuiTypography-root MuiTypography-body2 text-overflow emotion-0"
   >
     -
   </div>
@@ -45,11 +63,20 @@ exports[`smaller components > renders DeviceSoftware correctly 1`] = `
 `;
 
 exports[`smaller components > renders DeviceTypes correctly 1`] = `
+.emotion-0 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
 <div
   title="raspberrypi4"
 >
   <div
-    class="text-overflow"
+    class="MuiTypography-root MuiTypography-body2 text-overflow emotion-0"
   >
     raspberrypi4
   </div>

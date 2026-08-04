@@ -14,6 +14,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
+import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { getDeviceById as getDeviceByIdSelector, getIdAttribute } from '@northern.tech/store/selectors';
@@ -69,7 +70,11 @@ export const getDeviceIdentityText = ({ device = {}, idAttribute }) => {
   return defaultTextRender({ column: { attribute: { name: attribute, scope } }, device });
 };
 
-const DeviceIdComponent = ({ style = {}, value }) => <div style={style}>{value}</div>;
+const DeviceIdComponent = ({ style = {}, value }) => (
+  <Typography style={style} variant="body2">
+    {value}
+  </Typography>
+);
 
 const attributeComponentMap = {
   default: DeviceIdComponent,

@@ -110,6 +110,15 @@ exports[`DeviceListItem Component > renders correctly 1`] = `
   column-gap: 8px;
 }
 
+.emotion-4 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
 <div
   class="deviceListRow deviceListItem clickable  "
 >
@@ -139,9 +148,11 @@ exports[`DeviceListItem Component > renders correctly 1`] = `
     class="emotion-3"
     style="display: grid;"
   >
-    <div>
+    <p
+      class="MuiTypography-root MuiTypography-body2 emotion-4"
+    >
       1
-    </div>
+    </p>
   </div>
 </div>
 `;
