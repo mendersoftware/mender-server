@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Alert, Collapse, FormControl, FormControlLabel, ListSubheader, MenuItem, Radio, RadioGroup, Select, Tooltip, Typography, alpha } from '@mui/material';
@@ -67,8 +67,8 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
   const { watch, setValue, getValues } = useFormContext<DeploymentFormValues>();
   const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
   const rolloutMode: RolloutMode = watch(deploymentFormSections.rolloutMode) || rolloutModes.percentage.key;
+  const usesPattern = watch(deploymentFormSections.usesPattern);
   const maxDevices = watch(deploymentFormSections.maxDevices);
-  const [usesPattern, setUsesPattern] = useState(!!(getValues(deploymentFormSections.phases) || []).length);
   const { classes } = useStyles();
 
   const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
@@ -95,7 +95,6 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
         const pattern = getValues(deploymentFormSections.rolloutPattern) || (rolloutPatternDefinitions.custom.key as RolloutPattern);
         setValue(deploymentFormSections.phases, getDefaultPhaseDefinitions(pattern, rolloutMode, numberDevices));
       }
-      setUsesPattern(checked);
     },
     [getValues, setValue, rolloutMode, numberDevices]
   );
@@ -133,7 +132,7 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
   return (
     <>
       <FormCheckbox
-        id="usesPattern"
+        id={deploymentFormSections.usesPattern}
         disabled={!isEnterprise || numberDevices === 0}
         handleClick={onUsesPatternClick}
         label={
@@ -147,7 +146,7 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
         }
         slotProps={{ checkbox: { className: 'margin-left-small', size: 'small' } }}
       />
-      <Collapse className="margin-bottom-small" in={usesPattern}>
+      <Collapse className={usesPattern ? 'margin-bottom-small' : ''} in={usesPattern}>
         {numberDevices > 1 && (
           <FormControl className={classes.patternSelection}>
             <Select onChange={handlePatternChange} value={activePattern} disabled={!isEnterprise}>

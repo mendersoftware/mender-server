@@ -39,7 +39,8 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
   const { classes } = useStyles();
   const { watch, setValue } = useFormContext();
 
-  const startTime = watch(deploymentFormSections.startTime);
+  // the start time is tracked separately from the phases, as the individual phase start times are derived from it
+  const start_time = watch(deploymentFormSections.startTime);
 
   const handleStartTimeChange = (value?: string) => setValue(deploymentFormSections.startTime, value);
 
@@ -52,6 +53,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
     }
   };
 
+  const startTime = start_time ? dayjs(start_time) : dayjs();
   return (
     <>
       <div className="flexbox margin-bottom-x-small">

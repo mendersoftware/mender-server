@@ -30,14 +30,17 @@ export const deploymentFormSections: { [K in keyof DeploymentFormValues]-?: K } 
   delta: 'delta',
   forceDeploy: 'forceDeploy',
   group: 'group',
+  isPaused: 'isPaused',
   maxDevices: 'maxDevices',
   phases: 'phases',
   release: 'release',
   retries: 'retries',
   rolloutMode: 'rolloutMode',
   rolloutPattern: 'rolloutPattern',
+  shouldLimit: 'shouldLimit',
   startTime: 'startTime',
-  update_control_map: 'update_control_map'
+  update_control_map: 'update_control_map',
+  usesPattern: 'usesPattern'
 };
 
 export const getPhaseStartTime = (phases, index, startDate) => {

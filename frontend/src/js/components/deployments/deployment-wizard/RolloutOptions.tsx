@@ -11,11 +11,10 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { HelpOutlineOutlined as HelpIcon } from '@mui/icons-material';
-import { Alert, Checkbox, Collapse, FormControlLabel, Tooltip, Typography } from '@mui/material';
+import { Alert, Collapse, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
@@ -25,7 +24,6 @@ import Link from '@northern.tech/common-ui/Link';
 import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 import { BENEFITS } from '@northern.tech/store/constants';
-import { toggle } from '@northern.tech/utils/helpers';
 
 import RolloutSteps from './RolloutSteps';
 import { deploymentFormSections } from './utils';
@@ -58,19 +56,18 @@ export const RolloutOptions = ({ isEnterprise }) => {
 
   const updateControlMap = watch(deploymentFormSections.update_control_map) || { states: {} };
   const { states = {} } = updateControlMap;
-  const [isPaused, setIsPaused] = useState(!!Object.keys(states).length);
+  const isPaused = watch(deploymentFormSections.isPaused);
 
   const onStepChangeClick = step => {
     const { action } = step;
     setValue(deploymentFormSections.update_control_map, { states: { ...states, [step.state]: { action } } });
   };
 
-  const onIsPausedClick = () => setIsPaused(toggle);
-
   return (
     <>
-      <FormControlLabel
-        control={<Checkbox className="margin-left-small" color="primary" checked={isPaused} disabled={!isEnterprise} onChange={onIsPausedClick} size="small" />}
+      <FormCheckbox
+        id={deploymentFormSections.isPaused}
+        disabled={!isEnterprise}
         label={
           <div className="flexbox align-items-center">
             Add pauses between update steps
@@ -80,6 +77,7 @@ export const RolloutOptions = ({ isEnterprise }) => {
             </InfoHintContainer>
           </div>
         }
+        slotProps={{ checkbox: { className: 'margin-left-small', size: 'small' } }}
       />
       <Collapse in={isPaused} className={classes.wrapper}>
         <Alert severity="warning" className="margin-top-small margin-bottom-small" variant="outlined">

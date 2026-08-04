@@ -103,12 +103,15 @@ export const defaultValues: DeploymentFormValues = {
   release: null,
   delta: false,
   forceDeploy: false,
+  isPaused: false,
   maxDevices: 0,
   retries: 1,
   phases: [],
   rolloutMode: rolloutModes.percentage.key,
   rolloutPattern: rolloutPatterns.custom.key,
-  update_control_map: { states: {} }
+  startTime: undefined,
+  update_control_map: { states: {} },
+  usesPattern: false
 };
 
 export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleSubmit, onValuesChange, open }) => {
@@ -162,22 +165,28 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
   const { group, release } = formValues;
   useEffect(() => {
     if (open) {
-      // prefilled phases arrive in api shape, so they get parsed into the form's definitions on the way in
+      // prefilled phases arrive in api shape, so they get parsed into the form's definitions on the way in - a single
+      // full-size phase only carries a start time (as created by e.g. a plain scheduled deployment or a retry) and
+      // parses to an empty definition list, it takes sized definitions to make a rollout pattern - which also keeps
+      // pauses & pattern exclusive
       const { phases: parsedPhases, pattern, rolloutMode: storedMode } = deploymentObject.phases?.length
         ? parsePreviousPhases(deploymentObject.phases)
         : { phases: defaultValues.phases, pattern: defaultValues.rolloutPattern, rolloutMode: defaultValues.rolloutMode };
+      const hasPhasePattern = parsedPhases.length > 0;
       reset({
         group: deploymentObject.group ?? defaultValues.group,
         release: deploymentObject.release ?? defaultValues.release,
         delta: deploymentObject.delta ?? defaultValues.delta,
         forceDeploy: deploymentObject.forceDeploy ?? defaultValues.forceDeploy,
+        isPaused: !hasPhasePattern && !isEmpty(deploymentObject.update_control_map?.states ?? {}),
         maxDevices: deploymentObject.maxDevices ?? defaultValues.maxDevices,
         retries: (deploymentObject.retries ?? previousRetries ?? 0) + 1,
         phases: parsedPhases,
         rolloutMode: deploymentObject.rolloutMode ?? storedMode,
         rolloutPattern: pattern,
-        startTime: deploymentObject.startTime ?? defaultValues.startTime,
-        update_control_map: deploymentObject.update_control_map ?? defaultValues.update_control_map
+        startTime: deploymentObject.startTime ?? deploymentObject.phases?.[0]?.start_ts ?? defaultValues.startTime,
+        update_control_map: deploymentObject.update_control_map ?? defaultValues.update_control_map,
+        usesPattern: hasPhasePattern
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
