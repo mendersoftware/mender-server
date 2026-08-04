@@ -94,8 +94,9 @@ func RunServer(c config.Reader) error {
 		inv.DeviceInventoryInternalAPIAPI,
 		jwtHandler,
 		devauth.Config{
-			Issuer:         c.GetString(dconfig.SettingJWTIssuer),
-			ExpirationTime: int64(c.GetInt(dconfig.SettingJWTExpirationTimeout)),
+			Issuer:               c.GetString(dconfig.SettingJWTIssuer),
+			ExpirationTime:       int64(c.GetInt(dconfig.SettingJWTExpirationTimeout)),
+			LegacyProvisionEvent: c.GetBool(dconfig.SettingLegacyProvisionDevice),
 		})
 
 	if jwtFallbackHandler != nil {

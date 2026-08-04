@@ -1,0 +1,35 @@
+{
+    "name": "legacy_provision_iot_manager",
+    "description": "Provision device (backward compat).",
+    "version": 1,
+    "tasks": [
+        {
+            "name": "provision_iot-manager",
+            "type": "http",
+            "retries": 3,
+            "retryDelaySeconds": 5,
+            "http": {
+                "uri": "http://${env.IOT_MANAGER_ADDR|mender-iot-manager:8080}/api/internal/v1/iot-manager/tenants/${encoding=url;workflow.input.tenant_id}/devices",
+                "method": "POST",
+                "contentType": "application/json",
+                "json": "${workflow.input.device}",
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000,
+                "statusCodes": [
+                    201,
+                    202,
+                    204,
+                    409
+                ]
+            }
+        }
+    ],
+    "inputParameters": [
+        "request_id",
+        "tenant_id",
+        "device"
+    ]
+}
