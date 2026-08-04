@@ -26,7 +26,7 @@ import { DefaultAttributeRenderer } from './BaseDevices';
 const useStyles = makeStyles()(theme => ({
   active: {
     [`> *`]: {
-      backgroundColor: theme.palette.background.light
+      backgroundColor: theme.palette.action.hover
     }
   }
 }));
