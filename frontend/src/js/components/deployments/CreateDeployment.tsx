@@ -32,6 +32,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import Confirm from '@northern.tech/common-ui/Confirm';
+import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
+import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
 import {
@@ -313,7 +315,18 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
               <RolloutOptions isEnterprise={isEnterprise} />
               <ForceDeploy />
               {!isTrial && hasDeltaEnabled && (
-                <FormCheckbox id={deploymentFormSections.delta} control={control} label="Generate and deploy Delta Artifacts where available" />
+                <FormCheckbox
+                  id={deploymentFormSections.delta}
+                  control={control}
+                  label={
+                    <div className="flexbox align-items-center">
+                      Generate and deploy Delta Artifacts where available
+                      <InfoHintContainer>
+                        <DocsTextLink id={DOCSTIPS.deltaArtifacts.id} />
+                      </InfoHintContainer>
+                    </div>
+                  }
+                />
               )}
             </AccordionDetails>
           </Accordion>
