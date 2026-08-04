@@ -200,7 +200,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
   column-gap: 8px;
 }
 
-.emotion-15 {
+.emotion-16 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -217,7 +217,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
   font-size: 1.25rem;
 }
 
-.emotion-22 {
+.emotion-23 {
   margin: 0;
   font: inherit;
   line-height: inherit;
@@ -229,7 +229,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
   --Link-underlineColor: rgba(25, 118, 210, 0.4);
 }
 
-.emotion-22:hover {
+.emotion-23:hover {
   text-decoration-color: inherit;
 }
 
@@ -568,13 +568,15 @@ exports[`TerminalSession Component > renders correctly 1`] = `
                 class="emotion-14"
                 style="display: grid;"
               >
-                <div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 emotion-12"
+                >
                   a1
-                </div>
+                </p>
               </div>
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small link-color emotion-15"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small link-color emotion-16"
                 data-testid="LaunchIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -634,7 +636,7 @@ exports[`TerminalSession Component > renders correctly 1`] = `
             style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
           >
             <a
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
               data-discover="true"
               href="/auditlog?objectId=a1&objectType=device&startDate=2016-01-01"
             >

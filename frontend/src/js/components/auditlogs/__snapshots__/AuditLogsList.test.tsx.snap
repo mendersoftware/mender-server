@@ -87,36 +87,37 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
         class="auditlogs-list-item clickable"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string@example.com
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 uppercased css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           create
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 capitalized css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           User
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           user@acme.com
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           change1
         </p>
         <time
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           datetime="2019-01-01T12:10:22+00:00"
         >
           2019-01-01 12:10
@@ -133,25 +134,25 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
         class="auditlogs-list-item clickable"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 uppercased css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           create
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 capitalized css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Deployment
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           production
@@ -164,6 +165,7 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
           View deployment
         </a>
         <time
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           datetime="2019-01-01T12:16:22+00:00"
         >
           2019-01-01 12:16
@@ -180,19 +182,19 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
         class="auditlogs-list-item clickable"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           string@example.com
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 uppercased css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 uppercased css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           open_terminal
         </p>
         <p
-          class="MuiTypography-root MuiTypography-body1 capitalized css-rizt0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 capitalized css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;"
         >
           Device
@@ -201,9 +203,11 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
           class="css-z9m6tn-container"
           style="display: grid;"
         >
-          <div>
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          >
             a1
-          </div>
+          </p>
         </div>
         <span
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1orsvah-MuiTypography-root-MuiLink-root"
@@ -211,6 +215,7 @@ exports[`AuditlogsList Component > renders correctly 1`] = `
           View session log
         </span>
         <time
+          class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           datetime="2019-01-01T12:10:22+00:00"
         >
           2019-01-01 12:10

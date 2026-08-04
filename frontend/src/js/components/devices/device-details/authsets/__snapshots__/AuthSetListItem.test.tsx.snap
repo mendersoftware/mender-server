@@ -155,6 +155,15 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
 }
 
 .emotion-4 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-7 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -211,33 +220,33 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-4::-moz-focus-inner {
+.emotion-7::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-7.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-4 {
+  .emotion-7 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-4:hover {
+.emotion-7:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-7.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-4:hover {
+  .emotion-7:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -245,11 +254,11 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   }
 }
 
-.emotion-4.MuiButton-loading {
+.emotion-7.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-8 {
+.emotion-12 {
   height: 0;
   overflow: hidden;
   -webkit-transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -258,7 +267,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   overflow: visible;
 }
 
-.emotion-9 {
+.emotion-13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -266,15 +275,15 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   width: 100%;
 }
 
-.emotion-10 {
+.emotion-14 {
   width: 100%;
 }
 
-.emotion-12 {
+.emotion-16 {
   padding: 8px 16px 16px;
 }
 
-.emotion-13 {
+.emotion-17 {
   margin: 0;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -283,7 +292,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   letter-spacing: 0.00938em;
 }
 
-.emotion-14 {
+.emotion-18 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -342,37 +351,37 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-14::-moz-focus-inner {
+.emotion-18::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-14.Mui-disabled {
+.emotion-18.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-14 {
+  .emotion-18 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-14:hover {
+.emotion-18:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-14.Mui-disabled {
+.emotion-18.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-14.Mui-disabled {
+.emotion-18.Mui-disabled {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-14:hover {
+  .emotion-18:hover {
     --variant-containedBg: #01579b;
     --variant-textBg: rgba(2, 136, 209, 0.04);
     --variant-outlinedBorder: #0288d1;
@@ -380,11 +389,11 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   }
 }
 
-.emotion-14.MuiButton-loading {
+.emotion-18.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-15 {
+.emotion-19 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -441,57 +450,57 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-15::-moz-focus-inner {
+.emotion-19::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-19.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-15 {
+  .emotion-19 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-15:hover {
+.emotion-19:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-19.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-15:hover {
+.emotion-19:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-15:hover {
+  .emotion-19:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-15:active {
+.emotion-19:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-15.Mui-focusVisible {
+.emotion-19.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-15.Mui-disabled {
+.emotion-19.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-15:hover {
+  .emotion-19:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -499,7 +508,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
   }
 }
 
-.emotion-15.MuiButton-loading {
+.emotion-19.MuiButton-loading {
   color: transparent;
 }
 
@@ -519,18 +528,18 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
       <span
         class="MuiAccordionSummary-content Mui-expanded emotion-3"
       >
-        <div
-          class="capitalized"
+        <p
+          class="MuiTypography-root MuiTypography-body2 capitalized emotion-4"
         >
           Active
-        </div>
-        <div
-          class="capitalized"
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 capitalized emotion-4"
         >
           accepted
-        </div>
+        </p>
         <div
-          class="capitalized clickable flexbox align-items-center undefined"
+          class="MuiTypography-root MuiTypography-body2 capitalized clickable flexbox align-items-center undefined emotion-4"
           data-mui-internal-clone-element="true"
         >
           <div>
@@ -539,7 +548,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
         </div>
         <div>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-7"
             tabindex="0"
             type="button"
           >
@@ -548,6 +557,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
           </button>
         </div>
         <time
+          class="MuiTypography-root MuiTypography-body2 emotion-4"
           datetime="2020-09-21T12:42:34+00:00"
         >
           2020-09-21 12:42
@@ -556,7 +566,7 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
           class="action-buttons flexbox"
         >
           <button
-            class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+            class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-7"
             disabled=""
             tabindex="-1"
             type="button"
@@ -564,14 +574,14 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
             Accept
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-7"
             tabindex="0"
             type="button"
           >
             Reject
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-7"
             tabindex="0"
             type="button"
           >
@@ -582,27 +592,27 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
     </div>
   </h3>
   <div
-    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered emotion-8"
+    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered emotion-12"
     style="min-height: 0px;"
   >
     <div
-      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-9"
+      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-13"
     >
       <div
-        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-10"
+        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-14"
       >
         <div
-          class="MuiAccordion-region emotion-11"
+          class="MuiAccordion-region emotion-15"
           role="region"
         >
           <div
-            class="MuiAccordionDetails-root emotion-12"
+            class="MuiAccordionDetails-root emotion-16"
           >
             <div
               class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 undefined margin-right emotion-13"
+                class="MuiTypography-root MuiTypography-body1 undefined margin-right emotion-17"
               >
                  Are you sure you want to continue?
               </p>
@@ -610,14 +620,14 @@ exports[`AuthsetListItem Component > renders correctly 1`] = `
                 class="flexbox"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-14"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-sizeMedium MuiButton-colorInfo emotion-18"
                   tabindex="0"
                   type="button"
                 >
                   Cancel
                 </button>
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary margin-left-x-small emotion-15"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary margin-left-x-small emotion-19"
                   tabindex="0"
                   type="button"
                 >
