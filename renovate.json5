@@ -49,6 +49,20 @@
       "extractVersionTemplate": "^v?(?<version>.*)$",
       "versioningTemplate": "semver"
     },
+    // MENDER_CLIENT_VERSION as a Dockerfile ARG (create-artifact-worker). Pins the
+    // single-file-artifact-gen script fetched from the mender client repo, which used
+    // to float on master. semver skips non-semver tags like qnx-preview-v1.
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/Dockerfile/"],
+      "matchStrings": [
+        "ARG MENDER_CLIENT_VERSION=\\s*[\"']?(?<currentValue>[\\d\\.]+)[\"']?"
+      ],
+      "depNameTemplate": "mendersoftware/mender",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
+      "versioningTemplate": "semver"
+    },
     // DOCKER_VERSION as a .gitlab-ci.yml variable (currently tracked by nothing).
     {
       "customType": "regex",
