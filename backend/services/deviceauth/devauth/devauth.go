@@ -474,18 +474,33 @@ func (d *DevAuth) updateDeviceStatus(
 	if device.Status == status {
 		return nil // No-op
 	}
+	if err := d.db.UpdateDeviceWithRevision(ctx,
+		device.Id,
+		device.Revision,
+		model.DeviceUpdate{
+			Status:    status,
+			UpdatedTs: uto.TimePtr(time.Now().UTC()),
+		}); err != nil {
+		if errors.Is(err, store.ErrDevNotFound) {
+			return nil
+		}
+		return errors.Wrap(err, "failed to update device status")
+	}
+
 	tenantId := ""
 	idData := identity.FromContext(ctx)
 	if idData != nil {
 		tenantId = idData.Tenant
 	}
+
+	device.Revision += 1
 	//nolint:bodyclose
 	_, _, err := d.cOrch.StartWorkflow(ctx, "update_device_status").
 		RequestBody(map[string]interface{}{
 			"request_id": requestid.FromContext(ctx),
 			"devices": []model.DeviceInventoryUpdate{{
 				Id:       device.Id,
-				Revision: device.Revision + 1,
+				Revision: device.Revision,
 			}},
 			"tenant_id":     tenantId,
 			"device_status": status,
@@ -493,15 +508,6 @@ func (d *DevAuth) updateDeviceStatus(
 
 	if err != nil {
 		return errors.Wrap(err, "update device status job error")
-	}
-
-	if err := d.db.UpdateDevice(ctx,
-		device.Id,
-		model.DeviceUpdate{
-			Status:    status,
-			UpdatedTs: uto.TimePtr(time.Now().UTC()),
-		}); err != nil {
-		return errors.Wrap(err, "failed to update device status")
 	}
 
 	return nil

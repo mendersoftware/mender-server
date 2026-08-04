@@ -541,6 +541,11 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 			db.On("GetDeviceStatus", ctxMatcher,
 				mock.AnythingOfType("string")).Return(
 				"pending", nil)
+			db.On("UpdateDeviceWithRevision", ctxMatcher,
+				devId,
+				uint(0),
+				mock.AnythingOfType("model.DeviceUpdate")).Return(nil)
+			// Update check in time
 			db.On("UpdateDevice", ctxMatcher,
 				devId,
 				mock.AnythingOfType("model.DeviceUpdate")).Return(nil)
@@ -848,12 +853,22 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			).Return(nil)
 
 			// at the end of processing, updates the device status to 'accepted'
+			db.On("UpdateDeviceWithRevision",
+				ctxMatcher,
+				dummyDevId,
+				uint(0),
+				mock.MatchedBy(
+					func(u model.DeviceUpdate) bool {
+						return u.Status == model.DevStatusAccepted
+					}),
+			).Return(nil)
+			// Check in time
 			db.On("UpdateDevice",
 				ctxMatcher,
 				dummyDevId,
 				mock.MatchedBy(
 					func(u model.DeviceUpdate) bool {
-						return u.Status == model.DevStatusAccepted || !u.CheckInTime.IsZero()
+						return !u.CheckInTime.IsZero()
 					}),
 			).Return(nil)
 
@@ -1727,13 +1742,14 @@ func TestDevAuthResetDevice(t *testing.T) {
 			db.On("GetDeviceStatus", context.Background(),
 				dummyDevID).Return(
 				"accepted", nil)
-			db.On("UpdateDevice", context.Background(),
+			db.On("UpdateDeviceWithRevision", context.Background(),
 				func() interface{} {
 					if tc.aset != nil {
 						return tc.aset.DeviceId
 					}
 					return mock.AnythingOfType("string")
 				}(),
+				uint(0),
 				mock.AnythingOfType("model.DeviceUpdate")).Return(nil)
 
 			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
@@ -3013,7 +3029,6 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 				DeviceId: oid.NewUUIDv5("devId11").String(),
 				Status:   model.DevStatusPending,
 			},
-			submitJob:         true,
 			dbGetDeviceStatus: model.DevStatusPending,
 			dbUpdateDeviceErr: errors.New("Update Device Error"),
 			outErr:            "failed to update device status: Update Device Error",
@@ -3124,8 +3139,9 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 				tc.devId).Return(
 				tc.dbGetDeviceStatus,
 				tc.dbGetDeviceStatusErr)
-			db.On("UpdateDevice", ctx,
+			db.On("UpdateDeviceWithRevision", ctx,
 				tc.devId,
+				uint(0),
 				mock.AnythingOfType("model.DeviceUpdate")).Return(tc.dbUpdateDeviceErr)
 			db.On("GetDeviceById", ctx,
 				mock.AnythingOfType("string")).Return(&model.Device{
