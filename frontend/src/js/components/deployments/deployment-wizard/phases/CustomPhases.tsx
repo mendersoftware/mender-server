@@ -91,18 +91,21 @@ export const CustomPhaseTable = ({ filter, deploymentDeviceCount }: { deployment
   const addPhase = () => {
     const newPhases = [...phases];
     const remainder = getRemainder({ phases: newPhases, numberDevices: deploymentDeviceCount, rolloutMode });
+    // make it default 10, unless remainder is <=10 in which case make it half remainder
+    const defaultBatch =
+      deploymentDeviceCount > 0
+        ? Math.max(1, remainder > phaseDefaults.batchSize ? phaseDefaults.batchSize : Math.floor(remainder / 2))
+        : phaseDefaults.batchSize;
+    // assign new batch size to *previous* last batch
     if (isPercentageMode) {
       newPhases[newPhases.length - 1] = {
         ...newPhases[newPhases.length - 1],
-        batch_size: remainder > phaseDefaults.batchSize ? phaseDefaults.batchSize : Math.floor(remainder / 2),
+        batch_size: defaultBatch,
+        // check for previous phase delay or set 2hr default
         delay: newPhases[newPhases.length - 1].delay || delayDefaults.delay,
         delayUnit: newPhases[newPhases.length - 1].delayUnit || delayUnits.hours
       };
     } else {
-      const defaultBatch =
-        deploymentDeviceCount > 0
-          ? Math.max(1, remainder > phaseDefaults.batchSize ? phaseDefaults.batchSize : Math.floor(remainder / 2))
-          : phaseDefaults.batchSize;
       newPhases[newPhases.length - 1] = {
         ...newPhases[newPhases.length - 1],
         batch_size_devices: defaultBatch,

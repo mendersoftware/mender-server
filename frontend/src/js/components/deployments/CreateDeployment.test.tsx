@@ -76,7 +76,7 @@ describe('CreateDeployment Component', () => {
       it(`renders ${Component.displayName || Component.name} correctly`, () => {
         const { baseElement } = render(
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <FormWrapper>
+            <FormWrapper defaultValues={{ isPaused: true, usesPattern: true }}>
               <Component {...props} />
             </FormWrapper>
           </LocalizationProvider>,
@@ -90,7 +90,7 @@ describe('CreateDeployment Component', () => {
       it(`renders ${Component.displayName || Component.name} correctly as enterprise`, () => {
         const { baseElement } = render(
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <FormWrapper>
+            <FormWrapper defaultValues={{ isPaused: true, usesPattern: true }}>
               <Component {...props} isEnterprise />
             </FormWrapper>
           </LocalizationProvider>,
