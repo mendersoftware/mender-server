@@ -109,7 +109,7 @@ test.describe('Deployments', () => {
     await page.click('[aria-label="create-deployment"]');
 
     await selectReleaseByName(page, 'mender-demo-artifact');
-    await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
+    await triggerDeploymentCreation(page, expect(page.getByText(/Select software to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByRole('tab', { name: /finished/i }).click();
     const pageContent = page.locator('.rightFluid.container');
     const listItem = pageContent.getByRole('listitem').first();
@@ -135,7 +135,7 @@ test.describe('Deployments', () => {
     await deviceGroupSelect.focus();
     await deviceGroupSelect.fill('test');
     await page.click(`#deployment-device-group-selection-listbox li:has-text('testgroup')`);
-    await triggerDeploymentCreation(page, expect(page.getByText(/Select a Release to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
+    await triggerDeploymentCreation(page, expect(page.getByText(/Select software to deploy/i)).toHaveCount(0, { timeout: timeouts.tenSeconds }));
     await page.getByRole('tab', { name: /finished/i }).click();
     const pageContent = page.locator('.rightFluid.container');
     const listItem = pageContent.getByRole('listitem').first();
