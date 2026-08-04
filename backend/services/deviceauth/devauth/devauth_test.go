@@ -653,12 +653,13 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			dbGetDevCountByStatusRes: 0,
 			dev: &model.Device{
 				Id:     dummyDevId,
-				Status: model.DevStatusPending,
+				Status: model.DevStatusPreauth,
 			},
 			res: dummyToken,
 			expectedWorkflows: map[string]error{
 				"provision_device":        nil,
 				"update_device_inventory": nil,
+				"update_device_status":    nil,
 			},
 		},
 		{
@@ -676,7 +677,7 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			dbGetDevCountByStatusRes: 0,
 			dev: &model.Device{
 				Id:              dummyDevId,
-				Status:          model.DevStatusPending,
+				Status:          model.DevStatusPreauth,
 				Decommissioning: true,
 			},
 			err: ErrDevAuthUnauthorized,
@@ -686,7 +687,7 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			dbGetAuthSetByDataKeyErr: errors.New("db error"),
 			dev: &model.Device{
 				Id:     dummyDevId,
-				Status: model.DevStatusPending,
+				Status: model.DevStatusPreauth,
 			},
 			err: errors.New("failed to fetch auth set: db error"),
 		},
@@ -705,7 +706,7 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			dbGetDevCountByStatusRes: 5,
 			dev: &model.Device{
 				Id:     dummyDevId,
-				Status: model.DevStatusPending,
+				Status: model.DevStatusPreauth,
 			},
 			err: ErrMaxDeviceCountReached,
 		},
@@ -721,7 +722,7 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			dbGetLimitErr: errors.New("db error"),
 			dev: &model.Device{
 				Id:     dummyDevId,
-				Status: model.DevStatusPending,
+				Status: model.DevStatusPreauth,
 			},
 			err: errors.New("can't get current device limit: db error"),
 		},
@@ -740,10 +741,11 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			dbGetDevCountByStatusRes: 0,
 			dev: &model.Device{
 				Id:     dummyDevId,
-				Status: model.DevStatusPending,
+				Status: model.DevStatusPreauth,
 			},
 			expectedWorkflows: map[string]error{
-				"provision_device": errors.New("workflows failed"),
+				"provision_device":     errors.New("workflows failed"),
+				"update_device_status": nil,
 			},
 			err: errors.New("submit device provisioning job error: workflows failed"),
 		},
@@ -767,7 +769,6 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			//coSubmitProvisionDeviceJobErr: errors.New("workflows shouldn't be called"), // MEN-6961: we accept preauth at all times
 			res: "dummytoken",
 			expectedWorkflows: map[string]error{
-				"update_device_status":    nil,
 				"provision_device":        nil,
 				"update_device_inventory": nil,
 			},
@@ -883,11 +884,13 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			for name, err := range tc.expectedWorkflows {
 				co.EXPECT().
 					StartWorkflow(mtesting.ContextMatcher(), name).
+					Run(func(context.Context, string) {
+						co.EXPECT().
+							StartWorkflowExecute(mock.Anything).
+							Return(nil, mockResponseOK, err).
+							Once()
+					}).
 					Return(req).
-					Once()
-				co.EXPECT().
-					StartWorkflowExecute(mock.Anything).
-					Return(nil, mockResponseOK, err).
 					Once()
 			}
 
