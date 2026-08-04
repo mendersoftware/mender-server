@@ -62,7 +62,6 @@ gnr0OSIDwEL31l+12DbAQ9+ANv6TLpWNfLpX0E6IStkZAgMBAAE=
         confirm={vi.fn}
         device={device}
         limitMaxed={false}
-        loading={false}
         total={10}
         userCapabilities={adminUserCapabilities}
       />

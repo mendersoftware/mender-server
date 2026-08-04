@@ -628,7 +628,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -755,7 +755,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -870,7 +870,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -981,7 +981,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -1104,7 +1104,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -1215,7 +1215,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -1322,7 +1322,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -1428,7 +1428,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -1547,7 +1547,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -1665,7 +1665,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -1772,7 +1772,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"
@@ -1878,7 +1878,7 @@ exports[`AuthsetList Component > renders correctly 1`] = `
                 class="MuiAccordionDetails-root emotion-19"
               >
                 <div
-                  class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                  class="flexbox space-between align-items-center full-width margin-top-small"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body1 margin-right emotion-20"

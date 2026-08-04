@@ -2341,7 +2341,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-36:focus::-ms-input-
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium green emotion-7"
               data-testid="CheckCircleIcon"
               focusable="false"
-              style="margin: 12px;"
               viewBox="0 0 24 24"
             >
               <path
@@ -2510,7 +2509,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-36:focus::-ms-input-
                           class="MuiAccordionDetails-root emotion-81"
                         >
                           <div
-                            class="flexbox space-between align-items-center full-width margin-top-small margin-bottom-small"
+                            class="flexbox space-between align-items-center full-width margin-top-small"
                           >
                             <p
                               class="MuiTypography-root MuiTypography-body1 margin-right emotion-82"

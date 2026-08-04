@@ -27,14 +27,12 @@ import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import Authsets from './authsets/AuthSets';
 
-const iconStyle = { margin: 12 };
-
 const states = {
-  default: <Icon style={iconStyle} component="img" src={pendingIcon} />,
-  pending: <Icon style={iconStyle} component="img" src={pendingIcon} />,
-  accepted: <CheckCircleIcon className="green" style={iconStyle} />,
-  rejected: <BlockIcon className="red" style={iconStyle} />,
-  preauthorized: <CheckIcon style={iconStyle} />
+  default: <Icon component="img" src={pendingIcon} />,
+  pending: <Icon component="img" src={pendingIcon} />,
+  accepted: <CheckCircleIcon className="green" />,
+  rejected: <BlockIcon className="red" />,
+  preauthorized: <CheckIcon />
 };
 
 export const AuthStatus = ({ decommission, device }) => {

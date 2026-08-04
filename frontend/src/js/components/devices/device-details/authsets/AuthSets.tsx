@@ -43,7 +43,7 @@ const useStyles = makeStyles()(theme => ({
 
 export const Authsets = ({ decommission, device, listRef }) => {
   const [confirmDecommission, setConfirmDecommission] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<string>();
   const dispatch = useAppDispatch();
   const { accepted: acceptedDevices } = useSelector(getDeviceCountsByStatus);
   const deviceLimit = useSelector(getCombinedLimit);
@@ -58,8 +58,7 @@ export const Authsets = ({ decommission, device, listRef }) => {
     // call API to update authset
     const request =
       status === DEVICE_DISMISSAL_STATE ? dispatch(deleteAuthset({ deviceId, authId })) : dispatch(updateDeviceAuth({ deviceId, authId, status }));
-    // on finish, change "loading" back to null
-    return request.then(() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING))).finally(() => setLoading(false));
+    return request.then(() => dispatch(advanceOnboarding(onboardingSteps.DEVICES_PENDING_ACCEPTING_ONBOARDING))).finally(() => setLoading(undefined));
   };
 
   return (
