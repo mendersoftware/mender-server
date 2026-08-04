@@ -43,7 +43,7 @@ dayjs.extend(isSameOrAfter);
 
 const maxPhaseWidth = 270;
 
-export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, onUpdateControlChange }) => {
+export const RolloutSchedule = ({ deployment, innerRef, onAbort, onUpdateControlChange }) => {
   const { classes } = useStyles();
   const now = dayjs();
   const { created: creationTime = now.toISOString(), filter, finished, status, update_control_map } = deployment;
@@ -62,7 +62,7 @@ export const RolloutSchedule = ({ deployment, headerClass, innerRef, onAbort, on
 
   return (
     <>
-      <LinedHeader className={`margin-top-large ${headerClass}`} heading="Schedule details" innerRef={innerRef} />
+      <LinedHeader className="margin-top-large" heading="Schedule details" ref={innerRef} />
       {phases.length > 1 || !update_control_map ? (
         <>
           <div className="flexbox">

@@ -41,24 +41,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   text-decoration-color: inherit;
 }
 
-.emotion-4 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  fill: currentColor;
-  font-size: 1.25rem;
-}
-
-.emotion-9 {
+.emotion-7 {
   max-width: 100%;
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-size: 0.8125rem;
@@ -91,17 +74,14 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   vertical-align: middle;
   box-sizing: border-box;
   height: 24px;
-  opacity: 0.5;
-  font-size: 0.675rem;
-  height: 18px;
 }
 
-.emotion-9.Mui-disabled {
+.emotion-7.Mui-disabled {
   opacity: 0.38;
   pointer-events: none;
 }
 
-.emotion-9 .MuiChip-avatar {
+.emotion-7 .MuiChip-avatar {
   margin-left: 5px;
   margin-right: -6px;
   width: 24px;
@@ -110,12 +90,12 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   font-size: 0.75rem;
 }
 
-.emotion-9 .MuiChip-icon {
+.emotion-7 .MuiChip-icon {
   margin-left: 5px;
   margin-right: -6px;
 }
 
-.emotion-9 .MuiChip-deleteIcon {
+.emotion-7 .MuiChip-deleteIcon {
   -webkit-tap-highlight-color: transparent;
   color: rgba(0, 0, 0, 0.26);
   font-size: 22px;
@@ -123,11 +103,11 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   margin: 0 5px 0 -6px;
 }
 
-.emotion-9 .MuiChip-deleteIcon:hover {
+.emotion-7 .MuiChip-deleteIcon:hover {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.emotion-9 .MuiChip-avatar {
+.emotion-7 .MuiChip-avatar {
   margin-left: 4px;
   margin-right: -4px;
   width: 18px;
@@ -135,23 +115,23 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   font-size: 0.625rem;
 }
 
-.emotion-9 .MuiChip-icon {
+.emotion-7 .MuiChip-icon {
   font-size: 18px;
   margin-left: 4px;
   margin-right: -4px;
 }
 
-.emotion-9 .MuiChip-deleteIcon {
+.emotion-7 .MuiChip-deleteIcon {
   font-size: 16px;
   margin-right: 4px;
   margin-left: -4px;
 }
 
-.emotion-9 .MuiChip-icon {
+.emotion-7 .MuiChip-icon {
   color: #616161;
 }
 
-.emotion-10 {
+.emotion-8 {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 12px;
@@ -161,7 +141,7 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   padding-right: 8px;
 }
 
-.emotion-15 {
+.emotion-13 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -218,33 +198,33 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-15::-moz-focus-inner {
+.emotion-13::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-13.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-15 {
+  .emotion-13 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-15:hover {
+.emotion-13:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-15.Mui-disabled {
+.emotion-13.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
 @media (hover: hover) {
-  .emotion-15:hover {
+  .emotion-13:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -252,22 +232,39 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
   }
 }
 
-.emotion-15.MuiButton-loading {
+.emotion-13.MuiButton-loading {
   color: transparent;
 }
 
-.emotion-16 {
+.emotion-14 {
   display: inherit;
   margin-right: -4px;
   margin-left: 8px;
 }
 
-.emotion-16>*:nth-of-type(1) {
+.emotion-14>*:nth-of-type(1) {
   font-size: 20px;
 }
 
+.emotion-15 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.25rem;
+}
+
 <div
-  class="margin-top-large margin-bottom-large"
+  class="margin-top-medium margin-bottom"
 >
   <div
     class="break-all two-columns emotion-0 column-data "
@@ -286,24 +283,12 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered emotion-3"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
           data-discover="true"
           href="/software/test"
-          style="font-weight: 500;"
           target="_blank"
         >
           test
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-4"
-            data-testid="LaunchIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-            />
-          </svg>
         </a>
       </div>
     </div>
@@ -320,35 +305,27 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
         class="MuiTypography-root MuiTypography-body2 emotion-2"
         style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
       >
-        <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways flexbox centered emotion-3"
-          data-discover="true"
-          href="/devices?inventory=group:eq:testGroup"
-          style="font-weight: 500;"
-          target="_blank"
+        <div
+          class="flexbox"
         >
-          testGroup
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall margin-left-small emotion-4"
-            data-testid="LaunchIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+          <a
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-3"
+            data-discover="true"
+            href="/devices?inventory=group:eq:testGroup"
+            target="_blank"
           >
-            <path
-              d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"
-            />
-          </svg>
+            testGroup
+          </a>
           <div
-            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault margin-left uppercased emotion-9"
+            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault margin-left-small emotion-7"
           >
             <span
-              class="MuiChip-label emotion-10"
+              class="MuiChip-label emotion-8"
             >
-              static
+              Static
             </span>
           </div>
-        </a>
+        </div>
       </div>
     </div>
     <h6
@@ -391,17 +368,17 @@ exports[`DeploymentOverview Component > renders correctly 1`] = `
     </div>
   </div>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top emotion-15"
+    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary margin-top-small emotion-13"
     tabindex="0"
     type="button"
   >
     See schedule details
     <span
-      class="MuiButton-icon MuiButton-endIcon emotion-16"
+      class="MuiButton-icon MuiButton-endIcon emotion-14"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-4"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-15"
         data-testid="ArrowDropDownCircleOutlinedIcon"
         focusable="false"
         viewBox="0 0 24 24"

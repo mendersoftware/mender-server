@@ -12,16 +12,17 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Block as BlockIcon, CheckCircleOutlined as CheckCircleOutlineIcon, Refresh as RefreshIcon } from '@mui/icons-material';
-import { Alert, Button, Divider, Tooltip } from '@mui/material';
+import { Alert, Button, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import Confirm from '@northern.tech/common-ui/Confirm';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
+import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
 import { AUDIT_LOGS_TYPES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, TIMEOUTS, deploymentStatesToSubstates, onboardingSteps } from '@northern.tech/store/constants';
@@ -36,8 +37,10 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getAuditLogs, getDeploymentDevices, getDeviceLog, getRelease, getSingleDeployment, updateDeploymentControlMap } from '@northern.tech/store/thunks';
 import { getDeploymentState, groupDeploymentStats, statCollector } from '@northern.tech/store/utils';
+import { formatTime } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 
@@ -50,15 +53,8 @@ import RolloutSchedule from './deployment-report/RolloutSchedule';
 
 const { setSnackbar } = storeActions;
 
-const useStyles = makeStyles()(theme => ({
-  confirmation: { top: 0 },
-  divider: { marginTop: theme.spacing(2) },
-  header: {
-    ['&.dashboard-header span']: {
-      backgroundColor: theme.palette.background.paper,
-      backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15))'
-    }
-  }
+const useStyles = makeStyles()(() => ({
+  confirmation: { top: 0 }
 }));
 
 export const DeploymentAbortButton = ({ deployment, setAborting }) => (
@@ -72,23 +68,22 @@ export const DeploymentAbortButton = ({ deployment, setAborting }) => (
   </Tooltip>
 );
 
-const DeploymentStateNotification = ({ deployment }) => {
-  const { totalDeviceCount } = deployment;
+const DeploymentStateNotification = ({ deployment, totalDeviceCount }) => {
   const finished = deployment.finished || deployment.status === DEPLOYMENT_STATES.finished;
   const { failures, successes } = groupDeploymentStats(deployment);
-  const deploymentState = getDeploymentState(deployment);
-  let content = deploymentState;
+  let content = getDeploymentState(deployment);
   let color = 'info';
   if (finished) {
-    if (!!successes || !failures) {
-      content = successes === totalDeviceCount && totalDeviceCount > 1 ? 'All ' : '';
-      content = `${content}${successes} ${pluralize('devices', successes)} updated successfully`;
+    if (failures) {
+      content = `${failures} ${pluralize('devices', failures)} failed to update`;
+    } else {
+      const prefix = successes === totalDeviceCount && totalDeviceCount > 1 ? 'All ' : '';
+      content = `${prefix}${successes} ${pluralize('devices', successes)} updated successfully`;
     }
-    content = failures ? `${failures} ${pluralize('devices', failures)} failed to update` : content;
     color = failures ? 'error' : 'success';
   }
   return (
-    <Alert className="margin-bottom-small" severity={color} color={color}>
+    <Alert severity={color} slotProps={{ message: { className: 'capitalized-start' } }}>
       {content}
     </Alert>
   );
@@ -101,7 +96,7 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
   const timer = useRef();
   const onboardingTooltipAnchor = useRef();
   const { classes } = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { deployment, selectedDevices } = useSelector(getSelectedDeploymentData);
   const devicesById = useSelector(getDevicesById);
   const idAttribute = useSelector(getIdAttribute);
@@ -277,12 +272,14 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
           ) : (
             <div className="flexbox centered margin-right" ref={onboardingTooltipAnchor}>
               <CheckCircleOutlineIcon fontSize="small" className="green margin-right-small" />
-              <h3>Finished</h3>
+              <Typography variant="body2">
+                Finished at: <MaybeTime value={formatTime(deployment.finished)} />
+              </Typography>
             </div>
           )
         }
       }}
-      notification={<DeploymentStateNotification deployment={deployment} />}
+      notification={<DeploymentStateNotification deployment={deployment} totalDeviceCount={totalDeviceCount} />}
     >
       {!!onboardingComponent && onboardingComponent}
 
@@ -292,29 +289,22 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
           <DeploymentOverview creator={creator} deployment={deployment} devicesById={devicesById} idAttribute={idAttribute} onScheduleClick={scrollToBottom} />
           {isConfigurationDeployment && (
             <>
-              <LinedHeader className={classes.header} heading="Configuration" />
+              <LinedHeader heading="Configuration" />
               <TwoColumnData chipLikeKey className="margin-top-small margin-bottom-large" data={config} />
             </>
           )}
-          <LinedHeader className={classes.header} heading="Status" />
+          <LinedHeader heading="Status" />
           <DeploymentStatus deployment={deployment} />
           {!!totalDeviceCount && (
             <>
-              <LinedHeader className={classes.header} heading="Devices" />
+              <LinedHeader heading="Devices" />
               <DeviceList {...props} viewLog={viewLog} />
             </>
           )}
-          <RolloutSchedule
-            deployment={deployment}
-            headerClass={classes.header}
-            onUpdateControlChange={onUpdateControlChange}
-            onAbort={abort}
-            innerRef={rolloutSchedule}
-          />
+          <RolloutSchedule deployment={deployment} onUpdateControlChange={onUpdateControlChange} onAbort={abort} innerRef={rolloutSchedule} />
         </ColumnWidthProvider>
         {Boolean(deviceId.length) && <LogDialog canAi={canAi} deviceId={deviceId} deployment={deployment} onClose={() => setDeviceId('')} />}
       </div>
-      <Divider className={classes.divider} />
     </BaseDrawer>
   );
 };

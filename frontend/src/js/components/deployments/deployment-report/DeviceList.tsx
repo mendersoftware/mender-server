@@ -22,7 +22,7 @@ import {
   Error as ErrorIcon,
   PendingOutlined as PendingIcon
 } from '@mui/icons-material';
-import type { LinearProgressProps, SvgIconOwnProps } from '@mui/material';
+import type { SvgIconOwnProps } from '@mui/material';
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
@@ -33,12 +33,12 @@ import { Link } from '@northern.tech/common-ui/Link';
 import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
-import { SynchronizedTwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import {
   DEVICE_LIST_DEFAULTS,
   canAccess as canShow,
-  deploymentSubstates,
+  deploymentStatesToSubstates,
   rootfsImageVersion as rootfsImageVersionAttribute
 } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
@@ -47,7 +47,8 @@ import { formatTime } from '@northern.tech/utils/helpers';
 import DeltaIcon from '../../../../assets/img/deltaicon.svg';
 
 const useStyles = makeStyles()(() => ({
-  table: { minHeight: '10vh', maxHeight: '40vh', overflowX: 'auto' }
+  table: { minHeight: '10vh', maxHeight: '40vh', overflowX: 'auto' },
+  totalSize: { ['& > div.two-columns.column-data']: { gridTemplateColumns: 'max-content max-content' } }
 }));
 
 const { page: defaultPage } = DEVICE_LIST_DEFAULTS;
@@ -62,24 +63,23 @@ const statusColorMap: Record<string, SvgIconOwnProps['color']> = {
 type StateInfoEntry = {
   color?: SvgIconOwnProps['color'];
   icon?: SvgIconComponent;
-  progress?: number;
   title: string;
 };
 
 const stateInfoMap: Record<string, StateInfoEntry> = {
-  'already-installed': { title: 'Already installed', progress: 100 },
-  'pause-before-committing': { title: 'Paused before committing' },
-  'pause-before-installing': { title: 'Paused before installing' },
-  'pause-before-rebooting': { title: 'Paused before rebooting' },
-  aborted: { title: 'Paused before committing', progress: 100, color: statusColorMap.aborted, icon: CancelIcon },
-  failure: { title: 'Fail', progress: 100, color: statusColorMap.error, icon: ErrorIcon },
-  noartifact: { title: 'No compatible artifact found', progress: 0, icon: CancelIcon },
-  artifact_too_big: { title: 'Skipped', progress: 0, icon: CancelIcon },
-  incompatible_tier: { title: 'Incompatible tier', progress: 0, icon: CancelIcon },
-  success: { title: 'Success', progress: 100, color: statusColorMap.success, icon: CheckIcon }
+  pending: { title: 'Pending', icon: PendingIcon },
+  decommissioned: { title: 'Decommissioned', icon: PendingIcon },
+  'already-installed': { title: 'Already installed', icon: PendingIcon },
+  'pause_before_committing': { title: 'Paused before committing', icon: PendingIcon },
+  'pause_before_installing': { title: 'Paused before installing', icon: PendingIcon },
+  'pause_before_rebooting': { title: 'Paused before rebooting', icon: PendingIcon },
+  aborted: { title: 'Paused before committing', color: statusColorMap.aborted, icon: CancelIcon },
+  failure: { title: 'Fail', color: statusColorMap.error, icon: ErrorIcon },
+  noartifact: { title: 'No compatible artifact found', icon: CancelIcon },
+  artifact_too_big: { title: 'Skipped', icon: CancelIcon },
+  incompatible_tier: { title: 'Incompatible tier', icon: CancelIcon },
+  success: { title: 'Success', color: statusColorMap.success, icon: CheckIcon }
 };
-
-const undefinedStates = [deploymentSubstates.pending, deploymentSubstates.decommissioned, deploymentSubstates.alreadyInstalled];
 
 const deviceListColumns = [
   {
@@ -175,12 +175,7 @@ const deviceListColumns = [
     key: 'status',
     title: 'Deployment status',
     render: ({ device: { substate = '', status = '' } }) => {
-      const {
-        color: progressColor = statusColorMap.default,
-        icon: Icon = PendingIcon,
-        progress: devicePercentage,
-        title = status
-      } = stateInfoMap[status] ?? {};
+      const { color: progressColor = statusColorMap.default, icon: Icon, title = status } = stateInfoMap[status] ?? {};
       const statusTitle = (
         <Typography variant="body2" className="capitalized-start">
           {title}
@@ -188,20 +183,12 @@ const deviceListColumns = [
       );
       return (
         <>
-          <div className="flexbox align-items-center margin-bottom-x-small">
-            <Icon className="margin-right-x-small" color={progressColor} />
+          <div className="flexbox align-items-center">
+            {Icon && <Icon className="margin-right-x-small" color={progressColor} />}
             {statusTitle}
           </div>
           {substate && <Typography variant="caption">{substate}</Typography>}
-          {!undefinedStates.includes(status.toLowerCase()) && (
-            <div style={{ position: 'absolute', bottom: 0, width: '100%', paddingRight: 32 }}>
-              <LinearProgress
-                color={progressColor as LinearProgressProps['color']}
-                value={devicePercentage}
-                variant={devicePercentage !== undefined ? 'determinate' : 'indeterminate'}
-              />
-            </div>
-          )}
+          {deploymentStatesToSubstates.inprogress.includes(status.toLowerCase()) && <LinearProgress variant="indeterminate" />}
         </>
       );
     },
@@ -212,7 +199,7 @@ const deviceListColumns = [
     title: '',
     render: ({ canAi, device: { id, log }, viewLog }) =>
       log ? (
-        <Button className="nowrap" endIcon={canAi ? <AutoAwesomeIcon /> : null} onClick={() => viewLog(id)} size="small">
+        <Button className="nowrap" color="info" variant="outlined" endIcon={canAi ? <AutoAwesomeIcon /> : null} onClick={() => viewLog(id)} size="small">
           View log
         </Button>
       ) : null,
@@ -244,12 +231,12 @@ export const DeploymentDeviceList = ({ canAi, deployment, getDeploymentDevices, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, deployment.id, deployment.status, getDeploymentDevices, JSON.stringify(statistics.status), perPage]);
 
-  const columns = deviceListColumns.reduce((accu, column) => (column.canShow({ deployment }) ? [...accu, { ...column, extras: { idAttribute } }] : accu), []);
+  const columns = deviceListColumns.filter(column => column.canShow({ deployment })).map(column => ({ ...column, extras: { idAttribute } }));
   const items = selectedDevices.map(device => ({ canAi, device, id: device.id, idAttribute, userCapabilities, viewLog }));
   return (
     <>
       <DetailsTable className={classes.table} columns={columns} items={items} />
-      <div className="flexbox space-between align-items-center margin-top">
+      <div className="flexbox space-between align-items-center">
         <div className="flexbox">
           <Pagination
             className="margin-top-none"
@@ -261,7 +248,9 @@ export const DeploymentDeviceList = ({ canAi, deployment, getDeploymentDevices, 
           />
           <Loader show={isLoading} small />
         </div>
-        <SynchronizedTwoColumnData data={{ 'Total download size': <ValueFileSize value={totalSize} /> }} />
+        <div className={classes.totalSize}>
+          <TwoColumnData data={{ 'Total download size': <ValueFileSize value={totalSize} /> }} />
+        </div>
       </div>
     </>
   );
