@@ -17,6 +17,7 @@ package identity
 import (
 	"net/http"
 	"regexp"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 
@@ -69,6 +70,7 @@ func middlewareWithLogger(c *gin.Context) {
 	if err != nil {
 		goto exitUnauthorized
 	}
+	idty.FeatureFlags = strings.Fields(c.Request.Header.Get("X-Men-Features"))
 	ctx = WithContext(ctx, &idty)
 	if idty.IsDevice {
 		key = "device_id"
@@ -107,6 +109,7 @@ func middlewareBase(c *gin.Context) {
 	if err != nil {
 		goto exitUnauthorized
 	}
+	idty.FeatureFlags = strings.Fields(c.Request.Header.Get("X-Men-Features"))
 	ctx = WithContext(ctx, &idty)
 	c.Request = c.Request.WithContext(ctx)
 	return

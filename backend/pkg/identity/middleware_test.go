@@ -75,6 +75,8 @@ func TestGinMiddleware(t *testing.T) {
 				Tenant:  "123456789012345678901234",
 				IsUser:  true,
 				Plan:    "professional",
+
+				FeatureFlags: []string{},
 			}
 			actual := FromContext(ctx)
 			assert.EqualValues(t, expected, actual)
@@ -117,6 +119,8 @@ func TestGinMiddleware(t *testing.T) {
 				Subject:  "3e955f9d-53bf-47d6-a182-ff27b2c96282",
 				Tenant:   "123456789012345678901234",
 				IsDevice: true,
+
+				FeatureFlags: []string{},
 			}
 			actual := FromContext(ctx)
 			assert.EqualValues(t, expected, actual)
@@ -156,6 +160,43 @@ func TestGinMiddleware(t *testing.T) {
 			expected := &Identity{
 				Subject: "3e955f9d-53bf-47d6-a182-ff27b2c96282",
 				Tenant:  "123456789012345678901234",
+
+				FeatureFlags: []string{},
+			}
+			actual := FromContext(ctx)
+			assert.EqualValues(t, expected, actual)
+			logger := log.FromContext(ctx)
+			assert.Empty(t, logger.Entry.Data)
+		},
+	}, {
+		Name: "ok, with featureFlag",
+		Request: func() *http.Request {
+			req, _ := http.NewRequest("GET",
+				"http://localhost/api/management/v1/test?foo=bar",
+				nil,
+			)
+			req.Header.Set("Authorization",
+				"Bearer "+makeFakeAuth(Identity{
+					Subject: "3e955f9d-53bf-47d6-a182-ff27b2c96282",
+					Tenant:  "123456789012345678901234",
+				}),
+			)
+			req.Header.Set("X-Men-Features", "devauth:fancypants")
+			return req
+		}(),
+		Options: NewMiddlewareOptions().
+			SetPathRegex("^/api/management/v1/test$").
+			SetUpdateLogger(false),
+
+		Validator: func(t *testing.T,
+			w *httptest.ResponseRecorder, req *http.Request,
+		) {
+			ctx := req.Context()
+			expected := &Identity{
+				Subject: "3e955f9d-53bf-47d6-a182-ff27b2c96282",
+				Tenant:  "123456789012345678901234",
+
+				FeatureFlags: []string{"devauth:fancypants"},
 			}
 			actual := FromContext(ctx)
 			assert.EqualValues(t, expected, actual)

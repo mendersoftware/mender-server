@@ -25,13 +25,14 @@ import (
 )
 
 type Identity struct {
-	Subject  string         `json:"sub" valid:"required"`
-	Tenant   string         `json:"mender.tenant,omitempty"`
-	IsUser   bool           `json:"mender.user,omitempty"`
-	IsDevice bool           `json:"mender.device,omitempty"`
-	Plan     string         `json:"mender.plan,omitempty"`
-	Addons   []addons.Addon `json:"mender.addons,omitempty"`
-	Trial    bool           `json:"mender.trial"`
+	Subject      string         `json:"sub" valid:"required"`
+	Tenant       string         `json:"mender.tenant,omitempty"`
+	IsUser       bool           `json:"mender.user,omitempty"`
+	IsDevice     bool           `json:"mender.device,omitempty"`
+	Plan         string         `json:"mender.plan,omitempty"`
+	Addons       []addons.Addon `json:"mender.addons,omitempty"`
+	Trial        bool           `json:"mender.trial"`
+	FeatureFlags []string       `json:"-"`
 }
 
 // ExtractJWTFromHeader inspect the Authorization header for a Bearer token and
