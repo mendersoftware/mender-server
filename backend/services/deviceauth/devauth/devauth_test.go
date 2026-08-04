@@ -2997,7 +2997,7 @@ func TestDevAuthDeleteAuthSet(t *testing.T) {
 				DeviceId: oid.NewUUIDv5("devId10").String(),
 			},
 			dbGetDeviceStatusErr: errors.New("Get Device Status Error"),
-			outErr:               "Cannot determine device status: Get Device Status Error",
+			outErr:               "cannot determine device status: Get Device Status Error",
 		},
 		{
 			devId:  oid.NewUUIDv5("devId11").String(),

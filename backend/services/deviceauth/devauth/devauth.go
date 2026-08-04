@@ -454,25 +454,34 @@ func (d *DevAuth) processPreAuthRequest(
 	return d.handlePreAuthDevice(ctx, aset)
 }
 
+func (d *DevAuth) aggregateDeviceStatus(ctx context.Context, deviceID string) (string, error) {
+	status, err := d.db.GetDeviceStatus(ctx, deviceID)
+	if err != nil {
+		if errors.Is(err, store.ErrAuthSetNotFound) {
+			status = model.DevStatusNoAuth
+		} else {
+			return "", errors.Wrap(err, "cannot determine device status")
+		}
+	}
+	return status, nil
+
+}
+
 func (d *DevAuth) updateDeviceStatus(
 	ctx context.Context,
 	devId,
 	status string,
 	currentStatus string,
 ) error {
-	newStatus, err := d.db.GetDeviceStatus(ctx, devId)
-	if err == nil && currentStatus == newStatus {
-		return nil
-	}
+	var err error
 	if status == "" {
-		switch err {
-		case nil:
-			status = newStatus
-		case store.ErrAuthSetNotFound:
-			status = model.DevStatusNoAuth
-		default:
-			return errors.Wrap(err, "Cannot determine device status")
+		status, err = d.aggregateDeviceStatus(ctx, devId)
+		if err != nil {
+			return err
 		}
+	}
+	if currentStatus == status {
+		return nil
 	}
 
 	// submit device status change job
