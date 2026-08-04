@@ -57,9 +57,17 @@ const preloadedState = {
   }
 };
 
+const renderWrapper = ({ deploymentObject = {}, onScheduleSubmit = vi.fn(), preloadedState: preloadedStateProp = preloadedState }) =>
+  render(
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <CreateDeployment deploymentObject={deploymentObject} onScheduleSubmit={onScheduleSubmit} onValuesChange={vi.fn()} open />
+    </LocalizationProvider>,
+    { preloadedState: preloadedStateProp }
+  );
+
 describe('CreateDeployment Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<CreateDeployment deploymentObject={{}} onValuesChange={vi.fn()} open />, { preloadedState });
+    const { baseElement } = renderWrapper({});
     const view = baseElement.getElementsByClassName('MuiDrawer-root')[0];
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
@@ -116,7 +124,7 @@ describe('CreateDeployment Component', () => {
     it('accepts a click on an incomplete deployment & points out what is missing', async () => {
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
       const onScheduleSubmit = vi.fn();
-      render(<CreateDeployment deploymentObject={{}} onScheduleSubmit={onScheduleSubmit} onValuesChange={vi.fn()} open />, { preloadedState });
+      renderWrapper({ onScheduleSubmit });
       const submitButton = screen.getByRole('button', { name: /create deployment/i });
       expect(submitButton).toBeEnabled();
       await user.click(submitButton);
@@ -127,7 +135,7 @@ describe('CreateDeployment Component', () => {
 
     it('drops an error once its field is taken care of', async () => {
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-      render(<CreateDeployment deploymentObject={{}} onValuesChange={vi.fn()} open />, { preloadedState });
+      renderWrapper({});
       await user.click(screen.getByRole('button', { name: /create deployment/i }));
       await waitFor(() => expect(screen.getByText(deploymentErrors.group)).toBeVisible());
       const groupSelect = screen.getByPlaceholderText(/select a device group/i);
@@ -139,7 +147,7 @@ describe('CreateDeployment Component', () => {
 
     it('drops an error once the option that caused it is switched off again', async () => {
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-      render(<CreateDeployment deploymentObject={{}} onValuesChange={vi.fn()} open />, { preloadedState });
+      renderWrapper({});
       await user.click(screen.getByRole('button', { name: /advanced options/i }));
       const limitCheckbox = screen.getByRole('checkbox', { name: /maximum number of devices/i });
       await user.click(limitCheckbox);
@@ -156,17 +164,7 @@ describe('CreateDeployment Component', () => {
         ...defaultState,
         app: { ...defaultState.app, features: { ...defaultState.app.features, isEnterprise: true } }
       };
-      render(
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <CreateDeployment
-            deploymentObject={{ group: ALL_DEVICES, release: defaultState.releases.byId.r1 }}
-            onScheduleSubmit={vi.fn()}
-            onValuesChange={vi.fn()}
-            open
-          />
-        </LocalizationProvider>,
-        { preloadedState: enterpriseState }
-      );
+      renderWrapper({ deploymentObject: { group: ALL_DEVICES, release: defaultState.releases.byId.r1 }, preloadedState: enterpriseState });
       await user.click(screen.getByText(/start immediately/i));
       await user.click(await screen.findByRole('option', { name: /schedule the start date/i }));
       await user.click(await screen.findByRole('gridcell', { name: '28' }));
@@ -184,15 +182,34 @@ describe('CreateDeployment Component', () => {
       );
     });
 
+    it('mounts the advanced options only once they are expanded & keeps them mounted afterwards', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      renderWrapper({ deploymentObject: { group: 'testGroupDynamic', release: defaultState.releases.byId.r1 } });
+      const accordionToggle = screen.getByRole('button', { name: /advanced options/i });
+      expect(screen.queryByRole('checkbox', { name: /maximum number of devices/i })).toBeNull();
+      await user.click(accordionToggle);
+      await user.click(await screen.findByRole('checkbox', { name: /maximum number of devices/i }));
+      const limitInput = document.querySelector('#maxDevices') as HTMLElement;
+      await user.clear(limitInput);
+      await user.type(limitInput, '123');
+      // collapsing keeps them mounted, so their sections don't have to redo their device lookups on every toggle
+      await user.click(accordionToggle);
+      await act(async () => vi.runOnlyPendingTimers());
+      expect(accordionToggle).toHaveAttribute('aria-expanded', 'false');
+      expect(document.querySelector('#maxDevices')).toBeTruthy();
+      const post = vi.spyOn(GeneralApi, 'post');
+      await user.click(screen.getByRole('button', { name: /create deployment/i }));
+      await waitFor(() => expect(post).toHaveBeenCalledWith('/api/management/v2/deployments/deployments', expect.objectContaining({ max_devices: 123 })));
+    });
+
     it('expands the advanced options to show an error hidden in them', async () => {
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-      const phases = [{ batch_size: 50, delay: 2, delayUnit: 'hours' }, { batch_size: 55, delay: 2, delayUnit: 'hours' }, { batch_size: 95 }];
-      render(<CreateDeployment deploymentObject={{ phases }} onValuesChange={vi.fn()} open />, { preloadedState });
+      renderWrapper({ deploymentObject: { group: 'testGroupDynamic', maxDevices: -90 } });
       const accordionToggle = screen.getByRole('button', { name: /advanced options/i });
       expect(accordionToggle).toHaveAttribute('aria-expanded', 'false');
       await user.click(screen.getByRole('button', { name: /create deployment/i }));
       await waitFor(() => expect(accordionToggle).toHaveAttribute('aria-expanded', 'true'));
-      expect(screen.getByText(deploymentErrors.phases)).toBeVisible();
+      expect(screen.getByText(deploymentErrors.maxDevices)).toBeVisible();
     });
   });
 });
