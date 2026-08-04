@@ -139,6 +139,8 @@ type Config struct {
 	DefaultTenantToken string
 
 	HaveAddons bool
+
+	LegacyProvisionEvent bool
 }
 
 func NewDevAuth(d store.DataStore, co client.WorkflowsOtherAPI,
@@ -497,6 +499,25 @@ func (d *DevAuth) updateDeviceStatus(
 		}
 	} else {
 		//nolint:bodyclose
+		if d.config.LegacyProvisionEvent && status == model.DevStatusAccepted {
+			// NOTE: before Device.Provisioned flag was introduced, provision_device
+			// was always triggered.
+
+			//nolint:bodyclose
+			_, _, err := d.cOrch.StartWorkflow(ctx, "legacy_provision_iot_manager").
+				RequestBody(map[string]any{
+					"request_id": requestid.FromContext(ctx),
+					"tenant_id":  tenantId,
+					"device":     updateDeviceStatusEvent(authSet, device, status),
+				}).Execute()
+			if err != nil {
+				log.FromContext(ctx).
+					Warnf("failed to trigger iot-manager (legacy) event: %s",
+						err.Error())
+			}
+		}
+
+		//nolint:bodyclose
 		_, _, err := d.cOrch.StartWorkflow(ctx, "update_device_status").
 			RequestBody(map[string]any{
 				"request_id": requestid.FromContext(ctx),
@@ -510,6 +531,7 @@ func (d *DevAuth) updateDeviceStatus(
 		if err != nil {
 			return errors.Wrap(err, "update device status job error")
 		}
+
 	}
 
 	return nil

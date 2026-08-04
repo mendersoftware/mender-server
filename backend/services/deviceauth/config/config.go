@@ -87,6 +87,8 @@ const (
 	// Max Request body size
 	SettingMaxRequestSize        = "request_size_limit"
 	SettingMaxRequestSizeDefault = 1024 * 1024 // 1 MiB
+
+	SettingLegacyProvisionDevice = "legacy_provision_device"
 )
 
 var (
