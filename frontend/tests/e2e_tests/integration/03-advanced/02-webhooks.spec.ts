@@ -43,6 +43,10 @@ test.describe('Webhooks Functionality', () => {
   });
   test('shows webhook details', async ({ baseUrl, environment, page }) => {
     test.skip(environment === 'staging');
+    await page.goto(`${baseUrl}ui/settings/integrations`);
+    await page.getByText(/view details/i).click();
+    const changeEventsLocator = page.getByText(/device status updated/i);
+    const changeEvents = await changeEventsLocator.count();
     await page.goto(`${baseUrl}ui/devices`);
     await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
     await expect(page.getByText(/Device information for/i)).toBeVisible();
@@ -53,11 +57,10 @@ test.describe('Webhooks Functionality', () => {
     await page.getByText(/updated successfully/i).waitFor({ timeout: timeouts.default });
     await page.goto(`${baseUrl}ui/settings/integrations`);
     await page.getByText(/view details/i).click();
-    await page
-      .getByText(/device provisioned/i)
-      .first()
-      .click();
-    await expect(page.getByText('pubkey')).toBeVisible();
+    const changedChangeEvents = await changeEventsLocator.count();
+    expect(changedChangeEvents).toBeGreaterThan(changeEvents);
+    await changeEventsLocator.first().click();
+    await expect(page.getByText('"status": "accepted"')).toBeVisible();
     await page.getByText(/back to webhook/i).click();
   });
   test('allows deleting a webhook', async ({ baseUrl, environment, page }) => {
