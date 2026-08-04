@@ -134,9 +134,7 @@ const (
 
 // PUT /tenants/:tenant_id/devices/status/{status}
 func (h *InternalHandler) BulkSetDeviceStatus(c *gin.Context) {
-	var schema []struct {
-		DeviceID string `json:"id"`
-	}
+	var schema []internalDevice
 	status := model.Status(c.Param("status"))
 	if err := status.Validate(); err != nil {
 		rest.RenderError(c, http.StatusBadRequest, err)
@@ -162,7 +160,7 @@ func (h *InternalHandler) BulkSetDeviceStatus(c *gin.Context) {
 		},
 	)
 	for _, item := range schema {
-		_ = h.app.SetDeviceStatus(ctx, item.DeviceID, status)
+		_ = h.app.SetDeviceStatus(ctx, item.ID, status)
 	}
 	c.Status(http.StatusAccepted)
 }

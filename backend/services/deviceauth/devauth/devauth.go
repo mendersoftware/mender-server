@@ -387,6 +387,7 @@ func (d *DevAuth) handlePreAuthDevice(
 
 	if err := d.updateDeviceStatus(
 		ctx,
+		aset,
 		dev,
 		model.DevStatusAccepted,
 	); err != nil {
@@ -466,8 +467,33 @@ func (d *DevAuth) aggregateDeviceStatus(ctx context.Context, deviceID string) (s
 
 }
 
+func updateDeviceStatusEvent(
+	authSet *model.AuthSet,
+	device *model.Device,
+	status string,
+) client.DeviceAuthEvent {
+	event := client.DeviceAuthEvent{
+		Id:                   device.Id,
+		Status:               &status,
+		AdditionalProperties: map[string]any{"revision": device.Revision},
+		CreatedTs:            &device.CreatedTs,
+	}
+	if authSet != nil {
+		event.AuthSets = append(event.AuthSets, client.AuthSet{
+			Id:           &authSet.Id,
+			DeviceId:     &authSet.DeviceId,
+			IdentityData: authSet.IdDataStruct,
+			Pubkey:       &authSet.PubKey,
+			Status:       &status,
+			Ts:           authSet.Timestamp,
+		})
+	}
+	return event
+}
+
 func (d *DevAuth) updateDeviceStatus(
 	ctx context.Context,
+	authSet *model.AuthSet,
 	device *model.Device,
 	status string,
 ) error {
@@ -496,12 +522,11 @@ func (d *DevAuth) updateDeviceStatus(
 	device.Revision += 1
 	//nolint:bodyclose
 	_, _, err := d.cOrch.StartWorkflow(ctx, "update_device_status").
-		RequestBody(map[string]interface{}{
+		RequestBody(map[string]any{
 			"request_id": requestid.FromContext(ctx),
-			"devices": []model.DeviceInventoryUpdate{{
-				Id:       device.Id,
-				Revision: device.Revision,
-			}},
+			"devices": []client.DeviceAuthEvent{
+				updateDeviceStatusEvent(authSet, device, status),
+			},
 			"tenant_id":     tenantId,
 			"device_status": status,
 		}).Execute()
@@ -556,7 +581,7 @@ func (d *DevAuth) processAuthRequest(
 	}
 
 	// update the device status
-	if err := d.updateDeviceStatus(ctx, dev, status); err != nil {
+	if err := d.updateDeviceStatus(ctx, areq, dev, status); err != nil {
 		return nil, err
 	}
 
@@ -781,7 +806,7 @@ func (d *DevAuth) DeleteAuthSet(ctx context.Context, devID string, authId string
 		return fmt.Errorf("failed to update device status: %w", err)
 	}
 
-	return d.updateDeviceStatus(ctx, dev, newStatus)
+	return d.updateDeviceStatus(ctx, authSet, dev, newStatus)
 }
 
 func (d *DevAuth) deletePreauthDevice(ctx context.Context, devId string) error {
@@ -971,7 +996,7 @@ func (d *DevAuth) setAuthSetStatus(
 			return nil, nil, err
 		}
 	}
-	err = d.updateDeviceStatus(ctx, device, status)
+	err = d.updateDeviceStatus(ctx, aset, device, status)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1060,6 +1085,7 @@ func (d *DevAuth) PreauthorizeDevice(
 			if err != nil {
 				return nil, err
 			}
+			// FIXME: what about device status and iot-manager?
 			return dev, nil
 		}
 		return dev, ErrDeviceExists
@@ -1071,21 +1097,6 @@ func (d *DevAuth) PreauthorizeDevice(
 	idData := identity.FromContext(ctx)
 	if idData != nil {
 		tenantId = idData.Tenant
-	}
-
-	//nolint:bodyclose
-	_, _, err = d.cOrch.StartWorkflow(ctx, "update_device_status").
-		RequestBody(map[string]interface{}{
-			"request_id": requestid.FromContext(ctx),
-			"devices": []model.DeviceInventoryUpdate{{
-				Id:       dev.Id,
-				Revision: dev.Revision,
-			}},
-			"tenant_id":     tenantId,
-			"device_status": dev.Status,
-		}).Execute()
-	if err != nil {
-		return nil, errors.Wrap(err, "update device status job error")
 	}
 
 	// record authentication request
@@ -1106,7 +1117,21 @@ func (d *DevAuth) PreauthorizeDevice(
 		if err := d.setDeviceIdentity(ctx, dev, tenantId); err != nil {
 			return nil, err
 		}
-		return nil, nil
+		//nolint:bodyclose
+		_, _, err = d.cOrch.StartWorkflow(ctx, "update_device_status").
+			RequestBody(map[string]any{
+				"request_id": requestid.FromContext(ctx),
+				"devices": []client.DeviceAuthEvent{
+					updateDeviceStatusEvent(&authset, dev, dev.Status),
+				},
+				"tenant_id":     tenantId,
+				"device_status": dev.Status,
+			}).Execute()
+		if err != nil {
+			return nil, errors.Wrap(err, "update device status job error")
+		}
+
+		return dev, nil
 	case store.ErrObjectExists:
 		dev, err = d.db.GetDeviceByIdentityDataHash(ctx, idDataSha256)
 		if err != nil {
