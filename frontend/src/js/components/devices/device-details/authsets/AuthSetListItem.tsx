@@ -83,7 +83,11 @@ const LF = '\n';
 
 const AuthSetStatus = ({ authset, device }) => {
   if (authset.status === device.status) {
-    return <div className="capitalized">Active</div>;
+    return (
+      <Typography className="capitalized" variant="body2">
+        Active
+      </Typography>
+    );
   }
   if (authset.status === DEVICE_STATES.pending) {
     return <Chip size="small" label="New" style={{ justifySelf: 'flex-start' }} />;
@@ -206,15 +210,17 @@ const AuthsetListItem = ({ authset, classes, columns, confirm, device, isExpande
     <Accordion className={`${classes.accordion} padding-none`} square expanded={isExpanded}>
       <AccordionSummary component="div" className={`columns-${columns.length}`}>
         <AuthSetStatus authset={authset} device={device} />
-        <div className="capitalized">{authset.status}</div>
+        <Typography className="capitalized" variant="body2">
+          {authset.status}
+        </Typography>
         <Tooltip arrow title={newTier ? tierChangeTooltip(authset.tier) : undefined}>
-          <div className={`capitalized clickable flexbox align-items-center ${classes.fitContent}`}>
+          <Typography className={`capitalized clickable flexbox align-items-center ${classes.fitContent}`} component="div" variant="body2">
             {newTier && <InfoOutlinedIcon className="margin-right-x-small muted" fontSize="small" />}
             <div>{authset.tier}</div>
-          </div>
+          </Typography>
         </Tooltip>
         <div>{key}</div>
-        <Time value={formatTime(authset.ts)} />
+        <Time Component={Typography} component="time" variant="body2" value={formatTime(authset.ts)} />
         {loading === authset.id ? (
           <div>
             Updating status <Loader table={true} waiting={true} show={true} style={{ height: '4px', marginLeft: '10px' }} />

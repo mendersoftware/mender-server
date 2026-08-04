@@ -11,6 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Typography } from '@mui/material';
+
 import { defaultTextRender } from '@northern.tech/common-ui/DeviceIdentity';
 import { Link } from '@northern.tech/common-ui/Link';
 import Time, { ApproximateRelativeDate } from '@northern.tech/common-ui/Time';
@@ -22,7 +24,9 @@ import DeviceStatus from './DeviceStatus';
 
 const AttributeRenderer = ({ content, textContent }) => (
   <div title={textContent}>
-    <div className="text-overflow">{content}</div>
+    <Typography className="text-overflow" component="div" variant="body2">
+      {content}
+    </Typography>
   </div>
 );
 

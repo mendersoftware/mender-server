@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { Error as ErrorIcon, ReportProblemOutlined } from '@mui/icons-material';
-import { Avatar, Chip, Tooltip, chipClasses } from '@mui/material';
+import { Avatar, Chip, Tooltip, Typography, chipClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { DEVICE_STATES } from '@northern.tech/store/constants';
@@ -86,7 +86,9 @@ const DeviceStatus = ({ device: { auth_sets = [], flags, isOffline, monitor = {}
           <Chip className="capitalized" size="small" color={color} icon={icon} label={label} variant="outlined" />
         </Tooltip>
       ) : (
-        <div className="capitalized">{deviceStatus}</div>
+        <Typography className="capitalized" variant="body2">
+          {deviceStatus}
+        </Typography>
       )}
       {flags?.test_device && <Chip label="Test" size="small" />}
     </div>
