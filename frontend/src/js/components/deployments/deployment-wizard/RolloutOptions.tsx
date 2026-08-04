@@ -11,7 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { HelpOutlineOutlined as HelpIcon } from '@mui/icons-material';
@@ -58,14 +57,14 @@ export const RolloutOptions = ({ isEnterprise }) => {
 
   const updateControlMap = watch(deploymentFormSections.update_control_map) || { states: {} };
   const { states = {} } = updateControlMap;
-  const [isPaused, setIsPaused] = useState(!!Object.keys(states).length);
+  const isPaused = watch(deploymentFormSections.isPaused);
 
   const onStepChangeClick = step => {
     const { action } = step;
     setValue(deploymentFormSections.update_control_map, { states: { ...states, [step.state]: { action } } });
   };
 
-  const onIsPausedClick = () => setIsPaused(toggle);
+  const onIsPausedClick = () => setValue(deploymentFormSections.isPaused, toggle(isPaused));
 
   return (
     <>

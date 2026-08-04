@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Checkbox, Collapse, FormControlLabel, FormHelperText } from '@mui/material';
@@ -27,17 +27,17 @@ export const DeviceLimit = () => {
   const { setValue, watch } = useFormContext<DeploymentFormValues>();
   const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
   const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
-  const [shouldLimit, setShouldLimit] = useState(false);
+  const shouldLimit = watch(deploymentFormSections.shouldLimit);
 
   useEffect(() => {
     if (!filter) {
       setValue(deploymentFormSections.maxDevices, 0);
-      setShouldLimit(false);
+      setValue(deploymentFormSections.shouldLimit, false);
     }
   }, [filter, setValue]);
 
   const onToggleLimit = (_, checked) => {
-    setShouldLimit(checked);
+    setValue(deploymentFormSections.shouldLimit, checked);
     if (checked) {
       setValue(deploymentFormSections.maxDevices, numberDevices);
     } else {

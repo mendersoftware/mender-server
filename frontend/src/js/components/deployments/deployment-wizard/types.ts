@@ -38,6 +38,10 @@ export type DeploymentFormValues = Pick<
   'delta' | 'forceDeploy' | 'maxDevices' | 'retries' | 'phases' | 'update_control_map' | 'rolloutMode' | 'uniform_phases'
 > & {
   group: string | null;
+  // the rollout pattern & pause toggles are part of the form to let them restrict each other and get reset with it
+  isPaused: boolean;
   release: Release | null;
+  shouldLimit: boolean;
   startTime?: string;
+  usesPattern: boolean;
 };
