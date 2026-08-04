@@ -834,45 +834,19 @@ func (d *DevAuth) deleteAuthSet(ctx context.Context, authSet *model.AuthSet) err
 }
 
 func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_id string) error {
-	l := log.FromContext(ctx)
-
-	aset, err := d.db.GetAuthSetById(ctx, auth_id)
-	if err != nil {
-		if err == store.ErrAuthSetNotFound {
-			return err
-		}
-		return errors.Wrap(err, "db get auth set error")
+	var (
+		dev *model.Device
+		err error
+	)
+	if dev, _, err = d.setAuthSetStatus(
+		ctx, device_id, auth_id, model.DevStatusAccepted,
+	); err != nil {
+		return err
 	}
 
-	// device authentication set already accepted, nothing to do here
-	if aset.Status == model.DevStatusAccepted {
-		l.Debugf("Device %s already accepted", device_id)
+	if dev == nil {
+		// Status did not change
 		return nil
-	} else if aset.Status != model.DevStatusRejected && aset.Status != model.DevStatusPending {
-		// device authentication set can be accepted only from 'pending' or 'rejected' statuses
-		return ErrDevAuthBadRequest
-	}
-
-	// check the device status
-	// if the device status is accepted then do not trigger provisioning workflow
-	// this needs to be checked before changing authentication set status
-	dev, err := d.db.GetDeviceById(ctx, device_id)
-	if err != nil {
-		return err
-	}
-
-	// possible race, consider accept-count-unaccept pattern if that's problematic
-	allow, err := d.canAcceptDevice(ctx)
-	if err != nil {
-		return err
-	}
-
-	if !allow {
-		return ErrMaxDeviceCountReached
-	}
-
-	if err := d.setAuthSetStatus(ctx, device_id, auth_id, model.DevStatusAccepted); err != nil {
-		return err
 	}
 
 	if dev.Provisioned {
@@ -880,10 +854,6 @@ func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_i
 		// We're done...
 		return nil
 	}
-
-	dev.Status = model.DevStatusAccepted
-	aset.Status = model.DevStatusAccepted
-	dev.AuthSets = []model.AuthSet{*aset}
 
 	reqId := requestid.FromContext(ctx)
 
@@ -897,7 +867,7 @@ func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_i
 	_, _, err = d.cOrch.StartWorkflow(ctx, "provision_device").
 		RequestBody(map[string]interface{}{
 			"request_id": reqId,
-			"device_id":  aset.DeviceId,
+			"device_id":  dev.Id,
 			"tenant_id":  tenantID,
 			"device":     dev,
 			"status":     dev.Status,
@@ -914,30 +884,61 @@ func (d *DevAuth) setAuthSetStatus(
 	deviceID string,
 	authID string,
 	status string,
-) error {
+) (*model.Device, *model.AuthSet, error) {
 	aset, err := d.db.GetAuthSetById(ctx, authID)
 	if err != nil {
 		if err == store.ErrAuthSetNotFound {
-			return err
+			return nil, nil, err
 		}
-		return errors.Wrap(err, "db get auth set error")
+		return nil, nil, errors.Wrap(err, "db get auth set error")
 	}
 
 	if aset.DeviceId != deviceID {
-		return ErrDevIdAuthIdMismatch
+		return nil, nil, ErrDevIdAuthIdMismatch
 	}
 
 	if aset.Status == status {
-		return nil
+		return nil, aset, nil
 	}
 
-	if aset.Status == model.DevStatusAccepted &&
-		(status == model.DevStatusRejected || status == model.DevStatusPending) {
+	// Validate status transition
+	switch status {
+	case model.DevStatusAccepted:
+		if aset.Status != model.DevStatusRejected &&
+			aset.Status != model.DevStatusPending {
+			return nil, nil, ErrDevAuthBadRequest
+		}
+		allow, err := d.canAcceptDevice(ctx)
+		if err != nil {
+			return nil, nil, err
+		}
+		if !allow {
+			return nil, nil, ErrMaxDeviceCountReached
+		}
+	case model.DevStatusPending:
+		if aset.Status == model.DevStatusPreauth {
+			return nil, nil, ErrDevAuthBadRequest
+		}
+	case model.DevStatusRejected:
+		if aset.Status != model.DevStatusPending &&
+			aset.Status != model.DevStatusAccepted {
+			return nil, nil, ErrDevAuthBadRequest
+		}
+	default:
+		return nil, nil, ErrDevAuthBadRequest
+	}
+
+	if aset.Status == model.DevStatusAccepted {
+		err = d.cacheDeleteToken(ctx, deviceID)
+		if err != nil {
+			return nil, nil, errors.Wrapf(err,
+				"failed to delete token for %s from cache", deviceID)
+		}
 		deviceOID := oid.FromString(aset.DeviceId)
 		// delete device token
 		err := d.db.DeleteTokenByDevId(ctx, deviceOID)
 		if err != nil && err != store.ErrTokenNotFound {
-			return errors.Wrap(err, "db delete device token error")
+			return nil, nil, errors.Wrap(err, "db delete device token error")
 		}
 	}
 
@@ -946,61 +947,43 @@ func (d *DevAuth) setAuthSetStatus(
 		// reject all accepted auth sets for this device first
 		err := d.db.RejectAuthSetsForDevice(ctx, deviceID, aset.Id)
 		if err != nil && err != store.ErrAuthSetNotFound {
-			return errors.Wrap(err, "failed to reject auth sets")
+			return nil, nil, errors.Wrap(err, "failed to reject auth sets")
 		}
 	}
 
 	if err := d.db.UpdateAuthSetById(ctx, aset.Id, model.AuthSetUpdate{
 		Status: status,
 	}); err != nil {
-		return errors.Wrap(err, "db update device auth set error")
+		return nil, nil, errors.Wrap(err, "db update device auth set error")
 	}
 
 	device, err := d.db.GetDeviceById(ctx, deviceID)
 	if err != nil {
-		return err
+		return nil, nil, err
 	}
 	if status != model.DevStatusAccepted {
 		status, err = d.aggregateDeviceStatus(ctx, deviceID)
 		if err != nil {
-			return err
+			return nil, nil, err
 		}
 	}
-	return d.updateDeviceStatus(ctx, device, status)
+	err = d.updateDeviceStatus(ctx, device, status)
+	if err != nil {
+		return nil, nil, err
+	}
+	device.Status = status
+	aset.Status = status
+	return device, aset, nil
 }
 
 func (d *DevAuth) RejectDeviceAuth(ctx context.Context, device_id string, auth_id string) error {
-	aset, err := d.db.GetAuthSetById(ctx, auth_id)
-	if err != nil {
-		if err == store.ErrAuthSetNotFound {
-			return err
-		}
-		return errors.Wrap(err, "db get auth set error")
-	} else if aset.Status != model.DevStatusPending && aset.Status != model.DevStatusAccepted {
-		// device authentication set can be rejected only from 'accepted' or 'pending' statuses
-		return ErrDevAuthBadRequest
-	}
-
-	err = d.cacheDeleteToken(ctx, device_id)
-	if err != nil {
-		return errors.Wrapf(err, "failed to delete token for %s from cache", device_id)
-	}
-
-	return d.setAuthSetStatus(ctx, device_id, auth_id, model.DevStatusRejected)
+	_, _, err := d.setAuthSetStatus(ctx, device_id, auth_id, model.DevStatusRejected)
+	return err
 }
 
 func (d *DevAuth) ResetDeviceAuth(ctx context.Context, device_id string, auth_id string) error {
-	aset, err := d.db.GetAuthSetById(ctx, auth_id)
-	if err != nil {
-		if err == store.ErrAuthSetNotFound {
-			return err
-		}
-		return errors.Wrap(err, "db get auth set error")
-	} else if aset.Status == model.DevStatusPreauth {
-		// preauthorized auth set should not go into pending state
-		return ErrDevAuthBadRequest
-	}
-	return d.setAuthSetStatus(ctx, device_id, auth_id, model.DevStatusPending)
+	_, _, err := d.setAuthSetStatus(ctx, device_id, auth_id, model.DevStatusPending)
+	return err
 }
 
 func parseIdData(idData string) (map[string]interface{}, []byte, error) {
