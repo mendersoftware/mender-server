@@ -162,13 +162,22 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
   return (
     <>
       <FormControlLabel
-        control={<Checkbox color="primary" checked={usesPattern} disabled={!isEnterprise || isEmptyGroup} onChange={onUsesPatternClick} size="small" />}
+        control={
+          <Checkbox
+            className="margin-left-small"
+            color="primary"
+            checked={usesPattern}
+            disabled={!isEnterprise || isEmptyGroup}
+            onChange={onUsesPatternClick}
+            size="small"
+          />
+        }
         label={
           <div className="flexbox align-items-center">
             Select a rollout pattern
-            <DocsTextLink className="margin-left-x-small" id={DOCSTIPS.phasedDeployments.id} />
             <InfoHintContainer>
               <EnterpriseNotification id={BENEFITS.phasedDeployments.id} />
+              <DocsTextLink id={DOCSTIPS.phasedDeployments.id} />
             </InfoHintContainer>
           </div>
         }

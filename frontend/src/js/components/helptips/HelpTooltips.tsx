@@ -179,13 +179,6 @@ const GroupDeployment = () => (
   <>The deployment will skip any devices in the group that are already on the target Release version, or that have an incompatible device type.</>
 );
 
-const ForceDeployment = () => (
-  <>
-    <h3>Force update</h3>
-    <p>This will make the Mender client install the update even if the selected release is already installed.</p>
-  </>
-);
-
 const ArtifactUpload = () => (
   <>
     Upload a premade Mender Artifact or create one from a single file.
@@ -337,7 +330,6 @@ export const HELPTOOLTIPS: Record<string, HelpTooltipComponent> = {
   deviceSupportTip: { id: 'deviceSupportTip', Component: DeviceSupportTip },
   deviceTypeTip: { id: 'deviceTypeTip', Component: DeviceTypeTip },
   expandArtifact: { id: 'expandArtifact', Component: ExpandArtifact },
-  forceDeployment: { id: 'forceDeployment', Component: ForceDeployment },
   groupDeployment: { id: 'groupDeployment', Component: GroupDeployment },
   microDevice: { id: 'microDevice', Component: MCUDevice },
   manifestUpload: { id: 'manifestUpload', Component: ManifestUpload },

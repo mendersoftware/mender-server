@@ -17,7 +17,7 @@ import { Add as AddIcon, ArrowRight as ArrowRightIcon, PauseCircleOutlined as Pa
 import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import DocsLink from '@northern.tech/common-ui/DocsLink';
+import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import InfoText from '@northern.tech/common-ui/InfoText';
 import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import { TIMEOUTS } from '@northern.tech/store/constants';
@@ -153,7 +153,7 @@ export const RolloutStepsContainer = ({ className = '', disabled, onStepChange, 
         <InfoText>
           A &apos;pause&apos; means each device will pause its update after completing the previous step, and wait for approval before continuing.
           <br />
-          You can grant approval by clicking &quot;continue&quot; in the deployment progress UI. <DocsLink path="" title="Learn more" />
+          You can grant approval by clicking &quot;continue&quot; in the deployment progress UI. <DocsTextLink id={DOCSTIPS.pausedDeployments.id} />
         </InfoText>
       )}
     </div>

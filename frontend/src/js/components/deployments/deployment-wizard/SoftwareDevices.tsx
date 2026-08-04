@@ -17,11 +17,10 @@ import { useSelector } from 'react-redux';
 
 import { ErrorOutlined as ErrorOutlineIcon } from '@mui/icons-material';
 import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
-import { Alert, Button, TextField, Tooltip, Typography } from '@mui/material';
+import { Alert, Button, FormHelperText, TextField, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { getDeviceIdentityText } from '@northern.tech/common-ui/DeviceIdentity';
-import InfoText from '@northern.tech/common-ui/InfoText';
 import { Link } from '@northern.tech/common-ui/Link';
 import { ControlledAutoComplete } from '@northern.tech/common-ui/forms/Autocomplete';
 import { ALL_DEVICES, ATTRIBUTE_SCOPES, DEPLOYMENT_TYPES, DEVICE_FILTERING_OPTIONS, DEVICE_STATES } from '@northern.tech/store/constants';
@@ -46,7 +45,8 @@ const useStyles = makeStyles()(theme => ({
     minWidth: 400,
     borderBottom: 'none'
   },
-  selection: { minWidth: 'min-content', maxWidth: theme.spacing(50), minHeight: 96 },
+  selection: { minWidth: 'min-content', maxWidth: theme.spacing(50) },
+  textField: { minWidth: 400 },
   releaseSelect: { maxWidth: '400px', minWidth: '235px' },
   releaseSelectText: { minWidth: 0, flexGrow: 1 }
 }));
@@ -116,13 +116,13 @@ export const getDeploymentTargetText = ({ deployment, devicesById, idAttribute }
 };
 
 export const ReleasesWarning = ({ lacksReleases }) => (
-  <div className="flexbox align-items-center">
-    <ErrorOutlineIcon fontSize="small" style={{ marginRight: 4, top: 4, color: 'rgb(171, 16, 0)' }} />
-    <InfoText>
+  <FormHelperText className="flexbox align-items-center">
+    <ErrorOutlineIcon className=" margin-right-x-small" fontSize="small" color="error" />
+    <span>
       There are no {lacksReleases ? 'compatible ' : ''}artifacts available.{lacksReleases ? <br /> : ' '}
       <Link to="/software">Upload one to the repository</Link> to get started.
-    </InfoText>
-  </div>
+    </span>
+  </FormHelperText>
 );
 
 export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDynamicGroups, hasPending, idAttribute, initialDevices = [] }) => {
@@ -145,12 +145,7 @@ export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDyna
       targetDeviceCount = 1;
     } else if (group) {
       deviceText = '';
-      targetDevicesText = 'All devices';
-      targetDeviceCount = 2;
-      if (group !== ALL_DEVICES) {
-        targetDevicesText = `${targetDevicesText} in this group`;
-        targetDeviceCount = deploymentDeviceCount;
-      }
+      targetDevicesText = `Estimate ${targetDevicesText}`;
     }
     return { deviceText, devicesLink, targetDeviceCount, targetDevicesText };
   }, [devices, filter, group, devicesById, idAttribute, deploymentDeviceCount, device]);
@@ -160,7 +155,7 @@ export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDyna
       <Typography variant="subtitle1" className="margin-bottom-x-small">
         Select a device group to target
       </Typography>
-      <div ref={groupRef} className={classes.selection}>
+      <div ref={groupRef} className={`margin-bottom ${classes.selection}`}>
         {deviceText ? (
           <TextField value={deviceText} label={pluralize('device', devices.length)} disabled className={classes.infoStyle} />
         ) : (
@@ -177,26 +172,28 @@ export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDyna
               renderInput={params => <TextField {...params} placeholder="Select a device group" className={classes.textField} />}
             />
             {!(hasDevices || hasDynamicGroups) && (
-              <InfoText style={{ marginTop: '10px' }}>
-                <ErrorOutlineIcon style={{ marginRight: '4px', fontSize: '18px', top: '4px', color: 'rgb(171, 16, 0)', position: 'relative' }} />
-                There are no connected devices.{' '}
-                {hasPending ? (
-                  <span>
-                    <Link to="/devices/pending">Accept pending devices</Link> to get started.
-                  </span>
-                ) : (
-                  <span>
-                    <Link to="/help/get-started">Read the help pages</Link> for help with connecting devices.
-                  </span>
-                )}
-              </InfoText>
+              <FormHelperText className="margin-left-small flexbox">
+                <ErrorOutlineIcon className="margin-top-x-small margin-right-x-small" fontSize="small" color="error" />
+                <span>
+                  There are no connected devices.{' '}
+                  {hasPending ? (
+                    <>
+                      <Link to="/devices/pending">Accept pending devices</Link> to get started.
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/help/get-started">Read the help pages</Link> for help with connecting devices.
+                    </>
+                  )}
+                </span>
+              </FormHelperText>
             )}
           </div>
         )}
         {!!targetDeviceCount && (
-          <InfoText>
+          <FormHelperText className="margin-left-small">
             {targetDevicesText} will be targeted. <Link to={devicesLink}>View the {pluralize('devices', targetDeviceCount)}</Link>
-          </InfoText>
+          </FormHelperText>
         )}
       </div>
     </>
@@ -253,36 +250,33 @@ export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, re
         <Typography variant="subtitle1">Select software to deploy</Typography>
         <MenderHelpTooltip className="margin-left-small" small id={HELPTOOLTIPS.groupDeployment.id} />
       </div>
-      <div className={commonClasses.columns}>
-        <div ref={releaseRef} className={classes.selection}>
-          {releaseSelectionLocked ? (
-            <TextField value={deploymentRelease?.name} label="Software" disabled className={classes.infoStyle} />
-          ) : (
-            <>
-              <SoftwareArtifactFilter
-                onSelect={onReleaseSelectionChange}
-                selectedSoftware={deploymentRelease?.name}
-                open={releaseFilterOpened}
-                onClose={() => setReleaseFilterOpened(false)}
-              />
-              <Button
-                size="large"
-                color="neutral"
-                variant="outlined"
-                className={classes.releaseSelect}
-                endIcon={releaseFilterOpened ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                onClick={() => setReleaseFilterOpened(!releaseFilterOpened)}
-              >
-                <span className={`${classes.releaseSelectText} text-overflow`}>{deploymentRelease?.name ?? 'Select software'}</span>
-              </Button>
-            </>
-          )}
-          {!releaseItems.length ? (
-            <ReleasesWarning lacksReleases />
-          ) : (
-            !!compatibleTypes.length && <InfoText style={{ marginBottom: 0 }}>This software is compatible with {devicetypesInfo}.</InfoText>
-          )}
-        </div>
+      <div ref={releaseRef} className={`margin-bottom ${classes.selection}`}>
+        {releaseSelectionLocked ? (
+          <TextField value={deploymentRelease?.name} label="Software" disabled className={classes.infoStyle} />
+        ) : (
+          <>
+            <SoftwareArtifactFilter
+              onSelect={onReleaseSelectionChange}
+              selectedSoftware={deploymentRelease?.name}
+              open={releaseFilterOpened}
+              onClose={() => setReleaseFilterOpened(false)}
+            />
+            <Button
+              size="large"
+              variant="outlined"
+              className={classes.releaseSelect}
+              endIcon={releaseFilterOpened ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              onClick={() => setReleaseFilterOpened(!releaseFilterOpened)}
+            >
+              <span className={`${classes.releaseSelectText} text-overflow`}>{deploymentRelease?.name ?? 'Select software'}</span>
+            </Button>
+          </>
+        )}
+        {!releaseItems.length ? (
+          <ReleasesWarning lacksReleases />
+        ) : (
+          !!compatibleTypes.length && <FormHelperText className="margin-left-small">This software is compatible with {devicetypesInfo}.</FormHelperText>
+        )}
       </div>
       {showSizeWarning && (
         <div className={`margin-bottom-large ${commonClasses.columns}`}>
