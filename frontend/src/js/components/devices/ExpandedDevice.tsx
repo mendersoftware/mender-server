@@ -15,7 +15,6 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Tab, Tabs, Typography } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
@@ -23,15 +22,14 @@ import { RelativeTime } from '@northern.tech/common-ui/Time';
 import storeActions from '@northern.tech/store/actions';
 import { DEVICE_STATES, EXTERNAL_PROVIDER, TIMEOUTS, yes } from '@northern.tech/store/constants';
 import {
-  getDeviceConfigDeployment,
+  getDeviceById,
   getDeviceTwinIntegrations,
   getGlobalSettings,
   getSelectedGroupInfo,
   getTenantCapabilities,
-  getUserCapabilities,
-  getUserSettings
+  getUserCapabilities
 } from '@northern.tech/store/selectors';
-import { decommissionDevice, getDeviceInfo, saveGlobalSettings } from '@northern.tech/store/thunks';
+import { decommissionDevice, getDeviceInfo } from '@northern.tech/store/thunks';
 import copy from 'copy-to-clipboard';
 
 import DeviceConfiguration from './device-details/Configuration';
@@ -47,12 +45,6 @@ import DeviceNotifications from './device-details/Notifications';
 import DeviceQuickActions from './widgets/DeviceQuickActions';
 
 const { setSnackbar } = storeActions;
-
-const useStyles = makeStyles()(theme => ({
-  deviceConnection: {
-    marginRight: theme.spacing(2)
-  }
-}));
 
 const refreshDeviceLength = TIMEOUTS.refreshDefault;
 
@@ -118,13 +110,11 @@ const tabs = [
 
 export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsTab, tabSelection }) => {
   const timer = useRef();
-  const { classes } = useStyles();
 
   const { latest: latestAlerts = [] } = useSelector(state => state.monitor.alerts.byDeviceId[deviceId]) || {};
   const { selectedGroup, groupFilters = [] } = useSelector(getSelectedGroupInfo);
-  const { columnSelection = [] } = useSelector(getUserSettings);
   const { defaultDeviceConfig: defaultConfig } = useSelector(getGlobalSettings);
-  const { device, deviceConfigDeployment } = useSelector(state => getDeviceConfigDeployment(state, deviceId));
+  const device = useSelector(state => getDeviceById(state, deviceId));
   const integrations = useSelector(getDeviceTwinIntegrations);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
@@ -166,21 +156,13 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
   const { component: SelectedTab, value: selectedTab } = availableTabs.find(tab => tab.value === tabSelection) ?? tabs[0];
 
   const dispatchedSetSnackbar = useCallback((...args) => dispatch(setSnackbar(...args)), [dispatch]);
-  const dispatchedSaveGlobalSettings = useCallback(settings => dispatch(saveGlobalSettings(settings)), [dispatch]);
 
   const commonProps = {
-    classes,
-    columnSelection,
     defaultConfig,
     device,
-    deviceConfigDeployment,
     integrations,
-    latestAlerts,
     onDecommissionDevice,
-    saveGlobalSettings: dispatchedSaveGlobalSettings,
-    setDetailsTab,
     setSnackbar: dispatchedSetSnackbar,
-    tenantCapabilities,
     userCapabilities
   };
   return (
