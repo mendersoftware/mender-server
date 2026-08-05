@@ -38,6 +38,7 @@ import DeviceConfiguration from './device-details/Configuration';
 import TroubleshootTab from './device-details/Connection';
 import Deployments from './device-details/Deployments';
 import DeviceInventory from './device-details/DeviceInventory';
+import { DeviceSystem } from './device-details/DeviceSystem';
 import { IntegrationTab } from './device-details/DeviceTwin';
 import { IdentityTab } from './device-details/Identity';
 import InstalledSoftware from './device-details/InstalledSoftware';
@@ -64,6 +65,12 @@ const tabs = [
     title: () => 'Inventory',
     value: 'inventory',
     isApplicable: deviceStatusCheck
+  },
+  {
+    component: DeviceSystem,
+    title: () => 'System',
+    value: 'system',
+    isApplicable: args => args.device.tier === 'system' && deviceStatusCheck(args)
   },
   {
     component: InstalledSoftware,
@@ -154,12 +161,7 @@ export const ExpandedDevice = ({ actionCallbacks, deviceId, onClose, setDetailsT
     }
   }, [deviceId, onClose]);
 
-  const availableTabs = tabs.reduce((accu, tab) => {
-    if (tab.isApplicable({ device, integrations, tenantCapabilities, userCapabilities })) {
-      accu.push(tab);
-    }
-    return accu;
-  }, []);
+  const availableTabs = tabs.filter(tab => tab.isApplicable({ device, integrations, tenantCapabilities, userCapabilities }));
 
   const { component: SelectedTab, value: selectedTab } = availableTabs.find(tab => tab.value === tabSelection) ?? tabs[0];
 
