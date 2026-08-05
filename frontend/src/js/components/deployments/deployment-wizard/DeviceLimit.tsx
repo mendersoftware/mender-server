@@ -21,10 +21,11 @@ import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 
 import type { DeploymentFormValues } from './types';
-import { deploymentFormSections, useDerivedData } from './utils';
+import { deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
 
 export const DeviceLimit = () => {
-  const { setValue, watch } = useFormContext<DeploymentFormValues>();
+  const { watch } = useFormContext<DeploymentFormValues>();
+  const setValue = useValidatedSetValue();
   const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
   const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
   const shouldLimit = watch(deploymentFormSections.shouldLimit);

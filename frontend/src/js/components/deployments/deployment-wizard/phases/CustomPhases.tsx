@@ -15,13 +15,13 @@ import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Add as AddIcon, Close as CancelIcon, RepeatOutlined as RepeatIcon } from '@mui/icons-material';
-import { Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Button, FormHelperText, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 
 import Time from '@northern.tech/common-ui/Time';
 import type { Filter } from '@northern.tech/types/MenderTypes';
 
 import type { DeploymentFormValues } from '../types';
-import { deploymentFormSections, getPhaseStartTime } from '../utils';
+import { deploymentFormSections, getPhaseStartTime, useValidatedSetValue } from '../utils';
 import { BatchSizeInput, DelayInput } from './Input';
 import type { RolloutMode } from './constants';
 import { delayDefaults, delayUnits, phaseDefaults, rolloutModes } from './constants';
@@ -57,7 +57,12 @@ const evenSplitThreshold = 50;
 const tableHeaders = ['Phases', 'Batch size', 'Phase begins', 'Delay before next phase', ''];
 
 export const CustomPhaseTable = ({ filter, deploymentDeviceCount }: { deploymentDeviceCount: number; filter?: Filter }) => {
-  const { watch, setValue, getValues } = useFormContext<DeploymentFormValues>();
+  const {
+    formState: { errors },
+    watch,
+    getValues
+  } = useFormContext<DeploymentFormValues>();
+  const setValue = useValidatedSetValue();
 
   const phases: Array<UiDeploymentPhase> = watch(deploymentFormSections.phases) || [];
   const rolloutMode: RolloutMode = watch(deploymentFormSections.rolloutMode) || rolloutModes.percentage.key;
@@ -226,6 +231,7 @@ export const CustomPhaseTable = ({ filter, deploymentDeviceCount }: { deployment
       <Button className="margin-bottom-x-small margin-top-small" color="info" variant="outlined" startIcon={<AddIcon />} onClick={addPhase}>
         Add a phase
       </Button>
+      {!!errors.phases && <FormHelperText error>{errors.phases.message}</FormHelperText>}
     </>
   );
 };

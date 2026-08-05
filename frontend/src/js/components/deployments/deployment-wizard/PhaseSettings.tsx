@@ -42,7 +42,7 @@ import type { RolloutMode, RolloutPattern } from './phases/constants';
 import { delayDefaults, delayUnits, phaseDefaults, phaseLimits, rolloutModes, rolloutPatterns as rolloutPatternDefinitions } from './phases/constants';
 import { getPhasesMessage, toPhaseDescription } from './phases/utils';
 import type { DeploymentFormValues } from './types';
-import { deploymentFormSections, useDerivedData } from './utils';
+import { deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
 
 const useStyles = makeStyles()(theme => ({
   container: {
@@ -81,7 +81,8 @@ interface RolloutPatternSelectionProps {
 }
 
 export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: RolloutPatternSelectionProps) => {
-  const { watch, setValue, getValues } = useFormContext<DeploymentFormValues>();
+  const { watch, getValues } = useFormContext<DeploymentFormValues>();
+  const setValue = useValidatedSetValue();
   const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
   const phases = watch(deploymentFormSections.phases) || [];
   const rolloutMode: RolloutMode = watch(deploymentFormSections.rolloutMode) || rolloutModes.percentage.key;

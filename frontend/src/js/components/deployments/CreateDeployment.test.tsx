@@ -17,7 +17,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { defaultState, render } from '@/testUtils';
+import GeneralApi from '@northern.tech/store/api/general-api';
+import { ALL_DEVICES } from '@northern.tech/store/constants';
 import { undefineds } from '@northern.tech/testing/mockData';
+import { act, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import CreateDeployment, { defaultValues as formDefaultValues } from './CreateDeployment';
@@ -26,6 +30,7 @@ import { RolloutPatternSelection } from './deployment-wizard/PhaseSettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/RolloutOptions';
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
+import { deploymentErrors } from './deployment-wizard/validation';
 
 const FormWrapper = ({ children, defaultValues = {} }) => {
   const methods = useForm({
@@ -101,6 +106,78 @@ describe('CreateDeployment Component', () => {
         expect(view).toEqual(expect.not.stringMatching(undefineds));
         expect(view).toBeTruthy();
       });
+    });
+  });
+
+  describe('validation', () => {
+    it('accepts a click on an incomplete deployment & points out what is missing', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      const onScheduleSubmit = vi.fn();
+      render(<CreateDeployment deploymentObject={{}} onScheduleSubmit={onScheduleSubmit} onValuesChange={vi.fn()} open />, { preloadedState });
+      const submitButton = screen.getByRole('button', { name: /create deployment/i });
+      expect(submitButton).toBeEnabled();
+      await user.click(submitButton);
+      await waitFor(() => expect(screen.getByText(deploymentErrors.release)).toBeVisible());
+      expect(screen.getByText(deploymentErrors.group)).toBeVisible();
+      expect(onScheduleSubmit).not.toHaveBeenCalled();
+    });
+
+    it('drops an error once its field is taken care of', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      render(<CreateDeployment deploymentObject={{}} onValuesChange={vi.fn()} open />, { preloadedState });
+      await user.click(screen.getByRole('button', { name: /create deployment/i }));
+      await waitFor(() => expect(screen.getByText(deploymentErrors.group)).toBeVisible());
+      const groupSelect = screen.getByPlaceholderText(/select a device group/i);
+      await user.type(groupSelect, 'testGroupDyn');
+      await user.keyboard('{ArrowDown}{Enter}');
+      await waitFor(() => expect(screen.queryByText(deploymentErrors.group)).toBeFalsy());
+      expect(screen.getByText(deploymentErrors.release)).toBeVisible();
+    });
+
+    it('applies a schedule even without a rollout pattern', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      // scheduling is plan gated, so the plain preloadedState would leave the schedule selection disabled
+      const enterpriseState = {
+        ...defaultState,
+        app: { ...defaultState.app, features: { ...defaultState.app.features, isEnterprise: true } }
+      };
+      render(
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <CreateDeployment
+            deploymentObject={{ group: ALL_DEVICES, release: defaultState.releases.byId.r1 }}
+            onScheduleSubmit={vi.fn()}
+            onValuesChange={vi.fn()}
+            open
+          />
+        </LocalizationProvider>,
+        { preloadedState: enterpriseState }
+      );
+      await user.click(screen.getByText(/start immediately/i));
+      await user.click(await screen.findByRole('option', { name: /schedule the start date/i }));
+      await user.click(await screen.findByRole('gridcell', { name: '28' }));
+      await user.click(screen.getByRole('button', { name: 'Next' }));
+      await user.click(await screen.findByRole('button', { name: /ok/i }));
+      // let the picker dialog finish its exit transition to give the drawer back its visibility
+      await act(async () => vi.runOnlyPendingTimers());
+      const post = vi.spyOn(GeneralApi, 'post');
+      await user.click(screen.getByRole('button', { name: /create deployment/i }));
+      await waitFor(() =>
+        expect(post).toHaveBeenCalledWith(
+          '/api/management/v1/deployments/deployments',
+          expect.objectContaining({ phases: [{ batch_size: 100, start_ts: expect.stringMatching(/^2019-01-28/) }] })
+        )
+      );
+    });
+
+    it('expands the advanced options to show an error hidden in them', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      const phases = [{ batch_size: 50, delay: 2, delayUnit: 'hours' }, { batch_size: 55, delay: 2, delayUnit: 'hours' }, { batch_size: 95 }];
+      render(<CreateDeployment deploymentObject={{ phases }} onValuesChange={vi.fn()} open />, { preloadedState });
+      const accordionToggle = screen.getByRole('button', { name: /advanced options/i });
+      expect(accordionToggle).toHaveAttribute('aria-expanded', 'false');
+      await user.click(screen.getByRole('button', { name: /create deployment/i }));
+      await waitFor(() => expect(accordionToggle).toHaveAttribute('aria-expanded', 'true'));
+      expect(screen.getByText(deploymentErrors.phases)).toBeVisible();
     });
   });
 });
