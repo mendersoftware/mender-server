@@ -19,7 +19,7 @@ import { Button, FormHelperText, IconButton, Table, TableBody, TableCell, TableH
 import Time from '@northern.tech/common-ui/Time';
 
 import type { DeploymentFormValues } from '../types';
-import { deploymentFormSections, getPhaseStartTime } from '../utils';
+import { deploymentFormSections, getPhaseStartTime, useValidatedSetValue } from '../utils';
 import { BatchSizeInput, DelayInput } from './Input';
 import type { DelayUnit, RolloutMode } from './constants';
 import { delayDefaults, phaseDefaults, rolloutModes } from './constants';
@@ -34,9 +34,9 @@ export const CustomPhaseTable = ({ classes = {}, filter, deploymentDeviceCount }
   const {
     control,
     formState: { errors },
-    setValue,
     watch
   } = useFormContext<DeploymentFormValues>();
+  const setValue = useValidatedSetValue();
   const { fields, append, insert, remove, replace } = useFieldArray({ control, name: deploymentFormSections.phases });
 
   const phases: Array<PhaseDefinition> = watch(deploymentFormSections.phases) || [];

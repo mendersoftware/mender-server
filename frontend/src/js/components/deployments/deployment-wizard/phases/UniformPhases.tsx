@@ -13,14 +13,14 @@
 //    limitations under the License.
 import { useFormContext } from 'react-hook-form';
 
-import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { FormHelperText, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 
 import Time from '@northern.tech/common-ui/Time';
 import dayjs from 'dayjs';
 import pluralize from 'pluralize';
 
 import type { DeploymentFormValues } from '../types';
-import { deploymentFormSections, getPhaseStartTime } from '../utils';
+import { deploymentFormSections, getPhaseStartTime, useValidatedSetValue } from '../utils';
 import { BatchSizeInput, DelayInput } from './Input';
 import type { DelayUnit, RolloutMode } from './constants';
 import { delayDefaults, phaseDefaults, phaseLimits, rolloutModes } from './constants';
@@ -60,7 +60,11 @@ const PhasesSummary = ({ deviceCount, delay, delayUnit, filter, isPercentageMode
 };
 
 export const UniformPhaseSettings = ({ classes = {}, filter, deploymentDeviceCount }: ActivePhaseComponentProps) => {
-  const { setValue, watch } = useFormContext<DeploymentFormValues>();
+  const {
+    formState: { errors },
+    watch
+  } = useFormContext<DeploymentFormValues>();
+  const setValue = useValidatedSetValue();
   const rolloutMode: RolloutMode = watch(deploymentFormSections.rolloutMode) || rolloutModes.percentage.key;
   const phases: Array<PhaseDefinition> = watch(deploymentFormSections.phases) || [];
   const configuredStartTime = watch(deploymentFormSections.startTime);
@@ -133,6 +137,7 @@ export const UniformPhaseSettings = ({ classes = {}, filter, deploymentDeviceCou
           </TableRow>
         </TableBody>
       </Table>
+      {!!errors.phases && <FormHelperText error>{errors.phases.message}</FormHelperText>}
       <PhasesSummary
         batchSize={batchSize}
         filter={filter}

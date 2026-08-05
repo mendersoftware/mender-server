@@ -11,8 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { UseFormWatch } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import { ALL_DEVICES } from '@northern.tech/store/constants';
 import { getDeviceCountsByStatus, getDevicesById, getGroupData } from '@northern.tech/store/selectors';
@@ -85,6 +86,16 @@ export const buildPhasePayload = ({
     return { phases: [{ batch_size: phaseLimits.fullBatchPercentage, start_ts: startTime }], uniform_phases: undefined };
   }
   return { phases: undefined, uniform_phases: undefined };
+};
+
+// most of the form is written through setValue, which doesn't re-run the validation unless it is told to - and it has
+// to, so that an error the user just resolved goes away right away instead of lingering until the next submit attempt
+export const useValidatedSetValue = () => {
+  const {
+    formState: { isSubmitted },
+    setValue
+  } = useFormContext();
+  return useCallback((name, value) => setValue(name, value, { shouldValidate: isSubmitted }), [isSubmitted, setValue]);
 };
 
 export type DeploymentDerivedState = {

@@ -26,7 +26,7 @@ import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 import { BENEFITS } from '@northern.tech/store/constants';
 
 import RolloutSteps from './RolloutSteps';
-import { deploymentFormSections } from './utils';
+import { deploymentFormSections, useValidatedSetValue } from './utils';
 
 const useStyles = makeStyles()(() => ({
   wrapper: { minHeight: 300 }
@@ -49,7 +49,8 @@ export const ForceDeploy = () => {
 
 export const RolloutOptions = ({ isEnterprise }) => {
   const { classes } = useStyles();
-  const { watch, setValue } = useFormContext();
+  const { watch } = useFormContext();
+  const setValue = useValidatedSetValue();
 
   const phases = watch(deploymentFormSections.phases) || [];
   const release = watch(deploymentFormSections.release) || {};
@@ -89,7 +90,7 @@ export const RolloutOptions = ({ isEnterprise }) => {
   );
 };
 
-const maxDeploymentRetries = 100;
+export const maxDeploymentRetries = 100;
 
 export const Retries = ({ canManageUsers, canRetry, commonClasses, defaultRetries }) => (
   <>
@@ -102,7 +103,8 @@ export const Retries = ({ canManageUsers, canRetry, commonClasses, defaultRetrie
       </InfoHintContainer>
     </div>
     <div className="flexbox align-items-center margin-top-x-small margin-bottom-small">
-      <NumberInput id={deploymentFormSections.retries} disabled={!canRetry} min={1} max={maxDeploymentRetries} showSteps size="small" width={120} />
+      {/* input validation needs to be handled via validation.ts due to the cross form checks */}
+      <NumberInput id={deploymentFormSections.retries} disabled={!canRetry} min={0} max={maxDeploymentRetries} showSteps size="small" width={120} />
       <Tooltip arrow placement="top" title={`Default is ${defaultRetries + 1}. This can be changed in the global settings`}>
         <HelpIcon className="margin-left-x-small margin-right-x-small" color="action" />
       </Tooltip>
