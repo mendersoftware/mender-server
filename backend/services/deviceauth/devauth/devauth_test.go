@@ -768,7 +768,6 @@ func TestDevAuthSubmitAuthRequestPreauth(t *testing.T) {
 			res: "dummytoken",
 			expectedWorkflows: map[string]error{
 				"update_device_status":    nil,
-				"provision_device":        nil,
 				"update_device_inventory": nil,
 			},
 		},
