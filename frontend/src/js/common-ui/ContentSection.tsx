@@ -22,10 +22,11 @@ interface ContentSectionProps {
   isAddOn?: boolean;
   postTitle?: ReactNode;
   title: string;
+  titleEnd?: ReactNode;
 }
 
 const useStyles = makeStyles()(theme => ({
-  title: {
+  titleGroup: {
     display: 'grid',
     gridAutoFlow: 'column',
     gridAutoColumns: 'max-content',
@@ -35,17 +36,18 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-export const ContentSection = ({ children, className = '', isAddOn = false, postTitle, title }: ContentSectionProps) => {
+export const ContentSection = ({ children, className = '', isAddOn = false, postTitle, title, titleEnd }: ContentSectionProps) => {
   const { classes } = useStyles();
 
   return (
     <div className={`margin-bottom-medium margin-top-small ${className}`}>
       <div className="flexbox space-between">
-        <div className={`margin-bottom-x-small ${classes.title}`}>
+        <div className={`margin-bottom-x-small ${classes.titleGroup}`}>
           <Typography variant="subtitle1">{title}</Typography>
           {postTitle}
         </div>
         {isAddOn && <Chip label="Add-on" />}
+        {titleEnd && <div className={`margin-bottom-x-small ${classes.titleGroup}`}>{titleEnd}</div>}
       </div>
       {children}
     </div>
