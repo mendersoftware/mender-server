@@ -364,42 +364,21 @@ func (_m *App) RevokeToken(ctx context.Context, tokenID string) error {
 }
 
 // SetAuthSetStatus provides a mock function with given fields: ctx, deviceID, authID, status
-func (_m *App) SetAuthSetStatus(ctx context.Context, deviceID string, authID string, status string) (*model.Device, *model.AuthSet, error) {
+func (_m *App) SetAuthSetStatus(ctx context.Context, deviceID string, authID string, status string) error {
 	ret := _m.Called(ctx, deviceID, authID, status)
 
 	if len(ret) == 0 {
 		panic("no return value specified for SetAuthSetStatus")
 	}
 
-	var r0 *model.Device
-	var r1 *model.AuthSet
-	var r2 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, string) (*model.Device, *model.AuthSet, error)); ok {
-		return rf(ctx, deviceID, authID, status)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, string) *model.Device); ok {
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, string) error); ok {
 		r0 = rf(ctx, deviceID, authID, status)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Device)
-		}
+		r0 = ret.Error(0)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, string, string, string) *model.AuthSet); ok {
-		r1 = rf(ctx, deviceID, authID, status)
-	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*model.AuthSet)
-		}
-	}
-
-	if rf, ok := ret.Get(2).(func(context.Context, string, string, string) error); ok {
-		r2 = rf(ctx, deviceID, authID, status)
-	} else {
-		r2 = ret.Error(2)
-	}
-
-	return r0, r1, r2
+	return r0
 }
 
 // SetTenantLimit provides a mock function with given fields: ctx, tenant_id, limit
