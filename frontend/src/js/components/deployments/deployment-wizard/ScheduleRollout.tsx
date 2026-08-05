@@ -14,7 +14,7 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { FormControl, MenuItem, Select, Typography } from '@mui/material';
+import { FormControl, FormHelperText, MenuItem, Select, Typography } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { makeStyles } from 'tss-react/mui';
 
@@ -26,7 +26,7 @@ import dayjs from 'dayjs';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
-import { deploymentFormSections } from './utils';
+import { deploymentFormSections, useValidatedSetValue } from './utils';
 
 const useStyles = makeStyles()(() => ({
   textField: { minWidth: 400 },
@@ -37,7 +37,11 @@ const useStyles = makeStyles()(() => ({
 export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) => {
   const [isPickerOpen, setIsPickerOpen] = useState(open);
   const { classes } = useStyles();
-  const { watch, setValue } = useFormContext();
+  const {
+    formState: { errors },
+    watch
+  } = useFormContext();
+  const setValue = useValidatedSetValue();
 
   // the start time is tracked separately from the phases, as the individual phase start times are derived from it
   const start_time = watch(deploymentFormSections.startTime);
@@ -63,11 +67,12 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
         <MenderHelpTooltip className="margin-left-small" id={HELPTOOLTIPS.scheduleDeployment.id} small />
       </div>
       <div className={commonClasses.columns}>
-        <FormControl className={classes.pickerStyle} disabled={!canSchedule}>
-          <Select className={classes.textField} onChange={handleStartChange} value={startTime ? 'custom' : 0}>
+        <FormControl className={classes.pickerStyle} disabled={!canSchedule} error={!!errors.startTime}>
+          <Select className={classes.textField} onChange={handleStartChange} value={start_time ? 'custom' : 0}>
             <MenuItem value={0}>Start immediately</MenuItem>
             <MenuItem value="custom">Schedule the start date &amp; time</MenuItem>
           </Select>
+          {!!errors.startTime && <FormHelperText>{errors.startTime.message}</FormHelperText>}
         </FormControl>
         <InfoHintContainer>
           <EnterpriseNotification id={BENEFITS.scheduledDeployments.id} />

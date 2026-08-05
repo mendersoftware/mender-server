@@ -26,7 +26,7 @@ import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 import { BENEFITS } from '@northern.tech/store/constants';
 
 import RolloutSteps from './RolloutSteps';
-import { deploymentFormSections } from './utils';
+import { deploymentFormSections, useValidatedSetValue } from './utils';
 
 const useStyles = makeStyles()(() => ({
   wrapper: { minHeight: 300 }
@@ -49,7 +49,8 @@ export const ForceDeploy = () => {
 
 export const RolloutOptions = ({ isEnterprise }) => {
   const { classes } = useStyles();
-  const { watch, setValue } = useFormContext();
+  const { watch } = useFormContext();
+  const setValue = useValidatedSetValue();
 
   const phases = watch(deploymentFormSections.phases) || [];
   const release = watch(deploymentFormSections.release) || {};

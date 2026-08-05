@@ -21,10 +21,11 @@ import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 
 import type { DeploymentFormValues } from './types';
-import { deploymentFormSections, useDerivedData } from './utils';
+import { deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
 
 export const DeviceLimit = () => {
-  const { setValue, watch } = useFormContext<DeploymentFormValues>();
+  const { watch } = useFormContext<DeploymentFormValues>();
+  const setValue = useValidatedSetValue();
   const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
   const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
   const shouldLimit = watch(deploymentFormSections.shouldLimit);
@@ -59,16 +60,7 @@ export const DeviceLimit = () => {
         }
       />
       <Collapse in={shouldLimit}>
-        <NumberInput
-          id={deploymentFormSections.maxDevices}
-          min={1}
-          width={120}
-          showSteps
-          size="small"
-          rules={{
-            validate: value => !shouldLimit || (Number(value) >= 1 && !isNaN(Number(value))) || 'Please enter a valid number.'
-          }}
-        />
+        <NumberInput id={deploymentFormSections.maxDevices} min={1} width={120} showSteps size="small" />
         <FormHelperText className="margin-left-small margin-top-x-small margin-bottom-small">
           The deployment will automatically finish after this many devices have attempted to update.
         </FormHelperText>

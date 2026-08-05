@@ -36,7 +36,7 @@ import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { SoftwareArtifactFilter } from './ReleaseArtifactFilter';
 import type { DeploymentFormValues } from './types';
-import { deploymentFormSections, useDerivedData } from './utils';
+import { deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
 
 const { isUUID } = validator;
 
@@ -129,7 +129,10 @@ export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDyna
   const { classes } = useStyles();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
-  const { watch } = useFormContext<DeploymentFormValues>();
+  const {
+    formState: { errors },
+    watch
+  } = useFormContext<DeploymentFormValues>();
 
   const group = watch(deploymentFormSections.group);
   const { deploymentDeviceCount, devices, filter } = useDerivedData(watch, initialDevices);
@@ -169,7 +172,15 @@ export const Devices = ({ devicesById, groupRef, groupNames, hasDevices, hasDyna
               handleHomeEndKeys
               disabled={!(hasDevices || hasDynamicGroups)}
               options={groupNames}
-              renderInput={params => <TextField {...params} placeholder="Select a device group" className={classes.textField} />}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  placeholder="Select a device group"
+                  className={classes.textField}
+                  error={!!errors.group}
+                  helperText={errors.group?.message}
+                />
+              )}
             />
             {!(hasDevices || hasDynamicGroups) && (
               <FormHelperText className="margin-left-small flexbox">
@@ -208,7 +219,11 @@ export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, re
   const deviceLimits = useSelector(getDeviceLimits);
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
-  const { watch, setValue } = useFormContext<DeploymentFormValues>();
+  const {
+    formState: { errors },
+    watch
+  } = useFormContext<DeploymentFormValues>();
+  const setValue = useValidatedSetValue();
 
   const deploymentRelease = watch(deploymentFormSections.release);
   // resolve the full Release from releasesById to get artifacts/device_types_compatible
@@ -263,6 +278,7 @@ export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, re
             />
             <Button
               size="large"
+              color={errors.release ? 'error' : 'neutral'}
               variant="outlined"
               className={classes.releaseSelect}
               endIcon={releaseFilterOpened ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -270,6 +286,7 @@ export const Software = ({ commonClasses, releaseRef, releaseSelectionLocked, re
             >
               <span className={`${classes.releaseSelectText} text-overflow`}>{deploymentRelease?.name ?? 'Select software'}</span>
             </Button>
+            {!!errors.release && <FormHelperText error>{errors.release.message}</FormHelperText>}
           </>
         )}
         {!releaseItems.length ? (
