@@ -14,21 +14,21 @@
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 // material ui
-import { Alert, Button, Divider, FormControl, FormHelperText, TextField, Typography, textFieldClasses } from '@mui/material';
+import { Alert, Button, Chip, FormControl, FormHelperText, TextField, Typography, textFieldClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { CopyTextToClipboard } from '@northern.tech/common-ui/CopyText';
 import { ColumnWidthProvider, SynchronizedTwoColumnData, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import actions from '@northern.tech/store/actions';
-import { rolesByName, uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
+import { rolesByName, twoFAStates, uiPermissionsByArea, uiPermissionsById } from '@northern.tech/store/constants';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { passwordResetStart } from '@northern.tech/store/thunks';
 import { mapUserRolesToUiPermissions } from '@northern.tech/store/utils';
 import type { User } from '@northern.tech/types/MenderTypes';
 import { isEmpty } from '@northern.tech/utils/helpers';
-import validator from 'validator';
 
 import { OAuth2Providers, genericProvider } from '../../login/OAuth2Providers';
 import { EmailVerificationWarning } from '../EmailVerificationWarning';
@@ -87,7 +87,13 @@ interface UserDefinitionProps {
   selectedUser: User & { roles?: string[] };
 }
 
-export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser }: UserDefinitionProps) => {
+const authChipProps = {
+  size: 'small',
+  variant: 'outlined',
+  color: 'warning'
+};
+
+export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onCancel, onSubmit, onRemove, roles, selectedUser = {} }: UserDefinitionProps) => {
   const { email = '', id } = selectedUser;
 
   const { classes } = useStyles();
@@ -146,11 +152,14 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
   };
 
   const onPasswordResetConfirmed = () =>
-    dispatch(passwordResetStart(selectedUser.email))
+    dispatch(passwordResetStart(email))
       .unwrap()
-      .then(() => dispatch(setSnackbar(`A password reset email was sent to ${selectedUser.email}.`)));
+      .then(() => dispatch(setSnackbar(`A password reset email was sent to ${email}.`)));
 
-  const onSubmitClick = () => onSubmit({ ...selectedUser, roles: selectedRoles }, 'edit', id);
+  const onSubmitClick = () => {
+    onSubmit({ ...selectedUser, roles: selectedRoles }, 'edit', id);
+    setIsEditingRoles(false);
+  };
 
   const { areas, ...scopedAreas } = useMemo(() => {
     const emptySelection = { areas: {}, groups: {}, releases: {} };
@@ -177,146 +186,152 @@ export const UserDefinition = ({ currentUser, hasMultitenancy, isEnterprise, onC
 
   const { isOAuth2, provider } = getUserSSOState(selectedUser);
   const rolesClasses = isEnterprise ? '' : 'muted';
+
+  const verificationChip = selectedUser.verified ? (
+    <Chip {...authChipProps} label="Verified" color="success" />
+  ) : (
+    <Chip {...authChipProps} label="Not verified" />
+  );
+
+  const tfaStatus = isOAuth2 ? (
+    'SSO managed'
+  ) : selectedUser.tfa_status === twoFAStates.enabled ? (
+    <Chip {...authChipProps} label="Enabled" color="success" />
+  ) : (
+    <Chip {...authChipProps} label="Not enabled" />
+  );
+
+  const signInData = {
+    Email: (
+      <>
+        {email} {verificationChip}
+      </>
+    ),
+    'User ID': id,
+    'Two-factor authentication': tfaStatus
+  };
+
   return (
-    <BaseDrawer
-      onClose={onCancel}
-      open={!!id}
-      size="md"
-      slotProps={{
-        header: {
-          title: `User information for ${selectedUser.email}`
-        }
-      }}
-    >
+    <BaseDrawer onClose={onCancel} open={!!id} size="md" slotProps={{ header: { title: `User information for ${email}` } }}>
       {hasMultitenancy && userNotVerified && <EmailVerificationWarning className="margin-top-small" action="change another user’s email" />}
-      <Typography className="margin-top-x-small" variant="subtitle1">
-        User ID
-      </Typography>
-      <TwoColumnData
-        className="margin-top-small"
-        setSnackbar={setSnackbar}
-        data={hasMultitenancy ? { Email: email, 'User ID': selectedUser.id } : { 'User ID': selectedUser.id }}
-      />
-      {!hasMultitenancy && (
-        <>
-          <FormControl className={`margin-top-small ${classes.widthLimit}`}>
-            <TextField label="Email" id="email" value={currentEmail} disabled={!isEditingEmail} error={emailInvalid} onChange={validateEmailChange} />
-            {emailInvalid && <FormHelperText className="warning">Please enter a valid email address</FormHelperText>}
-          </FormControl>
-          {currentUser.id !== id && (
-            <div className="flexbox margin-top-small">
-              {isEditingEmail ? (
-                <>
-                  <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onCancelEmailChanges}>
-                    Cancel
-                  </Button>
-                  <Button variant="contained" disabled={emailInvalid || currentEmail === email} onClick={onEmailSubmitClick}>
-                    Save changes
-                  </Button>
-                </>
-              ) : (
-                <Button onClick={() => setIsEditingEmail(true)}>Change email</Button>
-              )}
-            </div>
-          )}
-        </>
-      )}
-      {hasMultitenancy && !isOAuth2 && (
-        <>
-          <div>
-            <Button className="margin-top-small" onClick={() => setShowResetConfirmation(true)}>
-              Send password reset link
-            </Button>
-          </div>
-          <ConfirmModal
-            header="Send password reset link?"
-            description={
-              <>
-                We&rsquo;ll send an email to <b>{selectedUser.email}</b> with instructions for resetting their Mender account password.
-              </>
-            }
-            isDanger={false}
-            open={showResetConfirmation}
-            close={() => setShowResetConfirmation(false)}
-            onConfirm={onPasswordResetConfirmed}
-          />
-        </>
-      )}
-      {isOAuth2 && (
-        <div className="flexbox margin-top-small margin-bottom">
-          <div className={classes.oauthIcon}>{provider.icon}</div>
-          <div className="info">
-            This user logs in using their <strong>{provider.name}</strong> account.
-            <br />
-            They can connect to {provider.name} to update their login settings.
-          </div>
-        </div>
-      )}
-      <Typography className="margin-top" variant="subtitle1">
-        Roles
-      </Typography>
-      <UserRolesSelect
-        key={`roles-select-${isEditingRoles}`}
-        disabled={!isEnterprise || !isEditingRoles}
-        currentUser={currentUser}
-        onSelect={onRolesSelect}
-        roles={roles}
-        user={selectedUser}
-      />
-      {isEnterprise && (
-        <div className="flexbox margin-top-small">
-          {isEditingRoles ? (
-            <>
-              <Button color="info" variant="outlined" className="margin-right-x-small" onClick={onCancelRoleChanges}>
-                Cancel
-              </Button>
-              <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick}>
-                Save changes
-              </Button>
-            </>
-          ) : (
-            <Button onClick={() => setIsEditingRoles(true)}>Change roles</Button>
-          )}
-        </div>
-      )}
-      {!isEnterprise && (
-        <Alert className={`margin-top-small ${classes.widthLimit}`} severity="warning">
-          Role-base access control (RBAC) is not available in your current plan. All users will have full administrative access
-          {selectedRoles.includes(rolesByName.admin) ? ', and the permissions shown below apply to all users' : ''}.
-        </Alert>
-      )}
-      <ColumnWidthProvider>
-        {!!(hasScopedPermissionsDefined || !isEmpty(areas)) && (
-          <Typography className="margin-top margin-bottom-x-small" variant="subtitle1">
-            Role permissions
-          </Typography>
+      <ContentSection title="Sign-in & security">
+        <TwoColumnData data={hasMultitenancy ? signInData : { 'User ID': id }} setSnackbar={setSnackbar} />
+
+        {!hasMultitenancy && (
+          <>
+            <FormControl className={`margin-top-small ${classes.widthLimit}`}>
+              <TextField label="Email" id="email" value={currentEmail} disabled={!isEditingEmail} error={emailInvalid} onChange={validateEmailChange} />
+              {emailInvalid && <FormHelperText className="warning">Please enter a valid email address</FormHelperText>}
+            </FormControl>
+            {currentUser.id !== id && (
+              <div className="flexbox margin-top-small">
+                {isEditingEmail ? (
+                  <>
+                    <Button color="info" variant="outlined" className="margin-right-small" onClick={onCancelEmailChanges}>
+                      Cancel
+                    </Button>
+                    <Button variant="contained" disabled={emailInvalid || currentEmail === email} onClick={onEmailSubmitClick}>
+                      Save changes
+                    </Button>
+                  </>
+                ) : (
+                  <Button onClick={() => setIsEditingEmail(true)}>Change email</Button>
+                )}
+              </div>
+            )}
+          </>
         )}
-        <SynchronizedTwoColumnData className={rolesClasses} data={areas} />
-        {Object.entries(scopedAreas).reduce((accu, [area, areaPermissions]) => {
-          if (isEmpty(areaPermissions)) {
-            return accu;
-          }
-          accu.push(
-            <Fragment key={area}>
-              <Typography className="margin-top margin-bottom-x-small" variant="subtitle1">
-                {scopedPermissionAreas[area]}
-              </Typography>
-              <SynchronizedTwoColumnData className={rolesClasses} data={areaPermissions} />
-            </Fragment>
-          );
-          return accu;
-        }, [])}
-      </ColumnWidthProvider>
-      {currentUser.id !== id && (
-        <>
-          <Divider className="margin-top-large" />
-          <div className="margin-top-medium">
-            <Button color="error" onClick={onRemoveClick} variant="outlined">
-              Delete user
-            </Button>
+        {hasMultitenancy && !isOAuth2 && (
+          <>
+            <div>
+              <Button className="margin-top-small" onClick={() => setShowResetConfirmation(true)}>
+                Send password reset link
+              </Button>
+            </div>
+            <ConfirmModal
+              header="Send password reset link?"
+              description={
+                <>
+                  We&rsquo;ll send an email to <b>{email}</b> with instructions for resetting their Mender account password.
+                </>
+              }
+              isDanger={false}
+              open={showResetConfirmation}
+              close={() => setShowResetConfirmation(false)}
+              onConfirm={onPasswordResetConfirmed}
+            />
+          </>
+        )}
+        {isOAuth2 && (
+          <div className="flexbox margin-top-small margin-bottom">
+            <div className={classes.oauthIcon}>{provider.icon}</div>
+            <div className="info">
+              This user logs in using their <strong>{provider.name}</strong> account.
+              <br />
+              They can connect to {provider.name} to update their login settings.
+            </div>
           </div>
-        </>
-      )}
+        )}
+      </ContentSection>
+      <ContentSection title="Roles">
+        <UserRolesSelect
+          key={`roles-select-${isEditingRoles}`}
+          disabled={!isEnterprise || !isEditingRoles}
+          currentUser={currentUser}
+          onSelect={onRolesSelect}
+          roles={roles}
+          user={selectedUser}
+        />
+        {isEnterprise && (
+          <div className="flexbox margin-top-small">
+            {isEditingRoles ? (
+              <>
+                <Button color="info" variant="outlined" className="margin-right-small" onClick={onCancelRoleChanges}>
+                  Cancel
+                </Button>
+                <Button variant="contained" disabled={isSubmitDisabled} onClick={onSubmitClick} color="secondary">
+                  Save changes
+                </Button>
+              </>
+            ) : (
+              <Button color="secondary" onClick={() => setIsEditingRoles(true)}>
+                Change roles
+              </Button>
+            )}
+          </div>
+        )}
+        {!isEnterprise && (
+          <Alert className={`margin-top-small ${classes.widthLimit}`} severity="warning">
+            Role-base access control (RBAC) is not available in your current plan. All users will have full administrative access
+            {selectedRoles.includes(rolesByName.admin) ? ', and the permissions shown below apply to all users' : ''}.
+          </Alert>
+        )}
+        <ColumnWidthProvider>
+          {!!(hasScopedPermissionsDefined || !isEmpty(areas)) && (
+            <Typography className="margin-top margin-bottom-small" variant="subtitle1">
+              Role permissions
+            </Typography>
+          )}
+          <SynchronizedTwoColumnData className={rolesClasses} data={areas} />
+          {Object.entries(scopedAreas)
+            .filter(([, areaPermissions]) => !isEmpty(areaPermissions))
+            .map(([area, areaPermissions]) => (
+              <Fragment key={area}>
+                <Typography className="margin-top margin-bottom-x-small" variant="subtitle1">
+                  {scopedPermissionAreas[area]}
+                </Typography>
+                <SynchronizedTwoColumnData className={rolesClasses} data={areaPermissions} />
+              </Fragment>
+            ))}
+        </ColumnWidthProvider>
+      </ContentSection>
+      <div className="flexbox margin-top-small">
+        {currentUser.id !== id && (
+          <Button color="error" onClick={onRemoveClick} variant="outlined">
+            Delete user
+          </Button>
+        )}
+      </div>
     </BaseDrawer>
   );
 };

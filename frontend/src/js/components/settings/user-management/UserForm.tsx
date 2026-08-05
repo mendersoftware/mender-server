@@ -45,15 +45,11 @@ export const UserRolesSelect = ({ currentUser, disabled, onSelect, roles, user }
     () => roles.reduce((accu, role) => ({ ...accu, [role.value ?? role.name]: { ...role, value: role.value ?? role.name } }), {}),
     [roles]
   );
-  const [selectedRoleIds, setSelectedRoleIds] = useState(
-    (user.roles || [rolesByName.admin]).reduce((accu, roleId) => {
-      const foundRole = relevantRolesById[roleId];
-      if (foundRole) {
-        accu.push(roleId);
-      }
-      return accu;
-    }, [])
-  );
+  const [selectedRoleIds, setSelectedRoleIds] = useState([]);
+
+  useEffect(() => {
+    setSelectedRoleIds((user.roles || [rolesByName.admin]).filter(roleId => relevantRolesById[roleId]));
+  }, [user.roles, relevantRolesById]);
 
   const onInputChange = ({ target: { value } }) => {
     const { roles = [] } = user;
@@ -182,14 +178,16 @@ export const UserForm = ({ closeDialog, currentUser, canManageUsers, hasMultiten
     setHadRoleChanges(hadRoleChanges);
   };
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     const { password, ...remainder } = data;
     const roleData = hadRoleChanges ? { roles: selectedRoles } : {};
     if (isAddingExistingUser) {
       const { email: userId } = data;
-      return submit(userId, 'add');
+      await submit(userId, 'add');
+      return closeDialog();
     }
-    return submit({ ...remainder, ...roleData, password }, 'create');
+    await submit({ ...remainder, ...roleData, password }, 'create');
+    closeDialog();
   };
 
   return (
