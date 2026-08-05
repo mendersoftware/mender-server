@@ -11,20 +11,12 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Typography } from '@mui/material';
-
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { InventoryTable } from '@northern.tech/common-ui/InventoryTable';
-import Time from '@northern.tech/common-ui/Time';
+import { LastChangedNote } from '@northern.tech/common-ui/LastChangedNote';
 import { extractSoftware } from '@northern.tech/utils/helpers';
 
 import DeviceInventoryLoader from './DeviceInventoryLoader';
-
-export const LastChangedNote = ({ updateTime }) => (
-  <Typography variant="body2" color="textSecondary">
-    Last changed: <Time value={updateTime} />
-  </Typography>
-);
 
 export const DeviceInventory = ({ device, setSnackbar }) => {
   const { attributes = {}, updated_ts: updateTime } = device;
