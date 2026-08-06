@@ -144,11 +144,12 @@ exports[`ProgressDeviceList Component > renders correctly 1`] = `
         <div
           class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
           style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-          title="1234"
         >
-          <div>
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+          >
             1.21 KB
-          </div>
+          </p>
         </div>
       </div>
     </div>

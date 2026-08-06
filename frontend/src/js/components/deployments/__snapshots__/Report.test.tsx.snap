@@ -579,9 +579,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                >
                   123.00 Bytes
-                </div>
+                </p>
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
@@ -782,11 +784,12 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="1234"
                 >
-                  <div>
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  >
                     1.21 KB
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>
@@ -1558,9 +1561,11 @@ Devices that are in the middle of the deployment at the time of abort will finis
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
               >
-                <div>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                >
                   0 Bytes
-                </div>
+                </p>
               </td>
               <td
                 class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium relative css-1dc80h3-MuiTableCell-root"
@@ -1726,11 +1731,12 @@ Devices that are in the middle of the deployment at the time of abort will finis
                 <div
                   class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
                   style="display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; text-overflow: ellipsis;"
-                  title="1234"
                 >
-                  <div>
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+                  >
                     1.21 KB
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>
