@@ -11,7 +11,6 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Checkbox, Collapse, FormControlLabel, FormHelperText } from '@mui/material';
@@ -21,21 +20,14 @@ import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 
 import type { DeploymentFormValues } from './types';
-import { deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
+import { DisabledReasonHint, deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
 
-export const DeviceLimit = () => {
+export const DeviceLimit = ({ disabledReason = '' }) => {
   const { control, watch } = useFormContext<DeploymentFormValues>();
   const setValue = useValidatedSetValue();
-  const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
+  const { deploymentDeviceCount, deploymentDeviceIds } = useDerivedData(watch);
   const numberDevices = deploymentDeviceCount ? deploymentDeviceCount : deploymentDeviceIds ? deploymentDeviceIds.length : 0;
   const shouldLimit = watch(deploymentFormSections.shouldLimit);
-
-  useEffect(() => {
-    if (!filter) {
-      setValue(deploymentFormSections.maxDevices, 0);
-      setValue(deploymentFormSections.shouldLimit, false);
-    }
-  }, [filter, setValue]);
 
   const onToggleLimit = (_, checked) => {
     setValue(deploymentFormSections.shouldLimit, checked);
@@ -49,11 +41,14 @@ export const DeviceLimit = () => {
   return (
     <>
       <FormControlLabel
-        control={<Checkbox className="margin-left-small" color="primary" checked={shouldLimit} disabled={!filter} onChange={onToggleLimit} size="small" />}
+        control={
+          <Checkbox className="margin-left-small" color="primary" checked={shouldLimit} disabled={!!disabledReason} onChange={onToggleLimit} size="small" />
+        }
         label={
           <div className="flexbox align-items-center">
             Limit deployment to a maximum number of devices
             <InfoHintContainer>
+              <DisabledReasonHint reason={disabledReason} />
               <DocsTextLink id={DOCSTIPS.limitedDeployments.id} />
             </InfoHintContainer>
           </div>

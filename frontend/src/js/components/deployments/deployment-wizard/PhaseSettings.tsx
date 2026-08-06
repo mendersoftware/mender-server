@@ -31,7 +31,7 @@ import { delayDefaults, phaseDefaults, phaseLimits, rolloutModes, rolloutPattern
 import type { PhaseDefinition, StandardizedPhase } from './phases/utils';
 import { convertDefinitionsToMode, getPhasesMessage, parsePreviousPhases, toPhaseDescription } from './phases/utils';
 import type { DeploymentFormValues } from './types';
-import { deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
+import { DisabledReasonHint, deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
 
 const useStyles = makeStyles()(theme => ({
   container: {
@@ -59,11 +59,12 @@ const getDefaultPhaseDefinitions = (pattern: RolloutPattern, rolloutMode: Rollou
 };
 
 interface RolloutPatternSelectionProps {
+  disabledReason: string;
   isEnterprise: boolean;
   previousPhases?: Array<Array<StandardizedPhase>>;
 }
 
-export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: RolloutPatternSelectionProps) => {
+export const RolloutPatternSelection = ({ isEnterprise, disabledReason = '', previousPhases = [] }: RolloutPatternSelectionProps) => {
   const { watch, getValues } = useFormContext<DeploymentFormValues>();
   const setValue = useValidatedSetValue();
   const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
@@ -92,7 +93,9 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
     ({ target: { checked } }: React.MouseEvent<HTMLButtonElement> & { target: HTMLInputElement }) => {
       if (!checked) {
         setValue(deploymentFormSections.phases, []);
-      } else if (!(getValues(deploymentFormSections.phases) || []).length) {
+        return;
+      }
+      if (!getValues(deploymentFormSections.phases)?.length) {
         const pattern = getValues(deploymentFormSections.rolloutPattern) || (rolloutPatternDefinitions.custom.key as RolloutPattern);
         setValue(deploymentFormSections.phases, getDefaultPhaseDefinitions(pattern, rolloutMode, numberDevices));
       }
@@ -134,13 +137,14 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
     <>
       <FormCheckbox
         id={deploymentFormSections.usesPattern}
-        disabled={!isEnterprise || numberDevices === 0}
+        disabled={!isEnterprise || numberDevices === 0 || !!disabledReason}
         handleClick={onUsesPatternClick}
         label={
           <div className="flexbox align-items-center">
             Select a rollout pattern
             <InfoHintContainer>
               <EnterpriseNotification id={BENEFITS.phasedDeployments.id} />
+              {isEnterprise && <DisabledReasonHint reason={disabledReason} />}
               <DocsTextLink id={DOCSTIPS.phasedDeployments.id} />
             </InfoHintContainer>
           </div>

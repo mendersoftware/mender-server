@@ -26,7 +26,7 @@ import { NumberInput } from '@northern.tech/common-ui/forms/NumberInput';
 import { BENEFITS } from '@northern.tech/store/constants';
 
 import RolloutSteps from './RolloutSteps';
-import { deploymentFormSections, useValidatedSetValue } from './utils';
+import { DisabledReasonHint, deploymentFormSections, useValidatedSetValue } from './utils';
 
 const useStyles = makeStyles()(() => ({
   wrapper: { minHeight: 300 }
@@ -47,12 +47,12 @@ export const ForceDeploy = () => {
   );
 };
 
-export const RolloutOptions = ({ isEnterprise }) => {
+export const RolloutOptions = ({ disabledReason = '', isEnterprise }) => {
   const { classes } = useStyles();
   const { watch } = useFormContext();
   const setValue = useValidatedSetValue();
 
-  const phases = watch(deploymentFormSections.phases) || [];
+  const usesPattern = watch(deploymentFormSections.usesPattern);
   const release = watch(deploymentFormSections.release) || {};
 
   const updateControlMap = watch(deploymentFormSections.update_control_map) || { states: {} };
@@ -68,12 +68,13 @@ export const RolloutOptions = ({ isEnterprise }) => {
     <>
       <FormCheckbox
         id={deploymentFormSections.isPaused}
-        disabled={!isEnterprise}
+        disabled={!isEnterprise || !!disabledReason}
         label={
           <div className="flexbox align-items-center">
             Add pauses between update steps
             <InfoHintContainer>
               <EnterpriseNotification id={BENEFITS.pausedDeployments.id} />
+              {isEnterprise && <DisabledReasonHint reason={disabledReason} />}
               <DocsTextLink id={DOCSTIPS.pausedDeployments.id} />
             </InfoHintContainer>
           </div>
@@ -84,7 +85,7 @@ export const RolloutOptions = ({ isEnterprise }) => {
         <Alert severity="warning" className="margin-top-small margin-bottom-small" variant="outlined">
           This feature was removed in Mender Client 4.0. To manage phased deployments for newer devices, we recommend using rollout patterns instead.
         </Alert>
-        <RolloutSteps disabled={phases.length > 1 || !isEnterprise} onStepChange={onStepChangeClick} release={release} steps={states} />
+        <RolloutSteps disabled={usesPattern || !isEnterprise} onStepChange={onStepChangeClick} release={release} steps={states} />
       </Collapse>
     </>
   );

@@ -13,6 +13,7 @@
 //    limitations under the License.
 import type { Resolver } from 'react-hook-form';
 
+import { ALL_DEVICES } from '@northern.tech/utils/constants';
 import { isEmpty } from '@northern.tech/utils/helpers';
 
 import { maxDeploymentRetries } from './RolloutOptions';
@@ -28,6 +29,48 @@ export const deploymentErrors = {
   maxDevicesRequired: 'Number of devices is required',
   numberRange: 'Please enter a valid number.',
   release: 'Please select software to deploy'
+};
+
+export const disabledReasons = {
+  deviceTargetLimit: 'Cannot limit device count when targeting individual devices',
+  emptyGroupPattern: 'Rollout pattern is not available for empty device groups',
+  emptyGroupPauses: 'Pauses is not available for empty device groups',
+  pausedPattern: 'Cannot select rollout pattern when pauses are enabled',
+  patternPauses: 'Cannot add pauses when using a rollout pattern',
+  staticGroupLimit: 'Cannot limit device count when targeting a static group'
+};
+
+type TargetState = Pick<DeploymentDerivedState, 'deploymentDeviceCount' | 'filter'> & {
+  devices?: DeploymentDerivedState['devices'];
+  group?: string | null;
+  isDeviceCountResolved?: boolean;
+};
+
+const isTargetingEmptyGroup = ({ deploymentDeviceCount, group, isDeviceCountResolved }: TargetState) =>
+  !!group && !!isDeviceCountResolved && !deploymentDeviceCount;
+
+export const getDeviceLimitDisabledReason = ({ devices = [], filter, group }: TargetState) => {
+  if (filter) {
+    return '';
+  }
+  if (group && group !== ALL_DEVICES) {
+    return disabledReasons.staticGroupLimit;
+  }
+  return devices.length ? disabledReasons.deviceTargetLimit : '';
+};
+
+export const getRolloutPatternDisabledReason = ({ isPaused, ...target }: TargetState & { isPaused?: boolean }) => {
+  if (isTargetingEmptyGroup(target)) {
+    return disabledReasons.emptyGroupPattern;
+  }
+  return isPaused ? disabledReasons.pausedPattern : '';
+};
+
+export const getPausesDisabledReason = ({ usesPattern, ...target }: TargetState & { usesPattern?: boolean }) => {
+  if (isTargetingEmptyGroup(target)) {
+    return disabledReasons.emptyGroupPauses;
+  }
+  return usesPattern ? disabledReasons.patternPauses : '';
 };
 
 export type DeploymentResolverContext = Pick<DeploymentDerivedState, 'deploymentDeviceCount' | 'devices' | 'filter'> & { group: string | null };

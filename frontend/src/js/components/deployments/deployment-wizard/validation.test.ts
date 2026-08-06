@@ -15,10 +15,47 @@ import { defaultState } from '@/testUtils';
 
 import { defaultValues } from '../CreateDeployment';
 import { rolloutModes, rolloutPatterns } from './phases/constants';
-import { deploymentErrors, deploymentResolver } from './validation';
+import {
+  deploymentErrors,
+  deploymentResolver,
+  disabledReasons,
+  getDeviceLimitDisabledReason,
+  getPausesDisabledReason,
+  getRolloutPatternDisabledReason
+} from './validation';
 
 const deploymentCreationTime = defaultState.deployments.byId.d1.created;
 const filter = { id: 'filterId', name: 'testGroupDynamic' };
+
+describe('disabled reasons', () => {
+  it('keeps the options available until a target rules them out', async () => {
+    expect(getDeviceLimitDisabledReason({ deploymentDeviceCount: 0, filter: undefined, group: null })).toEqual('');
+    expect(getRolloutPatternDisabledReason({ deploymentDeviceCount: 0, filter: undefined, group: null })).toEqual('');
+    expect(getPausesDisabledReason({ deploymentDeviceCount: 0, filter: undefined, group: null })).toEqual('');
+  });
+  it('rules out limiting the device count for static groups & direct device targets', async () => {
+    expect(getDeviceLimitDisabledReason({ deploymentDeviceCount: 5, filter: undefined, group: 'testGroup' })).toEqual(disabledReasons.staticGroupLimit);
+    expect(getDeviceLimitDisabledReason({ deploymentDeviceCount: 5, filter, group: 'testGroupDynamic' })).toEqual('');
+    expect(getDeviceLimitDisabledReason({ deploymentDeviceCount: 1, devices: [defaultState.devices.byId.a1], filter: undefined, group: null })).toEqual(
+      disabledReasons.deviceTargetLimit
+    );
+  });
+  it('rules out the rollout options for empty groups', async () => {
+    const emptyGroup = { deploymentDeviceCount: 0, filter, group: 'testGroupDynamic', isDeviceCountResolved: true };
+    expect(getRolloutPatternDisabledReason(emptyGroup)).toEqual(disabledReasons.emptyGroupPattern);
+    expect(getPausesDisabledReason(emptyGroup)).toEqual(disabledReasons.emptyGroupPauses);
+  });
+  it('gives a group the benefit of the doubt while its device count is being retrieved', async () => {
+    const loadingGroup = { deploymentDeviceCount: 0, filter, group: 'testGroupDynamic', isDeviceCountResolved: false };
+    expect(getRolloutPatternDisabledReason(loadingGroup)).toEqual('');
+    expect(getPausesDisabledReason(loadingGroup)).toEqual('');
+  });
+  it('lets the rollout options exclude each other', async () => {
+    const target = { deploymentDeviceCount: 5, filter, group: 'testGroupDynamic' };
+    expect(getRolloutPatternDisabledReason({ ...target, isPaused: true })).toEqual(disabledReasons.pausedPattern);
+    expect(getPausesDisabledReason({ ...target, usesPattern: true })).toEqual(disabledReasons.patternPauses);
+  });
+});
 
 describe('deploymentResolver function', () => {
   const release = { name: 'test-release' };
