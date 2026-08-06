@@ -42,6 +42,9 @@ const FormWrapper = ({ children, defaultValues = {} }) => {
   return <FormProvider {...methods}>{children}</FormProvider>;
 };
 
+// the rollout options exclude each other, so they have to be enabled one at a time to render their expanded state
+const expandedDefaultValues = { RolloutOptions: { isPaused: true }, RolloutPatternSelection: { usesPattern: true } };
+
 const preloadedState = {
   ...defaultState,
   app: {
@@ -81,7 +84,7 @@ describe('CreateDeployment Component', () => {
       it(`renders ${Component.displayName || Component.name} correctly`, () => {
         const { baseElement } = render(
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <FormWrapper defaultValues={{ isPaused: true, usesPattern: true }}>
+            <FormWrapper defaultValues={expandedDefaultValues[Component.name] ?? {}}>
               <Component {...props} />
             </FormWrapper>
           </LocalizationProvider>,
@@ -95,7 +98,7 @@ describe('CreateDeployment Component', () => {
       it(`renders ${Component.displayName || Component.name} correctly as enterprise`, () => {
         const { baseElement } = render(
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <FormWrapper defaultValues={{ isPaused: true, usesPattern: true }}>
+            <FormWrapper defaultValues={expandedDefaultValues[Component.name] ?? {}}>
               <Component {...props} isEnterprise />
             </FormWrapper>
           </LocalizationProvider>,
@@ -132,6 +135,18 @@ describe('CreateDeployment Component', () => {
       await user.keyboard('{ArrowDown}{Enter}');
       await waitFor(() => expect(screen.queryByText(deploymentErrors.group)).toBeFalsy());
       expect(screen.getByText(deploymentErrors.release)).toBeVisible();
+    });
+
+    it('drops an error once the option that caused it is switched off again', async () => {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      render(<CreateDeployment deploymentObject={{}} onValuesChange={vi.fn()} open />, { preloadedState });
+      await user.click(screen.getByRole('button', { name: /advanced options/i }));
+      const limitCheckbox = screen.getByRole('checkbox', { name: /maximum number of devices/i });
+      await user.click(limitCheckbox);
+      await user.click(screen.getByRole('button', { name: /create deployment/i }));
+      await waitFor(() => expect(screen.getByText(deploymentErrors.maxDevices)).toBeVisible());
+      await user.click(limitCheckbox);
+      await waitFor(() => expect(screen.queryByText(deploymentErrors.maxDevices)).toBeFalsy());
     });
 
     it('applies a schedule even without a rollout pattern', async () => {
