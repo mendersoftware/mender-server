@@ -218,7 +218,8 @@ exports[`AsyncAutocomplete Component > renders correctly 1`] = `
   width: 100%;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-3.Mui-disabled {
@@ -250,6 +251,10 @@ exports[`AsyncAutocomplete Component > renders correctly 1`] = `
 
 .emotion-3.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-3.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-4 {
@@ -654,7 +659,8 @@ exports[`ControlledAsyncAutocomplete Component > renders correctly 1`] = `
   width: 100%;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-3.Mui-disabled {
@@ -686,6 +692,10 @@ exports[`ControlledAsyncAutocomplete Component > renders correctly 1`] = `
 
 .emotion-3.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-3.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-4 {

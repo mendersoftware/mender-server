@@ -44,7 +44,8 @@ exports[`Search Component > renders correctly 1`] = `
   position: relative;
   border-radius: 4px;
   padding-left: 14px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-1.Mui-disabled {
@@ -76,6 +77,10 @@ exports[`Search Component > renders correctly 1`] = `
 
 .emotion-1.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-1.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-2 {

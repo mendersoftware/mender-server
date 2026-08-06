@@ -1115,7 +1115,8 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
   width: 100%;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-38.Mui-disabled {
@@ -1147,6 +1148,10 @@ exports[`DeviceConnection Component > renders correctly when connected 1`] = `
 
 .emotion-38.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-38.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-39 {

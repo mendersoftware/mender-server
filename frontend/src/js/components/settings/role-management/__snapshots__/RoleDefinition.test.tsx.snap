@@ -786,12 +786,34 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
   background-color: #fff;
 }
 
+.emotion-31~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-31) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-31) {
+  --_caret: 32px;
+}
+
+.MuiInputBase-root:has(> .emotion-31 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-31:focus {
   border-radius: 4px;
 }
 
 .emotion-31.emotion-31.emotion-31 {
-  padding-right: 32px;
+  padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
 .emotion-31.MuiSelect-select {

@@ -78,7 +78,8 @@ exports[`DeviceIdentity Component > renders correctly 1`] = `
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
   color: rgba(0, 0, 0, 0.87);
   font-size: 0.8125rem;
 }
@@ -112,6 +113,10 @@ exports[`DeviceIdentity Component > renders correctly 1`] = `
 
 .emotion-6.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-6.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-7 {
@@ -644,7 +649,8 @@ exports[`DeviceIdentity Component > renders correctly without a mac 1`] = `
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
   color: rgba(0, 0, 0, 0.87);
   font-size: 0.8125rem;
 }
@@ -678,6 +684,10 @@ exports[`DeviceIdentity Component > renders correctly without a mac 1`] = `
 
 .emotion-6.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-6.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-7 {

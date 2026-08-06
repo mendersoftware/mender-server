@@ -110,12 +110,34 @@ exports[`DeviceIssuesSelection Component > renders correctly 1`] = `
   background-color: #fff;
 }
 
+.emotion-2~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-2) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-2) {
+  --_caret: 32px;
+}
+
+.MuiInputBase-root:has(> .emotion-2 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-2:focus {
   border-radius: 4px;
 }
 
 .emotion-2.emotion-2.emotion-2 {
-  padding-right: 32px;
+  padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
 .emotion-2.MuiSelect-select {

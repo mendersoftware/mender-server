@@ -183,12 +183,34 @@ exports[`GlobalSettings Component > renders correctly 1`] = `
   background-color: #fff;
 }
 
+.emotion-13~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-13) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-13) {
+  --_caret: 32px;
+}
+
+.MuiInputBase-root:has(> .emotion-13 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-13:focus {
   border-radius: 4px;
 }
 
 .emotion-13.emotion-13.emotion-13 {
-  padding-right: 32px;
+  padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
 .emotion-13.MuiSelect-select {
@@ -658,7 +680,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
   min-width: 80px;
   padding-right: 0px;
 }
@@ -692,6 +715,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
 
 .emotion-39.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-39.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-40 {

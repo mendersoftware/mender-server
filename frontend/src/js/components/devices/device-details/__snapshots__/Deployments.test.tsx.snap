@@ -134,12 +134,34 @@ exports[`Deployments Component > renders correctly 1`] = `
   background-color: #fff;
 }
 
+.emotion-4~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-4) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-4) {
+  --_caret: 32px;
+}
+
+.MuiInputBase-root:has(> .emotion-4 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-4:focus {
   border-radius: 4px;
 }
 
 .emotion-4.emotion-4.emotion-4 {
-  padding-right: 32px;
+  padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
 .emotion-4.MuiSelect-select {
@@ -607,6 +629,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   cursor: default;
 }
 
+.emotion-36 .MuiTablePagination-select:focus {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
 .emotion-36 .MuiTablePagination-select {
   padding-left: 8px;
   padding-right: 24px;
@@ -660,8 +686,30 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
   background-color: #fff;
 }
 
+.emotion-37~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-37) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-37) {
+  --_caret: 24px;
+}
+
+.MuiInputBase-root:has(> .emotion-37 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-37.emotion-37.emotion-37 {
-  padding-right: 24px;
+  padding-right: calc(var(--_caret, 24px) + var(--_endAdornment, 0px));
   min-width: 16px;
 }
 

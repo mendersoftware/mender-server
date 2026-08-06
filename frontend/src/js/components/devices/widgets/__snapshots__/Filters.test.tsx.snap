@@ -413,7 +413,8 @@ exports[`Filters Component > renders correctly 1`] = `
   width: 100%;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-11.Mui-disabled {
@@ -445,6 +446,10 @@ exports[`Filters Component > renders correctly 1`] = `
 
 .emotion-11.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-11.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-12 {
@@ -795,12 +800,34 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
   background-color: #fff;
 }
 
+.emotion-19~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-19) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-19) {
+  --_caret: 32px;
+}
+
+.MuiInputBase-root:has(> .emotion-19 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-19:focus {
   border-radius: 4px;
 }
 
 .emotion-19.emotion-19.emotion-19 {
-  padding-right: 32px;
+  padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
 .emotion-19.MuiSelect-select {

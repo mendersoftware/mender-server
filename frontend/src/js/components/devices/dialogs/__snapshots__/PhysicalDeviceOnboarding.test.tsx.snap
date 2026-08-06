@@ -238,7 +238,8 @@ exports[`PhysicalDeviceOnboarding Component > renders correctly 1`] = `
   width: 100%;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-5.Mui-disabled {
@@ -270,6 +271,10 @@ exports[`PhysicalDeviceOnboarding Component > renders correctly 1`] = `
 
 .emotion-5.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-5.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-6 {
@@ -943,7 +948,8 @@ exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders Dev
   width: 100%;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-5.Mui-disabled {
@@ -975,6 +981,10 @@ exports[`PhysicalDeviceOnboarding Component > tiny onboarding tips > renders Dev
 
 .emotion-5.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-5.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-6 {

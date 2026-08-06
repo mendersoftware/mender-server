@@ -392,7 +392,8 @@ exports[`CreateDeployment Component > renders correctly 1`] = `
   width: 100%;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-12.Mui-disabled {
@@ -424,6 +425,10 @@ exports[`CreateDeployment Component > renders correctly 1`] = `
 
 .emotion-12.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-12.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-13 {
@@ -970,12 +975,34 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-13:focus::-ms-input-
   background-color: #fff;
 }
 
+.emotion-39~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-39) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-39) {
+  --_caret: 32px;
+}
+
+.MuiInputBase-root:has(> .emotion-39 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-39:focus {
   border-radius: 4px;
 }
 
 .emotion-39.emotion-39.emotion-39 {
-  padding-right: 32px;
+  padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
 .emotion-39.MuiSelect-select {
@@ -1564,7 +1591,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-39:focus::-ms-input-
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
   min-width: 80px;
   padding-right: 0px;
 }
@@ -1598,6 +1626,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-39:focus::-ms-input-
 
 .emotion-65.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-65.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-67 {
@@ -6166,7 +6198,8 @@ exports[`CreateDeployment Component > smaller components > renders Devices corre
   width: 100%;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-4.Mui-disabled {
@@ -6198,6 +6231,10 @@ exports[`CreateDeployment Component > smaller components > renders Devices corre
 
 .emotion-4.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-4.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-5 {
@@ -6703,7 +6740,8 @@ exports[`CreateDeployment Component > smaller components > renders Devices corre
   width: 100%;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-4.Mui-disabled {
@@ -6735,6 +6773,10 @@ exports[`CreateDeployment Component > smaller components > renders Devices corre
 
 .emotion-4.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-4.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-5 {
@@ -7958,7 +8000,8 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
   min-width: 80px;
   padding-right: 0px;
 }
@@ -7992,6 +8035,10 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
 
 .emotion-6.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-6.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-7 {
@@ -8733,7 +8780,8 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
   min-width: 80px;
   padding-right: 0px;
 }
@@ -8767,6 +8815,10 @@ exports[`CreateDeployment Component > smaller components > renders Retries corre
 
 .emotion-6.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-6.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-7 {
@@ -12365,12 +12417,34 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   background-color: #fff;
 }
 
+.emotion-21~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-21) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-21) {
+  --_caret: 32px;
+}
+
+.MuiInputBase-root:has(> .emotion-21 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-21:focus {
   border-radius: 4px;
 }
 
 .emotion-21.emotion-21.emotion-21 {
-  padding-right: 32px;
+  padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
 .emotion-21.MuiSelect-select {
@@ -13402,12 +13476,34 @@ exports[`CreateDeployment Component > smaller components > renders RolloutPatter
   background-color: #fff;
 }
 
+.emotion-21~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-21) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-21) {
+  --_caret: 32px;
+}
+
+.MuiInputBase-root:has(> .emotion-21 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-21:focus {
   border-radius: 4px;
 }
 
 .emotion-21.emotion-21.emotion-21 {
-  padding-right: 32px;
+  padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
 .emotion-21.MuiSelect-select {
