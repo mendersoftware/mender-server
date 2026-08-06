@@ -32,8 +32,8 @@ import copy from 'copy-to-clipboard';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
-import type { MarkdownToJSX } from 'markdown-to-jsx';
 import MuiMarkdown, { defaultOverrides } from 'mui-markdown';
+import type { Overrides } from 'mui-markdown';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -48,7 +48,7 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
-const markDownStyleOverrides: MarkdownToJSX.Overrides = {
+const markDownStyleOverrides: Overrides = {
   ...defaultOverrides,
   h1: { component: 'b' },
   h2: { component: 'b' },
