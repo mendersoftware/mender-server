@@ -1732,8 +1732,8 @@ func TestDevAuthResetDevice(t *testing.T) {
 				DeviceId: dummyDevID,
 				Status:   "accepted",
 			},
+			submitJob:        true,
 			dbDelDevTokenErr: store.ErrTokenNotFound,
-			outErr:           "db delete device token error: token not found",
 		},
 		{
 			aset: &model.AuthSet{
@@ -1771,7 +1771,7 @@ func TestDevAuthResetDevice(t *testing.T) {
 				tc.dbDelDevTokenErr)
 			db.On("GetDeviceStatus", context.Background(),
 				dummyDevID).Return(
-				"accepted", nil)
+				model.DevStatusPending, nil)
 			db.On("UpdateDeviceWithRevision", context.Background(),
 				func() interface{} {
 					if tc.aset != nil {
