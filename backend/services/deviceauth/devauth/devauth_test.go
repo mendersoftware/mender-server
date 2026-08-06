@@ -1423,6 +1423,8 @@ func TestDevAuthRejectDevice(t *testing.T) {
 		dbErr            error
 		dbDelDevTokenErr error
 
+		submitJob bool
+
 		outErr string
 	}{
 		{
@@ -1431,6 +1433,7 @@ func TestDevAuthRejectDevice(t *testing.T) {
 				DeviceId: dummyDevID,
 				Status:   model.DevStatusAccepted,
 			},
+			submitJob: true,
 		},
 		{
 			aset: &model.AuthSet{
@@ -1458,6 +1461,7 @@ func TestDevAuthRejectDevice(t *testing.T) {
 				DeviceId: dummyDevID,
 				Status:   model.DevStatusAccepted,
 			},
+			submitJob: true,
 			withCache: true,
 			tenant:    "acme",
 		},
@@ -1472,6 +1476,7 @@ func TestDevAuthRejectDevice(t *testing.T) {
 				DeviceId: dummyDevID,
 				Status:   model.DevStatusAccepted,
 			},
+			submitJob:        true,
 			dbDelDevTokenErr: store.ErrTokenNotFound,
 		},
 		{
@@ -1510,24 +1515,36 @@ func TestDevAuthRejectDevice(t *testing.T) {
 			db.On("GetAuthSetById", ctx,
 				dummyAuthID).
 				Return(tc.aset, tc.dbErr)
+
+			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
 			if tc.aset != nil {
 				db.On("UpdateAuthSetById", ctx, tc.aset.Id,
 					model.AuthSetUpdate{Status: model.DevStatusRejected}).Return(nil)
 				db.On("GetDeviceById", ctx,
 					mock.AnythingOfType("string")).
-					Return(&model.Device{Id: tc.aset.Id, Status: tc.aset.Status}, nil)
-			}
-			db.On("DeleteTokenByDevId", ctx,
-				dummyDevUUID).
-				Return(tc.dbDelDevTokenErr)
-			db.On("GetDeviceStatus", ctx,
-				dummyDevID).
-				Return("accepted", nil)
-			db.On("UpdateDevice", ctx,
-				dummyDevID,
-				mock.AnythingOfType("model.DeviceUpdate")).Return(nil)
+					Return(&model.Device{Id: tc.aset.DeviceId, Status: tc.aset.Status}, nil)
+				db.On("UpdateDeviceWithRevision", ctx,
+					tc.aset.DeviceId,
+					uint(0),
+					mock.AnythingOfType("model.DeviceUpdate")).Return(nil)
+				db.On("GetDeviceStatus", ctx,
+					tc.aset.DeviceId).
+					Return(model.DevStatusRejected, nil)
+				db.On("DeleteTokenByDevId", ctx,
+					oid.FromString(tc.aset.DeviceId)).
+					Return(tc.dbDelDevTokenErr)
 
-			co := oas_mocks.NewMockWorkflowsOtherAPI(t)
+				if tc.submitJob {
+					req := client.ApiStartWorkflowRequest{ApiService: co}
+					co.On("StartWorkflow", ctx, "update_device_status").
+						Run(func(args mock.Arguments) {
+							co.On("StartWorkflowExecute", mock.Anything).
+								Return(nil, mockResponseOK, nil)
+						}).
+						Return(req).
+						Once()
+				}
+			}
 
 			devauth := NewDevAuth(&db, co, nil, nil, Config{})
 
