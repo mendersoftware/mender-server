@@ -17,6 +17,7 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/json"
+	"slices"
 	"strings"
 	"time"
 
@@ -34,6 +35,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/services/deviceauth/access"
 	"github.com/mendersoftware/mender-server/services/deviceauth/cache"
+	dconfig "github.com/mendersoftware/mender-server/services/deviceauth/config"
 	"github.com/mendersoftware/mender-server/services/deviceauth/jwt"
 	"github.com/mendersoftware/mender-server/services/deviceauth/model"
 	"github.com/mendersoftware/mender-server/services/deviceauth/store"
@@ -46,6 +48,8 @@ const (
 	MsgErrDevAuthBadRequest   = "dev auth: bad request"
 	InventoryScopeSystem      = "system"
 )
+
+const featureFlagProvision = "devauth:" + dconfig.SettingLegacyProvisionDevice
 
 var (
 	ErrDevAuthUnauthorized   = errors.New(MsgErrDevAuthUnauthorized)
@@ -135,6 +139,8 @@ type Config struct {
 	DefaultTenantToken string
 
 	HaveAddons bool
+
+	LegacyProvisionEvent bool
 }
 
 func NewDevAuth(d store.DataStore, co client.WorkflowsOtherAPI,
@@ -398,26 +404,41 @@ func (d *DevAuth) handlePreAuthDevice(
 	dev.Status = model.DevStatusAccepted
 	dev.AuthSets = append(dev.AuthSets, *aset)
 
-	if !dev.Provisioned {
-		reqId := requestid.FromContext(ctx)
-		var tenantID string
-		if idty := identity.FromContext(ctx); idty != nil {
-			tenantID = idty.Tenant
-		}
+	reqId := requestid.FromContext(ctx)
+	var (
+		tenantID             string
+		legacyProvisionEvent bool
+	)
+	if idty := identity.FromContext(ctx); idty != nil {
+		tenantID = idty.Tenant
+		legacyProvisionEvent = d.config.LegacyProvisionEvent || // global
+			slices.Contains(idty.FeatureFlags, featureFlagProvision) // tenant
+	}
 
-		// submit device accepted job
-		//nolint:bodyclose
-		_, _, err := d.cOrch.StartWorkflow(ctx, "provision_device").
-			RequestBody(map[string]interface{}{
-				"request_id": reqId,
-				"device_id":  aset.DeviceId,
-				"tenant_id":  tenantID,
-				"device":     dev,
-				"status":     dev.Status,
-			}).Execute()
-		if err != nil {
-			return nil, errors.Wrap(err, "submit device provisioning job error")
+	workflowName := "provision_device"
+	if legacyProvisionEvent {
+		// NOTE: before Device.Provisioned flag was introduced, provision_device
+		// was always triggered.
+		if dev.Provisioned {
+			workflowName = "legacy_provision_iot_manager"
 		}
+	} else if dev.Provisioned {
+		// Device already provisioned, we're done...
+		return aset, nil
+	}
+
+	// submit device accepted job
+	//nolint:bodyclose
+	_, _, err = d.cOrch.StartWorkflow(ctx, workflowName).
+		RequestBody(map[string]interface{}{
+			"request_id": reqId,
+			"device_id":  aset.DeviceId,
+			"tenant_id":  tenantID,
+			"device":     dev,
+			"status":     dev.Status,
+		}).Execute()
+	if err != nil {
+		return nil, errors.Wrap(err, "submit device provisioning job error")
 	}
 	return aset, nil
 }
@@ -871,7 +892,27 @@ func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_i
 		return err
 	}
 
-	if dev.Provisioned {
+	workflowName := "provision_device"
+	var (
+		tenantID             string
+		legacyProvisionEvent bool
+	)
+	if idty := identity.FromContext(ctx); idty != nil {
+		tenantID = idty.Tenant
+		legacyProvisionEvent = d.config.LegacyProvisionEvent || // global
+			slices.Contains(idty.FeatureFlags, featureFlagProvision) // tenant
+	}
+	if legacyProvisionEvent {
+		// Legacy behavior: trigger provision_device event whenever
+		// device transitions from pending status.
+		if dev.Status != model.DevStatusPending {
+			return nil
+		} else if dev.Provisioned {
+			// Use specialized provision job to only trigger
+			// user facing iot-manager event
+			workflowName = "legacy_provision_iot_manager"
+		}
+	} else if dev.Provisioned {
 		// Device already provisioned
 		// We're done...
 		return nil
@@ -881,18 +922,11 @@ func (d *DevAuth) AcceptDeviceAuth(ctx context.Context, device_id string, auth_i
 	aset.Status = model.DevStatusAccepted
 	dev.AuthSets = []model.AuthSet{*aset}
 
-	reqId := requestid.FromContext(ctx)
-
-	var tenantID string
-	if idty := identity.FromContext(ctx); idty != nil {
-		tenantID = idty.Tenant
-	}
-
 	// submit device accepted job
 	//nolint:bodyclose
-	_, _, err = d.cOrch.StartWorkflow(ctx, "provision_device").
+	_, _, err = d.cOrch.StartWorkflow(ctx, workflowName).
 		RequestBody(map[string]interface{}{
-			"request_id": reqId,
+			"request_id": requestid.FromContext(ctx),
 			"device_id":  aset.DeviceId,
 			"tenant_id":  tenantID,
 			"device":     dev,
