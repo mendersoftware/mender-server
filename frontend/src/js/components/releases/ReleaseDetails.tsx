@@ -59,7 +59,7 @@ const DeviceTypeCompatibility = ({ artifact, index }) => {
   const compatible = artifact.artifact_depends ? artifact.artifact_depends.device_type.join(', ') : artifact.device_types_compatible.join(', ');
   return (
     <Tooltip title={compatible} placement="top-start">
-      <Typography className={`text-overflow ${classes.compatibility}`}>
+      <Typography className="text-overflow" variant="subtitle2">
         <span className={classes.index}>{index}.</span> {compatible}
       </Typography>
     </Tooltip>
@@ -78,7 +78,11 @@ export const columns = [
     title: 'Type',
     name: 'type',
     sortable: false,
-    render: ({ artifact }) => <div style={{ maxWidth: '100vw' }}>{artifact.updates.reduce((accu, item) => (accu ? accu : item.type_info.type), '')}</div>
+    render: ({ artifact }) => (
+      <Typography style={{ maxWidth: '100vw' }} variant="body2">
+        {artifact.updates.reduce((accu, item) => (accu ? accu : item.type_info.type), '')}
+      </Typography>
+    )
   },
   { title: 'Size', name: 'size', sortable: true, render: ({ artifact }) => <FileSize fileSize={artifact.size} /> },
   { title: 'Last modified', name: 'modified', sortable: true, render: ({ artifact }) => <RelativeTime updateTime={formatTime(artifact.modified)} /> }
@@ -119,7 +123,6 @@ const useStyles = makeStyles()(theme => ({
     }
   },
   columnHeaderTitle: { fontWeight: theme.typography.fontWeightMedium },
-  compatibility: { fontWeight: theme.typography.fontWeightMedium },
   tagSelect: { marginRight: theme.spacing(2), maxWidth: 350 },
   notesEditing: { maxWidth: 510 },
   index: {
@@ -234,11 +237,11 @@ const ArtifactsList = ({ artifacts, selectedArtifact, setSelectedArtifact, setSh
 
   return (
     <ContentSection title="Artifacts in this Release:">
-      <div className={`${classes.releaseRepoItem} repo-item margin-right-medium margin-left-small`}>
-        {columns.map(item => (
+      <div className={`${classes.releaseRepoItem} repo-item margin-right margin-left-x-small`}>
+        {columns.map((item, index) => (
           <div className="columnHeader" key={item.name} onClick={() => sortColumn(item)}>
             <Tooltip title={item.title} placement="top-start">
-              <Typography className={`${classes.columnHeaderTitle} margin-bottom-small`} variant="body2">
+              <Typography className={`${classes.columnHeaderTitle} margin-bottom-small ${index ? '' : 'margin-left-x-small'}`} variant="body2">
                 {item.title}
               </Typography>
             </Tooltip>
