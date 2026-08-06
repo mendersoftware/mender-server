@@ -10,20 +10,19 @@
 //    distributed under the License is distributed on an "AS IS" BASIS,
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
-import type { ForwardRefRenderFunction } from 'react';
-import React, { memo } from 'react';
+import type { TypographyProps } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import { getFormattedSize } from '@northern.tech/utils/helpers';
 
-interface FileSizeProps {
+interface FileSizeProps extends TypographyProps {
   fileSize: number;
-  style?: React.CSSProperties;
 }
 
-const FileSize: ForwardRefRenderFunction<HTMLDivElement, FileSizeProps> = ({ fileSize, style = {} }, ref) => (
-  <div ref={ref} style={style}>
+const FileSize = ({ fileSize, ...props }: FileSizeProps) => (
+  <Typography variant="body2" {...props}>
     {getFormattedSize(fileSize)}
-  </div>
+  </Typography>
 );
 
-export default memo(React.forwardRef(FileSize));
+export default FileSize;

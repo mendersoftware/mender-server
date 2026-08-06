@@ -36,6 +36,15 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
 }
 
 .emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -83,51 +92,51 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   font-size: 1.75rem;
 }
 
-.emotion-3::-moz-focus-inner {
+.emotion-4::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-3.Mui-disabled {
+.emotion-4.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-3 {
+  .emotion-4 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-3:hover {
+.emotion-4:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-3:hover {
+  .emotion-4:hover {
     background-color: transparent;
   }
 }
 
-.emotion-3.Mui-disabled {
+.emotion-4.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-3.MuiIconButton-loading {
+.emotion-4.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-5 {
+.emotion-6 {
   margin: auto;
   margin-left: 0;
 }
 
-.emotion-5:hover svg {
+.emotion-6:hover svg {
   color: #1565c0;
 }
 
-.emotion-6 {
+.emotion-7 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -145,11 +154,11 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   color: #1976d2;
 }
 
-.emotion-6.read {
+.emotion-7.read {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-7 {
+.emotion-8 {
   position: absolute;
   top: -4px;
   bottom: -4px;
@@ -159,15 +168,15 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.emotion-7.read {
+.emotion-8.read {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-7:hover {
+.emotion-8:hover {
   border-color: #1565c0;
 }
 
-.emotion-8 {
+.emotion-9 {
   margin: 0;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -206,13 +215,15 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
       <div
         class="muted emotion-2"
       >
-        <div>
+        <p
+          class="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
           1.00 KB
-        </div>
+        </p>
       </div>
     </div>
     <button
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-3"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-4"
       tabindex="0"
       type="button"
     >
@@ -229,12 +240,12 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
       </svg>
     </button>
     <div
-      class="relative flexbox emotion-5  "
+      class="relative flexbox emotion-6  "
       data-mui-internal-clone-element="true"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-6"
+        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium emotion-7"
         data-testid="HelpIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -244,12 +255,12 @@ exports[`ArtifactUpload Component > renders correctly 1`] = `
         />
       </svg>
       <div
-        class="emotion-7 "
+        class="emotion-8 "
       />
     </div>
   </div>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth margin-right-large emotion-8"
+    class="MuiDivider-root MuiDivider-fullWidth margin-right-large emotion-9"
   />
 </div>
 `;

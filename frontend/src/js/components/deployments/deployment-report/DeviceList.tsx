@@ -207,8 +207,6 @@ const deviceListColumns = [
   }
 ];
 
-const ValueFileSize = ({ value, ...props }) => <FileSize fileSize={value} {...props} />;
-
 export const DeploymentDeviceList = ({ canAi, deployment, getDeploymentDevices, idAttribute, selectedDevices, userCapabilities, viewLog }) => {
   const [currentPage, setCurrentPage] = useState(defaultPage);
   const [isLoading, setIsLoading] = useState(false);
@@ -249,7 +247,7 @@ export const DeploymentDeviceList = ({ canAi, deployment, getDeploymentDevices, 
           <Loader show={isLoading} small />
         </div>
         <div className={classes.totalSize}>
-          <TwoColumnData data={{ 'Total download size': <ValueFileSize value={totalSize} /> }} />
+          <TwoColumnData data={{ 'Total download size': <FileSize fileSize={totalSize} /> }} />
         </div>
       </div>
     </>
