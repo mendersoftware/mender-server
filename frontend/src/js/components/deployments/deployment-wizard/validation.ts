@@ -13,6 +13,7 @@
 //    limitations under the License.
 import type { Resolver } from 'react-hook-form';
 
+import { ALL_DEVICES } from '@northern.tech/utils/constants';
 import { isEmpty } from '@northern.tech/utils/helpers';
 
 import type { DeploymentFormValues } from './types';
@@ -24,6 +25,53 @@ export const deploymentErrors = {
   maxDevices: 'Number of devices is required',
   phases: 'Each phase has to contain at least 1 device and the phases may not exceed 100% in total',
   release: 'Please select software to deploy'
+};
+
+export const disabledReasons = {
+  deviceTargetLimit: 'Cannot limit device count when targeting individual devices',
+  emptyGroupPattern: 'Rollout pattern is not available for empty device groups',
+  emptyGroupPauses: 'Pauses is not available for empty device groups',
+  pausedPattern: 'Cannot select rollout pattern when pauses are enabled',
+  patternPauses: 'Cannot add pauses when using a rollout pattern',
+  staticGroupLimit: 'Cannot limit device count when targeting a static group'
+};
+
+type TargetState = Pick<DeploymentDerivedState, 'deploymentDeviceCount' | 'filter'> & {
+  devices?: DeploymentDerivedState['devices'];
+  group?: string | null;
+  isDeviceCountResolved?: boolean;
+};
+
+// the advanced options start out available - they only become unavailable once the selected target makes them
+// meaningless, or once one of the mutually exclusive rollout options is in use; while the device count of a target is
+// still being retrieved it can't rule anything out yet
+const isTargetingEmptyGroup = ({ deploymentDeviceCount, group, isDeviceCountResolved }: TargetState) =>
+  !!group && !!isDeviceCountResolved && !deploymentDeviceCount;
+
+export const getDeviceLimitDisabledReason = ({ devices = [], filter, group }: TargetState) => {
+  if (filter) {
+    return '';
+  }
+  if (group && group !== ALL_DEVICES) {
+    return disabledReasons.staticGroupLimit;
+  }
+  // the api only supports limiting deployments to dynamic groups, a limit on directly targeted devices would
+  // silently be ignored
+  return devices.length ? disabledReasons.deviceTargetLimit : '';
+};
+
+export const getRolloutPatternDisabledReason = ({ isPaused, ...target }: TargetState & { isPaused?: boolean }) => {
+  if (isTargetingEmptyGroup(target)) {
+    return disabledReasons.emptyGroupPattern;
+  }
+  return isPaused ? disabledReasons.pausedPattern : '';
+};
+
+export const getPausesDisabledReason = ({ usesPattern, ...target }: TargetState & { usesPattern?: boolean }) => {
+  if (isTargetingEmptyGroup(target)) {
+    return disabledReasons.emptyGroupPauses;
+  }
+  return usesPattern ? disabledReasons.patternPauses : '';
 };
 
 export type DeploymentResolverContext = Pick<DeploymentDerivedState, 'deploymentDeviceCount' | 'devices' | 'filter'> & { group: string | null };

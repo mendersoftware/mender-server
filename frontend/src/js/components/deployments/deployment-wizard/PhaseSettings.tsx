@@ -42,7 +42,7 @@ import type { RolloutMode, RolloutPattern } from './phases/constants';
 import { delayDefaults, delayUnits, phaseDefaults, phaseLimits, rolloutModes, rolloutPatterns as rolloutPatternDefinitions } from './phases/constants';
 import { getPhasesMessage, toPhaseDescription } from './phases/utils';
 import type { DeploymentFormValues } from './types';
-import { deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
+import { DisabledReasonHint, deploymentFormSections, useDerivedData, useValidatedSetValue } from './utils';
 
 const useStyles = makeStyles()(theme => ({
   container: {
@@ -76,11 +76,12 @@ const getDefaultPhasesForPattern = (
 };
 
 interface RolloutPatternSelectionProps {
+  disabledReason: string;
   isEnterprise: boolean;
   previousPhases?: Array<Array<Record<string, unknown>>>;
 }
 
-export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: RolloutPatternSelectionProps) => {
+export const RolloutPatternSelection = ({ isEnterprise, disabledReason = '', previousPhases = [] }: RolloutPatternSelectionProps) => {
   const { watch, getValues } = useFormContext<DeploymentFormValues>();
   const setValue = useValidatedSetValue();
   const { deploymentDeviceCount, deploymentDeviceIds, filter } = useDerivedData(watch);
@@ -159,7 +160,7 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
             className="margin-left-small"
             color="primary"
             checked={usesPattern}
-            disabled={!isEnterprise || isEmptyGroup}
+            disabled={!isEnterprise || isEmptyGroup || !!disabledReason}
             onChange={onUsesPatternClick}
             size="small"
           />
@@ -169,6 +170,7 @@ export const RolloutPatternSelection = ({ isEnterprise, previousPhases = [] }: R
             Select a rollout pattern
             <InfoHintContainer>
               <EnterpriseNotification id={BENEFITS.phasedDeployments.id} />
+              {isEnterprise && <DisabledReasonHint reason={disabledReason} />}
               <DocsTextLink id={DOCSTIPS.phasedDeployments.id} />
             </InfoHintContainer>
           </div>

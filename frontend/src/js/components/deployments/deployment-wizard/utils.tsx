@@ -15,6 +15,9 @@ import { useCallback, useEffect, useState } from 'react';
 import type { UseFormWatch } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 
+import { HelpOutlineOutlined as HelpIcon } from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
+
 import { ALL_DEVICES } from '@northern.tech/store/constants';
 import { getDeviceCountsByStatus, getDevicesById, getGroupData } from '@northern.tech/store/selectors';
 import { useAppDispatch, useAppSelector } from '@northern.tech/store/store';
@@ -101,6 +104,7 @@ export type DeploymentDerivedState = {
   deploymentDeviceIds: string[];
   devices: Device[];
   filter: Filter | undefined;
+  isDeviceCountResolved: boolean;
 };
 
 export const useDerivedData = (watch: UseFormWatch<DeploymentFormValues>, initialDevices: Device[] = []): DeploymentDerivedState => {
@@ -115,21 +119,29 @@ export const useDerivedData = (watch: UseFormWatch<DeploymentFormValues>, initia
   const [deploymentDeviceCount, setDeploymentDeviceCount] = useState(initialDevices.length);
   const [deploymentDeviceIds, setDeploymentDeviceIds] = useState(initialDevices.map(({ id }) => id));
   const [devices, setDevices] = useState(initialDevices);
+  const [isDeviceCountResolved, setIsDeviceCountResolved] = useState(!!initialDevices.length);
 
   // Compute device count from group selection
   useEffect(() => {
     if (group === ALL_DEVICES) {
       setDeploymentDeviceCount(acceptedDeviceCount);
+      setIsDeviceCountResolved(true);
     } else if (groups[group]) {
+      setIsDeviceCountResolved(false);
       dispatch(getGroupDevices({ group, perPage: 1 }))
         .unwrap()
         .then(result => {
           const total = result?.payload?.group?.total ?? 0;
           setDeploymentDeviceCount(total);
+          setIsDeviceCountResolved(true);
         })
-        .catch(() => setDeploymentDeviceCount(0));
+        .catch(() => {
+          setDeploymentDeviceCount(0);
+          setIsDeviceCountResolved(true);
+        });
     } else if (!initialDevices.length) {
       setDeploymentDeviceCount(0);
+      setIsDeviceCountResolved(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acceptedDeviceCount, group, dispatch, JSON.stringify(groups)]);
@@ -144,6 +156,7 @@ export const useDerivedData = (watch: UseFormWatch<DeploymentFormValues>, initia
     setDeploymentDeviceIds(deviceIds);
     setDeploymentDeviceCount(deviceIds.length);
     setDevices(enrichedDevices);
+    setIsDeviceCountResolved(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(initialDevices), JSON.stringify(devicesById)]);
 
@@ -151,6 +164,14 @@ export const useDerivedData = (watch: UseFormWatch<DeploymentFormValues>, initia
     deploymentDeviceCount,
     deploymentDeviceIds,
     devices,
-    filter
+    filter,
+    isDeviceCountResolved
   };
 };
+
+export const DisabledReasonHint = ({ reason }: { reason?: string }) =>
+  reason ? (
+    <Tooltip arrow placement="top" title={reason}>
+      <HelpIcon color="action" fontSize="small" />
+    </Tooltip>
+  ) : null;

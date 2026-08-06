@@ -27,7 +27,7 @@ import { BENEFITS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import RolloutSteps from './RolloutSteps';
-import { deploymentFormSections, useValidatedSetValue } from './utils';
+import { DisabledReasonHint, deploymentFormSections, useValidatedSetValue } from './utils';
 
 const useStyles = makeStyles()(() => ({
   wrapper: { minHeight: 300 }
@@ -48,7 +48,7 @@ export const ForceDeploy = () => {
   );
 };
 
-export const RolloutOptions = ({ isEnterprise }) => {
+export const RolloutOptions = ({ disabledReason = '', isEnterprise }) => {
   const { classes } = useStyles();
   const { watch } = useFormContext();
   const setValue = useValidatedSetValue();
@@ -70,12 +70,22 @@ export const RolloutOptions = ({ isEnterprise }) => {
   return (
     <>
       <FormControlLabel
-        control={<Checkbox className="margin-left-small" color="primary" checked={isPaused} disabled={!isEnterprise} onChange={onIsPausedClick} size="small" />}
+        control={
+          <Checkbox
+            className="margin-left-small"
+            color="primary"
+            checked={isPaused}
+            disabled={!isEnterprise || !!disabledReason}
+            onChange={onIsPausedClick}
+            size="small"
+          />
+        }
         label={
           <div className="flexbox align-items-center">
             Add pauses between update steps
             <InfoHintContainer>
               <EnterpriseNotification id={BENEFITS.pausedDeployments.id} />
+              {isEnterprise && <DisabledReasonHint reason={disabledReason} />}
               <DocsTextLink id={DOCSTIPS.pausedDeployments.id} />
             </InfoHintContainer>
           </div>

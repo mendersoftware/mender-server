@@ -66,7 +66,7 @@ import { rolloutModes } from './deployment-wizard/phases/constants';
 import type { DeploymentFormValues } from './deployment-wizard/types';
 import { buildPhasePayload, deploymentFormSections, useDerivedData } from './deployment-wizard/utils';
 import type { DeploymentResolverContext } from './deployment-wizard/validation';
-import { deploymentResolver } from './deployment-wizard/validation';
+import { deploymentResolver, getDeviceLimitDisabledReason, getPausesDisabledReason, getRolloutPatternDisabledReason } from './deployment-wizard/validation';
 
 const useStyles = makeStyles()(theme => ({
   accordion: {
@@ -166,12 +166,17 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     watch
   } = methods;
   const formValues = watch();
-  const { group, release } = formValues;
-  const { deploymentDeviceCount, deploymentDeviceIds, devices, filter } = useDerivedData(watch, deploymentObject.devices);
+  const { group, isPaused, release, shouldLimit, usesPattern } = formValues;
+  const { deploymentDeviceCount, deploymentDeviceIds, devices, filter, isDeviceCountResolved } = useDerivedData(watch, deploymentObject.devices);
   validationContext.current.deploymentDeviceCount = deploymentDeviceCount;
   validationContext.current.devices = devices;
   validationContext.current.filter = filter;
   validationContext.current.group = group;
+
+  const target = { deploymentDeviceCount, devices, filter, group, isDeviceCountResolved };
+  const deviceLimitDisabledReason = getDeviceLimitDisabledReason(target);
+  const rolloutPatternDisabledReason = getRolloutPatternDisabledReason({ ...target, isPaused });
+  const pausesDisabledReason = getPausesDisabledReason({ ...target, usesPattern });
 
   useEffect(() => {
     dispatch(getReleases({ page: 1, perPage: 100, searchOnly: true, searchTerm: '', selectedTags: [], type: '' }));
@@ -211,6 +216,22 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, reset]);
+
+  // options the selected target has ruled out have to be dropped - they could otherwise neither apply nor be removed,
+  // with their controls disabled while the validation keeps rejecting them
+  useEffect(() => {
+    if (deviceLimitDisabledReason && shouldLimit) {
+      setValue(deploymentFormSections.shouldLimit, false, { shouldValidate: isSubmitted });
+      setValue(deploymentFormSections.maxDevices, 0, { shouldValidate: isSubmitted });
+    }
+    if (rolloutPatternDisabledReason && usesPattern) {
+      setValue(deploymentFormSections.usesPattern, false, { shouldValidate: isSubmitted });
+      setValue(deploymentFormSections.phases, [], { shouldValidate: isSubmitted });
+    }
+    if (pausesDisabledReason && isPaused) {
+      setValue(deploymentFormSections.isPaused, false, { shouldValidate: isSubmitted });
+    }
+  }, [deviceLimitDisabledReason, isPaused, isSubmitted, pausesDisabledReason, rolloutPatternDisabledReason, setValue, shouldLimit, usesPattern]);
 
   // the target device count is not part of the form, so a change there has to re-run the validation by hand
   useEffect(() => {
@@ -275,7 +296,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     if (needsCheck && !isChecking) {
       return setIsChecking(true);
     }
-    const { delta, forceDeploy = false, maxDevices, phases, release, rolloutMode, startTime, uniform_phases, update_control_map } = formValues;
+    const { delta, forceDeploy = false, isPaused, maxDevices, phases, release, rolloutMode, startTime, uniform_phases, update_control_map } = formValues;
     const retries = (formValues.retries ?? 1) - 1;
     const retrySetting = canRetry && retries ? { retries } : {};
     const phasePayload = buildPhasePayload({ phases, rolloutMode, startTime, uniform_phases });
@@ -291,7 +312,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
       ...phasePayload,
       ...retrySetting,
       force_installation: forceDeploy,
-      update_control_map: !isEmpty(update_control_map.states) ? update_control_map : undefined
+      update_control_map: isPaused && !isEmpty(update_control_map.states) ? update_control_map : undefined
     };
     if (!isOnboardingComplete) {
       dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_RELEASE_TO_DEVICES));
@@ -359,9 +380,9 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
             </AccordionSummary>
             <AccordionDetails>
               <Retries canManageUsers={canManageUsers} canRetry={canRetry} commonClasses={classes} defaultRetries={previousRetries} />
-              <DeviceLimit />
-              <RolloutPatternSelection isEnterprise={isEnterprise} previousPhases={previousPhases} />
-              <RolloutOptions isEnterprise={isEnterprise} />
+              <DeviceLimit disabledReason={deviceLimitDisabledReason} />
+              <RolloutPatternSelection disabledReason={rolloutPatternDisabledReason} isEnterprise={isEnterprise} previousPhases={previousPhases} />
+              <RolloutOptions disabledReason={pausesDisabledReason} isEnterprise={isEnterprise} />
               <ForceDeploy />
               {!isTrial && hasDeltaEnabled && (
                 <FormCheckbox
