@@ -42,11 +42,11 @@ test.describe('Files', () => {
 
   test('allows file removal', async ({ page, environment }) => {
     if (!isEnterpriseOrStaging(environment)) {
-      const uploadButton = await page.getByRole('button', { name: /upload/i });
+      const uploadButton = await page.getByRole('button', { name: 'Upload an artifact' });
       await uploadButton.click();
       const drawer = page.locator(`.MuiDialog-paper`);
       await drawer.locator('.dropzone input').setInputFiles(fileLocation);
-      await drawer.getByRole('button', { name: /Upload/i }).click();
+      await drawer.getByRole('button', { name: 'Upload artifact' }).click();
       await page.getByText(/mender-demo-artifact/i).waitFor();
     }
     await page.getByRole('checkbox').first().click();
@@ -58,11 +58,11 @@ test.describe('Files', () => {
   });
 
   test('allows file uploads', async ({ page }) => {
-    const uploadButton = await page.getByRole('button', { name: /upload/i });
+    const uploadButton = await page.getByRole('button', { name: 'Upload an artifact' });
     await uploadButton.click();
     const drawer = page.locator(`.MuiDialog-paper`);
     await drawer.locator('.dropzone input').setInputFiles(fileLocation);
-    await drawer.getByRole('button', { name: /Upload/i }).click();
+    await drawer.getByRole('button', { name: 'Upload artifact' }).click();
     await page.getByText(/last modified/i).waitFor();
   });
 
@@ -97,7 +97,7 @@ test.describe('Files', () => {
       return;
     }
     const releaseName = 'terminalImage';
-    const uploadButton = await page.getByRole('button', { name: /upload/i });
+    const uploadButton = await page.getByRole('button', { name: 'Upload an artifact' });
     await uploadButton.click();
     await page.locator('.MuiDialog-paper .dropzone input').setInputFiles(`fixtures/terminalContent.png`);
     await page.getByPlaceholder(/installed-by-single-file/i).fill(`/usr/src`);

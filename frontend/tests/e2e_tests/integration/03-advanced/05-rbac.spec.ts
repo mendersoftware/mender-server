@@ -179,7 +179,7 @@ test.describe('RBAC functionality', () => {
       // there should be multiple releases present
       await expect(page.getByText('1-2 of 2')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
-      await expect(page.getByRole('button', { name: /upload/i })).not.toBeVisible();
+      await expect(page.getByRole('button', { name: 'Upload an artifact' })).not.toBeVisible();
       await page.getByRole('checkbox').first().click();
       await expect(page.getByLabel(/release-actions/i)).not.toBeVisible();
       await expectSoftwareListingAllowed(page);
@@ -193,7 +193,7 @@ test.describe('RBAC functionality', () => {
       // there should be only one release tagged with the releaseTag
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role doesn't have permission to upload artifacts, so the button shouldn't be visible
-      await expect(page.getByRole('button', { name: /upload/i })).not.toBeVisible();
+      await expect(page.getByRole('button', { name: 'Upload an artifact' })).not.toBeVisible();
       await expectSoftwareListingAllowed(page);
       await page.context().close();
     });
@@ -205,7 +205,7 @@ test.describe('RBAC functionality', () => {
       // there should be only one release tagged with the releaseTag
       await expect(page.getByText('1-1 of 1')).toBeVisible();
       // the created role does have permission to upload artifacts, so the button should be visible
-      await expect(page.getByRole('button', { name: /upload/i })).toBeVisible();
+      await expect(page.getByRole('button', { name: 'Upload an artifact' })).toBeVisible();
       await expectSoftwareListingAllowed(page);
       await page.context().close();
     });

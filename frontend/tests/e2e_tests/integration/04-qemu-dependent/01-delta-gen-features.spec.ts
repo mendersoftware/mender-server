@@ -74,19 +74,19 @@ test.describe('Devices', () => {
     expect(fs.existsSync(modifiedArtifactPath)).toBeTruthy();
 
     await navbar.getByRole('link', { name: 'Software', exact: true }).click();
-    const uploadButton = await page.getByRole('button', { name: /upload/i });
+    const uploadButton = await page.getByRole('button', { name: 'Upload an artifact' });
     await uploadButton.click();
     const drawer = page.locator(`.MuiDialog-paper`);
 
     await drawer.locator('.dropzone input').setInputFiles(extractedArtifactPath);
-    await drawer.getByRole('button', { name: /Upload/i }).click();
+    await drawer.getByRole('button', { name: 'Upload artifact' }).click();
     await page.waitForTimeout(timeouts.sixtySeconds);
     await page.getByText(/last modified/i).waitFor();
 
-    await page.getByRole('button', { name: /upload/i }).click();
+    await page.getByRole('button', { name: 'Upload an artifact' }).click();
     const drawer2 = page.locator(`.MuiDialog-paper`);
     await drawer2.locator('.dropzone input').setInputFiles(modifiedArtifactPath);
-    await drawer2.getByRole('button', { name: /Upload/i }).click();
+    await drawer2.getByRole('button', { name: 'Upload artifact' }).click();
     await page.waitForTimeout(timeouts.sixtySeconds);
     await page.getByText(/last modified/i).waitFor();
 

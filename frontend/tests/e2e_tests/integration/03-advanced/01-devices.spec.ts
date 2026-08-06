@@ -93,7 +93,7 @@ test.describe('Devices', () => {
     await page.locator('.dropzone input').setInputFiles(`fixtures/${fileName}`);
     await page.click(selectors.placeholderExample, { clickCount: 3 });
     await page.getByPlaceholder(/installed-by-single-file/i).fill(`/tmp/${fileName}`);
-    await page.getByRole('button', { name: /upload/i }).click();
+    await page.getByRole('button', { name: 'Upload' }).click();
     await page.getByText(/Upload successful/i).waitFor({ timeout: timeouts.fiveSeconds });
     await page.getByRole('tab', { name: /download/i }).click();
     await page.getByPlaceholder(/\/home\/mender/i).fill(`/tmp/${fileName}`);
