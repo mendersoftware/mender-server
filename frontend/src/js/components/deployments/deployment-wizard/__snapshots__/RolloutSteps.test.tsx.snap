@@ -356,6 +356,16 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
   text-decoration-color: inherit;
 }
 
+.emotion-34 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  color: #1976d2;
+}
+
 <div>
   <div
     class=""
@@ -559,11 +569,15 @@ exports[`RolloutSteps Component > renders correctly 1`] = `
         You can grant approval by clicking "continue" in the deployment progress UI. 
         <a
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
-          href="https://docs.mender.io/"
+          href="https://docs.mender.io/overview/customize-the-update-process#synchronized-updates"
           rel="noopener"
           target="_blank"
         >
-          Learn more
+          <span
+            class="MuiTypography-root MuiTypography-body1 emotion-34"
+          >
+            Learn more
+          </span>
         </a>
       </p>
     </div>
@@ -927,6 +941,16 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
   text-decoration-color: inherit;
 }
 
+.emotion-34 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  color: #1976d2;
+}
+
 <div>
   <div
     class=""
@@ -1130,11 +1154,15 @@ exports[`RolloutSteps Component > renders correctly 2`] = `
         You can grant approval by clicking "continue" in the deployment progress UI. 
         <a
           class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
-          href="https://docs.mender.io/"
+          href="https://docs.mender.io/overview/customize-the-update-process#synchronized-updates"
           rel="noopener"
           target="_blank"
         >
-          Learn more
+          <span
+            class="MuiTypography-root MuiTypography-body1 emotion-34"
+          >
+            Learn more
+          </span>
         </a>
       </p>
     </div>
