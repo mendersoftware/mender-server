@@ -61,13 +61,15 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 export const DOCSTIPS = {
+  deltaArtifacts: { id: 'deltaArtifacts', path: 'artifact-creation/server-side-generation-of-delta-artifacts' },
   deviceConfig: { id: 'deviceConfig', path: 'add-ons/configure' },
   deviceIdentity: { id: 'deviceIdentity', path: 'client-installation/identity' },
+  dynamicDeployments: { id: 'dynamicDeployments', path: 'overview/deployment#phased-rollouts-and-dynamic-groups' },
   dynamicGroups: { id: 'dynamicGroups', path: 'overview/device-group#dynamic-group' },
   hostedRegions: { id: 'hostedRegions', path: 'general/hosted-mender-regions' },
   limitedDeployments: { id: 'limitedDeployments', path: 'overview/deployment#deployment-to-dynamic-groups' },
   orchestratorManifest: { id: 'orchestratorManifest', path: 'orchestrate-updates/manifest' },
-  phasedDeployments: { id: 'phasedDeployments', path: 'overview/customize-the-update-process' },
+  phasedDeployments: { id: 'phasedDeployments', path: 'overview/deployment#phased-rollouts-and-dynamic-groups' },
   pausedDeployments: { id: 'pausedDeployments', path: 'overview/customize-the-update-process#synchronized-updates' },
   retryDeployments: { id: 'retryDeployments', path: 'overview/deployment' },
   releases: { id: 'releases', path: 'overview/artifact' },

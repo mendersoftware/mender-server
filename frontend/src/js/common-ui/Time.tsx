@@ -21,8 +21,8 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import pluralize from 'pluralize';
 
-const defaultDateFormat = 'YYYY-MM-DD';
-const defaultTimeFormat = `${defaultDateFormat} HH:mm`;
+export const defaultDateFormat = 'YYYY-MM-DD';
+export const defaultTimeFormat = `${defaultDateFormat} HH:mm`;
 
 // based on react-time - https://github.com/andreypopp/react-time - which unfortunately is no longer maintained
 dayjs.extend(relativeTime);

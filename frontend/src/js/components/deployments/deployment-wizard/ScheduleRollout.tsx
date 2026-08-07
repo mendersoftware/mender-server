@@ -14,18 +14,19 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { FormControl, MenuItem, Select, Typography } from '@mui/material';
+import { FormControl, FormHelperText, MenuItem, Select, Typography } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { makeStyles } from 'tss-react/mui';
 
 import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
 import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
+import { defaultTimeFormat } from '@northern.tech/common-ui/Time';
 import { BENEFITS } from '@northern.tech/store/constants';
 import dayjs from 'dayjs';
 
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
-import { deploymentFormSections } from './utils';
+import { deploymentFormSections, useValidatedSetValue } from './utils';
 
 const useStyles = makeStyles()(() => ({
   textField: { minWidth: 400 },
@@ -36,21 +37,16 @@ const useStyles = makeStyles()(() => ({
 export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) => {
   const [isPickerOpen, setIsPickerOpen] = useState(open);
   const { classes } = useStyles();
-  const { watch, setValue } = useFormContext();
+  const {
+    formState: { errors },
+    watch
+  } = useFormContext();
+  const setValue = useValidatedSetValue();
 
-  const phases = watch(deploymentFormSections.phases) || [];
+  // the start time is tracked separately from the phases, as the individual phase start times are derived from it
+  const start_time = watch(deploymentFormSections.startTime);
 
-  const handleStartTimeChange = value => {
-    // if there is no existing phase, set phase and start time
-    if (!phases.length) {
-      setValue(deploymentFormSections.phases, [{ batch_size: 100, start_ts: value, delay: 0 }]);
-    } else {
-      //if there are existing phases, set the first phases to the new start time and adjust later phases in different function
-      const newPhases = [...phases];
-      newPhases[0] = { ...newPhases[0], start_ts: value };
-      setValue(deploymentFormSections.phases, newPhases);
-    }
-  };
+  const handleStartTimeChange = (value?: string) => setValue(deploymentFormSections.startTime, value);
 
   const handleStartChange = event => {
     // To be used with updated datetimepicker to open programmatically
@@ -61,9 +57,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
     }
   };
 
-  const start_time = phases.length ? phases[0].start_ts : undefined;
-
-  const startTime = dayjs(start_time);
+  const startTime = start_time ? dayjs(start_time) : dayjs();
   return (
     <>
       <div className="flexbox margin-bottom-x-small">
@@ -73,17 +67,18 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
         <MenderHelpTooltip className="margin-left-small" id={HELPTOOLTIPS.scheduleDeployment.id} small />
       </div>
       <div className={commonClasses.columns}>
-        <FormControl className={classes.pickerStyle} disabled={!canSchedule}>
+        <FormControl className={classes.pickerStyle} disabled={!canSchedule} error={!!errors.startTime}>
           <Select className={classes.textField} onChange={handleStartChange} value={start_time ? 'custom' : 0}>
             <MenuItem value={0}>Start immediately</MenuItem>
             <MenuItem value="custom">Schedule the start date &amp; time</MenuItem>
           </Select>
+          {!!errors.startTime && <FormHelperText>{errors.startTime.message}</FormHelperText>}
         </FormControl>
         <InfoHintContainer>
           <EnterpriseNotification id={BENEFITS.scheduledDeployments.id} />
         </InfoHintContainer>
       </div>
-      {Boolean(isPickerOpen || start_time) && (
+      {Boolean(isPickerOpen || startTime) && (
         <FormControl className={classes.pickerStyle} disabled={!canSchedule}>
           <DateTimePicker
             ampm={false}
@@ -91,11 +86,12 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
             onOpen={() => setIsPickerOpen(true)}
             onClose={() => setIsPickerOpen(false)}
             label="Starting at"
+            format={defaultTimeFormat}
             minDateTime={dayjs()}
             disabled={!canSchedule}
             onChange={date => handleStartTimeChange(date.toISOString())}
-            slotProps={{ textField: { style: { minWidth: 400 } } }}
-            value={startTime}
+            slotProps={{ textField: { size: 'small', style: { minWidth: 400 } } }}
+            value={dayjs(startTime)}
           />
         </FormControl>
       )}

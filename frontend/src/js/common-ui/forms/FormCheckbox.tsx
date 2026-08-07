@@ -11,11 +11,43 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import type { CSSProperties, MouseEventHandler, ReactNode } from 'react';
+import type { Control, FieldValues } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 
+import type { CheckboxProps, FormControlLabelProps } from '@mui/material';
 import { Checkbox, FormControlLabel } from '@mui/material';
 
-export const FormCheckbox = ({ className, control, disabled, id, handleClick, style, label, required }) => (
+type FormCheckboxSlotProps = {
+  checkbox?: Partial<CheckboxProps>;
+  label?: Partial<Omit<FormControlLabelProps, 'control' | 'label'>>;
+};
+
+type FormCheckboxProps = {
+  className?: string;
+  control?: Control<FieldValues>;
+  disabled?: boolean;
+  handleClick?: MouseEventHandler<HTMLButtonElement>;
+  id: string;
+  label?: ReactNode;
+  required?: boolean;
+  slotProps?: FormCheckboxSlotProps;
+  style?: CSSProperties;
+};
+
+const emptySlotProps: FormCheckboxSlotProps = { label: {}, checkbox: {} };
+
+export const FormCheckbox = ({
+  className,
+  control,
+  disabled,
+  id,
+  handleClick,
+  style,
+  label,
+  required,
+  slotProps: { label: labelProps, checkbox: checkboxProps } = emptySlotProps
+}: FormCheckboxProps) => (
   <Controller
     name={id}
     rules={{ required }}
@@ -24,9 +56,19 @@ export const FormCheckbox = ({ className, control, disabled, id, handleClick, st
       <FormControlLabel
         className={className}
         control={
-          <Checkbox name={id} onClick={handleClick} disabled={disabled} checked={value} style={style} color="primary" onChange={() => onChange(!value)} />
+          <Checkbox
+            name={id}
+            onClick={handleClick}
+            disabled={disabled}
+            checked={value}
+            style={style}
+            color="primary"
+            onChange={() => onChange(!value)}
+            {...checkboxProps}
+          />
         }
         label={label}
+        {...labelProps}
       />
     )}
   />

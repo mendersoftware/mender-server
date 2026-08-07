@@ -32,6 +32,8 @@ import { makeStyles } from 'tss-react/mui';
 
 import BaseDrawer from '@northern.tech/common-ui/BaseDrawer';
 import Confirm from '@northern.tech/common-ui/Confirm';
+import { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
+import { InfoHintContainer } from '@northern.tech/common-ui/InfoHint';
 import { FormCheckbox } from '@northern.tech/common-ui/forms/FormCheckbox';
 import { ALL_DEVICES, onboardingSteps } from '@northern.tech/store/constants';
 import {
@@ -56,12 +58,15 @@ import pluralize from 'pluralize';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
 import DeviceLimit from './deployment-wizard/DeviceLimit';
-import { RolloutPatternSelection, getPhaseStartTime, validatePhases } from './deployment-wizard/PhaseSettings';
+import { RolloutPatternSelection } from './deployment-wizard/PhaseSettings';
 import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/RolloutOptions';
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
+import { rolloutModes } from './deployment-wizard/phases/constants';
 import type { DeploymentFormValues } from './deployment-wizard/types';
-import { deploymentFormSections, useDerivedData } from './deployment-wizard/utils';
+import { buildPhasePayload, deploymentFormSections, useDerivedData } from './deployment-wizard/utils';
+import type { DeploymentResolverContext } from './deployment-wizard/validation';
+import { deploymentResolver, getDeviceLimitDisabledReason, getPausesDisabledReason, getRolloutPatternDisabledReason } from './deployment-wizard/validation';
 
 const useStyles = makeStyles()(theme => ({
   accordion: {
@@ -88,6 +93,9 @@ const useStyles = makeStyles()(theme => ({
   }
 }));
 
+// these live in the collapsed advanced options, which have to be expanded before their errors can be seen
+const advancedErrorFields = ['maxDevices', 'phases'];
+
 const getAnchor = (element, heightAdjustment = 3) => ({
   top: element.offsetTop + element.offsetHeight / heightAdjustment,
   left: element.offsetLeft + element.offsetWidth
@@ -98,10 +106,16 @@ export const defaultValues: DeploymentFormValues = {
   release: null,
   delta: false,
   forceDeploy: false,
+  isPaused: false,
   maxDevices: 0,
   retries: 1,
   phases: [],
-  update_control_map: { states: {} }
+  rolloutMode: rolloutModes.percentage.key,
+  startTime: undefined,
+  uniform_phases: undefined,
+  shouldLimit: false,
+  update_control_map: { states: {} },
+  usesPattern: false
 };
 
 export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleSubmit, onValuesChange, open }) => {
@@ -123,24 +137,46 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
   const releasesById = useSelector(getReleasesById);
   const groupNames = useSelector(getGroupNames);
   const dispatch = useDispatch();
-  const isCreating = useRef(false);
   const [isChecking, setIsChecking] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
   const releaseRef = useRef();
   const groupRef = useRef();
   const deploymentAnchor = useRef();
+  const formRef = useRef<HTMLDivElement>(null);
   const { classes } = useStyles();
-  const methods = useForm<DeploymentFormValues>({ mode: 'onChange', defaultValues: defaultValues });
+  // the validation depends on the targeted devices, which are not part of the form - so the resolver gets them handed
+  // in as context, kept in a ref to have it up to date whenever the resolver runs
+  const validationContext = useRef<DeploymentResolverContext>({ deploymentDeviceCount: 0, devices: [], group: null, filter: undefined });
+  const methods = useForm<DeploymentFormValues>({
+    context: validationContext.current,
+    defaultValues,
+    reValidateMode: 'onChange',
+    resolver: deploymentResolver,
+    // the errors belong to controls the browser can't focus by itself, so we take care of that below
+    shouldFocusError: false
+  });
   const {
     control,
-    formState: { dirtyFields },
+    formState: { dirtyFields, isSubmitted, isSubmitting },
+    handleSubmit,
     reset,
     setValue,
+    trigger,
     watch
   } = methods;
   const formValues = watch();
-  const { deploymentDeviceCount, deploymentDeviceIds, devices, filter } = useDerivedData(watch, deploymentObject.devices);
+  const { group, isPaused, release, shouldLimit, usesPattern } = formValues;
+  const { deploymentDeviceCount, deploymentDeviceIds, devices, filter, isDeviceCountResolved } = useDerivedData(watch, deploymentObject.devices);
+  validationContext.current.deploymentDeviceCount = deploymentDeviceCount;
+  validationContext.current.devices = devices;
+  validationContext.current.filter = filter;
+  validationContext.current.group = group;
+
+  const target = { deploymentDeviceCount, devices, filter, group, isDeviceCountResolved };
+  const deviceLimitDisabledReason = getDeviceLimitDisabledReason(target);
+  const rolloutPatternDisabledReason = getRolloutPatternDisabledReason({ ...target, isPaused });
+  const pausesDisabledReason = getPausesDisabledReason({ ...target, usesPattern });
 
   useEffect(() => {
     dispatch(getReleases({ page: 1, perPage: 100, searchOnly: true, searchTerm: '', selectedTags: [], type: '' }));
@@ -152,22 +188,57 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     }
   }, [dispatch, isEnterprise, isHosted]);
 
-  const { group, phases, release } = formValues;
   useEffect(() => {
     if (open) {
+      const inferredMode =
+        deploymentObject.rolloutMode ??
+        (deploymentObject.phases?.some(({ batch_size_devices }) => batch_size_devices !== null) ? rolloutModes.device_count.key : rolloutModes.percentage.key);
+      const initialPhases = deploymentObject.phases ?? defaultValues.phases;
+      // a single full-size phase only carries a start time (as created by e.g. a plain scheduled deployment or a
+      // retry), it takes more than one phase to make a rollout pattern - which also keeps pauses & pattern exclusive
+      const hasPhasePattern = initialPhases.length > 1;
       reset({
         group: deploymentObject.group ?? defaultValues.group,
         release: deploymentObject.release ?? defaultValues.release,
         delta: deploymentObject.delta ?? defaultValues.delta,
         forceDeploy: deploymentObject.forceDeploy ?? defaultValues.forceDeploy,
+        isPaused: !hasPhasePattern && !isEmpty(deploymentObject.update_control_map?.states ?? {}),
         maxDevices: deploymentObject.maxDevices ?? defaultValues.maxDevices,
         retries: (deploymentObject.retries ?? previousRetries ?? 0) + 1,
-        phases: deploymentObject.phases ?? defaultValues.phases,
-        update_control_map: deploymentObject.update_control_map ?? defaultValues.update_control_map
+        phases: initialPhases,
+        rolloutMode: inferredMode,
+        startTime: deploymentObject.startTime ?? deploymentObject.phases?.[0]?.start_ts ?? defaultValues.startTime,
+        shouldLimit: !!deploymentObject.maxDevices,
+        uniform_phases: deploymentObject.uniform_phases ?? defaultValues.uniform_phases,
+        update_control_map: deploymentObject.update_control_map ?? defaultValues.update_control_map,
+        usesPattern: hasPhasePattern
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, reset]);
+
+  // options the selected target has ruled out have to be dropped - they could otherwise neither apply nor be removed,
+  // with their controls disabled while the validation keeps rejecting them
+  useEffect(() => {
+    if (deviceLimitDisabledReason && shouldLimit) {
+      setValue(deploymentFormSections.shouldLimit, false, { shouldValidate: isSubmitted });
+      setValue(deploymentFormSections.maxDevices, 0, { shouldValidate: isSubmitted });
+    }
+    if (rolloutPatternDisabledReason && usesPattern) {
+      setValue(deploymentFormSections.usesPattern, false, { shouldValidate: isSubmitted });
+      setValue(deploymentFormSections.phases, [], { shouldValidate: isSubmitted });
+    }
+    if (pausesDisabledReason && isPaused) {
+      setValue(deploymentFormSections.isPaused, false, { shouldValidate: isSubmitted });
+    }
+  }, [deviceLimitDisabledReason, isPaused, isSubmitted, pausesDisabledReason, rolloutPatternDisabledReason, setValue, shouldLimit, usesPattern]);
+
+  // the target device count is not part of the form, so a change there has to re-run the validation by hand
+  useEffect(() => {
+    if (isSubmitted) {
+      trigger();
+    }
+  }, [deploymentDeviceCount, devices.length, isSubmitted, trigger]);
 
   // the global settings can arrive after the form was initialized, so keep the retries default in sync until an
   // explicit value was passed in or the user changed the field
@@ -188,6 +259,9 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
       forceDeploy: formValues.forceDeploy,
       maxDevices: formValues.maxDevices,
       phases: formValues.phases,
+      startTime: formValues.startTime,
+      rolloutMode: formValues.rolloutMode,
+      uniform_phases: formValues.uniform_phases,
       update_control_map: formValues.update_control_map
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -222,11 +296,10 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     if (needsCheck && !isChecking) {
       return setIsChecking(true);
     }
-    isCreating.current = true;
-    const { delta, forceDeploy = false, maxDevices, phases, release, update_control_map } = formValues;
+    const { delta, forceDeploy = false, isPaused, maxDevices, phases, release, rolloutMode, startTime, uniform_phases, update_control_map } = formValues;
     const retries = (formValues.retries ?? 1) - 1;
-    const startTime = phases?.length ? phases[0].start_ts : undefined;
     const retrySetting = canRetry && retries ? { retries } : {};
+    const phasePayload = buildPhasePayload({ phases, rolloutMode, startTime, uniform_phases });
     const newDeployment = {
       artifact_name: release.name,
       autogenerate_delta: delta ? delta : undefined,
@@ -236,15 +309,10 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
       group: group === ALL_DEVICES || devices.length ? undefined : group,
       max_devices: maxDevices ? maxDevices : undefined,
       name: devices[0]?.id || (group ? decodeURIComponent(group) : ALL_DEVICES),
-      phases: phases.length
-        ? phases.map((phase, i, origPhases) => {
-            phase.start_ts = getPhaseStartTime(origPhases, i, startTime);
-            return phase;
-          })
-        : undefined,
+      ...phasePayload,
       ...retrySetting,
       force_installation: forceDeploy,
-      update_control_map: !isEmpty(update_control_map.states) ? update_control_map : undefined
+      update_control_map: isPaused && !isEmpty(update_control_map.states) ? update_control_map : undefined
     };
     if (!isOnboardingComplete) {
       dispatch(advanceOnboarding(onboardingSteps.SCHEDULING_RELEASE_TO_DEVICES));
@@ -255,24 +323,32 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
         cleanUpDeploymentsStatus();
         onScheduleSubmit();
       })
-      .finally(() => {
-        isCreating.current = false;
-        setIsChecking(false);
-      });
+      .finally(() => setIsChecking(false));
   };
 
-  const disabled = isCreating.current || !(release && (deploymentDeviceCount || !!filter || group)) || !validatePhases(phases, deploymentDeviceCount);
+  const scrollToError = () => formRef.current?.querySelector('.Mui-error')?.scrollIntoView?.({ behavior: 'smooth', block: 'center' });
+
+  const onInvalidSubmit = submitErrors => {
+    // an invalid deployment can't be worth confirming, so make way for the errors instead
+    setIsChecking(false);
+    if (!isExpanded && Object.keys(submitErrors).some(field => advancedErrorFields.includes(field))) {
+      // scrolling has to wait until the accordion has finished expanding
+      return setIsExpanded(true);
+    }
+    scrollToError();
+  };
 
   const hasReleases = !!Object.keys(releasesById).length;
   return (
     <BaseDrawer open={open} onClose={closeWizard} size="md" slotProps={{ header: { title: 'Create a deployment' } }}>
       <FormProvider {...methods}>
-        <FormGroup>
+        <FormGroup ref={formRef}>
           {!hasReleases ? (
             <ReleasesWarning />
           ) : (
             <>
               <Devices
+                deploymentDeviceCount={deploymentDeviceCount}
                 devicesById={devicesById}
                 groupRef={groupRef}
                 groupNames={groupNames}
@@ -292,18 +368,36 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
             </>
           )}
           <ScheduleRollout canSchedule={canSchedule} commonClasses={classes} />
-          <Accordion className={classes.accordion} square expanded={isExpanded} onChange={() => setIsExpanded(toggle)}>
+          <Accordion
+            className={classes.accordion}
+            square
+            expanded={isExpanded}
+            onChange={() => setIsExpanded(toggle)}
+            slotProps={{ transition: { onEntered: scrollToError } }}
+          >
             <AccordionSummary expandIcon={<ExpandMore />}>
               <Typography variant="subtitle2">{isExpanded ? 'Hide' : 'Show'} advanced options</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Retries canManageUsers={canManageUsers} canRetry={canRetry} commonClasses={classes} defaultRetries={previousRetries} />
-              <DeviceLimit />
-              <RolloutPatternSelection isEnterprise={isEnterprise} previousPhases={previousPhases} />
-              <RolloutOptions isEnterprise={isEnterprise} />
+              <DeviceLimit disabledReason={deviceLimitDisabledReason} />
+              <RolloutPatternSelection disabledReason={rolloutPatternDisabledReason} isEnterprise={isEnterprise} previousPhases={previousPhases} />
+              <RolloutOptions disabledReason={pausesDisabledReason} isEnterprise={isEnterprise} />
               <ForceDeploy />
               {!isTrial && hasDeltaEnabled && (
-                <FormCheckbox id={deploymentFormSections.delta} control={control} label="Generate and deploy Delta Artifacts where available" />
+                <FormCheckbox
+                  id={deploymentFormSections.delta}
+                  control={control}
+                  label={
+                    <div className="flexbox align-items-center">
+                      Generate and deploy Delta Artifacts where available
+                      <InfoHintContainer>
+                        <DocsTextLink id={DOCSTIPS.deltaArtifacts.id} />
+                      </InfoHintContainer>
+                    </div>
+                  }
+                  slotProps={{ checkbox: { className: 'margin-left-small', size: 'small' } }}
+                />
               )}
             </AccordionDetails>
           </Accordion>
@@ -313,7 +407,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
             <Confirm
               classes="confirmation-overlay"
               cancel={() => setIsChecking(false)}
-              action={onScheduleSubmitClick}
+              action={handleSubmit(onScheduleSubmitClick, onInvalidSubmit)}
               message={`This will deploy ${release?.name} to ${deploymentDeviceCount} ${pluralize('device', deploymentDeviceCount)}. Are you sure?`}
               style={{ paddingLeft: 12, justifyContent: 'flex-start', maxHeight: 44 }}
             />
@@ -321,7 +415,13 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
           <Button onClick={closeWizard} style={{ marginRight: 10 }}>
             Cancel
           </Button>
-          <Button variant="contained" color="primary" ref={deploymentAnchor} disabled={disabled} onClick={onScheduleSubmitClick}>
+          <Button
+            variant="contained"
+            color="primary"
+            ref={deploymentAnchor}
+            disabled={isSubmitting}
+            onClick={handleSubmit(onScheduleSubmitClick, onInvalidSubmit)}
+          >
             Create deployment
           </Button>
         </div>
