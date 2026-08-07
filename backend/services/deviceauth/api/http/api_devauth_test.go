@@ -568,7 +568,7 @@ func TestApiV2DevAuthUpdateStatusDevice(t *testing.T) {
 		},
 	}
 
-	mockaction := func(_ context.Context, dev_id string, auth_id string) error {
+	mockaction := func(dev_id string, auth_id string) error {
 		d, ok := devs[dev_id+","+auth_id]
 		if ok == false {
 			return store.ErrDevNotFound
@@ -578,116 +578,72 @@ func TestApiV2DevAuthUpdateStatusDevice(t *testing.T) {
 		}
 		return nil
 	}
-	da := &mocks.App{}
-	da.On("AcceptDeviceAuth",
-		mtest.ContextMatcher(),
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("string")).Return(mockaction)
-	da.On("RejectDeviceAuth",
-		mtest.ContextMatcher(),
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("string")).Return(mockaction)
-	da.On("ResetDeviceAuth",
-		mtest.ContextMatcher(),
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("string")).Return(mockaction)
-
-	apih := makeMockApiHandler(t, da, nil)
-
-	accstatus := DevAuthApiStatus{"accepted"}
-	rejstatus := DevAuthApiStatus{"rejected"}
-	penstatus := DevAuthApiStatus{"pending"}
 
 	tcases := []struct {
-		req  *http.Request
-		code int
-		body string
+		deviceID, authID string
+		status           string
+		code             int
+		body             string
 	}{
 		{
-			req: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "PUT",
-				Path:   "http://localhost/api/management/v2/devauth/devices/123/auth/456/status",
-				Auth:   true,
-			}),
-			code: http.StatusBadRequest,
-			body: RestError("failed to decode status data: invalid request"),
+			deviceID: "123",
+			authID:   "456",
+			status:   "",
+			code:     http.StatusBadRequest,
+			body:     RestError("failed to decode status data: invalid request"),
 		},
 		{
-			req: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "PUT",
-				Path:   "http://localhost/api/management/v2/devauth/devices/123/auth/456/status",
-				Auth:   true,
-				Body:   DevAuthApiStatus{"foo"},
-			}),
-			code: http.StatusBadRequest,
-			body: RestError("incorrect device status"),
+			deviceID: "123",
+			authID:   "456",
+			status:   "foo",
+			code:     http.StatusBadRequest,
+			body:     RestError("incorrect device status"),
 		},
 		{
-			req: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "PUT",
-				Path:   "http://localhost/api/management/v2/devauth/devices/123/auth/456/status",
-				Auth:   true,
-				Body:   accstatus,
-			}),
-			code: http.StatusNoContent,
+			deviceID: "123",
+			authID:   "456",
+			status:   model.DevStatusAccepted,
+			code:     http.StatusNoContent,
 		},
 		{
-			req: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "PUT",
-				Path:   "http://localhost/api/management/v2/devauth/devices/345/auth/678/status",
-				Auth:   true,
-				Body:   accstatus,
-			}),
-			code: http.StatusInternalServerError,
-			body: RestError("internal error"),
+			deviceID: "345",
+			authID:   "678",
+			status:   model.DevStatusAccepted,
+			code:     http.StatusInternalServerError,
+			body:     RestError("internal error"),
 		},
 		{
-			req: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "PUT",
-				Path:   "http://localhost/api/management/v2/devauth/devices/999/auth/123/status",
-				Auth:   true,
-				Body:   accstatus,
-			}),
-			code: http.StatusNotFound,
-			body: RestError(store.ErrDevNotFound.Error()),
+			deviceID: "999",
+			authID:   "123",
+			status:   model.DevStatusAccepted,
+			code:     http.StatusNotFound,
+			body:     RestError(store.ErrDevNotFound.Error()),
 		},
 		{
-			req: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "PUT",
-				Path:   "http://localhost/api/management/v2/devauth/devices/123/auth/456/status",
-				Auth:   true,
-				Body:   rejstatus,
-			}),
-			code: http.StatusNoContent,
+			deviceID: "123",
+			authID:   "456",
+			status:   model.DevStatusRejected,
+			code:     http.StatusNoContent,
 		},
 		{
-			req: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "PUT",
-				Path:   "http://localhost/api/management/v2/devauth/devices/123/auth/456/status",
-				Auth:   true,
-				Body:   penstatus,
-			}),
-			code: http.StatusNoContent,
+			deviceID: "123",
+			authID:   "456",
+			status:   model.DevStatusPending,
+			code:     http.StatusNoContent,
 		},
 		{
-			req: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "PUT",
-				Path:   "http://localhost/api/management/v2/devauth/devices/234/auth/567/status",
-				Auth:   true,
-				Body:   penstatus,
-			}),
-			code: http.StatusBadRequest,
-			body: RestError("dev auth: dev ID and auth ID mismatch"),
+			deviceID: "234",
+			authID:   "567",
+			status:   model.DevStatusPending,
+			code:     http.StatusBadRequest,
+			body:     RestError("dev auth: dev ID and auth ID mismatch"),
 		},
 		{
-			req: rtest.MakeTestRequest(&rtest.TestRequest{
-				Method: "PUT",
-				Path:   "http://localhost/api/management/v2/devauth/devices/567/auth/890/status",
-				Auth:   true,
-				Body:   accstatus,
-			}),
-			code: http.StatusUnprocessableEntity,
-			body: RestError("maximum number of accepted devices reached"),
+			deviceID: "567",
+			authID:   "890",
+			status:   model.DevStatusAccepted,
+			code:     http.StatusUnprocessableEntity,
+			body:     RestError("maximum number of accepted devices reached"),
 		},
 	}
 
@@ -695,8 +651,30 @@ func TestApiV2DevAuthUpdateStatusDevice(t *testing.T) {
 		tc := tcases[idx]
 		t.Run(fmt.Sprintf("tc %d", idx), func(t *testing.T) {
 			t.Parallel()
+			da := mocks.NewApp(t)
+			da.On("SetAuthSetStatus",
+				mtest.ContextMatcher(),
+				mock.AnythingOfType("string"),
+				mock.AnythingOfType("string"),
+				tc.status,
+			).
+				Return(mockaction(tc.deviceID, tc.authID)).
+				Maybe()
 
-			runTestRequest(t, apih, tc.req, tc.code, tc.body)
+			apih := makeMockApiHandler(t, da, nil)
+			var body any
+			if tc.status != "" {
+				body = DevAuthApiStatus{Status: tc.status}
+			}
+			req := rtest.MakeTestRequest(&rtest.TestRequest{
+				Method: "PUT",
+				Path: fmt.Sprintf("http://localhost/api/management/v2/devauth/devices/%s/auth/%s/status",
+					tc.deviceID, tc.authID),
+				Auth: true,
+				Body: body,
+			})
+
+			runTestRequest(t, apih, req, tc.code, tc.body)
 		})
 	}
 

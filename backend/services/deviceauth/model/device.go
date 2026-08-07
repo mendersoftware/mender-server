@@ -15,6 +15,7 @@ package model
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/url"
 	"time"
 
@@ -47,6 +48,26 @@ var (
 		DevStatusNoAuth,
 	}
 )
+
+func ValidateStatusTransition(fromStatus, toStatus string) error {
+	switch toStatus {
+	case DevStatusAccepted:
+		if fromStatus == DevStatusRejected ||
+			fromStatus == DevStatusPending {
+			return nil
+		}
+	case DevStatusPending:
+		if fromStatus != DevStatusPreauth {
+			return nil
+		}
+	case DevStatusRejected:
+		if fromStatus == DevStatusPending ||
+			fromStatus == DevStatusAccepted {
+			return nil
+		}
+	}
+	return fmt.Errorf("invalid status transition: %s -> %s", fromStatus, toStatus)
+}
 
 // note: fields with underscores need the 'bson' decorator
 // otherwise the underscore will be removed upon write to mongo

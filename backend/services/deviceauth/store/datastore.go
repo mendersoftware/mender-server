@@ -82,6 +82,12 @@ type DataStore interface {
 
 	// updates a single device with deviceID, using data from `up`
 	UpdateDevice(ctx context.Context, deviceID string, up model.DeviceUpdate) error
+	UpdateDeviceWithRevision(
+		ctx context.Context,
+		deviceID string,
+		revision uint,
+		up model.DeviceUpdate,
+	) error
 
 	// deletes device
 	DeleteDevice(ctx context.Context, id string) error

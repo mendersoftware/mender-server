@@ -1,24 +1,17 @@
 {
     "name": "provision_device",
     "description": "Provision device.",
-    "version": 11,
+    "version": 12,
     "tasks": [{
             "name": "create_device_inventory",
             "type": "http",
             "retries": 3,
             "retryDelaySeconds": 5,
             "http": {
-                "uri": "http://${env.INVENTORY_ADDR|mender-inventory:8080}/api/internal/v1/inventory/tenants/${encoding=url;workflow.input.tenant_id}/devices",
+                "uri": "http://${env.INVENTORY_ADDR|mender-inventory:8080}/api/internal/v1/inventory/tenants/${encoding=url;workflow.input.tenant_id}/devices/status/${encoding=url;workflow.input.status}",
                 "method": "POST",
                 "contentType": "application/json",
-                "json": {
-                    "id": "${workflow.input.device_id}",
-                    "attributes": [{
-                        "name": "status",
-                        "scope": "identity",
-                        "value": "${workflow.input.status}"
-                    }]
-                },
+                "json": ["${workflow.input.device}"],
                 "headers": {
                     "X-MEN-RequestID": "${workflow.input.request_id}"
                 },
@@ -108,6 +101,30 @@
                 "connectionTimeOut": 8000,
                 "readTimeOut": 8000,
                 "statusCodes": [
+                    204,
+                    404
+                ]
+            }
+        },
+        {
+            "name": "update_iot_manager_status",
+            "type": "http",
+            "retries": 3,
+            "retryDelaySeconds": 5,
+            "http": {
+                "uri": "http://${env.IOT_MANAGER_ADDR|mender-iot-manager:8080}/api/internal/v1/iot-manager/tenants/${encoding=url;workflow.input.tenant_id}/bulk/devices/status/${encoding=url;workflow.input.status}",
+                "method": "PUT",
+                "contentType": "application/json",
+                "json": ["${workflow.input.device}"],
+                "headers": {
+                    "X-MEN-RequestID": "${workflow.input.request_id}"
+                },
+                "connectionTimeOut": 8000,
+                "readTimeOut": 8000,
+                "statusCodes": [
+                    200,
+                    201,
+                    202,
                     204,
                     404
                 ]
