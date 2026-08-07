@@ -29,7 +29,6 @@ import {
   MenuItem,
   Toolbar,
   Typography,
-  accordionClasses,
   textFieldClasses
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -105,50 +104,37 @@ const cookies = new Cookies();
 
 const useStyles = makeStyles()(theme => ({
   accordion: {
-    ul: { paddingInlineStart: 0 },
-    [`&.${accordionClasses.disabled}, &.${accordionClasses.expanded}`]: {
-      backgroundColor: theme.palette.background.paper
-    },
-    border: 'none',
-    '&:hover': {
-      border: 'none'
-    }
+    border: 'none'
   },
+  accountButton: { maxWidth: 250 },
   demoAnnouncementIcon: {
-    height: 16,
-    '&.MuiButton-text.MuiButton-colorPrimary': {
-      height: 'inherit'
-    }
+    height: 16
   },
   demoTrialAnnouncement: {
-    fontSize: 14,
-    height: 'auto'
+    fontSize: 14
   },
-  dropDown: {
-    height: '100%'
-  },
-  exitIcon: { color: theme.palette.grey[600], fill: theme.palette.grey[600] },
+  exitIcon: { color: theme.palette.grey[600] },
   header: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     color: theme.palette.text.secondary,
     display: 'grid',
     gridTemplateColumns: 'max-content 1fr max-content',
-    '&.service-provider': {
-      gridTemplateColumns: '1fr max-content'
-    },
     '#logo': {
       minWidth: 142,
       height: theme.spacing(6),
       marginRight: 25
     }
   },
+  divider: {
+    height: theme.spacing(3)
+  },
   headerSection: {
     color: theme.palette.text.secondary,
-    height: theme.spacing(3),
     '&:hover': {
       color: theme.palette.text.secondary
     }
   },
+  menuPaper: { marginTop: theme.spacing() },
   organization: { marginBottom: theme.spacing() },
   redAnnouncementIcon: {
     color: theme.palette.error.dark
@@ -156,14 +142,17 @@ const useStyles = makeStyles()(theme => ({
   search: {
     justifyContent: 'center',
     display: 'flex',
-    transition: 'all 0.1s ease',
     [`& .${textFieldClasses.root}`]: {
       width: 220,
       maxWidth: 640,
+      transition: 'width 0.1s ease',
       '&:focus-within': {
         width: '100%'
       }
     }
+  },
+  serviceProvider: {
+    gridTemplateColumns: '1fr max-content'
   }
 }));
 
@@ -199,20 +188,22 @@ const AccountMenu = ({ className }) => {
   return (
     <>
       <Button
-        className={`flexbox align-items-center ${className} ${classes.dropDown}`}
+        className={`flexbox align-items-center ${className} ${classes.accountButton}`}
         onClick={e => setAnchorEl(e.currentTarget)}
         startIcon={<AccountCircleIcon />}
         variant="text"
       >
-        {email}
+        <Typography variant="subtitle2" className="text-overflow">
+          {email}
+        </Typography>
       </Button>
       <Menu
         anchorEl={anchorEl}
-        className={classes.dropDown}
         onClose={handleClose}
         open={Boolean(anchorEl)}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        slotProps={{ paper: { className: classes.menuPaper } }}
       >
         <MenuItem component={RouterLink} to="/settings/my-profile" onClick={handleClose}>
           My profile
@@ -230,7 +221,7 @@ const AccountMenu = ({ className }) => {
         )}
         {tenants.length > 1 && (
           <div>
-            <Divider style={{ marginBottom: 0 }} />
+            <Divider className="margin-bottom-none" />
             <Accordion
               className={`padding-left-none padding-right-none ${classes.accordion}`}
               disableGutters
@@ -384,7 +375,7 @@ export const Header = ({ isDarkMode }) => {
         />
       )}
       {showOffer && <OfferHeader onHide={setHideOffer} />}
-      <Toolbar className={`${classes.header} ${isSp ? 'service-provider' : ''}`}>
+      <Toolbar className={`${classes.header} ${isSp ? classes.serviceProvider : ''}`}>
         <div className="flexbox align-items-center">
           <Link to="/">
             <img id="logo" src={headerLogo} />
@@ -392,21 +383,19 @@ export const Header = ({ isDarkMode }) => {
           {organization.trial && <TrialNotification expiration={organization.trial_expiration} sectionClassName={classes.demoTrialAnnouncement} />}
         </div>
         {isSp ? (
-          <>
-            <div className="flexbox align-items-center">
-              <Chip label="Service Provider" />
-              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
-              <AccountMenu className={classes.headerSection} />
-            </div>
-          </>
+          <div className="flexbox align-items-center">
+            <Chip label="Service Provider" />
+            <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
+            <AccountMenu className={classes.headerSection} />
+          </div>
         ) : (
           <>
             <Search className={classes.search} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
-            <div className={`flexbox align-items-center`}>
+            <div className="flexbox align-items-center">
               <DeviceNotifications pending={pendingDevices} total={acceptedDevices} />
-              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
-              <DeploymentNotifications className={classes.headerSection} inprogress={inProgress} />
-              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
+              <Divider className={`margin-left-x-small margin-right-x-small ${classes.divider}`} orientation="vertical" />
+              <DeploymentNotifications inprogress={inProgress} />
+              <Divider className={`margin-left-x-small margin-right-x-small ${classes.divider}`} orientation="vertical" />
               <AccountMenu className={classes.headerSection} />
             </div>
           </>

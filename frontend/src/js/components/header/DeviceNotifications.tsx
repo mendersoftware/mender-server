@@ -186,7 +186,8 @@ const DeviceNotifications = ({ className = '', total, pending }) => {
   return (
     <div className={className}>
       <Tooltip
-        title="View device limits"
+        arrow
+        title="View device count and limits"
         open={!anchorEl && tooltip}
         disableFocusListener
         disableTouchListener

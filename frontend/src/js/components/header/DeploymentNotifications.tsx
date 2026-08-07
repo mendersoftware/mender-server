@@ -11,28 +11,20 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-// material ui
-import { Sync as RefreshIcon } from '@mui/icons-material';
-import { Typography } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
+import { Link as RouterLink } from 'react-router';
 
-import { Link } from '@northern.tech/common-ui/Link';
+// material ui
+import { SyncOutlined as RefreshIcon } from '@mui/icons-material';
+import { Button, Tooltip } from '@mui/material';
+
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 
-const useStyles = makeStyles()(theme => ({
-  root: {
-    color: theme.palette.text.secondary
-  }
-}));
-
-const DeploymentNotifications = ({ className = '', inprogress }) => {
-  const { classes } = useStyles();
-  return (
-    <Link to={DEPLOYMENT_ROUTES.active.route} className={`flexbox align-items-center ${classes.root} ${className}`}>
-      <RefreshIcon className="flip-horizontal margin-right-x-small" fontSize="small" />
-      <Typography variant="subtitle2">{inprogress}</Typography>
-    </Link>
-  );
-};
+const DeploymentNotifications = ({ className = '', inprogress }) => (
+  <Tooltip title="Deployments in progress">
+    <Button className={className} color="inherit" component={RouterLink} startIcon={<RefreshIcon fontSize="small" />} to={DEPLOYMENT_ROUTES.active.route}>
+      {inprogress}
+    </Button>
+  </Tooltip>
+);
 
 export default DeploymentNotifications;
