@@ -1,4 +1,4 @@
-// Copyright 2020 Northern.tech AS
+// Copyright 2026 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -11,21 +11,29 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { render } from '@/testUtils';
+import { defaultState, render } from '@/testUtils';
 import { undefineds } from '@northern.tech/testing/mockData';
-import { screen } from '@testing-library/react';
-import { vi } from 'vitest';
 
-import MakeGatewayDialog from './MakeGatewayDialog';
+import { DeviceSystem } from './DeviceSystem';
 
-describe('CreateGroupExplainerContent Component', () => {
+const components = {
+  R123: [
+    { name: 'artifact_name', value: 'rtos-image-v1', scope: 'inventory' },
+    { name: 'component_type', value: 'rtos', scope: 'inventory' },
+    { name: 'version', value: 'v1', scope: 'inventory' }
+  ],
+  S789: [
+    { name: 'artifact_name', value: 'sensor-firmware-v3', scope: 'inventory' },
+    { name: 'component_type', value: 'sensor', scope: 'inventory' },
+    { name: 'version', value: 'v3.1.0', scope: 'inventory' }
+  ]
+};
+
+describe('DeviceSystem Component', () => {
   it('renders correctly', async () => {
-    window.localStorage.getItem.mockImplementation(name => (name === 'JWT' ? JSON.stringify({ token: 'veryTest' }) : undefined));
-    const { baseElement } = render(<MakeGatewayDialog onCancel={vi.fn} />);
-    const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
+    const { baseElement } = render(<DeviceSystem device={{ ...defaultState.devices.byId.a1, components }} />);
+    const view = baseElement.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
-    expect(screen.getByText(/veryTest/)).toBeInTheDocument();
-    window.localStorage.getItem.mockReset();
   });
 });

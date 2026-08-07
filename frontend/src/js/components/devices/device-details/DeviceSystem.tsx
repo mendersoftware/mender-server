@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2026 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -11,132 +11,184 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink, useNavigate } from 'react-router';
+import { useCallback, useEffect, useState } from 'react';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { Button } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Collapse, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography, tableCellClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { ContentSection } from '@northern.tech/common-ui/ContentSection';
-import DocsLink from '@northern.tech/common-ui/DocsLink';
-import EnterpriseNotification from '@northern.tech/common-ui/EnterpriseNotification';
+import { InventoryTable } from '@northern.tech/common-ui/InventoryTable';
+import { LastChangedNote } from '@northern.tech/common-ui/LastChangedNote';
+import { Link } from '@northern.tech/common-ui/Link';
+import Pagination from '@northern.tech/common-ui/Pagination';
+import { ControlledSearch } from '@northern.tech/common-ui/Search';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import storeActions from '@northern.tech/store/actions';
-import { ALL_DEVICE_STATES, BENEFITS, DEVICE_LIST_DEFAULTS, DEVICE_STATES, SORTING_OPTIONS } from '@northern.tech/store/constants';
-import { getCurrentSession, getDevicesById, getIdAttribute, getIsPreview, getOrganization } from '@northern.tech/store/selectors';
-import { getSystemDevices } from '@northern.tech/store/thunks';
-import { getDemoDeviceAddress, toggle } from '@northern.tech/utils/helpers';
-
-import { getHeaders } from '../AuthorizedDevices';
-import { routes } from '../BaseDevices';
-import Devicelist from '../DeviceList';
-import ConnectToGatewayDialog from '../dialogs/ConnectToGatewayDialog';
+import { DEVICE_LIST_DEFAULTS, rootfsManifestVersion } from '@northern.tech/store/constants';
+import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { getDeviceComponents } from '@northern.tech/store/thunks';
+import pluralize from 'pluralize';
 
 const { setSnackbar } = storeActions;
 
-const useStyles = makeStyles()(theme => ({ container: { maxWidth: 600, marginTop: theme.spacing(), marginBottom: theme.spacing() } }));
+const useStyles = makeStyles()(() => ({
+  componentRow: {
+    [`& > .${tableCellClasses.root}`]: {
+      borderBottom: 'unset'
+    }
+  }
+}));
 
-export const DeviceSystem = ({ columnSelection, device, onConnectToGatewayClick, openSettingsDialog }) => {
-  const [columnHeaders, setColumnHeaders] = useState([]);
-  const [headerKeys, setHeaderKeys] = useState([]);
-  const [page, setPage] = useState(DEVICE_LIST_DEFAULTS.page);
-  const [perPage, setPerPage] = useState(DEVICE_LIST_DEFAULTS.perPage);
+const { page: defaultPage, perPage: defaultPerPage } = DEVICE_LIST_DEFAULTS;
+const visibleAttributes = ['component_type', 'version'];
+const searchableAttributes = ['id', 'component_type'];
+const toComponent = ([id, attributes]) =>
+  attributes.reduce(
+    (accu, { name, value }) => {
+      if (visibleAttributes.includes(name)) {
+        accu[name] = value;
+      } else {
+        accu.attributes[name] = value;
+      }
+      return accu;
+    },
+    { id, attributes: {} }
+  );
+const matchesSearch = (component, keys, search) => !search || keys.some(key => `${component[key] ?? ''}`.toLowerCase().includes(search));
+
+const columnsConfig = [
+  { title: 'ID', prop: 'id' },
+  { title: 'Component Type', prop: 'component_type' },
+  { title: 'Version', prop: 'version' }
+];
+const ComponentRow = props => {
+  const [open, setOpen] = useState(false);
+  const { className, component, onCopy } = props;
+  return (
+    <>
+      <TableRow className={className}>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        {columnsConfig.map(column => (
+          <TableCell key={component.id + column.prop}>{component[column.prop]}</TableCell>
+        ))}
+      </TableRow>
+      <TableRow>
+        <TableCell className="padding-none" colSpan={columnsConfig.length + 1}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Typography variant="subtitle1">Component inventory</Typography>
+            <InventoryTable config={component.attributes} setSnackbar={onCopy} />
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
+  );
+};
+const ComponentTable = props => {
+  const { components } = props;
   const { classes } = useStyles();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const devicesById = useSelector(getDevicesById);
-  const idAttribute = useSelector(getIdAttribute);
+  const dispatch = useAppDispatch();
+  const onCopy = useCallback(message => dispatch(setSnackbar(message)), [dispatch]);
+  return (
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell />
+          {columnsConfig.map(column => (
+            <TableCell key={column.title}>{column.title}</TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {components.map(component => (
+          <ComponentRow key={component.id} className={classes.componentRow} component={component} onCopy={onCopy} />
+        ))}
+      </TableBody>
+    </Table>
+  );
+};
 
-  const { systemDeviceIds = [], systemDeviceTotal = 0 } = device;
-  const deviceIp = getDemoDeviceAddress([device]);
-
-  const [sortOptions, setSortOptions] = useState([]);
-
-  const onSortChange = attribute => {
-    let changedOrder = SORTING_OPTIONS.asc;
-    if (sortOptions.length && sortOptions[0].attribute == attribute.name) {
-      changedOrder = sortOptions[0].order === SORTING_OPTIONS.desc ? SORTING_OPTIONS.asc : SORTING_OPTIONS.desc;
-    }
-    setSortOptions([{ attribute: attribute.name, scope: attribute.scope, order: changedOrder }]);
-  };
+export const DeviceSystem = ({ device }) => {
+  const { attributes = {}, updated_ts: updateTime, isOffline } = device;
+  const { device_type: deviceTypes = [] } = attributes;
+  const dispatch = useAppDispatch();
+  const methods = useForm({ mode: 'onChange', defaultValues: { search: '' } });
+  const searchTerm = useWatch({ control: methods.control, name: 'search' }).trim();
+  const search = searchTerm.toLowerCase();
+  const [page, setPage] = useState(defaultPage);
+  const [perPage, setPerPage] = useState(defaultPerPage);
+  const manifestName = attributes[rootfsManifestVersion];
+  const systemType = deviceTypes.join(',') || '-';
+  const manifestPath = `${generateReleasesPath({ pageState: {} })}?${formatReleases({ pageState: { tab: 'manifests', id: manifestName } })}`;
+  const manifest = manifestName ? (
+    <Link target="_blank" rel="noopener noreferrer" to={manifestPath}>
+      {manifestName}
+    </Link>
+  ) : (
+    '-'
+  );
+  useEffect(() => {
+    dispatch(getDeviceComponents(device.id));
+  }, [dispatch, device.id]);
 
   useEffect(() => {
-    const columnHeaders = getHeaders(columnSelection, routes.allDevices.defaultHeaders, idAttribute, openSettingsDialog);
-    setColumnHeaders(columnHeaders);
-    setHeaderKeys(columnHeaders.map(({ attribute: { name, scope } }) => `${name}-${scope}`).join('-'));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnSelection, idAttribute.attribute, openSettingsDialog]);
+    setPage(defaultPage);
+  }, [search]);
 
-  useEffect(() => {
-    if (device.attributes) {
-      dispatch(getSystemDevices({ id: device.id, page, perPage, sortOptions }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, device.id, device.attributes?.mender_is_gateway, page, perPage, sortOptions]);
+  const filteredComponents = Object.entries(device.components ?? {})
+    .map(toComponent)
+    .filter(component => matchesSearch(component, searchableAttributes, search));
+  const paginatedComponents = filteredComponents.slice((page - 1) * perPage, page * perPage);
 
-  const onDeviceClick = (device = {}) => {
-    const deviceState = DEVICE_STATES[device.status] ?? ALL_DEVICE_STATES;
-    navigate(`/devices/${deviceState}?id=${device.id}&open=true&tab=identity`, { state: { internal: true } });
+  const onChangeRowsPerPage = newPerPage => {
+    setPage(defaultPage);
+    setPerPage(newPerPage);
   };
 
   return (
     <>
-      <ContentSection postTitle={<EnterpriseNotification id={BENEFITS.gateway.id} />} title="Mender Gateway">
-        <TwoColumnData data={{ 'Server IP': deviceIp }} setSnackbar={message => dispatch(setSnackbar(message))} />
+      <ContentSection title="System information">
+        <TwoColumnData data={{ 'System type': systemType, Manifest: manifest }} />
       </ContentSection>
-      <ContentSection className={classes.container} title="System for this gateway">
-        {systemDeviceTotal ? (
-          <Devicelist
-            customColumnSizes={[]}
-            columnHeaders={columnHeaders}
-            devices={systemDeviceIds.map(id => devicesById[id])}
-            deviceListState={{ page, perPage }}
-            headerKeys={headerKeys}
-            idAttribute={idAttribute}
-            onChangeRowsPerPage={setPerPage}
-            onExpandClick={onDeviceClick}
-            onResizeColumns={false}
-            onPageChange={setPage}
-            onSelect={false}
-            onSort={onSortChange}
-            pageLoading={false}
-            pageTotal={systemDeviceTotal}
-          />
-        ) : (
-          <div className="dashboard-placeholder">
-            <p>No devices have been connected to this gateway device yet.</p>
-            <div>
-              Visit the <DocsLink path="get-started/mender-gateway" title="full Mender Gateway documentation" /> to learn how to make the most of the gateway
-              functionality.
-            </div>
+      <ContentSection title="Components" titleEnd={<LastChangedNote updateTime={updateTime} isOffline={isOffline} />}>
+        <FormProvider {...methods}>
+          <ControlledSearch asFormField placeholder="ID or component type" />
+        </FormProvider>
+        {!!searchTerm && (
+          <Typography className="margin-top-small" variant="subtitle2">
+            Showing {filteredComponents.length} {pluralize('result', filteredComponents.length)} for ‘{searchTerm}’
+          </Typography>
+        )}
+        {filteredComponents.length === 0 && searchTerm ? (
+          <div className="flexbox centered margin-top-small">
+            <Typography variant="body1">No components were found. Try adjusting your search query</Typography>
           </div>
+        ) : (
+          <>
+            <ComponentTable components={paginatedComponents} />
+            {!!filteredComponents.length && (
+              <div className="flexbox">
+                <Pagination
+                  key={filteredComponents.length}
+                  className="margin-top-none"
+                  count={filteredComponents.length}
+                  rowsPerPage={perPage}
+                  page={page}
+                  onChangePage={setPage}
+                  onChangeRowsPerPage={onChangeRowsPerPage}
+                />
+              </div>
+            )}
+          </>
         )}
       </ContentSection>
-      <div className="flexbox">
-        <Button color="secondary" component={RouterLink} to={`/deployments?deviceId=${device.id}&open=true`}>
-          Create deployment for this system
-        </Button>
-        <Button onClick={onConnectToGatewayClick}>Connect devices</Button>
-      </div>
     </>
   );
 };
-
-const DeviceSystemTab = ({ device, ...remainder }) => {
-  const [open, setOpen] = useState(false);
-  const isPreRelease = useSelector(getIsPreview);
-  const { tenant_token: tenantToken } = useSelector(getOrganization);
-  const { token } = useSelector(getCurrentSession);
-
-  const gatewayIp = getDemoDeviceAddress([device]);
-  const toggleDialog = () => setOpen(toggle);
-  return (
-    <>
-      <DeviceSystem onConnectToGatewayClick={toggleDialog} {...{ device, ...remainder }} />
-      {open && <ConnectToGatewayDialog gatewayIp={gatewayIp} isPreRelease={isPreRelease} onCancel={toggleDialog} tenantToken={tenantToken} token={token} />}
-    </>
-  );
-};
-
-export default DeviceSystemTab;

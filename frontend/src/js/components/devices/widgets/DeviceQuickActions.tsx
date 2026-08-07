@@ -41,10 +41,9 @@ import {
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
-import { stringToBoolean, toggle } from '@northern.tech/utils/helpers';
+import { toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
-import GatewayIcon from '../../../../assets/img/gateway.svg';
 import { getOnboardingComponentFor } from '../../../utils/onboardingManager';
 import { MAX_TEST_DEVICES } from './TestDeviceLimit';
 
@@ -116,14 +115,6 @@ const defaultActions: Record<string, QuickAction> = {
     title: pluralized => `Remove selected ${pluralized} from this group`,
     action: ({ onRemoveDevicesFromGroup, selection }) => onRemoveDevicesFromGroup(selection),
     checkRelevance: ({ selectedGroup, userCapabilities: { canWriteDevices } }) => canWriteDevices && selectedGroup && selectedGroup !== UNGROUPED_GROUP.id
-  },
-  promoteToGateway: {
-    icon: <GatewayIcon style={{ width: 20 }} />,
-    key: 'promote-to-gateway',
-    title: () => 'Promote to gateway',
-    action: ({ onPromoteGateway, selection }) => onPromoteGateway(selection),
-    checkRelevance: ({ device, features, tenantCapabilities: { isEnterprise } }) =>
-      features.isHosted && isEnterprise && !stringToBoolean(device.attributes?.mender_is_gateway) && device.status === DEVICE_STATES.accepted
   },
   createDeployment: {
     icon: <SyncOutlinedIcon />,

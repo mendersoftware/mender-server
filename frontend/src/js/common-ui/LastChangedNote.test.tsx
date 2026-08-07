@@ -1,4 +1,4 @@
-// Copyright 2022 Northern.tech AS
+// Copyright 2026 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -11,16 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { render } from '@/testUtils';
-import { token, undefineds } from '@northern.tech/testing/mockData';
-import { vi } from 'vitest';
+import { defaultState, render } from '@/testUtils';
+import { undefineds } from '@northern.tech/testing/mockData';
 
-import ConnectToGatewayDialog from './ConnectToGatewayDialog';
+import { LastChangedNote } from './LastChangedNote';
 
-describe('ConnectToGatewayDialog Component', () => {
+describe('LastChangedNote Component', () => {
   it('renders correctly', async () => {
-    const { baseElement } = render(<ConnectToGatewayDialog gatewayIp="1.2.3.4" isPreRelease={false} onCancel={vi.fn} tenantToken={token} token={token} />);
-    const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
+    const { baseElement } = render(<LastChangedNote updateTime={defaultState.devices.byId.a1.updated_ts} />);
+    const view = baseElement.firstChild.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });

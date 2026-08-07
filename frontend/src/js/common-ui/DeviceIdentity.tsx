@@ -11,28 +11,19 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { getDeviceById as getDeviceByIdSelector, getIdAttribute } from '@northern.tech/store/selectors';
-import { stringToBoolean } from '@northern.tech/utils/helpers';
 
-import GatewayConnectionIcon from '../../assets/img/gateway-connection.svg';
-import GatewayIcon from '../../assets/img/gateway.svg';
 import DeviceNameInput from './DeviceNameInput';
 
 const useStyles = makeStyles()(theme => ({
   container: {
     gridTemplateColumns: '1fr max-content',
     columnGap: theme.spacing()
-  },
-  gatewayIcon: {
-    color: theme.palette.grey[400],
-    width: 'max-content',
-    marginRight: theme.spacing()
   }
 }));
 
@@ -81,16 +72,8 @@ const attributeComponentMap = {
   name: DeviceNameInput
 };
 
-const adornments = [
-  {
-    component: GatewayConnectionIcon,
-    isApplicable: ({ attributes = {} }) => !stringToBoolean(attributes.mender_is_gateway) && !!attributes.mender_gateway_system_id
-  },
-  { component: GatewayIcon, isApplicable: ({ attributes = {} }) => stringToBoolean(attributes.mender_is_gateway) }
-];
-
 export const DeviceIdentityDisplay = props => {
-  const { device = {}, isEditable = true, hasAdornment = true } = props;
+  const { device = {}, isEditable = true } = props;
 
   const idAttribute = useSelector(getIdAttribute);
   const { attribute, scope } = idAttribute;
@@ -102,17 +85,10 @@ export const DeviceIdentityDisplay = props => {
   if (attribute === 'name' && scope === 'tags') {
     Component = isEditable ? attributeComponentMap.name : Component;
   }
-  const { attributes = {} } = device;
-  const EndAdornment = useMemo(
-    () => adornments.find(item => item.isApplicable(device))?.component,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [attributes.mender_is_gateway, attributes.mender_gateway_system_id]
-  );
   return (
     // due to the specificity of the deviceListRow child class, applying the display styling through the container class doesn't work, thus the inline style in addition here
     <div className={classes.container} style={{ display: 'grid' }}>
       <Component {...props} value={idValue} />
-      {hasAdornment && EndAdornment && <EndAdornment className={classes.gatewayIcon} />}
     </div>
   );
 };
