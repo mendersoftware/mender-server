@@ -759,7 +759,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
   width: 100%;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-49.Mui-disabled {
@@ -791,6 +792,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-12:focus::-ms-input-
 
 .emotion-49.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-49.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-50 {
@@ -2464,7 +2469,8 @@ exports[`Subscription Page component > renders correctly 1`] = `
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
   min-width: 80px;
   padding-right: 0px;
 }
@@ -2498,6 +2504,10 @@ exports[`Subscription Page component > renders correctly 1`] = `
 
 .emotion-41.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-41.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-42 {

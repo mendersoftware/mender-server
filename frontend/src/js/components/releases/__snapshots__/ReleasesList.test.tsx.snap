@@ -370,6 +370,10 @@ exports[`ReleasesList Component > renders correctly 1`] = `
   cursor: default;
 }
 
+.emotion-29 .MuiTablePagination-select:focus {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
 .emotion-29 .MuiTablePagination-select {
   padding-left: 8px;
   padding-right: 24px;
@@ -423,8 +427,30 @@ exports[`ReleasesList Component > renders correctly 1`] = `
   background-color: #fff;
 }
 
+.emotion-30~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-30) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-30) {
+  --_caret: 24px;
+}
+
+.MuiInputBase-root:has(> .emotion-30 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-30.emotion-30.emotion-30 {
-  padding-right: 24px;
+  padding-right: calc(var(--_caret, 24px) + var(--_endAdornment, 0px));
   min-width: 16px;
 }
 

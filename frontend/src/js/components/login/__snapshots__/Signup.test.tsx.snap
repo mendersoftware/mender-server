@@ -662,7 +662,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-34.Mui-disabled {
@@ -694,6 +695,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-28:focus::-ms-input-
 
 .emotion-34.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-34.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-35 {

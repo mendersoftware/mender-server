@@ -445,7 +445,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-19.Mui-disabled {
@@ -477,6 +478,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 
 .emotion-19.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-19.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-20 {
@@ -1146,12 +1151,34 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-20:focus::-ms-input-
   background-color: #fff;
 }
 
+.emotion-38~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-38) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-38) {
+  --_caret: 32px;
+}
+
+.MuiInputBase-root:has(> .emotion-38 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-38:focus {
   border-radius: 4px;
 }
 
 .emotion-38.emotion-38.emotion-38 {
-  padding-right: 32px;
+  padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
 .emotion-38.MuiSelect-select {
@@ -2364,7 +2391,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-20.Mui-disabled {
@@ -2396,6 +2424,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-10:focus::-ms-input-
 
 .emotion-20.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-20.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-21 {
@@ -3091,12 +3123,34 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-21:focus::-ms-input-
   background-color: #fff;
 }
 
+.emotion-40~.MuiInputAdornment-root {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
+}
+
+.MuiInputBase-root:has(> .emotion-40) {
+  --_endAdornment: 0px;
+}
+
+.MuiInputBase-root:has(> .emotion-40) {
+  --_caret: 32px;
+}
+
+.MuiInputBase-root:has(> .emotion-40 ~ .MuiInputAdornment-root) {
+  --_endAdornment: 28px;
+}
+
 .emotion-40:focus {
   border-radius: 4px;
 }
 
 .emotion-40.emotion-40.emotion-40 {
-  padding-right: 32px;
+  padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
 .emotion-40.MuiSelect-select {

@@ -218,7 +218,8 @@ exports[`Form Component > renders correctly 1`] = `
   align-items: center;
   position: relative;
   border-radius: 4px;
-  padding-right: 14px;
+  --_trailingPad: 14px;
+  padding-right: var(--_trailingPad);
 }
 
 .emotion-7.Mui-disabled {
@@ -250,6 +251,10 @@ exports[`Form Component > renders correctly 1`] = `
 
 .emotion-7.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
+}
+
+.emotion-7.MuiSelect-root {
+  --_trailingPad: 0px;
 }
 
 .emotion-8 {

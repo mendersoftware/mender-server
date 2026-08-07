@@ -443,11 +443,13 @@ exports[`Distribution Component > renders correctly 1`] = `
                   style="display: none;"
                 />
                 <div
+                  aria-hidden="true"
                   aria-labelledby="voiceover-_r_X_-1"
                   role="img"
                   style="width: 100%; height: 100%; outline: none;"
                 />
                 <div
+                  aria-hidden="true"
                   aria-labelledby="voiceover-_r_X_-2"
                   role="img"
                   style="width: 100%; height: 100%; outline: none;"
