@@ -847,7 +847,7 @@ exports[`DeviceNotifications Component > renders correctly 1`] = `
   class=""
 >
   <div
-    aria-label="View device limits"
+    aria-label="View device count and limits"
     class=""
     data-mui-internal-clone-element="true"
   >
@@ -1145,7 +1145,7 @@ exports[`DeviceNotifications Component > renders correctly at limit 1`] = `
   class=""
 >
   <div
-    aria-label="View device limits"
+    aria-label="View device count and limits"
     class=""
     data-mui-internal-clone-element="true"
   >
@@ -1443,7 +1443,7 @@ exports[`DeviceNotifications Component > renders correctly close to limits 1`] =
   class=""
 >
   <div
-    aria-label="View device limits"
+    aria-label="View device count and limits"
     class=""
     data-mui-internal-clone-element="true"
   >
@@ -1737,7 +1737,7 @@ exports[`DeviceNotifications Component > renders correctly with limits 1`] = `
   class=""
 >
   <div
-    aria-label="View device limits"
+    aria-label="View device count and limits"
     class=""
     data-mui-internal-clone-element="true"
   >
@@ -2031,7 +2031,7 @@ exports[`DeviceNotifications Component > renders correctly without limits 1`] = 
   class=""
 >
   <div
-    aria-label="View device limits"
+    aria-label="View device count and limits"
     class=""
     data-mui-internal-clone-element="true"
   >
