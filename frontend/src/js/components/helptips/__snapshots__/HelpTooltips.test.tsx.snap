@@ -548,17 +548,6 @@ NodeList [
 ]
 `;
 
-exports[`Helptooltips Components > renders ForceDeployment correctly 1`] = `
-NodeList [
-  <h3>
-    Force update
-  </h3>,
-  <p>
-    This will make the Mender client install the update even if the selected release is already installed.
-  </p>,
-]
-`;
-
 exports[`Helptooltips Components > renders GroupDeployment correctly 1`] = `The deployment will skip any devices in the group that are already on the target Release version, or that have an incompatible device type.`;
 
 exports[`Helptooltips Components > renders MCUDevice correctly 1`] = `
