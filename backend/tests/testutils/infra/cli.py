@@ -21,11 +21,12 @@ from collections import namedtuple
 from contextlib import contextmanager
 from typing import List
 
+from testutils.infra.container_manager.base import isK8S
 from testutils.infra.container_manager.docker_manager import DockerNamespace
-from testutils.infra.container_manager.kubernetes_manager import (
-    KubernetesNamespace,
-    isK8S,
-)
+
+# KubernetesNamespace is imported lazily where it is used: the module it lives in
+# pulls in the 'kubernetes' package at import time, which consumers running only
+# against docker compose have no reason to install.
 
 Microservice = namedtuple("Service", "bin_path data_path")
 
@@ -35,16 +36,20 @@ class BaseCli:
         self, microservice, containers_namespace="backend-tests", container_manager=None
     ):
         if isK8S():
+            from testutils.infra.container_manager.kubernetes_manager import (
+                KubernetesNamespace,
+            )
+
             self.container_manager = KubernetesNamespace()
-            base_filter = microservice
         elif container_manager is None:
             self.container_manager = DockerNamespace(containers_namespace)
-            base_filter = microservice + "[_-]1"
         else:
             self.container_manager = container_manager
-            base_filter = microservice + "[_-]1"
 
-        self.cid = self.container_manager.getid([base_filter])
+        # The compose service name. Previously this was the name pattern
+        # "<service>[_-]1" fed to a grep over `docker ps`; getid now matches on
+        # the compose service label instead.
+        self.cid = self.container_manager.getid(microservice)
 
     def choose_binary_and_config_paths(
         self, service_flavours: List[str], service_name: str

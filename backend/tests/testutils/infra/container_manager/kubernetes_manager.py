@@ -21,6 +21,7 @@ from typing import List
 from kubernetes import client, config
 from kubernetes.stream import stream
 
+from .base import isK8S  # noqa: F401  -- re-exported, callers historically import it here
 from .docker_compose_base_manager import DockerComposeBaseNamespace
 
 logger = logging.getLogger("root")
@@ -66,16 +67,16 @@ class KubernetesNamespace(DockerComposeBaseNamespace):
         )
         return ret.stdout.decode("utf-8").strip()
 
-    def getid(self, filters: List[str]) -> str:
-        """Get pod id based on given filters."""
+    def getid(self, service: str) -> str:
+        """Get the id of the running pod for `service`."""
         pod_list = self.v1.list_namespaced_pod(self.namespace)
         pod_id = ""
 
         for pod in pod_list.items:
-            if filters[0] in pod.metadata.name and pod.status.phase == "Running":
+            if service in pod.metadata.name and pod.status.phase == "Running":
                 pod_id = pod.metadata.name
         if pod_id == "":
-            raise RuntimeError(f"pod id for filters {str(filters)} not found")
+            raise RuntimeError(f"pod id for service {service!r} not found")
         return pod_id
 
     def get_mender_gateway(self):
@@ -207,5 +208,3 @@ class KubernetesEnterpriseMonitorCommercialSetup(KubernetesEnterpriseSetup):
     ]
 
 
-def isK8S() -> bool:
-    return bool(os.environ.get("K8S"))

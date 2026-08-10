@@ -13,7 +13,19 @@
 #    limitations under the License.
 """define base class and it interface"""
 
+import os
 import random
+
+
+def isK8S() -> bool:
+    """Whether the tests are running against a Kubernetes deployment.
+
+    Defined here rather than in kubernetes_manager so that callers can branch on
+    it without importing that module, which pulls in the 'kubernetes' package at
+    import time. Consumers running only against docker compose then do not need
+    that dependency installed at all.
+    """
+    return bool(os.environ.get("K8S"))
 
 
 class BaseContainerManagerNamespace:
@@ -53,6 +65,6 @@ class BaseContainerManagerNamespace:
         """Upload a file to a container"""
         raise NotImplementedError
 
-    def getid(self, filters):
-        """Returns the id for a container matching the given filters"""
+    def getid(self, service):
+        """Returns the id of the container running the given compose service"""
         raise NotImplementedError

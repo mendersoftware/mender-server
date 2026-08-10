@@ -15,7 +15,7 @@
 import re
 
 from pymongo import MongoClient as PyMongoClient
-from testutils.infra.container_manager.kubernetes_manager import isK8S
+from testutils.infra.container_manager.base import isK8S
 
 
 class MongoClient:
