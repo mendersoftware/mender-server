@@ -55,17 +55,13 @@ class DockerNamespace(BaseContainerManagerNamespace):
     def getid(self, service):
         """Container id of `service` within this namespace.
 
-        Matched on the compose labels rather than by grepping `docker ps` output.
-        A substring match also hits any project whose name merely *contains* this
+        Asked of compose directly rather than by grepping `docker ps` output. A
+        substring match also hits any project whose name merely *contains* this
         one -- "mender" against "mender_enterprise", or a primary namespace
         against its own failover backend -- and returns several ids on one line.
         """
-        cmd = (
-            "docker ps -q "
-            "--filter label=com.docker.compose.project={project} "
-            "--filter label=com.docker.compose.service={service}"
-        ).format(project=self.name, service=service)
-        ids = subprocess.check_output(cmd, shell=True).decode("utf-8").split()
+        cmd = ["docker", "compose", "-p", self.name, "ps", "-q", service]
+        ids = subprocess.check_output(cmd).decode("utf-8").split()
 
         if not ids:
             raise RuntimeError(

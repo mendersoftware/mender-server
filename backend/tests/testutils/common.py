@@ -38,7 +38,7 @@ import testutils.api.tenantadm as tenantadm
 import testutils.api.useradm as useradm
 import testutils.util.crypto
 from testutils.api.client import ApiClient, GATEWAY_HOSTNAME
-from testutils.infra.container_manager.kubernetes_manager import isK8S
+from testutils.infra.container_manager.base import isK8S
 from testutils.infra.mongo import MongoClient
 from testutils.infra.cli import CliUseradm, CliTenantadm
 from testutils.infra.device import MenderDevice, MenderDeviceGroup
@@ -480,7 +480,10 @@ def update_tenant(tid, addons=None, plan=None, container_manager=None):
     tenantadm_host = (
         tenantadm.HOST
         if isK8S() or container_manager is None
-        else container_manager.get_ip_of_service("mender-tenantadm")[0] + ":8080"
+        # The compose service name: get_ip_of_service matches on the
+        # com.docker.compose.service label. "mender-tenantadm" is the network
+        # alias, which that filter never matches.
+        else container_manager.get_ip_of_service("tenantadm")[0] + ":8080"
     )
     tadm = ApiClient(tenantadm.URL_INTERNAL, host=tenantadm_host, schema="http://")
     res = tadm.call(
@@ -493,7 +496,12 @@ def update_tenant(tid, addons=None, plan=None, container_manager=None):
 
 
 def new_tenant_client(
-    test_env, name: str, tenant: str, docker: bool = False, network: str = "mender"
+    test_env,
+    name: str,
+    tenant: str,
+    docker: bool = False,
+    network: str = None,
+    ignore_existing: bool = False,
 ) -> MenderDevice:
     """Create new Mender client in the test environment with the given name for the given tenant.
 
@@ -501,24 +509,35 @@ def new_tenant_client(
 
     This helper attaches the recently created Mender client to the test environment, so that systemd
     logs can be printed on test failures.
+
+    `network` names the docker network the clients are on. Left unset, the test
+    environment's own default applies, which is what callers almost always want:
+    the compose project decides that name, not this helper.
+
+    `ignore_existing` skips the "exactly one new client appeared" assertion. A
+    docker client typically replaces the previous one rather than joining it, so
+    the set of clients does not grow and the difference is empty.
     """
 
-    pre_existing_clients = set(test_env.get_mender_clients(network=network))
+    net = {} if network is None else {"network": network}
+
+    pre_existing_clients = set(test_env.get_mender_clients(**net))
     if docker:
         test_env.new_tenant_docker_client(name, tenant)
     else:
         test_env.new_tenant_client(name, tenant)
-    all_clients = set(test_env.get_mender_clients(network=network))
-    new_client = all_clients - pre_existing_clients
-    assert len(new_client) == 1
+    all_clients = set(test_env.get_mender_clients(**net))
+    new_client = all_clients
+    if len(pre_existing_clients) > 0 and not ignore_existing:
+        new_client = all_clients - pre_existing_clients
+    if not ignore_existing:
+        assert len(new_client) == 1
     device = MenderDevice(new_client.pop())
     if hasattr(test_env, "device_group"):
         test_env.device_group.append(device)
     else:
         test_env.device = device
-        test_env.device_group = MenderDeviceGroup(
-            test_env.get_mender_clients(network=network)
-        )
+        test_env.device_group = MenderDeviceGroup(test_env.get_mender_clients(**net))
     return device
 
 
