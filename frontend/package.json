@@ -103,7 +103,8 @@
   "overrides": {
     "tss-react": {
       "@mui/material": "$@mui/material"
-    }
+    },
+    "@babel/plugin-transform-runtime": "^7.29.7"
   },
   "browserslist": [
     ">0.2%",
