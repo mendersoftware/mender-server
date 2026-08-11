@@ -29,24 +29,6 @@ type App struct {
 	mock.Mock
 }
 
-// AcceptDeviceAuth provides a mock function with given fields: ctx, dev_id, auth_id
-func (_m *App) AcceptDeviceAuth(ctx context.Context, dev_id string, auth_id string) error {
-	ret := _m.Called(ctx, dev_id, auth_id)
-
-	if len(ret) == 0 {
-		panic("no return value specified for AcceptDeviceAuth")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
-		r0 = rf(ctx, dev_id, auth_id)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
 // DecommissionDevice provides a mock function with given fields: ctx, dev_id
 func (_m *App) DecommissionDevice(ctx context.Context, dev_id string) error {
 	ret := _m.Called(ctx, dev_id)
@@ -363,42 +345,6 @@ func (_m *App) PreauthorizeDevice(ctx context.Context, req *model.PreAuthReq) (*
 	return r0, r1
 }
 
-// RejectDeviceAuth provides a mock function with given fields: ctx, dev_id, auth_id
-func (_m *App) RejectDeviceAuth(ctx context.Context, dev_id string, auth_id string) error {
-	ret := _m.Called(ctx, dev_id, auth_id)
-
-	if len(ret) == 0 {
-		panic("no return value specified for RejectDeviceAuth")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
-		r0 = rf(ctx, dev_id, auth_id)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// ResetDeviceAuth provides a mock function with given fields: ctx, dev_id, auth_id
-func (_m *App) ResetDeviceAuth(ctx context.Context, dev_id string, auth_id string) error {
-	ret := _m.Called(ctx, dev_id, auth_id)
-
-	if len(ret) == 0 {
-		panic("no return value specified for ResetDeviceAuth")
-	}
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
-		r0 = rf(ctx, dev_id, auth_id)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
 // RevokeToken provides a mock function with given fields: ctx, tokenID
 func (_m *App) RevokeToken(ctx context.Context, tokenID string) error {
 	ret := _m.Called(ctx, tokenID)
@@ -410,6 +356,24 @@ func (_m *App) RevokeToken(ctx context.Context, tokenID string) error {
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
 		r0 = rf(ctx, tokenID)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// SetAuthSetStatus provides a mock function with given fields: ctx, deviceID, authID, status
+func (_m *App) SetAuthSetStatus(ctx context.Context, deviceID string, authID string, status string) error {
+	ret := _m.Called(ctx, deviceID, authID, status)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetAuthSetStatus")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, string) error); ok {
+		r0 = rf(ctx, deviceID, authID, status)
 	} else {
 		r0 = ret.Error(0)
 	}

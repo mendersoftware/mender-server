@@ -339,8 +339,19 @@ func (db *DataStoreMongo) AddDevice(ctx context.Context, d model.Device) error {
 
 func (db *DataStoreMongo) UpdateDevice(ctx context.Context,
 	deviceID string, updev model.DeviceUpdate) error {
+	return db.updateDevice(ctx, deviceID, nil, updev)
+}
 
+func (db *DataStoreMongo) updateDevice(ctx context.Context,
+	deviceID string, revision *uint, updev model.DeviceUpdate) error {
 	c := db.client.Database(DbName).Collection(DbDevicesColl)
+
+	filter := bson.M{
+		dbFieldID: deviceID,
+	}
+	if revision != nil {
+		filter[DbKeyDeviceRevision] = revision
+	}
 
 	updev.UpdatedTs = uto.TimePtr(time.Now().UTC())
 	update := bson.M{
@@ -350,7 +361,7 @@ func (db *DataStoreMongo) UpdateDevice(ctx context.Context,
 		"$set": updev,
 	}
 
-	res, err := c.UpdateOne(ctx, mongostore.WithTenantID(ctx, bson.M{"_id": deviceID}), update)
+	res, err := c.UpdateOne(ctx, mongostore.WithTenantID(ctx, filter), update)
 	if err != nil {
 		return errors.Wrap(err, "failed to update device")
 	} else if res.MatchedCount < 1 {
@@ -358,6 +369,15 @@ func (db *DataStoreMongo) UpdateDevice(ctx context.Context,
 	}
 
 	return nil
+}
+
+func (db *DataStoreMongo) UpdateDeviceWithRevision(
+	ctx context.Context,
+	deviceID string,
+	revision uint,
+	up model.DeviceUpdate,
+) error {
+	return db.updateDevice(ctx, deviceID, &revision, up)
 }
 
 func (db *DataStoreMongo) DeleteDevice(ctx context.Context, id string) error {

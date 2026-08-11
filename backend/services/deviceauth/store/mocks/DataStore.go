@@ -723,6 +723,24 @@ func (_m *DataStore) UpdateDevice(ctx context.Context, deviceID string, up model
 	return r0
 }
 
+// UpdateDeviceWithRevision provides a mock function with given fields: ctx, deviceID, revision, up
+func (_m *DataStore) UpdateDeviceWithRevision(ctx context.Context, deviceID string, revision uint, up model.DeviceUpdate) error {
+	ret := _m.Called(ctx, deviceID, revision, up)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateDeviceWithRevision")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, uint, model.DeviceUpdate) error); ok {
+		r0 = rf(ctx, deviceID, revision, up)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // UpsertAuthSetStatus provides a mock function with given fields: ctx, authSet
 func (_m *DataStore) UpsertAuthSetStatus(ctx context.Context, authSet *model.AuthSet) error {
 	ret := _m.Called(ctx, authSet)

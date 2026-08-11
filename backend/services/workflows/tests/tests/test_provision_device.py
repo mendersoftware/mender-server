@@ -80,19 +80,19 @@ def do_provision_device(mmock_url, workflows_url, tenant_id):
                 "host": "mender-inventory",
                 "port": "8080",
                 "method": "POST",
-                "path": "/api/internal/v1/inventory/tenants/" + tenant_id + "/devices",
+                "path": f"/api/internal/v1/inventory/tenants/{tenant_id}/devices/status/accepted",
                 "queryStringParameters": {},
                 "fragment": "",
                 "headers": {
                     "Accept-Encoding": ["gzip"],
-                    "Content-Length": ["81"],
+                    "Content-Length": ["12"],
                     "Content-Type": ["application/json"],
                     "User-Agent": ["Go-http-client/1.1"],
                     "X-Men-Requestid": ["1234567890"],
                 },
                 "cookies": {},
-                "body": '{"attributes":[{"name":"status","scope":"identity","value":"accepted"}],"id":"1"}',
-            },
+                "body": '[{"id":"1"}]',
+            }
         },
         {
             "request": {
