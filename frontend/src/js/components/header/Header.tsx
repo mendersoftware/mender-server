@@ -15,7 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
-import { AccountCircle as AccountCircleIcon, ExitToApp as ExitIcon, ExpandMore } from '@mui/icons-material';
+import { AccountCircle as AccountCircleIcon, LogoutOutlined as ExitIcon, ExpandMore } from '@mui/icons-material';
 import {
   Accordion,
   AccordionDetails,
@@ -29,7 +29,10 @@ import {
   MenuItem,
   Toolbar,
   Typography,
-  accordionClasses,
+  accordionSummaryClasses,
+  listItemIconClasses,
+  menuClasses,
+  menuItemClasses,
   textFieldClasses
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -105,69 +108,63 @@ const cookies = new Cookies();
 
 const useStyles = makeStyles()(theme => ({
   accordion: {
-    ul: { paddingInlineStart: 0 },
-    [`&.${accordionClasses.disabled}, &.${accordionClasses.expanded}`]: {
-      backgroundColor: theme.palette.background.paper
-    },
     border: 'none',
-    '&:hover': {
-      border: 'none'
+    [`& .${accordionSummaryClasses.root}`]: {
+      minHeight: 'unset',
+      padding: theme.spacing(0.75, 2),
+      '&:hover': { backgroundColor: theme.palette.action.hover }
     }
   },
+  accountButton: { maxWidth: 250 },
   demoAnnouncementIcon: {
-    height: 16,
-    '&.MuiButton-text.MuiButton-colorPrimary': {
-      height: 'inherit'
-    }
+    height: 16
   },
   demoTrialAnnouncement: {
-    fontSize: 14,
-    height: 'auto'
+    fontSize: 14
   },
-  dropDown: {
-    height: '100%'
+  exitIcon: { color: theme.palette.grey[600] },
+  exitIconWrapper: {
+    [`&.${listItemIconClasses.root}`]: { minWidth: 'auto' }
   },
-  exitIcon: { color: theme.palette.grey[600], fill: theme.palette.grey[600] },
   header: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     color: theme.palette.text.secondary,
     display: 'grid',
-    gridTemplateColumns: 'max-content 1fr max-content',
-    '&.service-provider': {
-      gridTemplateColumns: '1fr max-content'
-    },
-    '#logo': {
-      minWidth: 142,
-      height: theme.spacing(6),
-      marginRight: 25
-    }
+    gridTemplateColumns: 'max-content 1fr max-content'
   },
-  headerSection: {
-    color: theme.palette.text.secondary,
-    height: theme.spacing(3),
-    '&:hover': {
-      color: theme.palette.text.secondary
-    }
+  logo: {
+    minWidth: 142,
+    height: theme.spacing(6)
   },
-  organization: { marginBottom: theme.spacing() },
+  divider: {
+    height: theme.spacing(3)
+  },
+  menuPaper: {
+    marginTop: theme.spacing(),
+    [`&.${menuClasses.paper}`]: { maxWidth: 220 },
+    [`& .${menuItemClasses.root}`]: { fontSize: '1rem', padding: theme.spacing(0.75, 2) }
+  },
   redAnnouncementIcon: {
     color: theme.palette.error.dark
   },
   search: {
     justifyContent: 'center',
     display: 'flex',
-    transition: 'all 0.1s ease',
     [`& .${textFieldClasses.root}`]: {
       width: 220,
       maxWidth: 640,
+      transition: 'width 0.1s ease',
       '&:focus-within': {
         width: '100%'
       }
     }
+  },
+  serviceProvider: {
+    gridTemplateColumns: '1fr max-content'
   }
 }));
 
-const AccountMenu = ({ className }) => {
+const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [tenantSwitcherShowing, setTenantSwitcherShowing] = useState(false);
   const hasReadHelptips = useSelector(getReadAllHelptips);
@@ -178,7 +175,6 @@ const AccountMenu = ({ className }) => {
   const { hasMultitenancy, isHosted } = useSelector(getFeatures);
   const multitenancy = hasMultitenancy || isEnterprise || isHosted;
   const dispatch = useDispatch();
-
   const { classes } = useStyles();
 
   const handleClose = () => {
@@ -199,57 +195,60 @@ const AccountMenu = ({ className }) => {
   return (
     <>
       <Button
-        className={`flexbox align-items-center ${className} ${classes.dropDown}`}
+        className={`flexbox align-items-center ${classes.accountButton}`}
         onClick={e => setAnchorEl(e.currentTarget)}
         startIcon={<AccountCircleIcon />}
+        color="inherit"
         variant="text"
       >
-        {email}
+        <Typography variant="subtitle2" className="text-overflow">
+          {email}
+        </Typography>
       </Button>
       <Menu
         anchorEl={anchorEl}
-        className={classes.dropDown}
         onClose={handleClose}
         open={Boolean(anchorEl)}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        slotProps={{ paper: { className: classes.menuPaper } }}
       >
-        <MenuItem component={RouterLink} to="/settings/my-profile" onClick={handleClose}>
+        <MenuItem component={RouterLink} to="/settings/my-profile" onClick={handleClose} divider>
           My profile
         </MenuItem>
-        <Divider />
         {!!(multitenancy && name) && (
-          <MenuItem component={RouterLink} dense to="/settings/organization" onClick={handleClose} className={classes.organization}>
-            <div>
-              <Typography variant="caption" className="muted">
+          <MenuItem component={RouterLink} dense divider to="/settings/organization" onClick={handleClose}>
+            <div className="text-overflow">
+              <Typography variant="body2" color="textSecondary">
                 My organization
               </Typography>
-              <Typography variant="subtitle2">{name}</Typography>
+              <Typography className="text-overflow">{name}</Typography>
             </div>
           </MenuItem>
         )}
         {tenants.length > 1 && (
           <div>
-            <Divider style={{ marginBottom: 0 }} />
             <Accordion
-              className={`padding-left-none padding-right-none ${classes.accordion}`}
+              className={`padding-none ${classes.accordion}`}
               disableGutters
               square
               expanded={tenantSwitcherShowing}
               onChange={() => setTenantSwitcherShowing(toggle)}
             >
-              <AccordionSummary expandIcon={<ExpandMore />}>Switch organization</AccordionSummary>
-              <AccordionDetails className="padding-left-none padding-right-none">
+              <AccordionSummary expandIcon={<ExpandMore />} slotProps={{ content: { className: 'margin-none' } }}>
+                <Typography className="margin-right-small">Switch organization</Typography>
+              </AccordionSummary>
+              <AccordionDetails className="padding-none padding-top-x-small">
                 {tenants.map(({ id, name }) => (
-                  <MenuItem className="padding-left padding-right" key={id} onClick={() => handleSwitchTenant(id)}>
+                  <MenuItem key={id} onClick={() => handleSwitchTenant(id)}>
                     {name}
                   </MenuItem>
                 ))}
               </AccordionDetails>
             </Accordion>
+            <Divider />
           </div>
         )}
-        <Divider />
         <MenuItem component={RouterLink} to="/settings/global-settings" onClick={handleClose}>
           Settings
         </MenuItem>
@@ -258,8 +257,8 @@ const AccountMenu = ({ className }) => {
           Help & support
         </MenuItem>
         <MenuItem onClick={onLogoutClick}>
-          <ListItemText primary="Log out" />
-          <ListItemIcon>
+          <ListItemText primary="Log out" slotProps={{ primary: { variant: 'body1' } }} />
+          <ListItemIcon className={classes.exitIconWrapper}>
             <ExitIcon className={classes.exitIcon} />
           </ListItemIcon>
         </MenuItem>
@@ -384,30 +383,28 @@ export const Header = ({ isDarkMode }) => {
         />
       )}
       {showOffer && <OfferHeader onHide={setHideOffer} />}
-      <Toolbar className={`${classes.header} ${isSp ? 'service-provider' : ''}`}>
+      <Toolbar className={`${classes.header} ${isSp ? classes.serviceProvider : ''}`}>
         <div className="flexbox align-items-center">
           <Link to="/">
-            <img id="logo" src={headerLogo} />
+            <img className={`${classes.logo} margin-right-medium`} src={headerLogo} />
           </Link>
           {organization.trial && <TrialNotification expiration={organization.trial_expiration} sectionClassName={classes.demoTrialAnnouncement} />}
         </div>
         {isSp ? (
-          <>
-            <div className="flexbox align-items-center">
-              <Chip label="Service Provider" />
-              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
-              <AccountMenu className={classes.headerSection} />
-            </div>
-          </>
+          <div className="flexbox align-items-center">
+            <Chip label="Service Provider" />
+            <Divider className={`margin-left-x-small margin-right-x-small ${classes.divider}`} orientation="vertical" />
+            <AccountMenu />
+          </div>
         ) : (
           <>
             <Search className={classes.search} searchTerm={searchTerm} onSearch={onSearch} trigger={refreshTrigger} />
-            <div className={`flexbox align-items-center`}>
+            <div className="flexbox align-items-center">
               <DeviceNotifications pending={pendingDevices} total={acceptedDevices} />
-              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
-              <DeploymentNotifications className={classes.headerSection} inprogress={inProgress} />
-              <Divider className={`margin-left-small margin-right-small ${classes.headerSection}`} orientation="vertical" />
-              <AccountMenu className={classes.headerSection} />
+              <Divider className={`margin-left-x-small margin-right-x-small ${classes.divider}`} orientation="vertical" />
+              <DeploymentNotifications inprogress={inProgress} />
+              <Divider className={`margin-left-x-small margin-right-x-small ${classes.divider}`} orientation="vertical" />
+              <AccountMenu />
             </div>
           </>
         )}
