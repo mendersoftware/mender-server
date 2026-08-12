@@ -363,6 +363,18 @@ func (d *DevAuth) handlePreAuthDevice(
 		return nil, ErrDevAuthUnauthorized
 	}
 
+	if dev.Status != model.DevStatusAccepted {
+		// if device will transition to accepted state
+		// (from preauth) we need to check limits.
+		allow, err := d.canAcceptDevice(ctx)
+		if err != nil {
+			return nil, err
+		}
+		if !allow {
+			return nil, ErrMaxDeviceCountReached
+		}
+	}
+
 	err = d.updateAuthSetStatus(ctx, aset, model.DevStatusAccepted)
 	if err != nil {
 		return nil, err
@@ -841,20 +853,15 @@ func (d *DevAuth) deleteAuthSet(ctx context.Context, authSet *model.AuthSet) err
 	return nil
 }
 
+// updateAuthSetStatus updates a single AuthSet status, applying the correct
+// logic for different statuses. The caller is responsible for checking limits
+// before calling this func.
 func (d *DevAuth) updateAuthSetStatus(
 	ctx context.Context, aset *model.AuthSet, status string,
 ) error {
 	if status == model.DevStatusAccepted {
-		// if accepting an auth set
-		allow, err := d.canAcceptDevice(ctx)
-		if err != nil {
-			return err
-		}
-		if !allow {
-			return ErrMaxDeviceCountReached
-		}
 		// reject all accepted auth sets for this device first
-		err = d.db.RejectAuthSetsForDevice(ctx, aset.DeviceId, aset.Id)
+		err := d.db.RejectAuthSetsForDevice(ctx, aset.DeviceId, aset.Id)
 		if err != nil && err != store.ErrAuthSetNotFound {
 			return errors.Wrap(err, "failed to reject auth sets")
 		}
@@ -911,15 +918,27 @@ func (d *DevAuth) SetAuthSetStatus(
 		return ErrDevAuthBadRequest
 	}
 
+	device, err := d.db.GetDeviceById(ctx, deviceID)
+	if err != nil {
+		return err
+	}
+
+	if status == model.DevStatusAccepted && device.Status != model.DevStatusAccepted {
+		// if accepting an auth set
+		allow, err := d.canAcceptDevice(ctx)
+		if err != nil {
+			return err
+		}
+		if !allow {
+			return ErrMaxDeviceCountReached
+		}
+	}
+
 	err = d.updateAuthSetStatus(ctx, aset, status)
 	if err != nil {
 		return err
 	}
 
-	device, err := d.db.GetDeviceById(ctx, deviceID)
-	if err != nil {
-		return err
-	}
 	if status != model.DevStatusAccepted {
 		status, err = d.aggregateDeviceStatus(ctx, deviceID)
 		if err != nil {
