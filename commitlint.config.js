@@ -26,9 +26,9 @@ module.exports = {
         feat: commonScopes,
         fix: commonScopes,
         test: commonScopes,
-        perf: [],  // scope is not allowed
-        ci: []     // scope is not allowed
-      }
+        perf: commonScopes, // scope is not allowed
+        ci: [], // scope is not allowed
+      },
     ],
     'subject-case': [1, 'always', ['lower-case', 'sentence-case']],
     'signed-off-by': [2, 'always', 'Signed-off-by'],
