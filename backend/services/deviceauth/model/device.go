@@ -69,6 +69,46 @@ func ValidateStatusTransition(fromStatus, toStatus string) error {
 	return fmt.Errorf("invalid status transition: %s -> %s", fromStatus, toStatus)
 }
 
+const (
+	weightNoAuth = iota
+	weightRejected
+	weightPending
+	weightPreauth
+	weightAccepted
+)
+
+func statusWeight(status string) int {
+	switch status {
+	case DevStatusAccepted:
+		return weightAccepted
+	case DevStatusPreauth:
+		return weightPreauth
+	case DevStatusPending:
+		return weightPending
+	case DevStatusRejected:
+		return weightRejected
+	default:
+		return weightNoAuth
+	}
+}
+
+func DeviceStatusFromAuthSetStatuses(statuses ...string) string {
+	var (
+		deviceStatus       = DevStatusNoAuth
+		deviceStatusWeight = 0
+	)
+	for _, status := range statuses {
+		w := statusWeight(status)
+		if w == weightAccepted {
+			return status
+		} else if w > deviceStatusWeight {
+			deviceStatus = status
+			deviceStatusWeight = w
+		}
+	}
+	return deviceStatus
+}
+
 // note: fields with underscores need the 'bson' decorator
 // otherwise the underscore will be removed upon write to mongo
 type Device struct {

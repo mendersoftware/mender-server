@@ -305,8 +305,6 @@ func TestDevAuthSubmitAuthRequest(t *testing.T) {
 
 			getAuthSetErr: store.ErrAuthSetNotFound,
 
-			updateDeviceStatus: true,
-
 			err: errors.New("failed to locate device auth set"),
 		},
 		{

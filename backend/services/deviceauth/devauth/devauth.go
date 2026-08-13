@@ -570,6 +570,11 @@ func (d *DevAuth) processAuthRequest(
 		return nil, err
 	}
 
+	if model.DeviceStatusFromAuthSetStatuses(areq.Status, dev.Status) == dev.Status {
+		// Device status will not change, we're done
+		return areq, nil
+	}
+
 	status, err := d.aggregateDeviceStatus(ctx, dev.Id)
 	if err != nil {
 		return nil, err
@@ -932,9 +937,19 @@ func (d *DevAuth) SetAuthSetStatus(
 		}
 	}
 
+	deviceStatusWillChange := model.DeviceStatusFromAuthSetStatuses(
+		status, device.Status,
+	) != device.Status || // new status will change device status
+		aset.Status == device.Status // AuthSet could downgrade the device status
+
 	err = d.updateAuthSetStatus(ctx, aset, status)
 	if err != nil {
 		return err
+	}
+
+	if !deviceStatusWillChange {
+		// Device status will not change, we're done
+		return nil
 	}
 
 	if status != model.DevStatusAccepted {
