@@ -560,7 +560,13 @@ func (d *DevAuth) processAuthRequest(
 
 	// record authentication request
 	err = d.db.AddAuthSet(ctx, *areq)
-	if err != nil && err != store.ErrObjectExists {
+	if errors.Is(err, store.ErrObjectExists) {
+		areq, err = d.db.GetAuthSetByIdDataHashKey(ctx, idDataSha256, r.PubKey)
+		if err != nil {
+			l.Error("failed to find device auth set but could not add one either")
+			return nil, errors.New("failed to locate device auth set")
+		}
+	} else if err != nil {
 		return nil, err
 	}
 
@@ -572,14 +578,6 @@ func (d *DevAuth) processAuthRequest(
 	// update the device status
 	if err := d.updateDeviceStatus(ctx, areq, dev, status); err != nil {
 		return nil, err
-	}
-
-	// either the request was added or it was already present in the DB, get
-	// it now
-	areq, err = d.db.GetAuthSetByIdDataHashKey(ctx, idDataSha256, r.PubKey)
-	if err != nil {
-		l.Error("failed to find device auth set but could not add one either")
-		return nil, errors.New("failed to locate device auth set")
 	}
 
 	return areq, nil
