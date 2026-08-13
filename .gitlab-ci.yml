@@ -2,6 +2,11 @@ variables:
   # NOTE: Custom variables should never start with CI_ prefix.
   #       This namespace belongs to Gitlab CI/CD.
   #       https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+
+  # Workaround for https://gitlab.com/gitlab-org/container-registry/-/work_items/2367
+  BUILDX_NO_DEFAULT_ATTESTATIONS:
+    value: "true"
+    description: "Publish docker images without attestations"
   DOCKER_VERSION:
     value: "29.6"
     description: "Version of docker to use in pipelines"
