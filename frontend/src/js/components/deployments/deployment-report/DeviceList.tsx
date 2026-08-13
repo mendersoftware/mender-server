@@ -73,7 +73,7 @@ const stateInfoMap: Record<string, StateInfoEntry> = {
   'pause_before_committing': { title: 'Paused before committing', icon: PendingIcon },
   'pause_before_installing': { title: 'Paused before installing', icon: PendingIcon },
   'pause_before_rebooting': { title: 'Paused before rebooting', icon: PendingIcon },
-  aborted: { title: 'Paused before committing', color: statusColorMap.aborted, icon: CancelIcon },
+  aborted: { title: 'Aborted', color: statusColorMap.aborted, icon: CancelIcon },
   failure: { title: 'Fail', color: statusColorMap.error, icon: ErrorIcon },
   noartifact: { title: 'No compatible artifact found', icon: CancelIcon },
   artifact_too_big: { title: 'Skipped', icon: CancelIcon },
