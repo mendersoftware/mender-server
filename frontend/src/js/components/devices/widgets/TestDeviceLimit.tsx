@@ -11,25 +11,34 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { useSelector } from 'react-redux';
+
 import { LinearProgress, Typography } from '@mui/material';
 
 import Link from '@northern.tech/common-ui/Link';
+import { getTestDeviceCount, getTestDeviceLimit } from '@northern.tech/store/selectors';
 
-export const MAX_TEST_DEVICES = 10;
-
-export const TestDeviceLimit = (props: { className?: string; onNavigate?: () => void; testDeviceUsed: number }) => {
-  const { testDeviceUsed, className = '', onNavigate } = props;
+export const useTestDeviceLimit = () => {
+  const used = useSelector(getTestDeviceCount);
+  const limit = useSelector(getTestDeviceLimit);
+  const unlimited = limit === -1;
+  return { used, limit, unlimited, isAtLimit: !unlimited && limit > 0 && used >= limit };
+};
+export const TestDeviceLimit = (props: { className?: string; onNavigate?: () => void }) => {
+  const { className = '', onNavigate } = props;
+  const { used, limit, unlimited } = useTestDeviceLimit();
   return (
     <div className={className}>
       <div className="flexbox space-between margin-bottom-x-small">
         <Typography>
-          {testDeviceUsed}/{MAX_TEST_DEVICES} test devices set
+          {used}
+          {!unlimited && `/${limit}`} test devices set
         </Typography>
         <Link to="/devices/accepted?system=test_device:eq:true" onClick={onNavigate}>
           View all
         </Link>
       </div>
-      <LinearProgress variant="determinate" value={(testDeviceUsed / MAX_TEST_DEVICES) * 100} />
+      {!unlimited && <LinearProgress variant="determinate" value={limit ? Math.min(100, (used / limit) * 100) : 0} />}
     </div>
   );
 };

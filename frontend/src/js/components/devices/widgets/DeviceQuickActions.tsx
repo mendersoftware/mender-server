@@ -37,7 +37,6 @@ import {
   getMappedDevicesList,
   getOnboardingState,
   getTenantCapabilities,
-  getTestDeviceCount,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -45,7 +44,7 @@ import { toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
 
 import { getOnboardingComponentFor } from '../../../utils/onboardingManager';
-import { MAX_TEST_DEVICES } from './TestDeviceLimit';
+import { useTestDeviceLimit } from './TestDeviceLimit';
 
 const defaultActions: Record<string, QuickAction> = {
   accept: {
@@ -86,13 +85,13 @@ const defaultActions: Record<string, QuickAction> = {
     key: 'set-test-device',
     title: () => 'Set as test device',
     action: ({ onSetTestDevice, selection }) => onSetTestDevice(selection, true),
-    checkRelevance: ({ device, features: { hasDeviceFlags }, selectedCount, testDeviceCount, userCapabilities: { canWriteDevices } }) =>
+    checkRelevance: ({ device, features: { hasDeviceFlags }, selectedCount, isAtTestDeviceLimit, userCapabilities: { canWriteDevices } }) =>
       hasDeviceFlags &&
       selectedCount === 1 &&
       canWriteDevices &&
       device.status === DEVICE_STATES.accepted &&
       !device?.flags?.test_device &&
-      testDeviceCount < MAX_TEST_DEVICES
+      !isAtTestDeviceLimit
   },
   removeTestDevice: {
     icon: <MaterialDesignIcon path={TestOffIcon} fontSize="small" />,
@@ -150,7 +149,8 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
   const features = useSelector(getFeatures);
   const tenantCapabilities = useSelector(getTenantCapabilities);
   const userCapabilities = useSelector(getUserCapabilities);
-  const testDeviceCount = useSelector(getTestDeviceCount);
+  const { isAtLimit: isAtTestDeviceLimit } = useTestDeviceLimit();
+
   const { selection: selectedRows } = useSelector(state => state.devices.deviceList);
   const singleDevice = useSelector(state => getDeviceById(state, deviceId));
   const devices = useSelector(state => getMappedDevicesList(state, 'deviceList'));
@@ -184,7 +184,7 @@ export const DeviceQuickActions = ({ actionCallbacks, deviceId, selectedGroup })
             selectedCount: selectedDevices.length,
             selectedGroup,
             tenantCapabilities,
-            testDeviceCount,
+            isAtTestDeviceLimit,
             userCapabilities
           })
       )
