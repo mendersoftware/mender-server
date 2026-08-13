@@ -11,11 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useMemo, useState } from 'react';
+import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 // material ui
 import {
+  Alert,
   Button,
   DialogActions,
   DialogContent,
@@ -29,36 +31,24 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
 
+import { ConfirmModal } from '@northern.tech/common-ui/ConfirmModal';
 import CopyCode from '@northern.tech/common-ui/CopyCode';
 import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import Time, { RelativeTime } from '@northern.tech/common-ui/Time';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import TextInput from '@northern.tech/common-ui/forms/TextInput';
+import type { Role } from '@northern.tech/store/constants';
 import { canAccess as canShow } from '@northern.tech/store/constants';
-import { getCurrentUser, getIsEnterprise } from '@northern.tech/store/selectors';
+import { getCurrentUser, getIsEnterprise, getRolesById } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { generateToken, getTokens, revokeToken } from '@northern.tech/store/thunks';
+import type { PersonalAccessToken } from '@northern.tech/types/MenderTypes';
 import { customSort, toggle } from '@northern.tech/utils/helpers';
-
-const useStyles = makeStyles()(theme => ({
-  accessTokens: {
-    minWidth: 900
-  },
-  creationDialog: {
-    minWidth: 500,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2)
-  },
-  formEntries: {
-    minWidth: 270
-  },
-  warning: {
-    color: theme.palette.warning.main
-  }
-}));
+import dayjs from 'dayjs';
 
 const creationTimeAttribute = 'created_ts';
 const columnData = [
@@ -86,120 +76,124 @@ const columnData = [
 
 const A_DAY = 24 * 60 * 60;
 const expirationTimes = {
-  'never': {
-    value: 0,
-    hint: (
-      <>
-        The token will never expire.
-        <br />
-        WARNING: Never-expiring tokens are against security best practices. We highly suggest setting a token expiration date and rotating the secret at least
-        yearly.
-      </>
-    )
-  },
-  '7 days': { value: 7 * A_DAY },
-  '30 days': { value: 30 * A_DAY },
-  '90 days': { value: 90 * A_DAY },
-  'a year': { value: 365 * A_DAY }
+  'never': 0,
+  '7 days': 7 * A_DAY,
+  '30 days': 30 * A_DAY,
+  '90 days': 90 * A_DAY,
+  'a year': 365 * A_DAY
 };
 
-export const AccessTokenCreationDialog = ({ onCancel, generateToken, isEnterprise, rolesById, token, userRoles }) => {
-  const [name, setName] = useState('');
-  const [expirationTime, setExpirationTime] = useState(expirationTimes['a year'].value);
-  const [expirationDate, setExpirationDate] = useState(new Date());
-  const [hint, setHint] = useState('');
-  const { classes } = useStyles();
+interface TokenFormValues {
+  expiresIn: number;
+  name: string;
+}
 
-  useEffect(() => {
-    const date = new Date();
-    date.setSeconds(date.getSeconds() + expirationTime);
-    setExpirationDate(date);
-    const hint = Object.values(expirationTimes).find(({ value }) => value === expirationTime)?.hint ?? '';
-    setHint(hint);
-  }, [expirationTime]);
+interface AccessTokenCreationDialogProps {
+  isEnterprise?: boolean;
+  onCancel: () => void;
+  onGenerate: (values: TokenFormValues) => void;
+  rolesById?: Record<string, Role>;
+  token?: string;
+  userRoles?: string[];
+}
 
-  const onGenerateClick = useCallback(() => generateToken({ name, expiresIn: expirationTime }), [generateToken, name, expirationTime]);
+export const AccessTokenCreationDialog = ({ onCancel, onGenerate, isEnterprise, rolesById = {}, token, userRoles = [] }: AccessTokenCreationDialogProps) => {
+  const methods = useForm<TokenFormValues>({ mode: 'onSubmit', defaultValues: { expiresIn: expirationTimes['a year'], name: '' } });
+  const { control, handleSubmit } = methods;
+  const expiresIn = useWatch({ control, name: 'expiresIn' });
 
-  const onChangeExpirationTime = ({ target: { value } }) => setExpirationTime(value);
-
-  const generationHandler = token ? onCancel : onGenerateClick;
-
-  const generationLabel = token ? 'Close' : 'Create token';
-
-  const nameUpdated = ({ target: { value } }) => setName(value);
+  const expirationDate = useMemo(() => dayjs().add(expiresIn, 'seconds'), [expiresIn]);
+  const neverExpires = expiresIn === expirationTimes.never;
 
   const tokenRoles = useMemo(() => userRoles.map(roleId => rolesById[roleId]?.name).join(', '), [rolesById, userRoles]);
 
   return (
-    <BaseDialog title="Create new token" open onClose={onCancel}>
-      <DialogContent className={classes.creationDialog}>
-        <form>
-          <TextField className={`${classes.formEntries} required`} disabled={!!token} onChange={nameUpdated} placeholder="Name" value={name} />
-        </form>
-        <div>
-          <FormControl className={classes.formEntries}>
-            <InputLabel id="token-expiration-label">Expiration</InputLabel>
-            <Select labelId="token-expiration-label" label="Expiration" disabled={!!token} onChange={onChangeExpirationTime} value={expirationTime}>
-              {Object.entries(expirationTimes).map(([title, item]) => (
-                <MenuItem key={item.value} value={item.value}>
-                  {title}
-                </MenuItem>
-              ))}
-            </Select>
-            {hint ? (
-              <FormHelperText className={classes.warning}>{hint}</FormHelperText>
-            ) : (
-              <FormHelperText title={expirationDate.toISOString().slice(0, 10)}>
-                expires on <Time format="YYYY-MM-DD" value={expirationDate} />
-              </FormHelperText>
+    <BaseDialog title="Create new token" open onClose={onCancel} fullWidth maxWidth="sm">
+      <FormProvider {...methods}>
+        <form noValidate onSubmit={handleSubmit(onGenerate)}>
+          <DialogContent className="flexbox column">
+            <Typography className="margin-bottom-small" variant="subtitle1">
+              Name
+            </Typography>
+            <TextInput id="name" label="Token name" disabled={!!token} validations="trim,isLength:1" required requiredRendered={false} width="100%" />
+            <Typography className="margin-top-medium margin-bottom-small" variant="subtitle1">
+              Expiration
+            </Typography>
+            <FormControl className="full-width">
+              <InputLabel id="token-expiration-label">Expiration</InputLabel>
+              <Controller
+                name="expiresIn"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select labelId="token-expiration-label" label="Expiration" disabled={!!token} onChange={onChange} value={value}>
+                    {Object.entries(expirationTimes).map(([title, value]) => (
+                      <MenuItem key={value} value={value}>
+                        {title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+              {neverExpires ? (
+                <FormHelperText>The token will never expire.</FormHelperText>
+              ) : (
+                <FormHelperText title={expirationDate.format('YYYY-MM-DD HH:mm')}>
+                  expires on <Time format="YYYY-MM-DD" value={expirationDate} />
+                </FormHelperText>
+              )}
+            </FormControl>
+            {neverExpires && (
+              <Alert className="margin-top-small" severity="warning">
+                Never-expiring tokens are a security risk. We recommend to set an expiration date and rotate the secret at least yearly.
+              </Alert>
             )}
-          </FormControl>
-        </div>
-        {token && (
-          <div className="margin-top-small margin-bottom-small">
-            <CopyCode code={token} />
-            <p className="warning">This is the only time you will be able to see the token, so make sure to store it in a safe place.</p>
-          </div>
-        )}
-        {isEnterprise && (
-          <FormControl className={classes.formEntries}>
-            <TextField label="Permission level" id="role-name" value={tokenRoles} disabled />
-            <FormHelperText>The token will have the same permissions as your user</FormHelperText>
-          </FormControl>
-        )}
-      </DialogContent>
-      <DialogActions>
-        {!token && <Button onClick={onCancel}>Cancel</Button>}
-        <Button disabled={!name.length} variant="contained" onClick={generationHandler}>
-          {generationLabel}
-        </Button>
-      </DialogActions>
+            {token && (
+              <div className="margin-top-medium">
+                <CopyCode code={token} />
+                <Alert className="margin-top-small" severity="error">
+                  This is the only time you will be able to see the token, so make sure to store it in a safe place.
+                </Alert>
+              </div>
+            )}
+            {isEnterprise && (
+              <TextField
+                className="margin-top-medium"
+                label="Permission level"
+                id="role-name"
+                value={tokenRoles}
+                disabled
+                helperText="The token will have the same permissions as your user"
+              />
+            )}
+          </DialogContent>
+          <DialogActions>
+            {token ? (
+              <Button variant="contained" onClick={onCancel}>
+                Close
+              </Button>
+            ) : (
+              <>
+                <Button onClick={onCancel}>Cancel</Button>
+                <Button variant="contained" type="submit">
+                  Create token
+                </Button>
+              </>
+            )}
+          </DialogActions>
+        </form>
+      </FormProvider>
     </BaseDialog>
   );
 };
 
-export const AccessTokenRevocationDialog = ({ onCancel, revokeToken, token }) => (
-  <BaseDialog title="Revoke token" open onClose={onCancel}>
-    <DialogContent>
-      Are you sure you want to revoke the token <b>{token?.name}</b>?
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={onCancel}>Cancel</Button>
-      <Button onClick={() => revokeToken(token)}>Revoke Token</Button>
-    </DialogActions>
-  </BaseDialog>
-);
-
 export const AccessTokenManagement = () => {
   const [showGeneration, setShowGeneration] = useState(false);
-  const [showRevocation, setShowRevocation] = useState(false);
-  const [currentToken, setCurrentToken] = useState(null);
+  const [newToken, setNewToken] = useState<string>();
+  const [tokenToRevoke, setTokenToRevoke] = useState<PersonalAccessToken>();
   const isEnterprise = useSelector(getIsEnterprise);
   const { tokens = [], roles: userRoles = [], id } = useSelector(getCurrentUser);
-  const rolesById = useSelector(state => state.users.rolesById);
-  const dispatch = useDispatch();
-
-  const { classes } = useStyles();
+  const rolesById = useSelector(getRolesById);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!id) {
@@ -209,37 +203,19 @@ export const AccessTokenManagement = () => {
   }, [dispatch, id]);
 
   const toggleGenerateClick = () => {
-    setCurrentToken(null);
+    setNewToken(undefined);
     setShowGeneration(toggle);
   };
 
-  const toggleRevocationClick = () => {
-    setCurrentToken(null);
-    setShowRevocation(toggle);
-  };
-
-  const onRevokeClick = token => dispatch(revokeToken(token)).then(() => toggleRevocationClick());
-
-  const onRevokeTokenClick = token => {
-    toggleRevocationClick();
-    setCurrentToken(token);
-  };
-
-  const onGenerateClick = config => dispatch(generateToken(config)).unwrap().then(setCurrentToken);
+  const onGenerate = (values: TokenFormValues) =>
+    dispatch(generateToken(values))
+      .unwrap()
+      .then(setNewToken)
+      .catch(() => {});
 
   const hasLastUsedInfo = useMemo(() => tokens.some(token => !!token.last_used), [tokens]);
 
-  const columns = useMemo(
-    () =>
-      columnData.reduce((accu, column) => {
-        if (!column.canShow({ hasLastUsedInfo })) {
-          return accu;
-        }
-        accu.push(column);
-        return accu;
-      }, []),
-    [hasLastUsedInfo]
-  );
+  const columns = useMemo(() => columnData.filter(column => column.canShow({ hasLastUsedInfo })), [hasLastUsedInfo]);
 
   return (
     <>
@@ -248,13 +224,11 @@ export const AccessTokenManagement = () => {
         description={<Button onClick={toggleGenerateClick}>Generate a token</Button>}
         secondary={
           !!tokens.length && (
-            <Table className={classes.accessTokens}>
+            <Table>
               <TableHead>
                 <TableRow>
                   {columns.map(column => (
-                    <TableCell key={column.id} padding={column.disablePadding ? 'none' : 'normal'}>
-                      {column.label}
-                    </TableCell>
+                    <TableCell key={column.id}>{column.label}</TableCell>
                   ))}
                 </TableRow>
               </TableHead>
@@ -265,7 +239,7 @@ export const AccessTokenManagement = () => {
                   .map(token => (
                     <TableRow key={token.id} hover>
                       {columns.map(column => (
-                        <TableCell key={column.id}>{column.render({ onRevokeTokenClick, token })}</TableCell>
+                        <TableCell key={column.id}>{column.render({ onRevokeTokenClick: setTokenToRevoke, token })}</TableCell>
                       ))}
                     </TableRow>
                   ))}
@@ -277,14 +251,27 @@ export const AccessTokenManagement = () => {
       {showGeneration && (
         <AccessTokenCreationDialog
           onCancel={toggleGenerateClick}
-          generateToken={onGenerateClick}
+          onGenerate={onGenerate}
           isEnterprise={isEnterprise}
           rolesById={rolesById}
-          token={currentToken}
+          token={newToken}
           userRoles={userRoles}
         />
       )}
-      {showRevocation && <AccessTokenRevocationDialog onCancel={toggleRevocationClick} revokeToken={onRevokeClick} token={currentToken} />}
+      {!!tokenToRevoke && (
+        <ConfirmModal
+          header="Revoke token"
+          description={
+            <>
+              Are you sure you want to revoke the token <b>{tokenToRevoke.name}</b>?
+            </>
+          }
+          confirmButtonText="Revoke token"
+          open
+          close={() => setTokenToRevoke(undefined)}
+          onConfirm={() => dispatch(revokeToken(tokenToRevoke))}
+        />
+      )}
     </>
   );
 };
