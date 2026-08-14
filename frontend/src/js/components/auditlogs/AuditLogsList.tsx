@@ -80,7 +80,7 @@ export const AuditLogsList = ({
         </div>
         <div className="auditlogs-list">
           {items.map(item => {
-            const allowsExpansion = !!item.change || item.action.includes('terminal') || item.action.includes('portforward');
+            const allowsExpansion = !!item.change || item.action.includes('terminal') || item.action.includes('portforward') || item.action.includes('file');
             return (
               <div
                 className={`auditlogs-list-item ${allowsExpansion ? 'clickable' : ''}`}
