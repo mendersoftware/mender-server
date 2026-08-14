@@ -66,7 +66,8 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const size = useWindowSize();
 
-  const currentRefreshDeploymentLength = useRef(refreshDeploymentsLength);
+  // the interval grows as long as the deployments sit still & is reset as soon as one of them moves on
+  const currentRefreshDeploymentLength = useRef(minimalRefreshDeploymentsLength);
   const inprogressRef = useRef<HTMLElement>();
   const dynamicTimer = useRef<HTMLElement>();
 
@@ -89,23 +90,22 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
     [dispatch, dispatchedSetSnackbar, pendingPage, pendingPerPage, progressPage, progressPerPage]
   );
 
-  const setupDeploymentsRefresh = useCallback(
-    (refreshLength = currentRefreshDeploymentLength.current) => {
-      const tasks = [refreshDeployments(DEPLOYMENT_STATES.inprogress), refreshDeployments(DEPLOYMENT_STATES.pending)];
-      if (!onboardingState.complete && !pastDeploymentsCount) {
-        // retrieve past deployments outside of the regular refresh cycle to not change the selection state for past deployments
-        dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.finished, page: 1, perPage: 1, shouldSelect: false }));
-      }
-      return Promise.all(tasks)
-        .then(() => {
-          currentRefreshDeploymentLength.current = Math.min(refreshDeploymentsLength, refreshLength * 2);
-          clearTimeout(dynamicTimer.current);
-          dynamicTimer.current = setTimeout(setupDeploymentsRefresh, currentRefreshDeploymentLength.current);
-        })
-        .finally(() => setDoneLoading(true));
-    },
-    [dispatch, onboardingState.complete, pastDeploymentsCount, refreshDeployments]
-  );
+  const setupDeploymentsRefresh = useCallback(() => {
+    const tasks = [refreshDeployments(DEPLOYMENT_STATES.inprogress), refreshDeployments(DEPLOYMENT_STATES.pending)];
+    if (!onboardingState.complete && !pastDeploymentsCount) {
+      // retrieve past deployments outside of the regular refresh cycle to not change the selection state for past deployments
+      dispatch(getDeploymentsByStatus({ status: DEPLOYMENT_STATES.finished, page: 1, perPage: 1, shouldSelect: false }));
+    }
+    return Promise.all(tasks)
+      .then(() => {
+        // extending the interval off the ref rather than an argument lets a reset survive requests that were already
+        // on their way when the deployments moved on
+        currentRefreshDeploymentLength.current = Math.min(refreshDeploymentsLength, currentRefreshDeploymentLength.current * 2);
+        clearTimeout(dynamicTimer.current);
+        dynamicTimer.current = setTimeout(setupDeploymentsRefresh, currentRefreshDeploymentLength.current);
+      })
+      .finally(() => setDoneLoading(true));
+  }, [dispatch, onboardingState.complete, pastDeploymentsCount, refreshDeployments]);
 
   useEffect(
     () => () => {
@@ -121,21 +121,27 @@ export const Progress = ({ abort, createClick, ...remainder }) => {
     [dispatchedSetSnackbar]
   );
 
-  useEffect(() => {
-    clearTimeout(dynamicTimer.current);
-    setupDeploymentsRefresh(minimalRefreshDeploymentsLength);
-    return () => {
-      clearTimeout(dynamicTimer.current);
-    };
-  }, [pendingCount, setupDeploymentsRefresh]);
-
+  // the refresh cycle itself, restarted whenever the deployments to be fetched change - a switched page has to show up
+  // right away, so this is the only place that fetches on the spot
   useEffect(() => {
     clearTimeout(dynamicTimer.current);
     setupDeploymentsRefresh();
     return () => {
       clearTimeout(dynamicTimer.current);
     };
-  }, [progressPage, progressPerPage, pendingPage, pendingPerPage, setupDeploymentsRefresh]);
+  }, [setupDeploymentsRefresh]);
+
+  // a deployment that moved on to another state tends to be followed by the next transition shortly, so shorten the
+  // interval again to show that one early too. Re-arming the running cycle's timer is what keeps this from fetching
+  // alongside it - the two of them each kicking off a cycle is what used to double every request
+  useEffect(() => {
+    currentRefreshDeploymentLength.current = minimalRefreshDeploymentsLength;
+    clearTimeout(dynamicTimer.current);
+    dynamicTimer.current = setTimeout(setupDeploymentsRefresh, minimalRefreshDeploymentsLength);
+    return () => {
+      clearTimeout(dynamicTimer.current);
+    };
+  }, [pendingCount, progressCount, setupDeploymentsRefresh]);
 
   const abortDeployment = id =>
     abort(id).then(() => Promise.all([refreshDeployments(DEPLOYMENT_STATES.inprogress), refreshDeployments(DEPLOYMENT_STATES.pending)]));
