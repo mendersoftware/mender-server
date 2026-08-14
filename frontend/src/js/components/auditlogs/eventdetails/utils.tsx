@@ -29,6 +29,21 @@ import DeviceDetails, { DetailInformation } from './DeviceDetails';
 dayjs.extend(duration);
 
 export interface SessionDetailsEventProps {
+export const stringifyEvent = (item: unknown, space?: number) => {
+  try {
+    return JSON.stringify(item, null, space);
+  } catch (error) {
+    return `error parsing the logged event:\n${error}`;
+  }
+};
+
+export const parseConfigChange = (change: string) => {
+  try {
+    return JSON.parse(change);
+  } catch (error) {
+    return { error: `An error occurred processing the changed config:\n${error}` };
+  }
+};
   item: AuditLog;
   onClose: () => void;
 }

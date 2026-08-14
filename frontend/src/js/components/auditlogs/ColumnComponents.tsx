@@ -20,6 +20,8 @@ import Time from '@northern.tech/common-ui/Time';
 import { DEPLOYMENT_ROUTES, auditlogTypes, canAccess } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
 
+import { stringifyEvent } from './eventdetails/utils';
+
 const ArtifactLink = ({ item }) => <Link to={generateReleasesPath({ pageState: { selectedRelease: item.object.artifact.name } })}>View software</Link>;
 const DeploymentLink = ({ item }) => <Link to={`${DEPLOYMENT_ROUTES.finished.route}?open=true&id=${item.object.id}`}>View deployment</Link>;
 const DeviceLink = ({ item }) => <Link to={`/devices?id=${item.object.id}`}>View device</Link>;
@@ -32,15 +34,7 @@ const ChangeFallback = props => {
   return <TextOverflowMultiline variant="body2">{change}</TextOverflowMultiline>;
 };
 
-const FallbackFormatter = props => {
-  let result = '';
-  try {
-    result = JSON.stringify(props);
-  } catch (error) {
-    console.log(error);
-  }
-  return <Typography variant="body2">{result}</Typography>;
-};
+const FallbackFormatter = props => <Typography variant="body2">{stringifyEvent(props)}</Typography>;
 
 const ArtifactFormatter = ({ artifact }) => <TextOverflowMultiline variant="body2">{artifact.name}</TextOverflowMultiline>;
 const DeploymentFormatter = ({ deployment }) => <TextOverflowMultiline variant="body2">{deployment.name}</TextOverflowMultiline>;

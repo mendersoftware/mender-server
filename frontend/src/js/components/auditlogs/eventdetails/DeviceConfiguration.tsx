@@ -38,13 +38,7 @@ export const DeviceConfiguration = ({ item, onClose }) => {
   }
 
   const { actor, change } = item;
-
-  let config;
-  try {
-    config = JSON.parse(change);
-  } catch (error) {
-    config = { error: `An error occurred processing the changed config:\n${error}` };
-  }
+  const config = parseConfigChange(change);
 
   return (
     <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
