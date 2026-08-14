@@ -20,8 +20,6 @@ import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 
-export const defaultRowsPerPage = 20;
-
 const useStyles = makeStyles()(theme => ({
   auditlogsList: {
     '& .auditlogs-list-item': {
