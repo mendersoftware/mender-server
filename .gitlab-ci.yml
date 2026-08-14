@@ -317,6 +317,16 @@ review:deploy:
     - echo "Setting up namespace ${NAMESPACE}..."
     - ./compose/k8s/setup-review-namespace.sh
 
+    - |
+      if [ "${REVIEW_APPS_ENT_ON_OS}" == "true" ]; then
+        echo "Creating mender-enterprise-registry pull secret..."
+        kubectl create secret docker-registry mender-enterprise-registry \
+          --docker-server="registry.mender.io" \
+          --docker-username="${REGISTRY_MENDER_IO_USERNAME}" \
+          --docker-password="${REGISTRY_MENDER_IO_PASSWORD}" \
+          -n "${NAMESPACE}" --dry-run=client -o yaml | kubectl apply -f -
+      fi
+
     - echo "Adding Mender Helm repository..."
     - helm repo add mender https://charts.mender.io
     - helm repo update
@@ -324,7 +334,10 @@ review:deploy:
     - echo "Generating Helm values file..."
     - apt-get update && apt-get install -y gettext-base
     - |
-      if [ "${REVIEW_APPS_ENTERPRISE}" == "true" ]; then
+      if [ "${REVIEW_APPS_ENT_ON_OS}" == "true" ]; then
+        echo "Configuring enterprise-backend-from-OS-gui setup"
+        envsubst < compose/k8s/review-values.ent-on-os.yaml.tpl > /tmp/review-values.yaml
+      elif [ "${REVIEW_APPS_ENTERPRISE}" == "true" ]; then
         echo "Configuring enterprise setup"
         envsubst < compose/k8s/review-values.enterprise.yaml.tpl > /tmp/review-values.yaml
       else
@@ -346,7 +359,7 @@ review:deploy:
     - echo "Creating initial tenant and user..."
     - chmod +x ./compose/k8s/create-initial-user.sh
     - |
-      if [ "${REVIEW_APPS_ENTERPRISE}" == "true" ]; then
+      if [ "${REVIEW_APPS_ENT_ON_OS}" == "true" ] || [ "${REVIEW_APPS_ENTERPRISE}" == "true" ]; then
         ./compose/k8s/create-initial-user.sh --enterprise
       else
         ./compose/k8s/create-initial-user.sh
