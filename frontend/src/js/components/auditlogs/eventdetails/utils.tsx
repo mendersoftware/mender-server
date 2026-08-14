@@ -15,9 +15,9 @@ import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
 import type { AuditLog, Device, Object } from '@northern.tech/store/api/types';
-import type { IdAttribute } from '@northern.tech/store/constants';
 import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { getDeviceById, getSessionDetails } from '@northern.tech/store/thunks';
@@ -28,7 +28,6 @@ import DeviceDetails, { DetailInformation } from './DeviceDetails';
 
 dayjs.extend(duration);
 
-export interface SessionDetailsEventProps {
 export const stringifyEvent = (item: unknown, space?: number) => {
   try {
     return JSON.stringify(item, null, space);
@@ -44,9 +43,39 @@ export const parseConfigChange = (change: string) => {
     return { error: `An error occurred processing the changed config:\n${error}` };
   }
 };
+
+export interface EventDetailsProps {
   item: AuditLog;
   onClose: () => void;
 }
+
+export const useAuditlogDevice = () => {
+  const dispatch = useAppDispatch();
+  const { canReadDevices } = useSelector(getUserCapabilities);
+  const device = useSelector(getAuditlogDevice) as Device;
+  const idAttribute = useSelector(getIdAttribute);
+  const [isLoading, setIsLoading] = useState(canReadDevices && !device.attributes?.device_type?.length);
+  const { id: deviceId } = device;
+
+  useEffect(() => {
+    if (canReadDevices) {
+      dispatch(getDeviceById(deviceId))
+        .unwrap()
+        .then(() => setIsLoading(false));
+    }
+  }, [canReadDevices, deviceId, dispatch]);
+
+  return { canReadDevices, device, idAttribute, isLoading };
+};
+
+export const DeviceDetailsSection = ({ onClose }: Pick<EventDetailsProps, 'onClose'>) => {
+  const { canReadDevices, device, idAttribute, isLoading } = useAuditlogDevice();
+
+  if (!canReadDevices) {
+    return null;
+  }
+  return isLoading ? <Loader show={true} /> : <DeviceDetails device={device} idAttribute={idAttribute} onClose={onClose} />;
+};
 
 interface SessionDetails {
   end: string;
@@ -62,9 +91,6 @@ interface SessionMeta {
 }
 
 interface UseSessionDetailsReturn {
-  canReadDevices: boolean;
-  device?: Device;
-  idAttribute: IdAttribute | string;
   isLoading: boolean;
   sessionDetails?: SessionDetails;
   sessionMeta: SessionMeta | Record<string, never>;
@@ -74,14 +100,8 @@ export const useSessionDetails = (auditLogItem: AuditLog): UseSessionDetailsRetu
   const [sessionDetails, setSessionDetails] = useState<SessionDetails | undefined>();
   const dispatch = useAppDispatch();
   const { action, actor, meta, object = {} as Object, time } = auditLogItem;
-  const { canReadDevices } = useSelector(getUserCapabilities);
-  const idAttribute = useSelector(getIdAttribute) as string;
-  const device = useSelector(getAuditlogDevice) as Device | undefined;
 
   useEffect(() => {
-    if (canReadDevices) {
-      dispatch(getDeviceById(object.id));
-    }
     dispatch(
       getSessionDetails({
         sessionId: meta.session_id[0],
@@ -92,14 +112,12 @@ export const useSessionDetails = (auditLogItem: AuditLog): UseSessionDetailsRetu
       })
     )
       .unwrap()
+      .then(setSessionDetails)
       .catch(e => {
         console.error('failed to retrieve session details for auditlog event', e);
         setSessionDetails({ end: time, start: time });
-      })
-      .then(setSessionDetails);
-  }, [action, actor.id, canReadDevices, dispatch, meta.session_id, object.id, time]);
-
-  const isLoading = !sessionDetails || (canReadDevices && !device);
+      });
+  }, [action, actor.id, dispatch, meta.session_id, object.id, time]);
 
   const sessionMeta: SessionMeta | Record<string, never> = sessionDetails
     ? {
@@ -111,24 +129,16 @@ export const useSessionDetails = (auditLogItem: AuditLog): UseSessionDetailsRetu
       }
     : {};
 
-  return {
-    sessionDetails,
-    device,
-    idAttribute,
-    canReadDevices,
-    isLoading,
-    sessionMeta
-  };
+  return { sessionDetails, isLoading: !sessionDetails, sessionMeta };
 };
 
-interface SessionInfoProps extends Omit<UseSessionDetailsReturn, 'sessionDetails' | 'isLoading'> {
-  onClose: () => void;
+interface SessionInfoProps extends Pick<EventDetailsProps, 'onClose'>, Pick<UseSessionDetailsReturn, 'sessionMeta'> {
   title: string;
 }
 
-export const SessionInfo = ({ device, idAttribute, sessionMeta, onClose, canReadDevices, title }: SessionInfoProps) => (
-  <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
-    {canReadDevices && <DeviceDetails device={device} idAttribute={idAttribute} onClose={onClose} />}
+export const SessionInfo = ({ sessionMeta, onClose, title }: SessionInfoProps) => (
+  <div className="flexbox column">
+    <DeviceDetailsSection onClose={onClose} />
     <DetailInformation title={title} details={sessionMeta} />
   </div>
 );

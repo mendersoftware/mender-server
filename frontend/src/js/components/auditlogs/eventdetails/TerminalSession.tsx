@@ -17,11 +17,11 @@ import Loader from '@northern.tech/common-ui/Loader';
 import { getCurrentSession } from '@northern.tech/store/selectors';
 
 import TerminalPlayer from './TerminalPlayer';
-import type { SessionDetailsEventProps } from './utils';
+import type { EventDetailsProps } from './utils';
 import { SessionInfo, useSessionDetails } from './utils';
 
-export const TerminalSession = ({ item, onClose }: SessionDetailsEventProps) => {
-  const { sessionDetails, isLoading, ...sessionMetaDetails } = useSessionDetails(item);
+export const TerminalSession = ({ item, onClose }: EventDetailsProps) => {
+  const { sessionDetails, isLoading, sessionMeta } = useSessionDetails(item);
   const { token } = useSelector(getCurrentSession);
 
   if (isLoading) {
@@ -30,8 +30,8 @@ export const TerminalSession = ({ item, onClose }: SessionDetailsEventProps) => 
 
   return (
     <div className="flexbox" style={{ flexWrap: 'wrap' }}>
-      <TerminalPlayer className="flexbox column margin-top" item={item} sessionInitialized={!!sessionDetails} token={token} />
-      <SessionInfo {...sessionMetaDetails} onClose={onClose} title="session" />
+      <TerminalPlayer className="flexbox column margin-top-small" item={item} sessionInitialized={!!sessionDetails} token={token} />
+      <SessionInfo sessionMeta={sessionMeta} onClose={onClose} title="session" />
     </div>
   );
 };

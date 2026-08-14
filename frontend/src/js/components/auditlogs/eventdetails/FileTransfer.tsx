@@ -11,35 +11,14 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import Loader from '@northern.tech/common-ui/Loader';
-import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
-import { getDeviceById } from '@northern.tech/store/thunks';
-
-import DeviceDetails, { DetailInformation } from './DeviceDetails';
+import { DetailInformation } from './DeviceDetails';
+import { DeviceDetailsSection } from './utils';
 
 export const FileTransfer = ({ item, onClose }) => {
-  const dispatch = useDispatch();
   const {
     actor,
-    meta: { path = [] },
-    object = {}
+    meta: { path = [] }
   } = item;
-  const device = useSelector(getAuditlogDevice);
-  const { canReadDevices } = useSelector(getUserCapabilities);
-  const idAttribute = useSelector(getIdAttribute);
-
-  useEffect(() => {
-    if (canReadDevices) {
-      dispatch(getDeviceById(object.id));
-    }
-  }, [canReadDevices, dispatch, object.id]);
-
-  if (canReadDevices && !device) {
-    return <Loader show={true} />;
-  }
 
   const sessionMeta = {
     Path: path.join(','),
@@ -47,8 +26,8 @@ export const FileTransfer = ({ item, onClose }) => {
   };
 
   return (
-    <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
-      {canReadDevices && <DeviceDetails device={device} idAttribute={idAttribute} onClose={onClose} />}
+    <div className="flexbox column">
+      <DeviceDetailsSection onClose={onClose} />
       <DetailInformation title="file transfer" details={sessionMeta} />
     </div>
   );
