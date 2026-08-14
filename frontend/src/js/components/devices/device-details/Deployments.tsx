@@ -35,7 +35,6 @@ import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { DeviceStateSelection } from '../widgets/DeviceStateSelection';
 
 const useStyles = makeStyles()(theme => ({
-  deletion: { justifyContent: 'flex-end' },
   selection: {
     fontSize: 13,
     marginLeft: theme.spacing(0.5),
@@ -203,7 +202,7 @@ export const Deployments = ({ device }) => {
             setPerPage={setPerPage}
             total={deploymentsCount}
           />
-          <div className={`flexbox margin-top relative ${classes.deletion}`}>
+          <div className="flexbox margin-top relative">
             {isChecking && (
               <Confirm
                 classes="confirmation-overlay"
