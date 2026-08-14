@@ -85,7 +85,11 @@ export const AuditLogsList = ({
               <div
                 className={`auditlogs-list-item ${allowsExpansion ? 'clickable' : ''}`}
                 key={`event-${item.time}`}
-                onClick={() => onIssueSelection(allowsExpansion ? item : undefined)}
+                onClick={({ target }) => {
+                  if (!(target as HTMLElement).closest('a')) {
+                    onIssueSelection(allowsExpansion ? item : undefined);
+                  }
+                }}
               >
                 {auditLogColumns.map((column, index) => column.render(item, index, userCapabilities))}
                 {allowsExpansion ? <DetailsIndicator /> : <div />}
