@@ -94,8 +94,12 @@ export const RelativeTime = ({ className, shouldCount = 'both', updateTime }: Re
       </Typography>
     );
   }
+  const title = updatedTime ? updatedTime.toDate().toString().slice(0, 33) : '';
+  if (!title) {
+    return timeDisplay;
+  }
   return (
-    <Tooltip title={updatedTime ? updatedTime.toDate().toString().slice(0, 33) : ''} arrow enterDelay={500}>
+    <Tooltip title={title} arrow enterDelay={500}>
       {timeDisplay}
     </Tooltip>
   );
