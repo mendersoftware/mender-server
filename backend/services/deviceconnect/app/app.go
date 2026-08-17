@@ -16,8 +16,10 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/google/uuid"
@@ -25,6 +27,7 @@ import (
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 
+	"github.com/mendersoftware/mender-server/services/deviceconnect/config"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/model"
 	"github.com/mendersoftware/mender-server/services/deviceconnect/store"
 )
@@ -65,16 +68,22 @@ type app struct {
 	connsMu      chan struct{}
 	shutdownOnce sync.Once
 	shutdownDone chan struct{}
+	memUnhealthy atomic.Bool
 	Config
 }
 
-type Config struct{}
+type Config struct {
+	ReadinessLimits *config.ReadinessLimits
+}
 
 // NewApp initialize a new deviceconnect App
-func New(ds store.DataStore, config ...Config) App {
+func New(ds store.DataStore, opts ...func(*Config)) App {
 	conf := Config{}
 	connsMu := make(chan struct{}, 1)
 	connsMu <- struct{}{}
+	for _, opt := range opts {
+		opt(&conf)
+	}
 	return &app{
 		store:        ds,
 		Config:       conf,
@@ -86,7 +95,29 @@ func New(ds store.DataStore, config ...Config) App {
 
 // HealthCheck performs a health check and returns an error if it fails
 func (a *app) HealthCheck(ctx context.Context) error {
-	return a.store.Ping(ctx)
+	err := a.store.Ping(ctx)
+	if err != nil {
+		return err
+	}
+	if a.ReadinessLimits != nil {
+		usage, err := a.ReadinessLimits.Source.Usage()
+		if err != nil {
+			return err
+		}
+		if a.memUnhealthy.Load() {
+			if usage < a.ReadinessLimits.Low {
+				a.memUnhealthy.Store(false)
+			} else {
+				return fmt.Errorf("memory usage above watermark")
+			}
+		} else {
+			if usage > a.ReadinessLimits.High {
+				a.memUnhealthy.Store(true)
+				return fmt.Errorf("memory usage above watermark")
+			}
+		}
+	}
+	return nil
 }
 
 // ProvisionDevice provisions a new tenant
