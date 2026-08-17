@@ -1,9 +1,24 @@
+// Copyright 2026 Northern.tech AS
+//
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//
+//        http://www.apache.org/licenses/LICENSE-2.0
+//
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+
 package memlimit
 
 import (
 	"bufio"
 	"errors"
 	"fmt"
+	"io/fs"
 	"math"
 	"os"
 	"strconv"
@@ -11,6 +26,8 @@ import (
 )
 
 var ErrUnbounded = errors.New("memory limit unbounded")
+
+var root fs.FS = os.DirFS("/")
 
 type Source int
 
@@ -35,7 +52,7 @@ func (src Source) String() string {
 }
 
 func readStatField(path, field string) (uint64, error) {
-	f, err := os.Open(path)
+	f, err := root.Open(path)
 	if err != nil {
 		return 0, err
 	}
@@ -52,7 +69,7 @@ func readStatField(path, field string) (uint64, error) {
 }
 
 func residentBytes() (uint64, error) {
-	data, err := os.ReadFile("/proc/self/statm")
+	data, err := fs.ReadFile(root, "proc/self/statm")
 	if err != nil {
 		return 0, err
 	}
@@ -78,7 +95,7 @@ func (src Source) Usage() (uint64, error) {
 	switch src {
 	case sourceCgroupV2:
 		// cgroup v2
-		data, err := os.ReadFile("/sys/fs/cgroup/memory.current")
+		data, err := fs.ReadFile(root, "sys/fs/cgroup/memory.current")
 		if err != nil {
 			return 0, err
 		}
@@ -86,14 +103,14 @@ func (src Source) Usage() (uint64, error) {
 		if err != nil {
 			return 0, err
 		}
-		inactiveFile, err := readStatField("/sys/fs/cgroup/memory.stat", "inactive_file")
+		inactiveFile, err := readStatField("sys/fs/cgroup/memory.stat", "inactive_file")
 		if err != nil {
 			return 0, err
 		}
 		return workingSet(usage, inactiveFile), nil
 	case sourceCgroupV1:
 		// cgroup v1
-		data, err := os.ReadFile("/sys/fs/cgroup/memory/memory.usage_in_bytes")
+		data, err := fs.ReadFile(root, "sys/fs/cgroup/memory/memory.usage_in_bytes")
 		if err != nil {
 			return 0, err
 		}
@@ -102,7 +119,7 @@ func (src Source) Usage() (uint64, error) {
 			return 0, err
 		}
 		inactiveFile, err := readStatField(
-			"/sys/fs/cgroup/memory/memory.stat",
+			"sys/fs/cgroup/memory/memory.stat",
 			"total_inactive_file",
 		)
 		if err != nil {
@@ -137,7 +154,7 @@ func LimitBytes() (uint64, Source, error) {
 func (src Source) Limit() (uint64, error) {
 	switch src {
 	case sourceCgroupV2:
-		data, err := os.ReadFile("/sys/fs/cgroup/memory.max")
+		data, err := fs.ReadFile(root, "sys/fs/cgroup/memory.max")
 		if os.IsNotExist(err) {
 			return 0, err
 		}
@@ -151,7 +168,7 @@ func (src Source) Limit() (uint64, error) {
 		}
 		return limit, nil
 	case sourceCgroupV1:
-		data, err := os.ReadFile("/sys/fs/cgroup/memory/memory.limit_in_bytes")
+		data, err := fs.ReadFile(root, "sys/fs/cgroup/memory/memory.limit_in_bytes")
 		if err != nil {
 			return 0, err
 		}
@@ -166,7 +183,7 @@ func (src Source) Limit() (uint64, error) {
 		return limit, nil
 
 	case sourceProcMeminfo:
-		fd, err := os.Open("/proc/meminfo")
+		fd, err := root.Open("proc/meminfo")
 		if err != nil {
 			return 0, err
 		}
