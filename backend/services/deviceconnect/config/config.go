@@ -82,6 +82,8 @@ const (
 	// Max Upload size
 	SettingMaxFileUploadSize        = "file_upload_limit"
 	SettingMaxFileUploadSizeDefault = 1024 * 1024 * 1024 // 1 GiB
+
+	SettingWebsocketBurstLimit = "websocket_burst_limit" // Defaults to unlimited
 )
 
 var (
