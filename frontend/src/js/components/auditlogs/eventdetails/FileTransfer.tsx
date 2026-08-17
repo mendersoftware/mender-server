@@ -11,7 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { DetailInformation } from './DeviceDetails';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+
 import { DeviceDetailsSection } from './utils';
 
 export const FileTransfer = ({ item, onClose }) => {
@@ -28,7 +30,9 @@ export const FileTransfer = ({ item, onClose }) => {
   return (
     <div className="flexbox column">
       <DeviceDetailsSection onClose={onClose} />
-      <DetailInformation title="file transfer" details={sessionMeta} />
+      <ContentSection title="File transfer details">
+        <TwoColumnData data={sessionMeta} />
+      </ContentSection>
     </div>
   );
 };

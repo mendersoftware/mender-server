@@ -15,8 +15,10 @@ import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import Loader from '@northern.tech/common-ui/Loader';
 import Time from '@northern.tech/common-ui/Time';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import type { AuditLog, Device, Object } from '@northern.tech/store/api/types';
 import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -24,7 +26,7 @@ import { getDeviceById, getSessionDetails } from '@northern.tech/store/thunks';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration.js';
 
-import DeviceDetails, { DetailInformation } from './DeviceDetails';
+import DeviceDetails from './DeviceDetails';
 
 dayjs.extend(duration);
 
@@ -139,6 +141,8 @@ interface SessionInfoProps extends Pick<EventDetailsProps, 'onClose'>, Pick<UseS
 export const SessionInfo = ({ sessionMeta, onClose, title }: SessionInfoProps) => (
   <div className="flexbox column">
     <DeviceDetailsSection onClose={onClose} />
-    <DetailInformation title={title} details={sessionMeta} />
+    <ContentSection title={title}>
+      <TwoColumnData data={sessionMeta} />
+    </ContentSection>
   </div>
 );

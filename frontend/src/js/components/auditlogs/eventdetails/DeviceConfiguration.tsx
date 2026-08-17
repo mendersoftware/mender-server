@@ -11,7 +11,9 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { DetailInformation } from './DeviceDetails';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+
 import { DeviceDetailsSection, parseConfigChange } from './utils';
 
 export const DeviceConfiguration = ({ item, onClose }) => {
@@ -21,8 +23,12 @@ export const DeviceConfiguration = ({ item, onClose }) => {
   return (
     <div className="flexbox column">
       <DeviceDetailsSection onClose={onClose} />
-      <DetailInformation title="changed configuration" details={config} />
-      <DetailInformation title="change" details={{ User: actor.email }} />
+      <ContentSection title="Changed configuration details">
+        <TwoColumnData data={config} />
+      </ContentSection>
+      <ContentSection title="Change details">
+        <TwoColumnData data={{ User: actor.email }} />
+      </ContentSection>
     </div>
   );
 };

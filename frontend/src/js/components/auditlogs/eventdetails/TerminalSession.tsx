@@ -31,7 +31,7 @@ export const TerminalSession = ({ item, onClose }: EventDetailsProps) => {
   return (
     <div className="flexbox" style={{ flexWrap: 'wrap' }}>
       <TerminalPlayer className="flexbox column margin-top-small" item={item} sessionInitialized={!!sessionDetails} token={token} />
-      <SessionInfo sessionMeta={sessionMeta} onClose={onClose} title="session" />
+      <SessionInfo sessionMeta={sessionMeta} onClose={onClose} title="Session details" />
     </div>
   );
 };

@@ -23,7 +23,7 @@ export const PortForward = ({ item, onClose }: EventDetailsProps) => {
     return <Loader show={true} />;
   }
 
-  return <SessionInfo sessionMeta={sessionMeta} onClose={onClose} title="port forwarding" />;
+  return <SessionInfo sessionMeta={sessionMeta} onClose={onClose} title="Port forwarding details" />;
 };
 
 export default PortForward;
