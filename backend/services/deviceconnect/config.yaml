@@ -82,3 +82,10 @@
 # A value <= 0 means no limit (default).
 # Overwrite with environment variable: DEVICECONNECT_WEBSOCKET_BURST_LIMIT
 # websocket_burst_limit: 0
+
+# readiness:
+#   source: "disabled" # oneOf: ["disabled", "memory"]
+#   max: null # Target maximum (unit and default depends on source)
+#   high: 90% # High watermark for readiness probe to toggle "not ready"
+#   low:  75% # Low watermark for readiness probe to become ready
+#             # high/low watermarks can be percentage or absolute values
