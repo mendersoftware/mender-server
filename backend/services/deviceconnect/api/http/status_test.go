@@ -87,29 +87,18 @@ func TestHealth(t *testing.T) {
 }
 
 func TestShutdown(t *testing.T) {
-	testCases := []struct {
-		Name string
+	done := make(chan struct{})
+	close(done)
+	app := app_mocks.NewApp(t)
+	app.On("Done").Return((<-chan struct{})(done))
 
-		HTTPStatus int
-		HTTPBody   map[string]interface{}
-	}{
-		{
-			Name:       "ok",
-			HTTPStatus: http.StatusAccepted,
-		},
+	router, _ := NewRouter(app, nil, nil)
+	req, err := http.NewRequest("GET", APIURLInternalShutdown, nil)
+	if !assert.NoError(t, err) {
+		t.FailNow()
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.Name, func(t *testing.T) {
-			router, _ := NewRouter(nil, nil, nil)
-			req, err := http.NewRequest("GET", APIURLInternalShutdown, nil)
-			if !assert.NoError(t, err) {
-				t.FailNow()
-			}
-
-			w := httptest.NewRecorder()
-			router.ServeHTTP(w, req)
-			assert.Equal(t, tc.HTTPStatus, w.Code)
-		})
-	}
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusOK, w.Code)
 }
