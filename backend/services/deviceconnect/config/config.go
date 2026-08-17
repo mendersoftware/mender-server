@@ -125,7 +125,7 @@ func parsePercentOrAbsolute(c config.Reader, key string, percentOf uint64) (uint
 		}
 		max = uint64(float64(percentOf) * f / 100.0)
 	} else {
-		max, err = strconv.ParseUint(c.GetString(SettingReadinessMax), 10, 64)
+		max, err = strconv.ParseUint(stringValue, 10, 64)
 		if err != nil {
 			return 0, fmt.Errorf("invalid configuration %s: %w", key, err)
 		}
@@ -135,7 +135,6 @@ func parsePercentOrAbsolute(c config.Reader, key string, percentOf uint64) (uint
 
 func LoadReadiness(c config.Reader) (*ReadinessLimits, error) {
 	var (
-		max uint64
 		err error
 		cfg ReadinessLimits
 	)
@@ -157,11 +156,11 @@ func LoadReadiness(c config.Reader) (*ReadinessLimits, error) {
 		return nil, fmt.Errorf("invalid configuration '%s': must be one of [disabled, memory]",
 			SettingReadinessSource)
 	}
-	cfg.High, err = parsePercentOrAbsolute(c, SettingReadinessHigh, max)
+	cfg.High, err = parsePercentOrAbsolute(c, SettingReadinessHigh, cfg.Max)
 	if err != nil {
 		return nil, err
 	}
-	cfg.Low, err = parsePercentOrAbsolute(c, SettingReadinessLow, max)
+	cfg.Low, err = parsePercentOrAbsolute(c, SettingReadinessLow, cfg.Max)
 	if err != nil {
 		return nil, err
 	}
