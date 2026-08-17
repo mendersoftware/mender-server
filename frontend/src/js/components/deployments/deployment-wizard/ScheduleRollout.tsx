@@ -78,7 +78,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
           <EnterpriseNotification id={BENEFITS.scheduledDeployments.id} />
         </InfoHintContainer>
       </div>
-      {Boolean(isPickerOpen || startTime) && (
+      {Boolean(isPickerOpen || start_time) && (
         <FormControl className={classes.pickerStyle} disabled={!canSchedule}>
           <DateTimePicker
             ampm={false}
@@ -91,7 +91,7 @@ export const ScheduleRollout = ({ canSchedule, commonClasses, open = false }) =>
             disabled={!canSchedule}
             onChange={date => handleStartTimeChange(date.toISOString())}
             slotProps={{ textField: { size: 'small', style: { minWidth: 400 } } }}
-            value={dayjs(startTime)}
+            value={startTime}
           />
         </FormControl>
       )}

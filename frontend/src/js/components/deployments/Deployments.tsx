@@ -170,22 +170,25 @@ export const Deployments = () => {
     dispatch(setDeploymentsState({ general: { showCreationDialog: true, showReportDialog: false } }));
   };
 
-  const onScheduleSubmit = () => {
+  const changeTab = useCallback(
+    (_, tabIndex) => {
+      dispatch(setDeploymentsState({ general: { state: tabIndex } }));
+      dispatch(setSnackbar(''));
+      if (pastCount && !onboardingState.complete) {
+        dispatch(advanceOnboarding(onboardingSteps.DEPLOYMENTS_PAST));
+      }
+    },
+    [dispatch, onboardingState.complete, pastCount]
+  );
+
+  const onScheduleSubmit = useCallback(() => {
     dispatch(setDeploymentsState({ general: { showCreationDialog: false, showReportDialog: false } }));
     setDeploymentObject({});
     // successfully retrieved new deployment
     if (routes.active.key !== state) {
       changeTab(undefined, routes.active.key);
     }
-  };
-
-  const changeTab = (_, tabIndex) => {
-    dispatch(setDeploymentsState({ general: { state: tabIndex } }));
-    dispatch(setSnackbar(''));
-    if (pastCount && !onboardingState.complete) {
-      dispatch(advanceOnboarding(onboardingSteps.DEPLOYMENTS_PAST));
-    }
-  };
+  }, [changeTab, dispatch, state]);
 
   const showReport = (reportType, selectedId) => {
     if (!onboardingState.complete) {
@@ -198,10 +201,10 @@ export const Deployments = () => {
 
   const onAbortDeployment = id => dispatch(abortDeployment(id)).then(closeReport);
 
-  const onCreationDismiss = () => {
+  const onCreationDismiss = useCallback(() => {
     dispatch(setDeploymentsState({ general: { showCreationDialog: false } }));
     setDeploymentObject({});
-  };
+  }, [dispatch]);
 
   const onCreationShow = () => dispatch(setDeploymentsState({ general: { showCreationDialog: true } }));
 

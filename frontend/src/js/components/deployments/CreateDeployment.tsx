@@ -11,8 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useRef, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { memo, useEffect, useRef, useState } from 'react';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
@@ -96,6 +96,23 @@ const useStyles = makeStyles()(theme => ({
 // these live in the collapsed advanced options, which have to be expanded before their errors can be seen
 const advancedErrorFields = ['maxDevices', 'phases'];
 
+// the fields that are mirrored to the parent for URL param sync - retries is deliberately left out, as it is never restored from the URL
+const syncedFields = [
+  'group',
+  'release',
+  'delta',
+  'forceDeploy',
+  'maxDevices',
+  'phases',
+  'startTime',
+  'rolloutMode',
+  'uniform_phases',
+  'update_control_map'
+] as const;
+
+const locallyUsedFields = ['isPaused', 'shouldLimit', 'usesPattern'] as const;
+const watchedFields = [...syncedFields, ...locallyUsedFields];
+
 const getAnchor = (element, heightAdjustment = 3) => ({
   top: element.offsetTop + element.offsetHeight / heightAdjustment,
   left: element.offsetLeft + element.offsetWidth
@@ -159,14 +176,20 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
   const {
     control,
     formState: { dirtyFields, isSubmitted, isSubmitting },
+    getValues,
     handleSubmit,
     reset,
     setValue,
     trigger,
     watch
   } = methods;
-  const formValues = watch();
-  const { group, isPaused, release, shouldLimit, usesPattern } = formValues;
+  const watchedValues = useWatch({ control, name: watchedFields });
+  const values = Object.fromEntries(watchedFields.map((field, index) => [field, watchedValues[index]])) as Pick<
+    DeploymentFormValues,
+    (typeof watchedFields)[number]
+  >;
+  const syncedValues = Object.fromEntries(syncedFields.map(field => [field, values[field]]));
+  const { group, isPaused, release, shouldLimit, usesPattern } = values;
   const { deploymentDeviceCount, deploymentDeviceIds, devices, filter, isDeviceCountResolved } = useDerivedData(watch, deploymentObject.devices);
   validationContext.current.deploymentDeviceCount = deploymentDeviceCount;
   validationContext.current.devices = devices;
@@ -249,23 +272,11 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     setValue('retries', previousRetries + 1);
   }, [deploymentObject.retries, dirtyFields.retries, open, previousRetries, setValue]);
 
-  // Notify parent of form value changes for URL param sync - retries is deliberately left out, as it is never
-  // restored from the URL and a round-tripped value would shadow the global settings default on form initialization
+  // Notify parent of form value changes for URL param sync
   useEffect(() => {
-    onValuesChange?.({
-      group: formValues.group,
-      release: formValues.release,
-      delta: formValues.delta,
-      forceDeploy: formValues.forceDeploy,
-      maxDevices: formValues.maxDevices,
-      phases: formValues.phases,
-      startTime: formValues.startTime,
-      rolloutMode: formValues.rolloutMode,
-      uniform_phases: formValues.uniform_phases,
-      update_control_map: formValues.update_control_map
-    });
+    onValuesChange?.(syncedValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(formValues), onValuesChange]);
+  }, [JSON.stringify(syncedValues), onValuesChange]);
 
   useEffect(() => {
     if (release) {
@@ -296,8 +307,9 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     if (needsCheck && !isChecking) {
       return setIsChecking(true);
     }
-    const { delta, forceDeploy = false, isPaused, maxDevices, phases, release, rolloutMode, startTime, uniform_phases, update_control_map } = formValues;
-    const retries = (formValues.retries ?? 1) - 1;
+    const currentValues = getValues();
+    const { delta, forceDeploy = false, isPaused, maxDevices, phases, release, rolloutMode, startTime, uniform_phases, update_control_map } = currentValues;
+    const retries = (currentValues.retries ?? 1) - 1;
     const retrySetting = canRetry && retries ? { retries } : {};
     const phasePayload = buildPhasePayload({ phases, rolloutMode, startTime, uniform_phases });
     const newDeployment = {
@@ -324,6 +336,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
         cleanUpDeploymentsStatus();
         onScheduleSubmit();
       })
+      .catch(console.error)
       .finally(() => setIsChecking(false));
   };
 
@@ -374,7 +387,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
             square
             expanded={isExpanded}
             onChange={() => setIsExpanded(toggle)}
-            slotProps={{ transition: { onEntered: scrollToError } }}
+            slotProps={{ transition: { onEntered: scrollToError, mountOnEnter: true } }}
           >
             <AccordionSummary expandIcon={<ExpandMore />}>
               <Typography variant="subtitle2">{isExpanded ? 'Hide' : 'Show'} advanced options</Typography>
@@ -445,7 +458,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
   );
 };
 
-export default CreateDeployment;
+export default memo(CreateDeployment);
 
 const OnboardingComponent = ({
   releaseRef,
