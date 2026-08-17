@@ -29,6 +29,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/vmihailenco/msgpack/v5"
 
+	"github.com/mendersoftware/mender-server/pkg/accesslog"
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/log"
 	"github.com/mendersoftware/mender-server/pkg/rest.utils"
@@ -171,6 +172,8 @@ func (h DeviceController) Connect(c *gin.Context) {
 		l.Error(err)
 		return
 	}
+	logCtx := accesslog.GetContext(ctx)
+	logCtx.SetField("status", 101)
 	conn.SetReadLimit(int64(app.MessageSizeLimit))
 	shutdown, stop := h.app.GetShutdownNotification()
 	defer stop()
@@ -199,7 +202,13 @@ func (h DeviceController) Connect(c *gin.Context) {
 	// websocketWriter is responsible for closing the websocket
 	//nolint:errcheck
 	err = h.connectWSWriter(ctxWithCancel, conn, listener, shutdown)
-	if err != nil && !websocket.IsCloseError(err, websocket.CloseNormalClosure) {
+	var wsErr *websocket.CloseError
+	if errors.As(err, &wsErr) {
+		logCtx.SetField("wsstatus", wsErr.Code)
+	}
+	if err != nil && !websocket.IsCloseError(
+		err, websocket.CloseNormalClosure, websocket.CloseGoingAway,
+	) {
 		_ = c.Error(err)
 	}
 }
@@ -400,21 +409,21 @@ func (h DeviceController) connectWSWriter(
 			return err
 		case <-shutdown:
 			deadline := time.Now().Add(writeWait)
-			err = conn.WriteControl(
+			errShutdown := conn.WriteControl(
 				websocket.CloseMessage,
 				websocket.FormatCloseMessage(websocket.CloseGoingAway, "server shutting down"),
 				deadline,
 			)
-			if err == nil {
+			if errShutdown == nil {
 				ctx, cancel := context.WithDeadline(ctx, deadline)
 				defer cancel()
 				select {
-				case err = <-errChan:
+				case errShutdown = <-errChan:
 				case <-ctx.Done():
-					err = ctx.Err()
+					errShutdown = ctx.Err()
 				}
 			}
-			return err
+			return errShutdown
 		}
 	}
 }
