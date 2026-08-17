@@ -172,12 +172,12 @@ func (h DeviceController) Connect(c *gin.Context) {
 		return
 	}
 	conn.SetReadLimit(int64(app.MessageSizeLimit))
+	shutdown, stop := h.app.GetShutdownNotification()
+	defer stop()
 
 	// register the websocket for graceful shutdown
 	ctxWithCancel, cancel := context.WithCancel(ctx)
 	defer cancel()
-	handle := h.app.RegisterConnectionCancelHandle(idata.Subject, cancel, true)
-	defer h.app.UnregisterConnectionCancelHandle(handle)
 
 	var version int64
 	version, err = h.app.SetDeviceConnected(ctx, idata.Tenant, idata.Subject)
@@ -198,7 +198,7 @@ func (h DeviceController) Connect(c *gin.Context) {
 
 	// websocketWriter is responsible for closing the websocket
 	//nolint:errcheck
-	err = h.connectWSWriter(ctxWithCancel, conn, listener)
+	err = h.connectWSWriter(ctxWithCancel, conn, listener, shutdown)
 	if err != nil && !websocket.IsCloseError(err, websocket.CloseNormalClosure) {
 		_ = c.Error(err)
 	}
@@ -336,6 +336,9 @@ func (h DeviceController) handleManagementMessages(
 				}
 				err = conn.WriteMessage(websocket.BinaryMessage, data)
 				if err != nil {
+					if errors.Is(err, websocket.ErrCloseSent) {
+						return
+					}
 					l.Errorf("fatal error writing to websocket: %s", err.Error())
 					select {
 					case streamErr <- err:
@@ -358,6 +361,7 @@ func (h DeviceController) connectWSWriter(
 	ctx context.Context,
 	conn WSConn,
 	listener stream.Listener,
+	shutdown <-chan struct{},
 ) (err error) {
 	l := log.FromContext(ctx)
 	defer func() {
@@ -393,6 +397,23 @@ func (h DeviceController) connectWSWriter(
 		case err := <-errChan:
 			return err
 		case err := <-acceptErr:
+			return err
+		case <-shutdown:
+			deadline := time.Now().Add(writeWait)
+			err = conn.WriteControl(
+				websocket.CloseMessage,
+				websocket.FormatCloseMessage(websocket.CloseGoingAway, "server shutting down"),
+				deadline,
+			)
+			if err == nil {
+				ctx, cancel := context.WithDeadline(ctx, deadline)
+				defer cancel()
+				select {
+				case err = <-errChan:
+				case <-ctx.Done():
+					err = ctx.Err()
+				}
+			}
 			return err
 		}
 	}

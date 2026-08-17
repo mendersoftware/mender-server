@@ -147,8 +147,8 @@ func (h ManagementController) Connect(c *gin.Context) {
 		rest.RenderError(c, http.StatusBadRequest, ErrMissingUserAuthentication)
 		return
 	}
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
+	ctx, stop := context.WithCancel(ctx)
+	defer stop()
 
 	tenantID := idata.Tenant
 	userID := idata.Subject
@@ -213,6 +213,8 @@ func (h ManagementController) Connect(c *gin.Context) {
 		// upgrader.Upgrade has already responded
 		return
 	}
+	done, stop := h.app.GetShutdownNotification()
+	defer stop()
 	conn.SetReadLimit(int64(app.MessageSizeLimit))
 	defer conn.Close()
 
@@ -229,7 +231,7 @@ func (h ManagementController) Connect(c *gin.Context) {
 	})
 
 	//nolint:errcheck
-	h.ConnectServeWS(c, ctx, conn, session, s)
+	h.ConnectServeWS(c, ctx, done, conn, session, s)
 }
 
 func (h ManagementController) Playback(c *gin.Context) {
@@ -597,6 +599,7 @@ func sendLimitErrDevice(ctx context.Context, session *model.Session, s stream.Co
 func (h ManagementController) ConnectServeWS(
 	c *gin.Context,
 	ctx context.Context,
+	done <-chan struct{},
 	conn *websocket.Conn,
 	sess *model.Session,
 	s stream.Conn,
@@ -656,6 +659,25 @@ func (h ManagementController) ConnectServeWS(
 	case err = <-errWrite:
 	case <-ctx.Done():
 		err = ctx.Err()
+	case <-done:
+		deadline := time.Now().Add(writeWait)
+		err = conn.WriteControl(
+			websocket.CloseMessage,
+			websocket.FormatCloseMessage(websocket.CloseGoingAway, "shutting down"),
+			deadline,
+		)
+		if err == nil {
+			// Wait for peer close message (if any)
+			timeout := time.Until(deadline)
+			if timeout > 0 {
+				select {
+				case err = <-errRead:
+				case <-time.After(timeout):
+				case <-ctx.Done():
+					err = ctx.Err()
+				}
+			}
+		}
 	}
 	if err != nil && !websocket.IsCloseError(err, websocket.CloseNormalClosure) {
 		_ = c.Error(err)
