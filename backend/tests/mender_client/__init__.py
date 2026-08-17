@@ -38,6 +38,7 @@ __all__ = [
     "DeviceInventoryManagementAPIApi",
     "DeviceInventoryFiltersAndSearchInternalAPIApi",
     "DeviceInventoryFiltersAndSearchManagementAPIApi",
+    "InventoryV2alpha1ManagementAPIApi",
     "IoTManagerInternalAPIApi",
     "IoTManagerManagementAPIApi",
     "UserAdministrationManagementAPIApi",
@@ -158,6 +159,7 @@ __all__ = [
     "ReleasesDeleteError",
     "RemoveAGroup200Response",
     "Scope",
+    "SearchIdentityParams",
     "SearchParams",
     "SelectAttribute",
     "Software",
@@ -207,6 +209,7 @@ from mender_client.api.device_inventory_internal_api_api import DeviceInventoryI
 from mender_client.api.device_inventory_management_api_api import DeviceInventoryManagementAPIApi as DeviceInventoryManagementAPIApi
 from mender_client.api.device_inventory_filters_and_search_internal_api_api import DeviceInventoryFiltersAndSearchInternalAPIApi as DeviceInventoryFiltersAndSearchInternalAPIApi
 from mender_client.api.device_inventory_filters_and_search_management_api_api import DeviceInventoryFiltersAndSearchManagementAPIApi as DeviceInventoryFiltersAndSearchManagementAPIApi
+from mender_client.api.inventory_v2alpha1_management_api_api import InventoryV2alpha1ManagementAPIApi as InventoryV2alpha1ManagementAPIApi
 from mender_client.api.io_t_manager_internal_api_api import IoTManagerInternalAPIApi as IoTManagerInternalAPIApi
 from mender_client.api.io_t_manager_management_api_api import IoTManagerManagementAPIApi as IoTManagerManagementAPIApi
 from mender_client.api.user_administration_management_api_api import UserAdministrationManagementAPIApi as UserAdministrationManagementAPIApi
@@ -331,6 +334,7 @@ from mender_client.models.release_v2 import ReleaseV2 as ReleaseV2
 from mender_client.models.releases_delete_error import ReleasesDeleteError as ReleasesDeleteError
 from mender_client.models.remove_a_group200_response import RemoveAGroup200Response as RemoveAGroup200Response
 from mender_client.models.scope import Scope as Scope
+from mender_client.models.search_identity_params import SearchIdentityParams as SearchIdentityParams
 from mender_client.models.search_params import SearchParams as SearchParams
 from mender_client.models.select_attribute import SelectAttribute as SelectAttribute
 from mender_client.models.software import Software as Software

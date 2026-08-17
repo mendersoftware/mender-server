@@ -51,6 +51,8 @@ tags:
     x-displayName: Management API
   - name: Device_inventory_filters_and_search_Management API
     x-displayName: Management API
+  - name: Inventory_v2alpha1_Management API
+    x-displayName: Management API
   - name: IoT_Manager_Internal API
     x-displayName: Internal API
   - name: IoT_Manager_Management API
@@ -5839,6 +5841,72 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       security:
         - ManagementJWT: []
+  /api/management/v2alpha1/inventory/identities/search:
+    post:
+      tags:
+        - Inventory_v2alpha1_Management API
+      summary: Search inventory by identity
+      operationId: Search Inventory By Identity
+      description: |
+        Search for inventory by device identity attribute. Supports prefix matching against 
+        the following values:
+          - the system assigned device `id`
+          - the `tags` scoped attribute with name `"name"`
+          - any `identity` scoped device attribute
+
+        Please note that the `scope` of the system assigned device `id` is expected to be `identity`
+        when used with this endpoint.
+      requestBody:
+        description: Identity search parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchIdentityParams'
+      responses:
+        '200':
+          description: Successful response.
+          headers:
+            X-Total-Count:
+              description: Total number of devices matched query.
+              schema:
+                type: string
+            Link:
+              description: |
+                Standard header used for page navigation, page relations: 'first', 'next' and 'prev'.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                title: ListOfDevices
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceInventoryResponse'
+              example:
+                - id: 291ae0e5956c69c2267489213df4459d19ed48a806603def19d417d004a4b67e
+                  attributes:
+                    - name: mac
+                      scope: identity
+                      value: '00:01:02:03:04:05'
+                      description: MAC address
+                    - name: ip_addr
+                      scope: inventory
+                      value: 1.2.3.4
+                      description: IP address
+                  updated_ts: '2016-10-03T16:58:51.639Z'
+                - id: 76f40e5956c699e327489213df4459d1923e1a806603def19d417d004a4a3ef
+                  attributes:
+                    - name: mac
+                      scope: identity
+                      value: '00:01:02:03:02:01'
+                      description: MAC address
+                  updated_ts: '2016-10-04T18:24:21.432Z'
+        '400':
+          $ref: '#/components/responses/InvalidRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      security:
+        - ManagementJWT: []
   /api/internal/v1/iot-manager/health:
     get:
       tags:
@@ -9988,6 +10056,45 @@ components:
         name: serial_no
         scope: inventory
         count: 10
+    SearchIdentityParams:
+      type: object
+      description: Parameters for searching for inventory by their identity
+      required:
+        - name
+        - value_prefix
+        - scope
+      properties:
+        scope:
+          description: The scope of the attribute name used with the search.
+          type: string
+          enum:
+            - identity
+            - tags
+          example: identity
+        name:
+          description: The name of the attribute used with the search.
+          type: string
+          example: mac
+        value_prefix:
+          description: The prefix used to match against attribute values with 'scope' and 'name'.
+          type: string
+          example: '00:01:'
+        attributes:
+          type: array
+          description: List of attributes to select and return
+          items:
+            $ref: '#/components/schemas/SelectAttribute'
+          example:
+            - attribute: mac
+              scope: identity
+            - attribute: ip_addr
+              scope: inventory
+        page:
+          description: Starting page.
+          type: integer
+        per_page:
+          description: Number of results per page.
+          type: integer
     DeviceInventoryRequest:
       type: object
       properties:
@@ -10706,6 +10813,9 @@ x-tagGroups:
     tags:
       - Device_inventory_filters_and_search_Internal API
       - Device_inventory_filters_and_search_Management API
+  - name: Inventory v2alpha1
+    tags:
+      - Inventory_v2alpha1_Management API
   - name: IoT Manager
     tags:
       - IoT_Manager_Internal API

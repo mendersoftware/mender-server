@@ -18,6 +18,7 @@ api_device_inventory_filters_and_search_internal_api.go
 api_device_inventory_filters_and_search_management_api.go
 api_device_inventory_internal_api.go
 api_device_inventory_management_api.go
+api_inventory_v2alpha1_management_api.go
 api_io_t_manager_internal_api.go
 api_io_t_manager_management_api.go
 api_user_administration_and_authentication_internal_api.go
@@ -131,6 +132,7 @@ model_release_v2.go
 model_releases_delete_error.go
 model_remove_a_group_200_response.go
 model_scope.go
+model_search_identity_params.go
 model_search_params.go
 model_select_attribute.go
 model_software.go

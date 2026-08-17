@@ -119,6 +119,7 @@ from mender_client.models.release_v2 import ReleaseV2
 from mender_client.models.releases_delete_error import ReleasesDeleteError
 from mender_client.models.remove_a_group200_response import RemoveAGroup200Response
 from mender_client.models.scope import Scope
+from mender_client.models.search_identity_params import SearchIdentityParams
 from mender_client.models.search_params import SearchParams
 from mender_client.models.select_attribute import SelectAttribute
 from mender_client.models.software import Software
