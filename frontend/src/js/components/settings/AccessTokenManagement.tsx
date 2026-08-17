@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useMemo, useState } from 'react';
-import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 // material ui
@@ -24,8 +24,6 @@ import {
   FormControl,
   FormHelperText,
   InputLabel,
-  MenuItem,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -40,6 +38,7 @@ import CopyCode from '@northern.tech/common-ui/CopyCode';
 import { SettingsItem } from '@northern.tech/common-ui/SettingsItem';
 import Time, { RelativeTime } from '@northern.tech/common-ui/Time';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
+import { ControlledSelect } from '@northern.tech/common-ui/forms/ControlledSelect';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
 import type { Role } from '@northern.tech/store/constants';
 import { canAccess as canShow } from '@northern.tech/store/constants';
@@ -82,6 +81,7 @@ const expirationTimes = {
   '90 days': 90 * A_DAY,
   'a year': 365 * A_DAY
 };
+const expirationOptions = Object.entries(expirationTimes).map(([title, id]) => ({ id, title }));
 
 interface TokenFormValues {
   expiresIn: number;
@@ -121,18 +121,14 @@ export const AccessTokenCreationDialog = ({ onCancel, onGenerate, isEnterprise, 
             </Typography>
             <FormControl className="full-width">
               <InputLabel id="token-expiration-label">Expiration</InputLabel>
-              <Controller
+              <ControlledSelect
                 name="expiresIn"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Select labelId="token-expiration-label" label="Expiration" disabled={!!token} onChange={onChange} value={value}>
-                    {Object.entries(expirationTimes).map(([title, value]) => (
-                      <MenuItem key={value} value={value}>
-                        {title}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                )}
+                disabled={!!token}
+                label="Expiration"
+                labelAttribute="title"
+                labelId="token-expiration-label"
+                options={expirationOptions}
+                width="100%"
               />
               {neverExpires ? (
                 <FormHelperText>The token will never expire.</FormHelperText>
