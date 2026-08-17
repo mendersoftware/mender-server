@@ -77,3 +77,8 @@
 # Overwrite with environment variable: DEVICECONNECT_REQUEST_SIZE_LIMIT
 
 # request_size_limit: 1048576
+
+# Number of websocket that can be accepted per second for "thundering herd" protection.
+# A value <= 0 means no limit (default).
+# Overwrite with environment variable: DEVICECONNECT_WEBSOCKET_BURST_LIMIT
+# websocket_burst_limit: 0
