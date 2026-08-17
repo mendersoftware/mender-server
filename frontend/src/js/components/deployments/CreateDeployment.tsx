@@ -11,8 +11,8 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect, useRef, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { memo, useEffect, useRef, useState } from 'react';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
@@ -64,8 +64,7 @@ import { ForceDeploy, Retries, RolloutOptions } from './deployment-wizard/Rollou
 import { ScheduleRollout } from './deployment-wizard/ScheduleRollout';
 import { Devices, ReleasesWarning, Software } from './deployment-wizard/SoftwareDevices';
 import { rolloutModes, rolloutPatterns } from './deployment-wizard/phases/constants';
-import { parsePreviousPhases } from './deployment-wizard/phases/utils';
-import type { DeploymentFormValues } from './deployment-wizard/types';
+import type { DeploymentFormValues, DeploymentPrefill } from './deployment-wizard/types';
 import { buildPhasePayload, deploymentFormSections, useDerivedData } from './deployment-wizard/utils';
 import type { DeploymentResolverContext } from './deployment-wizard/validation';
 import { deploymentResolver, getDeviceLimitDisabledReason, getPausesDisabledReason, getRolloutPatternDisabledReason } from './deployment-wizard/validation';
@@ -96,7 +95,15 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 // these live in the collapsed advanced options, which have to be expanded before their errors can be seen
-const advancedErrorFields = ['maxDevices', 'phases'];
+const advancedErrorFields = [deploymentFormSections.maxDevices, deploymentFormSections.phases, deploymentFormSections.retries];
+
+const watchedFields = [
+  deploymentFormSections.group,
+  deploymentFormSections.release,
+  deploymentFormSections.isPaused,
+  deploymentFormSections.shouldLimit,
+  deploymentFormSections.usesPattern
+] as const;
 
 const getAnchor = (element, heightAdjustment = 3) => ({
   top: element.offsetTop + element.offsetHeight / heightAdjustment,
@@ -120,7 +127,19 @@ export const defaultValues: DeploymentFormValues = {
   usesPattern: false
 };
 
-export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleSubmit, onValuesChange, open }) => {
+export const CreateDeployment = ({
+  deploymentObject = {},
+  onDismiss,
+  onScheduleSubmit,
+  onValuesChange,
+  open
+}: {
+  deploymentObject: DeploymentPrefill;
+  onDismiss: () => void;
+  onScheduleSubmit: () => void;
+  onValuesChange: (change: Pick<DeploymentPrefill, 'release'>) => void;
+  open: boolean;
+}) => {
   const { canRetry, canSchedule } = useSelector(getTenantCapabilities);
   const { isHosted } = useSelector(getFeatures);
   const { createdGroup, hasDynamicGroups } = useSelector(getGroupData);
@@ -161,14 +180,20 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
   const {
     control,
     formState: { dirtyFields, isSubmitted, isSubmitting },
+    getValues,
     handleSubmit,
     reset,
     setValue,
     trigger,
     watch
   } = methods;
-  const formValues = watch();
-  const { group, isPaused, release, shouldLimit, usesPattern } = formValues;
+  const [group, release, isPaused, shouldLimit, usesPattern] = useWatch({ control, name: watchedFields }) as [
+    DeploymentFormValues['group'],
+    DeploymentFormValues['release'],
+    boolean,
+    boolean,
+    boolean
+  ];
   const { deploymentDeviceCount, deploymentDeviceIds, devices, filter, isDeviceCountResolved } = useDerivedData(watch, deploymentObject.devices);
   validationContext.current.deploymentDeviceCount = deploymentDeviceCount;
   validationContext.current.devices = devices;
@@ -192,33 +217,13 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
 
   useEffect(() => {
     if (open) {
-      // prefilled phases arrive in api shape, so they get parsed into the form's definitions on the way in - a single
-      // full-size phase only carries a start time (as created by e.g. a plain scheduled deployment or a retry) and
-      // parses to an empty definition list, it takes sized definitions to make a rollout pattern - which also keeps
-      // pauses & pattern exclusive
-      const {
-        phases: parsedPhases,
-        pattern,
-        rolloutMode: storedMode
-      } = deploymentObject.phases?.length
-        ? parsePreviousPhases(deploymentObject.phases)
-        : { phases: defaultValues.phases, pattern: defaultValues.rolloutPattern, rolloutMode: defaultValues.rolloutMode };
-      const hasPhasePattern = parsedPhases.length > 0;
       reset({
+        ...defaultValues,
         group: deploymentObject.group ?? defaultValues.group,
         release: deploymentObject.release ?? defaultValues.release,
-        delta: deploymentObject.delta ?? defaultValues.delta,
-        forceDeploy: deploymentObject.forceDeploy ?? defaultValues.forceDeploy,
-        isPaused: !hasPhasePattern && !isEmpty(deploymentObject.update_control_map?.states ?? {}),
-        maxDevices: deploymentObject.maxDevices ?? defaultValues.maxDevices,
-        retries: (deploymentObject.retries ?? previousRetries ?? 0) + 1,
-        phases: parsedPhases,
-        rolloutMode: deploymentObject.rolloutMode ?? storedMode,
-        rolloutPattern: pattern,
-        startTime: deploymentObject.startTime ?? deploymentObject.phases?.[0]?.start_ts ?? defaultValues.startTime,
-        shouldLimit: !!deploymentObject.maxDevices,
-        update_control_map: deploymentObject.update_control_map ?? defaultValues.update_control_map,
-        usesPattern: hasPhasePattern
+        isPaused: !isEmpty(deploymentObject.update_control_map?.states ?? {}),
+        retries: previousRetries + 1,
+        update_control_map: deploymentObject.update_control_map ?? defaultValues.update_control_map
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -247,32 +252,18 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     }
   }, [deploymentDeviceCount, devices.length, isSubmitted, trigger]);
 
-  // the global settings can arrive after the form was initialized, so keep the retries default in sync until an
-  // explicit value was passed in or the user changed the field
+  // the global settings can arrive after the form was initialized, so keep the retries default in sync until the user changed the field
   useEffect(() => {
-    if (!open || deploymentObject.retries !== undefined || dirtyFields.retries) {
+    if (!open || dirtyFields.retries) {
       return;
     }
     setValue('retries', previousRetries + 1);
-  }, [deploymentObject.retries, dirtyFields.retries, open, previousRetries, setValue]);
+  }, [dirtyFields.retries, open, previousRetries, setValue]);
 
-  // Notify parent of form value changes for URL param sync - retries is deliberately left out, as it is never
-  // restored from the URL and a round-tripped value would shadow the global settings default on form initialization
   useEffect(() => {
-    onValuesChange?.({
-      group: formValues.group,
-      release: formValues.release,
-      delta: formValues.delta,
-      forceDeploy: formValues.forceDeploy,
-      maxDevices: formValues.maxDevices,
-      phases: formValues.phases,
-      startTime: formValues.startTime,
-      rolloutMode: formValues.rolloutMode,
-      rolloutPattern: formValues.rolloutPattern,
-      update_control_map: formValues.update_control_map
-    });
+    onValuesChange?.({ release });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(formValues), onValuesChange]);
+  }, [onValuesChange, release?.name]);
 
   useEffect(() => {
     if (release) {
@@ -303,8 +294,9 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
     if (needsCheck && !isChecking) {
       return setIsChecking(true);
     }
-    const { delta, forceDeploy = false, isPaused, maxDevices, phases, release, rolloutMode, rolloutPattern, startTime, update_control_map } = formValues;
-    const retries = (formValues.retries ?? 1) - 1;
+    const currentValues = getValues();
+    const { delta, forceDeploy = false, isPaused, maxDevices, phases, release, rolloutMode, rolloutPattern, startTime, update_control_map } = currentValues;
+    const retries = (currentValues.retries ?? 1) - 1;
     const retrySetting = canRetry && retries ? { retries } : {};
     const phasePayload = buildPhasePayload({ phases, rolloutMode, rolloutPattern, startTime });
     const newDeployment = {
@@ -331,6 +323,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
         cleanUpDeploymentsStatus();
         onScheduleSubmit();
       })
+      .catch(console.error)
       .finally(() => setIsChecking(false));
   };
 
@@ -452,7 +445,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
   );
 };
 
-export default CreateDeployment;
+export default memo(CreateDeployment);
 
 const OnboardingComponent = ({
   releaseRef,

@@ -34,6 +34,8 @@ export type DeploymentSettings = Partial<{
   update_control_map: NewDeploymentTypeManagement['update_control_map'];
 }>;
 
+export type DeploymentPrefill = Pick<DeploymentSettings, 'devices' | 'group' | 'release' | 'update_control_map'> & { releaseSelectionLocked?: boolean };
+
 export type DeploymentFormValues = Pick<
   DeploymentSettings,
   'delta' | 'forceDeploy' | 'maxDevices' | 'retries' | 'phases' | 'update_control_map' | 'rolloutMode' | 'rolloutPattern'
