@@ -70,10 +70,6 @@ func (a AccessLogger) LogFunc(
 	if a.ClientIPHook != nil {
 		logCtx["clientip"] = a.ClientIPHook(c.Request)
 	}
-	lc := fromContext(ctx)
-	if lc != nil {
-		lc.addFields(logCtx)
-	}
 	if r := recover(); r != nil {
 		// Skip 4
 		// = accesslog.LogFunc
@@ -135,6 +131,10 @@ func (a AccessLogger) LogFunc(
 			}
 		}
 		logCtx["error"] = errMsg
+	}
+	lc := fromContext(ctx)
+	if lc != nil {
+		lc.addFields(logCtx)
 	}
 	log.FromContext(c.Request.Context()).
 		WithFields(logCtx).
