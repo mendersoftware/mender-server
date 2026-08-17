@@ -11,11 +11,22 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import type { MouseEventHandler, ReactNode } from 'react';
+import type { Control, FieldValues } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 
+import type { CheckboxProps } from '@mui/material';
 import { Checkbox, FormControlLabel } from '@mui/material';
 
-export const FormCheckbox = ({ className, control, disabled, id, handleClick, style, label, required }) => (
+interface FormCheckboxProps extends Pick<CheckboxProps, 'className' | 'disabled' | 'style'> {
+  control?: Control<FieldValues>;
+  handleClick?: MouseEventHandler<HTMLButtonElement>;
+  id: string;
+  label: ReactNode;
+  required?: boolean;
+}
+
+export const FormCheckbox = ({ className, control, disabled, id, handleClick, style, label, required }: FormCheckboxProps) => (
   <Controller
     name={id}
     rules={{ required }}
