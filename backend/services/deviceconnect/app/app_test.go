@@ -240,7 +240,6 @@ func TestPrepareUserSession(t *testing.T) {
 			defer uuid.SetRand(nil)
 			app := New(
 				ds,
-				Config{},
 			)
 			if tc.BadParameters {
 				goto execTest
@@ -339,7 +338,7 @@ func TestFreeUserSession(t *testing.T) {
 			t.Parallel()
 			ds := new(store_mocks.DataStore)
 			defer ds.AssertExpectations(t)
-			app := New(ds, Config{})
+			app := New(ds)
 			ctx := context.Background()
 
 			sessTypes := []string{}
@@ -464,7 +463,7 @@ func TestShutdown(t *testing.T) {
 	t.Parallel()
 	gracePeriod := 1 * time.Second
 
-	testApp := New(nil, Config{})
+	testApp := New(nil)
 
 	t.Run("GetShutdownNotification cancel func", func(t *testing.T) {
 		c, cancel := testApp.GetShutdownNotification()
@@ -539,7 +538,7 @@ func TestDeleteTenant(t *testing.T) {
 				}),
 				tc.tenantId,
 			).Return(tc.dbErr)
-			app := New(ds, Config{})
+			app := New(ds)
 			err := app.DeleteTenant(ctx, tc.tenantId)
 
 			if tc.dbErr != nil {

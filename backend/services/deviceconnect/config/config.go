@@ -15,7 +15,12 @@
 package config
 
 import (
+	"fmt"
+	"strconv"
+	"strings"
+
 	"github.com/mendersoftware/mender-server/pkg/config"
+	"github.com/mendersoftware/mender-server/services/deviceconnect/utils/memlimit"
 )
 
 const (
@@ -82,7 +87,89 @@ const (
 	// Max Upload size
 	SettingMaxFileUploadSize        = "file_upload_limit"
 	SettingMaxFileUploadSizeDefault = 1024 * 1024 * 1024 // 1 GiB
+
+	SettingReadinessSource = "readiness.source"
+	SettingReadinessMax    = "readiness.max"
+	SettingReadinessHigh   = "readiness.high"
+	SettingReadinessLow    = "readiness.low"
 )
+
+type ReadinessSource interface {
+	Usage() (uint64, error)
+	String() string
+}
+
+type ReadinessLimits struct {
+	Source         ReadinessSource
+	Max, Low, High uint64
+}
+
+func parsePercentOrAbsolute(c config.Reader, key string, percentOf uint64) (uint64, error) {
+	var (
+		err error
+		max uint64
+	)
+	if !c.IsSet(key) {
+		return percentOf, nil
+	}
+	stringValue := c.GetString(key)
+	if p, found := strings.CutSuffix(stringValue, "%"); found {
+		f, err := strconv.ParseFloat(strings.TrimSpace(p), 64)
+		if err != nil {
+			return 0, fmt.Errorf("failed to parse %s: %w", key, err)
+		}
+		if f <= 0.0 || f > 100.0 {
+			return 0, fmt.Errorf("invalid configuration %s: value out of range", key)
+		}
+		max = uint64(float64(percentOf) * f / 100.0)
+	} else {
+		max, err = strconv.ParseUint(c.GetString(SettingReadinessMax), 10, 64)
+		if err != nil {
+			return 0, fmt.Errorf("invalid configuration %s: %w", key, err)
+		}
+	}
+	return max, nil
+}
+
+func LoadReadiness(c config.Reader) (*ReadinessLimits, error) {
+	var (
+		max uint64
+		err error
+		cfg ReadinessLimits
+	)
+	switch c.GetString(SettingReadinessSource) {
+	case "disabled":
+		return nil, nil
+	case "memory":
+		cfg.Max, cfg.Source, err = memlimit.LimitBytes()
+		if err != nil {
+			return nil, fmt.Errorf("failed to load memory limit: %w", err)
+		}
+		if c.IsSet(SettingReadinessMax) {
+			cfg.Max, err = strconv.ParseUint(c.GetString(SettingReadinessMax), 10, 64)
+			if err != nil {
+				return nil, fmt.Errorf("invalid configuration %s: %w", SettingReadinessMax, err)
+			}
+		}
+	default:
+		return nil, fmt.Errorf("invalid configuration '%s': must be one of [disabled, memory]",
+			SettingReadinessSource)
+	}
+	cfg.High, err = parsePercentOrAbsolute(c, SettingReadinessHigh, max)
+	if err != nil {
+		return nil, err
+	}
+	cfg.Low, err = parsePercentOrAbsolute(c, SettingReadinessLow, max)
+	if err != nil {
+		return nil, err
+	}
+	if cfg.High < cfg.Low {
+		return nil, fmt.Errorf("invalid readiness limits: "+
+			"high watermark (%d) cannot be lower than low watermark (%d)",
+			cfg.High, cfg.Low)
+	}
+	return &cfg, err
+}
 
 var (
 	// Defaults are the default configuration settings
@@ -99,5 +186,9 @@ var (
 		{Key: SettingGracefulShutdownTimeout, Value: SettingGracefulShutdownTimeoutDefault},
 		{Key: SettingMaxRequestSize, Value: SettingMaxRequestSizeDefault},
 		{Key: SettingMaxFileUploadSize, Value: SettingMaxFileUploadSizeDefault},
+		{Key: SettingReadinessSource, Value: "disabled"}, // disabled / memory / websockets
+		{Key: SettingReadinessMax, Value: nil},           // Target maximum (default from source)
+		{Key: SettingReadinessHigh, Value: "90%"},        // High watermark
+		{Key: SettingReadinessLow, Value: "75%"},         // Low watermark
 	}
 )
