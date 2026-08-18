@@ -632,7 +632,51 @@ exports[`Helptooltips Components > renders PlanUpgradeEmail correctly 1`] = `Thi
 
 exports[`Helptooltips Components > renders RbacRoles correctly 1`] = `Roles allow administrators to define and manage user permissions, and create custom roles with precise control over features such as device access, release management, user administration, and audit logs.`;
 
-exports[`Helptooltips Components > renders ReleaseName correctly 1`] = `If a Release with this name already exists, this new Artifact may be grouped into a Release with other Artifacts of the same name - so long as they are compatible with different device types`;
+exports[`Helptooltips Components > renders ReleaseName correctly 1`] = `
+NodeList [
+  If a Release with this name exists, this Artifact may be added to it—provided it's compatible with a different device type.,
+   ,
+  .emotion-0 {
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: #1976d2;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  text-decoration-color: var(--Link-underlineColor);
+  --Link-underlineColor: rgba(25, 118, 210, 0.4);
+}
+
+.emotion-0:hover {
+  text-decoration-color: inherit;
+}
+
+.emotion-1 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  color: #1976d2;
+}
+
+<a
+    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-0"
+    href="https://docs.mender.io/overview/artifact"
+    rel="noopener"
+    target="_blank"
+  >
+    <span
+      class="MuiTypography-root MuiTypography-body2 emotion-1"
+    >
+      Learn more
+    </span>
+  </a>,
+   about Artifacts.,
+]
+`;
 
 exports[`Helptooltips Components > renders ResetHistory correctly 1`] = `Greyed out items will not be considered during deployment roll out`;
 
