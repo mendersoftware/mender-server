@@ -11,12 +11,15 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+import { Code } from '@northern.tech/common-ui/CopyCode';
+
 import DeviceConfiguration from './eventdetails/DeviceConfiguration';
 import EventDetailsFallbackComponent from './eventdetails/FallbackComponent';
 import FileTransfer from './eventdetails/FileTransfer';
 import PortForward from './eventdetails/PortForward';
 import TerminalSession from './eventdetails/TerminalSession';
-import { UserChange } from './eventdetails/UserChange';
+
+const UserChange = ({ item }) => <Code>{item.change}</Code>;
 
 const changeTypes = {
   user: 'user',

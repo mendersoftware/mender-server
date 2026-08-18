@@ -13,14 +13,8 @@
 //    limitations under the License.
 import { Code } from '@northern.tech/common-ui/CopyCode';
 
-const FallbackComponent = ({ item }) => {
-  let content = '';
-  try {
-    content = JSON.stringify(item, null, 2);
-  } catch (error) {
-    content = `error parsing the logged event:\n${error}`;
-  }
-  return <Code style={{ whiteSpace: 'pre' }}>{content}</Code>;
-};
+import { stringifyEvent } from './utils';
+
+const FallbackComponent = ({ item }) => <Code style={{ whiteSpace: 'pre' }}>{stringifyEvent(item, 2)}</Code>;
 
 export default FallbackComponent;

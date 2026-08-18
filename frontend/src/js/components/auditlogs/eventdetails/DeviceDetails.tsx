@@ -11,30 +11,18 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { Launch as LaunchIcon } from '@mui/icons-material';
-import { makeStyles } from 'tss-react/mui';
+import { Button } from '@mui/material';
 
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import DeviceIdentityDisplay from '@northern.tech/common-ui/DeviceIdentity';
 import { Link } from '@northern.tech/common-ui/Link';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import { AUDIT_LOGS_TYPES, BEGINNING_OF_TIME, rootfsImageVersion } from '@northern.tech/store/constants';
 import { formatAuditlogs } from '@northern.tech/store/locationutils';
 
-const useStyles = makeStyles()(theme => ({
-  deviceLink: { color: theme.palette.text.secondary, fontWeight: 'initial' }
-}));
-
-export const DetailInformation = ({ title, details }) => (
-  <div key={`${title}-details`} className="flexbox column margin-top-small">
-    <b className="margin-bottom-small capitalized-start">{title} details</b>
-    <TwoColumnData data={details} />
-  </div>
-);
-
 const deviceAuditlogType = AUDIT_LOGS_TYPES.find(type => type.value === 'device');
 
 export const DeviceDetails = ({ device, idAttribute, onClose }) => {
-  const { classes } = useStyles();
   const { attributes, id: deviceId } = device;
   const { name, device_type: deviceTypes, artifact_name } = attributes || {};
   const { attribute } = idAttribute;
@@ -43,24 +31,29 @@ export const DeviceDetails = ({ device, idAttribute, onClose }) => {
   const deviceDetails = {
     ...nameContainer,
     [usesId ? 'Device ID' : attribute]: (
-      <Link className={`flexbox align-items-center ${classes.deviceLink}`} to={`/devices?id=${deviceId}`}>
+      <Link className="flexbox align-items-center" to={`/devices?id=${deviceId}`}>
         <DeviceIdentityDisplay device={device} isEditable={false} />
-        <LaunchIcon className="margin-left-small link-color" fontSize="small" />
       </Link>
     ),
     'Device type': deviceTypes,
-    'Operating system version': device[rootfsImageVersion] || artifact_name || '-',
-    ' ': (
-      <Link
-        to={`/auditlog?${formatAuditlogs({ pageState: { type: deviceAuditlogType, detail: deviceId, startDate: BEGINNING_OF_TIME } }, {})}`}
-        onClick={onClose}
-      >
-        List all log entries for this device
-      </Link>
-    )
+    'Operating system version': device[rootfsImageVersion] || artifact_name || '-'
   };
 
-  return <DetailInformation title="device" details={deviceDetails} />;
+  return (
+    <ContentSection title="Device details">
+      <TwoColumnData data={deviceDetails} />
+      <div className="margin-top-small">
+        <Button
+          color="secondary"
+          component={Link}
+          to={`/auditlog?${formatAuditlogs({ pageState: { type: deviceAuditlogType, detail: deviceId, startDate: BEGINNING_OF_TIME } }, {})}`}
+          onClick={onClose}
+        >
+          List all log entries for this device
+        </Button>
+      </div>
+    </ContentSection>
+  );
 };
 
 export default DeviceDetails;

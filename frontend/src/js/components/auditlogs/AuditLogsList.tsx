@@ -20,8 +20,6 @@ import Loader from '@northern.tech/common-ui/Loader';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { SORTING_OPTIONS } from '@northern.tech/store/constants';
 
-export const defaultRowsPerPage = 20;
-
 const useStyles = makeStyles()(theme => ({
   auditlogsList: {
     '& .auditlogs-list-item': {
@@ -80,12 +78,16 @@ export const AuditLogsList = ({
         </div>
         <div className="auditlogs-list">
           {items.map(item => {
-            const allowsExpansion = !!item.change || item.action.includes('terminal') || item.action.includes('portforward');
+            const allowsExpansion = !!item.change || item.action.includes('terminal') || item.action.includes('portforward') || item.action.includes('file');
             return (
               <div
                 className={`auditlogs-list-item ${allowsExpansion ? 'clickable' : ''}`}
                 key={`event-${item.time}`}
-                onClick={() => onIssueSelection(allowsExpansion ? item : undefined)}
+                onClick={({ target }) => {
+                  if (!(target as HTMLElement).closest('a')) {
+                    onIssueSelection(allowsExpansion ? item : undefined);
+                  }
+                }}
               >
                 {auditLogColumns.map((column, index) => column.render(item, index, userCapabilities))}
                 {allowsExpansion ? <DetailsIndicator /> : <div />}

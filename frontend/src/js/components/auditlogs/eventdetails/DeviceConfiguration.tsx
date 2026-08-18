@@ -11,46 +11,24 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { ContentSection } from '@northern.tech/common-ui/ContentSection';
+import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 
-import Loader from '@northern.tech/common-ui/Loader';
-import { getAuditlogDevice, getIdAttribute, getUserCapabilities } from '@northern.tech/store/selectors';
-import { getDeviceById } from '@northern.tech/store/thunks';
-
-import DeviceDetails, { DetailInformation } from './DeviceDetails';
+import { DeviceDetailsSection, parseConfigChange } from './utils';
 
 export const DeviceConfiguration = ({ item, onClose }) => {
-  const { object = {} } = item;
-  const { canReadDevices } = useSelector(getUserCapabilities);
-  const device = useSelector(getAuditlogDevice);
-  const idAttribute = useSelector(getIdAttribute);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (canReadDevices) {
-      dispatch(getDeviceById(object.id));
-    }
-  }, [canReadDevices, dispatch, object.id]);
-
-  if (canReadDevices && !device.id) {
-    return <Loader show={true} />;
-  }
-
   const { actor, change } = item;
-
-  let config;
-  try {
-    config = JSON.parse(change);
-  } catch (error) {
-    config = { error: `An error occurred processing the changed config:\n${error}` };
-  }
+  const config = parseConfigChange(change);
 
   return (
-    <div className="flexbox column margin-small" style={{ minWidth: 'min-content' }}>
-      {canReadDevices && <DeviceDetails device={device} idAttribute={idAttribute} onClose={onClose} />}
-      <DetailInformation title="changed configuration" details={config} />
-      <DetailInformation title="change" details={{ User: actor.email }} />
+    <div className="flexbox column">
+      <DeviceDetailsSection onClose={onClose} />
+      <ContentSection title="Changed configuration details">
+        <TwoColumnData data={config} />
+      </ContentSection>
+      <ContentSection title="Change details">
+        <TwoColumnData data={{ User: actor.email }} />
+      </ContentSection>
     </div>
   );
 };

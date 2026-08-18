@@ -27,7 +27,7 @@ describe('EventDetailsDrawer Component', () => {
         onClose={vi.fn}
         open={true}
         mapChangeToContent={EventDetailsDrawerContentMap}
-        fallbackComponenet={EventDetailsFallbackComponent}
+        fallbackComponent={EventDetailsFallbackComponent}
       />
     );
     const view = baseElement.getElementsByClassName('MuiDrawer-paper')[0];
