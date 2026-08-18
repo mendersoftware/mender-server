@@ -22,6 +22,7 @@ import { ContentSection } from '@northern.tech/common-ui/ContentSection';
 import { Link } from '@northern.tech/common-ui/Link';
 import Pagination from '@northern.tech/common-ui/Pagination';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
+import LogDialog from '@northern.tech/common-ui/dialogs/Log';
 import { getToken } from '@northern.tech/store/auth';
 import { DEVICE_LIST_DEFAULTS, deploymentStatesToSubstates } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
@@ -29,7 +30,7 @@ import { getDeploymentById as getDeploymentByIdSelector, getFeatures, getIsPrevi
 import { getDeviceDeployments, getDeviceLog, getSingleDeployment, resetDeviceDeployments } from '@northern.tech/store/thunks';
 import { isDarkMode } from '@northern.tech/store/utils';
 
-import LogDialog from '../../deployments/deployment-report/Log';
+import { AiLogAnalysis } from '../../deployments/deployment-report/AiLogAnalysis';
 import { HELPTOOLTIPS } from '../../helptips/HelpTooltips';
 import { MenderHelpTooltip } from '../../helptips/MenderTooltip';
 import { DeviceStateSelection } from '../widgets/DeviceStateSelection';
@@ -219,7 +220,13 @@ export const Deployments = ({ device }) => {
         </>
       )}
       {showsDeploymentLogForId && deployment && (
-        <LogDialog canAi={canAi} deployment={deployment} deviceId={device.id} onClose={() => setShowsDeploymentLogForId('')} />
+        <LogDialog
+          context={{ device: device.id, releaseName: deployment.artifact_name, date: deployment.finished }}
+          logData={deployment.devices?.[device.id]?.log}
+          onClose={() => setShowsDeploymentLogForId('')}
+        >
+          {canAi && <AiLogAnalysis deployment={deployment} deviceId={device.id} />}
+        </LogDialog>
       )}
     </ContentSection>
   );

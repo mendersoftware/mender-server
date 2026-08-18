@@ -24,6 +24,7 @@ import Confirm from '@northern.tech/common-ui/Confirm';
 import LinedHeader from '@northern.tech/common-ui/LinedHeader';
 import { MaybeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
+import LogDialog from '@northern.tech/common-ui/dialogs/Log';
 import storeActions from '@northern.tech/store/actions';
 import { AUDIT_LOGS_TYPES, DEPLOYMENT_STATES, DEPLOYMENT_TYPES, TIMEOUTS, deploymentStatesToSubstates, onboardingSteps } from '@northern.tech/store/constants';
 import {
@@ -45,9 +46,9 @@ import copy from 'copy-to-clipboard';
 import pluralize from 'pluralize';
 
 import { getOnboardingComponentFor } from '../../utils/onboardingManager';
+import { AiLogAnalysis } from './deployment-report/AiLogAnalysis';
 import DeploymentStatus, { DeploymentPhaseNotification } from './deployment-report/DeploymentStatus';
 import DeviceList from './deployment-report/DeviceList';
-import LogDialog from './deployment-report/Log';
 import DeploymentOverview from './deployment-report/Overview';
 import RolloutSchedule from './deployment-report/RolloutSchedule';
 
@@ -303,7 +304,15 @@ export const DeploymentReport = ({ abort, onClose, past, retry, type, open }) =>
           )}
           <RolloutSchedule deployment={deployment} onUpdateControlChange={onUpdateControlChange} onAbort={abort} innerRef={rolloutSchedule} />
         </ColumnWidthProvider>
-        {Boolean(deviceId.length) && <LogDialog canAi={canAi} deviceId={deviceId} deployment={deployment} onClose={() => setDeviceId('')} />}
+        {Boolean(deviceId.length) && (
+          <LogDialog
+            context={{ device: deviceId, releaseName: deployment.artifact_name, date: deployment.finished }}
+            logData={devices[deviceId]?.log}
+            onClose={() => setDeviceId('')}
+          >
+            {canAi && <AiLogAnalysis deployment={deployment} deviceId={deviceId} />}
+          </LogDialog>
+        )}
       </div>
     </BaseDrawer>
   );
