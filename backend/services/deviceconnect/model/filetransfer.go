@@ -59,6 +59,6 @@ func (f UploadFileRequest) Validate() error {
 	return validation.ValidateStruct(&f,
 		validation.Field(&f.Path, validation.Required,
 			validation.Match(absolutePathRegexp).Error("must be absolute")),
-		validation.Field(&f.File, validation.Required),
+		validation.Field(&f.File, validation.NotNil.Error("upload file is required")),
 	)
 }
