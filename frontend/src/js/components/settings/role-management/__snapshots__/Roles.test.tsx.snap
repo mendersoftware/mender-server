@@ -599,7 +599,7 @@ exports[`Roles Component > renders correctly 1`] = `
         </div>
       </div>
       <button
-        class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-6"
+        class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary margin-left-small emotion-6"
         disabled=""
         tabindex="-1"
         type="button"

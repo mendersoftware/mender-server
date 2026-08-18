@@ -110,7 +110,7 @@ export const RoleManagement = () => {
         </div>
         <div className="flexbox align-items-center">
           <EnterpriseNotification id={BENEFITS.rbac.id} />
-          <Button color="primary" startIcon={<AddIcon />} onClick={addRole} disabled={!isEnterprise} variant="contained">
+          <Button className="margin-left-small" color="primary" startIcon={<AddIcon />} onClick={addRole} disabled={!isEnterprise} variant="contained">
             Add a role
           </Button>
         </div>
