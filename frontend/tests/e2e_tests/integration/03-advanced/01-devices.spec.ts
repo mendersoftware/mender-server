@@ -15,6 +15,7 @@ import type { Page } from '@playwright/test';
 import * as fs from 'fs';
 import md5 from 'md5';
 
+import type { TestEnvironment } from '../../fixtures/fixtures';
 import test, { expect } from '../../fixtures/fixtures';
 import { isEnterpriseOrStaging } from '../../utils/commands';
 import { expectedArtifactName, selectors, timeouts } from '../../utils/constants';
@@ -26,6 +27,14 @@ const rootfs = 'rootfs-image.version';
 const openFilters = async (page: Page) => {
   await page.getByRole('button', { name: /filters/i }).click();
   await expect(page.locator('.filter-wrapper')).toHaveClass(/MuiCollapse-entered/);
+};
+
+const openDeviceDetails = (page: Page) => page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+
+const skipUnlessTestDevicesAvailable = async ({ environment, page }: { environment: TestEnvironment; page: Page }) => {
+  test.skip(environment !== 'staging', 'test devices are only available on hosted Mender');
+  const features = await page.evaluate(() => (window as any).mender_environment?.features);
+  test.skip(!features?.hasDeviceFlags, 'the device flags feature is not enabled on this deployment');
 };
 
 test.describe('Devices', () => {
@@ -58,9 +67,48 @@ test.describe('Devices', () => {
     await page.waitForSelector(`css=${selectors.deviceListItem} >> text=/original/`, { timeout: 2 * timeouts.sixtySeconds });
     const element = await page.textContent(selectors.deviceListItem);
     expect(element.includes('original')).toBeTruthy();
-    await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+    await openDeviceDetails(page);
     await page.getByText(/Device information for/i).waitFor();
     await expect(page.getByText('Authentication status')).toBeVisible();
+  });
+
+  test('is marked as test device once accepted by a trial account', async ({ environment, page }) => {
+    await skipUnlessTestDevicesAvailable({ environment, page });
+    await expect(page.getByRole('button', { name: /trial plan/i })).toBeVisible({ timeout: timeouts.tenSeconds });
+    await openDeviceDetails(page);
+    const testDeviceChip = page.getByRole('button', { name: 'Test device', exact: true });
+    await expect(testDeviceChip).toBeVisible({ timeout: timeouts.tenSeconds });
+    await testDeviceChip.click();
+    await expect(page.locator('.MuiTooltip-tooltip').getByText(/1\/\d+ test devices set/)).toBeVisible({ timeout: timeouts.tenSeconds });
+  });
+
+  test('can have its test device status unset and set again', async ({ environment, page }) => {
+    await skipUnlessTestDevicesAvailable({ environment, page });
+    await openDeviceDetails(page);
+    const testDeviceChip = page.getByRole('button', { name: 'Test device', exact: true });
+    const deviceActions = page.getByRole('button', { name: 'device-actions' });
+    const snackbar = page.getByText(/device updated successfully/i);
+    await expect(testDeviceChip).toBeVisible({ timeout: timeouts.tenSeconds });
+
+    await deviceActions.click();
+    await expect(page.locator('[aria-label="remove-test-device"]')).toBeVisible();
+    await expect(page.locator('[aria-label="set-test-device"]')).toHaveCount(0);
+    await page.click('[aria-label="remove-test-device"]');
+    const removalDialog = page.getByRole('dialog');
+    await expect(removalDialog.getByRole('heading', { name: 'Remove as test device?' })).toBeVisible();
+    await removalDialog.getByRole('button', { name: 'Remove as test device', exact: true }).click();
+    await expect(snackbar).toBeVisible();
+    await expect(testDeviceChip).not.toBeVisible();
+
+    await deviceActions.click();
+    await expect(page.locator('[aria-label="set-test-device"]')).toBeVisible();
+    await expect(page.locator('[aria-label="remove-test-device"]')).toHaveCount(0);
+    await page.click('[aria-label="set-test-device"]');
+    const additionDialog = page.getByRole('dialog');
+    await expect(additionDialog.getByRole('heading', { name: 'Set as test device?' })).toBeVisible();
+    await additionDialog.getByRole('button', { name: 'Set as test device', exact: true }).click();
+    await expect(snackbar).toBeVisible();
+    await expect(testDeviceChip).toBeVisible();
   });
 
   test('can group a device', async ({ page }) => {
@@ -86,7 +134,7 @@ test.describe('Devices', () => {
   test('allows file transfer', async ({ browserName, environment, page }) => {
     // TODO adjust test to better work with webkit, for now it should be good enough to assume file transfers work there too if the remote terminal works
     test.skip(!isEnterpriseOrStaging(environment) || ['webkit'].includes(browserName));
-    await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+    await openDeviceDetails(page);
     await page.getByText(/troubleshooting/i).click();
     // the deviceconnect connection might not be established right away
     await page.waitForSelector(`text=/Session status/i`, { timeout: timeouts.tenSeconds });
@@ -123,7 +171,7 @@ test.describe('Devices', () => {
     const slideOut = page.locator('.MuiPaper-root');
     await expect(slideOut.locator(`:text("${demoDeviceSoftware}")`)).toBeVisible();
     await expect(slideOut.getByText('1-1 of 1')).toBeVisible();
-    await page.locator(`css=${selectors.deviceListItem} div:last-child`).last().click();
+    await openDeviceDetails(page);
     await page.getByText(/device information/i).waitFor();
     await expect(page.getByText(/Authentication sets/i)).toBeVisible();
     await page.click('[aria-label="close"]');
