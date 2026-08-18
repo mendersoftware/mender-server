@@ -130,7 +130,7 @@ include:
   - component: gitlab.com/Northern.tech/Mender/mendertesting/renovate@master
     inputs:
       stage: ".pre"
-    runner: "k8s"
+      runner: "k8s"
 
 stages:
   - lint
