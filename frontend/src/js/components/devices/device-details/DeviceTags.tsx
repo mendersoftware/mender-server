@@ -73,13 +73,7 @@ export const DeviceTags = ({ device, setSnackbar, userCapabilities }) => {
       <div className="relative" style={{ maxWidth: 700 }}>
         {isEditing ? (
           <>
-            <KeyValueEditor
-              disabled={isEditDisabled}
-              errortext=""
-              initialInput={editableTags}
-              inputHelpTipsMap={configHelpTipsMap}
-              onInputChange={setChangedTags}
-            />
+            <KeyValueEditor disabled={isEditDisabled} initialInput={editableTags} inputHelpTipsMap={configHelpTipsMap} onInputChange={setChangedTags} />
             <div className="flexbox align-items-center margin-bottom-small margin-top">
               <Button className="margin-right-small" disabled={!isFullyDefined} onClick={onSubmit} variant="contained">
                 Save

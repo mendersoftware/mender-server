@@ -59,13 +59,12 @@ const useStyles = makeStyles()(theme => ({
 
 interface KeyValueFieldsProps {
   disabled?: boolean;
-  errortext?: string;
   initialValues: InputLineItem[];
   inputHelpTipsMap: Record<string, { component: React.ComponentType<any>; props: any }>;
   onInputChange: (value: Record<string, string>) => void;
 }
 
-const KeyValueFields = ({ disabled, errortext, initialValues, inputHelpTipsMap, onInputChange }: KeyValueFieldsProps) => {
+const KeyValueFields = ({ disabled, initialValues, inputHelpTipsMap, onInputChange }: KeyValueFieldsProps) => {
   const { classes } = useStyles();
   const {
     control,
@@ -117,7 +116,7 @@ const KeyValueFields = ({ disabled, errortext, initialValues, inputHelpTipsMap, 
   return (
     <div>
       {fields.map((field, index) => {
-        const hasError = Boolean(index === fields.length - 1 && (errortext || errors?.inputs?.root?.message));
+        const errorMessage = index === fields.length - 1 ? errors?.inputs?.root?.message : undefined;
         const hasRemovalDisabled = !(inputs?.[index]?.key && inputs?.[index]?.value);
         const { component: Helptip = null, props: helptipProps = {} } = (inputs[index].helptip ?? {}) as InputHelptip;
         return (
@@ -130,7 +129,7 @@ const KeyValueFields = ({ disabled, errortext, initialValues, inputHelpTipsMap, 
                 onChange={e => updateField(index, 'key', e.target.value)}
                 type="text"
               />
-              {hasError && <FormHelperText>{errortext || errors?.inputs?.root?.message}</FormHelperText>}
+              {!!errorMessage && <FormHelperText>{errorMessage}</FormHelperText>}
             </FormControl>
             <FormControl>
               <OutlinedInput
@@ -172,7 +171,7 @@ const KeyValueFields = ({ disabled, errortext, initialValues, inputHelpTipsMap, 
   );
 };
 
-export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHelpTipsMap = {}, onInputChange }) => {
+export const KeyValueEditor = ({ disabled, initialInput = {}, inputHelpTipsMap = {}, onInputChange }) => {
   const defaultValues = {
     inputs: Object.keys(initialInput).length
       ? Object.entries(initialInput).map(([key, value]) => ({ helptip: inputHelpTipsMap[key.toLowerCase()], key, value }) as InputLineItem)
@@ -189,13 +188,7 @@ export const KeyValueEditor = ({ disabled, errortext, initialInput = {}, inputHe
 
   return (
     <Form autocomplete="off" defaultValues={defaultValues} id="key-value-editor" initialValues={initialValues} onSubmit={onFormSubmit}>
-      <KeyValueFields
-        disabled={disabled}
-        errortext={errortext}
-        initialValues={defaultValues.inputs}
-        inputHelpTipsMap={inputHelpTipsMap}
-        onInputChange={onInputChange}
-      />
+      <KeyValueFields disabled={disabled} initialValues={defaultValues.inputs} inputHelpTipsMap={inputHelpTipsMap} onInputChange={onInputChange} />
     </Form>
   );
 };

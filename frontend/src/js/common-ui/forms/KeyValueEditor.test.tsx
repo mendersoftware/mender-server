@@ -62,15 +62,6 @@ describe('KeyValueEditor Component', () => {
     expect(screen.getByText(/Duplicate keys exist/i)).toBeInTheDocument();
   });
 
-  it('forwards a warning', async () => {
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const ui = <KeyValueEditor errortext="I should be rendered" onInputChange={vi.fn()} />;
-    render(ui);
-    await user.type(screen.getByPlaceholderText(/key/i), 'testKey');
-    await user.type(screen.getByPlaceholderText(/value/i), 'testValue');
-    expect(screen.getByText(/I should be rendered/i)).toBeInTheDocument();
-  });
-
   it('displays tooltips when keys match', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const TestComponent = () => <div>testthing</div>;

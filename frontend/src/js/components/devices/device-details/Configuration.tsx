@@ -395,13 +395,7 @@ export const DeviceConfiguration = ({ defaultConfig = {}, device: { id: deviceId
     >
       <div className="relative">
         {isEditingConfig ? (
-          <KeyValueEditor
-            disabled={isUpdatingConfig}
-            errortext=""
-            initialInput={editableConfig}
-            inputHelpTipsMap={helpTipsMap}
-            onInputChange={setChangedConfig}
-          />
+          <KeyValueEditor disabled={isUpdatingConfig} initialInput={editableConfig} inputHelpTipsMap={helpTipsMap} onInputChange={setChangedConfig} />
         ) : (
           hasDeviceConfig && <TwoColumnData chipLikeKey data={reported} setSnackbar={onSetSnackbar} />
         )}
