@@ -229,7 +229,7 @@ services:
       traefik.http.routers.inventoryMgmt.middlewares: "mgmtStack@file"
       traefik.http.routers.inventoryMgmt.rule: >-
         (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`) || Host(`traefik`)) &&
-        PathRegexp(`/api/management/v[2-9]/inventory`)
+        PathRegexp(`/api/management/v[2-9][a-z0-9]*/inventory`)
       traefik.http.routers.inventoryMgmt.service: inventory
 
     networks:
