@@ -51,6 +51,7 @@ export const ControlledSelect = <T extends SelectOption = SelectOption>({
       name={name}
       render={({ field: { value, onChange } }) => (
         <Select
+          autoWidth={false}
           displayEmpty
           style={{ width }}
           value={value ?? ''}
@@ -62,12 +63,12 @@ export const ControlledSelect = <T extends SelectOption = SelectOption>({
           MenuProps={{
             anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
             transformOrigin: { vertical: 'top', horizontal: 'left' },
-            slotProps: { paper: { className, sx: { minWidth: width } } }
+            slotProps: { paper: { className } }
           }}
           slotProps={{ input: { 'aria-label': placeholder } }}
           {...remainder}
         >
-          {placeholder && !hideEmptyOption && (
+          {!!placeholder && !hideEmptyOption && (
             <MenuItem dense={false} value="">
               <span className="muted">{placeholder}</span>
             </MenuItem>

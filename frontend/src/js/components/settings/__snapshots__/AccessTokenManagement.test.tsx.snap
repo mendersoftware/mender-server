@@ -22,6 +22,7 @@ exports[`AccessTokenManagement Component > renders AccessTokenCreationDialog cor
   flex-direction: column;
   max-height: calc(100% - 64px);
   max-width: 600px;
+  width: calc(100% - 64px);
 }
 
 @media print {
@@ -51,15 +52,6 @@ exports[`AccessTokenManagement Component > renders AccessTokenCreationDialog cor
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
   padding: 20px 24px;
-  min-width: 500px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 16px;
 }
 
 .MuiDialogTitle-root+.emotion-2 {
@@ -67,6 +59,15 @@ exports[`AccessTokenManagement Component > renders AccessTokenCreationDialog cor
 }
 
 .emotion-3 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: 0.00938em;
+}
+
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -80,10 +81,54 @@ exports[`AccessTokenManagement Component > renders AccessTokenCreationDialog cor
   margin: 0;
   border: 0;
   vertical-align: top;
-  min-width: 270px;
 }
 
-.emotion-4 {
+.emotion-5 {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  padding: 0;
+  position: relative;
+  display: block;
+  transform-origin: top left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-transform: translate(0, 20px) scale(1);
+  -moz-transform: translate(0, 20px) scale(1);
+  -ms-transform: translate(0, 20px) scale(1);
+  transform: translate(0, 20px) scale(1);
+  -webkit-transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,-webkit-transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,max-width 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  transition: color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,max-width 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  z-index: 1;
+  pointer-events: none;
+  -webkit-transform: translate(14px, 16px) scale(1);
+  -moz-transform: translate(14px, 16px) scale(1);
+  -ms-transform: translate(14px, 16px) scale(1);
+  transform: translate(14px, 16px) scale(1);
+  max-width: calc(100% - 24px);
+}
+
+.emotion-5.Mui-focused {
+  color: #1976d2;
+}
+
+.emotion-5.Mui-disabled {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-5.Mui-error {
+  color: #d32f2f;
+}
+
+.emotion-6 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -105,38 +150,38 @@ exports[`AccessTokenManagement Component > renders AccessTokenCreationDialog cor
   border-radius: 4px;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-6.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-4:hover .MuiOutlinedInput-notchedOutline {
+.emotion-6:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
-  .emotion-4:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-6:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-4.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-6.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
-.emotion-4.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-6.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #1976d2;
 }
 
-.emotion-4.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-6.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #d32f2f;
 }
 
-.emotion-4.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-6.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-5 {
+.emotion-7 {
   font: inherit;
   letter-spacing: inherit;
   color: currentColor;
@@ -157,80 +202,80 @@ exports[`AccessTokenManagement Component > renders AccessTokenCreationDialog cor
   padding: 16.5px 14px;
 }
 
-.emotion-5::-webkit-input-placeholder {
+.emotion-7::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5::-moz-placeholder {
+.emotion-7::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5::-ms-input-placeholder {
+.emotion-7::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5:focus {
+.emotion-7:focus {
   outline: 0;
 }
 
-.emotion-5:invalid {
+.emotion-7:invalid {
   box-shadow: none;
 }
 
-.emotion-5::-webkit-search-decoration {
+.emotion-7::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-7:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-7.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-5:-webkit-autofill {
+.emotion-7:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-5:-webkit-autofill {
+.emotion-7:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-6 {
+.emotion-8 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -248,34 +293,54 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-7 {
+.emotion-9 {
   float: unset;
   width: auto;
   overflow: hidden;
+  display: block;
   padding: 0;
-  line-height: 11px;
-  -webkit-transition: width 150ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
-  transition: width 150ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  height: 11px;
+  font-size: 0.75em;
+  visibility: hidden;
+  max-width: 0.01px;
+  -webkit-transition: max-width 50ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  transition: max-width 50ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  white-space: nowrap;
 }
 
-.emotion-8 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: relative;
-  min-width: 0;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  vertical-align: top;
-  min-width: 270px;
+.emotion-9>span {
+  padding-left: 5px;
+  padding-right: 5px;
+  display: inline-block;
+  opacity: 0;
+  visibility: visible;
 }
 
-.emotion-9 {
+.emotion-10 {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  text-align: left;
+  margin-top: 3px;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-left: 14px;
+  margin-right: 14px;
+}
+
+.emotion-10.Mui-disabled {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.emotion-10.Mui-error {
+  color: #d32f2f;
+}
+
+.emotion-13 {
   color: rgba(0, 0, 0, 0.6);
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
@@ -324,19 +389,19 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   transform: translate(14px, -9px) scale(0.75);
 }
 
-.emotion-9.Mui-focused {
+.emotion-13.Mui-focused {
   color: #1976d2;
 }
 
-.emotion-9.Mui-disabled {
+.emotion-13.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-9.Mui-error {
+.emotion-13.Mui-error {
   color: #d32f2f;
 }
 
-.emotion-10 {
+.emotion-14 {
   font-family: "Roboto","Helvetica","Arial",sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -358,38 +423,38 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   border-radius: 4px;
 }
 
-.emotion-10.Mui-disabled {
+.emotion-14.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-10:hover .MuiOutlinedInput-notchedOutline {
+.emotion-14:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
-  .emotion-10:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-14:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-10.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-14.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-width: 2px;
 }
 
-.emotion-10.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-14.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #1976d2;
 }
 
-.emotion-10.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-14.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #d32f2f;
 }
 
-.emotion-10.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-14.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-11 {
+.emotion-15 {
   -moz-appearance: none;
   -webkit-appearance: none;
   -webkit-user-select: none;
@@ -419,24 +484,24 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   padding: 16.5px 14px;
 }
 
-.emotion-11:focus {
+.emotion-15:focus {
   border-radius: 0;
 }
 
-.emotion-11.Mui-disabled {
+.emotion-15.Mui-disabled {
   cursor: default;
 }
 
-.emotion-11[multiple] {
+.emotion-15[multiple] {
   height: auto;
 }
 
-.emotion-11:not([multiple]) option,
-.emotion-11:not([multiple]) optgroup {
+.emotion-15:not([multiple]) option,
+.emotion-15:not([multiple]) optgroup {
   background-color: #fff;
 }
 
-.emotion-11~.MuiInputAdornment-root {
+.emotion-15~.MuiInputAdornment-root {
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -446,27 +511,27 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   right: calc(var(--_caret, 24px) + (var(--_endAdornment, 28px) - 1.5rem)/2);
 }
 
-.MuiInputBase-root:has(> .emotion-11) {
+.MuiInputBase-root:has(> .emotion-15) {
   --_endAdornment: 0px;
 }
 
-.MuiInputBase-root:has(> .emotion-11) {
+.MuiInputBase-root:has(> .emotion-15) {
   --_caret: 32px;
 }
 
-.MuiInputBase-root:has(> .emotion-11 ~ .MuiInputAdornment-root) {
+.MuiInputBase-root:has(> .emotion-15 ~ .MuiInputAdornment-root) {
   --_endAdornment: 28px;
 }
 
-.emotion-11:focus {
+.emotion-15:focus {
   border-radius: 4px;
 }
 
-.emotion-11.emotion-11.emotion-11 {
+.emotion-15.emotion-15.emotion-15 {
   padding-right: calc(var(--_caret, 32px) + var(--_endAdornment, 0px));
 }
 
-.emotion-11.MuiSelect-select {
+.emotion-15.MuiSelect-select {
   height: auto;
   min-height: 1.4375em;
   text-overflow: ellipsis;
@@ -474,80 +539,80 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   overflow: hidden;
 }
 
-.emotion-11::-webkit-input-placeholder {
+.emotion-15::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-11::-moz-placeholder {
+.emotion-15::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-11::-ms-input-placeholder {
+.emotion-15::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-11:focus {
+.emotion-15:focus {
   outline: 0;
 }
 
-.emotion-11:invalid {
+.emotion-15:invalid {
   box-shadow: none;
 }
 
-.emotion-11::-webkit-search-decoration {
+.emotion-15::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-11::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-15::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-11::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-15::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-11::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-15::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-15:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-11.Mui-disabled {
+.emotion-15.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-11:-webkit-autofill {
+.emotion-15:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-11:-webkit-autofill {
+.emotion-15:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-12 {
+.emotion-16 {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -557,7 +622,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   box-sizing: border-box;
 }
 
-.emotion-13 {
+.emotion-17 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -580,11 +645,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   right: 7px;
 }
 
-.emotion-13.Mui-disabled {
+.emotion-17.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-15 {
+.emotion-19 {
   float: unset;
   width: auto;
   overflow: hidden;
@@ -602,7 +667,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   transition: max-width 100ms cubic-bezier(0.0, 0, 0.2, 1) 50ms;
 }
 
-.emotion-15>span {
+.emotion-19>span {
   padding-left: 5px;
   padding-right: 5px;
   display: inline-block;
@@ -610,31 +675,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   visibility: visible;
 }
 
-.emotion-16 {
-  color: rgba(0, 0, 0, 0.6);
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 400;
-  font-size: 0.75rem;
-  line-height: 1.66;
-  letter-spacing: 0.03333em;
-  text-align: left;
-  margin-top: 3px;
-  margin-right: 0;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-left: 14px;
-  margin-right: 14px;
-}
-
-.emotion-16.Mui-disabled {
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.emotion-16.Mui-error {
-  color: #d32f2f;
-}
-
-.emotion-17 {
+.emotion-21 {
   background-color: rgba(255, 255, 255, 0.04);
   font-family: monospace;
   color: rgba(0, 0, 0, 1);
@@ -645,12 +686,12 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   white-space: pre-line;
 }
 
-.emotion-17 .copyable-content {
+.emotion-21 .copyable-content {
   white-space: pre-wrap;
   word-break: break-word;
 }
 
-.emotion-18 {
+.emotion-22 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -701,42 +742,42 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   margin-top: -8px;
 }
 
-.emotion-18::-moz-focus-inner {
+.emotion-22::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-18.Mui-disabled {
+.emotion-22.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-18 {
+  .emotion-22 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-18:hover {
+.emotion-22:hover {
   background-color: var(--IconButton-hoverBg);
 }
 
 @media (hover: none) {
-  .emotion-18:hover {
+  .emotion-22:hover {
     background-color: transparent;
   }
 }
 
-.emotion-18.Mui-disabled {
+.emotion-22.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-18.MuiIconButton-loading {
+.emotion-22.MuiIconButton-loading {
   color: transparent;
 }
 
-.emotion-19 {
+.emotion-23 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -753,11 +794,72 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   font-size: 1.5rem;
 }
 
-.emotion-20 {
+.emotion-24 {
   margin: 0;
 }
 
-.emotion-21 {
+.emotion-25 {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: var(--Paper-shadow);
+  background-image: var(--Paper-overlay);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  background-color: transparent;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 6px 16px;
+  color: rgb(95, 33, 32);
+  background-color: rgb(253, 237, 237);
+}
+
+.emotion-25 .MuiAlert-icon {
+  color: #d32f2f;
+}
+
+.emotion-26 {
+  margin-right: 12px;
+  padding: 7px 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+.emotion-27 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: inherit;
+}
+
+.emotion-28 {
+  padding: 8px 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.emotion-29 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -776,11 +878,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   flex: 0 0 auto;
 }
 
-.emotion-21>:not(style)~:not(style) {
+.emotion-29>:not(style)~:not(style) {
   margin-left: 8px;
 }
 
-.emotion-22 {
+.emotion-30 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -837,57 +939,57 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-22::-moz-focus-inner {
+.emotion-30::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-22.Mui-disabled {
+.emotion-30.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-22 {
+  .emotion-30 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-22:hover {
+.emotion-30:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-22.Mui-disabled {
+.emotion-30.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-22:hover {
+.emotion-30:hover {
   box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
 @media (hover: none) {
-  .emotion-22:hover {
+  .emotion-30:hover {
     box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
   }
 }
 
-.emotion-22:active {
+.emotion-30:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-22.Mui-focusVisible {
+.emotion-30.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-22.Mui-disabled {
+.emotion-30.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (hover: hover) {
-  .emotion-22:hover {
+  .emotion-30:hover {
     --variant-containedBg: #1565c0;
     --variant-textBg: rgba(25, 118, 210, 0.04);
     --variant-outlinedBorder: #1976d2;
@@ -895,14 +997,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   }
 }
 
-.emotion-22.MuiButton-loading {
+.emotion-30.MuiButton-loading {
   color: transparent;
 }
 
 <div
   aria-labelledby="_r_X_"
   aria-modal="true"
-  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-0"
+  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm MuiDialog-paperFullWidth emotion-0"
   data-mui-focusable=""
   role="dialog"
   style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
@@ -914,63 +1016,83 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
   >
     Create new token
   </h2>
-  <div
-    class="MuiDialogContent-root emotion-2"
+  <form
+    novalidate=""
   >
-    <form>
-      <div
-        class="MuiFormControl-root MuiTextField-root required emotion-3"
+    <div
+      class="MuiDialogContent-root flexbox column emotion-2"
+    >
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1 margin-bottom-small emotion-3"
       >
+        Name
+      </h6>
+      <div
+        class="MuiFormControl-root emotion-4"
+        style="width: 100%;"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-5"
+          data-shrink="false"
+          for="name"
+        >
+          Token name
+        </label>
         <div
-          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl emotion-4"
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl emotion-6"
         >
           <input
             aria-invalid="false"
-            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-5"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-7"
             disabled=""
-            id="_r_X_"
-            placeholder="Name"
+            id="name"
+            name="name"
             type="text"
             value=""
           />
           <fieldset
             aria-hidden="true"
-            class="MuiOutlinedInput-notchedOutline emotion-6"
+            class="MuiOutlinedInput-notchedOutline emotion-8"
           >
             <legend
-              class="emotion-7"
+              class="emotion-9"
             >
-              <span
-                aria-hidden="true"
-                class="notranslate"
-              >
-                ​
+              <span>
+                Token name
               </span>
             </legend>
           </fieldset>
         </div>
+        <p
+          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-10"
+        />
       </div>
-    </form>
-    <div>
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1 margin-top-medium margin-bottom-small emotion-3"
+      >
+        Expiration
+      </h6>
       <div
-        class="MuiFormControl-root emotion-8"
+        class="MuiFormControl-root full-width emotion-4"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-9"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined emotion-13"
           data-shrink="true"
           id="token-expiration-label"
         >
           Expiration
         </label>
         <div
-          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl MuiSelect-root emotion-10"
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl MuiSelect-root emotion-14"
+          style="width: 100%;"
         >
           <div
             aria-disabled="true"
             aria-expanded="false"
             aria-haspopup="listbox"
+            aria-label=""
             aria-labelledby="token-expiration-label"
-            class="MuiSelect-select MuiSelect-outlined Mui-disabled MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-11"
+            class="MuiSelect-select MuiSelect-outlined Mui-disabled MuiInputBase-input MuiOutlinedInput-input Mui-disabled emotion-15"
             role="combobox"
           >
             a year
@@ -978,7 +1100,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
           <input
             aria-hidden="true"
             aria-invalid="false"
-            class="MuiSelect-nativeInput emotion-12"
+            class="MuiSelect-nativeInput emotion-16"
             disabled=""
             id="_r_X_"
             tabindex="-1"
@@ -986,7 +1108,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon Mui-disabled emotion-13"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon Mui-disabled emotion-17"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -997,10 +1119,10 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
           </svg>
           <fieldset
             aria-hidden="true"
-            class="MuiOutlinedInput-notchedOutline emotion-6"
+            class="MuiOutlinedInput-notchedOutline emotion-8"
           >
             <legend
-              class="emotion-15"
+              class="emotion-19"
             >
               <span>
                 Expiration
@@ -1009,8 +1131,8 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
           </fieldset>
         </div>
         <p
-          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-16"
-          title="2020-01-13"
+          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained MuiFormHelperText-filled emotion-10"
+          title="2020-01-13 13:00"
         >
           expires on 
           <time
@@ -1020,277 +1142,77 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-11:focus::-ms-input-
           </time>
         </p>
       </div>
+      <div
+        class="margin-top-medium"
+      >
+        <div
+          class="emotion-21 "
+        >
+          <button
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-22"
+            tabindex="0"
+            title="Copy to clipboard"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-23"
+              data-testid="ContentCopyIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"
+              />
+            </svg>
+          </button>
+          <code
+            class="MuiTypography-root MuiTypography-code1 copyable-content emotion-24"
+          >
+            afreshtoken
+          </code>
+        </div>
+        <p />
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorError MuiAlert-standard margin-top-small emotion-25"
+          role="alert"
+          style="--Paper-shadow: none;"
+        >
+          <div
+            class="MuiAlert-icon emotion-26"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-27"
+              data-testid="ErrorOutlineIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+              />
+            </svg>
+          </div>
+          <div
+            class="MuiAlert-message emotion-28"
+          >
+            This is the only time you will be able to see the token, so make sure to store it in a safe place.
+          </div>
+        </div>
+      </div>
     </div>
     <div
-      class="margin-top-small margin-bottom-small"
+      class="MuiDialogActions-root MuiDialogActions-spacing emotion-29"
     >
-      <div
-        class="emotion-17 "
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-30"
+        tabindex="0"
+        type="button"
       >
-        <button
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-18"
-          tabindex="0"
-          title="Copy to clipboard"
-          type="button"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-19"
-            data-testid="ContentCopyIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2m0 16H8V7h11z"
-            />
-          </svg>
-        </button>
-        <code
-          class="MuiTypography-root MuiTypography-code1 copyable-content emotion-20"
-        >
-          afreshtoken
-        </code>
-      </div>
-      <p />
-      <p
-        class="warning"
-      >
-        This is the only time you will be able to see the token, so make sure to store it in a safe place.
-      </p>
+        Close
+      </button>
     </div>
-  </div>
-  <div
-    class="MuiDialogActions-root MuiDialogActions-spacing emotion-21"
-  >
-    <button
-      class="MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary emotion-22"
-      disabled=""
-      tabindex="-1"
-      type="button"
-    >
-      Close
-    </button>
-  </div>
-</div>
-`;
-
-exports[`AccessTokenManagement Component > renders AccessTokenRevocationDialog correctly 1`] = `
-.emotion-0 {
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.87);
-  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 4px;
-  box-shadow: var(--Paper-shadow);
-  background-image: var(--Paper-overlay);
-  margin: 32px;
-  position: relative;
-  overflow-y: auto;
-  outline: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  max-height: calc(100% - 64px);
-  max-width: 600px;
-}
-
-@media print {
-  .emotion-0 {
-    overflow-y: visible;
-    box-shadow: none;
-  }
-}
-
-.emotion-1 {
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 1.25rem;
-  line-height: 1.6;
-  letter-spacing: 0.0075em;
-  padding: 16px 24px;
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-}
-
-.emotion-2 {
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  -webkit-overflow-scrolling: touch;
-  overflow-y: auto;
-  padding: 20px 24px;
-}
-
-.MuiDialogTitle-root+.emotion-2 {
-  padding-top: 0;
-}
-
-.emotion-3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 8px;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-}
-
-.emotion-3>:not(style)~:not(style) {
-  margin-left: 8px;
-}
-
-.emotion-4 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  background-color: transparent;
-  outline: 0;
-  border: 0;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: inherit;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.75;
-  letter-spacing: 0.02857em;
-  text-transform: uppercase;
-  min-width: 64px;
-  padding: 6px 16px;
-  border: 0;
-  border-radius: 4px;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  padding: 6px 8px;
-  color: var(--variant-textColor);
-  background-color: var(--variant-textBg);
-  --variant-textColor: #1976d2;
-  --variant-outlinedColor: #1976d2;
-  --variant-outlinedBorder: rgba(25, 118, 210, 0.5);
-  --variant-containedColor: #fff;
-  --variant-containedBg: #1976d2;
-  -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-
-.emotion-4::-moz-focus-inner {
-  border-style: none;
-}
-
-.emotion-4.Mui-disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-@media print {
-  .emotion-4 {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-}
-
-.emotion-4:hover {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-4.Mui-disabled {
-  color: rgba(0, 0, 0, 0.26);
-}
-
-@media (hover: hover) {
-  .emotion-4:hover {
-    --variant-containedBg: #1565c0;
-    --variant-textBg: rgba(25, 118, 210, 0.04);
-    --variant-outlinedBorder: #1976d2;
-    --variant-outlinedBg: rgba(25, 118, 210, 0.04);
-  }
-}
-
-.emotion-4.MuiButton-loading {
-  color: transparent;
-}
-
-<div
-  aria-labelledby="_r_X_"
-  aria-modal="true"
-  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperWidthSm emotion-0"
-  data-mui-focusable=""
-  role="dialog"
-  style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
-  tabindex="-1"
->
-  <h2
-    class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root emotion-1"
-    id="_r_X_"
-  >
-    Revoke token
-  </h2>
-  <div
-    class="MuiDialogContent-root emotion-2"
-  >
-    Are you sure you want to revoke the token 
-    <b>
-      some-name-1
-    </b>
-    ?
-  </div>
-  <div
-    class="MuiDialogActions-root MuiDialogActions-spacing emotion-3"
-  >
-    <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
-      tabindex="0"
-      type="button"
-    >
-      Cancel
-    </button>
-    <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-sizeMedium MuiButton-colorPrimary emotion-4"
-      tabindex="0"
-      type="button"
-    >
-      Revoke Token
-    </button>
-  </div>
+  </form>
 </div>
 `;
 
@@ -1432,7 +1354,6 @@ exports[`AccessTokenManagement Component > renders correctly 1`] = `
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
-  min-width: 900px;
 }
 
 .emotion-8 caption {

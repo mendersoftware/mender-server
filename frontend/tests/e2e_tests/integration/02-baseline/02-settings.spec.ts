@@ -43,7 +43,7 @@ test.describe('Settings', () => {
       await tokenGenerationButton.click();
       const tokenName = `aNewToken-${retry}`;
       await page.getByText(/Create new token/i).waitFor();
-      await page.getByPlaceholder('Name').fill(tokenName);
+      await page.getByLabel(/token name/i).fill(tokenName);
       await page.getByText(/a year/i).click({ force: true });
       await page.getByRole('option', { name: '7 days' }).click();
       await page.getByRole('button', { name: /Create token/i }).click();
@@ -57,7 +57,7 @@ test.describe('Settings', () => {
       await revokeTokenButton.waitFor();
       await revokeTokenButton.click();
       await tokenGenerationButton.click();
-      await page.getByPlaceholder(/Name/i).fill(tokenName);
+      await page.getByLabel(/token name/i).fill(tokenName);
       await page.getByRole('button', { name: /Create token/i }).click();
       const copyButton = page.getByRole('button', { name: /copy to clipboard/i });
       await copyButton.click();

@@ -18,7 +18,7 @@ import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import AccessTokenManagement, { AccessTokenCreationDialog, AccessTokenRevocationDialog } from './AccessTokenManagement';
+import AccessTokenManagement, { AccessTokenCreationDialog } from './AccessTokenManagement';
 
 const preloadedState = {
   ...defaultState,
@@ -52,13 +52,14 @@ describe('AccessTokenManagement Component', () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const { getTokens: getSpy, generateToken: createSpy } = StoreThunks;
     getSpy.mockReset();
+    createSpy.mockClear();
     const ui = <AccessTokenManagement />;
     const { rerender } = render(ui, { preloadedState });
     await user.click(screen.getByRole('button', { name: /generate a token/i }));
     const generateButton = screen.getByRole('button', { name: /create token/i });
-    expect(generateButton).toBeDisabled();
-    await user.type(screen.getByPlaceholderText(/name/i), 'somename');
-    expect(generateButton).not.toBeDisabled();
+    await user.click(generateButton);
+    expect(createSpy).not.toHaveBeenCalled();
+    await user.type(screen.getByLabelText(/name/i), 'somename');
     await user.click(generateButton);
     await waitFor(() => rerender(ui));
     expect(createSpy).toHaveBeenCalledWith({ expiresIn: 31536000, name: 'somename' });
@@ -73,14 +74,20 @@ describe('AccessTokenManagement Component', () => {
     expect(screen.getByText('aNewToken')).toBeInTheDocument();
   });
 
-  [AccessTokenCreationDialog, AccessTokenRevocationDialog].forEach(async (Component, index) => {
-    it(`renders ${Component.displayName || Component.name} correctly`, () => {
-      const { baseElement } = render(
-        <Component onCancel={vi.fn} generateToken={vi.fn} revokeToken={vi.fn} setToken={vi.fn} token={index ? accessTokens[0] : 'afreshtoken'} userRoles={[]} />
-      );
-      const view = baseElement.getElementsByClassName('MuiPaper-root')[0];
-      expect(view).toMatchSnapshot();
-      expect(view).toEqual(expect.not.stringMatching(undefineds));
-    });
+  it('renders AccessTokenCreationDialog correctly', () => {
+    const { baseElement } = render(<AccessTokenCreationDialog onCancel={vi.fn} onGenerate={vi.fn} token="afreshtoken" userRoles={[]} />);
+    const view = baseElement.getElementsByClassName('MuiPaper-root')[0];
+    expect(view).toMatchSnapshot();
+    expect(view).toEqual(expect.not.stringMatching(undefineds));
+  });
+
+  it('allows revoking a token', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { revokeToken: revokeSpy } = StoreThunks;
+    render(<AccessTokenManagement />, { preloadedState });
+    await user.click(screen.getAllByRole('button', { name: /revoke/i })[0]);
+    expect(screen.getByText(/are you sure you want to revoke the token/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /revoke token/i }));
+    await waitFor(() => expect(revokeSpy).toHaveBeenCalled());
   });
 });
