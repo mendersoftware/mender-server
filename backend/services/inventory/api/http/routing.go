@@ -117,6 +117,7 @@ func NewRouter(app inv.InventoryApp, options ...Option) http.Handler {
 	mgmtAPIV1 := publicAPIs.Group(apiUrlManagementV1)
 	mgmtAPIV1Legacy := publicAPIs.Group(apiUrlLegacy)
 	mgmtAPIV2 := publicAPIs.Group(apiUrlManagementV2)
+	mgmtAPIV2Alpha1 := publicAPIs.Group(apiUrlManagementV2Alpha1)
 	devicesAPIs := publicAPIs.Group(apiUrlDevicesV1)
 	devicesAPILegacy := publicAPIs.Group(apiUrlLegacy)
 
@@ -139,6 +140,9 @@ func NewRouter(app inv.InventoryApp, options ...Option) http.Handler {
 	mgmtAPIV2.Group(".").Use(contenttype.CheckJSON()).
 		POST(urlFiltersSearch, mgmtHandler.FiltersSearchHandler)
 	mgmtAPIV2.GET(urlDeviceStatistics, mgmtHandler.GetDeviceStatistics)
+
+	mgmtAPIV2Alpha1.Group(".").Use(contenttype.CheckJSON()).
+		POST(urlIdentitiesSearch, mgmtHandler.IdentitiesSearchHandler)
 
 	mgmtAPIV1Legacy.Use(rewritePathPrefix(apiUrlLegacy, apiUrlManagementV1))
 	mgmtAPIV1Legacy.GET(uriDevices, mgmtHandler.GetDevicesHandler)

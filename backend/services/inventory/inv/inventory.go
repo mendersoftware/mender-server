@@ -93,6 +93,10 @@ type InventoryApp interface {
 	) (*model.UpdateResult, error)
 	CreateTenant(ctx context.Context, tenant model.NewTenant) error
 	SearchDevices(ctx context.Context, searchParams model.SearchParams) ([]model.Device, int, error)
+	SearchDevicesByIdentity(
+		ctx context.Context,
+		searchParams model.SearchIdentityParams,
+	) ([]model.Device, int, error)
 	CheckAlerts(ctx context.Context, deviceId string) (int, error)
 	WithLimits(attributes, tags int) InventoryApp
 	GetDeviceStatistics(ctx context.Context) (*model.DeviceStatistics, error)
@@ -572,6 +576,17 @@ func (i *inventory) SearchDevices(
 		return nil, -1, errors.Wrap(err, "failed to fetch devices")
 	}
 
+	return devs, totalCount, nil
+}
+
+func (i *inventory) SearchDevicesByIdentity(
+	ctx context.Context,
+	searchParams model.SearchIdentityParams,
+) ([]model.Device, int, error) {
+	devs, totalCount, err := i.db.SearchDevicesByIdentity(ctx, searchParams)
+	if err != nil {
+		return nil, -1, errors.Wrap(err, "failed to fetch devices")
+	}
 	return devs, totalCount, nil
 }
 
