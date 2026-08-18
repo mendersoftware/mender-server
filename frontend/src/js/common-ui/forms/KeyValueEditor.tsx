@@ -15,8 +15,8 @@ import type { CSSProperties, ComponentType } from 'react';
 import { useEffect, useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
-import { Clear as ClearIcon, Add as ContentAddIcon } from '@mui/icons-material';
-import { Button, Fab, FormControl, FormHelperText, IconButton, OutlinedInput } from '@mui/material';
+import { AddCircle as AddIcon, Clear as ClearIcon } from '@mui/icons-material';
+import { Button, FormControl, FormHelperText, IconButton, OutlinedInput, outlinedInputClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import Form from './Form';
@@ -42,19 +42,19 @@ const emptyInput: InputLineItem = { helptip: null, key: '', value: '' };
 
 const reducePairs = (pairs: InputLineItem[]) => (pairs || []).reduce((accu, item) => ({ ...accu, ...(item.value ? { [item.key]: item.value } : {}) }), {});
 
+const inputWidth = 240;
+
 const useStyles = makeStyles()(theme => ({
-  formReset: { justifyContent: 'end' },
   helptip: { left: -35, top: theme.spacing(), position: 'absolute !important' },
   keyValueContainer: {
     display: 'grid',
-    gridTemplateColumns: 'minmax(200px, min-content) minmax(200px, min-content) max-content',
-    columnGap: theme.spacing(2),
+    gridTemplateColumns: `${inputWidth}px ${inputWidth}px max-content`,
+    columnGap: theme.spacing(),
     alignItems: 'baseline',
-    justifyItems: 'baseline',
-    '> div': {
-      marginTop: 10
-    }
-  }
+    [`.${outlinedInputClasses.root}`]: { minWidth: inputWidth }
+  },
+  lineAdditionButton: { marginLeft: theme.spacing(-1) },
+  lineRemovalButton: { marginBottom: 2 }
 }));
 
 interface KeyValueFieldsProps {
@@ -114,13 +114,13 @@ const KeyValueFields = ({ disabled, initialValues, inputHelpTipsMap, onInputChan
   };
 
   return (
-    <div>
+    <>
       {fields.map((field, index) => {
         const errorMessage = index === fields.length - 1 ? errors?.inputs?.root?.message : undefined;
         const hasRemovalDisabled = !(inputs?.[index]?.key && inputs?.[index]?.value);
         const { component: Helptip = null, props: helptipProps = {} } = (inputs[index].helptip ?? {}) as InputHelptip;
         return (
-          <div className={`${classes.keyValueContainer} relative`} key={field.id}>
+          <div className={`${classes.keyValueContainer} relative margin-bottom-x-small`} key={field.id}>
             <FormControl>
               <OutlinedInput
                 disabled={disabled}
@@ -140,34 +140,41 @@ const KeyValueFields = ({ disabled, initialValues, inputHelpTipsMap, onInputChan
                 type="text"
               />
             </FormControl>
-            {fields.length > 1 && !hasRemovalDisabled ? (
-              <IconButton disabled={disabled} onClick={() => remove(index)} size="large">
-                <ClearIcon fontSize="small" />
-              </IconButton>
-            ) : (
-              <span />
-            )}
+            <div>
+              {fields.length > 1 && !hasRemovalDisabled ? (
+                <IconButton className={classes.lineRemovalButton} disabled={disabled} onClick={() => remove(index)}>
+                  <ClearIcon fontSize="small" />
+                </IconButton>
+              ) : (
+                <span />
+              )}
+            </div>
             {Helptip && <Helptip className={classes.helptip} {...helptipProps} />}
           </div>
         );
       })}
-      <div className={`margin-top-small ${classes.keyValueContainer}`}>
-        <div className="margin-left-x-small">
-          <Fab disabled={disabled || !inputs?.[fields.length - 1]?.key || !inputs?.[fields.length - 1]?.value} size="small" onClick={addKeyValue}>
-            <ContentAddIcon />
-          </Fab>
+      <div className={`margin-top-x-small ${classes.keyValueContainer} align-items-center`}>
+        <div>
+          <IconButton
+            aria-label="add-editor-line-button"
+            className={classes.lineAdditionButton}
+            disabled={disabled || !inputs?.[fields.length - 1]?.key || !inputs?.[fields.length - 1]?.value}
+            onClick={addKeyValue}
+            size="small"
+          >
+            <AddIcon fontSize="large" />
+          </IconButton>
         </div>
-        <div className={`flexbox align-items-center full-width ${classes.formReset}`}>
-          {inputs.length > 1 ? (
-            <Button className="align-self-end" variant="text" onClick={onClearClick}>
-              Clear all
-            </Button>
-          ) : (
-            <div />
-          )}
-        </div>
+        <div />
+        {inputs.length > 1 ? (
+          <Button variant="text" onClick={onClearClick} color="inherit">
+            Clear all
+          </Button>
+        ) : (
+          <div />
+        )}
       </div>
-    </div>
+    </>
   );
 };
 

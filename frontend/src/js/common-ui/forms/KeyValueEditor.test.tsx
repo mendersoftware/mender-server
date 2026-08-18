@@ -22,12 +22,11 @@ import KeyValueEditor from './KeyValueEditor';
 describe('KeyValueEditor Component', () => {
   it('renders correctly', async () => {
     const { baseElement } = render(<KeyValueEditor onInputChange={vi.fn()} />);
-    const view = baseElement.getElementsByClassName('MuiDialog-root')[0];
+    const view = baseElement.firstChild?.firstChild;
     expect(view).toMatchSnapshot();
     expect(view).toEqual(expect.not.stringMatching(undefineds));
   });
 
-  const fabSelector = '.MuiFab-root';
   it('works as intended', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const submitMock = vi.fn();
@@ -36,8 +35,7 @@ describe('KeyValueEditor Component', () => {
     const { rerender } = render(ui);
     await user.type(screen.getByPlaceholderText(/key/i), 'testKey');
     await user.type(screen.getByPlaceholderText(/value/i), 'testValue');
-    expect(document.querySelector(fabSelector)).not.toBeDisabled();
-    await user.click(document.querySelector(fabSelector));
+    await user.click(screen.getByLabelText('add-editor-line-button'));
     expect(submitMock).toHaveBeenLastCalledWith({ testKey: 'testValue' });
     await waitFor(() => rerender(ui));
 
@@ -55,7 +53,7 @@ describe('KeyValueEditor Component', () => {
     const { rerender } = render(ui);
     await user.type(screen.getByPlaceholderText(/key/i), 'testKey');
     await user.type(screen.getByPlaceholderText(/value/i), 'testValue');
-    await user.click(document.querySelector(fabSelector));
+    await user.click(screen.getByLabelText('add-editor-line-button'));
     await waitFor(() => rerender(ui));
     await user.type(screen.getAllByPlaceholderText(/key/i)[1], 'testKey');
     await user.type(screen.getAllByPlaceholderText(/value/i)[1], 'testValue2');
