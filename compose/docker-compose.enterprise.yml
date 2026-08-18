@@ -1,5 +1,47 @@
 # Enterprise override for ../docker-compose.yml
 services:
+  admin-panel:
+    build:
+      context: .
+      dockerfile: ./backend/services/admin-panel/Dockerfile
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/admin-panel:${MENDER_IMAGE_TAG:-latest}
+    restart: on-failure:3
+    command: [server]
+    environment:
+      ADMIN_PANEL_TENANTADM_ADDRESS: "tenantadm:8080"
+      ADMIN_PANEL_USERADM_ADDRESS: "useradm:8080"
+      ADMIN_PANEL_DEVICEAUTH_ADDRESS: "deviceauth:8080"
+      ADMIN_PANEL_DEPLOYMENTS_ADDRESS: "deployments:8080"
+      ADMIN_PANEL_INVENTORY_ADDRESS: "inventory:8080"
+      ADMIN_PANEL_WORKFLOWS_ADDRESS: "workflows:8080"
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.admin-panel.loadBalancer.server.port: "8080"
+      traefik.http.routers.admin-panel.rule: >-
+        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`) || Host(`traefik`)) &&
+        PathRegexp(`/api/internal/v[0-9a-z]+/admin-panel`)
+      traefik.http.routers.admin-panel.service: admin-panel
+    networks:
+      default:
+        aliases: [mender-admin-panel]
+
+  admin-panel-gui:
+    build:
+      context: .
+      dockerfile: admin-panel/Dockerfile
+    image: ${MENDER_IMAGE_REGISTRY:-registry.mender.io}/${MENDER_IMAGE_REPOSITORY:-mender-server-enterprise}/admin-panel-gui:${MENDER_IMAGE_TAG:-latest}
+    restart: on-failure:3
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.admin-panel-gui.loadBalancer.server.port: "8090"
+      traefik.http.routers.admin-panel-gui.rule: >-
+        (Host(`${MENDER_HOSTNAME:-docker.mender.io}`) || Host(`localhost`) || Host(`traefik`)) &&
+        PathPrefix(`/admin`)
+      traefik.http.routers.admin-panel-gui.service: admin-panel-gui
+    networks:
+      default:
+        aliases: [mender-admin-panel-gui]
+
   auditlogs:
     build:
       context: .
