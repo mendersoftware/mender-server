@@ -19,12 +19,6 @@ if [ -n "$GATEWAY_PORT" ]; then
     HOSTNAME=$HOSTNAME':'$GATEWAY_PORT
 fi
 
-if [ -n "$STRIPE_API_KEY" ]; then
-  wget -O /var/www/mender-gui/dist/tags.json https://api.github.com/repos/mendersoftware/mender-server/tags?per_page=10
-else
-  echo "[]" >> /var/www/mender-gui/dist/tags.json
-fi
-
 cat >/var/www/mender-gui/dist/env.js <<EOF
   mender_environment = {
     commit: "$GIT_COMMIT_SHA",
