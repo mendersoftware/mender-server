@@ -38,8 +38,8 @@ type TextInputProps = {
   helperText?: string;
   hint?: string;
   id: string;
-  numericValidations?: RegisterOptions;
   requiredRendered?: boolean;
+  rules?: RegisterOptions;
   type?: string;
   value?: string;
 } & Partial<CommonTextInputProps>;
@@ -58,7 +58,7 @@ export const TextInput = ({
   required,
   type,
   validations = '',
-  numericValidations = {},
+  rules = {},
   value: passedValue = '',
   requiredRendered = true,
   width = 400,
@@ -88,7 +88,7 @@ export const TextInput = ({
     <Controller
       name={id}
       control={control}
-      rules={{ required: required ? `${label} is required` : false, validate, ...numericValidations }}
+      rules={{ required: required ? `${label} is required` : false, validate, ...rules }}
       render={({ field: { value, onChange, onBlur, ref }, fieldState: { error } }) => {
         const { onBlur: externalOnBlur, ...restInputProps } = InputProps;
         return (
