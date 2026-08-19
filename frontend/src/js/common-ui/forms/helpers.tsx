@@ -13,6 +13,16 @@
 //    limitations under the License.
 import { Typography } from '@mui/material';
 
+import validator from 'validator';
+
+export const invalidCharactersError = 'Valid characters are a-z, A-Z, 0-9, ., _ and -';
+
+export const hasValidTagCharacters = (value: string) => validator.isWhitelisted(value, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.');
+
+export const tagValidationRules = {
+  validate: (tags = []) => tags.every(hasValidTagCharacters) || invalidCharactersError
+};
+
 export const TruncatedTagList = ({ labelAttribute = 'title', values }: { labelAttribute?: string; values: (string | Record<string, string>)[] }) => (
   <Typography className="text-overflow" noWrap>
     {values.map(v => (typeof v === 'string' ? v : v[labelAttribute])).join(', ')}

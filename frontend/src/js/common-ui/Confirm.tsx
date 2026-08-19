@@ -111,8 +111,8 @@ export const EditButton = ({ label = 'Edit', onClick, disabled = false }) =>
     </IconButton>
   );
 
-export const ConfirmationButtons = ({ onConfirm, onCancel }) => (
-  <div className="flexbox">
+export const ConfirmationButtons = ({ onConfirm, onCancel, className = '' }) => (
+  <div className={`flexbox ${className}`}>
     <IconButton onClick={onConfirm} size="small" aria-label="confirm">
       <CheckIcon color="disabled" />
     </IconButton>

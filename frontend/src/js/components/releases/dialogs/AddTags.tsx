@@ -20,6 +20,7 @@ import { makeStyles } from 'tss-react/mui';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
+import { tagValidationRules } from '@northern.tech/common-ui/forms/helpers';
 import { setReleaseTags, setReleasesListState } from '@northern.tech/store/thunks';
 
 const useStyles = makeStyles()(theme => ({
@@ -36,7 +37,7 @@ const AddTagsDialogContent = ({ onClose }) => {
     <>
       <DialogContent>
         <Typography className="margin-bottom">Add tags to the selected Releases. If a Release already has the tag, it won’t be added again.</Typography>
-        <ChipSelect className={classes.tagSelect} label="" name={inputName} placeholder="Add release tags" />
+        <ChipSelect className={classes.tagSelect} label="" name={inputName} placeholder="Add release tags" rules={tagValidationRules} />
       </DialogContent>
       <DialogActions>
         <Button style={{ marginRight: 10 }} onClick={onClose}>

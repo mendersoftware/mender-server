@@ -30,6 +30,7 @@ import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
+import { tagValidationRules } from '@northern.tech/common-ui/forms/helpers';
 import { getManifestTags } from '@northern.tech/store/releasesSlice/selectors';
 import { checkReleasesExistence, generateManifest, getManifest, getSoftware, uploadManifest } from '@northern.tech/store/releasesSlice/thunks';
 import { useAppDispatch } from '@northern.tech/store/store';
@@ -345,7 +346,14 @@ export const AddManifestDrawer = ({ copyFromManifest, onClose, open }: AddManife
             <TextInput id="description" hint="Add notes here" InputLabelProps={{ shrink: true }} InputProps={{ multiline: true, maxRows: 4 }} />
           </ContentSection>
           <ContentSection className="margin-bottom-medium" title="Tags">
-            <ChipSelect className={classes.input} options={existingTags} name="tags" placeholder="Add Tags" forcePopupIcon={existingTags.length !== 0} />
+            <ChipSelect
+              className={classes.input}
+              options={existingTags}
+              name="tags"
+              placeholder="Add Tags"
+              forcePopupIcon={existingTags.length !== 0}
+              rules={tagValidationRules}
+            />
           </ContentSection>
           {parsedManifest?.component_types && (
             <ComponentTypesTable
