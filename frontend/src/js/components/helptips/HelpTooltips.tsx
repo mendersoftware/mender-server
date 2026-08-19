@@ -15,7 +15,7 @@ import type { ComponentType, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { InlineCode } from '@northern.tech/common-ui/CopyCode';
-import DocsLink from '@northern.tech/common-ui/DocsLink';
+import DocsLink, { DOCSTIPS, DocsTextLink } from '@northern.tech/common-ui/DocsLink';
 import { Link } from '@northern.tech/common-ui/Link';
 import { SupportLink } from '@northern.tech/common-ui/SupportLink';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
@@ -247,8 +247,8 @@ const RbacRoles = () => (
 
 const ReleaseName = () => (
   <>
-    If a Release with this name already exists, this new Artifact may be grouped into a Release with other Artifacts of the same name - so long as they are
-    compatible with different device types
+    If a Release with this name exists, this Artifact may be added to it—provided it&apos;s compatible with a different device type.{' '}
+    <DocsTextLink id={DOCSTIPS.releases.id} typographyProps={{ variant: 'body2' }} /> about Artifacts.
   </>
 );
 
