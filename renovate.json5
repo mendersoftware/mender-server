@@ -6,7 +6,6 @@
   "extends": [
     "config:recommended",
     ":gitSignOff",
-    ":rebaseStalePrs",
     ":semanticCommitTypeAll(chore)"
   ],
 
@@ -17,8 +16,9 @@
   "semanticCommits": "enabled",
   "semanticCommitScope": "deps",
 
-  // Fallback window for weeks with no merges; the .pre CI job is the primary trigger.
-  "schedule": ["after 10pm on Monday", "before 6am on Tuesday"],
+  // Only rebase open PRs when they actually conflict. Rebasing every time the
+  // base branch moves restarts a pipeline for every open PR on each merge.
+  "rebaseWhen": "conflicted",
 
   // Drain backlogs gradually. 10 concurrent because there are three base branches.
   "prHourlyLimit": 2,
