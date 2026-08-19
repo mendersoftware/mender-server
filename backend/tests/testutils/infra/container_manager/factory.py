@@ -37,12 +37,19 @@ from .docker_compose_manager import (
     DockerComposeCompatibilitySetup,
     DockerComposeMTLSSetup,
 )
-from .kubernetes_manager import (
-    KubernetesEnterpriseSetup,
-    KubernetesEnterpriseSetupWithGateway,
-    KubernetesEnterpriseMonitorCommercialSetup,
-    isK8S,
-)
+from .base import isK8S
+
+
+def _k8s():
+    """The Kubernetes setups, imported on use.
+
+    kubernetes_manager pulls in the 'kubernetes' package at import time, which
+    consumers running only against docker compose have no reason to install.
+    These are reached only when isK8S() is true.
+    """
+    from . import kubernetes_manager
+
+    return kubernetes_manager
 
 
 class ContainerManagerFactory:
@@ -218,22 +225,22 @@ class DockerComposeManagerFactory(ContainerManagerFactory):
 
 class KubernetesManagerFactory(ContainerManagerFactory):
     def get_enterprise_setup(self, name=None, num_clients=0):
-        return KubernetesEnterpriseSetup(name, num_clients)
+        return _k8s().KubernetesEnterpriseSetup(name, num_clients)
 
     def get_enterprise_docker_client_setup(self, name=None, num_clients=0):
-        return KubernetesEnterpriseSetup(name, num_clients)
+        return _k8s().KubernetesEnterpriseSetup(name, num_clients)
 
     def get_enterprise_setup_with_gateway(self, name=None, num_clients=0):
-        return KubernetesEnterpriseSetupWithGateway(name, num_clients)
+        return _k8s().KubernetesEnterpriseSetupWithGateway(name, num_clients)
 
     def get_monitor_commercial_setup(self, name=None, num_clients=0):
-        return KubernetesEnterpriseMonitorCommercialSetup(name, num_clients)
+        return _k8s().KubernetesEnterpriseMonitorCommercialSetup(name, num_clients)
 
     def get_enterprise_signed_artifact_client_setup(self, name=None, num_clients=0):
-        return KubernetesEnterpriseSetup(name, num_clients)
+        return _k8s().KubernetesEnterpriseSetup(name, num_clients)
 
     def get_enterprise_short_lived_token_setup(self, name=None, num_clients=0):
-        return KubernetesEnterpriseSetup(name, num_clients)
+        return _k8s().KubernetesEnterpriseSetup(name, num_clients)
 
 
 def get_factory():

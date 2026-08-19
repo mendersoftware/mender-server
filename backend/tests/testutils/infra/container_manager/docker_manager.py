@@ -11,9 +11,12 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
+import logging
 import subprocess
 
 from .base import BaseContainerManagerNamespace
+
+logger = logging.getLogger(__name__)
 
 
 class DockerNamespace(BaseContainerManagerNamespace):
@@ -49,14 +52,26 @@ class DockerNamespace(BaseContainerManagerNamespace):
         ret = subprocess.check_output(cmd).decode("utf-8").strip()
         return ret
 
-    def getid(self, filters):
-        filters.append(self.name)
-        filters = ["grep {}".format(f) for f in filters]
-        cmd = "docker ps | " + " | ".join(filters) + " | awk '{print $1}'"
+    def getid(self, service):
+        """Container id of `service` within this namespace.
 
-        ret = subprocess.check_output(cmd, shell=True).decode("utf-8").strip()
+        Asked of compose directly rather than by grepping `docker ps` output. A
+        substring match also hits any project whose name merely *contains* this
+        one -- "mender" against "mender_enterprise", or a primary namespace
+        against its own failover backend -- and returns several ids on one line.
+        """
+        cmd = ["docker", "compose", "-p", self.name, "ps", "-q", service]
+        ids = subprocess.check_output(cmd).decode("utf-8").split()
 
-        if ret == "":
-            raise RuntimeError("container id for {} not found".format(str(filters)))
-
-        return ret
+        if not ids:
+            raise RuntimeError(
+                "no container for service %r in project %r" % (service, self.name)
+            )
+        if len(ids) > 1:
+            logger.debug(
+                "%d containers for service %r in project %r, using the first",
+                len(ids),
+                service,
+                self.name,
+            )
+        return ids[0]

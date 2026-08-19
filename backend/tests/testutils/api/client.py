@@ -23,7 +23,7 @@ import time
 
 from urllib3.exceptions import InsecureRequestWarning
 
-from ..infra.container_manager.kubernetes_manager import isK8S
+from ..infra.container_manager.base import isK8S
 
 GATEWAY_HOSTNAME = os.environ.get("GATEWAY_HOSTNAME") or "traefik"
 
@@ -34,11 +34,21 @@ def get_free_tcp_port() -> int:
 
 
 class ApiClient:
-    def __init__(self, base_url="", host=GATEWAY_HOSTNAME, schema="https://"):
+    def __init__(
+        self, base_url="", host=GATEWAY_HOSTNAME, schema="https://", host_header=None
+    ):
         self.host = host
         self.schema = schema
         self.base_url = schema + host + base_url
         self.headers = {}
+        # An ingress that routes on the Host header cannot be addressed by IP
+        # without sending that header explicitly. Defaults to GATEWAY_HOSTNAME;
+        # pass it to override, or "" to send none at all -- useful when talking
+        # straight to a service's internal port, which does not route on Host.
+        if host_header is None:
+            host_header = GATEWAY_HOSTNAME
+        if host_header and host != host_header:
+            self.headers["Host"] = host_header
 
     def with_auth(self, token):
         return self.with_header("Authorization", "Bearer " + token)

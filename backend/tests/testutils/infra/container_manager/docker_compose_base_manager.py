@@ -139,7 +139,7 @@ class DockerComposeBaseNamespace(DockerNamespace):
         self._docker_compose_cmd(f"up -d --scale {service}=1 {service}")
 
     def get_file(self, container_name, path):
-        container_id = super().getid([container_name])
+        container_id = super().getid(container_name)
         return super().execute(container_id, ["cat", path])
 
     def _debug_log_containers_logs(self):
