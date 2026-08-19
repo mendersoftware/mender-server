@@ -220,6 +220,7 @@ Class | Method | HTTP request | Description
 *DeviceInventoryManagementAPIAPI* | [**ListGroups**](docs/DeviceInventoryManagementAPIAPI.md#listgroups) | **Get** /api/management/v1/inventory/groups | List all groups existing device groups
 *DeviceInventoryManagementAPIAPI* | [**RemoveAGroup**](docs/DeviceInventoryManagementAPIAPI.md#removeagroup) | **Delete** /api/management/v1/inventory/groups/{name} | Remove a device group
 *DeviceInventoryManagementAPIAPI* | [**RemoveDevicesFromGroup**](docs/DeviceInventoryManagementAPIAPI.md#removedevicesfromgroup) | **Delete** /api/management/v1/inventory/groups/{name}/devices | Clear devices&#39; group
+*InventoryV2alpha1ManagementAPIAPI* | [**SearchInventoryByIdentity**](docs/InventoryV2alpha1ManagementAPIAPI.md#searchinventorybyidentity) | **Post** /api/management/v2alpha1/inventory/identities/search | Search inventory by identity
 *IoTManagerInternalAPIAPI* | [**IoTManagerInternalCheckHealth**](docs/IoTManagerInternalAPIAPI.md#iotmanagerinternalcheckhealth) | **Get** /api/internal/v1/iot-manager/health | Get health status of service
 *IoTManagerInternalAPIAPI* | [**IoTManagerInternalCheckLiveliness**](docs/IoTManagerInternalAPIAPI.md#iotmanagerinternalcheckliveliness) | **Get** /api/internal/v1/iot-manager/alive | Get service liveliness status.
 *IoTManagerInternalAPIAPI* | [**IoTManagerInternalDecommissionDevice**](docs/IoTManagerInternalAPIAPI.md#iotmanagerinternaldecommissiondevice) | **Delete** /api/internal/v1/iot-manager/tenants/{tenantId}/devices/{deviceId} | Remove a device from Iot Hub.
@@ -378,6 +379,7 @@ Class | Method | HTTP request | Description
  - [ReleasesDeleteError](docs/ReleasesDeleteError.md)
  - [RemoveAGroup200Response](docs/RemoveAGroup200Response.md)
  - [Scope](docs/Scope.md)
+ - [SearchIdentityParams](docs/SearchIdentityParams.md)
  - [SearchParams](docs/SearchParams.md)
  - [SelectAttribute](docs/SelectAttribute.md)
  - [Software](docs/Software.md)

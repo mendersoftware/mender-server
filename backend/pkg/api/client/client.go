@@ -88,6 +88,8 @@ type APIClient struct {
 
 	DeviceInventoryManagementAPIAPI DeviceInventoryManagementAPIAPI
 
+	InventoryV2alpha1ManagementAPIAPI InventoryV2alpha1ManagementAPIAPI
+
 	IoTManagerInternalAPIAPI IoTManagerInternalAPIAPI
 
 	IoTManagerManagementAPIAPI IoTManagerManagementAPIAPI
@@ -136,6 +138,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.DeviceInventoryFiltersAndSearchManagementAPIAPI = (*DeviceInventoryFiltersAndSearchManagementAPIAPIService)(&c.common)
 	c.DeviceInventoryInternalAPIAPI = (*DeviceInventoryInternalAPIAPIService)(&c.common)
 	c.DeviceInventoryManagementAPIAPI = (*DeviceInventoryManagementAPIAPIService)(&c.common)
+	c.InventoryV2alpha1ManagementAPIAPI = (*InventoryV2alpha1ManagementAPIAPIService)(&c.common)
 	c.IoTManagerInternalAPIAPI = (*IoTManagerInternalAPIAPIService)(&c.common)
 	c.IoTManagerManagementAPIAPI = (*IoTManagerManagementAPIAPIService)(&c.common)
 	c.UserAdministrationAndAuthenticationInternalAPIAPI = (*UserAdministrationAndAuthenticationInternalAPIAPIService)(&c.common)
