@@ -34,7 +34,7 @@ func TestValidateNew(t *testing.T) {
 	}{
 		"email ok, pass ok": {
 			inUser: User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 			outErr: "",
@@ -62,28 +62,28 @@ func TestValidateNew(t *testing.T) {
 		},
 		"email ok, pass invalid (empty)": {
 			inUser: User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "",
 			},
 			outErr: "password: cannot be blank.",
 		},
 		"email ok, pass invalid (too short)": {
 			inUser: User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "asdf",
 			},
 			outErr: "password: must be minimum 8 characters long",
 		},
 		"email invalid (too long), pass ok ": {
 			inUser: User{
-				Email:    Email(longStr) + "@bar.com",
+				Email:    Email(longStr) + "@northern.tech",
 				Password: "asdf",
 			},
 			outErr: "email: the length must be no more than 256.",
 		},
 		"email ok, pass invalid (too long) ": {
 			inUser: User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: longStr,
 			},
 			outErr: "password: the length must be no more than 256.",

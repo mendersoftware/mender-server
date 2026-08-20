@@ -62,7 +62,7 @@ class TestManagementApiPostUsersBase:
 
 class TestManagementApiPostUsers(TestManagementApiPostUsersBase):
     def test_ok(self, api_client_mgmt, init_users):
-        new_user = {"email": "foo@bar.com", "password": "asdf1234zxcv"}
+        new_user = {"email": "foo@northern.tech", "password": "asdf1234zxcv"}
         self._do_test_ok(api_client_mgmt, init_users, new_user)
 
     def test_fail_malformed_body(self, api_client_mgmt):
@@ -94,14 +94,14 @@ class TestManagementApiPostUsers(TestManagementApiPostUsersBase):
             assert e.status == 400
 
     def test_fail_pwd_too_short(self, api_client_mgmt):
-        new_user = {"email": "foo@bar.com", "password": "asdf"}
+        new_user = {"email": "foo@northern.tech", "password": "asdf"}
         try:
             api_client_mgmt.create_user(new_user)
         except mender_client.ApiException as e:
             assert e.status == 422
 
     def test_fail_duplicate_email(self, api_client_mgmt, init_users):
-        new_user = {"email": "foo@bar.com", "password": "asdf"}
+        new_user = {"email": "foo@northern.tech", "password": "asdf"}
         self._do_test_fail_unprocessable_entity(api_client_mgmt, init_users, new_user)
 
 
@@ -338,7 +338,7 @@ class TestManagementApiPutUser(TestManagementApiPutUserBase):
         )
 
     def test_fail_not_found(self, api_client_mgmt, init_users_f):
-        update = {"email": "foo@bar.com", "password": "secretpassword123"}
+        update = {"email": "foo@northern.tech", "password": "secretpassword123"}
         self._do_test_fail_not_found(api_client_mgmt, init_users_f, update)
 
     def test_fail_bad_update(self, api_client_mgmt, init_users_f):

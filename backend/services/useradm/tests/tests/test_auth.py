@@ -39,7 +39,7 @@ class TestAuthLogin:
     @pytest.mark.parametrize(
         "email,password",
         [
-            ("foo@bar.com", "asdf1234zxcv"),
+            ("foo@northern.tech", "asdf1234zxcv"),
             ("user-1@foo.com", "asdf1234zxcv"),
             ("user-1@foo.com", ""),
         ],

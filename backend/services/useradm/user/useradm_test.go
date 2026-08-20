@@ -134,12 +134,12 @@ func TestUserAdmLogin(t *testing.T) {
 		config Config
 	}{
 		"ok": {
-			inEmail:    "foo@bar.com",
+			inEmail:    "foo@northern.tech",
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser: &model.User{
 				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			dbUserErr: nil,
@@ -159,7 +159,7 @@ func TestUserAdmLogin(t *testing.T) {
 			},
 		},
 		"error: no user": {
-			inEmail:    "foo@bar.com",
+			inEmail:    "foo@northern.tech",
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser:    nil,
@@ -175,12 +175,12 @@ func TestUserAdmLogin(t *testing.T) {
 			},
 		},
 		"error: wrong password": {
-			inEmail:    "foo@bar.com",
+			inEmail:    "foo@northern.tech",
 			inPassword: "notcorrecthorsebatterystaple",
 
 			dbUser: &model.User{
 				ID:       "1234",
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			dbUserErr: nil,
@@ -195,7 +195,7 @@ func TestUserAdmLogin(t *testing.T) {
 			},
 		},
 		"error: regular login, db.GetUserByEmail() error": {
-			inEmail:    "foo@bar.com",
+			inEmail:    "foo@northern.tech",
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser:    nil,
@@ -211,12 +211,12 @@ func TestUserAdmLogin(t *testing.T) {
 			},
 		},
 		"error: db.SaveToken() error": {
-			inEmail:    "foo@bar.com",
+			inEmail:    "foo@northern.tech",
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser: &model.User{
 				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			dbUserErr: nil,
@@ -233,12 +233,12 @@ func TestUserAdmLogin(t *testing.T) {
 			},
 		},
 		"error: db.EnsureSessionTokensLimit() error": {
-			inEmail:    "foo@bar.com",
+			inEmail:    "foo@northern.tech",
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser: &model.User{
 				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			dbUserErr: nil,
@@ -362,7 +362,7 @@ func TestUserAdmCreateUser(t *testing.T) {
 	}{
 		"ok": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 			dbErr:  nil,
@@ -370,7 +370,7 @@ func TestUserAdmCreateUser(t *testing.T) {
 		},
 		"error, pass similar to email": {
 			inUser: model.User{
-				Email:    "correcthorsebatterystaple@bar.com",
+				Email:    "correcthorsebatterystaple@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 			dbErr:  nil,
@@ -378,7 +378,7 @@ func TestUserAdmCreateUser(t *testing.T) {
 		},
 		"error, pass occurs in email": {
 			inUser: model.User{
-				Email:    "correcthorsebatterystaple@bar.com",
+				Email:    "correcthorsebatterystaple@northern.tech",
 				Password: "correcthorseb",
 			},
 			dbErr:  nil,
@@ -426,7 +426,7 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 	}{
 		"ok": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 			dbErr:  nil,
@@ -434,7 +434,7 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 		},
 		"db error: duplicate email": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 			dbErr:  store.ErrDuplicateEmail,
@@ -442,7 +442,7 @@ func TestUserAdmDoCreateUser(t *testing.T) {
 		},
 		"db error: general": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 			dbErr: errors.New("no reachable servers"),
@@ -500,7 +500,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 	}{
 		"ok": {
 			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
+				Email:           "foo@northern.tech",
 				Password:        "correcthorsebatterystaple",
 				CurrentPassword: "current",
 			},
@@ -513,7 +513,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		},
 		"ok email with current token": {
 			inUserUpdate: model.UserUpdate{
-				Email:           "foofoo@bar.com",
+				Email:           "foofoo@northern.tech",
 				Password:        "correcthorsebatterystaple",
 				CurrentPassword: "current",
 				Token:           &jwt.Token{Claims: jwt.Claims{ID: oid.NewUUIDv5("token-1")}},
@@ -527,7 +527,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		},
 		"ok with current token": {
 			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
+				Email:           "foo@northern.tech",
 				Password:        "correcthorsebatterystaple",
 				CurrentPassword: "current",
 				Token:           &jwt.Token{Claims: jwt.Claims{ID: oid.NewUUIDv5("token-1")}},
@@ -541,13 +541,13 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		},
 		"error, pass similar to email": {
 			inUserUpdate: model.UserUpdate{
-				Email:           "correcthorsebatterystaple@bar.com",
+				Email:           "correcthorsebatterystaple@northern.tech",
 				Password:        "correcthorsebatterystaple",
 				CurrentPassword: "current",
 				Token:           &jwt.Token{Claims: jwt.Claims{ID: oid.NewUUIDv5("token-1")}},
 			},
 			getUserById: &model.User{
-				Email:    "correcthorsebatterystaple@bar.com",
+				Email:    "correcthorsebatterystaple@northern.tech",
 				Password: hashPassword("current"),
 			},
 
@@ -556,11 +556,11 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		},
 		"db error: duplicate email": {
 			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
+				Email:           "foo@northern.tech",
 				CurrentPassword: "current",
 			},
 			getUserById: &model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: hashPassword("current"),
 			},
 
@@ -569,7 +569,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		},
 		"db error: general": {
 			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
+				Email:           "foo@northern.tech",
 				Password:        "correcthorsebatterystaple",
 				CurrentPassword: "current",
 			},
@@ -582,7 +582,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		},
 		"error: getUserById": {
 			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
+				Email:           "foo@northern.tech",
 				Password:        "correcthorsebatterystaple",
 				CurrentPassword: "current",
 			},
@@ -593,7 +593,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		},
 		"error: getUserById not found": {
 			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
+				Email:           "foo@northern.tech",
 				Password:        "correcthorsebatterystaple",
 				CurrentPassword: "current",
 			},
@@ -603,7 +603,7 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		},
 		"error: password mismatch": {
 			inUserUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
+				Email:           "foo@northern.tech",
 				Password:        "correcthorsebatterystaple",
 				CurrentPassword: "wrong",
 			},
@@ -616,10 +616,10 @@ func TestUserAdmUpdateUser(t *testing.T) {
 		},
 		"error: email without current password": {
 			inUserUpdate: model.UserUpdate{
-				Email: "foobar@bar.com",
+				Email: "foobar@northern.tech",
 			},
 			getUserById: &model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: hashPassword("current"),
 			},
 
@@ -1126,7 +1126,7 @@ func TestUserAdmSetPassword(t *testing.T) {
 	}{
 		"ok": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 			dbGetErr:  nil,
@@ -1136,7 +1136,7 @@ func TestUserAdmSetPassword(t *testing.T) {
 
 		"ok with current token": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 			currentToken: &jwt.Token{Claims: jwt.Claims{ID: oid.NewUUIDv5("token-1")}},
@@ -1147,7 +1147,7 @@ func TestUserAdmSetPassword(t *testing.T) {
 
 		"error, user not found": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 
@@ -1157,7 +1157,7 @@ func TestUserAdmSetPassword(t *testing.T) {
 		},
 		"error, pass similar to email": {
 			inUser: model.User{
-				Email:    "new-password@bar.com",
+				Email:    "new-password@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 			dbGetErr:  nil,
@@ -1166,7 +1166,7 @@ func TestUserAdmSetPassword(t *testing.T) {
 		},
 		"error, get from db": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 
@@ -1176,7 +1176,7 @@ func TestUserAdmSetPassword(t *testing.T) {
 		},
 		"error, update db": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "correcthorsebatterystaple",
 			},
 
@@ -1710,24 +1710,24 @@ func TestUserAdmMultipleKeys(t *testing.T) {
 		defaultKeyId int
 	}{
 		"ok one key": {
-			inEmail:    "foo@bar.com",
+			inEmail:    "foo@northern.tech",
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser: &model.User{
 				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			keyIds:       []int{21172},
 			defaultKeyId: 13102,
 		},
 		"ok all keys": {
-			inEmail:    "foo@bar.com",
+			inEmail:    "foo@northern.tech",
 			inPassword: "correcthorsebatterystaple",
 
 			dbUser: &model.User{
 				ID:       oid.NewUUIDv5("1234").String(),
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: `$2a$10$wMW4kC6o1fY87DokgO.lDektJO7hBXydf4B.yIWmE8hR9jOiO8way`,
 			},
 			keyIds: []int{

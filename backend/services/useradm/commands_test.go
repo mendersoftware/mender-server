@@ -36,7 +36,7 @@ func TestCommandCreateUser(t *testing.T) {
 	assert.Error(t, err)
 
 	if !testing.Short() {
-		err = commandCreateUser(conf, "foo@bar.com", "foobarbarbar", "", "")
+		err = commandCreateUser(conf, "foo@northern.tech", "foobarbarbar", "", "")
 		assert.Error(t, err)
 	}
 }

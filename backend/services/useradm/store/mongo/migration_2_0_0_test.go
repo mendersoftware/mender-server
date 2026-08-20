@@ -49,13 +49,13 @@ func TestMigration_2_0_0(t *testing.T) {
 					inUsers: []model.User{
 						{
 							ID:    "foo",
-							Email: "foo@bar.com",
+							Email: "foo@northern.tech",
 						},
 					},
 					outUsers: []model.User{
 						{
 							ID:    "foo",
-							Email: "foo@bar.com",
+							Email: "foo@northern.tech",
 						},
 					},
 				},
@@ -63,13 +63,13 @@ func TestMigration_2_0_0(t *testing.T) {
 					inUsers: []model.User{
 						{
 							ID:    "bar",
-							Email: "bar@bar.com",
+							Email: "bar@northern.tech",
 						},
 					},
 					outUsers: []model.User{
 						{
 							ID:    "bar",
-							Email: "bar@bar.com",
+							Email: "bar@northern.tech",
 						},
 					},
 				},
@@ -85,13 +85,13 @@ func TestMigration_2_0_0(t *testing.T) {
 					inUsers: []model.User{
 						{
 							ID:    "bar",
-							Email: "foo@bar.com",
+							Email: "foo@northern.tech",
 						},
 					},
 					outUsers: []model.User{
 						{
 							ID:    "bar",
-							Email: "foo@bar.com",
+							Email: "foo@northern.tech",
 						},
 					},
 				},
@@ -99,11 +99,11 @@ func TestMigration_2_0_0(t *testing.T) {
 					inUsers: []model.User{
 						{
 							ID:    "foo",
-							Email: "foo@bar.com",
+							Email: "foo@northern.tech",
 						},
 					},
 					outUsers: []model.User{},
-					outErr:   errors.New("failed to apply migration from 0.0.0 to 2.0.0: bulk write exception: write errors: [E11000 duplicate key error collection: useradm.users index: email_1 dup key: { email: \"foo@bar.com\" }]"),
+					outErr:   errors.New("failed to apply migration from 0.0.0 to 2.0.0: bulk write exception: write errors: [E11000 duplicate key error collection: useradm.users index: email_1 dup key: { email: \"foo@northern.tech\" }]"),
 				},
 			},
 		},
