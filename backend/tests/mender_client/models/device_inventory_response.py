@@ -31,7 +31,8 @@ class DeviceInventoryResponse(BaseModel):
     id: Optional[StrictStr] = Field(default=None, description="Mender-assigned unique ID.")
     updated_ts: Optional[StrictStr] = Field(default=None, description="Timestamp of the most recent attribute update.")
     attributes: Optional[List[AttributeResponse]] = Field(default=None, description="A list of attribute descriptors.")
-    __properties: ClassVar[List[str]] = ["id", "updated_ts", "attributes"]
+    identities: Optional[List[StrictStr]] = Field(default=None, description="A list of values of device identity attributes.")
+    __properties: ClassVar[List[str]] = ["id", "updated_ts", "attributes", "identities"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,7 +94,8 @@ class DeviceInventoryResponse(BaseModel):
         _obj = cls.model_validate({
             "id": obj.get("id"),
             "updated_ts": obj.get("updated_ts"),
-            "attributes": [AttributeResponse.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None
+            "attributes": [AttributeResponse.from_dict(_item) for _item in obj["attributes"]] if obj.get("attributes") is not None else None,
+            "identities": obj.get("identities")
         })
         return _obj
 
