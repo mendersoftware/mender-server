@@ -30,7 +30,7 @@ import MaterialDesignIcon from '@northern.tech/common-ui/MaterialDesignIcon';
 import { TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import TextInput from '@northern.tech/common-ui/forms/TextInput';
-import { tagValidationRules } from '@northern.tech/common-ui/forms/helpers';
+import { tagValidationRules } from '@northern.tech/common-ui/forms/validations';
 import { getManifestTags } from '@northern.tech/store/releasesSlice/selectors';
 import { checkReleasesExistence, generateManifest, getManifest, getSoftware, uploadManifest } from '@northern.tech/store/releasesSlice/thunks';
 import { useAppDispatch } from '@northern.tech/store/store';

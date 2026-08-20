@@ -24,7 +24,7 @@ import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
-import { tagValidationRules } from '@northern.tech/common-ui/forms/helpers';
+import { tagValidationRules } from '@northern.tech/common-ui/forms/validations';
 import storeActions from '@northern.tech/store/actions';
 import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';

@@ -19,7 +19,7 @@ import { makeStyles } from 'tss-react/mui';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
-import { tagValidationRules } from '@northern.tech/common-ui/forms/helpers';
+import { tagValidationRules } from '@northern.tech/common-ui/forms/validations';
 import { useAppDispatch } from '@northern.tech/store/store';
 import { setReleasesTags } from '@northern.tech/store/thunks';
 
