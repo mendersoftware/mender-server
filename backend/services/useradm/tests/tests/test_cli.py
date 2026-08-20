@@ -63,12 +63,12 @@ class Migration:
 
 class TestCli:
     def test_create_user(self, api_client_mgmt, cli, clean_db):
-        cli.create_user("foo@bar.com", "1234youseeme")
+        cli.create_user("foo@northern.tech", "1234youseeme")
         users = api_client_mgmt.get_users()
-        assert [user for user in users if user.email == "foo@bar.com"]
+        assert [user for user in users if user.email == "foo@northern.tech"]
 
     def test_create_user_login(self, api_client_mgmt, cli, clean_db):
-        email = "fooo@bar.com"
+        email = "fooo@northern.tech"
         password = "1234youseeme"
         cli.create_user(email, password)
         r = api_client_mgmt.login(email, password)
@@ -78,18 +78,18 @@ class TestCli:
         assert token
 
     def test_create_user_with_id(self, api_client_mgmt, cli, clean_db):
-        cli.create_user("foooo@bar.com", "1234youseeme", user_id="123456")
+        cli.create_user("foooo@northern.tech", "1234youseeme", user_id="123456")
         users = api_client_mgmt.get_users()
         assert [
             user
             for user in users
-            if user.email == "foooo@bar.com" and user.id == "123456"
+            if user.email == "foooo@northern.tech" and user.id == "123456"
         ]
 
     def test_set_password(self, api_client_mgmt, cli, clean_db):
         password = "1234youseeme"
         new_password = "5678youseeme"
-        email = "fooooo@bar.com"
+        email = "fooooo@northern.tech"
         cli.create_user(email, password)
         r = api_client_mgmt.login(email, password)
         assert r.status_code == 200

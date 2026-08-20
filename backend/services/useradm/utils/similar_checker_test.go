@@ -15,36 +15,36 @@ func TestSimilarChecker(t *testing.T) {
 	}{
 		"true": {
 			inUser: model.User{
-				Email: "foo@bar.com",
+				Email: "foo@northern.tech",
 			},
 			inUpdate: model.UserUpdate{
-				Password: "foo@bar",
+				Password: "foo@northern",
 			},
 			expected: true,
 		},
 		"true, new passowrd and email is similar": {
 			inUser: model.User{
-				Email: "foo@bar.com",
+				Email: "foo@northern.tech",
 			},
 			inUpdate: model.UserUpdate{
 				Password: "correcthorsebatterystaple",
-				Email:    "correcthorsebatterystaple@bar.com",
+				Email:    "correcthorsebatterystaple@northern.tech",
 			},
 			expected: true,
 		},
 		"true, new email similar to current password": {
 			inUser: model.User{
-				Email: "foo@bar.com",
+				Email: "foo@northern.tech",
 			},
 			inUpdate: model.UserUpdate{
-				Email:           "correcthorsebatterystaple@bar.com",
+				Email:           "correcthorsebatterystaple@northern.tech",
 				CurrentPassword: "correcthorsebatterystaple",
 			},
 			expected: true,
 		},
 		"false, passowrd diffrent from email": {
 			inUser: model.User{
-				Email: "foo@bar.com",
+				Email: "foo@northern.tech",
 			},
 			inUpdate: model.UserUpdate{
 				Password: "correcthorsebatterystaple",
@@ -53,17 +53,17 @@ func TestSimilarChecker(t *testing.T) {
 		},
 		"false, new email not similar to new password": {
 			inUser: model.User{
-				Email: "correcthorsebatterystaple@bar.com",
+				Email: "correcthorsebatterystaple@northern.tech",
 			},
 			inUpdate: model.UserUpdate{
-				Email:           "foo@bar.com",
+				Email:           "foo@northern.tech",
 				CurrentPassword: "correcthorsebatterystaple",
 			},
 			expected: false,
 		},
 		"false, no new password or email": {
 			inUser: model.User{
-				Email:    "foo@bar.com",
+				Email:    "foo@northern.tech",
 				Password: "foobar",
 			},
 			inUpdate: model.UserUpdate{},
