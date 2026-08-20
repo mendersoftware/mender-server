@@ -478,6 +478,24 @@ func (_m *DataStore) SearchDevices(ctx context.Context, searchParams model.Searc
 	return r0, r1, r2
 }
 
+// SetIdentity provides a mock function with given fields: ctx, deviceId, identities
+func (_m *DataStore) SetIdentity(ctx context.Context, deviceId model.DeviceID, identities []interface{}) error {
+	ret := _m.Called(ctx, deviceId, identities)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SetIdentity")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, model.DeviceID, []interface{}) error); ok {
+		r0 = rf(ctx, deviceId, identities)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // UnsetDevicesGroup provides a mock function with given fields: ctx, deviceIDs, group
 func (_m *DataStore) UnsetDevicesGroup(ctx context.Context, deviceIDs []model.DeviceID, group model.GroupName) (*model.UpdateResult, error) {
 	ret := _m.Called(ctx, deviceIDs, group)

@@ -193,7 +193,7 @@ func (i *inventory) UpsertAttributes(
 		return errors.Wrap(err, "failed to upsert attributes in db")
 	}
 	if res != nil && res.MatchedCount > 0 {
-		i.reindexTextField(ctx, res.Devices)
+		i.reindexTextFieldAndIdentities(ctx, res.Devices)
 	}
 	return nil
 }
@@ -335,7 +335,7 @@ func (i *inventory) UpsertAttributesWithUpdated(
 	}
 
 	if res != nil && res.MatchedCount > 0 {
-		i.reindexTextField(ctx, res.Devices)
+		i.reindexTextFieldAndIdentities(ctx, res.Devices)
 	}
 	return nil
 }
@@ -403,7 +403,7 @@ func (i *inventory) ReplaceAttributes(
 		}
 	}
 	if res != nil && res.MatchedCount > 0 {
-		i.reindexTextField(ctx, res.Devices)
+		i.reindexTextFieldAndIdentities(ctx, res.Devices)
 	}
 	return nil
 }
@@ -580,8 +580,8 @@ func (i *inventory) CheckAlerts(ctx context.Context, deviceId string) (int, erro
 	return 0, nil
 }
 
-// reindexTextField reindex the device's text field
-func (i *inventory) reindexTextField(ctx context.Context, devices []*model.Device) {
+// reindexTextFieldAndIdentities reindex the device's text field and update identities
+func (i *inventory) reindexTextFieldAndIdentities(ctx context.Context, devices []*model.Device) {
 	l := log.FromContext(ctx)
 	for _, device := range devices {
 		text := utils.GetTextField(device)
@@ -591,6 +591,14 @@ func (i *inventory) reindexTextField(ctx context.Context, devices []*model.Devic
 				l.Errorf("failed to reindex the text field for device %v, error: %v",
 					device.ID, err)
 			}
+		}
+
+		err := i.setIdentities(ctx, device.ID, device.Attributes)
+		if err != nil {
+			l.Errorf(
+				"failed to replace attributes in db: %s",
+				err.Error(),
+			)
 		}
 	}
 }

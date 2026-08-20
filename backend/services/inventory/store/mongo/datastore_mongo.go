@@ -58,6 +58,7 @@ const (
 	DbDevAttributesValue = "value"
 	DbDevAttributesScope = "scope"
 	DbDevAttributesName  = "name"
+	DbDevIdentitiesName  = "identities"
 	DbDevAttributesGroup = DbDevAttributes + "." +
 		model.AttrScopeSystem + "-" + model.AttrNameGroup
 	DbDevAttributesGroupValue = DbDevAttributesGroup + "." +
