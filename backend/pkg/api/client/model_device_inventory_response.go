@@ -26,6 +26,8 @@ type DeviceInventoryResponse struct {
 	UpdatedTs *string `json:"updated_ts,omitempty"`
 	// A list of attribute descriptors.
 	Attributes []AttributeResponse `json:"attributes,omitempty"`
+	// A list of values of device identity attributes.
+	Identities []string `json:"identities,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -144,6 +146,38 @@ func (o *DeviceInventoryResponse) SetAttributes(v []AttributeResponse) {
 	o.Attributes = v
 }
 
+// GetIdentities returns the Identities field value if set, zero value otherwise.
+func (o *DeviceInventoryResponse) GetIdentities() []string {
+	if o == nil || IsNil(o.Identities) {
+		var ret []string
+		return ret
+	}
+	return o.Identities
+}
+
+// GetIdentitiesOk returns a tuple with the Identities field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DeviceInventoryResponse) GetIdentitiesOk() ([]string, bool) {
+	if o == nil || IsNil(o.Identities) {
+		return nil, false
+	}
+	return o.Identities, true
+}
+
+// HasIdentities returns a boolean if a field has been set.
+func (o *DeviceInventoryResponse) HasIdentities() bool {
+	if o != nil && !IsNil(o.Identities) {
+		return true
+	}
+
+	return false
+}
+
+// SetIdentities gets a reference to the given []string and assigns it to the Identities field.
+func (o *DeviceInventoryResponse) SetIdentities(v []string) {
+	o.Identities = v
+}
+
 func (o DeviceInventoryResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -162,6 +196,9 @@ func (o DeviceInventoryResponse) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Attributes) {
 		toSerialize["attributes"] = o.Attributes
+	}
+	if !IsNil(o.Identities) {
+		toSerialize["identities"] = o.Identities
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -188,6 +225,7 @@ func (o *DeviceInventoryResponse) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "updated_ts")
 		delete(additionalProperties, "attributes")
+		delete(additionalProperties, "identities")
 		o.AdditionalProperties = additionalProperties
 	}
 

@@ -161,6 +161,9 @@ type Device struct {
 
 	//text attribute for the full-text search
 	Text string `json:"-" bson:"text,omitempty"`
+
+	//identities attribute see MEN-9974
+	Identities []string `json:"identities,omitempty" bson:"identities,omitempty"`
 }
 
 // internalDevice is only used internally to avoid recursive type-loops for
