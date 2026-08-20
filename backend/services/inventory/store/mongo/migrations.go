@@ -83,6 +83,10 @@ func (db *DataStoreMongo) MigrateTenant(
 			ms:  db,
 			ctx: ctx,
 		},
+		&migration_1_1_1{
+			ms:  db,
+			ctx: ctx,
+		},
 	}
 
 	err = m.Apply(ctx, *ver, migrations)
