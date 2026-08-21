@@ -13,7 +13,7 @@
 //    limitations under the License.
 import { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { ExpandMore } from '@mui/icons-material';
@@ -50,6 +50,7 @@ import {
   getTenantCapabilities,
   getUserCapabilities
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { advanceOnboarding, createDeployment, getDeploymentsConfig, getRelease, getReleases } from '@northern.tech/store/thunks';
 import { isEmpty, toggle } from '@northern.tech/utils/helpers';
 import pluralize from 'pluralize';
@@ -122,7 +123,7 @@ export const CreateDeployment = ({ deploymentObject = {}, onDismiss, onScheduleS
   const { searchedIds: releases } = useSelector(getReleaseListState);
   const releasesById = useSelector(getReleasesById);
   const groupNames = useSelector(getGroupNames);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isCreating = useRef(false);
   const [isChecking, setIsChecking] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Typography } from '@mui/material';
 
@@ -21,6 +21,7 @@ import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import ClickFilter from '@northern.tech/common-ui/forms/ClickFilter';
 import { Filters } from '@northern.tech/common-ui/forms/Filters';
 import { getIsEnterprise, getManifestTags, getManifestsListState } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setManifestsListState } from '@northern.tech/store/thunks';
 import pluralize from 'pluralize';
 
@@ -28,7 +29,7 @@ export const ManifestsFilters = ({ classes }: { classes: Record<string, string> 
   const { selectedTags = [], searchTerm = '', searchTotal, total } = useSelector(getManifestsListState);
   const existingTags = useSelector(getManifestTags);
   const isEnterprise = useSelector(getIsEnterprise);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const manifestSearchUpdated = useCallback(searchTerm => dispatch(setManifestsListState({ searchTerm })), [dispatch]);
 

@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import {
   ArrowBack as ArrowBackIcon,
@@ -25,6 +25,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { toggle } from '@northern.tech/utils/helpers';
 
 import Tracking from '../../tracking';
@@ -137,7 +138,7 @@ export const BaseOnboardingTooltip = ({ anchor = { left: 0, top: 0 }, icon, chil
 };
 
 export const BaseOnboardingTip = ({ anchor, icon, component, place, id, ...others }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <BaseOnboardingTooltip anchor={anchor} icon={icon} place={place} id={id}>
       <div className="content">

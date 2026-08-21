@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { AutoAwesomeOutlined as AutoAwesomeIcon, Edit as EditIcon } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, MenuItem, Select, Typography, outlinedInputClasses } from '@mui/material';
@@ -37,6 +37,7 @@ import {
   getUserCapabilities,
   getUserRoles
 } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { changeNotificationSetting, getDeviceAttributes, getGlobalSettings, saveGlobalSettings } from '@northern.tech/store/thunks';
 import type { Scope } from '@northern.tech/types/MenderTypes';
 import { useDebounce } from '@northern.tech/utils/debouncehook';
@@ -98,7 +99,7 @@ export const IdAttributeSelection = ({ attributes, onSave, selectedAttribute = '
 };
 
 export const GlobalSettings = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const attributes = useSelector(getDeviceIdentityAttributes) as DisplayableAttribute[];
   const { isAdmin } = useSelector(getUserRoles);
   const notificationChannelSettings = useSelector(state => state.monitor.settings.global.channels);

@@ -11,14 +11,13 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-import { useDispatch } from 'react-redux';
-
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setDeviceTags } from '@northern.tech/store/thunks';
 
 import { EditableNameInput } from './EditableNameInput';
 
 export const DeviceNameInput = ({ device, isHovered }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { id = '', tags = {} } = device;
   const { name = '' } = tags;

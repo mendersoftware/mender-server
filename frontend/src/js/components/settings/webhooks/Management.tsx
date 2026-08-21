@@ -13,7 +13,7 @@
 //    limitations under the License.
 import type { ReactElement } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // material ui
 import { Circle as CircleIcon } from '@mui/icons-material';
@@ -30,6 +30,7 @@ import type { Event } from '@northern.tech/store/api/types';
 import type { Webhook } from '@northern.tech/store/constants';
 import { EXTERNAL_PROVIDER, emptyWebhook } from '@northern.tech/store/constants';
 import { getTenantCapabilities, getWebhookEventInfo } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { getWebhookEvents } from '@northern.tech/store/thunks';
 
 import WebhookActivity from './Activity';
@@ -92,7 +93,7 @@ export const WebhookManagement = ({ onCancel, onRemove, webhook }) => {
   const [selectedEvent, setSelectedEvent] = useState<Event>();
   const { events, eventsTotal } = useSelector(getWebhookEventInfo);
   const { canDelta: canScopeWebhooks } = useSelector(getTenantCapabilities);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const containerRef = useRef();
 

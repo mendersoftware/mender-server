@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Typography } from '@mui/material';
 
@@ -20,6 +20,7 @@ import CopyCode from '@northern.tech/common-ui/CopyCode';
 import DocsLink from '@northern.tech/common-ui/DocsLink';
 import { Link } from '@northern.tech/common-ui/Link';
 import { getFeatures, getOrganization } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { setOnboardingApproach } from '@northern.tech/store/thunks';
 
 export const getDemoDeviceCreationCommand = (tenantToken, demoArtifactPort) =>
@@ -28,7 +29,7 @@ export const getDemoDeviceCreationCommand = (tenantToken, demoArtifactPort) =>
     : './demo --client up';
 
 export const VirtualDeviceOnboarding = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isHosted } = useSelector(getFeatures);
   const { tenant_token: tenantToken } = useSelector(getOrganization);
   const demoArtifactPort = useSelector(state => state.onboarding.demoArtifactPort);

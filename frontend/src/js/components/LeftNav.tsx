@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router';
 
 // material ui
@@ -25,6 +25,7 @@ import MenderTooltip from '@northern.tech/common-ui/helptips/MenderTooltip';
 import storeActions from '@northern.tech/store/actions';
 import { TIMEOUTS } from '@northern.tech/store/constants';
 import { getFeatures, getIsPreview, getUserCapabilities, getVersionInformation } from '@northern.tech/store/selectors';
+import { useAppDispatch } from '@northern.tech/store/store';
 import { isDarkMode } from '@northern.tech/store/utils';
 import copy from 'copy-to-clipboard';
 
@@ -88,7 +89,7 @@ const VersionInfo = () => {
   const [clicks, setClicks] = useState(0);
   const timer = useRef();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isHosted } = useSelector(getFeatures);
   const versionInformation = useSelector(getVersionInformation);
   const isPreview = useSelector(getIsPreview);
