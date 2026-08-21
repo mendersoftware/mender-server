@@ -15,12 +15,16 @@
 package http
 
 import (
+	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/time/rate"
 
 	"github.com/mendersoftware/mender-server/pkg/identity"
 	"github.com/mendersoftware/mender-server/pkg/requestsize"
+	"github.com/mendersoftware/mender-server/pkg/rest.utils"
 	"github.com/mendersoftware/mender-server/pkg/routing"
 
 	"github.com/mendersoftware/mender-server/services/deviceconnect/app"
@@ -62,6 +66,18 @@ type RouterConfig struct {
 	GracefulShutdownTimeout time.Duration
 	MaxRequestSize          int64
 	MaxFileSize             int64
+
+	StartupConnectionBurst int
+}
+
+func startupRatelimitMiddleware(rl *rate.Limiter) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if !rl.Allow() {
+			rest.RenderError(c, http.StatusServiceUnavailable, fmt.Errorf("server is starting up"))
+			c.Abort()
+			return
+		}
+	}
 }
 
 // NewRouter returns the gin router
@@ -79,9 +95,17 @@ func NewRouter(
 
 	publicAPI := router.Group(".")
 	fileLimit := publicAPI.Group(".")
+	wsAPIs := publicAPI.Group(".")
 	if config != nil {
 		publicAPI.Use(requestsize.Middleware(config.MaxRequestSize))
+		wsAPIs.Use(requestsize.Middleware(config.MaxRequestSize))
 		fileLimit.Use(requestsize.Middleware(config.MaxFileSize))
+		if config.StartupConnectionBurst > 0 {
+			wsAPIs.Use(startupRatelimitMiddleware(
+				rate.NewLimiter(rate.Limit(config.StartupConnectionBurst),
+					config.StartupConnectionBurst),
+			))
+		}
 	}
 
 	gracefulShutdownTimeout := time.Duration(0)
@@ -99,13 +123,13 @@ func NewRouter(
 	router.POST(APIURLInternalDevicesIDSendInventory, internal.SendInventory)
 
 	device := NewDeviceController(app, natsClient)
-	publicAPI.GET(APIURLDevicesConnect, device.Connect)
+	wsAPIs.GET(APIURLDevicesConnect, device.Connect)
 	publicAPI.POST(APIURLInternalDevices, device.Provision)
 	publicAPI.DELETE(APIURLInternalDevicesID, device.Delete)
 
 	management := NewManagementController(app, natsClient)
 	publicAPI.GET(APIURLManagementDevice, management.GetDevice)
-	publicAPI.GET(APIURLManagementDeviceConnect, management.Connect)
+	wsAPIs.GET(APIURLManagementDeviceConnect, management.Connect)
 	publicAPI.GET(APIURLManagementDeviceDownload, management.DownloadFile)
 	publicAPI.HEAD(APIURLManagementDeviceDownload, management.DownloadFile)
 	publicAPI.POST(APIURLManagementDeviceCheckUpdate, management.CheckUpdate)
