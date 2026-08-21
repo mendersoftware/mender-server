@@ -12,7 +12,6 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 import { useFormContext } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
 import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -20,7 +19,9 @@ import { makeStyles } from 'tss-react/mui';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
-import { setReleaseTags, setReleasesListState } from '@northern.tech/store/thunks';
+import { tagValidationRules } from '@northern.tech/common-ui/forms/validations';
+import { useAppDispatch } from '@northern.tech/store/store';
+import { setReleasesTags } from '@northern.tech/store/thunks';
 
 const useStyles = makeStyles()(theme => ({
   tagSelect: { marginRight: theme.spacing(2), maxWidth: 350 }
@@ -36,7 +37,7 @@ const AddTagsDialogContent = ({ onClose }) => {
     <>
       <DialogContent>
         <Typography className="margin-bottom">Add tags to the selected Releases. If a Release already has the tag, it won’t be added again.</Typography>
-        <ChipSelect className={classes.tagSelect} label="" name={inputName} placeholder="Add release tags" />
+        <ChipSelect className={classes.tagSelect} label="" name={inputName} placeholder="Add release tags" rules={tagValidationRules} />
       </DialogContent>
       <DialogActions>
         <Button style={{ marginRight: 10 }} onClick={onClose}>
@@ -51,17 +52,12 @@ const AddTagsDialogContent = ({ onClose }) => {
 };
 
 export const AddTagsDialog = ({ selectedReleases, onClose }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const onSubmit = ({ tags }) => {
-    dispatch(setReleasesListState({ loading: true })).then(() => {
-      const addRequests = selectedReleases.reduce((accu, release) => {
-        accu.push(dispatch(setReleaseTags({ name: release.name, tags: [...new Set([...release.tags, ...tags])] })));
-        return accu;
-      }, []);
-      return Promise.all(addRequests).then(onClose);
-    });
-  };
+  const onSubmit = ({ tags }) =>
+    dispatch(setReleasesTags({ releases: selectedReleases, tags }))
+      .unwrap()
+      .then(onClose);
 
   return (
     <BaseDialog open title="Add tags to Releases" fullWidth maxWidth="sm" onClose={onClose}>

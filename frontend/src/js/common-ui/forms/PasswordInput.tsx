@@ -32,9 +32,9 @@ import { TIMEOUTS } from '@northern.tech/store/constants';
 import { toggle } from '@northern.tech/utils/helpers';
 import copy from 'copy-to-clipboard';
 
-import { runValidations } from './Form';
 import type { CommonTextInputProps } from './TextInput';
 import { checkPasswordStrength, generatePassword } from './passwordStrength';
+import { runValidations } from './validations';
 
 const PasswordGenerateButtons = ({
   clearPass,

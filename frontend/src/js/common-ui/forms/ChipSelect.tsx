@@ -31,7 +31,8 @@ export const ChipSelect = ({
   inputRef,
   label = '',
   options = [],
-  placeholder = ''
+  placeholder = '',
+  rules
 }) => {
   const [value, setValue] = useState('');
 
@@ -69,7 +70,8 @@ export const ChipSelect = ({
     <Controller
       control={control}
       name={name}
-      render={({ field: { onChange: formOnChange, value: currentSelection, ref, ...props } }) => (
+      rules={rules}
+      render={({ field: { onChange: formOnChange, value: currentSelection, ref, ...props }, fieldState: { error } }) => (
         <Autocomplete
           autoSelect={false}
           id={`${name}-chip-select`}
@@ -119,7 +121,8 @@ export const ChipSelect = ({
               onBlur={e => onTextInputLeave(e.target.value, formOnChange)}
               onChange={e => onTextInputChange(e.target.value, 'input', formOnChange)}
               placeholder={currentSelection.length ? '' : placeholder}
-              helperText={helperText}
+              error={!!error?.message}
+              helperText={error?.message || helperText}
               inputRef={inputRef}
             />
           )}

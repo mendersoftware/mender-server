@@ -24,6 +24,7 @@ import { RelativeTime } from '@northern.tech/common-ui/Time';
 import { ColumnWidthProvider, TwoColumnData } from '@northern.tech/common-ui/TwoColumnData';
 import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
+import { tagValidationRules } from '@northern.tech/common-ui/forms/validations';
 import storeActions from '@northern.tech/store/actions';
 import { ATTRIBUTE_SCOPES, DEVICE_FILTERING_OPTIONS } from '@northern.tech/store/constants';
 import { formatReleases, generateReleasesPath } from '@northern.tech/store/locationutils';
@@ -129,9 +130,10 @@ const ManifestTags = ({ existingTags, tags, canManageReleases, onSave }: Manifes
             name="tags"
             options={existingTags}
             placeholder={isEditing ? 'Add manifest tags' : canManageReleases ? '' : 'No tags yet'}
+            rules={tagValidationRules}
           />
         </Form>
-        {isEditing && <ConfirmationButtons onConfirm={() => submitRef.current?.()} onCancel={onToggleEdit} />}
+        {isEditing && <ConfirmationButtons className="align-self-start" onConfirm={() => submitRef.current?.()} onCancel={onToggleEdit} />}
       </div>
     </ContentSection>
   );

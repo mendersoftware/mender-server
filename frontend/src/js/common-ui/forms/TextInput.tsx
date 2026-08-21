@@ -18,7 +18,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import type { InputLabelProps as MuiInputLabelProps, OutlinedInputProps } from '@mui/material';
 import { FormControl, FormHelperText, InputLabel, OutlinedInput } from '@mui/material';
 
-import { runValidations } from './Form';
+import { runValidations } from './validations';
 
 export type CommonTextInputProps = {
   autocomplete: string;

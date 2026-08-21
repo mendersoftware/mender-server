@@ -37,6 +37,7 @@ import { ColumnWidthProvider } from '@northern.tech/common-ui/TwoColumnData';
 import { BaseDialog } from '@northern.tech/common-ui/dialogs/BaseDialog';
 import ChipSelect from '@northern.tech/common-ui/forms/ChipSelect';
 import Form from '@northern.tech/common-ui/forms/Form';
+import { tagValidationRules } from '@northern.tech/common-ui/forms/validations';
 import storeActions from '@northern.tech/store/actions';
 import { DEPLOYMENT_ROUTES } from '@northern.tech/store/constants';
 import { generateReleasesPath } from '@northern.tech/store/locationutils';
@@ -196,9 +197,10 @@ const ReleaseTags = ({ existingTags = [], release: { tags = [] }, onChange, user
             name="tags"
             options={existingTags}
             placeholder={isEditing ? 'Add release tags' : canManageReleases ? '' : 'No tags yet'}
+            rules={tagValidationRules}
           />
         </Form>
-        {isEditing && <ConfirmationButtons onConfirm={() => submitRef.current?.()} onCancel={onToggleEdit} />}
+        {isEditing && <ConfirmationButtons className="align-self-start" onConfirm={() => submitRef.current?.()} onCancel={onToggleEdit} />}
       </div>
     </ContentSection>
   );
