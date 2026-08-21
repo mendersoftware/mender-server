@@ -98,15 +98,18 @@ export const collectClientLogs = async (logDir, config, currentProcesses) => {
 
 export const cleanup = async (config, currentProcesses) => {
   killTestProcesses(currentProcesses);
+  const logDir = join(config.guiRepository, 'logs');
+  const logPath = join(logDir, 'gui_e2e_tests.txt');
+  mkdirSync(logDir, { recursive: true });
+  try {
+    await collectClientLogs(logDir, config, currentProcesses);
+  } catch (error) {
+    console.error(chalk.red('💥 Failed to dump client logs:'), error);
+  }
   if (config.local) {
     return;
   }
-  const logDir = join(config.guiRepository, 'logs');
-  const logPath = join(logDir, 'gui_e2e_tests.txt');
-
   try {
-    mkdirSync(logDir, { recursive: true });
-    await collectClientLogs(logDir, config, currentProcesses);
     console.log(chalk.yellow(`📋 Dumping logs to ${chalk.cyan(logPath)}`));
     const logs = await composeLogs(config);
     writeFileSync(logPath, logs);
